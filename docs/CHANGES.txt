@@ -1,0 +1,212 @@
+CHANGES.txt for "tuxmath"
+
+March 7, 2005
+
+2005.Mar.7
+  Interface:
+    * Added sound effects to Options screen.
+    
+    * Comets 'sizzle' when you shoot them.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Correct answer is displayed when a comet hits a city.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+  Game:
+    * Kept first value in division questions from being huge.
+    
+    * Spread out comets in 'slow' mode.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+  Options:
+    * Added basic "Maximum Answer" option.
+
+  Documentation:
+    * Updated Credits screen some.
+
+  Build:
+    * Makefile modifications ($OWNER).
+      Donny Viszneki <smirk@thebuicksix.com>
+
+    * Compile options ("-g" for debugging, then strip)
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Tidier linkage (fewer multiply-included #define's)
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Created "uninstall" Makefile target.
+
+2004.Feb.18
+  Game:
+    * Speed now depends on a speed setting, multiplied by the current wave #.
+      Michael Behrisch <behrisch at users.sourceforge.net>
+      
+  Options:
+    * Added "--speed" option to set initial game speed.
+      Michael Behrisch <behrisch at users.sourceforge.net>
+
+2003.Apr.5
+  Interface:
+    * Removed "Alpha Version" stamp from title screen.
+
+  Options:
+    * Replaced info. screen with actual option-setting interface.
+
+    * Alternative command-line options available for operators.
+      ("addition", along with "add",
+       "subtraction", along with "subtract",
+       "multiplication", along with "multiply", and
+       "division" along with "divide")
+
+  Sound:
+    * Increased audio buffer, so it's less choppy-sounding.
+
+  Documentation:
+    * Updated Credits screen.
+
+
+2001.Sep.14:
+  Documentation:
+    * Added more testers, and a "." character, to the credits display.
+
+
+2001.Sep.7:
+  Code:
+    * On-screen keypad control was enabled even if keypad wasn't.  Fixed.
+
+  Game:
+    * Slightly tweaked current equation-generation code to be more interesting.
+      (Will eventually be based on options)
+
+
+2001.Sep.6:
+  Code:
+    * Pause also pauses music
+    * More attention is paid to "NOSOUND" compile-time define
+      (you should now be able to build without SDL_mixer)
+
+  Interface:
+    * In lieu of an option screen, a message asking for help in that
+      aspect of the game design has been added.
+    * Added "SCORE" and "WAVE" displays
+
+  Game:
+    * Waves progress
+    * Score accumulates
+    * Game over at end of wave if all cities destroyed
+
+  Documentation:
+    * INSTALL.txt fleshed out quite a bit.
+
+  Installation:
+    * "install" target added to "makefile"
+
+
+2001.Sep.4:
+  Documentation:
+    * Added copyright info. to the program ("--copyright")
+    * Moved documentation into "docs/" subdirectory
+
+
+2001.Sep.3:
+  Code:
+    * "#ifdef 0" in "src/game.c" replaced.
+
+
+2001.Sep.2:
+  Graphics:
+    * Icon image ("icon.png") changed.
+
+  Documentation:
+    * More added to "README.txt"
+
+
+2001.Aug.31
+  Interface:
+    * Operators used in the game can be overridden ("--operator")
+    * Mouse controls added to title screen
+    * Added keyclick sound effect
+    * Added an on-screen keyboard (eg, for touchscreens?)  ("--keypad")
+
+  Graphics:
+    * Replaced spire with Tux at a console.
+    * Added surface (land) to remaining background photos.
+    * PNGs processed with "pngcrush" to make them smaller.
+    * Comet explosion animation works right.  Also, numbers disappear.
+    * Equations drawn after all comets drawn (to avoid covering them up)
+    * LED digits spread apart
+    * No-background mode draws faux-skyline (instead of black)
+    * "DEMO" on title screen reduced
+
+  Code:
+    * Keyboard event handling and demo mode stuff split up
+    * Demo mode plays more like a regular player
+    * FPS slowed down to max 15fps
+
+
+2001.Aug.30
+  Interface:
+    * Details added to "--help" display.
+
+  Graphics:
+    * Accidentally displayed "DEMO" on title screen even in normal mode. Fixed
+
+
+2001.Aug.29  (Live, from LinuxWorld Expo!)
+  Interface:
+    * Added demo mode ("--demo" option)
+
+
+2001.Aug.28
+  Interface:
+    * Command-line options added ("--help", "--version",
+       "--nosound", "--fullscreen", "--usage", and "--nobackground")
+    * Random backgrounds loaded (optional; use "--nobackground" to disable)
+    * Replaced UFOs with comets
+    * "Paused" text added to screen when game is paused
+    * Laser shot added
+    * Shields added to city
+
+  Graphics:
+    * Converted background PNGs to JPEGs
+    * "Alpha Version" added to title screen
+    * Title screen menu items redone to look nicer
+    * Equations don't disappear off edges of screen
+
+  Code:
+    * References to "aliens" in source replaced with "comets"
+    * Initial sound code added.
+    * Initial music code added.
+    * Sometimes cities would explode at level start. Fixed.
+
+
+2001.Aug.27
+  Interface:
+    * Initial pause code added
+    * KEYPAD numbers accepted in the game
+    * Credits in nifty rainbow colors
+    * Commands on title screen shrunk to fit and centered
+    * Cities explode when crashed-into.
+    * Spire added to game screen.
+    * Extra padding removed from digits image ("nums.png")
+    * Sound support now optional.
+    * Added New Breed Software logo
+
+  Gameplay:
+    * Game loop slowed to max(20fps)
+    * Aliens pick cities to crash into.
+    * Changed equation-creation algorithm
+
+  Code:
+    * More comments added to "game.c"
+    * Makefile fixed (was rebuilding objects due to "obj" _dir_ being newer)
+
+  Documentation:
+    * CHANGES.txt list categorized
+    * TODO.txt list categorized
+    * README.txt expanded some
+
+
+2001.Aug.26
+  * Initial build
+
