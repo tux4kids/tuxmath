@@ -141,9 +141,17 @@ int options(void)
 	      
 	      if (key == SDLK_ESCAPE)
 		{
-		  /* Escape key - quit! */
-		  
-		  done = 1;
+                  /* Don't leave options screen if all operations deselected! - DSB */
+                  /* fixes Debian bug #336272 */
+                  int i;
+                  int at_least_one_oper = 0;
+                  for (i =0; i < NUM_OPERS; i++)
+                  {
+                    if (opers[i])
+                      at_least_one_oper = 1;
+                  }
+                  if (at_least_one_oper)
+                    done = 1;
 		}
 	      else if (key == SDLK_DOWN)
 		{
