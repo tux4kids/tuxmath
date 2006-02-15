@@ -25,6 +25,7 @@ enum {
   OPT_OP_MUL,
   OPT_OP_DIV,
   OPT_A_MAX,
+  OPT_A_SPEED,
   OPT_Q_RANGE,
   NUM_OPTS
 };

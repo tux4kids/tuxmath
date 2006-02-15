@@ -80,6 +80,18 @@ int options(void)
       /* Using "* 2" instead of "* 4" (even though string is 4 digits long)
          because "draw_nums()" actually centers around x; not left-justifies */
     }
+    else if (i == OPT_A_SPEED)
+    {
+      /* Maximum answer: */
+
+      snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
+      draw_nums(tmp_str,
+		screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
+		y + images[IMG_OPT_SPEED]->h);
+
+      /* Using "* 2" instead of "* 4" (even though string is 4 digits long)
+         because "draw_nums()" actually centers around x; not left-justifies */
+    }
     else if (i == OPT_Q_RANGE)
     {
       x = 32 + images[IMG_TUX_HELMET1]->w + 4 + 64;
@@ -212,6 +224,32 @@ int options(void)
 			 ((opt - OPT_OP_ADD) *
 			 images[IMG_TUX_HELMET1]->h)) +
 			images[IMG_OPT_MAX_ANSWER]->h);
+		  }
+		  else if (opt == OPT_A_SPEED)
+		  {
+		    speed = speed - 0.1;
+
+		    if (speed < 0.1)
+		      speed = 5;
+
+		    dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
+		    dest.y = (images[IMG_OPTIONS]->h + 8 +
+			      ((opt - OPT_OP_ADD) *
+			       images[IMG_TUX_HELMET1]->h));
+
+		    dest.w = ((images[IMG_NUMS]->w / 14) * 4);
+		    dest.h = images[IMG_OPT_SPEED]->h;
+
+		    SDL_FillRect(screen, &dest,
+				 SDL_MapRGB(screen->format, 0, 0, 0));
+
+		    snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
+		    draw_nums(tmp_str,
+			screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
+			(images[IMG_OPTIONS]->h + 8 +
+			 ((opt - OPT_OP_ADD) *
+			 images[IMG_TUX_HELMET1]->h)) +
+			images[IMG_OPT_SPEED]->h);
 		  }
 		  else if (opt == OPT_Q_RANGE)
 		  {

@@ -52,6 +52,7 @@ static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/opt_multiplication.png",
   DATA_PREFIX "/images/status/opt_division.png",
   DATA_PREFIX "/images/status/opt_max_answer.png",
+  DATA_PREFIX "/images/status/opt_speed.png",
   DATA_PREFIX "/images/status/opt_q_range.png",
   DATA_PREFIX "/images/status/opt_rng_1_5.png",
   DATA_PREFIX "/images/status/opt_rng_1_5_on.png",
