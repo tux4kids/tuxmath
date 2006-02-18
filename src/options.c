@@ -27,12 +27,16 @@
 #include "playsound.h"
 #include "game.h"
 
+/* Local (to options.c) 'globals': */
+/* moved to file scope to allow update_selected_option() to use them DSB */
+static SDL_Rect dest;
+static char tmp_str[10];
+static unsigned char range_bits;
+static int i, j, x, y;
+
 int options(void)
 {
-  int opt, old_opt, done, quit, img, blinking, i, j, x, y;
-  unsigned char range_bits;
-  char tmp_str[10];
-  SDL_Rect dest;
+  int opt, old_opt, done, quit, img, blinking;
   SDL_Event event;
   Uint32 last_time, now_time;
   SDLKey key;
@@ -147,6 +151,34 @@ int options(void)
 	      quit = 1;
 	      done = 1;
 	    }
+
+	  else if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+              /* figure out opt based on mouse coordinates */
+              if (/* event.button.x >= left && */ /* don't see any reason to filter on x values here*/
+	          /* event.button.x <= left + width && */  
+		  event.button.y >= images[IMG_OPTIONS]->h + 8 &&
+		  event.button.y <= (images[IMG_OPTIONS]->h + 8 +
+		                   NUM_OPTS * images[IMG_TUX_HELMET1]->h))
+	      {
+	        opt = ((event.button.y - (images[IMG_OPTIONS]->h + 8)) /
+	               images[IMG_TUX_HELMET1]->h);
+                update_selected_option(opt);
+	      }
+              /* handle ranges below list as last option */
+              if (event.button.y > (images[IMG_OPTIONS]->h + 8 +
+	      	                   NUM_OPTS * images[IMG_TUX_HELMET1]->h)
+                  &&
+
+                  event.button.y <= (images[IMG_OPTIONS]->h + 8 +
+	      	                    NUM_OPTS * images[IMG_TUX_HELMET1]->h)
+                                    + (images[IMG_OPT_RNG_1_5]->h))                          
+              { 
+                opt = OPT_Q_RANGE;
+                update_selected_option(opt);
+              }
+            }
+
 	  else if (event.type == SDL_KEYDOWN)
 	    {
 	      key = event.key.keysym.sym;
@@ -182,116 +214,14 @@ int options(void)
 		    playsound(SND_POP);
 		  }
 		}
+              /* code moved into function taking opt as argument so the same code can be   */
+              /* used to handle mouse events DSB */
 	      else if (key == SDLK_RETURN)
-		{
-		  if (opt >= OPT_OP_ADD && opt < OPT_OP_ADD + NUM_OPERS)
-		  {
-		    opers[opt - OPT_OP_ADD] = !opers[opt - OPT_OP_ADD];
-		    
-	            dest.x = screen->w - images[IMG_OPT_CHECK]->w - 16;
-                    dest.y = (images[IMG_OPTIONS]->h + 8 +
-			      ((opt - OPT_OP_ADD) *
-			      images[IMG_TUX_HELMET1]->h));
-      
-	            SDL_BlitSurface(images[IMG_OPT_CHECK +
-				           opers[opt - OPT_OP_ADD]], NULL,
-				    screen, &dest);
-		    
-		    playsound(SND_LASER);
-		  }
-		  else if (opt == OPT_A_MAX)
-		  {
-		    max_answer = (max_answer * 2) / 3;
+              {
+                update_selected_option(opt);
+              }
+/*	      else if (key == SDLK_RETURN) */
 
-		    if (max_answer < 12)
-		      max_answer = 144;
-
-		    dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
-		    dest.y = (images[IMG_OPTIONS]->h + 8 +
-			      ((opt - OPT_OP_ADD) *
-			       images[IMG_TUX_HELMET1]->h));
-
-		    dest.w = ((images[IMG_NUMS]->w / 14) * 4);
-		    dest.h = images[IMG_OPT_MAX_ANSWER]->h;
-
-		    SDL_FillRect(screen, &dest,
-				 SDL_MapRGB(screen->format, 0, 0, 0));
-
-		    snprintf(tmp_str, sizeof(tmp_str), "%04d", max_answer);
-		    draw_nums(tmp_str,
-			screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
-			(images[IMG_OPTIONS]->h + 8 +
-			 ((opt - OPT_OP_ADD) *
-			 images[IMG_TUX_HELMET1]->h)) +
-			images[IMG_OPT_MAX_ANSWER]->h);
-		  }
-		  else if (opt == OPT_A_SPEED)
-		  {
-		    speed = speed - 0.1;
-
-		    if (speed < 0.1)
-		      speed = 5;
-
-		    dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
-		    dest.y = (images[IMG_OPTIONS]->h + 8 +
-			      ((opt - OPT_OP_ADD) *
-			       images[IMG_TUX_HELMET1]->h));
-
-		    dest.w = ((images[IMG_NUMS]->w / 14) * 4);
-		    dest.h = images[IMG_OPT_SPEED]->h;
-
-		    SDL_FillRect(screen, &dest,
-				 SDL_MapRGB(screen->format, 0, 0, 0));
-
-		    snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
-		    draw_nums(tmp_str,
-			screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
-			(images[IMG_OPTIONS]->h + 8 +
-			 ((opt - OPT_OP_ADD) *
-			 images[IMG_TUX_HELMET1]->h)) +
-			images[IMG_OPT_SPEED]->h);
-		  }
-		  else if (opt == OPT_Q_RANGE)
-		  {
-		    /* Change which ranges are available: */
-		
-		    range_bits = range_bits + 1;
-		    if (range_bits >= (1 << NUM_Q_RANGES))
-		      range_bits = 1;
-
-		    for (j = 0; j < NUM_Q_RANGES; j++)
-		    {
-		      if ((range_bits & (1 << j)) != 0)
-			range_enabled[j] = 1;
-		      else
-			range_enabled[j] = 0;
-		    }
-		    
-
-		    /* Redraw ranges: */
-			  
-      		    x = 32 + images[IMG_TUX_HELMET1]->w + 4 + 64;
-                    y = (images[IMG_OPTIONS]->h + 8 +
-			 (opt * images[IMG_TUX_HELMET1]->h)) +
-			 images[IMG_TUX_HELMET1]->h;
-
-	            for (j = 0; j < NUM_Q_RANGES; j++)
-	            {
-		      dest.x = x;
-		      dest.y = y;
-
-		      SDL_BlitSurface(images[IMG_OPT_RNG_1_5 + j * 2 +
-				      range_enabled[j]],
-				      NULL,
-				      screen, &dest);
-
-		      x = x + images[IMG_OPT_RNG_1_5 + j * 2 +
-			             range_enabled[j]]->w + 16;
-		    }
-		    
-		    playsound(SND_LASER);
-		  }
-		}
 	    }
 	}
       
@@ -357,4 +287,114 @@ int options(void)
   /* Return the chosen command: */
   
   return quit;
+}
+
+
+/* can be called by either keystroke or mouse click - moved into */
+/* separate function to reduce code duplication - DSB */
+void update_selected_option(int option)
+{
+  {
+    if (option >= OPT_OP_ADD && option < OPT_OP_ADD + NUM_OPERS)
+    {
+      opers[option - OPT_OP_ADD] = !opers[option - OPT_OP_ADD];
+
+      dest.x = screen->w - images[IMG_OPT_CHECK]->w - 16;
+      dest.y = (images[IMG_OPTIONS]->h + 8 +
+               ((option - OPT_OP_ADD) *
+               images[IMG_TUX_HELMET1]->h));
+
+      SDL_BlitSurface(images[IMG_OPT_CHECK + opers[option - OPT_OP_ADD]],
+                      NULL,
+                      screen,
+                      &dest);
+    }
+
+    else if (option == OPT_A_MAX)
+    {
+      max_answer = (max_answer * 2) / 3;
+      if (max_answer < 12)
+        max_answer = 144;
+
+      dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
+      dest.y = (images[IMG_OPTIONS]->h + 8 +
+               ((option - OPT_OP_ADD) *
+               images[IMG_TUX_HELMET1]->h));
+      dest.w = ((images[IMG_NUMS]->w / 14) * 4);
+      dest.h = images[IMG_OPT_MAX_ANSWER]->h;
+
+      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
+      snprintf(tmp_str, sizeof(tmp_str), "%04d", max_answer);
+      draw_nums(tmp_str,
+                screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
+                (images[IMG_OPTIONS]->h + 8 +
+                ((option - OPT_OP_ADD) *
+                images[IMG_TUX_HELMET1]->h)) +
+                images[IMG_OPT_MAX_ANSWER]->h);
+    }
+
+    else if (option == OPT_A_SPEED)
+    {
+      speed = speed - 0.1;
+      if (speed < 0.1)
+        speed = 5;
+
+      dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
+      dest.y = (images[IMG_OPTIONS]->h + 8 +
+               ((option - OPT_OP_ADD) *
+               images[IMG_TUX_HELMET1]->h));
+      dest.w = ((images[IMG_NUMS]->w / 14) * 4);
+      dest.h = images[IMG_OPT_SPEED]->h;
+
+      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
+
+      snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
+      draw_nums(tmp_str,
+                screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
+                (images[IMG_OPTIONS]->h + 8 +
+                ((option - OPT_OP_ADD) *
+                images[IMG_TUX_HELMET1]->h)) +
+                images[IMG_OPT_SPEED]->h);
+    }
+
+    else if (option == OPT_Q_RANGE)
+    {
+    /* Change which ranges are available: */
+      range_bits = range_bits + 1;
+      if (range_bits >= (1 << NUM_Q_RANGES))
+        range_bits = 1;
+
+      for (j = 0; j < NUM_Q_RANGES; j++)
+      {
+        if ((range_bits & (1 << j)) != 0)
+          range_enabled[j] = 1;
+        else
+          range_enabled[j] = 0;
+      }
+
+      /* Redraw ranges: */
+      x = 32 + images[IMG_TUX_HELMET1]->w + 4 + 64;
+      y = (images[IMG_OPTIONS]->h + 8 +
+          (option * images[IMG_TUX_HELMET1]->h)) +
+           images[IMG_TUX_HELMET1]->h;
+
+      for (j = 0; j < NUM_Q_RANGES; j++)
+      {
+        dest.x = x;
+        dest.y = y;
+
+        SDL_BlitSurface(images[IMG_OPT_RNG_1_5 + j * 2 +
+                        range_enabled[j]],
+                        NULL,
+                        screen, 
+                        &dest);
+
+        x = x
+            + images[IMG_OPT_RNG_1_5 + j * 2 + range_enabled[j]]-> w 
+            + 16;
+      }
+    }
+    /* same sound for all option updates */
+    playsound(SND_LASER);
+  }
 }

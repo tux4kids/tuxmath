@@ -31,5 +31,5 @@ enum {
 };
 
 int options(void);
-
+void update_selected_option(int option);
 #endif
