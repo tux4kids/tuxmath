@@ -81,6 +81,12 @@ Running The Program
                          auto-play the game.  The only user interaction
                          can be for quitting or pausing.
 
+      --allownegatives   Allows subtraction answers to be less than zero.
+      -n                 When selected, the led numbers at the top of the
+                         screen will include a fourth digit for the '-' sign.
+                         Also, if --keypad is selected, the '-' and '+' may
+                         be grayed-out depending if negatives are allowed.
+
 
     These command-line options display useful information, but the program
     does not attempt to start up in interactive mode.
@@ -103,11 +109,11 @@ Program Navigation
 ------------------
   Title Screen
   ------------
-    On this screen, you can choose to play the game, change the gameplay
-    options, view the credits, or quit.
+    On this screen, you can choose to play the game, go to the Options
+    Screen, view the credits, or quit.
 
     Use the [UP] and [DOWN] arrow keys to select what you wish to do,
-    and then press [ENTER / RETURN].  Or, use the mouse to click the
+    and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the
     menu item.
 
     Pressing [ESCAPE] will quit the program.
@@ -115,7 +121,18 @@ Program Navigation
 
   Options Screen
   --------------
-    [ UNDER CONSTRUCTION ]
+    On this screen, you can select some of the gameplay options or return to 
+    the Title Screen.  Currently, the four math operations can be enabled
+    or disenabled, as well as the speed setting and ranges of numbers to use. 
+
+    Use the [UP] and [DOWN] arrow keys to select what you wish to do,
+    and then press [ENTER / RETURN /SPACEBAR].  Or, use the mouse to click the
+    menu item.
+
+    Mouse support has been added.
+
+    Pressing [ESCAPE] will return to the Title Screen.  Currently, there is no
+    method of doing this with the mouse.
 
 
   Credits Screen

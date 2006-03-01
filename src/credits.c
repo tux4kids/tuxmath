@@ -381,7 +381,7 @@ int credits(void)
       
       
       /* Handle any incoming events: */
-      
+      /* TODO allow player to return to Title with mouse click */
       while (SDL_PollEvent(&event) > 0)
 	{
 	  if (event.type == SDL_QUIT)

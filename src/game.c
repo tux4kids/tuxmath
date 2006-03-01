@@ -85,7 +85,9 @@ static laser_type laser;
 static SDL_Surface * bkgd;
 static int last_bkgd;
 
-
+static int neg_answer_picked;
+static int tux_pressing, done, paused, doing_answer;
+static int level_start_wait;
 
 /* Local function prototypes: */
 
@@ -100,16 +102,19 @@ static void add_score(int inc);
 static int pick_operand(int min);
 static int in_range(int n);
 
-
-
+static void draw_led_nums(void);
+static void game_mouse_event(SDL_Event the_event);
+static void game_key_event(SDLKey pressed_key);
 /* --- MAIN GAME FUNCTION!!! --- */
 
+/* FIXME consider breaking this large function up into more managable pieces */
+/* e.g. initialize(), handle_events(), update_data(), draw(), etc            */ 
 int game(void)
 {
-  int i, j, num, img, done, quit, frame, lowest, lowest_y, kx, ky,
-    tux_img, old_tux_img, tux_pressing, tux_anim, tux_anim_frame,
-    tux_same_counter, level_start_wait, num_cities_alive, doing_answer,
-    num_comets_alive, paused, demo_countdown, picked_comet, answer_digit,
+  int i, j, num, img, quit, frame, lowest, lowest_y,
+    tux_img, old_tux_img, tux_anim, tux_anim_frame,
+    tux_same_counter, num_cities_alive,
+    num_comets_alive, demo_countdown, picked_comet, answer_digit,
     gameover;
   SDL_Event event;
   Uint32 last_time, now_time;
@@ -117,7 +122,6 @@ int game(void)
   SDL_Rect src, dest;
   char str[64];
   char* comet_str;
-
 
   /* Clear window: */
   
@@ -138,8 +142,8 @@ int game(void)
   gameover = 0;
   demo_countdown = 1000;
   level_start_wait = LEVEL_START_WAIT_START;
-
-  
+  neg_answer_picked = 0;
+ 
   /* (Create and position cities) */
   
   for (i = 0; i < NUM_CITIES; i++)
@@ -210,131 +214,17 @@ int game(void)
 	  if (event.type == SDL_QUIT)
 	    {
 	      /* Window close event - quit! */
-	      
 	      quit = 1;
 	      done = 1;
 	    }
 	  else if (event.type == SDL_KEYDOWN)
 	    {
 	      key = event.key.keysym.sym;
-	      
-	      
-	      if (key == SDLK_ESCAPE)
-		{
-		  /* Escape key - quit! */
-		  
-		  done = 1;
-		}
-	      else if (key == SDLK_TAB ||
-		       key == SDLK_p)
-		{
-		  /* [TAB] or [P]: Pause! */
-		  
-		  paused = 1;
-		}
-	      
-	      
-	      if (level_start_wait > 0 || demo_mode)
-		{
-		  /* Eat other keys until level start wait has passed,
-		     or if game is in demo mode: */
-		  
-		  key = SDLK_UNKNOWN;
-		}
-	      
-	      
-	      if (key >= SDLK_0 && key <= SDLK_9)
-		{
-		  /* [0]-[9]: Add a new digit: */
-		  
-		  digits[0] = digits[1];
-		  digits[1] = digits[2];
-		  digits[2] = key - SDLK_0;
-		  
-		  tux_pressing = 1;
-		}
-	      else if (key >= SDLK_KP0 && key <= SDLK_KP9)
-		{
-		  /* Keypad [0]-[9]: Add a new digit: */
-		  
-		  digits[0] = digits[1];
-		  digits[1] = digits[2];
-		  digits[2] = key - SDLK_KP0;
-		  
-		  tux_pressing = 1;
-		}
-	      else if (key == SDLK_BACKSPACE ||
-		       key == SDLK_CLEAR ||
-		       key == SDLK_DELETE)
-		{
-		  /* [BKSP]: Clear digits! */
-		  
-		  digits[0] = 0;
-		  digits[1] = 0;
-		  digits[2] = 0;
-		  
-		  tux_pressing = 1;
-		}
-	      else if (key == SDLK_RETURN ||
-		       key == SDLK_KP_ENTER ||
-		       key == SDLK_SPACE)
-		{
-		  /* [ENTER]: Accept digits! */
-		 
-		  doing_answer = 1;
-		}
+	      game_key_event(key);
 	    }
 	  else if (event.type == SDL_MOUSEBUTTONDOWN)
 	    {
-              if (level_start_wait == 0 && !demo_mode && use_keypad)
-	      {
-	        if (event.button.x >=
-	            (screen->w / 2) - (images[IMG_KEYPAD]->w / 2) &&
-                    event.button.x <=
-		    (screen->w / 2) + (images[IMG_KEYPAD]->w / 2) &&
-		    event.button.y >= 
-		    (screen->h / 2) - (images[IMG_KEYPAD]->h / 2) &&
-		    event.button.y <=
-		    (screen->h / 2) + (images[IMG_KEYPAD]->h / 2))
-	        {
-		  kx = (event.button.x -
-		        ((screen->w / 2) - (images[IMG_KEYPAD]->w / 2)));
-		  ky = (event.button.y -
-		        ((screen->h / 2) - (images[IMG_KEYPAD]->h / 2)));
-
-		  tux_pressing = 1;
-
-
-		  if (ky >= (images[IMG_KEYPAD]->h / 4) * 3)
-		  {
-	            /* Bottom row is special (has Enter key) */
-			  
-	            if (kx >= (images[IMG_KEYPAD]->w / 3))
-		    {
-		      /* "Enter" key */
-
-		      doing_answer = 1;
-
-		      tux_pressing = 0;
-		    }
-                    else
-		    {
-		      /* "0" key */
-			    
-		      digits[0] = digits[1];
-		      digits[1] = digits[2];
-		      digits[2] = 0;
-		    }
-		  }
-		  else
-		  {
-	            digits[0] = digits[1];
-		    digits[1] = digits[2];
-		    digits[2] = (((kx / (images[IMG_KEYPAD]->w / 3)) + 1) +
-				 6 - ((ky / (images[IMG_KEYPAD]->h / 4) * 3)));
-		  }
-	        }
-	      }
+              game_mouse_event(event);
 	    }
 	}
 
@@ -342,7 +232,8 @@ int game(void)
 
       if (demo_mode)
       {
-        /* Demo mdoe! */
+        /* Demo mode! */
+        /* FIXME update this to handle negatives correctly */
 
         if (picked_comet == -1 && (rand() % 10) < 3)
         {
@@ -418,7 +309,11 @@ int game(void)
 	num = (digits[0] * 100 +
 	       digits[1] * 10 +
 	       digits[2]);
-	
+	/* negative answer support DSB */
+        if (neg_answer_picked)
+	{
+	  num = -num;
+	}	
 	
 	/*  Pick the lowest comet which has the right answer: */
 	
@@ -511,6 +406,7 @@ int game(void)
 	digits[0] = 0;
 	digits[1] = 0;
 	digits[2] = 0;
+        neg_answer_picked = 0;
       }
 
       
@@ -883,15 +779,27 @@ int game(void)
 
 
       /* Draw numeric keypad: */
-
+      /* TODO should have keypad with grayed-out '+' and '-' when no negatives allowed */
       if (use_keypad)
       {
-        dest.x = (screen->w - images[IMG_KEYPAD]->w) / 2;
-        dest.y = (screen->h - images[IMG_KEYPAD]->h) / 2;
-        dest.w = images[IMG_KEYPAD]->w;
-        dest.h = images[IMG_KEYPAD]->h;
-
-        SDL_BlitSurface(images[IMG_KEYPAD], NULL, screen, &dest);
+        if (allow_neg_answer)
+        /* draw regular keypad */
+        { 
+          dest.x = (screen->w - images[IMG_KEYPAD]->w) / 2;
+          dest.y = (screen->h - images[IMG_KEYPAD]->h) / 2;
+          dest.w = images[IMG_KEYPAD]->w;
+          dest.h = images[IMG_KEYPAD]->h;
+          SDL_BlitSurface(images[IMG_KEYPAD], NULL, screen, &dest);
+        }
+        else
+        /* draw keypad with with grayed-out '+' and '-' */
+        { 
+          dest.x = (screen->w - images[IMG_KEYPAD_NO_NEG]->w) / 2;
+          dest.y = (screen->h - images[IMG_KEYPAD_NO_NEG]->h) / 2;
+          dest.w = images[IMG_KEYPAD_NO_NEG]->w;
+          dest.h = images[IMG_KEYPAD_NO_NEG]->h;
+          SDL_BlitSurface(images[IMG_KEYPAD_NO_NEG], NULL, screen, &dest);
+        } 
       }
 
 
@@ -906,10 +814,14 @@ int game(void)
 
       draw_console_image(tux_img);
 
+      /* LED code moved into separate function by DSB */
+      draw_led_nums();
+
 
       /* Draw LED digits at the top of the screen: */
-      
-      for (i = 0; i < 3; i++)
+      /* TODO add negative sign DSB */ 
+/* 
+     for (i = 0; i < 3; i++)
 	{
 	  src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
 	  src.y = 0;
@@ -924,7 +836,7 @@ int game(void)
 	  
 	  SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
 	}
-
+*/
 
       /* Draw "Game Over" */
 
@@ -1017,7 +929,7 @@ void reset_level(void)
   digits[0] = 0;
   digits[1] = 0;
   digits[2] = 0;
-
+  neg_answer_picked = 0;
 
   /* Load random background image: */
 
@@ -1129,6 +1041,7 @@ void add_comet(void)
 	  }
 	  while (comets[found].answer > max_answer);
 	}
+
       else if (comets[found].oper == OPER_SUB)
 	{
 	  /* Subtraction: */
@@ -1136,21 +1049,22 @@ void add_comet(void)
 	  do
 	  {
 	    comets[found].eq1 = pick_operand(0);
-
-
-	    /* (No negative answers) */
-	    /* [ WILL PROBABLY ALLOW FOR NEG. ANS. ] */
-	  
-	    do
-	    {
-	      comets[found].eq2 = pick_operand(0);
-	    }
-	    while (comets[found].eq2 > comets[found].eq1);
-
+	    comets[found].eq2 = pick_operand(0);
+	    /* try again until answer not negative  */
+	    /* unless neg_answer_allowed DSB */
+	    if (!allow_neg_answer)
+            {
+	      do
+	      {
+	        comets[found].eq2 = pick_operand(0);
+	      }
+	      while (comets[found].eq2 > comets[found].eq1);
+            }
 	    comets[found].answer = comets[found].eq1 - comets[found].eq2;
 	  }
 	  while (comets[found].answer > max_answer);
 	}
+
       else if (comets[found].oper == OPER_MULT)
 	{
 	  /* Multiplication: */
@@ -1159,6 +1073,7 @@ void add_comet(void)
 	  comets[found].eq2 = pick_operand(0);
 	  comets[found].answer = comets[found].eq1 * comets[found].eq2;
 	}
+
       else if (comets[found].oper == OPER_DIV)
 	{
 	  /* Division: */
@@ -1494,7 +1409,281 @@ void draw_console_image(int i)
 
   SDL_BlitSurface(images[i], NULL, screen, &dest);
 }
+/* Draw LED digits at the top of the screen: */
+/* Modified by DSB to display minus sign */
 
+void draw_led_nums(void)
+{
+  int i;
+  SDL_Rect src, dest;
+
+  /* begin drawing so as to center display depending on whether minus */
+  /* sign needed (4 digit slots) or not (3 digit slots) DSB */
+  if (allow_neg_answer)
+    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
+  else
+    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
+
+  for (i = -1; i < 3; i++)  /* -1 is special case to allow minus sign */
+                              /* with minimal modification of existing code DSB */
+  { 
+    if (-1 == i)
+    {
+      if (allow_neg_answer)
+      {
+        if (neg_answer_picked)
+          src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
+        else
+          src.x = 0;
+
+        src.y = 0;
+        src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
+        src.h = images[IMG_LED_NEG_SIGN]->h;
+	  
+        dest.y = 4;
+        dest.w = src.w;
+        dest.h = src.h;
+	  
+        SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
+        /* move "cursor" */
+        dest.x += src.w;
+      }
+    }
+    else
+    {
+      src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
+      src.y = 0;
+      src.w = (images[IMG_LEDNUMS]->w) / 10;
+      src.h = images[IMG_LEDNUMS]->h;
+	  
+      /* dest.x already set */
+      dest.y = 4;
+      dest.w = src.w;
+      dest.h = src.h;
+	  
+      SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
+      /* move "cursor" */
+      dest.x += src.w;
+    }
+  }
+}
+
+/* Translates mouse events into keyboard events when on-screen keypad used */
+/* FIXME this code uses IMG_KEYPAD to figure out the mouse events even     */
+/* if IMG_KEYPAD_NO_NEG is actually on the screen. This relies on the two  */
+/* graphics having the same shape and key layout. If this changes in the   */
+/* future, this function will need to be rewritten                         */
+
+void game_mouse_event(SDL_Event the_event)
+{
+  int x, y, row, column;
+  SDLKey keypad_key = SDLK_UNKNOWN;
+
+  /* get out unless we really are using keypad */
+  if ( level_start_wait 
+    || demo_mode
+    || !use_keypad)
+  {
+    return;
+  }
+  /* make sure keypad image is valid and has non-zero dimensions: */
+  if (!images[IMG_KEYPAD])
+  {
+    return;
+  }
+  if (!(images[IMG_KEYPAD]->w)
+    ||!(images[IMG_KEYPAD]->h))
+  {
+    return;
+  }
+
+  /* only proceed if click falls within keypad: */
+  if (!((the_event.button.x >=
+        (screen->w / 2) - (images[IMG_KEYPAD]->w / 2) &&
+        the_event.button.x <=
+        (screen->w / 2) + (images[IMG_KEYPAD]->w / 2) &&
+        the_event.button.y >= 
+        (screen->h / 2) - (images[IMG_KEYPAD]->h / 2) &&
+        the_event.button.y <=
+        (screen->h / 2) + (images[IMG_KEYPAD]->h / 2))))
+  /* click outside of keypad - do nothing */
+  {
+    return;
+  }
+  
+  else /* click was within keypad */ 
+  {
+    x = (the_event.button.x - ((screen->w / 2) - (images[IMG_KEYPAD]->w / 2)));
+    y = (the_event.button.y - ((screen->h / 2) - (images[IMG_KEYPAD]->h / 2)));
+ 
+  /* Now determine what onscreen key was pressed */
+  /*                                             */
+  /* The on-screen keypad has a 4 x 4 layout:    */
+  /*                                             */
+  /*    *********************************        */
+  /*    *       *       *       *       *        */
+  /*    *   7   *   8   *   9   *   -   *        */
+  /*    *       *       *       *       *        */
+  /*    *********************************        */
+  /*    *       *       *       *       *        */
+  /*    *   4   *   5   *   6   *       *        */
+  /*    *       *       *       *       *        */
+  /*    *************************   +   *        */
+  /*    *       *       *       *       *        */
+  /*    *   1   *   2   *   3   *       *        */
+  /*    *       *       *       *       *        */
+  /*    *********************************        */
+  /*    *       *                       *        */
+  /*    *   0   *         Enter         *        */
+  /*    *       *                       *        */
+  /*    *********************************        */
+  /*                                             */
+  /*  The following code simply figures out the  */
+  /*  row and column based on x and y and looks  */
+  /*  up the SDlKey accordingly.                 */
+
+    column = x/((images[IMG_KEYPAD]->w)/4);
+    row    = y/((images[IMG_KEYPAD]->h)/4);
+
+    /* make sure row and column are sane */
+    if (column < 0
+     || column > 3
+     || row    < 0
+     || row    > 3)
+    {
+      printf("\nIllegal row or column value!\n");
+      return;
+    }
+
+    /* simple but tedious - I am sure this could be done more elegantly */
+
+    if (0 == row)
+    {
+      if (0 == column)
+        keypad_key = SDLK_7;
+      if (1 == column)
+        keypad_key = SDLK_8;
+      if (2 == column)
+        keypad_key = SDLK_9;
+      if (3 == column)
+        keypad_key = SDLK_MINUS;
+    } 
+    if (1 == row)
+    {
+      if (0 == column)
+        keypad_key = SDLK_4;
+      if (1 == column)
+        keypad_key = SDLK_5;
+      if (2 == column)
+        keypad_key = SDLK_6;
+      if (3 == column)
+        keypad_key = SDLK_PLUS;
+    }     
+    if (2 == row)
+    {
+      if (0 == column)
+        keypad_key = SDLK_1;
+      if (1 == column)
+        keypad_key = SDLK_2;
+      if (2 == column)
+        keypad_key = SDLK_3;
+      if (3 == column)
+        keypad_key = SDLK_PLUS;
+    } 
+    if (3 == row)
+    {
+      if (0 == column)
+        keypad_key = SDLK_0;
+      if (1 == column)
+        keypad_key = SDLK_RETURN;
+      if (2 == column)
+        keypad_key = SDLK_RETURN;
+      if (3 == column)
+        keypad_key = SDLK_RETURN;
+    }     
+
+    if (keypad_key == SDLK_UNKNOWN)
+    {
+      return;
+    }
+
+    /* now can proceed as if keyboard was used */
+    game_key_event(keypad_key);
+  }
+}
+
+/* called by either key presses or mouse clicks on */
+/* on-screen keypad */
+void game_key_event(SDLKey pressed_key)
+{
+  if (pressed_key == SDLK_ESCAPE)
+  {
+    /* Escape key - quit! */
+   done = 1;
+  }
+  else if (pressed_key == SDLK_TAB
+        || pressed_key == SDLK_p)
+  {
+  /* [TAB] or [P]: Pause! */
+    paused = 1;
+  }
+      
+  if (level_start_wait > 0 || demo_mode)
+  {
+    /* Eat other keys until level start wait has passed,
+    or if game is in demo mode: */
+    pressed_key = SDLK_UNKNOWN;
+  }
+	      
+  if (pressed_key >= SDLK_0 && pressed_key <= SDLK_9)
+  {
+    /* [0]-[9]: Add a new digit: */
+    digits[0] = digits[1];
+    digits[1] = digits[2];
+    digits[2] = pressed_key - SDLK_0;
+    tux_pressing = 1;
+  }
+  else if (pressed_key >= SDLK_KP0 && pressed_key <= SDLK_KP9)
+  {
+    /* Keypad [0]-[9]: Add a new digit: */
+    digits[0] = digits[1];
+    digits[1] = digits[2];
+    digits[2] = pressed_key - SDLK_KP0;
+    tux_pressing = 1;
+  }
+  /* support for negative answer input DSB */
+  else if ((pressed_key == SDLK_MINUS || pressed_key == SDLK_KP_MINUS)
+        && allow_neg_answer)  /* do nothing unless neg answers allowed */
+  {
+    /* allow player to make answer negative: */
+    neg_answer_picked = 1;
+    tux_pressing = 1;
+  }
+  else if ((pressed_key == SDLK_PLUS || pressed_key == SDLK_KP_PLUS)
+         && allow_neg_answer)  /* do nothing unless neg answers allowed */
+  {
+    /* allow player to make answer positive: */
+    neg_answer_picked = 0;
+    tux_pressing = 1;
+  }
+  else if (pressed_key == SDLK_BACKSPACE ||
+           pressed_key == SDLK_CLEAR ||
+	   pressed_key == SDLK_DELETE)
+  {
+    /* [BKSP]: Clear digits! */
+    digits[0] = 0;
+    digits[1] = 0;
+    digits[2] = 0;
+    tux_pressing = 1;
+  }
+  else if (pressed_key == SDLK_RETURN ||
+           pressed_key == SDLK_KP_ENTER ||
+	   pressed_key == SDLK_SPACE)
+  {
+    /* [ENTER]: Accept digits! */
+    doing_answer = 1;
+  }
+}
 
 /* Increment score: */
 

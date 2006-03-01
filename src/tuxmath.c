@@ -29,7 +29,6 @@ int main(int argc, char * argv[])
 {
   int cmd, done;
 
-
   setup(argc, argv);
   
   done = 0;

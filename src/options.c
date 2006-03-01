@@ -154,6 +154,7 @@ int options(void)
 
 	  else if (event.type == SDL_MOUSEBUTTONDOWN)
             {
+              /* FIXME Options screen should have "OK" button to accept choices with mouse DSB */
               /* figure out opt based on mouse coordinates */
               if (/* event.button.x >= left && */ /* don't see any reason to filter on x values here*/
 	          /* event.button.x <= left + width && */  
@@ -214,14 +215,14 @@ int options(void)
 		    playsound(SND_POP);
 		  }
 		}
+	      else if (key == SDLK_RETURN ||
+		       key == SDLK_KP_ENTER ||
+		       key == SDLK_SPACE)
+              {
               /* code moved into function taking opt as argument so the same code can be   */
               /* used to handle mouse events DSB */
-	      else if (key == SDLK_RETURN)
-              {
                 update_selected_option(opt);
               }
-/*	      else if (key == SDLK_RETURN) */
-
 	    }
 	}
       

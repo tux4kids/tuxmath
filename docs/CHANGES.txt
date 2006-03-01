@@ -1,6 +1,26 @@
 CHANGES.txt for "tuxmath"
 
-March 7, 2005
+2006.Mar.1 (https://svn.tux4kids.net/tuxmath/ - revision 6)
+  Game:
+    * Added support for negative subtraction answers.
+      Updated led drawing to include negative sign.
+      Updated on-screen keypad to include '+' and '-'. 
+      David Bruce <dbruce@tampabay.rr.com>
+
+2006.Feb.18 (https://svn.tux4kids.net/tuxmath/ - revision 5)
+  Options:
+    * Added mouse support to Options screen
+      David Bruce <dbruce@tampabay.rr.com>
+
+2006.Feb.14 (https://svn.tux4kids.net/tuxmath/ - revision 4)
+  Options:
+    * Added speed control to Options screen
+      Yves Combe <yves@ycombe.net>
+
+2006.Feb.7 (https://svn.tux4kids.net/tuxmath/ - revision 3)
+  Options:
+    * Fixed minor deadlock bug if all operations deselected
+      David Bruce <dbruce@tampabay.rr.com>
 
 2005.Mar.7
   Interface:

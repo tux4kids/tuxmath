@@ -104,10 +104,12 @@ static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/comets/cometex1.png",
   DATA_PREFIX "/images/status/nums.png",
   DATA_PREFIX "/images/status/lednums.png",
+  DATA_PREFIX "/images/status/led_neg_sign.png",
   DATA_PREFIX "/images/status/paused.png",
   DATA_PREFIX "/images/status/demo.png",
   DATA_PREFIX "/images/status/demo-small.png",
   DATA_PREFIX "/images/status/keypad.png",
+  DATA_PREFIX "/images/status/keypad_no_neg.png",
   DATA_PREFIX "/images/tux/console.png",
   DATA_PREFIX "/images/tux/tux-console1.png",
   DATA_PREFIX "/images/tux/tux-console2.png",
@@ -156,7 +158,8 @@ SDL_Surface * images[NUM_IMAGES];
 Mix_Chunk * sounds[NUM_SOUNDS];
 Mix_Music * musics[NUM_MUSICS];
 #endif
-int use_sound, fullscreen, use_bkgd, demo_mode, oper_override, use_keypad;
+int use_sound, fullscreen, use_bkgd, demo_mode,
+    oper_override, use_keypad, allow_neg_answer;
 float speed;
 int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 int max_answer;
@@ -175,6 +178,7 @@ void setup(int argc, char * argv[])
   int i, j, found, total_files;
   SDL_Rect dest;
 
+  screen = NULL;
 
   /* Set default options: */
 
@@ -186,6 +190,8 @@ void setup(int argc, char * argv[])
   speed = 1.0;
   oper_override = 0;
   max_answer = 144;
+  allow_neg_answer = 0;
+
 
   for (i = 0; i < NUM_OPERS; i++)
   {
@@ -193,10 +199,9 @@ void setup(int argc, char * argv[])
   }
 
   for (i = 0; i < NUM_Q_RANGES; i++)
-  {
+  { 
     range_enabled[i] = 1;
   }
-
 
   /* FIXME: Program should load options from disk */
 
@@ -240,15 +245,16 @@ void setup(int argc, char * argv[])
 	"When you lose all of your cities, the game ends.\n\n");
 
       printf("Run the game with:\n"
-        "--nosound      - to disable sound/music\n"
-	"--nobackground - to disable background photos (for slower systems)\n"
-	"--fullscreen   - to run in fullscreen, if possible (vs. windowed)\n"
-        "--keypad       - to enable the on-sceen numeric keypad\n"
-	"--demo         - to run the program as a cycling demonstration\n"
-	"--speed S      - set initial speed of the game\n"
-	"                 (S may be fractional, default is 1.0)\n"
-	"--operator OP  - to automatically play with particular operators\n"
-	"                 OP may be one of:\n");
+        "--nosound        - to disable sound/music\n"
+	"--nobackground   - to disable background photos (for slower systems)\n"
+	"--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
+        "--keypad         - to enable the on-sceen numeric keypad\n"
+	"--demo           - to run the program as a cycling demonstration\n"
+	"--speed S        - set initial speed of the game\n"
+	"                   (S may be fractional, default is 1.0)\n"
+        "--allownegatives - to allow answers to be less than zero\n"
+	"--operator OP    - to automatically play with particular operators\n"
+	"                   OP may be one of:\n");
 
       for (j = 0; j < NUM_OPERS; j++)
         printf("                   \"%s\"\n", oper_opts[j]);
@@ -320,6 +326,11 @@ void setup(int argc, char * argv[])
     {
       use_keypad = 1;
     }
+    else if (strcmp(argv[i], "--allownegatives") == 0 ||
+             strcmp(argv[i], "-n") == 0)
+    {
+      allow_neg_answer = 1;
+    }
     else if (strcmp(argv[i], "--speed") == 0 ||
 	     strcmp(argv[i], "-s") == 0)
     {
@@ -386,7 +397,7 @@ void setup(int argc, char * argv[])
 
   
   /* Init SDL Video: */
-  
+
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
       fprintf(stderr,
@@ -396,10 +407,10 @@ void setup(int argc, char * argv[])
       exit(1);
     }
   
-  
   /* Init SDL Audio: */
 
 #ifndef NOSOUND
+
   if (use_sound)
     { 
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
@@ -424,9 +435,10 @@ void setup(int argc, char * argv[])
           use_sound = 0;
         }
     }
+
 #endif
   
- 
+
   if (fullscreen)
   {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | SDL_HWSURFACE);
@@ -442,7 +454,9 @@ void setup(int argc, char * argv[])
   }
 
   if (!fullscreen)
+  {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE);
+  }
 
   if (screen == NULL)
   {
@@ -452,8 +466,9 @@ void setup(int argc, char * argv[])
 	    "%s\n\n", SDL_GetError());
     exit(1);
   }
-  
+
   seticon();
+
   SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 
 
@@ -464,7 +479,6 @@ void setup(int argc, char * argv[])
   
 
   /* Load images: */
-
   for (i = 0; i < NUM_IMAGES; i++)
   {
     images[i] = IMG_Load(image_filenames[i]);
@@ -519,7 +533,6 @@ void setup(int argc, char * argv[])
     SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
     SDL_Flip(screen);
   }
-
 
 #ifndef NOSOUND
   if (use_sound)
@@ -644,7 +657,6 @@ void usage(int err, char * cmd)
     f = stdout;
   else
     f = stderr;
-
 
   fprintf(f,
    "\nUsage: %s {--help | --usage | --copyright}\n"

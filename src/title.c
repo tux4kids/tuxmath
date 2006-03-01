@@ -150,7 +150,7 @@ int title(void)
       
       
       /* Handle any incoming events: */
-      
+       
       while (SDL_PollEvent(&event) > 0)
 	{
 	  if (event.type == SDL_QUIT)
@@ -189,7 +189,7 @@ int title(void)
 		  if (cmd < 0)
 		    cmd = 0;
 		}
-	      else if (key == SDLK_RETURN)
+	      else if (key == SDLK_RETURN || SDLK_KP_ENTER)
 		{
 		  done = 1;
 		}
@@ -211,6 +211,7 @@ int title(void)
 	    }
 	  }
 	}
+           
       
       
       /* Erase Tux (cursor) */
@@ -219,9 +220,7 @@ int title(void)
 	{
 	  blinking = 0;
 	  
-	  
 	  dest.x = left + 4;
-	  // dest.x = 32;
 	  dest.y = (images[IMG_TITLE]->h + 8 + 
 		    (old_cmd * images[IMG_TUX_HELMET1]->h));
 	  dest.w = images[IMG_TUX_HELMET1]->w;
@@ -247,7 +246,6 @@ int title(void)
       
       /* Draw Tux (cursor) */
       
-      // dest.x = 32;
       dest.x = left + 4;
       dest.y = images[IMG_TITLE]->h + 8 + (cmd * images[IMG_TUX_HELMET1]->h);
       dest.w = images[IMG_TUX_HELMET1]->w;
