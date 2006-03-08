@@ -22,11 +22,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdlib.h>
+
 #include <SDL.h>
 #ifndef NOSOUND
 #include <SDL_mixer.h>
 #endif
 #include <SDL_image.h>
+
+#include "tuxmath.h"
 #include "setup.h"
 #include "images.h"
 #include "sounds.h"
@@ -150,26 +153,28 @@ static char * music_filenames[NUM_MUSICS] = {
   DATA_PREFIX "/sounds/game3.mod"
 };
 
+/* Global data used in setup.c:              */
 /* (These need to be 'extern'd in "setup.h") */
-
 SDL_Surface * screen;
 SDL_Surface * images[NUM_IMAGES];
 #ifndef NOSOUND
 Mix_Chunk * sounds[NUM_SOUNDS];
 Mix_Music * musics[NUM_MUSICS];
 #endif
-int use_sound, fullscreen, use_bkgd, demo_mode,
-    oper_override, use_keypad, allow_neg_answer;
-float speed;
-int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
-int max_answer;
 
+int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
+
+math_option_type* math_options;
+game_option_type* game_options;
 
 /* Local function prototypes: */
 
 void seticon(void);
 void usage(int err, char * cmd);
-
+int initialize_math_options(math_option_type* opts);
+int initialize_game_options(game_option_type* opts);
+void print_math_options(math_option_type* opts);
+void print_game_options(game_option_type* opts);
 
 /* --- Set-up function! --- */
 
@@ -180,17 +185,24 @@ void setup(int argc, char * argv[])
 
   screen = NULL;
 
-  /* Set default options: */
+  /* initialize game_options and math_options structs with defaults DSB */
+  /* FIXME: Program should load options from disk */
+  math_options = malloc(sizeof(math_option_type));
+  if (!initialize_math_options(math_options))
+  {
+    printf("\nUnable to initialize math_options");
+    fprintf(stderr, "\nUnable to initialize math_options");
+    exit(1);
+  }
 
-  use_sound = 1;
-  fullscreen = 0;
-  use_bkgd = 1;
-  demo_mode = 0;
-  use_keypad = 0;
-  speed = 1.0;
-  oper_override = 0;
-  max_answer = 144;
-  allow_neg_answer = 0;
+  game_options = malloc(sizeof(game_option_type));
+  if (!initialize_game_options(game_options))
+  {
+    printf("\nUnable to initialize game_options");
+    fprintf(stderr, "\nUnable to initialize game_options");
+    exit(1);
+  }
+
 
 
   for (i = 0; i < NUM_OPERS; i++)
@@ -203,8 +215,6 @@ void setup(int argc, char * argv[])
     range_enabled[i] = 1;
   }
 
-  /* FIXME: Program should load options from disk */
-
 
   /* See if operator settings are being overridden by command-line: */
 
@@ -213,14 +223,14 @@ void setup(int argc, char * argv[])
     if (strcmp(argv[i], "--operator") == 0 ||
         strcmp(argv[i], "-o") == 0)
     {
-      oper_override = 1;
+      game_options->oper_override = 1;
     }
   }
 
 
   /* If operator settings are being overridden, clear them first: */
 
-  if (oper_override)
+  if (game_options->oper_override)
   {
     for (i = 0; i < NUM_OPERS; i++)
     {
@@ -295,14 +305,14 @@ void setup(int argc, char * argv[])
     else if (strcmp(argv[i], "--fullscreen") == 0 ||
 	     strcmp(argv[i], "-f") == 0)
     {
-      fullscreen = 1;
+      game_options->fullscreen = 1;
     }
     else if (strcmp(argv[i], "--nosound") == 0 ||
 	     strcmp(argv[i], "-s") == 0 ||
 	     strcmp(argv[i], "--quiet") == 0 ||
 	     strcmp(argv[i], "-q") == 0)
     {
-      use_sound = 0;
+      game_options->use_sound = 0;
     }
     else if (strcmp(argv[i], "--version") == 0 ||
 	     strcmp(argv[i], "-v") == 0)
@@ -314,22 +324,22 @@ void setup(int argc, char * argv[])
     else if (strcmp(argv[i], "--nobackground") == 0 ||
              strcmp(argv[i], "-b") == 0)
     {
-      use_bkgd = 0;
+      game_options->use_bkgd = 0;
     }
     else if (strcmp(argv[i], "--demo") == 0 ||
 	     strcmp(argv[i], "-d") == 0)
     {
-      demo_mode = 1;
+      game_options->demo_mode = 1;
     }
     else if (strcmp(argv[i], "--keypad") == 0 ||
              strcmp(argv[i], "-k") == 0)
     {
-      use_keypad = 1;
+      game_options->use_keypad = 1;
     }
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
     {
-      allow_neg_answer = 1;
+      math_options->allow_neg_answer = 1;
     }
     else if (strcmp(argv[i], "--speed") == 0 ||
 	     strcmp(argv[i], "-s") == 0)
@@ -340,9 +350,9 @@ void setup(int argc, char * argv[])
 	usage(1, argv[0]);
       }
 
-      speed = strtod(argv[i + 1], (char **) NULL);
+      game_options->speed = strtod(argv[i + 1], (char **) NULL);
 
-      if (speed <= 0)
+      if (game_options->speed <= 0)
       {
 	fprintf(stderr, "Invalided argument to %s: %s\n",
 		argv[i], argv[i + 1]);
@@ -389,10 +399,10 @@ void setup(int argc, char * argv[])
   }
 
 
-  if (demo_mode && use_keypad)
+  if (game_options->demo_mode && game_options->use_keypad)
   {
     fprintf(stderr, "No use for keypad in demo mode!\n");
-    use_keypad = 0;
+    game_options->use_keypad = 0;
   }
 
   
@@ -411,7 +421,7 @@ void setup(int argc, char * argv[])
 
 #ifndef NOSOUND
 
-  if (use_sound)
+  if (game_options->use_sound)
     { 
       if (SDL_Init(SDL_INIT_AUDIO) < 0)
         {
@@ -419,11 +429,11 @@ void setup(int argc, char * argv[])
   	          "\nWarning: I could not initialize audio!\n"
 	          "The Simple DirectMedia error that occured was:\n"
 	          "%s\n\n", SDL_GetError());
-	  use_sound = 0;
+	  game_options->use_sound = 0;
         }
     }
   
-  if (use_sound)
+  if (game_options->use_sound)
     {
       if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
         {
@@ -432,14 +442,14 @@ void setup(int argc, char * argv[])
 	          "16-bit stereo.\n"
 	          "The Simple DirectMedia error that occured was:\n"
 	          "%s\n\n", SDL_GetError());
-          use_sound = 0;
+          game_options->use_sound = 0;
         }
     }
 
 #endif
   
 
-  if (fullscreen)
+  if (game_options->fullscreen)
   {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | SDL_HWSURFACE);
 
@@ -449,11 +459,11 @@ void setup(int argc, char * argv[])
               "\nWarning: I could not open the display in fullscreen mode.\n"
 	      "The Simple DirectMedia error that occured was:\n"
 	      "%s\n\n", SDL_GetError());
-      fullscreen = 0;
+      game_options->fullscreen = 0;
     }
   }
 
-  if (!fullscreen)
+  if (!game_options->fullscreen)
   {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE);
   }
@@ -472,7 +482,7 @@ void setup(int argc, char * argv[])
   SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 
 
-  if (use_sound)
+  if (game_options->use_sound)
     total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
   else
     total_files = NUM_IMAGES;
@@ -535,7 +545,7 @@ void setup(int argc, char * argv[])
   }
 
 #ifndef NOSOUND
-  if (use_sound)
+  if (game_options->use_sound)
   {
     for (i = 0; i < NUM_SOUNDS; i++)
     {
@@ -602,6 +612,190 @@ void setup(int argc, char * argv[])
     }
 }
 
+/* free any heap memory used during game DSB */
+void cleanup()
+{
+  if (math_options)
+    free(math_options);
+  if (game_options)
+    free(game_options);
+}
+
+/* Set up math_options struct with defaults from tuxmath.h, */
+/* with simple sanity check for negatives                   */
+/* FIXME Should there be more error checking here?          */
+
+int initialize_math_options(math_option_type* opts)
+{
+  /* bail out if no struct */
+  if (!opts)
+    return 0;
+
+  /* set general math options */
+  opts->allow_neg_answer = DEFAULT_ALLOW_NEG_ANSWER;
+  opts->max_answer = DEFAULT_MAX_ANSWER;
+  opts->max_questions = DEFAULT_MAX_QUESTIONS;
+  opts->format_answer_last = DEFAULT_FORMAT_ANSWER_LAST;
+  opts->format_answer_first = DEFAULT_FORMAT_ANSWER_FIRST;
+  opts->format_answer_middle = DEFAULT_FORMAT_ANSWER_MIDDLE;
+  opts->question_copies = DEFAULT_QUESTION_COPIES;
+  /* set addition options */
+  opts->addition_allowed = DEFAULT_ADDITION_ALLOWED;
+  opts->min_augend = DEFAULT_MIN_AUGEND;
+  opts->max_augend = DEFAULT_MAX_AUGEND;
+  opts->min_addend = DEFAULT_MIN_ADDEND;
+  opts->max_addend = DEFAULT_MAX_ADDEND;
+  /* set subtraction options */
+  opts->subtraction_allowed = DEFAULT_SUBTRACTION_ALLOWED;
+  opts->min_minuend = DEFAULT_MIN_MINUEND;
+  opts->max_minuend = DEFAULT_MAX_MINUEND;
+  opts->min_subtrahend = DEFAULT_MIN_SUBTRAHEND;
+  opts->max_subtrahend = DEFAULT_MAX_SUBTRAHEND;
+  /* set multiplication options */
+  opts->multiplication_allowed = DEFAULT_MULTIPLICATION_ALLOWED;
+  opts->min_multiplier = DEFAULT_MIN_MULTIPLIER;
+  opts->max_multiplier = DEFAULT_MAX_MULTIPLIER;
+  opts->min_multiplicand = DEFAULT_MIN_MULTIPLICAND;
+  opts->max_multiplicand = DEFAULT_MAX_MULTIPLICAND;
+  /* set division options */
+  opts->division_allowed = DEFAULT_DIVISION_ALLOWED;
+  opts->min_divisor = DEFAULT_MIN_DIVISOR;
+  opts->max_divisor = DEFAULT_MAX_DIVISOR;
+  opts->min_quotient = DEFAULT_MIN_QUOTIENT;
+  opts->max_quotient = DEFAULT_MAX_QUOTIENT;
+
+  /* if no negatives to be used, reset any negatives to 0 */
+  if (!opts->allow_neg_answer)
+  {
+    if (opts->min_augend < 0)
+      opts->min_augend = 0;
+    if (opts->max_augend < 0)
+      opts->max_augend = 0;
+    if (opts->min_addend < 0)
+      opts->min_addend = 0;
+    if (opts->max_addend < 0)
+      opts->max_addend = 0;
+
+    if (opts->min_minuend < 0)
+      opts->min_minuend = 0;
+    if (opts->max_minuend < 0)
+      opts->max_minuend = 0;
+    if (opts->min_subtrahend < 0)
+      opts->min_subtrahend = 0;
+    if (opts->max_subtrahend < 0)
+      opts->max_subtrahend = 0;
+
+    if (opts->min_multiplier < 0)
+      opts->min_multiplier = 0;
+    if (opts->max_multiplier < 0)
+      opts->max_multiplier = 0;
+    if (opts->min_multiplicand < 0)
+      opts->min_multiplicand = 0;
+    if (opts->max_multiplicand < 0)
+      opts->max_multiplicand = 0;
+
+    if (opts->min_divisor < 0)
+      opts->min_divisor = 0;
+    if (opts->max_divisor < 0)
+      opts->max_divisor = 0;
+    if (opts->min_quotient < 0)
+      opts->min_quotient = 0;
+    if (opts->max_quotient < 0)
+      opts->max_quotient = 0;
+  }
+  
+  /* for testing purposes */
+  /* print_math_options(opts); */ 
+  return 1;
+}
+
+int initialize_game_options(game_option_type* opts)
+{
+  /* bail out if no struct */
+  if (!opts)
+    return 0;
+
+  /* set general game options */
+  opts->use_sound = DEFAULT_USE_SOUND;
+  opts->fullscreen = DEFAULT_FULLSCREEN;
+  opts->use_bkgd = DEFAULT_USE_BKGD;
+  opts->demo_mode = DEFAULT_DEMO_MODE;
+  opts->oper_override = DEFAULT_OPER_OVERRIDE;
+  opts->use_keypad = DEFAULT_USE_KEYPAD;
+  opts->speed = DEFAULT_SPEED;
+  opts->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
+  opts->reuse_questions = DEFAULT_REUSE_QUESTIONS;
+  opts->max_comets = DEFAULT_MAX_COMETS;
+  opts->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
+  opts->num_bkgds = DEFAULT_NUM_BKGDS;
+  opts->max_city_colors = DEFAULT_MAX_CITY_COLORS;
+
+  /* for testing purposes */
+  /* print_game_options(opts); */
+  return 1;
+}
+
+/* prints struct to stdout for testing purposes */
+void print_math_options(math_option_type* opts)
+{
+ /* bail out if no struct */
+  if (!opts)
+    return;
+
+  printf("\nPrinting members of math_options struct:\n");
+  printf("\nGeneral math options:\n");
+  printf("allow_neg_answer:\t%d\n", opts->allow_neg_answer);
+  printf("max_answer:\t%d\n", opts->max_answer);
+  printf("max_questions:\t%d\n", opts->max_questions);
+  printf("format_answer_last:\t%d\n", opts->format_answer_last);
+  printf("format_answer_first:\t%d\n", opts->format_answer_first);
+  printf("format_answer_middle:\t%d\n", opts->format_answer_middle);
+  printf("question_copies:\t%d\n", opts->question_copies);
+
+  printf("\nSpecific math operation options:\n");
+  printf("addition_allowed:\t%d\n", opts->addition_allowed);
+  printf("min_augend:\t%d\n", opts->min_augend);
+  printf("max_augend:\t%d\n", opts->max_augend);
+  printf("min_addend:\t%d\n", opts->min_addend);
+  printf("max_addend:\t%d\n", opts->max_addend);
+
+  printf("subtraction_allowed\t%d\n", opts->subtraction_allowed);
+  printf("min_minuend:\t%d\n", opts->min_minuend);
+  printf("max_minuend:\t%d\n", opts->max_minuend);
+  printf("min_subtrahend:\t%d\n", opts->min_subtrahend);
+  printf("max_subtrahend:\t%d\n", opts->max_subtrahend);
+
+  printf("multiplication_allowed:\t%d\n", opts->multiplication_allowed);
+  printf("min_multiplier:\t%d\n", opts->min_multiplier);
+  printf("max_multiplier:\t%d\n", opts->max_multiplier);
+  printf("min_multiplicand:\t%d\n", opts->min_multiplicand);
+  printf("max_multiplicand:\t%d\n", opts->max_multiplicand);
+
+  printf("division_allowed:\t%d\n", opts->division_allowed);
+  printf("min_divisor:\t%d\n",opts->min_divisor);
+  printf("max_divisor:\t%d\n", opts->max_divisor);
+  printf("min_quotient:\t%d\n", opts->min_quotient);
+  printf("max_quotient:\t%d\n", opts->max_quotient);
+}
+
+/* prints struct to stdout for testing purposes */
+void print_game_options(game_option_type* opts)
+{
+ /* bail out if no struct */
+  if (!opts)
+    return;
+
+  printf("\nPrinting members of game_options struct:\n");
+  printf("\nGeneral game options:\n");
+  printf("use_sound:\t%d\n", opts->use_sound);
+  printf("fullscreen:\t%d\n", opts->fullscreen);
+  printf("use_bkgd:\t%d\n", opts->use_bkgd);
+  printf("demo_mode:\t%d\n", opts->demo_mode);
+  printf("oper_override:\t%d\n", opts->oper_override);
+  printf("use_keypad:\t%d\n", opts->use_keypad);
+  printf("reuse_questions:\t%d\n", opts->reuse_questions);
+  printf("speed:\t%f\n", opts->speed);
+}
 
 /* Set the application's icon: */
 
@@ -648,7 +842,6 @@ void seticon(void)
   srand(SDL_GetTicks());
 }
 
-
 void usage(int err, char * cmd)
 {
   FILE * f;
@@ -660,10 +853,12 @@ void usage(int err, char * cmd)
 
   fprintf(f,
    "\nUsage: %s {--help | --usage | --copyright}\n"
-   "       %s [--fullscreen] [--nosound] [--nobackground] [--demo] [--keypad]\n"
+   "       %s [--fullscreen] [--nosound] [--nobackground]\n"
+   "          [--demo] [--keypad] [--allownegatives]\n"
    "          [--operator {add | subtract | multiply | divide} ...]\n"
    "          [--speed <val>]\n"
     "\n", cmd, cmd);
 
   exit (err);
 }
+

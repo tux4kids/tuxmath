@@ -29,7 +29,7 @@
 #include "setup.h"
 #include "sounds.h"
 #include "playsound.h"
-
+#include "tuxmath.h"
 
 #define FPS (1000 / 15)   /* 15 fps max */
 
@@ -230,7 +230,7 @@ int game(void)
 
 
 
-      if (demo_mode)
+      if (game_options->demo_mode)
       {
         /* Demo mode! */
         /* FIXME update this to handle negatives correctly */
@@ -298,7 +298,7 @@ int game(void)
 	if (demo_countdown <= 0 || num_cities_alive == 0)
           done = 1;
       }
-      
+      /* end of demo mode code */
       
       /* Handle answer: */
       
@@ -483,7 +483,7 @@ int game(void)
 	      num_comets_alive++;
 
 	      comets[i].x = comets[i].x + 0;
-	      comets[i].y = comets[i].y + (speed * wave);
+	      comets[i].y = comets[i].y + (game_options->speed * wave);
 	      
 	      if (comets[i].y >= (screen->h - images[IMG_CITY_BLUE]->h) &&
 	          comets[i].expl < COMET_EXPL_END)
@@ -634,7 +634,7 @@ int game(void)
 
       /* Draw "Demo" */
 
-      if (demo_mode)
+      if (game_options->demo_mode)
       {
 	dest.x = (screen->w - images[IMG_DEMO]->w) / 2;
 	dest.y = (screen->h - images[IMG_DEMO]->h) / 2;
@@ -779,10 +779,9 @@ int game(void)
 
 
       /* Draw numeric keypad: */
-      /* TODO should have keypad with grayed-out '+' and '-' when no negatives allowed */
-      if (use_keypad)
+      if (game_options->use_keypad)
       {
-        if (allow_neg_answer)
+        if (math_options->allow_neg_answer)
         /* draw regular keypad */
         { 
           dest.x = (screen->w - images[IMG_KEYPAD]->w) / 2;
@@ -817,27 +816,6 @@ int game(void)
       /* LED code moved into separate function by DSB */
       draw_led_nums();
 
-
-      /* Draw LED digits at the top of the screen: */
-      /* TODO add negative sign DSB */ 
-/* 
-     for (i = 0; i < 3; i++)
-	{
-	  src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
-	  src.y = 0;
-	  src.w = (images[IMG_LEDNUMS]->w) / 10;
-	  src.h = images[IMG_LEDNUMS]->h;
-	  
-	  dest.x = (((screen->w - (((images[IMG_LEDNUMS]->w) / 10) * 3)) / 2) +
-		    (i * (images[IMG_LEDNUMS]->w) / 10));
-	  dest.y = 4;
-	  dest.w = src.w;
-	  dest.h = src.h;
-	  
-	  SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
-	}
-*/
-
       /* Draw "Game Over" */
 
       if (gameover > 0)
@@ -868,7 +846,7 @@ int game(void)
       /* Keep playing music: */
       
 #ifndef NOSOUND
-      if (use_sound)
+      if (game_options->use_sound)
 	{
 	  if (!Mix_PlayingMusic())
 	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
@@ -894,7 +872,7 @@ int game(void)
 
   /* Stop music: */
 #ifndef NOSOUND
-  if (use_sound)
+  if (game_options->use_sound)
   {
     if (Mix_PlayingMusic())
     {
@@ -949,7 +927,7 @@ void reset_level(void)
     SDL_FreeSurface(bkgd);
 
   
-  if (use_bkgd == 1)
+  if (game_options->use_bkgd)
   {
     bkgd = IMG_Load(fname);
     if (bkgd == NULL)
@@ -959,7 +937,7 @@ void reset_level(void)
 	      "%s\n"
 	      "The Simple DirectMedia error that ocurred was: %s\n",
 	      fname, SDL_GetError());
-      use_bkgd = 0;
+      game_options->use_bkgd = 0;
     }
   }
 
@@ -1021,7 +999,8 @@ void add_comet(void)
 
 
       /* Pick an operation (+, -, *, /): */
-     
+      /* FIXME now that negative answers a possibility, */
+      /* should test absolute value against max_answer  */
       do
       { 
         comets[found].oper = (rand() % NUM_OPERS);
@@ -1039,7 +1018,7 @@ void add_comet(void)
 	    comets[found].eq2 = pick_operand(0);
 	    comets[found].answer = comets[found].eq1 + comets[found].eq2;
 	  }
-	  while (comets[found].answer > max_answer);
+	  while (comets[found].answer > math_options->max_answer);
 	}
 
       else if (comets[found].oper == OPER_SUB)
@@ -1052,7 +1031,7 @@ void add_comet(void)
 	    comets[found].eq2 = pick_operand(0);
 	    /* try again until answer not negative  */
 	    /* unless neg_answer_allowed DSB */
-	    if (!allow_neg_answer)
+	    if (!math_options->allow_neg_answer)
             {
 	      do
 	      {
@@ -1062,16 +1041,19 @@ void add_comet(void)
             }
 	    comets[found].answer = comets[found].eq1 - comets[found].eq2;
 	  }
-	  while (comets[found].answer > max_answer);
+	  while (comets[found].answer > math_options->max_answer);
 	}
 
       else if (comets[found].oper == OPER_MULT)
 	{
 	  /* Multiplication: */
-	
-          comets[found].eq1 = pick_operand(1);
-	  comets[found].eq2 = pick_operand(0);
-	  comets[found].answer = comets[found].eq1 * comets[found].eq2;
+	  do
+          {
+            comets[found].eq1 = pick_operand(1);
+	    comets[found].eq2 = pick_operand(0);
+	    comets[found].answer = comets[found].eq1 * comets[found].eq2;
+          }
+	  while (comets[found].answer > math_options->max_answer);
 	}
 
       else if (comets[found].oper == OPER_DIV)
@@ -1092,7 +1074,7 @@ void add_comet(void)
 	  
 	    comets[found].answer = comets[found].eq1 / comets[found].eq2;
 	  }
-	  while (comets[found].answer > max_answer ||
+	  while (comets[found].answer > math_options->max_answer ||
 		 !in_range(comets[found].eq1 / 2));
 	}
       snprintf(comets[found].formula, FORMULA_LEN,"%d%c%d",
@@ -1248,7 +1230,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (use_sound)
+  if (game_options->use_sound)
     Mix_PauseMusic();
 #endif
   
@@ -1269,7 +1251,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (use_sound)
+  if (game_options->use_sound)
     Mix_ResumeMusic();
 #endif
 
@@ -1419,7 +1401,7 @@ void draw_led_nums(void)
 
   /* begin drawing so as to center display depending on whether minus */
   /* sign needed (4 digit slots) or not (3 digit slots) DSB */
-  if (allow_neg_answer)
+  if (math_options->allow_neg_answer)
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
   else
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
@@ -1429,7 +1411,7 @@ void draw_led_nums(void)
   { 
     if (-1 == i)
     {
-      if (allow_neg_answer)
+      if (math_options->allow_neg_answer)
       {
         if (neg_answer_picked)
           src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
@@ -1469,43 +1451,60 @@ void draw_led_nums(void)
 }
 
 /* Translates mouse events into keyboard events when on-screen keypad used */
-/* FIXME this code uses IMG_KEYPAD to figure out the mouse events even     */
-/* if IMG_KEYPAD_NO_NEG is actually on the screen. This relies on the two  */
-/* graphics having the same shape and key layout. If this changes in the   */
-/* future, this function will need to be rewritten                         */
-
 void game_mouse_event(SDL_Event the_event)
 {
-  int x, y, row, column;
+  int keypad_w, keypad_h, x, y, row, column;
   SDLKey keypad_key = SDLK_UNKNOWN;
+
+  keypad_w = 0;
+  keypad_h = 0;
 
   /* get out unless we really are using keypad */
   if ( level_start_wait 
-    || demo_mode
-    || !use_keypad)
+    || game_options->demo_mode
+    || !game_options->use_keypad)
   {
     return;
   }
   /* make sure keypad image is valid and has non-zero dimensions: */
-  if (!images[IMG_KEYPAD])
+  /* FIXME maybe this checking should be done once at the start */
+  /* of game() rather than with every mouse click */
+  if (math_options->allow_neg_answer)
   {
-    return;
+    if (!images[IMG_KEYPAD])
+      return;
+    else
+    {
+      keypad_w = images[IMG_KEYPAD]->w;
+      keypad_h = images[IMG_KEYPAD]->h;
+    }
   }
-  if (!(images[IMG_KEYPAD]->w)
-    ||!(images[IMG_KEYPAD]->h))
+  else
+  {
+    if (!images[IMG_KEYPAD_NO_NEG])
+      return;
+    else
+    {
+      keypad_w = images[IMG_KEYPAD]->w;
+      keypad_h = images[IMG_KEYPAD]->h;
+    }
+  }
+
+ 
+  if (!keypad_w || !keypad_h)
   {
     return;
   }
 
   /* only proceed if click falls within keypad: */
   if (!((the_event.button.x >=
-        (screen->w / 2) - (images[IMG_KEYPAD]->w / 2) &&
+        (screen->w / 2) - (keypad_w / 2) &&
         the_event.button.x <=
-        (screen->w / 2) + (images[IMG_KEYPAD]->w / 2) &&
+        (screen->w / 2) + (keypad_w / 2) &&
         the_event.button.y >= 
-        (screen->h / 2) - (images[IMG_KEYPAD]->h / 2) &&
+        (screen->h / 2) - (keypad_h / 2) &&
         the_event.button.y <=
-        (screen->h / 2) + (images[IMG_KEYPAD]->h / 2))))
+        (screen->h / 2) + (keypad_h / 2))))
   /* click outside of keypad - do nothing */
   {
     return;
@@ -1513,8 +1512,8 @@ void game_mouse_event(SDL_Event the_event)
   
   else /* click was within keypad */ 
   {
-    x = (the_event.button.x - ((screen->w / 2) - (images[IMG_KEYPAD]->w / 2)));
-    y = (the_event.button.y - ((screen->h / 2) - (images[IMG_KEYPAD]->h / 2)));
+    x = (the_event.button.x - ((screen->w / 2) - (keypad_w / 2)));
+    y = (the_event.button.y - ((screen->h / 2) - (keypad_h / 2)));
  
   /* Now determine what onscreen key was pressed */
   /*                                             */
@@ -1542,8 +1541,8 @@ void game_mouse_event(SDL_Event the_event)
   /*  row and column based on x and y and looks  */
   /*  up the SDlKey accordingly.                 */
 
-    column = x/((images[IMG_KEYPAD]->w)/4);
-    row    = y/((images[IMG_KEYPAD]->h)/4);
+    column = x/((keypad_w)/4);
+    row    = y/((keypad_h)/4);
 
     /* make sure row and column are sane */
     if (column < 0
@@ -1628,7 +1627,7 @@ void game_key_event(SDLKey pressed_key)
     paused = 1;
   }
       
-  if (level_start_wait > 0 || demo_mode)
+  if (level_start_wait > 0 || game_options->demo_mode)
   {
     /* Eat other keys until level start wait has passed,
     or if game is in demo mode: */
@@ -1653,14 +1652,14 @@ void game_key_event(SDLKey pressed_key)
   }
   /* support for negative answer input DSB */
   else if ((pressed_key == SDLK_MINUS || pressed_key == SDLK_KP_MINUS)
-        && allow_neg_answer)  /* do nothing unless neg answers allowed */
+        && math_options->allow_neg_answer)  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer negative: */
     neg_answer_picked = 1;
     tux_pressing = 1;
   }
   else if ((pressed_key == SDLK_PLUS || pressed_key == SDLK_KP_PLUS)
-         && allow_neg_answer)  /* do nothing unless neg answers allowed */
+         && math_options->allow_neg_answer)  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer positive: */
     neg_answer_picked = 0;

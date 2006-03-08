@@ -33,12 +33,13 @@ extern SDL_Surface * images[];
 extern Mix_Chunk * sounds[];
 extern Mix_Music * musics[];
 #endif
-extern int use_sound, fullscreen, use_bkgd, demo_mode, oper_override,
-  use_keypad, allow_neg_answer;
-extern float speed;
+/* extern int use_sound, fullscreen, use_bkgd, demo_mode, oper_override,
+  use_keypad, allow_neg_answer;*/
+/*extern float speed;*/
 extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
-extern int max_answer;
+/*extern int max_answer;*/
 
 void setup(int argc, char * argv[]);
+void cleanup(void);
 
 #endif

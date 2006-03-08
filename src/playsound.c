@@ -22,12 +22,12 @@
 #include <SDL_mixer.h>
 #endif
 #include "setup.h"
-
+#include "tuxmath.h"
 
 void playsound(int snd)
 {
 #ifndef NOSOUND
-  if (use_sound)
+  if (game_options->use_sound)
     Mix_PlayChannel(-1, sounds[snd], 0);
 #endif
 }

@@ -29,7 +29,7 @@
 
 char * credit_text[] = {
   "-TUX, OF MATH COMMAND",  /* '-' at beginning makes highlighted: */
-  "COPYRIGHT 2001-2005",
+  "COPYRIGHT 2001-2006",
   "",
   "PART OF THE 'TUX4KIDS' PROJECT",
   "",
@@ -44,6 +44,8 @@ char * credit_text[] = {
   "GLEN DITCHFIELD",
   "MICHAEL BEHRISCH",
   "DONNY VISZNEKI",
+  "YVES COMBE",
+  "DAVID BRUCE",
   "",
   "-LEAD ARTIST",
   "SAM HART",
@@ -74,6 +76,7 @@ char * credit_text[] = {
   "PETE SALZMAN",
   "ST. CATHERINE ELEM., CINCINNATI, OH",
   "WESTWOOD ELEMENTARY, CINCINNATI, OH",
+  "LAURA BRUCE",
   "",
   "",
   "-WEBSITE",

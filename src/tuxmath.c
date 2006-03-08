@@ -18,12 +18,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+
 #include "setup.h"
 #include "title.h"
 #include "game.h"
 #include "options.h"
 #include "credits.h"
+#include "tuxmath.h"
 
+/* global data: */
+math_option_type* math_options; /* used by setup.c, options.c, game.c */
+game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
 int main(int argc, char * argv[])
 {
@@ -49,7 +54,7 @@ int main(int argc, char * argv[])
   while (!done);
   
   SDL_Quit();
-
+  cleanup();
   return 0;
 }
 

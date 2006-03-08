@@ -1,9 +1,20 @@
 CHANGES.txt for "tuxmath"
 
+2006.Mar.8 (https://svn.tux4kids.net/tuxmath/ - revision 7)
+  Setup:
+    * updated usage() to include all command-line options
+  Credits:
+    * updated credits to include more recent contributions
+  Code:
+    * added tuxmath.h containing the global structs math_options
+      and game_options as well as defaults for all values.
+      Goal is to have one place to look for all global data.
+      David Bruce <dbruce@tampabay.rr.com>
+
 2006.Mar.1 (https://svn.tux4kids.net/tuxmath/ - revision 6)
   Game:
     * Added support for negative subtraction answers.
-      Updated led drawing to include negative sign.
+      Updated LED drawing to include negative sign.
       Updated on-screen keypad to include '+' and '-'. 
       David Bruce <dbruce@tampabay.rr.com>
 

@@ -19,7 +19,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <SDL.h>
+
+#include "tuxmath.h"
 #include "title.h"
 #include "images.h"
 #include "setup.h"
@@ -28,7 +31,6 @@
 
 
 #define START_DEMO_COUNTDOWN 150  /* Some time unit.. not sure yet :) */
-
 
 int title(void)
 {
@@ -119,7 +121,7 @@ int title(void)
   SDL_BlitSurface(images[IMG_NBS], NULL, screen, &dest);
 
 
-  if (demo_mode)
+  if (game_options->demo_mode)
   {
     dest.x = (screen->w - images[IMG_DEMO_SMALL]->w) / 2;
     dest.y = (screen->h - images[IMG_DEMO_SMALL]->h);
@@ -265,7 +267,7 @@ int title(void)
 
       /* Handle demo countdown: */
 
-      if (demo_mode)
+      if (game_options->demo_mode)
       {
 	demo_countdown--;
 

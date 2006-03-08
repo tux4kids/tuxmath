@@ -19,13 +19,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <SDL.h>
+
 #include "options.h"
 #include "images.h"
 #include "setup.h"
 #include "sounds.h"
 #include "playsound.h"
 #include "game.h"
+#include "tuxmath.h"
+/* FIXME figure out what oper_override is supposed to do and make sure */
+/* this file behaves accordingly! */
 
 /* Local (to options.c) 'globals': */
 /* moved to file scope to allow update_selected_option() to use them DSB */
@@ -76,7 +81,7 @@ int options(void)
     {
       /* Maximum answer: */
 
-      snprintf(tmp_str, sizeof(tmp_str), "%04d", max_answer);
+      snprintf(tmp_str, sizeof(tmp_str), "%04d", math_options->max_answer);
       draw_nums(tmp_str,
 		screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
 		y + images[IMG_OPT_MAX_ANSWER]->h);
@@ -86,9 +91,9 @@ int options(void)
     }
     else if (i == OPT_A_SPEED)
     {
-      /* Maximum answer: */
+      /* Speed control: */
 
-      snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
+      snprintf(tmp_str, sizeof(tmp_str), "%.1f", game_options->speed);
       draw_nums(tmp_str,
 		screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
 		y + images[IMG_OPT_SPEED]->h);
@@ -313,9 +318,9 @@ void update_selected_option(int option)
 
     else if (option == OPT_A_MAX)
     {
-      max_answer = (max_answer * 2) / 3;
-      if (max_answer < 12)
-        max_answer = 144;
+      math_options->max_answer = (math_options->max_answer * 2) / 3;
+      if (math_options->max_answer < 12)
+        math_options->max_answer = 144;
 
       dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
       dest.y = (images[IMG_OPTIONS]->h + 8 +
@@ -325,7 +330,7 @@ void update_selected_option(int option)
       dest.h = images[IMG_OPT_MAX_ANSWER]->h;
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
-      snprintf(tmp_str, sizeof(tmp_str), "%04d", max_answer);
+      snprintf(tmp_str, sizeof(tmp_str), "%04d", math_options->max_answer);
       draw_nums(tmp_str,
                 screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
                 (images[IMG_OPTIONS]->h + 8 +
@@ -336,9 +341,9 @@ void update_selected_option(int option)
 
     else if (option == OPT_A_SPEED)
     {
-      speed = speed - 0.1;
-      if (speed < 0.1)
-        speed = 5;
+      game_options->speed = game_options->speed - 0.1;
+      if (game_options->speed < 0.1)
+        game_options->speed = 5;
 
       dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
       dest.y = (images[IMG_OPTIONS]->h + 8 +
@@ -349,7 +354,7 @@ void update_selected_option(int option)
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
 
-      snprintf(tmp_str, sizeof(tmp_str), "%.1f", speed);
+      snprintf(tmp_str, sizeof(tmp_str), "%.1f", game_options->speed);
       draw_nums(tmp_str,
                 screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
                 (images[IMG_OPTIONS]->h + 8 +
