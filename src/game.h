@@ -58,8 +58,25 @@ enum {
   NUM_Q_RANGES
 };
 
-int game(void);
+typedef struct range_type {
+  int min;
+  int max;
+} range_type;
 
+extern range_type ranges[NUM_Q_RANGES];
+
+enum {
+  GAME_IN_PROGRESS,
+  GAME_OVER_WON,
+  GAME_OVER_LOST,
+  GAME_OVER_OTHER,
+  GAME_OVER_ESCAPE,
+  GAME_OVER_WINDOW_CLOSE,
+  GAME_OVER_ERROR
+};
+
+int game(void);
+/* draw_nums() is used in options.c so need extern linkage */
 void draw_nums(char* str, int x, int y);
 
 #endif

@@ -22,6 +22,8 @@
 
 #include <SDL.h>
 
+#include "mathcards.h"
+
 #include "options.h"
 #include "images.h"
 #include "setup.h"
@@ -29,6 +31,7 @@
 #include "playsound.h"
 #include "game.h"
 #include "tuxmath.h"
+
 /* FIXME figure out what oper_override is supposed to do and make sure */
 /* this file behaves accordingly! */
 
@@ -54,6 +57,12 @@ int options(void)
   dest.x = (screen->w - images[IMG_OPTIONS]->w) / 2;
   dest.y = 0;
   SDL_BlitSurface(images[IMG_OPTIONS], NULL, screen, &dest);
+
+  /* Syncrhonize old opers[] array with selections from MathCards */
+  opers[OPT_OP_ADD] = MC_AddAllowed();
+  opers[OPT_OP_SUB] = MC_SubAllowed();
+  opers[OPT_OP_MUL] = MC_MultAllowed();
+  opers[OPT_OP_DIV] = MC_DivAllowed();
 
 
   /* Draw options: */
@@ -81,7 +90,7 @@ int options(void)
     {
       /* Maximum answer: */
 
-      snprintf(tmp_str, sizeof(tmp_str), "%04d", math_options->max_answer);
+      snprintf(tmp_str, sizeof(tmp_str), "%04d", MC_MaxAnswer());
       draw_nums(tmp_str,
 		screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
 		y + images[IMG_OPT_MAX_ANSWER]->h);
@@ -303,8 +312,34 @@ void update_selected_option(int option)
   {
     if (option >= OPT_OP_ADD && option < OPT_OP_ADD + NUM_OPERS)
     {
+      /* toggle selection of math operation - old opers array */
+      /* FIXME opers[] to go away                             */
       opers[option - OPT_OP_ADD] = !opers[option - OPT_OP_ADD];
-
+      /* toggle selection in new MathCards backend: */
+      switch (option)
+      {
+        case OPT_OP_ADD:
+        {
+          MC_SetAddAllowed(!MC_AddAllowed());
+          break;
+	}
+        case OPT_OP_SUB:
+        {
+          MC_SetSubAllowed(!MC_SubAllowed());
+          break;
+        }
+        case OPT_OP_MUL:
+        {
+          MC_SetMultAllowed(!MC_MultAllowed());
+          break;
+        }
+        case OPT_OP_DIV:
+        {
+          MC_SetDivAllowed(!MC_DivAllowed());
+          break;
+        }
+      }
+ 
       dest.x = screen->w - images[IMG_OPT_CHECK]->w - 16;
       dest.y = (images[IMG_OPTIONS]->h + 8 +
                ((option - OPT_OP_ADD) *
@@ -318,9 +353,9 @@ void update_selected_option(int option)
 
     else if (option == OPT_A_MAX)
     {
-      math_options->max_answer = (math_options->max_answer * 2) / 3;
-      if (math_options->max_answer < 12)
-        math_options->max_answer = 144;
+      MC_SetMaxAnswer((MC_MaxAnswer() * 2) / 3);
+      if (MC_MaxAnswer() < 12)
+        MC_SetMaxAnswer(144);
 
       dest.x = screen->w - ((images[IMG_NUMS]->w / 14) * 4) - 16;
       dest.y = (images[IMG_OPTIONS]->h + 8 +
@@ -330,7 +365,7 @@ void update_selected_option(int option)
       dest.h = images[IMG_OPT_MAX_ANSWER]->h;
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
-      snprintf(tmp_str, sizeof(tmp_str), "%04d", math_options->max_answer);
+      snprintf(tmp_str, sizeof(tmp_str), "%04d", MC_MaxAnswer());
       draw_nums(tmp_str,
                 screen->w - ((images[IMG_NUMS]->w / 14) * 2) - 16,
                 (images[IMG_OPTIONS]->h + 8 +
@@ -365,6 +400,7 @@ void update_selected_option(int option)
 
     else if (option == OPT_Q_RANGE)
     {
+    /* FIXME question ranges now handled in MathCards */
     /* Change which ranges are available: */
       range_bits = range_bits + 1;
       if (range_bits >= (1 << NUM_Q_RANGES))
@@ -399,7 +435,36 @@ void update_selected_option(int option)
             + images[IMG_OPT_RNG_1_5 + j * 2 + range_enabled[j]]-> w 
             + 16;
       }
+      
+      /* update settings in MathCards: */
+      {
+        int lowest_range, highest_range, minimum, maximum;
+        lowest_range = NUM_Q_RANGES - 1;
+        highest_range = 0;
+
+        /* find lowest and highest enabled ranges */
+        for (j = 0; j < NUM_Q_RANGES; j++)
+        {
+          if (range_enabled[j] && j < lowest_range)
+            lowest_range = j;
+          if (range_enabled[j] && j > highest_range)
+            highest_range = j;
+        } 
+        minimum = ranges[lowest_range].min;
+        maximum = ranges[highest_range].max;
+
+        /* update MathCards: */
+        MC_SetAddMin(minimum);
+        MC_SetAddMax(maximum);
+        MC_SetSubMin(minimum);
+        MC_SetSubMax(maximum);
+        MC_SetMultMin(minimum);
+        MC_SetMultMax(maximum);
+        MC_SetDivMin(minimum);
+        MC_SetDivMax(maximum);
+      }
     }
+ 
     /* same sound for all option updates */
     playsound(SND_LASER);
   }

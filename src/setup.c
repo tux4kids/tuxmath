@@ -29,6 +29,8 @@
 #endif
 #include <SDL_image.h>
 
+#include "mathcards.h"
+
 #include "tuxmath.h"
 #include "setup.h"
 #include "images.h"
@@ -164,16 +166,14 @@ Mix_Music * musics[NUM_MUSICS];
 
 int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
-math_option_type* math_options;
 game_option_type* game_options;
 
 /* Local function prototypes: */
 
 void seticon(void);
 void usage(int err, char * cmd);
-int initialize_math_options(math_option_type* opts);
+
 int initialize_game_options(game_option_type* opts);
-void print_math_options(math_option_type* opts);
 void print_game_options(game_option_type* opts);
 
 /* --- Set-up function! --- */
@@ -185,31 +185,29 @@ void setup(int argc, char * argv[])
 
   screen = NULL;
 
-  /* initialize game_options and math_options structs with defaults DSB */
-  /* FIXME: Program should load options from disk */
-  math_options = malloc(sizeof(math_option_type));
-  if (!initialize_math_options(math_options))
+  if (!MC_Initialize())
   {
-    printf("\nUnable to initialize math_options");
-    fprintf(stderr, "\nUnable to initialize math_options");
+    printf("\nUnable to initialize MathCards\n");
+    fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
 
+  /* initialize game_options struct with defaults DSB */
   game_options = malloc(sizeof(game_option_type));
   if (!initialize_game_options(game_options))
   {
-    printf("\nUnable to initialize game_options");
-    fprintf(stderr, "\nUnable to initialize game_options");
+    printf("\nUnable to initialize game_options\n");
+    fprintf(stderr, "\nUnable to initialize game_options\n");
     exit(1);
   }
 
-
-
+/* FIXME will not need this when MathCards used */ 
+/* 
   for (i = 0; i < NUM_OPERS; i++)
   {
     opers[i] = 1;
   }
-
+*/
   for (i = 0; i < NUM_Q_RANGES; i++)
   { 
     range_enabled[i] = 1;
@@ -339,7 +337,7 @@ void setup(int argc, char * argv[])
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
     {
-      math_options->allow_neg_answer = 1;
+      MC_SetAllowNegAnswer(1);
     }
     else if (strcmp(argv[i], "--speed") == 0 ||
 	     strcmp(argv[i], "-s") == 0)
@@ -615,99 +613,17 @@ void setup(int argc, char * argv[])
 /* free any heap memory used during game DSB */
 void cleanup()
 {
-  if (math_options)
-    free(math_options);
   if (game_options)
     free(game_options);
+  MC_EndGame();
 }
 
 /* Set up math_options struct with defaults from tuxmath.h, */
 /* with simple sanity check for negatives                   */
 /* FIXME Should there be more error checking here?          */
+/* FIXME move this to mathcards.c                           */
 
-int initialize_math_options(math_option_type* opts)
-{
-  /* bail out if no struct */
-  if (!opts)
-    return 0;
 
-  /* set general math options */
-  opts->allow_neg_answer = DEFAULT_ALLOW_NEG_ANSWER;
-  opts->max_answer = DEFAULT_MAX_ANSWER;
-  opts->max_questions = DEFAULT_MAX_QUESTIONS;
-  opts->format_answer_last = DEFAULT_FORMAT_ANSWER_LAST;
-  opts->format_answer_first = DEFAULT_FORMAT_ANSWER_FIRST;
-  opts->format_answer_middle = DEFAULT_FORMAT_ANSWER_MIDDLE;
-  opts->question_copies = DEFAULT_QUESTION_COPIES;
-  /* set addition options */
-  opts->addition_allowed = DEFAULT_ADDITION_ALLOWED;
-  opts->min_augend = DEFAULT_MIN_AUGEND;
-  opts->max_augend = DEFAULT_MAX_AUGEND;
-  opts->min_addend = DEFAULT_MIN_ADDEND;
-  opts->max_addend = DEFAULT_MAX_ADDEND;
-  /* set subtraction options */
-  opts->subtraction_allowed = DEFAULT_SUBTRACTION_ALLOWED;
-  opts->min_minuend = DEFAULT_MIN_MINUEND;
-  opts->max_minuend = DEFAULT_MAX_MINUEND;
-  opts->min_subtrahend = DEFAULT_MIN_SUBTRAHEND;
-  opts->max_subtrahend = DEFAULT_MAX_SUBTRAHEND;
-  /* set multiplication options */
-  opts->multiplication_allowed = DEFAULT_MULTIPLICATION_ALLOWED;
-  opts->min_multiplier = DEFAULT_MIN_MULTIPLIER;
-  opts->max_multiplier = DEFAULT_MAX_MULTIPLIER;
-  opts->min_multiplicand = DEFAULT_MIN_MULTIPLICAND;
-  opts->max_multiplicand = DEFAULT_MAX_MULTIPLICAND;
-  /* set division options */
-  opts->division_allowed = DEFAULT_DIVISION_ALLOWED;
-  opts->min_divisor = DEFAULT_MIN_DIVISOR;
-  opts->max_divisor = DEFAULT_MAX_DIVISOR;
-  opts->min_quotient = DEFAULT_MIN_QUOTIENT;
-  opts->max_quotient = DEFAULT_MAX_QUOTIENT;
-
-  /* if no negatives to be used, reset any negatives to 0 */
-  if (!opts->allow_neg_answer)
-  {
-    if (opts->min_augend < 0)
-      opts->min_augend = 0;
-    if (opts->max_augend < 0)
-      opts->max_augend = 0;
-    if (opts->min_addend < 0)
-      opts->min_addend = 0;
-    if (opts->max_addend < 0)
-      opts->max_addend = 0;
-
-    if (opts->min_minuend < 0)
-      opts->min_minuend = 0;
-    if (opts->max_minuend < 0)
-      opts->max_minuend = 0;
-    if (opts->min_subtrahend < 0)
-      opts->min_subtrahend = 0;
-    if (opts->max_subtrahend < 0)
-      opts->max_subtrahend = 0;
-
-    if (opts->min_multiplier < 0)
-      opts->min_multiplier = 0;
-    if (opts->max_multiplier < 0)
-      opts->max_multiplier = 0;
-    if (opts->min_multiplicand < 0)
-      opts->min_multiplicand = 0;
-    if (opts->max_multiplicand < 0)
-      opts->max_multiplicand = 0;
-
-    if (opts->min_divisor < 0)
-      opts->min_divisor = 0;
-    if (opts->max_divisor < 0)
-      opts->max_divisor = 0;
-    if (opts->min_quotient < 0)
-      opts->min_quotient = 0;
-    if (opts->max_quotient < 0)
-      opts->max_quotient = 0;
-  }
-  
-  /* for testing purposes */
-  /* print_math_options(opts); */ 
-  return 1;
-}
 
 int initialize_game_options(game_option_type* opts)
 {
@@ -724,7 +640,11 @@ int initialize_game_options(game_option_type* opts)
   opts->use_keypad = DEFAULT_USE_KEYPAD;
   opts->speed = DEFAULT_SPEED;
   opts->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
+  opts->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
+  opts->max_speed = DEFAULT_MAX_SPEED;
+  opts->slow_after_wrong = DEFAULT_SLOW_AFTER_WRONG;
   opts->reuse_questions = DEFAULT_REUSE_QUESTIONS;
+  opts->extra_comets = DEFAULT_EXTRA_COMETS;
   opts->max_comets = DEFAULT_MAX_COMETS;
   opts->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   opts->num_bkgds = DEFAULT_NUM_BKGDS;
@@ -735,48 +655,7 @@ int initialize_game_options(game_option_type* opts)
   return 1;
 }
 
-/* prints struct to stdout for testing purposes */
-void print_math_options(math_option_type* opts)
-{
- /* bail out if no struct */
-  if (!opts)
-    return;
 
-  printf("\nPrinting members of math_options struct:\n");
-  printf("\nGeneral math options:\n");
-  printf("allow_neg_answer:\t%d\n", opts->allow_neg_answer);
-  printf("max_answer:\t%d\n", opts->max_answer);
-  printf("max_questions:\t%d\n", opts->max_questions);
-  printf("format_answer_last:\t%d\n", opts->format_answer_last);
-  printf("format_answer_first:\t%d\n", opts->format_answer_first);
-  printf("format_answer_middle:\t%d\n", opts->format_answer_middle);
-  printf("question_copies:\t%d\n", opts->question_copies);
-
-  printf("\nSpecific math operation options:\n");
-  printf("addition_allowed:\t%d\n", opts->addition_allowed);
-  printf("min_augend:\t%d\n", opts->min_augend);
-  printf("max_augend:\t%d\n", opts->max_augend);
-  printf("min_addend:\t%d\n", opts->min_addend);
-  printf("max_addend:\t%d\n", opts->max_addend);
-
-  printf("subtraction_allowed\t%d\n", opts->subtraction_allowed);
-  printf("min_minuend:\t%d\n", opts->min_minuend);
-  printf("max_minuend:\t%d\n", opts->max_minuend);
-  printf("min_subtrahend:\t%d\n", opts->min_subtrahend);
-  printf("max_subtrahend:\t%d\n", opts->max_subtrahend);
-
-  printf("multiplication_allowed:\t%d\n", opts->multiplication_allowed);
-  printf("min_multiplier:\t%d\n", opts->min_multiplier);
-  printf("max_multiplier:\t%d\n", opts->max_multiplier);
-  printf("min_multiplicand:\t%d\n", opts->min_multiplicand);
-  printf("max_multiplicand:\t%d\n", opts->max_multiplicand);
-
-  printf("division_allowed:\t%d\n", opts->division_allowed);
-  printf("min_divisor:\t%d\n",opts->min_divisor);
-  printf("max_divisor:\t%d\n", opts->max_divisor);
-  printf("min_quotient:\t%d\n", opts->min_quotient);
-  printf("max_quotient:\t%d\n", opts->max_quotient);
-}
 
 /* prints struct to stdout for testing purposes */
 void print_game_options(game_option_type* opts)
@@ -795,6 +674,15 @@ void print_game_options(game_option_type* opts)
   printf("use_keypad:\t%d\n", opts->use_keypad);
   printf("reuse_questions:\t%d\n", opts->reuse_questions);
   printf("speed:\t%f\n", opts->speed);
+  printf("allow_speedup:\t%d\n", opts->allow_speedup);
+  printf("speedup_factor:\t%f\n", opts->speedup_factor);
+  printf("max_speed:\t%f\n", opts->max_speed);
+  printf("slow_after_wrong:\t%d\n", opts->slow_after_wrong);
+  printf("extra_comets:\t%d\n", opts->extra_comets);
+  printf("max_comets:\t%d\n", opts->max_comets);
+  printf("num_cities:\t%d\n", opts->num_cities);
+  printf("num_bkgds:\t%d\n", opts->num_bkgds);
+  printf("max_city_colors:\t%d\n", opts->max_city_colors);
 }
 
 /* Set the application's icon: */

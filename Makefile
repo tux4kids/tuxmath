@@ -61,7 +61,8 @@ clean:
 
 
 tuxmath:	obj/tuxmath.o obj/setup.o obj/title.o obj/game.o \
-		obj/options.o obj/credits.o obj/playsound.o
+		obj/options.o obj/credits.o obj/playsound.o \
+                obj/mathcards.o
 	@echo "LINKING!"
 	$(CC) $(CFLAGS) $^ -o tuxmath $(LIBS)
 
@@ -111,3 +112,7 @@ obj/playsound.o:	src/playsound.c src/playsound.h src/setup.h \
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/playsound.c -c -o obj/playsound.o
 
+obj/mathcards.o:	src/mathcards.c src/mathcards.h 
+	@echo "BUILDING mathcards.o"
+	-mkdir -p obj
+	$(CC) $(CFLAGS) src/mathcards.c -c -o obj/mathcards.o

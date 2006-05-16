@@ -1,5 +1,31 @@
 CHANGES.txt for "tuxmath"
 
+2006.May.16 (https://svn.tux4kids.net/tuxmath/ - revision 8)
+  Code:
+    * Major changes to internal workings of program. Everything 
+      related to generation of math questions is now handled by
+      a backend called MathCards, which generates question lists
+      based on parameters in a struct called math_opts. MathCards
+      is (obviously) contained in two new files, mathcards.h and
+      mathcards.c.  For now, many options can only be set at 
+      compile time by changing the defaults in mathcards.h. 
+      MathCards allows fine-grained control of the questions to
+      be asked, and allows the player to "win" if all of the
+      questions in the list are answered while the cities are
+      still alive.  By default, game behavior is unchanged from
+      previously.
+    * Main game() function in game.c has been split into several
+      smaller functions; updated to use MathCards. 
+    * Options() updated to use MathCards.
+  Game:
+    * demo mode now handles negative answers properly.
+
+  Note: the code contains many FIXMEs and TODOs and should be
+      tested more before being packaged for a distribution.
+      I would describe revision 8 as a developer or alpha release.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2006.Mar.8 (https://svn.tux4kids.net/tuxmath/ - revision 7)
   Setup:
     * updated usage() to include all command-line options

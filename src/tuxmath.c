@@ -27,7 +27,7 @@
 #include "tuxmath.h"
 
 /* global data: */
-math_option_type* math_options; /* used by setup.c, options.c, game.c */
+/*MC_Options* math_options;  used by setup.c, options.c, game.c */
 game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
 int main(int argc, char * argv[])
