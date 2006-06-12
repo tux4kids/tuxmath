@@ -2,7 +2,7 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-February 21, 2003
+May 18, 2006
 
 
 Objective
@@ -50,7 +50,21 @@ Running The Program
   --------------------
     The following command-line options can be sent to the program.
 
-      --fullscreen    -  Run the game in full screen, instead of in a window,
+     --norepeats      -  Game consists of working through a list of questions
+      -r                 generated based on the selected options (or defaults).
+                         If a comet strikes a city without being shot down by
+                         the player, the question is reinserted into the list
+                         in a random location. If the player answers all questions
+                         correctly before the cities are destroyed, he/she wins.
+                         If all cities get destroyed, the game ends in defeat.
+
+     --answersfirst   -  to ask questions in format: ? + num2 = num3 instead of 
+                         default format: num1 + num2 = ?.
+
+     --answersmiddle  -  to ask questions in format: num1 + ? = num3 instead of
+                         default format: num1 + num2 = ?.
+
+     --fullscreen     -  Run the game in full screen, instead of in a window,
       -f                 if possible.
 
       --nosound       -  Do not play any sounds or music.
@@ -123,7 +137,7 @@ Program Navigation
   --------------
     On this screen, you can select some of the gameplay options or return to 
     the Title Screen.  Currently, the four math operations can be enabled
-    or disenabled, as well as the speed setting and ranges of numbers to use. 
+    or disabled, as well as the speed setting and ranges of numbers to use. 
 
     Use the [UP] and [DOWN] arrow keys to select what you wish to do,
     and then press [ENTER / RETURN /SPACEBAR].  Or, use the mouse to click the
@@ -151,10 +165,13 @@ How To Play
     To destroy it:
     --------------
       First, figure out the answer to the equation.
-      For example, "3 x 4" would be "12"
+      For example, "3 x 4 = ?" would be "12"
 
       Second, type in the answer.  As you type numbers on the keyboard, they
       will appear in the "LED"-style display at the top center of the screen.
+      If negative answers are enabled, there will be a fourth place in the
+      LED display for the minus sign.  The '-' and '+' keys will toggle the
+      minus sign on and off, respectively.
 
       Finally, press [ENTER / RETURN].
 
@@ -199,7 +216,20 @@ How To Play
     destroyed.  If the city is hit by another comet, it will be
     completely destroyed.
 
-    Once you lose all of your cities, the game will end.
+  Ending The Game
+  ---------------
+    By default, the game operates in an arcade-style manner, continuing
+    until you lose all of your cities.  A GAME OVER screen is displayed.
+    By pressing any key or clicking the mouse, you return to the title
+    screen.
+
+    It is now possible to play through a defined list of questions. This
+    mode is selected via the "--norepeats" command line argument. By
+    default, the questions are asked in a random order.  If answered
+    correctly, they are removed.  A question that is not answered correctly
+    (allowing the comet to destroy its target) will reappear in random
+    order.  If all questions are successfully answered before the cities
+    have been destroyed, the player wins and a "victory" screen is displayed.
 
 
   Regaining Cities
@@ -215,7 +245,30 @@ How To Play
 Setting Game Options
 --------------------
   [ UNDER CONSTRUCTION ]
+  This is still under construction, but many things can be set.  For now,
+  there are three ways to set game options.
 
+  1. Many command-line options are supported (see above).
+
+  2. The "Options" screen allows several parameters to be set at run-time,
+  or reset between individual games while the program is still running.
+  Currently supported settings include the math operations to be used for
+  questions, the starting speed, the maximum value of answers (for division
+  questions, this is the maximum size of the dividend, not actually the 
+  answer), and ranges of numbers to be used to generate questions.
+
+  3. Editing the default values in tuxmath.h and mathcards.h and recompiling.
+  The default settings for general game options are contained in tuxmath.h, and
+  the defaults for math question settings are in mathcards.h.  Very fine-grained
+  control over game behavior is offered, but this isn't exactly a user-friendly
+  method of controlling the program.
+
+  Two main improvements are planned.  First, the program should read
+  and write the settings to disk in a human-readable fashion, where they
+  could be modified with a text editor.  This also would allow creation of
+  a series of "lessons" that could be played in a planned order.
+  Second, the "Options" screen needs to be overhauled to give access to all
+  settings from within the program.
 
 
 Setting Administrative Options
@@ -231,7 +284,7 @@ Setting Administrative Options
   On the other hand, you may wish to lock-in the other three kinds
   of equations, so that the players cannot disable any of them.
   All games will always have addition, subtraction and multiplication
-  problems, but will never had division problems.
+  problems, but will never have division problems.
 
   [ UNDER CONSTRUCTION ]
 
@@ -260,3 +313,6 @@ Software Used
 
   The GIMP
     http://www.gimp.org/
+
+  KDevelop
+    http://www.kdevelop.org/

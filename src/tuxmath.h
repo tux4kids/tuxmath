@@ -20,7 +20,8 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-#undef TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define NOSOUND
+#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
@@ -60,7 +61,7 @@ extern game_option_type* game_options; /* used by setup.c, options.c, game.c */
 #define DEFAULT_REUSE_QUESTIONS 0
 #define DEFAULT_SPEED 1
 #define DEFAULT_ALLOW_SPEEDUP 1
-#define DEFAULT_SPEEDUP_FACTOR 1
+#define DEFAULT_SPEEDUP_FACTOR 1.2
 #define DEFAULT_MAX_SPEED 10
 #define DEFAULT_SLOW_AFTER_WRONG 0
 #define DEFAULT_EXTRA_COMETS 2

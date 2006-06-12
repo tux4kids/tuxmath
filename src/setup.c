@@ -107,6 +107,9 @@ static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/comets/cometex1a.png",
   DATA_PREFIX "/images/comets/cometex1.png",
   DATA_PREFIX "/images/comets/cometex1.png",
+  DATA_PREFIX "/images/comets/mini_comet1.png",
+  DATA_PREFIX "/images/comets/mini_comet2.png",
+  DATA_PREFIX "/images/comets/mini_comet3.png",
   DATA_PREFIX "/images/status/nums.png",
   DATA_PREFIX "/images/status/lednums.png",
   DATA_PREFIX "/images/status/led_neg_sign.png",
@@ -116,12 +119,17 @@ static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/keypad.png",
   DATA_PREFIX "/images/status/keypad_no_neg.png",
   DATA_PREFIX "/images/tux/console.png",
+  DATA_PREFIX "/images/tux/console_led.png",
   DATA_PREFIX "/images/tux/tux-console1.png",
   DATA_PREFIX "/images/tux/tux-console2.png",
   DATA_PREFIX "/images/tux/tux-console3.png",
   DATA_PREFIX "/images/tux/tux-console4.png",
   DATA_PREFIX "/images/tux/tux-relax1.png",
   DATA_PREFIX "/images/tux/tux-relax2.png",
+  DATA_PREFIX "/images/tux/tux-egypt1.png",
+  DATA_PREFIX "/images/tux/tux-egypt2.png",
+  DATA_PREFIX "/images/tux/tux-egypt3.png",
+  DATA_PREFIX "/images/tux/tux-egypt4.png",
   DATA_PREFIX "/images/tux/tux-drat.png",
   DATA_PREFIX "/images/tux/tux-yipe.png",
   DATA_PREFIX "/images/tux/tux-yay1.png",
@@ -134,7 +142,8 @@ static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/wave.png",
   DATA_PREFIX "/images/status/score.png",
   DATA_PREFIX "/images/status/numbers.png",
-  DATA_PREFIX "/images/status/gameover.png"
+  DATA_PREFIX "/images/status/gameover.png",
+  DATA_PREFIX "/images/status/gameover_won.png"
 };
 
 
@@ -192,6 +201,7 @@ void setup(int argc, char * argv[])
     exit(1);
   }
 
+
   /* initialize game_options struct with defaults DSB */
   game_options = malloc(sizeof(game_option_type));
   if (!initialize_game_options(game_options))
@@ -201,13 +211,7 @@ void setup(int argc, char * argv[])
     exit(1);
   }
 
-/* FIXME will not need this when MathCards used */ 
-/* 
-  for (i = 0; i < NUM_OPERS; i++)
-  {
-    opers[i] = 1;
-  }
-*/
+
   for (i = 0; i < NUM_Q_RANGES; i++)
   { 
     range_enabled[i] = 1;
@@ -253,6 +257,12 @@ void setup(int argc, char * argv[])
 	"When you lose all of your cities, the game ends.\n\n");
 
       printf("Run the game with:\n"
+        "--norepeats      - to ask each question only once, allowing player to\n"
+        "                   win game if all questions successfully answered\n"
+        "--answersfirst   - to ask questions in format: ? + num2 = num3\n"
+        "                   instead of default format: num1 + num2 = ?\n"
+        "--answersmiddle  - to ask questions in format: num1 + ? = num3\n"
+        "                   instead of default format: num1 + num2 = ?\n"
         "--nosound        - to disable sound/music\n"
 	"--nobackground   - to disable background photos (for slower systems)\n"
 	"--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
@@ -339,6 +349,23 @@ void setup(int argc, char * argv[])
     {
       MC_SetAllowNegAnswer(1);
     }
+    else if (strcmp(argv[i], "--norepeats") == 0 ||
+             strcmp(argv[i], "-r") == 0)
+    {
+      MC_SetRecycleCorrects(0);
+    }
+    else if (strcmp(argv[i], "--answersfirst") == 0)
+    {
+      MC_SetFormatAnswerLast(0);
+      MC_SetFormatAnswerFirst(1);
+      MC_SetFormatAnswerMiddle(0);
+    }
+    else if (strcmp(argv[i], "--answersmiddle") == 0)
+    {
+      MC_SetFormatAnswerLast(0);
+      MC_SetFormatAnswerFirst(0);
+      MC_SetFormatAnswerMiddle(1);
+    }
     else if (strcmp(argv[i], "--speed") == 0 ||
 	     strcmp(argv[i], "-s") == 0)
     {
@@ -403,6 +430,7 @@ void setup(int argc, char * argv[])
     game_options->use_keypad = 0;
   }
 
+
   
   /* Init SDL Video: */
 
@@ -414,7 +442,10 @@ void setup(int argc, char * argv[])
 	      "%s\n\n", SDL_GetError());
       exit(1);
     }
-  
+
+  printf("before SDL Audio\n");
+
+
   /* Init SDL Audio: */
 
 #ifndef NOSOUND
@@ -430,11 +461,19 @@ void setup(int argc, char * argv[])
 	  game_options->use_sound = 0;
         }
     }
-  
+
+   printf("middle of Audio\n");
+ 
   if (game_options->use_sound)
-    {
-      if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
+  {
+    printf("using sound \n"); 
+       if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
         {
+          printf( "\nWarning: I could not set up audio for 44100 Hz "
+	          "16-bit stereo.\n"
+	          "The Simple DirectMedia error that occured was:\n"
+	          "%s\n\n", SDL_GetError());
+
           fprintf(stderr,
 	          "\nWarning: I could not set up audio for 44100 Hz "
 	          "16-bit stereo.\n"
@@ -442,10 +481,12 @@ void setup(int argc, char * argv[])
 	          "%s\n\n", SDL_GetError());
           game_options->use_sound = 0;
         }
-    }
+   }
 
 #endif
-  
+
+  printf("after SDL Audio\n");
+ 
 
   if (game_options->fullscreen)
   {
@@ -479,13 +520,13 @@ void setup(int argc, char * argv[])
 
   SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 
-
   if (game_options->use_sound)
     total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
   else
     total_files = NUM_IMAGES;
-  
 
+
+  
   /* Load images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
@@ -541,6 +582,8 @@ void setup(int argc, char * argv[])
     SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
     SDL_Flip(screen);
   }
+
+  printf("all images loaded\n");
 
 #ifndef NOSOUND
   if (game_options->use_sound)
@@ -615,13 +658,9 @@ void cleanup()
 {
   if (game_options)
     free(game_options);
+  /* frees any heap used by MathCards: */
   MC_EndGame();
 }
-
-/* Set up math_options struct with defaults from tuxmath.h, */
-/* with simple sanity check for negatives                   */
-/* FIXME Should there be more error checking here?          */
-/* FIXME move this to mathcards.c                           */
 
 
 

@@ -36,6 +36,7 @@ int starting_length = 0;
 /* to give file scope rather than extern scope.          */
 
 static MC_MathQuestion* generate_list(void);
+static int validate_question(int n1, int n2, int n3);
 static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
 static MC_MathQuestion* create_node_from_card(MC_FlashCard* card);
 static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
@@ -317,7 +318,7 @@ int MC_StartGameUsingWrongs(void)
        /* to set up list based on math_opts               */
   {
     #ifdef MC_DEBUG
-    printf("\nNo wrong questions to review!\n");
+    printf("\nNo wrong questions to review - generate list from math_opts\n");
     printf("\nLeaving MC_StartGameUsingWrongs()\n");
     #endif
 
@@ -416,7 +417,7 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   #endif
   
   answered_correctly++;
-questions_pending--;
+  questions_pending--;
 
   if (math_opts->recycle_corrects)
   /* reinsert question into question list at random location */
@@ -558,18 +559,18 @@ int MC_MissionAccomplished(void)
   }
 }
 
-/*  Returns 1 if no more questions left (either in list   */
-/*  or "in play"                                          */
-int MC_GameOver(void)
+/*  Returns number of questions left (either in list       */
+/*  or "in play")                                          */
+int MC_TotalQuestionsLeft(void)
 {
-  return !unanswered;
+  return unanswered;
 }
 
-/*  Returns 1 if no more questions left in list, NOT    */
+/*  Returns number of questions left in list, NOT       */
 /*  including questions currently "in play".            */
-int MC_NoQuestionsLeft(void)
+int MC_ListQuestionsLeft(void)
 {
-  return !quest_list_length;
+  return quest_list_length;
 }
 
 
@@ -1360,15 +1361,15 @@ of this file) */
 
 /* using parameters from the mission struct, create linked list of "flashcards" */
 /* FIXME should figure out how to proceed correctly if we run out of memory */
-/* FIXME implement question formats and question_copies flags */
-/* FIXME handle max_answer correctly, even if negative */
+/* FIXME very redundant code - figure out way to iterate through different */
+/* math operations and question formats                                    */
 MC_MathQuestion* generate_list(void)
 {
   MC_MathQuestion* top_of_list = 0;
   MC_MathQuestion* end_of_list = 0;
   MC_MathQuestion* tmp_ptr = 0;
 
-  int i, j;
+  int i, j, k;
   int length = 0;
 
   #ifdef MC_DEBUG
@@ -1377,23 +1378,62 @@ MC_MathQuestion* generate_list(void)
   #endif
  
   /* add nodes for each math operation allowed */
+
+
   if (math_opts->addition_allowed)
   {
     for (i = math_opts->min_augend; i <= math_opts->max_augend; i++)
     {
       for (j = math_opts->min_addend; j <= math_opts->max_addend; j++)
       {
-       /* prevent negative numbers if desired */
-        if (math_opts->allow_neg_answer || ((i >= 0) && (j >=0)))
+        /* check if max_answer exceeded or if question */
+        /* contains undesired negative values:         */
+        if (validate_question(i, j, i + j))
         {  
-          /* make sure max_questions not exceeded */
-          if (length < math_opts->max_questions)
+          /* put in the desired number of copies: */
+          for (k = 0; k < math_opts->question_copies; k++)
           {
-            tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
-            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-            end_of_list = tmp_ptr;
-            length++; 
-          } 
+            /* put in questions in each selected format: */
+
+            /* questions like num1 + num2 = ? */
+            if (math_opts->format_answer_last)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like num1 + ? = num3 */
+            if (math_opts->format_answer_middle)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_MIDDLE);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like ? + num2 = num3 */
+            if (math_opts->format_answer_first)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_FIRST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+          }
         }
       }
     }
@@ -1405,17 +1445,54 @@ MC_MathQuestion* generate_list(void)
     {
       for (j = math_opts->min_subtrahend; j <= math_opts->max_subtrahend; j++)
       {
-        /* prevent negative numbers if desired */
-        if (math_opts->allow_neg_answer || (i >= j))
-        { 
-          /* make sure max_questions not exceeded */
-          if (length < math_opts->max_questions)
+        /* check if max_answer exceeded or if question */
+        /* contains undesired negative values:         */
+        if (validate_question(i, j, i - j))
+        {  
+          /* put in the desired number of copies: */
+          for (k = 0; k < math_opts->question_copies; k++)
           {
-            tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_LAST);
-            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-            end_of_list = tmp_ptr;
-            length++;
-          } 
+            /* put in questions in each selected format: */
+
+            /* questions like num1 - num2 = ? */
+            if (math_opts->format_answer_last)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_LAST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like num1 - ? = num3 */
+            if (math_opts->format_answer_middle)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_MIDDLE);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like ? - num2 = num3 */
+            if (math_opts->format_answer_first)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_FIRST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+          }
         }
       }
     }
@@ -1426,17 +1503,58 @@ MC_MathQuestion* generate_list(void)
     for (i = math_opts->min_multiplier; i <= math_opts->max_multiplier; i++)
     {
       for (j = math_opts->min_multiplicand; j <= math_opts->max_multiplicand; j++)
-      { 
-       /* prevent negative numbers if desired */
-        if (math_opts->allow_neg_answer || ((i >= 0) && (j >=0)))
-        {
-          /* make sure max_questions not exceeded */
-          if (length < math_opts->max_questions)
+      {
+        /* check if max_answer exceeded or if question */
+        /* contains undesired negative values:         */
+        if (validate_question(i, j, i * j))
+        {  
+          /* put in the desired number of copies: */
+          for (k = 0; k < math_opts->question_copies; k++)
           {
-            tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
-            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-            end_of_list = tmp_ptr;
-            length++;
+            /* put in questions in each selected format: */
+
+            /* questions like num1 x num2 = ? */
+            if (math_opts->format_answer_last)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like num1 x ? = num3 */
+            /* (no questions like 0 x ? = 0) because answer indeterminate */
+            if ((math_opts->format_answer_middle)
+             && (i != 0)) 
+            {
+                 /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_MIDDLE);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like ? x num2 = num3 */
+            /* (no questions like ? X 0 = 0) because answer indeterminate */
+            if ((math_opts->format_answer_first)
+             && (j != 0))
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_FIRST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
           }
         }
       }
@@ -1449,18 +1567,54 @@ MC_MathQuestion* generate_list(void)
     {
       for (j = math_opts->min_divisor; j <= math_opts->max_divisor; j++)
       {
-       /* prevent negative numbers if desired */
-        if (math_opts->allow_neg_answer || ((i >= 0) && (j >=0)))
-        {
-          if (j) /* prevent division by zero */
+        /* check if max_answer exceeded or if question */
+        /* contains undesired negative values:         */
+        if (j                                     /* must avoid division by zero: */      
+            &&
+            validate_question(i * j, j, i))       /* division problems are generated as multiplication */
+        {  
+          /* put in the desired number of copies: */
+          for (k = 0; k < math_opts->question_copies; k++)
           {
-            /* make sure max_questions not exceeded */
-            if (length < math_opts->max_questions)
+            /* put in questions in each selected format: */
+
+            /* questions like num1 / num2 = ? */
+            if (math_opts->format_answer_last)
             {
-              tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
-              top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-              end_of_list = tmp_ptr;
-              length++;
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like num1 / ? = num3 */
+            if (math_opts->format_answer_middle)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_MIDDLE);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
+            }
+
+            /* questions like ? / num2  = num3 */
+            if (math_opts->format_answer_first)
+            {
+              /* make sure max_questions not exceeded */
+              if (length < math_opts->max_questions)
+              {
+                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_FIRST);
+                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+                end_of_list = tmp_ptr;
+                length++; 
+              } 
             }
           }
         }
@@ -1489,7 +1643,28 @@ MC_MathQuestion* generate_list(void)
 }
 
 
-
+/* this is used by generate_list to see if a possible question */
+/* meets criteria to be added to the list or not:              */
+int validate_question(int n1, int n2, int n3)
+{
+  /* make sure none of values exceeds max_answer using absolute */
+  /* value comparison:                                          */
+  if (abs_value(n1) > abs_value(math_opts->max_answer)
+   || abs_value(n2) > abs_value(math_opts->max_answer)
+   || abs_value(n3) > abs_value(math_opts->max_answer))
+  {
+    return 0;
+  }
+  /* make sure none of values are negative if negatives not allowed: */
+  if (!math_opts->allow_neg_answer)
+  {
+    if (n1 < 0 || n2 < 0 || n3 < 0)
+    {
+      return 0;
+    }
+  }
+  return 1;  
+}
 
 /* create a new node and return a pointer to it */
 MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
@@ -1675,6 +1850,7 @@ MC_MathQuestion* delete_list(MC_MathQuestion* list)
 
 
 
+
 /* prints struct to stdout for testing purposes */
 void print_math_options(void)
 {
@@ -1690,7 +1866,10 @@ void print_math_options(void)
   printf("\nGeneral math options:\n");
   printf("allow_neg_answer:\t%d\n", math_opts->allow_neg_answer);
   printf("max_answer:\t%d\n", math_opts->max_answer);
-  printf("max_questions:\t%d\n", math_opts->max_questions);
+  printf("max_questions:\t%d\n", math_opts->max_questions);  
+  printf("recycle_corrects:\t%d\n", math_opts->recycle_corrects);
+  printf("recycle_wrongs:\t%d\n", math_opts->recycle_wrongs);
+  printf("copies_recycled_wrongs:\t%d\n", math_opts->copies_recycled_wrongs);
   printf("format_answer_last:\t%d\n", math_opts->format_answer_last);
   printf("format_answer_first:\t%d\n", math_opts->format_answer_first);
   printf("format_answer_middle:\t%d\n", math_opts->format_answer_middle);

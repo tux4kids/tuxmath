@@ -5,7 +5,10 @@
 # bill@newbreedsoftware.com
 # http://www.newbreedsoftware.com/tuxmath/
 
-# 2001.Aug.26 - 2005.Jan.03
+# Modified by David Bruce
+# dbruce@tampabay.rr.com
+
+# 2001.Aug.26 - 2006.Jun.12
 
 
 CFLAGS=-Wall -g $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" -DDEBUG \
@@ -27,7 +30,7 @@ BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
 
 
-VERSION=2005.01.03
+VERSION=2006.06.12
 
 all:	tuxmath
 

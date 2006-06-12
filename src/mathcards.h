@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#undef MC_DEBUG
+#define MC_DEBUG
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -195,15 +195,13 @@ int MC_NextWrongQuest(MC_FlashCard* q);
 /* 0 otherwise.                                           */
 int MC_MissionAccomplished(void);
 
-/*  Returns 1 if no more questions left (either in list   */
-/*  or "in play"                                          */
-/*  FIXME would be better to return number of questions   */
-/*  left so it can be displayed in a counter.             */
-int MC_GameOver(void);
+/*  Returns number of questions left (either in list      */
+/*  or "in play")                                         */
+int MC_TotalQuestionsLeft(void);
 
-/*  Returns 1 if no more questions left in list, NOT    */
-/*  including questions currently "in play".            */
-int MC_NoQuestionsLeft(void);
+/*  Returns questions left in list, NOT                   */
+/*  including questions currently "in play".              */
+int MC_ListQuestionsLeft(void);
 
 /*  Tells MathCards to clean up - should be called when   */
 /*  user interface program exits.                         */

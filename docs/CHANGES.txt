@@ -1,5 +1,24 @@
 CHANGES.txt for "tuxmath"
 
+2006.Jun.12 (https://svn.tux4kids.net/tuxmath/ - revision 9)
+  Game:
+    * Command-line argument added to allow ending the game with
+      "victory" when all questions in the defined list have been
+      successfully answered.
+    * Counter of remaining questions added to upper center of screen
+      when operating in "defined list" mode.
+    * LED numbers now display in "monitor" added to Tux's console
+      when "defined list" mode selected".
+    * Drawing of math question formulas overhauled, with support
+      for display of negatives (e.g. 2 x -3 = ?). The program supports
+      negative numbers for limits of question ranges, but for now
+      this must be selected at compile time.
+    * Support for questions formatted like ? + 2 = 4 and 2 + ? = 4, 
+      in addition to default format (2 + 2 = ?).
+    * Command-line options to select from the three question formats.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2006.May.16 (https://svn.tux4kids.net/tuxmath/ - revision 8)
   Code:
     * Major changes to internal workings of program. Everything 
