@@ -1,10 +1,12 @@
 TODO.txt for "tuxmath"
 
-January 3, 2005
+June 17, 2006
 
 
 Graphics:
-  * Change city graphics to something less violent.
+  * Consider changing city graphics to something less violent.
+  * Add more city graphic colors.
+  * Consider changing default resolution to 800x600.
 
 Interface:
   * Add more sound effects
@@ -13,19 +15,24 @@ Interface:
     (for mouseless scenarios where arrow keys might not be the available...
     is there such a thing as numeric-only keyboards for PCs???)
   * High-score table?
-  * Disable controls if game is over
 
 Game Play:
+  * More entertaining "victory" and "defeat" screens
+  * Add option to review missed questions to end-of-game screens
+  * Add option to play next game using missed questions from current game
   * End-of-level calculations, bonuses and animations
-  * Finish tweaking equation-generation algorithm
+  * Add special targets that restore shields or rebuild cities.
 
 Documentation:
   * Finish README.txt
   * Finish INSTALL.txt
 
 Options:
-  * Require that at least one operator be selected, or display numbers 
-    instead of formulas if no operators are selected: "typing tutor" mode.
+  * Make all of settings for MathCards backend settable at run time rather than just
+    at compile time - will require major overall of Options screen(s).
+  * Have program read and write settings to disk as a human-readable text file.  Once
+    this is done, games could be played as a planned series of "lessons".
+  * Display numbers instead of formulas if no operators are selected: "typing tutor" mode.
   * Save options.
   * Admin options screen / files
   * Command-line options based on grade-level (?)
@@ -33,4 +40,5 @@ Options:
 Code:
   * Optimize graphics blitting!!!
   * Abstract SDL_BlitSurface() calls
+
 

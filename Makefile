@@ -30,7 +30,7 @@ BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
 
 
-VERSION=2006.06.12
+VERSION=tuxmath-0.8
 
 all:	tuxmath
 

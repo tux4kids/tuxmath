@@ -22,6 +22,7 @@
 
 //#define NOSOUND
 #define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+#define TUXMATH_VERSION 0.8
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */

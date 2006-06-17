@@ -1,5 +1,10 @@
 CHANGES.txt for "tuxmath"
 
+2006.Jun.17 (https://svn.tux4kids.net/tuxmath/ - revision 10)
+  Docs:
+    * Updates to README.txt and TODO.txt.
+    * Version designated as 0.8 in README.txt, tuxmath.h, and Makefile.
+
 2006.Jun.12 (https://svn.tux4kids.net/tuxmath/ - revision 9)
   Game:
     * Command-line argument added to allow ending the game with
