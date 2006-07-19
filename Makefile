@@ -24,7 +24,9 @@ ifndef PREFIX
 PREFIX=/usr/local
 endif
 DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/tuxmath/
+ifndef BIN_PREFIX
 BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
+endif
 
 # There isn't always a root group on every unix
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
