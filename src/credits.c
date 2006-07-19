@@ -68,6 +68,7 @@ char * credit_text[] = {
   "",
   "-PACKAGERS",
   "JESSE ANDREWS",
+  "HOLGER LEVSEN",
   "",
   "-'TUX' THE PENGUIN CREATED BY",
   "LARRY EWING",
