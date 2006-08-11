@@ -1,4 +1,34 @@
-CHANGES.txt for "tuxmath"
+changelog for "tuxmath"
+
+2006.Aug.11 (https://svn.tux4kids.net/tuxmath/ - revision 18)
+  Version 0.9 
+
+  Setup:
+    * Tuxmath now reads and writes all settings to disc in human-
+      readable form. The first time it is run by each user, it
+      creates a config file (called .tuxmath for now) in the user's
+      home directory  The settings are initially set to hard-coded
+      defaults, then overridden as needed by a master config file
+      (for now located in DATA_PREFIX i.e. /usr/local/share/tuxmath),
+      then overridden if desired by the user's own config file.
+      The settings are saved from game to game if the file is left
+      unchanged.  Any text editor can be used to modify the settings.
+      The config file contains extensive comments documenting
+      all settings.  Complete control over program behavior is now
+      available without recompiling.
+    * tuxmath -h output updated with prominent notice that config
+      file now being used.
+  Game:
+    * By default the game now plays through the question list and 
+      ends with "Victory" when all questions correctly answered.
+    * game.c now handles 'slow_after_wrong' and other comet and speed
+      settings correctly.
+    * title screen has shortcuts 'P' for Play, 'O' for Options, etc.
+  Code:
+    * names of some of settings in game_options and math_options
+      structs changed to more intuitive/descriptive ones.
+  Docs:
+    * Updates to README.txt and TODO.txt
 
 2006.Jun.17 (https://svn.tux4kids.net/tuxmath/ - revision 10)
   Docs:

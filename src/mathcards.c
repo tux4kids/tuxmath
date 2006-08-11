@@ -36,12 +36,10 @@ int starting_length = 0;
 /* to give file scope rather than extern scope.          */
 
 static MC_MathQuestion* generate_list(void);
+static void clear_negatives(void);
 static int validate_question(int n1, int n2, int n3);
 static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
 static MC_MathQuestion* create_node_from_card(MC_FlashCard* card);
-static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
-static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
-static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
 static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
@@ -56,13 +54,17 @@ static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
 
-static void print_math_options(void);
-static void print_list(MC_MathQuestion* list);
+/* these functions are dead code unless compiling with debug turned on: */
+#ifdef MC_DEBUG 
 static void print_node(MC_MathQuestion* ptr);
 static void print_card(MC_FlashCard card);
 static void print_counters(void);
+static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
+static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
+static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
+static void print_list(MC_MathQuestion* list);
+#endif
 
-/* FIXME: Program should load options from disk */
 /*  MC_Initialize() sets up the struct containing all of  */
 /*  settings regarding math questions.  It should be      */
 /*  called before any other function.  Many of the other  */
@@ -83,7 +85,7 @@ int MC_Initialize(void)
 
     #ifdef MC_DEBUG
     printf("\nAlready initialized");  
-    print_math_options(); 
+    MC_PrintMathOptions(stdout, 0); 
     printf("\nLeaving MC_Initialize()\n");
     #endif
 
@@ -104,12 +106,12 @@ int MC_Initialize(void)
   } 
 
   /* set general math options */
-  math_opts->allow_neg_answer = DEFAULT_ALLOW_NEG_ANSWER;
+  math_opts->play_through_list = DEFAULT_PLAY_THROUGH_LIST;
+  math_opts->repeat_wrongs = DEFAULT_REPEAT_WRONGS;
+  math_opts->copies_repeated_wrongs = DEFAULT_COPIES_REPEATED_WRONGS;
+  math_opts->allow_negatives = DEFAULT_ALLOW_NEGATIVES;
   math_opts->max_answer = DEFAULT_MAX_ANSWER;
   math_opts->max_questions = DEFAULT_MAX_QUESTIONS;
-  math_opts->recycle_corrects = DEFAULT_RECYCLE_CORRECTS;
-  math_opts->recycle_wrongs = DEFAULT_RECYCLE_WRONGS;
-  math_opts->copies_recycled_wrongs = DEFAULT_COPIES_RECYCLED_WRONGS;
   math_opts->format_answer_last = DEFAULT_FORMAT_ANSWER_LAST;
   math_opts->format_answer_first = DEFAULT_FORMAT_ANSWER_FIRST;
   math_opts->format_answer_middle = DEFAULT_FORMAT_ANSWER_MIDDLE;
@@ -141,53 +143,21 @@ int MC_Initialize(void)
   math_opts->max_quotient = DEFAULT_MAX_QUOTIENT;
 
   /* if no negatives to be used, reset any negatives to 0 */
-  if (!math_opts->allow_neg_answer)
+  if (!math_opts->allow_negatives)
   {
-    if (math_opts->min_augend < 0)
-      math_opts->min_augend = 0;
-    if (math_opts->max_augend < 0)
-      math_opts->max_augend = 0;
-    if (math_opts->min_addend < 0)
-      math_opts->min_addend = 0;
-    if (math_opts->max_addend < 0)
-      math_opts->max_addend = 0;
-
-    if (math_opts->min_minuend < 0)
-      math_opts->min_minuend = 0;
-    if (math_opts->max_minuend < 0)
-      math_opts->max_minuend = 0;
-    if (math_opts->min_subtrahend < 0)
-      math_opts->min_subtrahend = 0;
-    if (math_opts->max_subtrahend < 0)
-      math_opts->max_subtrahend = 0;
-
-    if (math_opts->min_multiplier < 0)
-      math_opts->min_multiplier = 0;
-    if (math_opts->max_multiplier < 0)
-      math_opts->max_multiplier = 0;
-    if (math_opts->min_multiplicand < 0)
-      math_opts->min_multiplicand = 0;
-    if (math_opts->max_multiplicand < 0)
-      math_opts->max_multiplicand = 0;
-
-    if (math_opts->min_divisor < 0)
-      math_opts->min_divisor = 0;
-    if (math_opts->max_divisor < 0)
-      math_opts->max_divisor = 0;
-    if (math_opts->min_quotient < 0)
-      math_opts->min_quotient = 0;
-    if (math_opts->max_quotient < 0)
-      math_opts->max_quotient = 0;
+    clear_negatives();
   }
+
   initialized = 1;
 
   #ifdef MC_DEBUG
-  print_math_options(); 
+  MC_PrintMathOptions(stdout, 0); 
   printf("\nLeaving MC_Initialize()\n");
   #endif 
 
   return 1;
 }
+
 
 
 /*  MC_StartGame() generates the list of math questions   */
@@ -419,7 +389,7 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   answered_correctly++;
   questions_pending--;
 
-  if (math_opts->recycle_corrects)
+  if (!math_opts->play_through_list)
   /* reinsert question into question list at random location */
   {
     #ifdef MC_DEBUG
@@ -503,16 +473,16 @@ int MC_AnsweredIncorrectly(MC_FlashCard* fc)
   }
 
   /* if desired, put question back in list so student sees it again */
-  if (math_opts->recycle_wrongs)
+  if (math_opts->repeat_wrongs)
   {
     int i;
 
     #ifdef MC_DEBUG
-    printf("\nAdding %d copies to question_list:", math_opts->copies_recycled_wrongs);
+    printf("\nAdding %d copies to question_list:", math_opts->copies_repeated_wrongs);
     #endif
  
     /* can put in more than one copy (to drive the point home!) */
-    for (i = 0; i < math_opts->copies_recycled_wrongs; i++)
+    for (i = 0; i < math_opts->copies_repeated_wrongs; i++)
     {  
       ptr1 = create_node_from_card(fc);
       ptr2 = pick_random(quest_list_length, question_list);
@@ -521,15 +491,15 @@ int MC_AnsweredIncorrectly(MC_FlashCard* fc)
     }
     /* unanswered stays the same if a single copy recycled or */
     /* increases by 1 for each "extra" copy reinserted:       */
-    unanswered += (math_opts->copies_recycled_wrongs - 1);
+    unanswered += (math_opts->copies_repeated_wrongs - 1);
   }
   else
   {
     #ifdef MC_DEBUG
-    printf("\nnot recycling wrong answers\n");
+    printf("\nnot repeating wrong answers\n");
     #endif
 
-    /* not recycling questions so list gets shorter:      */
+    /* not repeating questions so list gets shorter:      */
     unanswered--;
   }
 
@@ -548,7 +518,7 @@ int MC_AnsweredIncorrectly(MC_FlashCard* fc)
 int MC_MissionAccomplished(void)
 {
   if (starting_length
-    && math_opts->recycle_wrongs
+    && math_opts->repeat_wrongs
     && !unanswered)
   {
     return 1;
@@ -607,44 +577,63 @@ void MC_SetMaxAnswer(int max)
 }
 
 
-void MC_SetAllowNegAnswer(int opt)
+void MC_SetMaxQuestions(int max)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_SetAllowNegAnswer(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_SetMaxQuestions(): math_opts not valid!\n");
     return;
   }
-  math_opts->allow_neg_answer = int_to_bool(opt);
+  if (max < 0)
+  {
+    fprintf(stderr, "\nMC_SetMaxQuestions(): max_questions cannot be negative!\n");
+    return;
+  }
+  math_opts->max_questions = max;
+}
+
+void MC_SetAllowNegatives(int opt)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetAllowNegatives(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->allow_negatives = int_to_bool(opt);
+  if (!opt)
+  {
+    clear_negatives();
+  }
 }
 
 
-void MC_SetRecycleCorrects(int opt)
+void MC_SetPlayThroughList(int opt)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_SetRecycleCorrects(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_SetPlayThroughList(): math_opts not valid!\n");
     return;
   }
-  math_opts->recycle_corrects = int_to_bool(opt);
+  math_opts->play_through_list = int_to_bool(opt);
 }
 
 
-void MC_SetRecycleWrongs(int opt)
+void MC_SetRepeatWrongs(int opt)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_SetRecycleWrongs(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_SetRepeatWrongs(): math_opts not valid!\n");
     return;
   }
-  math_opts->recycle_wrongs = int_to_bool(opt);
+  math_opts->repeat_wrongs = int_to_bool(opt);
 }
 
 
-void MC_SetCopiesRecycledWrongs(int copies)
+void MC_SetCopiesRepeatedWrongs(int copies)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_SetCopiesRecycledWrongs(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_SetCopiesRepeatedWrongs(): math_opts not valid!\n");
     return;
   }
   /* number of copies must be between 1 and 10: */
@@ -652,7 +641,7 @@ void MC_SetCopiesRecycledWrongs(int copies)
     copies = 1;
   if (copies > 10)
     copies = 10;
-  math_opts->copies_recycled_wrongs = copies;
+  math_opts->copies_repeated_wrongs = copies;
 }
 
 /*NOTE - list can contain more than one format */
@@ -1021,47 +1010,47 @@ int MC_MaxAnswer(void)
   return math_opts->max_answer;
 }
 
-int MC_AllowNegAnswer(void)
+int MC_AllowNegatives(void)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_AllowNegAnswer(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_AllowNegatives(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->allow_neg_answer;
+  return math_opts->allow_negatives;
 }
 
 
-int MC_RecycleCorrects(void)
+int MC_PlayThroughList(void)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_RecycleCorrects(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_PlayThroughList(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->recycle_corrects;
+  return math_opts->play_through_list;
 }
 
 
-int MC_RecycleWrongs(void)
+int MC_RepeatWrongs(void)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_RecycleWrongs(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_RepeatWrongs(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->recycle_wrongs;
+  return math_opts->repeat_wrongs;
 }
 
 
-int MC_CopiesRecycledWrongs(void)
+int MC_CopiesRepeatedWrongs(void)
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_CopiesRecycledWrongs(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_CopiesRepeatedWrongs(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->copies_recycled_wrongs;
+  return math_opts->copies_repeated_wrongs;
 }
 
 
@@ -1359,6 +1348,46 @@ int MC_DivMaxQuotient(void)
 of this file) */
 
 
+/* Resets negative values to zero - used when allow_negatives deselected. */
+void clear_negatives(void)
+{
+  if (math_opts->min_augend < 0)
+    math_opts->min_augend = 0;
+  if (math_opts->max_augend < 0)
+    math_opts->max_augend = 0;
+  if (math_opts->min_addend < 0)
+    math_opts->min_addend = 0;
+  if (math_opts->max_addend < 0)
+    math_opts->max_addend = 0;
+
+  if (math_opts->min_minuend < 0)
+    math_opts->min_minuend = 0;
+  if (math_opts->max_minuend < 0)
+    math_opts->max_minuend = 0;
+  if (math_opts->min_subtrahend < 0)
+    math_opts->min_subtrahend = 0;
+  if (math_opts->max_subtrahend < 0)
+    math_opts->max_subtrahend = 0;
+
+  if (math_opts->min_multiplier < 0)
+    math_opts->min_multiplier = 0;
+  if (math_opts->max_multiplier < 0)
+    math_opts->max_multiplier = 0;
+  if (math_opts->min_multiplicand < 0)
+    math_opts->min_multiplicand = 0;
+  if (math_opts->max_multiplicand < 0)
+    math_opts->max_multiplicand = 0;
+
+  if (math_opts->min_divisor < 0)
+    math_opts->min_divisor = 0;
+  if (math_opts->max_divisor < 0)
+    math_opts->max_divisor = 0;
+  if (math_opts->min_quotient < 0)
+    math_opts->min_quotient = 0;
+  if (math_opts->max_quotient < 0)
+    math_opts->max_quotient = 0;
+}
+
 /* using parameters from the mission struct, create linked list of "flashcards" */
 /* FIXME should figure out how to proceed correctly if we run out of memory */
 /* FIXME very redundant code - figure out way to iterate through different */
@@ -1374,7 +1403,7 @@ MC_MathQuestion* generate_list(void)
 
   #ifdef MC_DEBUG
   printf("\nEntering generate_list()");
-  print_math_options();
+  MC_PrintMathOptions(stdout, 0);
   #endif
  
   /* add nodes for each math operation allowed */
@@ -1656,7 +1685,7 @@ int validate_question(int n1, int n2, int n3)
     return 0;
   }
   /* make sure none of values are negative if negatives not allowed: */
-  if (!math_opts->allow_neg_answer)
+  if (!math_opts->allow_negatives)
   {
     if (n1 < 0 || n2 < 0 || n3 < 0)
     {
@@ -1682,7 +1711,7 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
 }
 
 
-
+#ifdef MC_DEBUG
 /* a "copy constructor", so to speak */
 /* FIXME should properly return newly allocated list if more than one node DSB */
 MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
@@ -1700,7 +1729,7 @@ MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
   ptr->previous = 0;
   return ptr;
 }
-
+#endif
 
 
 MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
@@ -1719,8 +1748,7 @@ MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
   return ptr;
 }
 
-
-
+#ifdef MC_DEBUG
 MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
 {
   MC_FlashCard* fc;
@@ -1734,9 +1762,9 @@ MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
   fc->format = node->card.format;
   return fc;
 }
+#endif
 
-
-
+#ifdef MC_DEBUG
 /* this one copies the contents, including pointers; both nodes must be allocated */
 int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
 {
@@ -1755,7 +1783,7 @@ int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
   copy->previous = original->previous;
   return 1;
 }
-
+#endif
 
 
 /* this puts the node into the list AFTER the node pointed to by current */
@@ -1850,60 +1878,173 @@ MC_MathQuestion* delete_list(MC_MathQuestion* list)
 
 
 
-
-/* prints struct to stdout for testing purposes */
-void print_math_options(void)
+/* FIXME generalize this so it can be used to write config file */
+/* prints struct to file */
+void MC_PrintMathOptions(FILE* fp, int verbose)
 {
   printf("\nprint_math_options():\n");
 
  /* bail out if no struct */
   if (!math_opts)
   {
-    printf("\nMath Options struct does not exist!\n");
+    fprintf(stderr, "\nMath Options struct does not exist!\n");
     return;
   }
 
-  printf("\nGeneral math options:\n");
-  printf("allow_neg_answer:\t%d\n", math_opts->allow_neg_answer);
-  printf("max_answer:\t%d\n", math_opts->max_answer);
-  printf("max_questions:\t%d\n", math_opts->max_questions);  
-  printf("recycle_corrects:\t%d\n", math_opts->recycle_corrects);
-  printf("recycle_wrongs:\t%d\n", math_opts->recycle_wrongs);
-  printf("copies_recycled_wrongs:\t%d\n", math_opts->copies_recycled_wrongs);
-  printf("format_answer_last:\t%d\n", math_opts->format_answer_last);
-  printf("format_answer_first:\t%d\n", math_opts->format_answer_first);
-  printf("format_answer_middle:\t%d\n", math_opts->format_answer_middle);
-  printf("question_copies:\t%d\n", math_opts->question_copies);
-  printf("randomize:\t%d\n", math_opts->randomize);
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                  General Math Options                    #\n"
+                 "#                                                          #\n"
+                 "# If 'play_through_list' selected, Tuxmath will ask each   #\n"
+                 "# question in the defined list. The game ends when no      #\n"
+                 "# questions remain.  Default is 1 (i.e. 'true' or 'yes').  #\n"
+                 "#                                                          #\n"
+                 "# 'question_copies' is the number of times each question   #\n"
+                 "# will be asked. It can be 1 to 10 - Default is 1.         #\n"
+                 "#                                                          #\n"
+                 "# 'repeat_wrongs' tells Tuxmath whether to reinsert        #\n"
+                 "# incorrectly answered questions into the list to be       #\n"
+                 "# asked again. Default is 1 (yes).                         #\n"
+                 "#                                                          #\n"
+                 "# 'copies_repeated_wrongs' gives the number of times an    #\n"
+                 "# incorrectly answered question will reappear. Default     #\n"
+                 "# is 1.                                                    #\n"
+                 "#                                                          #\n"
+                 "# The defaults for these values result in a 'mission'      #\n" 
+                 "# for Tux that is accomplished by answering all            #\n"
+                 "# questions correctly with at least one surviving city.    #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "play_through_list = %d\n", math_opts->play_through_list);
+  fprintf (fp, "question_copies = %d\n", math_opts->question_copies);
+  fprintf (fp, "repeat_wrongs = %d\n", math_opts->repeat_wrongs);
+  fprintf (fp, "copies_repeated_wrongs = %d\n", math_opts->copies_repeated_wrongs);
 
-  printf("\nSpecific math operation options:\n");
-  printf("addition_allowed:\t%d\n", math_opts->addition_allowed);
-  printf("min_augend:\t%d\n", math_opts->min_augend);
-  printf("max_augend:\t%d\n", math_opts->max_augend);
-  printf("min_addend:\t%d\n", math_opts->min_addend);
-  printf("max_addend:\t%d\n", math_opts->max_addend);
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'format_answer_last' (, _first, middle) control the      #\n"
+                 "# generation of questions with the answer in different     #\n"
+                 "# places in the equation.  i.e.:                           #\n"
+                 "#                                                          #\n"
+                 "#    format_answer_last:    2 + 2 = ?                      #\n"
+                 "#    format_answer_first:   ? + 2 = 4                      #\n"
+                 "#    format_answer_middle:  2 + ? = 4                      #\n"
+                 "#                                                          #\n"
+                 "# By default, 'format_answer_first' is enabled and the     #\n"
+                 "# other two formats are disabled.  Note that the options   #\n"
+                 "# are not mutually exclusive - the question list may       #\n"
+                 "# contain questions with different formats.                #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "format_answer_last = %d\n", math_opts->format_answer_last);
+  fprintf (fp, "format_answer_first = %d\n", math_opts->format_answer_first);
+  fprintf (fp, "format_answer_middle = %d\n", math_opts->format_answer_middle);
 
-  printf("subtraction_allowed\t%d\n", math_opts->subtraction_allowed);
-  printf("min_minuend:\t%d\n", math_opts->min_minuend);
-  printf("max_minuend:\t%d\n", math_opts->max_minuend);
-  printf("min_subtrahend:\t%d\n", math_opts->min_subtrahend);
-  printf("max_subtrahend:\t%d\n", math_opts->max_subtrahend);
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'allow_negatives' allows or disallows use of negative    #\n"
+                 "# numbers as both operands and answers.  Default is 0      #\n"
+                 "# (no), which disallows questions like:                    #\n"
+                 "#          2 - 4 = ?                                       #\n"
+                 "# Note: this option must be enabled in order to set the    #\n"
+                 "# operand ranges to include negatives (see below). If it   #\n"
+                 "# is changed from 1 (yes) to 0 (no), any negative          #\n"
+                 "# operand limits will be reset to 0.                       #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "allow_negatives = %d\n", math_opts->allow_negatives);
 
-  printf("multiplication_allowed:\t%d\n", math_opts->multiplication_allowed);
-  printf("min_multiplier:\t%d\n", math_opts->min_multiplier);
-  printf("max_multiplier:\t%d\n", math_opts->max_multiplier);
-  printf("min_multiplicand:\t%d\n", math_opts->min_multiplicand);
-  printf("max_multiplicand:\t%d\n", math_opts->max_multiplicand);
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'max_answer' is the largest absolute value allowed in    #\n"
+                 "# any value in a question (not only the answer). Default   #\n"
+                 "# is 144. It can be set as high as 999.                    #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "max_answer = %d\n", math_opts->max_answer);
 
-  printf("division_allowed:\t%d\n", math_opts->division_allowed);
-  printf("min_divisor:\t%d\n",math_opts->min_divisor);
-  printf("max_divisor:\t%d\n", math_opts->max_divisor);
-  printf("min_quotient:\t%d\n", math_opts->min_quotient);
-  printf("max_quotient:\t%d\n", math_opts->max_quotient);
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'max_questions' is limit of the length of the question   #\n"
+                 "# list. Default is 5000 - only severe taskmasters will     #\n"
+                 "# need to raise it.                                        #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "max_questions = %d\n", math_opts->max_questions);  
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# If 'randomize' selected, the list will be shuffled       #\n"
+                 "# at the start of the game.  Default is 1 (yes).           #\n"
+                 "############################################################\n\n");
+  }
+  fprintf (fp, "randomize = %d\n", math_opts->randomize);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                 Math Operations Allowed                  #\n"
+                 "#                                                          #\n"
+                 "# These options enable questions for each of the four math #\n"
+                 "# operations.  All are 1 (yes) by default.                 #\n"
+                 "############################################################\n\n");
+  }
+  fprintf(fp, "addition_allowed = %d\n", math_opts->addition_allowed);
+  fprintf(fp, "subtraction_allowed = %d\n", math_opts->subtraction_allowed);
+  fprintf(fp, "multiplication_allowed = %d\n", math_opts->multiplication_allowed);
+  fprintf(fp, "division_allowed = %d\n", math_opts->division_allowed);
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#      Minimum and Maximum Values for Operand Ranges       #\n"
+                 "#                                                          #\n"
+                 "# Operand limits can be set to any integer up to the       #\n"
+                 "# value of 'max_answer'.  If 'allow_negatives' is set to 1 #\n"
+                 "# (yes), either negative or positive values can be used.   #\n"
+                 "# Tuxmath will generate questions for every value in the   #\n"
+                 "# specified range. The maximum must be greater than or     #\n"
+                 "# equal to the corresponding minimum for any questions to  #\n"
+                 "# be generated for that operation.                         #\n"
+                 "############################################################\n\n");
+  }
+  fprintf(fp, "\n# Addition operands: augend + addend = sum\n");
+  fprintf(fp, "min_augend = %d\n", math_opts->min_augend);
+  fprintf(fp, "max_augend = %d\n", math_opts->max_augend);
+  fprintf(fp, "min_addend = %d\n", math_opts->min_addend);
+  fprintf(fp, "max_addend = %d\n", math_opts->max_addend);
+
+  fprintf(fp, "\n# Subtraction operands: minuend - subtrahend = difference\n");
+  fprintf(fp, "min_minuend = %d\n", math_opts->min_minuend);
+  fprintf(fp, "max_minuend = %d\n", math_opts->max_minuend);
+  fprintf(fp, "min_subtrahend = %d\n", math_opts->min_subtrahend);
+  fprintf(fp, "max_subtrahend = %d\n", math_opts->max_subtrahend);
+
+  fprintf(fp, "\n# Multiplication operands: multiplier * multiplicand = product\n");
+  fprintf(fp, "min_multiplier = %d\n", math_opts->min_multiplier);
+  fprintf(fp, "max_multiplier = %d\n", math_opts->max_multiplier);
+  fprintf(fp, "min_multiplicand = %d\n", math_opts->min_multiplicand);
+  fprintf(fp, "max_multiplicand = %d\n", math_opts->max_multiplicand);
+
+  fprintf(fp, "\n# Division operands: dividend/divisor = quotient\n");
+  fprintf(fp, "min_divisor = %d\n",math_opts->min_divisor);
+  fprintf(fp, "max_divisor = %d\n", math_opts->max_divisor);
+  fprintf(fp, "min_quotient = %d\n", math_opts->min_quotient);
+  fprintf(fp, "max_quotient = %d\n", math_opts->max_quotient);
 }
 
 
-
+#ifdef MC_DEBUG
 void print_list(MC_MathQuestion* list)
 {
   if (!list)
@@ -1920,7 +2061,7 @@ void print_list(MC_MathQuestion* list)
     ptr = ptr->next;
   }
 }
-
+#endif
 
 
 void print_node(MC_MathQuestion* ptr)
@@ -1934,7 +2075,7 @@ void print_node(MC_MathQuestion* ptr)
 }
 
 
-
+#ifdef MC_DEBUG
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():");
@@ -1945,10 +2086,10 @@ void print_card(MC_FlashCard card)
            card.num3,
            card.format);
 }
+#endif
 
 
-
-
+#ifdef MC_DEBUG
 /* This sends the values of all "global" counters and the */
 /* lengths of the question lists to stdout - for debugging */
 void print_counters(void)
@@ -1962,6 +2103,7 @@ void print_counters(void)
   printf("\nlist_length(wrong_quests) = \t%d", list_length(wrong_quests));
   printf("\nquestions_pending = \t%d", questions_pending);
 }
+#endif
 
 int list_length(MC_MathQuestion* list)
 {
@@ -2114,7 +2256,7 @@ int sane_value(int i)
   
   if (i < 0 
    && math_opts
-   && !math_opts->allow_neg_answer)
+   && !math_opts->allow_negatives)
   {
     i = 0;
   }

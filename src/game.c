@@ -83,6 +83,8 @@ static int paused;
 static int wave;
 static int score;
 static int pre_wave_score;
+static int prev_wave_comets;
+static int slowdown;
 static int num_attackers;
 static float speed;
 static int demo_countdown;
@@ -118,7 +120,7 @@ static void game_draw(void);
 static int check_exit_conditions(void);
 
 static void draw_numbers(char* str, int x, int y);
-static void draw_led_nums(void);
+static void draw_led_console(void);
 static void draw_question_counter(void);
 static void draw_console_image(int i);
 static void draw_line(int x1, int y1, int x2, int y2, int r, int g, int b);
@@ -413,7 +415,9 @@ int game_initialize(void)
   
   wave = 1;
   num_attackers = 2;
+  prev_wave_comets = game_options->starting_comets;
   speed = game_options->speed;
+  slowdown = 0;
   score = 0;
   demo_countdown = 1000;
   level_start_wait = LEVEL_START_WAIT_START;
@@ -738,8 +742,10 @@ void game_handle_comets(void)
       if (comets[i].y >= (screen->h - images[IMG_CITY_BLUE]->h) &&
 	  comets[i].expl < COMET_EXPL_END)
       {
-        /* Disable shields or destroy city: */
+        /* Tell MathCards about it: */
         MC_AnsweredIncorrectly(&(comets[i].flashcard));
+
+        /* Disable shields or destroy city: */
         if (cities[comets[i].city].shields)
 	{
 	  cities[comets[i].city].shields = 0;
@@ -749,6 +755,14 @@ void game_handle_comets(void)
         {
           cities[comets[i].city].expl = CITY_EXPL_START;
           playsound(SND_EXPLOSION);
+        }
+
+        /* If slow_after_wrong selected, set flag to go back to starting speed and */
+        /* number of attacking comets: */
+        if (game_options->slow_after_wrong)
+        {
+          speed = game_options->speed;
+          slowdown = 1;
         }
 
         tux_anim = IMG_TUX_FIST1;
@@ -866,7 +880,7 @@ void game_draw(void)
 
   /* If we are playing through a defined list of questions */
   /* without "recycling", display number of remaining questions: */
-  if (!MC_RecycleCorrects())
+  if (MC_PlayThroughList())
   {
     draw_question_counter();
   }
@@ -996,7 +1010,7 @@ void game_draw(void)
   {
     /* pick image to draw: */
     int keypad_image;
-    if (MC_AllowNegAnswer())
+    if (MC_AllowNegatives())
     {
       /* draw regular keypad */
       keypad_image = IMG_KEYPAD;
@@ -1015,11 +1029,8 @@ void game_draw(void)
     SDL_BlitSurface(images[keypad_image], NULL, screen, &dest);
   }
 
-  /* Draw console & tux: */
-  /* LED code moved into separate function by DSB */
-  /* this also draws the console                   */
-  draw_led_nums();
-
+  /* Draw console, LED numbers, & tux: */
+  draw_led_console();
   draw_console_image(tux_img);
  
   /* Swap buffers: */
@@ -1190,25 +1201,33 @@ void reset_level(void)
 
   pre_wave_score = score;
 
-
   /* Set number of attackers for this wave: */
-  /* num_attackers = 2 * wave; */ 
 
-  /* increase number of comets and speed if desired */
-  if (game_options->allow_speedup)
+  /* On first wave or if slowdown flagged due to wrong answer: */
+  if (wave == 1 || slowdown)
   {
-    num_attackers = wave * game_options->extra_comets;
-    speed = speed * game_options->speedup_factor;
-
-    if (speed > game_options->max_speed)
+    prev_wave_comets = game_options->starting_comets;
+    speed = game_options->speed;
+    slowdown = 0;
+  }
+  else /* Otherwise increase comets and speed if selected, not to */
+       /* exceed maximum:                                         */
+  {
+    if (game_options->allow_speedup)
     {
-      speed = game_options->max_speed;
-    } 
+      prev_wave_comets += game_options->extra_comets_per_wave;
+      if (prev_wave_comets > game_options->max_comets)
+      {
+        prev_wave_comets = game_options->max_comets;
+      } 
+      speed = speed * game_options->speedup_factor;
+      if (speed > game_options->max_speed)
+      {
+        speed = game_options->max_speed;
+      } 
+    }
   }
-  else
-  {
-    num_attackers = 2;
-  }
+  num_attackers = prev_wave_comets;
 }
 
 
@@ -1697,38 +1716,23 @@ void draw_question_counter(void)
   draw_numbers(str, nums_x, 0);
 }
 
-/* FIXME consider always using new image for simplicity */
 /* FIXME very confusing having this function draw console */
-/* Draw LED digits at the top of the screen: */
-/* Modified by DSB to display minus sign */
-void draw_led_nums(void)
+void draw_led_console(void)
 {
   int i;
   SDL_Rect src, dest;
   int y;
 
-  /* draw either just above console or at top of screen: */
-  if (MC_RecycleCorrects())
-  {
-    /* draw traditional console: */
-    draw_console_image(IMG_CONSOLE);
-    /* LEDs go at top in traditional TuxMath: */
-    y = 4;
-
-  }
-  else
-  {
-    /* draw new console image with "monitor" for LED numbers: */
-    draw_console_image(IMG_CONSOLE_LED);
-    /* draw LED numbers into "monitor": */
-    y = (screen->h
-       - images[IMG_CONSOLE_LED]->h
-       + 4);  /* "monitor" has 4 pixel margin */       
-  }
+  /* draw new console image with "monitor" for LED numbers: */
+  draw_console_image(IMG_CONSOLE_LED);
+  /* set y to draw LED numbers into Tux's "monitor": */
+  y = (screen->h
+     - images[IMG_CONSOLE_LED]->h
+     + 4);  /* "monitor" has 4 pixel margin */       
 
   /* begin drawing so as to center display depending on whether minus */
   /* sign needed (4 digit slots) or not (3 digit slots) DSB */
-  if (MC_AllowNegAnswer())
+  if (MC_AllowNegatives())
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
   else
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
@@ -1738,7 +1742,7 @@ void draw_led_nums(void)
   { 
     if (-1 == i)
     {
-      if (MC_AllowNegAnswer())
+      if (MC_AllowNegatives())
       {
         if (neg_answer_picked)
           src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
@@ -1796,7 +1800,7 @@ void game_mouse_event(SDL_Event event)
   /* make sure keypad image is valid and has non-zero dimensions: */
   /* FIXME maybe this checking should be done once at the start */
   /* of game() rather than with every mouse click */
-  if (MC_AllowNegAnswer())
+  if (MC_AllowNegatives())
   {
     if (!images[IMG_KEYPAD])
       return;
@@ -1979,14 +1983,14 @@ void game_key_event(SDLKey key)
   }
   /* support for negative answer input DSB */
   else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS)
-        && MC_AllowNegAnswer())  /* do nothing unless neg answers allowed */
+        && MC_AllowNegatives())  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer negative: */
     neg_answer_picked = 1;
     tux_pressing = 1;
   }
   else if ((key == SDLK_PLUS || key == SDLK_KP_PLUS)
-         && MC_AllowNegAnswer())  /* do nothing unless neg answers allowed */
+         && MC_AllowNegatives())  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer positive: */
     neg_answer_picked = 0;
@@ -2023,7 +2027,7 @@ void add_score(int inc)
 void reset_comets(void)
 {
   int i =0;
-  for (i = 0; i < MAX_COMETS; i++)
+  for (i = 0; i < game_options->max_comets; i++)
   {
     comets[i].alive = 0;
     comets[i].expl = 0;

@@ -166,13 +166,39 @@ int title(void)
 	    {
 	      key = event.key.keysym.sym;
 	      
-	      if (key == SDLK_ESCAPE)
+	      if ((key == SDLK_ESCAPE)
+                || (key == SDLK_q))
 		{
-		  /* Escape key - quit! */
+		  /* Escape key or 'Q' - quit! */
 		  
 		  cmd = CMD_QUIT;
 		  done = 1;
 		}
+
+	      if (key == SDLK_p)
+		{
+		  /* 'P'- play! */
+		  
+		  cmd = CMD_GAME;
+		  done = 1;
+		}
+
+	      if (key == SDLK_o)
+		{
+		  /* 'O'- Options! */
+		  
+		  cmd = CMD_OPTIONS;
+		  done = 1;
+		}
+
+	      if (key == SDLK_c)
+		{
+		  /* 'C'- Credits! */
+		  
+		  cmd = CMD_CREDITS;
+		  done = 1;
+		}
+
 	      else if (key == SDLK_DOWN)
 		{
 		  demo_countdown = START_DEMO_COUNTDOWN;
@@ -191,7 +217,9 @@ int title(void)
 		  if (cmd < 0)
 		    cmd = 0;
 		}
-	      else if (key == SDLK_RETURN || SDLK_KP_ENTER)
+	      else if ((key == SDLK_RETURN) 
+                    || (key == SDLK_KP_ENTER)
+                    || (key == SDLK_SPACE))
 		{
 		  done = 1;
 		}

@@ -1,7 +1,10 @@
 TODO.txt for "tuxmath"
 
-June 17, 2006
+August 11, 2006
 
+Build:
+  * Fix certain file permissions issues when packaged as rpm.
+  * Consider using cmake.
 
 Graphics:
   * Consider changing city graphics to something less violent.
@@ -30,8 +33,6 @@ Documentation:
 Options:
   * Make all of settings for MathCards backend settable at run time rather than just
     at compile time - will require major overall of Options screen(s).
-  * Have program read and write settings to disk as a human-readable text file.  Once
-    this is done, games could be played as a planned series of "lessons".
   * Display numbers instead of formulas if no operators are selected: "typing tutor" mode.
   * Save options.
   * Admin options screen / files

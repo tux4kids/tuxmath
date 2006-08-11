@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#define MC_DEBUG
+//#define MC_DEBUG
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -41,12 +41,12 @@ enum {
 /* math questions are asked during a game */
 typedef struct MC_Options {
   /* general math options */
-  int allow_neg_answer;
+  int play_through_list;
+  int repeat_wrongs;
+  int copies_repeated_wrongs;
+  int allow_negatives;
   int max_answer;
   int max_questions;
-  int recycle_corrects;
-  int recycle_wrongs;
-  int copies_recycled_wrongs;
   int format_answer_last;      /* a + b = ?                                               */ 
   int format_answer_first;     /* ? + b = c  NOTE - list can contain more than one format */
   int format_answer_middle;    /* a + ? = c                                               */
@@ -79,16 +79,17 @@ typedef struct MC_Options {
 } MC_Options;
 
 /* default values for math_options */
-#define MC_GLOBAL_MAX 999                 /* this is the largest absolute value that can be entered  */
-                                          /* as a max or min for math question values.               */
-#define MC_MATH_OPTS_INVALID -9999        /* return value for accessor functions if math_opts not valid    */
+#define MC_GLOBAL_MAX 999                 /* this is the largest absolute value that */
+                                          /* can be entered math question values.    */
+#define MC_MATH_OPTS_INVALID -9999        /* return value for accessor functions */
+                                          /* if math_opts not valid    */
 
-#define DEFAULT_ALLOW_NEG_ANSWER 0
+#define DEFAULT_PLAY_THROUGH_LIST 1       /* play until all questions in list answered */                                                 /* correctly */
+#define DEFAULT_REPEAT_WRONGS   1        /* reuse incorrectly answered questions or not */
+#define DEFAULT_COPIES_REPEATED_WRONGS 1  /* how many copies of an incorrectly answered */                                                /* question to re-insert*/
+#define DEFAULT_ALLOW_NEGATIVES 0
 #define DEFAULT_MAX_ANSWER 144
 #define DEFAULT_MAX_QUESTIONS 5000
-#define DEFAULT_RECYCLE_CORRECTS 1        /* reuse correctly answered questions or not */
-#define DEFAULT_RECYCLE_WRONGS   1        /* reuse incorrectly answered questions or not */
-#define DEFAULT_COPIES_RECYCLED_WRONGS 1  /* how many copies of an incorrectly answered question to re-insert*/
 #define DEFAULT_FORMAT_ANSWER_LAST 1      /* question format is: a + b = ? */
 #define DEFAULT_FORMAT_ANSWER_FIRST 0     /* question format is: ? + b = c */
 #define DEFAULT_FORMAT_ANSWER_MIDDLE 0    /* question format is: a + ? = c */
@@ -96,7 +97,7 @@ typedef struct MC_Options {
 #define DEFAULT_RANDOMIZE 1               /* whether to shuffle cards */
 
 #define DEFAULT_ADDITION_ALLOWED 1
-#define DEFAULT_MIN_AUGEND 0              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
+#define DEFAULT_MIN_AUGEND 0              /* augend + addend = sum */
 #define DEFAULT_MAX_AUGEND 12
 #define DEFAULT_MIN_ADDEND 0
 #define DEFAULT_MAX_ADDEND 12
@@ -207,22 +208,27 @@ int MC_ListQuestionsLeft(void);
 /*  user interface program exits.                         */
 void MC_EndGame(void);
 
-
+/*  Prints contents of math_opts struct in human-readable   */
+/*  form to given file. "verbose" tells the function to     */
+/*  write a lot of descriptive "help"-type info for each    */
+/*  option (intended to make config files self-documenting).*/
+void MC_PrintMathOptions(FILE* fp, int verbose);
 
 /* Simple "Set/Get" type functions for option parameters: */
 
 /* Simple functions to set option parameters: */
 
 /* Set general math options:   */
+void MC_SetPlayThroughList(int opt);
+void MC_SetRepeatWrongs(int opt);
+void MC_SetQuestionCopies(int copies);         /* how many times each question is put in list */
+void MC_SetCopiesRepeatedWrongs(int copies);
 void MC_SetMaxAnswer(int max);
-void MC_SetAllowNegAnswer(int opt);
-void MC_SetRecycleCorrects(int opt);
-void MC_SetRecycleWrongs(int opt);
-void MC_SetCopiesRecycledWrongs(int copies);
+void MC_SetMaxQuestions(int max);
+void MC_SetAllowNegatives(int opt);
 void MC_SetFormatAnswerLast(int opt);      /* a + b = ?                                               */ 
 void MC_SetFormatAnswerFirst(int opt);     /* ? + b = c  NOTE - list can contain more than one format */
 void MC_SetFormatAnswerMiddle(int opt);    /* a + ? = c                                               */
-void MC_SetQuestionCopies(int copies);         /* how many times each question is put in list */
 void MC_SetRandomize(int opt);           
 
 /* Set the allowed math operations: */
@@ -267,11 +273,11 @@ void MC_SetDivMaxQuotient(int opt);
 /* "Get" type functions to query option parameters: */
 
 /* Query general math options: */
+int MC_PlayThroughList(void);
+int MC_RepeatWrongs(void);
+int MC_CopiesRepeatedWrongs(void);
 int MC_MaxAnswer(void);
-int MC_AllowNegAnswer(void);
-int MC_RecycleCorrects(void);
-int MC_RecycleWrongs(void);
-int MC_CopiesRecycledWrongs(void);
+int MC_AllowNegatives(void);
 int MC_FormatAnswerLast(void);      /* a + b = ?                                               */ 
 int MC_FormatAnswerFirst(void);     /* ? + b = c  NOTE - list can contain more than one format */
 int MC_FormatAnswerMiddle(void);    /* a + ? = c                                               */

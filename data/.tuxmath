@@ -1,0 +1,216 @@
+############################################################
+#                                                          #
+#                 Tuxmath Config File                      #
+#                                                          #
+############################################################
+
+
+############################################################
+#                                                          #
+#                 General Game Options                     #
+#                                                          #
+# The following options are boolean (true/false) variables #
+# that control various aspects of Tuxmath's behavior.      #
+# The program writes the values to the file as either '0'  #
+# or '1'. However, the program accepts 'n', 'no', 'f', and #
+# 'false' as synonyms for '0', and similarly accepts 'y',  #
+# 'yes', 't', and 'true' as synonyms for '1' (all case-    #
+# insensitive).                                            #
+############################################################
+
+############################################################
+# 'per_user_config' determines whether Tuxmath will look   #
+# in the user's home directory for settings. Default is 1  #
+# (yes). If deselected, the program will ignore the user's #
+# .tuxmath file and use the the global settings in the     #
+# installation-wide config file.                           #
+# This setting cannot be changed by an ordinary user.      #
+############################################################
+per_user_config = 1
+
+# Self-explanatory, default is 1:
+use_sound = 1
+
+# Use either fullscreen at 640x480 resolution or window of that size
+# Default is 1.  Change to 0 if SDL has trouble with fullscreen.
+fullscreen = 1
+
+# Use 640x480 jpg image for background; default is 1.
+use_bkgd = 1
+
+# Program runs as demo; default is 0.
+demo_mode = 0
+
+# Use operator selection from command line; default is 0.
+oper_override = 0
+
+# Display onscreen numeric keypad; default is 0.
+use_keypad = 0
+
+############################################################
+# The remaining settings determine the speed and number    #
+# of comets.  The speed settings are float numbers (mean-  #
+# ing decimals allowed). The comet settings are integers.  #
+############################################################
+
+# Starting comet speed. Default is 1.
+speed = 1.000000
+
+# Speed is multiplied by this factor with each new wave.
+# Default is 1.2
+speedup_factor = 1.200000
+
+# Maximum speed. Default is 10.
+max_speed = 10.000000
+
+# Number of comets for first wave. Default is 2.
+starting_comets = 2
+
+# Comets to add for each successive wave. Default is 2.
+extra_comets_per_wave = 2
+
+# Maximum number of comets. Default is 10.
+max_comets = 10
+
+# Allow speed and number of comets to increase with each
+# wave.  May want to turn this off for smaller kids. Default is 1.
+allow_speedup = 1
+
+# Go back to starting speed and number of comets if player
+# misses a question. Useful for smaller kids. Default is 0.
+slow_after_wrong = 0
+
+############################################################
+#                                                          #
+#                  General Math Options                    #
+#                                                          #
+# If 'play_through_list' selected, Tuxmath will ask each   #
+# question in the defined list. The game ends when no      #
+# questions remain.  Default is 1 (i.e. 'true' or 'yes').  #
+#                                                          #
+# 'question_copies' is the number of times each question   #
+# will be asked. It can be 1 to 10 - Default is 1.         #
+#                                                          #
+# 'repeat_wrongs' tells Tuxmath whether to reinsert        #
+# incorrectly answered questions into the list to be       #
+# asked again. Default is 1 (yes).                         #
+#                                                          #
+# 'copies_repeated_wrongs' gives the number of times an    #
+# incorrectly answered question will reappear. Default     #
+# is 1.                                                    #
+#                                                          #
+# The defaults for these values result in a 'mission'      #
+# for Tux that is accomplished by answering all            #
+# questions correctly with at least one surviving city.    #
+############################################################
+
+play_through_list = 1
+question_copies = 1
+repeat_wrongs = 1
+copies_repeated_wrongs = 1
+
+############################################################
+# 'format_answer_last' (, _first, middle) control the      #
+# generation of questions with the answer in different     #
+# places in the equation.  i.e.:                           #
+#                                                          #
+#    format_answer_last:    2 + 2 = ?                      #
+#    format_answer_first:   ? + 2 = 4                      #
+#    format_answer_middle:  2 + ? = 4                      #
+#                                                          #
+# By default, 'format_answer_first' is enabled and the     #
+# other two formats are disabled.  Note that the options   #
+# are not mutually exclusive - the question list may       #
+# contain questions with different formats.                #
+############################################################
+
+format_answer_last = 1
+format_answer_first = 0
+format_answer_middle = 0
+
+############################################################
+# 'allow_negatives' allows or disallows use of negative    #
+# numbers as both operands and answers.  Default is 0      #
+# (no), which disallows questions like:                    #
+#          2 - 4 = ?                                       #
+# Note: this option must be enabled in order to set the    #
+# operand ranges to include negatives (see below). If it   #
+# is changed from 1 (yes) to 0 (no), any negative          #
+# operand limits will be reset to 0.                       #
+############################################################
+
+allow_negatives = 0
+
+############################################################
+# 'max_answer' is the largest absolute value allowed in    #
+# any value in a question (not only the answer). Default   #
+# is 144. It can be set as high as 999.                    #
+############################################################
+
+max_answer = 144
+
+############################################################
+# 'max_questions' is limit of the length of the question   #
+# list. Default is 5000 - only severe taskmasters will     #
+# need to raise it.                                        #
+############################################################
+
+max_questions = 5000
+
+############################################################
+# If 'randomize' selected, the list will be shuffled       #
+# at the start of the game.  Default is 1 (yes).           #
+############################################################
+
+randomize = 1
+
+############################################################
+#                                                          #
+#                 Math Operations Allowed                  #
+#                                                          #
+# These options enable questions for each of the four math #
+# operations.  All are 1 (yes) by default.                 #
+############################################################
+
+addition_allowed = 1
+subtraction_allowed = 1
+multiplication_allowed = 1
+division_allowed = 1
+
+############################################################
+#                                                          #
+#      Minimum and Maximum Values for Operand Ranges       #
+#                                                          #
+# Operand limits can be set to any integer up to the       #
+# value of 'max_answer'.  If 'allow_negatives' is set to 1 #
+# (yes), either negative or positive values can be used.   #
+# Tuxmath will generate questions for every value in the   #
+# specified range. The maximum must be greater than or     #
+# equal to the corresponding minimum for any questions to  #
+# be generated for that operation.                         #
+############################################################
+
+
+# Addition operands: augend + addend = sum
+min_augend = 0
+max_augend = 12
+min_addend = 0
+max_addend = 12
+
+# Subtraction operands: minuend - subtrahend = difference
+min_minuend = 0
+max_minuend = 12
+min_subtrahend = 0
+max_subtrahend = 12
+
+# Multiplication operands: multiplier * multiplicand = product
+min_multiplier = 0
+max_multiplier = 12
+min_multiplicand = 0
+max_multiplicand = 12
+
+# Division operands: dividend/divisor = quotient
+min_divisor = 0
+max_divisor = 12
+min_quotient = 0
+max_quotient = 12

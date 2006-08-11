@@ -67,7 +67,7 @@ clean:
 
 tuxmath:	obj/tuxmath.o obj/setup.o obj/title.o obj/game.o \
 		obj/options.o obj/credits.o obj/playsound.o \
-                obj/mathcards.o
+                obj/mathcards.o obj/config.o
 	@echo "LINKING!"
 	$(CC) $(CFLAGS) $^ -o tuxmath $(LIBS)
 
@@ -77,7 +77,7 @@ obj:
 
 obj/tuxmath.o:	src/tuxmath.c src/images.h src/sounds.h src/setup.h \
 		src/title.h src/game.h src/options.h src/credits.h \
-		src/playsound.h
+		src/playsound.h 
 	@echo "BUILDING tuxmath.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/tuxmath.c -c -o obj/tuxmath.o
@@ -121,3 +121,8 @@ obj/mathcards.o:	src/mathcards.c src/mathcards.h
 	@echo "BUILDING mathcards.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/mathcards.c -c -o obj/mathcards.o
+
+obj/config.o:	src/config.c src/config.h 
+	@echo "BUILDING config.o"
+	-mkdir -p obj
+	$(CC) $(CFLAGS) src/config.c -c -o obj/config.o

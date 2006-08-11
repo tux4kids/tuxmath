@@ -10,11 +10,16 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/
 
+  Modified by David Bruce
+  dbruce@tampabay.rr.com
 
   Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
-   
-  August 26, 2001 - January 3, 2005
+  http://www.tux4kids.net/
+  Subversion repository:
+  https://svn.tux4kids.net/tuxmath
+
+ 
+  August 26, 2001 - August 8, 2006.
 */
 
 
@@ -23,18 +28,23 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* FIXME maybe unistd.h not needed, even less sure about portability */
+//#include <unistd.h>
+
 #include <SDL.h>
+
 #ifndef NOSOUND
 #include <SDL_mixer.h>
 #endif
+
 #include <SDL_image.h>
 
 #include "mathcards.h"
 
-#include "tuxmath.h"
 #include "setup.h"
 #include "images.h"
 #include "sounds.h"
+#include "config.h"
 #include "game.h"
 
 
@@ -173,6 +183,8 @@ Mix_Chunk * sounds[NUM_SOUNDS];
 Mix_Music * musics[NUM_MUSICS];
 #endif
 
+FILE* config_file;
+
 int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 game_option_type* game_options;
@@ -181,9 +193,7 @@ game_option_type* game_options;
 
 void seticon(void);
 void usage(int err, char * cmd);
-
 int initialize_game_options(game_option_type* opts);
-void print_game_options(game_option_type* opts);
 
 /* --- Set-up function! --- */
 
@@ -194,13 +204,13 @@ void setup(int argc, char * argv[])
 
   screen = NULL;
 
+  /* Initialize MathCards backend for math questions: */
   if (!MC_Initialize())
   {
     printf("\nUnable to initialize MathCards\n");
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
-
 
   /* initialize game_options struct with defaults DSB */
   game_options = malloc(sizeof(game_option_type));
@@ -211,6 +221,47 @@ void setup(int argc, char * argv[])
     exit(1);
   }
 
+  /* Now that MathCards and game_options initialized using  */
+  /* hard-coded defaults, read options from disk and mofify */
+  /* as needed. First read in installation-wide settings:   */
+  config_file = fopen(DATA_PREFIX ".tuxmath", "r");
+  if (config_file)
+  {
+    read_config_file(config_file, GLOBAL_CONFIG_FILE);
+    fclose(config_file);
+    config_file = NULL;
+  }
+
+  /* Now read in user-specific settings, if desired.  By    */
+  /* default, this restores settings from the player's last */
+  /* game:                                                  */
+  if (game_options->per_user_config)
+  {
+    /* find $HOME and tack on file name: */
+    char* home_dir;
+    home_dir = malloc(sizeof(char)*PATH_MAX);
+
+    strcpy(home_dir, getenv("HOME"));
+
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn setup() home directory is: = %s\n", home_dir);
+    #endif
+
+    strcat(home_dir, "/.tuxmath");
+
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn setup() config file: = %s\n", home_dir);
+    #endif
+
+    config_file = fopen(home_dir, "r");
+    if (config_file)
+    {
+      read_config_file(config_file, USER_CONFIG_FILE);
+      fclose(config_file);
+      config_file = NULL;
+    }
+    free(home_dir);
+  }
 
   for (i = 0; i < NUM_Q_RANGES; i++)
   { 
@@ -256,9 +307,17 @@ void setup(int argc, char * argv[])
         "If that city is hit by another comet, it is destroyed completely.\n"
 	"When you lose all of your cities, the game ends.\n\n");
 
+      printf("Note: all settings are now stored in a config file named '.tuxmath' in\n"
+             "the user's home directory as simple name/value pairs. It is much easier\n"
+             "to edit this file to set game parameters than to use the command-line\n"
+             "arguments listed below. Also, many options are not selectable from the\n"
+             "command line. The config file contains extensive comments detailing how\n"
+             "to configure the behavior of Tuxmath.\n\n");
+
       printf("Run the game with:\n"
-        "--norepeats      - to ask each question only once, allowing player to\n"
-        "                   win game if all questions successfully answered\n"
+        "--playthroughlist      - to ask each question only once, allowing player to\n"
+        "                         win game if all questions successfully answered\n"
+
         "--answersfirst   - to ask questions in format: ? + num2 = num3\n"
         "                   instead of default format: num1 + num2 = ?\n"
         "--answersmiddle  - to ask questions in format: num1 + ? = num3\n"
@@ -347,12 +406,12 @@ void setup(int argc, char * argv[])
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
     {
-      MC_SetAllowNegAnswer(1);
+      MC_SetAllowNegatives(1);
     }
-    else if (strcmp(argv[i], "--norepeats") == 0 ||
-             strcmp(argv[i], "-r") == 0)
+    else if (strcmp(argv[i], "--playthroughlist") == 0 ||
+             strcmp(argv[i], "-l") == 0)
     {
-      MC_SetRecycleCorrects(0);
+      MC_SetPlayThroughList(1);
     }
     else if (strcmp(argv[i], "--answersfirst") == 0)
     {
@@ -430,8 +489,6 @@ void setup(int argc, char * argv[])
     game_options->use_keypad = 0;
   }
 
-
-  
   /* Init SDL Video: */
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
@@ -442,9 +499,6 @@ void setup(int argc, char * argv[])
 	      "%s\n\n", SDL_GetError());
       exit(1);
     }
-
-  printf("before SDL Audio\n");
-
 
   /* Init SDL Audio: */
 
@@ -462,11 +516,9 @@ void setup(int argc, char * argv[])
         }
     }
 
-   printf("middle of Audio\n");
  
   if (game_options->use_sound)
   {
-    printf("using sound \n"); 
        if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
         {
           printf( "\nWarning: I could not set up audio for 44100 Hz "
@@ -485,7 +537,6 @@ void setup(int argc, char * argv[])
 
 #endif
 
-  printf("after SDL Audio\n");
  
 
   if (game_options->fullscreen)
@@ -583,7 +634,6 @@ void setup(int argc, char * argv[])
     SDL_Flip(screen);
   }
 
-  printf("all images loaded\n");
 
 #ifndef NOSOUND
   if (game_options->use_sound)
@@ -655,7 +705,35 @@ void setup(int argc, char * argv[])
 
 /* free any heap memory used during game DSB */
 void cleanup()
+
 {
+  /* find $HOME and tack on file name: */
+  char* home_dir;
+  home_dir = malloc(sizeof(char)*PATH_MAX);
+
+  strcpy(home_dir, getenv("HOME"));
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn cleanup() home directory is: = %s\n", home_dir);
+  #endif
+
+  strcat(home_dir, "/.tuxmath");
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn cleanup() config file: = %s\n", home_dir);
+  #endif
+
+  /* save settings: */
+  config_file = fopen(home_dir, "w");
+  if (config_file)
+  {
+    write_config_file(config_file);
+    fclose(config_file);
+    config_file = NULL;
+  }
+  free(home_dir);
+
+
   if (game_options)
     free(game_options);
   /* frees any heap used by MathCards: */
@@ -671,6 +749,7 @@ int initialize_game_options(game_option_type* opts)
     return 0;
 
   /* set general game options */
+  opts->per_user_config = DEFAULT_PER_USER_CONFIG;
   opts->use_sound = DEFAULT_USE_SOUND;
   opts->fullscreen = DEFAULT_FULLSCREEN;
   opts->use_bkgd = DEFAULT_USE_BKGD;
@@ -682,46 +761,164 @@ int initialize_game_options(game_option_type* opts)
   opts->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
   opts->max_speed = DEFAULT_MAX_SPEED;
   opts->slow_after_wrong = DEFAULT_SLOW_AFTER_WRONG;
-  opts->reuse_questions = DEFAULT_REUSE_QUESTIONS;
-  opts->extra_comets = DEFAULT_EXTRA_COMETS;
+  opts->starting_comets = DEFAULT_STARTING_COMETS;
+  opts->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
   opts->max_comets = DEFAULT_MAX_COMETS;
   opts->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   opts->num_bkgds = DEFAULT_NUM_BKGDS;
   opts->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
-  /* for testing purposes */
-  /* print_game_options(opts); */
+  #ifdef TUXMATH_DEBUG
+  print_game_options(stdout, 0);
+  #endif
+
   return 1;
 }
 
 
 
-/* prints struct to stdout for testing purposes */
-void print_game_options(game_option_type* opts)
+/* prints struct to stream for testing purposes */
+/* TODO include more info/help about these options in output */
+void print_game_options(FILE* fp, int verbose)
 {
  /* bail out if no struct */
-  if (!opts)
+  if (!game_options)
+  {
+    fprintf(stderr, "print_game_options(): invalid game_option_type struct");
     return;
+  }
 
-  printf("\nPrinting members of game_options struct:\n");
-  printf("\nGeneral game options:\n");
-  printf("use_sound:\t%d\n", opts->use_sound);
-  printf("fullscreen:\t%d\n", opts->fullscreen);
-  printf("use_bkgd:\t%d\n", opts->use_bkgd);
-  printf("demo_mode:\t%d\n", opts->demo_mode);
-  printf("oper_override:\t%d\n", opts->oper_override);
-  printf("use_keypad:\t%d\n", opts->use_keypad);
-  printf("reuse_questions:\t%d\n", opts->reuse_questions);
-  printf("speed:\t%f\n", opts->speed);
-  printf("allow_speedup:\t%d\n", opts->allow_speedup);
-  printf("speedup_factor:\t%f\n", opts->speedup_factor);
-  printf("max_speed:\t%f\n", opts->max_speed);
-  printf("slow_after_wrong:\t%d\n", opts->slow_after_wrong);
-  printf("extra_comets:\t%d\n", opts->extra_comets);
-  printf("max_comets:\t%d\n", opts->max_comets);
-  printf("num_cities:\t%d\n", opts->num_cities);
-  printf("num_bkgds:\t%d\n", opts->num_bkgds);
-  printf("max_city_colors:\t%d\n", opts->max_city_colors);
+  if(verbose)
+  {
+    fprintf (fp, "\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                 General Game Options                     #\n"
+                 "#                                                          #\n"
+                 "# The following options are boolean (true/false) variables #\n"
+                 "# that control various aspects of Tuxmath's behavior.      #\n"
+                 "# The program writes the values to the file as either '0'  #\n"
+                 "# or '1'. However, the program accepts 'n', 'no', 'f', and #\n"
+                 "# 'false' as synonyms for '0', and similarly accepts 'y',  #\n"
+                 "# 'yes', 't', and 'true' as synonyms for '1' (all case-    #\n"
+                 "# insensitive).                                            #\n"
+                 "############################################################\n\n");
+  }
+
+  if(verbose)
+  {
+    fprintf (fp, "############################################################\n" 
+                 "# 'per_user_config' determines whether Tuxmath will look   #\n"
+                 "# in the user's home directory for settings. Default is 1  #\n"
+                 "# (yes). If deselected, the program will ignore the user's #\n"
+                 "# .tuxmath file and use the the global settings in the     #\n"
+                 "# installation-wide config file.                           #\n"
+                 "# This setting cannot be changed by an ordinary user.      #\n"
+                 "############################################################\n");
+  }
+  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Self-explanatory, default is 1:\n");
+  }
+  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Use either fullscreen at 640x480 resolution or window of that size\n"
+                 "# Default is 1.  Change to 0 if SDL has trouble with fullscreen.\n");
+  } 
+  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Use 640x480 jpg image for background; default is 1.\n");
+  }
+  fprintf(fp, "use_bkgd = %d\n", game_options->use_bkgd);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Program runs as demo; default is 0.\n");
+  }
+  fprintf(fp, "demo_mode = %d\n", game_options->demo_mode);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Use operator selection from command line; default is 0.\n");
+  }
+  fprintf(fp, "oper_override = %d\n", game_options->oper_override);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Display onscreen numeric keypad; default is 0.\n");
+  }
+  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n############################################################\n" 
+                 "# The remaining settings determine the speed and number    #\n"
+                 "# of comets.  The speed settings are float numbers (mean-  #\n"
+                 "# ing decimals allowed). The comet settings are integers.  #\n"
+                 "############################################################\n");
+  }
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
+  }
+  fprintf(fp, "speed = %f\n", game_options->speed);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Speed is multiplied by this factor with each new wave.\n"
+                 "# Default is 1.2\n");
+  }
+  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Maximum speed. Default is 10.\n");
+  }
+  fprintf(fp, "max_speed = %f\n", game_options->max_speed);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Number of comets for first wave. Default is 2.\n");
+  }
+  fprintf(fp, "starting_comets = %d\n", game_options->starting_comets);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Comets to add for each successive wave. Default is 2.\n");
+  }
+  fprintf(fp, "extra_comets_per_wave = %d\n", game_options->extra_comets_per_wave);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
+  }
+  fprintf(fp, "max_comets = %d\n", game_options->max_comets);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Allow speed and number of comets to increase with each\n"
+                 "# wave.  May want to turn this off for smaller kids. Default is 1.\n");
+  }
+  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Go back to starting speed and number of comets if player\n"
+                 "# misses a question. Useful for smaller kids. Default is 0.\n");
+  }
+  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
+
+/*
+  fprintf(fp, "num_cities = %d\n", game_options->num_cities);
+  fprintf(fp, "num_bkgds = %d\n", game_options->num_bkgds);
+  fprintf(fp, "max_city_colors = %d\n", game_options->max_city_colors);
+*/
 }
 
 /* Set the application's icon: */
