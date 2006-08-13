@@ -1,5 +1,14 @@
 changelog for "tuxmath"
 
+2006.Aug.13 (https://svn.tux4kids.net/tuxmath/ - revision 19)
+  Version 0.91
+
+  Code:
+    * Fixed embarrassing bug in revision 18/version 0.9 that 
+      caused program to crash with segmentation fault if 
+      TUXMATH_DEBUG disabled (which was how it was committed).
+      :^(
+
 2006.Aug.11 (https://svn.tux4kids.net/tuxmath/ - revision 18)
   Version 0.9 
 

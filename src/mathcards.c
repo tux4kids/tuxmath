@@ -1882,9 +1882,11 @@ MC_MathQuestion* delete_list(MC_MathQuestion* list)
 /* prints struct to file */
 void MC_PrintMathOptions(FILE* fp, int verbose)
 {
-  printf("\nprint_math_options():\n");
+  #ifdef MC_DEBUG
+  printf("\nEntering MC_PrintMathOptions()\n");
+  #endif
 
- /* bail out if no struct */
+  /* bail out if no struct */
   if (!math_opts)
   {
     fprintf(stderr, "\nMath Options struct does not exist!\n");

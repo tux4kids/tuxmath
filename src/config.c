@@ -104,13 +104,14 @@ int read_config_file(FILE *fp, int file_type)
     /* set value to first '=' in line: */
     value = strchr(buf, '=');
 
-    #ifdef TUXMATH_DEBUG
     if (!value || (value == buf))
     {
+      #ifdef TUXMATH_DEBUG
       fprintf(stderr, "Error while reading prefs - line with no '='!\n");
+      #endif
+
       continue;
     }
-    #endif
 
     /* move past '=' sign: */
     ++value;
@@ -136,7 +137,6 @@ int read_config_file(FILE *fp, int file_type)
     #ifdef TUXMATH_DEBUG
     printf("parameter = '%s'\t, length = %d\n", parameter, strlen(parameter));
     printf("value = '%s'\t, length = %d\t, atoi() = %d\n", value, strlen(value), atoi(value));
-
     #endif
 
     /* Now ready to handle each name/value pair! */

@@ -39,14 +39,13 @@
 
 #include <SDL_image.h>
 
+#include "tuxmath.h"
 #include "mathcards.h"
-
 #include "setup.h"
 #include "images.h"
 #include "sounds.h"
 #include "config.h"
 #include "game.h"
-
 
 static char * image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/standby.png",
@@ -178,6 +177,7 @@ static char * music_filenames[NUM_MUSICS] = {
 /* (These need to be 'extern'd in "setup.h") */
 SDL_Surface * screen;
 SDL_Surface * images[NUM_IMAGES];
+
 #ifndef NOSOUND
 Mix_Chunk * sounds[NUM_SOUNDS];
 Mix_Music * musics[NUM_MUSICS];

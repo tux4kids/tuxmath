@@ -19,21 +19,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "tuxmath.h"
 #include "setup.h"
 #include "title.h"
 #include "game.h"
 #include "options.h"
 #include "credits.h"
-#include "tuxmath.h"
+
 
 /* global data: */
-/*MC_Options* math_options;  used by setup.c, options.c, game.c */
 game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
 int main(int argc, char * argv[])
 {
   int cmd, done;
-
   setup(argc, argv);
   
   done = 0;

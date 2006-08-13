@@ -28,7 +28,7 @@
 #endif
 
 #include "game.h"
-#include "tuxmath.h"
+
 
 extern SDL_Surface * screen;
 extern SDL_Surface * images[];
