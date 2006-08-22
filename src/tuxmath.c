@@ -52,7 +52,6 @@ int main(int argc, char * argv[])
   }
   while (!done);
   
-  SDL_Quit();
   cleanup();
   return 0;
 }

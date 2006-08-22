@@ -22,11 +22,10 @@
 
 //#define NOSOUND
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
-#define TUXMATH_VERSION 0.9
+#define TUXMATH_VERSION 0.92
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
-/* FIXME document what all of these options do */
 typedef struct game_option_type {
   /* general game options */
   int per_user_config;
@@ -43,7 +42,7 @@ typedef struct game_option_type {
   int slow_after_wrong;
   int starting_comets;
   int extra_comets_per_wave;
-  int max_comets;  /*FIXME not being used */
+  int max_comets;  
   /* not sure the rest of these belong in here */
   int num_cities;  /* MUST BE AN EVEN NUMBER! */
   int num_bkgds;

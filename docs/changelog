@@ -1,5 +1,15 @@
 changelog for "tuxmath"
 
+2006.Aug.22 (https://svn.tux4kids.net/tuxmath/ - revision 20)
+  Version 0.92
+
+  Code:
+    * Patch to allow program to exit more gracefully
+      if unable to load data files - primarily, the screen 
+      resolution goes back to normal instead of staying at
+      640x480.
+      David Yoder <hobie20dude@gmail.com>
+
 2006.Aug.13 (https://svn.tux4kids.net/tuxmath/ - revision 19)
   Version 0.91
 
@@ -8,6 +18,7 @@ changelog for "tuxmath"
       caused program to crash with segmentation fault if 
       TUXMATH_DEBUG disabled (which was how it was committed).
       :^(
+      David Bruce <dbruce@tampabay.rr.com>
 
 2006.Aug.11 (https://svn.tux4kids.net/tuxmath/ - revision 18)
   Version 0.9 
@@ -38,11 +49,14 @@ changelog for "tuxmath"
       structs changed to more intuitive/descriptive ones.
   Docs:
     * Updates to README.txt and TODO.txt
+      David Bruce <dbruce@tampabay.rr.com>
 
 2006.Jun.17 (https://svn.tux4kids.net/tuxmath/ - revision 10)
   Docs:
     * Updates to README.txt and TODO.txt.
     * Version designated as 0.8 in README.txt, tuxmath.h, and Makefile.
+
+      David Bruce <dbruce@tampabay.rr.com>
 
 2006.Jun.12 (https://svn.tux4kids.net/tuxmath/ - revision 9)
   Game:

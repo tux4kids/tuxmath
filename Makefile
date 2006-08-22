@@ -8,7 +8,7 @@
 # Modified by David Bruce
 # dbruce@tampabay.rr.com
 
-# 2001.Aug.26 - 2006.Jun.12
+# 2001.Aug.26 - 2006.Aug.22
 
 
 CFLAGS=-Wall -g $(SDL_CFLAGS) -DDATA_PREFIX=\"$(DATA_PREFIX)\" -DDEBUG \
@@ -32,7 +32,7 @@ endif
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
 
 
-VERSION=tuxmath-0.8
+VERSION=tuxmath-0.92
 
 all:	tuxmath
 

@@ -41,6 +41,7 @@ extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 void setup(int argc, char * argv[]);
 void cleanup(void);
+void cleanup_on_error(void);
 
 void print_game_options(FILE* fp, int verbose);
 #endif

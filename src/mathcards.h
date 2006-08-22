@@ -84,9 +84,9 @@ typedef struct MC_Options {
 #define MC_MATH_OPTS_INVALID -9999        /* return value for accessor functions */
                                           /* if math_opts not valid    */
 
-#define DEFAULT_PLAY_THROUGH_LIST 1       /* play until all questions in list answered */                                                 /* correctly */
-#define DEFAULT_REPEAT_WRONGS   1        /* reuse incorrectly answered questions or not */
-#define DEFAULT_COPIES_REPEATED_WRONGS 1  /* how many copies of an incorrectly answered */                                                /* question to re-insert*/
+#define DEFAULT_PLAY_THROUGH_LIST 1       /* play until all questions in list answered */                                                                               /* correctly */
+#define DEFAULT_REPEAT_WRONGS   1         /* reuse incorrectly answered questions or not */
+#define DEFAULT_COPIES_REPEATED_WRONGS 1  /* how many copies of an incorrectly answered */                                                                              /* question to re-insert*/
 #define DEFAULT_ALLOW_NEGATIVES 0
 #define DEFAULT_MAX_ANSWER 144
 #define DEFAULT_MAX_QUESTIONS 5000

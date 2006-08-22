@@ -194,6 +194,8 @@ game_option_type* game_options;
 void seticon(void);
 void usage(int err, char * cmd);
 int initialize_game_options(game_option_type* opts);
+void cleanup_memory(void);
+void cleanup_options(void);
 
 /* --- Set-up function! --- */
 
@@ -218,6 +220,7 @@ void setup(int argc, char * argv[])
   {
     printf("\nUnable to initialize game_options\n");
     fprintf(stderr, "\nUnable to initialize game_options\n");
+    cleanup_on_error();
     exit(1);
   }
 
@@ -344,6 +347,7 @@ void setup(int argc, char * argv[])
       printf("\n");
       
 
+      cleanup_on_error();
       exit(0);
     }
     else if (strcmp(argv[i], "--copyright") == 0 ||
@@ -360,6 +364,7 @@ void setup(int argc, char * argv[])
 	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 	"\n");
 
+      cleanup_on_error();
       exit(0);
     }
     else if (strcmp(argv[i], "--usage") == 0 ||
@@ -386,6 +391,7 @@ void setup(int argc, char * argv[])
     {
       printf("Tux, of Math Command (\"tuxmath\")\n"
 	     "Version " VERSION "\n");
+      cleanup_on_error();
       exit(0);
     }
     else if (strcmp(argv[i], "--nobackground") == 0 ||
@@ -497,6 +503,7 @@ void setup(int argc, char * argv[])
 	      "\nError: I could not initialize video!\n"
 	      "The Simple DirectMedia error that occured was:\n"
 	      "%s\n\n", SDL_GetError());
+      cleanup_on_error();
       exit(1);
     }
 
@@ -564,6 +571,7 @@ void setup(int argc, char * argv[])
             "\nError: I could not open the display.\n"
 	    "The Simple DirectMedia error that occured was:\n"
 	    "%s\n\n", SDL_GetError());
+    cleanup_on_error();
     exit(1);
   }
 
@@ -589,6 +597,7 @@ void setup(int argc, char * argv[])
 		"%s\n"
 		"The Simple DirectMedia error that occured was:\n"
 		"%s\n\n", image_filenames[i], SDL_GetError());
+        cleanup_on_error();
 	exit(1);
       }
 
@@ -649,6 +658,7 @@ void setup(int argc, char * argv[])
                 "%s\n"
                 "The Simple DirectMedia error that occured was:\n"
                 "%s\n\n", sound_filenames[i], SDL_GetError());
+        cleanup_on_error();
         exit(1);
       }
       
@@ -673,6 +683,7 @@ void setup(int argc, char * argv[])
                 "%s\n"
                 "The Simple DirectMedia error that occured was:\n"
                 "%s\n\n", music_filenames[i], SDL_GetError());
+        cleanup_on_error();
         exit(1);
       }
       
@@ -703,8 +714,25 @@ void setup(int argc, char * argv[])
     }
 }
 
-/* free any heap memory used during game DSB */
+/* save options and free heap */
+/* use for successful exit */
 void cleanup()
+
+{
+	cleanup_options();
+	cleanup_memory();
+}
+
+/* save options and free heap */
+/* use for fail exit */
+void cleanup_on_error()
+
+{
+	cleanup_memory();
+}
+
+/* save options */
+void cleanup_options()
 
 {
   /* find $HOME and tack on file name: */
@@ -732,8 +760,13 @@ void cleanup()
     config_file = NULL;
   }
   free(home_dir);
+}
 
+/* free any heap memory used during game DSB */
+void cleanup_memory()
 
+{
+  SDL_Quit();
   if (game_options)
     free(game_options);
   /* frees any heap used by MathCards: */
