@@ -1,6 +1,6 @@
 TODO.txt for "tuxmath"
 
-August 11, 2006
+September 03, 2006
 
 Build:
   * Fix certain file permissions issues when packaged as rpm.
@@ -23,6 +23,7 @@ Game Play:
   * More entertaining "victory" and "defeat" screens
   * Add option to review missed questions to end-of-game screens
   * Add option to play next game using missed questions from current game
+  * Lesson series of progressively harder "missions".
   * End-of-level calculations, bonuses and animations
   * Add special targets that restore shields or rebuild cities.
 
@@ -31,8 +32,7 @@ Documentation:
   * Finish INSTALL.txt
 
 Options:
-  * Make all of settings for MathCards backend settable at run time rather than just
-    at compile time - will require major overall of Options screen(s).
+  * Major overall of in-game Options system needed.
   * Display numbers instead of formulas if no operators are selected: "typing tutor" mode.
   * Save options.
   * Admin options screen / files

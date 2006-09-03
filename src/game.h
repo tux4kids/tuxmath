@@ -37,33 +37,7 @@ typedef struct laser_type {
   int x2, y2;
 } laser_type;
 
-enum {
-  OPER_ADD,
-  OPER_SUB,
-  OPER_MULT,
-  OPER_DIV,
-  NUM_OPERS
-};
 
-extern char operchars[NUM_OPERS];
-
-extern char * oper_opts[NUM_OPERS];
-
-extern char * oper_alt_opts[NUM_OPERS];
-
-enum {
-  Q_RANGE_1_5,
-  Q_RANGE_6_12,
-  Q_RANGE_13_20,
-  NUM_Q_RANGES
-};
-
-typedef struct range_type {
-  int min;
-  int max;
-} range_type;
-
-extern range_type ranges[NUM_Q_RANGES];
 
 enum {
   GAME_IN_PROGRESS,

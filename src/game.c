@@ -25,9 +25,8 @@
 #endif
 #include <SDL_image.h>
 #include "game.h"
-#include "images.h"
+#include "fileops.h"
 #include "setup.h"
-#include "sounds.h"
 #include "playsound.h"
 #include "tuxmath.h"
 #include "mathcards.h"  
@@ -192,7 +191,7 @@ int game(void)
       /* Keep playing music: */
       
     #ifndef NOSOUND
-    if (game_options->use_sound)
+    if (opts_using_sound())
     {
       if (!Mix_PlayingMusic())
       {
@@ -262,7 +261,7 @@ int game(void)
         }
 
         /* draw dancing tux: */
-        draw_console_image(IMG_CONSOLE_LED);
+        draw_console_image(IMG_CONSOLE_BASH);
         /* walk tux back and forth */
         tux_offset += tux_step;
         /* select tux_egypt images according to which way tux is headed: */
@@ -363,7 +362,7 @@ int game(void)
 
   /* Stop music: */
 #ifndef NOSOUND
-  if (game_options->use_sound)
+  if (opts_using_sound())
   {
     if (Mix_PlayingMusic())
     {
@@ -1516,7 +1515,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (game_options->use_sound)
+  if (opts_using_sound())
     Mix_PauseMusic();
 #endif
   
@@ -1540,7 +1539,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (game_options->use_sound)
+  if (opts_using_sound())
     Mix_ResumeMusic();
 #endif
 

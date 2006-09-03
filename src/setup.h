@@ -2,9 +2,13 @@
   setup.h
 
   For TuxMath
-  Contains some globals (screen surface, images, some option flags, etc.)
-  as well as the function to load data files (images, sounds, music)
-  and display a "Loading..." screen.
+  Contains functions to initialize the settings structs, 
+  read in command-line arguments, and to clean up on exit.
+  All code involving file I/O has been moved to fileops.h/fileops.c
+  and is called from the main setup function.
+
+  Some globals are declared in setup.c - all globals throught tuxmath
+  are now extern'd in the same place in tuxmath.h
 
   by Bill Kendrick
   bill@newbreedsoftware.com
@@ -15,33 +19,20 @@
   http://www.tux4kids.org/
       
   August 26, 2001 - February 18, 2004
+
+  Modified by David Bruce
+  dbruce@tampabay.rr.com
+  September 1, 2006
 */
 
 
 #ifndef SETUP_H
 #define SETUP_H
 
-#include <SDL.h>
-
-#ifndef NOSOUND
-#include <SDL_mixer.h>
-#endif
-
-#include "game.h"
-
-
-extern SDL_Surface * screen;
-extern SDL_Surface * images[];
-#ifndef NOSOUND
-extern Mix_Chunk * sounds[];
-extern Mix_Music * musics[];
-#endif
-
-extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 void setup(int argc, char * argv[]);
 void cleanup(void);
 void cleanup_on_error(void);
 
-void print_game_options(FILE* fp, int verbose);
+int opts_using_sound(void);
 #endif

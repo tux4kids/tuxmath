@@ -20,11 +20,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include <SDL.h>
+
+#include "tuxmath.h"
 #include "options.h"
-#include "images.h"
+#include "fileops.h"
 #include "setup.h"
-#include "sounds.h"
 
 
 char * credit_text[] = {
@@ -45,6 +47,7 @@ char * credit_text[] = {
   "MICHAEL BEHRISCH",
   "DONNY VISZNEKI",
   "YVES COMBE",
+  "DAVID YODER",
   "DAVID BRUCE",
   "",
   "-LEAD ARTIST",

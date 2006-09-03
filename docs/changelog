@@ -1,5 +1,33 @@
 changelog for "tuxmath"
 
+2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 21)
+  Version 0.93
+
+  Code:
+    * config.h/c now called fileops.h/c and all code related to
+      file operations contained here (config files as well as
+      loading of image and sound data files). Both images.h and 
+      sound.h have been incorporated into fileops.h. Idea is to
+      have only one place for OS-specific code, if possible.
+    * setup() split into several smaller functions.
+    * If a sound file cannot be loaded, the program continues 
+      without sound rather than exiting. Bug fixed that caused 
+      this to turn off sound for subsequent games (thanks Tim Holy).
+    * All global data now extern'd in same place in tuxmath.h.
+  Setup:
+    * Better handling of config files.  Program now creates 
+      .tuxmath directory in user's home, config file is in this
+      directory and is called "options".  Global config file
+      located in new "missions" folder in program data (this 
+      will change to something under /etc or /usr/local/etc when
+      I have studied FHS and makefiles more).
+    * Added "--optionfile filename" command-line arg (thanks Yves
+      Combe for suggestion) - program will look for 'filename' in
+      several locations including as absolute path.
+  Docs:
+    * Updates to changelog and TODO.txt; update to usage();
+      David Bruce <dbruce@tampabay.rr.com>
+
 2006.Aug.22 (https://svn.tux4kids.net/tuxmath/ - revision 20)
   Version 0.92
 

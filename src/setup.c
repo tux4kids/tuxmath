@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdlib.h>
 
 /* FIXME maybe unistd.h not needed, even less sure about portability */
 //#include <unistd.h>
@@ -42,170 +41,59 @@
 #include "tuxmath.h"
 #include "mathcards.h"
 #include "setup.h"
-#include "images.h"
-#include "sounds.h"
-#include "config.h"
+#include "fileops.h"
 #include "game.h"
 
-static char * image_filenames[NUM_IMAGES] = {
-  DATA_PREFIX "/images/status/standby.png",
-  DATA_PREFIX "/images/status/loading.png",
-  DATA_PREFIX "/images/status/title.png",
-  DATA_PREFIX "/images/status/options.png",
-  DATA_PREFIX "/images/status/tux4kids.png",
-  DATA_PREFIX "/images/status/nbs.png",
-  DATA_PREFIX "/images/status/tux_helmet1.png",
-  DATA_PREFIX "/images/status/tux_helmet2.png",
-  DATA_PREFIX "/images/status/tux_helmet3.png", 
-  DATA_PREFIX "/images/status/cmd_play.png",
-  DATA_PREFIX "/images/status/cmd_options.png",
-  DATA_PREFIX "/images/status/cmd_credits.png",
-  DATA_PREFIX "/images/status/cmd_quit.png",
-  DATA_PREFIX "/images/status/opt_addition.png",
-  DATA_PREFIX "/images/status/opt_subtraction.png",
-  DATA_PREFIX "/images/status/opt_multiplication.png",
-  DATA_PREFIX "/images/status/opt_division.png",
-  DATA_PREFIX "/images/status/opt_max_answer.png",
-  DATA_PREFIX "/images/status/opt_speed.png",
-  DATA_PREFIX "/images/status/opt_q_range.png",
-  DATA_PREFIX "/images/status/opt_rng_1_5.png",
-  DATA_PREFIX "/images/status/opt_rng_1_5_on.png",
-  DATA_PREFIX "/images/status/opt_rng_6_12.png",
-  DATA_PREFIX "/images/status/opt_rng_6_12_on.png",
-  DATA_PREFIX "/images/status/opt_rng_13_20.png",
-  DATA_PREFIX "/images/status/opt_rng_13_20_on.png",
-  DATA_PREFIX "/images/status/opt_check.png",
-  DATA_PREFIX "/images/status/opt_check_on.png",
-  DATA_PREFIX "/images/cities/city-blue.png",
-  DATA_PREFIX "/images/cities/csplode-blue-1.png",
-  DATA_PREFIX "/images/cities/csplode-blue-2.png",
-  DATA_PREFIX "/images/cities/csplode-blue-3.png",
-  DATA_PREFIX "/images/cities/csplode-blue-4.png",
-  DATA_PREFIX "/images/cities/csplode-blue-5.png",
-  DATA_PREFIX "/images/cities/cdead-blue.png",
-  DATA_PREFIX "/images/cities/city-green.png",
-  DATA_PREFIX "/images/cities/csplode-green-1.png",
-  DATA_PREFIX "/images/cities/csplode-green-2.png",
-  DATA_PREFIX "/images/cities/csplode-green-3.png",
-  DATA_PREFIX "/images/cities/csplode-green-4.png",
-  DATA_PREFIX "/images/cities/csplode-green-5.png",
-  DATA_PREFIX "/images/cities/cdead-green.png",
-  DATA_PREFIX "/images/cities/city-orange.png",
-  DATA_PREFIX "/images/cities/csplode-orange-1.png",
-  DATA_PREFIX "/images/cities/csplode-orange-2.png",
-  DATA_PREFIX "/images/cities/csplode-orange-3.png",
-  DATA_PREFIX "/images/cities/csplode-orange-4.png",
-  DATA_PREFIX "/images/cities/csplode-orange-5.png",
-  DATA_PREFIX "/images/cities/cdead-orange.png",
-  DATA_PREFIX "/images/cities/city-red.png",
-  DATA_PREFIX "/images/cities/csplode-red-1.png",
-  DATA_PREFIX "/images/cities/csplode-red-2.png",
-  DATA_PREFIX "/images/cities/csplode-red-3.png",
-  DATA_PREFIX "/images/cities/csplode-red-4.png",
-  DATA_PREFIX "/images/cities/csplode-red-5.png",
-  DATA_PREFIX "/images/cities/cdead-red.png",
-  DATA_PREFIX "/images/cities/shields.png",
-  DATA_PREFIX "/images/comets/comet1.png",
-  DATA_PREFIX "/images/comets/comet2.png",
-  DATA_PREFIX "/images/comets/comet3.png",
-  DATA_PREFIX "/images/comets/cometex3.png",
-  DATA_PREFIX "/images/comets/cometex3.png",
-  DATA_PREFIX "/images/comets/cometex2.png",
-  DATA_PREFIX "/images/comets/cometex2.png",
-  DATA_PREFIX "/images/comets/cometex1a.png",
-  DATA_PREFIX "/images/comets/cometex1a.png",
-  DATA_PREFIX "/images/comets/cometex1.png",
-  DATA_PREFIX "/images/comets/cometex1.png",
-  DATA_PREFIX "/images/comets/mini_comet1.png",
-  DATA_PREFIX "/images/comets/mini_comet2.png",
-  DATA_PREFIX "/images/comets/mini_comet3.png",
-  DATA_PREFIX "/images/status/nums.png",
-  DATA_PREFIX "/images/status/lednums.png",
-  DATA_PREFIX "/images/status/led_neg_sign.png",
-  DATA_PREFIX "/images/status/paused.png",
-  DATA_PREFIX "/images/status/demo.png",
-  DATA_PREFIX "/images/status/demo-small.png",
-  DATA_PREFIX "/images/status/keypad.png",
-  DATA_PREFIX "/images/status/keypad_no_neg.png",
-  DATA_PREFIX "/images/tux/console.png",
-  DATA_PREFIX "/images/tux/console_led.png",
-  DATA_PREFIX "/images/tux/tux-console1.png",
-  DATA_PREFIX "/images/tux/tux-console2.png",
-  DATA_PREFIX "/images/tux/tux-console3.png",
-  DATA_PREFIX "/images/tux/tux-console4.png",
-  DATA_PREFIX "/images/tux/tux-relax1.png",
-  DATA_PREFIX "/images/tux/tux-relax2.png",
-  DATA_PREFIX "/images/tux/tux-egypt1.png",
-  DATA_PREFIX "/images/tux/tux-egypt2.png",
-  DATA_PREFIX "/images/tux/tux-egypt3.png",
-  DATA_PREFIX "/images/tux/tux-egypt4.png",
-  DATA_PREFIX "/images/tux/tux-drat.png",
-  DATA_PREFIX "/images/tux/tux-yipe.png",
-  DATA_PREFIX "/images/tux/tux-yay1.png",
-  DATA_PREFIX "/images/tux/tux-yay2.png",
-  DATA_PREFIX "/images/tux/tux-yes1.png",
-  DATA_PREFIX "/images/tux/tux-yes2.png",
-  DATA_PREFIX "/images/tux/tux-sit.png",
-  DATA_PREFIX "/images/tux/tux-fist1.png",
-  DATA_PREFIX "/images/tux/tux-fist2.png",
-  DATA_PREFIX "/images/status/wave.png",
-  DATA_PREFIX "/images/status/score.png",
-  DATA_PREFIX "/images/status/numbers.png",
-  DATA_PREFIX "/images/status/gameover.png",
-  DATA_PREFIX "/images/status/gameover_won.png"
-};
 
-
-static char * sound_filenames[NUM_SOUNDS] = {
-  DATA_PREFIX "/sounds/pop.wav",
-  DATA_PREFIX "/sounds/laser.wav",
-  DATA_PREFIX "/sounds/buzz.wav",
-  DATA_PREFIX "/sounds/alarm.wav",
-  DATA_PREFIX "/sounds/shieldsdown.wav",
-  DATA_PREFIX "/sounds/explosion.wav",
-  DATA_PREFIX "/sounds/click.wav",
-  DATA_PREFIX "/sounds/SIZZLING.WAV"
-};
-
-static char * music_filenames[NUM_MUSICS] = {
-  DATA_PREFIX "/sounds/game.mod",
-  DATA_PREFIX "/sounds/game2.mod",
-  DATA_PREFIX "/sounds/game3.mod"
-};
 
 /* Global data used in setup.c:              */
 /* (These need to be 'extern'd in "setup.h") */
-SDL_Surface * screen;
-SDL_Surface * images[NUM_IMAGES];
+SDL_Surface* screen;
+SDL_Surface* images[NUM_IMAGES];
 
 #ifndef NOSOUND
-Mix_Chunk * sounds[NUM_SOUNDS];
-Mix_Music * musics[NUM_MUSICS];
+Mix_Chunk* sounds[NUM_SOUNDS];
+Mix_Music* musics[NUM_MUSICS];
 #endif
 
-FILE* config_file;
-
-int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
-
-game_option_type* game_options;
 
 /* Local function prototypes: */
+void initialize_options(void);
+void handle_command_args(int argc, char* argv[]);
+void initialize_SDL(void);
+void load_data_files(void);
 
+int initialize_game_options(void);
 void seticon(void);
 void usage(int err, char * cmd);
-int initialize_game_options(game_option_type* opts);
-void cleanup_memory(void);
-void cleanup_options(void);
 
-/* --- Set-up function! --- */
+void cleanup_memory(void);
+
+
+
+/* --- Set-up function - now in four easier-to-digest courses! --- */
 
 void setup(int argc, char * argv[])
 {
-  int i, j, found, total_files;
-  SDL_Rect dest;
+  /* initialize settings and read in config files: */
+  initialize_options();
+  /* Command-line code now in own function: */
+  handle_command_args(argc, argv);
+  /* SDL setup in own function:*/
+  initialize_SDL();
+  /* Read image and sound files: */
+  load_data_files();
+}
 
-  screen = NULL;
 
+
+
+/* Set up mathcards with default values for math question options, */
+/* set up game_options with defaults for general game options,     */
+/* then read in global config file, followed if desired by user's  */
+/* own config file:                                                */
+void initialize_options(void)
+{
   /* Initialize MathCards backend for math questions: */
   if (!MC_Initialize())
   {
@@ -216,7 +104,7 @@ void setup(int argc, char * argv[])
 
   /* initialize game_options struct with defaults DSB */
   game_options = malloc(sizeof(game_option_type));
-  if (!initialize_game_options(game_options))
+  if (!initialize_game_options())
   {
     printf("\nUnable to initialize game_options\n");
     fprintf(stderr, "\nUnable to initialize game_options\n");
@@ -227,12 +115,10 @@ void setup(int argc, char * argv[])
   /* Now that MathCards and game_options initialized using  */
   /* hard-coded defaults, read options from disk and mofify */
   /* as needed. First read in installation-wide settings:   */
-  config_file = fopen(DATA_PREFIX ".tuxmath", "r");
-  if (config_file)
+  if (!read_global_config_file())
   {
-    read_config_file(config_file, GLOBAL_CONFIG_FILE);
-    fclose(config_file);
-    config_file = NULL;
+    fprintf(stderr, "\nCould not find global config file.\n");
+    /* can still proceed using hard-coded defaults.         */
   }
 
   /* Now read in user-specific settings, if desired.  By    */
@@ -240,62 +126,21 @@ void setup(int argc, char * argv[])
   /* game:                                                  */
   if (game_options->per_user_config)
   {
-    /* find $HOME and tack on file name: */
-    char* home_dir;
-    home_dir = malloc(sizeof(char)*PATH_MAX);
-
-    strcpy(home_dir, getenv("HOME"));
-
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn setup() home directory is: = %s\n", home_dir);
-    #endif
-
-    strcat(home_dir, "/.tuxmath");
-
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn setup() config file: = %s\n", home_dir);
-    #endif
-
-    config_file = fopen(home_dir, "r");
-    if (config_file)
+    if (!read_user_config_file())
     {
-      read_config_file(config_file, USER_CONFIG_FILE);
-      fclose(config_file);
-      config_file = NULL;
-    }
-    free(home_dir);
-  }
-
-  for (i = 0; i < NUM_Q_RANGES; i++)
-  { 
-    range_enabled[i] = 1;
-  }
-
-
-  /* See if operator settings are being overridden by command-line: */
-
-  for (i = 1; i < argc; i++)
-  {
-    if (strcmp(argv[i], "--operator") == 0 ||
-        strcmp(argv[i], "-o") == 0)
-    {
-      game_options->oper_override = 1;
+      fprintf(stderr, "\nCould not find user's config file.\n");
+      /* can still proceed using hard-coded defaults.         */
     }
   }
+}
 
 
-  /* If operator settings are being overridden, clear them first: */
-
-  if (game_options->oper_override)
-  {
-    for (i = 0; i < NUM_OPERS; i++)
-    {
-      opers[i] = 0;
-    }
-  }
 
 
-  /* Get options from the command line: */
+/* Handle any arguments passed from command line */
+void handle_command_args(int argc, char* argv[])
+{
+  int i, j, found;
 
   for (i = 1; i < argc; i++)
   {
@@ -310,14 +155,20 @@ void setup(int argc, char * argv[])
         "If that city is hit by another comet, it is destroyed completely.\n"
 	"When you lose all of your cities, the game ends.\n\n");
 
-      printf("Note: all settings are now stored in a config file named '.tuxmath' in\n"
-             "the user's home directory as simple name/value pairs. It is much easier\n"
+      printf("Note: all settings are now stored in a config file named 'options' in\n"
+             "a hidden directory named './tuxmath' within the user's home directory.\n"
+             "The file consists of simple name/value pairs. It is much easier\n"
              "to edit this file to set game parameters than to use the command-line\n"
              "arguments listed below. Also, many options are not selectable from the\n"
              "command line. The config file contains extensive comments detailing how\n"
              "to configure the behavior of Tuxmath.\n\n");
 
       printf("Run the game with:\n"
+        "--optionfile filename  - read config settings from named file. The locations\n"
+        "                         searched for a file with a matching name are the\n"
+        "                         current working directory, the absolute path of the\n"
+        "                         filename, tuxmath's missions directory, the user's\n"
+        "                         tuxmath directory, and the user's home.\n"
         "--playthroughlist      - to ask each question only once, allowing player to\n"
         "                         win game if all questions successfully answered\n"
 
@@ -345,8 +196,7 @@ void setup(int argc, char * argv[])
         printf("                   \"%s\"\n", oper_alt_opts[j]);
 
       printf("\n");
-      
-
+    
       cleanup_on_error();
       exit(0);
     }
@@ -373,6 +223,23 @@ void setup(int argc, char * argv[])
       /* Display (happy) usage: */
 	    
       usage(0, argv[0]);
+    }
+    /* TODO implement --optionfile filename */
+    else if (0 == strcmp(argv[i], "--optionfile"))
+    {
+      if (i >= argc - 1)
+      {
+	fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
+	usage(1, argv[0]);
+      }
+      else /* try to read file named in following arg: */
+      {
+        if (!read_named_config_file(argv[i + 1])) 
+        {
+          fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
+        }
+      }
+      i++; /* so program doesn't barf on next arg (the filename) */
     }
     else if (strcmp(argv[i], "--fullscreen") == 0 ||
 	     strcmp(argv[i], "-f") == 0)
@@ -451,6 +318,8 @@ void setup(int argc, char * argv[])
 
       i++;
     }
+
+    /* FIXME this does not currently work */
     else if (strcmp(argv[i], "--operator") == 0 ||
 	     strcmp(argv[i], "-o") == 0)
     {
@@ -480,13 +349,14 @@ void setup(int argc, char * argv[])
       i++;
     }
     else
+    /* TODO try to match unrecognized strings to config file names */
     {
       /* Display 'made' usage: */
 
       fprintf(stderr, "Unknown option: %s\n", argv[i]);
       usage(1, argv[0]);
     }
-  }
+  }/* end of command-line args */
 
 
   if (game_options->demo_mode && game_options->use_keypad)
@@ -494,57 +364,56 @@ void setup(int argc, char * argv[])
     fprintf(stderr, "No use for keypad in demo mode!\n");
     game_options->use_keypad = 0;
   }
+}
 
+
+
+
+void initialize_SDL(void)
+{
   /* Init SDL Video: */
+  screen = NULL;
 
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
+  {
+    fprintf(stderr,
+           "\nError: I could not initialize video!\n"
+	   "The Simple DirectMedia error that occured was:\n"
+	   "%s\n\n", SDL_GetError());
+    cleanup_on_error();
+    exit(1);
+  }
+
+
+  #ifndef NOSOUND
+  /* Init SDL Audio: */
+  if (game_options->use_sound)
+  { 
+    if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
       fprintf(stderr,
-	      "\nError: I could not initialize video!\n"
-	      "The Simple DirectMedia error that occured was:\n"
-	      "%s\n\n", SDL_GetError());
-      cleanup_on_error();
-      exit(1);
+            "\nWarning: I could not initialize audio!\n"
+            "The Simple DirectMedia error that occured was:\n"
+            "%s\n\n", SDL_GetError());
+      game_options->sound_available = 0;
     }
-
-  /* Init SDL Audio: */
-
-#ifndef NOSOUND
-
-  if (game_options->use_sound)
-    { 
-      if (SDL_Init(SDL_INIT_AUDIO) < 0)
-        {
-          fprintf(stderr,
-  	          "\nWarning: I could not initialize audio!\n"
-	          "The Simple DirectMedia error that occured was:\n"
-	          "%s\n\n", SDL_GetError());
-	  game_options->use_sound = 0;
-        }
-    }
+  }
 
  
   if (game_options->use_sound)
   {
-       if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
-        {
-          printf( "\nWarning: I could not set up audio for 44100 Hz "
-	          "16-bit stereo.\n"
-	          "The Simple DirectMedia error that occured was:\n"
-	          "%s\n\n", SDL_GetError());
+    if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
+    {
+      fprintf(stderr,
+	      "\nWarning: I could not set up audio for 44100 Hz "
+	      "16-bit stereo.\n"
+	      "The Simple DirectMedia error that occured was:\n"
+	      "%s\n\n", SDL_GetError());
+      game_options->sound_available = 0;
+    }
+  }
+  #endif
 
-          fprintf(stderr,
-	          "\nWarning: I could not set up audio for 44100 Hz "
-	          "16-bit stereo.\n"
-	          "The Simple DirectMedia error that occured was:\n"
-	          "%s\n\n", SDL_GetError());
-          game_options->use_sound = 0;
-        }
-   }
-
-#endif
-
- 
 
   if (game_options->fullscreen)
   {
@@ -578,193 +447,63 @@ void setup(int argc, char * argv[])
   seticon();
 
   SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
-
-  if (game_options->use_sound)
-    total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
-  else
-    total_files = NUM_IMAGES;
+}
 
 
-  
-  /* Load images: */
-  for (i = 0; i < NUM_IMAGES; i++)
+
+void load_data_files(void)
+{
+  if (!load_image_data())
   {
-    images[i] = IMG_Load(image_filenames[i]);
-    if (images[i] == NULL)
-      {
-	fprintf(stderr,
-		"\nError: I couldn't load a graphics file:\n"
-		"%s\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", image_filenames[i], SDL_GetError());
-        cleanup_on_error();
-	exit(1);
-      }
-
-    
-    if (i == IMG_STANDBY)
-      {
-	dest.x = (screen->w - images[IMG_STANDBY]->w) / 2;
-	dest.y = screen->h - images[IMG_STANDBY]->h - 10;
-	dest.w = images[IMG_STANDBY]->w;
-	dest.h = images[IMG_STANDBY]->h;
-	
-	SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
-	SDL_Flip(screen);
-      }
-    else if (i == IMG_LOADING)
-      {
-	dest.x = (screen->w - images[IMG_LOADING]->w) / 2;
-	dest.y = 0;
-	dest.w = images[IMG_LOADING]->w;
-	dest.h = images[IMG_LOADING]->h;
-	
-	SDL_BlitSurface(images[IMG_LOADING], NULL, screen, &dest);
-	SDL_Flip(screen);
-      }
-    else if (i == IMG_TITLE)
-      {
-	dest.x = (screen->w - images[IMG_TITLE]->w) / 2;
-	dest.y = images[IMG_LOADING]->h;
-	dest.w = images[IMG_TITLE]->w;
-	dest.h = images[IMG_TITLE]->h;
-	
-	SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
-	SDL_Flip(screen);
-      }
-    
-    
-    dest.x = 0;
-    dest.y = (screen->h) - 10;
-    dest.w = ((screen->w) * (i + 1)) / total_files;
-    dest.h = 10;
-    
-    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-    SDL_Flip(screen);
+    fprintf(stderr, "\nCould not load image file - exiting!\n");
+    cleanup_on_error();
+    exit(1);
+  }
+  
+  if (!load_sound_data())
+  {
+    fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
+    game_options->sound_available = 0;
   }
 
-
-#ifndef NOSOUND
-  if (game_options->use_sound)
-  {
-    for (i = 0; i < NUM_SOUNDS; i++)
-    {
-      sounds[i] = Mix_LoadWAV(sound_filenames[i]);
-
-      if (sounds[i] == NULL)
-      {
-        fprintf(stderr,
-	        "\nError: I couldn't load a sound file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", sound_filenames[i], SDL_GetError());
-        cleanup_on_error();
-        exit(1);
-      }
-      
-      dest.x = 0;
-      dest.y = (screen->h) - 10;
-      dest.w = ((screen->w) * (i + 1 + NUM_IMAGES)) / total_files;
-      dest.h = 10;
-
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_Flip(screen);
-    }
-
-
-    for (i = 0; i < NUM_MUSICS; i++)
-    {
-      musics[i] = Mix_LoadMUS(music_filenames[i]);
-
-      if (musics[i] == NULL)
-      {
-        fprintf(stderr,
-	        "\nError: I couldn't load a music file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", music_filenames[i], SDL_GetError());
-        cleanup_on_error();
-        exit(1);
-      }
-      
-      dest.x = 0;
-      dest.y = (screen->h) - 10;
-      dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
-      dest.h = 10;
-
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_Flip(screen);
-    }
-  }
-#endif
   
-
-  for (i = images[IMG_LOADING]->h; i >= 0; i = i - 10)
-    {
-      SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-
-      dest.x = (screen->w - images[IMG_TITLE]->w) / 2;
-      dest.y = i;
-      dest.w = images[IMG_TITLE]->w;
-      dest.h = images[IMG_TITLE]->h;
-      
-      SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
-      SDL_Flip(screen);
-      SDL_Delay(10);
-    }
+  /* FIXME what does this do? */
+//   for (i = images[IMG_LOADING]->h; i >= 0; i = i - 10)
+//     {
+//       SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+// 
+//       dest.x = (screen->w - images[IMG_TITLE]->w) / 2;
+//       dest.y = i;
+//       dest.w = images[IMG_TITLE]->w;
+//       dest.h = images[IMG_TITLE]->h;
+//       
+//       SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
+//       SDL_Flip(screen);
+//       SDL_Delay(10);
+//     }
 }
 
 /* save options and free heap */
 /* use for successful exit */
-void cleanup()
-
+void cleanup(void)
 {
-	cleanup_options();
-	cleanup_memory();
+  write_user_config_file();
+  cleanup_memory();
 }
+
+
 
 /* save options and free heap */
 /* use for fail exit */
-void cleanup_on_error()
-
+void cleanup_on_error(void)
 {
-	cleanup_memory();
+  cleanup_memory();
 }
 
-/* save options */
-void cleanup_options()
 
-{
-  /* find $HOME and tack on file name: */
-  char* home_dir;
-  home_dir = malloc(sizeof(char)*PATH_MAX);
-
-  strcpy(home_dir, getenv("HOME"));
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn cleanup() home directory is: = %s\n", home_dir);
-  #endif
-
-  strcat(home_dir, "/.tuxmath");
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn cleanup() config file: = %s\n", home_dir);
-  #endif
-
-  /* save settings: */
-  config_file = fopen(home_dir, "w");
-  if (config_file)
-  {
-    write_config_file(config_file);
-    fclose(config_file);
-    config_file = NULL;
-  }
-  free(home_dir);
-}
 
 /* free any heap memory used during game DSB */
-void cleanup_memory()
-
+void cleanup_memory(void)
 {
   SDL_Quit();
   if (game_options)
@@ -775,31 +514,32 @@ void cleanup_memory()
 
 
 
-int initialize_game_options(game_option_type* opts)
+int initialize_game_options(void)
 {
   /* bail out if no struct */
-  if (!opts)
+  if (!game_options)
     return 0;
 
   /* set general game options */
-  opts->per_user_config = DEFAULT_PER_USER_CONFIG;
-  opts->use_sound = DEFAULT_USE_SOUND;
-  opts->fullscreen = DEFAULT_FULLSCREEN;
-  opts->use_bkgd = DEFAULT_USE_BKGD;
-  opts->demo_mode = DEFAULT_DEMO_MODE;
-  opts->oper_override = DEFAULT_OPER_OVERRIDE;
-  opts->use_keypad = DEFAULT_USE_KEYPAD;
-  opts->speed = DEFAULT_SPEED;
-  opts->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
-  opts->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
-  opts->max_speed = DEFAULT_MAX_SPEED;
-  opts->slow_after_wrong = DEFAULT_SLOW_AFTER_WRONG;
-  opts->starting_comets = DEFAULT_STARTING_COMETS;
-  opts->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
-  opts->max_comets = DEFAULT_MAX_COMETS;
-  opts->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
-  opts->num_bkgds = DEFAULT_NUM_BKGDS;
-  opts->max_city_colors = DEFAULT_MAX_CITY_COLORS;
+  game_options->per_user_config = DEFAULT_PER_USER_CONFIG;
+  game_options->use_sound = DEFAULT_USE_SOUND;
+  game_options->fullscreen = DEFAULT_FULLSCREEN;
+  game_options->use_bkgd = DEFAULT_USE_BKGD;
+  game_options->demo_mode = DEFAULT_DEMO_MODE;
+  game_options->oper_override = DEFAULT_OPER_OVERRIDE;
+  game_options->use_keypad = DEFAULT_USE_KEYPAD;
+  game_options->speed = DEFAULT_SPEED;
+  game_options->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
+  game_options->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
+  game_options->max_speed = DEFAULT_MAX_SPEED;
+  game_options->slow_after_wrong = DEFAULT_SLOW_AFTER_WRONG;
+  game_options->starting_comets = DEFAULT_STARTING_COMETS;
+  game_options->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
+  game_options->max_comets = DEFAULT_MAX_COMETS;
+  game_options->sound_available = DEFAULT_SOUND_AVAILABLE;
+  game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
+  game_options->num_bkgds = DEFAULT_NUM_BKGDS;
+  game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
   #ifdef TUXMATH_DEBUG
   print_game_options(stdout, 0);
@@ -808,151 +548,14 @@ int initialize_game_options(game_option_type* opts)
   return 1;
 }
 
-
-
-/* prints struct to stream for testing purposes */
-/* TODO include more info/help about these options in output */
-void print_game_options(FILE* fp, int verbose)
+/* Returns true if only if the player wants to use sound */
+/* and the sound system is actually available:           */
+int opts_using_sound(void)
 {
- /* bail out if no struct */
-  if (!game_options)
-  {
-    fprintf(stderr, "print_game_options(): invalid game_option_type struct");
-    return;
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "\n############################################################\n" 
-                 "#                                                          #\n"
-                 "#                 General Game Options                     #\n"
-                 "#                                                          #\n"
-                 "# The following options are boolean (true/false) variables #\n"
-                 "# that control various aspects of Tuxmath's behavior.      #\n"
-                 "# The program writes the values to the file as either '0'  #\n"
-                 "# or '1'. However, the program accepts 'n', 'no', 'f', and #\n"
-                 "# 'false' as synonyms for '0', and similarly accepts 'y',  #\n"
-                 "# 'yes', 't', and 'true' as synonyms for '1' (all case-    #\n"
-                 "# insensitive).                                            #\n"
-                 "############################################################\n\n");
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "############################################################\n" 
-                 "# 'per_user_config' determines whether Tuxmath will look   #\n"
-                 "# in the user's home directory for settings. Default is 1  #\n"
-                 "# (yes). If deselected, the program will ignore the user's #\n"
-                 "# .tuxmath file and use the the global settings in the     #\n"
-                 "# installation-wide config file.                           #\n"
-                 "# This setting cannot be changed by an ordinary user.      #\n"
-                 "############################################################\n");
-  }
-  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Self-explanatory, default is 1:\n");
-  }
-  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use either fullscreen at 640x480 resolution or window of that size\n"
-                 "# Default is 1.  Change to 0 if SDL has trouble with fullscreen.\n");
-  } 
-  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use 640x480 jpg image for background; default is 1.\n");
-  }
-  fprintf(fp, "use_bkgd = %d\n", game_options->use_bkgd);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Program runs as demo; default is 0.\n");
-  }
-  fprintf(fp, "demo_mode = %d\n", game_options->demo_mode);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use operator selection from command line; default is 0.\n");
-  }
-  fprintf(fp, "oper_override = %d\n", game_options->oper_override);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Display onscreen numeric keypad; default is 0.\n");
-  }
-  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n############################################################\n" 
-                 "# The remaining settings determine the speed and number    #\n"
-                 "# of comets.  The speed settings are float numbers (mean-  #\n"
-                 "# ing decimals allowed). The comet settings are integers.  #\n"
-                 "############################################################\n");
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
-  }
-  fprintf(fp, "speed = %f\n", game_options->speed);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Speed is multiplied by this factor with each new wave.\n"
-                 "# Default is 1.2\n");
-  }
-  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Maximum speed. Default is 10.\n");
-  }
-  fprintf(fp, "max_speed = %f\n", game_options->max_speed);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Number of comets for first wave. Default is 2.\n");
-  }
-  fprintf(fp, "starting_comets = %d\n", game_options->starting_comets);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Comets to add for each successive wave. Default is 2.\n");
-  }
-  fprintf(fp, "extra_comets_per_wave = %d\n", game_options->extra_comets_per_wave);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
-  }
-  fprintf(fp, "max_comets = %d\n", game_options->max_comets);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Allow speed and number of comets to increase with each\n"
-                 "# wave.  May want to turn this off for smaller kids. Default is 1.\n");
-  }
-  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Go back to starting speed and number of comets if player\n"
-                 "# misses a question. Useful for smaller kids. Default is 0.\n");
-  }
-  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
-
-/*
-  fprintf(fp, "num_cities = %d\n", game_options->num_cities);
-  fprintf(fp, "num_bkgds = %d\n", game_options->num_bkgds);
-  fprintf(fp, "max_city_colors = %d\n", game_options->max_city_colors);
-*/
+  return (game_options->use_sound && game_options->sound_available);
 }
+
+
 
 /* Set the application's icon: */
 
@@ -1010,6 +613,8 @@ void usage(int err, char * cmd)
 
   fprintf(f,
    "\nUsage: %s {--help | --usage | --copyright}\n"
+   "          [--optionfile <filename>]\n"
+   "          [--playthroughlist] [--answersfirst] [--answersmiddle]\n"
    "       %s [--fullscreen] [--nosound] [--nobackground]\n"
    "          [--demo] [--keypad] [--allownegatives]\n"
    "          [--operator {add | subtract | multiply | divide} ...]\n"

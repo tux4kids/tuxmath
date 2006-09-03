@@ -27,7 +27,7 @@
 void playsound(int snd)
 {
 #ifndef NOSOUND
-  if (game_options->use_sound)
+  if (opts_using_sound())
     Mix_PlayChannel(-1, sounds[snd], 0);
 #endif
 }

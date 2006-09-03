@@ -1,22 +1,31 @@
 /*
-  images.h
+C Interface: fileops.h
 
-  For TuxMath
-  Contains an enumerated list of constant values to be used to refer to
-  images, as well as a list of filenames for each image (used by the
-  loader in "setup" module)
-
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/
+Description: File operations - together, fileops.h and fileops.c contain 
+all code involving disk operations. The older header files images.h and 
+sounds.h have been incorporated here. The intention is to make it easier to
+port tuxmath to other operating systems, as code to read and write as 
+well as paths and file locations may be more OS-dependent. 
 
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
-      
-  August 26, 2001 - February 21, 2003
+Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+Contains code originally written by Bill Kendrick (C) 2001.
+Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 */
 
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#include "tuxmath.h"
+
+/* Flag basically telling whether or not to allow admin-level */
+/* settings to be changed: */
+enum {
+  USER_CONFIG_FILE,
+  GLOBAL_CONFIG_FILE
+};
+
+/* Names for images (formerly in images.h) */
 enum {
   IMG_STANDBY,
   IMG_LOADING,
@@ -101,6 +110,7 @@ enum {
   IMG_KEYPAD_NO_NEG,
   IMG_CONSOLE,
   IMG_CONSOLE_LED,
+  IMG_CONSOLE_BASH,
   IMG_TUX_CONSOLE1,
   IMG_TUX_CONSOLE2,
   IMG_TUX_CONSOLE3,
@@ -128,3 +138,43 @@ enum {
   NUM_IMAGES
 };
 
+/* Names for game sounds (formerly in sounds.h): */
+enum {
+  SND_POP,
+  SND_LASER,
+  SND_BUZZ,
+  SND_ALARM,
+  SND_SHIELDSDOWN,
+  SND_EXPLOSION,
+  SND_CLICK,
+  SND_SIZZLE,
+  NUM_SOUNDS
+};
+
+/* Names for background music (also formerly in sounds.h): */
+enum {
+  MUS_GAME,
+  MUS_GAME2,
+  MUS_GAME3,
+  NUM_MUSICS
+};
+
+
+
+/* These functions used by setup() to read in settings: */
+int read_global_config_file(void);
+int read_user_config_file(void);
+int read_named_config_file(char* filename);
+int write_user_config_file(void);
+
+/* FIXME these will probably become "local" functions: */
+int read_config_file(FILE* fp, int file_type);
+int write_config_file(FILE* fp);
+void print_game_options(FILE* fp, int verbose);
+
+int load_image_data();
+#ifndef NOSOUND
+int load_sound_data();
+#endif
+
+#endif

@@ -25,15 +25,17 @@
 #include "mathcards.h"
 
 #include "options.h"
-#include "images.h"
+#include "fileops.h"
 #include "setup.h"
-#include "sounds.h"
 #include "playsound.h"
 #include "game.h"
 #include "tuxmath.h"
 
 /* FIXME figure out what oper_override is supposed to do and make sure */
 /* this file behaves accordingly! */
+
+int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
+
 
 /* Local (to options.c) 'globals': */
 /* moved to file scope to allow update_selected_option() to use them DSB */
@@ -64,6 +66,11 @@ int options(void)
   opers[OPT_OP_MUL] = MC_MultAllowed();
   opers[OPT_OP_DIV] = MC_DivAllowed();
 
+  /* FIXME range_enabled[] and oper_override will be going away */
+  for (i = 0; i < NUM_Q_RANGES; i++)
+  { 
+    range_enabled[i] = 1;
+  }
 
   /* Draw options: */
 

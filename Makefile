@@ -32,7 +32,7 @@ endif
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
 
 
-VERSION=tuxmath-0.92
+VERSION=tuxmath-0.93
 
 all:	tuxmath
 
@@ -67,7 +67,7 @@ clean:
 
 tuxmath:	obj/tuxmath.o obj/setup.o obj/title.o obj/game.o \
 		obj/options.o obj/credits.o obj/playsound.o \
-                obj/mathcards.o obj/config.o
+                obj/mathcards.o obj/fileops.o
 	@echo "LINKING!"
 	$(CC) $(CFLAGS) $^ -o tuxmath $(LIBS)
 
@@ -75,44 +75,43 @@ tuxmath:	obj/tuxmath.o obj/setup.o obj/title.o obj/game.o \
 obj:
 	mkdir -p obj
 
-obj/tuxmath.o:	src/tuxmath.c src/images.h src/sounds.h src/setup.h \
+obj/tuxmath.o:	src/tuxmath.c src/fileops.h src/setup.h \
 		src/title.h src/game.h src/options.h src/credits.h \
 		src/playsound.h 
 	@echo "BUILDING tuxmath.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/tuxmath.c -c -o obj/tuxmath.o
 
-obj/setup.o:	src/setup.c src/setup.h src/sounds.h src/images.h src/game.h
+obj/setup.o:	src/setup.c src/setup.h src/fileops.h src/game.h
 	@echo "BUILDING setup.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/setup.c -c -o obj/setup.o
 
-obj/title.o:	src/title.c src/title.h src/setup.h src/sounds.h src/images.h \
+obj/title.o:	src/title.c src/title.h src/setup.h src/fileops.h \
 		src/playsound.h
 	@echo "BUILDING title.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/title.c -c -o obj/title.o
 
-obj/game.o:	src/game.c src/game.h src/setup.h src/sounds.h src/images.h \
+obj/game.o:	src/game.c src/game.h src/setup.h src/fileops.h \
 		src/playsound.h
 	@echo "BUILDING game.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/game.c -c -o obj/game.o
 
-obj/options.o:	src/options.c src/options.h src/images.h src/setup.h \
-		src/sounds.h src/playsound.h
+obj/options.o:	src/options.c src/options.h src/fileops.h src/setup.h \
+		src/playsound.h
 	@echo "BUILDING options.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/options.c -c -o obj/options.o
 
-obj/credits.o:	src/credits.c src/credits.h src/setup.h src/sounds.h \
-		src/images.h
+obj/credits.o:	src/credits.c src/credits.h src/setup.h src/fileops.h
 	@echo "BUILDING credits.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/credits.c -c -o obj/credits.o
 
 obj/playsound.o:	src/playsound.c src/playsound.h src/setup.h \
-		src/sounds.h
+		src/fileops.h
 	@echo "BUILDING playsound.o"
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/playsound.c -c -o obj/playsound.o
@@ -122,7 +121,7 @@ obj/mathcards.o:	src/mathcards.c src/mathcards.h
 	-mkdir -p obj
 	$(CC) $(CFLAGS) src/mathcards.c -c -o obj/mathcards.o
 
-obj/config.o:	src/config.c src/config.h 
-	@echo "BUILDING config.o"
+obj/fileops.o:	src/fileops.c src/fileops.h 
+	@echo "BUILDING fileops.o"
 	-mkdir -p obj
-	$(CC) $(CFLAGS) src/config.c -c -o obj/config.o
+	$(CC) $(CFLAGS) src/fileops.c -c -o obj/fileops.o

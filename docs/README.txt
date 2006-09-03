@@ -53,6 +53,17 @@ Running The Program
     behavior of Tuxmath - SEE BELOW.
 
     The following command-line options can be sent to the program.
+     --optionfile filename - play game based on settings in the named file (see
+                         below for more on tuxmath config files). Tuxmath will
+                         look for a valid config file with a matching name in
+                         the following locations:
+                         	1. current working directory
+				2. as an absolute pathname
+				3. in the missions directory with tuxmath's 
+                                   other data files.
+				4. in the user's tuxmath options directory
+                                   (e.g. /home/laura/.tuxmath/filename
+                                5. in the user's home directory.
 
      --playthroughlist - Game consists of working through a list of questions
       -r                 generated based on the selected options (or defaults).
@@ -253,7 +264,9 @@ Setting Game Options
 
   1. The program now reads and writes the settings to disk in a human-readable
   fashion, where they can be modified with a text editor. The file is created
-  in the user's home directory and is called ".tuxmath".  The file contains
+  in the user's home directory within a directory called ".tuxmath" and is 
+  simply called "options". As an example, a user "laura" on a Unix/Linux system
+  would find this at /home/laura/.tuxmath/options.  The file contains
   extensive comments describing all settings. By editing and saving this file,
   very extensive control over the program is supported, particularly with
   respect to generation of math questions. There really is no need to use

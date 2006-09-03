@@ -17,12 +17,44 @@
   (briefly - GNU GPL v2 or later)
 */
 
+
+
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
+#include <SDL.h>
+
+#ifndef NOSOUND
+#include <SDL_mixer.h>
+#endif
+
 //#define NOSOUND
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
-#define TUXMATH_VERSION 0.92
+#define TUXMATH_VERSION 0.93
+
+#define PATH_MAX 4096
+
+/* default values for game_options */
+#define DEFAULT_PER_USER_CONFIG 1
+#define DEFAULT_USE_SOUND 1
+#define DEFAULT_FULLSCREEN 1
+#define DEFAULT_USE_BKGD 1
+#define DEFAULT_DEMO_MODE 0
+#define DEFAULT_OPER_OVERRIDE 0
+#define DEFAULT_USE_KEYPAD 0
+#define DEFAULT_SPEED 1
+#define DEFAULT_ALLOW_SPEEDUP 1
+#define DEFAULT_SPEEDUP_FACTOR 1.2
+#define DEFAULT_MAX_SPEED 10
+#define DEFAULT_SLOW_AFTER_WRONG 0
+#define DEFAULT_STARTING_COMETS 2
+#define DEFAULT_EXTRA_COMETS_PER_WAVE 2
+#define DEFAULT_MAX_COMETS 10	
+#define DEFAULT_SOUND_AVAILABLE 1
+#define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
+#define DEFAULT_NUM_BKGDS 5
+#define DEFAULT_MAX_CITY_COLORS 4
+
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
@@ -43,35 +75,52 @@ typedef struct game_option_type {
   int starting_comets;
   int extra_comets_per_wave;
   int max_comets;  
+  char next_mission[PATH_MAX];
+  /* whether sound system is successfully initialized and sound files loaded: */
+  /* this flag is set by the program, not the user, and is not in the config file. */
+  int sound_available;
   /* not sure the rest of these belong in here */
   int num_cities;  /* MUST BE AN EVEN NUMBER! */
   int num_bkgds;
   int max_city_colors;
 } game_option_type;
 
+typedef struct range_type {
+  int min;
+  int max;
+} range_type;
 
-/* make option data accessible to rest of program */
+enum {
+  OPER_ADD,
+  OPER_SUB,
+  OPER_MULT,
+  OPER_DIV,
+  NUM_OPERS
+};
+
+enum {
+  Q_RANGE_1_5,
+  Q_RANGE_6_12,
+  Q_RANGE_13_20,
+  NUM_Q_RANGES
+};
+
+
+/* Global data gets 'externed' here: */
 extern game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
-/* default values for game_options */
-#define DEFAULT_PER_USER_CONFIG 1
-#define DEFAULT_USE_SOUND 1
-#define DEFAULT_FULLSCREEN 1
-#define DEFAULT_USE_BKGD 1
-#define DEFAULT_DEMO_MODE 0
-#define DEFAULT_OPER_OVERRIDE 0
-#define DEFAULT_USE_KEYPAD 0
-#define DEFAULT_SPEED 1
-#define DEFAULT_ALLOW_SPEEDUP 1
-#define DEFAULT_SPEEDUP_FACTOR 1.2
-#define DEFAULT_MAX_SPEED 10
-#define DEFAULT_SLOW_AFTER_WRONG 0
-#define DEFAULT_STARTING_COMETS 2
-#define DEFAULT_EXTRA_COMETS_PER_WAVE 2
-#define DEFAULT_MAX_COMETS 10	
-#define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
-#define DEFAULT_NUM_BKGDS 5
-#define DEFAULT_MAX_CITY_COLORS 4
+extern SDL_Surface* screen;
+extern SDL_Surface* images[];
+#ifndef NOSOUND
+extern Mix_Chunk* sounds[];
+extern Mix_Music* musics[];
+#endif
+
+extern char operchars[NUM_OPERS];
+extern char* oper_opts[NUM_OPERS];
+extern char* oper_alt_opts[NUM_OPERS];
+extern range_type ranges[NUM_Q_RANGES];
+extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 /* NOTE: default values for math options are now in mathcards.h */
 

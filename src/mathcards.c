@@ -425,8 +425,10 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
 }
 
 /*  MC_AnsweredIncorrectly() is how the user interface    */
-/*  tells MathCards that the question has been answered   */
-/*  incorrectly. Returns 1 if no errors.                  */
+/*  tells MathCards that the player failed to answer the  */
+/*  question correctly. Returns 1 if no errors.           */
+/*  Note: this gets triggered only if a player's city     */
+/*  gets hit by a question, not if they "miss".           */
 int MC_AnsweredIncorrectly(MC_FlashCard* fc)
 {
   #ifdef MC_DEBUG
@@ -1899,9 +1901,13 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "#                                                          #\n"
                  "#                  General Math Options                    #\n"
                  "#                                                          #\n"
-                 "# If 'play_through_list' selected, Tuxmath will ask each   #\n"
-                 "# question in the defined list. The game ends when no      #\n"
-                 "# questions remain.  Default is 1 (i.e. 'true' or 'yes').  #\n"
+                 "# If 'play_through_list' is true, Tuxmath will ask each    #\n"
+                 "# question in an internally-generated list. The list is    #\n"
+                 "# generated based on the question ranges selected below.   #\n"
+                 "# The game ends when no questions remain.                  #\n"
+                 "# If 'play_through_list' is false, the game continues      #\n"
+                 "# until all cities are destroyed.                          #\n"
+                 "# Default is 1 (i.e. 'true' or 'yes').                     #\n"
                  "#                                                          #\n"
                  "# 'question_copies' is the number of times each question   #\n"
                  "# will be asked. It can be 1 to 10 - Default is 1.         #\n"

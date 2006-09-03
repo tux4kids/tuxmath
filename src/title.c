@@ -24,9 +24,8 @@
 
 #include "tuxmath.h"
 #include "title.h"
-#include "images.h"
+#include "fileops.h"
 #include "setup.h"
-#include "sounds.h"
 #include "playsound.h"
 
 
