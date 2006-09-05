@@ -84,9 +84,13 @@ slow_after_wrong = 0
 #                                                          #
 #                  General Math Options                    #
 #                                                          #
-# If 'play_through_list' selected, Tuxmath will ask each   #
-# question in the defined list. The game ends when no      #
-# questions remain.  Default is 1 (i.e. 'true' or 'yes').  #
+# If 'play_through_list' is true, Tuxmath will ask each    #
+# question in an internally-generated list. The list is    #
+# generated based on the question ranges selected below.   #
+# The game ends when no questions remain.                  #
+# If 'play_through_list' is false, the game continues      #
+# until all cities are destroyed.                          #
+# Default is 1 (i.e. 'true' or 'yes').                     #
 #                                                          #
 # 'question_copies' is the number of times each question   #
 # will be asked. It can be 1 to 10 - Default is 1.         #
@@ -110,23 +114,35 @@ repeat_wrongs = 1
 copies_repeated_wrongs = 1
 
 ############################################################
-# 'format_answer_last' (, _first, middle) control the      #
+# The 'format_<op>_answer_<place>  options control         #
 # generation of questions with the answer in different     #
 # places in the equation.  i.e.:                           #
 #                                                          #
-#    format_answer_last:    2 + 2 = ?                      #
-#    format_answer_first:   ? + 2 = 4                      #
-#    format_answer_middle:  2 + ? = 4                      #
+#    format_add_answer_last:    2 + 2 = ?                  #
+#    format_add_answer_first:   ? + 2 = 4                  #
+#    format_add_answer_middle:  2 + ? = 4                  #
 #                                                          #
 # By default, 'format_answer_first' is enabled and the     #
 # other two formats are disabled.  Note that the options   #
 # are not mutually exclusive - the question list may       #
 # contain questions with different formats.                #
+#                                                          #
+# The formats are set independently for each of the four   #
+# math operations.                                         #
 ############################################################
 
-format_answer_last = 1
-format_answer_first = 0
-format_answer_middle = 0
+format_add_answer_last = 1
+format_add_answer_first = 0
+format_add_answer_middle = 0
+format_sub_answer_last = 1
+format_sub_answer_first = 0
+format_sub_answer_middle = 0
+format_mult_answer_last = 1
+format_mult_answer_first = 0
+format_mult_answer_middle = 0
+format_div_answer_last = 1
+format_div_answer_first = 0
+format_div_answer_middle = 0
 
 ############################################################
 # 'allow_negatives' allows or disallows use of negative    #

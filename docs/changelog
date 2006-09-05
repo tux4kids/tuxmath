@@ -1,5 +1,19 @@
 changelog for "tuxmath"
 
+2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 22)
+  Version 0.94
+
+  Setup:
+    * Math question formats (answer last, answer first, etc.)
+      are now set independently for each math operation, e.g.
+      "format_add_answer_last", etc.
+  Code:
+    * Mathcards now prints questions in same format as what
+      appears in game (e.g. "2 + 2 = ?").  So far this is 
+      only used for debugging output, but soon tuxmath will
+      save lists of questions asked and questions missed to 
+      files for post-game review.
+
 2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 21)
   Version 0.93
 

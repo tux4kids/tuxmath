@@ -54,15 +54,16 @@ static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
 
+static void print_list(FILE* fp,MC_MathQuestion* list);
+static void print_node(FILE* fp, MC_MathQuestion* ptr);
+
 /* these functions are dead code unless compiling with debug turned on: */
 #ifdef MC_DEBUG 
-static void print_node(MC_MathQuestion* ptr);
 static void print_card(MC_FlashCard card);
 static void print_counters(void);
 static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
 static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
 static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
-static void print_list(MC_MathQuestion* list);
 #endif
 
 /*  MC_Initialize() sets up the struct containing all of  */
@@ -112,11 +113,22 @@ int MC_Initialize(void)
   math_opts->allow_negatives = DEFAULT_ALLOW_NEGATIVES;
   math_opts->max_answer = DEFAULT_MAX_ANSWER;
   math_opts->max_questions = DEFAULT_MAX_QUESTIONS;
-  math_opts->format_answer_last = DEFAULT_FORMAT_ANSWER_LAST;
-  math_opts->format_answer_first = DEFAULT_FORMAT_ANSWER_FIRST;
-  math_opts->format_answer_middle = DEFAULT_FORMAT_ANSWER_MIDDLE;
   math_opts->question_copies = DEFAULT_QUESTION_COPIES;
   math_opts->randomize = DEFAULT_RANDOMIZE;
+  /* set question formats:  */
+  math_opts->format_add_answer_last = DEFAULT_FORMAT_ADD_ANSWER_LAST; 
+  math_opts->format_add_answer_first = DEFAULT_FORMAT_ADD_ANSWER_FIRST;
+  math_opts->format_add_answer_middle = DEFAULT_FORMAT_ADD_ANSWER_MIDDLE;
+  math_opts->format_sub_answer_last = DEFAULT_FORMAT_SUB_ANSWER_LAST;
+  math_opts->format_sub_answer_first = DEFAULT_FORMAT_SUB_ANSWER_FIRST;
+  math_opts->format_sub_answer_middle = DEFAULT_FORMAT_SUB_ANSWER_MIDDLE;
+  math_opts->format_mult_answer_last = DEFAULT_FORMAT_MULT_ANSWER_LAST;
+  math_opts->format_mult_answer_first = DEFAULT_FORMAT_MULT_ANSWER_FIRST;
+  math_opts->format_mult_answer_middle = DEFAULT_FORMAT_MULT_ANSWER_MIDDLE;
+  math_opts->format_div_answer_last = DEFAULT_FORMAT_DIV_ANSWER_LAST;
+  math_opts->format_div_answer_first = DEFAULT_FORMAT_DIV_ANSWER_FIRST;
+  math_opts->format_div_answer_middle = DEFAULT_FORMAT_DIV_ANSWER_MIDDLE;
+
   /* set addition options */
   math_opts->addition_allowed = DEFAULT_ADDITION_ALLOWED;
   math_opts->min_augend = DEFAULT_MIN_AUGEND;
@@ -278,7 +290,7 @@ int MC_StartGameUsingWrongs(void)
 
     #ifdef MC_DEBUG
     print_counters();
-    print_list(question_list);
+    print_list(stdout, question_list);
     printf("\nLeaving MC_StartGameUsingWrongs()\n");
     #endif
 
@@ -646,6 +658,8 @@ void MC_SetCopiesRepeatedWrongs(int copies)
   math_opts->copies_repeated_wrongs = copies;
 }
 
+
+
 /*NOTE - list can contain more than one format */
 void MC_SetFormatAnswerLast(int opt)       /* Enable questions like:  a + b = ?    */
 {
@@ -654,7 +668,11 @@ void MC_SetFormatAnswerLast(int opt)       /* Enable questions like:  a + b = ? 
     fprintf(stderr, "\nMC_SetFormatAnswerLast(): math_opts not valid!\n");
     return;
   }
-  math_opts->format_answer_last = int_to_bool(opt);
+
+  MC_SetFormatAddAnswerLast(opt);
+  MC_SetFormatSubAnswerLast(opt);
+  MC_SetFormatMultAnswerLast(opt);
+  MC_SetFormatDivAnswerLast(opt);
 } 
 
 
@@ -665,7 +683,11 @@ void MC_SetFormatAnswerFirst(int opt)      /* Enable questions like:  ? + b = c 
     fprintf(stderr, "\nMC_SetFormatAnswerFirst(): math_opts not valid!\n");
     return;
   }
-  math_opts->format_answer_first = int_to_bool(opt);
+
+  MC_SetFormatAddAnswerFirst(opt);
+  MC_SetFormatSubAnswerFirst(opt);
+  MC_SetFormatMultAnswerFirst(opt);
+  MC_SetFormatDivAnswerFirst(opt);
 }
 
  
@@ -676,8 +698,152 @@ void MC_SetFormatAnswerMiddle(int opt)     /* Enable questions like:  a + ? = c 
     fprintf(stderr, "\nMC_SetFormatAnswerMiddle(): math_opts not valid!\n");
     return;
   }
-  math_opts->format_answer_middle = int_to_bool(opt);
+
+  MC_SetFormatAddAnswerMiddle(opt);
+  MC_SetFormatSubAnswerMiddle(opt);
+  MC_SetFormatMultAnswerMiddle(opt);
+  MC_SetFormatDivAnswerMiddle(opt);
 } 
+
+
+
+/* Addition-specific question formats: */
+void MC_SetFormatAddAnswerLast(int opt)       /* Enable questions like:  a + b = ?    */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatAddAnswerLast(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_add_answer_last = int_to_bool(opt);
+} 
+
+
+void MC_SetFormatAddAnswerFirst(int opt)      /* Enable questions like:  ? + b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatAddAnswerFirst(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_add_answer_first = int_to_bool(opt);
+}
+
+ 
+void MC_SetFormatAddAnswerMiddle(int opt)     /* Enable questions like:  a + ? = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatAddAnswerMiddle(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_add_answer_middle = int_to_bool(opt);
+} 
+
+
+
+/* Subtraction-specific question formats: */
+void MC_SetFormatSubAnswerLast(int opt)       /* Enable questions like:  a - b = ?    */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatSubAnswerLast(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_sub_answer_last = int_to_bool(opt);
+} 
+
+
+void MC_SetFormatSubAnswerFirst(int opt)      /* Enable questions like:  ? - b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatSubAnswerFirst(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_sub_answer_first = int_to_bool(opt);
+}
+
+ 
+void MC_SetFormatSubAnswerMiddle(int opt)     /* Enable questions like:  a - ? = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatSubAnswerMiddle(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_sub_answer_middle = int_to_bool(opt);
+} 
+
+
+
+/* Multiplication-specific question formats: */
+void MC_SetFormatMultAnswerLast(int opt)       /* Enable questions like:  a * b = ?    */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatMultAnswerLast(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_mult_answer_last = int_to_bool(opt);
+} 
+
+
+void MC_SetFormatMultAnswerFirst(int opt)      /* Enable questions like:  ? * b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatMultAnswerFirst(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_mult_answer_first = int_to_bool(opt);
+}
+
+ 
+void MC_SetFormatMultAnswerMiddle(int opt)     /* Enable questions like:  a * ? = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatMultAnswerMiddle(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_mult_answer_middle = int_to_bool(opt);
+} 
+
+
+/* Division-specific question formats: */
+void MC_SetFormatDivAnswerLast(int opt)       /* Enable questions like:  a / b = ?    */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatDivAnswerLast(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_div_answer_last = int_to_bool(opt);
+} 
+
+
+void MC_SetFormatDivAnswerFirst(int opt)      /* Enable questions like:  ? / b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatDivAnswerFirst(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_div_answer_first = int_to_bool(opt);
+}
+
+ 
+void MC_SetFormatDivAnswerMiddle(int opt)     /* Enable questions like:  a / ? = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetFormatDivAnswerMiddle(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->format_div_answer_middle = int_to_bool(opt);
+} 
+
 
 
 void MC_SetQuestionCopies(int copies)      /* how many times each question is put in list */
@@ -1056,37 +1222,138 @@ int MC_CopiesRepeatedWrongs(void)
 }
 
 
-int MC_FormatAnswerLast(void)      /* a + b = ?                                               */
+
+
+int MC_FormatAddAnswerLast(void)      /* a + b = ?                                               */
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_FormatAnswerLast(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_FormatAddAnswerLast(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->format_answer_last;
+  return math_opts->format_add_answer_last;
 } 
 
 
-int MC_FormatAnswerFirst(void)     /* ? + b = c  NOTE - list can contain more than one format */
+int MC_FormatAddAnswerFirst(void)     /* ? + b = c   */
 {
   if (!math_opts)
   {
-    fprintf(stderr, "\nMC_FormatAnswerFirst(): math_opts not valid!\n");
+    fprintf(stderr, "\nMC_FormatAddAnswerFirst(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->format_answer_first;
+  return math_opts->format_add_answer_first;
 } 
 
 
-int MC_FormatAnswerMiddle(void)    /* a + ? = c                                               */
+int MC_FormatAddAnswerMiddle(void)    /* a + ? = c                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatAddAnswerMiddle(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_add_answer_middle;
+} 
+
+
+int MC_FormatSubAnswerLast(void)      /* a - b = ?                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatSubAnswerLast(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_sub_answer_last;
+} 
+
+
+int MC_FormatSubAnswerFirst(void)     /* ? - b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatSubAnswerFirst(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_sub_answer_first;
+} 
+
+
+int MC_FormatSubAnswerMiddle(void)    /* a - ? = c                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatSubAnswerMiddle(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_sub_answer_middle;
+} 
+
+int MC_FormatMultAnswerLast(void)      /* a * b = ?                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatMultAnswerLast(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_mult_answer_last;
+} 
+
+
+int MC_FormatMultAnswerFirst(void)     /* ? * b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatMultAnswerFirst(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_mult_answer_first;
+} 
+
+
+int MC_FormatMultAnswerMiddle(void)    /* a * ? = c                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatMultAnswerMiddle(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_mult_answer_middle;
+} 
+
+
+int MC_FormatDivAnswerLast(void)      /* a / b = ?                                               */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatDivAnswerLast(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_div_answer_last;
+} 
+
+
+int MC_FormatDivAnswerFirst(void)     /* ? / b = c   */
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FormatDivAnswerFirst(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->format_div_answer_first;
+} 
+
+
+int MC_FormatDivAnswerMiddle(void)    /* a / ? = c                                               */
 {
   if (!math_opts)
   {
     fprintf(stderr, "\nMC_FormatAnswerMiddle(): math_opts not valid!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return math_opts->format_answer_middle;
+  return math_opts->format_add_answer_middle;
 } 
+
 
 
 int MC_QuestionCopies(void)         /* how many times each question is put in list */
@@ -1427,7 +1694,7 @@ MC_MathQuestion* generate_list(void)
             /* put in questions in each selected format: */
 
             /* questions like num1 + num2 = ? */
-            if (math_opts->format_answer_last)
+            if (math_opts->format_add_answer_last)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1440,7 +1707,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like num1 + ? = num3 */
-            if (math_opts->format_answer_middle)
+            if (math_opts->format_add_answer_middle)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1453,7 +1720,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like ? + num2 = num3 */
-            if (math_opts->format_answer_first)
+            if (math_opts->format_add_answer_first)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1486,7 +1753,7 @@ MC_MathQuestion* generate_list(void)
             /* put in questions in each selected format: */
 
             /* questions like num1 - num2 = ? */
-            if (math_opts->format_answer_last)
+            if (math_opts->format_sub_answer_last)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1499,7 +1766,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like num1 - ? = num3 */
-            if (math_opts->format_answer_middle)
+            if (math_opts->format_sub_answer_middle)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1512,7 +1779,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like ? - num2 = num3 */
-            if (math_opts->format_answer_first)
+            if (math_opts->format_sub_answer_first)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1545,7 +1812,7 @@ MC_MathQuestion* generate_list(void)
             /* put in questions in each selected format: */
 
             /* questions like num1 x num2 = ? */
-            if (math_opts->format_answer_last)
+            if (math_opts->format_mult_answer_last)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1559,7 +1826,7 @@ MC_MathQuestion* generate_list(void)
 
             /* questions like num1 x ? = num3 */
             /* (no questions like 0 x ? = 0) because answer indeterminate */
-            if ((math_opts->format_answer_middle)
+            if ((math_opts->format_mult_answer_middle)
              && (i != 0)) 
             {
                  /* make sure max_questions not exceeded */
@@ -1574,7 +1841,7 @@ MC_MathQuestion* generate_list(void)
 
             /* questions like ? x num2 = num3 */
             /* (no questions like ? X 0 = 0) because answer indeterminate */
-            if ((math_opts->format_answer_first)
+            if ((math_opts->format_mult_answer_first)
              && (j != 0))
             {
               /* make sure max_questions not exceeded */
@@ -1610,7 +1877,7 @@ MC_MathQuestion* generate_list(void)
             /* put in questions in each selected format: */
 
             /* questions like num1 / num2 = ? */
-            if (math_opts->format_answer_last)
+            if (math_opts->format_div_answer_last)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1623,7 +1890,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like num1 / ? = num3 */
-            if (math_opts->format_answer_middle)
+            if (math_opts->format_div_answer_middle)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1636,7 +1903,7 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like ? / num2  = num3 */
-            if (math_opts->format_answer_first)
+            if (math_opts->format_div_answer_first)
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)
@@ -1933,23 +2200,35 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
   if (verbose)
   {
     fprintf (fp, "\n############################################################\n"
-                 "# 'format_answer_last' (, _first, middle) control the      #\n"
+                 "# The 'format_<op>_answer_<place>  options control         #\n"
                  "# generation of questions with the answer in different     #\n"
                  "# places in the equation.  i.e.:                           #\n"
                  "#                                                          #\n"
-                 "#    format_answer_last:    2 + 2 = ?                      #\n"
-                 "#    format_answer_first:   ? + 2 = 4                      #\n"
-                 "#    format_answer_middle:  2 + ? = 4                      #\n"
+                 "#    format_add_answer_last:    2 + 2 = ?                  #\n"
+                 "#    format_add_answer_first:   ? + 2 = 4                  #\n"
+                 "#    format_add_answer_middle:  2 + ? = 4                  #\n"
                  "#                                                          #\n"
                  "# By default, 'format_answer_first' is enabled and the     #\n"
                  "# other two formats are disabled.  Note that the options   #\n"
                  "# are not mutually exclusive - the question list may       #\n"
                  "# contain questions with different formats.                #\n"
+                 "#                                                          #\n"
+                 "# The formats are set independently for each of the four   #\n"
+                 "# math operations.                                         #\n"
                  "############################################################\n\n");
   }  
-  fprintf (fp, "format_answer_last = %d\n", math_opts->format_answer_last);
-  fprintf (fp, "format_answer_first = %d\n", math_opts->format_answer_first);
-  fprintf (fp, "format_answer_middle = %d\n", math_opts->format_answer_middle);
+  fprintf (fp, "format_add_answer_last = %d\n", math_opts->format_add_answer_last);
+  fprintf (fp, "format_add_answer_first = %d\n", math_opts->format_add_answer_first);
+  fprintf (fp, "format_add_answer_middle = %d\n", math_opts->format_add_answer_middle);
+  fprintf (fp, "format_sub_answer_last = %d\n", math_opts->format_sub_answer_last);
+  fprintf (fp, "format_sub_answer_first = %d\n", math_opts->format_sub_answer_first);
+  fprintf (fp, "format_sub_answer_middle = %d\n", math_opts->format_sub_answer_middle);
+  fprintf (fp, "format_mult_answer_last = %d\n", math_opts->format_mult_answer_last);
+  fprintf (fp, "format_mult_answer_first = %d\n", math_opts->format_mult_answer_first);
+  fprintf (fp, "format_mult_answer_middle = %d\n", math_opts->format_mult_answer_middle);
+  fprintf (fp, "format_div_answer_last = %d\n", math_opts->format_div_answer_last);
+  fprintf (fp, "format_div_answer_first = %d\n", math_opts->format_div_answer_first);
+  fprintf (fp, "format_div_answer_middle = %d\n", math_opts->format_div_answer_middle);
 
   if (verbose)
   {
@@ -2052,35 +2331,105 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
 }
 
 
-#ifdef MC_DEBUG
-void print_list(MC_MathQuestion* list)
+void print_list(FILE* fp, MC_MathQuestion* list)
 {
   if (!list)
   {
-    printf("\nprint_list(): list empty or pointer invalid\n");
+    fprintf(fp, "\nprint_list(): list empty or pointer invalid\n");
     return;
   }
   MC_MathQuestion* ptr = list;
-  printf("\nprint_list() printing list:");
-  printf("\nlist_length():\t%d", list_length(list));
+  fprintf(fp, "\nprint_list() printing list:");
+  fprintf(fp, "\nlist_length():\t%d", list_length(list));
   while (ptr)
   {
-    print_node(ptr);
+    print_node(fp, ptr);
     ptr = ptr->next;
   }
 }
-#endif
 
 
-void print_node(MC_MathQuestion* ptr)
+/* convert node info into an (easily) human-readable string */
+/* and print it, taking question format into account.       */
+void print_node(FILE* fp, MC_MathQuestion* ptr)
 {
-  if (ptr)
-  printf("\n%d,  %d \tOper %d \tAnswer %d",
-           ptr->card.num1,
-           ptr->card.num2,
-           ptr->card.operation,
-           ptr->card.num3);
-}
+  char str[MC_FORMULA_LEN];
+  char op;
+  
+  if (!ptr)
+  {
+    return;
+  }
+
+  /* find out correct operation character */
+  switch (ptr->card.operation)
+  {
+    case MC_OPER_ADD:
+    {
+      op = '+';
+      break;
+    }
+    case MC_OPER_SUB:
+    {
+      op = '-';
+      break;
+    }
+    case MC_OPER_MULT:
+    {
+      op = '*';
+      break;
+    }
+    case MC_OPER_DIV:
+    {
+      op = '/';
+      break; 
+    }
+    default:
+    {
+      fprintf(stderr, "\nIn print_node(): invalid math operation\n");
+      return;
+    }
+  }
+
+  switch (ptr->card.format)
+  {
+    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
+    {
+      snprintf(str, MC_FORMULA_LEN,"%d %c %d = ?",
+               ptr->card.num1,
+               op,
+               ptr->card.num2);
+      break;
+    }
+
+    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
+    {
+      snprintf(str, MC_FORMULA_LEN,"%d %c ? = %d",
+               ptr->card.num1,
+	       op,
+	       ptr->card.num3);
+      break;
+    }
+
+    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
+    {
+      snprintf(str, MC_FORMULA_LEN,"? %c %d = %d",
+               op,
+               ptr->card.num2,
+               ptr->card.num3);
+      break;
+    }
+
+    default:  /* should not get to here if MathCards behaves correctly */
+    {
+      fprintf(stderr, "\nprint_node() - invalid question format\n");
+      return;
+    }
+  }
+  
+  /* Now simply print string: */
+  fprintf(fp, "\n%s", str);
+}  
 
 
 #ifdef MC_DEBUG
@@ -2141,9 +2490,9 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
   printf("\nEntering randomize_list()");
   printf("\nBefore randomization:");
   printf("\nPrinting old_list:");
-  print_list(old_list);
+  print_list(stdout, old_list);
   printf("\nPrinting new_list:");
-  print_list(new_list);
+  print_list(stdout, new_list);
   #endif
 
 
@@ -2165,9 +2514,9 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
       printf("\nUnexpected exit!");
       printf("\nAfter randomization:");
       printf("\nPrinting old_list:");
-      print_list(old_list);
+      print_list(stdout, old_list);
       printf("\nPrinting new_list:");
-      print_list(new_list);
+      print_list(stdout, new_list);
       printf("\nLeaving randomize_list()");
       #endif
 
@@ -2178,9 +2527,9 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
   #ifdef MC_DEBUG
   printf("\nAfter randomization:");
   printf("\nPrinting old_list:");
-  print_list(old_list);
+  print_list(stdout, old_list);
   printf("\nPrinting new_list:");
-  print_list(new_list);
+  print_list(stdout, new_list);
   printf("\nLeaving randomize_list()");
   #endif
 

@@ -548,6 +548,20 @@ int read_config_file(FILE *fp, int file_type)
         MC_SetCopiesRepeatedWrongs(v);
     }
 
+    else if(0 == strcasecmp(parameter, "question_copies"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetQuestionCopies(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "randomize"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetRandomize(v);
+    }
+
     else if(0 == strcasecmp(parameter, "format_answer_last"))
     {
       int v = str_to_bool(value);
@@ -569,25 +583,88 @@ int read_config_file(FILE *fp, int file_type)
         MC_SetFormatAnswerMiddle(v);
     }
 
-    else if(0 == strcasecmp(parameter, "format_answer_last"))
+    else if(0 == strcasecmp(parameter, "format_add_answer_last"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        MC_SetFormatAnswerLast(v);
+        MC_SetFormatAddAnswerLast(v);
     }
 
-    else if(0 == strcasecmp(parameter, "question_copies"))
+    else if(0 == strcasecmp(parameter, "format_add_answer_first"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        MC_SetQuestionCopies(v);
+        MC_SetFormatAddAnswerFirst(v);
     }
 
-    else if(0 == strcasecmp(parameter, "randomize"))
+    else if(0 == strcasecmp(parameter, "format_add_answer_middle"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        MC_SetRandomize(v);
+        MC_SetFormatAddAnswerMiddle(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_sub_answer_last"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatSubAnswerLast(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_sub_answer_first"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatSubAnswerFirst(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_sub_answer_middle"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatSubAnswerMiddle(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_mult_answer_last"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatMultAnswerLast(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_mult_answer_first"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatMultAnswerFirst(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_mult_answer_middle"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatMultAnswerMiddle(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_div_answer_last"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatDivAnswerLast(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_div_answer_first"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatDivAnswerFirst(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "format_div_answer_middle"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetFormatDivAnswerMiddle(v);
     }
 
 

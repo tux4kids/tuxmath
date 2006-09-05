@@ -38,6 +38,7 @@
 
 #include <SDL_image.h>
 
+
 #include "tuxmath.h"
 #include "mathcards.h"
 #include "setup.h"

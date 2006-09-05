@@ -7,7 +7,7 @@
   All code involving file I/O has been moved to fileops.h/fileops.c
   and is called from the main setup function.
 
-  Some globals are declared in setup.c - all globals throught tuxmath
+  Some globals are declared in setup.c - all globals throughout tuxmath
   are now extern'd in the same place in tuxmath.h
 
   by Bill Kendrick
