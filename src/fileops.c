@@ -993,8 +993,9 @@ void print_game_options(FILE* fp, int verbose)
 
   if(verbose)
   {
-    fprintf (fp, "\n# Use either fullscreen at 640x480 resolution or window of that size\n"
-                 "# Default is 1.  Change to 0 if SDL has trouble with fullscreen.\n");
+    fprintf (fp, "\n# Use fullscreen at 640x480 resolution instead of\n"
+                 "640x480 window. Default is 1 (fullscreen). Change to 0\n"
+                 "if SDL has trouble with fullscreen on your system.\n");
   } 
   fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
 
@@ -1071,7 +1072,8 @@ void print_game_options(FILE* fp, int verbose)
   if(verbose)
   {
     fprintf (fp, "\n# Allow speed and number of comets to increase with each\n"
-                 "# wave.  May want to turn this off for smaller kids. Default is 1.\n");
+                 "# wave.  May want to turn this off for smaller kids.\n"
+                 "Default is 1 (allow game to speed up)\n");
   }
   fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
 

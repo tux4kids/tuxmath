@@ -109,11 +109,11 @@ enum {
 /* Global data gets 'externed' here: */
 extern game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
-extern SDL_Surface* screen;
-extern SDL_Surface* images[];
+extern SDL_Surface* screen; /* declared in setup.c; also used in game.c, options.c, fileops.c, credits.c, title.c */
+extern SDL_Surface* images[];    /* declared in setup.c, used in same files as screen */
 #ifndef NOSOUND
-extern Mix_Chunk* sounds[];
-extern Mix_Music* musics[];
+extern Mix_Chunk* sounds[];    /* declared in setup.c; also used in fileops.c, playsound.c */
+extern Mix_Music* musics[];    /* declared in setup.c; also used in fileops.c, game.c  */
 #endif
 
 extern char operchars[NUM_OPERS];

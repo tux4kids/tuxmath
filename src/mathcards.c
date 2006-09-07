@@ -13,6 +13,10 @@
 * Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
 *
 */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 #include "mathcards.h"
 
@@ -349,13 +353,15 @@ int MC_NextQuestion(MC_FlashCard* fc)
 
     return 0;
   }
-
+  /* FIXME: could clean this up a bit with a copy_card() function */
   fc->num1 = question_list->card.num1;
   fc->num2 = question_list->card.num2;
   fc->num3 = question_list->card.num3;
   fc->operation = question_list->card.operation;
   fc->format = question_list->card.format;
-  
+  strncpy(fc->formula_string, question_list->card.formula_string, MC_FORMULA_LEN);  
+  strncpy(fc->answer_string, question_list->card.answer_string, MC_ANSWER_LEN);  
+
   /* take first question node out of list and free it:   */
   question_list = remove_node(question_list, question_list);
   free(ptr);
@@ -1976,6 +1982,82 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
   ptr->card.format = f;
   ptr->next = 0;
   ptr->previous =0;
+
+  /* creating formula_string  and answer_string is a little more work: */
+  {
+    char oper_char;
+    /* find out correct operation character */
+    switch (op)
+    {
+      case MC_OPER_ADD:
+      {
+        oper_char = '+';
+        break;
+      }
+      case MC_OPER_SUB:
+      {
+        oper_char = '-';
+        break;
+      }
+      case MC_OPER_MULT:
+      {
+        oper_char = '*';
+        break;
+      }
+      case MC_OPER_DIV:
+      {
+        oper_char = '/';
+        break; 
+      }
+      default:
+      {
+        fprintf(stderr, "\nIn create_node(): invalid math operation\n");
+        free(ptr);
+        ptr = 0;
+        return 0;
+      }
+    }
+
+    switch (f) /* f is format argument */
+    {
+      case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
+      {
+        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c %d = ?",
+                 ptr->card.num1,
+                 oper_char,
+                 ptr->card.num2);
+        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num3);
+       break;
+      }
+      case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
+      {
+        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c ? = %d",
+                 ptr->card.num1,
+	         oper_char,
+	         ptr->card.num3);
+        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num2);
+        break;
+      }
+      case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
+      {
+        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"? %c %d = %d",
+                 oper_char,
+                 ptr->card.num2,
+                 ptr->card.num3);
+        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
+        break;
+      }
+      default:  /* should not get to here if MathCards behaves correctly */
+      {
+        fprintf(stderr, "\ncreate_node() - invalid question format\n");
+        free(ptr);
+        ptr = 0;
+        return 0;
+      }
+    }
+  }
+
+  /* ptr should now point to a properly constructed node: */
   return ptr;
 }
 
@@ -1985,22 +2067,15 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
 /* FIXME should properly return newly allocated list if more than one node DSB */
 MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
 {
-  MC_MathQuestion* ptr;
-  if (!other)
-    return 0;
-  ptr = malloc(sizeof(MC_MathQuestion));
-  ptr->card.num1 = other->card.num1;
-  ptr->card.num2 = other->card.num2;
-  ptr->card.num3 = other->card.num3;
-  ptr->card.operation = other->card.operation;
-  ptr->card.format = other->card.format;
-  ptr->next = 0;
-  ptr->previous = 0;
-  return ptr;
+  return create_node(other->card.num1,
+                     other->card.num2,
+                     other->card.operation,
+                     other->card.num3,
+                     other->card.format);
 }
 #endif
 
-
+/* FIXME take care of strings */
 MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
 {
   MC_MathQuestion* ptr;
@@ -2018,6 +2093,8 @@ MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
 }
 
 #ifdef MC_DEBUG
+/* FIXME take care of strings */
+
 MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
 {
   MC_FlashCard* fc;
@@ -2034,6 +2111,7 @@ MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
 #endif
 
 #ifdef MC_DEBUG
+/* FIXME take care of strings */
 /* this one copies the contents, including pointers; both nodes must be allocated */
 int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
 {
@@ -2339,8 +2417,7 @@ void print_list(FILE* fp, MC_MathQuestion* list)
     return;
   }
   MC_MathQuestion* ptr = list;
-  fprintf(fp, "\nprint_list() printing list:");
-  fprintf(fp, "\nlist_length():\t%d", list_length(list));
+  fprintf(fp, "\nList Length:\t%d", list_length(list));
   while (ptr)
   {
     print_node(fp, ptr);
@@ -2349,86 +2426,16 @@ void print_list(FILE* fp, MC_MathQuestion* list)
 }
 
 
-/* convert node info into an (easily) human-readable string */
-/* and print it, taking question format into account.       */
+
+/* Don't need this much now that formula_string part of card struct:  */
 void print_node(FILE* fp, MC_MathQuestion* ptr)
 {
-  char str[MC_FORMULA_LEN];
-  char op;
-  
-  if (!ptr)
+  if (!ptr || !fp)
   {
     return;
   }
 
-  /* find out correct operation character */
-  switch (ptr->card.operation)
-  {
-    case MC_OPER_ADD:
-    {
-      op = '+';
-      break;
-    }
-    case MC_OPER_SUB:
-    {
-      op = '-';
-      break;
-    }
-    case MC_OPER_MULT:
-    {
-      op = '*';
-      break;
-    }
-    case MC_OPER_DIV:
-    {
-      op = '/';
-      break; 
-    }
-    default:
-    {
-      fprintf(stderr, "\nIn print_node(): invalid math operation\n");
-      return;
-    }
-  }
-
-  switch (ptr->card.format)
-  {
-    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
-    {
-      snprintf(str, MC_FORMULA_LEN,"%d %c %d = ?",
-               ptr->card.num1,
-               op,
-               ptr->card.num2);
-      break;
-    }
-
-    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
-    {
-      snprintf(str, MC_FORMULA_LEN,"%d %c ? = %d",
-               ptr->card.num1,
-	       op,
-	       ptr->card.num3);
-      break;
-    }
-
-    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
-    {
-      snprintf(str, MC_FORMULA_LEN,"? %c %d = %d",
-               op,
-               ptr->card.num2,
-               ptr->card.num3);
-      break;
-    }
-
-    default:  /* should not get to here if MathCards behaves correctly */
-    {
-      fprintf(stderr, "\nprint_node() - invalid question format\n");
-      return;
-    }
-  }
-  
-  /* Now simply print string: */
-  fprintf(fp, "\n%s", str);
+  fprintf(fp, "\n%s", ptr->card.formula_string);
 }  
 
 

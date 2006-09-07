@@ -17,10 +17,9 @@
 
 //#define MC_DEBUG
 #define MC_FORMULA_LEN 14
+#define MC_ANSWER_LEN 5
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+
 
 /* type of math operation used in a given question */
 enum {
@@ -157,6 +156,8 @@ typedef struct MC_FlashCard {
   int num3;
   int operation;
   int format;
+  char formula_string[MC_FORMULA_LEN];
+  char answer_string[MC_ANSWER_LEN];
 } MC_FlashCard;
 
 /* struct for node in math "flashcard" list */
@@ -213,8 +214,8 @@ int MC_NextQuestion(MC_FlashCard* q);
 int MC_AnsweredCorrectly(MC_FlashCard* q);
 
 /*  MC_AnsweredIncorrectly() is how the user interface    */
-/*  tells MathCards that the question has been answered   */
-/*  incorrectly. Returns 1 if no errors.                  */
+/*  tells MathCards that the question has not been        */
+/*  answered correctly. Returns 1 if no errors.           */
 int MC_AnsweredIncorrectly(MC_FlashCard* q);
 
 /*  Like MC_NextQuestion(), but takes "flashcard" from    */

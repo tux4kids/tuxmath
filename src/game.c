@@ -66,9 +66,9 @@ typedef struct comet_type {
   int expl;
   int city;
   float x, y;
-  char formula[FORMULA_LEN];
+//  char formula[FORMULA_LEN];
   int answer;
-  char answer_str[ANSWER_LEN];
+// char answer_str[ANSWER_LEN];
   MC_FlashCard flashcard;
 } comet_type;
 
@@ -955,31 +955,32 @@ void game_draw(void)
   }
 
 
-  /* Draw comets: */
- for (i = 0; i < MAX_COMETS; i++)
- {
-   if (comets[i].alive)
-   { 
-     if (comets[i].expl < COMET_EXPL_END)
-     {
-       /* Decide which image to display: */
-       img = IMG_COMET1 + ((frame + i) % 3);
-       /* Display the formula (flashing, in the bottom half
+   /* Draw comets: */
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (comets[i].alive)
+    { 
+      if (comets[i].expl < COMET_EXPL_END)
+      {
+        /* Decide which image to display: */
+        img = IMG_COMET1 + ((frame + i) % 3);
+        /* Display the formula (flashing, in the bottom half
 		   of the screen) */
-       if (comets[i].y < screen->h / 2 || frame % 8 < 6)
-       {
-         comet_str = comets[i].formula;
-       }
-       else 
-       {
-         comet_str = NULL;
-       }
+        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+        {
+          comet_str = comets[i].flashcard.formula_string;
+        }
+        else 
+        {
+          comet_str = NULL;
+        }
       }
       else
       {
         img = comets[i].expl;
-        comet_str = comets[i].answer_str;
+        comet_str = comets[i].flashcard.answer_string;
       }
+
 	      
       /* Draw it! */
       dest.x = comets[i].x - (images[img]->w / 2);
@@ -1277,55 +1278,29 @@ int add_comet(void)
   /* If we make it to here, create a new comet!                  */
 
   /* The answer may be num1, num2, or num3, depending on format. */
-  /* Also, the formula string needs to be set accordingly:       */
   switch (comets[found].flashcard.format)
   {
     case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
     {
       comets[found].answer = comets[found].flashcard.num3;
-
-      snprintf(comets[found].formula, FORMULA_LEN,"%d %c %d = ?",
-	       comets[found].flashcard.num1,
-	       operchars[comets[found].flashcard.operation],
-	       comets[found].flashcard.num2);
       break;
     }
-
     case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
     {
       comets[found].answer = comets[found].flashcard.num2;
-
-      snprintf(comets[found].formula, FORMULA_LEN,"%d %c ? = %d",
-	       comets[found].flashcard.num1,
-	       operchars[comets[found].flashcard.operation],
-	       comets[found].flashcard.num3);
       break;
     }
-
     case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
     {
       comets[found].answer = comets[found].flashcard.num1;
-
-      snprintf(comets[found].formula, FORMULA_LEN,"? %c %d = %d",
-	       operchars[comets[found].flashcard.operation],
-               comets[found].flashcard.num2,
-               comets[found].flashcard.num3);
       break;
     }
-
     default:  /* should not get to here if MathCards behaves correctly */
     {
-      #ifdef TUXMATH_DEBUG
-      printf("\nadd_comet() - invalid question format");
-      #endif
       fprintf(stderr, "\nadd_comet() - invalid question format");
       return 0;
     }
   }
-
-  /* set answer string: */
-  snprintf(comets[found].answer_str, ANSWER_LEN, "%d",
-           comets[found].answer);
 
 
   comets[found].alive = 1;
@@ -1347,10 +1322,12 @@ int add_comet(void)
   comets[found].x = cities[i].x;
   comets[found].y = 0;
 
+  #ifdef TUXMATH_DEBUG
+  printf ("add_comet(): formula string is: ", comets[found].flashcard.formula_string);
+  #endif
+
   /* comet slot found and question found so return successfully: */
   return 1;
-  
-
 }
 
 /* Draw numbers/symbols over the attacker: */
@@ -2034,7 +2011,7 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-    strncpy(comets[i].formula, " ", FORMULA_LEN); 
-    strncpy(comets[i].answer_str, " ", ANSWER_LEN); 
+    strncpy(comets[i].flashcard.formula_string, " ", FORMULA_LEN); 
+    strncpy(comets[i].flashcard.answer_string, " ", ANSWER_LEN); 
   }
 }

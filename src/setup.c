@@ -48,7 +48,7 @@
 
 
 /* Global data used in setup.c:              */
-/* (These need to be 'extern'd in "setup.h") */
+/* (These are now 'extern'd in "tuxmath.h") */
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
 
@@ -508,7 +508,10 @@ void cleanup_memory(void)
 {
   SDL_Quit();
   if (game_options)
+  {
     free(game_options);
+    game_options = 0;
+  }
   /* frees any heap used by MathCards: */
   MC_EndGame();
 }
