@@ -30,6 +30,8 @@
 
 //#define NOSOUND
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
+
 #define TUXMATH_VERSION 0.93
 
 #define PATH_MAX 4096
@@ -54,7 +56,13 @@
 #define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
 #define DEFAULT_NUM_BKGDS 5
 #define DEFAULT_MAX_CITY_COLORS 4
+#define DEFAULT_USE_FEEDBACK 0
+#define DEFAULT_DANGER_LEVEL 0.35
+#define DEFAULT_DANGER_LEVEL_SPEEDUP 1.1
+#define DEFAULT_DANGER_LEVEL_MAX 0.9
+#define DEFAULT_CITY_EXPL_HANDICAP 0
 
+#define MINIMUM_SPEED 0.1
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
@@ -76,6 +84,12 @@ typedef struct game_option_type {
   int extra_comets_per_wave;
   int max_comets;  
   char next_mission[PATH_MAX];
+  int use_feedback;
+  float danger_level;
+  float danger_level_speedup;
+  float danger_level_max;
+  float city_expl_handicap;
+
   /* whether sound system is successfully initialized and sound files loaded: */
   /* this flag is set by the program, not the user, and is not in the config file. */
   int sound_available;

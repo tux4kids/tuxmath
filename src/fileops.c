@@ -464,6 +464,63 @@ int read_config_file(FILE *fp, int file_type)
     else if(0 == strcasecmp(parameter, "speed"))
     {
       game_options->speed = atof(value);
+      if (game_options->speed < MINIMUM_SPEED)
+      {
+        game_options->speed = MINIMUM_SPEED;
+        fprintf(stderr,"Warning: speed set below minimum, setting to %g.\n",MINIMUM_SPEED);
+      }
+    }
+
+    else if(0 == strcasecmp(parameter, "use_feedback"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        game_options->use_feedback = v;
+    }
+
+    else if(0 == strcasecmp(parameter, "danger_level"))
+    {
+      game_options->danger_level = atof(value);
+      if (game_options->danger_level < 0)
+      {
+        game_options->danger_level = 0;
+	fprintf(stderr,"Warning: danger level set below minimum, setting to 0.\n");
+      }
+      if (game_options->danger_level > 1)
+      {
+        game_options->danger_level = 1;
+        fprintf(stderr,"Warning: danger level set above maximum, setting to 1.\n");
+      }
+    }
+ 
+    else if(0 == strcasecmp(parameter, "danger_level_speedup"))
+    {
+      game_options->danger_level_speedup = atof(value);
+      if (game_options->danger_level_speedup < 1)
+      {
+        game_options->danger_level_speedup = 1;
+        fprintf(stderr,"Warning: danger_level_speedup set below minimum, setting to 1.\n");
+      }
+    }
+
+    else if(0 == strcasecmp(parameter, "danger_level_max"))
+    {
+      game_options->danger_level_max = atof(value);
+      if (game_options->danger_level_max > 1)
+      {
+        game_options->danger_level_max = 1;
+        fprintf(stderr,"Warning: danger_level_max set above maximum, setting to 1.\n");
+      }
+    }
+
+    else if(0 == strcasecmp(parameter, "city_explode_handicap"))
+    {
+      game_options->city_expl_handicap = atof(value);
+      if (game_options->city_expl_handicap < 0)
+      {
+        game_options->city_expl_handicap = 0;
+        fprintf(stderr,"Warning: city_explode_handicap leve set below minimum, setting to 0.\n");
+      }
     }
 
     else if(0 == strcasecmp(parameter, "allow_speedup"))
@@ -1026,11 +1083,46 @@ void print_game_options(FILE* fp, int verbose)
   if(verbose)
   {
     fprintf (fp, "\n############################################################\n" 
-                 "# The remaining settings determine the speed and number    #\n"
+                 "# The next settings determine the speed and number         #\n"
                  "# of comets.  The speed settings are float numbers (mean-  #\n"
                  "# ing decimals allowed). The comet settings are integers.  #\n"
+                 "#                                                          #\n"
+                 "# Starting comet speed and max comet speed are generally   #\n"
+                 "# applicable. The main choice is whether you want to use   #\n"
+                 "# feedback, i.e., to adjust the speed automatically based  #\n"
+                 "# on the player's performance.                             #\n"
+                 "#                                                          #\n"
+                 "# Without feedback, the speed increases by a user-         #\n"
+                 "# settable factor ('speedup_factor'), with an option       #\n"
+                 "# ('slow_after_wrong') to go back to the starting speed    #\n"
+                 "# when a city gets hit.                                    #\n"
+                 "#                                                          #\n"
+                 "# With feedback, you set a desired 'danger level,' which   #\n"
+                 "# determines how close the comets should typically         #\n"
+                 "# approach the cities before the player succeeds in        #\n"
+                 "# destroying them.  The game will adjust its speed         #\n"
+                 "# accordingly, getting faster when the player is easily    #\n"
+                 "# stopping the comets, and slowing down when there are     #\n"
+                 "# too many close calls or hits. You can also have the      #\n"
+                 "# danger level increase with each wave.                    #\n"
                  "############################################################\n");
   }
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Whether to increase speed and number of comets with \n"
+                 "# each wave.  May want to turn this off for smaller kids.\n"
+                 "# Default is 1 (allow game to speed up)\n");
+  }
+  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# This option tells Tuxmath to go back to starting speed \n"
+                 "# and number of comets if the player misses a question\n"
+                 "# Useful for smaller kids. Default is 0.\n");
+  }
+  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
 
   if(verbose)
   {
@@ -1040,8 +1132,10 @@ void print_game_options(FILE* fp, int verbose)
 
   if(verbose)
   {
-    fprintf (fp, "\n# Speed is multiplied by this factor with each new wave.\n"
-                 "# Default is 1.2\n");
+    fprintf (fp, "\n# If feedback is not used but 'allow_speedup' is\n"
+                 "# enabled, the comet speed will be\n"
+                 "# multiplied by this factor with each new wave.\n"
+                 "# Default is 1.2 (i.e. 20 percent increase per wave)\n");
   }
   fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
 
@@ -1071,18 +1165,60 @@ void print_game_options(FILE* fp, int verbose)
 
   if(verbose)
   {
-    fprintf (fp, "\n# Allow speed and number of comets to increase with each\n"
-                 "# wave.  May want to turn this off for smaller kids.\n"
-                 "Default is 1 (allow game to speed up)\n");
+     fprintf (fp, "\n# Use feedback? Default (for now) is false, 0.\n");
   }
-  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
+  fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# (Non-feedback) Speed is multiplied by this factor\n"
+                 "# with each new wave. Default is 1.2.\n");
+  }
+  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
 
   if(verbose)
   {
     fprintf (fp, "\n# Go back to starting speed and number of comets if player\n"
-                 "# misses a question. Useful for smaller kids. Default is 0.\n");
-  }
-  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
+                  "# misses a question. Useful for smaller kids. Default is 0.\n");
+   }
+   fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
+
+   if(verbose)
+   {
+     fprintf (fp, "\n# (Feedback) Set the desired danger level.\n"
+             "# 0 = too safe, comets typically exploded right at the very top\n"
+             "# 1 = too dangerous, comets typically exploded at the moment they hit cities\n"
+             "# Set it somewhere between these extremes. As a guideline, early\n"
+             "# elementary kids might feel comfortable around 0.2-0.3, older kids\n"
+             "# at around 0.4-0.6. Default 0.35.\n");
+   }
+   fprintf(fp, "danger_level = %f\n", game_options->danger_level);
+
+   if(verbose)
+   {
+     fprintf (fp, "\n# (Feedback) Set danger level speedup.\n"
+                  "# The margin of safety will decrease by this factor each wave.\n"
+                  "# Default 1.1. Note 1 = no increase in danger level.\n");
+   }
+   fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
+
+   if(verbose)
+   {
+     fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
+                  "# Default 0.9.\n");
+   }
+   fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
+
+   if (verbose)
+   { 
+     fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
+                  "# When bigger than 0, this causes the game to slow down\n"
+                  "# by an extra amount after a wave in which one or more\n"
+                  "# cities get hit. Note that this is similar to slow_after_wrong,\n"
+                  "# but allows for more gradual changes.\n"
+                  "# Default 0 (no extra handicap).\n");
+   }
+   fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
 
 /*
   fprintf(fp, "num_cities = %d\n", game_options->num_cities);

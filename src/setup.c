@@ -541,6 +541,12 @@ int initialize_game_options(void)
   game_options->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
   game_options->max_comets = DEFAULT_MAX_COMETS;
   game_options->sound_available = DEFAULT_SOUND_AVAILABLE;
+  game_options->use_feedback = DEFAULT_USE_FEEDBACK;
+  game_options->danger_level = DEFAULT_DANGER_LEVEL;
+  game_options->danger_level_speedup = DEFAULT_DANGER_LEVEL_SPEEDUP;
+  game_options->danger_level_max = DEFAULT_DANGER_LEVEL_MAX;
+  game_options->city_expl_handicap = DEFAULT_CITY_EXPL_HANDICAP;
+
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   game_options->num_bkgds = DEFAULT_NUM_BKGDS;
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;

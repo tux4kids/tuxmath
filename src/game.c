@@ -100,6 +100,13 @@ static int doing_answer;
 static int level_start_wait;
 static int last_bkgd;
 
+/* Feedback-related variables */
+static int city_expl_height;
+static int comet_feedback_number;
+static float comet_feedback_height;
+static float danger_level;
+
+
 static int digits[3];
 static comet_type comets[MAX_COMETS];
 static city_type cities[NUM_CITIES];
@@ -411,6 +418,13 @@ int game_initialize(void)
   }  
   
   /* Prepare to start the game: */
+
+  city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
+
+  /* Initialize feedback parameters */
+  comet_feedback_number = 0;
+  comet_feedback_height = 0;
+  danger_level = game_options->danger_level;
   
   wave = 1;
   num_attackers = 2;
@@ -620,6 +634,18 @@ void game_handle_answer(void)
     laser.y2 = comets[lowest].y;
     playsound(SND_LASER);
     playsound(SND_SIZZLE);
+
+    /* Record data for feedback */
+    if (game_options->use_feedback)
+    {
+      comet_feedback_number++;
+      comet_feedback_height += comets[lowest].y/city_expl_height;
+
+      #ifdef FEEDBACK_DEBUG
+      printf("Added comet feedback with height %g\n",comets[lowest].y/city_expl_height);
+      #endif
+    }
+
 	    
     /* FIXME maybe should move this into game_handle_tux() */
     /* 50% of the time.. */
@@ -734,15 +760,16 @@ void game_handle_comets(void)
     if (comets[i].alive)
     {
       num_comets_alive++;
-      /* update comet position */
+      /* Update comet position */
       comets[i].x = comets[i].x + 0; /* no lateral motion for now! */
       comets[i].y = comets[i].y + (speed);
-	      
-      if (comets[i].y >= (screen->h - images[IMG_CITY_BLUE]->h) &&
+
+      /* Did it hit a city? */
+      if (comets[i].y >= city_expl_height &&
 	  comets[i].expl < COMET_EXPL_END)
       {
-        /* Tell MathCards about it: */
-        MC_AnsweredIncorrectly(&(comets[i].flashcard));
+        /* Tell MathCards about it - question not answered correctly: */
+        MC_NotAnsweredCorrectly(&(comets[i].flashcard));
 
         /* Disable shields or destroy city: */
         if (cities[comets[i].city].shields)
@@ -756,7 +783,19 @@ void game_handle_comets(void)
           playsound(SND_EXPLOSION);
         }
 
-        /* If slow_after_wrong selected, set flag to go back to starting speed and */
+        /* Record data for feedback */
+	/* Do this only for cities that are threatened; dead cities */
+        /* might not get much protection from the player */
+	if (game_options->use_feedback && cities[comets[i].city].alive) {
+	  comet_feedback_number++;
+          comet_feedback_height += 1.0 + game_options->city_expl_handicap;
+
+          #ifdef FEEDBACK_DEBUG
+ 	  printf("Added comet feedback with height %g\n",1.0 + game_options->city_expl_handicap);
+ 	  #endif
+ 	}
+ 
+       /* If slow_after_wrong selected, set flag to go back to starting speed and */
         /* number of attacking comets: */
         if (game_options->slow_after_wrong)
         {
@@ -1146,7 +1185,10 @@ void print_exit_conditions(void)
 void reset_level(void)
 {
   char fname[1024];
-  int i;
+  int i;    
+  int next_wave_comets;
+  int use_feedback;
+  float comet_avg_height,height_differential;
   
   
   /* Clear all comets: */
@@ -1197,6 +1239,7 @@ void reset_level(void)
   }
 
 
+
   /* Record score before this wave: */
 
   pre_wave_score = score;
@@ -1206,25 +1249,98 @@ void reset_level(void)
   /* On first wave or if slowdown flagged due to wrong answer: */
   if (wave == 1 || slowdown)
   {
-    prev_wave_comets = game_options->starting_comets;
+    next_wave_comets = game_options->starting_comets;
+
+    /* NOTE: not sure this really goes here: */
+    prev_wave_comets = next_wave_comets;
+    comet_feedback_number = 0;
+    comet_feedback_height = 0;
+
     speed = game_options->speed;
     slowdown = 0;
   }
+
   else /* Otherwise increase comets and speed if selected, not to */
        /* exceed maximum:                                         */
   {
+    next_wave_comets = prev_wave_comets; /* here's the important fix */
     if (game_options->allow_speedup)
     {
-      prev_wave_comets += game_options->extra_comets_per_wave;
-      if (prev_wave_comets > game_options->max_comets)
+      next_wave_comets += game_options->extra_comets_per_wave;
+      if (next_wave_comets > game_options->max_comets)
       {
-        prev_wave_comets = game_options->max_comets;
-      } 
-      speed = speed * game_options->speedup_factor;
-      if (speed > game_options->max_speed)
+        next_wave_comets = game_options->max_comets;
+      }
+      
+      use_feedback = game_options->use_feedback;
+
+      if (use_feedback) 
       {
-        speed = game_options->max_speed;
-      } 
+	#ifdef FEEDBACK_DEBUG
+	printf("Evaluating feedback...\n  old danger level = %g,",danger_level);
+        #endif
+	
+        /* Update our danger level, i.e., the target height */
+	danger_level = 1 - (1-danger_level) / 
+	                   game_options->danger_level_speedup;
+	if (danger_level > game_options->danger_level_max)
+	  danger_level = game_options->danger_level_max;
+
+	#ifdef FEEDBACK_DEBUG
+	printf(" new danger level = %g.\n",danger_level);
+	#endif
+
+	/* Check to see whether we have any feedback data. If not, skip it. */
+	if (comet_feedback_number == 0)
+        {
+	  use_feedback = 0;  /* No comets above living cities, skip feedback */
+
+	  #ifdef FEEDBACK_DEBUG
+	  printf("No feedback data available, aborting.\n\n");
+	  #endif
+	}
+	else 
+        {
+	  /* Compute the average height of comet destruction. */
+	  comet_avg_height = comet_feedback_height/comet_feedback_number;
+
+	  /* Determine how this average height compares with target. */
+	  height_differential = comet_avg_height - danger_level;
+
+	  /* Set the speed so that we move halfway towards the target */
+	  /* height. That makes the changes a bit more conservative. */
+
+	  #ifdef FEEDBACK_DEBUG
+	  printf("  comet average height = %g, height differential = %g.\n", 
+                 comet_avg_height, height_differential);
+	  printf("  old speed = %g,",speed);
+	  #endif
+
+	  speed *= (1 - height_differential/danger_level/2);
+
+	  /* Enforce bounds on speed */
+	  if (speed < MINIMUM_SPEED)
+	    speed = MINIMUM_SPEED;
+	  if (speed > game_options->max_speed)
+	    speed = game_options->max_speed;
+
+	  #ifdef FEEDBACK_DEBUG
+	  printf(" new speed = %g.\n",speed);
+	  printf("Feedback evaluation complete.\n\n");
+	  #endif
+	}
+      }
+
+      if (!use_feedback)
+      {
+        /* This is not an "else" because we might skip feedback */
+	/* when comet_feedback_number == 0 */
+	speed = speed * game_options->speedup_factor;
+	if (speed > game_options->max_speed)
+	{
+	  speed = game_options->max_speed;
+	}
+      }
     }
   }
   num_attackers = prev_wave_comets;

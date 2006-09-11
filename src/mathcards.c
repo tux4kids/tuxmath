@@ -43,7 +43,7 @@ static MC_MathQuestion* generate_list(void);
 static void clear_negatives(void);
 static int validate_question(int n1, int n2, int n3);
 static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
-static MC_MathQuestion* create_node_from_card(MC_FlashCard* card);
+static MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
 static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
@@ -442,24 +442,24 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
 
-/*  MC_AnsweredIncorrectly() is how the user interface    */
+/*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the player failed to answer the  */
 /*  question correctly. Returns 1 if no errors.           */
 /*  Note: this gets triggered only if a player's city     */
 /*  gets hit by a question, not if they "miss".           */
-int MC_AnsweredIncorrectly(MC_FlashCard* fc)
+int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 {
   #ifdef MC_DEBUG
-  printf("\nEntering MC_AnsweredIncorrectly()");
+  printf("\nEntering MC_NotAnsweredCorrectly()");
   #endif
 
   if (!fc)
   {
-    fprintf(stderr, "\nMC_AnsweredIncorrectly() passed invalid pointer as argument!\n");
+    fprintf(stderr, "\nMC_NotAnsweredCorrectly() passed invalid pointer as argument!\n");
 
     #ifdef MC_DEBUG
     printf("\nInvalid MC_FlashCard* argument!");
-    printf("\nLeaving MC_AnsweredIncorrectly()\n");
+    printf("\nLeaving MC_NotAnsweredCorrectly()\n");
     #endif
 
     return 0;
@@ -516,7 +516,7 @@ int MC_AnsweredIncorrectly(MC_FlashCard* fc)
   else
   {
     #ifdef MC_DEBUG
-    printf("\nnot repeating wrong answers\n");
+    printf("\nNot repeating wrong answers\n");
     #endif
 
     /* not repeating questions so list gets shorter:      */
@@ -525,7 +525,7 @@ int MC_AnsweredIncorrectly(MC_FlashCard* fc)
 
   #ifdef MC_DEBUG
   print_counters();
-  printf("\nLeaving MC_Answered_Incorrectly()\n");
+  printf("\nLeaving MC_NotAnswered_Correctly()\n");
   #endif
 
   return 1;
@@ -2075,21 +2075,13 @@ MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
 }
 #endif
 
-/* FIXME take care of strings */
 MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
 {
-  MC_MathQuestion* ptr;
-  if (!flashcard)
-    return 0;
-  ptr = malloc(sizeof(MC_MathQuestion));
-  ptr->card.num1 = flashcard->num1;
-  ptr->card.num2 = flashcard->num2;
-  ptr->card.num3 = flashcard->num3;
-  ptr->card.operation = flashcard->operation;
-  ptr->card.format = flashcard->format;
-  ptr->next = 0;
-  ptr->previous = 0;
-  return ptr;
+  return create_node(flashcard->num1,
+                     flashcard->num2,
+                     flashcard->operation,
+                     flashcard->num3,
+                     flashcard->format);
 }
 
 #ifdef MC_DEBUG
