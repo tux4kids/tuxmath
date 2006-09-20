@@ -256,6 +256,7 @@ int game(void)
             looping = 0;
           }   
         }
+
         if (bkgd)
           SDL_BlitSurface(bkgd, NULL, screen, NULL);
 
@@ -365,6 +366,7 @@ int game(void)
   if (bkgd != NULL)
   {
     SDL_FreeSurface(bkgd);
+    bkgd = NULL;
   }
 
   /* Stop music: */
@@ -1206,12 +1208,12 @@ void reset_level(void)
   digits[2] = 0;
   neg_answer_picked = 0;
 
-  /* Load random background image: */
 
+
+  /* Load random background image: */
   do
   {
     /* Don't pick the same one as last time... */
-
     i = rand() % NUM_BKGDS;
   }
   while (i == last_bkgd);
@@ -1221,9 +1223,11 @@ void reset_level(void)
   sprintf(fname, "%s/images/backgrounds/%d.jpg", DATA_PREFIX, i);
 
   if (bkgd != NULL)
+  {
     SDL_FreeSurface(bkgd);
+    bkgd = NULL;
+  }
 
-  
   if (game_options->use_bkgd)
   {
     bkgd = IMG_Load(fname);
@@ -1250,12 +1254,6 @@ void reset_level(void)
   if (wave == 1 || slowdown)
   {
     next_wave_comets = game_options->starting_comets;
-
-    /* NOTE: not sure this really goes here: */
-    prev_wave_comets = next_wave_comets;
-    comet_feedback_number = 0;
-    comet_feedback_height = 0;
-
     speed = game_options->speed;
     slowdown = 0;
   }
@@ -1263,7 +1261,7 @@ void reset_level(void)
   else /* Otherwise increase comets and speed if selected, not to */
        /* exceed maximum:                                         */
   {
-    next_wave_comets = prev_wave_comets; /* here's the important fix */
+    next_wave_comets = prev_wave_comets;
     if (game_options->allow_speedup)
     {
       next_wave_comets += game_options->extra_comets_per_wave;
@@ -1343,6 +1341,11 @@ void reset_level(void)
       }
     }
   }
+
+  comet_feedback_number = 0;
+  comet_feedback_height = 0;
+
+  prev_wave_comets = next_wave_comets;
   num_attackers = prev_wave_comets;
 }
 
@@ -2119,7 +2122,7 @@ void add_score(int inc)
 void reset_comets(void)
 {
   int i =0;
-  for (i = 0; i < game_options->max_comets; i++)
+  for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;
     comets[i].expl = 0;

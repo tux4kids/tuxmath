@@ -32,7 +32,7 @@
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
-#define TUXMATH_VERSION 0.93
+#define TUXMATH_VERSION 0.95
 
 #define PATH_MAX 4096
 

@@ -101,7 +101,7 @@ typedef struct MC_Options {
 #define DEFAULT_REPEAT_WRONGS   1         /* reuse incorrectly answered questions or not */
 #define DEFAULT_COPIES_REPEATED_WRONGS 1  /* how many copies of an incorrectly answered */                                                                              /* question to re-insert*/
 #define DEFAULT_ALLOW_NEGATIVES 0
-#define DEFAULT_MAX_ANSWER 144
+#define DEFAULT_MAX_ANSWER 999
 #define DEFAULT_MAX_QUESTIONS 5000
 #define DEFAULT_QUESTION_COPIES 1         /* how many times each question is put in list */
 #define DEFAULT_RANDOMIZE 1               /* whether to shuffle cards */
@@ -325,6 +325,7 @@ int MC_PlayThroughList(void);
 int MC_RepeatWrongs(void);
 int MC_CopiesRepeatedWrongs(void);
 int MC_MaxAnswer(void);
+int MC_MaxQuestions(void);
 int MC_AllowNegatives(void);
 int MC_QuestionCopies(void);         /* how many times each question is put in list */
 int MC_Randomize(void);         

@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-August 11, 2006
+Sept 20, 2006
 
-For tuxmath-0.9
+For tuxmath-0.95
 
 Objective
 ---------

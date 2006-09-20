@@ -948,7 +948,7 @@ int write_user_config_file(void)
   fp = fopen(opt_path, "w");
   if (fp)
   {
-    write_config_file(fp);
+    write_config_file(fp, 1);
     fclose(fp);
     fp = NULL;
     return 1;
@@ -961,8 +961,8 @@ int write_user_config_file(void)
 
 /* this function writes the settings for all game options to a */
 /* human-readable file.                                        */
-
-int write_config_file(FILE *fp)
+/* FIXME add 'verbose flag' */
+int write_config_file(FILE *fp, int verbose)
 {
   #ifdef TUXMATH_DEBUG
   printf("\nEntering write_config_file()\n");
@@ -980,20 +980,549 @@ int write_config_file(FILE *fp)
     return 0;
   }
 
-  fprintf(fp, 
+  if (verbose)
+  {
+    fprintf(fp, 
           "############################################################\n"
           "#                                                          #\n"
-          "#                 Tuxmath Config File                      #\n"
+          "#              Tuxmath Configuration File                  #\n"
           "#                                                          #\n"
+          "# The behavior of Tuxmath can be controlled to a great     #\n"
+          "# extent by editing this file with any and saving it in    #\n"
+          "# the default options location ($HOME/.tuxmath/options).   #\n"
+          "# The file consists of 'NAME = VALUE' pairs, one pair per  #\n"
+          "# line. Each option is one of the following types:         #\n"
+          "#                                                          #\n"
+          "#     boolean: 1 (synonyms 'true', 'T', 'yes', 'Y', 'on')  #\n"
+          "#              or                                          #\n"
+          "#              0 (synonyms 'false, 'F', 'no', 'N', 'off')  #\n"
+          "#     integer  (i.e. non-fractional numbers)               #\n"
+          "#     float    (i.e decimal fractions)                     #\n"
+          "#                                                          #\n"
+          "# Lines beginning with '#' or ';' are ignored as comments. #\n"
+          "# The synonyms for boolean '0' and '1' are accepted as     #\n"
+          "# input, but always written as '0' or '1' when Tuxmath     #\n"
+          "# writes a config file to disk.                            #\n"
+          "# The file is organized with the more important options    #\n"
+          "# first.                                                   #\n"
           "############################################################\n"
           "\n"
-  );
+    );
+  }
+
+  if (verbose)
+  {
+    fprintf(fp, 
+          "############################################################\n"
+          "#                                                          #\n"
+          "#                       Game Mode                          #\n"
+          "#                                                          #\n"
+          "# Parameter: play_through_list (Boolean)                   #\n"
+          "# Default: 1                                               #\n"
+          "#                                                          #\n"
+          "# Tuxmath generates a list of math questions based on      #\n"
+          "# parameters set below.  By default, (play_through_list =  #\n"
+          "# 1) the questions are asked in a random order.            #\n"
+          "# Correctly answered questions are removed from the list.  #\n"
+          "# If the player fails to correctly answer a question       #\n"
+          "# before it hits a city, the question will be reinserted   #\n"
+          "# into the list in a random location.                      #\n"
+          "# The player wins if all questions are answered correctly  #\n"
+          "# before the cities are destroyed.                         #\n"
+          "#                                                          #\n"
+          "# Alternatively, Tuxmath can be played in 'Arcade Mode'    #\n"
+          "# by setting play_through_list = 0 (i.e. 'false'). If this #\n"
+          "# is done, all questions will be randomly reinserted into  #\n"
+          "# the list whether or not they are answered correctly, and #\n"
+          "# the game continues as long as there is a surviving city. #\n"
+          "############################################################\n"
+          "\n"
+    );
+  }
+  fprintf (fp, "play_through_list = %d\n", MC_PlayThroughList());
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                 Speed and Number of Comets               #\n"
+                 "#                                                          #\n"
+                 "# Parameter: allow_speedup (boolean)                       #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: use_feedback  (boolean)                       #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# By default, the comets become faster and more numerous   #\n"
+                 "# with each succeeding. The increase can be prevented      #\n"
+                 "# by setting 'allow_speedup' to 0.                         #\n"
+                 "#                                                          #\n"
+                 "# If 'allow_speedup' is enabled, it is also possible to    #\n"
+                 "# dynamically adjust the speed to the player's performance #\n"
+                 "# by setting 'use_feedback' to 1.  This feature attempts   #\n"
+                 "# to speed the game up if it is too easy for the player,   #\n"
+                 "# and to slow it down if the player is having trouble.     #\n"
+                 "#                                                          #\n"
+                 "# Many additional parameters under 'Advanced Options' can  #\n"
+                 "# be used to fine-tune these behaviors.                    #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
+  fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#               Selecting Math Operations                  #\n"
+                 "#                                                          #\n"
+                 "# Parameter: addition_allowed (boolean)                    #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: subtraction_allowed (boolean)                 #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: multiplication_allowed (boolean)              #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: division_allowed (boolean)                    #\n"
+                 "# Default: 1                                               #\n"
+                 "#                                                          #\n"
+                 "# These options enable questions for each of the four math #\n"
+                 "# operations.  All are 1 (yes) by default.                 #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf(fp, "addition_allowed = %d\n", MC_AddAllowed());
+  fprintf(fp, "subtraction_allowed = %d\n", MC_SubAllowed());
+  fprintf(fp, "multiplication_allowed = %d\n", MC_MultAllowed());
+  fprintf(fp, "division_allowed = %d\n", MC_DivAllowed());
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                 Negative Number Support                  #\n"
+                 "#                                                          #\n"
+                 "# Parameter: allow_negatives (boolean)                     #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# 'allow_negatives' allows or disallows use of negative    #\n"
+                 "# numbers as both operands and answers.  Default is 0      #\n"
+                 "# (no), which disallows questions like:                    #\n"
+                 "#          2 - 4 = ?                                       #\n"
+                 "# Note: this option must be enabled in order to set the    #\n"
+                 "# operand ranges to include negatives. If it is changed    #\n"
+                 "# from 1 (yes) to 0 (no), any negative operand limits will #\n"
+                 "# be reset to 0.                                           #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf (fp, "allow_negatives = %d\n", MC_AllowNegatives());
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#      Minimum and Maximum Values for Operand Ranges       #\n"
+                 "#                                                          #\n"
+                 "# Parameters: (multiple - all integer type)                #\n"
+                 "#                                                          #\n"
+                 "# Operand limits can be set to any integer up to the       #\n"
+                 "# value of 'max_answer'. Tuxmath will generate questions   #\n"
+                 "# for every value in the specified range. The maximum must #\n"
+                 "# be greater than or equal to the corresponding minimum    #\n"
+                 "# for any questions to be generated for that operation.    #\n"
+                 "# Defaults are 0 for minima and 12 for maxima.             #\n"
+                 "#                                                          #\n"
+                 "# Note: 'allow_negatives' must be set to 1 for negative    #\n"
+                 "# values to be accepted (see 'Advanced Options').          #\n"
+                 "############################################################\n");
+  }
+
+  if (verbose)
+  {
+    fprintf(fp, "\n# Addition operands:\n"
+              "# augend + addend = sum\n\n");
+  }
+  fprintf(fp, "min_augend = %d\n", MC_AddMinAugend());
+  fprintf(fp, "max_augend = %d\n", MC_AddMaxAugend());
+  fprintf(fp, "min_addend = %d\n", MC_AddMinAddend());
+  fprintf(fp, "max_addend = %d\n", MC_AddMaxAddend());
+
+  if (verbose)
+  {
+    fprintf(fp, "\n# Subtraction operands:"
+              "\n# minuend - subtrahend = difference\n\n");
+  }
+  fprintf(fp, "min_minuend = %d\n", MC_SubMinMinuend());
+  fprintf(fp, "max_minuend = %d\n", MC_SubMaxMinuend());
+  fprintf(fp, "min_subtrahend = %d\n", MC_SubMinSubtrahend());
+  fprintf(fp, "max_subtrahend = %d\n", MC_SubMaxSubtrahend());
+
+  if (verbose)
+  {
+    fprintf(fp, "\n# Multiplication operands:"
+              "\n# multiplier * multiplicand = product\n\n");
+  }
+  fprintf(fp, "min_multiplier = %d\n", MC_MultMinMultiplier());
+  fprintf(fp, "max_multiplier = %d\n", MC_MultMaxMultiplier());
+  fprintf(fp, "min_multiplicand = %d\n", MC_MultMinMultiplicand());
+  fprintf(fp, "max_multiplicand = %d\n", MC_MultMaxMultiplicand());
+
+  if (verbose)
+  {
+    fprintf(fp, "\n# Division operands:"
+              "\n# dividend/divisor = quotient\n\n");
+  }
+  fprintf(fp, "min_divisor = %d\n",MC_DivMinDivisor());
+  fprintf(fp, "max_divisor = %d\n", MC_DivMaxDivisor());
+  fprintf(fp, "min_quotient = %d\n", MC_DivMinQuotient());
+  fprintf(fp, "max_quotient = %d\n", MC_DivMaxQuotient());
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                 General Game Options                     #\n"
+                 "#                                                          #\n"
+                 "# Parameter: use_sound (boolean)                           #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: fullscreen (boolean)                          #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: demo_mode (boolean)                           #\n"
+                 "# Default: 0                                               #\n"
+                 "# Parameter: use_keypad (boolean)                          #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# These parameters control various aspects of Tuxmath's    #\n"
+                 "# not directly related to the math question to be asked.   #\n"
+                 "############################################################\n");
+
+  }
+  if (verbose)
+  {
+    fprintf (fp, "\n# Use game sounds and background music if possible:\n");
+  }
+  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n# Use fullscreen at 640x480 resolution instead of\n"
+                 "# 640x480 window. Change to 0 if SDL has trouble with\n"
+                 "# fullscreen on your system:\n");
+  }
+  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n# Display jpg images for background:\n");
+  }
+  fprintf(fp, "use_bkgd = %d\n", game_options->use_bkgd);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n# Run Tuxmath as demo (i.e. without user input):\n");
+  }
+  fprintf(fp, "demo_mode = %d\n", game_options->demo_mode);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n# Display onscreen numeric keypad - allows mouse-only\n"
+               "# gameplay or use with touchscreens:\n");
+  }
+  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n\n\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                   Advanced Options                       #\n"
+                 "#                                                          #\n"
+                 "# The remaining settings further customize Tuxmath's       #\n"
+                 "# behavior.  Most users will probably not change them.     #\n"
+                 "############################################################\n\n");
+  }
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#           Advanced Math Question List Options            #\n"
+                 "#                                                          #\n"
+                 "# Parameter: question_copies (integer)                     #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: repeat_wrongs (boolean)                       #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: copies_repeated_wrongs (integer)              #\n"
+                 "# Default: 1                                               #\n"
+                 "#                                                          #\n"
+                 "# These settings offer further control over the question   #\n"
+                 "# list and are generally only useful if 'play_through_list'#\n"
+                 "# is enabled (as it is by default).                        #\n"
+                 "#                                                          #\n"
+                 "# 'question_copies' is the number of times each question   #\n"
+                 "# is put into the initial list. It can be 1 to 10.         #\n"
+                 "#                                                          #\n"
+                 "# 'repeat_wrongs' determines whether questions the player  #\n"
+                 "# failed to answer correctly will be asked again.          #\n"
+                 "#                                                          #\n"
+                 "# 'copies_repeated_wrongs' gives the number of times a     #\n"
+                 "# missed question will reappear. This can be set anywhere  #\n"
+                 "# from 1 to 10.                                            #\n"
+                 "#                                                          #\n"
+                 "# The defaults for these values result in a 'mission'      #\n" 
+                 "# for Tux that is accomplished by answering all            #\n"
+                 "# questions correctly with at least one surviving city.    #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf (fp, "question_copies = %d\n", MC_QuestionCopies());
+  fprintf (fp, "repeat_wrongs = %d\n", MC_RepeatWrongs());
+  fprintf (fp, "copies_repeated_wrongs = %d\n", MC_CopiesRepeatedWrongs());
+
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                 Math Question Formats                    #\n"
+                 "#                                                          #\n"
+                 "# The 'format_<op>_answer_<place>  options control         #\n"
+                 "# generation of questions with the answer in different     #\n"
+                 "# places in the equation.  i.e.:                           #\n"
+                 "#                                                          #\n"
+                 "#    format_add_answer_last:    2 + 2 = ?                  #\n"
+                 "#    format_add_answer_first:   ? + 2 = 4                  #\n"
+                 "#    format_add_answer_middle:  2 + ? = 4                  #\n"
+                 "#                                                          #\n"
+                 "# By default, 'format_answer_first' is enabled and the     #\n"
+                 "# other two formats are disabled.  Note that the options   #\n"
+                 "# are not mutually exclusive - the question list may       #\n"
+                 "# contain questions with different formats.                #\n"
+                 "#                                                          #\n"
+                 "# The formats are set independently for each of the four   #\n"
+                 "# math operations. All parameters are type 'boolean'.      #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf (fp, "format_add_answer_last = %d\n", MC_FormatAddAnswerLast());
+  fprintf (fp, "format_add_answer_first = %d\n", MC_FormatAddAnswerFirst());
+  fprintf (fp, "format_add_answer_middle = %d\n", MC_FormatAddAnswerMiddle());
+  fprintf (fp, "format_sub_answer_last = %d\n", MC_FormatSubAnswerLast());
+  fprintf (fp, "format_sub_answer_first = %d\n", MC_FormatSubAnswerFirst());
+  fprintf (fp, "format_sub_answer_middle = %d\n", MC_FormatSubAnswerMiddle());
+  fprintf (fp, "format_mult_answer_last = %d\n", MC_FormatMultAnswerLast());
+  fprintf (fp, "format_mult_answer_first = %d\n", MC_FormatMultAnswerFirst());
+  fprintf (fp, "format_mult_answer_middle = %d\n", MC_FormatMultAnswerMiddle());
+  fprintf (fp, "format_div_answer_last = %d\n", MC_FormatDivAnswerLast());
+  fprintf (fp, "format_div_answer_first = %d\n", MC_FormatDivAnswerFirst());
+  fprintf (fp, "format_div_answer_middle = %d\n", MC_FormatDivAnswerMiddle());
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "# Parameter: max_answer (integer)                          #\n"
+                 "# Default: 999                                             #\n"
+                 "#                                                          #\n"
+                 "# 'max_answer' is the largest absolute value allowed in    #\n"
+                 "# any value in a question (not only the answer). Default   #\n"
+                 "# is 999, which is as high as it can be set. It can be set #\n"
+                 "# lower to fine-tune the list for certain 'lessons'.       #\n"
+                 "############################################################\n\n");
+  }
+  fprintf (fp, "max_answer = %d\n", MC_MaxAnswer());
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "# Parameter: max_questions (integer)                       #\n"
+                 "# Default: 5000                                            #\n"
+                 "#                                                          #\n"
+                 "# 'max_questions' is limit of the length of the question   #\n"
+                 "# list. Default is 5000 - only severe taskmasters will     #\n"
+                 "# need to raise it!                                        #\n"
+                 "############################################################\n\n");
+  }
+  fprintf (fp, "max_questions = %d\n", MC_MaxQuestions());  
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "# Parameter: randomize (boolean)                           #\n"
+                 "# Default: 1                                               #\n"
+                 "#                                                          #\n"
+                 "# If 'randomize' selected, the list will be shuffled       #\n"
+                 "# at the start of the game. Otherwise, the questions       #\n"
+                 "# appear in the order the program generates them.          #\n"
+                 "############################################################\n\n");
+  }
+  fprintf (fp, "randomize = %d\n", MC_Randomize());
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                Advanced Comet Speed Options              #\n"
+                 "#                                                          #\n"
+                 "# Parameter: starting_comets (integer)                     #\n"
+                 "# Default: 2                                               #\n"
+                 "# Parameter: extra_comets_per_wave (integer)               #\n"
+                 "# Default: 2                                               #\n"
+                 "# Parameter: max_comets (integer)                          #\n"
+                 "# Default: 10                                              #\n"
+                 "# Parameter: speed (float)                                 #\n"
+                 "# Default: 1.00                                            #\n"
+                 "# Parameter: max_speed (float)                             #\n"
+                 "# Default: 10.00                                           #\n"
+                 "# Parameter: speedup_factor (float)                        #\n"
+                 "# Default: 1.20                                            #\n"
+                 "# Parameter: slow_after_wrong (bool)                       #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# (for 'feedback' speed control system):                   #\n"
+                 "# Parameter: danger_level (float)                          #\n"
+                 "# Default: 0.35                                            #\n"
+                 "# Parameter: danger_level_speedup (float)                  #\n"
+                 "# Default: 1.1                                             #\n"
+                 "# Parameter: danger_level_max (float)                      #\n"
+                 "# Default: 0.9                                             #\n"
+                 "# Parameter: city_explode_handicap (float)                 #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# The comet number parameters and initial/max speed apply  #\n"
+                 "# whether or not the feedback system is activated.         #\n"
+                 "#                                                          #\n"
+                 "# 'speedup_factor' and 'slow_after_wrong' only apply if    #\n"
+                 "# feedback is not activated.                               #\n"
+                 "#                                                          #\n"
+                 "# The 'danger_level_*' and 'city_explode_handicap'         #\n"
+                 "# parameters are only used if feedback is activated.       #\n"
+                 "############################################################\n\n");
+  }
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Number of comets for first wave. Default is 2.\n");
+  }
+  fprintf(fp, "starting_comets = %d\n", game_options->starting_comets);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Comets to add for each successive wave. Default is 2.\n");
+  }
+  fprintf(fp, "extra_comets_per_wave = %d\n", game_options->extra_comets_per_wave);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
+  }
+  fprintf(fp, "max_comets = %d\n", game_options->max_comets);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
+  }
+  fprintf(fp, "speed = %f\n", game_options->speed);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Maximum speed. Default is 10.\n");
+  }
+  fprintf(fp, "max_speed = %f\n", game_options->max_speed);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# 'speedup_factor': If feedback is not used but \n"
+                 "# 'allow_speedup' is enabled, the comet speed will be\n"
+                 "# multiplied by this factor with each new wave.\n"
+                 "# Default is 1.2 (i.e. 20 percent increase per wave)\n\n");
+  }
+  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# 'slow_after_wrong' tells Tuxmath to go back to  \n"
+                 "# starting speed and number of comets if the player misses \n"
+                 "# a question. Useful for smaller kids. Default is 0.\n\n");
+  }
+
+  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
+
+
+  if(verbose)
+  {
+     fprintf (fp, "\n# (Feedback) Set the desired danger level.\n"
+             "# 0 = too safe, comets typically exploded at the very top\n"
+             "# 1 = too dangerous, comets typically exploded as they\n"
+             "# hit cities. Set it somewhere between these extremes. As\n"
+             "# a guideline, early elementary kids might prefer\n"
+             "# 0.2-0.3, older kids at around 0.4-0.6. Default 0.35.\n\n");
+  }
+  fprintf(fp, "danger_level = %f\n", game_options->danger_level);
+
+  if(verbose)
+  {
+     fprintf (fp, "\n# (Feedback) Set danger level speedup.\n"
+                  "# The margin of safety will decrease by this factor each\n"
+                  "# wave. Default 1.1. Note 1 = no increase in danger level.\n\n");
+  }
+  fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
+
+  if(verbose)
+  {
+     fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
+                  "# Default 0.9.\n");
+  }
+  fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
+
+  if (verbose)
+  { 
+     fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
+                  "# When bigger than 0, this causes the game to slow down\n"
+                  "# by an extra amount after a wave in which one or more\n"
+                  "# cities get hit. Note that this is similar to\n"
+                  "# 'slow_after_wrong', but allows for more gradual\n"
+                  "# changes. Default 0 (no extra handicap).\n\n");
+  }
+  fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
+
+  if(verbose)
+  {
+    fprintf (fp, "\n\n############################################################\n" 
+                 "#                                                          #\n"
+                 "#                 Restricting User Settings                #\n"
+                 "#                                                          #\n"
+                 "# Parameter: per_user_config (boolean)                     #\n"
+                 "# Default: 1                                               #\n"
+                 "#                                                          #\n"
+                 "# 'per_user_config' determines whether Tuxmath will look   #\n"
+                 "# in the user's home directory for settings. Default is 1  #\n"
+                 "# (yes). If set to 0, the program will ignore the user's   #\n"
+                 "# .tuxmath file and use the the global settings in the     #\n"
+                 "# installation-wide config file.                           #\n"
+                 "#                                                          #\n"
+                 "# This setting cannot be changed by an ordinary user, i.e. #\n"
+                 "# it is ignored unless the config file is Tuxmath's global #\n"
+                 "# config file. Thus, users cannot 'lock themselves out'    #\n"
+                 "# by accidentally setting this to 0.                       #\n"
+                 "############################################################\n\n");
+  }
+  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
+
 
   /* print general game options (passing '1' as second arg causes */
   /* "help" info for each option to be written to file as comments) */
-  print_game_options(fp, 1);
+//  print_game_options(fp, 1);
   /* print options pertaining to math questions from MathCards: */
-  MC_PrintMathOptions(fp, 1);
+//  MC_PrintMathOptions(fp, 1);
 
   #ifdef TUXMATH_DEBUG
   printf("Leaving write_config_file()\n");
@@ -1116,12 +1645,7 @@ void print_game_options(FILE* fp, int verbose)
   }
   fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
 
-  if(verbose)
-  {
-    fprintf (fp, "\n# This option tells Tuxmath to go back to starting speed \n"
-                 "# and number of comets if the player misses a question\n"
-                 "# Useful for smaller kids. Default is 0.\n");
-  }
+
   fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
 
   if(verbose)
@@ -1169,19 +1693,6 @@ void print_game_options(FILE* fp, int verbose)
   }
   fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
 
-  if(verbose)
-  {
-    fprintf (fp, "\n# (Non-feedback) Speed is multiplied by this factor\n"
-                 "# with each new wave. Default is 1.2.\n");
-  }
-  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Go back to starting speed and number of comets if player\n"
-                  "# misses a question. Useful for smaller kids. Default is 0.\n");
-   }
-   fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
 
    if(verbose)
    {
@@ -1239,7 +1750,8 @@ static int str_to_bool(char* val)
   if ((0 == strcasecmp(val, "true"))
     ||(0 == strcasecmp(val, "t"))
     ||(0 == strcasecmp(val, "yes"))
-    ||(0 == strcasecmp(val, "y")))
+    ||(0 == strcasecmp(val, "y"))
+    ||(0 == strcasecmp(val, "on")))
   {
     return 1;
   }
@@ -1247,7 +1759,8 @@ static int str_to_bool(char* val)
   if ((0 == strcasecmp(val, "false"))
     ||(0 == strcasecmp(val, "f"))
     ||(0 == strcasecmp(val, "no"))
-    ||(0 == strcasecmp(val, "n")))
+    ||(0 == strcasecmp(val, "n"))
+    ||(0 == strcasecmp(val, "off")))
   {
     return 0;
   }  

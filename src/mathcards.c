@@ -1184,6 +1184,18 @@ int MC_MaxAnswer(void)
   return math_opts->max_answer;
 }
 
+
+int MC_MaxQuestions(void)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_MaxQuestions(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->max_questions;
+}
+
+
 int MC_AllowNegatives(void)
 {
   if (!math_opts)

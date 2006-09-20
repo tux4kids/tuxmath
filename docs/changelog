@@ -1,5 +1,23 @@
 changelog for "tuxmath"
 
+2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 26)
+  Version 0.95
+
+  Setup:
+    * Config file output cleaned up with better organization
+      and better comments.
+  Game:
+    * Feedback system implemented to dynamically adjust comet
+      speed based on player performance.
+      Tim Holy <holy@wustl.edu>
+  Code:
+    * Fixed bug causing crash if max_comets set too high.
+      Tim Holy <holy@wustl.edu>
+    * Fixed bug causing crash due to SDL_FreeSurface() being
+      called twice on same pointer in certain code path.
+      David Bruce <dbruce@tampabay.rr.com>
+     
+
 2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 22)
   Version 0.94
 
@@ -13,6 +31,7 @@ changelog for "tuxmath"
       only used for debugging output, but soon tuxmath will
       save lists of questions asked and questions missed to 
       files for post-game review.
+      David Bruce <dbruce@tampabay.rr.com>
 
 2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 21)
   Version 0.93

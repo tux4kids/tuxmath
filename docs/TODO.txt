@@ -1,6 +1,6 @@
 TODO.txt for "tuxmath"
 
-September 03, 2006
+September 20, 2006
 
 Build:
   * Fix certain file permissions issues when packaged as rpm.
@@ -39,6 +39,7 @@ Options:
   * Command-line options based on grade-level (?)
 
 Code:
+  * Error checking to make sure values from config files are sane.
   * Optimize graphics blitting!!!
   * Abstract SDL_BlitSurface() calls
 

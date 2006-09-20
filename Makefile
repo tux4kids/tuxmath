@@ -32,7 +32,7 @@ endif
 OWNER=$(shell if `groups root | grep root > /dev/null` ; then echo root:root ; else echo root:wheel ; fi)
 
 
-VERSION=tuxmath-0.93
+VERSION=tuxmath-0.95
 
 all:	tuxmath
 
