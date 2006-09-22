@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-Sept 20, 2006
+Sept 22, 2006
 
-For tuxmath-0.95
+For tuxmath-0.96
 
 Objective
 ---------
@@ -301,6 +301,14 @@ Setting Administrative Options
   If "per_user_config" is deselected, the game starts up with the master
   settings.  (This is somewhat under construction).
 
+
+Game Summary Files
+------------------
+  "Tux, of Math Command" saves summaries of the last ten games in the player's
+  .tuxmath directory.  The files are named "summary1" through "summary10",
+  with "summary1" the most recent. The files includes lists of questions asked
+  and questions missed, along with the numbers of correct and incorrect
+  answers and the percent correct.
 
   [ UNDER CONSTRUCTION ]
 

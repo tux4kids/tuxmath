@@ -1,6 +1,18 @@
 changelog for "tuxmath"
 
-2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 26)
+2006.Sep.22 (https://svn.tux4kids.net/tuxmath/ - revision 27)
+  Version 0.96
+  
+  Game:
+    * Tuxmath now saves summaries of the last ten games in
+      the player's .tuxmath directory. They are rotated out,
+      with the oldest discarded each time. The summaries
+      include the starting question list, a list of all
+      missed questions, and the numbers of correct and 
+      incorrect answers with percent correct.
+      David Bruce <dbruce@tampabay.rr.com>
+
+2006.Sep.18 (https://svn.tux4kids.net/tuxmath/ - revision 26)
   Version 0.95
 
   Setup:

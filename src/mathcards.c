@@ -1631,8 +1631,251 @@ int MC_DivMaxQuotient(void)
 
 
 
+/* prints struct to file */
+void MC_PrintMathOptions(FILE* fp, int verbose)
+{
+  #ifdef MC_DEBUG
+  printf("\nEntering MC_PrintMathOptions()\n");
+  #endif
+
+  /* bail out if no struct */
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMath Options struct does not exist!\n");
+    return;
+  }
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                  General Math Options                    #\n"
+                 "#                                                          #\n"
+                 "# If 'play_through_list' is true, Tuxmath will ask each    #\n"
+                 "# question in an internally-generated list. The list is    #\n"
+                 "# generated based on the question ranges selected below.   #\n"
+                 "# The game ends when no questions remain.                  #\n"
+                 "# If 'play_through_list' is false, the game continues      #\n"
+                 "# until all cities are destroyed.                          #\n"
+                 "# Default is 1 (i.e. 'true' or 'yes').                     #\n"
+                 "#                                                          #\n"
+                 "# 'question_copies' is the number of times each question   #\n"
+                 "# will be asked. It can be 1 to 10 - Default is 1.         #\n"
+                 "#                                                          #\n"
+                 "# 'repeat_wrongs' tells Tuxmath whether to reinsert        #\n"
+                 "# incorrectly answered questions into the list to be       #\n"
+                 "# asked again. Default is 1 (yes).                         #\n"
+                 "#                                                          #\n"
+                 "# 'copies_repeated_wrongs' gives the number of times an    #\n"
+                 "# incorrectly answered question will reappear. Default     #\n"
+                 "# is 1.                                                    #\n"
+                 "#                                                          #\n"
+                 "# The defaults for these values result in a 'mission'      #\n" 
+                 "# for Tux that is accomplished by answering all            #\n"
+                 "# questions correctly with at least one surviving city.    #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "play_through_list = %d\n", math_opts->play_through_list);
+  fprintf (fp, "question_copies = %d\n", math_opts->question_copies);
+  fprintf (fp, "repeat_wrongs = %d\n", math_opts->repeat_wrongs);
+  fprintf (fp, "copies_repeated_wrongs = %d\n", math_opts->copies_repeated_wrongs);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# The 'format_<op>_answer_<place>  options control         #\n"
+                 "# generation of questions with the answer in different     #\n"
+                 "# places in the equation.  i.e.:                           #\n"
+                 "#                                                          #\n"
+                 "#    format_add_answer_last:    2 + 2 = ?                  #\n"
+                 "#    format_add_answer_first:   ? + 2 = 4                  #\n"
+                 "#    format_add_answer_middle:  2 + ? = 4                  #\n"
+                 "#                                                          #\n"
+                 "# By default, 'format_answer_first' is enabled and the     #\n"
+                 "# other two formats are disabled.  Note that the options   #\n"
+                 "# are not mutually exclusive - the question list may       #\n"
+                 "# contain questions with different formats.                #\n"
+                 "#                                                          #\n"
+                 "# The formats are set independently for each of the four   #\n"
+                 "# math operations.                                         #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "format_add_answer_last = %d\n", math_opts->format_add_answer_last);
+  fprintf (fp, "format_add_answer_first = %d\n", math_opts->format_add_answer_first);
+  fprintf (fp, "format_add_answer_middle = %d\n", math_opts->format_add_answer_middle);
+  fprintf (fp, "format_sub_answer_last = %d\n", math_opts->format_sub_answer_last);
+  fprintf (fp, "format_sub_answer_first = %d\n", math_opts->format_sub_answer_first);
+  fprintf (fp, "format_sub_answer_middle = %d\n", math_opts->format_sub_answer_middle);
+  fprintf (fp, "format_mult_answer_last = %d\n", math_opts->format_mult_answer_last);
+  fprintf (fp, "format_mult_answer_first = %d\n", math_opts->format_mult_answer_first);
+  fprintf (fp, "format_mult_answer_middle = %d\n", math_opts->format_mult_answer_middle);
+  fprintf (fp, "format_div_answer_last = %d\n", math_opts->format_div_answer_last);
+  fprintf (fp, "format_div_answer_first = %d\n", math_opts->format_div_answer_first);
+  fprintf (fp, "format_div_answer_middle = %d\n", math_opts->format_div_answer_middle);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'allow_negatives' allows or disallows use of negative    #\n"
+                 "# numbers as both operands and answers.  Default is 0      #\n"
+                 "# (no), which disallows questions like:                    #\n"
+                 "#          2 - 4 = ?                                       #\n"
+                 "# Note: this option must be enabled in order to set the    #\n"
+                 "# operand ranges to include negatives (see below). If it   #\n"
+                 "# is changed from 1 (yes) to 0 (no), any negative          #\n"
+                 "# operand limits will be reset to 0.                       #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "allow_negatives = %d\n", math_opts->allow_negatives);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'max_answer' is the largest absolute value allowed in    #\n"
+                 "# any value in a question (not only the answer). Default   #\n"
+                 "# is 144. It can be set as high as 999.                    #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "max_answer = %d\n", math_opts->max_answer);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# 'max_questions' is limit of the length of the question   #\n"
+                 "# list. Default is 5000 - only severe taskmasters will     #\n"
+                 "# need to raise it.                                        #\n"
+                 "############################################################\n\n");
+  }  
+  fprintf (fp, "max_questions = %d\n", math_opts->max_questions);  
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "# If 'randomize' selected, the list will be shuffled       #\n"
+                 "# at the start of the game.  Default is 1 (yes).           #\n"
+                 "############################################################\n\n");
+  }
+  fprintf (fp, "randomize = %d\n", math_opts->randomize);
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#                 Math Operations Allowed                  #\n"
+                 "#                                                          #\n"
+                 "# These options enable questions for each of the four math #\n"
+                 "# operations.  All are 1 (yes) by default.                 #\n"
+                 "############################################################\n\n");
+  }
+  fprintf(fp, "addition_allowed = %d\n", math_opts->addition_allowed);
+  fprintf(fp, "subtraction_allowed = %d\n", math_opts->subtraction_allowed);
+  fprintf(fp, "multiplication_allowed = %d\n", math_opts->multiplication_allowed);
+  fprintf(fp, "division_allowed = %d\n", math_opts->division_allowed);
+
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
+                 "#      Minimum and Maximum Values for Operand Ranges       #\n"
+                 "#                                                          #\n"
+                 "# Operand limits can be set to any integer up to the       #\n"
+                 "# value of 'max_answer'.  If 'allow_negatives' is set to 1 #\n"
+                 "# (yes), either negative or positive values can be used.   #\n"
+                 "# Tuxmath will generate questions for every value in the   #\n"
+                 "# specified range. The maximum must be greater than or     #\n"
+                 "# equal to the corresponding minimum for any questions to  #\n"
+                 "# be generated for that operation.                         #\n"
+                 "############################################################\n\n");
+  }
+  fprintf(fp, "\n# Addition operands: augend + addend = sum\n");
+  fprintf(fp, "min_augend = %d\n", math_opts->min_augend);
+  fprintf(fp, "max_augend = %d\n", math_opts->max_augend);
+  fprintf(fp, "min_addend = %d\n", math_opts->min_addend);
+  fprintf(fp, "max_addend = %d\n", math_opts->max_addend);
+
+  fprintf(fp, "\n# Subtraction operands: minuend - subtrahend = difference\n");
+  fprintf(fp, "min_minuend = %d\n", math_opts->min_minuend);
+  fprintf(fp, "max_minuend = %d\n", math_opts->max_minuend);
+  fprintf(fp, "min_subtrahend = %d\n", math_opts->min_subtrahend);
+  fprintf(fp, "max_subtrahend = %d\n", math_opts->max_subtrahend);
+
+  fprintf(fp, "\n# Multiplication operands: multiplier * multiplicand = product\n");
+  fprintf(fp, "min_multiplier = %d\n", math_opts->min_multiplier);
+  fprintf(fp, "max_multiplier = %d\n", math_opts->max_multiplier);
+  fprintf(fp, "min_multiplicand = %d\n", math_opts->min_multiplicand);
+  fprintf(fp, "max_multiplicand = %d\n", math_opts->max_multiplicand);
+
+  fprintf(fp, "\n# Division operands: dividend/divisor = quotient\n");
+  fprintf(fp, "min_divisor = %d\n",math_opts->min_divisor);
+  fprintf(fp, "max_divisor = %d\n", math_opts->max_divisor);
+  fprintf(fp, "min_quotient = %d\n", math_opts->min_quotient);
+  fprintf(fp, "max_quotient = %d\n", math_opts->max_quotient);
+}
+
+
+
+int MC_PrintQuestionList(FILE* fp)
+{
+  if (fp && question_list)
+  {
+    print_list(fp, question_list);
+    return 1;
+  }
+  else
+  {
+    fprintf(stderr, "\nFile pointer and/or question list invalid\n");
+    return 0;
+  }
+}
+
+int MC_PrintWrongList(FILE* fp)
+{
+  if (!fp)
+  {
+    fprintf(stderr, "File pointer invalid\n");
+    return 0;
+  }
+
+  if (wrong_quests)
+  {
+    print_list(fp, wrong_quests);
+  }
+  else
+  {
+    fprintf(fp, "\nNo wrong questions!\n");
+  }
+
+  return 1;
+}
+
+
+int MC_StartingListLength(void)
+{
+  return starting_length;
+}
+
+
+int MC_WrongListLength(void)
+{
+  return list_length(wrong_quests);
+}
+
+int MC_NumAnsweredCorrectly(void)
+{
+  return answered_correctly;
+}
+
+
+int MC_NumNotAnsweredCorrectly(void)
+{
+  return answered_wrong;
+}
+
+
 /* Implementation of "private methods" - (cannot be called from outside
 of this file) */
+
 
 
 /* Resets negative values to zero - used when allow_negatives deselected. */
@@ -2229,190 +2472,6 @@ MC_MathQuestion* delete_list(MC_MathQuestion* list)
 
 
 
-/* FIXME generalize this so it can be used to write config file */
-/* prints struct to file */
-void MC_PrintMathOptions(FILE* fp, int verbose)
-{
-  #ifdef MC_DEBUG
-  printf("\nEntering MC_PrintMathOptions()\n");
-  #endif
-
-  /* bail out if no struct */
-  if (!math_opts)
-  {
-    fprintf(stderr, "\nMath Options struct does not exist!\n");
-    return;
-  }
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#                  General Math Options                    #\n"
-                 "#                                                          #\n"
-                 "# If 'play_through_list' is true, Tuxmath will ask each    #\n"
-                 "# question in an internally-generated list. The list is    #\n"
-                 "# generated based on the question ranges selected below.   #\n"
-                 "# The game ends when no questions remain.                  #\n"
-                 "# If 'play_through_list' is false, the game continues      #\n"
-                 "# until all cities are destroyed.                          #\n"
-                 "# Default is 1 (i.e. 'true' or 'yes').                     #\n"
-                 "#                                                          #\n"
-                 "# 'question_copies' is the number of times each question   #\n"
-                 "# will be asked. It can be 1 to 10 - Default is 1.         #\n"
-                 "#                                                          #\n"
-                 "# 'repeat_wrongs' tells Tuxmath whether to reinsert        #\n"
-                 "# incorrectly answered questions into the list to be       #\n"
-                 "# asked again. Default is 1 (yes).                         #\n"
-                 "#                                                          #\n"
-                 "# 'copies_repeated_wrongs' gives the number of times an    #\n"
-                 "# incorrectly answered question will reappear. Default     #\n"
-                 "# is 1.                                                    #\n"
-                 "#                                                          #\n"
-                 "# The defaults for these values result in a 'mission'      #\n" 
-                 "# for Tux that is accomplished by answering all            #\n"
-                 "# questions correctly with at least one surviving city.    #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "play_through_list = %d\n", math_opts->play_through_list);
-  fprintf (fp, "question_copies = %d\n", math_opts->question_copies);
-  fprintf (fp, "repeat_wrongs = %d\n", math_opts->repeat_wrongs);
-  fprintf (fp, "copies_repeated_wrongs = %d\n", math_opts->copies_repeated_wrongs);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# The 'format_<op>_answer_<place>  options control         #\n"
-                 "# generation of questions with the answer in different     #\n"
-                 "# places in the equation.  i.e.:                           #\n"
-                 "#                                                          #\n"
-                 "#    format_add_answer_last:    2 + 2 = ?                  #\n"
-                 "#    format_add_answer_first:   ? + 2 = 4                  #\n"
-                 "#    format_add_answer_middle:  2 + ? = 4                  #\n"
-                 "#                                                          #\n"
-                 "# By default, 'format_answer_first' is enabled and the     #\n"
-                 "# other two formats are disabled.  Note that the options   #\n"
-                 "# are not mutually exclusive - the question list may       #\n"
-                 "# contain questions with different formats.                #\n"
-                 "#                                                          #\n"
-                 "# The formats are set independently for each of the four   #\n"
-                 "# math operations.                                         #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "format_add_answer_last = %d\n", math_opts->format_add_answer_last);
-  fprintf (fp, "format_add_answer_first = %d\n", math_opts->format_add_answer_first);
-  fprintf (fp, "format_add_answer_middle = %d\n", math_opts->format_add_answer_middle);
-  fprintf (fp, "format_sub_answer_last = %d\n", math_opts->format_sub_answer_last);
-  fprintf (fp, "format_sub_answer_first = %d\n", math_opts->format_sub_answer_first);
-  fprintf (fp, "format_sub_answer_middle = %d\n", math_opts->format_sub_answer_middle);
-  fprintf (fp, "format_mult_answer_last = %d\n", math_opts->format_mult_answer_last);
-  fprintf (fp, "format_mult_answer_first = %d\n", math_opts->format_mult_answer_first);
-  fprintf (fp, "format_mult_answer_middle = %d\n", math_opts->format_mult_answer_middle);
-  fprintf (fp, "format_div_answer_last = %d\n", math_opts->format_div_answer_last);
-  fprintf (fp, "format_div_answer_first = %d\n", math_opts->format_div_answer_first);
-  fprintf (fp, "format_div_answer_middle = %d\n", math_opts->format_div_answer_middle);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'allow_negatives' allows or disallows use of negative    #\n"
-                 "# numbers as both operands and answers.  Default is 0      #\n"
-                 "# (no), which disallows questions like:                    #\n"
-                 "#          2 - 4 = ?                                       #\n"
-                 "# Note: this option must be enabled in order to set the    #\n"
-                 "# operand ranges to include negatives (see below). If it   #\n"
-                 "# is changed from 1 (yes) to 0 (no), any negative          #\n"
-                 "# operand limits will be reset to 0.                       #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "allow_negatives = %d\n", math_opts->allow_negatives);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'max_answer' is the largest absolute value allowed in    #\n"
-                 "# any value in a question (not only the answer). Default   #\n"
-                 "# is 144. It can be set as high as 999.                    #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "max_answer = %d\n", math_opts->max_answer);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'max_questions' is limit of the length of the question   #\n"
-                 "# list. Default is 5000 - only severe taskmasters will     #\n"
-                 "# need to raise it.                                        #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "max_questions = %d\n", math_opts->max_questions);  
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# If 'randomize' selected, the list will be shuffled       #\n"
-                 "# at the start of the game.  Default is 1 (yes).           #\n"
-                 "############################################################\n\n");
-  }
-  fprintf (fp, "randomize = %d\n", math_opts->randomize);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#                 Math Operations Allowed                  #\n"
-                 "#                                                          #\n"
-                 "# These options enable questions for each of the four math #\n"
-                 "# operations.  All are 1 (yes) by default.                 #\n"
-                 "############################################################\n\n");
-  }
-  fprintf(fp, "addition_allowed = %d\n", math_opts->addition_allowed);
-  fprintf(fp, "subtraction_allowed = %d\n", math_opts->subtraction_allowed);
-  fprintf(fp, "multiplication_allowed = %d\n", math_opts->multiplication_allowed);
-  fprintf(fp, "division_allowed = %d\n", math_opts->division_allowed);
-
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#      Minimum and Maximum Values for Operand Ranges       #\n"
-                 "#                                                          #\n"
-                 "# Operand limits can be set to any integer up to the       #\n"
-                 "# value of 'max_answer'.  If 'allow_negatives' is set to 1 #\n"
-                 "# (yes), either negative or positive values can be used.   #\n"
-                 "# Tuxmath will generate questions for every value in the   #\n"
-                 "# specified range. The maximum must be greater than or     #\n"
-                 "# equal to the corresponding minimum for any questions to  #\n"
-                 "# be generated for that operation.                         #\n"
-                 "############################################################\n\n");
-  }
-  fprintf(fp, "\n# Addition operands: augend + addend = sum\n");
-  fprintf(fp, "min_augend = %d\n", math_opts->min_augend);
-  fprintf(fp, "max_augend = %d\n", math_opts->max_augend);
-  fprintf(fp, "min_addend = %d\n", math_opts->min_addend);
-  fprintf(fp, "max_addend = %d\n", math_opts->max_addend);
-
-  fprintf(fp, "\n# Subtraction operands: minuend - subtrahend = difference\n");
-  fprintf(fp, "min_minuend = %d\n", math_opts->min_minuend);
-  fprintf(fp, "max_minuend = %d\n", math_opts->max_minuend);
-  fprintf(fp, "min_subtrahend = %d\n", math_opts->min_subtrahend);
-  fprintf(fp, "max_subtrahend = %d\n", math_opts->max_subtrahend);
-
-  fprintf(fp, "\n# Multiplication operands: multiplier * multiplicand = product\n");
-  fprintf(fp, "min_multiplier = %d\n", math_opts->min_multiplier);
-  fprintf(fp, "max_multiplier = %d\n", math_opts->max_multiplier);
-  fprintf(fp, "min_multiplicand = %d\n", math_opts->min_multiplicand);
-  fprintf(fp, "max_multiplicand = %d\n", math_opts->max_multiplicand);
-
-  fprintf(fp, "\n# Division operands: dividend/divisor = quotient\n");
-  fprintf(fp, "min_divisor = %d\n",math_opts->min_divisor);
-  fprintf(fp, "max_divisor = %d\n", math_opts->max_divisor);
-  fprintf(fp, "min_quotient = %d\n", math_opts->min_quotient);
-  fprintf(fp, "max_quotient = %d\n", math_opts->max_quotient);
-}
-
-
 void print_list(FILE* fp, MC_MathQuestion* list)
 {
   if (!list)
@@ -2420,8 +2479,8 @@ void print_list(FILE* fp, MC_MathQuestion* list)
     fprintf(fp, "\nprint_list(): list empty or pointer invalid\n");
     return;
   }
+ 
   MC_MathQuestion* ptr = list;
-  fprintf(fp, "\nList Length:\t%d", list_length(list));
   while (ptr)
   {
     print_node(fp, ptr);

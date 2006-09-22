@@ -540,6 +540,7 @@ int initialize_game_options(void)
   game_options->starting_comets = DEFAULT_STARTING_COMETS;
   game_options->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
   game_options->max_comets = DEFAULT_MAX_COMETS;
+  game_options->save_summary = DEFAULT_SAVE_SUMMARY;
   game_options->sound_available = DEFAULT_SOUND_AVAILABLE;
   game_options->use_feedback = DEFAULT_USE_FEEDBACK;
   game_options->danger_level = DEFAULT_DANGER_LEVEL;

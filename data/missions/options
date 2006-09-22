@@ -177,6 +177,8 @@ max_quotient = 12
 # Default: 0                                               #
 # Parameter: use_keypad (boolean)                          #
 # Default: 0                                               #
+# Parameter: save_game_summary (boolean)                   #
+# Default: 1                                               #
 #                                                          #
 # These parameters control various aspects of Tuxmath's    #
 # not directly related to the math question to be asked.   #
@@ -200,6 +202,12 @@ demo_mode = 0
 # gameplay or use with touchscreens:
 use_keypad = 0
 
+# By default, Tuxmath saves summaries of the last
+# ten games in the user's .tuxmath directory. Set
+# this parameter to '0' to turn off.
+save_summary = 1
+
+
 
 ############################################################
 #                                                          #
@@ -208,6 +216,7 @@ use_keypad = 0
 # The remaining settings further customize Tuxmath's       #
 # behavior.  Most users will probably not change them.     #
 ############################################################
+
 
 ############################################################
 #                                                          #
@@ -364,20 +373,20 @@ extra_comets_per_wave = 2
 max_comets = 10
 
 # Starting comet speed. Default is 1.
-speed = 1.000000
+speed = 1.00
 
 # Maximum speed. Default is 10.
-max_speed = 10.000000
+max_speed = 10.00
 
 # 'speedup_factor': If feedback is not used but 
-# 'allow_speedup' isenabled, the comet speed will be
+# 'allow_speedup' is enabled, the comet speed will be
 # multiplied by this factor with each new wave.
 # Default is 1.2 (i.e. 20 percent increase per wave)
 
-speedup_factor = 1.200000
+speedup_factor = 1.20
 
 # 'slow_after_wrong' tells Tuxmath to go back to  
-# starting speedand number of comets if the player misses 
+# starting speed and number of comets if the player misses 
 # a question. Useful for smaller kids. Default is 0.
 
 slow_after_wrong = 0
@@ -389,17 +398,17 @@ slow_after_wrong = 0
 # a guideline, early elementary kids might prefer
 # 0.2-0.3, older kids at around 0.4-0.6. Default 0.35.
 
-danger_level = 0.350000
+danger_level = 0.35
 
 # (Feedback) Set danger level speedup.
 # The margin of safety will decrease by this factor each
 # wave. Default 1.1. Note 1 = no increase in danger level.
 
-danger_level_speedup = 1.100000
+danger_level_speedup = 1.10
 
 # (Feedback) Set the maximum danger level.
 # Default 0.9.
-danger_level_max = 0.900000
+danger_level_max = 0.90
 
 # (Feedback) Set the handicap for hitting cities.
 # When bigger than 0, this causes the game to slow down
@@ -408,7 +417,7 @@ danger_level_max = 0.900000
 # 'slow_after_wrong', but allows for more gradual
 # changes. Default 0 (no extra handicap).
 
-city_explode_handicap = 0.000000
+city_explode_handicap = 0.00
 
 
 ############################################################

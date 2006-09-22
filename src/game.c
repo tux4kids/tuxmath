@@ -155,8 +155,7 @@ int game(void)
    /* most code moved into smaller functions (game_*()): */
   if (!game_initialize())
   {
-    printf("\ngame_initialize() failed!");
-    fprintf(stderr, "\ngame_initialze() failed!");
+    fprintf(stderr, "\ngame_initialize() failed!");
     /* return 1 so program exits: */
     return 1;
   } 
@@ -379,7 +378,15 @@ int game(void)
     }
   }
 #endif
-  
+
+
+  /* Write post-game info to game summary file: */
+  if (game_options->save_summary)
+  {
+    write_postgame_summary();
+  }  
+
+
   /* Return the chosen command: */
   if (GAME_OVER_WINDOW_CLOSE == game_status) 
   {
@@ -419,8 +426,13 @@ int game_initialize(void)
     return 0;
   }  
   
-  /* Prepare to start the game: */
+  /* Write pre-game info to game summary file: */
+  if (game_options->save_summary)
+  {
+    write_pregame_summary();
+  }
 
+  /* Prepare to start the game: */
   city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
 
   /* Initialize feedback parameters */
@@ -1442,7 +1454,7 @@ int add_comet(void)
   comets[found].y = 0;
 
   #ifdef TUXMATH_DEBUG
-  printf ("add_comet(): formula string is: ", comets[found].flashcard.formula_string);
+  printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
   #endif
 
   /* comet slot found and question found so return successfully: */

@@ -32,7 +32,7 @@
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
-#define TUXMATH_VERSION 0.95
+#define TUXMATH_VERSION 0.96
 
 #define PATH_MAX 4096
 
@@ -51,7 +51,8 @@
 #define DEFAULT_SLOW_AFTER_WRONG 0
 #define DEFAULT_STARTING_COMETS 2
 #define DEFAULT_EXTRA_COMETS_PER_WAVE 2
-#define DEFAULT_MAX_COMETS 10	
+#define DEFAULT_MAX_COMETS 10
+#define DEFAULT_SAVE_SUMMARY 1	
 #define DEFAULT_SOUND_AVAILABLE 1
 #define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
 #define DEFAULT_NUM_BKGDS 5
@@ -84,6 +85,7 @@ typedef struct game_option_type {
   int extra_comets_per_wave;
   int max_comets;  
   char next_mission[PATH_MAX];
+  int save_summary;
   int use_feedback;
   float danger_level;
   float danger_level_speedup;

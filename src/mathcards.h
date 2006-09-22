@@ -245,6 +245,14 @@ void MC_EndGame(void);
 /*  option (intended to make config files self-documenting).*/
 void MC_PrintMathOptions(FILE* fp, int verbose);
 
+/* Additional functions used to generate game summary files: */
+int MC_PrintQuestionList(FILE* fp);
+int MC_PrintWrongList(FILE* fp);
+int MC_StartingListLength(void);
+int MC_WrongListLength(void);
+int MC_NumAnsweredCorrectly(void);
+int MC_NumNotAnsweredCorrectly(void);
+
 /* Simple "Set/Get" type functions for option parameters: */
 
 /* Simple functions to set option parameters: */

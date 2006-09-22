@@ -53,9 +53,25 @@
 #include "setup.h"
 #include "mathcards.h"
 
+/* Used by both write_pregame_summary() and */
+/* write_postgame_summary() so defined with */
+/* file scope:                              */
+static char* summary_filenames[NUM_SUMMARIES] = {
+  "summary1",
+  "summary2",
+  "summary3",
+  "summary4",
+  "summary5",
+  "summary6",
+  "summary7",
+  "summary8",
+  "summary9",
+  "summary10"
+};
 
 
 /* local function prototypes: */
+static int find_tuxmath_dir(void);
 static int str_to_bool(char* val);
 
 
@@ -459,6 +475,13 @@ int read_config_file(FILE *fp, int file_type)
       int v = str_to_bool(value);
       if (v != -1)
         game_options->use_keypad = v;
+    }
+
+    else if(0 == strcasecmp(parameter, "save_summary"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        game_options->save_summary = v;
     }
 
     else if(0 == strcasecmp(parameter, "speed"))
@@ -875,70 +898,16 @@ int write_user_config_file(void)
 {
   char opt_path[PATH_MAX];
   FILE* fp;
-  DIR* dir_ptr;
 
-  /* find $HOME */
+  if (!find_tuxmath_dir())
+  {
+    fprintf(stderr, "\nCould not find or create tuxmath dir\n");
+    return 0;
+  }
+
+  /* find $HOME and add rest of path to config file: */
   strcpy(opt_path, getenv("HOME"));
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn write_user_config_file() home directory is: = %s\n", opt_path);
-  #endif
-
-  /* add rest of path to user's tuxmath dir: */
-  strcat(opt_path, "/.tuxmath");
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn write_user_config_file() tuxmath dir is: = %s\n", opt_path);
-  #endif
-
-  /* find out if directory exists - if not, create it: */
-  dir_ptr = opendir(opt_path);
-  if (dir_ptr)  /* don't leave DIR* open if it was already there */
-  {
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn write_user_config_file() tuxmath dir opened OK\n");
-    #endif
-
-    closedir(dir_ptr);
-  }
-  else /* need to create tuxmath config directory: */
-  {
-    int status;
-
-    /* if user's home has a _file_ named .tuxmath (as from previous version */
-    /* of program), need to get rid of it or directory creation will fail:  */
-    fp = fopen(opt_path, "r");
-    if (fp)
-    {
-      #ifdef TUXMATH_DEBUG
-      printf("\nIn write_user_config_file() - removing old .tuxmath file\n");
-      #endif
-
-      fclose(fp);
-      remove(opt_path);
-    }
-
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn write_user_config_file() - trying to create .tuxmath dir\n");
-    #endif
-
-    status = mkdir(opt_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
-
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn write_user_config_file() - mkdir returned: %d\n", status);
-    #endif
-
-    /* mkdir () returns 0 if successful */
-    if (0 != status)
-    {
-      fprintf(stderr, "\nwrite_user_config_file() - mkdir failed\n");
-      return 0;
-    }
-       
-  }
-
-  /* Add filename: */
-  strcat(opt_path, "/options");
+  strcat(opt_path, "/.tuxmath/options");
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_user_config_file() full path to config file is: = %s\n", opt_path);
@@ -1194,6 +1163,8 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default: 0                                               #\n"
                  "# Parameter: use_keypad (boolean)                          #\n"
                  "# Default: 0                                               #\n"
+                 "# Parameter: save_game_summary (boolean)                   #\n"
+                 "# Default: 1                                               #\n"
                  "#                                                          #\n"
                  "# These parameters control various aspects of Tuxmath's    #\n"
                  "# not directly related to the math question to be asked.   #\n"
@@ -1233,6 +1204,13 @@ int write_config_file(FILE *fp, int verbose)
   }
   fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
 
+  if (verbose)
+  {
+    fprintf (fp, "\n# By default, Tuxmath saves summaries of the last\n"
+               "# ten games in the user's .tuxmath directory. Set\n"
+               "# this parameter to '0' to turn off.\n");
+  }
+  fprintf(fp, "save_summary = %d\n", game_options->save_summary);
 
   if (verbose)
   {
@@ -1430,13 +1408,13 @@ int write_config_file(FILE *fp, int verbose)
   {
     fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
   }
-  fprintf(fp, "speed = %f\n", game_options->speed);
+  fprintf(fp, "speed = %.2f\n", game_options->speed);
 
   if(verbose)
   {
     fprintf (fp, "\n# Maximum speed. Default is 10.\n");
   }
-  fprintf(fp, "max_speed = %f\n", game_options->max_speed);
+  fprintf(fp, "max_speed = %.2f\n", game_options->max_speed);
 
   if(verbose)
   {
@@ -1445,7 +1423,7 @@ int write_config_file(FILE *fp, int verbose)
                  "# multiplied by this factor with each new wave.\n"
                  "# Default is 1.2 (i.e. 20 percent increase per wave)\n\n");
   }
-  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
+  fprintf(fp, "speedup_factor = %.2f\n", game_options->speedup_factor);
 
   if(verbose)
   {
@@ -1466,7 +1444,7 @@ int write_config_file(FILE *fp, int verbose)
              "# a guideline, early elementary kids might prefer\n"
              "# 0.2-0.3, older kids at around 0.4-0.6. Default 0.35.\n\n");
   }
-  fprintf(fp, "danger_level = %f\n", game_options->danger_level);
+  fprintf(fp, "danger_level = %.2f\n", game_options->danger_level);
 
   if(verbose)
   {
@@ -1474,14 +1452,14 @@ int write_config_file(FILE *fp, int verbose)
                   "# The margin of safety will decrease by this factor each\n"
                   "# wave. Default 1.1. Note 1 = no increase in danger level.\n\n");
   }
-  fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
+  fprintf(fp, "danger_level_speedup = %.2f\n", game_options->danger_level_speedup);
 
   if(verbose)
   {
      fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
                   "# Default 0.9.\n");
   }
-  fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
+  fprintf(fp, "danger_level_max = %.2f\n", game_options->danger_level_max);
 
   if (verbose)
   { 
@@ -1492,7 +1470,7 @@ int write_config_file(FILE *fp, int verbose)
                   "# 'slow_after_wrong', but allows for more gradual\n"
                   "# changes. Default 0 (no extra handicap).\n\n");
   }
-  fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
+  fprintf(fp, "city_explode_handicap = %.2f\n", game_options->city_expl_handicap);
 
   if(verbose)
   {
@@ -1531,6 +1509,148 @@ int write_config_file(FILE *fp, int verbose)
   return 1;
 }
 
+
+/* write_pregame_summary() and write_postgame_summary() are used to */
+/* record data about the player's game to file for review (perhaps by */
+/* teacher). write_pregame_summary() is called at the start of each  */
+/* game and records the question list along with identifying data. It */
+/* also rotates old game summaries to successive filenames, keeping   */
+/* the last ten summaries for review. write_postgame_summary()       */
+/* the list of questions that were not answered correctly and         */
+/* calculates the percent correct.                                    */
+int write_pregame_summary(void)
+{
+  int i;
+  FILE* fp;
+  char filepath1[PATH_MAX];
+  char filepath2[PATH_MAX];
+
+  /* Make sure tuxmath dir exists or can be created: */
+  if (!find_tuxmath_dir())
+  {
+    fprintf(stderr, "\nCould not find or create tuxmath dir\n");
+    return 0;
+  }
+
+
+
+  /* Rotate filenames of old summaries, oldest summary if present */
+  /* and leaving summary1 available for current game:             */
+
+  /* find $HOME and tack on file name: */
+  strcpy(filepath1, getenv("HOME"));
+  strcat(filepath1, "/.tuxmath/");
+  strcat(filepath1, summary_filenames[NUM_SUMMARIES - 1]);
+
+  fp = fopen(filepath1, "r");
+  if (fp)
+  {
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn write_pregame_summary() - removing oldest summary file\n");
+    #endif
+
+    fclose(fp);
+    remove(filepath1);
+  }
+
+  /* Now shift each old file back by one:       */
+  /* 'filepath1' is the old name for each file, */
+  /* 'filepath2' is the new name (i.e. we go from i - 1 to i). */
+  for (i = NUM_SUMMARIES - 1; i > 0; i--)
+  {
+    /* old filename: */
+    strcpy(filepath1, getenv("HOME"));
+    strcat(filepath1, "/.tuxmath/");
+    strcat(filepath1, summary_filenames[i - 1]);
+    /* new filename: */
+    strcpy(filepath2, getenv("HOME"));
+    strcat(filepath2, "/.tuxmath/");
+    strcat(filepath2, summary_filenames[i]);
+    /* now change the name: */
+    rename(filepath1, filepath2);
+  } 
+
+  /* summary_filenames[0] (i.e. 'summary1') should now be vacant:     */
+  strcpy(filepath1, getenv("HOME"));
+  strcat(filepath1, "/.tuxmath/");
+  strcat(filepath1, summary_filenames[0]);
+
+  fp = fopen(filepath1, "w"); /* "w" means start writing with empty file */
+  if (fp)
+  {
+    /* Write header and identifying data for summary file:       */
+    fprintf(fp, "************************\n"
+                "* Tuxmath Game Summary *\n"
+                "************************\n");
+    fprintf(fp, "\nPlayer: %s\n", getenv("USER"));
+
+    /* Write question list:  */
+    fprintf(fp, "\nStarting Question List:");
+    MC_PrintQuestionList(fp);
+    fprintf(fp, "\n\nNumber of Questions: %d", MC_StartingListLength());
+
+    fclose(fp);
+    return 1;
+  }
+  else /* Couldn't write file for some reason: */
+  {
+    return 0;
+  }
+}
+
+int write_postgame_summary(void)
+{
+  FILE* fp;
+  char filepath1[PATH_MAX];
+  int total_answered;
+
+  strcpy(filepath1, getenv("HOME"));
+  strcat(filepath1, "/.tuxmath/");
+  strcat(filepath1, summary_filenames[0]);
+
+  fp = fopen(filepath1, "a"); /* "a" means append to end of file */
+  if (fp)
+  {
+    /* Write list of questions missed: */
+    fprintf(fp, "\n\n\nList Of Questions Not Answered Correctly:");
+                MC_PrintWrongList(fp);
+    fprintf(fp, "\n\nNumber Of Distinct Questions Not Answered Correctly: %d",
+                MC_WrongListLength());
+
+    /* Write post-game statistics:     */
+    total_answered = MC_NumAnsweredCorrectly() + MC_NumNotAnsweredCorrectly();
+
+    fprintf(fp, "\n\nSummary:\n");
+    fprintf(fp, "Questions Answered:\t%d\n", total_answered);
+    fprintf(fp, "Questions Correct:\t%d\n",
+                MC_NumAnsweredCorrectly());
+    fprintf(fp, "Questions Missed:\t%d\n",
+                MC_NumNotAnsweredCorrectly());
+    /* Avoid divide-by-zero errror: */
+    if (total_answered)
+    {
+      fprintf(fp, "Percent Correct:\t%d %%\n", 
+              ((MC_NumAnsweredCorrectly() * 100)/ total_answered) );
+    }
+    else
+      fprintf(fp, "Percent Correct: (not applicable)\n");
+
+    fprintf(fp, "Mission Accomplished:\t");
+    if (MC_MissionAccomplished())
+    {
+      fprintf(fp, "Yes!\n\n8^)\n");
+    }
+    else
+    {
+      fprintf(fp, "No.\n\n:^(\n");
+    }
+    return 1;
+  }
+  else /* Couldn't write file for some reason: */
+  {
+    return 0;
+  }
+}
 
 /* prints struct to stream: */
 void print_game_options(FILE* fp, int verbose)
@@ -1738,6 +1858,80 @@ void print_game_options(FILE* fp, int verbose)
 */
 }
 
+
+/* Checks to see if user's .tuxmath directory exists and, if not, tries  */
+/* to create it. Returns 1 if .tuxmath dir found or successfully created */
+static int find_tuxmath_dir(void)
+{
+  char opt_path[PATH_MAX];
+  DIR* dir_ptr;
+
+  /* find $HOME */
+  strcpy(opt_path, getenv("HOME"));
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn find_tuxmath_dir() home directory is: = %s\n", opt_path);
+  #endif
+
+  /* add rest of path to user's tuxmath dir: */
+  strcat(opt_path, "/.tuxmath");
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn find_tuxmath_dir() tuxmath dir is: = %s\n", opt_path);
+  #endif
+
+  /* find out if directory exists - if not, create it: */
+  dir_ptr = opendir(opt_path);
+  if (dir_ptr)  /* don't leave DIR* open if it was already there */
+  {
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn find_tuxmath_dir() tuxmath dir opened OK\n");
+    #endif
+
+    closedir(dir_ptr);
+    return 1;
+  }
+  else /* need to create tuxmath config directory: */
+  {
+    FILE* fp;
+    int status;
+
+    /* if user's home has a _file_ named .tuxmath (as from previous version */
+    /* of program), need to get rid of it or directory creation will fail:  */
+    fp = fopen(opt_path, "r");
+    if (fp)
+    {
+      #ifdef TUXMATH_DEBUG
+      printf("\nIn find_tuxmath_dir() - removing old .tuxmath file\n");
+      #endif
+
+      fclose(fp);
+      remove(opt_path);
+    }
+
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn find_tuxmath_dir() - trying to create .tuxmath dir\n");
+    #endif
+
+    status = mkdir(opt_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+    #ifdef TUXMATH_DEBUG
+    printf("\nIn find_tuxmath_dir() - mkdir returned: %d\n", status);
+    #endif
+
+    /* mkdir () returns 0 if successful */
+    if (0 == status)
+    {
+      fprintf(stderr, "\nfind_tuxmath_dir() - $HOME/.tuxmath created\n");
+      return 1;
+    }
+    else
+    {
+      fprintf(stderr, "\nfind_tuxmath_dir() - mkdir failed\n");
+      return 0;
+    }
+  }
+}
 
 
 /* Allows use of "true", "YES", T, etc. in text file for boolean values. */

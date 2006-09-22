@@ -159,13 +159,30 @@ enum {
   NUM_MUSICS
 };
 
-
+/* Names for game summary files: */
+enum {
+  SUMMARY1,
+  SUMMARY2,
+  SUMMARY3,
+  SUMMARY4,
+  SUMMARY5,
+  SUMMARY6,
+  SUMMARY7,
+  SUMMARY8,
+  SUMMARY9,
+  SUMMARY10,
+  NUM_SUMMARIES
+};
 
 /* These functions used by setup() to read in settings: */
 int read_global_config_file(void);
 int read_user_config_file(void);
 int read_named_config_file(char* filename);
 int write_user_config_file(void);
+
+/* These functions used by game() to record game summary: */
+int write_pregame_summary(void);
+int write_postgame_summary(void);
 
 /* FIXME these will probably become "local" functions: */
 int read_config_file(FILE* fp, int file_type);
