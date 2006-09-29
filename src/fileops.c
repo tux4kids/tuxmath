@@ -26,6 +26,8 @@
 *
 */
 
+#include "../config.h"
+
 /* Standard C includes: */
 #include <stdio.h>
 #include <stdlib.h>
@@ -56,17 +58,23 @@
 /* Used by both write_pregame_summary() and */
 /* write_postgame_summary() so defined with */
 /* file scope:                              */
+#ifdef BUILD_MINGW32
+#define SUMMARY_EXTENSION ".txt"
+#else
+#define SUMMARY_EXTENSION ""
+#endif 
+
 static char* summary_filenames[NUM_SUMMARIES] = {
-  "summary1",
-  "summary2",
-  "summary3",
-  "summary4",
-  "summary5",
-  "summary6",
-  "summary7",
-  "summary8",
-  "summary9",
-  "summary10"
+  "summary1" SUMMARY_EXTENSION,
+  "summary2" SUMMARY_EXTENSION,
+  "summary3" SUMMARY_EXTENSION,
+  "summary4" SUMMARY_EXTENSION,
+  "summary5" SUMMARY_EXTENSION,
+  "summary6" SUMMARY_EXTENSION,
+  "summary7" SUMMARY_EXTENSION,
+  "summary8" SUMMARY_EXTENSION,
+  "summary9" SUMMARY_EXTENSION,
+  "summary10 SUMMARY_EXTENSION"
 };
 
 
@@ -74,6 +82,102 @@ static char* summary_filenames[NUM_SUMMARIES] = {
 static int find_tuxmath_dir(void);
 static int str_to_bool(char* val);
 
+/* fix HOME on windows */
+#ifdef BUILD_MINGW32
+#include <windows.h>
+
+/* STOLEN in tuxpaint */
+
+/*
+  Removes a single '\' or '/' from end of path 
+*/
+static char *remove_slash(char *path)
+{
+  int len = strlen(path);
+
+  if (!len)
+    return path;
+
+  if (path[len-1] == '/' || path[len-1] == '\\')
+    path[len-1] = 0;
+
+  return path;
+}
+
+/*
+  Read access to Windows Registry
+*/
+static HRESULT ReadRegistry(const char *key, const char *option, char *value, int size)
+{
+  LONG	res;
+  HKEY	hKey = NULL;
+
+  res = RegOpenKeyEx(HKEY_CURRENT_USER, key, 0, KEY_READ, &hKey);
+  if (res != ERROR_SUCCESS)
+    goto err_exit;
+  res = RegQueryValueEx(hKey, option, NULL, NULL, (LPBYTE)value, (LPDWORD)&size);
+  if (res != ERROR_SUCCESS)
+    goto err_exit;
+  res = ERROR_SUCCESS;
+
+err_exit:
+  if (hKey) RegCloseKey(hKey);
+  return HRESULT_FROM_WIN32(res);
+}
+
+
+/*
+  Returns heap string containing default application data path.
+  Creates suffix subdirectory (only one level).
+  E.g. C:\Documents and Settings\jfp\Application Data\suffix
+*/
+char *GetDefaultSaveDir(const char *suffix)
+{
+  char          prefix[MAX_PATH];
+  char          path[2*MAX_PATH];
+  const char   *key    = "Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders";
+  const char   *option = "AppData";
+  HRESULT hr = S_OK;
+
+  if (SUCCEEDED(hr = ReadRegistry(key, option, prefix, sizeof(prefix))))
+  {
+    remove_slash(prefix);
+    snprintf(path, sizeof(path), "%s/%s", prefix, suffix);
+    _mkdir(path);
+    return strdup(path);
+  }
+  return strdup("userdata");
+}
+
+
+/* Windows XP: User/App Data/TuxMath/ */
+/* WIndows 98/ME: TuxMath install dir/userdata/Options */
+#define OPTIONS_SUBDIR ""
+#define OPTIONS_FILENAME "options.cfg"
+
+#else
+
+# define get_home getenv("HOME")
+#define OPTIONS_SUBDIR "/.tuxmath"
+#define OPTIONS_FILENAME "options"
+
+#endif
+
+
+/* This functions keep and returns the user data directory application path */
+static char* user_data_dir = NULL;
+
+char *get_user_data_dir ()
+{ 
+  if (! user_data_dir)
+#ifdef BUILD_MINGW32
+     user_data_dir = GetDefaultSaveDir(PROGRAM_NAME);
+#else
+     user_data_dir = strdup(getenv("HOME"));
+#endif
+
+  return user_data_dir;  
+}
 
 /* FIXME should have better file path (/etc or /usr/local/etc) and name */
 int read_global_config_file(void)
@@ -99,8 +203,8 @@ int read_user_config_file(void)
   char opt_path[PATH_MAX];
 
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, getenv("HOME"));
-  strcat(opt_path, "/.tuxmath/options");
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" OPTIONS_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn setup() full path to config file is: = %s\n", opt_path);
@@ -240,8 +344,8 @@ int read_named_config_file(char* filename)
 
   /* Look in user's hidden .tuxmath directory  */
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, getenv("HOME"));
-  strcat(opt_path, "/.tuxmath/");
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/");
   strcat(opt_path, filename);
 
   #ifdef TUXMATH_DEBUG
@@ -271,7 +375,7 @@ int read_named_config_file(char* filename)
 
   /* Look in user's home directory  */
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, getenv("HOME"));
+  strcpy(opt_path, get_user_data_dir());
   strcat(opt_path, "/");
   strcat(opt_path, filename);
 
@@ -906,8 +1010,8 @@ int write_user_config_file(void)
   }
 
   /* find $HOME and add rest of path to config file: */
-  strcpy(opt_path, getenv("HOME"));
-  strcat(opt_path, "/.tuxmath/options");
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" OPTIONS_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_user_config_file() full path to config file is: = %s\n", opt_path);
@@ -1538,8 +1642,8 @@ int write_pregame_summary(void)
   /* and leaving summary1 available for current game:             */
 
   /* find $HOME and tack on file name: */
-  strcpy(filepath1, getenv("HOME"));
-  strcat(filepath1, "/.tuxmath/");
+  strcpy(filepath1, get_user_data_dir());
+  strcat(filepath1, OPTIONS_SUBDIR "/");
   strcat(filepath1, summary_filenames[NUM_SUMMARIES - 1]);
 
   fp = fopen(filepath1, "r");
@@ -1559,20 +1663,20 @@ int write_pregame_summary(void)
   for (i = NUM_SUMMARIES - 1; i > 0; i--)
   {
     /* old filename: */
-    strcpy(filepath1, getenv("HOME"));
-    strcat(filepath1, "/.tuxmath/");
+    strcpy(filepath1, get_user_data_dir());
+    strcat(filepath1, OPTIONS_SUBDIR "/");
     strcat(filepath1, summary_filenames[i - 1]);
     /* new filename: */
-    strcpy(filepath2, getenv("HOME"));
-    strcat(filepath2, "/.tuxmath/");
+    strcpy(filepath2, get_user_data_dir());
+    strcat(filepath2, OPTIONS_SUBDIR "/");
     strcat(filepath2, summary_filenames[i]);
     /* now change the name: */
     rename(filepath1, filepath2);
   } 
 
   /* summary_filenames[0] (i.e. 'summary1') should now be vacant:     */
-  strcpy(filepath1, getenv("HOME"));
-  strcat(filepath1, "/.tuxmath/");
+  strcpy(filepath1, get_user_data_dir());
+  strcat(filepath1, OPTIONS_SUBDIR "/");
   strcat(filepath1, summary_filenames[0]);
 
   fp = fopen(filepath1, "w"); /* "w" means start writing with empty file */
@@ -1604,8 +1708,8 @@ int write_postgame_summary(void)
   char filepath1[PATH_MAX];
   int total_answered;
 
-  strcpy(filepath1, getenv("HOME"));
-  strcat(filepath1, "/.tuxmath/");
+  strcpy(filepath1, get_user_data_dir());
+  strcat(filepath1, OPTIONS_SUBDIR "/");
   strcat(filepath1, summary_filenames[0]);
 
   fp = fopen(filepath1, "a"); /* "a" means append to end of file */
@@ -1867,14 +1971,14 @@ static int find_tuxmath_dir(void)
   DIR* dir_ptr;
 
   /* find $HOME */
-  strcpy(opt_path, getenv("HOME"));
+  strcpy(opt_path, get_user_data_dir());
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn find_tuxmath_dir() home directory is: = %s\n", opt_path);
   #endif
 
   /* add rest of path to user's tuxmath dir: */
-  strcat(opt_path, "/.tuxmath");
+  strcat(opt_path, OPTIONS_SUBDIR);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn find_tuxmath_dir() tuxmath dir is: = %s\n", opt_path);
@@ -1913,7 +2017,13 @@ static int find_tuxmath_dir(void)
     printf("\nIn find_tuxmath_dir() - trying to create .tuxmath dir\n");
     #endif
 
+    //status = mkdir(opt_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+
+#ifndef BUILD_MINGW32
     status = mkdir(opt_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#else
+    status = mkdir(opt_path);
+#endif
 
     #ifdef TUXMATH_DEBUG
     printf("\nIn find_tuxmath_dir() - mkdir returned: %d\n", status);
@@ -1922,7 +2032,7 @@ static int find_tuxmath_dir(void)
     /* mkdir () returns 0 if successful */
     if (0 == status)
     {
-      fprintf(stderr, "\nfind_tuxmath_dir() - $HOME/.tuxmath created\n");
+      fprintf(stderr, "\nfind_tuxmath_dir() - $HOME" OPTIONS_SUBDIR " created\n");
       return 1;
     }
     else

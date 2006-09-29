@@ -1,5 +1,17 @@
 changelog for "tuxmath"
 
+2006.Sep.29 (https://svn.tux4kids.net/tuxmath/ - revision 28)
+  Version 0.97
+
+  Build:
+    * Successful Windows XP build including all current features,
+      config file handling, game summaries.
+    * Build system changed to autoconf/automake. fileops.h/fileops.c
+      changed to accomodate cross-platform build. Under Linux/Unix,
+      now install with ./configure && make && make install.
+
+      Yves Combe <yves@ycombe.net>
+
 2006.Sep.22 (https://svn.tux4kids.net/tuxmath/ - revision 27)
   Version 0.96
   

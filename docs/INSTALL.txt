@@ -1,10 +1,6 @@
-INSTALL.txt for "tuxmath"
+INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
 
-September 6, 2001
-
-
-[ NOTE: When (and if) TuxMath changes from a simple Makefile system to
-  an autoconf/automake system, parts of this document will need to change! ]
+September 29, 2006
 
 
 Requirements
@@ -15,14 +11,17 @@ Requirements
     operating system supported by libSDL.  At the time this document was
     written, this included:
 
-      Windows 32-bit
-      MacOS
       Linux
+      Windows 32-bit
+
+    In principle, Tuxmath should build and run on any platform with SDL,
+    including: 
+      MacOSX
       Solaris
       IRIX
       FreeBSD
       BeOS
-
+    However, I do not know if anyone has done a build on these systems
 
   CPU
   ---
@@ -123,76 +122,21 @@ Compiling and Installing TuxMath
   ----------
     Compiling the Program
     ---------------------
-      To compile the "tuxmath" binary, simply issue the following command:
+      Tuxmath now uses the Gnu autoconf/automake tools, meaning that the
+      complete build and installation process just involves typing the
+      following at a shell prompt within the /trunk directory of the source
+      code tree:
+      
+      ./configure && make && make install
 
-        make
+      By default, the build process will install tuxmath under /usr/local/share
+      for the data and /usr/local/bin for the executable.
 
-      This will compile the source files and, unless any errors occur,
-      create a "tuxmath" executable program in the TuxMath directory.
+      If you are using a deb or rpm-based distribution, your distro may have
+      tuxmath in a prepared package, in which case your job is as simple as
+      "apt-get install tuxmath".
 
-
-      If you wish to build the program without sound support (in this
-      case, the "SDL_mixer" does NOT need to be installed), run this
-      command instead:
-
-        make nosound
-
-
-      NOTE: See below to change the installation directory for TuxMath.
-
-
-    Installing
-    ----------
-      Once compiled, you can have the program and graphics/sound data
-      files copied to a shared location on your system.
-
-      First, change to the superuser (root), by running the "su"
-      command and entering root's password.  Then, run this command:
-
-        make install
-
-      By default, the program will be copied into "/usr/local/bin/"
-      and the data will be copied into a new directory,
-      "/usr/local/share/tuxmath/".
-
-
-    Changing Installation Directory
-    -------------------------------
-      If you wish to override the default installation directories
-      for TuxMath, you can specify them when you run "make"
-      (or "make nosound").  Do this BEFORE running "make install".
-
-        make PREFIX=/home/username/
-
-
-      For example, if you do not have superuser access on the computer
-      you're installing in, and wish to simply run TuxMath from within
-      your home directory, you can run:
-
-        make PREFIX=/home/usernmame/
-
-      And when you go to install, run "make install" with the same:
-
-        make install PREFIX=/home/username
-
-      The data files will be copied into "tuxmath-data" in your home
-      directory, and the program will be copied into the "bin" directory.
-
-      Packages will also find the DESTDIR option useful, you can build as normal,
-      then install to a "dummy" root directory so that it is easy to determine what 
-      files are part of the package
-
-        make install DESTDIR=/tmp/tuxmath
-
-
-    Cleaning Up
-    -----------
-      If you need to re-make from scratch for some reason (for example,
-      you wish to change the "DATA_PREFIX" value when you run "make"),
-      you can have all of the compiled files (the program, and all of the
-      object files in the "obj/" directory) deleted by running:
-
-        make clean
-
-
-[ UNDER CONSTRUCTION ]
+  Windows 
+  -------
+    (under construction)
+       
