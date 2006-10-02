@@ -1,0 +1,95 @@
+#                                               -*- Autoconf -*-
+# Process this file with autoconf to produce a configure script.
+
+#AC_PREREQ(2.59)
+AC_INIT(src/tuxmath.c)
+AC_CANONICAL_HOST
+AC_CANONICAL_TARGET
+
+AM_INIT_AUTOMAKE(TuxMath, 0.96)
+AM_CONFIG_HEADER(config.h)
+AM_MAINTAINER_MODE
+
+NAME_VERSION=$PACKAGE-$VERSION
+
+AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Name of the Program])
+
+AC_SUBST(NAME_VERSION)
+
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+dnl Check for SDL 
+SDL_VERSION=1.2.0
+
+AM_PATH_SDL($SDL_VERSION, :,
+         AC_MSG_ERROR([*** SDL version $SDL_VERSION not found!]) 
+) 
+
+CFLAGS="$CFLAGS $SDL_CFLAGS" 
+LIBS="$LIBS $SDL_LIBS"
+
+# Checks for libraries.
+# FIXME: Replace `main' with a function in `-lSDL_image':
+dnl Checks for libraries. 
+dnl Replace `main' with a function in -lSDL_image: 
+AC_CHECK_LIB(SDL_image, 
+       main, 
+       LIBS="$LIBS -lSDL_image", 
+       AC_MSG_ERROR([*** SDL_image library not found!]) 
+)
+dnl Checks for libraries. 
+dnl Replace `main' with a function in -lSDL_mixer: 
+AC_CHECK_LIB(SDL_mixer, 
+       Mix_OpenAudio, 
+       LIBS="$LIBS -lSDL_mixer", 
+       AC_MSG_ERROR([*** SDL_mixer library not found!]) 
+)
+
+# Checks for header files.
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
+
+# Checks for typedefs, structures, and compiler characteristics.
+
+# Checks for library functions.
+AC_FUNC_CLOSEDIR_VOID
+# AC_FUNC_MALLOC
+AC_FUNC_STRTOD
+AC_CHECK_FUNCS([getcwd memset mkdir strcasecmp strchr strndup])
+
+
+dnl Set PACKAGE_DATA_DIR
+PACKAGE_DATA_DIR="data"
+
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    native_win32=yes
+    ;;
+  *)
+    native_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$native_win32])
+AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
+
+if test "$native_win32" = yes; then
+   AC_DEFINE([BUILD_MINGW32], 1,[Native MinGW32 build])
+   CFLAGS="$CFLAGS -D__GW32__"
+   LIBS="$LIBS -lgw32c -luuid -lole32 -lwsock32 -mwindows"
+   CPPFLAGS="$CPPFLAGS -idirafter $prefix/include/glibc"
+   #CPPFLAGS="$CPPFLAGS -I$prefix/include/glibc"
+fi
+
+AC_SUBST(PACKAGE_DATA_DIR)
+
+#AC_CONFIG_FILES([Makefile])
+
+AC_OUTPUT([
+Makefile
+src/Makefile
+
+])
