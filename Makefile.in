@@ -39,9 +39,9 @@ host_triplet = @host@
 target_triplet = @target@
 DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
-	$(top_srcdir)/configure AUTHORS COPYING ChangeLog INSTALL NEWS \
-	config.guess config.sub depcomp install-sh missing \
-	mkinstalldirs
+	$(top_srcdir)/configure $(top_srcdir)/nsis/tuxmath.nsi.in \
+	AUTHORS COPYING ChangeLog INSTALL NEWS config.guess config.sub \
+	depcomp install-sh missing mkinstalldirs
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
@@ -52,7 +52,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno configure.status.lineno
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = nsis/tuxmath.nsi
 SOURCES =
 DIST_SOURCES =
 RECURSIVE_TARGETS = all-recursive check-recursive dvi-recursive \
@@ -120,6 +120,11 @@ MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 NAME_VERSION = @NAME_VERSION@
+NSIS = @NSIS@
+NSI_BUILD_FALSE = @NSI_BUILD_FALSE@
+NSI_BUILD_TRUE = @NSI_BUILD_TRUE@
+NSI_DLL_DIR = @NSI_DLL_DIR@
+NSI_INSTALL_DIR = @NSI_INSTALL_DIR@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -137,6 +142,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+WINDRES = @WINDRES@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_STRIP = @ac_ct_STRIP@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
@@ -178,7 +184,9 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
+MAKENSIS = @NSIS@
 SUBDIRS = src
+MY_RECURSIVE_TARGETS = install-nsi
 icondir = $(datadir)/pixmaps
 icon_DATA = data/images/icon.png
 all: config.h
@@ -235,6 +243,8 @@ $(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
 
 distclean-hdr:
 	-rm -f config.h stamp-h1
+nsis/tuxmath.nsi: $(top_builddir)/config.status $(top_srcdir)/nsis/tuxmath.nsi.in
+	cd $(top_builddir) && $(SHELL) ./config.status $@
 uninstall-info-am:
 install-iconDATA: $(icon_DATA)
 	@$(NORMAL_INSTALL)
@@ -389,6 +399,7 @@ distclean-tags:
 distdir: $(DISTFILES)
 	$(am__remove_distdir)
 	mkdir $(distdir)
+	$(mkdir_p) $(distdir)/nsis
 	@srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`; \
 	topsrcdirstrip=`echo "$(top_srcdir)" | sed 's|.|.|g'`; \
 	list='$(DISTFILES)'; for file in $$list; do \
@@ -561,7 +572,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic mostlyclean-am
+clean-am: clean-generic clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -611,7 +622,7 @@ uninstall-am: uninstall-iconDATA uninstall-info-am
 uninstall-info: uninstall-info-recursive
 
 .PHONY: $(RECURSIVE_TARGETS) CTAGS GTAGS all all-am am--refresh check \
-	check-am clean clean-generic clean-recursive ctags \
+	check-am clean clean-generic clean-local clean-recursive ctags \
 	ctags-recursive dist dist-all dist-bzip2 dist-gzip dist-shar \
 	dist-tarZ dist-zip distcheck distclean distclean-generic \
 	distclean-hdr distclean-recursive distclean-tags \
@@ -627,12 +638,54 @@ uninstall-info: uninstall-info-recursive
 	uninstall-iconDATA uninstall-info-am
 
 
+$(MY_RECURSIVE_TARGETS):
+	@failcom='exit 1'; \
+	for f in x $$MAKEFLAGS; do \
+	  case $$f in \
+	    *=* | --[!k]*);; \
+	    *k*) failcom='fail=yes';; \
+	  esac; \
+	done; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
 install-data-local:
 	@$(NORMAL_INSTALL)
 	if test -d $(srcdir)/$(PACKAGE_DATA_DIR); then \
 	  $(mkinstalldirs) $(DESTDIR)/$(pkgdatadir); \
 	  cd $(srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" * | ( cd $(DESTDIR)/$(pkgdatadir) ; tar xf -) ; cd .. ; \
 	fi
+
+install-nsi-local: all
+	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR);
+	(cd $(top_srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" * )| ( cd $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR) ; tar xf -) ; cd .. ;
+	cp $(NSI_DLL_DIR)/*.dll $(top_srcdir)/$(NSI_INSTALL_DIR)
+
+install-nsi-am: install-nsi-local
+
+nsis: install-nsi
+	$(MAKENSIS) -NOCD nsis/tuxmath.nsi
+
+clean-local:
+	@$(NORMAL_CLEAN)
+	if test -d $(NSI_INSTALL_DIR); then \
+	  rm -fr $(NSI_INSTALL_DIR); \
+	fi
+	-rm tuxmath-@VERSION@-win32-installer.exe
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

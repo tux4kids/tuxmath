@@ -37,7 +37,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-bin_PROGRAMS = tuxmath$(EXEEXT)
+@BUILD_MINGW32_FALSE@bin_PROGRAMS = tuxmath$(EXEEXT)
+@BUILD_MINGW32_TRUE@bin_PROGRAMS = TuxMath$(EXEEXT)
 subdir = src
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -51,6 +52,12 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
+am_TuxMath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) title.$(OBJEXT) \
+	game.$(OBJEXT) options.$(OBJEXT) credits.$(OBJEXT) \
+	playsound.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT) \
+	tuxmathrc.$(OBJEXT)
+TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
+TuxMath_LDADD = $(LDADD)
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) title.$(OBJEXT) \
 	game.$(OBJEXT) options.$(OBJEXT) credits.$(OBJEXT) \
 	playsound.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT)
@@ -63,8 +70,8 @@ COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(tuxmath_SOURCES)
-DIST_SOURCES = $(tuxmath_SOURCES)
+SOURCES = $(TuxMath_SOURCES) $(tuxmath_SOURCES)
+DIST_SOURCES = $(TuxMath_SOURCES) $(tuxmath_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -104,6 +111,11 @@ MAINTAINER_MODE_FALSE = @MAINTAINER_MODE_FALSE@
 MAINTAINER_MODE_TRUE = @MAINTAINER_MODE_TRUE@
 MAKEINFO = @MAKEINFO@
 NAME_VERSION = @NAME_VERSION@
+NSIS = @NSIS@
+NSI_BUILD_FALSE = @NSI_BUILD_FALSE@
+NSI_BUILD_TRUE = @NSI_BUILD_TRUE@
+NSI_DLL_DIR = @NSI_DLL_DIR@
+NSI_INSTALL_DIR = @NSI_INSTALL_DIR@
 OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
@@ -121,6 +133,7 @@ SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
 VERSION = @VERSION@
+WINDRES = @WINDRES@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_STRIP = @ac_ct_STRIP@
 am__fastdepCC_FALSE = @am__fastdepCC_FALSE@
@@ -162,10 +175,16 @@ target_alias = @target_alias@
 target_cpu = @target_cpu@
 target_os = @target_os@
 target_vendor = @target_vendor@
+@BUILD_MINGW32_FALSE@TUXMATHRC = 
+TuxMath_SOURCES = tuxmath.c setup.c title.c game.c \
+		options.c credits.c playsound.c \
+                mathcards.c fileops.c tuxmathrc.c
+
 tuxmath_SOURCES = tuxmath.c setup.c title.c game.c \
 		options.c credits.c playsound.c \
                 mathcards.c fileops.c
 
+MY_RECURSIVE_TARGETS = install-nsi
 @BUILD_MINGW32_FALSE@DATA_PREFIX = ${pkgdatadir}
 @BUILD_MINGW32_TRUE@DATA_PREFIX = @PACKAGE_DATA_DIR@
 AM_CFLAGS = -Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
@@ -227,6 +246,9 @@ uninstall-binPROGRAMS:
 
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+TuxMath$(EXEEXT): $(TuxMath_OBJECTS) $(TuxMath_DEPENDENCIES) 
+	@rm -f TuxMath$(EXEEXT)
+	$(LINK) $(TuxMath_LDFLAGS) $(TuxMath_OBJECTS) $(TuxMath_LDADD) $(LIBS)
 tuxmath$(EXEEXT): $(tuxmath_OBJECTS) $(tuxmath_DEPENDENCIES) 
 	@rm -f tuxmath$(EXEEXT)
 	$(LINK) $(tuxmath_LDFLAGS) $(tuxmath_OBJECTS) $(tuxmath_LDADD) $(LIBS)
@@ -246,6 +268,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/title.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmath.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmathrc.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	if $(COMPILE) -MT $@ -MD -MP -MF "$(DEPDIR)/$*.Tpo" -c -o $@ $<; \
@@ -428,6 +451,41 @@ uninstall-am: uninstall-binPROGRAMS uninstall-info-am
 	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
 	uninstall-am uninstall-binPROGRAMS uninstall-info-am
 
+
+$(MY_RECURSIVE_TARGETS):
+	@failcom='exit 1'; \
+	for f in x $$MAKEFLAGS; do \
+	  case $$f in \
+	    *=* | --[!k]*);; \
+	    *k*) failcom='fail=yes';; \
+	  esac; \
+	done; \
+	dot_seen=no; \
+	target=`echo $@ | sed s/-recursive//`; \
+	list='$(SUBDIRS)'; for subdir in $$list; do \
+	  echo "Making $$target in $$subdir"; \
+	  if test "$$subdir" = "."; then \
+	    dot_seen=yes; \
+	    local_target="$$target-am"; \
+	  else \
+	    local_target="$$target"; \
+	  fi; \
+	  (cd $$subdir && $(MAKE) $(AM_MAKEFLAGS) $$local_target) \
+	  || eval $$failcom; \
+	done; \
+	if test "$$dot_seen" = "no"; then \
+	  $(MAKE) $(AM_MAKEFLAGS) "$$target-am" || exit 1; \
+	fi; test -z "$$fail"
+
+install-nsi-local: all
+	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR);
+	$(INSTALL) TuxMath.exe $(top_srcdir)/$(NSI_INSTALL_DIR)
+
+install-nsi-am: install-nsi-local
+
+# How to make an RC file
+tuxmathrc.o: tuxmathrc.rc
+	$(WINDRES) -i $< -o $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

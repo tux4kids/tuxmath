@@ -6,7 +6,7 @@ AC_INIT(src/tuxmath.c)
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(TuxMath, 0.96)
+AM_INIT_AUTOMAKE(tuxmath, 0.96)
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
@@ -82,14 +82,33 @@ if test "$native_win32" = yes; then
    LIBS="$LIBS -lgw32c -luuid -lole32 -lwsock32 -mwindows"
    CPPFLAGS="$CPPFLAGS -idirafter $prefix/include/glibc"
    #CPPFLAGS="$CPPFLAGS -I$prefix/include/glibc"
+   AC_PATH_PROG(WINDRES, "$target_alias-windres", no, [$PATH])
 fi
 
 AC_SUBST(PACKAGE_DATA_DIR)
+
+NSI_INSTALL_DIR=mingw32
+NSI_DLL_DIR=~/tuxmath_dll
+
+AC_ARG_WITH(dll-directory,AC_HELP_STRING(
+    [--with-dll-directory=path],
+    [set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]), dll_path=$withval, dll_path=no)
+
+AM_CONDITIONAL(NSI_BUILD, test "$dll_path" = no)
+
+AC_SUBST(NSI_INSTALL_DIR)
+AC_SUBST(NSI_DLL_DIR)
+
+if test $dll_path != no; then
+NSI_DLL_DIR=$dll_path
+fi
+
+AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
 #AC_CONFIG_FILES([Makefile])
 
 AC_OUTPUT([
 Makefile
 src/Makefile
-
+nsis/tuxmath.nsi
 ])
