@@ -74,7 +74,7 @@ static char* summary_filenames[NUM_SUMMARIES] = {
   "summary7" SUMMARY_EXTENSION,
   "summary8" SUMMARY_EXTENSION,
   "summary9" SUMMARY_EXTENSION,
-  "summary10 SUMMARY_EXTENSION"
+  "summary10" SUMMARY_EXTENSION
 };
 
 

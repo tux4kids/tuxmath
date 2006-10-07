@@ -1,5 +1,14 @@
 changelog for "tuxmath"
 
+2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 47)
+
+  Build:
+    * Many files needed for build using autotools added to svn
+      that I previously left out by accident.
+    * autogen.sh added, now build and install under *nix using:
+         ./autogen.h && ./configure && make && make install
+    * make install no longer copies .svn files into data dir
+
 2006.Sep.29 (https://svn.tux4kids.net/tuxmath/ - revision 28)
   Version 0.97
 
