@@ -33,9 +33,6 @@ $(MY_RECURSIVE_TARGETS):
 	fi; test -z "$$fail"
 
 
-icondir=$(datadir)/pixmaps
-icon_DATA = data/images/icon.png
-
 install-data-local:
 	@$(NORMAL_INSTALL)
 	if test -d $(srcdir)/$(PACKAGE_DATA_DIR); then \

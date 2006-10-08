@@ -1,5 +1,13 @@
 changelog for "tuxmath"
 
+2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 48)
+  Version 0.97 final
+
+  Build:
+    * removed icon* from Makefile.am as its included in data
+
+      Holger Levsen <debian@layer-acht.org>
+
 2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 47)
 
   Build:
