@@ -181,6 +181,7 @@ void handle_command_args(int argc, char* argv[])
         "--nosound        - to disable sound/music\n"
 	"--nobackground   - to disable background photos (for slower systems)\n"
 	"--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
+        "--windowed       - to run in a window rather than fullscreen\n"
         "--keypad         - to enable the on-sceen numeric keypad\n"
 	"--demo           - to run the program as a cycling demonstration\n"
 	"--speed S        - set initial speed of the game\n"
@@ -247,6 +248,11 @@ void handle_command_args(int argc, char* argv[])
 	     strcmp(argv[i], "-f") == 0)
     {
       game_options->fullscreen = 1;
+    }
+    else if (strcmp(argv[i], "--windowed") == 0 ||
+	     strcmp(argv[i], "-w") == 0)
+    {
+      game_options->fullscreen = 0;
     }
     else if (strcmp(argv[i], "--nosound") == 0 ||
 	     strcmp(argv[i], "-s") == 0 ||

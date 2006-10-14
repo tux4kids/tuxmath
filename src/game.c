@@ -156,8 +156,9 @@ int game(void)
   if (!game_initialize())
   {
     fprintf(stderr, "\ngame_initialize() failed!");
-    /* return 1 so program exits: */
-    return 1;
+    /* return 0 so we go back to Options screen - maybe */
+    /* player simply has all operations deselected */
+    return 0;
   } 
 
   /* --- MAIN GAME LOOP: --- */ 
@@ -417,6 +418,8 @@ int game_initialize(void)
   /* Start MathCards backend: */
   /* FIXME may need to move this into tuxmath.c to accomodate option */
   /* to use MC_StartUsingWrongs() */
+  /* NOTE MC_StartGame() will return 0 if the list length is zero due */
+  /* (for example) to all math operations being deselected */
   if (!MC_StartGame())
   {
     #ifdef TUXMATH_DEBUG
@@ -529,8 +532,10 @@ void game_handle_demo(void)
   }
 
   /* Demo mode! */
-  int demo_answer, answer_digit;
+  int demo_answer = 0;
+  int answer_digit = 0;
   static int picked_comet;
+
   if (picked_comet == -1 && (rand() % 10) < 3)
   {
     /* Demo mode!  Randomly pick a comet to destroy: */

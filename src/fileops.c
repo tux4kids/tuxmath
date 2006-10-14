@@ -424,6 +424,8 @@ int read_config_file(FILE *fp, int file_type)
   char buf[PATH_MAX];
   char *parameter, *param_begin, *param_end, *value, *value_end;
 
+  parameter = malloc(sizeof(char) * PATH_MAX);
+
   #ifdef TUXMATH_DEBUG
   printf("\nEntering read_config_file()\n");
   #endif
@@ -484,8 +486,9 @@ int read_config_file(FILE *fp, int file_type)
     }
 
     /* copy chars from start of non-whitespace up to '=': */
-    parameter = strndup(param_begin, (param_end - param_begin));
+//    parameter = strndup(param_begin, (param_end - param_begin));
 
+    strncpy(parameter, param_begin, (param_end - param_begin));
     /* Now get value string: */
     /* set value to first '=' in line: */
     value = strchr(buf, '=');
@@ -983,9 +986,9 @@ int read_config_file(FILE *fp, int file_type)
       printf("parameter not recognized: %s\n", parameter);
       #endif    
     }
-    free(parameter);
-  }
 
+  }
+  free(parameter);
   #ifdef TUXMATH_DEBUG
   printf("\nAfter file read in:\n");
   print_game_options(stdout, 0);
