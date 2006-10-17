@@ -32,7 +32,7 @@
 //#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
-#define TUXMATH_VERSION 0.97
+//#define TUXMATH_VERSION 0.98 This is now done by autoheader and configure.in
 
 #define PATH_MAX 4096
 

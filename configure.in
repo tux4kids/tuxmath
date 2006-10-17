@@ -6,7 +6,7 @@ AC_INIT(src/tuxmath.c)
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(tuxmath, 0.96)
+AM_INIT_AUTOMAKE(tuxmath, 0.98)
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 
@@ -28,6 +28,25 @@ AM_PATH_SDL($SDL_VERSION, :,
 ) 
 
 CFLAGS="$CFLAGS $SDL_CFLAGS" 
+
+# Check platform - see if WinMain needed:
+AC_MSG_CHECKING([for native Win32])
+case "$host" in
+  *-*-mingw*)
+    native_win32=yes
+    ;;
+  *)
+    native_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$native_win32])
+
+AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
+if test "$native_win32" = yes; then
+   LIBS="$LIBS -lmingw32 -lSDLmain"
+fi
+
+
 LIBS="$LIBS $SDL_LIBS"
 
 # Checks for libraries.
@@ -64,16 +83,7 @@ AC_CHECK_FUNCS([getcwd memset mkdir strcasecmp strchr strndup])
 dnl Set PACKAGE_DATA_DIR
 PACKAGE_DATA_DIR="data"
 
-AC_MSG_CHECKING([for native Win32])
-case "$host" in
-  *-*-mingw*)
-    native_win32=yes
-    ;;
-  *)
-    native_win32=no
-    ;;
-esac
-AC_MSG_RESULT([$native_win32])
+
 AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
 
 if test "$native_win32" = yes; then

@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-Sept 29, 2006
+Oct 17, 2006
 
-For tuxmath-0.97
+For tuxmath-0.98
 
 Objective
 ---------
@@ -35,10 +35,12 @@ Running The Program
 
   Windows
   -------
-    [ UNDER CONSTRUCTION ]  Just double-click the "tuxmath.exe" icon. ???
-    To be prompted for command line options (see below), invoke the game
-    from the "Run" dialog, which you can get by selecting the "Run Program"
-    item from Windows' "Start" menu. [ IS THIS CORRECT? ]
+    Just double-click the "tuxmath.exe" icon or select "Tuxmath" in the Start
+    Menu.  The current installer creates menu items to run tuxmath either in
+    Fullscreen mode or within a 640 x 480 window.
+    To be prompted for command line options, run tuxmath from the "Run" dialog
+    or the "C:> Command Prompt" console. Type "tuxmath.exe" followed by any 
+    desired options (see below). 
 
   MacOS
   -----
@@ -50,7 +52,8 @@ Running The Program
   Command Line Options
   --------------------
     NOTE: editing the config file is now a much better way to control the 
-    behavior of Tuxmath - SEE BELOW.
+    behavior of Tuxmath - SEE BELOW.  There is also a simple GUI-based
+    config program packaged with the Windows build.
 
     The following command-line options can be sent to the program.
      --optionfile filename - play game based on settings in the named file (see
@@ -82,18 +85,21 @@ Running The Program
      --fullscreen     -  Run the game in full screen, instead of in a window,
       -f                 if possible.
 
-      --nosound       -  Do not play any sounds or music.
+     --windowed       -  Run the game in a 640 x 480 window.
+      -w
+
+     --nosound        -  Do not play any sounds or music.
       -s
-      --quiet
+     --quiet
       -q
 
-      --nobackground  -  Do not display photographic backgrounds in game.
+     --nobackground   -  Do not display photographic backgrounds in game.
       -b                 (Useful on slower systems.)
 
-      --keypad        -  Display an on-screen numeric keypad.  (Useful
+     --keypad         -  Display an on-screen numeric keypad.  (Useful
       -k                 for touch screens or in place of a physical keyboard.)
 
-      --operator OP   -  Add an operator to the game (will cause the program
+     --operator OP    -  Add an operator to the game (will cause the program
       -o OP              to ignore saved option screen settings).  You can
                          use this switch multiple times to run the game
                          with multiple operators.
@@ -105,12 +111,12 @@ Running The Program
                            multiply
                            divide
 
-      --demo          -  Demo mode.  The game will cycle back and forth
+     --demo           -  Demo mode.  The game will cycle back and forth
       -d                 between the title and the game, and it will
                          auto-play the game.  The only user interaction
                          can be for quitting or pausing.
 
-      --allownegatives   Allows subtraction answers to be less than zero.
+     --allownegatives    Allows subtraction answers to be less than zero.
       -n                 When selected, the led numbers at the top of the
                          screen will include a fourth digit for the '-' sign.
                          Also, if --keypad is selected, the '-' and '+' may
@@ -120,16 +126,16 @@ Running The Program
     These command-line options display useful information, but the program
     does not attempt to start up in interactive mode.
 
-      --help          -  Display a short help message, explaining how to
+     --help           -  Display a short help message, explaining how to
       -h                 play the game.
 
-      --usage         -  Display the available command-line options.
+     --usage          -  Display the available command-line options.
       -u
 
-      --version       -  Display the version of "tuxmath" you're running.
+     --version        -  Display the version of "tuxmath" you're running.
       -v
 
-      --copyright     -  Display copyright information
+     --copyright      -  Display copyright information
       -c
 
 
@@ -250,7 +256,9 @@ How To Play
 
   Regaining Cities
   ----------------
-    [ Rules will go here ]
+    [ Under construction ] Briefly, there will be special "bonus comets" at
+    certain intervals that will have the effect of either activating shields or
+    rebuilding cities if answered correctly.
 
 
   Advancing Waves

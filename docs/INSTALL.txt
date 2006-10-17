@@ -1,6 +1,6 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
 
-October 07, 2006
+October 17, 2006
 
 
 Requirements
@@ -130,7 +130,9 @@ Compiling and Installing TuxMath
       ./autogen.sh && ./configure && make && make install
 
       By default, the build process will install tuxmath under /usr/local/share
-      for the data and /usr/local/bin for the executable.
+      for the data and /usr/local/bin for the executable.  To build tuxmath, you
+      will need the SDL dev files as noted above, as well as the GNU developer
+      tools, including automake-1.9 and autotools-dev.
 
       If you are using a deb or rpm-based distribution, your distro may have
       tuxmath in a prepared package, in which case your job is as simple as
@@ -138,5 +140,72 @@ Compiling and Installing TuxMath
 
   Windows 
   -------
-    (under construction)
-       
+      Tuxmath can be cross-compiled for Windows under Linux.  I have done this on
+      my Debian system.  The build process is not completely automated as of yet.
+      To set up a crossbuild environment:
+ 
+      1. Install mingw32 (apt-get install mingw32) and makensis (apt-get install nsis)
+
+      2. Create directory structure:
+        - mkdir /usr/local/cross-tools
+        - mkdir /usr/local/cross-tools/i586-mingw32msvc
+        - mkdir /usr/local/cross-tools/i586-mingw32msvc/lib
+        - mkdir /usr/local/cross-tools/i586-mingw32msvc/include
+
+      3. Install precompiled win32 dev files (lib and includes) for SDL, SDL-image
+         and SDL-mixer in the lib and include directories you just created.
+         You can get all of these from www.libsdl.org. I had some trouble with
+         this step as the SDL libs have varieties intended for both mingw32 and MSVC -
+         I was able to build successfully using the mingw32 ones. I also had to put
+         all the lib files directly under /usr/local/cross-tools/i586-mingw32msvc/lib
+         to get it to work.  My /usr/local/cross-tools/i586-mingw32msvc/lib contains:
+
+         dbruce@debian:/usr/local/cross-tools/i586-mingw32msvc/lib$ ls
+         SDL_image.dll  jpeg.dll      libgw32c.a    smpeg.dll
+         SDL_image.lib  libSDL.dll.a  libpng12.dll  vorbis.dll
+         SDL_mixer.dll  libSDL.la     libtiff.dll   vorbisfile.dll
+         SDL_mixer.lib  libSDLmain.a  ogg.dll       zlib1.dll
+
+         The header files can be in their own folders as long as they are under
+         /usr/local/cross-tools/i586-mingw32msvc/include
+
+      4. install libgw32c (the dev file):
+         http://gnuwin32.sourceforge.net/packages/libgw32c.htm in the same directory.
+         This gives you the file "libgw32c.a" that you need to have in the lib directory.
+
+      5. From the trunk dir, run:
+         ./autogen.sh
+         ./cross-configure.sh --with-sdl-prefix
+         ./cross-make.sh
+
+      You should now have the tuxmath.exe executable - for reasons I do not yet quite
+      understand, it gets created in src rather than trunk. Before you can use makensis
+      to create the win32 installer, you need to copy it into the trunk/mingw32 directory,
+      which should have been created by cross-make.sh.  Also, you need to have a directory
+      containing all of the dlls that will need to be packaged into the installer.  The
+      Makefile expects them to be in NSI_DLL_DIR, which is set to  ~/tuxmath_dll. On my
+      machine, this contains:
+
+      dbruce@debian:~/tuxmath_dll$ ls
+      SDL.dll        jpeg.dll      ogg.dll     vorbisfile.dll
+      SDL_image.dll  libpng12.dll  smpeg.dll   zlib1.dll
+      SDL_mixer.dll  libtiff.dll   vorbis.dll
+
+      (Note - this has mostly the same files as the cross-tools lib directory - it is most
+      likely possible to eliminate this redundancy in some way).
+
+      6. From the trunk dir, run:
+         ./cross-make.sh nsis
+
+      This should create the windows installer file ("tuxmath-0.96-win32-installer.exe")
+      under trunk.
+
+      Installation on Windows:
+      ------------------------
+      To install, simply execute the installer file on the Windows machine. Depending on
+      the version of Windows and the computer's security settings, it may be necessary
+      to install with administrator privileges in order to use the default installation
+      location (C:\Program Files\Tuxmath). The program can be installed in any writable
+      location and should function correctly.  It can be run with ordinary user privileges,
+      even if installed by the administrator.
+

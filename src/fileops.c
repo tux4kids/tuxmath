@@ -526,12 +526,10 @@ int read_config_file(FILE *fp, int file_type)
     /* terminate string here: */
     *value_end = 0;
 
-    #define TUXMATH_DEBUG
     #ifdef TUXMATH_DEBUG
     printf("parameter = '%s'\t, length = %d\n", parameter, strlen(parameter));
     printf("value = '%s'\t, length = %d\t, atoi() = %d\n", value, strlen(value), atoi(value));
     #endif
-    #undef TUXMATH_DEBUG
     /* Now ready to handle each name/value pair! */
 
     /* Set general game_options struct (see tuxmath.h): */ 
