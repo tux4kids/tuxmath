@@ -424,7 +424,6 @@ int read_config_file(FILE *fp, int file_type)
   char buf[PATH_MAX];
   char *parameter, *param_begin, *param_end, *value, *value_end;
 
-  parameter = malloc(sizeof(char) * PATH_MAX);
 
   #ifdef TUXMATH_DEBUG
   printf("\nEntering read_config_file()\n");
@@ -486,10 +485,14 @@ int read_config_file(FILE *fp, int file_type)
     }
 
     /* copy chars from start of non-whitespace up to '=': */
-//    parameter = strndup(param_begin, (param_end - param_begin));
+    //parameter = strndup(param_begin, (param_end - param_begin));
 
+    /* Next three lines do same as strndup(), which may not be available: */
+    parameter = malloc((sizeof(char) * (param_end - param_begin)) + 1);
     strncpy(parameter, param_begin, (param_end - param_begin));
-    /* Now get value string: */
+    parameter[param_end - param_begin] = '\0';
+ 
+   /* Now get value string: */
     /* set value to first '=' in line: */
     value = strchr(buf, '=');
 
@@ -523,11 +526,12 @@ int read_config_file(FILE *fp, int file_type)
     /* terminate string here: */
     *value_end = 0;
 
+    #define TUXMATH_DEBUG
     #ifdef TUXMATH_DEBUG
     printf("parameter = '%s'\t, length = %d\n", parameter, strlen(parameter));
     printf("value = '%s'\t, length = %d\t, atoi() = %d\n", value, strlen(value), atoi(value));
     #endif
-
+    #undef TUXMATH_DEBUG
     /* Now ready to handle each name/value pair! */
 
     /* Set general game_options struct (see tuxmath.h): */ 
@@ -986,9 +990,9 @@ int read_config_file(FILE *fp, int file_type)
       printf("parameter not recognized: %s\n", parameter);
       #endif    
     }
-
+    free(parameter);
   }
-  free(parameter);
+
   #ifdef TUXMATH_DEBUG
   printf("\nAfter file read in:\n");
   print_game_options(stdout, 0);
