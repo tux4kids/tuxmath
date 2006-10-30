@@ -2151,7 +2151,8 @@ MC_MathQuestion* generate_list(void)
             }
 
             /* questions like num1 / ? = num3 */
-            if (math_opts->format_div_answer_middle)
+            if ((math_opts->format_div_answer_middle)
+               && (i))      /* This avoids creating indeterminate questions: 0/? = 0 */
             {
               /* make sure max_questions not exceeded */
               if (length < math_opts->max_questions)

@@ -187,7 +187,7 @@ int write_postgame_summary(void);
 /* FIXME these will probably become "local" functions: */
 int read_config_file(FILE* fp, int file_type);
 int write_config_file(FILE* fp, int verbose);
-void print_game_options(FILE* fp, int verbose);
+
 
 int load_image_data();
 #ifndef NOSOUND

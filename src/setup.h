@@ -34,5 +34,4 @@ void setup(int argc, char * argv[]);
 void cleanup(void);
 void cleanup_on_error(void);
 
-int opts_using_sound(void);
 #endif

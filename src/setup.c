@@ -38,7 +38,7 @@
 
 #include <SDL_image.h>
 
-
+#include "options.h"
 #include "tuxmath.h"
 #include "mathcards.h"
 #include "setup.h"
@@ -104,8 +104,7 @@ void initialize_options(void)
   }
 
   /* initialize game_options struct with defaults DSB */
-  game_options = malloc(sizeof(game_option_type));
-  if (!initialize_game_options())
+  if (!Opts_Initialize())
   {
     printf("\nUnable to initialize game_options\n");
     fprintf(stderr, "\nUnable to initialize game_options\n");
@@ -125,7 +124,7 @@ void initialize_options(void)
   /* Now read in user-specific settings, if desired.  By    */
   /* default, this restores settings from the player's last */
   /* game:                                                  */
-  if (game_options->per_user_config)
+  if (Opts_PerUserConfig())
   {
     if (!read_user_config_file())
     {
@@ -247,19 +246,19 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--fullscreen") == 0 ||
 	     strcmp(argv[i], "-f") == 0)
     {
-      game_options->fullscreen = 1;
+      Opts_SetFullscreen(1);
     }
     else if (strcmp(argv[i], "--windowed") == 0 ||
 	     strcmp(argv[i], "-w") == 0)
     {
-      game_options->fullscreen = 0;
+      Opts_SetFullscreen(0);
     }
     else if (strcmp(argv[i], "--nosound") == 0 ||
 	     strcmp(argv[i], "-s") == 0 ||
 	     strcmp(argv[i], "--quiet") == 0 ||
 	     strcmp(argv[i], "-q") == 0)
     {
-      game_options->use_sound = 0;
+      Opts_SetUseSound(0);
     }
     else if (strcmp(argv[i], "--version") == 0 ||
 	     strcmp(argv[i], "-v") == 0)
@@ -272,17 +271,17 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--nobackground") == 0 ||
              strcmp(argv[i], "-b") == 0)
     {
-      game_options->use_bkgd = 0;
+      Opts_SetUseBkgd(0);
     }
     else if (strcmp(argv[i], "--demo") == 0 ||
 	     strcmp(argv[i], "-d") == 0)
     {
-      game_options->demo_mode = 1;
+      Opts_SetDemoMode(1);
     }
     else if (strcmp(argv[i], "--keypad") == 0 ||
              strcmp(argv[i], "-k") == 0)
     {
-      game_options->use_keypad = 1;
+      Opts_SetUseKeypad(1);
     }
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
@@ -315,15 +314,7 @@ void handle_command_args(int argc, char* argv[])
 	usage(1, argv[0]);
       }
 
-      game_options->speed = strtod(argv[i + 1], (char **) NULL);
-
-      if (game_options->speed <= 0)
-      {
-	fprintf(stderr, "Invalided argument to %s: %s\n",
-		argv[i], argv[i + 1]);
-	usage(1, argv[0]);
-      }
-
+      Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
       i++;
     }
 
@@ -367,10 +358,10 @@ void handle_command_args(int argc, char* argv[])
   }/* end of command-line args */
 
 
-  if (game_options->demo_mode && game_options->use_keypad)
+  if (Opts_DemoMode() && Opts_UseKeypad())
   {
     fprintf(stderr, "No use for keypad in demo mode!\n");
-    game_options->use_keypad = 0;
+    Opts_SetUseKeypad(0);
   }
 }
 
@@ -395,7 +386,7 @@ void initialize_SDL(void)
 
   #ifndef NOSOUND
   /* Init SDL Audio: */
-  if (game_options->use_sound)
+  if (Opts_UseSound())
   { 
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
@@ -403,12 +394,12 @@ void initialize_SDL(void)
             "\nWarning: I could not initialize audio!\n"
             "The Simple DirectMedia error that occured was:\n"
             "%s\n\n", SDL_GetError());
-      game_options->sound_available = 0;
+      Opts_SetSoundHWAvailable(0);
     }
   }
 
  
-  if (game_options->use_sound)
+  if (Opts_UseSound())
   {
     if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
     {
@@ -417,13 +408,13 @@ void initialize_SDL(void)
 	      "16-bit stereo.\n"
 	      "The Simple DirectMedia error that occured was:\n"
 	      "%s\n\n", SDL_GetError());
-      game_options->sound_available = 0;
+      Opts_SetSoundHWAvailable(0);
     }
   }
   #endif
 
 
-  if (game_options->fullscreen)
+  if (Opts_Fullscreen())
   {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | SDL_HWSURFACE);
 
@@ -433,11 +424,11 @@ void initialize_SDL(void)
               "\nWarning: I could not open the display in fullscreen mode.\n"
 	      "The Simple DirectMedia error that occured was:\n"
 	      "%s\n\n", SDL_GetError());
-      game_options->fullscreen = 0;
+      Opts_SetFullscreen(0);
     }
   }
 
-  if (!game_options->fullscreen)
+  if (!Opts_Fullscreen())
   {
     screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE);
   }
@@ -471,7 +462,7 @@ void load_data_files(void)
   if (!load_sound_data())
   {
     fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
-    game_options->sound_available = 0;
+    Opts_SetSoundHWAvailable(0);
   }
 
   
@@ -514,64 +505,15 @@ void cleanup_on_error(void)
 void cleanup_memory(void)
 {
   SDL_Quit();
-  if (game_options)
-  {
-    free(game_options);
-    game_options = 0;
-  }
+  /* frees the game_options struct: */
+  Opts_Cleanup();
   /* frees any heap used by MathCards: */
   MC_EndGame();
 }
 
 
 
-int initialize_game_options(void)
-{
-  /* bail out if no struct */
-  if (!game_options)
-    return 0;
 
-  /* set general game options */
-  game_options->per_user_config = DEFAULT_PER_USER_CONFIG;
-  game_options->use_sound = DEFAULT_USE_SOUND;
-  game_options->fullscreen = DEFAULT_FULLSCREEN;
-  game_options->use_bkgd = DEFAULT_USE_BKGD;
-  game_options->demo_mode = DEFAULT_DEMO_MODE;
-  game_options->oper_override = DEFAULT_OPER_OVERRIDE;
-  game_options->use_keypad = DEFAULT_USE_KEYPAD;
-  game_options->speed = DEFAULT_SPEED;
-  game_options->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
-  game_options->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
-  game_options->max_speed = DEFAULT_MAX_SPEED;
-  game_options->slow_after_wrong = DEFAULT_SLOW_AFTER_WRONG;
-  game_options->starting_comets = DEFAULT_STARTING_COMETS;
-  game_options->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
-  game_options->max_comets = DEFAULT_MAX_COMETS;
-  game_options->save_summary = DEFAULT_SAVE_SUMMARY;
-  game_options->sound_available = DEFAULT_SOUND_AVAILABLE;
-  game_options->use_feedback = DEFAULT_USE_FEEDBACK;
-  game_options->danger_level = DEFAULT_DANGER_LEVEL;
-  game_options->danger_level_speedup = DEFAULT_DANGER_LEVEL_SPEEDUP;
-  game_options->danger_level_max = DEFAULT_DANGER_LEVEL_MAX;
-  game_options->city_expl_handicap = DEFAULT_CITY_EXPL_HANDICAP;
-
-  game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
-  game_options->num_bkgds = DEFAULT_NUM_BKGDS;
-  game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
-
-  #ifdef TUXMATH_DEBUG
-  print_game_options(stdout, 0);
-  #endif
-
-  return 1;
-}
-
-/* Returns true if only if the player wants to use sound */
-/* and the sound system is actually available:           */
-int opts_using_sound(void)
-{
-  return (game_options->use_sound && game_options->sound_available);
-}
 
 
 

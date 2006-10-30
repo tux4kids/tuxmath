@@ -21,13 +21,13 @@
 #ifndef NOSOUND
 #include <SDL_mixer.h>
 #endif
-#include "setup.h"
+#include "options.h"
 #include "tuxmath.h"
 
 void playsound(int snd)
 {
 #ifndef NOSOUND
-  if (opts_using_sound())
+  if (Opts_UsingSound())
     Mix_PlayChannel(-1, sounds[snd], 0);
 #endif
 }

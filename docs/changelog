@@ -1,5 +1,29 @@
 changelog for "tuxmath"
 
+2006.Oct.30 (https://svn.tux4kids.net/tuxmath/ - revision 53)
+  Version 0.98
+
+  Code:
+    * Minor bug fix to prevent the game from asking questions
+      with an indeterminate answer (i.e. 0 / ? = 0).
+      David Bruce <dbruce@tampabay.rr.com>
+
+2006.Oct.20
+
+  Build:
+    * More support for Windows crossbuild under linux added
+      to svn, including cross-configure.sh and cross-make.sh 
+      scripts and minor changes to configure.in and Makefile.am
+      when building for Windows.
+  Code:
+    * game_options struct now has complete set of accessor
+      functions with sanity checks to keep impossible values
+      from getting read in from config files.  This is in
+      options.c. This fixes several ways in which the program
+      could previously be crashed, and also cleans up 
+      read_config_file() as it no longer needs to do any
+      sanity testing.
+
 2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 48)
   Version 0.97 final
 

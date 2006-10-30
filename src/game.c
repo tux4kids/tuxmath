@@ -29,7 +29,8 @@
 #include "setup.h"
 #include "playsound.h"
 #include "tuxmath.h"
-#include "mathcards.h"  
+#include "mathcards.h"
+#include "options.h"  
 
 #define FPS (1000 / 15)   /* 15 fps max */
 
@@ -108,7 +109,7 @@ static float danger_level;
 
 
 static int digits[3];
-static comet_type comets[MAX_COMETS];
+static comet_type comets[MAX_MAX_COMETS];
 static city_type cities[NUM_CITIES];
 static laser_type laser;
 static SDL_Surface* bkgd;
@@ -198,7 +199,7 @@ int game(void)
       /* Keep playing music: */
       
     #ifndef NOSOUND
-    if (opts_using_sound())
+    if (Opts_UsingSound())
     {
       if (!Mix_PlayingMusic())
       {
@@ -371,7 +372,7 @@ int game(void)
 
   /* Stop music: */
 #ifndef NOSOUND
-  if (opts_using_sound())
+  if (Opts_UsingSound())
   {
     if (Mix_PlayingMusic())
     {
@@ -382,7 +383,7 @@ int game(void)
 
 
   /* Write post-game info to game summary file: */
-  if (game_options->save_summary)
+  if (Opts_SaveSummary())
   {
     write_postgame_summary();
   }  
@@ -430,7 +431,7 @@ int game_initialize(void)
   }  
   
   /* Write pre-game info to game summary file: */
-  if (game_options->save_summary)
+  if (Opts_SaveSummary())
   {
     write_pregame_summary();
   }
@@ -441,12 +442,12 @@ int game_initialize(void)
   /* Initialize feedback parameters */
   comet_feedback_number = 0;
   comet_feedback_height = 0;
-  danger_level = game_options->danger_level;
+  danger_level = Opts_DangerLevel();
   
   wave = 1;
   num_attackers = 2;
-  prev_wave_comets = game_options->starting_comets;
-  speed = game_options->speed;
+  prev_wave_comets = Opts_StartingComets();
+  speed = Opts_Speed();
   slowdown = 0;
   score = 0;
   demo_countdown = 1000;
@@ -526,7 +527,7 @@ void game_handle_user_events(void)
 void game_handle_demo(void)
 {
   /* If not in demo mode get out: */
-  if (!game_options->demo_mode)
+  if (!Opts_DemoMode())
   {
     return;
   }
@@ -655,7 +656,7 @@ void game_handle_answer(void)
     playsound(SND_SIZZLE);
 
     /* Record data for feedback */
-    if (game_options->use_feedback)
+    if (Opts_UseFeedback())
     {
       comet_feedback_number++;
       comet_feedback_height += comets[lowest].y/city_expl_height;
@@ -805,20 +806,21 @@ void game_handle_comets(void)
         /* Record data for feedback */
 	/* Do this only for cities that are threatened; dead cities */
         /* might not get much protection from the player */
-	if (game_options->use_feedback && cities[comets[i].city].alive) {
+	if (Opts_UseFeedback() && cities[comets[i].city].alive) {
 	  comet_feedback_number++;
-          comet_feedback_height += 1.0 + game_options->city_expl_handicap;
+          comet_feedback_height += 1.0 + Opts_CityExplHandicap();
 
           #ifdef FEEDBACK_DEBUG
- 	  printf("Added comet feedback with height %g\n",1.0 + game_options->city_expl_handicap);
+ 	  printf("Added comet feedback with height %g\n",
+                  1.0 + Opts_CityExplHandicap());
  	  #endif
  	}
  
        /* If slow_after_wrong selected, set flag to go back to starting speed and */
         /* number of attacking comets: */
-        if (game_options->slow_after_wrong)
+        if (Opts_SlowAfterWrong())
         {
-          speed = game_options->speed;
+          speed = Opts_Speed();
           slowdown = 1;
         }
 
@@ -925,7 +927,7 @@ void game_draw(void)
   }
 
   /* Draw "Demo" */
-  if (game_options->demo_mode)
+  if (Opts_DemoMode())
   {
     dest.x = (screen->w - images[IMG_DEMO]->w) / 2;
     dest.y = (screen->h - images[IMG_DEMO]->h) / 2;
@@ -1064,7 +1066,7 @@ void game_draw(void)
   }
 
   /* Draw numeric keypad: */
-  if (game_options->use_keypad)
+  if (Opts_UseKeypad())
   {
     /* pick image to draw: */
     int keypad_image;
@@ -1139,7 +1141,7 @@ int check_exit_conditions(void)
   }
   
   /* If using demo mode, see if counter has run out: */ 
-  if (game_options->demo_mode)
+  if (Opts_DemoMode())
   {
     if (demo_countdown <= 0 )
       return GAME_OVER_OTHER;
@@ -1245,7 +1247,7 @@ void reset_level(void)
     bkgd = NULL;
   }
 
-  if (game_options->use_bkgd)
+  if (Opts_UseBkgd())
   {
     bkgd = IMG_Load(fname);
     if (bkgd == NULL)
@@ -1255,7 +1257,7 @@ void reset_level(void)
 	      "%s\n"
 	      "The Simple DirectMedia error that ocurred was: %s\n",
 	      fname, SDL_GetError());
-      game_options->use_bkgd = 0;
+      Opts_SetUseBkgd(0);
     }
   }
 
@@ -1270,8 +1272,8 @@ void reset_level(void)
   /* On first wave or if slowdown flagged due to wrong answer: */
   if (wave == 1 || slowdown)
   {
-    next_wave_comets = game_options->starting_comets;
-    speed = game_options->speed;
+    next_wave_comets = Opts_StartingComets();
+    speed = Opts_Speed();
     slowdown = 0;
   }
 
@@ -1279,15 +1281,15 @@ void reset_level(void)
        /* exceed maximum:                                         */
   {
     next_wave_comets = prev_wave_comets;
-    if (game_options->allow_speedup)
+    if (Opts_AllowSpeedup())
     {
-      next_wave_comets += game_options->extra_comets_per_wave;
-      if (next_wave_comets > game_options->max_comets)
+      next_wave_comets += Opts_ExtraCometsPerWave();
+      if (next_wave_comets > Opts_MaxComets())
       {
-        next_wave_comets = game_options->max_comets;
+        next_wave_comets = Opts_MaxComets();
       }
       
-      use_feedback = game_options->use_feedback;
+      use_feedback = Opts_UseFeedback();
 
       if (use_feedback) 
       {
@@ -1297,9 +1299,9 @@ void reset_level(void)
 	
         /* Update our danger level, i.e., the target height */
 	danger_level = 1 - (1-danger_level) / 
-	                   game_options->danger_level_speedup;
-	if (danger_level > game_options->danger_level_max)
-	  danger_level = game_options->danger_level_max;
+	                   Opts_DangerLevelSpeedup();
+	if (danger_level > Opts_DangerLevelMax())
+	  danger_level = Opts_DangerLevelMax();
 
 	#ifdef FEEDBACK_DEBUG
 	printf(" new danger level = %g.\n",danger_level);
@@ -1336,8 +1338,8 @@ void reset_level(void)
 	  /* Enforce bounds on speed */
 	  if (speed < MINIMUM_SPEED)
 	    speed = MINIMUM_SPEED;
-	  if (speed > game_options->max_speed)
-	    speed = game_options->max_speed;
+	  if (speed > Opts_MaxSpeed())
+	    speed = Opts_MaxSpeed();
 
 	  #ifdef FEEDBACK_DEBUG
 	  printf(" new speed = %g.\n",speed);
@@ -1350,10 +1352,10 @@ void reset_level(void)
       {
         /* This is not an "else" because we might skip feedback */
 	/* when comet_feedback_number == 0 */
-	speed = speed * game_options->speedup_factor;
-	if (speed > game_options->max_speed)
+	speed = speed * Opts_SpeedupFactor();
+	if (speed > Opts_MaxSpeed())
 	{
-	  speed = game_options->max_speed;
+	  speed = Opts_MaxSpeed();
 	}
       }
     }
@@ -1628,7 +1630,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (opts_using_sound())
+  if (Opts_UsingSound())
     Mix_PauseMusic();
 #endif
   
@@ -1652,7 +1654,7 @@ int pause_game(void)
 
 
 #ifndef NOSOUND
-  if (opts_using_sound())
+  if (Opts_UsingSound())
     Mix_ResumeMusic();
 #endif
 
@@ -1904,8 +1906,8 @@ void game_mouse_event(SDL_Event event)
 
   /* get out unless we really are using keypad */
   if ( level_start_wait 
-    || game_options->demo_mode
-    || !game_options->use_keypad)
+    || Opts_DemoMode()
+    || !Opts_UseKeypad())
   {
     return;
   }
@@ -2070,7 +2072,7 @@ void game_key_event(SDLKey key)
     paused = 1;
   }
       
-  if (level_start_wait > 0 || game_options->demo_mode)
+  if (level_start_wait > 0 || Opts_DemoMode())
   {
     /* Eat other keys until level start wait has passed,
     or if game is in demo mode: */

@@ -98,20 +98,32 @@ fi
 AC_SUBST(PACKAGE_DATA_DIR)
 
 NSI_INSTALL_DIR=mingw32
-NSI_DLL_DIR=~/tuxmath_dll
+AC_SUBST(NSI_INSTALL_DIR)
 
+NSI_DLL_DIR=~/tuxmath_dll
 AC_ARG_WITH(dll-directory,AC_HELP_STRING(
     [--with-dll-directory=path],
     [set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]), dll_path=$withval, dll_path=no)
 
 AM_CONDITIONAL(NSI_BUILD, test "$dll_path" = no)
 
-AC_SUBST(NSI_INSTALL_DIR)
-AC_SUBST(NSI_DLL_DIR)
-
 if test $dll_path != no; then
 NSI_DLL_DIR=$dll_path
 fi
+AC_SUBST(NSI_DLL_DIR)
+
+NSI_TUXMATH_CONF_DIR=no
+AC_ARG_WITH(tuxmath_config-directory,AC_HELP_STRING(
+    [--with-tuxmath_config-directory=path],
+    [set the path where dll for TuxMath are [$(NSI_TUXMATH_CONF_DIR)]]), tuxmath_config_path=$withval, tuxmath_config_path=no)
+
+AM_CONDITIONAL(NSI_USE_TUXMATH_CONF, test "$tuxmath_config_path" != no)
+
+if test $tuxmath_config_path != no; then
+NSI_TUXMATH_CONF_DIR=$tuxmath_config_path
+fi
+
+AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
@@ -121,4 +133,5 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 nsis/tuxmath.nsi
+nsis/tuxmath_with_conf.nsi
 ])

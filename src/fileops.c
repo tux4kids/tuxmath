@@ -54,6 +54,7 @@
 #include "fileops.h"
 #include "setup.h"
 #include "mathcards.h"
+#include "options.h"
 
 /* Used by both write_pregame_summary() and */
 /* write_postgame_summary() so defined with */
@@ -541,157 +542,127 @@ int read_config_file(FILE *fp, int file_type)
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->per_user_config = v;
+        Opts_SetPerUserConfig(v);
     }
 
     if(0 == strcasecmp(parameter, "use_sound"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->use_sound = v;
+        Opts_SetUseSound(v);
     }
 
     else if(0 == strcasecmp(parameter, "fullscreen"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->fullscreen = v;
+        Opts_SetFullscreen(v);
     }
 
     else if(0 == strcasecmp(parameter, "use_bkgd"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->use_bkgd = v;
+        Opts_SetUseBkgd(v);
     }
 
     else if(0 == strcasecmp(parameter, "demo_mode"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->demo_mode = v;
+        Opts_SetDemoMode(v);
     }
 
     else if(0 == strcasecmp(parameter, "oper_override"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->oper_override = v;
+        Opts_SetOperOverride(v);
     }
 
     else if(0 == strcasecmp(parameter, "use_keypad"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->use_keypad = v;
+        Opts_SetUseKeypad(v);
     }
 
     else if(0 == strcasecmp(parameter, "save_summary"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->save_summary = v;
+        Opts_SetSaveSummary(v);
     }
 
     else if(0 == strcasecmp(parameter, "speed"))
     {
-      game_options->speed = atof(value);
-      if (game_options->speed < MINIMUM_SPEED)
-      {
-        game_options->speed = MINIMUM_SPEED;
-        fprintf(stderr,"Warning: speed set below minimum, setting to %g.\n",MINIMUM_SPEED);
-      }
+      Opts_SetSpeed(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "use_feedback"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->use_feedback = v;
+        Opts_SetUseFeedback(v);
     }
 
     else if(0 == strcasecmp(parameter, "danger_level"))
     {
-      game_options->danger_level = atof(value);
-      if (game_options->danger_level < 0)
-      {
-        game_options->danger_level = 0;
-	fprintf(stderr,"Warning: danger level set below minimum, setting to 0.\n");
-      }
-      if (game_options->danger_level > 1)
-      {
-        game_options->danger_level = 1;
-        fprintf(stderr,"Warning: danger level set above maximum, setting to 1.\n");
-      }
+      Opts_SetDangerLevel(atof(value));
     }
- 
+
     else if(0 == strcasecmp(parameter, "danger_level_speedup"))
     {
-      game_options->danger_level_speedup = atof(value);
-      if (game_options->danger_level_speedup < 1)
-      {
-        game_options->danger_level_speedup = 1;
-        fprintf(stderr,"Warning: danger_level_speedup set below minimum, setting to 1.\n");
-      }
+      Opts_SetDangerLevelSpeedup(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "danger_level_max"))
     {
-      game_options->danger_level_max = atof(value);
-      if (game_options->danger_level_max > 1)
-      {
-        game_options->danger_level_max = 1;
-        fprintf(stderr,"Warning: danger_level_max set above maximum, setting to 1.\n");
-      }
+      Opts_SetDangerLevelMax(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "city_explode_handicap"))
     {
-      game_options->city_expl_handicap = atof(value);
-      if (game_options->city_expl_handicap < 0)
-      {
-        game_options->city_expl_handicap = 0;
-        fprintf(stderr,"Warning: city_explode_handicap leve set below minimum, setting to 0.\n");
-      }
+      Opts_SetCityExplHandicap(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "allow_speedup"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->allow_speedup = v;
+        Opts_SetAllowSpeedup(v);
     }
 
     else if(0 == strcasecmp(parameter, "speedup_factor"))
     {
-      game_options->speedup_factor = atof(value);
+      Opts_SetSpeedupFactor(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "max_speed"))
     {
-      game_options->max_speed = atof(value);
+      Opts_SetMaxSpeed(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "slow_after_wrong"))
     {
       int v = str_to_bool(value);
       if (v != -1)
-        game_options->slow_after_wrong = v;
+        Opts_SetSlowAfterWrong(v);
     }
 
     else if(0 == strcasecmp(parameter, "starting_comets"))
     {
-      game_options->starting_comets = atoi(value);
+      Opts_SetStartingComets(atoi(value));
     }
 
     else if(0 == strcasecmp(parameter, "extra_comets_per_wave"))
     {
-      game_options->extra_comets_per_wave = atoi(value);
+      Opts_SetExtraCometsPerWave(atoi(value));
     }
 
     else if(0 == strcasecmp(parameter, "max_comets"))
     {
-      game_options->max_comets = atoi(value);
+      Opts_SetMaxComets(atoi(value));
     }
 
 
@@ -1146,8 +1117,8 @@ int write_config_file(FILE *fp, int verbose)
                  "############################################################\n\n");
   }
 
-  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
-  fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
+  fprintf(fp, "allow_speedup = %d\n", Opts_AllowSpeedup());
+  fprintf(fp, "use_feedback = %d\n", Opts_UseFeedback());
 
 
   if (verbose)
@@ -1284,7 +1255,7 @@ int write_config_file(FILE *fp, int verbose)
   {
     fprintf (fp, "\n# Use game sounds and background music if possible:\n");
   }
-  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
+  fprintf(fp, "use_sound = %d\n", Opts_UseSound());
 
   if (verbose)
   {
@@ -1292,26 +1263,26 @@ int write_config_file(FILE *fp, int verbose)
                  "# 640x480 window. Change to 0 if SDL has trouble with\n"
                  "# fullscreen on your system:\n");
   }
-  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
+  fprintf(fp, "fullscreen = %d\n", Opts_Fullscreen());
 
   if (verbose)
   {
     fprintf (fp, "\n# Display jpg images for background:\n");
   }
-  fprintf(fp, "use_bkgd = %d\n", game_options->use_bkgd);
+  fprintf(fp, "use_bkgd = %d\n", Opts_UseBkgd());
 
   if (verbose)
   {
     fprintf (fp, "\n# Run Tuxmath as demo (i.e. without user input):\n");
   }
-  fprintf(fp, "demo_mode = %d\n", game_options->demo_mode);
+  fprintf(fp, "demo_mode = %d\n", Opts_DemoMode());
 
   if (verbose)
   {
     fprintf (fp, "\n# Display onscreen numeric keypad - allows mouse-only\n"
                "# gameplay or use with touchscreens:\n");
   }
-  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
+  fprintf(fp, "use_keypad = %d\n", Opts_UseKeypad());
 
   if (verbose)
   {
@@ -1319,7 +1290,7 @@ int write_config_file(FILE *fp, int verbose)
                "# ten games in the user's .tuxmath directory. Set\n"
                "# this parameter to '0' to turn off.\n");
   }
-  fprintf(fp, "save_summary = %d\n", game_options->save_summary);
+  fprintf(fp, "save_summary = %d\n", Opts_SaveSummary());
 
   if (verbose)
   {
@@ -1499,40 +1470,43 @@ int write_config_file(FILE *fp, int verbose)
   {
     fprintf (fp, "\n# Number of comets for first wave. Default is 2.\n");
   }
-  fprintf(fp, "starting_comets = %d\n", game_options->starting_comets);
+  fprintf(fp, "starting_comets = %d\n", Opts_StartingComets());
 
   if(verbose)
   {
     fprintf (fp, "\n# Comets to add for each successive wave. Default is 2.\n");
   }
-  fprintf(fp, "extra_comets_per_wave = %d\n", game_options->extra_comets_per_wave);
+  fprintf(fp, "extra_comets_per_wave = %d\n", Opts_ExtraCometsPerWave());
 
   if(verbose)
   {
     fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
   }
-  fprintf(fp, "max_comets = %d\n", game_options->max_comets);
+  fprintf(fp, "max_comets = %d\n", Opts_MaxComets());
 
   if(verbose)
   {
     fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
   }
-  fprintf(fp, "speed = %.2f\n", game_options->speed);
+  fprintf(fp, "speed = %.2f\n", Opts_Speed());
 
   if(verbose)
   {
     fprintf (fp, "\n# Maximum speed. Default is 10.\n");
   }
-  fprintf(fp, "max_speed = %.2f\n", game_options->max_speed);
+  fprintf(fp, "max_speed = %.2f\n", Opts_MaxSpeed());
 
   if(verbose)
   {
     fprintf (fp, "\n# 'speedup_factor': If feedback is not used but \n"
                  "# 'allow_speedup' is enabled, the comet speed will be\n"
                  "# multiplied by this factor with each new wave.\n"
+                 "# Values from 0.5 to 2 are accepted (note that a \n"
+                 "# value less than 1 causes the comets to be \n"
+                 "# slower with each wave!).\n"
                  "# Default is 1.2 (i.e. 20 percent increase per wave)\n\n");
   }
-  fprintf(fp, "speedup_factor = %.2f\n", game_options->speedup_factor);
+  fprintf(fp, "speedup_factor = %.2f\n", Opts_SpeedupFactor());
 
   if(verbose)
   {
@@ -1541,7 +1515,7 @@ int write_config_file(FILE *fp, int verbose)
                  "# a question. Useful for smaller kids. Default is 0.\n\n");
   }
 
-  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
+  fprintf(fp, "slow_after_wrong = %d\n", Opts_SlowAfterWrong());
 
 
   if(verbose)
@@ -1553,7 +1527,7 @@ int write_config_file(FILE *fp, int verbose)
              "# a guideline, early elementary kids might prefer\n"
              "# 0.2-0.3, older kids at around 0.4-0.6. Default 0.35.\n\n");
   }
-  fprintf(fp, "danger_level = %.2f\n", game_options->danger_level);
+  fprintf(fp, "danger_level = %.2f\n", Opts_DangerLevel());
 
   if(verbose)
   {
@@ -1561,14 +1535,14 @@ int write_config_file(FILE *fp, int verbose)
                   "# The margin of safety will decrease by this factor each\n"
                   "# wave. Default 1.1. Note 1 = no increase in danger level.\n\n");
   }
-  fprintf(fp, "danger_level_speedup = %.2f\n", game_options->danger_level_speedup);
+  fprintf(fp, "danger_level_speedup = %.2f\n", Opts_DangerLevelSpeedup());
 
   if(verbose)
   {
      fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
                   "# Default 0.9.\n");
   }
-  fprintf(fp, "danger_level_max = %.2f\n", game_options->danger_level_max);
+  fprintf(fp, "danger_level_max = %.2f\n", Opts_DangerLevelMax());
 
   if (verbose)
   { 
@@ -1579,7 +1553,7 @@ int write_config_file(FILE *fp, int verbose)
                   "# 'slow_after_wrong', but allows for more gradual\n"
                   "# changes. Default 0 (no extra handicap).\n\n");
   }
-  fprintf(fp, "city_explode_handicap = %.2f\n", game_options->city_expl_handicap);
+  fprintf(fp, "city_explode_handicap = %.2f\n", Opts_CityExplHandicap());
 
   if(verbose)
   {
@@ -1602,7 +1576,7 @@ int write_config_file(FILE *fp, int verbose)
                  "# by accidentally setting this to 0.                       #\n"
                  "############################################################\n\n");
   }
-  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
+  fprintf(fp, "per_user_config = %d\n", Opts_PerUserConfig());
 
 
   /* print general game options (passing '1' as second arg causes */
@@ -1761,211 +1735,6 @@ int write_postgame_summary(void)
   }
 }
 
-/* prints struct to stream: */
-void print_game_options(FILE* fp, int verbose)
-{
- /* bail out if no struct */
-  if (!game_options)
-  {
-    fprintf(stderr, "print_game_options(): invalid game_option_type struct");
-    return;
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "\n############################################################\n" 
-                 "#                                                          #\n"
-                 "#                 General Game Options                     #\n"
-                 "#                                                          #\n"
-                 "# The following options are boolean (true/false) variables #\n"
-                 "# that control various aspects of Tuxmath's behavior.      #\n"
-                 "# The program writes the values to the file as either '0'  #\n"
-                 "# or '1'. However, the program accepts 'n', 'no', 'f', and #\n"
-                 "# 'false' as synonyms for '0', and similarly accepts 'y',  #\n"
-                 "# 'yes', 't', and 'true' as synonyms for '1' (all case-    #\n"
-                 "# insensitive).                                            #\n"
-                 "############################################################\n\n");
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "############################################################\n" 
-                 "# 'per_user_config' determines whether Tuxmath will look   #\n"
-                 "# in the user's home directory for settings. Default is 1  #\n"
-                 "# (yes). If deselected, the program will ignore the user's #\n"
-                 "# .tuxmath file and use the the global settings in the     #\n"
-                 "# installation-wide config file.                           #\n"
-                 "# This setting cannot be changed by an ordinary user.      #\n"
-                 "############################################################\n");
-  }
-  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Self-explanatory, default is 1:\n");
-  }
-  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use fullscreen at 640x480 resolution instead of\n"
-                 "640x480 window. Default is 1 (fullscreen). Change to 0\n"
-                 "if SDL has trouble with fullscreen on your system.\n");
-  } 
-  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use 640x480 jpg image for background; default is 1.\n");
-  }
-  fprintf(fp, "use_bkgd = %d\n", game_options->use_bkgd);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Program runs as demo; default is 0.\n");
-  }
-  fprintf(fp, "demo_mode = %d\n", game_options->demo_mode);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Use operator selection from command line; default is 0.\n");
-  }
-  fprintf(fp, "oper_override = %d\n", game_options->oper_override);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Display onscreen numeric keypad; default is 0.\n");
-  }
-  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n############################################################\n" 
-                 "# The next settings determine the speed and number         #\n"
-                 "# of comets.  The speed settings are float numbers (mean-  #\n"
-                 "# ing decimals allowed). The comet settings are integers.  #\n"
-                 "#                                                          #\n"
-                 "# Starting comet speed and max comet speed are generally   #\n"
-                 "# applicable. The main choice is whether you want to use   #\n"
-                 "# feedback, i.e., to adjust the speed automatically based  #\n"
-                 "# on the player's performance.                             #\n"
-                 "#                                                          #\n"
-                 "# Without feedback, the speed increases by a user-         #\n"
-                 "# settable factor ('speedup_factor'), with an option       #\n"
-                 "# ('slow_after_wrong') to go back to the starting speed    #\n"
-                 "# when a city gets hit.                                    #\n"
-                 "#                                                          #\n"
-                 "# With feedback, you set a desired 'danger level,' which   #\n"
-                 "# determines how close the comets should typically         #\n"
-                 "# approach the cities before the player succeeds in        #\n"
-                 "# destroying them.  The game will adjust its speed         #\n"
-                 "# accordingly, getting faster when the player is easily    #\n"
-                 "# stopping the comets, and slowing down when there are     #\n"
-                 "# too many close calls or hits. You can also have the      #\n"
-                 "# danger level increase with each wave.                    #\n"
-                 "############################################################\n");
-  }
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Whether to increase speed and number of comets with \n"
-                 "# each wave.  May want to turn this off for smaller kids.\n"
-                 "# Default is 1 (allow game to speed up)\n");
-  }
-  fprintf(fp, "allow_speedup = %d\n", game_options->allow_speedup);
-
-
-  fprintf(fp, "slow_after_wrong = %d\n", game_options->slow_after_wrong);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Starting comet speed. Default is 1.\n");
-  }
-  fprintf(fp, "speed = %f\n", game_options->speed);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# If feedback is not used but 'allow_speedup' is\n"
-                 "# enabled, the comet speed will be\n"
-                 "# multiplied by this factor with each new wave.\n"
-                 "# Default is 1.2 (i.e. 20 percent increase per wave)\n");
-  }
-  fprintf(fp, "speedup_factor = %f\n", game_options->speedup_factor);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Maximum speed. Default is 10.\n");
-  }
-  fprintf(fp, "max_speed = %f\n", game_options->max_speed);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Number of comets for first wave. Default is 2.\n");
-  }
-  fprintf(fp, "starting_comets = %d\n", game_options->starting_comets);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Comets to add for each successive wave. Default is 2.\n");
-  }
-  fprintf(fp, "extra_comets_per_wave = %d\n", game_options->extra_comets_per_wave);
-
-  if(verbose)
-  {
-    fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
-  }
-  fprintf(fp, "max_comets = %d\n", game_options->max_comets);
-
-  if(verbose)
-  {
-     fprintf (fp, "\n# Use feedback? Default (for now) is false, 0.\n");
-  }
-  fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
-
-
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set the desired danger level.\n"
-             "# 0 = too safe, comets typically exploded right at the very top\n"
-             "# 1 = too dangerous, comets typically exploded at the moment they hit cities\n"
-             "# Set it somewhere between these extremes. As a guideline, early\n"
-             "# elementary kids might feel comfortable around 0.2-0.3, older kids\n"
-             "# at around 0.4-0.6. Default 0.35.\n");
-   }
-   fprintf(fp, "danger_level = %f\n", game_options->danger_level);
-
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set danger level speedup.\n"
-                  "# The margin of safety will decrease by this factor each wave.\n"
-                  "# Default 1.1. Note 1 = no increase in danger level.\n");
-   }
-   fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
-
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
-                  "# Default 0.9.\n");
-   }
-   fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
-
-   if (verbose)
-   { 
-     fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
-                  "# When bigger than 0, this causes the game to slow down\n"
-                  "# by an extra amount after a wave in which one or more\n"
-                  "# cities get hit. Note that this is similar to slow_after_wrong,\n"
-                  "# but allows for more gradual changes.\n"
-                  "# Default 0 (no extra handicap).\n");
-   }
-   fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
-
-/*
-  fprintf(fp, "num_cities = %d\n", game_options->num_cities);
-  fprintf(fp, "num_bkgds = %d\n", game_options->num_bkgds);
-  fprintf(fp, "max_city_colors = %d\n", game_options->max_city_colors);
-*/
-}
 
 
 /* Checks to see if user's .tuxmath directory exists and, if not, tries  */
@@ -2216,7 +1985,7 @@ int load_image_data()
   DATA_PREFIX "/images/status/gameover_won.png"
   };
 
-  if (opts_using_sound())
+  if (Opts_UsingSound())
     total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
   else
     total_files = NUM_IMAGES;
@@ -2305,7 +2074,7 @@ int load_sound_data(void)
   };
 
   /* skip loading sound files if sound system not available: */
-  if (opts_using_sound())
+  if (Opts_UsingSound())
   {
     total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
 

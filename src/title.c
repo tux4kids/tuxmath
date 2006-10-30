@@ -27,7 +27,7 @@
 #include "fileops.h"
 #include "setup.h"
 #include "playsound.h"
-
+#include "options.h"
 
 #define START_DEMO_COUNTDOWN 150  /* Some time unit.. not sure yet :) */
 
@@ -120,7 +120,7 @@ int title(void)
   SDL_BlitSurface(images[IMG_NBS], NULL, screen, &dest);
 
 
-  if (game_options->demo_mode)
+  if (Opts_DemoMode())
   {
     dest.x = (screen->w - images[IMG_DEMO_SMALL]->w) / 2;
     dest.y = (screen->h - images[IMG_DEMO_SMALL]->h);
@@ -294,7 +294,7 @@ int title(void)
 
       /* Handle demo countdown: */
 
-      if (game_options->demo_mode)
+      if (Opts_DemoMode())
       {
 	demo_countdown--;
 

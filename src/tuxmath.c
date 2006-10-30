@@ -28,7 +28,6 @@
 
 
 /* global data: */
-game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
 int main(int argc, char * argv[])
 {
