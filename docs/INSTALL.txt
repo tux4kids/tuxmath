@@ -1,6 +1,6 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
 
-October 17, 2006
+October 31, 2006
 
 
 Requirements
@@ -21,7 +21,7 @@ Requirements
       IRIX
       FreeBSD
       BeOS
-    However, I do not know if anyone has done a build on these systems
+    However, I do not know if anyone has done a current build on these systems.
 
   CPU
   ---
@@ -122,7 +122,7 @@ Compiling and Installing TuxMath
   ----------
     Compiling the Program
     ---------------------
-      Tuxmath now uses the Gnu autoconf/automake tools, meaning that the
+      Tuxmath now uses the Gnu Autoconf/Automake tools, meaning that the
       complete build and installation process just involves typing the
       following at a shell prompt within the /trunk directory of the source
       code tree:
@@ -178,26 +178,24 @@ Compiling and Installing TuxMath
          ./cross-configure.sh --with-sdl-prefix
          ./cross-make.sh
 
-      You should now have the tuxmath.exe executable - for reasons I do not yet quite
-      understand, it gets created in src rather than trunk. Before you can use makensis
-      to create the win32 installer, you need to copy it into the trunk/mingw32 directory,
+      You should now have the tuxmath.exe executable in the trunk/mingw32 directory,
       which should have been created by cross-make.sh.  Also, you need to have a directory
       containing all of the dlls that will need to be packaged into the installer.  The
       Makefile expects them to be in NSI_DLL_DIR, which is set to  ~/tuxmath_dll. On my
       machine, this contains:
 
       dbruce@debian:~/tuxmath_dll$ ls
-      SDL.dll        jpeg.dll      ogg.dll     vorbisfile.dll
+      SDL.dll        jpeg.dll      
       SDL_image.dll  libpng12.dll  smpeg.dll   zlib1.dll
-      SDL_mixer.dll  libtiff.dll   vorbis.dll
+      SDL_mixer.dll  libtiff.dll   
 
       (Note - this has mostly the same files as the cross-tools lib directory - it is most
-      likely possible to eliminate this redundancy in some way).
+      likely possible to eliminate this redundancy in some way.).
 
       6. From the trunk dir, run:
          ./cross-make.sh nsis
 
-      This should create the windows installer file ("tuxmath-0.96-win32-installer.exe")
+      This should create the windows installer file ("tuxmath-1.0-win32-installer.exe")
       under trunk.
 
       Installation on Windows:

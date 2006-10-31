@@ -1,10 +1,10 @@
 TODO.txt for "tuxmath"
 
-September 20, 2006
+October 31, 2006
 
 Build:
-  * Fix certain file permissions issues when packaged as rpm.
-  * Consider using cmake.
+  * Refine NSIS installer for Windows (or perhaps executable
+    itself) to create Start Menu link to options.txt file
 
 Graphics:
   * Consider changing city graphics to something less violent.
@@ -39,7 +39,6 @@ Options:
   * Command-line options based on grade-level (?)
 
 Code:
-  * Error checking to make sure values from config files are sane.
   * Optimize graphics blitting!!!
   * Abstract SDL_BlitSurface() calls
 
