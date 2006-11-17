@@ -308,11 +308,11 @@ Setting Game Options
 
 Setting Administrative Options
 ------------------------------
-  "Tux, of Math Command" allows parents/teachers to adjust which parts
-  of the game options can be changed by the player.
+  "Tux, of Math Command" allows parents/teachers to control whether the game
+  options can be changed by the player.
 
   The game options are first read from a master config file in the program's
-  data directory (/usr/local/share/tuxmath/options on *nix if installed 
+  data directory (/usr/local/share/tuxmath/missions/options on *nix if installed 
   using "make install"), then overridden by the user's own /.tuxmath/options
   file if "per_user_config" is selected in the master options file.
   If "per_user_config" is deselected, the game starts up with the master

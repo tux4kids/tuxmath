@@ -703,9 +703,7 @@ int read_config_file(FILE *fp, int file_type)
 
     else if(0 == strcasecmp(parameter, "copies_repeated_wrongs"))
     {
-      int v = str_to_bool(value);
-      if (v != -1)
-        MC_SetCopiesRepeatedWrongs(v);
+      MC_SetCopiesRepeatedWrongs(atoi(value));
     }
 
     else if(0 == strcasecmp(parameter, "question_copies"))

@@ -50,20 +50,17 @@ fi
 LIBS="$LIBS $SDL_LIBS"
 
 # Checks for libraries.
-# FIXME: Replace `main' with a function in `-lSDL_image':
 dnl Checks for libraries. 
-dnl Replace `main' with a function in -lSDL_image: 
-AC_CHECK_LIB(SDL_image, 
-       main, 
+AC_CHECK_LIB([SDL_image], 
+       [IMG_Load], 
        LIBS="$LIBS -lSDL_image", 
-       AC_MSG_ERROR([*** SDL_image library not found!]) 
+       [AC_MSG_ERROR([*** SDL_image library not found!])] 
 )
 dnl Checks for libraries. 
-dnl Replace `main' with a function in -lSDL_mixer: 
-AC_CHECK_LIB(SDL_mixer, 
-       Mix_OpenAudio, 
+AC_CHECK_LIB([SDL_mixer], 
+       [Mix_OpenAudio], 
        LIBS="$LIBS -lSDL_mixer", 
-       AC_MSG_ERROR([*** SDL_mixer library not found!]) 
+       [AC_MSG_ERROR([*** SDL_mixer library not found!])] 
 )
 
 # Checks for header files.
@@ -97,6 +94,8 @@ fi
 
 AC_SUBST(PACKAGE_DATA_DIR)
 
+
+# Support for building NSIS Win32 installer:
 NSI_INSTALL_DIR=mingw32
 AC_SUBST(NSI_INSTALL_DIR)
 
@@ -127,11 +126,11 @@ AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
-#AC_CONFIG_FILES([Makefile])
-
-AC_OUTPUT([
+AC_CONFIG_FILES([
 Makefile
 src/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 ])
+
+AC_OUTPUT

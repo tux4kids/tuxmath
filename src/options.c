@@ -558,7 +558,7 @@ void Opts_SetMaxComets(int val)
     fprintf(stderr,"Warning: requested max comets above Tuxmath's maximum, setting to %d.\n",
             MAX_MAX_COMETS);
   }
-  game_options->extra_comets_per_wave = val;
+  game_options->max_comets = val;
 }
 
 
