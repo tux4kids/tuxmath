@@ -1,6 +1,6 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
 
-October 31, 2006
+Nov 18, 2006
 
 
 Requirements
@@ -141,7 +141,9 @@ Compiling and Installing TuxMath
   Windows 
   -------
       Tuxmath can be cross-compiled for Windows under Linux.  I have done this on
-      my Debian system.  The build process is not completely automated as of yet.
+      my Debian system. Once the crossbuild environment is set up, the process is
+      simple and nearly automatic.
+ 
       To set up a crossbuild environment:
  
       1. Install mingw32 (apt-get install mingw32) and makensis (apt-get install nsis)
@@ -194,7 +196,7 @@ Compiling and Installing TuxMath
          ./cross-make.sh
          ./cross-make.sh nsis
 
-      This should create the windows installer file ("tuxmath-1.0-win32-installer.exe")
+      This should create the windows installer file ("tuxmath-1.0.1-win32-installer.exe")
       under trunk.
 
       Installation on Windows:

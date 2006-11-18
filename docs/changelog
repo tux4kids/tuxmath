@@ -1,5 +1,16 @@
 changelog for "tuxmath"
 
+2006.Oct.31 (https://svn.tux4kids.net/tuxmath/ - revision 58)
+  Version 1.0.1
+
+  Game:
+    * Two simple bugfixes for config file input not setting
+      the correct parameter.
+    * Minor updates to docs.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+
 2006.Oct.31 (https://svn.tux4kids.net/tuxmath/ - revision 54)
   Version 1.0
 
