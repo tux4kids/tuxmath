@@ -1,6 +1,16 @@
 changelog for "tuxmath"
 
-2006.Oct.31 (https://svn.tux4kids.net/tuxmath/ - revision 58)
+
+2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 61)
+  Version 1.0.2
+
+  Build:
+    * Support for native MacOSX build (G4-PPC, OSX 10.4) - now 
+      has "macapp" target in Makefile.
+
+      Tim Holy <holy@wustl.edu>
+
+2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 58)
   Version 1.0.1
 
   Game:

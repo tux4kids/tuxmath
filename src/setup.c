@@ -413,11 +413,25 @@ void initialize_SDL(void)
   }
   #endif
 
+  SDL_VideoInfo *videoInfo;
+  Uint32 surfaceMode;
+  videoInfo = SDL_GetVideoInfo();
+  if (videoInfo->hw_available) {
+    surfaceMode = SDL_HWSURFACE;
+    #ifdef TUXMATH_DEBUG    
+    printf("HW mode\n");
+    #endif
+  }
+  else {
+    surfaceMode = SDL_SWSURFACE;
+    #ifdef TUXMATH_DEBUG    
+    printf("SW mode\n");
+    #endif
+  }
 
   if (Opts_Fullscreen())
   {
-    screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | SDL_HWSURFACE);
-
+    screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | surfaceMode);
     if (screen == NULL)
     {
       fprintf(stderr,
@@ -430,7 +444,7 @@ void initialize_SDL(void)
 
   if (!Opts_Fullscreen())
   {
-    screen = SDL_SetVideoMode(640, 480, 16, SDL_HWSURFACE);
+    screen = SDL_SetVideoMode(640, 480, 16, surfaceMode);
   }
 
   if (screen == NULL)

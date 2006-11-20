@@ -40,3 +40,6 @@ clean-local:
 	  rm -fr $(NSI_INSTALL_DIR); \
 	fi
 #	-rm tuxmath-@VERSION@-win32-installer.exe
+
+macapp:
+	cd src && $(MAKE) $(AM_MAKEFLAGS) bundle && $(MAKE) $(AM_MAKEFLAGS) bundle-fw && $(MAKE) $(AM_MAKEFLAGS) bundle-libs && $(MAKE) $(AM_MAKEFLAGS) bundle-dmg

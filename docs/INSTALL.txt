@@ -13,10 +13,10 @@ Requirements
 
       Linux
       Windows 32-bit
+      MacOSX
 
     In principle, Tuxmath should build and run on any platform with SDL,
     including: 
-      MacOSX
       Solaris
       IRIX
       FreeBSD
@@ -208,3 +208,29 @@ Compiling and Installing TuxMath
       location and should function correctly.  It can be run with ordinary user privileges,
       even if installed by the administrator.
 
+
+  Mac OSX:
+  -------
+      Building from source:
+      --------------------
+      You have to have the development tools and development libraries for SDL.  Here's the approach that worked for me:
+	  1. Download and install XCode from the Apple web site.
+	  2. Download and install Fink (http://fink.sourceforge.net/).
+	  3. fink install sdl sdl-image sdl-mixer.
+	And if you haven't gotten the source code for tuxmath yet,
+	  4. fink install svn-client-ssl (the pre-built binary for the svn-client doesn't support SSL!)
+	  5. svn co https://svn.tux4kids.net/tuxmath/
+
+	Then you can follow the instructions above for Linux/Unix.
+
+      Building a disk image:
+      ---------------------
+      A disk image is a file that can be copied to another Mac, allowing the application to be run.  Assuming you have set up your build environment as above, you can build a disk image by running (from the "trunk" directory)
+	./autogen.sh
+	./configure
+	make macapp
+      The disk image will reside in a subdirectory macbuild, and has the name TuxMath.dmg.
+
+      Possible issues:
+      ---------------
+      The Mac build system has not yet been configured to make a "universal binary," i.e. one that runs on either PPC or Intel macs.
