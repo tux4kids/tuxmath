@@ -5,12 +5,14 @@ TUXMATHRC =
 bin_PROGRAMS = tuxmath
 endif
 
-TuxMath_SOURCES = tuxmath.c setup.c title.c game.c \
+TuxMath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
 		options.c credits.c playsound.c \
+		theme.c loaders.c alphabet.c pause.c \
                 mathcards.c fileops.c tuxmathrc.c
 
-tuxmath_SOURCES = tuxmath.c setup.c title.c game.c \
+tuxmath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
 		options.c credits.c playsound.c \
+		theme.c loaders.c alphabet.c pause.c \
                 mathcards.c fileops.c
 
 

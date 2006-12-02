@@ -2,6 +2,13 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
+NOTE: Tuxmath is under heavy construction and currently does
+not compile - the menu system is being overhauled with code from
+tuxtype. Please checkout revision 61 if you need something
+that actually builds and works - i.e.:
+
+svn checkout -r 61 https://svn.tux4kids.net/tuxmath/
+
 Nov 18, 2006
 
 For tuxmath-1.0.1

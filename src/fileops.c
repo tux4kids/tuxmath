@@ -249,11 +249,11 @@ int read_named_config_file(char* filename)
   }
   strcat(opt_path, filename); /* tack on filename              */
 
+
   #ifdef TUXMATH_DEBUG
-
-
   printf("\nIn read_named_config_file() checking for %s (cwd)\n", opt_path);
   #endif
+
 
   fp = fopen(opt_path, "r");  /* try to open file */
   if (fp) /* file exists */
@@ -962,8 +962,7 @@ int read_config_file(FILE *fp, int file_type)
 
   #ifdef TUXMATH_DEBUG
   printf("\nAfter file read in:\n");
-  print_game_options(stdout, 0);
-  MC_PrintMathOptions(stdout, 0);
+  write_config_file(stdout, 0);
   printf("Leaving read_config_file()\n");
   #endif
 

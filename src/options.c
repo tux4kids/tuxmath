@@ -51,7 +51,6 @@ static game_option_type* game_options;
 /*local function prototypes: */
 static void update_selected_option(int option);
 static int int_to_bool(int i);
-static void print_game_options(FILE* fp, int verbose);
 
 
 /* Main options() function - called from title(): */

@@ -11,15 +11,16 @@ Build:
 Graphics:
   * Consider changing city graphics to something less violent.
   * Add more city graphic colors.
-  * Consider changing default resolution to 800x600.
+  * Consider changing default resolution to 800x600, maybe higher.
 
 Interface:
-  * Add more sound effects
+  * Add more sound effects and music files
   * Speech mode
   * Add option for number-keys to control main menu and possible options
     (for mouseless scenarios where arrow keys might not be the available...
     is there such a thing as numeric-only keyboards for PCs???)
-  * High-score table?
+  * High-score table
+  * Implement lockfile to prevent multiple invocations.
 
 Game Play:
   * More entertaining "victory" and "defeat" screens
@@ -34,7 +35,8 @@ Documentation:
   * Finish INSTALL.txt
 
 Options:
-  * Major overall of in-game Options system needed.
+  * Merge in code from TuxType for title screen and options system
+  * Make use of some of function keys(F1-F12) to toggle settings in-game
   * Display numbers instead of formulas if no operators are selected: "typing tutor" mode.
   * Save options.
   * Admin options screen / files

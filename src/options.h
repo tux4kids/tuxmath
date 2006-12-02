@@ -138,4 +138,9 @@ float Opts_CityExplHandicap(void);
 int Opts_SoundHWAvailable(void);
 /* this is the function that says if sound is both desired and actually available: */
 int Opts_UsingSound(void);
+
+
+/* print options values to stream - for debugging purposes - has been */
+/* superceded by write_config_file() to actually write human-readable file. */
+void print_game_options(FILE* fp, int verbose);
 #endif
