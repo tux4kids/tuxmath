@@ -1,11 +1,19 @@
 changelog for "tuxmath"
 
-NOTE: Tuxmath is under heavy construction and currently does
-not compile - the menu system is being overhauled with code from
-tuxtype. Please checkout revision 61 if you need something
-that actually builds and works - i.e.:
+2006.Dec.07 (https://svn.tux4kids.net/tuxmath/ - revision 65)
+  Options:
+    * Several files brought in from tuxtype as part of overhaul
+      of titlescreen and menu system: titlescreen.h (header for
+      all of tuxtype-derived files), titlescreen.c, loaders.c,
+      audio.c, gettext.c, alphabet.c, pause.c, theme.c.  The
+      program again compiles and runs, but none of the new code
+      is actually used yet.  Still under heavy construction.
+  Build:
+    * SDL_ttf now needed to build program, although the code
+      that actually uses fonts is not yet active.
 
-svn checkout -r 61 https://svn.tux4kids.net/tuxmath/
+      David Bruce <dbruce@tampabay.rr.com>
+
 
 2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 61)
   Version 1.0.2
