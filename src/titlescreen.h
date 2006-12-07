@@ -104,6 +104,10 @@ typedef struct {
 #define MAX_NUM_WORDS   500
 #define MAX_WORD_SIZE   8
 
+//MAX_UPDATES needed for TransWipe() and friends:
+#define MAX_UPDATES 180
+
+
 #define WAIT_MS				2500
 #define	FRAMES_PER_SEC	                50
 #define FULL_CIRCLE		        140
@@ -259,5 +263,11 @@ extern int  Pause( void );
 extern void pause_load_media( void );
 extern void pause_unload_media( void );
 extern int  inRect( SDL_Rect r, int x, int y);
+
+/* in audio.c  (from tuxtype): */
+extern void tuxtype_playsound( Mix_Chunk *snd );
+extern void audioMusicLoad( char *musicFilename, int repeatQty );
+extern void audioMusicUnload( void );
+extern void audioMusicPlay( Mix_Music *musicData, int repeatQty );
 
 #endif //TITLESCREEN_H

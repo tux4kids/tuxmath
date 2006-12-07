@@ -7,12 +7,12 @@ endif
 
 TuxMath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
 		options.c credits.c playsound.c \
-		theme.c loaders.c alphabet.c pause.c \
+		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
                 mathcards.c fileops.c tuxmathrc.c
 
 tuxmath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
 		options.c credits.c playsound.c \
-		theme.c loaders.c alphabet.c pause.c \
+		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
                 mathcards.c fileops.c
 
 

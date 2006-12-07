@@ -16,7 +16,12 @@ email                : jdandr2@uky.edu
 *                                                                         *
 ***************************************************************************/
 
+// For tuxtype-related stuff:
 #include "titlescreen.h"
+
+// For Opts_UseSound()
+#include "options.h"
+
 
 Mix_Chunk *pause_sfx;
 SDL_Surface *up, *down, *left, *right;
@@ -25,7 +30,7 @@ TTF_Font *f1, *f2;
 extern settings localsettings;
 
 void pause_load_media(void) {
-	if (sys_sound) 
+	if (Opts_UseSound()) 
 		pause_sfx = LoadSound( "tock.wav" );
 
 	up = LoadImage("up.png", IMG_ALPHA);
@@ -45,7 +50,7 @@ void pause_load_media(void) {
 }
 
 void pause_unload_media(void) {
-	if (sys_sound)
+	if (Opts_UseSound())
 		Mix_FreeChunk(pause_sfx);
 	SDL_FreeSurface(up);
 	SDL_FreeSurface(down);
@@ -65,7 +70,7 @@ void pause_draw_info(void) {
 	rectLeft.x = rectDown.x = 320 - (7*16) - rectLeft.w - 4;
 	rectRight.x = rectUp.x  = 320 + (7*16) + 4;
 
-	if (sys_sound) {
+	if (Opts_UseSound()) {
 
 		SDL_BlitSurface(left, NULL, screen, &rectLeft);
 		SDL_BlitSurface(right, NULL, screen, &rectRight);
@@ -74,7 +79,7 @@ void pause_draw_info(void) {
 		SDL_BlitSurface(up, NULL, screen, &rectUp);
 	}
 
-	if (sys_sound) {
+	if (Opts_UseSound()) {
 
 		t = black_outline(_("Sound Effects Volume"), f1, &white);
 		s.y = 160;
@@ -187,7 +192,7 @@ int Pause( void ) {
 
 	/* --- stop all sounds, play pause noise --- */
 
-	if (sys_sound) {
+	if (Opts_UseSound()) {
  		Mix_Pause(-1);
 		Mix_PlayChannel(-1, pause_sfx, 0);
 		sfx_volume = Mix_Volume(-1, -1);  // get sfx volume w/o changing it
@@ -202,7 +207,7 @@ int Pause( void ) {
 	darkenscreen(); 
 
 	pause_draw_info();
-	if (sys_sound) {
+	if (Opts_UseSound()) {
 		draw_vols(sfx_volume, mus_volume);
 	}
 
@@ -221,7 +226,7 @@ int Pause( void ) {
 					exit(0);
 					break;
 				case SDL_KEYUP:
-					if (sys_sound && 
+					if (Opts_UseSound() && 
 					   ((event.key.keysym.sym == SDLK_RIGHT) ||
 					    (event.key.keysym.sym == SDLK_LEFT))) 
 					    	tocks = 0;
@@ -233,7 +238,7 @@ int Pause( void ) {
 						paused = 0;
 						quit = 1;
 					}
-					if (sys_sound) { 
+					if (Opts_UseSound()) { 
 						if (event.key.keysym.sym == SDLK_RIGHT) 
 							sfx_volume += 4;
 						if (event.key.keysym.sym == SDLK_LEFT) 
@@ -254,7 +259,7 @@ int Pause( void ) {
 
 					break;
 			}
-		if (sys_sound && mousePressed) {
+		if (Opts_UseSound() && mousePressed) {
 			int x, y;
 
 			SDL_GetMouseState(&x, &y);
@@ -284,7 +289,7 @@ int Pause( void ) {
 			}
 		}
 
-		if (sys_sound) {
+		if (Opts_UseSound()) {
 
 			if (sfx_volume > MIX_MAX_VOLUME)
 				sfx_volume = MIX_MAX_VOLUME;
@@ -324,7 +329,7 @@ int Pause( void ) {
 
 	SDL_ShowCursor(0);
 
-	if (sys_sound) {
+	if (Opts_UseSound()) {
 		Mix_PlayChannel(-1, pause_sfx, 0);
 		Mix_Resume(-1);
 	}

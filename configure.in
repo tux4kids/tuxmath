@@ -50,18 +50,27 @@ fi
 LIBS="$LIBS $SDL_LIBS"
 
 # Checks for libraries.
-dnl Checks for libraries. 
+dnl Check for SDL_image: 
 AC_CHECK_LIB([SDL_image], 
        [IMG_Load], 
        LIBS="$LIBS -lSDL_image", 
        [AC_MSG_ERROR([*** SDL_image library not found!])] 
 )
-dnl Checks for libraries. 
+
+dnl Check for SDL_mixer:. 
 AC_CHECK_LIB([SDL_mixer], 
        [Mix_OpenAudio], 
        LIBS="$LIBS -lSDL_mixer", 
        [AC_MSG_ERROR([*** SDL_mixer library not found!])] 
 )
+
+dnl Check for SDL_ttf:
+AC_CHECK_LIB([SDL_ttf],
+	[TTF_Init],
+	LIBS="$LIBS -lSDL_ttf",
+	[AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])]
+)
+
 
 # Checks for header files.
 AC_HEADER_DIRENT

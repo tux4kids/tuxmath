@@ -18,11 +18,31 @@
  ***************************************************************************/
 
 
-
+// titlescreen.h has all of the tuxtype-related stuff:
 #include "titlescreen.h"
 
+// tuxmath includes:
+#include "options.h"
+
+
+/* --- Data Structure for Dirty Blitting --- */
+SDL_Rect srcupdate[MAX_UPDATES];
+SDL_Rect dstupdate[MAX_UPDATES];
+int numupdates = 0; // tracks how many blits to be done
+
+// Type needed for Transwipe():
+struct blit {
+    SDL_Surface *src;
+    SDL_Rect *srcrect;
+    SDL_Rect *dstrect;
+    unsigned char type;
+} blits[MAX_UPDATES];
+
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
+int show_tux4kids;
 int debugOn; //FIXME switch to TUXMATH_DEBUG
+
+
 TTF_Font  *font;
 SDL_Event  event;
 SDL_Surface *bkg;
@@ -95,7 +115,9 @@ void TitleScreen_unload_menu(void);
 void TitleScreen_load_media(void);
 void TitleScreen_unload_media(void);
 void NotImplemented(void);
-
+void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
+void UpdateScreen(int *frame);
+void AddRect(SDL_Rect * src, SDL_Rect * dst);
 
 
 void draw_button( int id, sprite *s ) {
@@ -354,8 +376,9 @@ void TitleScreen( void )
   char phrase[128];
 
   debugOn = 1; //for now
+  show_tux4kids = 1; //for now
 
-  if (sys_sound)
+  if (Opts_UseSound())
   {
     menu_sound=1;
     menu_music=localsettings.menu_music;
@@ -523,7 +546,7 @@ void TitleScreen( void )
               menu_opt = menu_item[j][menu_depth];
               if (menu_sound)
               {
-                playsound(snd_select);
+                tuxtype_playsound(snd_select);
               }
               DEBUGCODE
               {
@@ -575,7 +598,7 @@ void TitleScreen( void )
                 menu_opt = QUIT_GAME;
 
               if (menu_sound)
-                playsound(snd_select);
+                tuxtype_playsound(snd_select);
               break;
             }
 
@@ -621,7 +644,7 @@ void TitleScreen( void )
             case SDLK_UP:
             {
               if (menu_sound)
-                playsound(snd_move);
+                tuxtype_playsound(snd_move);
               key_menu--;
               if (key_menu < 1)
                 key_menu = 5;
@@ -633,7 +656,7 @@ void TitleScreen( void )
             {
               key_menu++;
               if (menu_sound)
-                playsound(snd_move);
+                tuxtype_playsound(snd_move);
               if (key_menu > 5)
                 key_menu = 1;
               break;
@@ -646,7 +669,7 @@ void TitleScreen( void )
               {
                 menu_opt = menu_item[key_menu][menu_depth];
                 if (menu_sound)
-                  playsound(snd_select);
+                  tuxtype_playsound(snd_select);
               }
               break;
             }
@@ -731,7 +754,7 @@ void TitleScreen( void )
 
     if (menu_opt == PROJECT_INFO)
     {
-      projectInfo();
+//      projectInfo();
       redraw = 1;
     }
 
@@ -745,7 +768,7 @@ void TitleScreen( void )
       if (menu_music)
         audioMusicUnload( );
 
-      testLesson();
+//      testLesson();
 
       TitleScreen_load_media();
       redraw = 1;
@@ -777,8 +800,8 @@ void TitleScreen( void )
 
         switch (sub_menu)
         {
-          case CASCADE: PlayCascade( EASY ); break;
-          case LASER:   laser_game(  EASY ); break;
+//          case CASCADE: PlayCascade( EASY ); break;
+//          case LASER:   laser_game(  EASY ); break;
         }
 
         TitleScreen_load_media();
@@ -799,8 +822,8 @@ void TitleScreen( void )
 
         switch (sub_menu)
         {
-          case CASCADE: PlayCascade( MEDIUM ); break;
-          case LASER:   laser_game(  MEDIUM ); break;
+//          case CASCADE: PlayCascade( MEDIUM ); break;
+//          case LASER:   laser_game(  MEDIUM ); break;
         }
 
         TitleScreen_load_media();
@@ -822,8 +845,8 @@ void TitleScreen( void )
 
         switch (sub_menu)
         {
-          case CASCADE: PlayCascade( HARD ); break;
-          case LASER:   laser_game(  HARD ); break;
+//          case CASCADE: PlayCascade( HARD ); break;
+//          case LASER:   laser_game(  HARD ); break;
         }
 
         TitleScreen_load_media();
@@ -845,8 +868,8 @@ void TitleScreen( void )
 
         switch (sub_menu)
         {
-          case CASCADE: PlayCascade( INSANE ); break;
-          case LASER:   laser_game(  INSANE ); break;
+//          case CASCADE: PlayCascade( INSANE ); break;
+//          case LASER:   laser_game(  INSANE ); break;
         }
 
         TitleScreen_load_media();
@@ -866,8 +889,8 @@ void TitleScreen( void )
 
       switch (sub_menu)
       {
-        case CASCADE: InstructCascade(); break;
-        case LASER:   InstructLaser();   break;
+//        case CASCADE: InstructCascade(); break;
+//        case LASER:   InstructLaser();   break;
       }
 
       TitleScreen_load_media();
@@ -883,7 +906,7 @@ void TitleScreen( void )
     if (menu_opt == FREETYPE)
     {
       TitleScreen_unload_media();
-      Phrases( phrase );
+//      Phrases( phrase );
       //Practice();
       TitleScreen_load_media();
       redraw = 1;
@@ -993,7 +1016,7 @@ void TitleScreen( void )
       if (key_menu != old_key_menu)
       {
         rewind(menu_gfx[key_menu][menu_depth]);
-        playsound(snd_move);
+        tuxtype_playsound(snd_move);
       }
 
       SDL_BlitSurface(bkg, &menu_button[key_menu], screen, &menu_button[key_menu]);
@@ -1316,3 +1339,215 @@ void switch_screen_mode(void)
 
 }
 
+
+// Was in playgame.c in tuxtype:
+
+/*************************************************/
+/* TransWipe: Performs various wipes to new bkgs */
+/*************************************************/
+/*
+ * Given a wipe request type, and any variables
+ * that wipe requires, will perform a wipe from
+ * the current screen image to a new one.
+ */
+void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
+{
+    int i, j, x1, x2, y1, y2;
+    int step1, step2, step3, step4;
+    int frame;
+    SDL_Rect src;
+    SDL_Rect dst;
+
+    LOG("->TransWipe(): START\n");
+
+    numupdates = 0;
+    frame = 0;
+
+    if(newbkg->w == screen->w && newbkg->h == screen->h) {
+        if( type == RANDOM_WIPE )
+            type = (RANDOM_WIPE* ((float) rand()) / (RAND_MAX+1.0));
+
+        switch( type ) {
+            case WIPE_BLINDS_VERT: {
+                LOG("--+ Doing 'WIPE_BLINDS_VERT'\n");
+                /* var1 is num of divisions
+                   var2 is how many frames animation should take */
+                if( var1 < 1 ) var1 = 1;
+                if( var2 < 1 ) var2 = 1;
+                step1 = screen->w / var1;
+                step2 = step1 / var2;
+
+                for(i = 0; i <= var2; i++) {
+                    for(j = 0; j <= var1; j++) {
+                        x1 = step1 * (j - 0.5) - i * step2 + 1;
+                        x2 = step1 * (j - 0.5) + i * step2 + 1;
+                        src.x = x1;
+                        src.y = 0;
+                        src.w = step2;
+                        src.h = screen->h;
+                        dst.x = x2;
+                        dst.y = 0;
+                        dst.w = step2;
+                        dst.h = screen->h;
+                        SDL_BlitSurface(newbkg, &src, screen, &src);
+                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
+                        AddRect(&src, &src);
+                        AddRect(&dst, &dst);
+                    }
+                    UpdateScreen(&frame);
+                }
+
+                src.x = 0;
+                src.y = 0;
+                src.w = screen->w;
+                src.h = screen->h;
+                SDL_BlitSurface(newbkg, NULL, screen, &src);
+                SDL_Flip(screen);
+
+                break;
+            } case WIPE_BLINDS_HORIZ: {
+                LOG("--+ Doing 'WIPE_BLINDS_HORIZ'\n");
+                /* var1 is num of divisions
+                   var2 is how many frames animation should take */
+                if( var1 < 1 ) var1 = 1;
+                if( var2 < 1 ) var2 = 1;
+                step1 = screen->h / var1;
+                step2 = step1 / var2;
+
+                for(i = 0; i <= var2; i++) {
+                    for(j = 0; j <= var1; j++) {
+                        y1 = step1 * (j - 0.5) - i * step2 + 1;
+                        y2 = step1 * (j - 0.5) + i * step2 + 1;
+                        src.x = 0;
+                        src.y = y1;
+                        src.w = screen->w;
+                        src.h = step2;
+                        dst.x = 0;
+                        dst.y = y2;
+                        dst.w = screen->w;
+                        dst.h = step2;
+                        SDL_BlitSurface(newbkg, &src, screen, &src);
+                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
+                        AddRect(&src, &src);
+                        AddRect(&dst, &dst);
+                    }
+                    UpdateScreen(&frame);
+                }
+
+                src.x = 0;
+                src.y = 0;
+                src.w = screen->w;
+                src.h = screen->h;
+                SDL_BlitSurface(newbkg, NULL, screen, &src);
+                SDL_Flip(screen);
+
+                break;
+            } case WIPE_BLINDS_BOX: {
+                LOG("--+ Doing 'WIPE_BLINDS_BOX'\n");
+                /* var1 is num of divisions
+                   var2 is how many frames animation should take */
+                if( var1 < 1 ) var1 = 1;
+                if( var2 < 1 ) var2 = 1;
+                step1 = screen->w / var1;
+                step2 = step1 / var2;
+                step3 = screen->h / var1;
+                step4 = step1 / var2;
+
+                for(i = 0; i <= var2; i++) {
+                    for(j = 0; j <= var1; j++) {
+                        x1 = step1 * (j - 0.5) - i * step2 + 1;
+                        x2 = step1 * (j - 0.5) + i * step2 + 1;
+                        src.x = x1;
+                        src.y = 0;
+                        src.w = step2;
+                        src.h = screen->h;
+                        dst.x = x2;
+                        dst.y = 0;
+                        dst.w = step2;
+                        dst.h = screen->h;
+                        SDL_BlitSurface(newbkg, &src, screen, &src);
+                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
+                        AddRect(&src, &src);
+                        AddRect(&dst, &dst);
+                        y1 = step3 * (j - 0.5) - i * step4 + 1;
+                        y2 = step3 * (j - 0.5) + i * step4 + 1;
+                        src.x = 0;
+                        src.y = y1;
+                        src.w = screen->w;
+                        src.h = step4;
+                        dst.x = 0;
+                        dst.y = y2;
+                        dst.w = screen->w;
+                        dst.h = step4;
+                        SDL_BlitSurface(newbkg, &src, screen, &src);
+                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
+                        AddRect(&src, &src);
+                        AddRect(&dst, &dst);
+                    }
+                    UpdateScreen(&frame);
+                }
+
+                src.x = 0;
+                src.y = 0;
+                src.w = screen->w;
+                src.h = screen->h;
+                SDL_BlitSurface(newbkg, NULL, screen, &src);
+                SDL_Flip(screen);
+
+                break;
+            } default:
+                break;
+        }
+    }
+}
+
+/************************
+UpdateScreen : Update the screen and increment the frame num
+***************************/
+void UpdateScreen(int *frame) {
+	int i;
+
+	/* -- First erase everything we need to -- */
+	for (i = 0; i < numupdates; i++)
+		if (blits[i].type == 'E') 
+			SDL_LowerBlit(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
+//	SNOW_erase();
+
+	/* -- then draw -- */ 
+	for (i = 0; i < numupdates; i++)
+		if (blits[i].type == 'D') 
+			SDL_BlitSurface(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
+//	SNOW_draw();
+
+	/* -- update the screen only where we need to! -- */
+//	if (SNOW_on) 
+//		SDL_UpdateRects(screen, SNOW_add( (SDL_Rect*)&dstupdate, numupdates ), SNOW_rects);
+//	else 
+		SDL_UpdateRects(screen, numupdates, dstupdate);
+
+	numupdates = 0;
+	*frame = *frame + 1;
+}
+
+
+/******************************
+AddRect : Dont actually blit a surface,
+    but add a rect to be updated next
+    update
+*******************************/
+void AddRect(SDL_Rect * src, SDL_Rect * dst) {
+    /*borrowed from SL's alien (and modified)*/
+    struct blit    *update;
+
+    update = &blits[numupdates++];
+
+    update->srcrect->x = src->x;
+    update->srcrect->y = src->y;
+    update->srcrect->w = src->w;
+    update->srcrect->h = src->h;
+    update->dstrect->x = dst->x;
+    update->dstrect->y = dst->y;
+    update->dstrect->w = dst->w;
+    update->dstrect->h = dst->h;
+    update->type = 'I';
+}
