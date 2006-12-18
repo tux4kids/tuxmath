@@ -26,6 +26,7 @@
 #include "options.h"
 #include "credits.h"
 
+#include "titlescreen.h"
 
 /* global data: */
 
@@ -33,11 +34,16 @@ int main(int argc, char * argv[])
 {
   int cmd, done;
   setup(argc, argv);
-  
+
+  debugOn = 1; //for tuxtype-derived code  
+
   done = 0;
   
   do
   {
+    setupTheme(NULL);
+    TitleScreen();
+
     cmd = title();
 
     if (cmd == CMD_GAME)

@@ -220,11 +220,17 @@ enum {
 #define TUX6                            130
 
 
-/* Function prototypes for titlescreen.c */
+
+
+/********************************/
+/* "Global" Function Prototypes */
+/********************************/
+
+/*In titlescreen.c */
 
 extern void TitleScreen( void );
 extern void switch_screen_mode( void );
-extern int Phrases(char *practice_phrase);
+extern int Phrases(char *practice_phrase); // NOTE this is not implemented
 
 /* in theme.c (from tuxtype): */
 extern void chooseTheme(void);

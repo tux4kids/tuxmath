@@ -33,17 +33,23 @@ void tuxtype_playsound(Mix_Chunk *snd) {
 
 Mix_Music *defaultMusic = NULL; // holds music for audioMusicLoad/unload
 
+
+
 /* audioMusicLoad attempts to load and play the music file 
  * Note: loops == -1 means forever
  */
-void audioMusicLoad( char *musicFilename, int loops ) {
-	if (!Opts_UsingSound()) return;
+void audioMusicLoad(char *musicFilename, int loops)
+{
+  if (!Opts_UsingSound())
+  {
+    return;
+  }
 
-	audioMusicUnload(); // make sure defaultMusic is clear
-
-	defaultMusic = LoadMusic( musicFilename );
-	Mix_PlayMusic( defaultMusic, loops );
+  audioMusicUnload(); // make sure defaultMusic is clear
+  defaultMusic = LoadMusic(musicFilename);
+  Mix_PlayMusic(defaultMusic, loops);
 }
+
 
 /* audioMusicUnload attempts to unload any music data that was
  * loaded using the audioMusicLoad function

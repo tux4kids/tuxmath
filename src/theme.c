@@ -21,12 +21,13 @@
 
 #include "titlescreen.h"
 
-#define NUM_PATHS 4
+#define NUM_PATHS 5
 
 const char PATHS[NUM_PATHS][FNLEN] = {
 	"./data",
 	"/usr/share/"PACKAGE"/data",
 	"/usr/local/share/"PACKAGE"/data",
+        "/usr/local/share/"PACKAGE,        //HACK added to accomodate 'make install' installation
 	DATA_PREFIX"/share/"PACKAGE"/data"
 };
 
@@ -49,58 +50,79 @@ int useEnglish;
  * Paths[].  It will always put the theme path first, then
  * the default path
  */
-void setupTheme( char *dirName ) {
-	static struct stat dirStats;
-	int i;
-	int found = 0;
-	useEnglish=1; // default is to use English if we cannot find theme
+/*FIXME this should probably return an int - 1 if path found */ 
+/* successfully, 0 otherwise.                                */
+/*FIXME make it check for something more specific than './data' - */
+/* tuxtype and tuxmath get confused and fail if started from the */
+/* command line from within the others trunk directory. */
+void setupTheme( char *dirName )
+{
+  static struct stat dirStats;
+  int i;
+  int found = 0;
+  useEnglish = 1; // default is to use English if we cannot find theme
 
-	for (i=0; i<NUM_PATHS && !found; i++) {
+  /* Look for the first path in PATHS[] that is valid.  */
+  /* If a valid path is found, it is copied to realPath[1]. */
+  for (i = 0; i<NUM_PATHS && !found; i++)  //NUM_PATHS currently 4 - see above
+  {
+    DEBUGCODE
+    {
+      fprintf(stderr, "setupTheme(): checking for: %s\n", PATHS[i]);
+    }
 
-		DEBUGCODE{
-		fprintf(stderr, "setupTheme(): checking for: %s\n", PATHS[i]);
-		}
+    dirStats.st_mode = 0;
+    stat( PATHS[i], &dirStats );
 
-		dirStats.st_mode = 0;
-		stat( PATHS[i], &dirStats );
-		if (S_IFDIR & dirStats.st_mode) {
-			strncpy( realPath[1], PATHS[i], FNLEN-1);
-			strncpy( themeName, "", FNLEN-1 );
-			found = 1; /* so quit looking */
+    if (S_IFDIR & dirStats.st_mode)
+    {
+      strncpy( realPath[1], PATHS[i], FNLEN-1);
+      strncpy( themeName, "", FNLEN-1 );
+      found = 1; /* so quit looking */
 
-			DEBUGCODE{
-			fprintf(stderr, "path '%s' found, copy to realPath[1]\n", PATHS[i]);
-			}
-		}
-		else {
-			DEBUGCODE{
-			fprintf(stderr, "path '%s' not found.\n", PATHS[i]);
-			}
-		}
+      DEBUGCODE
+      {
+        fprintf(stderr, "path '%s' found, copy to realPath[1]\n", PATHS[i]);
+      }
+    }
+    else
+    {
+      DEBUGCODE
+      {
+        fprintf(stderr, "path '%s' not found.\n", PATHS[i]);
+      }
+    }
+  }
 
-	}
+  /* see if the realPath[1] as determined above contains a theme */
+  /* directory matching the dirName argument.  The path to the   */
+  /* theme will then be stored in realPath[0]:                   */
+  if (dirName != NULL)
+  {
+    char fullDir[FNLEN];
 
-	if (dirName != NULL) {
-		char fullDir[FNLEN];
+    /* find the path to the theme */
+    sprintf( fullDir, "%s/themes/%s", realPath[1], dirName );
+    dirStats.st_mode = 0;
+    stat( fullDir, &dirStats );
 
-		/* find the path to the theme */
-		sprintf( fullDir, "%s/themes/%s", realPath[1], dirName );
-		dirStats.st_mode = 0;
-		stat( fullDir, &dirStats );
-		if (S_IFDIR & dirStats.st_mode) {
-			useEnglish=0;
-			strncpy( realPath[0], fullDir, FNLEN-1 );
-			strncpy( themeName, dirName, FNLEN-1 );
-		}
-	}
-	DEBUGCODE
-	{
-		fprintf(stderr, "Leaving setupTheme():\n");
-		if (dirName != NULL)
-			fprintf(stderr, "realPath[0] = %s\n", realPath[0]);
-		fprintf(stderr, "realPath[1] = %s\n", realPath[1]);
-	}
-	
+    if (S_IFDIR & dirStats.st_mode)
+    {
+      useEnglish = 0;
+      strncpy( realPath[0], fullDir, FNLEN-1 );
+      strncpy( themeName, dirName, FNLEN-1 );
+    }
+  }
+
+  DEBUGCODE
+  {
+    fprintf(stderr, "Leaving setupTheme():\n");
+    if (dirName != NULL)
+    {
+      fprintf(stderr, "realPath[0] = %s\n", realPath[0]);
+    }
+    fprintf(stderr, "realPath[1] = %s\n", realPath[1]);
+  }
 }
 
 void chooseTheme( void ) {

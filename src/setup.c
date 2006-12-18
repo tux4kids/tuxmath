@@ -31,6 +31,7 @@
 //#include <unistd.h>
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #ifndef NOSOUND
 #include <SDL_mixer.h>
@@ -384,6 +385,19 @@ void initialize_SDL(void)
   }
 
 
+  if (TTF_Init() < 0)
+  {
+    fprintf( stderr, "Couldn't initialize SDL_ttf\n"
+           "The Simple DirectMedia error that occured was:\n"
+           "%s\n\n", SDL_GetError());
+    cleanup_on_error();
+    exit(2);
+  }
+
+  atexit(TTF_Quit); // Maybe this is redundant?
+
+
+
   #ifndef NOSOUND
   /* Init SDL Audio: */
   if (Opts_UseSound())
@@ -518,6 +532,7 @@ void cleanup_on_error(void)
 /* free any heap memory used during game DSB */
 void cleanup_memory(void)
 {
+  TTF_Quit();
   SDL_Quit();
   /* frees the game_options struct: */
   Opts_Cleanup();

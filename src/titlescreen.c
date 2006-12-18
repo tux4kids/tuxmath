@@ -30,7 +30,7 @@ SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
 int numupdates = 0; // tracks how many blits to be done
 
-// Type needed for Transwipe():
+// Type needed for TransWipe():
 struct blit {
     SDL_Surface *src;
     SDL_Rect *srcrect;
@@ -43,48 +43,61 @@ int show_tux4kids;
 int debugOn; //FIXME switch to TUXMATH_DEBUG
 
 
-TTF_Font  *font;
-SDL_Event  event;
-SDL_Surface *bkg;
+TTF_Font*  font;
+SDL_Event   event;
+SDL_Surface*  bkg;
 
 /* --- media for menus --- */
 
+/* FIXME Should all these arrays be defined as size [TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1]?  */
+/* FIXME Instead of six parallel arrays, make struct with six fields and create a single array */
+/* of the struct. */
+
 /* --- define menu structure --- */
 /* (these values are all in the Game_Type enum in globals.h) */
-const int menu_item[][6]= {{0, 0,         0,         0,          0},
-			   {0, CASCADE,   LEVEL1,    LEVEL1,  NOT_CODED },
-			   {0, LASER,     LEVEL2,    LEVEL2,  FREETYPE   },
-			   {0, LESSONS,  LEVEL3,    LEVEL3,  PROJECT_INFO },
+const int menu_item[][6]= {{0, 0,         0,         0,       0           },
+			   {0, CASCADE,   LEVEL1,    LEVEL1,  NOT_CODED   },
+			   {0, LASER,     LEVEL2,    LEVEL2,  FREETYPE    },
+			   {0, LESSONS,   LEVEL3,    LEVEL3,  PROJECT_INFO},
 			   {0, OPTIONS,   INSTRUCT,  LEVEL4,  SET_LANGUAGE},
-			   {0, QUIT_GAME, MAIN,      MAIN,    MAIN}};
+			   {0, QUIT_GAME, MAIN,      MAIN,    MAIN        }};
 
 /* --- menu text --- */
 const unsigned char *menu_text[][6]= 
-{{"", "",            "",             "",            ""    },
- {"", gettext_noop("Fish Cascade"), gettext_noop("Easy"),         gettext_noop("Space Cadet"), gettext_noop("Edit Word Lists")},
- {"", gettext_noop("Comet Zap"),    gettext_noop("Medium"),       gettext_noop("Pilot"),       gettext_noop("Practice")},
- {"", gettext_noop("Lessons"),     gettext_noop("Hard"),         gettext_noop("Ace"),         gettext_noop("Project Info")},
- {"", gettext_noop("Options"),      gettext_noop("Instructions"), gettext_noop("Commander"),   gettext_noop("Setup Language")},
- {"", gettext_noop("Quit"),         gettext_noop("Main Menu"),    gettext_noop("Main Menu"),   gettext_noop("Main Menu")}};
+/*    Main Menu                Options Menu                    Math Options                        Game Options                   */
+{{"", "",                      "",                             "",                                 ""                              },
+ {"", gettext_noop("Play"),    gettext_noop("Math Options"),   gettext_noop("Addition"),           gettext_noop("Speed")           },
+ {"", gettext_noop("Options"), gettext_noop("Game Options"),   gettext_noop("Subtraction"),        gettext_noop("Sound")           },
+ {"", gettext_noop("Help"),    gettext_noop("Lessons"),        gettext_noop("Multiplication"),     gettext_noop("Graphics")        },
+ {"", gettext_noop("Credits"), gettext_noop("Setup Language"), gettext_noop("Division"),           gettext_noop("Advanced Options")},
+ {"", gettext_noop("Quit"),    gettext_noop("Main Menu"),      gettext_noop("Main Menu"),          gettext_noop("Main Menu")      }};
 
+
+/* These are the filenames of the images used in the animated menu icons: */
 /* --- menu icons --- */
 const unsigned char *menu_icon[][6]= 
-{{"", "", "", "", ""},
- {"", "cascade", "easy",   "grade1_", "list"   },
- {"", "comet",   "medium", "grade2_", "practice" },
- {"", "lesson","hard",   "grade3_", "keyboard"   },
- {"", "option",  "tutor",  "grade4_", "lang" },
+{{"", "",        "",       "",        ""        },
+ {"", "cascade", "easy",   "grade1_", "list"    },
+ {"", "comet",   "medium", "grade2_", "practice"},
+ {"", "lesson",  "hard",   "grade3_", "keyboard"},
+ {"", "option",  "tutor",  "grade4_", "lang"    },
  {"", "quit",    "main",   "main",    "main"   }};
+
+
+/* this will contain pointers to all of the menu 'icons' */
+sprite *menu_gfx[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
+
+
 
 /* images of regular and selected text of menu items: */
 SDL_Surface *reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
 SDL_Surface *sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
 sprite *reg;
 sprite *sel;
-/* this will contain pointers to all of the menu 'icons' */
-sprite *menu_gfx[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
+
+
 /* keep track of the width of each menu: */
-int     menu_width[TITLE_MENU_DEPTH + 1];
+int menu_width[TITLE_MENU_DEPTH + 1];
 
 /* NOTE for 'depth', think pages like a restaurant menu, */
 /* not heirarchical depth - choice of term is misleading */
@@ -94,7 +107,7 @@ int menu_music; // status of menu sound effects
 settings localsettings;
 
 /* --- other media --- */
-SDL_Surface *title;
+SDL_Surface *titlepic;
 SDL_Surface *speaker;
 SDL_Surface *speakeroff;
 sprite *Tux;
@@ -118,241 +131,22 @@ void NotImplemented(void);
 void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int *frame);
 void AddRect(SDL_Rect * src, SDL_Rect * dst);
+void InitEngine(void);
+
+/***********************************************************/
+/*                                                         */
+/*       "Public functions" (callable throughout program)  */
+/*                                                         */
+/***********************************************************/
 
 
-void draw_button( int id, sprite *s ) {
-	SDL_Rect button;
-
-	button.x = menu_button[id].x;
-	button.y = menu_button[id].y;
-	button.w = s->frame[0]->w;
-	button.h = s->frame[0]->h;
-	SDL_BlitSurface(s->frame[0], NULL, screen, &button);
-	button.w = s->frame[1]->w;
-	for (button.x += s->frame[0]->w; button.x < (menu_button[id].x + menu_width[menu_depth]); button.x += s->frame[1]->w) 
-		SDL_BlitSurface(s->frame[1], NULL, screen, &button);
-	button.w = s->frame[2]->w;
-	SDL_BlitSurface(s->frame[2], NULL, screen, &button);
-}
-
-
-void TitleScreen_load_menu( void ) {
-	unsigned char fn[FNLEN];
-	int max, i, j;
-
-	SDL_ShowCursor(1);
-
-	LOG("loading & parsing menu\n");
-	
-	for (j = 1; j <= TITLE_MENU_DEPTH; j++)  /* Each 'depth' is a different menu */
-	{
-		max = 0;
-		for (i = 1; i <= TITLE_MENU_ITEMS; i++)
-		{
-
-			/* --- create text surfaces --- */
-
-			reg_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), font, &white);
-			sel_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), font, &yellow);
-
-			if (sel_text[i][j]->w > max)
-				max = sel_text[i][j]->w;
-
-			/* --- load animated icon for menu item --- */
-
-			sprintf(fn, "menu/%s", menu_icon[i][j]);
-			menu_gfx[i][j] = LoadSprite(fn, IMG_ALPHA);
-		}
-		menu_width[j] = max + 20 + 40; // Not clear where '20' and '40' are coming from
-	}
-
-	LOG("done creating graphics, now setting positions\n");
-
-
-	/* --- setup menu item destinations --- */
-
-
-	menu_button[1].x = 240;
-	menu_button[1].y = 100;
-	menu_button[1].w = menu_width[1];  //calc from width of widest menu item
-	menu_button[1].h = sel->frame[1]->h; //height of sprite image
-
-	menu_gfxdest[1].x = menu_button[1].x + 6; // inset graphic by (6, 4) */
-	menu_gfxdest[1].y = menu_button[1].y + 4;
-	menu_gfxdest[1].w = 40;
-	menu_gfxdest[1].h = 50;
-
-	text_dst[1].y = menu_button[1].y+15;
-
-	/* FIXME each menu item drawn hardcoded 60 pixels below last - */
-	/* perhaps increment should be "menu_button[j-1].h + MENU_ITEM_GAP" */
-	for (j=2; j<6; j++) 
-	{
-		/* --- setup vertical location of button text --- */
-		text_dst[j].y = text_dst[j-1].y + 60;
-
-		/* --- setup location of button background --- */
-		menu_button[j].x = menu_button[j-1].x;
-		menu_button[j].y = menu_button[j-1].y + 60;
-		menu_button[j].w = menu_button[j-1].w;
-		menu_button[j].h = menu_button[j-1].h;
-
-		/* --- setup location of animated icon --- */
-		menu_gfxdest[j].x = menu_gfxdest[j-1].x;
-		menu_gfxdest[j].y = menu_gfxdest[j-1].y + 60;
-		menu_gfxdest[j].w = menu_gfxdest[j-1].w;
-		menu_gfxdest[j].h = menu_gfxdest[j-1].h;
-	}
-}
-
-void TitleScreen_unload_menu( void ) {
-	int i,j;
-
-	for (i = 1; i <= TITLE_MENU_ITEMS; i++)
-		for (j = 1; j <= TITLE_MENU_DEPTH; j++) {
-			SDL_FreeSurface(reg_text[i][j]);
-			SDL_FreeSurface(sel_text[i][j]);
-			FreeSprite(menu_gfx[i][j]);
-	}
-}
-
-void TitleScreen_load_media( void ) {
-
-	/* --- load sounds --- */
-	DEBUGCODE
-	{
-		fprintf(stderr, "Entering TitleScreen_load_media():\n");
-		fprintf(stderr, "realPath[0] = %s\n", realPath[0]);
-		fprintf(stderr, "realPath[1] = %s\n", realPath[1]);
-	}
-
-	if (menu_sound){
-	    snd_move = LoadSound("tock.wav");
-	    snd_select = LoadSound("pop.wav");
-	}
- 
-	/* --- load graphics --- */
-
-	title = LoadImage( "title1.png", IMG_ALPHA );
-	speaker = LoadImage( "sound.png", IMG_ALPHA );
-	speakeroff = LoadImage( "nosound.png", IMG_ALPHA );
-	bkg = LoadImage( "main_bkg.png", IMG_REGULAR );
-
-	sel = LoadSprite("menu/sel", IMG_ALPHA);
-	reg = LoadSprite("menu/reg", IMG_ALPHA);
-
-	Tux = LoadSprite("tux", IMG_ALPHA);
-
-	font = LoadFont( menu_font, menu_font_size );
-	/* Should probably call this directly from TitleScreen() */
-	TitleScreen_load_menu();
-}
-
-void TitleScreen_unload_media( void ) {
-
-	/* --- unload sounds --- */
-
-	if (menu_sound){
-	    Mix_FreeChunk(snd_move);
-	    Mix_FreeChunk(snd_select);
-	}
-
-	/* --- unload graphics --- */
-
-	SDL_FreeSurface(title);
-	SDL_FreeSurface(speaker);
-	SDL_FreeSurface(speakeroff);
-	SDL_FreeSurface(bkg);
-
-	FreeSprite(sel);
-	FreeSprite(reg);
-
-	FreeSprite(Tux);
-
-	TTF_CloseFont(font);
-	TitleScreen_unload_menu();
-}
-
-void NotImplemented(void) {
-	SDL_Surface *s1, *s2, *s3, *s4;
-	sprite *tux;
-	SDL_Rect loc;
-	int finished=0,i;
-
-        LOG( "NotImplemented() - creating text\n" );
-
-	s1 = black_outline( _("Work In Progress!"), font, &white);
-	s2 = black_outline( _("This feature is not ready yet"), font, &white);
-	s3 = black_outline( _("Discuss the future of TuxTyping at"), font, &white);
-
-	/* we always want the URL in english */
-	if (!useEnglish) {
-		TTF_Font *english_font;
-		useEnglish = 1;
-		english_font = LoadFont( menu_font, menu_font_size );
-		s4 = black_outline( "http://tuxtype.sf.net/forums", english_font, &white);
-		TTF_CloseFont(english_font);
-		useEnglish = 0;
-	} else 
-		s4 = black_outline( "http://tuxtype.sf.net/forums", font, &white);
-
-        LOG( "NotImplemented() - drawing screen\n" );
-
-	SDL_BlitSurface( bkg, NULL, screen, NULL );
-	loc.x = 320-(s1->w/2); loc.y = 10;
-	SDL_BlitSurface( s1, NULL, screen, &loc);
-	loc.x = 320-(s2->w/2); loc.y = 60;
-	SDL_BlitSurface( s2, NULL, screen, &loc);
-	loc.x = 320-(s3->w/2); loc.y = 400;
-	SDL_BlitSurface( s3, NULL, screen, &loc);
-	loc.x = 320-(s4->w/2); loc.y = 440;
-	SDL_BlitSurface( s4, NULL, screen, &loc);
-
-	tux = LoadSprite("tux/tux-egypt", IMG_ALPHA);
-
-	loc.x = 320-(tux->frame[0]->w/2);
-	loc.y = 200;
-	loc.w = tux->frame[0]->w;
-	loc.h = tux->frame[0]->h;
-	SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
-
-	SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-	i=0;
-	while (!finished) {
-		while (SDL_PollEvent(&event)) 
-			switch (event.type) {
-				case SDL_QUIT:
-					exit(0);
-				case SDL_MOUSEBUTTONDOWN:
-				case SDL_KEYDOWN:
-					finished=1;
-			}
-		i++;
-		if (i%5==0) {
-			next_frame(tux);
-			SDL_BlitSurface( bkg, &loc, screen, &loc);
-			SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
-			SDL_UpdateRect(screen, loc.x, loc.y, loc.w, loc.h);
-		}
-
-			
-		SDL_Delay(40);
-	}
-
-	SDL_FreeSurface(s1);
-	SDL_FreeSurface(s2);
-	SDL_FreeSurface(s3);
-	SDL_FreeSurface(s4);
-	FreeSprite(tux);
-}
 
 /****************************************
 * TitleScreen: Display the title screen *
 *****************************************
 * display title screen, get input
 */
-void TitleScreen( void )
+void TitleScreen(void)
 {
 
   SDL_Rect dest,
@@ -380,9 +174,20 @@ void TitleScreen( void )
 
   if (Opts_UseSound())
   {
-    menu_sound=1;
-    menu_music=localsettings.menu_music;
+    menu_sound = 1;
+    menu_music = localsettings.menu_music;
   }
+
+  InitEngine();  //set up pointers for blitting structure.
+
+
+  /* --- setup colors we use --- */
+  black.r       = 0x00; black.g       = 0x00; black.b       = 0x00;
+  gray.r        = 0x80; gray.g        = 0x80; gray.b        = 0x80;
+  dark_blue.r   = 0x00; dark_blue.g   = 0x00; dark_blue.b   = 0x60; 
+  red.r         = 0xff; red.g         = 0x00; red.b         = 0x00;
+  white.r       = 0xff; white.g       = 0xff; white.b       = 0xff;
+  yellow.r      = 0xff; yellow.g      = 0xff; yellow.b      = 0x00; 
 
 
   /* FIXME phrase(s) should come from file */
@@ -397,7 +202,7 @@ void TitleScreen( void )
   if (show_tux4kids)
   {
     SDL_Surface *standby;
-    standby = LoadImage("standby.png", IMG_REGULAR|IMG_NO_THEME);
+    standby = LoadImage("status/standby.png", IMG_REGULAR|IMG_NO_THEME);
 
     dest.x = ((screen->w) / 2) - (standby->w) / 2;  // Center horizontally
     dest.y = ((screen->h) / 2) - (standby->h) / 2;  // Center vertically
@@ -429,8 +234,8 @@ void TitleScreen( void )
 
   Titledest.x = screen->w;
   Titledest.y = 10;
-  Titledest.w = title->w;
-  Titledest.h = title->h;
+  Titledest.w = titlepic->w;
+  Titledest.h = titlepic->h;
 
   spkrdest.x = 520;
   spkrdest.y = 420;
@@ -464,7 +269,7 @@ void TitleScreen( void )
     Titledest.x -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
 
     SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-    SDL_BlitSurface(title, NULL, screen, &Titledest);
+    SDL_BlitSurface(titlepic, NULL, screen, &Titledest);
 
     SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
     SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w+40, Titledest.h);
@@ -475,17 +280,23 @@ void TitleScreen( void )
     }
   }
 
-  SDL_BlitSurface(title, NULL, screen, &Titledest);
+  SDL_BlitSurface(titlepic, NULL, screen, &Titledest);
 
   /* Pick speaker graphic according to whether music is on: */
-  if ( menu_music )
+  if (menu_music)
+  {
     SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
+  }
   else
+  {
     SDL_BlitSurface(speakeroff, NULL, screen, &spkrdest);
+  }
 
   /* Start playing menu music if desired: */
   if (menu_music)
-    audioMusicLoad( "tuxi.ogg", -1 );
+  {
+    audioMusicLoad("tuxi.ogg", -1);
+  }
 
   LOG( "Tux and Title are in place now\n" );
 
@@ -707,7 +518,9 @@ void TitleScreen( void )
 
 
     if (menu_opt == QUIT_GAME)
+    {
       done = 1;
+    }
 
 
     if (menu_opt == LASER)
@@ -766,15 +579,18 @@ void TitleScreen( void )
       TitleScreen_unload_media();
 
       if (menu_music)
+      {
         audioMusicUnload( );
-
+      }
 //      testLesson();
 
       TitleScreen_load_media();
       redraw = 1;
 
       if (menu_music)
+      {
         audioMusicLoad( "tuxi.ogg", -1 );
+      }
     }
 
 
@@ -788,7 +604,9 @@ void TitleScreen( void )
       redraw = 1;
 
       if (menu_music)
+      {
         audioMusicLoad( "tuxi.ogg", -1 );
+      }
     }
 
 
@@ -807,7 +625,9 @@ void TitleScreen( void )
         TitleScreen_load_media();
 
         if (menu_music)
+        {
           audioMusicLoad( "tuxi.ogg", -1 );
+        }
       }
 
       redraw = 1;
@@ -829,7 +649,9 @@ void TitleScreen( void )
         TitleScreen_load_media();
 
         if (menu_music)
+        {
           audioMusicLoad( "tuxi.ogg", -1 );
+        }
       }
 
       redraw = 1;
@@ -852,7 +674,9 @@ void TitleScreen( void )
         TitleScreen_load_media();
 
         if (menu_music)
+        {
           audioMusicLoad( "tuxi.ogg", -1 );
+        }
       }
 
       redraw = 1;
@@ -875,7 +699,9 @@ void TitleScreen( void )
         TitleScreen_load_media();
 
         if (menu_music)
+        {
           audioMusicLoad( "tuxi.ogg", -1 );
+        }
       }
 
       redraw = 1;
@@ -896,7 +722,9 @@ void TitleScreen( void )
       TitleScreen_load_media();
 
       if (menu_music)
+      { 
         audioMusicLoad( "tuxi.ogg", -1 );
+      }
 
       redraw = 1;
     }
@@ -919,12 +747,16 @@ void TitleScreen( void )
     if (redraw)
     {
       SDL_BlitSurface(bkg, NULL, screen, NULL); 
-      SDL_BlitSurface(title, NULL, screen, &Titledest);
+      SDL_BlitSurface(titlepic, NULL, screen, &Titledest);
 
-      if ( menu_music )
+      if (menu_music)
+      {
         SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
+      }
       else
+      {
         SDL_BlitSurface(speakeroff, NULL, screen, &spkrdest);
+      }
 
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       frame = redraw = 0;   // so we redraw tux
@@ -1030,10 +862,14 @@ void TitleScreen( void )
 
     // HACK This is still more than we need to update every frame but
     // it cuts cpu on my machine %60 so it seems better...
-    if ( menu_music )
+    if (menu_music)
+    {
       SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
+    }
     else
+    {
       SDL_BlitSurface(speakeroff, NULL, screen, &spkrdest);
+    }
 
     SDL_UpdateRect(screen, spkrdest.x, spkrdest.y, spkrdest.w, spkrdest.h);
 
@@ -1043,10 +879,14 @@ void TitleScreen( void )
     }
 
     if (tux_frame)
+    {
       SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+    }
 
     if (firstloop)
+    {
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
+    }
 
     firstloop = 0;
 
@@ -1063,17 +903,335 @@ void TitleScreen( void )
 
   LOG( "->>Freeing title screen images\n" );
 
-  localsettings.menu_music=menu_music;
+  localsettings.menu_music = menu_music;
   TitleScreen_unload_media();
 
   LOG( "->TitleScreen():END \n" );
 }
 
 
+void switch_screen_mode(void)
+{
+  SDL_Surface *tmp;
+  SDL_Rect src, dst;
+
+  int window = 0;
+
+  src.x = 0;
+  src.y = 0;
+  src.w = RES_X;
+  src.h = RES_Y;
+  dst.x = 0;
+  dst.y = 0;
+
+  tmp = SDL_CreateRGBSurface(
+      SDL_SWSURFACE,
+      RES_X,
+      RES_Y,
+      BPP,
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+      0xff000000,
+      0x00ff0000,
+      0x0000ff00,
+      0x000000ff
+#else
+      0x000000ff,
+      0x0000ff00,
+      0x00ff0000,
+      0xff000000
+#endif
+      );
+
+  if (screen->flags & SDL_FULLSCREEN)
+  {
+    window = 1;
+  }
+
+  SDL_BlitSurface(screen,&src,tmp,&dst);
+  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
+  SDL_FreeSurface(screen);
+  screen = NULL;
+
+  if (window)
+  {
+    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE);
+  }
+  else
+  {
+    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
+  }
+
+  SDL_BlitSurface(tmp,&src,screen,&dst);
+  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
+  SDL_FreeSurface(tmp);
+}
+
+
+
+/***********************************************************/
+/*                                                         */
+/*    "Private functions" (callable only from this file)   */
+/*                                                         */
+/***********************************************************/
+
+
+void TitleScreen_load_media( void )
+{
+  /* --- load sounds --- */
+  DEBUGCODE
+  {
+    fprintf(stderr, "Entering TitleScreen_load_media():\n");
+    fprintf(stderr, "realPath[0] = %s\n", realPath[0]);
+    fprintf(stderr, "realPath[1] = %s\n", realPath[1]);
+  }
+
+  if (menu_sound)
+  {
+    snd_move = LoadSound("tock.wav");
+    snd_select = LoadSound("pop.wav");
+  }
+ 
+  /* --- load graphics --- */
+
+  titlepic = LoadImage("title/title1.png", IMG_ALPHA);
+  LOG("About to try to load speaker image\n");
+
+  speaker = LoadImage( "title/sound.png", IMG_ALPHA );
+  speakeroff = LoadImage( "title/nosound.png", IMG_ALPHA );
+  bkg = LoadImage( "title/main_bkg.png", IMG_REGULAR );
+
+  sel = LoadSprite("menu/sel", IMG_ALPHA);
+  reg = LoadSprite("menu/reg", IMG_ALPHA);
+  Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+
+  font = LoadFont(menu_font, menu_font_size);
+  /* Should probably call this directly from TitleScreen() */
+  TitleScreen_load_menu();
+}
+
+
+
+void TitleScreen_load_menu(void)
+{
+  unsigned char fn[FNLEN];
+  int max, i, j;
+
+  SDL_ShowCursor(1);
+
+  LOG("loading & parsing menu\n");
+
+  for (j = 1; j <= TITLE_MENU_DEPTH; j++)  /* Each 'depth' is a different menu */
+  {
+    max = 0;  // max will be width of widest text entry of this menu
+
+    for (i = 1; i <= TITLE_MENU_ITEMS; i++)
+    {
+      /* --- create text surfaces --- */
+      reg_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), font, &white);
+      sel_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), font, &yellow);
+
+      if (sel_text[i][j]->w > max)
+      {
+        max = sel_text[i][j]->w;
+      }
+
+      /* --- load animated icon for menu item --- */
+      sprintf(fn, "menu/%s", menu_icon[i][j]);
+      menu_gfx[i][j] = LoadSprite(fn, IMG_ALPHA);
+    }
+    menu_width[j] = max + 20 + 40; // Not clear where '20' and '40' are coming from
+  }
+
+  LOG("done creating graphics, now setting positions\n");
+
+
+  /* --- setup menu item destinations --- */
+
+  menu_button[1].x = 240;    // center of top button hardcoded to (240, 100)
+  menu_button[1].y = 100;
+  menu_button[1].w = menu_width[1];  //calc from width of widest menu item
+  menu_button[1].h = sel->frame[1]->h; //height of sprite image
+
+  menu_gfxdest[1].x = menu_button[1].x + 6; // inset graphic by (6, 4) */
+  menu_gfxdest[1].y = menu_button[1].y + 4;
+  menu_gfxdest[1].w = 40;      // maybe should be MENU_SPRITE_WIDTH?
+  menu_gfxdest[1].h = 50;      //   "      "    " MENU_SPRITE_HEIGHT?
+
+  text_dst[1].y = menu_button[1].y+15;
+
+  /* FIXME each menu item drawn hardcoded 60 pixels below last - */
+  /* perhaps increment should be "menu_button[j-1].h + MENU_ITEM_GAP" */
+  for (j=2; j<6; j++) 
+  {
+    /* --- setup vertical location of button text --- */
+    text_dst[j].y = text_dst[j-1].y + 60;
+
+    /* --- setup location of button background --- */
+    menu_button[j].x = menu_button[j-1].x;
+    menu_button[j].y = menu_button[j-1].y + 60;
+    menu_button[j].w = menu_button[j-1].w;
+    menu_button[j].h = menu_button[j-1].h;
+
+    /* --- setup location of animated icon --- */
+    menu_gfxdest[j].x = menu_gfxdest[j-1].x;
+    menu_gfxdest[j].y = menu_gfxdest[j-1].y + 60;
+    menu_gfxdest[j].w = menu_gfxdest[j-1].w;
+    menu_gfxdest[j].h = menu_gfxdest[j-1].h;
+  }
+}
+
+
+void draw_button( int id, sprite *s )
+{
+  SDL_Rect button;
+
+  button.x = menu_button[id].x;
+  button.y = menu_button[id].y;
+  button.w = s->frame[0]->w;
+  button.h = s->frame[0]->h;
+
+  SDL_BlitSurface(s->frame[0], NULL, screen, &button);
+  button.w = s->frame[1]->w;
+
+  for (button.x += s->frame[0]->w;
+       button.x < (menu_button[id].x + menu_width[menu_depth]);
+       button.x += s->frame[1]->w)
+
+  { 
+     SDL_BlitSurface(s->frame[1], NULL, screen, &button);
+  }
+
+  button.w = s->frame[2]->w;
+  SDL_BlitSurface(s->frame[2], NULL, screen, &button);
+}
+
+
+
+
+void TitleScreen_unload_menu(void)
+{
+  int i,j;
+
+  for (i = 1; i <= TITLE_MENU_ITEMS; i++)
+  {
+    for (j = 1; j <= TITLE_MENU_DEPTH; j++)
+    {
+      SDL_FreeSurface(reg_text[i][j]);
+      SDL_FreeSurface(sel_text[i][j]);
+      FreeSprite(menu_gfx[i][j]);
+    }
+  }
+}
+
+
+
+
+
+
+
+void TitleScreen_unload_media( void ) {
+
+	/* --- unload sounds --- */
+
+	if (menu_sound){
+	    Mix_FreeChunk(snd_move);
+	    Mix_FreeChunk(snd_select);
+	}
+
+	/* --- unload graphics --- */
+
+	SDL_FreeSurface(titlepic);
+	SDL_FreeSurface(speaker);
+	SDL_FreeSurface(speakeroff);
+	SDL_FreeSurface(bkg);
+
+	FreeSprite(sel);
+	FreeSprite(reg);
+
+	FreeSprite(Tux);
+
+	TTF_CloseFont(font);
+	TitleScreen_unload_menu();
+}
+
+void NotImplemented(void) {
+	SDL_Surface *s1, *s2, *s3, *s4;
+	sprite *tux;
+	SDL_Rect loc;
+	int finished=0,i;
+
+        LOG( "NotImplemented() - creating text\n" );
+
+	s1 = black_outline( _("Work In Progress!"), font, &white);
+	s2 = black_outline( _("This feature is not ready yet"), font, &white);
+	s3 = black_outline( _("Discuss the future of TuxTyping at"), font, &white);
+
+	/* we always want the URL in english */
+	if (!useEnglish) {
+		TTF_Font *english_font;
+		useEnglish = 1;
+		english_font = LoadFont( menu_font, menu_font_size );
+		s4 = black_outline( "http://tuxtype.sf.net/forums", english_font, &white);
+		TTF_CloseFont(english_font);
+		useEnglish = 0;
+	} else 
+		s4 = black_outline( "http://tuxtype.sf.net/forums", font, &white);
+
+        LOG( "NotImplemented() - drawing screen\n" );
+
+	SDL_BlitSurface( bkg, NULL, screen, NULL );
+	loc.x = 320-(s1->w/2); loc.y = 10;
+	SDL_BlitSurface( s1, NULL, screen, &loc);
+	loc.x = 320-(s2->w/2); loc.y = 60;
+	SDL_BlitSurface( s2, NULL, screen, &loc);
+	loc.x = 320-(s3->w/2); loc.y = 400;
+	SDL_BlitSurface( s3, NULL, screen, &loc);
+	loc.x = 320-(s4->w/2); loc.y = 440;
+	SDL_BlitSurface( s4, NULL, screen, &loc);
+
+	tux = LoadSprite("tux/tux-egypt", IMG_ALPHA);
+
+	loc.x = 320-(tux->frame[0]->w/2);
+	loc.y = 200;
+	loc.w = tux->frame[0]->w;
+	loc.h = tux->frame[0]->h;
+	SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
+
+	SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+	i=0;
+	while (!finished) {
+		while (SDL_PollEvent(&event)) 
+			switch (event.type) {
+				case SDL_QUIT:
+					exit(0);
+				case SDL_MOUSEBUTTONDOWN:
+				case SDL_KEYDOWN:
+					finished=1;
+			}
+		i++;
+		if (i%5==0) {
+			next_frame(tux);
+			SDL_BlitSurface( bkg, &loc, screen, &loc);
+			SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
+			SDL_UpdateRect(screen, loc.x, loc.y, loc.w, loc.h);
+		}
+
+			
+		SDL_Delay(40);
+	}
+
+	SDL_FreeSurface(s1);
+	SDL_FreeSurface(s2);
+	SDL_FreeSurface(s3);
+	SDL_FreeSurface(s4);
+	FreeSprite(tux);
+}
+
 
 #define MAX_WORD_LISTS 100
 
-/* returns 0 if user pressed escape ...
+/* returns 0 if user pressed escape (or if dir not found)
  *         1 if word list was set correctly
  */
 int chooseWordlist( void ) {
@@ -1110,7 +1268,8 @@ int chooseWordlist( void ) {
 
 	if (i==2) {
 		fprintf(stderr, "ERROR: Unable to find wordlist directory\n");
-		exit(1);
+		return 0;
+//		exit(1);  // FIXME if exiting, need to restore screen resolution, cleanup heap, etc.
 	}
 
 	DEBUGCODE { fprintf(stderr, "wordPath is: %s\n", wordPath); }
@@ -1295,49 +1454,6 @@ int chooseWordlist( void ) {
 
 
 
-void switch_screen_mode(void)
-{
-  SDL_Surface *tmp;
-  SDL_Rect src, dst;
-  int window=0;
-  src.x = 0; src.y = 0;
-  src.w = RES_X; src.h = RES_Y;
-  dst.x = 0; dst.y = 0;
-
-  tmp = SDL_CreateRGBSurface(
-      SDL_SWSURFACE,
-      RES_X,
-      RES_Y,
-      BPP,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-      0xff000000,
-      0x00ff0000,
-      0x0000ff00,
-      0x000000ff
-#else
-      0x000000ff,
-      0x0000ff00,
-      0x00ff0000,
-      0xff000000
-#endif
-      );
-  if (screen->flags & SDL_FULLSCREEN)
-	window=1;
-  SDL_BlitSurface(screen,&src,tmp,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
-  SDL_FreeSurface(screen);
-  screen = NULL;
-
-  if ( window ){
-	screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE);
-  } else {
-	screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
-  }
-  SDL_BlitSurface(tmp,&src,screen,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
-  SDL_FreeSurface(tmp);
-
-}
 
 
 // Was in playgame.c in tuxtype:
@@ -1358,27 +1474,41 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
     SDL_Rect src;
     SDL_Rect dst;
 
-    LOG("->TransWipe(): START\n");
+    if (!screen)
+    {
+      LOG("TransWipe(): screen not valid!\n");
+      return;
+    }
+
+    if (!newbkg)
+    {
+      LOG("TransWipe(): newbkg not valid!\n");
+      return;
+    }
 
     numupdates = 0;
     frame = 0;
 
     if(newbkg->w == screen->w && newbkg->h == screen->h) {
         if( type == RANDOM_WIPE )
-            type = (RANDOM_WIPE* ((float) rand()) / (RAND_MAX+1.0));
+            type = (RANDOM_WIPE * ((float) rand()) / (RAND_MAX+1.0));
 
         switch( type ) {
             case WIPE_BLINDS_VERT: {
+
                 LOG("--+ Doing 'WIPE_BLINDS_VERT'\n");
+
                 /* var1 is num of divisions
                    var2 is how many frames animation should take */
                 if( var1 < 1 ) var1 = 1;
                 if( var2 < 1 ) var2 = 1;
-                step1 = screen->w / var1;
+                step1 = screen->w / var1; 
                 step2 = step1 / var2;
 
-                for(i = 0; i <= var2; i++) {
-                    for(j = 0; j <= var1; j++) {
+                for(i = 0; i <= var2; i++) 
+                {
+                    for(j = 0; j <= var1; j++)
+                    {
                         x1 = step1 * (j - 0.5) - i * step2 + 1;
                         x2 = step1 * (j - 0.5) + i * step2 + 1;
                         src.x = x1;
@@ -1389,8 +1519,10 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
                         dst.y = 0;
                         dst.w = step2;
                         dst.h = screen->h;
+
                         SDL_BlitSurface(newbkg, &src, screen, &src);
                         SDL_BlitSurface(newbkg, &dst, screen, &dst);
+
                         AddRect(&src, &src);
                         AddRect(&dst, &dst);
                     }
@@ -1426,8 +1558,10 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
                         dst.y = y2;
                         dst.w = screen->w;
                         dst.h = step2;
+
                         SDL_BlitSurface(newbkg, &src, screen, &src);
                         SDL_BlitSurface(newbkg, &dst, screen, &dst);
+
                         AddRect(&src, &src);
                         AddRect(&dst, &dst);
                     }
@@ -1465,8 +1599,10 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
                         dst.y = 0;
                         dst.w = step2;
                         dst.h = screen->h;
+
                         SDL_BlitSurface(newbkg, &src, screen, &src);
                         SDL_BlitSurface(newbkg, &dst, screen, &dst);
+
                         AddRect(&src, &src);
                         AddRect(&dst, &dst);
                         y1 = step3 * (j - 0.5) - i * step4 + 1;
@@ -1499,6 +1635,7 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
                 break;
         }
     }
+    LOG("->TransWipe(): FINISH\n");
 }
 
 /************************
@@ -1537,7 +1674,14 @@ AddRect : Dont actually blit a surface,
 *******************************/
 void AddRect(SDL_Rect * src, SDL_Rect * dst) {
     /*borrowed from SL's alien (and modified)*/
+
     struct blit    *update;
+
+    if (!src || !dst)
+    {
+      LOG("AddRect(): src or dst invalid!\n");
+      return;
+    }
 
     update = &blits[numupdates++];
 
@@ -1550,4 +1694,18 @@ void AddRect(SDL_Rect * src, SDL_Rect * dst) {
     update->dstrect->w = dst->w;
     update->dstrect->h = dst->h;
     update->type = 'I';
+}
+
+/***********************
+ InitEngine
+ ***********************/
+void InitEngine(void) {
+    int i;
+
+    /* --- Set up the update rectangle pointers --- */
+	
+    for (i = 0; i < MAX_UPDATES; ++i) {
+        blits[i].srcrect = &srcupdate[i];
+        blits[i].dstrect = &dstupdate[i];
+    }
 }

@@ -158,6 +158,9 @@ SDL_Surface *flip( SDL_Surface *in, int x, int y ) {
 	return out;
 }
 
+
+/* FIXME: I think we need to provide a single default font with the program data, */
+/* then more flexible code to try to locate or load system fonts. DSB             */
 TTF_Font *LoadFont( char *fontfile, int fontsize ) {
 	TTF_Font *loadedFont;
 	char fn[FNLEN];
@@ -216,79 +219,109 @@ TTF_Font *LoadFont( char *fontfile, int fontsize ) {
 /***********************
 	LoadImage : Load an image and set transparent if requested
 ************************/
-SDL_Surface *LoadImage( char *datafile, int mode )
+SDL_Surface* LoadImage( char *datafile, int mode )
 {
-	int i;
-	SDL_Surface  *tmp_pic = NULL, *final_pic = NULL;
-	char         fn[FNLEN];
+  int i;
+  SDL_Surface* tmp_pic = NULL;
+  SDL_Surface* final_pic = NULL;
 
-	DEBUGCODE { fprintf(stderr, "LoadImage: loading %s\n", datafile ); }
+  char fn[FNLEN];
 
-	/* truth table for start of loop, since we only use theme on those conditions!
+  DEBUGCODE { fprintf(stderr, "LoadImage: loading %s\n", datafile ); }
+
+  /* truth table for start of loop, since we only use theme on those conditions!
               useEng    IMG_NO_THEME    i
                  0           0          0
                  0           1          1
                  1           0          1
                  1           1          1
-	 */
+  */
 
-	for (i = (useEnglish || (mode & IMG_NO_THEME)); i<2; i++) {
+  /* This is really confusing, but basically we look first in the theme directory */
+  /* (i.e. realPath[0]) if we are using a theme, and then go to the default       */
+  /* directory (realPath[1]) if we can't find the image or if we are not using    */
+  /* a theme.                                                                     */
+  for (i = (useEnglish || (mode & IMG_NO_THEME)); i<2; i++)
+  {
+    sprintf( fn, "%s/images/%s", realPath[i], datafile );
 
-		sprintf( fn, "%s/images/%s", realPath[i], datafile );
-		DEBUGCODE { fprintf(stderr, "LoadImage: looking in %s\n", fn); }
+    DEBUGCODE { fprintf(stderr, "LoadImage: looking in %s\n", fn); }
 
-		if ( checkFile( fn ) ) {
-			LOG ("file found\n");
-			tmp_pic = IMG_Load( fn );
-			if (tmp_pic != NULL)
-				break; 
-			else
-				fprintf(stderr, "Warning: graphics file %s is corrupt\n", fn);
-		}
-		else LOG ("file NOT found\n");
-	}
+    if (checkFile(fn))
+    {
+      LOG ("file found\n");
+      /* Try to load it with SDL_image: */
+      tmp_pic = IMG_Load(fn);
 
-	if (tmp_pic == NULL) {
-		if (mode & IMG_NOT_REQUIRED) 
-			return NULL;
+      if (tmp_pic != NULL) /* image loaded successfully */
+      {
+        break; 
+      }
+      else
+      {
+        fprintf(stderr, "Warning: graphics file %s is corrupt\n", fn);
+      }
+    }
+    else LOG ("file NOT found\n");
+  }
 
-		fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
-		exit(1);
-	}
+  if (NULL == tmp_pic) /* Could not load image from either path: */
+  {
+    if (mode & IMG_NOT_REQUIRED)
+    { 
+      return NULL;  /* Allow program to continue */
+    }
+    /* If image was required, exit from program: */
+    /* FIXME may need to do some cleanup before exiting - free heap, restore screen res, etc */
+    fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
+    exit(1);
+  }
 
-	/* finally setup the image to the proper format */
 
-	switch (mode & IMG_MODES) {
+  /* finally setup the image to the proper format */
+  switch (mode & IMG_MODES)
+  {
+    case IMG_REGULAR:
+    { 
+      LOG("mode = IMG_REGULAR\n");
 
-		case IMG_REGULAR: { 
-			final_pic = SDL_DisplayFormat(tmp_pic);
-			SDL_FreeSurface(tmp_pic);
-			break;
-		}
+      final_pic = SDL_DisplayFormat(tmp_pic);
+      SDL_FreeSurface(tmp_pic);
+      break;
+    }
 
-		case IMG_ALPHA: {
-			final_pic = SDL_DisplayFormatAlpha(tmp_pic);
-			SDL_FreeSurface(tmp_pic);
-			break;
-		}
+    case IMG_ALPHA:
+    {
+      LOG("mode = IMG_ALPHA\n");
 
-		case IMG_COLORKEY: {
-			SDL_LockSurface(tmp_pic);
-			SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL), SDL_MapRGB(tmp_pic->format, 255, 255, 0));
-			final_pic = SDL_DisplayFormat(tmp_pic);
-			SDL_FreeSurface(tmp_pic);
-			break;
-		}
+      final_pic = SDL_DisplayFormatAlpha(tmp_pic);
+      SDL_FreeSurface(tmp_pic);
+      break;
+    }
 
-		default: {
-			LOG ("Image mode not recognized\n");
-		}
-	}
+    case IMG_COLORKEY:
+    {
+      LOG("mode = IMG_COLORKEY\n");
 
-	LOG( "LOADIMAGE: Done\n" );
+      SDL_LockSurface(tmp_pic);
+      SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL), SDL_MapRGB(tmp_pic->format, 255, 255, 0));
+      final_pic = SDL_DisplayFormat(tmp_pic);
+      SDL_FreeSurface(tmp_pic);
+      break;
+    }
 
-	return (final_pic);
+    default:
+    {
+      LOG ("Image mode not recognized\n");
+      SDL_FreeSurface(tmp_pic);
+    }
+  }
+
+  LOG("Leaving LoadImage()\n");
+  return final_pic;
 }
+
+
 
 sprite* FlipSprite( sprite *in, int X, int Y ) {
 	sprite *out;
@@ -304,6 +337,8 @@ sprite* FlipSprite( sprite *in, int X, int Y ) {
 	return out;
 }
 
+
+
 sprite* LoadSprite( char* name, int MODE ) {
 	sprite *new_sprite;
 	char fn[FNLEN];
@@ -313,7 +348,7 @@ sprite* LoadSprite( char* name, int MODE ) {
 
 	new_sprite = malloc(sizeof(sprite));
 
-	sprintf(fn, "%sd.png", name);
+	sprintf(fn, "%sd.png", name);  // The 'd' means the default image
 	new_sprite->default_img = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
 	for (x = 0; x < MAX_SPRITE_FRAMES; x++) {
 		sprintf(fn, "%s%d.png", name, x);
@@ -333,6 +368,8 @@ sprite* LoadSprite( char* name, int MODE ) {
 	return new_sprite;
 }
 
+
+
 void FreeSprite( sprite *gfx ) {
 	int x;
 	for (x = 0; x < gfx->num_frames; x++)
@@ -341,27 +378,32 @@ void FreeSprite( sprite *gfx ) {
 	free(gfx);
 }
 
+
+
 /***************************
 	LoadSound : Load a sound/music patch from a file.
 ****************************/
-Mix_Chunk      *LoadSound( char *datafile )
+Mix_Chunk* LoadSound( char *datafile )
 { 
-	Mix_Chunk *tempChunk=NULL;
-	char fn[FNLEN];
-	int i;
+  Mix_Chunk* tempChunk = NULL;
+  char fn[FNLEN];
+  int i;
 
-	for (i = useEnglish; i<2; i++) {
-		sprintf(fn , "%s/sounds/%s", realPath[i], datafile);
-		if ( checkFile(fn) ) {
-			tempChunk = Mix_LoadWAV(fn);
-			if (tempChunk)
-				return tempChunk;
-		}
-	}
+  for (i = useEnglish; i<2; i++)
+  {
+    sprintf(fn , "%s/sounds/%s", realPath[i], datafile);
+    if (checkFile(fn))
+    {
+      tempChunk = Mix_LoadWAV(fn);
+      if (tempChunk)
+      {
+        return tempChunk;
+      }
+    }
+  }
 
-	/* didn't find anything... fail peacefully */
-
-	return NULL;
+  /* didn't find anything... fail peacefully */
+  return NULL;
 }
 
 /************************
