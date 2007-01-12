@@ -1,5 +1,21 @@
 changelog for "tuxmath"
 
+2007.Jan.12 (https://svn.tux4kids.net/tuxmath/ - revision 67)
+  Options:
+    * Overhaul of menu system well underway, suitable for
+      alpha/developer preview status.  New menus prominently
+      feature a series of prepared "lessons" to be completed,
+      as well as arcade-style settings of varying difficulty
+      that will ultimately be used to compete for high scores.
+      New menus are basically functional but far from complete.
+  Graphics:
+    * Several very nice space-themed backgrounds adapted from
+      "cosmos" backgrounds directory in Gnome, which I believe
+      should be OK from licensing standpoint.
+  Code:
+    * Bugfix - question_copies parameter now handled correctly
+      in read_config_file.
+
 2006.Dec.07 (https://svn.tux4kids.net/tuxmath/ - revision 65)
   Options:
     * Several files brought in from tuxtype as part of overhaul
