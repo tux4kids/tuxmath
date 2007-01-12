@@ -65,7 +65,7 @@ void handle_command_args(int argc, char* argv[]);
 void initialize_SDL(void);
 void load_data_files(void);
 
-int initialize_game_options(void);
+//int initialize_game_options(void);
 void seticon(void);
 void usage(int err, char * cmd);
 
@@ -525,11 +525,13 @@ void cleanup(void)
 void cleanup_on_error(void)
 {
   cleanup_memory();
+  exit(1);
 }
 
 
 
 /* free any heap memory used during game DSB */
+/* and also quit SDL properly:               */
 void cleanup_memory(void)
 {
   TTF_Quit();

@@ -48,7 +48,7 @@ Section
   File "mingw32\${APP_EXE}"
   File "mingw32\*.dll"
   SetOutPath $INSTDIR\data
-  File /r "data\*.*"
+  File /r "mingw32\data\*.*"
   SetOutPath $INSTDIR\docs
   File "docs\COPYING.txt"
 

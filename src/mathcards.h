@@ -49,6 +49,8 @@ typedef struct MC_Options {
   int max_questions;
   int question_copies;         /* how many times each question is put in list */
   int randomize;               /* whether to shuffle cards */
+  float fraction_to_keep;      /* Can use to have list contain a random subset */
+                               /* of the questions meeting selection criteria. */
 
   /*  math question formats:   NOTE - list can contain more than one format*/
   /* operation-specific question formats:  */
@@ -105,6 +107,7 @@ typedef struct MC_Options {
 #define DEFAULT_MAX_QUESTIONS 5000
 #define DEFAULT_QUESTION_COPIES 1         /* how many times each question is put in list */
 #define DEFAULT_RANDOMIZE 1               /* whether to shuffle cards */
+#define DEFAULT_FRACTION_TO_KEEP 1
 
 #define DEFAULT_FORMAT_ANSWER_LAST 1      /* question format is: a + b = ? */
 #define DEFAULT_FORMAT_ANSWER_FIRST 0     /* question format is: ? + b = c */
@@ -266,6 +269,7 @@ void MC_SetMaxAnswer(int max);
 void MC_SetMaxQuestions(int max); 
 void MC_SetAllowNegatives(int opt);
 void MC_SetRandomize(int opt);           
+void MC_SetFractionToKeep(float fract);
 
 /* Set question formats for all operations:     */
 /* NOTE - list can contain more than one format */
@@ -337,7 +341,7 @@ int MC_MaxQuestions(void);
 int MC_AllowNegatives(void);
 int MC_QuestionCopies(void);         /* how many times each question is put in list */
 int MC_Randomize(void);         
-
+float MC_FractionToKeep(void);
 
 int MC_FormatAddAnswerLast(void);      /* a + b = ?   */ 
 int MC_FormatAddAnswerFirst(void);     /* ? + b = c   */

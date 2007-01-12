@@ -228,8 +228,11 @@ int read_user_config_file(void)
 /* Looks for matching file in various locations:        */
 /*   1. Current working directory                       */
 /*   2. As an absolute path filename                    */
-/*   3. In tuxmath's missions (i.e. lessons) directory. */
-/*   4. In user's own .tuxmath directory                */
+/*   3. In tuxmath's missions directory.                */
+/*   4. In missions/lessons directory.                  */
+/*   5. In missions/arcade directory.                   */
+/*   6. In user's own .tuxmath directory                */
+/* FIXME redudant code - figure out way to iterate through above */
 int read_named_config_file(char* filename)
 {
   FILE* fp;
@@ -313,9 +316,9 @@ int read_named_config_file(char* filename)
   }
 
 
-  /* Next look in missions folder (for prepared "lessons curriculum"):      */
+  /* Next look in missions folder:      */
   strcpy(opt_path, DATA_PREFIX);
-  strcat(opt_path, "missions/");
+  strcat(opt_path, "/missions/");
   strcat(opt_path, filename);
 
   #ifdef TUXMATH_DEBUG
@@ -342,6 +345,63 @@ int read_named_config_file(char* filename)
     }
   }  
 
+  /* Next look in missions/lessons folder (for prepared "lessons curriculum"):      */
+  strcpy(opt_path, DATA_PREFIX);
+  strcat(opt_path, "/missions/lessons/");
+  strcat(opt_path, filename);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn read_named_config_file() checking for %s (missions/lessons)\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "r");
+  if (fp) /* file exists */
+  {
+    #ifdef TUXMATH_DEBUG
+    printf("\nFound %s\n", opt_path);
+    #endif
+
+    if (read_config_file(fp, USER_CONFIG_FILE))
+    {
+      fclose(fp);
+      fp = NULL;
+      return 1;
+    }
+    else /* keep trying to match filename elsewhere */
+    {
+      fclose(fp);
+      fp = NULL;
+    }
+  }  
+
+  /* Next look in missions/arcade folder (for high score competition):      */
+  strcpy(opt_path, DATA_PREFIX);
+  strcat(opt_path, "/missions/arcade/");
+  strcat(opt_path, filename);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn read_named_config_file() checking for %s (missions/arcade)\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "r");
+  if (fp) /* file exists */
+  {
+    #ifdef TUXMATH_DEBUG
+    printf("\nFound %s\n", opt_path);
+    #endif
+
+    if (read_config_file(fp, USER_CONFIG_FILE))
+    {
+      fclose(fp);
+      fp = NULL;
+      return 1;
+    }
+    else /* keep trying to match filename elsewhere */
+    {
+      fclose(fp);
+      fp = NULL;
+    }
+  }  
 
   /* Look in user's hidden .tuxmath directory  */
   /* find $HOME and tack on file name: */
@@ -708,9 +768,7 @@ int read_config_file(FILE *fp, int file_type)
 
     else if(0 == strcasecmp(parameter, "question_copies"))
     {
-      int v = str_to_bool(value);
-      if (v != -1)
-        MC_SetQuestionCopies(v);
+        MC_SetQuestionCopies(atoi(value));
     }
 
     else if(0 == strcasecmp(parameter, "randomize"))

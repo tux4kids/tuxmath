@@ -5,6 +5,10 @@
     begin                : Jan 6 2003
     copyright            : (C) 2003 by Jesse Andrews et al
     email                : jdandr2@tux4kids.net
+ 
+    Modified for use in tuxmath by David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net>
  ***************************************************************************/
 
 /***************************************************************************

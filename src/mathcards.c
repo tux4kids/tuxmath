@@ -57,6 +57,7 @@ static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
 static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
+static int randomly_keep(void);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
 static void print_node(FILE* fp, MC_MathQuestion* ptr);
@@ -119,6 +120,7 @@ int MC_Initialize(void)
   math_opts->max_questions = DEFAULT_MAX_QUESTIONS;
   math_opts->question_copies = DEFAULT_QUESTION_COPIES;
   math_opts->randomize = DEFAULT_RANDOMIZE;
+  math_opts->fraction_to_keep = DEFAULT_FRACTION_TO_KEEP;
   /* set question formats:  */
   math_opts->format_add_answer_last = DEFAULT_FORMAT_ADD_ANSWER_LAST; 
   math_opts->format_add_answer_first = DEFAULT_FORMAT_ADD_ANSWER_FIRST;
@@ -877,6 +879,16 @@ void MC_SetRandomize(int opt)
   }
   math_opts->randomize = int_to_bool(opt);
 } 
+
+void MC_SetFractionToKeep(float fract)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetRandomize(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->fraction_to_keep = fract;
+}
 
 
 /* Set math operations to be used in game: */
@@ -1957,8 +1969,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 + num2 = ? */
             if (math_opts->format_add_answer_last)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -1970,8 +1984,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 + ? = num3 */
             if (math_opts->format_add_answer_middle)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_MIDDLE);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -1983,8 +1999,11 @@ MC_MathQuestion* generate_list(void)
             /* questions like ? + num2 = num3 */
             if (math_opts->format_add_answer_first)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
+
               {
                 tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_FIRST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2016,8 +2035,11 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 - num2 = ? */
             if (math_opts->format_sub_answer_last)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
+
               {
                 tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_LAST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2029,8 +2051,11 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 - ? = num3 */
             if (math_opts->format_sub_answer_middle)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
+
               {
                 tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_MIDDLE);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2042,8 +2067,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like ? - num2 = num3 */
             if (math_opts->format_sub_answer_first)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_FIRST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2075,8 +2102,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 x num2 = ? */
             if (math_opts->format_mult_answer_last)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2090,8 +2119,10 @@ MC_MathQuestion* generate_list(void)
             if ((math_opts->format_mult_answer_middle)
              && (i != 0)) 
             {
-                 /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_MIDDLE);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2105,8 +2136,10 @@ MC_MathQuestion* generate_list(void)
             if ((math_opts->format_mult_answer_first)
              && (j != 0))
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_FIRST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2140,8 +2173,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like num1 / num2 = ? */
             if (math_opts->format_div_answer_last)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2154,8 +2189,10 @@ MC_MathQuestion* generate_list(void)
             if ((math_opts->format_div_answer_middle)
                && (i))      /* This avoids creating indeterminate questions: 0/? = 0 */
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_MIDDLE);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2167,8 +2204,10 @@ MC_MathQuestion* generate_list(void)
             /* questions like ? / num2  = num3 */
             if (math_opts->format_div_answer_first)
             {
-              /* make sure max_questions not exceeded */
-              if (length < math_opts->max_questions)
+              /* make sure max_questions not exceeded, */
+              /* also check if question being randomly kept or discarded: */
+              if ((length < math_opts->max_questions)
+                 && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_FIRST);
                 top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
@@ -2698,4 +2737,26 @@ int abs_value(int i)
     return i;
   else
     return -i;
+}
+
+
+/* Returns true at probability set by math_opts->fraction_to_keep */
+int randomly_keep(void)
+{
+  double random;
+
+  if (!math_opts)
+    return 0;
+
+  /* Skip random number generation if keeping all (default) */
+  if (1 == math_opts->fraction_to_keep)
+    return 1;
+
+  /* Hopefully this function is sufficiently portable: */
+  random = drand48();
+
+  if (random < math_opts->fraction_to_keep)
+    return 1;
+  else
+    return 0;
 }

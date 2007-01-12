@@ -5,6 +5,10 @@ gettext.c
 begin                : Sunday Feb 23, 2003
 copyright            : (C) 2003 by Jesse Andrews
 email                : jdandr2@uky.edu
+
+    Modified for use in tuxmath by David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net>
 ***************************************************************************/
 
 /***************************************************************************

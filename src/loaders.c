@@ -6,6 +6,10 @@
     copyright            : (C) 2000 by Sam Hart
                          : (C) 2003 by Jesse Andrews
     email                : tuxtype-dev@tux4kids.net
+
+    Modified for use in tuxmath by David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net>
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,6 +25,7 @@
 //#include "funcs.h"
 
 #include "titlescreen.h"
+#include "setup.h"  // for cleanup_on_error()
 
 /* check to see if file exists, if so return true */
 int checkFile( const char *file ) {
@@ -274,7 +279,8 @@ SDL_Surface* LoadImage( char *datafile, int mode )
     /* If image was required, exit from program: */
     /* FIXME may need to do some cleanup before exiting - free heap, restore screen res, etc */
     fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
-    exit(1);
+    cleanup_on_error();
+//    exit(1);
   }
 
 
@@ -364,7 +370,7 @@ sprite* LoadSprite( char* name, int MODE ) {
 		fprintf( stderr, "loading sprite %s - contains %d frames\n",
 		        name, new_sprite->num_frames );
 	}
-
+	
 	return new_sprite;
 }
 

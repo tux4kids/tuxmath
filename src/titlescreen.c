@@ -6,6 +6,10 @@
     copyright            : (C) 2000 by Sam Hart
                          : (C) 2003 by Jesse Andrews
     email                : tuxtype-dev@tux4kids.net
+
+    Modified for use in tuxmath by David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net>
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,7 +27,10 @@
 
 // tuxmath includes:
 #include "options.h"
-
+#include "fileops.h"
+#include "game.h"
+#include "mathcards.h"
+#include "setup.h"     //for cleanup()
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -55,29 +62,29 @@ SDL_Surface*  bkg;
 
 /* --- define menu structure --- */
 /* (these values are all in the Game_Type enum in globals.h) */
-const int menu_item[][6]= {{0, 0,         0,         0,       0           },
-			   {0, CASCADE,   LEVEL1,    LEVEL1,  NOT_CODED   },
-			   {0, LASER,     LEVEL2,    LEVEL2,  FREETYPE    },
-			   {0, LESSONS,   LEVEL3,    LEVEL3,  PROJECT_INFO},
-			   {0, OPTIONS,   INSTRUCT,  LEVEL4,  SET_LANGUAGE},
-			   {0, QUIT_GAME, MAIN,      MAIN,    MAIN        }};
+const int menu_item[][6]= {{0, 0,         0,         0,        0           },
+			   {0, LESSONS,      LEVEL1,    LEVEL1,   NOT_CODED   },
+			   {0, ARCADE,       LEVEL2,    LEVEL2,   FREETYPE    },
+			   {0, OPTIONS,      LEVEL3,    LEVEL3,   PROJECT_INFO},
+			   {0, MORE_OPTIONS, LEVEL4,    LEVEL4,   SET_LANGUAGE},
+			   {0, QUIT_GAME,    MAIN,      MAIN,     MAIN        }};
 
 /* --- menu text --- */
 const unsigned char *menu_text[][6]= 
-/*    Main Menu                Options Menu                    Math Options                        Game Options                   */
-{{"", "",                      "",                             "",                                 ""                              },
- {"", gettext_noop("Play"),    gettext_noop("Math Options"),   gettext_noop("Addition"),           gettext_noop("Speed")           },
- {"", gettext_noop("Options"), gettext_noop("Game Options"),   gettext_noop("Subtraction"),        gettext_noop("Sound")           },
- {"", gettext_noop("Help"),    gettext_noop("Lessons"),        gettext_noop("Multiplication"),     gettext_noop("Graphics")        },
- {"", gettext_noop("Credits"), gettext_noop("Setup Language"), gettext_noop("Division"),           gettext_noop("Advanced Options")},
- {"", gettext_noop("Quit"),    gettext_noop("Main Menu"),      gettext_noop("Main Menu"),          gettext_noop("Main Menu")      }};
+/*    Main Menu                                       'Arcade' Games                    Math Options                     Game Options            */
+{{"", "",                                             "",                             "",                              ""                       },
+ {"", gettext_noop("Math Command Training Academy"),  gettext_noop("Space Cadet"), gettext_noop("Addition"),       gettext_noop("Speed")    },
+ {"", gettext_noop("Play Arcade Game"),               gettext_noop("Scout"),       gettext_noop("Subtraction"),    gettext_noop("Sound")    },
+ {"", gettext_noop("Play Custom Game"),               gettext_noop("Ranger"),      gettext_noop("Multiplication"), gettext_noop("Graphics") },
+ {"", gettext_noop("More Options"),                   gettext_noop("Ace"),         gettext_noop("Division"),       gettext_noop("Advanced Options")},
+ {"", gettext_noop("Quit"),                           gettext_noop("Main Menu"),   gettext_noop("Main Menu"),      gettext_noop("Main Menu") }};
 
 
 /* These are the filenames of the images used in the animated menu icons: */
 /* --- menu icons --- */
 const unsigned char *menu_icon[][6]= 
 {{"", "",        "",       "",        ""        },
- {"", "cascade", "easy",   "grade1_", "list"    },
+ {"", "lesson", "easy",   "grade1_", "list"    },
  {"", "comet",   "medium", "grade2_", "practice"},
  {"", "lesson",  "hard",   "grade3_", "keyboard"},
  {"", "option",  "tutor",  "grade4_", "lang"    },
@@ -121,7 +128,7 @@ SDL_Rect menu_button[TITLE_MENU_ITEMS + 1];  // size of "button"
 
 
 /* Local function prototypes: */
-int chooseWordlist(void);
+//int chooseWordlist(void);
 void draw_button(int id, sprite* s);
 void TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
@@ -415,7 +422,7 @@ void TitleScreen(void)
 
 
             /* Toggle screen mode: */
-            case SDLK_F10: /* NOTE Cool! - should add this to TuxMath*/
+            case SDLK_F10: 
             {
               switch_screen_mode();
               redraw = 1;
@@ -473,12 +480,17 @@ void TitleScreen(void)
               break;
             }
 
-
+	    case SDLK_KP_ENTER:
+            case SDLK_SPACE:
             case SDLK_RETURN:
             {
               if (key_menu)
               {
+                DOUT(key_menu);
+		DOUT(menu_depth);
                 menu_opt = menu_item[key_menu][menu_depth];
+                DOUT(menu_opt);
+
                 if (menu_sound)
                   tuxtype_playsound(snd_select);
               }
@@ -516,11 +528,214 @@ void TitleScreen(void)
 
     /* --- do menu processing --- */
 
+    if (menu_opt == LESSONS)
+    {
+//      NotImplemented();
+//      redraw = 1;
+
+
+
+      if (choose_config_file()) 
+      {
+        TitleScreen_unload_media();
+
+        /* play game with chosen file */
+
+//         switch (sub_menu)
+//         {
+//           case CASCADE: PlayCascade( EASY ); break;
+//           case LASER:   laser_game(  EASY ); break;
+//         }
+
+        TitleScreen_load_media();
+
+        if (menu_music)
+          audioMusicLoad( "tuxi.ogg", -1 );
+      }
+
+      redraw = 1;
+
+
+//       SDL_BlitSurface(bkg, NULL, screen, NULL);
+//       SDL_Flip( screen );
+//       TitleScreen_unload_media();
+// 
+//       if (menu_music)
+//       {
+//         audioMusicUnload( );
+//       }
+// //      testLesson();
+// 
+//       TitleScreen_load_media();
+//       redraw = 1;
+// 
+//       if (menu_music)
+//       {
+//         audioMusicLoad( "tuxi.ogg", -1 );
+//       }
+    }
+
+
+    if (menu_opt == ARCADE)
+    {
+//      NotImplemented();
+//      redraw = 1;
+       menu_depth = ARCADE_SUBMENU; /* i.e. 2 */
+       sub_menu = ARCADE;           /* i.e. 1 */
+       update_locs = 1;
+       redraw=1;
+    }
+
+
+    if (menu_opt == HELP)
+    {
+      NotImplemented();
+      redraw = 1;
+//       menu_depth = CASCADE_SUBMENU;
+//       sub_menu = ARCADE;
+//       update_locs = 1;
+//       redraw=1;
+    }
+
+
+    if (menu_opt == OPTIONS)
+    {
+      NotImplemented();
+      redraw = 1;
+
+/*      menu_depth = OPTIONS_SUBMENU;
+      sub_menu = OPTIONS;
+      update_locs = 1;
+      redraw = 1;*/
+    }
+
+    if (menu_opt == MORE_OPTIONS)
+    {
+      NotImplemented();
+      redraw = 1;
+//       menu_depth = OPTIONS_SUBMENU;
+//       sub_menu = OPTIONS;
+//       update_locs = 1;
+//       redraw = 1;
+    }
 
     if (menu_opt == QUIT_GAME)
     {
       done = 1;
     }
+
+
+
+    if (menu_opt == LEVEL1)
+    {
+      LOG("menu_opt == LEVEL1");
+      if (read_named_config_file("arcade/space_cadet"))
+      {
+        if (menu_music)
+        {
+          audioMusicUnload();
+        }
+        game();
+      }
+      else
+      {
+        fprintf(stderr, "\nCould not find arcade space_cadet config file\n");
+      }
+
+      TitleScreen_load_media();
+
+      if (menu_music)
+      {
+        audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      redraw = 1;
+    }
+
+
+    if (menu_opt == LEVEL2)
+    {
+      LOG("menu_opt == LEVEL2");
+      if (read_named_config_file("arcade/scout"))
+      {
+        if (menu_music)
+        {
+          audioMusicUnload();
+        }
+        game();
+      }
+      else
+      {
+        fprintf(stderr, "\nCould not find arcade scout config file\n");
+      }
+
+      TitleScreen_load_media();
+
+      if (menu_music)
+      {
+        audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      redraw = 1;
+    }
+
+
+
+    if (menu_opt == LEVEL3)
+    {
+      LOG("menu_opt == LEVEL3");
+      if (read_named_config_file("arcade/ranger"))
+      {
+        if (menu_music)
+        {
+          audioMusicUnload();
+        }
+        game();
+      }
+      else
+      {
+        fprintf(stderr, "\nCould not find arcade ranger config file\n");
+      }
+
+      TitleScreen_load_media();
+
+      if (menu_music)
+      {
+        audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      redraw = 1;
+    }
+
+
+
+    if (menu_opt == LEVEL4)
+    {
+      LOG("menu_opt == LEVEL4");
+      if (read_named_config_file("arcade/ace"))
+      {
+        if (menu_music)
+        {
+          audioMusicUnload();
+        }
+
+	/* The 'Ace' list is _very_ long, so only use a random 10%  */
+        /* of questions meeting the criteria (and reset afterward): */
+        MC_SetFractionToKeep(0.1);
+        game();
+        MC_SetFractionToKeep(1);
+      }
+      else
+      {
+        fprintf(stderr, "\nCould not find arcade ace config file\n");
+      }
+
+      TitleScreen_load_media();
+
+      if (menu_music)
+      {
+        audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      redraw = 1;
+    }
+
 
 
     if (menu_opt == LASER)
@@ -532,22 +747,9 @@ void TitleScreen(void)
     }
 
 
-    if (menu_opt == CASCADE)
-    {
-      menu_depth = CASCADE_SUBMENU;
-      sub_menu = CASCADE;
-      update_locs = 1;
-      redraw=1;
-    }
 
 
-    if (menu_opt == OPTIONS)
-    {
-      menu_depth = OPTIONS_SUBMENU;
-      sub_menu = OPTIONS;
-      update_locs = 1;
-      redraw = 1;
-    }
+
 
 
     if (menu_opt == MAIN)
@@ -572,26 +774,6 @@ void TitleScreen(void)
     }
 
 
-    if (menu_opt == LESSONS)
-    {
-      SDL_BlitSurface(bkg, NULL, screen, NULL);
-      SDL_Flip( screen );
-      TitleScreen_unload_media();
-
-      if (menu_music)
-      {
-        audioMusicUnload( );
-      }
-//      testLesson();
-
-      TitleScreen_load_media();
-      redraw = 1;
-
-      if (menu_music)
-      {
-        audioMusicLoad( "tuxi.ogg", -1 );
-      }
-    }
 
 
     if (menu_opt == SET_LANGUAGE)
@@ -607,104 +789,6 @@ void TitleScreen(void)
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
-    }
-
-
-    if (menu_opt == LEVEL1)
-    {
-      if (chooseWordlist()) 
-      {
-        TitleScreen_unload_media();
-
-        switch (sub_menu)
-        {
-//          case CASCADE: PlayCascade( EASY ); break;
-//          case LASER:   laser_game(  EASY ); break;
-        }
-
-        TitleScreen_load_media();
-
-        if (menu_music)
-        {
-          audioMusicLoad( "tuxi.ogg", -1 );
-        }
-      }
-
-      redraw = 1;
-    }
-
-
-    if (menu_opt == LEVEL2)
-    {
-      if (chooseWordlist())
-      {
-        TitleScreen_unload_media();
-
-        switch (sub_menu)
-        {
-//          case CASCADE: PlayCascade( MEDIUM ); break;
-//          case LASER:   laser_game(  MEDIUM ); break;
-        }
-
-        TitleScreen_load_media();
-
-        if (menu_music)
-        {
-          audioMusicLoad( "tuxi.ogg", -1 );
-        }
-      }
-
-      redraw = 1;
-    }
-
-
-
-    if (menu_opt == LEVEL3)
-    {
-      if (chooseWordlist())
-      {
-        TitleScreen_unload_media();
-
-        switch (sub_menu)
-        {
-//          case CASCADE: PlayCascade( HARD ); break;
-//          case LASER:   laser_game(  HARD ); break;
-        }
-
-        TitleScreen_load_media();
-
-        if (menu_music)
-        {
-          audioMusicLoad( "tuxi.ogg", -1 );
-        }
-      }
-
-      redraw = 1;
-    }
-
-
-
-    if (menu_opt == LEVEL4)
-    {
-      if (chooseWordlist())
-      {
-        TitleScreen_unload_media();
-
-        switch (sub_menu)
-        {
-//          case CASCADE: PlayCascade( INSANE ); break;
-//          case LASER:   laser_game(  INSANE ); break;
-        }
-
-        TitleScreen_load_media();
-
-        if (menu_music)
-        {
-          audioMusicLoad( "tuxi.ogg", -1 );
-        }
-      }
-
-      redraw = 1;
     }
 
 
@@ -998,7 +1082,7 @@ void TitleScreen_load_media( void )
 
   speaker = LoadImage( "title/sound.png", IMG_ALPHA );
   speakeroff = LoadImage( "title/nosound.png", IMG_ALPHA );
-  bkg = LoadImage( "title/main_bkg.png", IMG_REGULAR );
+  bkg = LoadImage( "title/main_bkg.jpg", IMG_REGULAR );
 
   sel = LoadSprite("menu/sel", IMG_ALPHA);
   reg = LoadSprite("menu/reg", IMG_ALPHA);
@@ -1164,18 +1248,18 @@ void NotImplemented(void) {
 
 	s1 = black_outline( _("Work In Progress!"), font, &white);
 	s2 = black_outline( _("This feature is not ready yet"), font, &white);
-	s3 = black_outline( _("Discuss the future of TuxTyping at"), font, &white);
+	s3 = black_outline( _("Discuss the future of TuxMath at"), font, &white);
 
 	/* we always want the URL in english */
 	if (!useEnglish) {
 		TTF_Font *english_font;
 		useEnglish = 1;
 		english_font = LoadFont( menu_font, menu_font_size );
-		s4 = black_outline( "http://tuxtype.sf.net/forums", english_font, &white);
+		s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
 		TTF_CloseFont(english_font);
 		useEnglish = 0;
 	} else 
-		s4 = black_outline( "http://tuxtype.sf.net/forums", font, &white);
+		s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", font, &white);
 
         LOG( "NotImplemented() - drawing screen\n" );
 
@@ -1189,14 +1273,16 @@ void NotImplemented(void) {
 	loc.x = 320-(s4->w/2); loc.y = 440;
 	SDL_BlitSurface( s4, NULL, screen, &loc);
 
-	tux = LoadSprite("tux/tux-egypt", IMG_ALPHA);
-
-	loc.x = 320-(tux->frame[0]->w/2);
-	loc.y = 200;
-	loc.w = tux->frame[0]->w;
-	loc.h = tux->frame[0]->h;
-	SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
-
+//	tux = LoadSprite("tux/tux-egypt", IMG_ALPHA);
+	tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+	if (tux && tux->num_frames) /* make sure sprite has at least one frame */
+	{
+	  loc.x = 320-(tux->frame[0]->w/2);
+	  loc.y = 200;
+	  loc.w = tux->frame[0]->w;
+	  loc.h = tux->frame[0]->h;
+	  SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
+	}
 	SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 	i=0;
@@ -1210,7 +1296,10 @@ void NotImplemented(void) {
 					finished=1;
 			}
 		i++;
-		if (i%5==0) {
+		if ((i%5==0)
+		 && tux
+		 && tux->num_frames) /* make sure sprite has at least one frame */
+		{
 			next_frame(tux);
 			SDL_BlitSurface( bkg, &loc, screen, &loc);
 			SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
@@ -1229,227 +1318,374 @@ void NotImplemented(void) {
 }
 
 
-#define MAX_WORD_LISTS 100
+
+
+/* choose_config_file() - adapted from chooseWordlist() from tuxtype. */
+/* Display a list of tuxmath config files in the missions directory   */
+/* and allow the player to pick one.                                  */
+/* FIXME the directory search and list generation belongs in fileops.c */
 
 /* returns 0 if user pressed escape (or if dir not found)
- *         1 if word list was set correctly
+ *         1 if config was set correctly
  */
-int chooseWordlist( void ) {
-	SDL_Surface *titles[MAX_WORD_LISTS];
-	SDL_Surface *select[MAX_WORD_LISTS];
-	SDL_Surface *left, *right;
-	SDL_Rect leftRect, rightRect;
-	SDL_Rect titleRects[8];
-	int stop = 0;
-	int loc = 0;
-	int old_loc = 1;
-	int lists = 1;
-	int i;
-	unsigned char wordPath[FNLEN];
-	unsigned char wordlistFile[MAX_WORD_LISTS][200];
-	unsigned char wordlistName[MAX_WORD_LISTS][200];
+int choose_config_file(void)
+{
+  SDL_Surface *titles[MAX_LESSONS];
+  SDL_Surface *select[MAX_LESSONS];
+  SDL_Surface *left, *right;
+  SDL_Rect leftRect, rightRect;
+  SDL_Rect titleRects[8];               //8 lessons displayed per page 
 
-	DIR *wordsDir;
-	struct dirent *wordsFile;
-	struct stat fileStats;
-	FILE *tempFile;
+  int stop = 0;
+  int loc = 0;                                  //The currently selected lesson file
+  int old_loc = 1;
+  int lessons = 0;                              //Number of lesson files found in dir
+  int i;
+  int length;
 
-	LOG("Entering chooseWordlist():\n");
+  unsigned char lesson_path[FNLEN];             //Path to lesson directory
+  unsigned char lesson_list[MAX_LESSONS][200];  //List of lesson file names
+  unsigned char lesson_names[MAX_LESSONS][200]; //List of lesson names for display
+  unsigned char name_buf[200];
 
-	/* find the directory to load wordlists from */
+  DIR* lesson_dir;
+  struct dirent* lesson_file;
+  struct stat fileStats;
+  FILE* tempFile;
 
-	for (i=useEnglish; i<2; i++) {
-		fileStats.st_mode = 0; // clear last use!
-		sprintf( wordPath, "%s/words", realPath[i] );
-		stat( wordPath, &fileStats );
-		if ( fileStats.st_mode & S_IFDIR )
-			break;
-	}
+  LOG("Entering choose_config_file():\n");
 
-	if (i==2) {
-		fprintf(stderr, "ERROR: Unable to find wordlist directory\n");
-		return 0;
+  /* find the directory containing the lesson files:  */
+
+  for (i = useEnglish; i < 2; i++)
+  {
+    fileStats.st_mode = 0; // clear last use!
+    sprintf( lesson_path, "%s/missions/lessons", realPath[i] );
+
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "Checking path: %s\n", lesson_path);
+#endif
+
+    stat(lesson_path, &fileStats);
+
+    if (fileStats.st_mode & S_IFDIR)
+    {
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "Path found\n");
+#endif
+      break;
+    }
+    else
+    {
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "Path NOT found\n");
+#endif
+    }
+  }
+
+  if (i==2)
+  {
+    fprintf(stderr, "ERROR: Unable to find lesson directory\n");
+    return 0;
 //		exit(1);  // FIXME if exiting, need to restore screen resolution, cleanup heap, etc.
-	}
+  }
 
-	DEBUGCODE { fprintf(stderr, "wordPath is: %s\n", wordPath); }
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "lesson_path is: %s\n", lesson_path);
+#endif
 
-	/* create a list of all the .txt files */
+  /* create a list of all the lesson files */
+  lesson_dir = opendir(lesson_path);	
 
-	wordsDir = opendir( wordPath );	
+  do
+  {
+    /* readdir() returns ptr to next file in dir AND resets ptr to following file: */
+    lesson_file = readdir(lesson_dir);
+    /* Get out when no more files: */
+    if (!lesson_file)
+    {
+      break;
+    }
 
-	do {
-		wordsFile = readdir(wordsDir);
-		if (!wordsFile)
-			break;
+    /* file names must begin with 'lesson' (case-insensitive) */
+    if (0 != strncasecmp(&lesson_file->d_name, "lesson", 6))
+    { 
+      continue;
+    }
 
-		/* must have at least .txt at the end */
-		if (strlen(wordsFile->d_name) < 5)
-			continue;
+    /* FIXME Should somehow test each file to see if it is a tuxmath config file */
+    /* Put file name into array of names found in lesson directory */
+    sprintf(lesson_list[lessons], "%s/%s", lesson_path, lesson_file->d_name);
 
-		if (strcmp(&wordsFile->d_name[strlen(wordsFile->d_name)-4],".txt"))
-			continue;
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons]);
+#endif
 
-		sprintf( wordlistFile[lists], "%s/%s", wordPath, wordsFile->d_name );
+    /* load the name for the lesson from the file ... (1st line) */
+    tempFile = fopen(lesson_list[lessons], "r");
 
-		/* load the name for the wordlist from the file ... (1st line) */
-		tempFile = fopen( wordlistFile[lists], "r" );
-		if (tempFile==NULL) continue;
-		fscanf( tempFile, "%[^\n]\n", wordlistName[lists] );
+    if (tempFile==NULL)
+    {
+      /* By leaving the loop without incrementing 'lessons', */
+      /* the bad file name will get clobbered next time through: */
+      continue;
+    }
 
-		/* check to see if it has a \r at the end of it (dos format!) */
-		if (wordlistName[lists][ strlen(wordlistName[lists])-1 ] == '\r')
-			wordlistName[lists][ strlen(wordlistName[lists])-1 ] = '\0';
-		lists++;
+    /* FIXME I think the following could overflow: */
+    fscanf(tempFile, "%[^\n]\n", name_buf);
 
-		fclose(tempFile);
-		
-	} while (1);
+    /* check to see if it has a \r at the end of it (dos format!) */
+    length = strlen(name_buf);
+    if (name_buf[length - 1] == '\r')
+    {
+      name_buf[length - 1] = '\0';
+    }
 
-	closedir( wordsDir );	
+    /* Go past leading '#', ';', or whitespace: */
+    /* NOTE the value of i on exit is the main goal of the loop */
+    for (  i = 0;
+           ((name_buf[i] == '#') ||
+           (name_buf[i] == ';') ||
+           isspace(name_buf[i])) &&
+           (i < 200);
+           i++  )
+    {
+      length--;
+    }
+    /* Now copy the rest of the first line into the list: */
+    memmove(&lesson_names[lessons], &name_buf[i], length); 
+    lessons++;
+    fclose(tempFile);
+  } while (1);        // Loop will end when 'break' encountered
 
-	/* let the user pick the list */
+  closedir(lesson_dir);	
 
-	titles[0] = black_outline( _("Alphabet"), font, &white );
-	select[0] = black_outline( _("Alphabet"), font, &yellow);
-	for (i = 1; i<lists; i++) {
-		titles[i] = black_outline( wordlistName[i], font, &white );
-		select[i] = black_outline( wordlistName[i], font, &yellow);
-	}
 
-	SDL_FreeSurface(bkg);
-        bkg = LoadImage("main_bkg.png", IMG_REGULAR);
+  /* Display the list of lessons for the player to select: */
 
-        left = LoadImage("left.png", IMG_ALPHA);       
-        leftRect.w = left->w; leftRect.h = left->h;
-        leftRect.x = 320 - 80 - (leftRect.w/2); leftRect.y = 430;
+  /* FIXME black_outline() segfaults if passed "" as arg */
+  for (i = 0; i < lessons; i++)
+  {
+    titles[i] = black_outline( lesson_names[i], font, &white );
+    select[i] = black_outline( lesson_names[i], font, &yellow);
+  }
 
-        right = LoadImage("right.png", IMG_ALPHA);
-        rightRect.w = right->w; rightRect.h = right->h;
-        rightRect.x = 320 + 80 - (rightRect.w/2); rightRect.y = 430;
+  SDL_FreeSurface(bkg);
+  bkg = LoadImage("title/main_bkg.png", IMG_REGULAR);
 
-        /* set initial rect sizes */
-        titleRects[0].y = 30;
-        titleRects[0].w = titleRects[0].h = titleRects[0].x = 0;
-        for (i = 1; i<8; i++) { 
-                titleRects[i].y = titleRects[i-1].y + 50;
-                titleRects[i].w = titleRects[i].h = titleRects[i].x = 0;
+  left = LoadImage("title/left.png", IMG_ALPHA);       
+  leftRect.w = left->w; leftRect.h = left->h;
+  leftRect.x = 320 - 80 - (leftRect.w/2); leftRect.y = 430;
+
+  right = LoadImage("title/right.png", IMG_ALPHA);
+  rightRect.w = right->w; rightRect.h = right->h;
+  rightRect.x = 320 + 80 - (rightRect.w/2); rightRect.y = 430;
+
+  /* set initial rect sizes */
+  titleRects[0].y = 30;
+  titleRects[0].w = titleRects[0].h = titleRects[0].x = 0;
+
+  for (i = 1; i < 8; i++)
+  { 
+    titleRects[i].y = titleRects[i - 1].y + 50;
+    titleRects[i].w = titleRects[i].h = titleRects[i].x = 0;
+  }
+
+
+  while (!stop)
+  {
+    while (SDL_PollEvent(&event))
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+          //exit(0);
+          break;
+        }
+ 
+        case SDL_MOUSEMOTION:
+        {
+          for (i = 0; (i < 8) && (loc -(loc % 8) + i < lessons); i++)
+          {
+            if (inRect(titleRects[i], event.motion.x, event.motion.y))
+            {
+              loc = loc - (loc % 8) + i;
+              break;
+            }
+          }
+          break;
         }
 
-        while (!stop) {
-                while (SDL_PollEvent(&event))
-                        switch (event.type) {
-                                case SDL_QUIT:
-                                        exit(0);
-                                        break;
-                                case SDL_MOUSEMOTION:
-                                        for (i=0; (i<8) && (loc-(loc%8)+i<lists); i++)
-                                                if (inRect( titleRects[i], event.motion.x, event.motion.y )) {
-                                                        loc = loc-(loc%8)+i;
-                                                        break;
-                                                }
+        case SDL_MOUSEBUTTONDOWN:
+        {
+#ifdef TUXMATH_DEBUG
+              fprintf(stderr, "MouseDown at x = %d, y = %d\n", event.button.x, event.button.y);
+#endif
 
-                                        break;
-                                case SDL_MOUSEBUTTONDOWN:
-                                        if (inRect( leftRect, event.button.x, event.button.y ))
-                                                if (loc-(loc%8)-8 >= 0) {
-                                                        loc=loc-(loc%8)-8;
-                                                        break;
-                                                }
-                                        if (inRect( rightRect, event.button.x, event.button.y ))
-                                                if (loc-(loc%8)+8 < lists) {
-                                                        loc=loc-(loc%8)+8;
-                                                        break;
-                                                }
-                                        for (i=0; (i<8) && (loc-(loc%8)+i<lists); i++)
-                                                if (inRect(titleRects[i], event.button.x, event.button.y)) {
-                                                        loc = loc-(loc%8)+i;
-							WORDS_init(); /* clear old selection */
-							if (loc==0)
-								WORDS_use_alphabet(); 
-							else
-								WORDS_use( wordlistFile[loc] ); 
-                                                        stop = 1;
-                                                        break;
-                                                }
-                                        break;
-                                case SDL_KEYDOWN:
-                                        if (event.key.keysym.sym == SDLK_ESCAPE) { stop = 2; break; }
-                                        if (event.key.keysym.sym == SDLK_RETURN) {
-						WORDS_init(); /* clear old selection */
-						if (loc==0)
-							WORDS_use_alphabet(); 
-						else
-							WORDS_use( wordlistFile[loc] ); 
-                                                stop = 1;
-                                                break;
-                                        }
+          /* Lesson buttons - play game with corresponding lesson file: */
+          for (i = 0; (i < 8) && (loc - (loc % 8) + i < lessons); i++)
+          {
+            if (inRect(titleRects[i], event.button.x, event.button.y))
+            {
+              loc = loc - (loc % 8) + i;
 
-                                        if ((event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_PAGEUP)) {
-                                                if (loc-(loc%8)-8 >= 0)
-                                                        loc=loc-(loc%8)-8;
-                                        }
+#ifdef TUXMATH_DEBUG
+              fprintf(stderr, "Player selecting lesson, loc = %d\n", loc);
+              fprintf(stderr, "Name of lesson file: %s", lesson_list[loc]);
+#endif
+              read_named_config_file(lesson_list[loc]);
+              game();
+              //FIXME only recognizing first entry in list
 
-                                        if ((event.key.keysym.sym == SDLK_RIGHT) || (event.key.keysym.sym == SDLK_PAGEDOWN)) {
-                                                if (loc-(loc%8)+8 < lists)
-                                                        loc=(loc-(loc%8)+8);
-                                        }
+              stop = 1;
+              break;
+            }
+          }
+        
+          /* "Left" button - go to previous page: */
+          if (inRect(leftRect, event.button.x, event.button.y))
+          {
+            if (loc - (loc % 8) - 8 >= 0)
+            {
+              loc = loc - (loc % 8) - 8;
+              break;
+            }
+          }
 
-                                        if (event.key.keysym.sym == SDLK_UP) {
-                                                if (loc > 0)
-                                                        loc--;
-                                        }
-
-                                        if (event.key.keysym.sym == SDLK_DOWN) {
-                                                if (loc+1<lists)
-                                                        loc++;
-                                        }
-                        }
-
-                if (old_loc != loc) {
-                        int start;
-
-                        SDL_BlitSurface( bkg, NULL, screen, NULL );
-
-                        start = loc - (loc % 8);
-                        for (i = start; i<MIN(start+8,lists); i++) {
-                                titleRects[i%8].x = 320 - (titles[i]->w/2);
-                                if (i == loc)
-                                        SDL_BlitSurface(select[loc], NULL, screen, &titleRects[i%8]);
-                                else
-                                        SDL_BlitSurface(titles[i], NULL, screen, &titleRects[i%8]);
-                        }
-
-                        /* --- draw buttons --- */
-
-                        if (start>0)
-                                SDL_BlitSurface( left, NULL, screen, &leftRect );
-
-                        if (start+8<lists)
-                                SDL_BlitSurface( right, NULL, screen, &rightRect );
-
-                        SDL_UpdateRect(screen, 0, 0, 0 ,0);
-                }
-                SDL_Delay(40);
-                old_loc = loc;
+          /* "Right" button - go to next page: */
+          if (inRect( rightRect, event.button.x, event.button.y ))
+          {
+            if (loc - (loc % 8) + 8 < lessons)
+            {
+              loc = loc - (loc % 8) + 8;
+              break;
+            }
+          }
         }
 
-	/* --- clear graphics before leaving function --- */ 
 
-	for (i = 0; i<lists; i++) {
-		SDL_FreeSurface(titles[i]);
-		SDL_FreeSurface(select[i]);
-	}
+        case SDL_KEYDOWN:
+        {
+          // TODO could make these a switch/case statement
+          if (event.key.keysym.sym == SDLK_ESCAPE)
+          { 
+            stop = 2;
+            break;
+          }
 
-	SDL_FreeSurface(left);
-	SDL_FreeSurface(right);
+          if ((event.key.keysym.sym == SDLK_RETURN)
+           || (event.key.keysym.sym == SDLK_SPACE)
+           || (event.key.keysym.sym == SDLK_KP_ENTER))
+          {
+#ifdef TUXMATH_DEBUG
+            fprintf(stderr, "Player selecting lesson, loc = %d\n", loc);
+            fprintf(stderr, "Name of lesson file: %s", lesson_list[loc]);
+#endif
+            read_named_config_file(lesson_list[loc]);
+            game();
+            stop = 1;
+            break;
+          }
 
-        DEBUGCODE { fprintf( stderr, "Leaving chooseWordlist();\n" ); }
+          /* Go to previous page, if present: */
+          if ((event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_PAGEUP))
+          {
+            if (loc - (loc % 8) - 8 >= 0)
+            {
+              loc = loc - (loc % 8) - 8;
+            }
+          }
 
-	if (stop == 2)
-		return 0;
+          /* Go to next page, if present: */
+          if ((event.key.keysym.sym == SDLK_RIGHT) || (event.key.keysym.sym == SDLK_PAGEDOWN))
+          {
+            if (loc-(loc%8)+8 < lessons)
+            {
+              loc = (loc - (loc % 8) + 8);
+            }
+          }
 
-	return 1;
+          /* Go up one entry, if present: */
+          if (event.key.keysym.sym == SDLK_UP)
+          {
+            if (loc > 0)
+            {
+              loc--;
+            }
+          }
+
+          /* Go down one entry, if present: */
+          if (event.key.keysym.sym == SDLK_DOWN)
+          {
+            if (loc + 1 < lessons)
+            {
+              loc++;
+            }
+          }
+        }  // End of key handling
+      }  // End switch statement
+    }  // End SDL_PollEvent while loop
+
+    /* Redraw screen: */
+    if (old_loc != loc) 
+    {
+      int start;
+      start = loc - (loc % 8);
+
+      SDL_BlitSurface( bkg, NULL, screen, NULL );
+
+      /* FIXME get rid of evil macro ;)       */
+      for (i = start; i < MIN(start+8,lessons); i++)
+      {
+        titleRects[i % 8].x = 320 - (titles[i]->w/2); //Center in screen
+        titleRects[i % 8].w = titles[i]->w;
+        titleRects[i % 8].h = titles[i]->h;
+
+        if (i == loc)  //Draw text in yellow
+        {
+          SDL_BlitSurface(select[loc], NULL, screen, &titleRects[i % 8]);
+        }
+        else           //Draw text in white
+        {
+          SDL_BlitSurface(titles[i], NULL, screen, &titleRects[i % 8]);
+        }
+      }
+
+      /* --- draw buttons --- */
+      if (start > 0)        // i.e. not on first page
+      {
+        SDL_BlitSurface( left, NULL, screen, &leftRect );
+      }
+      if (start + 8 < lessons)  // not on last page
+      {
+        SDL_BlitSurface( right, NULL, screen, &rightRect );
+      }
+
+      /* Now redraw whole screen: */
+      SDL_UpdateRect(screen, 0, 0, 0 ,0);
+    }
+    SDL_Delay(40);
+    old_loc = loc;
+  }  // End !stop while loop
+
+  /* --- clear graphics before leaving function --- */ 
+  for (i = 0; i < lessons; i++)
+  {
+    SDL_FreeSurface(titles[i]);
+    SDL_FreeSurface(select[i]);
+  }
+
+  SDL_FreeSurface(left);
+  SDL_FreeSurface(right);
+
+  DEBUGCODE { fprintf( stderr, "Leaving choose_config_file();\n" ); }
+
+  if (stop == 2)
+    return 0;
+
+  return 1;
 }
 
 

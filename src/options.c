@@ -390,7 +390,7 @@ void Opts_SetUseSound(int val)
   game_options->use_sound = int_to_bool(val);
 }
 
-
+/* FIXME need to actually change screen resolution when this is called */
 void Opts_SetFullscreen(int val)
 {
   game_options->fullscreen = int_to_bool(val);

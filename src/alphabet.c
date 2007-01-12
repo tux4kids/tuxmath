@@ -5,7 +5,11 @@
     begin                : Jan 6 2003
     copyright            : (C) 2003 by Jesse Andrews
     email                : jdandr2@tux4kids.net
- ***************************************************************************/
+ 
+    Modified for use in tuxmath by David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net> 
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -113,6 +117,8 @@ void LoadKeyboard( void ) {
 	fprintf( stderr, "Error finding file for keyboard setup!\n" );
 }
 
+
+/* FIXME this function segfaults if passed "" as the char arg */
 SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
 	SDL_Surface *out, *tmp, *tmp2;
 	SDL_Rect dstrect;

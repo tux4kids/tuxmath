@@ -1,3 +1,22 @@
+/***************************************************************************
+ -  file: titlescreen.h
+ -  description: header for the tuxtype-derived files in tuxmath
+                            ------------------
+
+    David Bruce - 2006.
+    email                : <dbruce@tampabay.rr.com>
+                           <tuxmath-devel@lists.sourceforge.net>
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #ifdef WIN32 
 #undef DATA_PREFIX
 #define DATA_PREFIX ".//"
@@ -101,6 +120,7 @@ typedef struct {
 #define ttf_font	"GenAI102.ttf" /* or "DejaVuSans-Bold.ttf" or "FreeSansBold.ttf" */  	/* was letters.ttf */
 #define ttf_font_size	20
 
+#define MAX_LESSONS 100
 #define MAX_NUM_WORDS   500
 #define MAX_WORD_SIZE   8
 
@@ -114,7 +134,7 @@ typedef struct {
 
 /* Menu Prototypes */
 enum Game_Type { 
-	QUIT_GAME, CASCADE, OPTIONS, LESSONS,
+	QUIT_GAME, ARCADE, OPTIONS, LESSONS, MORE_OPTIONS, HELP,
 	INSTRUCT_CASCADE, CASCADE1, CASCADE2, CASCADE3, CASCADE4,
 	INSTRUCT_LASER,    LASER1,    LASER2,    LASER3,    LASER4,
 	FREETYPE, ASDF, ALL, MAIN, SET_LANGUAGE, PROJECT_INFO, EDIT_WORDLIST,
@@ -207,7 +227,7 @@ enum {
 
 #define OPTIONS_SUBMENU                 4
 #define LASER_SUBMENU	        	3
-#define CASCADE_SUBMENU	        	2
+#define ARCADE_SUBMENU	        	2
 #define ROOTMENU		        1
 
 
@@ -230,6 +250,7 @@ enum {
 
 extern void TitleScreen( void );
 extern void switch_screen_mode( void );
+extern int choose_config_file(void);  //FIXME really should be in fileops.c
 extern int Phrases(char *practice_phrase); // NOTE this is not implemented
 
 /* in theme.c (from tuxtype): */

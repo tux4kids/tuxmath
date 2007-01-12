@@ -22,7 +22,7 @@
 #define MAX_COMETS 10
 #define NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
 
-#define NUM_BKGDS 5
+#define NUM_BKGDS 12
 
 #define MAX_CITY_COLORS 4
 
