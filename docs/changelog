@@ -1,5 +1,20 @@
 changelog for "tuxmath"
 
+2007.Jan.24 (https://svn.tux4kids.net/tuxmath/ - revision 69)
+  Options:
+    * More progress on new menu system, generally works
+      correctly to extent that things have been implemented.
+      More 'lesson' files added, now up through addition and
+      subtraction of two-digit positive numbers.
+  Game:
+    * "Typing Tutor" mode added for kids just beginning to 
+      use the keyboard.
+
+      New menu still "alpha" - would not suggest packaging
+      for Debian yet.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Jan.12 (https://svn.tux4kids.net/tuxmath/ - revision 67)
   Options:
     * Overhaul of menu system well underway, suitable for
@@ -14,7 +29,9 @@ changelog for "tuxmath"
       should be OK from licensing standpoint.
   Code:
     * Bugfix - question_copies parameter now handled correctly
-      in read_config_file.
+      in read_config_file().
+
+      David Bruce <dbruce@tampabay.rr.com>
 
 2006.Dec.07 (https://svn.tux4kids.net/tuxmath/ - revision 65)
   Options:

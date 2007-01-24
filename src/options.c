@@ -335,6 +335,8 @@ int Opts_Initialize(void)
   /* set general game options */
   game_options->per_user_config = DEFAULT_PER_USER_CONFIG;
   game_options->use_sound = DEFAULT_USE_SOUND;
+  game_options->menu_sound = DEFAULT_MENU_SOUND;
+  game_options->menu_music = DEFAULT_MENU_MUSIC;
   game_options->fullscreen = DEFAULT_FULLSCREEN;
   game_options->use_bkgd = DEFAULT_USE_BKGD;
   game_options->demo_mode = DEFAULT_DEMO_MODE;
@@ -389,6 +391,19 @@ void Opts_SetUseSound(int val)
 {
   game_options->use_sound = int_to_bool(val);
 }
+
+
+void Opts_SetMenuSound(int val)
+{
+  game_options->menu_sound = int_to_bool(val);
+}
+
+
+void Opts_SetMenuMusic(int val)
+{
+  game_options->menu_music = int_to_bool(val);
+}
+
 
 /* FIXME need to actually change screen resolution when this is called */
 void Opts_SetFullscreen(int val)
@@ -671,7 +686,28 @@ int Opts_UseSound(void)
     return GAME_OPTS_INVALID;
   }
   return game_options->use_sound;
+}
 
+
+int Opts_MenuSound(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_MenuSound(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->menu_sound;
+}
+
+
+int Opts_MenuMusic(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_MenuMusic(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->menu_music;
 }
 
 

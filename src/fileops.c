@@ -611,6 +611,19 @@ int read_config_file(FILE *fp, int file_type)
       if (v != -1)
         Opts_SetUseSound(v);
     }
+    else if(0 == strcasecmp(parameter, "menu_sound"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        Opts_SetMenuSound(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "menu_music"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        Opts_SetMenuMusic(v);
+    }
 
     else if(0 == strcasecmp(parameter, "fullscreen"))
     {
@@ -913,6 +926,12 @@ int read_config_file(FILE *fp, int file_type)
         MC_SetDivAllowed(v);
     }
 
+    else if(0 == strcasecmp(parameter, "typing_practice_allowed"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        MC_SetTypingAllowed(v);
+    }
 
     /* Set min and max for addition: */
 
@@ -1009,6 +1028,20 @@ int read_config_file(FILE *fp, int file_type)
       MC_SetDivMaxQuotient(atoi(value));
     }
 
+
+    /* Set min and max for typing practice: */
+
+
+    else if(0 == strcasecmp(parameter, "min_typing_num"))
+    {
+      MC_SetTypeMin(atoi(value));
+    }
+
+    else if(0 == strcasecmp(parameter, "max_typing_num"))
+    {
+      MC_SetTypeMax(atoi(value));
+    }
+
     else
     {   
       #ifdef TUXMATH_DEBUG
@@ -1065,7 +1098,6 @@ int write_user_config_file(void)
 
 /* this function writes the settings for all game options to a */
 /* human-readable file.                                        */
-/* FIXME add 'verbose flag' */
 int write_config_file(FILE *fp, int verbose)
 {
   #ifdef TUXMATH_DEBUG
@@ -1205,6 +1237,22 @@ int write_config_file(FILE *fp, int verbose)
   {
     fprintf (fp, "\n############################################################\n"
                  "#                                                          #\n"
+                 "#                    Typing Practice                       #\n"
+                 "#                                                          #\n"
+                 "# Parameter: typing_practice_allowed (boolean)             #\n"
+                 "# Default: 0                                               #\n"
+                 "#                                                          #\n"
+                 "# This option simply displays numbers for the youngest     #\n"
+                 "# players to type in to learn the keyboard.                #\n"
+                 "############################################################\n\n");
+  }
+
+  fprintf(fp, "typing_practice_allowed = %d\n", MC_TypingAllowed());
+
+  if (verbose)
+  {
+    fprintf (fp, "\n############################################################\n"
+                 "#                                                          #\n"
                  "#                 Negative Number Support                  #\n"
                  "#                                                          #\n"
                  "# Parameter: allow_negatives (boolean)                     #\n"
@@ -1283,6 +1331,12 @@ int write_config_file(FILE *fp, int verbose)
   fprintf(fp, "min_quotient = %d\n", MC_DivMinQuotient());
   fprintf(fp, "max_quotient = %d\n", MC_DivMaxQuotient());
 
+  if (verbose)
+  {
+    fprintf(fp, "\n# Typing practice:\n\n");
+  }
+  fprintf(fp, "min_typing_num = %d\n",MC_TypeMin());
+  fprintf(fp, "max_typing_num = %d\n", MC_TypeMax());
 
   if (verbose)
   {
@@ -1291,6 +1345,10 @@ int write_config_file(FILE *fp, int verbose)
                  "#                 General Game Options                     #\n"
                  "#                                                          #\n"
                  "# Parameter: use_sound (boolean)                           #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: menu_sound (boolean)                          #\n"
+                 "# Default: 1                                               #\n"
+                 "# Parameter: menu_music (boolean)                          #\n"
                  "# Default: 1                                               #\n"
                  "# Parameter: fullscreen (boolean)                          #\n"
                  "# Default: 1                                               #\n"
@@ -1311,6 +1369,8 @@ int write_config_file(FILE *fp, int verbose)
     fprintf (fp, "\n# Use game sounds and background music if possible:\n");
   }
   fprintf(fp, "use_sound = %d\n", Opts_UseSound());
+  fprintf(fp, "menu_sound = %d\n", Opts_MenuSound());
+  fprintf(fp, "menu_music = %d\n", Opts_MenuMusic());
 
   if (verbose)
   {

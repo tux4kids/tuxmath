@@ -27,6 +27,7 @@ enum {
   MC_OPER_SUB,
   MC_OPER_MULT,
   MC_OPER_DIV,
+  MC_OPER_TYPING_PRACTICE,
   MC_NUM_OPERS
 };
 
@@ -91,6 +92,11 @@ typedef struct MC_Options {
   int max_divisor;
   int min_quotient;
   int max_quotient;
+  /* typing practice options */
+  int typing_practice_allowed;
+  int min_typing_num;
+  int max_typing_num;
+
 } MC_Options;
 
 /* default values for math_options */
@@ -129,6 +135,7 @@ typedef struct MC_Options {
 #define DEFAULT_SUBTRACTION_ALLOWED 1
 #define DEFAULT_MULTIPLICATION_ALLOWED 1
 #define DEFAULT_DIVISION_ALLOWED 1
+#define DEFAULT_TYPING_PRACTICE_ALLOWED 0
 
 #define DEFAULT_MIN_AUGEND 0              /* augend + addend = sum */
 #define DEFAULT_MAX_AUGEND 12
@@ -150,6 +157,8 @@ typedef struct MC_Options {
 #define DEFAULT_MIN_QUOTIENT 0             /* questions with division by zero.    */
 #define DEFAULT_MAX_QUOTIENT 12
 
+#define DEFAULT_MIN_TYPING_NUM 0           /* range for "typing tutor" mode, for kids */
+#define DEFAULT_MAX_TYPING_NUM 12          /* just learning to use keyboard.          */
 
 
 /* struct for individual "flashcard" */
@@ -296,6 +305,7 @@ void MC_SetAddAllowed(int opt);
 void MC_SetSubAllowed(int opt);
 void MC_SetMultAllowed(int opt);
 void MC_SetDivAllowed(int opt);
+void MC_SetTypingAllowed(int opt);
 
 /* Set min and max for addition: */
 void MC_SetAddMin(int opt);                    /* augend + addend = sum */
@@ -329,6 +339,9 @@ void MC_SetDivMax(int opt);
 void MC_SetDivMaxDivisor(int opt);
 void MC_SetDivMaxQuotient(int opt);
 
+/* Set min and max for typing practice: */
+void MC_SetTypeMin(int opt);
+void MC_SetTypeMax(int opt);
 
 /* "Get" type functions to query option parameters: */
 
@@ -362,6 +375,7 @@ int MC_AddAllowed(void);
 int MC_SubAllowed(void);
 int MC_MultAllowed(void);
 int MC_DivAllowed(void);
+int MC_TypingAllowed(void);
 
 /* Query min and max for addition: */
 int MC_AddMinAugend(void);              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
@@ -386,5 +400,9 @@ int MC_DivMinDivisor(void);            /* dividend/divisor = quotient */
 int MC_DivMinQuotient(void);
 int MC_DivMaxDivisor(void);
 int MC_DivMaxQuotient(void);
+
+/* Query min and max for typing practice: */
+int MC_TypeMin(void);
+int MC_TypeMax(void);
 
 #endif

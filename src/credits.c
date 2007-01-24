@@ -393,7 +393,6 @@ int credits(void)
       
       
       /* Handle any incoming events: */
-      /* TODO allow player to return to Title with mouse click */
       while (SDL_PollEvent(&event) > 0)
 	{
 	  if (event.type == SDL_QUIT)
@@ -413,6 +412,10 @@ int credits(void)
 		  
 		  done = 1;
 		}
+	    }
+	  else if (event.type == SDL_MOUSEBUTTONDOWN)
+	    {
+              done = 1;
 	    }
 	}
 

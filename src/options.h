@@ -27,6 +27,8 @@ typedef struct game_option_type {
   /* general game options */
   int per_user_config;
   int use_sound;
+  int menu_sound;
+  int menu_music;
   int fullscreen;
   int use_bkgd;
   int demo_mode;
@@ -84,6 +86,8 @@ void Opts_Cleanup(void);
 /* "Set" functions for tuxmath options struct: */
 void Opts_SetPerUserConfig(int val);
 void Opts_SetUseSound(int val);
+void Opts_SetMenuSound(int val);
+void Opts_SetMenuMusic(int val);
 void Opts_SetFullscreen(int val);
 void Opts_SetUseBkgd(int val);
 void Opts_SetDemoMode(int val);
@@ -112,6 +116,8 @@ void Opts_SetSoundHWAvailable(int val);
 /* "Get" functions for tuxmath options struct: */
 int Opts_PerUserConfig(void);
 int Opts_UseSound(void);
+int Opts_MenuSound(void);
+int Opts_MenuMusic(void);
 int Opts_Fullscreen(void);
 int Opts_UseBkgd(void);
 int Opts_DemoMode(void);

@@ -44,6 +44,8 @@
 /* They can be changed in the struct to other values at run-time */
 #define DEFAULT_PER_USER_CONFIG 1
 #define DEFAULT_USE_SOUND 1
+#define DEFAULT_MENU_SOUND 1
+#define DEFAULT_MENU_MUSIC 1
 #define DEFAULT_FULLSCREEN 1
 #define DEFAULT_USE_BKGD 1
 #define DEFAULT_DEMO_MODE 0

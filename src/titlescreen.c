@@ -61,16 +61,17 @@ SDL_Surface*  bkg;
 /* of the struct. */
 
 /* --- define menu structure --- */
-/* (these values are all in the Game_Type enum in globals.h) */
+/* (these values are all in the Game_Type enum in titlescreen.h) */
+/* They are the "commands" associated with the menu items.   */
 const int menu_item[][6]= {{0, 0,         0,         0,        0           },
-			   {0, LESSONS,      LEVEL1,    LEVEL1,   NOT_CODED   },
-			   {0, ARCADE,       LEVEL2,    LEVEL2,   FREETYPE    },
-			   {0, OPTIONS,      LEVEL3,    LEVEL3,   PROJECT_INFO},
-			   {0, MORE_OPTIONS, LEVEL4,    LEVEL4,   SET_LANGUAGE},
-			   {0, QUIT_GAME,    MAIN,      MAIN,     MAIN        }};
+			   {0, LESSONS,      ARCADE_CADET,   LEVEL1,   NOT_CODED   },
+			   {0, ARCADE,       ARCADE_SCOUT,   LEVEL2,   FREETYPE    },
+			   {0, OPTIONS,      ARCADE_RANGER,  LEVEL3,   PROJECT_INFO},
+			   {0, MORE_OPTIONS, ARCADE_ACE,     LEVEL4,   SET_LANGUAGE},
+			   {0, QUIT_GAME,    MAIN,           MAIN,     MAIN        }};
 
 /* --- menu text --- */
-const unsigned char *menu_text[][6]= 
+const unsigned char* menu_text[][6]= 
 /*    Main Menu                                       'Arcade' Games                    Math Options                     Game Options            */
 {{"", "",                                             "",                             "",                              ""                       },
  {"", gettext_noop("Math Command Training Academy"),  gettext_noop("Space Cadet"), gettext_noop("Addition"),       gettext_noop("Speed")    },
@@ -82,25 +83,24 @@ const unsigned char *menu_text[][6]=
 
 /* These are the filenames of the images used in the animated menu icons: */
 /* --- menu icons --- */
-const unsigned char *menu_icon[][6]= 
+const unsigned char* menu_icon[][6]= 
 {{"", "",        "",       "",        ""        },
- {"", "lesson", "easy",   "grade1_", "list"    },
- {"", "comet",   "medium", "grade2_", "practice"},
- {"", "lesson",  "hard",   "grade3_", "keyboard"},
- {"", "option",  "tutor",  "grade4_", "lang"    },
- {"", "quit",    "main",   "main",    "main"   }};
+ {"", "lesson",   "easy",   "grade1_", "list"    },
+ {"", "comet",    "medium", "grade2_", "practice"},
+ {"", "keyboard", "hard",   "grade3_", "keyboard"},
+ {"", "keyboard", "tutor",  "grade4_", "lang"    },
+ {"", "quit",     "main",   "main",    "main"   }};
 
 
 /* this will contain pointers to all of the menu 'icons' */
-sprite *menu_gfx[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
-
-
+sprite* menu_gfx[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
 
 /* images of regular and selected text of menu items: */
-SDL_Surface *reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
-SDL_Surface *sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
-sprite *reg;
-sprite *sel;
+SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
+SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1];
+/* reg and sel are used to create the translucent button backgrounds. */
+sprite* reg;
+sprite* sel;
 
 
 /* keep track of the width of each menu: */
@@ -109,16 +109,15 @@ int menu_width[TITLE_MENU_DEPTH + 1];
 /* NOTE for 'depth', think pages like a restaurant menu, */
 /* not heirarchical depth - choice of term is misleading */
 int menu_depth; // how deep we are in the menu
-int menu_sound; // status of menu sound effects
-int menu_music; // status of menu sound effects
 settings localsettings;
 
 /* --- other media --- */
-SDL_Surface *titlepic;
-SDL_Surface *speaker;
-SDL_Surface *speakeroff;
-sprite *Tux;
-Mix_Chunk *snd_move, *snd_select;
+SDL_Surface* titlepic;
+SDL_Surface* speaker;
+SDL_Surface* speakeroff;
+sprite* Tux;
+Mix_Chunk* snd_move;
+Mix_Chunk* snd_select;
 
 /* --- locations we need --- */
 SDL_Rect text_dst[TITLE_MENU_ITEMS + 1];     // location of text for menu
@@ -126,18 +125,23 @@ SDL_Rect menu_gfxdest[TITLE_MENU_ITEMS + 1]; // location of animated icon
 /* These are the rectangular mouse event "buttons" for each menu item */
 SDL_Rect menu_button[TITLE_MENU_ITEMS + 1];  // size of "button"
 
+SDL_Rect dest,
+	 Tuxdest,
+	 Titledest,
+	 spkrdest,
+	 cursor;
 
 /* Local function prototypes: */
 //int chooseWordlist(void);
-void draw_button(int id, sprite* s);
+void draw_button(SDL_Rect* target_rect, int width, sprite* s);
 void TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
 void TitleScreen_load_media(void);
 void TitleScreen_unload_media(void);
 void NotImplemented(void);
 void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
-void UpdateScreen(int *frame);
-void AddRect(SDL_Rect * src, SDL_Rect * dst);
+void UpdateScreen(int* frame);
+void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
 
 /***********************************************************/
@@ -156,16 +160,11 @@ void InitEngine(void);
 void TitleScreen(void)
 {
 
-  SDL_Rect dest,
-	 Tuxdest,
-	 Titledest,
-	 spkrdest,
-	 cursor;
-
   Uint32 frame = 0;
   Uint32 start = 0;
 
-  int i, j, tux_frame = 0;
+  int i, j; 
+  int tux_frame = 0;
   int done = 0;
   int firstloop = 1;
   int menu_opt = NONE;
@@ -181,8 +180,9 @@ void TitleScreen(void)
 
   if (Opts_UseSound())
   {
-    menu_sound = 1;
-    menu_music = localsettings.menu_music;
+    Opts_SetMenuSound(1);
+    Opts_SetMenuMusic(1);
+//    menu_music = localsettings.menu_music;
   }
 
   InitEngine();  //set up pointers for blitting structure.
@@ -266,6 +266,8 @@ void TitleScreen(void)
 
 
   /* --- Pull tux & logo onscreen --- */
+  /* NOTE we wind up with Tuxdest.y == (screen->h)  - (Tux->frame[0]->h), */
+  /* and Titledest.x == 0.                                                */
   for (i = 0; i < (PRE_ANIM_FRAMES * PRE_FRAME_MULT); i++)
   {
     start = SDL_GetTicks();
@@ -289,8 +291,11 @@ void TitleScreen(void)
 
   SDL_BlitSurface(titlepic, NULL, screen, &Titledest);
 
+  LOG( "Tux and Title are in place now\n" );
+
+
   /* Pick speaker graphic according to whether music is on: */
-  if (menu_music)
+  if (Opts_MenuMusic())
   {
     SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
   }
@@ -300,12 +305,11 @@ void TitleScreen(void)
   }
 
   /* Start playing menu music if desired: */
-  if (menu_music)
+  if (Opts_MenuMusic())
   {
     audioMusicLoad("tuxi.ogg", -1);
   }
 
-  LOG( "Tux and Title are in place now\n" );
 
   /* Move mouse to top button: */
   cursor.x = menu_button[1].x + (menu_button[1].w / 2);
@@ -328,7 +332,7 @@ void TitleScreen(void)
   while (!done) 
   {
 
-    start=SDL_GetTicks();
+    start = SDL_GetTicks();
 
     /* ---process input queue --- */
 
@@ -362,7 +366,7 @@ void TitleScreen(void)
                 (cursor.y >= menu_button[j].y && cursor.y <= (menu_button[j].y + menu_button[j].h)))
             {
               menu_opt = menu_item[j][menu_depth];
-              if (menu_sound)
+              if (Opts_MenuSound())
               {
                 tuxtype_playsound(snd_select);
               }
@@ -378,14 +382,14 @@ void TitleScreen(void)
           if ((cursor.x >= spkrdest.x && cursor.x <= (spkrdest.x + spkrdest.w)) && 
               (cursor.y >= spkrdest.y && cursor.y <= (spkrdest.y + spkrdest.h)))
           {
-            if (menu_music)
+            if (Opts_MenuMusic())
             {
               audioMusicUnload();
-              menu_music = 0;
+              Opts_SetMenuMusic(0);
             }
             else
             {
-              menu_music = 1;
+              Opts_SetMenuMusic(1);
               audioMusicLoad("tuxi.ogg", -1);
             }
             redraw = 1;
@@ -415,7 +419,7 @@ void TitleScreen(void)
               else
                 menu_opt = QUIT_GAME;
 
-              if (menu_sound)
+              if (Opts_MenuSound())
                 tuxtype_playsound(snd_select);
               break;
             }
@@ -433,14 +437,14 @@ void TitleScreen(void)
             /* Toggle menu music: */
             case SDLK_F11:
             {
-              if (menu_music)
+              if (Opts_MenuMusic())
               {
                 audioMusicUnload( );
-                menu_music=0;
+                Opts_SetMenuMusic(0);
               }
               else
               {
-                menu_music=1;
+                Opts_SetMenuMusic(1);
                 audioMusicLoad("tuxi.ogg", -1);
               }
               redraw = 1;
@@ -461,7 +465,7 @@ void TitleScreen(void)
 
             case SDLK_UP:
             {
-              if (menu_sound)
+              if (Opts_MenuSound())
                 tuxtype_playsound(snd_move);
               key_menu--;
               if (key_menu < 1)
@@ -473,7 +477,7 @@ void TitleScreen(void)
             case SDLK_DOWN:
             {
               key_menu++;
-              if (menu_sound)
+              if (Opts_MenuSound())
                 tuxtype_playsound(snd_move);
               if (key_menu > 5)
                 key_menu = 1;
@@ -491,7 +495,7 @@ void TitleScreen(void)
                 menu_opt = menu_item[key_menu][menu_depth];
                 DOUT(menu_opt);
 
-                if (menu_sound)
+                if (Opts_MenuSound())
                   tuxtype_playsound(snd_select);
               }
               break;
@@ -528,58 +532,24 @@ void TitleScreen(void)
 
     /* --- do menu processing --- */
 
-    if (menu_opt == LESSONS)
+    /* First page:-----------------------------------------------*/
+
+    if (menu_opt == LESSONS) /* Go to 'lessons' menu: */
+                             /* i.e. Math Command Training Academy */
     {
-//      NotImplemented();
-//      redraw = 1;
-
-
-
-      if (choose_config_file()) 
+      /* choose_config_file() returns after selected lessons are  */
+      /* done - game() called from there.                         */
+      if (choose_config_file())  
       {
-        TitleScreen_unload_media();
-
-        /* play game with chosen file */
-
-//         switch (sub_menu)
-//         {
-//           case CASCADE: PlayCascade( EASY ); break;
-//           case LASER:   laser_game(  EASY ); break;
-//         }
-
-        TitleScreen_load_media();
-
-        if (menu_music)
+        if (Opts_MenuMusic())  // Restart music after game
           audioMusicLoad( "tuxi.ogg", -1 );
       }
-
       redraw = 1;
-
-
-//       SDL_BlitSurface(bkg, NULL, screen, NULL);
-//       SDL_Flip( screen );
-//       TitleScreen_unload_media();
-// 
-//       if (menu_music)
-//       {
-//         audioMusicUnload( );
-//       }
-// //      testLesson();
-// 
-//       TitleScreen_load_media();
-//       redraw = 1;
-// 
-//       if (menu_music)
-//       {
-//         audioMusicLoad( "tuxi.ogg", -1 );
-//       }
     }
 
 
-    if (menu_opt == ARCADE)
+    if (menu_opt == ARCADE)   /* Go to Arcade submenu */
     {
-//      NotImplemented();
-//      redraw = 1;
        menu_depth = ARCADE_SUBMENU; /* i.e. 2 */
        sub_menu = ARCADE;           /* i.e. 1 */
        update_locs = 1;
@@ -591,47 +561,51 @@ void TitleScreen(void)
     {
       NotImplemented();
       redraw = 1;
-//       menu_depth = CASCADE_SUBMENU;
-//       sub_menu = ARCADE;
-//       update_locs = 1;
-//       redraw=1;
     }
 
 
-    if (menu_opt == OPTIONS)
+    if (menu_opt == OPTIONS)  /* Still using old options() for now */
     {
-      NotImplemented();
-      redraw = 1;
+      options();
 
-/*      menu_depth = OPTIONS_SUBMENU;
-      sub_menu = OPTIONS;
-      update_locs = 1;
-      redraw = 1;*/
+      if (Opts_MenuMusic())
+      {
+        audioMusicUnload();
+      }
+
+      game();
+
+      if (Opts_MenuMusic())
+      {
+        audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      redraw = 1;
     }
+
 
     if (menu_opt == MORE_OPTIONS)
     {
       NotImplemented();
       redraw = 1;
-//       menu_depth = OPTIONS_SUBMENU;
-//       sub_menu = OPTIONS;
-//       update_locs = 1;
-//       redraw = 1;
     }
+
 
     if (menu_opt == QUIT_GAME)
     {
       done = 1;
     }
 
+    /* Second (Arcade) page:-----------------------------------------------*/
 
-
-    if (menu_opt == LEVEL1)
+    /* Play game of selected difficulty:                                   */
+    /* TODO save high scores for each difficulty level.                    */
+    /* TODO display brief description of type of questions at each level.  */
+    if (menu_opt == ARCADE_CADET)
     {
-      LOG("menu_opt == LEVEL1");
+      LOG("menu_opt == ARCADE_CADET");
       if (read_named_config_file("arcade/space_cadet"))
       {
-        if (menu_music)
+        if (Opts_MenuMusic())
         {
           audioMusicUnload();
         }
@@ -644,7 +618,7 @@ void TitleScreen(void)
 
       TitleScreen_load_media();
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
@@ -652,12 +626,12 @@ void TitleScreen(void)
     }
 
 
-    if (menu_opt == LEVEL2)
+    if (menu_opt == ARCADE_SCOUT)
     {
-      LOG("menu_opt == LEVEL2");
+      LOG("menu_opt == ARCADE_SCOUT");
       if (read_named_config_file("arcade/scout"))
       {
-        if (menu_music)
+        if (Opts_MenuMusic())
         {
           audioMusicUnload();
         }
@@ -670,7 +644,7 @@ void TitleScreen(void)
 
       TitleScreen_load_media();
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
@@ -678,13 +652,12 @@ void TitleScreen(void)
     }
 
 
-
-    if (menu_opt == LEVEL3)
+    if (menu_opt == ARCADE_RANGER)
     {
-      LOG("menu_opt == LEVEL3");
+      LOG("menu_opt == ARCADE_RANGER");
       if (read_named_config_file("arcade/ranger"))
       {
-        if (menu_music)
+        if (Opts_MenuMusic())
         {
           audioMusicUnload();
         }
@@ -697,7 +670,7 @@ void TitleScreen(void)
 
       TitleScreen_load_media();
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
@@ -706,12 +679,12 @@ void TitleScreen(void)
 
 
 
-    if (menu_opt == LEVEL4)
+    if (menu_opt == ARCADE_ACE)
     {
-      LOG("menu_opt == LEVEL4");
+      LOG("menu_opt == ARCADE_ACE");
       if (read_named_config_file("arcade/ace"))
       {
-        if (menu_music)
+        if (Opts_MenuMusic())
         {
           audioMusicUnload();
         }
@@ -729,32 +702,27 @@ void TitleScreen(void)
 
       TitleScreen_load_media();
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
       redraw = 1;
     }
 
-
-
-    if (menu_opt == LASER)
+    /* Go back to main menu: */
+    if (menu_opt == MAIN)
     {
-      menu_depth = LASER_SUBMENU;
-      sub_menu = LASER;
+      menu_depth = ROOTMENU;
       update_locs = 1;
       redraw = 1;
     }
 
-
-
-
-
-
-
-    if (menu_opt == MAIN)
+    /* Rest of menu_opts are not currently used: */
+/*
+    if (menu_opt == LASER)
     {
-      menu_depth = ROOTMENU;
+      menu_depth = LASER_SUBMENU;
+      sub_menu = LASER;
       update_locs = 1;
       redraw = 1;
     }
@@ -774,8 +742,6 @@ void TitleScreen(void)
     }
 
 
-
-
     if (menu_opt == SET_LANGUAGE)
     {
       TitleScreen_unload_media();
@@ -785,12 +751,11 @@ void TitleScreen(void)
       TitleScreen_load_media();
       redraw = 1;
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         audioMusicLoad( "tuxi.ogg", -1 );
       }
     }
-
 
 
     if (menu_opt == INSTRUCT)
@@ -805,14 +770,12 @@ void TitleScreen(void)
 
       TitleScreen_load_media();
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       { 
         audioMusicLoad( "tuxi.ogg", -1 );
       }
-
       redraw = 1;
     }
-
 
 
     if (menu_opt == FREETYPE)
@@ -823,7 +786,7 @@ void TitleScreen(void)
       TitleScreen_load_media();
       redraw = 1;
     }
-
+*/
     /* ------ End menu_opt processing ----------- */
 
 
@@ -833,7 +796,7 @@ void TitleScreen(void)
       SDL_BlitSurface(bkg, NULL, screen, NULL); 
       SDL_BlitSurface(titlepic, NULL, screen, &Titledest);
 
-      if (menu_music)
+      if (Opts_MenuMusic())
       {
         SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
       }
@@ -861,7 +824,7 @@ void TitleScreen(void)
         text_dst[i].w = reg_text[i][menu_depth]->w;
         text_dst[i].h = reg_text[i][menu_depth]->h;
         SDL_BlitSurface(bkg, &menu_button[i], screen, &menu_button[i]);
-        menu_button[i].w = menu_width[menu_depth] + (2*reg->frame[2]->w);
+        menu_button[i].w = menu_width[menu_depth] + (2 * reg->frame[2]->w);
       }
 
       update_locs = 0;
@@ -870,7 +833,7 @@ void TitleScreen(void)
 
       for (j = 1; j <= TITLE_MENU_ITEMS; j++)
       {
-        draw_button(j, reg);
+        draw_button(&menu_button[j], menu_width[menu_depth], reg);
         SDL_BlitSurface(reg_text[j][menu_depth], NULL, screen, &text_dst[j]);
         SDL_BlitSurface(menu_gfx[j][menu_depth]->default_img, NULL, screen, &menu_gfxdest[j]);
       }
@@ -918,7 +881,7 @@ void TitleScreen(void)
     if (old_key_menu && (key_menu != old_key_menu))
     {
       SDL_BlitSurface(bkg, &menu_button[old_key_menu], screen, &menu_button[old_key_menu]);
-      draw_button( old_key_menu, reg );
+      draw_button(&menu_button[old_key_menu], menu_width[menu_depth], reg );
       SDL_BlitSurface(reg_text[old_key_menu][menu_depth], NULL, screen, &text_dst[old_key_menu]);
       SDL_BlitSurface(menu_gfx[old_key_menu][menu_depth]->default_img, NULL, screen, &menu_gfxdest[old_key_menu]);
     }
@@ -936,7 +899,7 @@ void TitleScreen(void)
       }
 
       SDL_BlitSurface(bkg, &menu_button[key_menu], screen, &menu_button[key_menu]);
-      draw_button( key_menu, sel );
+      draw_button(&menu_button[key_menu], menu_width[menu_depth], sel );
       SDL_BlitSurface(sel_text[key_menu][menu_depth], NULL, screen, &text_dst[key_menu]);
       SDL_BlitSurface(menu_gfx[key_menu][menu_depth]->frame[menu_gfx[key_menu][menu_depth]->cur], NULL, screen, &menu_gfxdest[key_menu]);
 
@@ -946,7 +909,7 @@ void TitleScreen(void)
 
     // HACK This is still more than we need to update every frame but
     // it cuts cpu on my machine %60 so it seems better...
-    if (menu_music)
+    if (Opts_MenuMusic())
     {
       SDL_BlitSurface(speaker, NULL, screen, &spkrdest);
     }
@@ -987,7 +950,7 @@ void TitleScreen(void)
 
   LOG( "->>Freeing title screen images\n" );
 
-  localsettings.menu_music = menu_music;
+  localsettings.menu_music = Opts_MenuMusic();
   TitleScreen_unload_media();
 
   LOG( "->TitleScreen():END \n" );
@@ -1069,7 +1032,7 @@ void TitleScreen_load_media( void )
     fprintf(stderr, "realPath[1] = %s\n", realPath[1]);
   }
 
-  if (menu_sound)
+  if (Opts_MenuSound())
   {
     snd_move = LoadSound("tock.wav");
     snd_select = LoadSound("pop.wav");
@@ -1123,7 +1086,7 @@ void TitleScreen_load_menu(void)
       sprintf(fn, "menu/%s", menu_icon[i][j]);
       menu_gfx[i][j] = LoadSprite(fn, IMG_ALPHA);
     }
-    menu_width[j] = max + 20 + 40; // Not clear where '20' and '40' are coming from
+    menu_width[j] = max + 20 + 40; // 40 is width of sprite, 20 is gap
   }
 
   LOG("done creating graphics, now setting positions\n");
@@ -1145,32 +1108,41 @@ void TitleScreen_load_menu(void)
 
   /* FIXME each menu item drawn hardcoded 60 pixels below last - */
   /* perhaps increment should be "menu_button[j-1].h + MENU_ITEM_GAP" */
-  for (j=2; j<6; j++) 
+  for (j = 2; j < 6; j++) 
   {
     /* --- setup vertical location of button text --- */
-    text_dst[j].y = text_dst[j-1].y + 60;
+    text_dst[j].y = text_dst[j - 1].y + 60;
 
     /* --- setup location of button background --- */
-    menu_button[j].x = menu_button[j-1].x;
-    menu_button[j].y = menu_button[j-1].y + 60;
-    menu_button[j].w = menu_button[j-1].w;
-    menu_button[j].h = menu_button[j-1].h;
+    menu_button[j].x = menu_button[j - 1].x;
+    menu_button[j].y = menu_button[j - 1].y + 60;
+    menu_button[j].w = menu_button[j - 1].w;
+    menu_button[j].h = menu_button[j - 1].h;
 
     /* --- setup location of animated icon --- */
-    menu_gfxdest[j].x = menu_gfxdest[j-1].x;
-    menu_gfxdest[j].y = menu_gfxdest[j-1].y + 60;
-    menu_gfxdest[j].w = menu_gfxdest[j-1].w;
-    menu_gfxdest[j].h = menu_gfxdest[j-1].h;
+    menu_gfxdest[j].x = menu_gfxdest[j - 1].x;
+    menu_gfxdest[j].y = menu_gfxdest[j - 1].y + 60;
+    menu_gfxdest[j].w = menu_gfxdest[j - 1].w;
+    menu_gfxdest[j].h = menu_gfxdest[j - 1].h;
   }
 }
 
-
-void draw_button( int id, sprite *s )
+/* draw_button() creates and draws a translucent button with */
+/* rounded ends.  The location and size are taken from the */
+/* SDL_Rect* and width arguments.  The sprite is used to   */
+/* fill in the rect with the desired translucent color and */
+/* give it nice, rounded ends.                             */
+void draw_button(SDL_Rect* target_rect, int width, sprite* s )
 {
   SDL_Rect button;
 
-  button.x = menu_button[id].x;
-  button.y = menu_button[id].y;
+  if (! target_rect || !s)
+  {
+    return;
+  }
+
+  button.x = target_rect->x;
+  button.y = target_rect->y;
   button.w = s->frame[0]->w;
   button.h = s->frame[0]->h;
 
@@ -1178,7 +1150,7 @@ void draw_button( int id, sprite *s )
   button.w = s->frame[1]->w;
 
   for (button.x += s->frame[0]->w;
-       button.x < (menu_button[id].x + menu_width[menu_depth]);
+       button.x < (target_rect->x + width);
        button.x += s->frame[1]->w)
 
   { 
@@ -1217,7 +1189,7 @@ void TitleScreen_unload_media( void ) {
 
 	/* --- unload sounds --- */
 
-	if (menu_sound){
+	if (Opts_MenuSound()){
 	    Mix_FreeChunk(snd_move);
 	    Mix_FreeChunk(snd_select);
 	}
@@ -1238,83 +1210,111 @@ void TitleScreen_unload_media( void ) {
 	TitleScreen_unload_menu();
 }
 
-void NotImplemented(void) {
-	SDL_Surface *s1, *s2, *s3, *s4;
-	sprite *tux;
-	SDL_Rect loc;
-	int finished=0,i;
+void NotImplemented(void)
+{
+  SDL_Surface *s1, *s2, *s3, *s4;
+  sprite *tux;
+  SDL_Rect loc;
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
 
-        LOG( "NotImplemented() - creating text\n" );
 
-	s1 = black_outline( _("Work In Progress!"), font, &white);
-	s2 = black_outline( _("This feature is not ready yet"), font, &white);
-	s3 = black_outline( _("Discuss the future of TuxMath at"), font, &white);
+  LOG( "NotImplemented() - creating text\n" );
 
-	/* we always want the URL in english */
-	if (!useEnglish) {
-		TTF_Font *english_font;
-		useEnglish = 1;
-		english_font = LoadFont( menu_font, menu_font_size );
-		s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
-		TTF_CloseFont(english_font);
-		useEnglish = 0;
-	} else 
-		s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", font, &white);
+  s1 = black_outline( _("Work In Progress!"), font, &white);
+  s2 = black_outline( _("This feature is not ready yet"), font, &white);
+  s3 = black_outline( _("Discuss the future of TuxMath at"), font, &white);
 
-        LOG( "NotImplemented() - drawing screen\n" );
+  /* we always want the URL in english */
+  if (!useEnglish)
+  {
+    TTF_Font *english_font;
+    useEnglish = 1;
+    english_font = LoadFont( menu_font, menu_font_size );
+    s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
+    TTF_CloseFont(english_font);
+    useEnglish = 0;
+  }
+  else 
+  {
+    s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", font, &white);
+  }
 
-	SDL_BlitSurface( bkg, NULL, screen, NULL );
-	loc.x = 320-(s1->w/2); loc.y = 10;
-	SDL_BlitSurface( s1, NULL, screen, &loc);
-	loc.x = 320-(s2->w/2); loc.y = 60;
-	SDL_BlitSurface( s2, NULL, screen, &loc);
-	loc.x = 320-(s3->w/2); loc.y = 400;
-	SDL_BlitSurface( s3, NULL, screen, &loc);
-	loc.x = 320-(s4->w/2); loc.y = 440;
-	SDL_BlitSurface( s4, NULL, screen, &loc);
+  LOG( "NotImplemented() - drawing screen\n" );
 
-//	tux = LoadSprite("tux/tux-egypt", IMG_ALPHA);
-	tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-	if (tux && tux->num_frames) /* make sure sprite has at least one frame */
-	{
-	  loc.x = 320-(tux->frame[0]->w/2);
-	  loc.y = 200;
-	  loc.w = tux->frame[0]->w;
-	  loc.h = tux->frame[0]->h;
-	  SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
-	}
-	SDL_UpdateRect(screen, 0, 0, 0, 0);
+  /* Draw lines of text: */
+  SDL_BlitSurface( bkg, NULL, screen, NULL );
+  loc.x = 320-(s1->w/2); loc.y = 10;
+  SDL_BlitSurface( s1, NULL, screen, &loc);
+  loc.x = 320-(s2->w/2); loc.y = 60;
+  SDL_BlitSurface( s2, NULL, screen, &loc);
+  loc.x = 320-(s3->w/2); loc.y = 400;
+  SDL_BlitSurface( s3, NULL, screen, &loc);
+  loc.x = 320-(s4->w/2); loc.y = 440;
+  SDL_BlitSurface( s4, NULL, screen, &loc);
 
-	i=0;
-	while (!finished) {
-		while (SDL_PollEvent(&event)) 
-			switch (event.type) {
-				case SDL_QUIT:
-					exit(0);
-				case SDL_MOUSEBUTTONDOWN:
-				case SDL_KEYDOWN:
-					finished=1;
-			}
-		i++;
-		if ((i%5==0)
-		 && tux
-		 && tux->num_frames) /* make sure sprite has at least one frame */
-		{
-			next_frame(tux);
-			SDL_BlitSurface( bkg, &loc, screen, &loc);
-			SDL_BlitSurface( tux->frame[tux->cur], NULL, screen, &loc);
-			SDL_UpdateRect(screen, loc.x, loc.y, loc.w, loc.h);
-		}
+  //  FIXME make Tux blink correctly.
+  tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+  if (tux && tux->num_frames) /* make sure sprite has at least one frame */
+  {
+    SDL_BlitSurface(tux->frame[0], NULL, screen, &Tuxdest);
+  }
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-			
-		SDL_Delay(40);
-	}
+  while (!finished)
+  {
+    start = SDL_GetTicks();
 
-	SDL_FreeSurface(s1);
-	SDL_FreeSurface(s2);
-	SDL_FreeSurface(s3);
-	SDL_FreeSurface(s4);
-	FreeSprite(tux);
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+          //exit(0);
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        case SDL_KEYDOWN:
+        {
+          finished = 1;
+        }
+      }
+    }
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;			
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (tux_frame)
+    {
+      SDL_BlitSurface(tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
+      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+    }
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+  SDL_FreeSurface(s1);
+  SDL_FreeSurface(s2);
+  SDL_FreeSurface(s3);
+  SDL_FreeSurface(s4);
+  FreeSprite(tux);
 }
 
 
@@ -1324,6 +1324,7 @@ void NotImplemented(void) {
 /* Display a list of tuxmath config files in the missions directory   */
 /* and allow the player to pick one.                                  */
 /* FIXME the directory search and list generation belongs in fileops.c */
+/* FIXME set up frame counter so Tux blinks.                           */
 
 /* returns 0 if user pressed escape (or if dir not found)
  *         1 if config was set correctly
@@ -1332,16 +1333,23 @@ int choose_config_file(void)
 {
   SDL_Surface *titles[MAX_LESSONS];
   SDL_Surface *select[MAX_LESSONS];
-  SDL_Surface *left, *right;
+  SDL_Surface* lesson_title;
+  SDL_Surface *left, *right, *left_gray, *right_gray;
   SDL_Rect leftRect, rightRect;
   SDL_Rect titleRects[8];               //8 lessons displayed per page 
+  SDL_Rect lesson_menu_button[8];      // Translucent mouse "buttons"
 
+  Uint32 frame = 0;                             //For keeping frame rate constant 
+  Uint32 frame_start = 0;
   int stop = 0;
   int loc = 0;                                  //The currently selected lesson file
   int old_loc = 1;
   int lessons = 0;                              //Number of lesson files found in dir
   int i;
   int length;
+  sprite* tux;
+  int tux_frame;
+  int click_flag = 1;
 
   unsigned char lesson_path[FNLEN];             //Path to lesson directory
   unsigned char lesson_list[MAX_LESSONS][200];  //List of lesson file names
@@ -1473,27 +1481,45 @@ int choose_config_file(void)
   SDL_FreeSurface(bkg);
   bkg = LoadImage("title/main_bkg.png", IMG_REGULAR);
 
-  left = LoadImage("title/left.png", IMG_ALPHA);       
-  leftRect.w = left->w; leftRect.h = left->h;
-  leftRect.x = 320 - 80 - (leftRect.w/2); leftRect.y = 430;
-
+  /* Put arrow buttons in right lower corner, inset by 20 pixels */
+  /* with a 10 pixel space between:                              */
   right = LoadImage("title/right.png", IMG_ALPHA);
-  rightRect.w = right->w; rightRect.h = right->h;
-  rightRect.x = 320 + 80 - (rightRect.w/2); rightRect.y = 430;
+  right_gray = LoadImage("title/right_gray.png", IMG_ALPHA);
+  rightRect.w = right->w;
+  rightRect.h = right->h;
+  rightRect.x = screen->w - right->w - 20;
+  rightRect.y = screen->h - right->h - 20;
 
-  /* set initial rect sizes */
-  titleRects[0].y = 30;
+  left = LoadImage("title/left.png", IMG_ALPHA);       
+  left_gray = LoadImage("title/left_gray.png", IMG_ALPHA);       
+  leftRect.w = left->w;
+  leftRect.h = left->h;
+  leftRect.x = rightRect.x - 10 - left->w;
+  leftRect.y = screen->h - left->h - 20;
+
+  tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+  lesson_title = LoadImage("title/title1.png", IMG_ALPHA);
+
+  /* set initial title rect sizes */
+  titleRects[0].y = 20;
   titleRects[0].w = titleRects[0].h = titleRects[0].x = 0;
 
   for (i = 1; i < 8; i++)
   { 
-    titleRects[i].y = titleRects[i - 1].y + 50;
+    titleRects[i].y = titleRects[i - 1].y + 55;
     titleRects[i].w = titleRects[i].h = titleRects[i].x = 0;
   }
 
+  /* Set up background, title, and Tux: */
+  SDL_BlitSurface(bkg, NULL, screen, NULL);
+  SDL_BlitSurface(lesson_title, NULL, screen, &Titledest);
+  SDL_BlitSurface(tux->frame[0], NULL, screen, &Tuxdest);
+  SDL_UpdateRect(screen, 0, 0, 0 ,0);
 
   while (!stop)
   {
+    frame_start = SDL_GetTicks();         /* For keeping frame rate constant. */
+
     while (SDL_PollEvent(&event))
     {
       switch (event.type)
@@ -1509,35 +1535,84 @@ int choose_config_file(void)
         {
           for (i = 0; (i < 8) && (loc -(loc % 8) + i < lessons); i++)
           {
-            if (inRect(titleRects[i], event.motion.x, event.motion.y))
+            if (inRect(lesson_menu_button[i], event.motion.x, event.motion.y))
             {
+              // Play sound if loc is being changed:
+              if (Opts_MenuSound() && (loc != loc - (loc % 8) + i)) 
+              {
+                tuxtype_playsound(snd_move);
+              }
               loc = loc - (loc % 8) + i;
               break;
             }
           }
-          break;
+
+          /* "Left" button - make click if button active: */
+          if (inRect(leftRect, event.motion.x, event.motion.y))
+          {
+            if (loc - (loc % 8) - 8 >= 0)
+            {
+              if (Opts_MenuSound() && click_flag)
+              {
+                tuxtype_playsound(snd_move);
+                click_flag = 0;
+              }
+              break;
+            }
+          }
+
+          /* "Right" button - go to next page: */
+          else if (inRect( rightRect, event.motion.x, event.motion.y ))
+          {
+            if (loc - (loc % 8) + 8 < lessons)
+            {
+              if (Opts_MenuSound() && click_flag)
+              {
+                tuxtype_playsound(snd_move);
+                click_flag = 0;
+              }
+              break;
+            }
+          }
+          else  // Mouse outside of arrow rects - re-enable click sound:
+          {
+            click_flag = 1;
+            break;
+          }
         }
 
         case SDL_MOUSEBUTTONDOWN:
         {
-#ifdef TUXMATH_DEBUG
-              fprintf(stderr, "MouseDown at x = %d, y = %d\n", event.button.x, event.button.y);
-#endif
-
           /* Lesson buttons - play game with corresponding lesson file: */
           for (i = 0; (i < 8) && (loc - (loc % 8) + i < lessons); i++)
           {
-            if (inRect(titleRects[i], event.button.x, event.button.y))
+            if (inRect(lesson_menu_button[i], event.button.x, event.button.y))
             {
+              if (Opts_MenuSound())
+              {
+                  tuxtype_playsound(snd_select);
+              }
+
               loc = loc - (loc % 8) + i;
 
-#ifdef TUXMATH_DEBUG
-              fprintf(stderr, "Player selecting lesson, loc = %d\n", loc);
-              fprintf(stderr, "Name of lesson file: %s", lesson_list[loc]);
-#endif
-              read_named_config_file(lesson_list[loc]);
-              game();
-              //FIXME only recognizing first entry in list
+              if (read_named_config_file(lesson_list[loc]))
+              {
+                if (Opts_MenuMusic())  //Turn menu music off for game
+                {
+                  audioMusicUnload();
+                }
+
+                game();
+
+                if (Opts_MenuMusic()) //Turn menu music back on
+                {
+                  audioMusicLoad( "tuxi.ogg", -1 );
+                }
+              }
+              else  // Something went wrong - could not read config file:
+              {
+                fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);
+              }
 
               stop = 1;
               break;
@@ -1550,6 +1625,10 @@ int choose_config_file(void)
             if (loc - (loc % 8) - 8 >= 0)
             {
               loc = loc - (loc % 8) - 8;
+              if (Opts_MenuSound())
+              {
+                tuxtype_playsound(snd_move);
+              }
               break;
             }
           }
@@ -1560,6 +1639,10 @@ int choose_config_file(void)
             if (loc - (loc % 8) + 8 < lessons)
             {
               loc = loc - (loc % 8) + 8;
+              if (Opts_MenuSound())
+              {
+                tuxtype_playsound(snd_move);
+              }
               break;
             }
           }
@@ -1575,23 +1658,48 @@ int choose_config_file(void)
             break;
           }
 
+          /* Selecting lesson game! */
           if ((event.key.keysym.sym == SDLK_RETURN)
            || (event.key.keysym.sym == SDLK_SPACE)
            || (event.key.keysym.sym == SDLK_KP_ENTER))
           {
-#ifdef TUXMATH_DEBUG
-            fprintf(stderr, "Player selecting lesson, loc = %d\n", loc);
-            fprintf(stderr, "Name of lesson file: %s", lesson_list[loc]);
-#endif
-            read_named_config_file(lesson_list[loc]);
-            game();
+            if (Opts_MenuSound())
+            {
+              tuxtype_playsound(snd_select);
+            }
+
+            if (read_named_config_file(lesson_list[loc]))
+            {
+              if (Opts_MenuMusic())  //Turn menu music off for game
+              {
+                audioMusicUnload();
+              }
+
+              game();
+
+              if (Opts_MenuMusic()) //Turn menu music back on
+              {
+                audioMusicLoad( "tuxi.ogg", -1 );
+              }
+            }
+            else  // Something went wrong - could not read config file:
+            {
+              fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);
+            }
+
             stop = 1;
             break;
           }
 
+
           /* Go to previous page, if present: */
           if ((event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_PAGEUP))
           {
+            if (Opts_MenuSound())
+            {
+              tuxtype_playsound(snd_move);
+            }
+
             if (loc - (loc % 8) - 8 >= 0)
             {
               loc = loc - (loc % 8) - 8;
@@ -1601,7 +1709,12 @@ int choose_config_file(void)
           /* Go to next page, if present: */
           if ((event.key.keysym.sym == SDLK_RIGHT) || (event.key.keysym.sym == SDLK_PAGEDOWN))
           {
-            if (loc-(loc%8)+8 < lessons)
+            if (Opts_MenuSound())
+            {
+              tuxtype_playsound(snd_move);
+            }
+
+            if (loc - (loc % 8) + 8 < lessons)
             {
               loc = (loc - (loc % 8) + 8);
             }
@@ -1610,6 +1723,11 @@ int choose_config_file(void)
           /* Go up one entry, if present: */
           if (event.key.keysym.sym == SDLK_UP)
           {
+            if (Opts_MenuSound())
+            {
+              tuxtype_playsound(snd_move);
+            }
+
             if (loc > 0)
             {
               loc--;
@@ -1619,6 +1737,11 @@ int choose_config_file(void)
           /* Go down one entry, if present: */
           if (event.key.keysym.sym == SDLK_DOWN)
           {
+            if (Opts_MenuSound())
+            {
+              tuxtype_playsound(snd_move);
+            }
+
             if (loc + 1 < lessons)
             {
               loc++;
@@ -1634,40 +1757,85 @@ int choose_config_file(void)
       int start;
       start = loc - (loc % 8);
 
-      SDL_BlitSurface( bkg, NULL, screen, NULL );
+      /* Redraw background, title, and Tux: */
+      SDL_BlitSurface(bkg, NULL, screen, NULL);
+      SDL_BlitSurface(lesson_title, NULL, screen, &Titledest);
+      SDL_BlitSurface(tux->frame[0], NULL, screen, &Tuxdest);
 
-      /* FIXME get rid of evil macro ;)       */
+      /* FIXME get rid of "evil" macro ;)       */
       for (i = start; i < MIN(start+8,lessons); i++)
       {
         titleRects[i % 8].x = 320 - (titles[i]->w/2); //Center in screen
         titleRects[i % 8].w = titles[i]->w;
         titleRects[i % 8].h = titles[i]->h;
 
+        /* Now set up mouse button rects: */
+        lesson_menu_button[i % 8].x = titleRects[i % 8].x - 15;
+        lesson_menu_button[i % 8].y = titleRects[i % 8].y - 15;
+        lesson_menu_button[i % 8].h = titleRects[i % 8].h + 30;
+        lesson_menu_button[i % 8].w = titleRects[i % 8].w + 30;
+
         if (i == loc)  //Draw text in yellow
         {
+          draw_button(&lesson_menu_button[i % 8], lesson_menu_button[i % 8].w, sel);
           SDL_BlitSurface(select[loc], NULL, screen, &titleRects[i % 8]);
         }
         else           //Draw text in white
         {
+          draw_button(&lesson_menu_button[i % 8], lesson_menu_button[i % 8].w, reg);
           SDL_BlitSurface(titles[i], NULL, screen, &titleRects[i % 8]);
         }
       }
 
-      /* --- draw buttons --- */
+      /* --- draw 'left' and 'right' buttons --- */
       if (start > 0)        // i.e. not on first page
       {
         SDL_BlitSurface( left, NULL, screen, &leftRect );
       }
+      else  /* Draw grayed-out left button: */
+      {
+        SDL_BlitSurface( left_gray, NULL, screen, &leftRect );
+      }
+
       if (start + 8 < lessons)  // not on last page
       {
         SDL_BlitSurface( right, NULL, screen, &rightRect );
       }
+      else  /* Draw grayed-out right button: */
+      {
+        SDL_BlitSurface( right_gray, NULL, screen, &rightRect );
+      }
 
-      /* Now redraw whole screen: */
       SDL_UpdateRect(screen, 0, 0, 0 ,0);
     }
-    SDL_Delay(40);
+
     old_loc = loc;
+
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;			
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (tux_frame)
+    {
+      SDL_BlitSurface(tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
+      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+    }
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - frame_start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
   }  // End !stop while loop
 
   /* --- clear graphics before leaving function --- */ 
@@ -1679,10 +1847,14 @@ int choose_config_file(void)
 
   SDL_FreeSurface(left);
   SDL_FreeSurface(right);
+  SDL_FreeSurface(left_gray);
+  SDL_FreeSurface(right_gray);
+  SDL_FreeSurface(lesson_title);
+  FreeSprite(tux);
 
   DEBUGCODE { fprintf( stderr, "Leaving choose_config_file();\n" ); }
 
-  if (stop == 2)
+  if (stop == 2)  // Means player pressed ESC
     return 0;
 
   return 1;
@@ -1904,7 +2076,7 @@ void UpdateScreen(int *frame) {
 
 
 /******************************
-AddRect : Dont actually blit a surface,
+AddRect: Don't actually blit a surface,
     but add a rect to be updated next
     update
 *******************************/

@@ -135,30 +135,34 @@ int MC_Initialize(void)
   math_opts->format_div_answer_first = DEFAULT_FORMAT_DIV_ANSWER_FIRST;
   math_opts->format_div_answer_middle = DEFAULT_FORMAT_DIV_ANSWER_MIDDLE;
 
-  /* set addition options */
+  /* set addition options: */
   math_opts->addition_allowed = DEFAULT_ADDITION_ALLOWED;
   math_opts->min_augend = DEFAULT_MIN_AUGEND;
   math_opts->max_augend = DEFAULT_MAX_AUGEND;
   math_opts->min_addend = DEFAULT_MIN_ADDEND;
   math_opts->max_addend = DEFAULT_MAX_ADDEND;
-  /* set subtraction options */
+  /* set subtraction options: */
   math_opts->subtraction_allowed = DEFAULT_SUBTRACTION_ALLOWED;
   math_opts->min_minuend = DEFAULT_MIN_MINUEND;
   math_opts->max_minuend = DEFAULT_MAX_MINUEND;
   math_opts->min_subtrahend = DEFAULT_MIN_SUBTRAHEND;
   math_opts->max_subtrahend = DEFAULT_MAX_SUBTRAHEND;
-  /* set multiplication options */
+  /* set multiplication options: */
   math_opts->multiplication_allowed = DEFAULT_MULTIPLICATION_ALLOWED;
   math_opts->min_multiplier = DEFAULT_MIN_MULTIPLIER;
   math_opts->max_multiplier = DEFAULT_MAX_MULTIPLIER;
   math_opts->min_multiplicand = DEFAULT_MIN_MULTIPLICAND;
   math_opts->max_multiplicand = DEFAULT_MAX_MULTIPLICAND;
-  /* set division options */
+  /* set division options: */
   math_opts->division_allowed = DEFAULT_DIVISION_ALLOWED;
   math_opts->min_divisor = DEFAULT_MIN_DIVISOR;
   math_opts->max_divisor = DEFAULT_MAX_DIVISOR;
   math_opts->min_quotient = DEFAULT_MIN_QUOTIENT;
   math_opts->max_quotient = DEFAULT_MAX_QUOTIENT;
+  /* set typing practice options: */
+  math_opts->typing_practice_allowed = DEFAULT_TYPING_PRACTICE_ALLOWED;
+  math_opts->min_typing_num = DEFAULT_MIN_TYPING_NUM;
+  math_opts->max_typing_num = DEFAULT_MAX_TYPING_NUM;
 
   /* if no negatives to be used, reset any negatives to 0 */
   if (!math_opts->allow_negatives)
@@ -936,6 +940,15 @@ void MC_SetDivAllowed(int opt)
 }
 
 
+void MC_SetTypingAllowed(int opt)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetTypingAllowed(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->typing_practice_allowed = int_to_bool(opt);
+}
 
 
 
@@ -1181,6 +1194,27 @@ void MC_SetDivMaxQuotient(int opt)
 }
 
 
+/* Set min and max for division: */
+void MC_SetTypeMin(int opt)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetTypeMin(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->min_typing_num = sane_value(opt);
+}
+
+
+void MC_SetTypeMax(int opt)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_SetTypeMax(): math_opts not valid!\n");
+    return;
+  }
+  math_opts->max_typing_num = sane_value(opt);
+}
 
 
 /*"Get" type methods to query option parameters */
@@ -1454,6 +1488,16 @@ int MC_DivAllowed(void)
 }
 
 
+int MC_TypingAllowed(void)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_TypeAllowed(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->typing_practice_allowed;
+}
+
 
 /* Query min and max for addition: */
 int MC_AddMinAugend(void)               /* the "augend" is the first addend i.e. "a" in "a + b = c" */
@@ -1642,6 +1686,28 @@ int MC_DivMaxQuotient(void)
 }
 
 
+/* Query min and max for typing practice: */
+int MC_TypeMin(void)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_TypeMin(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->min_typing_num;
+}
+
+
+int MC_TypeMax(void)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_TypeMax(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->max_typing_num;
+}
+
 
 /* prints struct to file */
 void MC_PrintMathOptions(FILE* fp, int verbose)
@@ -1823,6 +1889,11 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
   fprintf(fp, "max_divisor = %d\n", math_opts->max_divisor);
   fprintf(fp, "min_quotient = %d\n", math_opts->min_quotient);
   fprintf(fp, "max_quotient = %d\n", math_opts->max_quotient);
+
+  fprintf(fp, "\n# Typing practice:\n");
+  fprintf(fp, "min_typing_num = %d\n",math_opts->min_typing_num);
+  fprintf(fp, "max_typing_num = %d\n",math_opts->max_typing_num);
+
 }
 
 
@@ -1928,6 +1999,11 @@ void clear_negatives(void)
     math_opts->min_quotient = 0;
   if (math_opts->max_quotient < 0)
     math_opts->max_quotient = 0;
+
+  if (math_opts->min_typing_num < 0)
+    math_opts->min_typing_num = 0;
+  if (math_opts->max_typing_num < 0)
+    math_opts->max_typing_num = 0;
 }
 
 /* using parameters from the mission struct, create linked list of "flashcards" */
@@ -2221,6 +2297,31 @@ MC_MathQuestion* generate_list(void)
     }
   }
 
+  if (math_opts->typing_practice_allowed)
+  {
+    for (i = math_opts->min_typing_num; i <= math_opts->max_typing_num; i++)
+    {
+      /* check if max_answer exceeded or if question */
+      /* contains undesired negative values:         */
+      if (validate_question(i, i, i))
+      {  
+        /* put in the desired number of copies: */
+        for (k = 0; k < math_opts->question_copies; k++)
+        {
+          /* make sure max_questions not exceeded, */
+          /* also check if question being randomly kept or discarded: */
+          if ((length < math_opts->max_questions)
+               && randomly_keep())
+          {
+            tmp_ptr = create_node(i, i, MC_OPER_TYPING_PRACTICE, i, MC_FORMAT_ANS_LAST);
+            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+            end_of_list = tmp_ptr;
+            length++; 
+          } 
+        }
+      }
+    }
+  }
   #ifdef MC_DEBUG
   length = list_length(top_of_list); 
   printf("\nlength before randomization:\t%d", length); 
@@ -2303,6 +2404,12 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
       {
         oper_char = '/';
         break; 
+      }
+      case MC_OPER_TYPING_PRACTICE:
+      {
+        snprintf(ptr->card.formula_string, MC_FORMULA_LEN, "%d",ptr->card.num1);
+        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
+        return ptr;  /* Don't need to look at formats for this case. */
       }
       default:
       {
