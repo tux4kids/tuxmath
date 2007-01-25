@@ -1047,8 +1047,8 @@ void TitleScreen_load_media( void )
   speakeroff = LoadImage( "title/nosound.png", IMG_ALPHA );
   bkg = LoadImage( "title/main_bkg.jpg", IMG_REGULAR );
 
-  sel = LoadSprite("menu/sel", IMG_ALPHA);
-  reg = LoadSprite("menu/reg", IMG_ALPHA);
+  sel = LoadSprite("sprites/sel", IMG_ALPHA);
+  reg = LoadSprite("sprites/reg", IMG_ALPHA);
   Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
   font = LoadFont(menu_font, menu_font_size);
@@ -1083,7 +1083,7 @@ void TitleScreen_load_menu(void)
       }
 
       /* --- load animated icon for menu item --- */
-      sprintf(fn, "menu/%s", menu_icon[i][j]);
+      sprintf(fn, "sprites/%s", menu_icon[i][j]);
       menu_gfx[i][j] = LoadSprite(fn, IMG_ALPHA);
     }
     menu_width[j] = max + 20 + 40; // 40 is width of sprite, 20 is gap
@@ -1479,7 +1479,7 @@ int choose_config_file(void)
   }
 
   SDL_FreeSurface(bkg);
-  bkg = LoadImage("title/main_bkg.png", IMG_REGULAR);
+  bkg = LoadImage("title/main_bkg.jpg", IMG_REGULAR);
 
   /* Put arrow buttons in right lower corner, inset by 20 pixels */
   /* with a 10 pixel space between:                              */
