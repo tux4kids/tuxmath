@@ -61,6 +61,7 @@
 #define DEFAULT_MAX_COMETS 10
 #define DEFAULT_SAVE_SUMMARY 1	
 #define DEFAULT_SOUND_HW_AVAILABLE 1
+#define DEFAULT_USE_IGLOOS 1
 #define DEFAULT_USE_FEEDBACK 0
 #define DEFAULT_DANGER_LEVEL 0.35
 #define DEFAULT_DANGER_LEVEL_SPEEDUP 1.1
@@ -81,11 +82,13 @@
 #define MAX_MAX_COMETS 100
 
 
+/* Going away soon: */
 typedef struct range_type {
   int min;
   int max;
 } range_type;
 
+/* Going away soon: */
 enum {
   OPER_ADD,
   OPER_SUB,
@@ -94,6 +97,7 @@ enum {
   NUM_OPERS
 };
 
+/* Going away soon: */
 enum {
   Q_RANGE_1_5,
   Q_RANGE_6_12,

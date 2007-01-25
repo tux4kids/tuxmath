@@ -342,6 +342,7 @@ int Opts_Initialize(void)
   game_options->demo_mode = DEFAULT_DEMO_MODE;
   game_options->oper_override = DEFAULT_OPER_OVERRIDE;
   game_options->use_keypad = DEFAULT_USE_KEYPAD;
+  game_options->use_igloos = DEFAULT_USE_IGLOOS;
   game_options->speed = DEFAULT_SPEED;
   game_options->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
   game_options->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
@@ -433,6 +434,12 @@ void Opts_SetOperOverride(int val)
 void Opts_SetUseKeypad(int val)
 {
   game_options->use_keypad = int_to_bool(val);
+}
+
+
+void Opts_SetUseIgloos(int val)
+{
+  game_options->use_igloos = int_to_bool(val);
 }
 
 
@@ -763,6 +770,17 @@ int Opts_UseKeypad(void)
     return GAME_OPTS_INVALID;
   }
   return game_options->use_keypad;
+}
+
+
+int Opts_UseIgloos(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_UseIgloos(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->use_igloos;
 }
 
 

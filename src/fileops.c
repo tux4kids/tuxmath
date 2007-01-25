@@ -660,6 +660,13 @@ int read_config_file(FILE *fp, int file_type)
         Opts_SetUseKeypad(v);
     }
 
+    else if(0 == strcasecmp(parameter, "use_igloos"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        Opts_SetUseIgloos(v);
+    }
+
     else if(0 == strcasecmp(parameter, "save_summary"))
     {
       int v = str_to_bool(value);
@@ -1356,6 +1363,8 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default: 0                                               #\n"
                  "# Parameter: use_keypad (boolean)                          #\n"
                  "# Default: 0                                               #\n"
+                 "# Parameter: use_igloos (boolean)                          #\n"
+                 "# Default: 1                                               #\n"
                  "# Parameter: save_game_summary (boolean)                   #\n"
                  "# Default: 1                                               #\n"
                  "#                                                          #\n"
@@ -1398,6 +1407,14 @@ int write_config_file(FILE *fp, int verbose)
                "# gameplay or use with touchscreens:\n");
   }
   fprintf(fp, "use_keypad = %d\n", Opts_UseKeypad());
+
+  if (verbose)
+  {
+    fprintf (fp, "\n# Use newer graphics where Tux defends igloo-\n"
+               "# dwelling penguins (for those who find the older\n"
+               "# images of exploding cities to be distasteful)\n");
+  }
+  fprintf(fp, "use_igloos = %d\n", Opts_UseIgloos());
 
   if (verbose)
   {

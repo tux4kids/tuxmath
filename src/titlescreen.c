@@ -1646,109 +1646,97 @@ int choose_config_file(void)
               break;
             }
           }
-        }
+        } /* End of case SDL_MOUSEDOWN */
 
 
         case SDL_KEYDOWN:
         {
-          // TODO could make these a switch/case statement
-          if (event.key.keysym.sym == SDLK_ESCAPE)
-          { 
-            stop = 2;
-            break;
-          }
-
-          /* Selecting lesson game! */
-          if ((event.key.keysym.sym == SDLK_RETURN)
-           || (event.key.keysym.sym == SDLK_SPACE)
-           || (event.key.keysym.sym == SDLK_KP_ENTER))
+          /* Proceed according to particular key pressed: */
+          switch (event.key.keysym.sym)
           {
-            if (Opts_MenuSound())
-            {
-              tuxtype_playsound(snd_select);
+            case SDLK_ESCAPE:
+            { 
+              stop = 2;
+              break;
             }
 
-            if (read_named_config_file(lesson_list[loc]))
+            case SDLK_RETURN:
+            case SDLK_SPACE:
+            case SDLK_KP_ENTER:
             {
-              if (Opts_MenuMusic())  //Turn menu music off for game
+              if (Opts_MenuSound())
+                {tuxtype_playsound(snd_select);}
+
+              if (read_named_config_file(lesson_list[loc]))
               {
-                audioMusicUnload();
+                if (Opts_MenuMusic())  //Turn menu music off for game
+                  {audioMusicUnload();}
+
+                game();
+
+                if (Opts_MenuMusic()) //Turn menu music back on
+                  {audioMusicLoad( "tuxi.ogg", -1 );}
               }
+              else  // Something went wrong - could not read config file:
+                {fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);}
 
-              game();
-
-              if (Opts_MenuMusic()) //Turn menu music back on
-              {
-                audioMusicLoad( "tuxi.ogg", -1 );
-              }
+              stop = 1;
+              break;
             }
-            else  // Something went wrong - could not read config file:
+
+
+            /* Go to previous page, if present: */
+            case SDLK_LEFT:
+            case SDLK_PAGEUP:
             {
-              fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);
+              if (Opts_MenuSound())
+                {tuxtype_playsound(snd_move);}
+              if (loc - (loc % 8) - 8 >= 0)
+                {loc = loc - (loc % 8) - 8;}
+              break;
             }
 
-            stop = 1;
-            break;
-          }
 
-
-          /* Go to previous page, if present: */
-          if ((event.key.keysym.sym == SDLK_LEFT) || (event.key.keysym.sym == SDLK_PAGEUP))
-          {
-            if (Opts_MenuSound())
+            /* Go to next page, if present: */
+            case SDLK_RIGHT:
+            case SDLK_PAGEDOWN:
             {
-              tuxtype_playsound(snd_move);
+              if (Opts_MenuSound())
+                {tuxtype_playsound(snd_move);}
+              if (loc - (loc % 8) + 8 < lessons)
+                {loc = (loc - (loc % 8) + 8);}
+              break; 
             }
 
-            if (loc - (loc % 8) - 8 >= 0)
+            /* Go up one entry, if present: */
+            case SDLK_UP:
             {
-              loc = loc - (loc % 8) - 8;
-            }
-          }
-
-          /* Go to next page, if present: */
-          if ((event.key.keysym.sym == SDLK_RIGHT) || (event.key.keysym.sym == SDLK_PAGEDOWN))
-          {
-            if (Opts_MenuSound())
-            {
-              tuxtype_playsound(snd_move);
+              if (Opts_MenuSound())
+                {tuxtype_playsound(snd_move);}
+              if (loc > 0)
+                {loc--;}
+              break;
             }
 
-            if (loc - (loc % 8) + 8 < lessons)
-            {
-              loc = (loc - (loc % 8) + 8);
-            }
-          }
 
-          /* Go up one entry, if present: */
-          if (event.key.keysym.sym == SDLK_UP)
-          {
-            if (Opts_MenuSound())
+            /* Go down one entry, if present: */
+            case SDLK_DOWN:
             {
-              tuxtype_playsound(snd_move);
+              if (Opts_MenuSound())
+                {tuxtype_playsound(snd_move);}
+              if (loc + 1 < lessons)
+                {loc++;}
             }
 
-            if (loc > 0)
+            default:
             {
-              loc--;
-            }
-          }
-
-          /* Go down one entry, if present: */
-          if (event.key.keysym.sym == SDLK_DOWN)
-          {
-            if (Opts_MenuSound())
-            {
-              tuxtype_playsound(snd_move);
+              /* Some other key - do nothing. */
             }
 
-            if (loc + 1 < lessons)
-            {
-              loc++;
-            }
-          }
-        }  // End of key handling
-      }  // End switch statement
+            break;  /* To get out of _outer_ switch/case statement */
+          }  /* End of key switch statement */
+        }  // End of case SDL_KEYDOWN in outer switch statement
+      }  // End event switch statement
     }  // End SDL_PollEvent while loop
 
     /* Redraw screen: */
