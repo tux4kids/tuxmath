@@ -56,6 +56,7 @@ char * credit_text[] = {
   "",
   "-ADDITIONAL ART",
   "BILL KENDRICK",
+  "KENDRA SWANSON & LINNEA HOLY",
   "",
   "-SOUND EFFECTS",
   "TBA",

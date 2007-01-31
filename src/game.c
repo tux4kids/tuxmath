@@ -36,9 +36,24 @@
 
 #define CITY_EXPL_START 3 * 5  /* Must be mult. of 5 (number of expl frames) */
 #define ANIM_FRAME_START 4 * 2 /* Must be mult. of 2 (number of tux frames) */
-#define GAMEOVER_COUNTER_START 750
+#define GAMEOVER_COUNTER_START 40
 #define LEVEL_START_WAIT_START 20
 #define LASER_START 5
+#define FLAPPING_START 12
+#define FLAPPING_INTERVAL 500
+#define STEAM_START 15
+#define IGLOO_SWITCH_START 8
+#define STANDING_COUNTER_START 8
+#define EVAPORATING_COUNTER_START 100
+
+#define PENGUIN_WALK_SPEED 3
+#define SNOWFLAKE_SPEED 3
+#define SNOWFLAKE_SEPARATION 3
+
+#define Opts_ExtraLifeInterval() 2
+
+const int SND_IGLOO_SIZZLE = SND_SIZZLE;
+const int IMG_CITY_NONE = 0;
 
 char operchars[NUM_OPERS] = {
   "+-*/"
@@ -75,7 +90,7 @@ typedef struct comet_type {
 
 /* Local (to game.c) 'globals': */
 
-//static int gameover;
+static int gameover_counter;
 static int game_status;
 static int SDL_quit_received;
 static int escape_received;
@@ -100,6 +115,8 @@ static int tux_pressing;
 static int doing_answer;
 static int level_start_wait;
 static int last_bkgd;
+static int igloo_vertical_offset;
+static int extra_life_counter;
 
 /* Feedback-related variables */
 static int city_expl_height;
@@ -111,6 +128,9 @@ static float danger_level;
 static int digits[3];
 static comet_type comets[MAX_MAX_COMETS];
 static city_type cities[NUM_CITIES];
+static penguin_type penguins[NUM_CITIES];
+static steam_type steam[NUM_CITIES];
+static cloud_type cloud;
 static laser_type laser;
 static SDL_Surface* bkgd;
 
@@ -123,7 +143,11 @@ static void game_countdown(void);
 static void game_handle_tux(void);
 static void game_handle_comets(void);
 static void game_handle_cities(void);
+static void game_handle_penguins(void);
+static void game_handle_steam(void);
+static void game_handle_extra_life(void);
 static void game_draw(void);
+static int check_extra_life(void);
 static int check_exit_conditions(void);
 
 static void draw_numbers(char* str, int x, int y);
@@ -144,6 +168,7 @@ static void game_key_event(SDLKey key);
 
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
+static void print_status(void);
 #endif
 
 /* --- MAIN GAME FUNCTION!!! --- */
@@ -183,7 +208,10 @@ int game(void)
     game_handle_tux();
     game_handle_comets();
     game_handle_cities();
+    game_handle_penguins();
+    game_handle_steam();
     game_handle_demo(); 
+    game_handle_extra_life();
     game_draw();
     /* figure out if we should leave loop: */
     game_status = check_exit_conditions(); 
@@ -406,13 +434,14 @@ int game(void)
 
 int game_initialize(void)
 {
-  int i;
+  int i,img;
   /* Clear window: */
   
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
 
   game_status = GAME_IN_PROGRESS;  
+  gameover_counter = -1;
   SDL_quit_received = 0;
   escape_received = 0;
 
@@ -456,29 +485,50 @@ int game_initialize(void)
  
   /* (Create and position cities) */
   
+  if (Opts_UseIgloos())
+    img = IMG_IGLOO_INTACT;
+  else
+    img = IMG_CITY_BLUE;
   for (i = 0; i < NUM_CITIES; i++)
   {
-    cities[i].alive = 1;
-    cities[i].expl = 0;
-    cities[i].shields = 1;
+    cities[i].hits_left = 2;
+    cities[i].status = CITY_PRESENT;
+    cities[i].counter = 0;
+    cities[i].threatened = 0;
+    cities[i].layer = 0;
      
     /* Left vs. Right - makes room for Tux and the console */
     if (i < NUM_CITIES / 2)
     {
       cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
-                     ((images[IMG_CITY_BLUE] -> w) / 2));
+                     ((images[img] -> w) / 2));
     }
     else
     {
       cities[i].x = (screen->w -
                  ((((screen->w / (NUM_CITIES + 1)) *
                     (i - (NUM_CITIES / 2)) +
-                   ((images[IMG_CITY_BLUE] -> w) / 2)))));
+                   ((images[img] -> w) / 2)))));
     }
   }
 
   num_cities_alive = NUM_CITIES;
   num_comets_alive = 0;
+
+  igloo_vertical_offset = images[IMG_CITY_BLUE]->h - images[IMG_IGLOO_INTACT]->h;
+
+  /* Create and position the penguins and steam */
+  for (i = 0; i < NUM_CITIES; i++) {
+    penguins[i].status = PENGUIN_HAPPY;
+    penguins[i].counter = 0;
+    penguins[i].x = cities[i].x;
+    penguins[i].layer = 0;
+    steam[i].status = STEAM_OFF;
+    steam[i].layer = 0;
+  }
+
+  extra_life_counter = Opts_ExtraLifeInterval();
+  cloud.status = EXTRA_LIFE_OFF;
 
   /* (Clear laser) */
   laser.alive = 0;
@@ -771,18 +821,29 @@ void game_handle_tux(void)
 
 void game_handle_comets(void)
 {
-  int i;
-  /* Handle comets: */
+  /* Handle comets. Since the comets also are the things that trigger
+     changes in the cities, we set some flags in them, too. */
+  int i,this_city;
   num_comets_alive = 0;
       
+  /* Clear the threatened flag on each city */
+  for (i = 0; i < NUM_CITIES; i++)
+    cities[i].threatened = 0;
+
   for (i = 0; i < MAX_COMETS; i++)
   {
     if (comets[i].alive)
     {
       num_comets_alive++;
+      this_city = comets[i].city;
+
       /* Update comet position */
       comets[i].x = comets[i].x + 0; /* no lateral motion for now! */
       comets[i].y = comets[i].y + (speed);
+
+      /* Does it threaten a city? */
+      if (comets[i].y > 3*screen->h / 4)
+	cities[this_city].threatened = 1;
 
       /* Did it hit a city? */
       if (comets[i].y >= city_expl_height &&
@@ -791,22 +852,10 @@ void game_handle_comets(void)
         /* Tell MathCards about it - question not answered correctly: */
         MC_NotAnsweredCorrectly(&(comets[i].flashcard));
 
-        /* Disable shields or destroy city: */
-        if (cities[comets[i].city].shields)
-	{
-	  cities[comets[i].city].shields = 0;
-	  playsound(SND_SHIELDSDOWN);
-	}
-        else
-        {
-          cities[comets[i].city].expl = CITY_EXPL_START;
-          playsound(SND_EXPLOSION);
-        }
-
         /* Record data for feedback */
-	/* Do this only for cities that are threatened; dead cities */
+	/* Do this only for cities that are alive; dead cities */
         /* might not get much protection from the player */
-	if (Opts_UseFeedback() && cities[comets[i].city].alive) {
+	if (Opts_UseFeedback() && cities[this_city].hits_left) {
 	  comet_feedback_number++;
           comet_feedback_height += 1.0 + Opts_CityExplHandicap();
 
@@ -816,6 +865,29 @@ void game_handle_comets(void)
  	  #endif
  	}
  
+        /* Disable shields/destroy city/create steam cloud: */
+        if (cities[this_city].hits_left)
+	{
+	  cities[this_city].status = CITY_EXPLODING;
+	  if (Opts_UseIgloos()) {
+	    playsound(SND_IGLOO_SIZZLE);
+	    cities[this_city].counter = IGLOO_SWITCH_START;
+	    steam[this_city].status = STEAM_ON;
+	    steam[this_city].counter = STEAM_START;
+	  }
+	  else {
+	    if (cities[comets[i].city].hits_left == 2) {
+	      playsound(SND_SHIELDSDOWN);
+	      cities[this_city].counter = 1;  /* Will act immediately */
+	    }
+	    else {
+	      playsound(SND_EXPLOSION);
+	      cities[this_city].counter = CITY_EXPL_START;
+	    }
+	  }
+	  cities[this_city].hits_left--;
+	}	    
+	      
        /* If slow_after_wrong selected, set flag to go back to starting speed and */
         /* number of attacking comets: */
         if (Opts_SlowAfterWrong())
@@ -860,9 +932,11 @@ void game_handle_comets(void)
     {
       if (num_comets_alive == 0)
       {
-        /* Time for the next wave! */
+	if (!check_extra_life()) {
+	  /* Time for the next wave! */
 	  wave++;
 	  reset_level();
+	}
       }
     }
   }
@@ -872,31 +946,307 @@ void game_handle_comets(void)
 
 void game_handle_cities(void)
 {
+  /* Update the status of the cities. These also determine the changes
+     in the penguins. */
   int i;
   num_cities_alive = 0;
 
   for (i = 0; i < NUM_CITIES; i++)
   {
-    if (cities[i].alive)
-    {
+    /* Note: when status is CITY_REBUILDING, status and image
+       selection is handled by the extra_life code */
+    if (cities[i].status == CITY_REBUILDING)
+      continue;
+    if (cities[i].hits_left)
       num_cities_alive++;
-      /* Handle animated explosion: */
-      if (cities[i].expl)
-      {
-        cities[i].expl--;
-	if (cities[i].expl == 0)
-	   cities[i].alive = 0;
+    /* Handle counter for animated explosion: */
+    if (cities[i].status == CITY_EXPLODING)
+    {
+      cities[i].counter--;
+      if (cities[i].counter == 0) {
+	if (cities[i].hits_left)
+	  cities[i].status = CITY_PRESENT;
+	else {
+	  if (Opts_UseIgloos()) {
+	    cities[i].status = CITY_EVAPORATING;
+	    cities[i].counter = EVAPORATING_COUNTER_START;
+	    cities[i].img = IMG_IGLOO_MELTED1;
+	  } else {
+	    cities[i].status = CITY_GONE;
+	    cities[i].img = IMG_CITY_NONE;
+	  }
+	}
       }
+    }
+    /* Choose the correct city/igloo image */
+    if (Opts_UseIgloos()) {
+      if (cities[i].status == CITY_EVAPORATING) {
+	/* Handle the evaporation animation */
+	cities[i].layer = 0;  /* these have to be drawn below the penguin */
+	cities[i].counter--;
+	if (cities[i].counter == 0) {
+	  cities[i].img--;
+	  if (cities[i].img < IMG_IGLOO_MELTED3) {
+	    cities[i].img = IMG_CITY_NONE;
+	    cities[i].status = CITY_GONE;
+	  }
+	  else
+	    cities[i].counter = EVAPORATING_COUNTER_START;
+	}
+      }	else {
+	if (cities[i].status != CITY_GONE) {
+	  cities[i].layer = 1;  /* these have to be drawn above the penguin */
+	  cities[i].img = IMG_IGLOO_MELTED1 + cities[i].hits_left;
+	  /* If we're in the middle of an "explosion," don't switch to the
+	     new igloo. Note the steam may have a different counter than
+	     the igloo on this matter; the switch is designed to occur
+	     halfway through the steam cloud. */
+	  if (cities[i].status == CITY_EXPLODING)
+	    cities[i].img++;
+	}
+      }
+    }
+    else {
+      /* We're using the original "city" graphics */
+      cities[i].layer = 0;   /* No layering needed */
+      if (cities[i].hits_left)
+	cities[i].img = IMG_CITY_BLUE;
+      else if (cities[i].status == CITY_EXPLODING)
+	cities[i].img = (IMG_CITY_BLUE_EXPL5 - (cities[i].counter / (CITY_EXPL_START / 5)));
+      else
+	cities[i].img = IMG_CITY_BLUE_DEAD;
+
+      /* Change image to appropriate color: */
+      cities[i].img = cities[i].img + ((wave % MAX_CITY_COLORS) *
+		   (IMG_CITY_GREEN - IMG_CITY_BLUE));
+      
     }
   }
 }
 
 
+void game_handle_penguins(void)
+{
+  int i,direction,walk_counter;
+
+  if (!Opts_UseIgloos())
+    return;
+  for (i = 0; i < NUM_CITIES; i++) {
+    penguins[i].layer = 0;
+    if (cities[i].status == CITY_EVAPORATING)
+      penguins[i].layer = 1;  /* will go higher in certain cases */
+    /* Handle interaction with comets & city status (ducking) */
+    if (cities[i].threatened && penguins[i].status < PENGUIN_WALKING_OFF
+        && penguins[i].status != PENGUIN_OFFSCREEN)
+      penguins[i].status = PENGUIN_DUCKING;
+    else if (!cities[i].threatened && penguins[i].status == PENGUIN_DUCKING) {
+      if (cities[i].hits_left == 2)
+	penguins[i].status = PENGUIN_HAPPY;
+      else
+	penguins[i].status = PENGUIN_GRUMPY;
+    }
+    switch (penguins[i].status) {
+    case PENGUIN_HAPPY:
+      penguins[i].img = IMG_PENGUIN_FLAPDOWN;
+      if (rand() % FLAPPING_INTERVAL == 0) {
+	penguins[i].status = PENGUIN_FLAPPING;
+	penguins[i].counter = FLAPPING_START;
+      }
+      break;
+    case PENGUIN_FLAPPING:
+      if (penguins[i].counter % 4 >= 2)
+	penguins[i].img = IMG_PENGUIN_FLAPUP;
+      else
+	penguins[i].img = IMG_PENGUIN_FLAPDOWN;
+      penguins[i].counter--;
+      if (penguins[i].counter == 0)
+	penguins[i].status = PENGUIN_HAPPY;
+      break;
+    case PENGUIN_DUCKING:
+      penguins[i].img = IMG_PENGUIN_INCOMING;
+      break;
+    case PENGUIN_GRUMPY:
+      penguins[i].img = IMG_PENGUIN_GRUMPY;
+      /* add "worried" animation here? */
+      break;
+    case PENGUIN_STANDING_UP:
+      penguins[i].img = IMG_PENGUIN_STANDING_UP;
+      penguins[i].counter--;
+      if (penguins[i].counter == 0)
+	penguins[i].status = PENGUIN_WALKING_OFF;
+      break;
+    case PENGUIN_SITTING_DOWN:
+      penguins[i].img = IMG_PENGUIN_SITTING_DOWN;
+      penguins[i].counter--;
+      if (penguins[i].counter == 0) {
+	penguins[i].status = PENGUIN_FLAPPING;
+	penguins[i].counter = FLAPPING_START;
+      }
+      break;
+    case PENGUIN_WALKING_ON:
+      walk_counter = (penguins[i].counter % 8)/2;
+      if (walk_counter == 3)
+	walk_counter = 1;
+      penguins[i].img = IMG_PENGUIN_WALK_ON1 + walk_counter;
+      penguins[i].counter++;
+      direction = 2*(i < NUM_CITIES/2)-1;  /* +1 for walk right, -1 for left */
+      penguins[i].x += direction*PENGUIN_WALK_SPEED;
+      if (direction*penguins[i].x >= direction*cities[i].x) {
+	penguins[i].status = PENGUIN_SITTING_DOWN;
+	penguins[i].counter = STANDING_COUNTER_START;
+	penguins[i].x = cities[i].x;
+      }
+      penguins[i].layer = 3;  /* Stand in front of steam */
+      break;
+    case PENGUIN_WALKING_OFF:
+      walk_counter = (penguins[i].counter % 8)/2;
+      if (walk_counter == 3)
+	walk_counter = 1;
+      penguins[i].img = IMG_PENGUIN_WALK_OFF1 + walk_counter;
+      penguins[i].counter++;
+      direction = 1-2*(i < NUM_CITIES/2);
+      penguins[i].x += direction*PENGUIN_WALK_SPEED;
+      if (direction < 0) {
+	if (penguins[i].x + images[IMG_PENGUIN_WALK_OFF1]->w/2 < 0)
+	  penguins[i].status = PENGUIN_OFFSCREEN;
+      } else {
+	if (penguins[i].x - images[IMG_PENGUIN_WALK_OFF1]->w/2 > screen->w)
+	  penguins[i].status = PENGUIN_OFFSCREEN;
+      }
+      penguins[i].layer = 3;
+      break;
+    case PENGUIN_OFFSCREEN:
+      penguins[i].img = -1;
+      break;
+    }
+  }
+}
+
+void game_handle_steam(void)
+{
+  int i;
+
+  if (!Opts_UseIgloos())
+    return;
+  for (i = 0; i < NUM_CITIES; i++) {
+    if (steam[i].counter) {
+      steam[i].counter--;
+      if (!steam[i].counter) {
+	steam[i].status = STEAM_OFF;
+	/* The penguin was ducking, now we can stop */
+        if (cities[i].hits_left)
+          penguins[i].status = PENGUIN_GRUMPY;
+        else {
+          penguins[i].status = PENGUIN_STANDING_UP;
+	  penguins[i].counter = STANDING_COUNTER_START;
+	}
+      }
+    }
+    if (steam[i].status == STEAM_OFF)
+      steam[i].img = -1;
+    else {
+      steam[i].img = IMG_STEAM5 - steam[i].counter/3;
+      steam[i].layer = 2;
+    }
+  }
+}
+
+int check_extra_life(void)
+{
+  /* This is called at the end of a wave. Returns 1 if we're in the
+     middle of handling an extra life, otherwise 0 */
+  int i,snow_width;
+
+  if (!Opts_ExtraLifeInterval())
+    return 0;
+  if (cloud.status == EXTRA_LIFE_ON)
+    return 1;
+#ifdef TUXMATH_DEBUG
+  print_status();
+#endif
+  if (extra_life_counter)
+    extra_life_counter--;
+  if (extra_life_counter == 0 && 
+      num_cities_alive < NUM_CITIES) {
+    /* Begin the extra life sequence */
+    extra_life_counter = Opts_ExtraLifeInterval()+1; /* compensates for next -- */
+    cloud.status = EXTRA_LIFE_ON;
+    cloud.y = screen->h/3;
+    i = 0;
+    while (cities[i].hits_left)
+      i++;
+    cloud.city = i;
+    if (cloud.city < NUM_CITIES/2)
+      cloud.x = -images[IMG_CLOUD]->w/2;
+    else
+      cloud.x = screen->w + images[IMG_CLOUD]->w/2;
+    penguins[cloud.city].status = PENGUIN_WALKING_ON;
+    /* initialize the snowflakes */
+    snow_width = images[IMG_CLOUD]->w - images[IMG_SNOW1]->w;
+    for (i = 0; i < NUM_SNOWFLAKES; i++) {
+      cloud.snowflake_y[i] = cloud.y - i*SNOWFLAKE_SEPARATION;
+      cloud.snowflake_x[i] = - snow_width/2  + (rand() % snow_width);
+      cloud.snowflake_size[i] = rand() % 3;
+    }
+#ifdef TUXMATH_DEBUG
+    print_status();
+#endif
+    return 1;
+  } else
+    return 0;
+}
+
+void game_handle_extra_life(void)
+{
+  int i,igloo_top,num_below,status,direction;
+  Uint8 cloud_transparency;
+
+  if (cloud.status == EXTRA_LIFE_ON) {
+    direction = 2*(cloud.city < NUM_CITIES/2) - 1;
+    if (direction*cloud.x < direction*cities[cloud.city].x) {
+      cloud.x += direction*PENGUIN_WALK_SPEED;
+      SDL_SetAlpha(images[IMG_CLOUD],SDL_SRCALPHA | SDL_RLEACCEL,
+		   SDL_ALPHA_OPAQUE);
+    }
+    else {
+      cities[cloud.city].status = CITY_REBUILDING;
+      for (i = 0, num_below = 0; i < NUM_SNOWFLAKES; i++) {
+	cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
+	if (cloud.snowflake_y[i] > cloud.y)
+	  num_below++;
+      }
+      cloud_transparency = (Uint8) ((float) (NUM_SNOWFLAKES-num_below)/NUM_SNOWFLAKES
+	* (float) SDL_ALPHA_OPAQUE);
+      status = SDL_SetAlpha(images[IMG_CLOUD],SDL_SRCALPHA,cloud_transparency);
+      igloo_top = screen->h - igloo_vertical_offset
+	- images[IMG_IGLOO_INTACT]->h;
+      if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > igloo_top) {
+	cities[cloud.city].hits_left = 2;
+	cities[cloud.city].img = IMG_IGLOO_INTACT;
+      }
+      else if (cloud.snowflake_y[2*NUM_SNOWFLAKES/3] > igloo_top)
+	cities[cloud.city].img = IMG_IGLOO_REBUILDING2;
+      else if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top)
+	cities[cloud.city].img = IMG_IGLOO_REBUILDING1;
+      if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top) {
+	penguins[cloud.city].layer = 0;
+	cities[cloud.city].layer = 1;
+      }
+      if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > screen->h - igloo_vertical_offset) {
+	/* exit rebuilding when last snowflake at igloo bottom */
+	cloud.status = EXTRA_LIFE_OFF;
+	cities[cloud.city].status = CITY_PRESENT;
+      }
+    }
+  }
+}
+
 /* FIXME consider splitting this into smaller functions e.g. draw_comets(), etc. */
 void game_draw(void)
 {
-  int i,j, img;
+  int i,j, img, current_layer, max_layer;
   SDL_Rect src, dest;
+  SDL_Surface *this_image;
   char str[64];
   char* comet_str;
 
@@ -967,49 +1317,120 @@ void game_draw(void)
   sprintf(str, "%.6d", score);
   draw_numbers(str, screen->w - ((images[IMG_NUMBERS]->w / 10) * 6), 0);
       
-  /* Draw cities: */
-  for (i = 0; i < NUM_CITIES; i++)
-  {
-    /* Decide which image to display: */
-    if (cities[i].alive)
-    {
-      if (cities[i].expl == 0)
-        img = IMG_CITY_BLUE;
-      else
-        img = (IMG_CITY_BLUE_EXPL5 - (cities[i].expl / (CITY_EXPL_START / 5)));
+  /* Draw cities/igloos and (if applicable) penguins: */
+  if (Opts_UseIgloos()) {
+    /* We have to draw respecting layering */
+    current_layer = 0;
+    max_layer = 0;
+    do {
+      for (i = 0; i < NUM_CITIES; i++) {
+	if (cities[i].status != CITY_GONE && cities[i].layer > max_layer)
+	  max_layer = cities[i].layer;
+	if (penguins[i].status != PENGUIN_OFFSCREEN && penguins[i].layer > max_layer)
+	  max_layer = penguins[i].layer;
+	if (steam[i].status == STEAM_ON && steam[i].layer > max_layer)
+	  max_layer = steam[i].layer;
+	if (cities[i].layer == current_layer &&
+	    cities[i].img != IMG_CITY_NONE) {
+	  this_image = images[cities[i].img];
+	  dest.x = cities[i].x - (this_image->w / 2);
+	  dest.y = (screen->h) - (this_image->h) - igloo_vertical_offset;
+	  if (cities[i].img == IMG_IGLOO_MELTED3 ||
+	      cities[i].img == IMG_IGLOO_MELTED2)
+	    dest.y -= (images[IMG_IGLOO_MELTED1]->h - this_image->h)/2;
+	  dest.w = (this_image->w);
+	  dest.h = (this_image->h);
+	  SDL_BlitSurface(this_image, NULL, screen, &dest);
+	}
+	if (penguins[i].layer == current_layer &&
+	    penguins[i].status != PENGUIN_OFFSCREEN) {
+	  this_image = images[penguins[i].img];
+	  if (penguins[i].status == PENGUIN_WALKING_OFF ||
+	      penguins[i].status == PENGUIN_WALKING_ON) {
+	    /* With walking penguins, we have to use flipped images
+	       when it's walking left. The other issue is that the
+	       images are of different widths, so aligning on the
+	       center produces weird forward-backward walking. The
+	       reliable way is the align them all on the tip of the
+	       beak (the right border of the unflipped image) */
+	    dest.x = penguins[i].x - (this_image->w / 2);
+	    dest.y = (screen->h) - (this_image->h);
+	    if ((i<NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_OFF) ||
+		(i>=NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_ON)) {
+	      /* walking left */
+	      this_image = flipped_images[flipped_img_lookup[penguins[i].img]];
+	      dest.x = penguins[i].x - images[IMG_PENGUIN_WALK_OFF2]->w/2;
+	    } else
+	      dest.x = penguins[i].x - this_image->w
+		+ images[IMG_PENGUIN_WALK_OFF2]->w/2;   /* walking right */
+	  }
+	  else {
+	    dest.x = penguins[i].x - (this_image->w / 2);
+	    dest.y = (screen->h) - (5*(this_image->h))/4 - igloo_vertical_offset;
+	  }
+	  dest.w = (this_image->w);
+	  dest.h = (this_image->h);
+	  SDL_BlitSurface(this_image, NULL, screen, &dest);
+	}
+	if (steam[i].layer == current_layer &&
+	    steam[i].status == STEAM_ON) {
+	  this_image = images[steam[i].img];
+	  dest.x = cities[i].x - (this_image->w / 2);
+	  dest.y = (screen->h) - this_image->h - ((4 * images[IMG_IGLOO_INTACT]->h) / 7);
+	  dest.w = (this_image->w);
+	  dest.h = (this_image->h);
+	  SDL_BlitSurface(this_image, NULL, screen, &dest);
+	}	  
+      }
+      current_layer++;
+    } while (current_layer <= max_layer);
+    if (cloud.status == EXTRA_LIFE_ON) {
+      /* Render cloud & snowflakes */
+      for (i = 0; i < NUM_SNOWFLAKES; i++) {
+	if (cloud.snowflake_y[i] > cloud.y &&
+	    cloud.snowflake_y[i] < screen->h - igloo_vertical_offset) {
+	  this_image = images[IMG_SNOW1+cloud.snowflake_size[i]];
+	  dest.x = cloud.snowflake_x[i] - this_image->w/2 + cloud.x;
+	  dest.y = cloud.snowflake_y[i] - this_image->h/2;
+	  dest.w = this_image->w;
+	  dest.h = this_image->h;
+	  SDL_BlitSurface(this_image, NULL, screen, &dest);
+	}
+      }
+      this_image = images[IMG_CLOUD];
+      dest.x = cloud.x - this_image->w/2;
+      dest.y = cloud.y - this_image->h/2;
+      dest.w = this_image->w;
+      dest.h = this_image->h;
+      SDL_BlitSurface(this_image, NULL, screen, &dest);
     }
-    else
-    {
-      img = IMG_CITY_BLUE_DEAD;
-    }
-    /* Change image to appropriate color: */
-    img = img + ((wave % MAX_CITY_COLORS) *
-	       (IMG_CITY_GREEN - IMG_CITY_BLUE));
-	  
-    /* Draw it! */
-    dest.x = cities[i].x - (images[img]->w / 2);
-    dest.y = (screen->h) - (images[img]->h);
-    dest.w = (images[img]->w);
-    dest.h = (images[img]->h);
-  
-    SDL_BlitSurface(images[img], NULL, screen, &dest);
+  }
+  else {
+    /* We're drawing original city graphics, for which there are no
+       layering issues, but has special handling for the shields */
+    for (i = 0; i < NUM_CITIES; i++) {
+      this_image = images[cities[i].img];
+      dest.x = cities[i].x - (this_image->w / 2);
+      dest.y = (screen->h) - (this_image->h);
+      dest.w = (this_image->w);
+      dest.h = (this_image->h);
+      SDL_BlitSurface(this_image, NULL, screen, &dest);
 
-    /* Draw sheilds: */
-    if (cities[i].shields)
-    {
-      for (j = (frame % 3); j < images[IMG_SHIELDS]->h; j = j + 3)
-      {
-	      src.x = 0;
-	      src.y = j;
-	      src.w = images[IMG_SHIELDS]->w;
-	      src.h = 1;
+      /* Draw sheilds: */
+      if (cities[i].hits_left > 1) {
+	for (j = (frame % 3); j < images[IMG_SHIELDS]->h; j = j + 3) {
+	  src.x = 0;
+	  src.y = j;
+	  src.w = images[IMG_SHIELDS]->w;
+	  src.h = 1;
 
-	      dest.x = cities[i].x - (images[IMG_SHIELDS]->w / 2);
-	      dest.y = (screen->h) - (images[IMG_SHIELDS]->h) + j;
-	      dest.w = src.w;
-	      dest.h = src.h;
+	  dest.x = cities[i].x - (images[IMG_SHIELDS]->w / 2);
+	  dest.y = (screen->h) - (images[IMG_SHIELDS]->h) + j;
+	  dest.w = src.w;
+	  dest.h = src.h;
 
-	      SDL_BlitSurface(images[IMG_SHIELDS], &src, screen, &dest);
+	  SDL_BlitSurface(images[IMG_SHIELDS], &src, screen, &dest);
+	}
       }
     }
   }
@@ -1112,7 +1533,11 @@ int check_exit_conditions(void)
   /* determine if game lost (i.e. all cities blown up): */
   if (!num_cities_alive)
   {
-    return GAME_OVER_LOST;
+    if (gameover_counter < 0)
+      gameover_counter = GAMEOVER_COUNTER_START;
+    gameover_counter--;
+    if (gameover_counter == 0)
+      return GAME_OVER_LOST;
   }
   
   /* determine if game won (i.e. all questions in mission answered correctly): */
@@ -2152,4 +2577,27 @@ void reset_comets(void)
     strncpy(comets[i].flashcard.formula_string, " ", FORMULA_LEN); 
     strncpy(comets[i].flashcard.answer_string, " ", ANSWER_LEN); 
   }
+}
+
+void print_status(void)
+{
+  int i;
+
+  printf("\nCities:");
+  printf("\nHits left: ");
+  for (i = 0; i < NUM_CITIES; i++)
+    printf("%02d ",cities[i].hits_left);
+  printf("\nStatus:    ");
+  for (i = 0; i < NUM_CITIES; i++)
+    printf("%02d ",cities[i].status);
+
+  printf("\nPenguins:");
+  printf("\nStatus:    ");
+  for (i = 0; i < NUM_CITIES; i++)
+    printf("%02d ",penguins[i].status);
+
+  printf("\nCloud:");
+  printf("\nStatus:    %d",cloud.status);
+  printf("\nCity:      %d",cloud.city);
+  printf("\n");
 }

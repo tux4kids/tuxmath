@@ -52,6 +52,20 @@
 /* (These are now 'extern'd in "tuxmath.h") */
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
+/* Need special handling to generate flipped versions of images. This
+   is a slightly ugly hack arising from the use of the enum trick for
+   NUM_IMAGES. */
+#define NUM_FLIPPED_IMAGES 6
+SDL_Surface* flipped_images[NUM_FLIPPED_IMAGES];
+int flipped_img_lookup[NUM_IMAGES];
+const int flipped_img[] = {
+  IMG_PENGUIN_WALK_ON1,
+  IMG_PENGUIN_WALK_ON2,
+  IMG_PENGUIN_WALK_ON3,
+  IMG_PENGUIN_WALK_OFF1,
+  IMG_PENGUIN_WALK_OFF2,
+  IMG_PENGUIN_WALK_OFF3
+};
 
 #ifndef NOSOUND
 Mix_Chunk* sounds[NUM_SOUNDS];
@@ -64,6 +78,7 @@ void initialize_options(void);
 void handle_command_args(int argc, char* argv[]);
 void initialize_SDL(void);
 void load_data_files(void);
+void generate_flipped_images(void);
 
 //int initialize_game_options(void);
 void seticon(void);
@@ -85,6 +100,8 @@ void setup(int argc, char * argv[])
   initialize_SDL();
   /* Read image and sound files: */
   load_data_files();
+  /* Generate flipped versions of walking images */
+  generate_flipped_images();
 }
 
 
@@ -508,6 +525,22 @@ void load_data_files(void)
 //       SDL_Flip(screen);
 //       SDL_Delay(10);
 //     }
+}
+
+/* Create flipped versions of certain images; also set up the flip
+   lookup table */
+void generate_flipped_images(void)
+{
+  int i;
+
+  /* Zero out the flip lookup table */
+  for (i = 0; i < NUM_IMAGES; i++)
+    flipped_img_lookup[i] = 0;
+
+  for (i = 0; i < NUM_FLIPPED_IMAGES; i++) {
+    flipped_images[i] = flip(images[flipped_img[i]],1,0);
+    flipped_img_lookup[flipped_img[i]] = i;
+  }
 }
 
 /* save options and free heap */

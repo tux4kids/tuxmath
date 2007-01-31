@@ -63,21 +63,21 @@ SDL_Surface*  bkg;
 /* --- define menu structure --- */
 /* (these values are all in the Game_Type enum in titlescreen.h) */
 /* They are the "commands" associated with the menu items.   */
-const int menu_item[][6]= {{0, 0,         0,         0,        0           },
-			   {0, LESSONS,      ARCADE_CADET,   LEVEL1,   NOT_CODED   },
-			   {0, ARCADE,       ARCADE_SCOUT,   LEVEL2,   FREETYPE    },
-			   {0, OPTIONS,      ARCADE_RANGER,  LEVEL3,   PROJECT_INFO},
-			   {0, MORE_OPTIONS, ARCADE_ACE,     LEVEL4,   SET_LANGUAGE},
-			   {0, QUIT_GAME,    MAIN,           MAIN,     MAIN        }};
+const int menu_item[][6]= {{0, 0,            0,              0,             0           },
+			   {0, LESSONS,      ARCADE_CADET,   INTERFACE_OPTIONS,  NOT_CODED   },
+			   {0, ARCADE,       ARCADE_SCOUT,   HELP,               FREETYPE    },
+			   {0, OPTIONS,      ARCADE_RANGER,  CREDITS,            PROJECT_INFO},
+			   {0, GAME_OPTIONS, ARCADE_ACE,     PROJECT_INFO,       SET_LANGUAGE},
+			   {0, QUIT_GAME,    MAIN,           MAIN,               MAIN        }};
 
 /* --- menu text --- */
 const unsigned char* menu_text[][6]= 
-/*    Main Menu                                       'Arcade' Games                    Math Options                     Game Options            */
+/*    Main Menu                                       'Arcade' Games                    Options                     Game Options            */
 {{"", "",                                             "",                             "",                              ""                       },
- {"", gettext_noop("Math Command Training Academy"),  gettext_noop("Space Cadet"), gettext_noop("Addition"),       gettext_noop("Speed")    },
- {"", gettext_noop("Play Arcade Game"),               gettext_noop("Scout"),       gettext_noop("Subtraction"),    gettext_noop("Sound")    },
- {"", gettext_noop("Play Custom Game"),               gettext_noop("Ranger"),      gettext_noop("Multiplication"), gettext_noop("Graphics") },
- {"", gettext_noop("More Options"),                   gettext_noop("Ace"),         gettext_noop("Division"),       gettext_noop("Advanced Options")},
+ {"", gettext_noop("Math Command Training Academy"), gettext_noop("Space Cadet"), gettext_noop("Settings"),     gettext_noop("Speed")    },
+ {"", gettext_noop("Play Arcade Game"),              gettext_noop("Scout"),       gettext_noop("Help"),         gettext_noop("Sound")    },
+ {"", gettext_noop("Play Custom Game"),              gettext_noop("Ranger"),      gettext_noop("Credits"),      gettext_noop("Graphics") },
+ {"", gettext_noop("More Options"),                  gettext_noop("Ace"),         gettext_noop("Project Info"), gettext_noop("Advanced Options")},
  {"", gettext_noop("Quit"),                           gettext_noop("Main Menu"),   gettext_noop("Main Menu"),      gettext_noop("Main Menu") }};
 
 
@@ -168,12 +168,10 @@ void TitleScreen(void)
   int done = 0;
   int firstloop = 1;
   int menu_opt = NONE;
-  int sub_menu = NONE;
   int update_locs = 1;
   int redraw = 0;
   int key_menu = 1;
   int old_key_menu = 5;
-  char phrase[128];
 
   debugOn = 1; //for now
   show_tux4kids = 1; //for now
@@ -197,8 +195,7 @@ void TitleScreen(void)
   yellow.r      = 0xff; yellow.g      = 0xff; yellow.b      = 0x00; 
 
 
-  /* FIXME phrase(s) should come from file */
-  strncpy( phrase, "Now is the time for all good men to come to the aid of their country.", 128);
+
   start = SDL_GetTicks();
 
 
@@ -551,9 +548,8 @@ void TitleScreen(void)
     if (menu_opt == ARCADE)   /* Go to Arcade submenu */
     {
        menu_depth = ARCADE_SUBMENU; /* i.e. 2 */
-       sub_menu = ARCADE;           /* i.e. 1 */
        update_locs = 1;
-       redraw=1;
+       redraw = 1;
     }
 
 
@@ -583,10 +579,11 @@ void TitleScreen(void)
     }
 
 
-    if (menu_opt == MORE_OPTIONS)
+    if (menu_opt == GAME_OPTIONS) /* Go to page three of menu system */
     {
-      NotImplemented();
-      redraw = 1;
+       menu_depth = GAME_OPTIONS_SUBMENU;  /* i.e. 3 */
+       update_locs = 1;
+       redraw=1;
     }
 
 
@@ -717,31 +714,41 @@ void TitleScreen(void)
       redraw = 1;
     }
 
-    /* Rest of menu_opts are not currently used: */
-/*
-    if (menu_opt == LASER)
-    {
-      menu_depth = LASER_SUBMENU;
-      sub_menu = LASER;
-      update_locs = 1;
-      redraw = 1;
-    }
 
+    /* Third (Game Options) page:-----------------------------------------------*/
 
-    if (menu_opt == NOT_CODED)
+    if (menu_opt == INTERFACE_OPTIONS)
     {
       NotImplemented();
       redraw = 1;
     }
 
 
-    if (menu_opt == PROJECT_INFO)
+    if (menu_opt == HELP)
     {
-//      projectInfo();
+      NotImplemented();
       redraw = 1;
     }
 
 
+    if (menu_opt == CREDITS)
+    {
+      TitleScreen_unload_media();
+      credits();
+      TitleScreen_load_media();
+      redraw = 1;
+    }
+
+
+    if (menu_opt == PROJECT_INFO)
+    {
+      NotImplemented();
+//      projectInfo();
+      redraw = 1;
+    }
+
+    /* Rest of menu_opts are not currently used: */
+/*
     if (menu_opt == SET_LANGUAGE)
     {
       TitleScreen_unload_media();

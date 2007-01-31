@@ -1,5 +1,14 @@
 changelog for "tuxmath"
 
+2007.Jan.31 (https://svn.tux4kids.net/tuxmath/ - revision 72)
+  Game/Graphics:
+    * New graphics in which Tux protects igloo-dwelling
+      penguins rather than cities. The older "city" mode still
+      works and is selectable via the config file.
+    * Restoration of lost igloo after each two waves.
+
+      Tim Holy <holy@wustl.edu>
+
 2007.Jan.24 (https://svn.tux4kids.net/tuxmath/ - revision 69)
   Options:
     * More progress on new menu system, generally works
