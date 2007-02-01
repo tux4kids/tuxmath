@@ -2197,13 +2197,16 @@ int load_image_data()
       }
     
     /* Green 'status bar' during loading: */
-    dest.x = 0;
-    dest.y = (screen->h) - 10;
-    dest.w = ((screen->w) * (i + 1)) / total_files;
-    dest.h = 10;
-    
-    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-    SDL_Flip(screen);
+    /* Do this rarely so it doesn't take so much time to load */
+    if (i % 10 == 0) {
+      dest.x = 0;
+      dest.y = (screen->h) - 10;
+      dest.w = ((screen->w) * (i + 1)) / total_files;
+      dest.h = 10;
+      
+      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
+      SDL_Flip(screen);
+    }
   }
   /* If we make it to here OK, return 1: */
   return 1;
@@ -2252,6 +2255,7 @@ int load_sound_data(void)
         return 0;
       }
       
+      /*
       dest.x = 0;
       dest.y = (screen->h) - 10;
       dest.w = ((screen->w) * (i + 1 + NUM_IMAGES)) / total_files;
@@ -2259,6 +2263,7 @@ int load_sound_data(void)
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
       SDL_Flip(screen);
+      */
     }
 
 
@@ -2276,13 +2281,15 @@ int load_sound_data(void)
         return 0;
       }
       
-      dest.x = 0;
-      dest.y = (screen->h) - 10;
-      dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
-      dest.h = 10;
-
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_Flip(screen);
+      if (i == NUM_MUSICS-1) {
+	dest.x = 0;
+	dest.y = (screen->h) - 10;
+	dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
+	dest.h = 10;
+	
+	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
+	SDL_Flip(screen);
+      }
     }
   }
   return 1;
