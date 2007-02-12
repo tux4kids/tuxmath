@@ -47,10 +47,8 @@
 #define EVAPORATING_COUNTER_START 100
 
 #define PENGUIN_WALK_SPEED 3
-#define SNOWFLAKE_SPEED 3
+#define SNOWFLAKE_SPEED 6
 #define SNOWFLAKE_SEPARATION 3
-
-#define Opts_ExtraLifeInterval() 2
 
 const int SND_IGLOO_SIZZLE = SND_SIZZLE;
 const int IMG_CITY_NONE = 0;
@@ -73,7 +71,7 @@ range_type ranges[NUM_Q_RANGES] = {
   {13, 20}
 };
 
-
+/* FIXME Don't think we need these here anymore: */
 #define ANSWER_LEN 5
 #define FORMULA_LEN 14
 
@@ -82,9 +80,9 @@ typedef struct comet_type {
   int expl;
   int city;
   float x, y;
-//  char formula[FORMULA_LEN];
   int answer;
-// char answer_str[ANSWER_LEN];
+  int bonus;
+  int zapped;
   MC_FlashCard flashcard;
 } comet_type;
 
@@ -116,7 +114,9 @@ static int doing_answer;
 static int level_start_wait;
 static int last_bkgd;
 static int igloo_vertical_offset;
-static int extra_life_counter;
+//static int extra_life_counter;
+static int bonus_comet_counter;
+static int extra_life_earned;
 
 /* Feedback-related variables */
 static int city_expl_height;
@@ -527,7 +527,13 @@ int game_initialize(void)
     steam[i].layer = 0;
   }
 
-  extra_life_counter = Opts_ExtraLifeInterval();
+  if (Opts_BonusCometInterval()) {
+    bonus_comet_counter = Opts_BonusCometInterval()+1;
+#ifdef TUXMATH_DEBUG
+    printf("\nInitializing with bonus_comet_counter = %d",bonus_comet_counter);
+#endif
+  }
+  extra_life_earned = 0;
   cloud.status = EXTRA_LIFE_OFF;
 
   /* (Clear laser) */
@@ -674,6 +680,7 @@ void game_handle_answer(void)
   }	
 	
   /*  Pick the lowest comet which has the right answer: */
+  /*  FIXME: do we want it to prefer bonus comets to regular comets? */
   lowest_y = 0;
   lowest = -1;
 
@@ -696,6 +703,7 @@ void game_handle_answer(void)
 
     /* Destroy comet: */
     comets[lowest].expl = COMET_EXPL_START;
+    comets[lowest].zapped = 1;
     /* Fire laser: */
     laser.alive = LASER_START;
     laser.x1 = screen->w / 2;
@@ -839,7 +847,15 @@ void game_handle_comets(void)
 
       /* Update comet position */
       comets[i].x = comets[i].x + 0; /* no lateral motion for now! */
-      comets[i].y = comets[i].y + (speed);
+      /* Make bonus comet move faster at chosen ratio: */
+      if (comets[i].bonus)
+      {
+	comets[i].y += speed * Opts_BonusSpeedRatio();
+      }
+      else /* Regular comet: */
+      {
+        comets[i].y += speed;
+      }
 
       /* Does it threaten a city? */
       if (comets[i].y > 3*screen->h / 4)
@@ -888,6 +904,10 @@ void game_handle_comets(void)
 	  cities[this_city].hits_left--;
 	}	    
 	      
+	/* If this was a bonus comet, restart the counter */
+	if (comets[i].bonus)
+	  bonus_comet_counter = Opts_BonusCometInterval()+1;
+
        /* If slow_after_wrong selected, set flag to go back to starting speed and */
         /* number of attacking comets: */
         if (Opts_SlowAfterWrong())
@@ -907,15 +927,29 @@ void game_handle_comets(void)
       if (comets[i].expl >= COMET_EXPL_END)
       {
         comets[i].expl--;
-	if (comets[i].expl < COMET_EXPL_END)
+	if (comets[i].expl < COMET_EXPL_END) {
 	  comets[i].alive = 0;
+	  if (bonus_comet_counter > 1 && comets[i].zapped) {
+	    bonus_comet_counter--;
+#ifdef TUXMATH_DEBUG
+	    printf("\nbonus_comet_counter is now %d",bonus_comet_counter);
+#endif
+	  }
+	  if (comets[i].bonus && comets[i].zapped) {
+	    playsound(SND_EXTRA_LIFE);
+	    extra_life_earned = 1;
+#ifdef TUXMATH_DEBUG
+	    printf("\nExtra life earned!");
+#endif
+	  }
+	}
       }
     }
   }
 
   /* add more comets if needed: */
   if (level_start_wait == 0 &&
-      (frame % 20) == 0)
+      (frame % 20) == 0)   /* FIXME:do we want this to vary with comet speed?*/
   {
     /* num_attackers is how many comets are left in wave */
     if (num_attackers > 0)
@@ -1067,7 +1101,16 @@ void game_handle_penguins(void)
       break;
     case PENGUIN_GRUMPY:
       penguins[i].img = IMG_PENGUIN_GRUMPY;
-      /* add "worried" animation here? */
+      if (rand() % FLAPPING_INTERVAL == 0) {
+	penguins[i].status = PENGUIN_WORRIED;
+	penguins[i].counter = FLAPPING_START;
+      }
+      break;
+    case PENGUIN_WORRIED:
+      penguins[i].img = IMG_PENGUIN_WORRIED;
+      penguins[i].counter--;
+      if (penguins[i].counter == 0)
+	penguins[i].status = PENGUIN_GRUMPY;
       break;
     case PENGUIN_STANDING_UP:
       penguins[i].img = IMG_PENGUIN_STANDING_UP;
@@ -1133,12 +1176,14 @@ void game_handle_steam(void)
       steam[i].counter--;
       if (!steam[i].counter) {
 	steam[i].status = STEAM_OFF;
-	/* The penguin was ducking, now we can stop */
-        if (cities[i].hits_left)
-          penguins[i].status = PENGUIN_GRUMPY;
-        else {
-          penguins[i].status = PENGUIN_STANDING_UP;
-	  penguins[i].counter = STANDING_COUNTER_START;
+	if (cloud.status != EXTRA_LIFE_ON || cloud.city != i) {
+	  /* The penguin was ducking, now we can stop */
+          if (cities[i].hits_left)
+            penguins[i].status = PENGUIN_GRUMPY;
+          else {
+            penguins[i].status = PENGUIN_STANDING_UP;
+	    penguins[i].counter = STANDING_COUNTER_START;
+	  }
 	}
       }
     }
@@ -1155,31 +1200,38 @@ int check_extra_life(void)
 {
   /* This is called at the end of a wave. Returns 1 if we're in the
      middle of handling an extra life, otherwise 0 */
-  int i,snow_width;
+  int i,fewest_hits_left,fewest_index,snow_width;
 
-  if (!Opts_ExtraLifeInterval())
-    return 0;
   if (cloud.status == EXTRA_LIFE_ON)
     return 1;
 #ifdef TUXMATH_DEBUG
   print_status();
 #endif
-  if (extra_life_counter)
-    extra_life_counter--;
-  if (extra_life_counter == 0 && 
-      num_cities_alive < NUM_CITIES) {
+  if (extra_life_earned) {
+    /* Check to see if any ingloo has been hit */
+    fewest_hits_left = 2;
+    fewest_index = -1;
+    for (i = 0; i < NUM_CITIES; i++) {
+      if (cities[i].hits_left < fewest_hits_left) {
+	fewest_hits_left = cities[i].hits_left;
+	fewest_index = i;
+      }
+    }
+    if (fewest_hits_left == 2)
+      return 0;   /* Don't need an extra life, there's no damage */
     /* Begin the extra life sequence */
-    extra_life_counter = Opts_ExtraLifeInterval()+1; /* compensates for next -- */
+    extra_life_earned = 0;
     cloud.status = EXTRA_LIFE_ON;
     cloud.y = screen->h/3;
-    i = 0;
-    while (cities[i].hits_left)
-      i++;
-    cloud.city = i;
+    cloud.city = fewest_index;
+    bonus_comet_counter = Opts_BonusCometInterval()+1;
+#ifdef TUXMATH_DEBUG
+    printf("\nBonus comet counter restored to %d",bonus_comet_counter);
+#endif
     if (cloud.city < NUM_CITIES/2)
-      cloud.x = -images[IMG_CLOUD]->w/2;
+      cloud.x = -images[IMG_CLOUD]->w/2;  /* come in from the left */
     else
-      cloud.x = screen->w + images[IMG_CLOUD]->w/2;
+      cloud.x = screen->w + images[IMG_CLOUD]->w/2; /* come from the right */
     penguins[cloud.city].status = PENGUIN_WALKING_ON;
     /* initialize the snowflakes */
     snow_width = images[IMG_CLOUD]->w - images[IMG_SNOW1]->w;
@@ -1202,6 +1254,14 @@ void game_handle_extra_life(void)
   Uint8 cloud_transparency;
 
   if (cloud.status == EXTRA_LIFE_ON) {
+
+#ifdef TUXMATH_DEBUG
+     if (penguins[cloud.city].status == PENGUIN_WALKING_OFF) {
+       print_status();
+       pause_game();
+     }
+#endif
+
     direction = 2*(cloud.city < NUM_CITIES/2) - 1;
     if (direction*cloud.x < direction*cities[cloud.city].x) {
       cloud.x += direction*PENGUIN_WALK_SPEED;
@@ -1224,9 +1284,11 @@ void game_handle_extra_life(void)
 	cities[cloud.city].hits_left = 2;
 	cities[cloud.city].img = IMG_IGLOO_INTACT;
       }
-      else if (cloud.snowflake_y[2*NUM_SNOWFLAKES/3] > igloo_top)
+      else if (cloud.snowflake_y[2*NUM_SNOWFLAKES/3] > igloo_top &&
+	       cities[cloud.city].hits_left == 0)
 	cities[cloud.city].img = IMG_IGLOO_REBUILDING2;
-      else if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top)
+      else if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top &&
+	       cities[cloud.city].hits_left == 0)
 	cities[cloud.city].img = IMG_IGLOO_REBUILDING1;
       if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top) {
 	penguins[cloud.city].layer = 0;
@@ -1244,7 +1306,7 @@ void game_handle_extra_life(void)
 /* FIXME consider splitting this into smaller functions e.g. draw_comets(), etc. */
 void game_draw(void)
 {
-  int i,j, img, current_layer, max_layer;
+  int i,j, img, current_layer, max_layer,offset;
   SDL_Rect src, dest;
   SDL_Surface *this_image;
   char str[64];
@@ -1294,8 +1356,30 @@ void game_draw(void)
     draw_question_counter();
   }
 
+  if (extra_life_earned) {
+    /* Draw extra life earned icon */
+    dest.x = 0;
+    dest.y = 0;
+    dest.w = images[IMG_EXTRA_LIFE]->w;
+    dest.h = images[IMG_EXTRA_LIFE]->h;
+    SDL_BlitSurface(images[IMG_EXTRA_LIFE], NULL, screen, &dest);
+  } else if (bonus_comet_counter) {
+    /* Draw extra life progress bar */
+    dest.x = 0;
+    dest.y = images[IMG_EXTRA_LIFE]->h/4;
+    dest.h = images[IMG_EXTRA_LIFE]->h/2;
+    dest.w = ((Opts_BonusCometInterval() + 1 - bonus_comet_counter)
+	      * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
+    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
+  }
+
   /* Draw wave: */
-  dest.x = 0;
+  if (Opts_BonusCometInterval())
+    offset = images[IMG_EXTRA_LIFE]->w + 5;
+  else
+    offset = 0;
+
+  dest.x = offset;
   dest.y = 0;
   dest.w = images[IMG_WAVE]->w;
   dest.h = images[IMG_WAVE]->h;
@@ -1303,20 +1387,32 @@ void game_draw(void)
   SDL_BlitSurface(images[IMG_WAVE], NULL, screen, &dest);
 
   sprintf(str, "%d", wave);
-  draw_numbers(str, images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
+  draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
 
-  /* Draw score: */
+  /* Draw "score" label: */
   dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
-	        images[IMG_SCORE]->w);
+	        images[IMG_SCORE]->w -
+                images[IMG_STOP]->w - 5);
   dest.y = 0;
   dest.w = images[IMG_SCORE]->w;
   dest.h = images[IMG_SCORE]->h;
 
   SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
-      
+        
+  /* Draw score numbers: */
   sprintf(str, "%.6d", score);
-  draw_numbers(str, screen->w - ((images[IMG_NUMBERS]->w / 10) * 6), 0);
-      
+  draw_numbers(str,
+               screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
+               0);
+
+  /* Draw stop button: */
+  dest.x = (screen->w - images[IMG_STOP]->w);
+  dest.y = 0;
+  dest.w = images[IMG_STOP]->w;
+  dest.h = images[IMG_STOP]->h;
+
+  SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
+   
   /* Draw cities/igloos and (if applicable) penguins: */
   if (Opts_UseIgloos()) {
     /* We have to draw respecting layering */
@@ -1437,9 +1533,13 @@ void game_draw(void)
 
 
    /* Draw comets: */
+   /* NOTE bonus comets split into separate pass to make them */
+   /* draw last (i.e. in front), as they can overlap          */
+
+   /* First draw regular comets: */
   for (i = 0; i < MAX_COMETS; i++)
   {
-    if (comets[i].alive)
+    if (comets[i].alive && !comets[i].bonus)
     { 
       if (comets[i].expl < COMET_EXPL_END)
       {
@@ -1462,6 +1562,48 @@ void game_draw(void)
         comet_str = comets[i].flashcard.answer_string;
       }
 
+      /* Draw it! */
+      dest.x = comets[i].x - (images[img]->w / 2);
+      dest.y = comets[i].y - images[img]->h;
+      dest.w = images[img]->w;
+      dest.h = images[img]->h;
+	      
+      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      if (comet_str != NULL)
+      {
+        draw_nums(comet_str, comets[i].x, comets[i].y);
+      }
+    }
+  }
+
+  /* Now draw any bonus comets: */
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (comets[i].alive && comets[i].bonus)
+    { 
+      if (comets[i].expl < COMET_EXPL_END)
+      {
+        /* Decide which image to display: */
+        img = IMG_COMET1 + ((frame + i) % 3);
+        /* Display the formula (flashing, in the bottom half
+		   of the screen) */
+        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+        {
+          comet_str = comets[i].flashcard.formula_string;
+        }
+        else 
+        {
+          comet_str = NULL;
+        }
+      }
+      else
+      {
+        img = comets[i].expl;
+        comet_str = comets[i].flashcard.answer_string;
+      }
+
+      /* Move images[] index to bonus range: */
+      img += IMG_BONUS_COMET1 - IMG_COMET1;
 	      
       /* Draw it! */
       dest.x = comets[i].x - (images[img]->w / 2);
@@ -1476,6 +1618,9 @@ void game_draw(void)
       }
     }
   }
+
+
+
 
   /* Draw laser: */
   if (laser.alive)
@@ -1606,6 +1751,7 @@ void print_exit_conditions(void)
     case GAME_OVER_ESCAPE:
     {
       printf("GAME_OVER_ESCAPE\n");
+      print_status();
       break;
     }
     case GAME_OVER_WINDOW_CLOSE:
@@ -1884,6 +2030,20 @@ int add_comet(void)
   /* Start at the top, above the city in question: */
   comets[found].x = cities[i].x;
   comets[found].y = 0;
+  comets[found].zapped = 0;
+  /* Should it be a bonus comet? */
+  comets[found].bonus = 0;
+#ifdef TUXMATH_DEBUG
+  printf("\nbonus_comet_counter is %d",bonus_comet_counter);
+#endif
+  if (bonus_comet_counter == 1) {
+    bonus_comet_counter = 0;
+    comets[found].bonus = 1;
+    playsound(SND_BONUS_COMET);
+#ifdef TUXMATH_DEBUG
+    printf("\nCreated bonus comet");
+#endif
+  }
 
   #ifdef TUXMATH_DEBUG
   printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
@@ -2041,6 +2201,13 @@ int pause_game(void)
   int pause_done, pause_quit;
   SDL_Event event;
   SDL_Rect dest;
+
+  /* Only pause if pause allowed: */
+  if (!Opts_AllowPause())
+  {
+    fprintf(stderr, "Pause requested but not allowed by Opts!\n");
+    return 0;
+  }
  
   pause_done = 0;
   pause_quit = 0;
@@ -2321,6 +2488,7 @@ void draw_led_console(void)
 }
 
 /* Translates mouse events into keyboard events when on-screen keypad used */
+/* or when exit button clicked.                                            */
 void game_mouse_event(SDL_Event event)
 {
   int keypad_w, keypad_h, x, y, row, column;
@@ -2329,6 +2497,16 @@ void game_mouse_event(SDL_Event event)
   keypad_w = 0;
   keypad_h = 0;
 
+  /* Check to see if user clicked exit button: */
+  /* The exit button is in the upper right corner of the screen: */
+  if ((event.button.x >= (screen->w - images[IMG_STOP]->w))
+    &&(event.button.y <= images[IMG_STOP]->h))
+  {
+    key = SDLK_ESCAPE;
+    game_key_event(key);
+    return;
+  } 
+
   /* get out unless we really are using keypad */
   if ( level_start_wait 
     || Opts_DemoMode()
@@ -2336,6 +2514,8 @@ void game_mouse_event(SDL_Event event)
   {
     return;
   }
+
+
   /* make sure keypad image is valid and has non-zero dimensions: */
   /* FIXME maybe this checking should be done once at the start */
   /* of game() rather than with every mouse click */
@@ -2493,8 +2673,11 @@ void game_key_event(SDLKey key)
   else if (key == SDLK_TAB
         || key == SDLK_p)
   {
-  /* [TAB] or [P]: Pause! */
-    paused = 1;
+    /* [TAB] or [P]: Pause! (if settings allow) */
+    if (Opts_AllowPause())
+    {
+      paused = 1;
+    }
   }
       
   if (level_start_wait > 0 || Opts_DemoMode())
@@ -2574,8 +2757,9 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-    strncpy(comets[i].flashcard.formula_string, " ", FORMULA_LEN); 
-    strncpy(comets[i].flashcard.answer_string, " ", ANSWER_LEN); 
+    strncpy(comets[i].flashcard.formula_string, " ", MC_FORMULA_LEN); 
+    strncpy(comets[i].flashcard.answer_string, " ", MC_ANSWER_LEN); 
+    comets[i].bonus = 0;
   }
 }
 

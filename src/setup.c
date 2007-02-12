@@ -45,7 +45,7 @@
 #include "setup.h"
 #include "fileops.h"
 #include "game.h"
-
+#include "titlescreen.h"
 
 
 /* Global data used in setup.c:              */
@@ -58,6 +58,7 @@ SDL_Surface* images[NUM_IMAGES];
 #define NUM_FLIPPED_IMAGES 6
 SDL_Surface* flipped_images[NUM_FLIPPED_IMAGES];
 int flipped_img_lookup[NUM_IMAGES];
+
 const int flipped_img[] = {
   IMG_PENGUIN_WALK_ON1,
   IMG_PENGUIN_WALK_ON2,
@@ -529,6 +530,7 @@ void load_data_files(void)
 
 /* Create flipped versions of certain images; also set up the flip
    lookup table */
+/* FIXME where is flip() defined? */
 void generate_flipped_images(void)
 {
   int i;
@@ -547,8 +549,11 @@ void generate_flipped_images(void)
 /* use for successful exit */
 void cleanup(void)
 {
-  write_user_config_file();
+  /* No longer write settings here, because we only */
+  /* want to save settings from certain types of games. */
+  //write_user_config_file();
   cleanup_memory();
+  /* FIXME should we call exit(0) here? */
 }
 
 

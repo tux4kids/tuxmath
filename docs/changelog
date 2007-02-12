@@ -1,5 +1,25 @@
 changelog for "tuxmath"
 
+2007.Feb.12  (https://svn.tux4kids.net/tuxmath/ - revision 74)
+  Code:
+    * Fixed MC_FORMULA_LEN bug causing long comet strings to
+      drop last character.
+    * Added new fields to game_options (bonus_comet_interval,
+      bonus_speed_ratio) with relevant support functions.
+    * Further implementation and cleanup of new menus.
+      David Bruce <dbruce@tampabay.rr.com>
+
+  Game:
+    * Implementation of bonus comets that cause an igloo to
+      be rebuilt.
+      Tim Holy <holy@wustl.edu>
+    * Many additional lesson files.
+      David Bruce <dbruce@tampabay.rr.com>
+
+  Build:
+    * Andika font now default, included under data/fonts.
+      Karl Ove Hufthammer <karl@huftis.org>
+
 2007.Jan.31 (https://svn.tux4kids.net/tuxmath/ - revision 72)
   Game/Graphics:
     * New graphics in which Tux protects igloo-dwelling

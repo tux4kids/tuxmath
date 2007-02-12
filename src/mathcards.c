@@ -891,6 +891,11 @@ void MC_SetFractionToKeep(float fract)
     fprintf(stderr, "\nMC_SetRandomize(): math_opts not valid!\n");
     return;
   }
+  /* must be between 0 and 1: */
+  if (fract < 0)
+    fract = 0;
+  if (fract > 1)
+    fract = 1;
   math_opts->fraction_to_keep = fract;
 }
 
@@ -1285,6 +1290,16 @@ int MC_CopiesRepeatedWrongs(void)
   return math_opts->copies_repeated_wrongs;
 }
 
+
+float MC_FractionToKeep(void)
+{
+  if (!math_opts)
+  {
+    fprintf(stderr, "\nMC_FractionToKeep(): math_opts not valid!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return math_opts->fraction_to_keep;
+}
 
 
 
@@ -2850,7 +2865,7 @@ int abs_value(int i)
 /* Returns true at probability set by math_opts->fraction_to_keep */
 int randomly_keep(void)
 {
-  double random;
+  int random;
 
   if (!math_opts)
     return 0;
@@ -2859,10 +2874,9 @@ int randomly_keep(void)
   if (1 == math_opts->fraction_to_keep)
     return 1;
 
-  /* Hopefully this function is sufficiently portable: */
-  random = drand48();
+  random = rand() % 1000;
 
-  if (random < math_opts->fraction_to_keep)
+  if (random < (math_opts->fraction_to_keep * 1000))
     return 1;
   else
     return 0;

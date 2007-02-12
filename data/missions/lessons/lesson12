@@ -1,4 +1,4 @@
-# Multiples of 3
+# Multiples of 2
 play_through_list = 1
 allow_speedup = 1
 use_feedback = 1
@@ -16,8 +16,8 @@ min_minuend = 0
 max_minuend = 20
 min_subtrahend = 0
 max_subtrahend = 10
-min_multiplier = 3
-max_multiplier = 3
+min_multiplier = 2
+max_multiplier = 2
 min_multiplicand = 0
 max_multiplicand = 10
 min_divisor = 0

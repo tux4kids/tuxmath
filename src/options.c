@@ -61,7 +61,19 @@ int options(void)
   Uint32 last_time, now_time;
   SDLKey key;
   
-  
+
+  /* Read in user-specific settings, if desired.  This clears */
+  /* out any side effects from having played a lesson or      */
+  /* game in the same sitting.                                */
+  if (Opts_PerUserConfig())
+  {
+    if (!read_user_config_file())
+    {
+      fprintf(stderr, "\nCould not find user's config file.\n");
+      /* can still proceed using hard-coded defaults.         */
+    }
+  }
+ 
   /* Clear window: */
   
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
@@ -81,6 +93,11 @@ int options(void)
   { 
     range_enabled[i] = 1;
   }
+
+  /* Draw "Play" button: */
+  dest.x = (screen->w - images[IMG_PLAY]->w);
+  dest.y = 0;
+  SDL_BlitSurface(images[IMG_PLAY], NULL, screen, &dest);
 
   /* Draw options: */
 
@@ -187,9 +204,16 @@ int options(void)
             {
               /* FIXME Options screen should have "OK" button to accept choices with mouse DSB */
               /* figure out opt based on mouse coordinates */
-              if (/* event.button.x >= left && */ /* don't see any reason to filter on x values here*/
-	          /* event.button.x <= left + width && */  
-		  event.button.y >= images[IMG_OPTIONS]->h + 8 &&
+
+              /* "Play" button pressed - leave Options screen to play game! */
+              if ((event.button.x >= (screen->w - images[IMG_PLAY]->w))
+               && (event.button.y <= images[IMG_PLAY]->h))
+              {
+                playsound(SND_LASER);
+                done = 1;
+              }
+
+              if (event.button.y >= images[IMG_OPTIONS]->h + 8 &&
 		  event.button.y <= (images[IMG_OPTIONS]->h + 8 +
 		                   NUM_OPTS * images[IMG_TUX_HELMET1]->h))
 	      {
@@ -316,6 +340,12 @@ int options(void)
   while (!done);
 
 
+  /* Now save settings if allowed by global config: */
+  if (Opts_PerUserConfig())
+  {
+    write_user_config_file();
+  }
+
   /* Return the chosen command: */
   
   return quit;
@@ -343,6 +373,9 @@ int Opts_Initialize(void)
   game_options->oper_override = DEFAULT_OPER_OVERRIDE;
   game_options->use_keypad = DEFAULT_USE_KEYPAD;
   game_options->use_igloos = DEFAULT_USE_IGLOOS;
+  game_options->allow_pause = DEFAULT_ALLOW_PAUSE;
+  game_options->bonus_comet_interval = DEFAULT_BONUS_COMET_INTERVAL;
+  game_options->bonus_speed_ratio = DEFAULT_BONUS_SPEED_RATIO;
   game_options->speed = DEFAULT_SPEED;
   game_options->allow_speedup = DEFAULT_ALLOW_SPEEDUP;
   game_options->speedup_factor = DEFAULT_SPEEDUP_FACTOR;
@@ -437,9 +470,39 @@ void Opts_SetUseKeypad(int val)
 }
 
 
+void Opts_SetAllowPause(int val)
+{
+  game_options->allow_pause = int_to_bool(val);
+}
+
+
 void Opts_SetUseIgloos(int val)
 {
   game_options->use_igloos = int_to_bool(val);
+}
+
+
+void Opts_SetBonusCometInterval(int val)
+{
+  if (val < 0)
+    val = 0;
+  game_options->bonus_comet_interval = val;
+}
+
+
+void Opts_SetBonusSpeedRatio(float val)
+{
+  if (val < 1)
+  {
+    val = 1;
+    fprintf(stderr,"bonus_speed_ratio must be at least 1, resetting accordingly.\n");
+  }
+  if (val > MAX_BONUS_SPEED_RATIO)
+  {
+    val = MAX_BONUS_SPEED_RATIO;
+    fprintf(stderr,"Warning: requested bonus_speed_ratio above maximum, setting to %g.\n",MAX_BONUS_SPEED_RATIO);
+  }
+  game_options->bonus_speed_ratio = val;
 }
 
 
@@ -773,6 +836,17 @@ int Opts_UseKeypad(void)
 }
 
 
+int Opts_AllowPause(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_AllowPause(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->allow_pause;
+}
+
+
 int Opts_UseIgloos(void)
 {
   if (!game_options)
@@ -781,6 +855,27 @@ int Opts_UseIgloos(void)
     return GAME_OPTS_INVALID;
   }
   return game_options->use_igloos;
+}
+
+int Opts_BonusCometInterval(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_BonusCometInterval(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->bonus_comet_interval;
+}
+
+
+float Opts_BonusSpeedRatio(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_BonusSpeedRatio(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->bonus_speed_ratio;
 }
 
 

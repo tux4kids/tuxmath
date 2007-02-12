@@ -24,6 +24,7 @@
 //#include "globals.h"
 //#include "funcs.h"
 
+#include "tuxmath.h"     // for TUXMATH_DEBUG
 #include "titlescreen.h"
 #include "setup.h"  // for cleanup_on_error()
 
@@ -74,7 +75,7 @@ int max( int n1, int n2 ) {
 
      note: you can have it flip both
 **********************/
-SDL_Surface *flip( SDL_Surface *in, int x, int y ) {
+SDL_Surface* flip( SDL_Surface *in, int x, int y ) {
 	SDL_Surface *out, *tmp;
 	SDL_Rect from_rect, to_rect;
 	Uint32	flags;
@@ -186,7 +187,8 @@ TTF_Font *LoadFont( char *fontfile, int fontsize ) {
 	 */
 	/* try to find font first in theme dir, then in default */
 	for (i=useEnglish; i<2; i++) {
-		sprintf( fn, "%s/fonts/%s", realPath[i], fontfile );
+//		sprintf( fn, "%s/fonts/%s", realPath[i], fontfile );
+		sprintf( fn, "%s/fonts/%s", DATA_PREFIX, fontfile );
 	DEBUGCODE { fprintf(stderr, "LoadFont(): looking for %s using data paths\n", fn ); }
 		if ( checkFile(fn) ) {
 			/* try to load the font, if successful, return font*/
@@ -203,7 +205,7 @@ TTF_Font *LoadFont( char *fontfile, int fontsize ) {
 	/* this works only on debian */ 
 	/* "fallback" (the above _will_ fall): load the font with fixed-path */
 	
-	sprintf( fn, "%s/%s", "/usr/share/fonts/truetype/ttf-gentium/", fontfile );
+	sprintf( fn, "%s/%s", "/usr/share/fonts/truetype/ttf-sil-andika/", fontfile );
 	DEBUGCODE { fprintf(stderr, "LoadFont(): looking for %s\n in OS' font path\n", fn ); }
 
 	if ( checkFile(fn) ) {
@@ -226,61 +228,56 @@ TTF_Font *LoadFont( char *fontfile, int fontsize ) {
 ************************/
 SDL_Surface* LoadImage( char *datafile, int mode )
 {
-  int i;
   SDL_Surface* tmp_pic = NULL;
   SDL_Surface* final_pic = NULL;
 
   char fn[FNLEN];
 
-  DEBUGCODE { fprintf(stderr, "LoadImage: loading %s\n", datafile ); }
+  sprintf( fn, "%s/images/%s", DATA_PREFIX, datafile );
 
-  /* truth table for start of loop, since we only use theme on those conditions!
-              useEng    IMG_NO_THEME    i
-                 0           0          0
-                 0           1          1
-                 1           0          1
-                 1           1          1
-  */
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "LoadImage(): loading %s\n", datafile);
+  fprintf(stderr, "LoadImage: looking in %s\n", fn);
+#endif
 
-  /* This is really confusing, but basically we look first in the theme directory */
-  /* (i.e. realPath[0]) if we are using a theme, and then go to the default       */
-  /* directory (realPath[1]) if we can't find the image or if we are not using    */
-  /* a theme.                                                                     */
-  for (i = (useEnglish || (mode & IMG_NO_THEME)); i<2; i++)
+  if (checkFile(fn))
   {
-    sprintf( fn, "%s/images/%s", realPath[i], datafile );
 
-    DEBUGCODE { fprintf(stderr, "LoadImage: looking in %s\n", fn); }
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "File found\n");
+#endif
 
-    if (checkFile(fn))
+    /* Try to load it with SDL_image: */
+    tmp_pic = IMG_Load(fn);
+
+    if (tmp_pic != NULL) /* image loaded successfully */
     {
-      LOG ("file found\n");
-      /* Try to load it with SDL_image: */
-      tmp_pic = IMG_Load(fn);
-
-      if (tmp_pic != NULL) /* image loaded successfully */
-      {
-        break; 
-      }
-      else
-      {
-        fprintf(stderr, "Warning: graphics file %s is corrupt\n", fn);
-      }
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "File %s loaded successfully\n", datafile);
+#endif
     }
-    else LOG ("file NOT found\n");
+    else
+    {
+      fprintf(stderr, "File %s found but NOT loaded successfully\n", datafile);
+    }
   }
+  else 
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "file %s NOT found\n", datafile);
+#endif
+  } 
 
-  if (NULL == tmp_pic) /* Could not load image from either path: */
+  if (NULL == tmp_pic) /* Could not load image: */
   {
     if (mode & IMG_NOT_REQUIRED)
     { 
+      fprintf(stderr, "Warning: could not load optional graphics file %s\n", datafile);
       return NULL;  /* Allow program to continue */
     }
     /* If image was required, exit from program: */
-    /* FIXME may need to do some cleanup before exiting - free heap, restore screen res, etc */
     fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
     cleanup_on_error();
-//    exit(1);
   }
 
 
@@ -323,7 +320,7 @@ SDL_Surface* LoadImage( char *datafile, int mode )
     }
   }
 
-  LOG("Leaving LoadImage()\n");
+  LOG("Leaving LoadImage()\n\n");
   return final_pic;
 }
 
@@ -397,7 +394,8 @@ Mix_Chunk* LoadSound( char *datafile )
 
   for (i = useEnglish; i<2; i++)
   {
-    sprintf(fn , "%s/sounds/%s", realPath[i], datafile);
+//    sprintf(fn , "%s/sounds/%s", realPath[i], datafile);
+    sprintf(fn , "%s/sounds/%s", DATA_PREFIX, datafile);
     if (checkFile(fn))
     {
       tempChunk = Mix_LoadWAV(fn);
@@ -423,7 +421,8 @@ Mix_Music *LoadMusic(char *datafile )
 	int i;
 
 	for (i = useEnglish; i<2; i++) {
-		sprintf( fn , "%s/sounds/%s", realPath[i], datafile );
+//		sprintf( fn , "%s/sounds/%s", realPath[i], datafile );
+		sprintf( fn , "%s/sounds/%s", DATA_PREFIX, datafile );
 		if ( checkFile(fn) ) {
 			tempMusic = Mix_LoadMUS(fn);
 			if (tempMusic)

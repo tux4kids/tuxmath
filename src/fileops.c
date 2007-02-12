@@ -589,23 +589,23 @@ int read_config_file(FILE *fp, int file_type)
 
     #ifdef TUXMATH_DEBUG
     printf("parameter = '%s'\t, length = %d\n", parameter, strlen(parameter));
-    printf("value = '%s'\t, length = %d\t, atoi() = %d\n", value, strlen(value), atoi(value));
+    printf("value = '%s'\t, length = %d\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
     #endif
     /* Now ready to handle each name/value pair! */
 
     /* Set general game_options struct (see tuxmath.h): */ 
-    /* FIXME should have error checking to make sure game_options->* */
-    /* settings are sane values (MC_Set*() functions already do this). */
-    if(0 == strcasecmp(parameter, "per_user_config")
-       && file_type == GLOBAL_CONFIG_FILE) 
-    /* Only let administrator change this setting */
+    if(0 == strcasecmp(parameter, "per_user_config"))
     {
-      int v = str_to_bool(value);
-      if (v != -1)
-        Opts_SetPerUserConfig(v);
+      /* Only let administrator change this setting */
+      if (file_type == GLOBAL_CONFIG_FILE) 
+      {
+        int v = str_to_bool(value);
+        if (v != -1)
+          Opts_SetPerUserConfig(v);
+      }
     }
 
-    if(0 == strcasecmp(parameter, "use_sound"))
+    else if(0 == strcasecmp(parameter, "use_sound"))
     {
       int v = str_to_bool(value);
       if (v != -1)
@@ -660,11 +660,28 @@ int read_config_file(FILE *fp, int file_type)
         Opts_SetUseKeypad(v);
     }
 
+    else if(0 == strcasecmp(parameter, "allow_pause"))
+    {
+      int v = str_to_bool(value);
+      if (v != -1)
+        Opts_SetAllowPause(v);
+    }
+
     else if(0 == strcasecmp(parameter, "use_igloos"))
     {
       int v = str_to_bool(value);
       if (v != -1)
         Opts_SetUseIgloos(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "bonus_comet_interval"))
+    {
+      Opts_SetBonusCometInterval(atoi(value));
+    }
+
+    else if(0 == strcasecmp(parameter, "bonus_speed_ratio"))
+    {
+      Opts_SetBonusSpeedRatio(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "save_summary"))
@@ -796,6 +813,11 @@ int read_config_file(FILE *fp, int file_type)
       int v = str_to_bool(value);
       if (v != -1)
         MC_SetRandomize(v);
+    }
+
+    else if(0 == strcasecmp(parameter, "fraction_to_keep"))
+    {
+        MC_SetFractionToKeep(atof(value));
     }
 
     else if(0 == strcasecmp(parameter, "format_answer_last"))
@@ -1363,6 +1385,8 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default: 0                                               #\n"
                  "# Parameter: use_keypad (boolean)                          #\n"
                  "# Default: 0                                               #\n"
+                 "# Parameter: allow_pause (boolean)                         #\n"
+                 "# Default: 0                                               #\n"
                  "# Parameter: use_igloos (boolean)                          #\n"
                  "# Default: 1                                               #\n"
                  "# Parameter: save_game_summary (boolean)                   #\n"
@@ -1410,6 +1434,13 @@ int write_config_file(FILE *fp, int verbose)
 
   if (verbose)
   {
+    fprintf (fp, "\n# Allow 'Pause' feature - should disable this\n"
+               "# when competing for high scores!\n");
+  }
+  fprintf(fp, "allow_pause = %d\n", Opts_AllowPause());
+
+  if (verbose)
+  {
     fprintf (fp, "\n# Use newer graphics where Tux defends igloo-\n"
                "# dwelling penguins (for those who find the older\n"
                "# images of exploding cities to be distasteful)\n");
@@ -1447,6 +1478,8 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default: 1                                               #\n"
                  "# Parameter: copies_repeated_wrongs (integer)              #\n"
                  "# Default: 1                                               #\n"
+                 "# Parameter: fraction_to_keep (float)                      #\n"
+                 "# Default: 1                                               #\n"
                  "#                                                          #\n"
                  "# These settings offer further control over the question   #\n"
                  "# list and are generally only useful if 'play_through_list'#\n"
@@ -1462,6 +1495,13 @@ int write_config_file(FILE *fp, int verbose)
                  "# missed question will reappear. This can be set anywhere  #\n"
                  "# from 1 to 10.                                            #\n"
                  "#                                                          #\n"
+                 "# 'fraction_to_keep' allows a list to be generated that    #\n"
+                 "# consists of a randomly-selected subset of the questions  #\n"
+                 "# fitting the criteria.  The parameter is a float that     #\n"
+                 "# must be greater than 0 and less than or equal to 1. For  #\n"
+                 "# example, a value of 0.1 means 10%% of the questions       #\n"
+                 "# meeting the criteria will go into the list.              #\n"
+                 "#                                                          #\n"
                  "# The defaults for these values result in a 'mission'      #\n" 
                  "# for Tux that is accomplished by answering all            #\n"
                  "# questions correctly with at least one surviving city.    #\n"
@@ -1471,7 +1511,7 @@ int write_config_file(FILE *fp, int verbose)
   fprintf (fp, "question_copies = %d\n", MC_QuestionCopies());
   fprintf (fp, "repeat_wrongs = %d\n", MC_RepeatWrongs());
   fprintf (fp, "copies_repeated_wrongs = %d\n", MC_CopiesRepeatedWrongs());
-
+  fprintf (fp, "fraction_to_keep = %.2f\n", MC_FractionToKeep());
 
 
   if (verbose)
@@ -1574,6 +1614,10 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default: 10.00                                           #\n"
                  "# Parameter: speedup_factor (float)                        #\n"
                  "# Default: 1.20                                            #\n"
+                 "# Parameter: bonus_comet_interval (integer)                #\n"
+                 "# Default: 10                                              #\n"
+                 "# Parameter: bonus_speed_ratio (float)                     #\n"
+                 "# Default: 1.50                                            #\n"
                  "# Parameter: slow_after_wrong (bool)                       #\n"
                  "# Default: 0                                               #\n"
                  "#                                                          #\n"
@@ -1639,6 +1683,27 @@ int write_config_file(FILE *fp, int verbose)
                  "# Default is 1.2 (i.e. 20 percent increase per wave)\n\n");
   }
   fprintf(fp, "speedup_factor = %.2f\n", Opts_SpeedupFactor());
+
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# 'bonus_comet_interval' controls how frequently\n"
+                 "# special comets appear that cause a igloo to be  \n"
+                 "# rebuilt if answered correctly. The bonus comet  \n"
+                 "# appears after this number of regular comets (a  \n"
+                 "# value of 0 disables bonus comets). Default is 10. \n");
+  }
+  fprintf(fp, "bonus_comet_interval = %d\n", Opts_BonusCometInterval());
+
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# 'bonus_speed_ratio' determines how fast the\n"
+                 "# bonus comets fall relative to the regular comets.\n"
+                 "# Range 1.0 - 3.0, default 1.5:\n");
+  }
+  fprintf(fp, "bonus_speed_ratio = %.2f\n", Opts_BonusSpeedRatio());
+
 
   if(verbose)
   {
@@ -2018,7 +2083,7 @@ int load_image_data()
   DATA_PREFIX "/images/status/tux_helmet1.png",
   DATA_PREFIX "/images/status/tux_helmet2.png",
   DATA_PREFIX "/images/status/tux_helmet3.png", 
-  DATA_PREFIX "/images/status/cmd_play.png",
+  DATA_PREFIX "/images/status/play.png",
   DATA_PREFIX "/images/status/cmd_options.png",
   DATA_PREFIX "/images/status/cmd_credits.png",
   DATA_PREFIX "/images/status/cmd_quit.png",
@@ -2080,6 +2145,17 @@ int load_image_data()
   DATA_PREFIX "/images/comets/mini_comet1.png",
   DATA_PREFIX "/images/comets/mini_comet2.png",
   DATA_PREFIX "/images/comets/mini_comet3.png",
+  DATA_PREFIX "/images/comets/bonus_comet1.png",
+  DATA_PREFIX "/images/comets/bonus_comet2.png",
+  DATA_PREFIX "/images/comets/bonus_comet3.png",
+  DATA_PREFIX "/images/comets/bonus_cometex3.png",
+  DATA_PREFIX "/images/comets/bonus_cometex3.png",
+  DATA_PREFIX "/images/comets/bonus_cometex2.png",
+  DATA_PREFIX "/images/comets/bonus_cometex2.png",
+  DATA_PREFIX "/images/comets/bonus_cometex1a.png",
+  DATA_PREFIX "/images/comets/bonus_cometex1a.png",
+  DATA_PREFIX "/images/comets/bonus_cometex1.png",
+  DATA_PREFIX "/images/comets/bonus_cometex1.png",
   DATA_PREFIX "/images/status/nums.png",
   DATA_PREFIX "/images/status/lednums.png",
   DATA_PREFIX "/images/status/led_neg_sign.png",
@@ -2114,6 +2190,7 @@ int load_image_data()
   DATA_PREFIX "/images/penguins/flapup.png",
   DATA_PREFIX "/images/penguins/incoming.png",
   DATA_PREFIX "/images/penguins/grumpy.png",
+  DATA_PREFIX "/images/penguins/worried.png",
   DATA_PREFIX "/images/penguins/standing-up.png",
   DATA_PREFIX "/images/penguins/sitting-down.png",
   DATA_PREFIX "/images/penguins/walk-on1.png",
@@ -2138,8 +2215,10 @@ int load_image_data()
   DATA_PREFIX "/images/igloos/snow1.png",
   DATA_PREFIX "/images/igloos/snow2.png",
   DATA_PREFIX "/images/igloos/snow3.png",
+  DATA_PREFIX "/images/igloos/extra_life.png",
   DATA_PREFIX "/images/status/wave.png",
   DATA_PREFIX "/images/status/score.png",
+  DATA_PREFIX "/images/status/stop.png",
   DATA_PREFIX "/images/status/numbers.png",
   DATA_PREFIX "/images/status/gameover.png",
   DATA_PREFIX "/images/status/gameover_won.png"
@@ -2173,7 +2252,7 @@ int load_image_data()
 	dest.h = images[IMG_STANDBY]->h;
 	
 	SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
-	SDL_Flip(screen);
+        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
       }
     else if (i == IMG_LOADING)
       {
@@ -2183,7 +2262,7 @@ int load_image_data()
 	dest.h = images[IMG_LOADING]->h;
 	
 	SDL_BlitSurface(images[IMG_LOADING], NULL, screen, &dest);
-	SDL_Flip(screen);
+        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
       }
     else if (i == IMG_TITLE)
       {
@@ -2193,19 +2272,20 @@ int load_image_data()
 	dest.h = images[IMG_TITLE]->h;
 	
 	SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
-	SDL_Flip(screen);
+        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
       }
     
     /* Green 'status bar' during loading: */
     /* Do this rarely so it doesn't take so much time to load */
-    if (i % 10 == 0) {
+    if (i % 10 == 0)
+    {
       dest.x = 0;
       dest.y = (screen->h) - 10;
       dest.w = ((screen->w) * (i + 1)) / total_files;
       dest.h = 10;
       
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_Flip(screen);
+      SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
     }
   }
   /* If we make it to here OK, return 1: */
@@ -2227,7 +2307,9 @@ int load_sound_data(void)
   DATA_PREFIX "/sounds/shieldsdown.wav",
   DATA_PREFIX "/sounds/explosion.wav",
   DATA_PREFIX "/sounds/click.wav",
-  DATA_PREFIX "/sounds/sizzling.wav"
+  DATA_PREFIX "/sounds/sizzling.wav",
+  DATA_PREFIX "/sounds/towerclock.wav",
+  DATA_PREFIX "/sounds/cheer.wav"
   };
 
   static char* music_filenames[NUM_MUSICS] = {
@@ -2255,15 +2337,15 @@ int load_sound_data(void)
         return 0;
       }
       
-      /*
+      
       dest.x = 0;
       dest.y = (screen->h) - 10;
       dest.w = ((screen->w) * (i + 1 + NUM_IMAGES)) / total_files;
       dest.h = 10;
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_Flip(screen);
-      */
+      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
+      
     }
 
 
@@ -2281,14 +2363,15 @@ int load_sound_data(void)
         return 0;
       }
       
-      if (i == NUM_MUSICS-1) {
+      if (i == NUM_MUSICS - 1)
+      {
 	dest.x = 0;
 	dest.y = (screen->h) - 10;
 	dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
 	dest.h = 10;
 	
 	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-	SDL_Flip(screen);
+        SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
       }
     }
   }

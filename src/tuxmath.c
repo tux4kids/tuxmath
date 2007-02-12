@@ -32,31 +32,14 @@
 
 int main(int argc, char * argv[])
 {
-//  int cmd, done;
+/* Link control of tuxtype-derived code's debug to TUXMATH_DEBUG: */
+  debugOn = 0; //for tuxtype-derived code  
+#ifdef TUXMATH_DEBUG
+  debugOn = 1;
+#endif
+
   setup(argc, argv);
-
-  debugOn = 1; //for tuxtype-derived code  
-
-/*  done = 0;
-  
-  do
-  {*/
-    setupTheme(NULL);
-    TitleScreen();
-/*
-    cmd = title();
-
-    if (cmd == CMD_GAME)
-      done = game();
-    else if (cmd == CMD_OPTIONS)
-      done = options();
-    else if (cmd == CMD_CREDITS)
-      done = credits();
-    else if (cmd == CMD_QUIT)
-      done = 1;
-  }
-  while (!done);*/
-  
+  TitleScreen();
   cleanup();
   return 0;
 }

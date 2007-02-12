@@ -16,7 +16,7 @@
 #define MATHCARDS_H
 
 //#define MC_DEBUG
-#define MC_FORMULA_LEN 14
+#define MC_FORMULA_LEN 16
 #define MC_ANSWER_LEN 5
 
 
@@ -101,7 +101,7 @@ typedef struct MC_Options {
 
 /* default values for math_options */
 #define MC_GLOBAL_MAX 999                 /* this is the largest absolute value that */
-                                          /* can be entered math question values.    */
+                                          /* can be entered for math question values.    */
 #define MC_MATH_OPTS_INVALID -9999        /* return value for accessor functions */
                                           /* if math_opts not valid    */
 

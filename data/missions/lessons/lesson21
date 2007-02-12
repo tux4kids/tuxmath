@@ -1,4 +1,4 @@
-# Multiples of 10
+# Multiples of 9
 play_through_list = 1
 allow_speedup = 1
 use_feedback = 1
@@ -16,8 +16,8 @@ min_minuend = 0
 max_minuend = 20
 min_subtrahend = 0
 max_subtrahend = 10
-min_multiplier = 10
-max_multiplier = 10
+min_multiplier = 9
+max_multiplier = 9
 min_multiplicand = 0
 max_multiplicand = 10
 min_divisor = 0

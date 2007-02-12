@@ -98,6 +98,19 @@ division_allowed = 1
 
 ############################################################
 #                                                          #
+#                    Typing Practice                       #
+#                                                          #
+# Parameter: typing_practice_allowed (boolean)             #
+# Default: 0                                               #
+#                                                          #
+# This option simply displays numbers for the youngest     #
+# players to type in to learn the keyboard.                #
+############################################################
+
+typing_practice_allowed = 0
+
+############################################################
+#                                                          #
 #                 Negative Number Support                  #
 #                                                          #
 # Parameter: allow_negatives (boolean)                     #
@@ -164,6 +177,11 @@ max_divisor = 12
 min_quotient = 0
 max_quotient = 12
 
+# Typing practice:
+
+min_typing_num = 0
+max_typing_num = 12
+
 
 ############################################################
 #                                                          #
@@ -171,12 +189,20 @@ max_quotient = 12
 #                                                          #
 # Parameter: use_sound (boolean)                           #
 # Default: 1                                               #
+# Parameter: menu_sound (boolean)                          #
+# Default: 1                                               #
+# Parameter: menu_music (boolean)                          #
+# Default: 1                                               #
 # Parameter: fullscreen (boolean)                          #
 # Default: 1                                               #
 # Parameter: demo_mode (boolean)                           #
 # Default: 0                                               #
 # Parameter: use_keypad (boolean)                          #
 # Default: 0                                               #
+# Parameter: allow_pause (boolean)                         #
+# Default: 0                                               #
+# Parameter: use_igloos (boolean)                          #
+# Default: 1                                               #
 # Parameter: save_game_summary (boolean)                   #
 # Default: 1                                               #
 #                                                          #
@@ -186,6 +212,8 @@ max_quotient = 12
 
 # Use game sounds and background music if possible:
 use_sound = 1
+menu_sound = 1
+menu_music = 1
 
 # Use fullscreen at 640x480 resolution instead of
 # 640x480 window. Change to 0 if SDL has trouble with
@@ -201,6 +229,15 @@ demo_mode = 0
 # Display onscreen numeric keypad - allows mouse-only
 # gameplay or use with touchscreens:
 use_keypad = 0
+
+# Allow 'Pause' feature - should disable this
+# when competing for high scores!
+allow_pause = 1
+
+# Use newer graphics where Tux defends igloo-
+# dwelling penguins (for those who find the older
+# images of exploding cities to be distasteful)
+use_igloos = 1
 
 # By default, Tuxmath saves summaries of the last
 # ten games in the user's .tuxmath directory. Set
@@ -228,6 +265,8 @@ save_summary = 1
 # Default: 1                                               #
 # Parameter: copies_repeated_wrongs (integer)              #
 # Default: 1                                               #
+# Parameter: fraction_to_keep (float)                      #
+# Default: 1                                               #
 #                                                          #
 # These settings offer further control over the question   #
 # list and are generally only useful if 'play_through_list'#
@@ -243,6 +282,13 @@ save_summary = 1
 # missed question will reappear. This can be set anywhere  #
 # from 1 to 10.                                            #
 #                                                          #
+# 'fraction_to_keep' allows a list to be generated that    #
+# consists of a randomly-selected subset of the questions  #
+# fitting the criteria.  The parameter is a float that     #
+# must be greater than 0 and less than or equal to 1. For  #
+# example, a value of 0.1 means 10% of the questions       #
+# meeting the criteria will go into the list.              #
+#                                                          #
 # The defaults for these values result in a 'mission'      #
 # for Tux that is accomplished by answering all            #
 # questions correctly with at least one surviving city.    #
@@ -251,6 +297,7 @@ save_summary = 1
 question_copies = 1
 repeat_wrongs = 1
 copies_repeated_wrongs = 1
+fraction_to_keep = 1.00
 
 ############################################################
 #                                                          #
@@ -339,6 +386,10 @@ randomize = 1
 # Default: 10.00                                           #
 # Parameter: speedup_factor (float)                        #
 # Default: 1.20                                            #
+# Parameter: bonus_comet_interval (integer)                #
+# Default: 10                                              #
+# Parameter: bonus_speed_ratio (float)                     #
+# Default: 1.50                                            #
 # Parameter: slow_after_wrong (bool)                       #
 # Default: 0                                               #
 #                                                          #
@@ -381,9 +432,24 @@ max_speed = 10.00
 # 'speedup_factor': If feedback is not used but 
 # 'allow_speedup' is enabled, the comet speed will be
 # multiplied by this factor with each new wave.
+# Values from 0.5 to 2 are accepted (note that a 
+# value less than 1 causes the comets to be 
+# slower with each wave!).
 # Default is 1.2 (i.e. 20 percent increase per wave)
 
 speedup_factor = 1.20
+
+# 'bonus_comet_interval' controls how frequently
+# special comets appear that cause a igloo to be  
+# rebuilt if answered correctly. The bonus comet  
+# appears after this number of regular comets (a  
+# value of 0 disables bonus comets). Default is 10. 
+bonus_comet_interval = 10
+
+# 'bonus_speed_ratio' determines how fast the
+# bonus comets fall relative to the regular comets.
+# Range 1.0 - 3.0, default 1.5:
+bonus_speed_ratio = 1.50
 
 # 'slow_after_wrong' tells Tuxmath to go back to  
 # starting speed and number of comets if the player misses 

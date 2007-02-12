@@ -32,8 +32,6 @@
 #define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
-//#define TUXMATH_VERSION 0.98 This is now done by autoheader and configure.in
-
 /* Maximum length of file path: */
 #define PATH_MAX 4096
 
@@ -51,6 +49,9 @@
 #define DEFAULT_DEMO_MODE 0
 #define DEFAULT_OPER_OVERRIDE 0
 #define DEFAULT_USE_KEYPAD 0
+#define DEFAULT_ALLOW_PAUSE 1
+#define DEFAULT_BONUS_SPEED_RATIO 1.5
+#define DEFAULT_BONUS_COMET_INTERVAL 10
 #define DEFAULT_SPEED 1
 #define DEFAULT_ALLOW_SPEEDUP 1
 #define DEFAULT_SPEEDUP_FACTOR 1.2
@@ -74,10 +75,11 @@
 #define DEFAULT_NUM_BKGDS 6
 #define DEFAULT_MAX_CITY_COLORS 4
 
-#define MINIMUM_SPEED 0.1
+#define MINIMUM_SPEED 0.3
 #define MAX_MAX_SPEED 20.0
 #define MIN_SPEEDUP_FACTOR 0.5
 #define MAX_SPEEDUP_FACTOR 2.0
+#define MAX_BONUS_SPEED_RATIO 3.0
 #define MIN_COMETS 1
 #define MAX_MAX_COMETS 100
 

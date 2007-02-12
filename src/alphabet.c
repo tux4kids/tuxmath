@@ -7,7 +7,7 @@
     email                : jdandr2@tux4kids.net
  
     Modified for use in tuxmath by David Bruce - 2006.
-    email                : <dbruce@tampabay.rr.com>
+    email                : <dbruce@tampabay.rr.com>grep
                            <tuxmath-devel@lists.sourceforge.net> 
 ***************************************************************************/
 

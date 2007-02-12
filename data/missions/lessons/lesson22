@@ -1,4 +1,4 @@
-# Multiplication: 0 to 10
+# Multiples of 10
 play_through_list = 1
 allow_speedup = 1
 use_feedback = 1
@@ -16,7 +16,7 @@ min_minuend = 0
 max_minuend = 20
 min_subtrahend = 0
 max_subtrahend = 10
-min_multiplier = 0
+min_multiplier = 10
 max_multiplier = 10
 min_multiplicand = 0
 max_multiplicand = 10
@@ -27,7 +27,7 @@ max_quotient = 10
 min_typing_num = 0
 max_typing_num = 10
 save_summary = 1
-question_copies = 1
+question_copies = 2
 repeat_wrongs = 1
 copies_repeated_wrongs = 2
 format_add_answer_last = 1

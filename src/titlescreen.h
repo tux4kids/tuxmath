@@ -17,10 +17,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifdef WIN32 
-#undef DATA_PREFIX
-#define DATA_PREFIX ".//"
-#endif
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define rmask 0xff000000
@@ -114,11 +110,11 @@ typedef struct {
 
 
 
-#define menu_font	"GenAI102.ttf" /* or "DejaVuSans-Bold.ttf"  or "FreeSansBold.ttf" */ 	/* was menu.ttf */
-#define menu_font_size	20
+#define menu_font  "AndikaDesRevA.ttf"  /*  "GenAI102.ttf" */
+#define menu_font_size	18
 
-#define ttf_font	"GenAI102.ttf" /* or "DejaVuSans-Bold.ttf" or "FreeSansBold.ttf" */  	/* was letters.ttf */
-#define ttf_font_size	20
+#define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */ 
+#define ttf_font_size	18
 
 #define MAX_LESSONS 100
 #define MAX_NUM_WORDS   500
@@ -269,7 +265,7 @@ extern sprite      *LoadSprite( char *name, int MODE );
 extern sprite      *FlipSprite( sprite *in, int X, int Y );
 extern void         FreeSprite( sprite *gfx );
 extern Mix_Music   *LoadMusic( char *datafile );
-extern SDL_Surface *flip( SDL_Surface *in, int x, int y );
+extern SDL_Surface* flip( SDL_Surface *in, int x, int y );
 
 /* in alphabet.c (from tuxtype) */
 extern void LoadKeyboard( void );
