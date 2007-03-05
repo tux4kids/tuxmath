@@ -5,13 +5,13 @@ TUXMATHRC =
 bin_PROGRAMS = tuxmath
 endif
 
-TuxMath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
-		options.c credits.c playsound.c \
+TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
+		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
                 mathcards.c fileops.c tuxmathrc.c
 
-tuxmath_SOURCES = tuxmath.c setup.c title.c titlescreen.c game.c \
-		options.c credits.c playsound.c \
+tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
+		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
                 mathcards.c fileops.c
 
@@ -74,3 +74,4 @@ tuxmath-fw-mosx: $(tuxmath_OBJECTS) $(tuxmath_DEPENDENCIES)
 bundle-dmg:
 	hdiutil create  -ov -srcfolder $(bundle_name) -volname TuxMath -imagekey zlib-level=6 $(top_builddir)/macbuild/TuxMath.dmg
 
+noinst_HEADERS = highscore.h

@@ -28,8 +28,14 @@ enum {
 /* Names for images (formerly in images.h) */
 enum {
   IMG_STANDBY,
+  IMG_MENU_BKG,
+  IMG_MENU_TITLE,
   IMG_LOADING,
   IMG_TITLE,
+  IMG_LEFT,
+  IMG_LEFT_GRAY,
+  IMG_RIGHT,
+  IMG_RIGHT_GRAY,
   IMG_OPTIONS,
   IMG_TUX4KIDS,
   IMG_NBS,
@@ -185,6 +191,7 @@ enum {
 /* Names for game sounds (formerly in sounds.h): */
 enum {
   SND_POP,
+  SND_TOCK,
   SND_LASER,
   SND_BUZZ,
   SND_ALARM,
@@ -234,8 +241,9 @@ int write_postgame_summary(void);
 int read_config_file(FILE* fp, int file_type);
 int write_config_file(FILE* fp, int verbose);
 
-
 int load_image_data();
+int load_default_font();
+
 #ifndef NOSOUND
 int load_sound_data();
 #endif

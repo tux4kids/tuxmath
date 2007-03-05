@@ -78,6 +78,7 @@ static char* summary_filenames[NUM_SUMMARIES] = {
   "summary10" SUMMARY_EXTENSION
 };
 
+TTF_Font  *default_font;
 
 /* local function prototypes: */
 static int find_tuxmath_dir(void);
@@ -2075,8 +2076,14 @@ int load_image_data()
 
   static char* image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/standby.png",
+  DATA_PREFIX "/images/title/menu_bkg.jpg",
+  DATA_PREFIX "/images/title/title1.png",
   DATA_PREFIX "/images/status/loading.png",
   DATA_PREFIX "/images/status/title.png",
+  DATA_PREFIX "/images/status/left.png",
+  DATA_PREFIX "/images/status/left_gray.png",
+  DATA_PREFIX "/images/status/right.png",
+  DATA_PREFIX "/images/status/right_gray.png",
   DATA_PREFIX "/images/status/options.png",
   DATA_PREFIX "/images/status/tux4kids.png",
   DATA_PREFIX "/images/status/nbs.png",
@@ -2292,6 +2299,28 @@ int load_image_data()
   return 1;
 }
 
+/* returns 1 if default font successfully loaded, 0 otherwise. */
+int load_default_font()
+{
+  char fontfile[PATH_MAX];
+  sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, DEFAULT_FONT_NAME);
+
+  default_font = TTF_OpenFont(fontfile, DEFAULT_MENU_FONT_SIZE);
+  if (default_font != NULL)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "load_default_font(): %s loaded successfully\n\n", fontfile);
+#endif
+    return 1;
+  }
+  else
+  {
+   fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fontfile);
+   return 0;
+  }
+}
+
+
 #ifndef NOSOUND
 int load_sound_data(void)
 {
@@ -2301,6 +2330,7 @@ int load_sound_data(void)
 
   static char* sound_filenames[NUM_SOUNDS] = {
   DATA_PREFIX "/sounds/pop.wav",
+  DATA_PREFIX "/sounds/tock.wav",
   DATA_PREFIX "/sounds/laser.wav",
   DATA_PREFIX "/sounds/buzz.wav",
   DATA_PREFIX "/sounds/alarm.wav",

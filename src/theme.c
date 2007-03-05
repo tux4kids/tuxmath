@@ -23,11 +23,13 @@
 //#include "globals.h"
 //#include "funcs.h"
 
+#include "tuxmath.h"
+#include "fileops.h"
 #include "titlescreen.h"
 
 #define NUM_PATHS 5
 
-const char PATHS[NUM_PATHS][FNLEN] = {
+const char PATHS[NUM_PATHS][PATH_MAX] = {
 	"./data",
 	"/usr/share/"PACKAGE"/data",
 	"/usr/local/share/"PACKAGE"/data",
@@ -40,8 +42,8 @@ unsigned char ALPHABET[256];
 unsigned char KEYMAP[256];
 unsigned char FINGER[256][10];
 int ALPHABET_SIZE;
-unsigned char realPath[2][FNLEN];
-char themeName[FNLEN];
+unsigned char realPath[2][PATH_MAX];
+char themeName[PATH_MAX];
 int useEnglish;
 
 
@@ -80,8 +82,8 @@ void setupTheme( char *dirName )
 
     if (S_IFDIR & dirStats.st_mode)
     {
-      strncpy( realPath[1], PATHS[i], FNLEN-1);
-      strncpy( themeName, "", FNLEN-1 );
+      strncpy( realPath[1], PATHS[i], PATH_MAX-1);
+      strncpy( themeName, "", PATH_MAX-1 );
       found = 1; /* so quit looking */
 
       DEBUGCODE
@@ -103,7 +105,7 @@ void setupTheme( char *dirName )
   /* theme will then be stored in realPath[0]:                   */
   if (dirName != NULL)
   {
-    char fullDir[FNLEN];
+    char fullDir[PATH_MAX];
 
     /* find the path to the theme */
     sprintf( fullDir, "%s/themes/%s", realPath[1], dirName );
@@ -113,8 +115,8 @@ void setupTheme( char *dirName )
     if (S_IFDIR & dirStats.st_mode)
     {
       useEnglish = 0;
-      strncpy( realPath[0], fullDir, FNLEN-1 );
-      strncpy( themeName, dirName, FNLEN-1 );
+      strncpy( realPath[0], fullDir, PATH_MAX-1 );
+      strncpy( themeName, dirName, PATH_MAX-1 );
     }
   }
 
@@ -132,7 +134,7 @@ void setupTheme( char *dirName )
 void chooseTheme( void ) {
 	SDL_Surface *titles[MAX_LANGUAGES];
 	SDL_Surface *select[MAX_LANGUAGES];
-	SDL_Surface *left, *right;
+//	SDL_Surface *left, *right;
 	SDL_Rect leftRect, rightRect;
 	SDL_Surface *world, *map, *photo;
 	SDL_Rect worldRect, photoRect;
@@ -143,19 +145,19 @@ void chooseTheme( void ) {
 
 	int themes = 1;
 	int i;
-	unsigned char fn[FNLEN];
-	unsigned char themeNames[MAX_LANGUAGES][FNLEN];
-	unsigned char themePaths[MAX_LANGUAGES][FNLEN];
+	unsigned char fn[PATH_MAX];
+	unsigned char themeNames[MAX_LANGUAGES][PATH_MAX];
+	unsigned char themePaths[MAX_LANGUAGES][PATH_MAX];
 
 	int old_useEnglish;
-	char old_realPath[FNLEN];
+	char old_realPath[PATH_MAX];
 
 	DIR *themesDir;
 	struct dirent *themesFile;
 	struct stat fileStats;
 
 	old_useEnglish = useEnglish;
-	strncpy( old_realPath, realPath[0], FNLEN-1 );
+	strncpy( old_realPath, realPath[0], PATH_MAX-1 );
 
 	sprintf( fn, "%s/themes/", realPath[1]);
 	themesDir = opendir(fn);
@@ -181,8 +183,8 @@ void chooseTheme( void ) {
 
 		if (S_IFDIR & fileStats.st_mode) {
 		    /* HACK: we should get the names from file :) */
-		    strncpy( themeNames[themes], themesFile->d_name, FNLEN-1);
-		    strncpy( themePaths[themes++], themesFile->d_name, FNLEN-1 );
+		    strncpy( themeNames[themes], themesFile->d_name, PATH_MAX-1);
+		    strncpy( themePaths[themes++], themesFile->d_name, PATH_MAX-1 );
 		}
 	} while (1);
 
@@ -190,13 +192,14 @@ void chooseTheme( void ) {
 
 	useEnglish = 1;
         // HACK: is font empty now???
-	font = LoadFont( ttf_font, ttf_font_size );
+        /* NOTE now loading default_font in setup()
+	//font = LoadFont( ttf_font, ttf_font_size );
 
 	titles[0] = black_outline( "english", font, &white );
 	select[0] = black_outline( "english", font, &yellow);
 	for (i = 1; i<themes; i++) {
-		titles[i] = black_outline( themeNames[i], font, &white );
-		select[i] = black_outline( themeNames[i], font, &yellow);
+		titles[i] = black_outline( themeNames[i], default_font, &white );
+		select[i] = black_outline( themeNames[i], default_font, &yellow);
 	}
 
 	world = LoadImage("world.png", IMG_ALPHA);
@@ -220,7 +223,7 @@ void chooseTheme( void ) {
 	right = LoadImage("right.png", IMG_ALPHA);
 	rightRect.w = right->w; rightRect.h = right->h;
 	rightRect.x = 160 + 80 - (rightRect.w/2); rightRect.y = 430;
-
+        */
 	/* set initial rect sizes */
 	titleRects[0].y = 30;
 	titleRects[0].w = titleRects[0].h = titleRects[0].x = 0;
@@ -272,7 +275,7 @@ void chooseTheme( void ) {
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_ESCAPE) { 
 						useEnglish = old_useEnglish;
-						strncpy( realPath[0], old_realPath, FNLEN-1 );
+						strncpy( realPath[0], old_realPath, PATH_MAX-1 );
 						stop = 1; 
 						break; 
 					}
@@ -313,7 +316,7 @@ void chooseTheme( void ) {
 		if (old_loc != loc) {
 			int start;
 
-			SDL_BlitSurface( bkg, NULL, screen, NULL );
+			SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
 
 			SDL_BlitSurface( world, NULL, screen, &worldRect );
 
@@ -347,10 +350,10 @@ void chooseTheme( void ) {
 			/* --- draw buttons --- */
 
 			if (start>0) 
-				SDL_BlitSurface( left, NULL, screen, &leftRect );
+				SDL_BlitSurface(images[IMG_LEFT], NULL, screen, &leftRect );
 
 			if (start+8<themes) 
-				SDL_BlitSurface( right, NULL, screen, &rightRect );
+				SDL_BlitSurface( images[IMG_RIGHT], NULL, screen, &rightRect );
 
 			SDL_UpdateRect(screen, 0, 0, 0 ,0);
 		}
@@ -366,7 +369,7 @@ void chooseTheme( void ) {
 	}
 
 	SDL_FreeSurface(world);
-	SDL_FreeSurface(bkg);
-	SDL_FreeSurface(left);
-	SDL_FreeSurface(right);
+//	SDL_FreeSurface(bkg);
+// 	SDL_FreeSurface(left);
+// 	SDL_FreeSurface(right);
 }

@@ -21,7 +21,6 @@
 
 #include "tuxmath.h"
 #include "setup.h"
-#include "title.h"
 #include "game.h"
 #include "options.h"
 #include "credits.h"

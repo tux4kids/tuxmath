@@ -28,6 +28,7 @@
 #include "titlescreen.h"
 #include "setup.h"  // for cleanup_on_error()
 
+/* FIXME Doesn't seem to work consistently on all versions of Windows */
 /* check to see if file exists, if so return true */
 int checkFile( const char *file ) {
 	static struct stat fileStats;
@@ -40,7 +41,7 @@ int checkFile( const char *file ) {
 }
 
 void LoadLang( void ) {
-	char fn[FNLEN];
+	char fn[PATH_MAX];
 
 	/* we only need to load a lang.po file if we
 	 * are actually using a theme, so this is a little
@@ -167,62 +168,58 @@ SDL_Surface* flip( SDL_Surface *in, int x, int y ) {
 
 /* FIXME: I think we need to provide a single default font with the program data, */
 /* then more flexible code to try to locate or load system fonts. DSB             */
-TTF_Font *LoadFont( char *fontfile, int fontsize ) {
-	TTF_Font *loadedFont;
-	char fn[FNLEN];
-	int i;
-/* char themeName[FNLEN]; */
+/* FIXME checkFile() not working right in Win32 - skipping. */
+TTF_Font *LoadFont(char *fontfile, int fontsize)
+{
+  TTF_Font *loadedFont;
+  char fn[PATH_MAX];
+
+  sprintf( fn, "%s/fonts/%s", DATA_PREFIX, fontfile );
+  loadedFont = TTF_OpenFont( fn, fontsize );
+
+  if (loadedFont != NULL)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fn);
+#endif
+    return loadedFont;
+  }
+
+#ifdef TUXMATH_DEBUG                        
+  else
+    fprintf(stderr, "LoadFont(): %s NOT loaded successfully - trying other path.\n", fn);
+#endif
+
+  /* this works only on debian */ 
+  /* "fallback" (the above _will_ fall): load the font with fixed-path */
+
+  sprintf( fn, "/usr/share/fonts/truetype/ttf-sil-andika/%s", fontfile );
 
 
-	/* 
-	 *
-	 *
-	 * this will fail now, as those fonts have been removed
-	 * 
-	 *
-	 * this routine is only left here for reference
-	 * 
-	 *
-	 *
-	 */
-	/* try to find font first in theme dir, then in default */
-	for (i=useEnglish; i<2; i++) {
-//		sprintf( fn, "%s/fonts/%s", realPath[i], fontfile );
-		sprintf( fn, "%s/fonts/%s", DATA_PREFIX, fontfile );
-	DEBUGCODE { fprintf(stderr, "LoadFont(): looking for %s using data paths\n", fn ); }
-		if ( checkFile(fn) ) {
-			/* try to load the font, if successful, return font*/
 
-			loadedFont = TTF_OpenFont( fn, fontsize );
+  /* try to load the font, if successful, return font*/
+  loadedFont = TTF_OpenFont( fn, fontsize );
+  if (loadedFont != NULL)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fn);
+#endif
+    return loadedFont;
+  }
+#ifdef TUXMATH_DEBUG                        
+  else
+    fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fn);
+#endif
 
-			if (loadedFont != NULL)
-				return loadedFont;
-		}
-	}
-
-		
-
-	/* this works only on debian */ 
-	/* "fallback" (the above _will_ fall): load the font with fixed-path */
-	
-	sprintf( fn, "%s/%s", "/usr/share/fonts/truetype/ttf-sil-andika/", fontfile );
-	DEBUGCODE { fprintf(stderr, "LoadFont(): looking for %s\n in OS' font path\n", fn ); }
-
-	if ( checkFile(fn) ) {
-		/* try to load the font, if successful, return font*/
-
-		loadedFont = TTF_OpenFont( fn, fontsize );
-
-		if (loadedFont != NULL)
-			return loadedFont;
-	}
-
-	fprintf(stderr, "FATAL ERROR: couldn't load font: %s\n", fontfile);
-	exit(1);
-
-	return NULL;
+  /* FIXME maybe the program should not exit here, just return NULL. */
+  fprintf(stderr, "FATAL ERROR: couldn't load font: %s\n\n", fontfile);
+  cleanup_on_error();
+  exit(1);
+  return NULL;
 }
 
+
+/* FIXME checkFile() not working right in Win32 - skipping. */
 /***********************
 	LoadImage : Load an image and set transparent if requested
 ************************/
@@ -231,48 +228,25 @@ SDL_Surface* LoadImage( char *datafile, int mode )
   SDL_Surface* tmp_pic = NULL;
   SDL_Surface* final_pic = NULL;
 
-  char fn[FNLEN];
+  char fn[PATH_MAX];
 
   sprintf( fn, "%s/images/%s", DATA_PREFIX, datafile );
 
 #ifdef TUXMATH_DEBUG
-  fprintf(stderr, "LoadImage(): loading %s\n", datafile);
-  fprintf(stderr, "LoadImage: looking in %s\n", fn);
+  fprintf(stderr, "LoadImage(): looking in %s\n", fn);
 #endif
 
-  if (checkFile(fn))
-  {
 
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "File found\n");
-#endif
-
-    /* Try to load it with SDL_image: */
-    tmp_pic = IMG_Load(fn);
-
-    if (tmp_pic != NULL) /* image loaded successfully */
-    {
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "File %s loaded successfully\n", datafile);
-#endif
-    }
-    else
-    {
-      fprintf(stderr, "File %s found but NOT loaded successfully\n", datafile);
-    }
-  }
-  else 
-  {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "file %s NOT found\n", datafile);
-#endif
-  } 
+  /* Try to load it with SDL_image: */
+  tmp_pic = IMG_Load(fn);
 
   if (NULL == tmp_pic) /* Could not load image: */
   {
     if (mode & IMG_NOT_REQUIRED)
     { 
+#ifdef TUXMATH_DEBUG
       fprintf(stderr, "Warning: could not load optional graphics file %s\n", datafile);
+#endif
       return NULL;  /* Allow program to continue */
     }
     /* If image was required, exit from program: */
@@ -280,8 +254,7 @@ SDL_Surface* LoadImage( char *datafile, int mode )
     cleanup_on_error();
   }
 
-
-  /* finally setup the image to the proper format */
+  /* "else" - now setup the image to the proper format */
   switch (mode & IMG_MODES)
   {
     case IMG_REGULAR:
@@ -307,7 +280,8 @@ SDL_Surface* LoadImage( char *datafile, int mode )
       LOG("mode = IMG_COLORKEY\n");
 
       SDL_LockSurface(tmp_pic);
-      SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL), SDL_MapRGB(tmp_pic->format, 255, 255, 0));
+      SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
+                      SDL_MapRGB(tmp_pic->format, 255, 255, 0));
       final_pic = SDL_DisplayFormat(tmp_pic);
       SDL_FreeSurface(tmp_pic);
       break;
@@ -315,15 +289,17 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 
     default:
     {
-      LOG ("Image mode not recognized\n");
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "Image mode not recognized\n");
+#endif
       SDL_FreeSurface(tmp_pic);
     }
   }
-
-  LOG("Leaving LoadImage()\n\n");
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "Leaving LoadImage()\n\n");
+#endif
   return final_pic;
 }
-
 
 
 sprite* FlipSprite( sprite *in, int X, int Y ) {
@@ -341,10 +317,9 @@ sprite* FlipSprite( sprite *in, int X, int Y ) {
 }
 
 
-
 sprite* LoadSprite( char* name, int MODE ) {
 	sprite *new_sprite;
-	char fn[FNLEN];
+	char fn[PATH_MAX];
 	int x;
 
 	/* JA --- HACK check out what has changed with new code */
@@ -389,25 +364,16 @@ void FreeSprite( sprite *gfx ) {
 Mix_Chunk* LoadSound( char *datafile )
 { 
   Mix_Chunk* tempChunk = NULL;
-  char fn[FNLEN];
-  int i;
+  char fn[PATH_MAX];
 
-  for (i = useEnglish; i<2; i++)
-  {
 //    sprintf(fn , "%s/sounds/%s", realPath[i], datafile);
-    sprintf(fn , "%s/sounds/%s", DATA_PREFIX, datafile);
-    if (checkFile(fn))
-    {
-      tempChunk = Mix_LoadWAV(fn);
-      if (tempChunk)
-      {
-        return tempChunk;
-      }
-    }
+  sprintf(fn , "%s/sounds/%s", DATA_PREFIX, datafile);
+  tempChunk = Mix_LoadWAV(fn);
+  if (!tempChunk)
+  {
+    fprintf(stderr, "LoadSound(): %s not found\n\n", fn);
   }
-
-  /* didn't find anything... fail peacefully */
-  return NULL;
+  return tempChunk;
 }
 
 /************************
@@ -416,21 +382,15 @@ Mix_Chunk* LoadSound( char *datafile )
 *************************/
 Mix_Music *LoadMusic(char *datafile )
 { 
-	char            fn[FNLEN];
-	Mix_Music	*tempMusic;
-	int i;
+  char fn[PATH_MAX];
+  Mix_Music* tempMusic;
 
-	for (i = useEnglish; i<2; i++) {
-//		sprintf( fn , "%s/sounds/%s", realPath[i], datafile );
-		sprintf( fn , "%s/sounds/%s", DATA_PREFIX, datafile );
-		if ( checkFile(fn) ) {
-			tempMusic = Mix_LoadMUS(fn);
-			if (tempMusic)
-				return tempMusic;
-		}
-	}
+  sprintf( fn , "%s/sounds/%s", DATA_PREFIX, datafile );
+  tempMusic = Mix_LoadMUS(fn);
 
-	/* didn't find anything... fail peacefully */
-
-	return NULL;
+  if (!tempMusic)
+  {
+    fprintf(stderr, "LoadMusic(): %s not found\n\n", fn);
+  }
+  return tempMusic;
 }

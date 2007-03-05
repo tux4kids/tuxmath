@@ -13,6 +13,9 @@
   http://www.tux4kids.org/
       
   August 26, 2001 - February 18, 2004
+
+  Revised by David Bruce, Tim Holy and others
+  2005-2007
 */
 
 
@@ -30,6 +33,7 @@
 #include "playsound.h"
 #include "tuxmath.h"
 #include "mathcards.h"
+#include "titlescreen.h"
 #include "options.h"  
 
 #define FPS (1000 / 15)   /* 15 fps max */
@@ -71,9 +75,9 @@ range_type ranges[NUM_Q_RANGES] = {
   {13, 20}
 };
 
-/* FIXME Don't think we need these here anymore: */
-#define ANSWER_LEN 5
-#define FORMULA_LEN 14
+// /* FIXME Don't think we need these here anymore: */
+// #define ANSWER_LEN 5
+// #define FORMULA_LEN 14
 
 typedef struct comet_type {
   int alive;
@@ -178,6 +182,10 @@ int game(void)
 {
   Uint32 last_time, now_time;
 
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "Entering game():\n");
+#endif
+
    /* most code moved into smaller functions (game_*()): */
   if (!game_initialize())
   {
@@ -226,7 +234,7 @@ int game(void)
       
       /* Keep playing music: */
       
-    #ifndef NOSOUND
+#ifndef NOSOUND
     if (Opts_UsingSound())
     {
       if (!Mix_PlayingMusic())
@@ -234,7 +242,7 @@ int game(void)
 	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
       }  
     }
-    #endif
+#endif
  
     /* Pause (keep frame-rate event) */
     now_time = SDL_GetTicks();
@@ -246,9 +254,9 @@ int game(void)
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
 
-  #ifdef TUXMATH_DEBUG
+#ifdef TUXMATH_DEBUG
   print_exit_conditions();
-  #endif
+#endif
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
@@ -336,9 +344,9 @@ int game(void)
 
     case GAME_OVER_ERROR:
     {
-      #ifdef TUXMATH_DEBUG
+#ifdef TUXMATH_DEBUG
       printf("\ngame() exiting with error");
-      #endif
+#endif
     }
     case GAME_OVER_LOST: 
     case GAME_OVER_OTHER:
@@ -417,10 +425,16 @@ int game(void)
   }  
 
 
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "Leaving game():\n");
+#endif
+
+
   /* Return the chosen command: */
   if (GAME_OVER_WINDOW_CLOSE == game_status) 
   {
     /* program exits: */
+    cleanup();
     return 1;
   }
   else
@@ -452,9 +466,9 @@ int game_initialize(void)
   /* (for example) to all math operations being deselected */
   if (!MC_StartGame())
   {
-    #ifdef TUXMATH_DEBUG
+#ifdef TUXMATH_DEBUG
     printf("\nMC_StartGame() failed!");
-    #endif
+#endif
     fprintf(stderr, "\nMC_StartGame() failed!");
     return 0;
   }  
@@ -528,7 +542,7 @@ int game_initialize(void)
   }
 
   if (Opts_BonusCometInterval()) {
-    bonus_comet_counter = Opts_BonusCometInterval()+1;
+    bonus_comet_counter = Opts_BonusCometInterval() + 1;
 #ifdef TUXMATH_DEBUG
     printf("\nInitializing with bonus_comet_counter = %d",bonus_comet_counter);
 #endif
@@ -719,9 +733,9 @@ void game_handle_answer(void)
       comet_feedback_number++;
       comet_feedback_height += comets[lowest].y/city_expl_height;
 
-      #ifdef FEEDBACK_DEBUG
+#ifdef FEEDBACK_DEBUG
       printf("Added comet feedback with height %g\n",comets[lowest].y/city_expl_height);
-      #endif
+#endif
     }
 
 	    
@@ -875,10 +889,10 @@ void game_handle_comets(void)
 	  comet_feedback_number++;
           comet_feedback_height += 1.0 + Opts_CityExplHandicap();
 
-          #ifdef FEEDBACK_DEBUG
+#ifdef FEEDBACK_DEBUG
  	  printf("Added comet feedback with height %g\n",
                   1.0 + Opts_CityExplHandicap());
- 	  #endif
+#endif
  	}
  
         /* Disable shields/destroy city/create steam cloud: */
@@ -2679,13 +2693,42 @@ void game_key_event(SDLKey key)
       paused = 1;
     }
   }
-      
+
+  /* Toggle screen mode: */
+  else if (key == SDLK_F10)
+  {
+    switch_screen_mode();
+  }
+
+  /* Toggle music: */
+#ifndef NOSOUND
+  else if (key == SDLK_F11)
+  {
+    if (Opts_UsingSound())
+    {
+      if (Mix_PlayingMusic())
+      {
+        Mix_HaltMusic();
+      }  
+      else
+      {
+        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+      }
+    }
+  }
+#endif
+
+    
   if (level_start_wait > 0 || Opts_DemoMode())
   {
     /* Eat other keys until level start wait has passed,
     or if game is in demo mode: */
     key = SDLK_UNKNOWN;
   }
+
+
+
+  /* The rest of the keys control the numeric answer console: */
 	      
   if (key >= SDLK_0 && key <= SDLK_9)
   {

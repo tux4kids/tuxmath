@@ -23,13 +23,14 @@
 #define TUXMATH_H
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #ifndef NOSOUND
 #include <SDL_mixer.h>
 #endif
 
 //#define NOSOUND
-#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */
@@ -83,6 +84,8 @@
 #define MIN_COMETS 1
 #define MAX_MAX_COMETS 100
 
+#define DEFAULT_FONT_NAME "AndikaDesRevA.ttf"
+#define DEFAULT_MENU_FONT_SIZE 18
 
 /* Going away soon: */
 typedef struct range_type {
@@ -110,10 +113,13 @@ enum {
 
 /* Global data gets 'externed' here: */
 
-extern SDL_Surface* screen; /* declared in setup.c; also used in game.c, options.c, fileops.c, credits.c, title.c */
+extern SDL_Surface* screen; /* declared in setup.c; also used in game.c, options.c, fileops.c, credits.c, titlescreen.c */
 extern SDL_Surface* images[];    /* declared in setup.c, used in same files as screen */
 extern SDL_Surface* flipped_images[];
 extern int flipped_img_lookup[];
+
+extern TTF_Font  *default_font;
+
 #ifndef NOSOUND
 extern Mix_Chunk* sounds[];    /* declared in setup.c; also used in fileops.c, playsound.c */
 extern Mix_Music* musics[];    /* declared in setup.c; also used in fileops.c, game.c  */

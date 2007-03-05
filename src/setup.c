@@ -46,6 +46,7 @@
 #include "fileops.h"
 #include "game.h"
 #include "titlescreen.h"
+#include "highscore.h"
 
 
 /* Global data used in setup.c:              */
@@ -125,7 +126,6 @@ void initialize_options(void)
   /* initialize game_options struct with defaults DSB */
   if (!Opts_Initialize())
   {
-    printf("\nUnable to initialize game_options\n");
     fprintf(stderr, "\nUnable to initialize game_options\n");
     cleanup_on_error();
     exit(1);
@@ -152,6 +152,11 @@ void initialize_options(void)
     }
   }
 
+  /* Now set up high score tables: */
+  initialize_scores();
+#ifdef TUXMATH_DEBUG
+  print_high_scores(stdout);  
+#endif
 }
 
 
@@ -511,6 +516,13 @@ void load_data_files(void)
     Opts_SetSoundHWAvailable(0);
   }
 
+   if (!load_default_font())
+  {
+    fprintf(stderr, "\nCould not load default font - exiting!\n");
+    cleanup_on_error();
+    exit(1);
+  }
+
   
   /* FIXME what does this do? */
 //   for (i = images[IMG_LOADING]->h; i >= 0; i = i - 10)
@@ -553,7 +565,7 @@ void cleanup(void)
   /* want to save settings from certain types of games. */
   //write_user_config_file();
   cleanup_memory();
-  /* FIXME should we call exit(0) here? */
+  exit(0);
 }
 
 
@@ -572,8 +584,35 @@ void cleanup_on_error(void)
 /* and also quit SDL properly:               */
 void cleanup_memory(void)
 {
+  /* Free all images and sounds used by SDL: */
+  int i;
+
+  TTF_CloseFont(default_font);
   TTF_Quit();
+
+  for (i = 0; i < NUM_IMAGES; i++)
+  {
+    if (images[i])
+      SDL_FreeSurface(images[i]);
+    images[i] = NULL;
+  }
+
+  for (i = 0; i < NUM_SOUNDS; i++)
+  {
+    if (sounds[i])
+      Mix_FreeChunk(sounds[i]);
+    sounds[i] = NULL;
+  }
+
+  for (i = 0; i < NUM_MUSICS; i++)
+  {
+    if (musics[i])
+      Mix_FreeMusic(musics[i]);
+    musics[i] = NULL;
+  }
+
   SDL_Quit();
+
   /* frees the game_options struct: */
   Opts_Cleanup();
   /* frees any heap used by MathCards: */

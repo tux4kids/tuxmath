@@ -69,9 +69,9 @@ int load_trans(char *file) {
 
 	item *ptr;
 	FILE *f;
-	unsigned char str[FNLEN];
-	unsigned char in[FNLEN];
-	unsigned char out[FNLEN];
+	unsigned char str[PATH_MAX];
+	unsigned char in[PATH_MAX];
+	unsigned char out[PATH_MAX];
 
 	LOG( "Clearing previous translation list\n" );
 

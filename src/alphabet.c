@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tuxmath.h"
 #include "titlescreen.h"
 
 /* the colors we use throughout the game */
@@ -63,7 +64,7 @@ void clear_keyboard( void ) {
 }
 
 void LoadKeyboard( void ) {
-	unsigned char fn[FNLEN];
+	unsigned char fn[PATH_MAX];
 	int l;
 
 	clear_keyboard();
@@ -124,10 +125,18 @@ SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
 	SDL_Rect dstrect;
 
 	/* --- create the blocky black "outline" of the text --- */
-        
-        DEBUGCODE { fprintf( stderr, "black_outline of \"%s\"\n", t ); }
+#ifdef TUXMATH_DEBUG
+  fprintf( stderr, "\nEntering black_outline(): \n");
+  fprintf( stderr, "black_outline of \"%s\"\n", t );
+#endif
 
 	tmp = TTF_RenderText_Shaded(font, t, black,black);
+        if (!tmp)
+        {
+          fprintf(stderr, "Could not create rendered SDL_Surface of %s\n", t);
+          return NULL;
+        } 
+
 	tmp2 = SDL_CreateRGBSurface(SDL_SWSURFACE, (tmp->w)+5, (tmp->h)+5, BPP, rmask, gmask, bmask, amask);
 	out = SDL_DisplayFormatAlpha(tmp2);
 	SDL_FreeSurface(tmp2);
@@ -156,6 +165,10 @@ SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
 	tmp = SDL_DisplayFormatAlpha(out);
 	SDL_FreeSurface(out);
 
+#ifdef TUXMATH_DEBUG
+  fprintf( stderr, "\nLeaving black_outline(): \n");
+#endif
+
 	return tmp;
 }
 
@@ -172,7 +185,7 @@ void show_letters( void ) {
 
 	t[l] = 0;
 
-	abit = black_outline(t, font, &white);
+	abit = black_outline(t, default_font, &white);
 
 	dst.x = 320 - (abit->w / 2);
 	dst.y = 275;
@@ -183,7 +196,7 @@ void show_letters( void ) {
 
 	SDL_FreeSurface(abit);
 
-	abit = black_outline("Alphabet Set To:", font, &white);
+	abit = black_outline("Alphabet Set To:", default_font, &white);
 	dst.x = 320 - (abit->w / 2);
 	dst.y = 200;
 	dst.w = abit->w;
@@ -314,7 +327,7 @@ unsigned char* WORDS_get( void ) {
  */
 void WORDS_use( char *wordFn ) {
 	int j;
-	unsigned char temp_word[FNLEN];
+	unsigned char temp_word[PATH_MAX];
 	FILE *wordFile=NULL;
 
 	DEBUGCODE { fprintf(stderr, "Entering WORDS_use() for file: %s\n", wordFn); }

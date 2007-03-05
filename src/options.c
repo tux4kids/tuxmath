@@ -61,6 +61,12 @@ int options(void)
   Uint32 last_time, now_time;
   SDLKey key;
   
+  /* Re-read global settings - avoid side effects from prior  */
+  /* games:                                                   */
+  if (!read_global_config_file())
+  {
+    fprintf(stderr, "\nCould not find global config file.\n");
+  }
 
   /* Read in user-specific settings, if desired.  This clears */
   /* out any side effects from having played a lesson or      */

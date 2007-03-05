@@ -37,7 +37,7 @@
 #define to_upper(c) (((c) >= 'a' && (c) <= 'z') ? (c) -32 : (c))
 #define COL2RGB( col ) SDL_MapRGB( screen->format, col->r, col->g, col->b )
 
-#define FNLEN	200
+//#define FNLEN	200
 
 #define RES_X	640
 #define RES_Y	480
@@ -59,9 +59,9 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
-
 #include "../config.h"
 
+#include "tuxmath.h"
 
 
 #define next_frame(SPRITE) if ((SPRITE)->num_frames) (SPRITE)->cur = (((SPRITE)->cur)+1) % (SPRITE)->num_frames;
@@ -71,9 +71,9 @@
 #define MAX(x,y) ((x) > (y) ? (x) : (y))
 
 typedef struct {
-    char lang[FNLEN];
-    char path[FNLEN];
-    char window[FNLEN];
+    char lang[PATH_MAX];
+    char path[PATH_MAX];
+    char window[PATH_MAX];
     int sfx_volume;
     int mus_volume;
     int menu_music;
@@ -158,7 +158,7 @@ enum { EASY, MEDIUM, HARD, INSANE, INF_PRACT };
 #define NUM_LEVELS		        4
 
 extern SDL_Surface *screen;
-extern TTF_Font  *font;
+//extern TTF_Font  *font;
 extern SDL_Event  event;
 
 extern SDL_Color black;
@@ -185,8 +185,8 @@ extern int sound_vol;
 extern int hidden; // Read the README file in the image directory for info on this ;)
 
 /* Alternative language/word/image/sound theming */
-extern unsigned char realPath[2][FNLEN];
-extern char themeName[FNLEN];
+extern unsigned char realPath[2][PATH_MAX];
+extern char themeName[PATH_MAX];
 extern int useEnglish;
 
 enum {
