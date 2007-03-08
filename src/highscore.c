@@ -9,6 +9,8 @@
 * Copyright: See COPYING file that comes with this distribution
 * (Briefly, GNU GPL version 2 or greater).
 */
+#include <string.h>
+
 #include "highscore.h"
 #include "tuxmath.h"
 
@@ -151,6 +153,9 @@ void print_high_scores(FILE* fp)
 int read_high_scores_fp(FILE* fp)
 {
   char buf[PATH_MAX];
+  char* token;
+  const char delimiters[] = "\t";
+
   char* name_read;
   int score_read;
   int diff_level;
@@ -180,6 +185,19 @@ int read_high_scores_fp(FILE* fp)
     }
     /* Split up line with strtok()to get needed values,  */ 
     /* then call insert_score() for each line.           */
+    token = strtok(buf, delimiters);
+    if (!token)
+      continue;
+    diff_level = atoi(token);
+
+    token = strtok(NULL, delimiters);
+    if (!token)
+      continue; 
+    score_read = atoi(token);
+    /* Note that name can contain spaces - \t is only delimiter: */
+    name_read = strtok(NULL, delimiters);
+    /* Now insert entry: */
+    insert_score(name_read, diff_level, score_read); 
   }
   return 1;
 }
@@ -205,7 +223,7 @@ void write_high_scores_fp(FILE* fp)
   {
     for (j = 0; j < HIGH_SCORES_SAVED; j++)
     {
-      fprintf(fp, "%d\t%d\t%s\n", i,
+      fprintf(fp, "%d\t%d\t%s\t\n", i,
                   high_scores[i][j].score,
                   high_scores[i][j].name);
     }

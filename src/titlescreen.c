@@ -592,6 +592,16 @@ void TitleScreen(void)
         {
           audioMusicUnload();
           game();
+          /* See if player made high score list!                        */
+          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
+          {
+            /* (Get name string from player) */
+            insert_score("Little Kindy", ACE_HIGH_SCORE, Opts_LastScore());
+            write_high_scores();
+#ifdef TUXMATH_DEBUG
+            print_high_scores(stderr);
+#endif 
+          }
         }
         else
         {
@@ -616,6 +626,17 @@ void TitleScreen(void)
         {
           audioMusicUnload();
           game();
+          /* See if player made high score list!                        */
+          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
+          {
+            /* (Get name string from player) */
+            insert_score("Toothless Wonder", ACE_HIGH_SCORE, Opts_LastScore());
+            write_high_scores();
+#ifdef TUXMATH_DEBUG
+            print_high_scores(stderr);
+#endif 
+          }
+
         }
         else
         {
@@ -640,6 +661,16 @@ void TitleScreen(void)
         {
           audioMusicUnload();
           game();
+          /* See if player made high score list!                        */
+          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
+          {
+            /* (Get name string from player) */
+            insert_score("Rock Climber", ACE_HIGH_SCORE, Opts_LastScore());
+            write_high_scores();
+#ifdef TUXMATH_DEBUG
+            print_high_scores(stderr);
+#endif 
+          }
         }
         else
         {

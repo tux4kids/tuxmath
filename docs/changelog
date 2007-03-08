@@ -1,4 +1,11 @@
 changelog for "tuxmath"
+2007.Mar.08  (svn.debian.org/tux4kids - revision 125)
+  Game:
+    * High scores now saved to and read from file, not yet
+      visible to game player.
+    * svn repository move completed.
+
+      David Bruce <dbruce@tampabay.rr.com>
 
 2007.Mar.05  (https://svn.tux4kids.net/tuxmath/ - revision 75)
   Code:
