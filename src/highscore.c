@@ -12,12 +12,6 @@
 #include "highscore.h"
 #include "tuxmath.h"
 
-#define HIGH_SCORES_SAVED 10
-#define HIGH_SCORE_NAME_LENGTH 32
-
-
-
-
 typedef struct high_score_entry {
   int score;
   char name[HIGH_SCORE_NAME_LENGTH];
@@ -151,4 +145,70 @@ void print_high_scores(FILE* fp)
               high_scores[i][j].score);
     }
   }
+}
+
+
+int read_high_scores_fp(FILE* fp)
+{
+  char buf[PATH_MAX];
+  char* name_read;
+  int score_read;
+  int diff_level;
+
+
+#ifdef TUXMATH_DEBUG
+  printf("\nEntering read_high_scores_fp()\n");
+#endif
+
+  /* get out if file pointer invalid: */
+  if(!fp)
+  {
+    fprintf(stderr, "In read_high_scores_fp(), file pointer invalid!\n");
+    return 0;
+  }
+
+  /* make sure we start at beginning: */
+  rewind(fp);
+
+  /* read in a line at a time: */
+  while (fgets (buf, PATH_MAX, fp))
+  { 
+    /* Ignore comment lines: */
+    if ((buf[0] == ';') || (buf[0] == '#'))
+    {
+      continue;
+    }
+    /* Split up line with strtok()to get needed values,  */ 
+    /* then call insert_score() for each line.           */
+  }
+  return 1;
+}
+
+/* Write high score table to provided FILE* in format     */
+/* compatible with read_high_scores() above.  For human-  */
+/* readable output for debugging purposes, print_high_    */
+/* scores() in highscore.c is better. write_high_scores() */
+/* in fileops.c takes care of checking paths, opening     */
+/* and closing the file, etc.                             */
+void write_high_scores_fp(FILE* fp)
+{
+  int i, j;
+
+  /* get out if file pointer invalid: */
+  if(!fp)
+  {
+    fprintf(stderr, "In write_high_scores_fp(), file pointer invalid!\n");
+    return;
+  }
+
+  for (i = 0; i < NUM_HIGH_SCORE_LEVELS; i++)
+  {
+    for (j = 0; j < HIGH_SCORES_SAVED; j++)
+    {
+      fprintf(fp, "%d\t%d\t%s\n", i,
+                  high_scores[i][j].score,
+                  high_scores[i][j].name);
+    }
+  }
+  return;
 }

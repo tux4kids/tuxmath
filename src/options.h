@@ -57,6 +57,8 @@ typedef struct game_option_type {
   /* whether sound system is successfully initialized and sound files loaded: */
   /* this flag is set by the program, not the user, and is not in the config file. */
   int sound_hw_available;
+  /* place to save score of last game - not read in from file: */
+  int last_score;
   /* not sure the rest of these belong in here */
   int num_cities;  /* MUST BE AN EVEN NUMBER! */
   int num_bkgds;
@@ -120,6 +122,9 @@ void Opts_SetCityExplHandicap(float val);
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */
 void Opts_SetSoundHWAvailable(int val);
+/* Used by high score table code, not config file: */
+void Opts_SetLastScore(int val);
+
 
 /* "Get" functions for tuxmath options struct: */
 int Opts_PerUserConfig(void);
@@ -157,6 +162,8 @@ int Opts_SoundHWAvailable(void);
 /* this is the function that says if sound is both desired and actually available: */
 int Opts_UsingSound(void);
 
+/* Returns score of last Arcade-type game this session: */
+int Opts_LastScore(void);
 
 /* print options values to stream - for debugging purposes - has been */
 /* superceded by write_config_file() to actually write human-readable file. */

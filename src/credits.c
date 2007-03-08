@@ -90,7 +90,7 @@ char * credit_text[] = {
   "",
   "",
   "-WEBSITE",
-  "TUX4KIDS.COM",
+  "TUX4KIDS.DEBIAN.ALIOTH.ORG",
   "", /* The following blanks cause the screen to scroll to complete blank: */
   "",
   "",

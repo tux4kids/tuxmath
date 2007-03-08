@@ -154,6 +154,12 @@ void initialize_options(void)
 
   /* Now set up high score tables: */
   initialize_scores();
+  if (!read_high_scores())
+  {
+    fprintf(stderr, "\nCould not find high score table.\n");
+    /* (can still proceed).         */
+  }
+
 #ifdef TUXMATH_DEBUG
   print_high_scores(stdout);  
 #endif

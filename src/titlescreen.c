@@ -32,6 +32,7 @@
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
 #include "credits.h"
+#include "highscore.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -164,7 +165,7 @@ void InitEngine(void);
 
 /****************************************
 * TitleScreen: Display the title screen *
-*****************************************
+****************************************/
 
 /* display title screen, get input */
 
@@ -667,6 +668,16 @@ void TitleScreen(void)
           /* The 'Ace' mission sets this to 0.1 - put back to 1 in case */
           /* next mission file forgets to specify it:                   */
           MC_SetFractionToKeep(1.0);
+          /* See if player made high score list!                        */
+          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
+          {
+            /* (Get name string from player) */
+            insert_score("Good Player", ACE_HIGH_SCORE, Opts_LastScore());
+            write_high_scores();
+#ifdef TUXMATH_DEBUG
+            print_high_scores(stderr);
+#endif 
+          }
         }
         else
         {
@@ -691,7 +702,7 @@ void TitleScreen(void)
       }
 
 
-    /* Third (Game Options) page:-----------------------------------------------*/
+    /* Third (Game Options) page:----------*/
 
       case INTERFACE_OPTIONS:
       {

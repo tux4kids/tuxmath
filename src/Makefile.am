@@ -8,7 +8,7 @@ endif
 TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
-                mathcards.c fileops.c tuxmathrc.c
+                mathcards.c fileops.c tuxmathrc.rc
 
 tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \

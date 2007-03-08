@@ -30,7 +30,7 @@
 #endif
 
 //#define NOSOUND
-//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */
@@ -69,6 +69,7 @@
 #define DEFAULT_DANGER_LEVEL_SPEEDUP 1.1
 #define DEFAULT_DANGER_LEVEL_MAX 0.9
 #define DEFAULT_CITY_EXPL_HANDICAP 0
+#define DEFAULT_LAST_SCORE 0
 
 /* These values are hard-coded and used 'as is' by the program */
 /* (i.e. these behaviors require recompilation to change)   */ 
@@ -86,6 +87,19 @@
 
 #define DEFAULT_FONT_NAME "AndikaDesRevA.ttf"
 #define DEFAULT_MENU_FONT_SIZE 18
+
+
+#define HIGH_SCORES_SAVED 10
+#define HIGH_SCORE_NAME_LENGTH 32
+
+enum { 
+  CADET_HIGH_SCORE,
+  SCOUT_HIGH_SCORE,
+  RANGER_HIGH_SCORE,
+  ACE_HIGH_SCORE,
+  NUM_HIGH_SCORE_LEVELS
+};
+
 
 /* Going away soon: */
 typedef struct range_type {
@@ -119,6 +133,7 @@ extern SDL_Surface* flipped_images[];
 extern int flipped_img_lookup[];
 
 extern TTF_Font  *default_font;
+
 
 #ifndef NOSOUND
 extern Mix_Chunk* sounds[];    /* declared in setup.c; also used in fileops.c, playsound.c */

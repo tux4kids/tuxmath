@@ -55,7 +55,7 @@ am_TuxMath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	credits.$(OBJEXT) playsound.$(OBJEXT) highscore.$(OBJEXT) \
 	theme.$(OBJEXT) loaders.$(OBJEXT) alphabet.$(OBJEXT) \
 	pause.$(OBJEXT) gettext.$(OBJEXT) audio.$(OBJEXT) \
-	mathcards.$(OBJEXT) fileops.$(OBJEXT) tuxmathrc.$(OBJEXT)
+	mathcards.$(OBJEXT) fileops.$(OBJEXT)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
@@ -191,7 +191,7 @@ top_srcdir = @top_srcdir@
 TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
-                mathcards.c fileops.c tuxmathrc.c
+                mathcards.c fileops.c tuxmathrc.rc
 
 tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
@@ -297,7 +297,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theme.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmathrc.Po@am__quote@
 
 .c.o:
 @am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<

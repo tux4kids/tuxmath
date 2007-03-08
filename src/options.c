@@ -397,6 +397,7 @@ int Opts_Initialize(void)
   game_options->danger_level_speedup = DEFAULT_DANGER_LEVEL_SPEEDUP;
   game_options->danger_level_max = DEFAULT_DANGER_LEVEL_MAX;
   game_options->city_expl_handicap = DEFAULT_CITY_EXPL_HANDICAP;
+  game_options->last_score = DEFAULT_LAST_SCORE;
 
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   game_options->num_bkgds = DEFAULT_NUM_BKGDS;
@@ -740,7 +741,11 @@ void Opts_SetSoundHWAvailable(int val)
   game_options->sound_hw_available = int_to_bool(val);
 }
 
-
+/* Allows game() to store score for high score table code: */
+void Opts_SetLastScore(int val)
+{
+  game_options->last_score = val;
+}
 
 /* "Get" functions for tuxmath options struct: */
 int Opts_PerUserConfig(void)
@@ -972,7 +977,7 @@ int Opts_MaxComets(void)
   return game_options->max_comets;
 }
 
-
+/* FIXME maybe not good idea to have a malloc() in a function like this: */
 char* Opts_NextMission(void)
 {
   char* str;
@@ -992,6 +997,17 @@ int Opts_SaveSummary(void)
     return GAME_OPTS_INVALID;
   }
   return game_options->save_summary;
+}
+
+
+int Opts_LastScore(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_LastScore(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->last_score;
 }
 
 

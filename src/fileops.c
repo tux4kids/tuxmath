@@ -55,6 +55,7 @@
 #include "setup.h"
 #include "mathcards.h"
 #include "options.h"
+#include "highscore.h"
 
 /* Used by both write_pregame_summary() and */
 /* write_postgame_summary() so defined with */
@@ -83,12 +84,14 @@ TTF_Font  *default_font;
 /* local function prototypes: */
 static int find_tuxmath_dir(void);
 static int str_to_bool(char* val);
+static int read_config_file(FILE* fp, int file_type);
+static int write_config_file(FILE* fp, int verbose);
 
 /* fix HOME on windows */
 #ifdef BUILD_MINGW32
 #include <windows.h>
 
-/* STOLEN in tuxpaint */
+/* STOLEN from tuxpaint */
 
 /*
   Removes a single '\' or '/' from end of path 
@@ -156,12 +159,13 @@ char *GetDefaultSaveDir(const char *suffix)
 /* WIndows 98/ME: TuxMath install dir/userdata/Options */
 #define OPTIONS_SUBDIR ""
 #define OPTIONS_FILENAME "options.cfg"
-
+#define HIGHSCORE_FILENAME "highscores.txt"
 #else
 
 # define get_home getenv("HOME")
 #define OPTIONS_SUBDIR "/.tuxmath"
 #define OPTIONS_FILENAME "options"
+#define HIGHSCORE_FILENAME "highscores"
 
 #endif
 
@@ -209,7 +213,7 @@ int read_user_config_file(void)
   strcat(opt_path, OPTIONS_SUBDIR "/" OPTIONS_FILENAME);
 
   #ifdef TUXMATH_DEBUG
-  printf("\nIn setup() full path to config file is: = %s\n", opt_path);
+  printf("\nIn read_user_config_file() full path to config file is: = %s\n", opt_path);
   #endif
 
   fp = fopen(opt_path, "r");
@@ -472,9 +476,80 @@ int read_named_config_file(char* filename)
   return 0;
 }
 
+/* Look for a high score table file in the user's homedir */
+/* and if found, pass the FILE* to read_high_scores_() in */
+/* highscore.c to actually read in scores. (A "global"    */
+/* location might in theory be better, but most schools   */
+/* run Windows with all students sharing a common login   */
+/* that may not be able to write to "global" locations).  */
+int read_high_scores(void)
+{
+  FILE* fp;
+  char opt_path[PATH_MAX];
+
+  /* find $HOME and tack on file name: */
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" HIGHSCORE_FILENAME);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn read_high_scores() full path to file is: = %s\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "r");
+  if (fp) /* file exists */
+  {
+    read_high_scores_fp(fp);
+    fclose(fp);
+    fp = NULL;
+    return 1;
+  }
+  else  /* could not open config file: */
+  {
+    return 0;
+  }
+}
+
+/* Write high score table in user's homedir in format     */
+/* compatible with read_high_scores() above.  For human-  */
+/* readable output for debugging purposes, print_high_    */
+/* scores() in highscore.c is better.                     */
+int write_high_scores(void)
+{
+  char opt_path[PATH_MAX];
+  FILE* fp;
+
+  if (!find_tuxmath_dir())
+  {
+    fprintf(stderr, "\nCould not find or create tuxmath dir\n");
+    return 0;
+  }
+
+  /* find $HOME and add rest of path to config file: */
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" HIGHSCORE_FILENAME);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn write_high_scores() full path to file is: = %s\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "w");
+  if (fp)
+  {
+    write_high_scores_fp(fp);
+    fclose(fp);
+    fp = NULL;
+    return 1;
+  }
+  else
+    return 0;
+}
 
 
-
+/***********************************************************
+*                                                          *
+*       "Private methods" with file scope only             *
+*                                                          *
+***********************************************************/
 
 
 /* This function does the heavy lifting, so to speak:     */
@@ -2068,6 +2143,10 @@ static int str_to_bool(char* val)
 /*****************************************************************/
 
 /* returns 1 if all data files successfully loaded, 0 otherwise. */
+
+/* TODO load only "igloo" or "city" files, not both.             */
+/* TODO get rid of files no longer used.                         */
+
 int load_image_data()
 {
   int total_files, i;

@@ -1,5 +1,21 @@
 changelog for "tuxmath"
 
+2007.Mar.05  (https://svn.tux4kids.net/tuxmath/ - revision 75)
+  Code:
+    * Most of tuxtype-derived code now using functions in
+      fileops.c to load - trying to make this more consistent
+      and unified. Fixes problems finding data files on some
+      Windows machines.
+    * Beginning of audit of all pointers to prevent segfaults and
+      other memory management errors.
+  Game:
+    * Data structures and several functions in place for high score
+      lists (nothing user-visible yet).
+
+      Last commit at svn.tux4kids.net before move to Alioth.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Feb.12  (https://svn.tux4kids.net/tuxmath/ - revision 74)
   Code:
     * Fixed MC_FORMULA_LEN bug causing long comet strings to

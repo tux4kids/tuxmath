@@ -232,14 +232,13 @@ int read_global_config_file(void);
 int read_user_config_file(void);
 int read_named_config_file(char* filename);
 int write_user_config_file(void);
+int read_high_scores(void);
+int write_high_scores(void);
 
 /* These functions used by game() to record game summary: */
 int write_pregame_summary(void);
 int write_postgame_summary(void);
 
-/* FIXME these will probably become "local" functions: */
-int read_config_file(FILE* fp, int file_type);
-int write_config_file(FILE* fp, int verbose);
 
 int load_image_data();
 int load_default_font();

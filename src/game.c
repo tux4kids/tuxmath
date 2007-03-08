@@ -424,6 +424,8 @@ int game(void)
     write_postgame_summary();
   }  
 
+  /* Save score in case needed for high score table: */
+  Opts_SetLastScore(score);
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Leaving game():\n");

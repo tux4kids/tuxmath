@@ -1,17 +1,16 @@
 TODO.txt for "tuxmath"
 
-Nov 18, 2006
+2007.Mar.05
 
 Build:
   * Refine NSIS installer for Windows (or perhaps executable
     itself) to create Start Menu link to options.txt file
-  * Maybe should have configure script in Subversion so build
-    can be done without Autotools?
 
 Graphics:
-  * Consider changing city graphics to something less violent.
-  * Add more city graphic colors.
-  * Consider changing default resolution to 800x600, maybe higher.
+  * Make game more "themable" (there is a pending request for an
+    "Egyptian" theme with pyramids and an "Islands" theme with
+    palm trees, etc.)
+  * svg support - allow game to draw correctly at any resolution.
 
 Interface:
   * Add more sound effects and music files
@@ -26,24 +25,26 @@ Game Play:
   * More entertaining "victory" and "defeat" screens
   * Add option to review missed questions to end-of-game screens
   * Add option to play next game using missed questions from current game
-  * Lesson series of progressively harder "missions".
   * End-of-level calculations, bonuses and animations
-  * Add special targets that restore shields or rebuild cities.
+  * "Lesson server" with login - keep track of lessons completed, percent
+    correct, etc. on a per-user basis, even if installation doesn't have 
+    students log into computers individually.
+  * Multiplayer mode - points go to whoever shoots the comet first.
 
 Documentation:
   * Finish README.txt
   * Finish INSTALL.txt
 
 Options:
-  * Merge in code from TuxType for title screen and options system
   * Make use of some of function keys(F1-F12) to toggle settings in-game
-  * Display numbers instead of formulas if no operators are selected: "typing tutor" mode.
+    (perhaps speed control, muting of music)
   * Save options.
   * Admin options screen / files
   * Command-line options based on grade-level (?)
+  * Internationalization - use gettext() for all strings
 
 Code:
   * Optimize graphics blitting!!!
   * Abstract SDL_BlitSurface() calls
-
+  * Consider moving to C++ (ducks!)
 
