@@ -130,7 +130,7 @@ SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
   fprintf( stderr, "black_outline of \"%s\"\n", t );
 #endif
 
-	tmp = TTF_RenderText_Shaded(font, t, black,black);
+	tmp = TTF_RenderUTF8_Shaded(font, t, black,black);
         if (!tmp)
         {
           fprintf(stderr, "Could not create rendered SDL_Surface of %s\n", t);
@@ -152,7 +152,7 @@ SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
 
 	/* --- Put the color version of the text on top! --- */
 
-	tmp = TTF_RenderText_Blended(font, t, *c);
+	tmp = TTF_RenderUTF8_Blended(font, t, *c);
 
 	dstrect.x = dstrect.y = 2;
 

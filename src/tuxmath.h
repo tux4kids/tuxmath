@@ -22,6 +22,13 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
+// Translation stuff:
+#include <libintl.h>
+#include <locale.h>
+#define _(String) gettext (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+
 #include <SDL.h>
 #include <SDL_ttf.h>
 

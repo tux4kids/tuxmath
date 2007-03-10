@@ -7,14 +7,15 @@ endif
 
 TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
-		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
+		theme.c loaders.c alphabet.c pause.c audio.c \
                 mathcards.c fileops.c tuxmathrc.rc
 
 tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
-		theme.c loaders.c alphabet.c pause.c gettext.c audio.c \
+		theme.c loaders.c alphabet.c pause.c audio.c \
                 mathcards.c fileops.c
 
+# SUBDIRS = po
 
 WINDRES=@WINDRES@
 
@@ -23,6 +24,10 @@ if BUILD_MINGW32
 else
   DATA_PREFIX=${pkgdatadir}
 endif
+
+datadir = @datadir@
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND

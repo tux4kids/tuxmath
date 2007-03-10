@@ -1,0 +1,6 @@
+To create POT file, run:
+intltool-update --pot --gettext-package=tuxmath
+
+To update the PO file nn.po, run:
+intltool-update nn
+

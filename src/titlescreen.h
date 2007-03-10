@@ -63,7 +63,6 @@
 
 #include "tuxmath.h"
 
-
 #define next_frame(SPRITE) if ((SPRITE)->num_frames) (SPRITE)->cur = (((SPRITE)->cur)+1) % (SPRITE)->num_frames;
 #define rewind(SPRITE) (SPRITE)->cur = 0;
 
@@ -85,9 +84,6 @@ typedef struct {
 	int num_frames;
 	int cur;
 } sprite;
-
-#define _(str) gettext (str)
-#define gettext_noop(str) (str)
 
 /* LOGGING works as such:
  *
@@ -278,10 +274,6 @@ extern void WORDS_init( void );
 extern void WORDS_use_alphabet( void );
 extern void WORDS_use( char *wordFn );
 extern unsigned char* WORDS_get( void );
-
-/* in gettext.c (from tuxtype): */
-extern unsigned char *gettext( unsigned char *in );
-extern int  load_trans( char *file );
 
 /* in pause.c * (from tuxtype): */
 extern int  Pause( void );

@@ -40,28 +40,6 @@ int checkFile( const char *file ) {
 	return (S_IFREG & fileStats.st_mode);
 }
 
-void LoadLang( void ) {
-	char fn[PATH_MAX];
-
-	/* we only need to load a lang.po file if we
-	 * are actually using a theme, so this is a little
-	 * different than the other loaders 
-	 */ 
-
-	if (useEnglish) {
-		/* clear translations and return! */
-		return;
-	}
-
-	/* --- create full path to the lang.po file --- */
-
-	sprintf( fn, "%s/lang.po", realPath[0]);
-	if (load_trans( fn )) {
-		/* failed to find a lang.po file, clear gettext & return */
-		return;
-	}
-}
-
 int max( int n1, int n2 ) {
 	return (n1 > n2 ? n1 : n2);
 }

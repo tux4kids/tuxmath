@@ -31,6 +31,10 @@
 
 int main(int argc, char * argv[])
 {
+setlocale( LC_ALL, "" );
+bindtextdomain( "tuxmath", LOCALEDIR );
+bind_textdomain_codeset("tuxmath", "UTF-8");
+textdomain( "tuxmath" );
 /* Link control of tuxtype-derived code's debug to TUXMATH_DEBUG: */
   debugOn = 0; //for tuxtype-derived code  
 #ifdef TUXMATH_DEBUG

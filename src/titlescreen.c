@@ -74,11 +74,11 @@ const int menu_item[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] =
 const unsigned char* menu_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = 
 /*    Main Menu                                       'Arcade' Games                    Options                     Game Options            */
 {{"", "",                                             "",                             "",                              ""                       },
- {"", gettext_noop("Math Command Training Academy"), gettext_noop("Space Cadet"), gettext_noop("Settings"),     gettext_noop("Speed")    },
- {"", gettext_noop("Play Arcade Game"),              gettext_noop("Scout"),       gettext_noop("Help"),         gettext_noop("Sound")    },
- {"", gettext_noop("Play Custom Game"),              gettext_noop("Ranger"),      gettext_noop("Credits"),      gettext_noop("Graphics") },
- {"", gettext_noop("More Options"),                  gettext_noop("Ace"),         gettext_noop("Project Info"), gettext_noop("Advanced Options")},
- {"", gettext_noop("Quit"),                           gettext_noop("Main Menu"),   gettext_noop("Main Menu"),      gettext_noop("Main Menu") }};
+ {"", N_("Math Command Training Academy"), N_("Space Cadet"), N_("Settings"),     N_("Speed")    },
+ {"", N_("Play Arcade Game"),              N_("Scout"),       N_("Help"),         N_("Sound")    },
+ {"", N_("Play Custom Game"),              N_("Ranger"),      N_("Credits"),      N_("Graphics") },
+ {"", N_("More Options"),                  N_("Ace"),         N_("Project Info"), N_("Advanced Options")},
+ {"", N_("Quit"),                           N_("Main Menu"),   N_("Main Menu"),      N_("Main Menu") }};
 
 
 /* These are the filenames of the images used in the animated menu icons: */
@@ -430,16 +430,6 @@ void TitleScreen(void)
                 audioMusicLoad("tuxi.ogg", -1);
               }
               //redraw = 1;
-              break;
-            }
-
-            /* --- reload translation/graphics/media: for themers/translaters --- */
-            case SDLK_F12:
-            {
-              TitleScreen_unload_media();
-              LoadLang();
-              TitleScreen_load_media();
-              redraw = 1;
               break;
             }
 

@@ -1,0 +1,125 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2007-03-10 13:53+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../pause.c:88
+msgid "Sound Effects Volume"
+msgstr ""
+
+#: ../pause.c:94
+msgid "Music Volume"
+msgstr ""
+
+#: ../pause.c:102
+msgid "Sound & Music Disabled"
+msgstr ""
+
+#: ../pause.c:109
+msgid "Paused!"
+msgstr ""
+
+#: ../pause.c:115
+msgid "Press escape again to return to menu"
+msgstr ""
+
+#: ../pause.c:121
+msgid "Press space bar to return to game"
+msgstr ""
+
+#: ../titlescreen.c:77
+msgid "Math Command Training Academy"
+msgstr ""
+
+#: ../titlescreen.c:77
+msgid "Space Cadet"
+msgstr ""
+
+#: ../titlescreen.c:77
+msgid "Settings"
+msgstr ""
+
+#: ../titlescreen.c:77
+msgid "Speed"
+msgstr ""
+
+#: ../titlescreen.c:78
+msgid "Play Arcade Game"
+msgstr ""
+
+#: ../titlescreen.c:78
+msgid "Scout"
+msgstr ""
+
+#: ../titlescreen.c:78
+msgid "Help"
+msgstr ""
+
+#: ../titlescreen.c:78
+msgid "Sound"
+msgstr ""
+
+#: ../titlescreen.c:79
+msgid "Play Custom Game"
+msgstr ""
+
+#: ../titlescreen.c:79
+msgid "Ranger"
+msgstr ""
+
+#: ../titlescreen.c:79
+msgid "Credits"
+msgstr ""
+
+#: ../titlescreen.c:79
+msgid "Graphics"
+msgstr ""
+
+#: ../titlescreen.c:80
+msgid "More Options"
+msgstr ""
+
+#: ../titlescreen.c:80
+msgid "Ace"
+msgstr ""
+
+#: ../titlescreen.c:80
+msgid "Project Info"
+msgstr ""
+
+#: ../titlescreen.c:80
+msgid "Advanced Options"
+msgstr ""
+
+#: ../titlescreen.c:81
+msgid "Quit"
+msgstr ""
+
+#: ../titlescreen.c:81
+msgid "Main Menu"
+msgstr ""
+
+#: ../titlescreen.c:1211
+msgid "Work In Progress!"
+msgstr ""
+
+#: ../titlescreen.c:1212
+msgid "This feature is not ready yet"
+msgstr ""
+
+#: ../titlescreen.c:1213
+msgid "Discuss the future of TuxMath at"
+msgstr ""
