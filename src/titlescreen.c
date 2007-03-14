@@ -141,6 +141,7 @@ SDL_Rect menu_button[TITLE_MENU_ITEMS + 1];  // size of "button"
 SDL_Rect dest,
 	 Tuxdest,
 	 Titledest,
+         stopRect,
 	 cursor;
 
 /* Local function prototypes: */
@@ -209,22 +210,20 @@ void TitleScreen(void)
 
 
   /* StandbyScreen: Display the Standby screen: */
-  {
+  if (images[IMG_STANDBY])
+  {  
+    // Center horizontally
+    dest.x = ((screen->w) / 2) - (images[IMG_STANDBY]->w) / 2;
+    // Center vertically
+    dest.y = ((screen->h) / 2) - (images[IMG_STANDBY]->h) / 2;
+    dest.w = images[IMG_STANDBY]->w;
+    dest.h = images[IMG_STANDBY]->h;
 
-    if (images[IMG_STANDBY])
-    {  
-      // Center horizontally
-      dest.x = ((screen->w) / 2) - (images[IMG_STANDBY]->w) / 2;
-      // Center vertically
-      dest.y = ((screen->h) / 2) - (images[IMG_STANDBY]->h) / 2;
-      dest.w = images[IMG_STANDBY]->w;
-      dest.h = images[IMG_STANDBY]->h;
-
-      SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-      SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
-    }
+    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+    SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
+ 
 
   /* --- wait  --- */
 
@@ -264,13 +263,26 @@ void TitleScreen(void)
     /* Make sure background gets drawn (since TransWipe() doesn't */
     /* seem to work reliably as of yet):                          */
     SDL_BlitSurface(images[IMG_MENU_BKG], NULL, screen, NULL);
+ 
+  }
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
   }
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
   /* --- Pull tux & logo onscreen --- */
   /* NOTE we wind up with Tuxdest.y == (screen->h)  - (Tux->frame[0]->h), */
   /* and Titledest.x == 0.                                                */
-  if (images[IMG_MENU_BKG] && images[IMG_MENU_TITLE] && Tux && Tux->frame[0])
+  if (images[IMG_MENU_BKG]
+   && images[IMG_MENU_TITLE]
+   && images[IMG_STOP]
+   && Tux && Tux->frame[0])
   {
     Tuxdest.x = 0;
     Tuxdest.y = screen->h;
@@ -281,6 +293,7 @@ void TitleScreen(void)
     Titledest.y = 10;
     Titledest.w = images[IMG_MENU_TITLE]->w;
     Titledest.h = images[IMG_MENU_TITLE]->h;
+
 
     for (i = 0; i < (PRE_ANIM_FRAMES * PRE_FRAME_MULT); i++)
     {
@@ -293,16 +306,20 @@ void TitleScreen(void)
 
       SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
       SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
-
+      SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+ 
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w + 40,
                      Titledest.h);
+      SDL_UpdateRect(screen, stopRect.x, stopRect.y, stopRect.w, stopRect.h);
 
       while ((SDL_GetTicks() - start) < 33) 
       {
         SDL_Delay(2);
       }
     }
+
+
   }
 
 #ifdef TUXMATH_DEBUG
@@ -364,8 +381,7 @@ void TitleScreen(void)
 
           for (j = 1; j <= TITLE_MENU_ITEMS; j++)
           {
-            if ((cursor.x >= menu_button[j].x && cursor.x <= (menu_button[j].x + menu_button[j].w)) && 
-                (cursor.y >= menu_button[j].y && cursor.y <= (menu_button[j].y + menu_button[j].h)))
+            if (inRect(menu_button[j], cursor.x, cursor.y))
             {
               menu_opt = menu_item[j][menu_depth];
               if (Opts_MenuSound())
@@ -377,8 +393,24 @@ void TitleScreen(void)
               fprintf(stderr, "->>BUTTON CLICK menu_opt = %d\n", menu_opt);
               fprintf(stderr, "->J = %d menu_depth=%d\n", j, menu_depth);
 #endif
+              break; // from for loop (optimization)
             }
           }
+
+  
+          /* Stop button is equivalent to Esc key: */
+          if (inRect(stopRect, cursor.x, cursor.y))
+          {
+            /* Go to main menu (if in submenu) or quit: */
+            if (menu_depth != 1) 
+              menu_opt = MAIN;
+            else
+              menu_opt = QUIT_GAME;
+
+            if (Opts_MenuSound())
+              tuxtype_playsound(sounds[SND_POP]);
+          }
+
           break;
         }
 
@@ -586,7 +618,7 @@ void TitleScreen(void)
           if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
           {
             /* (Get name string from player) */
-            insert_score("Little Kindy", ACE_HIGH_SCORE, Opts_LastScore());
+            insert_score("Little Kindy", CADET_HIGH_SCORE, Opts_LastScore());
             write_high_scores();
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
@@ -620,7 +652,7 @@ void TitleScreen(void)
           if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
           {
             /* (Get name string from player) */
-            insert_score("Toothless Wonder", ACE_HIGH_SCORE, Opts_LastScore());
+            insert_score("Toothless Wonder", SCOUT_HIGH_SCORE, Opts_LastScore());
             write_high_scores();
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
@@ -655,7 +687,7 @@ void TitleScreen(void)
           if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()))
           {
             /* (Get name string from player) */
-            insert_score("Rock Climber", ACE_HIGH_SCORE, Opts_LastScore());
+            insert_score("Rock Climber", RANGER_HIGH_SCORE, Opts_LastScore());
             write_high_scores();
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
@@ -794,6 +826,9 @@ void TitleScreen(void)
         SDL_BlitSurface(images[IMG_MENU_BKG], NULL, screen, NULL); 
       if (images[IMG_MENU_TITLE])
         SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
+      if (images[IMG_STOP])
+        SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+
       SDL_UpdateRect(screen, 0, 0, 0, 0);
       frame = redraw = 0;   // so we redraw tux
       update_locs = 1;      // so we redraw menu
@@ -1198,7 +1233,7 @@ void NotImplemented(void)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   sprite *tux;
-  SDL_Rect loc, stopRect;
+  SDL_Rect loc;
   int finished = 0;
   int tux_frame = 0;
   Uint32 frame = 0;
@@ -1354,7 +1389,7 @@ int choose_config_file(void)
   SDL_Surface* select[MAX_LESSONS];
 //  sprite* tux = NULL;
 
-  SDL_Rect leftRect, rightRect, stopRect;
+  SDL_Rect leftRect, rightRect;
   SDL_Rect titleRects[8];               //8 lessons displayed per page 
   SDL_Rect lesson_menu_button[8];      // Translucent mouse "buttons"
 

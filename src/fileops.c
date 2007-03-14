@@ -664,8 +664,8 @@ int read_config_file(FILE *fp, int file_type)
     *value_end = 0;
 
     #ifdef TUXMATH_DEBUG
-    printf("parameter = '%s'\t, length = %d\n", parameter, strlen(parameter));
-    printf("value = '%s'\t, length = %d\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
+    printf("parameter = '%s'\t, length = %zu\n", parameter, strlen(parameter));
+    printf("value = '%s'\t, length = %zu\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
     #endif
     /* Now ready to handle each name/value pair! */
 
