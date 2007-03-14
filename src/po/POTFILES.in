@@ -1,3 +1,5 @@
 [encoding: UTF-8]
 pause.c
 titlescreen.c
+po/lessons_desc.txt
+

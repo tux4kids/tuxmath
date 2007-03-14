@@ -1505,8 +1505,8 @@ int choose_config_file(void)
   /* FIXME black_outline() segfaults if passed "" as arg */
   for (i = 0; i < lessons; i++)
   {
-    titles[i] = black_outline( lesson_names[i], default_font, &white );
-    select[i] = black_outline( lesson_names[i], default_font, &yellow);
+    titles[i] = black_outline( _(lesson_names[i]), default_font, &white );
+    select[i] = black_outline( _(lesson_names[i]), default_font, &yellow);
   }
 
 //   if (images[IMG_MENU_BKG])

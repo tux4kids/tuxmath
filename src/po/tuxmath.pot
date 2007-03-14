@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-10 13:53+0100\n"
+"POT-Creation-Date: 2007-03-14 19:56+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -112,14 +112,234 @@ msgstr ""
 msgid "Main Menu"
 msgstr ""
 
-#: ../titlescreen.c:1211
+#: ../titlescreen.c:1246
 msgid "Work In Progress!"
 msgstr ""
 
-#: ../titlescreen.c:1212
+#: ../titlescreen.c:1247
 msgid "This feature is not ready yet"
 msgstr ""
 
-#: ../titlescreen.c:1213
+#: ../titlescreen.c:1248
 msgid "Discuss the future of TuxMath at"
+msgstr ""
+
+#: ../po/lessons_desc.txt:111
+msgid "Number Typing"
+msgstr ""
+
+#: ../po/lessons_desc.txt:112
+msgid "Addition: 1 to 3"
+msgstr ""
+
+#: ../po/lessons_desc.txt:113
+msgid "Addition: 0 to 5"
+msgstr ""
+
+#: ../po/lessons_desc.txt:114
+msgid "Addition: Sums To 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:115
+msgid "Addition: Sums To 15"
+msgstr ""
+
+#: ../po/lessons_desc.txt:116
+msgid "Addition: Sums To 20"
+msgstr ""
+
+#: ../po/lessons_desc.txt:117
+msgid "Addition: Two Digit Numbers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:118
+msgid "Addition: Missing Numbers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:119
+msgid "Subtraction: 0 to 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:120
+msgid "Subtraction: Two Digit Numbers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:121
+msgid "Addition and Subtraction Review"
+msgstr ""
+
+#: ../po/lessons_desc.txt:122
+msgid "Multiplication: 0 to 3"
+msgstr ""
+
+#: ../po/lessons_desc.txt:123
+msgid "Multiples of 2"
+msgstr ""
+
+#: ../po/lessons_desc.txt:124
+msgid "Multiples of 3"
+msgstr ""
+
+#: ../po/lessons_desc.txt:125
+msgid "Multiples of 4"
+msgstr ""
+
+#: ../po/lessons_desc.txt:126
+msgid "Multiples of 5"
+msgstr ""
+
+#: ../po/lessons_desc.txt:127
+msgid "Multiplication: 0 to 5"
+msgstr ""
+
+#: ../po/lessons_desc.txt:128
+msgid "Multiples of 6"
+msgstr ""
+
+#: ../po/lessons_desc.txt:129
+msgid "Multiples of 7"
+msgstr ""
+
+#: ../po/lessons_desc.txt:130
+msgid "Multiplication: 0 to 7"
+msgstr ""
+
+#: ../po/lessons_desc.txt:131
+msgid "Multiples of 8"
+msgstr ""
+
+#: ../po/lessons_desc.txt:132
+msgid "Multiples of 9"
+msgstr ""
+
+#: ../po/lessons_desc.txt:133
+msgid "Multiples of 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:134
+msgid "Multiplication: 0 to 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:135
+msgid "Multiples of 11 and 12"
+msgstr ""
+
+#: ../po/lessons_desc.txt:136
+msgid "Multiplication: 0 to 12"
+msgstr ""
+
+#: ../po/lessons_desc.txt:137
+msgid "Multiples of 13, 14, and 15"
+msgstr ""
+
+#: ../po/lessons_desc.txt:138
+msgid "Multiplication: 0 to 15"
+msgstr ""
+
+#: ../po/lessons_desc.txt:139
+msgid "Multiplication: Missing Numbers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:140
+msgid "Division by 2"
+msgstr ""
+
+#: ../po/lessons_desc.txt:141
+msgid "Division by 3"
+msgstr ""
+
+#: ../po/lessons_desc.txt:142
+msgid "Division by 4"
+msgstr ""
+
+#: ../po/lessons_desc.txt:143
+msgid "Division by 5"
+msgstr ""
+
+#: ../po/lessons_desc.txt:144
+msgid "Division: 1 to 5"
+msgstr ""
+
+#: ../po/lessons_desc.txt:145
+msgid "Division by 6"
+msgstr ""
+
+#: ../po/lessons_desc.txt:146
+msgid "Division by 7"
+msgstr ""
+
+#: ../po/lessons_desc.txt:147
+msgid "Division by 8"
+msgstr ""
+
+#: ../po/lessons_desc.txt:148
+msgid "Division by 9"
+msgstr ""
+
+#: ../po/lessons_desc.txt:149
+msgid "Division by 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:150
+msgid "Division: 1 to 10"
+msgstr ""
+
+#: ../po/lessons_desc.txt:151
+msgid "Division by 11 and 12"
+msgstr ""
+
+#: ../po/lessons_desc.txt:152
+msgid "Division: 1 to 12"
+msgstr ""
+
+#: ../po/lessons_desc.txt:153
+msgid "Division by 13, 14 and 15"
+msgstr ""
+
+#: ../po/lessons_desc.txt:154
+msgid "Division: 1 to 15"
+msgstr ""
+
+#: ../po/lessons_desc.txt:155
+msgid "Multiplication/Division Super Review!"
+msgstr ""
+
+#: ../po/lessons_desc.txt:156
+msgid "Typing Negative Numbers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:157
+msgid "Subtraction: Negative Answers"
+msgstr ""
+
+#: ../po/lessons_desc.txt:158
+msgid "Adding Negatives To Positives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:159
+msgid "Subtracting Negatives From Positives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:160
+msgid "Adding Negatives To Negatives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:161
+msgid "Subtracting Negatives From Negatives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:162
+msgid "Neg/Pos Review"
+msgstr ""
+
+#: ../po/lessons_desc.txt:163
+msgid "Multiplication And Division Of Negatives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:164
+msgid "Multiplication Of Positives And Negatives"
+msgstr ""
+
+#: ../po/lessons_desc.txt:165
+msgid "Division Of Positives And Negatives"
 msgstr ""
