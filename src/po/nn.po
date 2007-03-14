@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2007-03-14 19:56+0100\n"
-"PO-Revision-Date: 2007-03-14 20:05+0100\n"
+"POT-Creation-Date: 2007-03-14 20:17+0100\n"
+"PO-Revision-Date: 2007-03-14 20:18+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
@@ -125,15 +125,15 @@ msgstr "Denne funksjonen er ikkje klar enno."
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskuter framtida til TuxMath på"
 
-#: ../po/lessons_desc.txt:111
+#: ../po/lessons_desc.txt:111 ../po/lessons_desc.txt:166
 msgid "Number Typing"
 msgstr "Talskriving"
 
-#: ../po/lessons_desc.txt:112
+#: ../po/lessons_desc.txt:112 ../po/lessons_desc.txt:167
 msgid "Addition: 1 to 3"
 msgstr "Addisjon: 1 til 3"
 
-#: ../po/lessons_desc.txt:113
+#: ../po/lessons_desc.txt:113 ../po/lessons_desc.txt:168
 msgid "Addition: 0 to 5"
 msgstr "Addisjon: 0 til 5"
 
@@ -149,147 +149,147 @@ msgstr "Addisjon: Summar til 15"
 msgid "Addition: Sums To 20"
 msgstr "Addisjon: Summar til 20"
 
-#: ../po/lessons_desc.txt:117
+#: ../po/lessons_desc.txt:117 ../po/lessons_desc.txt:172
 msgid "Addition: Two Digit Numbers"
 msgstr "Addisjon: Tosifra tal"
 
-#: ../po/lessons_desc.txt:118
+#: ../po/lessons_desc.txt:118 ../po/lessons_desc.txt:173
 msgid "Addition: Missing Numbers"
 msgstr "Addisjon: Manglande tal"
 
-#: ../po/lessons_desc.txt:119
+#: ../po/lessons_desc.txt:119 ../po/lessons_desc.txt:174
 msgid "Subtraction: 0 to 10"
 msgstr "Subtraksjon: 0 til 10"
 
-#: ../po/lessons_desc.txt:120
+#: ../po/lessons_desc.txt:120 ../po/lessons_desc.txt:175
 msgid "Subtraction: Two Digit Numbers"
 msgstr "Subtraksjon: Tosifra tal"
 
-#: ../po/lessons_desc.txt:121
+#: ../po/lessons_desc.txt:121 ../po/lessons_desc.txt:176
 msgid "Addition and Subtraction Review"
 msgstr "Gjennomgang: Addisjon og subtraksjon"
 
-#: ../po/lessons_desc.txt:122
+#: ../po/lessons_desc.txt:122 ../po/lessons_desc.txt:177
 msgid "Multiplication: 0 to 3"
 msgstr "Multiplikasjon: 0 til 3"
 
-#: ../po/lessons_desc.txt:123
+#: ../po/lessons_desc.txt:123 ../po/lessons_desc.txt:178
 msgid "Multiples of 2"
 msgstr "Multiplum av 2"
 
-#: ../po/lessons_desc.txt:124
+#: ../po/lessons_desc.txt:124 ../po/lessons_desc.txt:179
 msgid "Multiples of 3"
 msgstr "Multiplum av 3"
 
-#: ../po/lessons_desc.txt:125
+#: ../po/lessons_desc.txt:125 ../po/lessons_desc.txt:180
 msgid "Multiples of 4"
 msgstr "Multiplum av 4"
 
-#: ../po/lessons_desc.txt:126
+#: ../po/lessons_desc.txt:126 ../po/lessons_desc.txt:181
 msgid "Multiples of 5"
 msgstr "Multiplum av 5"
 
-#: ../po/lessons_desc.txt:127
+#: ../po/lessons_desc.txt:127 ../po/lessons_desc.txt:182
 msgid "Multiplication: 0 to 5"
 msgstr "Multiplikasjon: 0 til 5"
 
-#: ../po/lessons_desc.txt:128
+#: ../po/lessons_desc.txt:128 ../po/lessons_desc.txt:183
 msgid "Multiples of 6"
 msgstr "Multiplum av 6"
 
-#: ../po/lessons_desc.txt:129
+#: ../po/lessons_desc.txt:129 ../po/lessons_desc.txt:184
 msgid "Multiples of 7"
 msgstr "Multiplum av 7"
 
-#: ../po/lessons_desc.txt:130
+#: ../po/lessons_desc.txt:130 ../po/lessons_desc.txt:185
 msgid "Multiplication: 0 to 7"
 msgstr "Multiplikasjon: 0 til 7"
 
-#: ../po/lessons_desc.txt:131
+#: ../po/lessons_desc.txt:131 ../po/lessons_desc.txt:186
 msgid "Multiples of 8"
 msgstr "Multiplum av 8"
 
-#: ../po/lessons_desc.txt:132
+#: ../po/lessons_desc.txt:132 ../po/lessons_desc.txt:187
 msgid "Multiples of 9"
 msgstr "Multiplum av 9"
 
-#: ../po/lessons_desc.txt:133
+#: ../po/lessons_desc.txt:133 ../po/lessons_desc.txt:188
 msgid "Multiples of 10"
 msgstr "Multiplum av 10"
 
-#: ../po/lessons_desc.txt:134
+#: ../po/lessons_desc.txt:134 ../po/lessons_desc.txt:189
 msgid "Multiplication: 0 to 10"
 msgstr "Multiplikasjon: 0 til 10"
 
-#: ../po/lessons_desc.txt:135
+#: ../po/lessons_desc.txt:135 ../po/lessons_desc.txt:190
 msgid "Multiples of 11 and 12"
 msgstr "Multiplum av 11 og 12"
 
-#: ../po/lessons_desc.txt:136
+#: ../po/lessons_desc.txt:136 ../po/lessons_desc.txt:191
 msgid "Multiplication: 0 to 12"
 msgstr "Multiplikasjon: 0 til 12"
 
-#: ../po/lessons_desc.txt:137
+#: ../po/lessons_desc.txt:137 ../po/lessons_desc.txt:192
 msgid "Multiples of 13, 14, and 15"
 msgstr "Multiplum av 13, 14 og 15"
 
-#: ../po/lessons_desc.txt:138
+#: ../po/lessons_desc.txt:138 ../po/lessons_desc.txt:193
 msgid "Multiplication: 0 to 15"
 msgstr "Multiplikasjon: 0 til 15"
 
-#: ../po/lessons_desc.txt:139
+#: ../po/lessons_desc.txt:139 ../po/lessons_desc.txt:194
 msgid "Multiplication: Missing Numbers"
 msgstr "Multiplikasjon: Manglande tal"
 
-#: ../po/lessons_desc.txt:140
+#: ../po/lessons_desc.txt:140 ../po/lessons_desc.txt:195
 msgid "Division by 2"
 msgstr "Divisjon med 2"
 
-#: ../po/lessons_desc.txt:141
+#: ../po/lessons_desc.txt:141 ../po/lessons_desc.txt:196
 msgid "Division by 3"
 msgstr "Divisjon med 3"
 
-#: ../po/lessons_desc.txt:142
+#: ../po/lessons_desc.txt:142 ../po/lessons_desc.txt:197
 msgid "Division by 4"
 msgstr "Divisjon med 4"
 
-#: ../po/lessons_desc.txt:143
+#: ../po/lessons_desc.txt:143 ../po/lessons_desc.txt:198
 msgid "Division by 5"
 msgstr "Divisjon med 5"
 
-#: ../po/lessons_desc.txt:144
+#: ../po/lessons_desc.txt:144 ../po/lessons_desc.txt:199
 msgid "Division: 1 to 5"
 msgstr "Divisjon: 1 til 5"
 
-#: ../po/lessons_desc.txt:145
+#: ../po/lessons_desc.txt:145 ../po/lessons_desc.txt:200
 msgid "Division by 6"
 msgstr "Divisjon med 6"
 
-#: ../po/lessons_desc.txt:146
+#: ../po/lessons_desc.txt:146 ../po/lessons_desc.txt:201
 msgid "Division by 7"
 msgstr "Divisjon med 7"
 
-#: ../po/lessons_desc.txt:147
+#: ../po/lessons_desc.txt:147 ../po/lessons_desc.txt:202
 msgid "Division by 8"
 msgstr "Divisjon med 8"
 
-#: ../po/lessons_desc.txt:148
+#: ../po/lessons_desc.txt:148 ../po/lessons_desc.txt:203
 msgid "Division by 9"
 msgstr "Divisjon med 9"
 
-#: ../po/lessons_desc.txt:149
+#: ../po/lessons_desc.txt:149 ../po/lessons_desc.txt:204
 msgid "Division by 10"
 msgstr "Divisjon med 10"
 
-#: ../po/lessons_desc.txt:150
+#: ../po/lessons_desc.txt:150 ../po/lessons_desc.txt:205
 msgid "Division: 1 to 10"
 msgstr "Divisjon: 1 til 10"
 
-#: ../po/lessons_desc.txt:151
+#: ../po/lessons_desc.txt:151 ../po/lessons_desc.txt:206
 msgid "Division by 11 and 12"
 msgstr "Divisjon med 11 og 12"
 
-#: ../po/lessons_desc.txt:152
+#: ../po/lessons_desc.txt:152 ../po/lessons_desc.txt:207
 msgid "Division: 1 to 12"
 msgstr "Divisjon: 1 til 12"
 
@@ -297,7 +297,7 @@ msgstr "Divisjon: 1 til 12"
 msgid "Division by 13, 14 and 15"
 msgstr "Divisjon med 13, 14 og 15"
 
-#: ../po/lessons_desc.txt:154
+#: ../po/lessons_desc.txt:154 ../po/lessons_desc.txt:209
 msgid "Division: 1 to 15"
 msgstr "Divisjon: 1 til 15"
 
@@ -305,11 +305,11 @@ msgstr "Divisjon: 1 til 15"
 msgid "Multiplication/Division Super Review!"
 msgstr "Gjennomgang: Multiplikasjon og divisjon"
 
-#: ../po/lessons_desc.txt:156
+#: ../po/lessons_desc.txt:156 ../po/lessons_desc.txt:211
 msgid "Typing Negative Numbers"
 msgstr "Negative tal"
 
-#: ../po/lessons_desc.txt:157
+#: ../po/lessons_desc.txt:157 ../po/lessons_desc.txt:212
 msgid "Subtraction: Negative Answers"
 msgstr "Subtraksjon: Negative svar"
 
@@ -317,7 +317,7 @@ msgstr "Subtraksjon: Negative svar"
 msgid "Adding Negatives To Positives"
 msgstr "Addisjon av negative til positive tal"
 
-#: ../po/lessons_desc.txt:159
+#: ../po/lessons_desc.txt:159 ../po/lessons_desc.txt:214
 msgid "Subtracting Negatives From Positives"
 msgstr "Subtraksjon av negative frå positive tal"
 
@@ -325,7 +325,7 @@ msgstr "Subtraksjon av negative frå positive tal"
 msgid "Adding Negatives To Negatives"
 msgstr "Addisjon av negative til negative tal"
 
-#: ../po/lessons_desc.txt:161
+#: ../po/lessons_desc.txt:161 ../po/lessons_desc.txt:216
 msgid "Subtracting Negatives From Negatives"
 msgstr "Subtraksjon av negative frå negative tal"
 
@@ -343,5 +343,49 @@ msgstr "Multiplikasjon av positive og negative tal"
 
 #: ../po/lessons_desc.txt:165
 msgid "Division Of Positives And Negatives"
+msgstr "Divisjon av positive og negative tal"
+
+#: ../po/lessons_desc.txt:169
+msgid "Addition: Sums to 10"
+msgstr "Addisjon: Summar til 10"
+
+#: ../po/lessons_desc.txt:170
+msgid "Addition: Sums to 15"
+msgstr "Addisjon: Summar til 15"
+
+#: ../po/lessons_desc.txt:171
+msgid "Addition: Sums to 20"
+msgstr "Addisjon: Summar til 20"
+
+#: ../po/lessons_desc.txt:208
+msgid "Division by 13, 14, and 15"
+msgstr "Divisjon med 13, 14 og 15"
+
+#: ../po/lessons_desc.txt:210
+msgid "Multiplication and Division Review"
+msgstr "Gjennomgang: Multiplikasjon og divisjon"
+
+#: ../po/lessons_desc.txt:213
+msgid "Adding Negatives to Positives"
+msgstr "Addisjon av negative til positive tal"
+
+#: ../po/lessons_desc.txt:215
+msgid "Adding Negatives to Negatives"
+msgstr "Addisjon av negative til negative tal"
+
+#: ../po/lessons_desc.txt:217
+msgid "Negative and Positive Numbers Review"
+msgstr "Gjennomgang: Negative og positive tal"
+
+#: ../po/lessons_desc.txt:218
+msgid "Multiplication and Division of Negatives"
+msgstr "Multiplikasjon og divisjon av negative tal"
+
+#: ../po/lessons_desc.txt:219
+msgid "Multiplication of Positives and Negatives"
+msgstr "Multiplikasjon av positive og negative tal"
+
+#: ../po/lessons_desc.txt:220
+msgid "Division of Positives and Negatives"
 msgstr "Divisjon av positive og negative tal"
 
