@@ -79,7 +79,7 @@ msgstr "Sjølvlaga spel"
 
 #: ../titlescreen.c:79
 msgid "Ranger"
-msgstr "Romvokter"
+msgstr "Romvaktar"
 
 #: ../titlescreen.c:79
 msgid "Credits"
