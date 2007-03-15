@@ -228,22 +228,39 @@ Compiling and Installing TuxMath
       --------------------
       You have to have the development tools and development libraries for SDL.  Here's the approach that worked for me:
 	  1. Download and install XCode from the Apple web site.
-	  2. Download and install Fink (http://fink.sourceforge.net/).
-	  3. fink install sdl sdl-image sdl-mixer.
-	And if you haven't gotten the source code for tuxmath yet,
-	  4. fink install svn-client-ssl (the pre-built binary for the svn-client doesn't support SSL!)
-	  5. svn co https://svn.tux4kids.net/tuxmath/
+	  2. Check out the code from the subversion repository at alioth.
+	     You may have to download and install Fink
+             (http://fink.sourceforge.net/). You may then have to do
+	           fink install svn-client-ssl
+             if the pre-built binary for the svn-client doesn't
+             support SSL.
+	  3. Download & install the SDL (www.libsdl.org) Frameworks for
+             MacOSX. You'll need SDL, SDL_image, SDL_mixer, and SDL_ttf.
+	  4. Open the Xcode project (in tuxmath's macosx/ directory)
+             and hit "build." Cross your fingers. The most likely
+             issue you'll encounter is that, as tuxmath progresses,
+             new source code files get added to (or old ones deleted from)
+             the src/ directory.  So, you might have to add or remove
+             files from the project.
+	  5. To build a disk image, open a terminal and navigate to
+             the macosx/ directory. Type "make macapp". After a short
+             while, the TuxMath.dmg disk image will appear in the
+	     build/Release directory. You can surely also do this
+	     using GUI tools.
 
-	Then you can follow the instructions above for Linux/Unix.
+     The main issues in getting the Mac build to work come from the
+     fact that it is not using the automake system. So, certain macros
+     have to be defined by Xcode (under Project->Edit Project
+     Settings, then choose the Build tab, in the collection
+     Preprocessing).
+     Currently, the macro definitions are these:
+     MACOSX=1 DATA_PREFIX=\"TuxMath.app/Contents/Resources/data\"
+     VERSION=\"1.5\" $(inherited)
 
-      Building a disk image:
-      ---------------------
-      A disk image is a file that can be copied to another Mac, allowing the application to be run.  Assuming you have set up your build environment as above, you can build a disk image by running (from the "trunk" directory)
-	./autogen.sh
-	./configure
-	make macapp
-      The disk image will reside in a subdirectory macbuild, and has the name TuxMath.dmg.
+     In particular, VERSION could be updated with each release (you
+     also should edit InfoPlist.strings if you want the Finder's
+     notion of the version # to be updated).
 
-      Possible issues:
-      ---------------
-      The Mac build system has not yet been configured to make a "universal binary," i.e. one that runs on either PPC or Intel macs.
+     Currently, internationalization is disabled on MacOSX.
+     Anyone who knows how to get the Linux internationalization
+     framework working on MacOSX is invited to contribute.

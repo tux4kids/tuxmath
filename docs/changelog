@@ -1,4 +1,14 @@
 changelog for "tuxmath"
+2007.Mar.15 (svn.debian.org/tux4kids - revision ??? & ???)
+  Build:
+    * First revision adds Xcode building for MacOSX
+    * Second commit removes the earlier (incomplete) approach to a
+	UNIX-style build. (This was abandoned mainly for reasons of
+	building Universal Binaries---the SDL Frameworks supposedly
+	only work with Xcode)
+	
+        Tim Holy < holy at wustl period edu >
+	
 2007.Mar.08  (svn.debian.org/tux4kids - revision 125)
   Game:
     * High scores now saved to and read from file, not yet
