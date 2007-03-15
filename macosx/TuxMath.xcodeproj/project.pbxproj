@@ -1,0 +1,487 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
+		002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = 002F39F909D0881F00EBEB88 /* SDL.framework */; };
+		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
+		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		A210C4890B927DFC004EB748 /* playsound.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE418F0B32C88100C66A5D /* playsound.c */; };
+		A210C4930B927EEB004EB748 /* alphabet.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C48F0B927EEA004EB748 /* alphabet.c */; };
+		A210C4940B927EEB004EB748 /* audio.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C4900B927EEA004EB748 /* audio.c */; };
+		A210C4960B927EEB004EB748 /* loaders.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C4920B927EEB004EB748 /* loaders.c */; };
+		A210C49B0B927F0F004EB748 /* pause.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C4970B927F0F004EB748 /* pause.c */; };
+		A210C49C0B927F0F004EB748 /* theme.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C4980B927F0F004EB748 /* theme.c */; };
+		A210C49D0B927F0F004EB748 /* titlescreen.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C4990B927F0F004EB748 /* titlescreen.c */; };
+		A210C49E0B927F0F004EB748 /* titlescreen.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A210C49A0B927F0F004EB748 /* titlescreen.h */; };
+		A210C7BE0BA6DF4A004EB748 /* libintl.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A210C7BD0BA6DF4A004EB748 /* libintl.h */; };
+		A210C7FE0BA817D6004EB748 /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 002F3A2C09D0888800EBEB88 /* SDLMain.m */; };
+		A210C8620BA8323F004EB748 /* highscore.c in Sources */ = {isa = PBXBuildFile; fileRef = A210C8610BA8323F004EB748 /* highscore.c */; };
+		A210C8640BA8325A004EB748 /* highscore.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A210C8630BA8325A004EB748 /* highscore.h */; };
+		A2AE41770B32C7EE00C66A5D /* data in Resources */ = {isa = PBXBuildFile; fileRef = A2AE40E70B32C7EE00C66A5D /* data */; };
+		A2AE41790B32C81600C66A5D /* tuxmath.icns in Resources */ = {isa = PBXBuildFile; fileRef = A2AE41780B32C81600C66A5D /* tuxmath.icns */; };
+		A2AE417E0B32C84A00C66A5D /* SDL_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2AE417B0B32C84A00C66A5D /* SDL_mixer.framework */; };
+		A2AE417F0B32C84A00C66A5D /* SDL_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2AE417C0B32C84A00C66A5D /* SDL_ttf.framework */; };
+		A2AE41980B32C88100C66A5D /* credits.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE41800B32C88100C66A5D /* credits.c */; };
+		A2AE41990B32C88100C66A5D /* credits.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41810B32C88100C66A5D /* credits.h */; };
+		A2AE419A0B32C88100C66A5D /* fileops.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE41820B32C88100C66A5D /* fileops.c */; };
+		A2AE419B0B32C88100C66A5D /* fileops.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41830B32C88100C66A5D /* fileops.h */; };
+		A2AE419C0B32C88100C66A5D /* game.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE41840B32C88100C66A5D /* game.c */; };
+		A2AE419D0B32C88100C66A5D /* game.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41850B32C88100C66A5D /* game.h */; };
+		A2AE41A20B32C88100C66A5D /* mathcards.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE418A0B32C88100C66A5D /* mathcards.c */; };
+		A2AE41A30B32C88100C66A5D /* mathcards.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE418B0B32C88100C66A5D /* mathcards.h */; };
+		A2AE41A50B32C88100C66A5D /* options.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE418D0B32C88100C66A5D /* options.c */; };
+		A2AE41A60B32C88100C66A5D /* options.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE418E0B32C88100C66A5D /* options.h */; };
+		A2AE41A80B32C88100C66A5D /* playsound.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41900B32C88100C66A5D /* playsound.h */; };
+		A2AE41A90B32C88100C66A5D /* setup.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE41910B32C88100C66A5D /* setup.c */; };
+		A2AE41AA0B32C88100C66A5D /* setup.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41920B32C88100C66A5D /* setup.h */; };
+		A2AE41AE0B32C88100C66A5D /* tuxmath.c in Sources */ = {isa = PBXBuildFile; fileRef = A2AE41960B32C88100C66A5D /* tuxmath.c */; };
+		A2AE41AF0B32C88100C66A5D /* tuxmath.h in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE41970B32C88100C66A5D /* tuxmath.h */; };
+		A2AE45060B342D9100C66A5D /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2AE45050B342D9100C66A5D /* SDL_image.framework */; };
+		A2AE45090B344DF500C66A5D /* SDL_image.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE45050B342D9100C66A5D /* SDL_image.framework */; };
+		A2AE450A0B344DFC00C66A5D /* SDL_mixer.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE417B0B32C84A00C66A5D /* SDL_mixer.framework */; };
+		A2AE450B0B344E0200C66A5D /* SDL_ttf.framework in Copy Frameworks into .app bundle */ = {isa = PBXBuildFile; fileRef = A2AE417C0B32C84A00C66A5D /* SDL_ttf.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		002F39FD09D0883400EBEB88 /* Copy Frameworks into .app bundle */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				A2AE450B0B344E0200C66A5D /* SDL_ttf.framework in Copy Frameworks into .app bundle */,
+				A2AE450A0B344DFC00C66A5D /* SDL_mixer.framework in Copy Frameworks into .app bundle */,
+				A2AE45090B344DF500C66A5D /* SDL_image.framework in Copy Frameworks into .app bundle */,
+				002F3A0009D0884600EBEB88 /* SDL.framework in Copy Frameworks into .app bundle */,
+				A2AE41990B32C88100C66A5D /* credits.h in Copy Frameworks into .app bundle */,
+				A2AE419B0B32C88100C66A5D /* fileops.h in Copy Frameworks into .app bundle */,
+				A2AE419D0B32C88100C66A5D /* game.h in Copy Frameworks into .app bundle */,
+				A2AE41A30B32C88100C66A5D /* mathcards.h in Copy Frameworks into .app bundle */,
+				A2AE41A60B32C88100C66A5D /* options.h in Copy Frameworks into .app bundle */,
+				A2AE41A80B32C88100C66A5D /* playsound.h in Copy Frameworks into .app bundle */,
+				A2AE41AA0B32C88100C66A5D /* setup.h in Copy Frameworks into .app bundle */,
+				A2AE41AF0B32C88100C66A5D /* tuxmath.h in Copy Frameworks into .app bundle */,
+				A210C49E0B927F0F004EB748 /* titlescreen.h in Copy Frameworks into .app bundle */,
+				A210C7BE0BA6DF4A004EB748 /* libintl.h in Copy Frameworks into .app bundle */,
+				A210C8640BA8325A004EB748 /* highscore.h in Copy Frameworks into .app bundle */,
+			);
+			name = "Copy Frameworks into .app bundle";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		002F39F909D0881F00EBEB88 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = /Library/Frameworks/SDL.framework; sourceTree = "<absolute>"; };
+		002F3A2B09D0888800EBEB88 /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = SOURCE_ROOT; };
+		002F3A2C09D0888800EBEB88 /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = SOURCE_ROOT; };
+		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32CA4F630368D1EE00C91783 /* TuxMath_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TuxMath_Prefix.pch; sourceTree = "<group>"; };
+		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		8D1107320486CEB800E47090 /* TuxMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TuxMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A210C48F0B927EEA004EB748 /* alphabet.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = alphabet.c; path = ../src/alphabet.c; sourceTree = SOURCE_ROOT; };
+		A210C4900B927EEA004EB748 /* audio.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = audio.c; path = ../src/audio.c; sourceTree = SOURCE_ROOT; };
+		A210C4920B927EEB004EB748 /* loaders.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = loaders.c; path = ../src/loaders.c; sourceTree = SOURCE_ROOT; };
+		A210C4970B927F0F004EB748 /* pause.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = pause.c; path = ../src/pause.c; sourceTree = SOURCE_ROOT; };
+		A210C4980B927F0F004EB748 /* theme.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = theme.c; path = ../src/theme.c; sourceTree = SOURCE_ROOT; };
+		A210C4990B927F0F004EB748 /* titlescreen.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = titlescreen.c; path = ../src/titlescreen.c; sourceTree = SOURCE_ROOT; };
+		A210C49A0B927F0F004EB748 /* titlescreen.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = titlescreen.h; path = ../src/titlescreen.h; sourceTree = SOURCE_ROOT; };
+		A210C7BD0BA6DF4A004EB748 /* libintl.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = libintl.h; path = /sw/include/libintl.h; sourceTree = "<absolute>"; };
+		A210C8610BA8323F004EB748 /* highscore.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = highscore.c; path = ../src/highscore.c; sourceTree = SOURCE_ROOT; };
+		A210C8630BA8325A004EB748 /* highscore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = highscore.h; path = ../src/highscore.h; sourceTree = SOURCE_ROOT; };
+		A2AE40E70B32C7EE00C66A5D /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = SOURCE_ROOT; };
+		A2AE41780B32C81600C66A5D /* tuxmath.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = tuxmath.icns; path = ../data/images/tuxmath.icns; sourceTree = SOURCE_ROOT; };
+		A2AE417B0B32C84A00C66A5D /* SDL_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_mixer.framework; path = /Library/Frameworks/SDL_mixer.framework; sourceTree = "<absolute>"; };
+		A2AE417C0B32C84A00C66A5D /* SDL_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_ttf.framework; path = /Library/Frameworks/SDL_ttf.framework; sourceTree = "<absolute>"; };
+		A2AE41800B32C88100C66A5D /* credits.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = credits.c; path = ../src/credits.c; sourceTree = SOURCE_ROOT; };
+		A2AE41810B32C88100C66A5D /* credits.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = credits.h; path = ../src/credits.h; sourceTree = SOURCE_ROOT; };
+		A2AE41820B32C88100C66A5D /* fileops.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = fileops.c; path = ../src/fileops.c; sourceTree = SOURCE_ROOT; };
+		A2AE41830B32C88100C66A5D /* fileops.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = fileops.h; path = ../src/fileops.h; sourceTree = SOURCE_ROOT; };
+		A2AE41840B32C88100C66A5D /* game.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = game.c; path = ../src/game.c; sourceTree = SOURCE_ROOT; };
+		A2AE41850B32C88100C66A5D /* game.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = game.h; path = ../src/game.h; sourceTree = SOURCE_ROOT; };
+		A2AE418A0B32C88100C66A5D /* mathcards.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = mathcards.c; path = ../src/mathcards.c; sourceTree = SOURCE_ROOT; };
+		A2AE418B0B32C88100C66A5D /* mathcards.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = mathcards.h; path = ../src/mathcards.h; sourceTree = SOURCE_ROOT; };
+		A2AE418D0B32C88100C66A5D /* options.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = options.c; path = ../src/options.c; sourceTree = SOURCE_ROOT; };
+		A2AE418E0B32C88100C66A5D /* options.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = options.h; path = ../src/options.h; sourceTree = SOURCE_ROOT; };
+		A2AE418F0B32C88100C66A5D /* playsound.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = playsound.c; path = ../src/playsound.c; sourceTree = SOURCE_ROOT; };
+		A2AE41900B32C88100C66A5D /* playsound.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = playsound.h; path = ../src/playsound.h; sourceTree = SOURCE_ROOT; };
+		A2AE41910B32C88100C66A5D /* setup.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = setup.c; path = ../src/setup.c; sourceTree = SOURCE_ROOT; };
+		A2AE41920B32C88100C66A5D /* setup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = setup.h; path = ../src/setup.h; sourceTree = SOURCE_ROOT; };
+		A2AE41960B32C88100C66A5D /* tuxmath.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = tuxmath.c; path = ../src/tuxmath.c; sourceTree = SOURCE_ROOT; };
+		A2AE41970B32C88100C66A5D /* tuxmath.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = tuxmath.h; path = ../src/tuxmath.h; sourceTree = SOURCE_ROOT; };
+		A2AE45050B342D9100C66A5D /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = /Library/Frameworks/SDL_image.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D11072E0486CEB800E47090 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				002F39FA09D0881F00EBEB88 /* SDL.framework in Frameworks */,
+				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				A2AE417E0B32C84A00C66A5D /* SDL_mixer.framework in Frameworks */,
+				A2AE417F0B32C84A00C66A5D /* SDL_ttf.framework in Frameworks */,
+				A2AE45060B342D9100C66A5D /* SDL_image.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		080E96DDFE201D6D7F000001 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				002F3A2B09D0888800EBEB88 /* SDLMain.h */,
+				002F3A2C09D0888800EBEB88 /* SDLMain.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A2AE45050B342D9100C66A5D /* SDL_image.framework */,
+				A2AE417B0B32C84A00C66A5D /* SDL_mixer.framework */,
+				A2AE417C0B32C84A00C66A5D /* SDL_ttf.framework */,
+				002F39F909D0881F00EBEB88 /* SDL.framework */,
+				1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A2FEA54F0111CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				29B97324FDCFA39411CA2CEA /* AppKit.framework */,
+				29B97325FDCFA39411CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FACFE9D520D11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D1107320486CEB800E47090 /* TuxMath.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		29B97314FDCFA39411CA2CEA /* TuxMath */ = {
+			isa = PBXGroup;
+			children = (
+				A210C8630BA8325A004EB748 /* highscore.h */,
+				A210C8610BA8323F004EB748 /* highscore.c */,
+				080E96DDFE201D6D7F000001 /* Classes */,
+				29B97315FDCFA39411CA2CEA /* Other Sources */,
+				29B97317FDCFA39411CA2CEA /* Resources */,
+				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				19C28FACFE9D520D11CA2CBB /* Products */,
+			);
+			name = TuxMath;
+			sourceTree = "<group>";
+		};
+		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				A210C7BD0BA6DF4A004EB748 /* libintl.h */,
+				A210C4970B927F0F004EB748 /* pause.c */,
+				A210C4980B927F0F004EB748 /* theme.c */,
+				A210C4990B927F0F004EB748 /* titlescreen.c */,
+				A210C49A0B927F0F004EB748 /* titlescreen.h */,
+				A210C48F0B927EEA004EB748 /* alphabet.c */,
+				A210C4900B927EEA004EB748 /* audio.c */,
+				A210C4920B927EEB004EB748 /* loaders.c */,
+				A2AE41800B32C88100C66A5D /* credits.c */,
+				A2AE41810B32C88100C66A5D /* credits.h */,
+				A2AE41820B32C88100C66A5D /* fileops.c */,
+				A2AE41830B32C88100C66A5D /* fileops.h */,
+				A2AE41840B32C88100C66A5D /* game.c */,
+				A2AE41850B32C88100C66A5D /* game.h */,
+				A2AE418A0B32C88100C66A5D /* mathcards.c */,
+				A2AE418B0B32C88100C66A5D /* mathcards.h */,
+				A2AE418D0B32C88100C66A5D /* options.c */,
+				A2AE418E0B32C88100C66A5D /* options.h */,
+				A2AE418F0B32C88100C66A5D /* playsound.c */,
+				A2AE41900B32C88100C66A5D /* playsound.h */,
+				A2AE41910B32C88100C66A5D /* setup.c */,
+				A2AE41920B32C88100C66A5D /* setup.h */,
+				A2AE41960B32C88100C66A5D /* tuxmath.c */,
+				A2AE41970B32C88100C66A5D /* tuxmath.h */,
+				32CA4F630368D1EE00C91783 /* TuxMath_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		29B97317FDCFA39411CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A2AE41780B32C81600C66A5D /* tuxmath.icns */,
+				A2AE40E70B32C7EE00C66A5D /* data */,
+				8D1107310486CEB800E47090 /* Info.plist */,
+				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
+				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D1107260486CEB800E47090 /* TuxMath */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "TuxMath" */;
+			buildPhases = (
+				8D1107290486CEB800E47090 /* Resources */,
+				8D11072C0486CEB800E47090 /* Sources */,
+				8D11072E0486CEB800E47090 /* Frameworks */,
+				002F39FD09D0883400EBEB88 /* Copy Frameworks into .app bundle */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TuxMath;
+			productInstallPath = "$(HOME)/Applications";
+			productName = TuxMath;
+			productReference = 8D1107320486CEB800E47090 /* TuxMath.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		29B97313FDCFA39411CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TuxMath" */;
+			hasScannedForEncodings = 1;
+			mainGroup = 29B97314FDCFA39411CA2CEA /* TuxMath */;
+			projectDirPath = "";
+			targets = (
+				8D1107260486CEB800E47090 /* TuxMath */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D1107290486CEB800E47090 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */,
+				A2AE41770B32C7EE00C66A5D /* data in Resources */,
+				A2AE41790B32C81600C66A5D /* tuxmath.icns in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D11072C0486CEB800E47090 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A2AE41980B32C88100C66A5D /* credits.c in Sources */,
+				A2AE419A0B32C88100C66A5D /* fileops.c in Sources */,
+				A2AE419C0B32C88100C66A5D /* game.c in Sources */,
+				A2AE41A20B32C88100C66A5D /* mathcards.c in Sources */,
+				A2AE41A50B32C88100C66A5D /* options.c in Sources */,
+				A2AE41A90B32C88100C66A5D /* setup.c in Sources */,
+				A2AE41AE0B32C88100C66A5D /* tuxmath.c in Sources */,
+				A210C4890B927DFC004EB748 /* playsound.c in Sources */,
+				A210C4930B927EEB004EB748 /* alphabet.c in Sources */,
+				A210C4940B927EEB004EB748 /* audio.c in Sources */,
+				A210C4960B927EEB004EB748 /* loaders.c in Sources */,
+				A210C49B0B927F0F004EB748 /* pause.c in Sources */,
+				A210C49C0B927F0F004EB748 /* theme.c in Sources */,
+				A210C49D0B927F0F004EB748 /* titlescreen.c in Sources */,
+				A210C7FE0BA817D6004EB748 /* SDLMain.m in Sources */,
+				A210C8620BA8323F004EB748 /* highscore.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C165DFE840E0CC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		C01FCF4B08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/sw/lib,
+				);
+				PRODUCT_NAME = TuxMath;
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		C01FCF4C08A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(FRAMEWORK_SEARCH_PATHS_QUOTED_1)",
+				);
+				FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "\"$(SRCROOT)\"";
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_MODEL_TUNING = G5;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					/sw/lib,
+				);
+				PRODUCT_NAME = TuxMath;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		C01FCF4F08A954540054247B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CURRENT_PROJECT_VERSION = 1.0.1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					/Library/Frameworks,
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"MACOSX=1",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_3)",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_4)",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_5)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "DATA_PREFIX=\\\"TuxMath.app/Contents/Resources/data\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_2 = "VERSION=\\\"1.0.1\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_3 = "DATA_PREFIX=\\\"TuxMath.app/Contents/Resources/data\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_4 = "VERSION=\\\"1.5\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_5 = "LOCALEDIR=\\\"TuxMath.app/Contents/Resources/data/locale\\\"";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
+					/Library/Frameworks/SDL.framework/Headers,
+					/Library/Frameworks/SDL_image.framework/Headers,
+					/Library/Frameworks/SDL_mixer.framework/Headers,
+					/Library/Frameworks/SDL_ttf.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				VERSIONING_SYSTEM = "";
+			};
+			name = Debug;
+		};
+		C01FCF5008A954540054247B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					ppc,
+					i386,
+				);
+				CURRENT_PROJECT_VERSION = 1.0.1;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks",
+					/Library/Frameworks,
+					"$(FRAMEWORK_SEARCH_PATHS)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"MACOSX=1",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_3)",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_4)",
+					"$(GCC_PREPROCESSOR_DEFINITIONS_QUOTED_5)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_1 = "DATA_PREFIX=\\\"TuxMath.app/Contents/Resources/data\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_2 = "VERSION=\\\"1.0.1\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_3 = "DATA_PREFIX=\\\"TuxMath.app/Contents/Resources/data\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_4 = "VERSION=\\\"1.5\\\"";
+				GCC_PREPROCESSOR_DEFINITIONS_QUOTED_5 = "LOCALEDIR=\\\"TuxMath.app/Contents/Resources/data/locale\\\"";
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(HOME)/Library/Frameworks/SDL.framework/Headers",
+					/Library/Frameworks/SDL.framework/Headers,
+					/Library/Frameworks/SDL_image.framework/Headers,
+					/Library/Frameworks/SDL_mixer.framework/Headers,
+					/Library/Frameworks/SDL_ttf.framework/Headers,
+					"$(HEADER_SEARCH_PATHS)",
+				);
+				PREBINDING = NO;
+				SDKROOT = /Developer/SDKs/MacOSX10.4u.sdk;
+				VERSIONING_SYSTEM = "";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "TuxMath" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4B08A954540054247B /* Debug */,
+				C01FCF4C08A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "TuxMath" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C01FCF4F08A954540054247B /* Debug */,
+				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 29B97313FDCFA39411CA2CEA /* Project object */;
+}
