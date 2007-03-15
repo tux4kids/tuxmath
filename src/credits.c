@@ -50,6 +50,7 @@ char * credit_text[] = {
   "YVES COMBE",
   "DAVID YODER",
   "TIM HOLY",
+  "KARL OVE HUFTHAMMER",
   "",
   "-LEAD ARTIST",
   "SAM HART",
