@@ -1406,9 +1406,11 @@ int choose_config_file(void)
   int click_flag = 1;
 
   unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
-  unsigned char lesson_list[MAX_LESSONS][200];  //List of lesson file names
-  unsigned char lesson_names[MAX_LESSONS][200]; //List of lesson names for display
-  unsigned char name_buf[200];
+  const int name_buf_size = 200;
+  char* fgets_return_val;
+  unsigned char lesson_list[MAX_LESSONS][name_buf_size];  //List of lesson file names
+  unsigned char lesson_names[MAX_LESSONS][name_buf_size]; //List of lesson names for display
+  unsigned char name_buf[name_buf_size];
 
   DIR* lesson_dir = NULL;
   struct dirent* lesson_file = NULL;
@@ -1470,14 +1472,18 @@ int choose_config_file(void)
       continue;
     }
 
-    /* FIXME I think the following could overflow: */
-    fscanf(tempFile, "%[^\n]\n", name_buf);
+    fgets_return_val = fgets(name_buf,name_buf_size,tempFile);
+    if (fgets_return_val == NULL) {
+      continue;
+    }
+
+    printf("%s\n",name_buf);
 
     /* check to see if it has a \r at the end of it (dos format!) */
     length = strlen(name_buf);
-    if (name_buf[length - 1] == '\r')
-    {
+    while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n')) {
       name_buf[length - 1] = '\0';
+      length--;
     }
 
     /* Go past leading '#', ';', or whitespace: */
@@ -1486,13 +1492,14 @@ int choose_config_file(void)
            ((name_buf[i] == '#') ||
            (name_buf[i] == ';') ||
            isspace(name_buf[i])) &&
-           (i < 200);
+           (i < name_buf_size);
            i++  )
     {
       length--;
     }
     /* Now copy the rest of the first line into the list: */
-    memmove(&lesson_names[lessons], &name_buf[i], length); 
+    /* Note the length+1 is needed so that the final \0 is copied! */
+    memmove(&lesson_names[lessons], &name_buf[i], length+1); 
     lessons++;
     fclose(tempFile);
   } while (1);        // Loop will end when 'break' encountered
