@@ -27,8 +27,8 @@
 #include "fileops.h"
 #include "titlescreen.h"
 
+#ifndef MACOSX
 #define NUM_PATHS 5
-
 const char PATHS[NUM_PATHS][PATH_MAX] = {
 	"./data",
 	"/usr/share/"PACKAGE"/data",
@@ -36,7 +36,13 @@ const char PATHS[NUM_PATHS][PATH_MAX] = {
         "/usr/local/share/"PACKAGE,        //HACK added to accomodate 'make install' installation
 	DATA_PREFIX"/share/"PACKAGE"/data"
 };
-
+#else
+#define NUM_PATHS 1
+const char PATHS[NUM_PATHS][PATH_MAX] = {
+	DATA_PREFIX"/data"
+};
+#endif
+	
 SDL_Surface *letters[255] = { NULL };
 unsigned char ALPHABET[256];
 unsigned char KEYMAP[256];

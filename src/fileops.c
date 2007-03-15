@@ -26,7 +26,9 @@
 *
 */
 
+#ifndef MACOSX
 #include "../config.h"
+#endif
 
 /* Standard C includes: */
 #include <stdio.h>

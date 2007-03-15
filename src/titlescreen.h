@@ -59,7 +59,9 @@
 #include <SDL_mixer.h>
 #include <SDL_ttf.h>
 
+#ifndef MACOSX
 #include "../config.h"
+#endif
 
 #include "tuxmath.h"
 
