@@ -37,8 +37,8 @@ DIST_COMMON = README $(am__configure_deps) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in $(srcdir)/config.h.in \
 	$(top_srcdir)/configure $(top_srcdir)/nsis/tuxmath.nsi.in \
 	$(top_srcdir)/nsis/tuxmath_with_conf.nsi.in AUTHORS COPYING \
-	ChangeLog INSTALL NEWS config.guess config.sub depcomp \
-	install-sh missing mkinstalldirs
+	ChangeLog INSTALL NEWS config.guess config.rpath config.sub \
+	depcomp install-sh missing mkinstalldirs
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.in
@@ -634,7 +634,6 @@ install-nsi-local: all
 	(cd $(top_srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude \ "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" --exclude "*.svn*" * ) \
          | ( cd $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR) ; tar xf -) ; \
 	cp $(NSI_DLL_DIR)/*.dll $(top_srcdir)/$(NSI_INSTALL_DIR) ; \
-	cp $(NSI_DLL_DIR)/*.ttf $(top_srcdir)/$(NSI_INSTALL_DIR)/data/fonts ; \
 	cp $(SUBDIRS)/*.exe $(top_srcdir)/$(NSI_INSTALL_DIR) ;
 
 @NSI_USE_TUXMATH_CONF_TRUE@	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
@@ -652,9 +651,6 @@ clean-local:
 	  rm -fr $(NSI_INSTALL_DIR); \
 	fi
 #	-rm tuxmath-@VERSION@-win32-installer.exe
-
-macapp:
-	cd src && $(MAKE) $(AM_MAKEFLAGS) bundle && $(MAKE) $(AM_MAKEFLAGS) bundle-fw && $(MAKE) $(AM_MAKEFLAGS) bundle-libs && $(MAKE) $(AM_MAKEFLAGS) bundle-dmg
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

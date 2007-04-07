@@ -39,9 +39,8 @@ void initialize_scores(void)
 }
 
 /* Test to see where a new score ranks on the list.      */
-/* The return value is the ordinary language place (e.g. */
-/* 1 for the top of the list), rather than the index     */
-/* itself (e.g. 0 for the top of the list - sorry RMS!)  */
+/* The return value is the index value - add one to get  */
+/* the common-language place on the list.                */
 int check_score_place(int diff_level, int new_score)
 {
   int i = 0;
@@ -61,12 +60,8 @@ int check_score_place(int diff_level, int new_score)
       break;
   }
 
-  if (HIGH_SCORES_SAVED == i) /* i.e. reached end of list */
-  {
-    return 0;
-  }  
-  else
-    return (i + 1);
+  return i;  /* So if we return HIGH_SCORES_SAVED, the score did not */
+             /* make the list.                                       */
 }
 
 /* Put a new high score entry into the table for the corresponding */
@@ -78,14 +73,9 @@ int insert_score(char* playername, int diff_level, int new_score)
 
   insert_place = check_score_place(diff_level, new_score);
 
-  if (!insert_place) /* Score didn't make the top 10 */
+  if (HIGH_SCORES_SAVED == insert_place) /* Score didn't make the top 10 */
   {
     return 0;
-  }
-  else  /* Subtract one to get index instead of common-language */
-        /* list position.                                       */
-  { 
-    insert_place--;
   }
 
   /* Move lower entries down: */
@@ -142,7 +132,7 @@ void print_high_scores(FILE* fp)
     for (j = 0; j < HIGH_SCORES_SAVED; j++)
     {
       fprintf(fp, "%d.\t%s\t%d\n",
-              j + 1,
+              j + 1,                  //Convert to common-language ordinals
               high_scores[i][j].name,
               high_scores[i][j].score);
     }
@@ -229,4 +219,52 @@ void write_high_scores_fp(FILE* fp)
     }
   }
   return;
+}
+
+
+/* Return the score associated with a table entry:    */
+/* Note: the place is given as the array index, i.e.  */
+/* 0 for the top of the list.                         */
+int HS_Score(int diff_level, int place)
+{
+  /* Make sure diff_level is valid: */
+  if (diff_level < 0
+   || diff_level > ACE_HIGH_SCORE)
+  {
+    fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
+    return -1;
+  }
+
+  /* Make sure place is valid: */
+  if (place < 0
+   || place >= HIGH_SCORES_SAVED)
+  {
+    fprintf(stderr, "In HS_Score(), place invalid!\n");
+    return -1;
+  }
+
+  return high_scores[diff_level][place].score;
+}
+
+
+/* Return (pointer to) the name associated with a table entry:  */
+char* HS_Name(int diff_level, int place)
+{
+  /* Make sure diff_level is valid: */
+  if (diff_level < 0
+   || diff_level > ACE_HIGH_SCORE)
+  {
+    fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
+    return -1;
+  }
+
+  /* Make sure place is valid: */
+  if (place < 0
+   || place >= HIGH_SCORES_SAVED)
+  {
+    fprintf(stderr, "In HS_Score(), place invalid!\n");
+    return -1;
+  }
+
+  return &high_scores[diff_level][place].name;
 }

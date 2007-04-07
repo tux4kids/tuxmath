@@ -23,15 +23,20 @@
 #define TUXMATH_H
 
 // Translation stuff:
-#ifndef MACOSX
+#ifdef MACOSX
+#define N_(String) String
+#define _(String) String
+#else
+#ifdef WIN32
+#define N_(String) String
+#define _(String) String
+#else
 #include <libintl.h>
 #include <locale.h>
 #define _(String) gettext (String)
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
-#else
-#define N_(String) String
-#define _(String) String
+#endif
 #endif
 
 #include <SDL.h>
@@ -42,7 +47,7 @@
 #endif
 
 //#define NOSOUND
-#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */

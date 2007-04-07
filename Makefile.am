@@ -19,7 +19,6 @@ install-nsi-local: all
 	(cd $(top_srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude \ "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" --exclude "*.svn*" * ) \
          | ( cd $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR) ; tar xf -) ; \
 	cp $(NSI_DLL_DIR)/*.dll $(top_srcdir)/$(NSI_INSTALL_DIR) ; \
-	cp $(NSI_DLL_DIR)/*.ttf $(top_srcdir)/$(NSI_INSTALL_DIR)/data/fonts ; \
 	cp $(SUBDIRS)/*.exe $(top_srcdir)/$(NSI_INSTALL_DIR) ;
 
 if NSI_USE_TUXMATH_CONF

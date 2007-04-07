@@ -119,57 +119,71 @@ void LoadKeyboard( void ) {
 }
 
 
-/* FIXME this function segfaults if passed "" as the char arg */
-SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c) {
-	SDL_Surface *out, *tmp, *tmp2;
-	SDL_Rect dstrect;
+/* black_outline() creates a surface containing text of the designated */
+/* foreground color, surrounded by a black shadow, on a transparent    */
+/* background.  The appearance can be tuned by adjusting the number of */
+/* background copies and the offset where the foreground text is       */
+/* finally written (see below).                                        */
+SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c)
+{
+  SDL_Surface* out = NULL;
+  SDL_Surface* black_letters = NULL;
+  SDL_Surface* white_letters = NULL;
+  SDL_Surface* bg = NULL;
+  SDL_Rect dstrect;
+  Uint32 color_key;
 
-	/* --- create the blocky black "outline" of the text --- */
+  if (!t || !font || !c)
+  {
+    fprintf(stderr, "black_outline(): invalid ptr parameter, returning.");
+    return NULL;
+  }
+
 #ifdef TUXMATH_DEBUG
   fprintf( stderr, "\nEntering black_outline(): \n");
   fprintf( stderr, "black_outline of \"%s\"\n", t );
 #endif
 
-	tmp = TTF_RenderUTF8_Shaded(font, t, black,black);
-        if (!tmp)
-        {
-          fprintf(stderr, "Could not create rendered SDL_Surface of %s\n", t);
-          return NULL;
-        } 
+  black_letters = TTF_RenderUTF8_Blended(font, t, black);
 
-	tmp2 = SDL_CreateRGBSurface(SDL_SWSURFACE, (tmp->w)+5, (tmp->h)+5, BPP, rmask, gmask, bmask, amask);
-	out = SDL_DisplayFormatAlpha(tmp2);
-	SDL_FreeSurface(tmp2);
+  bg = SDL_CreateRGBSurface(SDL_SWSURFACE,
+                            (black_letters->w) + 5,
+                            (black_letters->h) + 5,
+                             32,
+                             rmask, gmask, bmask, amask);
+  /* Use color key for eventual transparency: */
+  color_key = SDL_MapRGB(bg->format, 10, 10, 10);
+  SDL_FillRect(bg, NULL, color_key);
 
-	dstrect.w = tmp->w;
-	dstrect.h = tmp->h;
+  /* Now draw black outline/shadow 2 pixels on each side: */
+  dstrect.w = black_letters->w;
+  dstrect.h = black_letters->h;
 
-        for (dstrect.x = 1; dstrect.x < 4; dstrect.x++)
-            for (dstrect.y = 1; dstrect.y < 4; dstrect.y++)
-                SDL_BlitSurface( tmp, NULL, out, &dstrect );
+  /* NOTE: can make the "shadow" more or less pronounced by */
+  /* changing the parameters of these loops.                */
+  for (dstrect.x = 1; dstrect.x < 4; dstrect.x++)
+    for (dstrect.y = 1; dstrect.y < 3; dstrect.y++)
+      SDL_BlitSurface(black_letters , NULL, bg, &dstrect );
 
-	SDL_FreeSurface(tmp);
+  SDL_FreeSurface(black_letters);
 
-	/* --- Put the color version of the text on top! --- */
+  /* --- Put the color version of the text on top! --- */
+  white_letters = TTF_RenderUTF8_Blended(font, t, *c);
+  dstrect.x = 1;
+  dstrect.y = 1;
+  SDL_BlitSurface(white_letters, NULL, bg, &dstrect);
+  SDL_FreeSurface(white_letters);
 
-	tmp = TTF_RenderUTF8_Blended(font, t, *c);
-
-	dstrect.x = dstrect.y = 2;
-
-	SDL_BlitSurface(tmp, NULL, out, &dstrect);
-
-	SDL_FreeSurface(tmp);
-
-	/* --- Convert to the screen format for quicker blits --- */
-
-	tmp = SDL_DisplayFormatAlpha(out);
-	SDL_FreeSurface(out);
+  /* --- Convert to the screen format for quicker blits --- */
+  SDL_SetColorKey(bg, SDL_SRCCOLORKEY|SDL_RLEACCEL, color_key);
+  out = SDL_DisplayFormatAlpha(bg);
+  SDL_FreeSurface(bg);
 
 #ifdef TUXMATH_DEBUG
   fprintf( stderr, "\nLeaving black_outline(): \n");
 #endif
 
-	return tmp;
+  return out;
 }
 
 void show_letters( void ) {

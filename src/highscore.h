@@ -25,4 +25,6 @@ void print_high_scores(FILE* fp);
 int read_high_scores_fp(FILE* fp);
 void write_high_scores_fp(FILE* fp);
 
+int HS_Score(int diff_level, int place);
+char* HS_Name(int diff_level, int place);
 #endif

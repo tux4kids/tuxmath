@@ -1,4 +1,14 @@
 changelog for "tuxmath"
+
+2007.Apr.07 (svn.debian.org/tux4kids - revision 149)
+  Game:
+    * Partially implemented high-score table in place (no support
+      yet for player to put in own name).
+    * Font rendering addressed - black_outline() now works as
+      intended (perhaps appearance can be improved).
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Mar.15 (svn.debian.org/tux4kids - revision ??? & ???)
   Build:
     * First revision adds Xcode building for MacOSX

@@ -32,11 +32,14 @@
 int main(int argc, char * argv[])
 {
 #ifndef MACOSX
+#ifndef WIN32
 setlocale( LC_ALL, "" );
 bindtextdomain( "tuxmath", LOCALEDIR );
 bind_textdomain_codeset("tuxmath", "UTF-8");
 textdomain( "tuxmath" );
 #endif
+#endif
+
 /* Link control of tuxtype-derived code's debug to TUXMATH_DEBUG: */
   debugOn = 0; //for tuxtype-derived code  
 #ifdef TUXMATH_DEBUG
