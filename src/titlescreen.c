@@ -50,6 +50,13 @@ struct blit {
     unsigned char type;
 } blits[MAX_UPDATES];
 
+typedef struct lesson_entry {
+  unsigned char filename[NAME_BUF_SIZE];  //List of lesson file names
+  unsigned char display_name[NAME_BUF_SIZE]; //List of lesson names for display
+} lesson_entry;
+
+lesson_entry lesson_list[MAX_LESSONS];
+
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
 //int show_tux4kids;
 int debugOn; //FIXME switch to TUXMATH_DEBUG
@@ -159,6 +166,7 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
+int compare_lesson_entries(const lesson_entry* a, const lesson_entry* b);
 
 /***********************************************************/
 /*                                                         */
@@ -568,23 +576,25 @@ void TitleScreen(void)
 
       case OPTIONS:
       {
-        NotImplemented();
-        redraw = 1;
+//        NotImplemented();
+//        redraw = 1;
 
-/*      options();    // Still using old options() for now:
-
-        if (Opts_MenuMusic())
+        if (read_user_config_file())
         {
-          audioMusicUnload();
-        }
+          if (Opts_MenuMusic())
+          {
+            audioMusicUnload();
+          }
 
-        game();
+          game();
+          write_user_config_file();
 
-        if (Opts_MenuMusic())
-        {
-          audioMusicLoad( "tuxi.ogg", -1 );
+          if (Opts_MenuMusic())
+          {
+            audioMusicLoad( "tuxi.ogg", -1 );
+          }
+          redraw = 1;
         }
-        redraw = 1;*/
         break;
       }
 
@@ -1653,12 +1663,10 @@ int choose_config_file(void)
   int tux_frame = 0;
   int click_flag = 1;
 
+  /* FIXME:Move file stuff into fileops.c.*/
   unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
-  const int name_buf_size = 200;
   char* fgets_return_val;
-  unsigned char lesson_list[MAX_LESSONS][name_buf_size];  //List of lesson file names
-  unsigned char lesson_names[MAX_LESSONS][name_buf_size]; //List of lesson names for display
-  unsigned char name_buf[name_buf_size];
+  unsigned char name_buf[NAME_BUF_SIZE];
 
   DIR* lesson_dir = NULL;
   struct dirent* lesson_file = NULL;
@@ -1704,14 +1712,14 @@ int choose_config_file(void)
 
     /* FIXME Should somehow test each file to see if it is a tuxmath config file */
     /* Put file name into array of names found in lesson directory */
-    sprintf(lesson_list[lessons], "%s/%s", lesson_path, lesson_file->d_name);
+    sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_file->d_name);
 
 #ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons]);
+    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);
 #endif
 
     /* load the name for the lesson from the file ... (1st line) */
-    tempFile = fopen(lesson_list[lessons], "r");
+    tempFile = fopen(lesson_list[lessons].filename, "r");
 
     if (tempFile==NULL)
     {
@@ -1720,7 +1728,7 @@ int choose_config_file(void)
       continue;
     }
 
-    fgets_return_val = fgets(name_buf,name_buf_size,tempFile);
+    fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);
     if (fgets_return_val == NULL) {
       continue;
     }
@@ -1739,28 +1747,28 @@ int choose_config_file(void)
            ((name_buf[i] == '#') ||
            (name_buf[i] == ';') ||
            isspace(name_buf[i])) &&
-           (i < name_buf_size);
+           (i < NAME_BUF_SIZE);
            i++  )
     {
       length--;
     }
     /* Now copy the rest of the first line into the list: */
-    /* Note the length+1 is needed so that the final \0 is copied! */
-    memmove(&lesson_names[lessons], &name_buf[i], length+1); 
+    /* Note that "length + 1" is needed so that the final \0 is copied! */
+    memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1); 
     lessons++;
     fclose(tempFile);
   } while (1);        // Loop will end when 'break' encountered
 
   closedir(lesson_dir);	
 
-  
-
+  /* FIXME The lesson list does not necessarily come out in alphabetical order. */
+  /* Sort the list into proper order:           */
+  qsort(lesson_list, lessons, sizeof(struct lesson_entry), compare_lesson_entries);
   /* Display the list of lessons for the player to select: */
   for (i = 0; i < lessons; i++)
   {
-    titles[i] = black_outline( _(lesson_names[i]), default_font, &white );
-    select[i] = black_outline( _(lesson_names[i]), default_font, &yellow);
-    printf("Lesson %d: %s\n", i, lesson_names[i]);
+    titles[i] = black_outline( _(lesson_list[i].display_name), default_font, &white );
+    select[i] = black_outline( _(lesson_list[i].display_name), default_font, &yellow);
   }
 
 //   if (images[IMG_MENU_BKG])
@@ -1904,7 +1912,7 @@ int choose_config_file(void)
               read_global_config_file();
 
               /* Now read the selected file and play the "mission": */ 
-              if (read_named_config_file(lesson_list[loc]))
+              if (read_named_config_file(lesson_list[loc].filename))
               {
                 if (Opts_MenuMusic())  //Turn menu music off for game
                 {
@@ -1921,7 +1929,7 @@ int choose_config_file(void)
               }
               else  // Something went wrong - could not read config file:
               {
-                fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);
+                fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc].filename);
                 stop = 1;
               }
               break;
@@ -1989,7 +1997,7 @@ int choose_config_file(void)
               read_global_config_file();
 
               /* Now read the selected file and play the "mission": */ 
-              if (read_named_config_file(lesson_list[loc]))
+              if (read_named_config_file(lesson_list[loc].filename))
               {
                 if (Opts_MenuMusic())  //Turn menu music off for game
                   {audioMusicUnload();}
@@ -2002,7 +2010,7 @@ int choose_config_file(void)
               }
               else  // Something went wrong - could not read config file:
               {
-                fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc]);
+                fprintf(stderr, "\nCould not find file: %s\n", lesson_list[loc].filename);
                 stop = 1;
               }
               break;
@@ -2455,4 +2463,10 @@ void InitEngine(void) {
         blits[i].srcrect = &srcupdate[i];
         blits[i].dstrect = &dstupdate[i];
     }
+}
+
+/* This is needed for qsort() for lesson table: */
+int compare_lesson_entries(const lesson_entry* a, const lesson_entry* b)
+{
+  return strcmp(a->filename, b->filename);
 }

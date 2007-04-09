@@ -117,6 +117,7 @@ typedef struct {
 #define MAX_LESSONS 100
 #define MAX_NUM_WORDS   500
 #define MAX_WORD_SIZE   8
+#define NAME_BUF_SIZE 200
 
 //MAX_UPDATES needed for TransWipe() and friends:
 #define MAX_UPDATES 180

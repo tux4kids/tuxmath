@@ -1,5 +1,12 @@
 changelog for "tuxmath"
 
+2007.Apr.09 (svn.debian.org/tux4kids - revision 150)
+  Game:
+    * Fixed lesson order bug - code now explicitly sorts the
+      lesson files by alphabetical order of filenames.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Apr.07 (svn.debian.org/tux4kids - revision 149)
   Game:
     * Partially implemented high-score table in place (no support
