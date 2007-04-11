@@ -1,5 +1,17 @@
 changelog for "tuxmath"
 
+2007.Apr.11 (svn.debian.org/tux4kids - revision 151)
+  Version 1.5.1
+
+  Game:
+    * Enabled play of custom game based on user's option file.
+  Graphics:
+    * Tweaked black_outline() slightly to improve font appearance.
+  Docs:
+    * Updated changelog, README.txt, INSTALL.txt.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Apr.09 (svn.debian.org/tux4kids - revision 150)
   Game:
     * Fixed lesson order bug - code now explicitly sorts the

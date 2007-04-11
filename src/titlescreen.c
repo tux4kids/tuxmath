@@ -167,6 +167,7 @@ void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
 int compare_lesson_entries(const lesson_entry* a, const lesson_entry* b);
+void ShowMessage(char* str1, char* str2, char* str3, char* str4);
 
 /***********************************************************/
 /*                                                         */
@@ -576,8 +577,12 @@ void TitleScreen(void)
 
       case OPTIONS:
       {
-//        NotImplemented();
-//        redraw = 1;
+        char *s1, *s2, *s3, *s4;
+        s1 = _("Edit 'options' file in your home directory");
+        s2 = _("to create customized game!");
+        s3 = _("See README.txt for more information");
+        s4 = N_("tuxmath-devel@lists.sourceforge.net");
+        ShowMessage(s1, s2, s3, s4);
 
         if (read_user_config_file())
         {
@@ -1253,142 +1258,14 @@ void TitleScreen_unload_media( void ) {
 
 void NotImplemented(void)
 {
-  SDL_Surface *s1, *s2, *s3, *s4;
-  SDL_Rect loc;
-  int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
+  char *s1, *s2, *s3, *s4;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "NotImplemented() - creating text\n" );
-#endif
+  s1 = _("Work In Progress!");
+  s2 = _("This feature is not ready yet");
+  s3 = _("Discuss the future of TuxMath at");
+  s4 = N_("tuxmath-devel@lists.sourceforge.net");
 
-  s1 = black_outline( _("Work In Progress!"), default_font, &white);
-  s2 = black_outline( _("This feature is not ready yet"), default_font, &white);
-  s3 = black_outline( _("Discuss the future of TuxMath at"), default_font, &white);
-  /* When we get going with i18n may need to modify following - see below: */
-  s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
-
-//   /* we always want the URL in english */
-//   if (!useEnglish)
-//   {
-//     TTF_Font *english_font;
-//     useEnglish = 1;
-//     english_font = LoadFont( menu_font, menu_font_size );
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
-//     TTF_CloseFont(english_font);
-//     useEnglish = 0;
-//   }
-//   else 
-//   {
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
-//   }
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "NotImplemented() - drawing screen\n" );
-#endif
-
-  /* Draw lines of text: */
-  if (images[IMG_MENU_BKG])
-    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-  if (s1)
-  {
-    loc.x = 320-(s1->w/2); loc.y = 10;
-    SDL_BlitSurface( s1, NULL, screen, &loc);
-  }
-  if (s2)
-  {
-    loc.x = 320-(s2->w/2); loc.y = 60;
-    SDL_BlitSurface( s2, NULL, screen, &loc);
-  }
-  if (s3)
-  {
-    loc.x = 320-(s3->w/2); loc.y = 400;
-    SDL_BlitSurface( s3, NULL, screen, &loc);
-  }
-  if (s4)
-  {
-    loc.x = 320-(s4->w/2); loc.y = 440;
-    SDL_BlitSurface( s4, NULL, screen, &loc);
-  }
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
-  {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-  }
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-  while (!finished)
-  {
-    start = SDL_GetTicks();
-
-    while (SDL_PollEvent(&event)) 
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        {
-          cleanup();
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
-          {
-            finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
-            break;
-          }
-        }
-        case SDL_KEYDOWN:
-        {
-          finished = 1;
-          tuxtype_playsound(sounds[SND_TOCK]);
-        }
-      }
-    }
-
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;			
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
-    }
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
-    frame++;
-  }  // End of while (!finished) loop
-
-  SDL_FreeSurface(s1);
-  SDL_FreeSurface(s2);
-  SDL_FreeSurface(s3);
-  SDL_FreeSurface(s4);
+  ShowMessage(s1, s2, s3, s4);
 }
 
 
@@ -1631,6 +1508,155 @@ void HighScoreScreen(void)
     frame++;
   }  // End of while (!finished) loop
 }
+
+void ShowMessage(char* str1, char* str2, char* str3, char* str4)
+{
+  SDL_Surface *s1, *s2, *s3, *s4;
+  SDL_Rect loc;
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+
+  s1 = s2 = s3 = s4 = NULL;
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "ShowMessage() - creating text\n" );
+#endif
+
+  if (str1)
+    s1 = black_outline(str1, default_font, &white);
+  if (str2)
+    s2 = black_outline(str2, default_font, &white);
+  if (str3)
+    s3 = black_outline(str3, default_font, &white);
+  /* When we get going with i18n may need to modify following - see below: */
+  if (str4)
+    s4 = black_outline(str4, default_font, &white);
+
+//   /* we always want the URL in english */
+//   if (!useEnglish)
+//   {
+//     TTF_Font *english_font;
+//     useEnglish = 1;
+//     english_font = LoadFont( menu_font, menu_font_size );
+//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
+//     TTF_CloseFont(english_font);
+//     useEnglish = 0;
+//   }
+//   else 
+//   {
+//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
+//   }
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "NotImplemented() - drawing screen\n" );
+#endif
+
+  /* Draw lines of text: */
+  if (images[IMG_MENU_BKG])
+    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
+  if (s1)
+  {
+    loc.x = 320-(s1->w/2); loc.y = 10;
+    SDL_BlitSurface( s1, NULL, screen, &loc);
+  }
+  if (s2)
+  {
+    loc.x = 320-(s2->w/2); loc.y = 60;
+    SDL_BlitSurface( s2, NULL, screen, &loc);
+  }
+  if (s3)
+  {
+    loc.x = 320-(s3->w/2); loc.y = 400;
+    SDL_BlitSurface( s3, NULL, screen, &loc);
+  }
+  if (s4)
+  {
+    loc.x = 320-(s4->w/2); loc.y = 440;
+    SDL_BlitSurface( s4, NULL, screen, &loc);
+  }
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
+  {
+    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+  }
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            tuxtype_playsound(sounds[SND_TOCK]);
+            break;
+          }
+        }
+        case SDL_KEYDOWN:
+        {
+          finished = 1;
+          tuxtype_playsound(sounds[SND_TOCK]);
+        }
+      }
+    }
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;			
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
+      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+    }
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+  SDL_FreeSurface(s1);
+  SDL_FreeSurface(s2);
+  SDL_FreeSurface(s3);
+  SDL_FreeSurface(s4);
+}
+
+
+
 
 
 

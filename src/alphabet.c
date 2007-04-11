@@ -152,7 +152,7 @@ SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c)
                              32,
                              rmask, gmask, bmask, amask);
   /* Use color key for eventual transparency: */
-  color_key = SDL_MapRGB(bg->format, 10, 10, 10);
+  color_key = SDL_MapRGB(bg->format, 01, 01, 01);
   SDL_FillRect(bg, NULL, color_key);
 
   /* Now draw black outline/shadow 2 pixels on each side: */

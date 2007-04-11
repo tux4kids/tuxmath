@@ -2,24 +2,19 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-NOTE: Tuxmath is under heavy construction and currently does
-not compile - the menu system is being overhauled with code from
-tuxtype. Please checkout revision 61 if you need something
-that actually builds and works - i.e.:
 
-svn checkout -r 61 https://svn.tux4kids.net/tuxmath/
 
-Nov 18, 2006
+Apri 10, 2007
 
-For tuxmath-1.0.1
+For tuxmath-1.5.1
 
 Objective
 ---------
   In "Tux, of Math Command," you play the part of Commander Tux, as he
-  defends his cities from an attack of math equations.
+  defends his friends from an attack of math equations.
 
-  Comets are crashing towards your cities, and you must destroy
-  them by solving their equations.
+  Comets are crashing towards the friendly penguins in their igloos,
+  and you must destroy the comets by solving their equations.
 
 
 
@@ -61,11 +56,14 @@ Running The Program
 
   Command Line Options
   --------------------
-    NOTE: editing the config file is now a much better way to control the 
-    behavior of Tuxmath - SEE BELOW.  There is also a simple GUI-based
-    config program packaged with the Windows build.
+    NOTE: Tuxmath now has many pre-packaged "missions" (lessons), as  well
+    as four arcade-style open-ended games of progressive difficulty, so
+    there is much less need to change settings.  If desired, editing the
+    config file is a much better way to control the behavior of Tuxmath
+    than the command-line options, for the most part.  However, many
+    options are still supported.
 
-    The following command-line options can be sent to the program.
+    The following command-line options can be sent to the program:
      --optionfile filename - play game based on settings in the named file (see
                          below for more on tuxmath config files). Tuxmath will
                          look for a valid config file with a matching name in
@@ -154,8 +152,31 @@ Program Navigation
 ------------------
   Title Screen
   ------------
-    On this screen, you can choose to play the game, go to the Options
-    Screen, view the credits, or quit.
+    Math Command Training Academy: choose this to go to a list of over fifty
+    prepared lessons, starting with simple typing of single digit numbers, and
+    progressing to multiplication and division involving negatives and 
+    "missing number" questions (e.g. "-17 x ? = 119").  The player wins if the
+    question list is completed successfully.
+
+    Play Arcade Game: use this to select from one of four open-ended, "Arcade 
+    Style" games, meaning the game play gets faster and faster as long as the
+    player can keep up, with the goal being to get the highest score possible.
+    The options include:
+      Space Cadet - simple addition.
+      Scout -       addition and subtraction to ten.
+      Ranger -      addition, subtraction, multiplication, and division to ten.
+      Ace -         all four operations with operands to 20, including negative
+                    numbers and "missing number" type questions.
+    The high score tables ("Hall of Fame") are partially implemented as of this
+    writing.
+
+    Play Custom Game: use this to play a game based on the config file in the 
+    player's home directory (see below). At some point, the options will be 
+    settable from within the game.
+
+    More Options - this will be developed into the menus to set options not 
+    directly related to math questions, such as toggling the music on and off,
+    playing fullscreen vs. windowed, using cities vs. igloos, and the like.
 
     Use the [UP] and [DOWN] arrow keys to select what you wish to do,
     and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the
@@ -164,34 +185,13 @@ Program Navigation
     Pressing [ESCAPE] will quit the program.
 
 
-  Options Screen
-  --------------
-    On this screen, you can select some of the gameplay options or return to 
-    the Title Screen.  Currently, the four math operations can be enabled
-    or disabled, as well as the speed setting and ranges of numbers to use. 
-
-    Use the [UP] and [DOWN] arrow keys to select what you wish to do,
-    and then press [ENTER / RETURN /SPACEBAR].  Or, use the mouse to click the
-    menu item.
-
-    Mouse support has been added.
-
-    Pressing [ESCAPE] will return to the Title Screen.  Currently, there is no
-    method of doing this with the mouse.
-
-
-  Credits Screen
-  --------------
-    This screen displays the credits.  You can press [ESCAPE] to return
-    to the title screen.
-
 
 
 How To Play
 -----------
   Destroying Comets
   -----------------
-    As the comets fall towards your cities, you must solve their equations.
+    As the comets fall towards your friends, you must solve the equations.
 
     To destroy it:
     --------------
@@ -208,11 +208,10 @@ How To Play
 
 
     The comet that has the number you entered as its answer will
-    be shot down by Tux the penguin.
+    be shot down by Tux!
 
     Note: Sometimes more than one comet will have the same answer.
-          In this case, the comet closest to your cities will be
-          destroyed first.  [Perhaps all should be destroyed?]
+          In this case, the lowest comet will be destroyed.
 
     Note: After typing [ENTER / RETURN], the "LED"-style display will
           automatically reset to "000" for you, so you can answer the
@@ -240,39 +239,53 @@ How To Play
     or for players who cannot use a keyboard.
 
 
-  Losing A City
-  -------------
-    If a comet crashes into one of your cities before you had the
-    chance to answer its equation, the city's shields will be
-    destroyed.  If the city is hit by another comet, it will be
-    completely destroyed.
+  Losing An Igloo or City
+  -----------------------
+    The default setting is to play with igloo-dwelling penguins.
+    If a comet reaches the igloo, the igloo is partially melted.
+    A second hit melts the igloo the rest of the way, and the 
+    saddened penguin trudges off the screen.
+
+    If cities are used (by placing "use_igloos = 0" in the config
+    file and selecting "Play Custom Game"), game play is the same.
+    The first comet strike deactivates the city's shields, and the
+    second hit destroys the city. If this seems too scary or violent,
+    please use the penguin/igloo theme! 
+
+  Regaining Igloos/Cities
+  -----------------------
+    When a question is answered correctly, the player earns progress toward
+    a bonus comet that allows an igloo or city to be rebuilt.  Progress is
+    indicated with a green bar in the upper left corner of the screen. The
+    bonus comet is red and moves faster than regular comets.  If the player
+    shoots down the bonus comet, a "snowstorm" image appears in place of the
+    bonus progress bar, and one of the igloos/cities will be rebuilt after 
+    the current wave.
 
   Ending The Game
   ---------------
 
     The default mode is now to play through a defined list of questions. This
-    mode is selected by setting the config file 'play_through_list' parameter
+    mode is used in the "Training Academy" games.  For "Custom" games, it can 
+    be selected by setting the config file 'play_through_list' parameter
     to 1 ('yes' or 'true'), or via the "--playthroughlist" command line argument. 
     The list is generated by TuxMath based on a series of selectable parameters
-    (selected math operations, number ranges, etc).
-    By default, the questions are asked in a random order.  If answered
-    correctly, they are removed.  A question that is not answered correctly
-    (allowing the comet to destroy its target) will reappear in random
-    order.  If all questions are successfully answered before the cities
-    have been destroyed, the player wins and a "victory" screen is displayed.
+    (selected math operations, number ranges, etc). By default, the questions
+    are asked in a random order.  If answered correctly, they are removed.
+    A question that is not answered correctly (allowing the comet to destroy
+    its target) will reappear in random order.  If all questions are successfully
+    answered before the igloos or cities have been destroyed, the player wins
+    and a "victory" screen is displayed.
 
     The older arcade-style mode is also supported, in which the game continues
-    until you lose all of your cities.  A GAME OVER screen is then displayed.
-    Select this mode by setting 'play_through_list' to '0' ('no', 'false', 'off').
-    By pressing any key or clicking the mouse, you return to the title
-    screen.
+    until you lose all of your igloos or cities.  A GAME OVER screen is then
+    displayed. For the "Custom" games, you can select this mode by setting
+    'play_through_list' to '0' ('no', 'false', 'off').
 
-  Regaining Cities
-  ----------------
-    [ Under construction ] Briefly, there will be special "bonus comets" at
-    certain intervals that will have the effect of either activating shields or
-    rebuilding cities if answered correctly.
+    By pressing Esc or clicking on the red circle in the upper right corner, you
+    can quit the game.
 
+  
 
   Advancing Waves
   ---------------
@@ -281,9 +294,12 @@ How To Play
 
 Setting Game Options
 --------------------
-  [ UNDER CONSTRUCTION ]
+  The "Options" system remains in need of an overhaul. For now, you can
+  play the pre-packaged "Lesson" or "Arcade" games, or edit the options file
+  to create a "Custom" game.  At some point the "Custom" settings will be
+  modifiable from within TuxMath.
 
-  1. The program now reads and writes the settings to disk in a human-readable
+  1. The program reads and writes the settings to disk in a human-readable
   fashion, where they can be modified with a text editor. The file is created
   in the user's home directory within a directory called ".tuxmath" and is 
   simply called "options". As an example, a user "laura" on a Unix/Linux system
@@ -291,8 +307,7 @@ Setting Game Options
   extensive comments describing all settings. By editing and saving this file,
   very extensive control over the program is supported, particularly with
   respect to generation of math questions. There really is no need to use
-  command-line options any more. In the near future, I plan to
-  include a series of "lessons" that could be played in a planned order.
+  command-line options any more.
 
   On a Windows XP or Windows 2000 system, the config file is called "options.txt"
   and is located at C:\Documents And Settings\USER\Application Data\TuxMath\options.txt,
@@ -301,18 +316,7 @@ Setting Game Options
 
   2. Many command-line options are supported (see above). 
 
-  3. The "Options" screen allows several parameters to be set at run-time,
-  or reset between individual games while the program is still running.
-  Currently supported settings include the math operations to be used for
-  questions, the starting speed, the maximum value of answers (for division
-  questions, this is the maximum size of the dividend, not actually the 
-  answer), and ranges of numbers to be used to generate questions. However,
-  many settings are only selectable via the config file.  This will be addressed
-  in a later version of the program.
-
-  4. The Windows build is packaged with a simple GUI-based config program that
-  can be used to set most of the options.
-
+  
 Setting Administrative Options
 ------------------------------
   "Tux, of Math Command" allows parents/teachers to control whether the game
