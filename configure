@@ -2227,7 +2227,7 @@ fi
 
 # Define the identity of the package.
  PACKAGE=tuxmath
- VERSION=1.5
+ VERSION=1.5.1
 
 
 cat >>confdefs.h <<_ACEOF
