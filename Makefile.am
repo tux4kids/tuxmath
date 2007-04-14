@@ -5,6 +5,8 @@ SUBDIRS = src
 NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
+datadir = @datadir@
+localedir = $(datadir)/locale
 
 install-data-local:
 	@$(NORMAL_INSTALL)
@@ -12,6 +14,10 @@ install-data-local:
 	  $(mkinstalldirs) $(DESTDIR)/$(pkgdatadir); \
 	  cd $(srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude \ "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" --exclude "*.svn*" * \
            | ( cd $(DESTDIR)/$(pkgdatadir) ; tar xf -) ; cd .. ; \
+    cd src/po ; \
+    for i in *.po; do langcode=$$(echo $$i | sed 's/\.po//'); \
+	  msgfmt -o $(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo $$langcode.po; \
+	done; \
 	fi
 
 install-nsi-local: all
