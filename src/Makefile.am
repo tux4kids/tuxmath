@@ -1,3 +1,8 @@
+## Makefile.am for tuxmath src:
+## Process with Automake to create Makefile.in
+
+SUBDIRS = po
+
 if BUILD_MINGW32
 bin_PROGRAMS = TuxMath
 else
@@ -14,6 +19,18 @@ tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c audio.c \
                 mathcards.c fileops.c
+
+EXTRA_DIST = 	credits.h 	\
+		fileops.h 	\
+		game.h		\
+		highscore.h 	\
+		mathcards.h 	\
+		options.h	\
+		playsound.h	\
+		setup.h		\
+		titlescreen.h	\
+		tuxmath.h
+
 
 # SUBDIRS = po
 

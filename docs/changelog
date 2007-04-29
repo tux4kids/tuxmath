@@ -1,6 +1,17 @@
 changelog for "tuxmath"
 
-2007.Apr.11 (svn.debian.org/tux4kids - revision 151)
+2007.Apr.29 (svn.debian.org/tux4kids - revision 174)
+  Build:
+    * Makefile.am files added to all directories with EXTRA_DIST
+      lists to get "make dist" to generate a working tarball.  It
+      now seems to work correctly, although "make distcheck" fails
+      because msgfmt cannot find the locales to generate the .mo
+      files while doing the test install (a real "make install"
+      works correctly, at least on my system).
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+2007.Apr.11 
   Version 1.5.1
 
   Game:

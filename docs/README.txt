@@ -285,7 +285,18 @@ How To Play
     By pressing Esc or clicking on the red circle in the upper right corner, you
     can quit the game.
 
-  
+    Shortcut Keys
+    -------------
+    The following shortcuts are supported during game play:
+
+      'F10':        switches between windowed and full-screen display mode.
+      'P' or 'Tab': pauses the game, if allowed. The included "Math Command
+                    Training Academy" lessons allow pausing, while the "Arcade"
+                    games do not.
+      Up Arrow:     increase speed by 20%, if allowed.
+      Down Arrow:   decrease speed by 20%, if allowed.  Speed changes are allowed
+                    when pausing is enabled.
+      'Esc':        leave current game and display the menu.
 
   Advancing Waves
   ---------------

@@ -5691,7 +5691,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files Makefile src/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi"
+ac_config_files="$ac_config_files Makefile data/Makefile data/fonts/Makefile data/images/Makefile data/images/backgrounds/Makefile data/images/cities/Makefile data/images/comets/Makefile data/images/icons/Makefile data/images/igloos/Makefile data/images/penguins/Makefile data/images/sprites/Makefile data/images/status/Makefile data/images/title/Makefile data/images/tux/Makefile data/missions/Makefile data/missions/arcade/Makefile data/missions/lessons/Makefile data/sounds/Makefile docs/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi src/Makefile src/po/Makefile"
 
 
 cat >confcache <<\_ACEOF
@@ -6309,9 +6309,28 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
-    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "data/Makefile") CONFIG_FILES="$CONFIG_FILES data/Makefile" ;;
+    "data/fonts/Makefile") CONFIG_FILES="$CONFIG_FILES data/fonts/Makefile" ;;
+    "data/images/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/Makefile" ;;
+    "data/images/backgrounds/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/backgrounds/Makefile" ;;
+    "data/images/cities/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/cities/Makefile" ;;
+    "data/images/comets/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/comets/Makefile" ;;
+    "data/images/icons/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/icons/Makefile" ;;
+    "data/images/igloos/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/igloos/Makefile" ;;
+    "data/images/penguins/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/penguins/Makefile" ;;
+    "data/images/sprites/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/sprites/Makefile" ;;
+    "data/images/status/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/status/Makefile" ;;
+    "data/images/title/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/title/Makefile" ;;
+    "data/images/tux/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/tux/Makefile" ;;
+    "data/missions/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/Makefile" ;;
+    "data/missions/arcade/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/arcade/Makefile" ;;
+    "data/missions/lessons/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/lessons/Makefile" ;;
+    "data/sounds/Makefile") CONFIG_FILES="$CONFIG_FILES data/sounds/Makefile" ;;
+    "docs/Makefile") CONFIG_FILES="$CONFIG_FILES docs/Makefile" ;;
     "nsis/tuxmath.nsi") CONFIG_FILES="$CONFIG_FILES nsis/tuxmath.nsi" ;;
     "nsis/tuxmath_with_conf.nsi") CONFIG_FILES="$CONFIG_FILES nsis/tuxmath_with_conf.nsi" ;;
+    "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
+    "src/po/Makefile") CONFIG_FILES="$CONFIG_FILES src/po/Makefile" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

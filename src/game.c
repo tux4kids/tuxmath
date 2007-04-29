@@ -2686,6 +2686,7 @@ void game_key_event(SDLKey key)
     /* Escape key - quit! */
     escape_received = 1;
   }
+
   else if (key == SDLK_TAB
         || key == SDLK_p)
   {
@@ -2695,6 +2696,24 @@ void game_key_event(SDLKey key)
       paused = 1;
     }
   }
+
+  /* Adjust speed if settings allow: */
+  else if (key == SDLK_UP)
+  {
+    if (Opts_AllowPause())
+    {
+      speed *= 1.2;
+    }
+  }
+
+  else if (key == SDLK_DOWN)
+  {
+    if (Opts_AllowPause())
+    {
+      speed /= 1.2;
+    }
+  }
+
 
   /* Toggle screen mode: */
   else if (key == SDLK_F10)

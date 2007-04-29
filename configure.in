@@ -137,9 +137,28 @@ AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
 AC_CONFIG_FILES([
 Makefile
-src/Makefile
+data/Makefile
+data/fonts/Makefile
+data/images/Makefile
+data/images/backgrounds/Makefile
+data/images/cities/Makefile
+data/images/comets/Makefile
+data/images/icons/Makefile
+data/images/igloos/Makefile
+data/images/penguins/Makefile
+data/images/sprites/Makefile
+data/images/status/Makefile
+data/images/title/Makefile
+data/images/tux/Makefile
+data/missions/Makefile
+data/missions/arcade/Makefile
+data/missions/lessons/Makefile
+data/sounds/Makefile
+docs/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
+src/Makefile
+src/po/Makefile
 ])
 
 AC_OUTPUT
