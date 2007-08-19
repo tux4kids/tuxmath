@@ -18,7 +18,7 @@ install-data-local:
            | ( cd $(DESTDIR)/$(pkgdatadir) ; tar xf -) ; cd .. ; \
     cd src/po ; \
     for i in *.po; do langcode=$$(echo $$i | sed 's/\.po//'); \
-	  msgfmt -o $(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo $$langcode.po; \
+	  mkdir -p $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES ; msgfmt -o $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo $$langcode.po; \
 	done; \
 	fi
 

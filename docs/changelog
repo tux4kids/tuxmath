@@ -1,8 +1,8 @@
 changelog for "tuxmath"
 
-2007.Aug.19 (svn.debian.org/tux4kids - revision 197)
+2007.Aug.19 (svn.debian.org/tux4kids - revision 199)
   Build: 
-    * fix a path in Makefile.in for installing the locales
+    * fix a path in Makefile.am for installing the locales
 
       Holger Levsen (holger@layer-acht.org)
    
