@@ -1,5 +1,11 @@
 changelog for "tuxmath"
 
+2007.Aug.19 (svn.debian.org/tux4kids - revision 197)
+  Build: 
+    * fix a path in Makefile.in for installing the locales
+
+      Holger Levsen (holger@layer-acht.org)
+   
 2007.Apr.29 (svn.debian.org/tux4kids - revision 174)
   Build:
     * Makefile.am files added to all directories with EXTRA_DIST
