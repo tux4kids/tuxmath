@@ -614,6 +614,11 @@ int read_config_file(FILE *fp, int file_type)
     {
       ++param_begin;
     }
+
+    /* If this was a blank line, then we don't have to process any more */
+    if (param_begin-buf >= strlen(buf))
+      continue;
+
     /* now go from here to end of string, stopping at either */
     /* whitespace or '=':   */
     param_end = param_begin;
@@ -641,6 +646,7 @@ int read_config_file(FILE *fp, int file_type)
       //fprintf(stderr, "Error while reading prefs - line with no '='!\n");
       #endif
 
+      free(parameter);
       continue;
     }
 
