@@ -430,7 +430,10 @@ void Opts_SetPerUserConfig(int val)
 
 void Opts_SetUseSound(int val)
 {
-  game_options->use_sound = int_to_bool(val);
+  if (val == -1)
+    game_options->use_sound = val;
+  else if (game_options->use_sound != -1)
+    game_options->use_sound = int_to_bool(val);
 }
 
 
@@ -766,7 +769,7 @@ int Opts_UseSound(void)
     fprintf(stderr, "\nOpts_UseSound(): game_options not valid!\n");
     return GAME_OPTS_INVALID;
   }
-  return game_options->use_sound;
+  return game_options->use_sound > 0;
 }
 
 
@@ -1089,7 +1092,7 @@ int Opts_UsingSound(void)
     fprintf(stderr, "\nOpts_UsingSound(): game_options not valid!\n");
     return GAME_OPTS_INVALID;
   }
-  return (game_options->use_sound && game_options->sound_hw_available);
+  return (game_options->use_sound>0 && game_options->sound_hw_available);
 }
 
 /********************************************************************/
@@ -1317,7 +1320,7 @@ void print_game_options(FILE* fp, int verbose)
   {
     fprintf (fp, "\n# Self-explanatory, default is 1:\n");
   }
-  fprintf(fp, "use_sound = %d\n", game_options->use_sound);
+  fprintf(fp, "use_sound = %d\n", game_options->use_sound>0);
 
   if(verbose)
   {

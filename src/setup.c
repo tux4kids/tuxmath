@@ -288,7 +288,7 @@ void handle_command_args(int argc, char* argv[])
 	     strcmp(argv[i], "--quiet") == 0 ||
 	     strcmp(argv[i], "-q") == 0)
     {
-      Opts_SetUseSound(0);
+      Opts_SetUseSound(-1);  // prevent options files from overwriting
     }
     else if (strcmp(argv[i], "--version") == 0 ||
 	     strcmp(argv[i], "-v") == 0)
