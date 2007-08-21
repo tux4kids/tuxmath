@@ -200,7 +200,7 @@ void TitleScreen(void)
   int old_key_menu = 5;
 
 
-  if (Opts_UseSound())
+  if (Opts_UsingSound())
   {
     Opts_SetMenuSound(1);
     Opts_SetMenuMusic(1);

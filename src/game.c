@@ -248,7 +248,13 @@ int game(void)
     now_time = SDL_GetTicks();
     if (now_time < last_time + FPS)
     {
-      SDL_Delay(last_time + FPS - now_time);
+      //Prevent any possibility of a time wrap-around
+      // (this is a very unlikely problem unless there is an SDL bug
+      //  or you leave tuxmath running for 49 days...)
+      now_time = (last_time+FPS) - now_time;  // this holds the delay
+      if (now_time > FPS)
+	now_time = FPS;
+      SDL_Delay(now_time);
     }
   }
   while(GAME_IN_PROGRESS == game_status);

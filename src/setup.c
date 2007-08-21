@@ -400,6 +400,10 @@ void handle_command_args(int argc, char* argv[])
 
 void initialize_SDL(void)
 {
+  // Audio parameters
+  int frequency,channels,n_timesopened;
+  Uint16 format;
+
   /* Init SDL Video: */
   screen = NULL;
 
@@ -429,6 +433,7 @@ void initialize_SDL(void)
 
   #ifndef NOSOUND
   /* Init SDL Audio: */
+  Opts_SetSoundHWAvailable(0);  // By default no sound HW
   if (Opts_UseSound())
   { 
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
@@ -437,23 +442,26 @@ void initialize_SDL(void)
             "\nWarning: I could not initialize audio!\n"
             "The Simple DirectMedia error that occured was:\n"
             "%s\n\n", SDL_GetError());
-      Opts_SetSoundHWAvailable(0);
     }
-  }
-
- 
-  if (Opts_UseSound())
-  {
-    if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
-    {
-      fprintf(stderr,
-	      "\nWarning: I could not set up audio for 44100 Hz "
-	      "16-bit stereo.\n"
-	      "The Simple DirectMedia error that occured was:\n"
-	      "%s\n\n", SDL_GetError());
-      Opts_SetSoundHWAvailable(0);
+    else {
+      //if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
+      if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048) < 0)
+      {
+	fprintf(stderr,
+		"\nWarning: I could not set up audio for 44100 Hz "
+		"16-bit stereo.\n"
+		"The Simple DirectMedia error that occured was:\n"
+		"%s\n\n", SDL_GetError());
+      }
     }
+    n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
+    if (n_timesopened > 0)
+      Opts_SetSoundHWAvailable(1);
+    #ifdef TUXMATH_DEBUG
+    printf("Sound mixer: frequency = %d, format = %x, channels = %d, n_timesopened = %d\n",frequency,format,channels,n_timesopened);
+    #endif
   }
+  
   #endif
 
   SDL_VideoInfo *videoInfo;
@@ -592,6 +600,8 @@ void cleanup_memory(void)
 {
   /* Free all images and sounds used by SDL: */
   int i;
+  int frequency,channels,n_timesopened;
+  Uint16 format;
 
   TTF_CloseFont(default_font);
   TTF_Quit();
@@ -617,6 +627,15 @@ void cleanup_memory(void)
     musics[i] = NULL;
   }
 
+  // Close the audio mixer. We have to do this at least as many times
+  // as it was opened.
+  n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
+  while (n_timesopened) {
+    Mix_CloseAudio();
+    n_timesopened--;
+  }
+
+  // Finally, quit SDL
   SDL_Quit();
 
   /* frees the game_options struct: */
