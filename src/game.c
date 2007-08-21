@@ -211,6 +211,7 @@ int game(void)
 
     /* Most code now in smaller functions: */
     game_handle_user_events();
+    game_handle_demo(); 
     game_handle_answer();
     game_countdown();
     game_handle_tux();
@@ -218,7 +219,6 @@ int game(void)
     game_handle_cities();
     game_handle_penguins();
     game_handle_steam();
-    game_handle_demo(); 
     game_handle_extra_life();
     game_draw();
     /* figure out if we should leave loop: */
@@ -495,7 +495,7 @@ int game_initialize(void)
   speed = Opts_Speed();
   slowdown = 0;
   score = 0;
-  demo_countdown = 1000;
+  demo_countdown = 2000;
   level_start_wait = LEVEL_START_WAIT_START;
   neg_answer_picked = 0;
  
@@ -546,7 +546,7 @@ int game_initialize(void)
   if (Opts_BonusCometInterval()) {
     bonus_comet_counter = Opts_BonusCometInterval() + 1;
 #ifdef TUXMATH_DEBUG
-    printf("\nInitializing with bonus_comet_counter = %d",bonus_comet_counter);
+    printf("\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
 #endif
   }
   extra_life_earned = 0;
@@ -605,16 +605,18 @@ void game_handle_demo(void)
   }
 
   /* Demo mode! */
-  int demo_answer = 0;
-  int answer_digit = 0;
-  static int picked_comet;
+  static int demo_answer = 0;
+  static int answer_digit = 0;
+  static int picked_comet=-1;
 
   if (picked_comet == -1 && (rand() % 10) < 3)
   {
     /* Demo mode!  Randomly pick a comet to destroy: */
     picked_comet = (rand() % MAX_COMETS);
 
-    if (!comets[picked_comet].alive || comets[picked_comet].y < 80)
+    if (!(comets[picked_comet].alive &&
+	  comets[picked_comet].expl < COMET_EXPL_END)
+	|| comets[picked_comet].y < 80)
     {
       picked_comet = -1;
     }
@@ -622,6 +624,12 @@ void game_handle_demo(void)
     {
       /* found a comet to blow up! */
       demo_answer = comets[picked_comet].answer;
+      if ((rand() % 3) < 1)
+	demo_answer--;  // sometimes get it wrong on purpose
+
+      #ifdef TUXMATH_DEBUG
+      printf("Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
+      #endif
       /* handle negative answer: */
       if (demo_answer < 0)
       {
@@ -665,6 +673,9 @@ void game_handle_demo(void)
     else
     {
       /* "Press Return" */
+      #ifdef TUXMATH_DEBUG
+      printf("Demo mode firing with these digits: %d%d%d\n",digits[0],digits[1],digits[2]);
+      #endif
       doing_answer = 1;
       picked_comet = -1;
     }
@@ -948,7 +959,7 @@ void game_handle_comets(void)
 	  if (bonus_comet_counter > 1 && comets[i].zapped) {
 	    bonus_comet_counter--;
 #ifdef TUXMATH_DEBUG
-	    printf("\nbonus_comet_counter is now %d",bonus_comet_counter);
+	    printf("\nbonus_comet_counter is now %d\n",bonus_comet_counter);
 #endif
 	  }
 	  if (comets[i].bonus && comets[i].zapped) {
@@ -1242,7 +1253,7 @@ int check_extra_life(void)
     cloud.city = fewest_index;
     bonus_comet_counter = Opts_BonusCometInterval()+1;
 #ifdef TUXMATH_DEBUG
-    printf("\nBonus comet counter restored to %d",bonus_comet_counter);
+    printf("\nBonus comet counter restored to %d\n",bonus_comet_counter);
 #endif
     if (cloud.city < NUM_CITIES/2)
       cloud.x = -images[IMG_CLOUD]->w/2;  /* come in from the left */
@@ -2050,7 +2061,7 @@ int add_comet(void)
   /* Should it be a bonus comet? */
   comets[found].bonus = 0;
 #ifdef TUXMATH_DEBUG
-  printf("\nbonus_comet_counter is %d",bonus_comet_counter);
+  printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
 #endif
   if (bonus_comet_counter == 1) {
     bonus_comet_counter = 0;
