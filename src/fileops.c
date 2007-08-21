@@ -85,7 +85,7 @@ TTF_Font  *default_font;
 
 /* local function prototypes: */
 static int find_tuxmath_dir(void);
-static int str_to_bool(char* val);
+static int str_to_bool(const char* val);
 static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 
@@ -239,8 +239,8 @@ int read_user_config_file(void)
 /*   4. In missions/lessons directory.                  */
 /*   5. In missions/arcade directory.                   */
 /*   6. In user's own .tuxmath directory                */
-/* FIXME redudant code - figure out way to iterate through above */
-int read_named_config_file(char* filename)
+/* FIXME redundant code - figure out way to iterate through above */
+int read_named_config_file(const char* filename)
 {
   FILE* fp;
   char opt_path[PATH_MAX];
@@ -2101,7 +2101,7 @@ static int find_tuxmath_dir(void)
 
 /* Allows use of "true", "YES", T, etc. in text file for boolean values. */
 /* Return value of -1 means value string is not recognized.              */
-static int str_to_bool(char* val)
+static int str_to_bool(const char* val)
 {
   char* ptr;
 

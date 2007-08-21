@@ -130,6 +130,6 @@ enum {
 
 int game(void);
 /* draw_nums() is used in options.c so need extern linkage */
-void draw_nums(char* str, int x, int y);
+void draw_nums(const char* str, int x, int y);
 
 #endif

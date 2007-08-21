@@ -1,5 +1,14 @@
 changelog for "tuxmath"
 
+2007.Aug.21 (svn.debian.org/tux4kids - revision 209)
+  Version 1.5.2
+
+  Build:
+    * Doc updates
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+
 2007.Aug.21 (svn.debian.org/tux4kids - revision 207)
   Game:
     * Fix audio system: clean up properly on exit, more robust handling
@@ -10,13 +19,15 @@ changelog for "tuxmath"
     * Fix memory leak in parsing options files
 
   Tim Holy <holy@wustl.edu>
+
 	
 2007.Aug.19 (svn.debian.org/tux4kids - revision 199)
   Build: 
     * fix a path in Makefile.am for installing the locales
 
       Holger Levsen (holger@layer-acht.org)
-   
+
+
 2007.Apr.29 (svn.debian.org/tux4kids - revision 174)
   Build:
     * Makefile.am files added to all directories with EXTRA_DIST

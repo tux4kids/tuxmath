@@ -8,11 +8,13 @@
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/
 
+  Modified extensively by David Bruce
+  dbruce@tampabay.rr.com
 
   Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
+  http://tux4kids.alioth.debian.org
       
-  August 26, 2001 - January 3, 2005
+  August 26, 2001 - July 11, 2007
 */
 
 

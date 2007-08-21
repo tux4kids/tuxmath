@@ -75,9 +75,7 @@ range_type ranges[NUM_Q_RANGES] = {
   {13, 20}
 };
 
-// /* FIXME Don't think we need these here anymore: */
-// #define ANSWER_LEN 5
-// #define FORMULA_LEN 14
+
 
 typedef struct comet_type {
   int alive;
@@ -136,7 +134,7 @@ static penguin_type penguins[NUM_CITIES];
 static steam_type steam[NUM_CITIES];
 static cloud_type cloud;
 static laser_type laser;
-static SDL_Surface* bkgd;
+static SDL_Surface* bkgd = NULL;
 
 /* Local function prototypes: */
 static int  game_initialize(void);
@@ -154,12 +152,12 @@ static void game_draw(void);
 static int check_extra_life(void);
 static int check_exit_conditions(void);
 
-static void draw_numbers(char* str, int x, int y);
+static void draw_numbers(const char* str, int x, int y);
 static void draw_led_console(void);
 static void draw_question_counter(void);
 static void draw_console_image(int i);
 static void draw_line(int x1, int y1, int x2, int y2, int r, int g, int b);
-static void putpixel(SDL_Surface * surface, int x, int y, Uint32 pixel);
+static void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
 static void reset_level(void);
 static int add_comet(void);
@@ -864,7 +862,7 @@ void game_handle_comets(void)
 {
   /* Handle comets. Since the comets also are the things that trigger
      changes in the cities, we set some flags in them, too. */
-  int i,this_city;
+  int i, this_city;
   num_comets_alive = 0;
       
   /* Clear the threatened flag on each city */
@@ -891,7 +889,7 @@ void game_handle_comets(void)
       }
 
       /* Does it threaten a city? */
-      if (comets[i].y > 3*screen->h / 4)
+      if (comets[i].y > 3 * screen->h / 4)
 	cities[this_city].threatened = 1;
 
       /* Did it hit a city? */
@@ -2088,7 +2086,7 @@ int add_comet(void)
 
 /* Draw numbers/symbols over the attacker: */
 /* This draws the numbers related to the comets */
-void draw_nums(char * str, int x, int y)
+void draw_nums(const char* str, int x, int y)
 {
   int i, j, cur_x, c;
   int str_length, char_width, image_length;
@@ -2177,7 +2175,7 @@ void draw_nums(char * str, int x, int y)
 
 
 /* Draw status numbers: */
-void draw_numbers(char * str, int x, int y)
+void draw_numbers(const char* str, int x, int y)
 {
   int i, cur_x, c;
   SDL_Rect src, dest;
