@@ -1,10 +1,13 @@
 changelog for "tuxmath"
 
-2007.Aug.21 (svn.debian.org/tux4kids - revision 209)
+2007.Aug.21 (svn.debian.org/tux4kids - revision 211)
   Version 1.5.2
 
   Build:
     * Doc updates
+    * Fixes in top-level Makefile.am - "make distcheck" now
+      succeeds without errors, "make uninstall" removes data and *.po
+      files proplerly.
 
       David Bruce <dbruce@tampabay.rr.com>
 
