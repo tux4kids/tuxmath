@@ -42,7 +42,7 @@ uninstall-local:
 	-chmod -R a+w $(DESTDIR)$(prefix)/share/$(PACKAGE);
 	-rm -rf $(DESTDIR)$(prefix)/share/$(PACKAGE);
 	-for i in *.po; do langcode=$$(echo $$i | sed 's/\.po//'); \
-	rm $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo $$langcode.po; \
+	rm $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo; \
 	done;
 
 nsis: install-nsi-local
