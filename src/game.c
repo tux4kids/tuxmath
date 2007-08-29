@@ -128,10 +128,17 @@ static float danger_level;
 
 
 static int digits[3];
+/*
 static comet_type comets[MAX_MAX_COMETS];
 static city_type cities[NUM_CITIES];
 static penguin_type penguins[NUM_CITIES];
 static steam_type steam[NUM_CITIES];
+*/
+static comet_type *comets;
+static city_type *cities;
+static penguin_type *penguins;
+static steam_type *steam;
+
 static cloud_type cloud;
 static laser_type laser;
 static SDL_Surface* bkgd = NULL;
@@ -167,6 +174,7 @@ static void reset_comets(void);
 
 static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
+static void free_on_exit(void);
 
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
@@ -190,6 +198,7 @@ int game(void)
     fprintf(stderr, "\ngame_initialize() failed!");
     /* return 0 so we go back to Options screen - maybe */
     /* player simply has all operations deselected */
+    free_on_exit();
     return 0;
   } 
 
@@ -410,6 +419,9 @@ int game(void)
     bkgd = NULL;
   }
 
+  /* Free dynamically-allocated items */
+  free_on_exit();
+
   /* Stop music: */
 #ifndef NOSOUND
   if (Opts_UsingSound())
@@ -464,6 +476,32 @@ int game_initialize(void)
   gameover_counter = -1;
   SDL_quit_received = 0;
   escape_received = 0;
+
+  /* Allocate memory */
+  comets = NULL;  // set in case allocation fails partway through
+  cities = NULL;
+  penguins = NULL;
+  steam = NULL;
+  comets = (comet_type *) malloc(MAX_MAX_COMETS * sizeof(comet_type));
+  if (comets == NULL) {
+    printf("Allocation of comets failed");
+    return 0;
+  }
+  cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
+  if (cities == NULL) {
+    printf("Allocation of cities failed");
+    return 0;
+  }
+  penguins = (penguin_type *) malloc(NUM_CITIES * sizeof(penguin_type));
+  if (penguins == NULL) {
+    printf("Allocation of penguins failed");
+    return 0;
+  }
+  steam = (steam_type *) malloc(NUM_CITIES * sizeof(steam_type));
+  if (steam == NULL) {
+    printf("Allocation of steam failed");
+    return 0;
+  }
 
   /* Start MathCards backend: */
   /* FIXME may need to move this into tuxmath.c to accomodate option */
@@ -545,6 +583,7 @@ int game_initialize(void)
     penguins[i].layer = 0;
     steam[i].status = STEAM_OFF;
     steam[i].layer = 0;
+    steam[i].counter = 0;
   }
 
   if (Opts_BonusCometInterval()) {
@@ -2863,4 +2902,12 @@ void print_status(void)
   printf("\nStatus:    %d",cloud.status);
   printf("\nCity:      %d",cloud.city);
   printf("\n");
+}
+
+void free_on_exit(void)
+{
+  free(comets);
+  free(cities);
+  free(penguins);
+  free(steam);
 }
