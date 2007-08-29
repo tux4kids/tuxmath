@@ -1690,6 +1690,7 @@ int choose_config_file(void)
   int click_flag = 1;
 
   /* FIXME:Move file stuff into fileops.c.*/
+  /* Todo?: switch from readdir() to scandir() and use dynamic memory allocation? */
   unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
   char* fgets_return_val;
   unsigned char name_buf[NAME_BUF_SIZE];
@@ -1783,7 +1784,7 @@ int choose_config_file(void)
     memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1); 
     lessons++;
     fclose(tempFile);
-  } while (1);        // Loop will end when 'break' encountered
+  } while (lessons < MAX_LESSONS);  // Loop will end when 'break' encountered
 
   closedir(lesson_dir);	
 
