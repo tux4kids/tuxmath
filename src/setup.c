@@ -152,6 +152,11 @@ void initialize_options(void)
     }
   }
 
+  /* Read the lessons directory to determine which lesson   */
+  /* files are available.                                   */
+  if (!parse_lesson_file_directory())
+    fprintf(stderr,"\nCould not parse the lesson file directory.\n");
+
   /* Now set up high score tables: */
   initialize_scores();
   if (!read_high_scores())
@@ -626,6 +631,9 @@ void cleanup_memory(void)
       Mix_FreeMusic(musics[i]);
     musics[i] = NULL;
   }
+
+  free(lesson_list);
+  lesson_list = NULL;
 
   // Close the audio mixer. We have to do this at least as many times
   // as it was opened.

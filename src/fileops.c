@@ -478,6 +478,108 @@ int read_named_config_file(const char* filename)
   return 0;
 }
 
+int is_lesson_file(const struct dirent *lfdirent)
+{
+  return (0 == strncasecmp(&(lfdirent->d_name), "lesson", 6));
+  /* FIXME Should somehow test each file to see if it is a tuxmath config file */
+}
+
+int parse_lesson_file_directory(void)
+{
+  unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
+  char* fgets_return_val;
+  unsigned char name_buf[NAME_BUF_SIZE];
+
+  struct dirent **lesson_list_dirents;
+  FILE* tempFile = NULL;
+
+  int i = 0;
+  int lessonIterator = 0;
+  int length = 0;
+  int lessons = 0;
+
+  /* find the directory containing the lesson files:  */
+  sprintf(lesson_path, "%s/missions/lessons", DATA_PREFIX);
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "lesson_path is: %s\n", lesson_path);
+#endif
+
+  num_lessons = scandir(lesson_path,&lesson_list_dirents,is_lesson_file,alphasort);
+  if (num_lessons < 0) {
+    perror("scanning lesson directory");
+    num_lessons = 0;
+    return 0;
+  }
+
+  /* Allocate storage for lessons */
+  lesson_list = (lesson_entry *) malloc(num_lessons * sizeof(lesson_entry));
+  if (lesson_list == NULL) {
+    perror("allocating memory for lesson list");
+    return 0;
+  }
+
+  /* lessonIterator indexes the direntries, lessons indexes the correctly-parsed files.  If successful in parsing, lessons gets incremented */
+  for (lessonIterator = 0, lessons = 0; lessonIterator < num_lessons; lessonIterator++) {
+    /* Copy over the filename */
+    sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_list_dirents[lessonIterator]->d_name);
+
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);
+#endif
+
+    /* load the name for the lesson from the file ... (1st line) */
+    tempFile = fopen(lesson_list[lessons].filename, "r");
+
+    if (tempFile==NULL)
+    {
+      /* By leaving the current iteration without incrementing 'lessons', */
+      /* the bad file name will get clobbered next time through: */
+      continue;
+    }
+
+    fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);
+    if (fgets_return_val == NULL) {
+      continue;
+    }
+
+
+    /* check to see if it has a \r at the end of it (dos format!) */
+    length = strlen(name_buf);
+    while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n')) {
+      name_buf[length - 1] = '\0';
+      length--;
+    }
+
+    /* Go past leading '#', ';', or whitespace: */
+    /* NOTE getting i to the correct value on exit is the main goal of the loop */
+    for (  i = 0;
+           ((name_buf[i] == '#') ||
+           (name_buf[i] == ';') ||
+           isspace(name_buf[i])) &&
+           (i < NAME_BUF_SIZE);
+           i++  )
+    {
+      length--;
+    }
+    /* Now copy the rest of the first line into the list: */
+    /* Note that "length + 1" is needed so that the final \0 is copied! */
+    memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1); 
+    fclose(tempFile);
+
+    free(lesson_list_dirents[lessonIterator]);
+
+    /* Increment the iterator for correctly-parsed lesson files */
+    lessons++;
+  }
+  /* In case we didn't keep all of them, revise our estimate of how many there are */
+  num_lessons = lessons;
+
+  free(lesson_list_dirents);
+
+  return 1;
+}
+
 /* Look for a high score table file in the user's homedir */
 /* and if found, pass the FILE* to read_high_scores_() in */
 /* highscore.c to actually read in scores. (A "global"    */

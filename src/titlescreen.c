@@ -50,12 +50,9 @@ struct blit {
     unsigned char type;
 } blits[MAX_UPDATES];
 
-typedef struct lesson_entry {
-  unsigned char filename[NAME_BUF_SIZE];  //List of lesson file names
-  unsigned char display_name[NAME_BUF_SIZE]; //List of lesson names for display
-} lesson_entry;
-
-lesson_entry lesson_list[MAX_LESSONS];
+// Lessons available for play
+lesson_entry *lesson_list = NULL;
+int num_lessons = 0;
 
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
 //int show_tux4kids;
@@ -1663,15 +1660,14 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 /* choose_config_file() - adapted from chooseWordlist() from tuxtype. */
 /* Display a list of tuxmath config files in the missions directory   */
 /* and allow the player to pick one (AKA "Lessons").                  */
-/* FIXME the directory search and list generation belongs in fileops.c */
 
 /* returns 0 if user pressed escape (or if dir not found)
  *         1 if config was set correctly
  */
 int choose_config_file(void)
 {
-  SDL_Surface* titles[MAX_LESSONS];
-  SDL_Surface* select[MAX_LESSONS];
+  SDL_Surface **titles;
+  SDL_Surface **select;
 
   SDL_Rect leftRect, rightRect;
   SDL_Rect titleRects[8];               //8 lessons displayed per page 
@@ -1682,117 +1678,27 @@ int choose_config_file(void)
   int stop = 0;
   int loc = 0;                                  //The currently selected lesson file
   int old_loc = 1;
-  int lessons = 0;                              //Number of lesson files found in dir
   int redraw = 0;
   int i = 0;
-  int length = 0;
   int tux_frame = 0;
   int click_flag = 1;
-
-  /* FIXME:Move file stuff into fileops.c.*/
-  /* Todo?: switch from readdir() to scandir() and use dynamic memory allocation? */
-  unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
-  char* fgets_return_val;
-  unsigned char name_buf[NAME_BUF_SIZE];
-
-  DIR* lesson_dir = NULL;
-  struct dirent* lesson_file = NULL;
-  FILE* tempFile = NULL;
-
-  /* All pointers get explicitly set to NULL until used:*/
-  for (i = 0; i < MAX_LESSONS; i++)
-  {
-    titles[i] = NULL;
-    select[i] = NULL;
-  }
 
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Entering choose_config_file():\n");
 #endif
 
-  /* find the directory containing the lesson files:  */
-  sprintf(lesson_path, "%s/missions/lessons", DATA_PREFIX);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "lesson_path is: %s\n", lesson_path);
-#endif
-
-  /* create a list of all the lesson files */
-  lesson_dir = opendir(lesson_path);	
-
-  do
-  {
-    /* readdir() returns ptr to next file in dir AND resets ptr to following file: */
-    lesson_file = readdir(lesson_dir);
-    /* Get out when no more files: */
-    if (!lesson_file)
-    {
-      break;
-    }
-
-    /* file names must begin with 'lesson' (case-insensitive) */
-    if (0 != strncasecmp(&lesson_file->d_name, "lesson", 6))
-    { 
-      continue;
-    }
-
-    /* FIXME Should somehow test each file to see if it is a tuxmath config file */
-    /* Put file name into array of names found in lesson directory */
-    sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_file->d_name);
-
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);
-#endif
-
-    /* load the name for the lesson from the file ... (1st line) */
-    tempFile = fopen(lesson_list[lessons].filename, "r");
-
-    if (tempFile==NULL)
-    {
-      /* By leaving the current iteration without incrementing 'lessons', */
-      /* the bad file name will get clobbered next time through: */
-      continue;
-    }
-
-    fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);
-    if (fgets_return_val == NULL) {
-      continue;
-    }
-
-
-    /* check to see if it has a \r at the end of it (dos format!) */
-    length = strlen(name_buf);
-    while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n')) {
-      name_buf[length - 1] = '\0';
-      length--;
-    }
-
-    /* Go past leading '#', ';', or whitespace: */
-    /* NOTE getting i to the correct value on exit is the main goal of the loop */
-    for (  i = 0;
-           ((name_buf[i] == '#') ||
-           (name_buf[i] == ';') ||
-           isspace(name_buf[i])) &&
-           (i < NAME_BUF_SIZE);
-           i++  )
-    {
-      length--;
-    }
-    /* Now copy the rest of the first line into the list: */
-    /* Note that "length + 1" is needed so that the final \0 is copied! */
-    memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1); 
-    lessons++;
-    fclose(tempFile);
-  } while (lessons < MAX_LESSONS);  // Loop will end when 'break' encountered
-
-  closedir(lesson_dir);	
-
-  /* FIXME The lesson list does not necessarily come out in alphabetical order. */
-  /* Sort the list into proper order:           */
-  qsort(lesson_list, lessons, sizeof(struct lesson_entry), compare_lesson_entries);
   /* Display the list of lessons for the player to select: */
-  for (i = 0; i < lessons; i++)
+  titles = NULL;
+  select = NULL;
+  titles = (SDL_Surface *) malloc(num_lessons*sizeof(SDL_Surface *));
+  select = (SDL_Surface *) malloc(num_lessons*sizeof(SDL_Surface *));
+  if (titles == NULL || select == NULL) {
+    free(titles);
+    free(select);
+    return 0;
+  }
+  for (i = 0; i < num_lessons; i++)
   {
     titles[i] = black_outline( _(lesson_list[i].display_name), default_font, &white );
     select[i] = black_outline( _(lesson_list[i].display_name), default_font, &yellow);
@@ -1872,7 +1778,7 @@ int choose_config_file(void)
  
         case SDL_MOUSEMOTION:
         {
-          for (i = 0; (i < 8) && (loc -(loc % 8) + i < lessons); i++)
+          for (i = 0; (i < 8) && (loc -(loc % 8) + i < num_lessons); i++)
           {
             if (inRect(lesson_menu_button[i], event.motion.x, event.motion.y))
             {
@@ -1903,7 +1809,7 @@ int choose_config_file(void)
           /* "Right" button - go to next page: */
           else if (inRect( rightRect, event.motion.x, event.motion.y ))
           {
-            if (loc - (loc % 8) + 8 < lessons)
+            if (loc - (loc % 8) + 8 < num_lessons)
             {
               if (Opts_MenuSound() && click_flag)
               {
@@ -1923,7 +1829,7 @@ int choose_config_file(void)
         case SDL_MOUSEBUTTONDOWN:
         {
           /* Lesson buttons - play game with corresponding lesson file: */
-          for (i = 0; (i < 8) && (loc - (loc % 8) + i < lessons); i++)
+          for (i = 0; (i < 8) && (loc - (loc % 8) + i < num_lessons); i++)
           {
             if (inRect(lesson_menu_button[i], event.button.x, event.button.y))
             {
@@ -1980,7 +1886,7 @@ int choose_config_file(void)
           /* "Right" button - go to next page: */
           if (inRect( rightRect, event.button.x, event.button.y ))
           {
-            if (loc - (loc % 8) + 8 < lessons)
+            if (loc - (loc % 8) + 8 < num_lessons)
             {
               loc = loc - (loc % 8) + 8;
               if (Opts_MenuSound())
@@ -2062,7 +1968,7 @@ int choose_config_file(void)
             {
               if (Opts_MenuSound())
                 {tuxtype_playsound(sounds[SND_TOCK]);}
-              if (loc - (loc % 8) + 8 < lessons)
+              if (loc - (loc % 8) + 8 < num_lessons)
                 {loc = (loc - (loc % 8) + 8);}
               break; 
             }
@@ -2083,7 +1989,7 @@ int choose_config_file(void)
             {
               if (Opts_MenuSound())
                 {tuxtype_playsound(sounds[SND_TOCK]);}
-              if (loc + 1 < lessons)
+              if (loc + 1 < num_lessons)
                 {loc++;}
               break; 
            }
@@ -2140,7 +2046,7 @@ int choose_config_file(void)
       SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
 
       /* FIXME get rid of "evil" macro ;)       */
-      for (i = start; i < MIN(start+8,lessons); i++)
+      for (i = start; i < MIN(start+8,num_lessons); i++)
       {
         titleRects[i % 8].x = 240;     //Like main menu
         titleRects[i % 8].w = titles[i]->w;
@@ -2174,7 +2080,7 @@ int choose_config_file(void)
         SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &leftRect);
       }
 
-      if (start + 8 < lessons)  // not on last page
+      if (start + 8 < num_lessons)  // not on last page
       {
         SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &rightRect);
       }
@@ -2217,11 +2123,13 @@ int choose_config_file(void)
   }  // End !stop while loop
 
   /* --- clear graphics before leaving function --- */ 
-  for (i = 0; i < lessons; i++)
+  for (i = 0; i < num_lessons; i++)
   {
     SDL_FreeSurface(titles[i]);
     SDL_FreeSurface(select[i]);
   }
+  free(titles);
+  free(select);
 
 
 #ifdef TUXMATH_DEBUG
