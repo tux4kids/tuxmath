@@ -1,12 +1,12 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(tuxmath, 1.5.3, tuxmath-devel@lists.sourceforge.net)
+AC_INIT(tuxmath, 1.5.4, tuxmath-devel@lists.sourceforge.net)
 
 #AC_PREREQ(2.59)
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
 
-AM_INIT_AUTOMAKE(tuxmath, 1.5.3)
+AM_INIT_AUTOMAKE(tuxmath, 1.5.4)
 AM_CONFIG_HEADER(config.h)
 AM_MAINTAINER_MODE
 

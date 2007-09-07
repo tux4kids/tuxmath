@@ -1,7 +1,11 @@
 ## Makefile.am for tuxmath data/images/tux:
 ## Process with AutoMake:
 
-EXTRA_DIST = console.png \
+EXTRA_DIST = bigtux0.png	\
+	bigtux1.png	\
+	bigtux2.png	\
+	bigtux3.png	\
+	console.png \
 	console_led.png	\
 	console_bash.png	\
 	tux-console1.png \

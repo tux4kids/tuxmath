@@ -85,6 +85,8 @@ Requirements
     sound and music.  This library is optional, but without it, the program
     will be completely silent.
 
+    Gnu gettext is required to run "make install".
+
     As of version 1.5, TuxMath uses SDL_ttf to display true type fonts.
     The freely distributable Andika font is included under data/fonts.
 
@@ -143,7 +145,8 @@ Compiling and Installing TuxMath
       do a typical configure, make, and install.  In other words, the
       tarball contains a complete "Gnu build system".  Note, however, that
       you will need the "-dev" files for SDL, SDL_image, SDL_mixer, and
-      SDL_ttf.
+      SDL_ttf.  You also need Gnu gettext as "msgfmt" is called during the
+      installation.
  
       For example:
  
