@@ -10,6 +10,7 @@ EXTRA_DIST = lesson00	\
 	lesson06	\
 	lesson07	\
 	lesson08	\
+	lesson08.1	\
 	lesson09	\
 	lesson10	\
 	lesson11	\

@@ -22,11 +22,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <SDL.h>
+
+#include "SDL.h"
 #ifndef NOSOUND
-#include <SDL_mixer.h>
+#include "SDL_mixer.h"
 #endif
-#include <SDL_image.h>
+#include "SDL_image.h"
+
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"

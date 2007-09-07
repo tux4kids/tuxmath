@@ -150,6 +150,12 @@ void initialize_options(void)
       fprintf(stderr, "\nCould not find user's config file.\n");
       /* can still proceed using hard-coded defaults.         */
     }
+
+    /* If game being run for first time, try to write file: */
+    if (!write_user_config_file())
+    {
+      fprintf(stderr, "\nUnable to write user's config file.\n");
+    }
   }
 
   /* Read the lessons directory to determine which lesson   */

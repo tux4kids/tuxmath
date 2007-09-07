@@ -2495,6 +2495,17 @@ int load_default_font()
   sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, DEFAULT_FONT_NAME);
 
   default_font = TTF_OpenFont(fontfile, DEFAULT_MENU_FONT_SIZE);
+
+  /* HACK - better font searching needed! */
+  /* This should mean that font wasn't bundled into data path, which for  */
+  /* now means we are using Debian, so grab from Debian installation loc: */
+  if (!default_font)
+  { 
+    sprintf(fontfile, "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf");
+    default_font = TTF_OpenFont(fontfile, DEFAULT_MENU_FONT_SIZE);
+  }
+
+
   if (default_font != NULL)
   {
 #ifdef TUXMATH_DEBUG

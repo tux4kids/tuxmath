@@ -1,6 +1,35 @@
-changelog for "tuxmath"
-UNRELEASED
-   * FIXME: mention bugfixes from Tim and David here :)
+
+
+2007.Sep.07 (svn.debian.org/tux4kids - revision 231)
+  Version 1.5.4
+
+  Build:
+    * Renamed configure.in to configure.ac as is now preferred.
+    * Removed autogen.sh as autoreconf is preferred.
+  Game:
+    * Added lesson for "Subtraction 0-20"
+      (data/missions/lessons/lesson08.1)
+    * Added hackery to load_default_font() to get it to load
+      "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf"
+      (Debian font location) if font not found under data path.
+    * Fixed minor problem with screen redrawing for "Custom Game".
+    * Setup now tries to write user config file (using default
+      settings) if user config file not found, e.g.  when the
+      game is run for the first time by that user.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+
+2007.Aug.27 (svn.debian.org/tux4kids - revision 215)
+
+  Code:
+    * Changed arrays in game.c to dynamic allocation, fixed a
+      crashing bug related to array bounds violation.
+  Game:
+    * Fix of "Custom Game" option to enable play based on user's
+      options file, also added on-screen explanatory text.
+
+      Tim Holy <holy@wustl.edu>
 
 
 2007.Aug.23 (svn.debian.org/tux4kids - revision 212)
@@ -34,7 +63,7 @@ UNRELEASED
   Options:
     * Fix memory leak in parsing options files
 
-  Tim Holy <holy@wustl.edu>
+      Tim Holy <holy@wustl.edu>
 
 	
 2007.Aug.19 (svn.debian.org/tux4kids - revision 199)
@@ -87,11 +116,11 @@ UNRELEASED
   Build:
     * First revision adds Xcode building for MacOSX
     * Second commit removes the earlier (incomplete) approach to a
-	UNIX-style build. (This was abandoned mainly for reasons of
-	building Universal Binaries---the SDL Frameworks supposedly
-	only work with Xcode)
+      UNIX-style build. (This was abandoned mainly for reasons of
+      building Universal Binaries---the SDL Frameworks supposedly
+      only work with Xcode)
 	
-        Tim Holy < holy at wustl period edu >
+      Tim Holy < holy at wustl period edu >
 	
 2007.Mar.08  (svn.debian.org/tux4kids - revision 125)
   Game:

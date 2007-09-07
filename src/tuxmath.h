@@ -39,11 +39,11 @@
 #endif
 #endif
 
-#include <SDL.h>
-#include <SDL_ttf.h>
+#include "SDL.h"
+#include "SDL_ttf.h"
 
 #ifndef NOSOUND
-#include <SDL_mixer.h>
+#include "SDL_mixer.h"
 #endif
 
 //#define NOSOUND
@@ -102,7 +102,7 @@
 #define MIN_COMETS 1
 #define MAX_MAX_COMETS 100
 
-#define DEFAULT_FONT_NAME "AndikaDesRevA.ttf"
+#define DEFAULT_FONT_NAME "AndikaDesRevG.ttf"
 #define DEFAULT_MENU_FONT_SIZE 18
 
 

@@ -159,6 +159,7 @@ void TitleScreen_load_media(void);
 void TitleScreen_unload_media(void);
 void NotImplemented(void);
 void HighScoreScreen(void);
+void HighScoreNameEntry(char* name_buf);
 void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
@@ -577,8 +578,8 @@ void TitleScreen(void)
         char *s1, *s2, *s3, *s4;
         s1 = _("Edit 'options' file in your home directory");
         s2 = _("to create customized game!");
-        s3 = _("See README.txt for more information");
-        s4 = N_("tuxmath-devel@lists.sourceforge.net");
+        s3 = _("Press a key or click your mouse to start game.");
+        s4 = N_("See README.txt for more information");
         ShowMessage(s1, s2, s3, s4);
 
         if (read_user_config_file())
@@ -595,8 +596,9 @@ void TitleScreen(void)
           {
             audioMusicLoad( "tuxi.ogg", -1 );
           }
-          redraw = 1;
         }
+
+        redraw = 1;
         break;
       }
 
@@ -1506,6 +1508,8 @@ void HighScoreScreen(void)
   }  // End of while (!finished) loop
 }
 
+
+/* FIXME add some background shading to improve legibility */
 void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
@@ -1550,29 +1554,9 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
   fprintf(stderr, "NotImplemented() - drawing screen\n" );
 #endif
 
-  /* Draw lines of text: */
+  /* Redraw background: */
   if (images[IMG_MENU_BKG])
     SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-  if (s1)
-  {
-    loc.x = 320-(s1->w/2); loc.y = 10;
-    SDL_BlitSurface( s1, NULL, screen, &loc);
-  }
-  if (s2)
-  {
-    loc.x = 320-(s2->w/2); loc.y = 60;
-    SDL_BlitSurface( s2, NULL, screen, &loc);
-  }
-  if (s3)
-  {
-    loc.x = 320-(s3->w/2); loc.y = 400;
-    SDL_BlitSurface( s3, NULL, screen, &loc);
-  }
-  if (s4)
-  {
-    loc.x = 320-(s4->w/2); loc.y = 440;
-    SDL_BlitSurface( s4, NULL, screen, &loc);
-  }
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
@@ -1588,6 +1572,30 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
   {
     SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
   }
+
+  /* Draw lines of text (do after drawing Tux so text is in front): */
+  if (s1)
+  {
+    loc.x = 320 - (s1->w/2); loc.y = 10;
+    SDL_BlitSurface( s1, NULL, screen, &loc);
+  }
+  if (s2)
+  {
+    loc.x = 320 - (s2->w/2); loc.y = 60;
+    SDL_BlitSurface( s2, NULL, screen, &loc);
+  }
+  if (s3)
+  {
+    loc.x = 320 - (s3->w/2); loc.y = 300;
+    SDL_BlitSurface( s3, NULL, screen, &loc);
+  }
+  if (s4)
+  {
+    loc.x = 320 - (s4->w/2); loc.y = 340;
+    SDL_BlitSurface( s4, NULL, screen, &loc);
+  }
+
+  /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
   while (!finished)
