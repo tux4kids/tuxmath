@@ -88,11 +88,127 @@ static int find_tuxmath_dir(void);
 static int str_to_bool(const char* val);
 static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
+static int is_lesson_file(const struct dirent *lfdirent);
+
+
 
 /* fix HOME on windows */
 #ifdef BUILD_MINGW32
 #include <windows.h>
 
+/* mingw32 doesn't support scandir() so this is our own replacement: */
+/* (modified from scandir() in glibc-2.3.6) - FSF - GPLv2+)          */
+static int w32_scandir(const char* dir, struct dirent*** namelist);
+int w32_alphasort (const void *a, const void *b);
+
+struct scandir_cancel_struct
+{
+  DIR *dp;
+  void *v;
+  size_t cnt;
+};
+
+
+/* mingw32 doesn't support scandir() so this is our own replacement: */
+/* (modified from scandir() in glibc-2.3.6) - FSF - GPLv2+)          */
+/* FIXME (maybe) this version doesn't check for allocation errors,   */
+/* such as running out of memory.                                    */
+int w32_scandir(const char* dir, struct dirent*** namelist)
+{
+  DIR* dp = opendir (dir);
+  struct dirent** v = NULL;
+  size_t vsize = 0;
+  struct scandir_cancel_struct c;
+  struct dirent* d = NULL;
+  int save;
+
+  if (dp == NULL)
+    return -1;
+//  save = errno;
+//  errno = 0;
+
+  c.dp = dp;
+  c.v = NULL;
+  c.cnt = 0;
+  //__libc_cleanup_push (cancel_handler, &c);
+
+  d = readdir(dp);
+
+  while (d != NULL)  /* go until no more entries in lesson directory */
+  {
+    if (is_lesson_file(d)) /* if it's a lesson file, add it to list: */
+    {
+      struct dirent* vnew;
+      size_t dsize;
+
+//      /* Ignore errors from select or readdir */
+//      errno =0 ;
+
+      if (c.cnt == vsize)
+      {
+        struct dirent** new;
+
+        if (vsize == 0)
+          vsize = 10;
+        else
+          vsize *= 2;
+
+        new = (struct dirent**) realloc (v, vsize * sizeof (*v));
+
+        if (new == NULL)
+          break;
+
+        v = new;
+        c.v = (void *) v;
+      }
+
+      dsize = &d->d_name[strlen((const char*)&d->d_name) + 1] - (char *) d;
+      vnew = (struct dirent *) malloc (dsize);
+      if (vnew == NULL)
+        break;
+
+      v[c.cnt++] = (struct dirent *) memcpy (vnew, d, dsize);
+    }
+    /* read next entry: */
+    d = readdir(dp);
+  }
+
+//   if (errno != 0)
+//   {
+//       save = errno;
+// 
+//       while (c.cnt > 0)
+// 	free (v[--c.cnt]);
+//       free (v);
+//       c.cnt = -1;
+//   }
+//   else
+  {
+    /* Sort the list if we have a comparison function to sort with.  */
+    qsort (v, c.cnt, sizeof (*v), w32_alphasort);
+    *namelist = v;
+  }
+
+//  __libc_cleanup_pop (0);
+
+  closedir(dp);
+//  errno = save;
+
+  return c.cnt;
+
+}
+
+/* This is needed for qsort() for lesson table: */
+int
+w32_alphasort (const void *a, const void *b)
+{
+  return strcoll ((*(const struct dirent **) a)->d_name,
+		  (*(const struct dirent **) b)->d_name);
+}
+
+
+
+ 
 /* STOLEN from tuxpaint */
 
 /*
@@ -478,11 +594,14 @@ int read_named_config_file(const char* filename)
   return 0;
 }
 
-int is_lesson_file(const struct dirent *lfdirent)
+/* NOTE the cast to "const char*" just prevents compiler from complaining */
+static int is_lesson_file(const struct dirent *lfdirent)
 {
-  return (0 == strncasecmp(&(lfdirent->d_name), "lesson", 6));
+  return (0 == strncasecmp((const char*)&(lfdirent->d_name), "lesson", 6));
   /* FIXME Should somehow test each file to see if it is a tuxmath config file */
 }
+
+
 
 int parse_lesson_file_directory(void)
 {
@@ -505,7 +624,13 @@ int parse_lesson_file_directory(void)
   fprintf(stderr, "lesson_path is: %s\n", lesson_path);
 #endif
 
-  num_lessons = scandir(lesson_path,&lesson_list_dirents,is_lesson_file,alphasort);
+/* Use our home-brewed scandir() if platform doesn't have it in lib: */
+#ifdef BUILD_MINGW32
+  num_lessons = w32_scandir(lesson_path, &lesson_list_dirents);
+#else
+  num_lessons = scandir(lesson_path, &lesson_list_dirents, is_lesson_file, alphasort);
+#endif
+
   if (num_lessons < 0) {
     perror("scanning lesson directory");
     num_lessons = 0;
@@ -2227,7 +2352,7 @@ static int str_to_bool(const char* val)
   }  
 
   /* Return -1 if any chars are non-digits: */
-  ptr = val;
+  ptr = (char*)val;
   while (*ptr)
   {
     if (!isdigit(*ptr))
@@ -2608,3 +2733,108 @@ int load_sound_data(void)
   return 1;
 }
 #endif
+
+
+
+//  /* FIXME:Move file stuff into fileops.c.*/   
+//    /* Todo?: switch from readdir() to scandir() and use dynamic memory allocation? */   
+//    unsigned char lesson_path[PATH_MAX];             //Path to lesson directory   
+//    char* fgets_return_val;   
+//    unsigned char name_buf[NAME_BUF_SIZE];   
+//      
+//    DIR* lesson_dir = NULL;   
+//    struct dirent* lesson_file = NULL;   
+//    FILE* tempFile = NULL;   
+//      
+//    /* All pointers get explicitly set to NULL until used:*/   
+//    for (i = 0; i < MAX_LESSONS; i++)   
+//    {   
+//      titles[i] = NULL;   
+//      select[i] = NULL;   
+//    }   
+//      
+//      
+//  #ifdef TUXMATH_DEBUG  #ifdef TUXMATH_DEBUG
+//    fprintf(stderr, "Entering choose_config_file():\n");    fprintf(stderr, "Entering choose_config_file():\n");
+//  #endif  #endif
+//      
+//    /* find the directory containing the lesson files:  */   
+//    sprintf(lesson_path, "%s/missions/lessons", DATA_PREFIX);   
+//      
+//  #ifdef TUXMATH_DEBUG   
+//    fprintf(stderr, "lesson_path is: %s\n", lesson_path);   
+//  #endif   
+//      
+//    /* create a list of all the lesson files */   
+//    lesson_dir = opendir(lesson_path);   
+//      
+//    do   
+//    {   
+//      /* readdir() returns ptr to next file in dir AND resets ptr to following file: */   
+//      lesson_file = readdir(lesson_dir);   
+//     /* Get out when no more files: */   
+//     if (!lesson_file)   
+//      {   
+//        break;   
+//      }   
+//      
+//      /* file names must begin with 'lesson' (case-insensitive) */   
+//      if (0 != strncasecmp(&lesson_file->d_name, "lesson", 6))   
+//      {   
+//        continue;   
+//      }   
+//      
+//      /* FIXME Should somehow test each file to see if it is a tuxmath config file */   
+//      /* Put file name into array of names found in lesson directory */   
+//      sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_file->d_name);   
+//      
+//  #ifdef TUXMATH_DEBUG   
+//      fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);   
+//  #endif   
+//      
+//      /* load the name for the lesson from the file ... (1st line) */   
+//      tempFile = fopen(lesson_list[lessons].filename, "r");   
+//      
+//      if (tempFile==NULL)   
+//      {   
+//        /* By leaving the current iteration without incrementing 'lessons', */   
+//        /* the bad file name will get clobbered next time through: */   
+//        continue;   
+//      }   
+//      
+//      fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);   
+//      if (fgets_return_val == NULL) {   
+//        continue;   
+//      }   
+//      
+//      
+//      /* check to see if it has a \r at the end of it (dos format!) */   
+//      length = strlen(name_buf);   
+//      while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n')) {   
+//        name_buf[length - 1] = '\0';   
+//        length--;   
+//      }   
+//      
+//      /* Go past leading '#', ';', or whitespace: */   
+//      /* NOTE getting i to the correct value on exit is the main goal of the loop */   
+//      for (  i = 0;   
+//            ((name_buf[i] == '#') ||   
+//            (name_buf[i] == ';') ||   
+//             isspace(name_buf[i])) &&   
+//             (i < NAME_BUF_SIZE);   
+//             i++  )   
+//     {   
+//        length--;   
+//      }   
+//      /* Now copy the rest of the first line into the list: */   
+//      /* Note that "length + 1" is needed so that the final \0 is copied! */   
+//      memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1);   
+//      lessons++;   
+//      fclose(tempFile);   
+//    } while (lessons < MAX_LESSONS);  // Loop will end when 'break' encountered   
+//   
+//    closedir(lesson_dir);   
+//      
+//    /* FIXME The lesson list does not necessarily come out in alphabetical order. */   
+//    /* Sort the list into proper order:           */   
+//    qsort(lesson_list, lessons, sizeof(struct lesson_entry), compare_lesson_entries);   */*/

@@ -1,4 +1,9 @@
-
+2007.Sep.08 (svn.debian.org/tux4kids - revision 233)
+  Code:
+    * Added replacement function for scandir() (called
+      "w32_scandir() ) because scandir isn't available
+      under Windows - or at least isn't supported by
+      mingw32.
 
 2007.Sep.07 (svn.debian.org/tux4kids - revision 231)
   Version 1.5.4

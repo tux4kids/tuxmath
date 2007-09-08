@@ -164,7 +164,6 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
-int compare_lesson_entries(const lesson_entry* a, const lesson_entry* b);
 void ShowMessage(char* str1, char* str2, char* str3, char* str4);
 
 /***********************************************************/
@@ -2408,8 +2407,4 @@ void InitEngine(void) {
     }
 }
 
-/* This is needed for qsort() for lesson table: */
-int compare_lesson_entries(const lesson_entry* a, const lesson_entry* b)
-{
-  return strcmp(a->filename, b->filename);
-}
+
