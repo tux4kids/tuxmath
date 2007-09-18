@@ -100,29 +100,10 @@ const unsigned char* menu_sprite_files[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 
 
 
 /* this will contain pointers to all of the menu 'icons' */
-sprite* menu_sprites[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] =
-{{NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL}};
-
+sprite* menu_sprites[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
 /* images of regular and selected text of menu items: */
-SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] =
-{{NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL}};
-SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] =
-{{NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL},
- {NULL, NULL, NULL, NULL, NULL}};
+SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
+SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
 
 /* reg and sel are used to create the translucent button backgrounds. */
 sprite* reg = NULL;
@@ -1507,6 +1488,157 @@ void HighScoreScreen(void)
   }  // End of while (!finished) loop
 }
 
+/* Display screen to allow player to enter name for high score table: */
+void HighScoreNameEntry(char* name_buf)
+{
+  SDL_Surface *s1, *s2, *s3, *s4;
+  SDL_Rect loc;
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+  char* str1, *str2, *str3, *str4;
+  s1 = s2 = s3 = s4 = NULL;
+  str1 = str2  = str3 = str4 = NULL;
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "ShowMessage() - creating text\n" );
+#endif
+
+  if (str1)
+    s1 = black_outline(str1, default_font, &white);
+  if (str2)
+    s2 = black_outline(str2, default_font, &white);
+  if (str3)
+    s3 = black_outline(str3, default_font, &white);
+  /* When we get going with i18n may need to modify following - see below: */
+  if (str4)
+    s4 = black_outline(str4, default_font, &white);
+
+//   /* we always want the URL in english */
+//   if (!useEnglish)
+//   {
+//     TTF_Font *english_font;
+//     useEnglish = 1;
+//     english_font = LoadFont( menu_font, menu_font_size );
+//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
+//     TTF_CloseFont(english_font);
+//     useEnglish = 0;
+//   }
+//   else 
+//   {
+//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
+//   }
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "NotImplemented() - drawing screen\n" );
+#endif
+
+  /* Redraw background: */
+  if (images[IMG_MENU_BKG])
+    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
+  {
+    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+  }
+
+  /* Draw lines of text (do after drawing Tux so text is in front): */
+  if (s1)
+  {
+    loc.x = 320 - (s1->w/2); loc.y = 10;
+    SDL_BlitSurface( s1, NULL, screen, &loc);
+  }
+  if (s2)
+  {
+    loc.x = 320 - (s2->w/2); loc.y = 60;
+    SDL_BlitSurface( s2, NULL, screen, &loc);
+  }
+  if (s3)
+  {
+    loc.x = 320 - (s3->w/2); loc.y = 300;
+    SDL_BlitSurface( s3, NULL, screen, &loc);
+  }
+  if (s4)
+  {
+    loc.x = 320 - (s4->w/2); loc.y = 340;
+    SDL_BlitSurface( s4, NULL, screen, &loc);
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            tuxtype_playsound(sounds[SND_TOCK]);
+            break;
+          }
+        }
+        case SDL_KEYDOWN:
+        {
+          finished = 1;
+          tuxtype_playsound(sounds[SND_TOCK]);
+        }
+      }
+    }
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;			
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
+      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+    }
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+  SDL_FreeSurface(s1);
+  SDL_FreeSurface(s2);
+  SDL_FreeSurface(s3);
+  SDL_FreeSurface(s4);
+}
 
 /* FIXME add some background shading to improve legibility */
 void ShowMessage(char* str1, char* str2, char* str3, char* str4)
