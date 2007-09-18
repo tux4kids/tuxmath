@@ -14,12 +14,12 @@
   dbruce@tampabay.rr.com
 
   Part of "Tux4Kids" Project
-  http://www.tux4kids.net/
+  http://tux4kids.alioth.debian.org/
   Subversion repository:
-  https://svn.tux4kids.net/tuxmath
+  https://svn.debian.alioth.org/tux4kids/tuxmath/
 
  
-  August 26, 2001 - August 8, 2006.
+  August 26, 2001 - Sept 18, 2007.
 */
 
 

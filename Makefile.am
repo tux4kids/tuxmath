@@ -10,6 +10,14 @@ NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
 ##datadir = @datadir@
 ##localedir = $(datadir)/locale
 
+
+# Bundle in fonts for distribution tar.gz to be used without package manager:
+# i.e. to make tarball to post for individual download - use 'make distcheck' for Debian.
+# (thanks to Ralf Wildenhues <Ralf.Wildenhues@gmx.de> for automake help!)
+dist_with_fonts:
+	$(MAKE) $(AM_MAKEFLAGS) dist dist_fonts='AndikaDesRevG.ttf'
+
+
 # This rule is a brute-force kludge! 
 install-data-local:
 	@$(NORMAL_INSTALL)
