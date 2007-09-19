@@ -946,7 +946,9 @@ void TitleScreen(void)
 
     if (tux_frame)
     {
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+//      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+
     }
 
     if (firstloop)
@@ -1775,7 +1777,9 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
     if (Tux && tux_frame)
     {
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+//      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+
     }
     /* Wait so we keep frame rate constant: */
     while ((SDL_GetTicks() - start) < 33)
@@ -2250,7 +2254,9 @@ int choose_config_file(void)
     if (Tux && tux_frame)
     {
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+ //     SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+
     }
 
     /* Wait so we keep frame rate constant: */
