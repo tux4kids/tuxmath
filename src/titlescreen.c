@@ -80,12 +80,36 @@ const int menu_item[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] =
 /* --- menu text --- */
 const unsigned char* menu_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = 
 /*    Main Menu                                       'Arcade' Games                    Options                     Game Options            */
-{{"", "",                                             "",                             "",                              ""                       },
- {"", N_("Math Command Training Academy"), N_("Space Cadet"),  N_("Settings"),     N_("Speed")    },
- {"", N_("Play Arcade Game"),              N_("Scout"),        N_("Help"),         N_("Sound")    },
- {"", N_("Play Custom Game"),              N_("Ranger"),       N_("Credits"),      N_("Graphics") },
- {"", N_("More Options"),                  N_("Ace"),          N_("Project Info"), N_("Advanced Options")},
- {"", N_("Quit"),                          N_("Hall Of Fame"), N_("Main Menu"),    N_("Main Menu") }};
+{{(const unsigned char*)"",     /* NOTE the casts to 'const unsigned char*' are all to */
+  (const unsigned char*)"",     /* prevent compiler warnings.                          */
+  (const unsigned char*)"",
+  (const unsigned char*)"",
+  (const unsigned char*)""},
+ {(const unsigned char*)"",
+  (const unsigned char*)N_("Math Command Training Academy"),   /* Top entry, first page */ 
+  (const unsigned char*)N_("Space Cadet"),                     /* Top entry, second page */ 
+  (const unsigned char*)N_("Settings"),
+  (const unsigned char*)N_("Speed")},
+ {(const unsigned char*)"",
+  (const unsigned char*)N_("Play Arcade Game"),                /* Second entry, first page */
+  (const unsigned char*)N_("Scout"),
+  (const unsigned char*)N_("Help"),
+  (const unsigned char*)N_("Sound")},
+ {(const unsigned char*)"",
+  (const unsigned char*)N_("Play Custom Game"),                /* Third entry, first page */
+  (const unsigned char*)N_("Ranger"),
+  (const unsigned char*)N_("Credits"),
+  (const unsigned char*)N_("Graphics")},
+ {(const unsigned char*)"",
+  (const unsigned char*)N_("More Options"),                   /* Fourth entry, first page */
+  (const unsigned char*)N_("Ace"),
+  (const unsigned char*)N_("Project Info"),
+  (const unsigned char*)N_("Advanced Options")},
+ {(const unsigned char*)"",
+  (const unsigned char*)N_("Quit"),                            /* Bottom entry, first page */
+  (const unsigned char*)N_("Hall Of Fame"),
+  (const unsigned char*)N_("Main Menu"),
+  (const unsigned char*)N_("Main Menu")}};
 
 
 /* These are the filenames of the images used in the animated menu icons: */
@@ -100,10 +124,10 @@ const unsigned char* menu_sprite_files[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 
 
 
 /* this will contain pointers to all of the menu 'icons' */
-sprite* menu_sprites[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
+sprite* menu_sprites[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {{NULL}};
 /* images of regular and selected text of menu items: */
-SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
-SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {NULL};
+SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {{NULL}};
+SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {{NULL}};
 
 /* reg and sel are used to create the translucent button backgrounds. */
 sprite* reg = NULL;
@@ -140,7 +164,7 @@ void TitleScreen_load_media(void);
 void TitleScreen_unload_media(void);
 void NotImplemented(void);
 void HighScoreScreen(void);
-void HighScoreNameEntry(char* name_buf);
+void HighScoreNameEntry(unsigned char* name_buf);
 void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
@@ -1077,7 +1101,7 @@ void TitleScreen_load_media( void )
 
 void TitleScreen_load_menu(void)
 {
-  unsigned char fn[PATH_MAX];
+  char fn[PATH_MAX];
   int max, i, j;
 
   SDL_ShowCursor(1);
@@ -1264,9 +1288,9 @@ void HighScoreScreen(void)
   int old_diff_level = SCOUT_HIGH_SCORE; //So table gets refreshed first time through
   char* diff_level_name = _("Space Cadet");
   /* Surfaces, char buffers, and rects for table: */
-  SDL_Surface* score_entries[HIGH_SCORES_SAVED];
+  SDL_Surface* score_entries[HIGH_SCORES_SAVED] = {NULL};
   /* 20 spaces should be enough room for place and score on each line: */
-  char score_texts[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 20];
+  char score_texts[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 20] = {{'\0'}};
 
 
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
@@ -1275,11 +1299,6 @@ void HighScoreScreen(void)
   int score_table_x = 240;
   int score_table_y = 100;
 
-  /* set SDL_Surface* to null before use: */
-  for (i = 0; i < HIGH_SCORES_SAVED; i++)
-  {
-    score_entries[i] = NULL;
-  }
 
   /* Draw background & title: */
   if (images[IMG_MENU_BKG])
@@ -1460,8 +1479,6 @@ void HighScoreScreen(void)
     }
 
 
-
-
     /* --- make tux blink --- */
     switch (frame % TUX6)
     {
@@ -1488,10 +1505,11 @@ void HighScoreScreen(void)
     }
     frame++;
   }  // End of while (!finished) loop
+  HighScoreNameEntry(NULL);
 }
 
 /* Display screen to allow player to enter name for high score table: */
-void HighScoreNameEntry(char* name_buf)
+void HighScoreNameEntry(unsigned char* name_buf)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
@@ -1500,12 +1518,20 @@ void HighScoreNameEntry(char* name_buf)
   Uint32 frame = 0;
   Uint32 start = 0;
   char* str1, *str2, *str3, *str4;
+  wchar_t buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
+
   s1 = s2 = s3 = s4 = NULL;
   str1 = str2  = str3 = str4 = NULL;
 
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
 #ifdef TUXMATH_DEBUG
-  fprintf(stderr, "ShowMessage() - creating text\n" );
+  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
 #endif
+
+  str1 = _("Great Score - You Are In The Hall of Fame!");
+  str2 = _("Enter Your Name:");
 
   if (str1)
     s1 = black_outline(str1, default_font, &white);
@@ -1517,24 +1543,6 @@ void HighScoreNameEntry(char* name_buf)
   if (str4)
     s4 = black_outline(str4, default_font, &white);
 
-//   /* we always want the URL in english */
-//   if (!useEnglish)
-//   {
-//     TTF_Font *english_font;
-//     useEnglish = 1;
-//     english_font = LoadFont( menu_font, menu_font_size );
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
-//     TTF_CloseFont(english_font);
-//     useEnglish = 0;
-//   }
-//   else 
-//   {
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
-//   }
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "NotImplemented() - drawing screen\n" );
-#endif
 
   /* Redraw background: */
   if (images[IMG_MENU_BKG])
@@ -1580,6 +1588,8 @@ void HighScoreNameEntry(char* name_buf)
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
+
+
   while (!finished)
   {
     start = SDL_GetTicks();
@@ -1605,8 +1615,32 @@ void HighScoreNameEntry(char* name_buf)
         }
         case SDL_KEYDOWN:
         {
-          finished = 1;
-          tuxtype_playsound(sounds[SND_TOCK]);
+          switch (event.key.keysym.sym)
+          {
+            case SDLK_ESCAPE:
+            case SDLK_RETURN:
+            case SDLK_KP_ENTER:
+            {
+              finished = 1;
+              tuxtype_playsound(sounds[SND_TOCK]);
+              break;
+            }
+            case SDLK_BACKSPACE:
+            {
+              break;
+            }
+            case SDLK_CLEAR:
+            {
+              break;
+            }
+
+            /* For any other keys, if the key has a Unicode value, */
+            /* we add it to our string:                            */
+            default:
+            {
+
+            }
+          }
         }
       }
     }
@@ -1640,7 +1674,12 @@ void HighScoreNameEntry(char* name_buf)
   SDL_FreeSurface(s2);
   SDL_FreeSurface(s3);
   SDL_FreeSurface(s4);
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
 }
+
+
 
 /* FIXME add some background shading to improve legibility */
 void ShowMessage(char* str1, char* str2, char* str3, char* str4)
@@ -1809,8 +1848,8 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
  */
 int choose_config_file(void)
 {
-  SDL_Surface **titles;
-  SDL_Surface **select;
+  SDL_Surface **titles = NULL;
+  SDL_Surface **select = NULL;
 
   SDL_Rect leftRect, rightRect;
   SDL_Rect titleRects[8];               //8 lessons displayed per page 
@@ -1832,10 +1871,9 @@ int choose_config_file(void)
 #endif
 
   /* Display the list of lessons for the player to select: */
-  titles = NULL;
-  select = NULL;
-  titles = (SDL_Surface *) malloc(num_lessons*sizeof(SDL_Surface *));
-  select = (SDL_Surface *) malloc(num_lessons*sizeof(SDL_Surface *));
+  titles = (SDL_Surface**)malloc(num_lessons * sizeof(SDL_Surface*));
+  select = (SDL_Surface**)malloc(num_lessons * sizeof(SDL_Surface*));
+
   if (titles == NULL || select == NULL) {
     free(titles);
     free(select);
