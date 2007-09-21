@@ -34,7 +34,7 @@
 #include "setup.h"     //for cleanup()
 #include "credits.h"
 #include "highscore.h"
-
+#include "ConvertUTF.h" // for wide char to UTF-8 conversion
 
 
 /* --- Data Structure for Dirty Blitting --- */
@@ -1291,7 +1291,7 @@ void HighScoreScreen(void)
   SDL_Surface* score_entries[HIGH_SCORES_SAVED] = {NULL};
   /* 20 spaces should be enough room for place and score on each line: */
   char score_texts[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 20] = {{'\0'}};
-
+  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
 
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
   SDL_Rect leftRect, rightRect;
@@ -1505,21 +1505,31 @@ void HighScoreScreen(void)
     }
     frame++;
   }  // End of while (!finished) loop
-  HighScoreNameEntry(NULL);
+  HighScoreNameEntry(player_name);
 }
 
-/* Display screen to allow player to enter name for high score table: */
+/* Display screen to allow player to enter name for high score table:     */
+/* The name_buf argument *must* point to a validly allocated string array */
+/* at least three times HIGH_SCORE_NAME_LENGTH because UTF-8 is a         */
+/* multibyte encoding.                                                    */
 void HighScoreNameEntry(unsigned char* name_buf)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
+  SDL_Rect redraw_rect;
+  int redraw = 0;
+  int first_draw = 1;
   int finished = 0;
   int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
   char* str1, *str2, *str3, *str4;
   wchar_t buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
+  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
 
+  if (!name_buf)
+    return;
+  
   s1 = s2 = s3 = s4 = NULL;
   str1 = str2  = str3 = str4 = NULL;
 
@@ -1615,6 +1625,10 @@ void HighScoreNameEntry(unsigned char* name_buf)
         }
         case SDL_KEYDOWN:
         {
+#ifdef TUXMATH_DEBUG
+          fprintf(stderr, "Before keypress, string is %S\tlength = %d\n",
+                  buf, (int)wcslen(buf));
+#endif
           switch (event.key.keysym.sym)
           {
             case SDLK_ESCAPE:
@@ -1627,24 +1641,77 @@ void HighScoreNameEntry(unsigned char* name_buf)
             }
             case SDLK_BACKSPACE:
             {
+              if (wcslen(buf) > 0)
+                buf[(int)wcslen(buf) - 1] = '\0';
+              redraw = 1;
               break;
             }
-            case SDLK_CLEAR:
-            {
-              break;
-            }
+
 
             /* For any other keys, if the key has a Unicode value, */
             /* we add it to our string:                            */
             default:
             {
-
+              if ((event.key.keysym.unicode > 0)
+              && (wcslen(buf) < HIGH_SCORE_NAME_LENGTH)) 
+              {
+                buf[(int)wcslen(buf)] = event.key.keysym.unicode;
+                redraw = 1;
+              } 
             }
+          }  /* end  'switch (event.key.keysym.sym)'  */
+
+#ifdef TUXMATH_DEBUG
+          fprintf(stderr, "After keypress, string is %S\tlength = %d\n",
+                    buf, (int)wcslen(buf));
+#endif
+            /* Now draw name, if needed: */
+          if (redraw)
+          {
+            redraw = 0;
+            /* Redraw background in area where we drew text last time: */ 
+            if (!first_draw)
+            {
+              SDL_BlitSurface(images[IMG_MENU_BKG], &redraw_rect, screen, &redraw_rect);
+              SDL_UpdateRect(screen,
+                             redraw_rect.x,
+                             redraw_rect.y,
+                             redraw_rect.w,
+                             redraw_rect.h);
+            }
+
+            /* Convert text to UTF-8: */
+            //Unicode_to_UTF8((const wchar_t*)buf, player_name);
+            wcstombs((char*) player_name, buf, HIGH_SCORE_NAME_LENGTH * 3);
+
+            s3 = black_outline(player_name, default_font, &yellow);
+            if (s3)
+            {
+              loc.x = 320 - (s3->w/2);
+              loc.y = 300;
+              SDL_BlitSurface( s3, NULL, screen, &loc);
+
+              /* for some reason we need to update a little beyond s3 to get clean image */
+              redraw_rect.x = loc.x - 20;
+              redraw_rect.y = loc.y - 10;
+              redraw_rect.h = s3->h + 20;
+              redraw_rect.w = s3->w + 40;
+              first_draw = 0;
+
+              SDL_UpdateRect(screen,
+                             redraw_rect.x,
+                             redraw_rect.y,
+                             redraw_rect.w,
+                             redraw_rect.h);
+              SDL_FreeSurface(s3);
+              s3 = NULL;
+            }
+
           }
         }
       }
     }
-
+ 
     /* --- make tux blink --- */
     switch (frame % TUX6)
     {
@@ -1662,6 +1729,10 @@ void HighScoreNameEntry(unsigned char* name_buf)
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
       SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
     }
+
+
+
+
     /* Wait so we keep frame rate constant: */
     while ((SDL_GetTicks() - start) < 33)
     {

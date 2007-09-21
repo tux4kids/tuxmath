@@ -39,6 +39,8 @@
 #endif
 #endif
 
+#include <wchar.h>
+
 #include "SDL.h"
 #include "SDL_ttf.h"
 
@@ -47,7 +49,7 @@
 #endif
 
 //#define NOSOUND
-//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */

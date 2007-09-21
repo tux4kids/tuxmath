@@ -18,7 +18,7 @@ TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c audio.c \
-                mathcards.c fileops.c
+                mathcards.c fileops.c ConvertUTF.c
 
 EXTRA_DIST = 	credits.h 	\
 		fileops.h 	\
@@ -29,7 +29,8 @@ EXTRA_DIST = 	credits.h 	\
 		playsound.h	\
 		setup.h		\
 		titlescreen.h	\
-		tuxmath.h
+		tuxmath.h	\
+		ConvertUTF.h
 
 
 # SUBDIRS = po

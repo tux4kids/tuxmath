@@ -247,7 +247,6 @@ enum {
 extern void TitleScreen( void );
 extern void switch_screen_mode( void );
 extern int choose_config_file(void);  //FIXME really should be in fileops.c
-extern int Phrases(char *practice_phrase); // NOTE this is not implemented
 
 /* in theme.c (from tuxtype): */
 extern void chooseTheme(void);
