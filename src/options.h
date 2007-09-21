@@ -13,6 +13,9 @@
   http://www.tux4kids.org/
       
   August 26, 2001 - February 21, 2003
+
+  Extensively revised by David Bruce
+  2004-2007
 */
 
 

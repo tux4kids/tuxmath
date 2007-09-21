@@ -244,48 +244,48 @@ enum {
 
 /*In titlescreen.c */
 
-extern void TitleScreen( void );
-extern void switch_screen_mode( void );
-extern int choose_config_file(void);  //FIXME really should be in fileops.c
+void TitleScreen( void );
+void switch_screen_mode( void );
+int choose_config_file(void);  //FIXME really should be in fileops.c
 
 /* in theme.c (from tuxtype): */
-extern void chooseTheme(void);
-extern void setupTheme( char *dirname );
+void chooseTheme(void);
+void setupTheme( char *dirname );
 
 /* in loaders.c (from tuxtype): */
-extern int         checkFile( const char *file );
-extern TTF_Font    *LoadFont( char *fontfile, int fontsize );
-extern void         LoadLang( void );
-extern Mix_Chunk   *LoadSound( char *datafile );
-extern SDL_Surface *LoadImage( char *datafile, int mode );
-extern sprite      *LoadSprite( char *name, int MODE );
-extern sprite      *FlipSprite( sprite *in, int X, int Y );
-extern void         FreeSprite( sprite *gfx );
-extern Mix_Music   *LoadMusic( char *datafile );
-extern SDL_Surface* flip( SDL_Surface *in, int x, int y );
+int         checkFile( const char *file );
+TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
+void         LoadLang( void );
+Mix_Chunk   *LoadSound( char *datafile );
+SDL_Surface *LoadImage( char *datafile, int mode );
+sprite      *LoadSprite( char *name, int MODE );
+sprite      *FlipSprite( sprite *in, int X, int Y );
+void         FreeSprite( sprite *gfx );
+Mix_Music   *LoadMusic( char *datafile );
+SDL_Surface* flip( SDL_Surface *in, int x, int y );
 
 /* in alphabet.c (from tuxtype) */
-extern void LoadKeyboard( void );
-extern void set_letters( unsigned char *t );
-extern unsigned char get_letter( void );
-extern void custom_letter_setup( void );
-extern void show_letters( void );
-extern SDL_Surface* black_outline( unsigned char *t, TTF_Font* font, SDL_Color* c );
-extern void WORDS_init( void );
-extern void WORDS_use_alphabet( void );
-extern void WORDS_use( char *wordFn );
-extern unsigned char* WORDS_get( void );
+void LoadKeyboard( void );
+void set_letters( unsigned char *t );
+unsigned char get_letter( void );
+void custom_letter_setup( void );
+void show_letters( void );
+SDL_Surface* black_outline( unsigned char *t, TTF_Font* font, SDL_Color* c );
+void WORDS_init( void );
+void WORDS_use_alphabet( void );
+void WORDS_use( char *wordFn );
+unsigned char* WORDS_get( void );
 
 /* in pause.c * (from tuxtype): */
-extern int  Pause( void );
-extern void pause_load_media( void );
-extern void pause_unload_media( void );
-extern int  inRect( SDL_Rect r, int x, int y);
+int  Pause( void );
+void pause_load_media( void );
+void pause_unload_media( void );
+int  inRect( SDL_Rect r, int x, int y);
 
 /* in audio.c  (from tuxtype): */
-extern void tuxtype_playsound( Mix_Chunk *snd );
-extern void audioMusicLoad( char *musicFilename, int repeatQty );
-extern void audioMusicUnload( void );
-extern void audioMusicPlay( Mix_Music *musicData, int repeatQty );
+void tuxtype_playsound( Mix_Chunk *snd );
+void audioMusicLoad( char *musicFilename, int repeatQty );
+void audioMusicUnload( void );
+void audioMusicPlay( Mix_Music *musicData, int repeatQty );
 
 #endif //TITLESCREEN_H

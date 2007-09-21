@@ -25,21 +25,19 @@
 * Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 *
 */
+/* Tuxmath includes: */
+#include "tuxmath.h"
+#include "fileops.h"
+#include "setup.h"
+#include "mathcards.h"
+#include "options.h"
+#include "highscore.h"
+//#include "titlescreen.h"
 
 #ifndef MACOSX
 #include "../config.h"
 #endif
 
-/* Standard C includes: */
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
-
-/* OS includes - NOTE: these may not be very portable */
-#include <dirent.h>  /* for opendir() */
-#include <sys/stat.h>/* for mkdir() */
-#include <unistd.h>  /* for getcwd() */
 
 /* SDL includes: */
 #include <SDL.h>
@@ -50,14 +48,18 @@
 
 #include <SDL_image.h>
 
+/* OS includes - NOTE: these may not be very portable */
+#include <dirent.h>  /* for opendir() */
+#include <sys/stat.h>/* for mkdir() */
+#include <unistd.h>  /* for getcwd() */
 
-/* Tuxmath includes: */
-#include "tuxmath.h"
-#include "fileops.h"
-#include "setup.h"
-#include "mathcards.h"
-#include "options.h"
-#include "highscore.h"
+/* Standard C includes: */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+
+
 
 /* Used by both write_pregame_summary() and */
 /* write_postgame_summary() so defined with */
@@ -90,6 +92,10 @@ static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 
+/* FIXME copied this prototype here because #include-ing titlescreen.h */
+/* generates error with rewind() in read_config_file(), probably some */
+/* type of name collistion:                                           */
+TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
 
 
 /* fix HOME on windows */
@@ -2616,34 +2622,26 @@ int load_image_data()
 /* returns 1 if default font successfully loaded, 0 otherwise. */
 int load_default_font()
 {
-  char fontfile[PATH_MAX];
-  sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, DEFAULT_FONT_NAME);
+  default_font = LoadFont((const unsigned char*)DEFAULT_FONT_NAME,
+                           DEFAULT_MENU_FONT_SIZE);
 
-  default_font = TTF_OpenFont(fontfile, DEFAULT_MENU_FONT_SIZE);
-
-  /* HACK - better font searching needed! */
-  /* This should mean that font wasn't bundled into data path, which for  */
-  /* now means we are using Debian, so grab from Debian installation loc: */
-  if (!default_font)
-  { 
-    sprintf(fontfile, "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf");
-    default_font = TTF_OpenFont(fontfile, DEFAULT_MENU_FONT_SIZE);
-  }
-
-
-  if (default_font != NULL)
+  if (default_font)
   {
 #ifdef TUXMATH_DEBUG
-    fprintf(stderr, "load_default_font(): %s loaded successfully\n\n", fontfile);
+    fprintf(stderr, "load_default_font(): %s loaded successfully\n\n",
+            DEFAULT_FONT_NAME);
 #endif
     return 1;
   }
   else
   {
-   fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fontfile);
-   return 0;
+    fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n",
+            DEFAULT_FONT_NAME);
+    return 0;
   }
 }
+
+
 
 
 #ifndef NOSOUND

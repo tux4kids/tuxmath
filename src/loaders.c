@@ -146,55 +146,39 @@ SDL_Surface* flip( SDL_Surface *in, int x, int y ) {
 
 /* FIXME: I think we need to provide a single default font with the program data, */
 /* then more flexible code to try to locate or load system fonts. DSB             */
-/* FIXME checkFile() not working right in Win32 - skipping. */
-TTF_Font *LoadFont(char *fontfile, int fontsize)
+/* Returns ptr to loaded font if successful, NULL otherwise. */
+TTF_Font* LoadFont(const unsigned char* font_name, int font_size)
 {
-  TTF_Font *loadedFont;
-  char fn[PATH_MAX];
+  TTF_Font* f;
+  char fontfile[PATH_MAX];
+  sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, font_name);
 
-  sprintf( fn, "%s/fonts/%s", DATA_PREFIX, fontfile );
-  loadedFont = TTF_OpenFont( fn, fontsize );
+  f = TTF_OpenFont(fontfile, font_size);
 
-  if (loadedFont != NULL)
-  {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fn);
-#endif
-    return loadedFont;
+  /* HACK - better font searching needed! */
+  /* This should mean that font wasn't bundled into data path, which for  */
+  /* now means we are using Debian, so grab from Debian installation loc: */
+  if (!f)
+  { 
+    sprintf(fontfile, "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf");
+    f = TTF_OpenFont(fontfile, font_size);
   }
 
-#ifdef TUXMATH_DEBUG                        
-  else
-    fprintf(stderr, "LoadFont(): %s NOT loaded successfully - trying other path.\n", fn);
-#endif
 
-  /* this works only on debian */ 
-  /* "fallback" (the above _will_ fall): load the font with fixed-path */
-
-  sprintf( fn, "/usr/share/fonts/truetype/ttf-sil-andika/%s", fontfile );
-
-
-
-  /* try to load the font, if successful, return font*/
-  loadedFont = TTF_OpenFont( fn, fontsize );
-  if (loadedFont != NULL)
+  if (f)
   {
 #ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fn);
+    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fontfile);
 #endif
-    return loadedFont;
+    return f;
   }
-#ifdef TUXMATH_DEBUG                        
   else
-    fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fn);
-#endif
-
-  /* FIXME maybe the program should not exit here, just return NULL. */
-  fprintf(stderr, "FATAL ERROR: couldn't load font: %s\n\n", fontfile);
-  cleanup_on_error();
-  exit(1);
-  return NULL;
+  {
+   fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fontfile);
+   return NULL;
+  }
 }
+
 
 
 /* FIXME checkFile() not working right in Win32 - skipping. */

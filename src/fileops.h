@@ -240,9 +240,9 @@ int write_high_scores(void);
 int write_pregame_summary(void);
 int write_postgame_summary(void);
 
-
 int load_image_data();
 int load_default_font();
+
 
 #ifndef NOSOUND
 int load_sound_data();

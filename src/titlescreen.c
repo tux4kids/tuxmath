@@ -1526,12 +1526,18 @@ void HighScoreNameEntry(unsigned char* name_buf)
   char* str1, *str2, *str3, *str4;
   wchar_t buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
   unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
+  TTF_Font* name_font = NULL;
+  const int NAME_FONT_SIZE = 32;
 
   if (!name_buf)
     return;
   
   s1 = s2 = s3 = s4 = NULL;
   str1 = str2  = str3 = str4 = NULL;
+
+  name_font = LoadFont(DEFAULT_FONT_NAME, NAME_FONT_SIZE);
+  if (!name_font)
+    return;
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
@@ -1684,7 +1690,7 @@ void HighScoreNameEntry(unsigned char* name_buf)
             //Unicode_to_UTF8((const wchar_t*)buf, player_name);
             wcstombs((char*) player_name, buf, HIGH_SCORE_NAME_LENGTH * 3);
 
-            s3 = black_outline(player_name, default_font, &yellow);
+            s3 = black_outline(player_name, name_font, &yellow);
             if (s3)
             {
               loc.x = 320 - (s3->w/2);
@@ -1745,6 +1751,7 @@ void HighScoreNameEntry(unsigned char* name_buf)
   SDL_FreeSurface(s2);
   SDL_FreeSurface(s3);
   SDL_FreeSurface(s4);
+  TTF_CloseFont(name_font);
 
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
