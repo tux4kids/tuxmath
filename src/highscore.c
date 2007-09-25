@@ -17,6 +17,8 @@
 #include "fileops.h"
 #include "setup.h"
 #include "options.h"
+#include "SDL_extras.h"
+
 
 typedef struct high_score_entry {
   int score;
@@ -203,7 +205,7 @@ void DisplayHighScores(int level)
         TTF_Font* title_font = LoadFont(DEFAULT_FONT_NAME, 32);
 
         if (title_font)
-          srfc = black_outline(_("Hall Of Fame"), title_font, &yellow);
+          srfc = BlackOutline(_("Hall Of Fame"), title_font, &yellow);
         if (srfc)
         {
           diffRect.x = (screen->w)/2 - (srfc->w)/2;
@@ -220,19 +222,19 @@ void DisplayHighScores(int level)
           switch (diff_level)
           {
             case CADET_HIGH_SCORE:
-              srfc = black_outline(_("Space Cadet"), title_font, &white);
+              srfc = BlackOutline(_("Space Cadet"), title_font, &white);
               break;
             case SCOUT_HIGH_SCORE:
-              srfc = black_outline(_("Scout"), title_font, &white);
+              srfc = BlackOutline(_("Scout"), title_font, &white);
               break;
             case RANGER_HIGH_SCORE:
-              srfc = black_outline(_("Ranger"), title_font, &white);
+              srfc = BlackOutline(_("Ranger"), title_font, &white);
               break;
             case ACE_HIGH_SCORE:
-              srfc = black_outline(_("Ace"), title_font, &white);
+              srfc = BlackOutline(_("Ace"), title_font, &white);
               break;
             default:
-              srfc = black_outline(_("Space Cadet"), title_font, &white);
+              srfc = BlackOutline(_("Space Cadet"), title_font, &white);
           }
         }
 
@@ -264,9 +266,9 @@ void DisplayHighScores(int level)
         if (score_surfs[i])               /* this should not happen! */
           SDL_FreeSurface(score_surfs[i]);
 
-        score_surfs[i] = black_outline(N_(score_strings[i]), default_font, &white);
+        score_surfs[i] = BlackOutline(N_(score_strings[i]), default_font, &white);
 
-        /* Get out if black_outline() fails: */
+        /* Get out if BlackOutline() fails: */
         if (!score_surfs[i])
           continue;
          
@@ -372,14 +374,14 @@ void HighScoreNameEntry(unsigned char* pl_name)
   str2 = _("Enter Your Name:");
 
   if (str1)
-    s1 = black_outline(str1, default_font, &white);
+    s1 = BlackOutline(str1, default_font, &white);
   if (str2)
-    s2 = black_outline(str2, default_font, &white);
+    s2 = BlackOutline(str2, default_font, &white);
   if (str3)
-    s3 = black_outline(str3, default_font, &white);
+    s3 = BlackOutline(str3, default_font, &white);
   /* When we get going with i18n may need to modify following - see below: */
   if (str4)
-    s4 = black_outline(str4, default_font, &white);
+    s4 = BlackOutline(str4, default_font, &white);
 
 
   /* Redraw background: */
@@ -512,7 +514,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
             //Unicode_to_UTF8((const wchar_t*)buf, player_name);
             wcstombs((char*) UTF8_buf, wchar_buf, HIGH_SCORE_NAME_LENGTH * 3);
 
-            s3 = black_outline(UTF8_buf, name_font, &yellow);
+            s3 = BlackOutline(UTF8_buf, name_font, &yellow);
             if (s3)
             {
               loc.x = 320 - (s3->w/2);

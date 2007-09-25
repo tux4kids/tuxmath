@@ -22,6 +22,7 @@
 
 #include "tuxmath.h"
 #include "titlescreen.h"
+#include "SDL_extras.h"
 
 /* the colors we use throughout the game */
 
@@ -119,78 +120,7 @@ void LoadKeyboard( void ) {
 }
 
 
-/* black_outline() creates a surface containing text of the designated */
-/* foreground color, surrounded by a black shadow, on a transparent    */
-/* background.  The appearance can be tuned by adjusting the number of */
-/* background copies and the offset where the foreground text is       */
-/* finally written (see below).                                        */
-SDL_Surface* black_outline(unsigned char *t, TTF_Font *font, SDL_Color *c)
-{
-  SDL_Surface* out = NULL;
-  SDL_Surface* black_letters = NULL;
-  SDL_Surface* white_letters = NULL;
-  SDL_Surface* bg = NULL;
-  SDL_Rect dstrect;
-  Uint32 color_key;
 
-  if (!t || !font || !c)
-  {
-    fprintf(stderr, "black_outline(): invalid ptr parameter, returning.");
-    return NULL;
-  }
-
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nEntering black_outline(): \n");
-  fprintf( stderr, "black_outline of \"%s\"\n", t );
-#endif
-
-  black_letters = TTF_RenderUTF8_Blended(font, t, black);
-
-  if (!black_letters)
-  {
-    fprintf (stderr, "Warning - black_outline() could not create image for %s\n", t);
-    return NULL;
-  }
-
-  bg = SDL_CreateRGBSurface(SDL_SWSURFACE,
-                            (black_letters->w) + 5,
-                            (black_letters->h) + 5,
-                             32,
-                             rmask, gmask, bmask, amask);
-  /* Use color key for eventual transparency: */
-  color_key = SDL_MapRGB(bg->format, 01, 01, 01);
-  SDL_FillRect(bg, NULL, color_key);
-
-  /* Now draw black outline/shadow 2 pixels on each side: */
-  dstrect.w = black_letters->w;
-  dstrect.h = black_letters->h;
-
-  /* NOTE: can make the "shadow" more or less pronounced by */
-  /* changing the parameters of these loops.                */
-  for (dstrect.x = 1; dstrect.x < 4; dstrect.x++)
-    for (dstrect.y = 1; dstrect.y < 3; dstrect.y++)
-      SDL_BlitSurface(black_letters , NULL, bg, &dstrect );
-
-  SDL_FreeSurface(black_letters);
-
-  /* --- Put the color version of the text on top! --- */
-  white_letters = TTF_RenderUTF8_Blended(font, t, *c);
-  dstrect.x = 1;
-  dstrect.y = 1;
-  SDL_BlitSurface(white_letters, NULL, bg, &dstrect);
-  SDL_FreeSurface(white_letters);
-
-  /* --- Convert to the screen format for quicker blits --- */
-  SDL_SetColorKey(bg, SDL_SRCCOLORKEY|SDL_RLEACCEL, color_key);
-  out = SDL_DisplayFormatAlpha(bg);
-  SDL_FreeSurface(bg);
-
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nLeaving black_outline(): \n");
-#endif
-
-  return out;
-}
 
 void show_letters( void ) {
 	int i, l=0;
@@ -205,7 +135,7 @@ void show_letters( void ) {
 
 	t[l] = 0;
 
-	abit = black_outline(t, default_font, &white);
+	abit = BlackOutline(t, default_font, &white);
 
 	dst.x = 320 - (abit->w / 2);
 	dst.y = 275;
@@ -216,7 +146,7 @@ void show_letters( void ) {
 
 	SDL_FreeSurface(abit);
 
-	abit = black_outline("Alphabet Set To:", default_font, &white);
+	abit = BlackOutline("Alphabet Set To:", default_font, &white);
 	dst.x = 320 - (abit->w / 2);
 	dst.y = 200;
 	dst.w = abit->w;

@@ -47,7 +47,7 @@
 #include "game.h"
 #include "titlescreen.h"
 #include "highscore.h"
-
+#include "SDL_extras.h"
 
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
@@ -567,7 +567,6 @@ void load_data_files(void)
 
 /* Create flipped versions of certain images; also set up the flip
    lookup table */
-/* FIXME where is flip() defined? */
 void generate_flipped_images(void)
 {
   int i;
@@ -577,7 +576,7 @@ void generate_flipped_images(void)
     flipped_img_lookup[i] = 0;
 
   for (i = 0; i < NUM_FLIPPED_IMAGES; i++) {
-    flipped_images[i] = flip(images[flipped_img[i]],1,0);
+    flipped_images[i] = Flip(images[flipped_img[i]],1,0);
     flipped_img_lookup[flipped_img[i]] = i;
   }
 }

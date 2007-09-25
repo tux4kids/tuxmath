@@ -25,7 +25,7 @@ email                : jdandr2@uky.edu
 
 // For Opts_UsingSound()
 #include "options.h"
-
+#include "SDL_extras.h"
 
 Mix_Chunk *pause_sfx;
 SDL_Surface *up, *down, *left, *right;
@@ -85,13 +85,13 @@ void pause_draw_info(void) {
 
 	if (Opts_UsingSound()) {
 
-		t = black_outline(_("Sound Effects Volume"), f1, &white);
+		t = BlackOutline(_("Sound Effects Volume"), f1, &white);
 		s.y = 160;
 		s.x = 320 - t->w/2;
 		SDL_BlitSurface(t, NULL, screen, &s);
 		SDL_FreeSurface(t);
 
-		t = black_outline(_("Music Volume"), f1, &white);
+		t = BlackOutline(_("Music Volume"), f1, &white);
 		s.y = 260;
 		s.x = 320 - t->w/2;
 		SDL_BlitSurface(t, NULL, screen, &s);
@@ -99,26 +99,26 @@ void pause_draw_info(void) {
 
 	} else {
 
-		t = black_outline(_("Sound & Music Disabled"), f1, &white);
+		t = BlackOutline(_("Sound & Music Disabled"), f1, &white);
 		s.y = 160;
 		s.x = 320 - t->w/2;
 		SDL_BlitSurface(t, NULL, screen, &s);
 		SDL_FreeSurface(t);
 	}
 
-	t = black_outline(_("Paused!"), f2, &white);
+	t = BlackOutline(_("Paused!"), f2, &white);
 	s.y = 60;
 	s.x = 320 - t->w/2;
 	SDL_BlitSurface(t, NULL, screen, &s);
 	SDL_FreeSurface(t);
 
-	t = black_outline(_("Press escape again to return to menu"), f1, &white);
+	t = BlackOutline(_("Press escape again to return to menu"), f1, &white);
 	s.y = 400;
 	s.x = 320 - t->w/2;
 	SDL_BlitSurface(t, NULL, screen, &s);
 	SDL_FreeSurface(t);
 
-	t = black_outline(_("Press space bar to return to game"), f1, &white);
+	t = BlackOutline(_("Press space bar to return to game"), f1, &white);
 	s.y = 440;
 	s.x = 320 - t->w/2;
 	SDL_BlitSurface(t, NULL, screen, &s);

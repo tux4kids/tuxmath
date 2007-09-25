@@ -147,6 +147,12 @@ enum {
 
 
 /* Global data gets 'externed' here: */
+extern SDL_Color black;
+extern SDL_Color gray;
+extern SDL_Color dark_blue;
+extern SDL_Color red;
+extern SDL_Color white;
+extern SDL_Color yellow;
 
 extern SDL_Surface* screen; /* declared in setup.c; also used in game.c, options.c, fileops.c, credits.c, titlescreen.c */
 extern SDL_Surface* images[];    /* declared in setup.c, used in same files as screen */

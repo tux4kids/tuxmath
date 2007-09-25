@@ -18,17 +18,6 @@
  ***************************************************************************/
 
 
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-#define rmask 0xff000000
-#define gmask 0x00ff0000
-#define bmask 0x0000ff00
-#define amask 0x000000ff
-#else
-#define rmask 0x000000ff
-#define gmask 0x0000ff00
-#define bmask 0x00ff0000
-#define amask 0xff000000
-#endif
 
 
 #ifndef TITLESCREEN_H
@@ -160,12 +149,7 @@ extern SDL_Surface *screen;
 //extern TTF_Font  *font;
 extern SDL_Event  event;
 
-extern SDL_Color black;
-extern SDL_Color gray;
-extern SDL_Color dark_blue;
-extern SDL_Color red;
-extern SDL_Color white;
-extern SDL_Color yellow;
+
 
 extern SDL_Surface *bkg;
 extern SDL_Surface *letters[255];
@@ -248,7 +232,6 @@ enum {
 void TitleScreen( void );
 void switch_screen_mode( void );
 int choose_config_file(void);  //FIXME really should be in fileops.c
-void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* in theme.c (from tuxtype): */
 void chooseTheme(void);
@@ -264,7 +247,6 @@ sprite      *LoadSprite( char *name, int MODE );
 sprite      *FlipSprite( sprite *in, int X, int Y );
 void         FreeSprite( sprite *gfx );
 Mix_Music   *LoadMusic( char *datafile );
-SDL_Surface* flip( SDL_Surface *in, int x, int y );
 
 /* in alphabet.c (from tuxtype) */
 void LoadKeyboard( void );
@@ -272,7 +254,6 @@ void set_letters( unsigned char *t );
 unsigned char get_letter( void );
 void custom_letter_setup( void );
 void show_letters( void );
-SDL_Surface* black_outline( unsigned char *t, TTF_Font* font, SDL_Color* c );
 void WORDS_init( void );
 void WORDS_use_alphabet( void );
 void WORDS_use( char *wordFn );

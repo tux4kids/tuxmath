@@ -35,7 +35,7 @@
 #include "credits.h"
 #include "highscore.h"
 #include "ConvertUTF.h" // for wide char to UTF-8 conversion
-
+#include "SDL_extras.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -165,7 +165,6 @@ void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
 void ShowMessage(char* str1, char* str2, char* str3, char* str4);
-void round_corners(SDL_Surface* s, Uint16 radius);
 
 /***********************************************************/
 /*                                                         */
@@ -1135,8 +1134,8 @@ void TitleScreen_load_menu(void)
     for (i = 1; i <= TITLE_MENU_ITEMS; i++)
     {
       /* --- create text surfaces --- */
-      reg_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), default_font, &white);
-      sel_text[i][j] = black_outline( _((unsigned char*)menu_text[i][j]), default_font, &yellow);
+      reg_text[i][j] = BlackOutline( _((unsigned char*)menu_text[i][j]), default_font, &white);
+      sel_text[i][j] = BlackOutline( _((unsigned char*)menu_text[i][j]), default_font, &yellow);
 
       /* Make sure we don't try to dereference NULL ptr: */
       if (sel_text[i][j] && sel_text[i][j]->w > max)
@@ -1192,127 +1191,6 @@ void TitleScreen_load_menu(void)
   }
 }
 
-/* draw_button() creates and draws a translucent button with */
-/* rounded ends.  The location and size are taken from the */
-/* SDL_Rect* and width arguments.  The sprite is used to   */
-/* fill in the rect with the desired translucent color and */
-/* give it nice, rounded ends.                             */
-/* FIXME make it match target_rect more precisely          */
-void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
-{
-  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
-                                          target_rect->w,
-                                          target_rect->h,
-                                          BPP, 
-                                          rmask, gmask, bmask, amask);
-  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
-  SDL_FillRect(tmp_surf, NULL, color);
-  round_corners(tmp_surf, radius);
-
-  SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
-  SDL_FreeSurface(tmp_surf);
-//  SDL_UpdateRect(screen, 0, 0, 0, 0); 
-
-  SDL_UpdateRect(screen, target_rect->x, target_rect->y, target_rect->w, target_rect->h); 
-
-}
-
-void round_corners(SDL_Surface* s, Uint16 radius)
-{
-  int y = 0;
-  int x_dist, y_dist;
-  Uint32* p = NULL;
-  Uint32 alpha_mask;
-  int bytes_per_pix;
-  
-  if (!s)
-    return;
-  if (SDL_LockSurface(s) == -1)
-    return;
-
-  bytes_per_pix = s->format->BytesPerPixel;
-  if (bytes_per_pix != 4)
-    return;
-
-  /* radius cannot be more than half of width or height: */
-  if (radius > (s->w)/2)
-    radius = (s->w)/2;
-  if (radius > (s->h)/2)
-    radius = (s->h)/2;
-
-
-  alpha_mask = s->format->Amask;
-
-  /* Now round off corners: */
-  /* upper left:            */
-  for (y = 0; y < radius; y++) 
-  {  
-    p = (Uint32*)(s->pixels + (y * s->pitch));
-    x_dist = radius;
-    y_dist = radius - y;
-
-    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
-    {
-      /* (make pixel (x,y) transparent) */
-      *p = *p & ~alpha_mask;
-      p++;
-      x_dist--;
-    }
-  }
-
-  /* upper right:            */
-  for (y = 0; y < radius; y++) 
-  {  
-    /* start at end of top row: */
-    p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
-
-    x_dist = radius;
-    y_dist = radius - y;
-
-    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
-    {
-      /* (make pixel (x,y) transparent) */
-      *p = *p & ~alpha_mask;
-      p--;
-      x_dist--;
-    }
-  }
-
-  /* bottom left:            */
-  for (y = (s->h - 1); y > (s->h - radius); y--) 
-  {  
-    /* start at beginning of bottom row */
-    p = (Uint32*)(s->pixels + (y * s->pitch));
-    x_dist = radius;
-    y_dist = y - (s->h - radius);
-
-    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
-    {
-      /* (make pixel (x,y) transparent) */
-      *p = *p & ~alpha_mask;
-      p++;
-      x_dist--;
-    }
-  }
-
-  /* bottom right:            */
-  for (y = (s->h - 1); y > (s->h - radius); y--) 
-  {  
-    /* start at end of bottom row */
-    p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
-    x_dist = radius;
-    y_dist = y - (s->h - radius);
-
-    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
-    {
-      /* (make pixel (x,y) transparent) */
-      *p = *p & ~alpha_mask;
-      p--;
-      x_dist--;
-    }
-  }
-  SDL_UnlockSurface(s);
-} 
 
 
 
@@ -1396,14 +1274,14 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 #endif
 
   if (str1)
-    s1 = black_outline(str1, default_font, &white);
+    s1 = BlackOutline(str1, default_font, &white);
   if (str2)
-    s2 = black_outline(str2, default_font, &white);
+    s2 = BlackOutline(str2, default_font, &white);
   if (str3)
-    s3 = black_outline(str3, default_font, &white);
+    s3 = BlackOutline(str3, default_font, &white);
   /* When we get going with i18n may need to modify following - see below: */
   if (str4)
-    s4 = black_outline(str4, default_font, &white);
+    s4 = BlackOutline(str4, default_font, &white);
 
 //   /* we always want the URL in english */
 //   if (!useEnglish)
@@ -1579,8 +1457,8 @@ int choose_config_file(void)
   }
   for (i = 0; i < num_lessons; i++)
   {
-    titles[i] = black_outline( _(lesson_list[i].display_name), default_font, &white );
-    select[i] = black_outline( _(lesson_list[i].display_name), default_font, &yellow);
+    titles[i] = BlackOutline( _(lesson_list[i].display_name), default_font, &white );
+    select[i] = BlackOutline( _(lesson_list[i].display_name), default_font, &yellow);
   }
 
 //   if (images[IMG_MENU_BKG])

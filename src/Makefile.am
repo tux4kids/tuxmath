@@ -13,12 +13,12 @@ endif
 TuxMath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c audio.c \
-                mathcards.c fileops.c tuxmathrc.rc
+                mathcards.c fileops.c ConvertUTF.c tuxmathrc.rc
 
 tuxmath_SOURCES = tuxmath.c setup.c titlescreen.c game.c \
 		options.c credits.c playsound.c highscore.c \
 		theme.c loaders.c alphabet.c pause.c audio.c \
-                mathcards.c fileops.c ConvertUTF.c
+                mathcards.c fileops.c ConvertUTF.c SDL_extras.c
 
 EXTRA_DIST = 	credits.h 	\
 		fileops.h 	\
@@ -30,7 +30,8 @@ EXTRA_DIST = 	credits.h 	\
 		setup.h		\
 		titlescreen.h	\
 		tuxmath.h	\
-		ConvertUTF.h
+		ConvertUTF.h	\
+		SDL_extras.h
 
 
 # SUBDIRS = po
