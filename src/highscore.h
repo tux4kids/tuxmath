@@ -16,6 +16,8 @@
 
 #include "tuxmath.h"
 
+void DisplayHighScores(int level);
+void HighScoreNameEntry(unsigned char* pl_name);
 
 
 int check_score_place(int diff_level, int new_score);

@@ -25,6 +25,7 @@
 * Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 *
 */
+
 /* Tuxmath includes: */
 #include "tuxmath.h"
 #include "fileops.h"
@@ -92,9 +93,9 @@ static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 
-/* FIXME copied this prototype here because #include-ing titlescreen.h */
-/* generates error with rewind() in read_config_file(), probably some */
-/* type of name collistion:                                           */
+/* FIXME copied this prototype here because titlescreen.h */
+/* has an 'evil macro named 'rewind' that generates a name */
+/* collision with rewind() in read_config_file():          */
 TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
 
 

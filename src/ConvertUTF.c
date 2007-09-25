@@ -600,13 +600,19 @@ int Unicode_to_UTF8(const wchar_t* wide_word, unsigned char* UTF8_word)
   int i = 0;
 
   ConversionResult result;
-  UTF8 temp_UTF8[BUF_LENGTH] = {'\0'};
-  UTF32 temp_UTF32[BUF_LENGTH] = {'\0'};
+  UTF8 temp_UTF8[BUF_LENGTH];
+  UTF32 temp_UTF32[BUF_LENGTH];
 
   const UTF32* UTF32_Start = temp_UTF32;
   const UTF32* UTF32_End = &temp_UTF32[BUF_LENGTH - 1];
   UTF8* UTF8_Start = temp_UTF8;
   UTF8* UTF8_End = &temp_UTF8[BUF_LENGTH - 1];
+
+  for (i = 0; i < BUF_LENGTH; i++)
+  {
+    temp_UTF8[i] = '\0';
+    temp_UTF32[i] = '\0';
+  }
 
   wcsncpy((wchar_t*)temp_UTF32, wide_word, BUF_LENGTH);
 

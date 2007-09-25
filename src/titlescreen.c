@@ -51,7 +51,7 @@ struct blit {
 } blits[MAX_UPDATES];
 
 // Lessons available for play
-lesson_entry *lesson_list = NULL;
+lesson_entry* lesson_list = NULL;
 int num_lessons = 0;
 
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
@@ -130,8 +130,6 @@ SDL_Surface* reg_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {{NULL}};
 SDL_Surface* sel_text[TITLE_MENU_ITEMS + 1][TITLE_MENU_DEPTH + 1] = {{NULL}};
 
 /* reg and sel are used to create the translucent button backgrounds. */
-sprite* reg = NULL;
-sprite* sel = NULL;
 sprite* Tux = NULL;
 
 /* keep track of the width of each menu: */
@@ -157,19 +155,17 @@ SDL_Rect dest,
 	 cursor;
 
 /* Local function prototypes: */
-void draw_button(SDL_Rect* target_rect, int width, sprite* s);
 void TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
 void TitleScreen_load_media(void);
 void TitleScreen_unload_media(void);
 void NotImplemented(void);
-void HighScoreScreen(void);
-void HighScoreNameEntry(unsigned char* name_buf);
 void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
 void ShowMessage(char* str1, char* str2, char* str3, char* str4);
+void round_corners(SDL_Surface* s, Uint16 radius);
 
 /***********************************************************/
 /*                                                         */
@@ -637,11 +633,17 @@ void TitleScreen(void)
           audioMusicUnload();
           game();
           /* See if player made high score list!                        */
-          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
+          if (check_score_place(CADET_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
           {
-            /* (Get name string from player) */
-            insert_score("Cadet (temporary)", CADET_HIGH_SCORE, Opts_LastScore());
+            unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+            /* Get name from player: */
+            HighScoreNameEntry(&player_name[0]);
+            insert_score(player_name, CADET_HIGH_SCORE, Opts_LastScore());
+            DisplayHighScores(CADET_HIGH_SCORE);
+            /* save to disk: */
             write_high_scores();
+
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
 #endif 
@@ -671,11 +673,17 @@ void TitleScreen(void)
           audioMusicUnload();
           game();
           /* See if player made high score list!                        */
-          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
+          if (check_score_place(SCOUT_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
           {
-            /* (Get name string from player) */
-            insert_score("Scout (temporary)", SCOUT_HIGH_SCORE, Opts_LastScore());
+            unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+            /* Get name from player: */
+            HighScoreNameEntry(&player_name[0]);
+            insert_score(player_name, SCOUT_HIGH_SCORE, Opts_LastScore());
+            DisplayHighScores(SCOUT_HIGH_SCORE);
+            /* save to disk: */
             write_high_scores();
+
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
 #endif 
@@ -706,11 +714,17 @@ void TitleScreen(void)
           audioMusicUnload();
           game();
           /* See if player made high score list!                        */
-          if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
+          if (check_score_place(RANGER_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
           {
-            /* (Get name string from player) */
-            insert_score("Ranger (temporary)", RANGER_HIGH_SCORE, Opts_LastScore());
+            unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+            /* Get name from player: */
+            HighScoreNameEntry(&player_name[0]);
+            insert_score(player_name, RANGER_HIGH_SCORE, Opts_LastScore());
+            DisplayHighScores(RANGER_HIGH_SCORE);
+            /* save to disk: */
             write_high_scores();
+
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
 #endif 
@@ -746,9 +760,15 @@ void TitleScreen(void)
           /* See if player made high score list!                        */
           if (check_score_place(ACE_HIGH_SCORE, Opts_LastScore()) < HIGH_SCORES_SAVED)
           {
-            /* (Get name string from player) */
-            insert_score("Ace (temporary)", ACE_HIGH_SCORE, Opts_LastScore());
+            unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+            /* Get name from player: */
+            HighScoreNameEntry(&player_name[0]);
+            insert_score(player_name, ACE_HIGH_SCORE, Opts_LastScore());
+            DisplayHighScores(ACE_HIGH_SCORE);
+            /* save to disk: */
             write_high_scores();
+
 #ifdef TUXMATH_DEBUG
             print_high_scores(stderr);
 #endif 
@@ -767,10 +787,10 @@ void TitleScreen(void)
         break; 
       }
 
-      /* Go back to main menu: */
+      /* Show High Scores: */
       case HIGH_SCORES:
       {
-        HighScoreScreen();
+        DisplayHighScores(CADET_HIGH_SCORE);
         redraw = 1;
         break;
       }
@@ -876,14 +896,14 @@ void TitleScreen(void)
         text_dst[i].w = reg_text[i][menu_depth]->w;
         text_dst[i].h = reg_text[i][menu_depth]->h;
         SDL_BlitSurface(images[IMG_MENU_BKG], &menu_button[i], screen, &menu_button[i]);
-        menu_button[i].w = menu_width[menu_depth] + (2 * reg->frame[2]->w);
+        menu_button[i].w = menu_width[menu_depth] + 20;
       }
 
       /* --- draw the full menu --- */
 
       for (j = 1; j <= TITLE_MENU_ITEMS; j++)
       {
-        draw_button(&menu_button[j], menu_width[menu_depth], reg);
+        DrawButton(&menu_button[j], 15, REG_RGBA);
         SDL_BlitSurface(reg_text[j][menu_depth], NULL, screen, &text_dst[j]);
         SDL_BlitSurface(menu_sprites[j][menu_depth]->default_img, NULL, screen, &menu_sprite_dest[j]);
       }
@@ -934,7 +954,7 @@ void TitleScreen(void)
     if (old_key_menu && (key_menu != old_key_menu))
     {
       SDL_BlitSurface(images[IMG_MENU_BKG], &menu_button[old_key_menu], screen, &menu_button[old_key_menu]);
-      draw_button(&menu_button[old_key_menu], menu_width[menu_depth], reg );
+      DrawButton(&menu_button[old_key_menu], 15, REG_RGBA);
       SDL_BlitSurface(reg_text[old_key_menu][menu_depth], NULL, screen, &text_dst[old_key_menu]);
       SDL_BlitSurface(menu_sprites[old_key_menu][menu_depth]->default_img, NULL, screen, &menu_sprite_dest[old_key_menu]);
     }
@@ -952,7 +972,7 @@ void TitleScreen(void)
       }
 
       SDL_BlitSurface(images[IMG_MENU_BKG], &menu_button[key_menu], screen, &menu_button[key_menu]);
-      draw_button(&menu_button[key_menu], menu_width[menu_depth], sel );
+      DrawButton(&menu_button[key_menu], 15, SEL_RGBA);
       SDL_BlitSurface(sel_text[key_menu][menu_depth], NULL, screen, &text_dst[key_menu]);
       SDL_BlitSurface(menu_sprites[key_menu][menu_depth]->frame[menu_sprites[key_menu][menu_depth]->cur], NULL, screen, &menu_sprite_dest[key_menu]);
 
@@ -1089,8 +1109,6 @@ void TitleScreen_load_media( void )
 
 //  titlepic = LoadImage("title/title1.png", IMG_ALPHA);
 //  bkg = LoadImage( "title/main_bkg.jpg", IMG_REGULAR );
-  sel = LoadSprite("sprites/sel", IMG_ALPHA);
-  reg = LoadSprite("sprites/reg", IMG_ALPHA);
   Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
   //font = LoadFont(menu_font, menu_font_size);
 
@@ -1144,8 +1162,7 @@ void TitleScreen_load_menu(void)
   menu_button[1].w = menu_width[1];  //calc from width of widest menu item
 
   /* Must be sure sel has been loaded before checking height: */
-  if (sel && sel->frame[1])
-    menu_button[1].h = sel->frame[1]->h; //height of button shading
+  menu_button[1].h = 50;//sel->frame[1]->h; //height of button shading
 
   menu_sprite_dest[1].x = menu_button[1].x + 6; // inset graphic by (6, 4) */
   menu_sprite_dest[1].y = menu_button[1].y + 4;
@@ -1181,39 +1198,121 @@ void TitleScreen_load_menu(void)
 /* fill in the rect with the desired translucent color and */
 /* give it nice, rounded ends.                             */
 /* FIXME make it match target_rect more precisely          */
-void draw_button(SDL_Rect* target_rect, int width, sprite* s )
+void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-  SDL_Rect button;
+  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
+                                          target_rect->w,
+                                          target_rect->h,
+                                          BPP, 
+                                          rmask, gmask, bmask, amask);
+  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
+  SDL_FillRect(tmp_surf, NULL, color);
+  round_corners(tmp_surf, radius);
 
-  /* Segfault prevention: */
-  if (! target_rect 
-   || !s
-   || !s->frame[0]
-   || !s->frame[1])
-  {
-    return;
-  }
+  SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
+  SDL_FreeSurface(tmp_surf);
+//  SDL_UpdateRect(screen, 0, 0, 0, 0); 
 
-  button.x = target_rect->x;
-  button.y = target_rect->y;
-  button.w = s->frame[0]->w;
-  button.h = s->frame[0]->h;
+  SDL_UpdateRect(screen, target_rect->x, target_rect->y, target_rect->w, target_rect->h); 
 
-  SDL_BlitSurface(s->frame[0], NULL, screen, &button);
-  button.w = s->frame[1]->w;
-
-  for (button.x += s->frame[0]->w;
-       button.x < (target_rect->x + width);
-       button.x += s->frame[1]->w)
-
-  { 
-     SDL_BlitSurface(s->frame[1], NULL, screen, &button);
-  }
-
-  button.w = s->frame[2]->w;
-  SDL_BlitSurface(s->frame[2], NULL, screen, &button);
 }
 
+void round_corners(SDL_Surface* s, Uint16 radius)
+{
+  int y = 0;
+  int x_dist, y_dist;
+  Uint32* p = NULL;
+  Uint32 alpha_mask;
+  int bytes_per_pix;
+  
+  if (!s)
+    return;
+  if (SDL_LockSurface(s) == -1)
+    return;
+
+  bytes_per_pix = s->format->BytesPerPixel;
+  if (bytes_per_pix != 4)
+    return;
+
+  /* radius cannot be more than half of width or height: */
+  if (radius > (s->w)/2)
+    radius = (s->w)/2;
+  if (radius > (s->h)/2)
+    radius = (s->h)/2;
+
+
+  alpha_mask = s->format->Amask;
+
+  /* Now round off corners: */
+  /* upper left:            */
+  for (y = 0; y < radius; y++) 
+  {  
+    p = (Uint32*)(s->pixels + (y * s->pitch));
+    x_dist = radius;
+    y_dist = radius - y;
+
+    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
+    {
+      /* (make pixel (x,y) transparent) */
+      *p = *p & ~alpha_mask;
+      p++;
+      x_dist--;
+    }
+  }
+
+  /* upper right:            */
+  for (y = 0; y < radius; y++) 
+  {  
+    /* start at end of top row: */
+    p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
+
+    x_dist = radius;
+    y_dist = radius - y;
+
+    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
+    {
+      /* (make pixel (x,y) transparent) */
+      *p = *p & ~alpha_mask;
+      p--;
+      x_dist--;
+    }
+  }
+
+  /* bottom left:            */
+  for (y = (s->h - 1); y > (s->h - radius); y--) 
+  {  
+    /* start at beginning of bottom row */
+    p = (Uint32*)(s->pixels + (y * s->pitch));
+    x_dist = radius;
+    y_dist = y - (s->h - radius);
+
+    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
+    {
+      /* (make pixel (x,y) transparent) */
+      *p = *p & ~alpha_mask;
+      p++;
+      x_dist--;
+    }
+  }
+
+  /* bottom right:            */
+  for (y = (s->h - 1); y > (s->h - radius); y--) 
+  {  
+    /* start at end of bottom row */
+    p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
+    x_dist = radius;
+    y_dist = y - (s->h - radius);
+
+    while (((x_dist * x_dist) + (y_dist * y_dist)) > (radius * radius))
+    {
+      /* (make pixel (x,y) transparent) */
+      *p = *p & ~alpha_mask;
+      p--;
+      x_dist--;
+    }
+  }
+  SDL_UnlockSurface(s);
+} 
 
 
 
@@ -1252,8 +1351,8 @@ void TitleScreen_unload_media( void ) {
 //	SDL_FreeSurface(titlepic);
 //	SDL_FreeSurface(bkg);
 
-	FreeSprite(sel);
-	FreeSprite(reg);
+//	FreeSprite(sel);
+//	FreeSprite(reg);
 
 	FreeSprite(Tux);
 
@@ -1275,487 +1374,8 @@ void NotImplemented(void)
 
 
 
-/* Display high scores: */
-void HighScoreScreen(void)
-{
-  int i = 0;
-  int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
-
-  int diff_level = CADET_HIGH_SCORE;
-  int old_diff_level = SCOUT_HIGH_SCORE; //So table gets refreshed first time through
-  char* diff_level_name = _("Space Cadet");
-  /* Surfaces, char buffers, and rects for table: */
-  SDL_Surface* score_entries[HIGH_SCORES_SAVED] = {NULL};
-  /* 20 spaces should be enough room for place and score on each line: */
-  char score_texts[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 20] = {{'\0'}};
-  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
-
-  SDL_Rect score_rects[HIGH_SCORES_SAVED];
-  SDL_Rect leftRect, rightRect;
-
-  int score_table_x = 240;
-  int score_table_y = 100;
 
 
-  /* Draw background & title: */
-  if (images[IMG_MENU_BKG])
-    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-  if (images[IMG_MENU_TITLE])
-    SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
-
-  /* Put arrow buttons in right lower corner, inset by 20 pixels */
-  /* with a 10 pixel space between:                              */
-  if (images[IMG_RIGHT])
-  {
-    rightRect.w = images[IMG_RIGHT]->w;
-    rightRect.h = images[IMG_RIGHT]->h;
-    rightRect.x = screen->w - images[IMG_RIGHT]->w - 20;
-    rightRect.y = screen->h - images[IMG_RIGHT]->h - 20;
-    SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &rightRect);
-  }
-
-  if (images[IMG_LEFT])
-  {
-    leftRect.w = images[IMG_LEFT]->w;
-    leftRect.h = images[IMG_LEFT]->h;
-    leftRect.x = rightRect.x - 10 - images[IMG_LEFT]->w;
-    leftRect.y = screen->h - images[IMG_LEFT]->h - 20;
-    SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &leftRect);
-  }
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
-  {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-  }
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-  while (!finished)
-  {
-    start = SDL_GetTicks();
-
-    /* Check for user events: */
-    while (SDL_PollEvent(&event)) 
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        {
-          cleanup();
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
-          {
-            finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
-          }
-
-          /* "Left" button - go to previous page: */
-          if (inRect(leftRect, event.button.x, event.button.y))
-          {
-            if (diff_level > CADET_HIGH_SCORE)
-            {
-              diff_level--;
-              if (Opts_MenuSound())
-              {
-                tuxtype_playsound(sounds[SND_TOCK]);
-              }
-            }
-          }
-
-          /* "Right" button - go to next page: */
-          if (inRect( rightRect, event.button.x, event.button.y ))
-          {
-            if (diff_level < ACE_HIGH_SCORE)
-            {
-              diff_level++;
-              if (Opts_MenuSound())
-              {
-                tuxtype_playsound(sounds[SND_TOCK]);
-              }
-            }
-          }
-          break;
-        }
-
-
-        case SDL_KEYDOWN:
-        {
-          finished = 1;
-          tuxtype_playsound(sounds[SND_TOCK]);
-        }
-      }
-    }
-
-
-    /* If needed, redraw: */
-    if (diff_level != old_diff_level)
-    {
-      /* Draw background & title: */
-      if (images[IMG_MENU_BKG])
-        SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-      if (images[IMG_MENU_TITLE])
-        SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
-      /* Draw Tux: */
-      if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
-        SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-      /* Draw controls: */
-      if (images[IMG_STOP])
-        SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-      /* Draw regular or grayed-out left arrow: */
-      if (diff_level == CADET_HIGH_SCORE)
-      {
-        if (images[IMG_LEFT_GRAY])
-          SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &leftRect);
-      }
-      else
-      {
-        if (images[IMG_LEFT])
-          SDL_BlitSurface(images[IMG_LEFT], NULL, screen, &leftRect);
-      }
-      /* Draw regular or grayed-out right arrow: */
-      if (diff_level == ACE_HIGH_SCORE)
-      {
-        if (images[IMG_RIGHT_GRAY])
-          SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &rightRect);
-      }
-      else
-      {
-        if (images[IMG_RIGHT])
-          SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &rightRect);
-      }
-
-      /* Generate and draw desired table: */
-      for (i = 0; i < HIGH_SCORES_SAVED; i++)
-      {
-        /* Get data for entries: */
-        sprintf(score_texts[i],
-                "%d.\t%d\t%s",
-                i + 1,                  /* Add one to get common-language place number */
-                HS_Score(diff_level, i),
-                HS_Name(diff_level, i));
-
-        /* Clear out old surfaces and update: */
-        if (score_entries[i])
-          SDL_FreeSurface(score_entries[i]);
-
-        score_entries[i] = black_outline(N_(score_texts[i]), default_font, &white);
-
-        /* Get out if black_outline() fails: */
-        if (!score_entries[i])
-          continue;
-         
-        /* Set up entries in vertical column: */
-        if (0 == i)
-          score_rects[i].y = score_table_y;
-        else
-          score_rects[i].y = score_rects[i -1].y + score_rects[i -1].h;
-
-        score_rects[i].x = score_table_x;
-        score_rects[i].h = score_entries[i]->h;
-        score_rects[i].w = score_entries[i]->w;
-
-        SDL_BlitSurface(score_entries[i], NULL, screen, &score_rects[i]);
-      }
-      /* Update screen: */
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-      old_diff_level = diff_level;
-    }
-
-
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;			
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
-    }
-
-
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
-    frame++;
-  }  // End of while (!finished) loop
-  HighScoreNameEntry(player_name);
-}
-
-/* Display screen to allow player to enter name for high score table:     */
-/* The name_buf argument *must* point to a validly allocated string array */
-/* at least three times HIGH_SCORE_NAME_LENGTH because UTF-8 is a         */
-/* multibyte encoding.                                                    */
-void HighScoreNameEntry(unsigned char* name_buf)
-{
-  SDL_Surface *s1, *s2, *s3, *s4;
-  SDL_Rect loc;
-  SDL_Rect redraw_rect;
-  int redraw = 0;
-  int first_draw = 1;
-  int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
-  char* str1, *str2, *str3, *str4;
-  wchar_t buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
-  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
-  TTF_Font* name_font = NULL;
-  const int NAME_FONT_SIZE = 32;
-
-  if (!name_buf)
-    return;
-  
-  s1 = s2 = s3 = s4 = NULL;
-  str1 = str2  = str3 = str4 = NULL;
-
-  name_font = LoadFont(DEFAULT_FONT_NAME, NAME_FONT_SIZE);
-  if (!name_font)
-    return;
-
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
-#endif
-
-  str1 = _("Great Score - You Are In The Hall of Fame!");
-  str2 = _("Enter Your Name:");
-
-  if (str1)
-    s1 = black_outline(str1, default_font, &white);
-  if (str2)
-    s2 = black_outline(str2, default_font, &white);
-  if (str3)
-    s3 = black_outline(str3, default_font, &white);
-  /* When we get going with i18n may need to modify following - see below: */
-  if (str4)
-    s4 = black_outline(str4, default_font, &white);
-
-
-  /* Redraw background: */
-  if (images[IMG_MENU_BKG])
-    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
-  {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-  }
-
-  /* Draw lines of text (do after drawing Tux so text is in front): */
-  if (s1)
-  {
-    loc.x = 320 - (s1->w/2); loc.y = 10;
-    SDL_BlitSurface( s1, NULL, screen, &loc);
-  }
-  if (s2)
-  {
-    loc.x = 320 - (s2->w/2); loc.y = 60;
-    SDL_BlitSurface( s2, NULL, screen, &loc);
-  }
-  if (s3)
-  {
-    loc.x = 320 - (s3->w/2); loc.y = 300;
-    SDL_BlitSurface( s3, NULL, screen, &loc);
-  }
-  if (s4)
-  {
-    loc.x = 320 - (s4->w/2); loc.y = 340;
-    SDL_BlitSurface( s4, NULL, screen, &loc);
-  }
-
-  /* and update: */
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-
-
-  while (!finished)
-  {
-    start = SDL_GetTicks();
-
-    while (SDL_PollEvent(&event)) 
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        {
-          cleanup();
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
-          {
-            finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
-            break;
-          }
-        }
-        case SDL_KEYDOWN:
-        {
-#ifdef TUXMATH_DEBUG
-          fprintf(stderr, "Before keypress, string is %S\tlength = %d\n",
-                  buf, (int)wcslen(buf));
-#endif
-          switch (event.key.keysym.sym)
-          {
-            case SDLK_ESCAPE:
-            case SDLK_RETURN:
-            case SDLK_KP_ENTER:
-            {
-              finished = 1;
-              tuxtype_playsound(sounds[SND_TOCK]);
-              break;
-            }
-            case SDLK_BACKSPACE:
-            {
-              if (wcslen(buf) > 0)
-                buf[(int)wcslen(buf) - 1] = '\0';
-              redraw = 1;
-              break;
-            }
-
-
-            /* For any other keys, if the key has a Unicode value, */
-            /* we add it to our string:                            */
-            default:
-            {
-              if ((event.key.keysym.unicode > 0)
-              && (wcslen(buf) < HIGH_SCORE_NAME_LENGTH)) 
-              {
-                buf[(int)wcslen(buf)] = event.key.keysym.unicode;
-                redraw = 1;
-              } 
-            }
-          }  /* end  'switch (event.key.keysym.sym)'  */
-
-#ifdef TUXMATH_DEBUG
-          fprintf(stderr, "After keypress, string is %S\tlength = %d\n",
-                    buf, (int)wcslen(buf));
-#endif
-            /* Now draw name, if needed: */
-          if (redraw)
-          {
-            redraw = 0;
-            /* Redraw background in area where we drew text last time: */ 
-            if (!first_draw)
-            {
-              SDL_BlitSurface(images[IMG_MENU_BKG], &redraw_rect, screen, &redraw_rect);
-              SDL_UpdateRect(screen,
-                             redraw_rect.x,
-                             redraw_rect.y,
-                             redraw_rect.w,
-                             redraw_rect.h);
-            }
-
-            /* Convert text to UTF-8: */
-            //Unicode_to_UTF8((const wchar_t*)buf, player_name);
-            wcstombs((char*) player_name, buf, HIGH_SCORE_NAME_LENGTH * 3);
-
-            s3 = black_outline(player_name, name_font, &yellow);
-            if (s3)
-            {
-              loc.x = 320 - (s3->w/2);
-              loc.y = 300;
-              SDL_BlitSurface( s3, NULL, screen, &loc);
-
-              /* for some reason we need to update a little beyond s3 to get clean image */
-              redraw_rect.x = loc.x - 20;
-              redraw_rect.y = loc.y - 10;
-              redraw_rect.h = s3->h + 20;
-              redraw_rect.w = s3->w + 40;
-              first_draw = 0;
-
-              SDL_UpdateRect(screen,
-                             redraw_rect.x,
-                             redraw_rect.y,
-                             redraw_rect.w,
-                             redraw_rect.h);
-              SDL_FreeSurface(s3);
-              s3 = NULL;
-            }
-
-          }
-        }
-      }
-    }
- 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;			
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
-    }
-
-
-
-
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
-    frame++;
-  }  // End of while (!finished) loop
-
-  SDL_FreeSurface(s1);
-  SDL_FreeSurface(s2);
-  SDL_FreeSurface(s3);
-  SDL_FreeSurface(s4);
-  TTF_CloseFont(name_font);
-
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
-}
 
 
 
@@ -2313,18 +1933,18 @@ int choose_config_file(void)
 
         /* Now set up mouse button rects: */
         lesson_menu_button[i % 8].x = titleRects[i % 8].x - 15;
-        lesson_menu_button[i % 8].y = titleRects[i % 8].y - 15;
-        lesson_menu_button[i % 8].h = titleRects[i % 8].h + 30;
+        lesson_menu_button[i % 8].y = titleRects[i % 8].y;
+        lesson_menu_button[i % 8].h = titleRects[i % 8].h;
         lesson_menu_button[i % 8].w = titleRects[i % 8].w + 30;
 
         if (i == loc)  //Draw text in yellow
         {
-          draw_button(&lesson_menu_button[i % 8], lesson_menu_button[i % 8].w, sel);
+          DrawButton(&lesson_menu_button[i % 8], 15, SEL_RGBA);
           SDL_BlitSurface(select[loc], NULL, screen, &titleRects[i % 8]);
         }
         else           //Draw text in white
         {
-          draw_button(&lesson_menu_button[i % 8], lesson_menu_button[i % 8].w, reg);
+          DrawButton(&lesson_menu_button[i % 8], 15, REG_RGBA);
           SDL_BlitSurface(titles[i], NULL, screen, &titleRects[i % 8]);
         }
       }
@@ -2623,7 +2243,7 @@ AddRect: Don't actually blit a surface,
     but add a rect to be updated next
     update
 *******************************/
-void AddRect(SDL_Rect * src, SDL_Rect * dst) {
+void AddRect(SDL_Rect* src, SDL_Rect* dst) {
     /*borrowed from SL's alien (and modified)*/
 
     struct blit    *update;

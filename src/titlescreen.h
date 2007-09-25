@@ -65,6 +65,7 @@
 
 #include "tuxmath.h"
 
+/* FIXME get rid of these evil macros! */
 #define next_frame(SPRITE) if ((SPRITE)->num_frames) (SPRITE)->cur = (((SPRITE)->cur)+1) % (SPRITE)->num_frames;
 #define rewind(SPRITE) (SPRITE)->cur = 0;
 
@@ -247,6 +248,7 @@ enum {
 void TitleScreen( void );
 void switch_screen_mode( void );
 int choose_config_file(void);  //FIXME really should be in fileops.c
+void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 
 /* in theme.c (from tuxtype): */
 void chooseTheme(void);

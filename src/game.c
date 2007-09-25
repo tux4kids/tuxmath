@@ -2382,11 +2382,11 @@ void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
 
 /* Draw a single pixel into the surface: */
 
-void putpixel(SDL_Surface * surface, int x, int y, Uint32 pixel)
+void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
 {
 #ifdef PUTPIXEL_RAW
   int bpp;
-  Uint8 * p;
+  Uint8* p;
   
   /* Determine bytes-per-pixel for the surface in question: */
   
@@ -2403,7 +2403,7 @@ void putpixel(SDL_Surface * surface, int x, int y, Uint32 pixel)
   
   /* Assuming the X/Y values are within the bounds of this surface... */
   
-  if (x >= 0 && y >= 0 && x < surface -> w && y < surface -> h)
+  if (x >= 0 && y >= 0 && x < surface->w && y < surface->h)
     {
       /* Set the (correctly-sized) piece of data in the surface's RAM
          to the pixel value sent in: */
