@@ -52,7 +52,7 @@ void DisplayHighScores(int level)
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
   SDL_Rect leftRect, rightRect, stopRect, TuxRect;
 
-  SDL_Rect dest,
+  SDL_Rect table_bg,
            Titledest,
            cursor;
 
@@ -164,11 +164,10 @@ void DisplayHighScores(int level)
     /* If needed, redraw: */
     if (diff_level != old_diff_level)
     {
-      /* Draw background & title: */
+      /* Draw background: */
       if (images[IMG_MENU_BKG])
         SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
-      if (images[IMG_MENU_TITLE])
-        SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
+      /* FIXME maybe add image of trophy or similar pic */
       /* Draw Tux: */
       if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
         SDL_BlitSurface(Tux->frame[0], NULL, screen, &TuxRect);
@@ -198,21 +197,33 @@ void DisplayHighScores(int level)
           SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &rightRect);
       }
 
+      /* Draw background shading for table: */
+      table_bg.x = (screen->w)/2 - (max_width + 20)/2;
+      table_bg.y = 5;
+      table_bg.w = max_width + 20;
+      table_bg.h = screen->h - 10;
+      DrawButton(&table_bg, 25, SEL_RGBA);
+
       /* Draw difficulty level heading: */
       {
         SDL_Surface* srfc = NULL;
-        SDL_Rect diffRect;
+        SDL_Rect text_rect, button_rect;
         TTF_Font* title_font = LoadFont(DEFAULT_FONT_NAME, 32);
 
         if (title_font)
           srfc = BlackOutline(_("Hall Of Fame"), title_font, &yellow);
         if (srfc)
         {
-          diffRect.x = (screen->w)/2 - (srfc->w)/2;
-          diffRect.y = diff_level_y - srfc->h;
-          diffRect.w = srfc->w;
-          diffRect.h = srfc->h;
-          SDL_BlitSurface(srfc, NULL, screen, &diffRect);
+          button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2;
+          button_rect.y = text_rect.y = 10;
+          button_rect.w = text_rect.w = srfc->w;
+          button_rect.h = text_rect.h = srfc->h;
+          /* add margin to button and draw: */
+          button_rect.x -= 10;
+          button_rect.w += 20;
+          DrawButton(&button_rect, 15, 0, 0, 32, 192);
+          /* Now blit text and free surface: */
+          SDL_BlitSurface(srfc, NULL, screen, &text_rect);
           SDL_FreeSurface(srfc);
           srfc = NULL;
         }
@@ -240,13 +251,15 @@ void DisplayHighScores(int level)
 
         if (srfc)
         {
-          diffRect.x = (screen->w)/2 - (srfc->w)/2;
-          diffRect.y = diff_level_y;
-          diffRect.w = srfc->w;
-          diffRect.h = srfc->h;
-          SDL_BlitSurface(srfc, NULL, screen, &diffRect);
+          text_rect.x = (screen->w)/2 - (srfc->w)/2; 
+          text_rect.y += text_rect.h; /* go to bottom of first line */
+          text_rect.w = srfc->w;
+          text_rect.h = srfc->h;
+          SDL_BlitSurface(srfc, NULL, screen, &text_rect);
           SDL_FreeSurface(srfc);
           srfc = NULL;
+          /* note where score table will start: */
+          score_table_y = text_rect.y + text_rect.h;
         }
       }
 
@@ -257,7 +270,7 @@ void DisplayHighScores(int level)
       {
         /* Get data for entries: */
         sprintf(score_strings[i],
-                "%d.\t%d\t%s",
+                "%d.    %d     %s",
                 i + 1,                  /* Add one to get common-language place number */
                 HS_Score(diff_level, i),
                 HS_Name(diff_level, i));
