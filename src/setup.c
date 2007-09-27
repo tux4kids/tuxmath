@@ -637,8 +637,14 @@ void cleanup_memory(void)
     musics[i] = NULL;
   }
 
-  free(lesson_list);
-  lesson_list = NULL;
+  for (i = 0; i < num_lessons; i++) {
+    free(lesson_list_titles[i]);
+    free(lesson_list_filenames[i]);
+  }
+  free(lesson_list_titles);
+  free(lesson_list_filenames);
+  lesson_list_titles = NULL;
+  lesson_list_filenames = NULL;
 
   // Close the audio mixer. We have to do this at least as many times
   // as it was opened.

@@ -49,7 +49,7 @@
 #endif
 
 //#define NOSOUND
-#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */
@@ -174,11 +174,8 @@ extern range_type ranges[NUM_Q_RANGES];
 extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 #define NAME_BUF_SIZE 200
-typedef struct lesson_entry {
-  char filename[NAME_BUF_SIZE];  //List of lesson file names
-  char display_name[NAME_BUF_SIZE]; //List of lesson names for display
-} lesson_entry;
-extern lesson_entry *lesson_list;
+extern unsigned char **lesson_list_titles;
+extern unsigned char **lesson_list_filenames;
 extern int num_lessons;
 
 /* NOTE: default values for math options are now in mathcards.h */

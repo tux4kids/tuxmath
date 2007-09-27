@@ -615,17 +615,24 @@ int parse_lesson_file_directory(void)
   unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
   char* fgets_return_val;
   unsigned char name_buf[NAME_BUF_SIZE];
+  int nchars;
 
-  struct dirent **lesson_list_dirents;
+  struct dirent **lesson_list_dirents = NULL;
   FILE* tempFile = NULL;
 
   int i = 0;
-  int lessonIterator = 0;
+  int lessonIterator = 0;  //Iterator over matching files in lesson dir
   int length = 0;
-  int lessons = 0;
+  int lessons = 0;         //Iterator over accepted (& parsed) lesson files
+
+  num_lessons = 0;
 
   /* find the directory containing the lesson files:  */
-  sprintf(lesson_path, "%s/missions/lessons", DATA_PREFIX);
+  nchars = snprintf(lesson_path, PATH_MAX, "%s/missions/lessons", DATA_PREFIX);
+  if (nchars < 0 || nchars >= PATH_MAX) {
+    perror("formatting lesson directory");
+    return 0;
+  }
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "lesson_path is: %s\n", lesson_path);
@@ -644,36 +651,49 @@ int parse_lesson_file_directory(void)
     return 0;
   }
 
-  /* Allocate storage for lessons */
-  lesson_list = (lesson_entry *) malloc(num_lessons * sizeof(lesson_entry));
-  if (lesson_list == NULL) {
+  /* Allocate storage for lesson list */
+  lesson_list_titles = (unsigned char**) malloc(num_lessons * sizeof(unsigned char*));
+  lesson_list_filenames = (unsigned char**) malloc(num_lessons * sizeof(unsigned char*));
+  if (lesson_list_titles == NULL || lesson_list_filenames == NULL) {
     perror("allocating memory for lesson list");
     return 0;
   }
+  for (lessonIterator = 0; lessonIterator < num_lessons; lessonIterator++) {
+    lesson_list_titles[lessonIterator] = (unsigned char*) malloc(NAME_BUF_SIZE * sizeof(unsigned char));
+    lesson_list_filenames[lessonIterator] = (unsigned char*) malloc(NAME_BUF_SIZE * sizeof(unsigned char));
+    if (lesson_list_titles[lessonIterator] == NULL || lesson_list_filenames[lessonIterator] == NULL) {
+      perror("allocating memory for lesson filenames or titles");
+      return 0;
+    }
+  }
 
-  /* lessonIterator indexes the direntries, lessons indexes the correctly-parsed files.  If successful in parsing, lessons gets incremented */
+  /* lessonIterator indexes the direntries, lessons indexes */
+  /* the correctly-parsed files.  If successful in parsing, */
+  /* lessons gets incremented. In case of problems, we can  */
+  /* just continue onto the next entry without incrementing */
+  /* lessons, and the bad entry will get overwritten by the */
+  /* next one (or simply never used, if it was the last).   */
   for (lessonIterator = 0, lessons = 0; lessonIterator < num_lessons; lessonIterator++) {
-    /* Copy over the filename */
-    sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_list_dirents[lessonIterator]->d_name);
+    /* Copy over the filename (as a full pathname) */
+    nchars = snprintf(lesson_list_filenames[lessons], NAME_BUF_SIZE, "%s/%s", lesson_path, lesson_list_dirents[lessonIterator]->d_name);
+    if (nchars < 0 || nchars >= NAME_BUF_SIZE)
+      continue;
 
 #ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);
+    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list_filenames[lessons]);
 #endif
 
     /* load the name for the lesson from the file ... (1st line) */
-    tempFile = fopen(lesson_list[lessons].filename, "r");
-
+    tempFile = fopen(lesson_list_filenames[lessons], "r");
     if (tempFile==NULL)
     {
-      /* By leaving the current iteration without incrementing 'lessons', */
-      /* the bad file name will get clobbered next time through: */
       continue;
     }
-
     fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);
     if (fgets_return_val == NULL) {
       continue;
     }
+    fclose(tempFile);
 
 
     /* check to see if it has a \r at the end of it (dos format!) */
@@ -696,20 +716,23 @@ int parse_lesson_file_directory(void)
     }
     /* Now copy the rest of the first line into the list: */
     /* Note that "length + 1" is needed so that the final \0 is copied! */
-    memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1); 
-    fclose(tempFile);
+    memmove(lesson_list_titles[lessons], &name_buf[i], length + 1); 
 
-    free(lesson_list_dirents[lessonIterator]);
 
     /* Increment the iterator for correctly-parsed lesson files */
     lessons++;
   }
-  /* In case we didn't keep all of them, revise our estimate of how many there are */
-  num_lessons = lessons;
-
+  /* Now free the individual dirents. We do this on a second pass */
+  /* because of the "continue" approach used to error handling.   */
+  for (lessonIterator = 0; lessonIterator < num_lessons; lessonIterator++)
+    free(lesson_list_dirents[lessonIterator]);
   free(lesson_list_dirents);
 
-  return 1;
+  /* In case we didn't keep all of them, revise our count of how */
+  /* many there are */
+  num_lessons = lessons;
+
+  return (num_lessons > 0);  /* Success! */
 }
 
 /* Look for a high score table file in the user's homedir */

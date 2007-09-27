@@ -48,8 +48,8 @@ textdomain( "tuxmath" );
 #endif
 
   setup(argc, argv);
+  atexit(cleanup);  // register it so we clean up even if there is a crash
   TitleScreen();
-  cleanup();
   return 0;
 }
 

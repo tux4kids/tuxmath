@@ -77,6 +77,12 @@ typedef struct {
 	int cur;
 } sprite;
 
+// Options that affect how menus are presented
+typedef struct {
+  int n_entries_per_screen;
+  int starting_entry;
+} menu_options;
+
 /* LOGGING works as such:
  *
  * - Use LOG if you want to output a string LOG( "Hello World");
@@ -232,6 +238,7 @@ enum {
 void TitleScreen( void );
 void switch_screen_mode( void );
 int choose_config_file(void);  //FIXME really should be in fileops.c
+int choose_menu_item(const unsigned char**,int,menu_options);
 
 /* in theme.c (from tuxtype): */
 void chooseTheme(void);
