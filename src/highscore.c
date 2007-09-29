@@ -50,15 +50,11 @@ void DisplayHighScores(int level)
   unsigned char score_strings[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 10] = {{'\0'}};
 
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
-  SDL_Rect leftRect, rightRect, stopRect, TuxRect;
+  SDL_Rect leftRect, rightRect, stopRect, TuxRect, table_bg;
 
-  SDL_Rect table_bg,
-           Titledest,
-           cursor;
 
-  int max_width = 300;
+  const int max_width = 300;
   int score_table_y = 100;
-  const int diff_level_y = 50;
 
   sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
@@ -343,14 +339,13 @@ void DisplayHighScores(int level)
 /* multibyte encoding.                                                    */
 void HighScoreNameEntry(unsigned char* pl_name)
 {
-  SDL_Surface *s1, *s2, *s3, *s4;
+  unsigned char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
+
   SDL_Rect loc;
   SDL_Rect redraw_rect;
-  SDL_Rect dest,
-           Tuxdest,
+  SDL_Rect TuxRect,
            Titledest,
-           stopRect,
-           cursor;
+           stopRect;
 
   int redraw = 0;
   int first_draw = 1;
@@ -358,19 +353,17 @@ void HighScoreNameEntry(unsigned char* pl_name)
   int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
-  char* str1, *str2, *str3, *str4;
   wchar_t wchar_buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
-  unsigned char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
   TTF_Font* name_font = NULL;
   const int NAME_FONT_SIZE = 32;
+  const int BG_Y = 100;
+  const int BG_WIDTH = 400;
+  const int BG_HEIGHT = 200;
 
   sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
   if (!pl_name)
     return;
-  
-  s1 = s2 = s3 = s4 = NULL;
-  str1 = str2  = str3 = str4 = NULL;
 
   name_font = LoadFont(DEFAULT_FONT_NAME, NAME_FONT_SIZE);
   if (!name_font)
@@ -383,23 +376,10 @@ void HighScoreNameEntry(unsigned char* pl_name)
   fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
 #endif
 
-  str1 = _("Great Score - You Are In The Hall of Fame!");
-  str2 = _("Enter Your Name:");
 
-  if (str1)
-    s1 = BlackOutline(str1, default_font, &white);
-  if (str2)
-    s2 = BlackOutline(str2, default_font, &white);
-  if (str3)
-    s3 = BlackOutline(str3, default_font, &white);
-  /* When we get going with i18n may need to modify following - see below: */
-  if (str4)
-    s4 = BlackOutline(str4, default_font, &white);
-
-
-  /* Redraw background: */
+  /* Draw background: */
   if (images[IMG_MENU_BKG])
-    SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
+    SDL_BlitSurface(images[IMG_MENU_BKG], NULL, screen, NULL);
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
@@ -411,31 +391,51 @@ void HighScoreNameEntry(unsigned char* pl_name)
     SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
   }
 
-  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
+  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
   {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+    TuxRect.w = Tux->frame[0]->w;
+    TuxRect.h = Tux->frame[0]->h;
+    TuxRect.x = 0;
+    TuxRect.y = screen->h - Tux->frame[0]->h;
   }
 
-  /* Draw lines of text (do after drawing Tux so text is in front): */
-  if (s1)
+  /* Draw translucent background for text: */
   {
-    loc.x = 320 - (s1->w/2); loc.y = 10;
-    SDL_BlitSurface( s1, NULL, screen, &loc);
+    SDL_Rect bg_rect;
+    bg_rect.x = (screen->w)/2 - BG_WIDTH/2;
+    bg_rect.y = BG_Y;
+    bg_rect.w = BG_WIDTH;
+    bg_rect.h = BG_HEIGHT;
+    DrawButton(&bg_rect, 15, REG_RGBA);
+
+    bg_rect.x += 10;
+    bg_rect.y += 10;
+    bg_rect.w -= 20;
+    bg_rect.h = 60;
+    DrawButton(&bg_rect, 10, SEL_RGBA);
   }
-  if (s2)
+
+  /* Draw heading: */
   {
-    loc.x = 320 - (s2->w/2); loc.y = 60;
-    SDL_BlitSurface( s2, NULL, screen, &loc);
-  }
-  if (s3)
-  {
-    loc.x = 320 - (s3->w/2); loc.y = 300;
-    SDL_BlitSurface( s3, NULL, screen, &loc);
-  }
-  if (s4)
-  {
-    loc.x = 320 - (s4->w/2); loc.y = 340;
-    SDL_BlitSurface( s4, NULL, screen, &loc);
+    SDL_Surface* s = BlackOutline(_("You Are In The Hall of Fame!"),
+                                  default_font, &white);
+    if (s)
+    {
+      loc.x = 320 - (s->w/2);
+      loc.y = 110;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+    s = BlackOutline(_("Enter Your Name:"),
+                     default_font, &white);
+    if (s)
+    {
+      loc.x = 320 - (s->w/2);
+      loc.y = 140;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
   }
 
   /* and update: */
@@ -490,7 +490,6 @@ void HighScoreNameEntry(unsigned char* pl_name)
               break;
             }
 
-
             /* For any other keys, if the key has a Unicode value, */
             /* we add it to our string:                            */
             default:
@@ -511,11 +510,17 @@ void HighScoreNameEntry(unsigned char* pl_name)
             /* Now draw name, if needed: */
           if (redraw)
           {
+            SDL_Surface* s = NULL;
             redraw = 0;
-            /* Redraw background in area where we drew text last time: */ 
+
+            /* Convert text to UTF-8 so BlackOutline() can handle it: */
+            wcstombs((char*) UTF8_buf, wchar_buf, HIGH_SCORE_NAME_LENGTH * 3);
+
+            /* Redraw background and shading in area where we drew text last time: */ 
             if (!first_draw)
             {
               SDL_BlitSurface(images[IMG_MENU_BKG], &redraw_rect, screen, &redraw_rect);
+              DrawButton(&redraw_rect, 0, REG_RGBA);
               SDL_UpdateRect(screen,
                              redraw_rect.x,
                              redraw_rect.y,
@@ -523,22 +528,20 @@ void HighScoreNameEntry(unsigned char* pl_name)
                              redraw_rect.h);
             }
 
-            /* Convert text to UTF-8: */
-            //Unicode_to_UTF8((const wchar_t*)buf, player_name);
-            wcstombs((char*) UTF8_buf, wchar_buf, HIGH_SCORE_NAME_LENGTH * 3);
-
-            s3 = BlackOutline(UTF8_buf, name_font, &yellow);
-            if (s3)
+            s = BlackOutline(UTF8_buf, name_font, &yellow);
+            if (s)
             {
-              loc.x = 320 - (s3->w/2);
-              loc.y = 300;
-              SDL_BlitSurface( s3, NULL, screen, &loc);
+              /* set up loc and blit: */
+              loc.x = 320 - (s->w/2);
+              loc.y = 200;
+              SDL_BlitSurface(s, NULL, screen, &loc);
 
-              /* for some reason we need to update a little beyond s3 to get clean image */
+              /* Remember where we drew so we can update background next time through:  */
+              /* (for some reason we need to update a wider area to get clean image)    */
               redraw_rect.x = loc.x - 20;
               redraw_rect.y = loc.y - 10;
-              redraw_rect.h = s3->h + 20;
-              redraw_rect.w = s3->w + 40;
+              redraw_rect.h = s->h + 20;
+              redraw_rect.w = s->w + 40;
               first_draw = 0;
 
               SDL_UpdateRect(screen,
@@ -546,10 +549,9 @@ void HighScoreNameEntry(unsigned char* pl_name)
                              redraw_rect.y,
                              redraw_rect.w,
                              redraw_rect.h);
-              SDL_FreeSurface(s3);
-              s3 = NULL;
+              SDL_FreeSurface(s);
+              s = NULL;
             }
-
           }
         }
       }
@@ -569,12 +571,9 @@ void HighScoreNameEntry(unsigned char* pl_name)
 
     if (Tux && tux_frame)
     {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
     }
-
-
-
 
     /* Wait so we keep frame rate constant: */
     while ((SDL_GetTicks() - start) < 33)
@@ -584,10 +583,6 @@ void HighScoreNameEntry(unsigned char* pl_name)
     frame++;
   }  // End of while (!finished) loop
 
-  SDL_FreeSurface(s1);
-  SDL_FreeSurface(s2);
-  SDL_FreeSurface(s3);
-  SDL_FreeSurface(s4);
   TTF_CloseFont(name_font);
   FreeSprite(Tux);
 

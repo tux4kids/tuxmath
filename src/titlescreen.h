@@ -237,7 +237,7 @@ enum {
 
 void TitleScreen( void );
 void switch_screen_mode( void );
-int choose_config_file(void);  //FIXME really should be in fileops.c
+int ChooseMission(void);  //FIXME really should be in fileops.c
 int choose_menu_item(const unsigned char**,int,menu_options);
 
 /* in theme.c (from tuxtype): */

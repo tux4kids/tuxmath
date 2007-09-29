@@ -552,9 +552,9 @@ void TitleScreen(void)
       case LESSONS: /* Go to 'lessons' menu: */
                              /* i.e. Math Command Training Academy */
       {
-        /* choose_config_file() returns after selected lessons are  */
+        /* ChooseMission() returns after selected lessons are  */
         /* done - game() called from there.                         */
-        if (choose_config_file())  
+        if (ChooseMission())  
         {
           if (Opts_MenuMusic())  // Restart music after game
             audioMusicLoad( "tuxi.ogg", -1 );
@@ -1422,7 +1422,7 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 /* returns 0 if user pressed escape
  *         1 if config was set correctly
  */
-int choose_config_file(void)
+int ChooseMission(void)
 {
   int chosen_lesson = -1;
   menu_options menu_opts;
@@ -1845,8 +1845,8 @@ int choose_menu_item(const unsigned char** menu_text,int n_menu_entries,menu_opt
 
         /* Now set up mouse button rects: */
         menu_mouse_button_rect[imod].x = menu_text_rect[imod].x - 15;
-        menu_mouse_button_rect[imod].y = menu_text_rect[imod].y;
-        menu_mouse_button_rect[imod].h = menu_text_rect[imod].h;
+        menu_mouse_button_rect[imod].y = menu_text_rect[imod].y - 5;
+        menu_mouse_button_rect[imod].h = menu_text_rect[imod].h + 10;
         menu_mouse_button_rect[imod].w = menu_text_rect[imod].w + 30;
 	mouse_rects_are_valid = 1;
 

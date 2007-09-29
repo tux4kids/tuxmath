@@ -1,4 +1,19 @@
-2007.Sep.88 (svn.debian.org/tux4kids - revision 260)
+2007.Sep.28 (svn.debian.org/tux4kids - revision 277)
+  Game:
+    * Completed implementation of high score table and 
+      reorganized related code into highscore.c/h.
+  Code:
+    * Re-implemented DrawButton in more flexible, 
+      generalized, and basically correct fashion - now
+      supports drawing of nice rounded rectangles with
+      any size, corner radius, RGB color, and alpha
+      channel.
+    * Added ConvertUTF.c/.h from Unicode, Inc to support
+      conversions between UTF-8 and wchar_t.
+    
+      David Bruce <dbruce@tampabay.rr.com>
+
+2007.Sep.18 (svn.debian.org/tux4kids - revision 260)
   Build:
     * Modified Makefile.am and data/fonts/Makefile.am to
       support building dist tarball either with font
