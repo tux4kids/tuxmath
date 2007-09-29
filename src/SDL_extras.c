@@ -36,7 +36,7 @@ void DrawButton(SDL_Rect* target_rect,
   SDL_FreeSurface(tmp_surf);
 //  SDL_UpdateRect(screen, 0, 0, 0, 0); 
 
-  SDL_UpdateRect(screen, target_rect->x, target_rect->y, target_rect->w, target_rect->h); 
+  //SDL_UpdateRect(screen, target_rect->x, target_rect->y, target_rect->w, target_rect->h); 
 
 }
 

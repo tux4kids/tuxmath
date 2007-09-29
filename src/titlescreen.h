@@ -79,8 +79,10 @@ typedef struct {
 
 // Options that affect how menus are presented
 typedef struct {
-  int n_entries_per_screen;
   int starting_entry;
+  int xleft, ytop, ybottom;   // left, top, and bottom borders
+  int buttonheight; // size of menu item button  (-1 if calculated)
+  int ygap;  // vertical gap between entries
 } menu_options;
 
 /* LOGGING works as such:
@@ -238,7 +240,8 @@ enum {
 void TitleScreen( void );
 void switch_screen_mode( void );
 int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const unsigned char**,int,menu_options);
+int choose_menu_item(const unsigned char**,sprite**,int,menu_options);
+void set_default_menu_options(menu_options *);
 
 /* in theme.c (from tuxtype): */
 void chooseTheme(void);
