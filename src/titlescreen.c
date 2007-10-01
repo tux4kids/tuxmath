@@ -434,6 +434,8 @@ void TitleScreen_unload_menu(void)
 
   for (i = 0; i < N_SPRITES; i++)
     FreeSprite(sprite_list[i]);
+  free(sprite_list);
+  sprite_list == NULL;
 }
 
 
@@ -723,6 +725,9 @@ int run_arcade_menu(void)
       {
 	audioMusicUnload();
 	game();
+	if (Opts_MenuMusic()) {
+	  audioMusicLoad( "tuxi.ogg", -1 );
+	}
 	/* See if player made high score list!                        */
 	hs_table = arcade_high_score_tables[choice];
 	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
@@ -744,9 +749,6 @@ int run_arcade_menu(void)
 	fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
       }
 
-      if (Opts_MenuMusic()) {
-	audioMusicLoad( "tuxi.ogg", -1 );
-      }
     } else {
       // Display the Hall of Fame
       DisplayHighScores(CADET_HIGH_SCORE);
@@ -785,52 +787,73 @@ int run_custom_menu(void)
 
 int run_options_menu(void)
 {
-  const unsigned char* menu_text[5] =
+  const unsigned char* menu_text[6] =
     {(const unsigned char*)N_("Settings"),
      (const unsigned char*)N_("Help"),
+     (const unsigned char*)N_("Demo"),
      (const unsigned char*)N_("Credits"),
      (const unsigned char*)N_("Project Info"),
      (const unsigned char*)N_("Main Menu")};
-  sprite* sprites[5] =
-    {NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[6] =
+    {NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice;
 
   // Set up the sprites
-  sprites[4] = sprite_list[SPRITE_MAIN];
+  sprites[5] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
-  choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+  choice = choose_menu_item(menu_text,sprites,6,menu_opts);
 
   while (choice >= 0) {
     switch (choice) {
     case 0: {
+      // Settings
       NotImplemented();
       break;
     }
     case 1: {
+      // Help
       NotImplemented();
       break;
     }
     case 2: {
-      TitleScreen_unload_media();
-      credits();
-      TitleScreen_load_media();
+      // Demo
+      if (read_named_config_file("demo"))
+      {
+	audioMusicUnload();
+	game();
+	if (Opts_MenuMusic()) {
+	  audioMusicLoad( "tuxi.ogg", -1 );
+	}
+      } else {
+	fprintf(stderr, "\nCould not find demo config file\n");
+      }
+
       break;
     }
     case 3: {
-      NotImplemented();
+      // Credits
+      //TitleScreen_unload_media();
+      credits();
+      //TitleScreen_load_media();
       break;
     }
     case 4: {
+      // Project Info
+      NotImplemented();
+      break;
+    }
+    case 5: {
+      // Main menu
       return 0;
     }
     }
 
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+    choice = choose_menu_item(menu_text,sprites,6,menu_opts);
   }
 
   return 0;
