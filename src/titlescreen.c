@@ -920,6 +920,7 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
   int tux_frame = 0;
   int click_flag = 1;
   int use_sprite = 0;
+  int warp_mouse = 0;
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Entering choose_menu_item():\n");
@@ -1250,12 +1251,15 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
                 {tuxtype_playsound(sounds[SND_TOCK]);}
               if (loc > 0)
                 {loc--;}
-	      else if (n_menu_entries <= n_entries_per_screen)
+	      else if (n_menu_entries <= n_entries_per_screen) {
 		loc = n_menu_entries-1;  // wrap around if only 1 screen
+	      }
 	      else if (loc == -1 && loc_screen_start > 0) {
 		loc = loc_screen_start-1;
 		loc_screen_start -= n_entries_per_screen;
 	      }
+	      if (loc != old_loc)
+		warp_mouse = 1;
               break;
             }
 
@@ -1271,6 +1275,8 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
 		loc = 0;       // wrap around if only 1 screen
 	      else if (loc == -1)
 		loc = loc_screen_start;
+	      if (loc != old_loc)
+		warp_mouse = 1;
               break; 
            }
 
@@ -1437,6 +1443,15 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
 
     redraw = 0;
 
+    /* Move the mouse pointer if there is only a single screen */
+    if (warp_mouse && n_menu_entries <= n_entries_per_screen) {
+      imod = loc - loc_screen_start;
+      cursor.x = menu_button_rect[imod].x + (menu_button_rect[imod].w / 2);
+      cursor.y = menu_button_rect[imod].y + (3 * menu_button_rect[imod].h / 4);
+      SDL_WarpMouse(cursor.x, cursor.y);
+      warp_mouse = 0;
+    }
+
     old_loc = loc;
     old_loc_screen_start = loc_screen_start;
 
@@ -1460,13 +1475,6 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
 
     }
 
-    /* Move the mouse pointer if there is only a single screen */
-    if (n_menu_entries <= n_entries_per_screen && loc >= 0) {
-      imod = loc - loc_screen_start;
-      cursor.x = menu_button_rect[imod].x + (menu_button_rect[imod].w / 2);
-      cursor.y = menu_button_rect[imod].y + (3 * menu_button_rect[imod].h / 4);
-      SDL_WarpMouse(cursor.x, cursor.y);
-    }
 
 
     /* Wait so we keep frame rate constant: */
