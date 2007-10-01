@@ -83,6 +83,7 @@ typedef struct {
   int xleft, ytop, ybottom;   // left, top, and bottom borders
   int buttonheight; // size of menu item button  (-1 if calculated)
   int ygap;  // vertical gap between entries
+  int button_same_width; // should all buttons have the same width?
 } menu_options;
 
 /* LOGGING works as such:
@@ -125,6 +126,7 @@ typedef struct {
 #define FULL_CIRCLE		        140
 
 /* Menu Prototypes */
+/*
 enum Game_Type { 
 	LESSONS, ARCADE, OPTIONS, GAME_OPTIONS, QUIT_GAME,
         ARCADE_CADET, ARCADE_SCOUT, ARCADE_RANGER, ARCADE_ACE, HIGH_SCORES,
@@ -133,6 +135,7 @@ enum Game_Type {
 	INSTRUCT_LASER,    LASER1,    LASER2,    LASER3,    LASER4,
 	FREETYPE, ASDF, ALL, SET_LANGUAGE, EDIT_WORDLIST,
 	LEVEL1, LEVEL2, LEVEL3, LEVEL4, LASER, INSTRUCT, NOT_CODED, NONE};
+*/
 
 /* Title sequence constants */
 #define PRE_ANIM_FRAMES			10
@@ -227,7 +230,6 @@ enum {
 #define TUX4                            124
 #define TUX5                            127
 #define TUX6                            130
-
 
 
 

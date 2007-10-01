@@ -1,3 +1,17 @@
+2007.Sep.28 (svn.debian.org/tux4kids - revision 279)
+  Code:
+      * Completed the transition in TitleScreen to using a generic
+	menu-traversal function, choose_menu_item.  All the menus have
+	been transitioned over to the new code.  This version fixes a
+	couple of minor visual glitches, slightly enhances consistency
+	across menus, and may fix a bug in the mouse-handling code.  But
+	by and large the main effort has been to replicate the previous
+	behavior using only a single menu-traversal function.  It has
+	been tested for memory leaks with valgrind (none found).
+
+	Tim Holy <holy@wustl.edu>
+
+	
 2007.Sep.28 (svn.debian.org/tux4kids - revision 277)
   Game:
     * Completed implementation of high score table and 
