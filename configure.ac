@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Tux Of Math Command, 1.5.4, tuxmath-devel@lists.sourceforge.net, tuxmath)
+AC_INIT(Tux Of Math Command, 1.5.5, tuxmath-devel@lists.sourceforge.net, tuxmath)
 
 #AC_PREREQ(2.59)
 AC_CANONICAL_HOST
@@ -9,7 +9,6 @@ AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE(foreign)
 AM_CONFIG_HEADER(config.h)
-# AM_MAINTAINER_MODE
 
 NAME_VERSION=$PACKAGE-$VERSION
 

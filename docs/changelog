@@ -1,3 +1,14 @@
+2007.Oct.03 (svn.debian.org/tux4kids - revision 283)
+  Version 1.5.5
+  Code:
+      * One-liner bug fix in mathcards.c for rare segfaults during
+        problem list generation (thanks to Tim Holy's test program
+        for mathcards).
+      * Elimination of "evil" macros in titlescreen.h.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+
 2007.Sep.28 (svn.debian.org/tux4kids - revision 279)
   Code:
       * Completed the transition in TitleScreen to using a generic

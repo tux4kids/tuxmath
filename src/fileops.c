@@ -33,7 +33,7 @@
 #include "mathcards.h"
 #include "options.h"
 #include "highscore.h"
-//#include "titlescreen.h"
+#include "titlescreen.h"
 
 #ifndef MACOSX
 #include "../config.h"
@@ -93,10 +93,6 @@ static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 
-/* FIXME copied this prototype here because titlescreen.h */
-/* has an 'evil macro named 'rewind' that generates a name */
-/* collision with rewind() in read_config_file():          */
-TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
 
 
 /* fix HOME on windows */

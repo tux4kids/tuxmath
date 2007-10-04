@@ -10,6 +10,7 @@
     Modified for use in tuxmath by David Bruce - 2006-2007.
     email                : <dbruce@tampabay.rr.com>
                            <tuxmath-devel@lists.sourceforge.net>
+    Also significantly enhanced by Tim Holy - 2007
 ***************************************************************************/
 
 /***************************************************************************
@@ -56,7 +57,6 @@ unsigned char **lesson_list_filenames;
 int num_lessons = 0;
 
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
-//int show_tux4kids;
 int debugOn; //FIXME switch to TUXMATH_DEBUG
 
 
@@ -383,29 +383,17 @@ void switch_screen_mode(void)
 
 
 // 1 = success, 0 = failure
-int TitleScreen_load_media( void )
+int TitleScreen_load_media(void)
 {
   char fn[PATH_MAX];
   int i;
 
-  /* --- load sounds --- */
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Entering TitleScreen_load_media():\n");
 #endif
 
-/*  if (Opts_MenuSound())
-  {
-    snd_move = LoadSound("tock.wav");
-    snd_select = LoadSound("pop.wav");
-  }*/
- 
-  /* --- load graphics --- */
-
-//  titlepic = LoadImage("title/title1.png", IMG_ALPHA);
-//  bkg = LoadImage( "title/main_bkg.jpg", IMG_REGULAR );
   Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-  //font = LoadFont(menu_font, menu_font_size);
 
   SDL_ShowCursor(1);
 
@@ -435,33 +423,19 @@ void TitleScreen_unload_menu(void)
   for (i = 0; i < N_SPRITES; i++)
     FreeSprite(sprite_list[i]);
   free(sprite_list);
-  sprite_list == NULL;
+  sprite_list = NULL;
 }
 
 
 
-void TitleScreen_unload_media( void ) {
-
-	/* --- unload sounds --- */
-
-/*	if (Opts_MenuSound()){
-	    Mix_FreeChunk(snd_move);
-	    Mix_FreeChunk(snd_select);
-	}*/
-
-	/* --- unload graphics --- */
-
-//	SDL_FreeSurface(titlepic);
-//	SDL_FreeSurface(bkg);
-
-//	FreeSprite(sel);
-//	FreeSprite(reg);
-
-	FreeSprite(Tux);
-
-	//TTF_CloseFont(font);
-	TitleScreen_unload_menu();
+void TitleScreen_unload_media(void)
+{
+  FreeSprite(Tux);
+  Tux = NULL;
+  TitleScreen_unload_menu();
 }
+
+
 
 void NotImplemented(void)
 {
@@ -474,9 +448,6 @@ void NotImplemented(void)
 
   ShowMessage(s1, s2, s3, s4);
 }
-
-
-
 
 
 
@@ -618,7 +589,7 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
     {
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
 //      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
-      SDL_UpdateRect(screen, 0, 0, 0, 0);
+      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
 
     }
     /* Wait so we keep frame rate constant: */
@@ -664,29 +635,30 @@ int run_main_menu(void)
 
   while (choice >= 0) {
     switch (choice) {
-    case 0: {
-      ret = choose_config_file();
-      break;
-    }
-    case 1: {
-      ret = run_arcade_menu();
-      break;
-    }
-    case 2: {
-      ret = run_custom_menu();
-      break;
-    }
-    case 3: {
-      ret = run_options_menu();
-      break;
-    }
-    case 4: {
-      return 0;
-    }
+      case 0: {
+        ret = choose_config_file();
+        break;
+      }
+      case 1: {
+        ret = run_arcade_menu();
+        break;
+      }
+      case 2: {
+        ret = run_custom_menu();
+        break;
+      }
+      case 3: {
+        ret = run_options_menu();
+        break;
+      }
+      case 4: {
+        return 0;
+      }
     }
     menu_opts.starting_entry = choice;
     choice = choose_menu_item(menu_text,sprites,5,menu_opts);
   }
+  return 0;
 }
 
 int run_arcade_menu(void)
@@ -913,7 +885,7 @@ int choose_config_file(void)
 /****************************************************************/
 /* choose_menu_item: menu navigation utility function           */
 /****************************************************************/
-int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n_menu_entries,menu_options menu_opts)
+int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options menu_opts)
 {
   // Pixel renderings of menu text choices
   SDL_Surface **menu_item_unselected = NULL;
@@ -1437,7 +1409,7 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
 	DrawButton(&menu_button_rect[imod], 15, SEL_RGBA);
 	SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
 	if (use_sprite) {
-	  rewind(menu_sprites[loc]);  // start at beginning of animation sequence
+	  menu_sprites[loc]->cur = 0;  // start at beginning of animation sequence
 	  SDL_BlitSurface(menu_sprites[loc]->frame[menu_sprites[loc]->cur], NULL, screen, &menu_sprite_rect[imod]);
 	  SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
 	  next_frame(menu_sprites[loc]);
@@ -1493,12 +1465,9 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
     if (Tux && tux_frame)
     {
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
+      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
-
     }
-
-
 
     /* Wait so we keep frame rate constant: */
     frame_now = SDL_GetTicks();
@@ -1531,6 +1500,8 @@ int choose_menu_item(const unsigned char **menu_text,sprite **menu_sprites,int n
   else
     return loc;
 }
+
+
 
 void set_buttons_max_width(SDL_Rect *menu_button_rect,int n)
 {
@@ -1726,6 +1697,8 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
     }
     LOG("->TransWipe(): FINISH\n");
 }
+
+
 
 /************************
 UpdateScreen : Update the screen and increment the frame num

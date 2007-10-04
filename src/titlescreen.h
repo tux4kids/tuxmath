@@ -54,12 +54,6 @@
 
 #include "tuxmath.h"
 
-/* FIXME get rid of these evil macros! */
-#define next_frame(SPRITE) if ((SPRITE)->num_frames) (SPRITE)->cur = (((SPRITE)->cur)+1) % (SPRITE)->num_frames;
-#define rewind(SPRITE) (SPRITE)->cur = 0;
-
-#define MIN(x,y) ((x) < (y) ? (x) : (y))
-#define MAX(x,y) ((x) > (y) ? (x) : (y))
 
 typedef struct {
     char lang[PATH_MAX];
@@ -259,6 +253,7 @@ sprite      *LoadSprite( char *name, int MODE );
 sprite      *FlipSprite( sprite *in, int X, int Y );
 void         FreeSprite( sprite *gfx );
 Mix_Music   *LoadMusic( char *datafile );
+void next_frame(sprite* s);
 
 /* in alphabet.c (from tuxtype) */
 void LoadKeyboard( void );

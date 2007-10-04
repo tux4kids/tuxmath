@@ -22,7 +22,7 @@
 
 typedef struct high_score_entry {
   int score;
-  char name[HIGH_SCORE_NAME_LENGTH];
+  unsigned char name[HIGH_SCORE_NAME_LENGTH];
 } high_score_entry;
 
 
@@ -734,11 +734,8 @@ int read_high_scores_fp(FILE* fp)
     return 0;
   }
 
-/* FIXME work-around to prevent name collision until we get rid of rewind macro */
-#undef rewind
   /* make sure we start at beginning: */
   rewind(fp);
-#define rewind(SPRITE) (SPRITE)->cur = 0;
 
   /* read in a line at a time: */
   while (fgets (buf, PATH_MAX, fp))
@@ -823,14 +820,14 @@ int HS_Score(int diff_level, int place)
 
 
 /* Return (pointer to) the name associated with a table entry:  */
-char* HS_Name(int diff_level, int place)
+unsigned char* HS_Name(int diff_level, int place)
 {
   /* Make sure diff_level is valid: */
   if (diff_level < 0
    || diff_level > ACE_HIGH_SCORE)
   {
     fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
-    return -1;
+    return NULL;
   }
 
   /* Make sure place is valid: */
@@ -838,8 +835,8 @@ char* HS_Name(int diff_level, int place)
    || place >= HIGH_SCORES_SAVED)
   {
     fprintf(stderr, "In HS_Score(), place invalid!\n");
-    return -1;
+    return NULL;
   }
 
-  return &high_scores[diff_level][place].name;
+  return high_scores[diff_level][place].name;
 }

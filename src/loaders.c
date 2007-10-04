@@ -27,6 +27,7 @@
 #include "tuxmath.h"     // for TUXMATH_DEBUG
 #include "titlescreen.h"
 #include "setup.h"  // for cleanup_on_error()
+#include "SDL_extras.h"
 
 /* FIXME Doesn't seem to work consistently on all versions of Windows */
 /* check to see if file exists, if so return true */
@@ -220,7 +221,11 @@ void FreeSprite( sprite *gfx ) {
 	free(gfx);
 }
 
-
+void next_frame(sprite* s)
+{
+  if (s && s->num_frames)
+    s->cur = (s->cur + 1) % s->num_frames;
+}
 
 /***************************
 	LoadSound : Load a sound/music patch from a file.

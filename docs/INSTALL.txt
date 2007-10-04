@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.5.2
+Version 1.5.5
 
-August 21, 2007
+October 2, 2007
 
 
 Requirements
@@ -140,36 +140,35 @@ Compiling and Installing TuxMath
 
         svn://svn.debian.org/tux4kids/tuxmath
 
-      If you are using a source tar.gz package (e.g. tuxmath-1.5.2-tar.gz),
+      If you are using a source tar.gz package (e.g. tuxmath-1.5.5-tar.gz),
       all you need to do is unpack the archive in a convient location and
       do a typical configure, make, and install.  In other words, the
-      tarball contains a complete "Gnu build system".  Note, however, that
+      tarball contains a complete "GNU Build System".  Note, however, that
       you will need the "-dev" files for SDL, SDL_image, SDL_mixer, and
       SDL_ttf.  You also need Gnu gettext as "msgfmt" is called during the
       installation.
  
       For example:
  
-        tar -xzf tuxmath-1.5.2-tar.gz
-        cd tuxmath-1.5.2
+        tar -xzf tuxmath-1.5.5-tar.gz
+        cd tuxmath-1.5.5
         ./configure
         make
         make install.  (you might need "su" or "sudo" for this)
  
-      If you use a subversion checkout, you will need to generate the configure
+      If you use a subversion checkout, you will need to generate the configure script.
       Tuxmath uses the Gnu Autoconf/Automake tools for development. You will need
       to run Autoconf's "autoreconf" to generate the configure script, Makefile.in's,
-      and friend, so the build process becomes:
+      and friends, so the build process becomes:
       
         autoreconf --install; ./configure; make; make install
 
       Tuxmath supports "parallel" or "vpath" builds to avoid cluttering the source
       tree with object files, so a clean way would be (starting within trunk):
 
-        autoreconf --install
-        cd ..
         mkdir build
         cd build
+        autoreconf --install ../trunk
         ../trunk/configure
         make
         make install

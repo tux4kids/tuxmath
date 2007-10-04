@@ -218,7 +218,9 @@ int MC_StartGame(void)
   
   /* clear out old lists if starting another game: (if not done already) */
   delete_list(question_list);
+  question_list = NULL;
   delete_list(wrong_quests);
+  wrong_quests = NULL;
 
   /* set up new list with pointer to top: */
   question_list = generate_list();
@@ -1909,6 +1911,9 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
   fprintf(fp, "min_typing_num = %d\n",math_opts->min_typing_num);
   fprintf(fp, "max_typing_num = %d\n",math_opts->max_typing_num);
 
+  #ifdef MC_DEBUG
+  printf("\nLeaving MC_PrintMathOptions()\n");
+  #endif
 }
 
 
@@ -2027,9 +2032,9 @@ void clear_negatives(void)
 /* math operations and question formats                                    */
 MC_MathQuestion* generate_list(void)
 {
-  MC_MathQuestion* top_of_list = 0;
-  MC_MathQuestion* end_of_list = 0;
-  MC_MathQuestion* tmp_ptr = 0;
+  MC_MathQuestion* top_of_list = NULL;
+  MC_MathQuestion* end_of_list = NULL;
+  MC_MathQuestion* tmp_ptr = NULL;
 
   int i, j, k;
   int length = 0;
@@ -2041,6 +2046,9 @@ MC_MathQuestion* generate_list(void)
  
   /* add nodes for each math operation allowed */
 
+  #ifdef MC_DEBUG
+  printf("\ngenerating addition questions\n");
+  #endif
 
   if (math_opts->addition_allowed)
   {
@@ -2108,6 +2116,10 @@ MC_MathQuestion* generate_list(void)
     }
   }
 
+  #ifdef MC_DEBUG
+  printf("generating subtraction questions\n");
+  #endif
+
   if (math_opts->subtraction_allowed)
   {
     for (i = math_opts->min_minuend; i <= math_opts->max_minuend; i++)
@@ -2174,6 +2186,10 @@ MC_MathQuestion* generate_list(void)
       }
     }
   }
+
+  #ifdef MC_DEBUG
+  printf("generating multiplication questions\n");
+  #endif
 
   if (math_opts->multiplication_allowed)
   {
@@ -2244,6 +2260,10 @@ MC_MathQuestion* generate_list(void)
     }
   }
 
+  #ifdef MC_DEBUG
+  printf("generating division questions\n");
+  #endif
+
   if (math_opts->division_allowed)
   {
     for (i = math_opts->min_quotient; i <= math_opts->max_quotient; i++)
@@ -2311,6 +2331,10 @@ MC_MathQuestion* generate_list(void)
       }
     }
   }
+
+  #ifdef MC_DEBUG
+  printf("generating typing practice questions\n");
+  #endif
 
   if (math_opts->typing_practice_allowed)
   {
@@ -2384,15 +2408,24 @@ int validate_question(int n1, int n2, int n3)
 /* create a new node and return a pointer to it */
 MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
 {
-  MC_MathQuestion* ptr;
-  ptr = malloc(sizeof(MC_MathQuestion));
+  MC_MathQuestion* ptr = NULL;
+
+  ptr = (MC_MathQuestion*)malloc(sizeof(MC_MathQuestion));
+
+  if (!ptr)
+  {
+    fprintf(stderr, "create_node() - malloc() failed!\n");
+    return NULL;
+  }
+
   ptr->card.num1 = n1;
   ptr->card.num2 = n2;  
   ptr->card.num3 = ans;
   ptr->card.operation = op;
   ptr->card.format = f;
-  ptr->next = 0;
-  ptr->previous =0;
+  ptr->next = NULL;
+  ptr->previous = NULL;
+
 
   /* creating formula_string  and answer_string is a little more work: */
   {
@@ -2431,6 +2464,7 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
         fprintf(stderr, "\nIn create_node(): invalid math operation\n");
         free(ptr);
         ptr = 0;
+
         return 0;
       }
     }
@@ -2469,6 +2503,8 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
         fprintf(stderr, "\ncreate_node() - invalid question format\n");
         free(ptr);
         ptr = 0;
+
+ 
         return 0;
       }
     }
