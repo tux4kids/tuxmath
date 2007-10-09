@@ -1,3 +1,8 @@
+2007.Oct.09 (svn.debian.org/tux4kids - revision 293)
+  Build:
+      * Merged in code to allow build under BeOS/Zeta 
+      Luc Schrijvers <Begasus@skynet.be> 
+
 2007.Oct.09 (svn.debian.org/tux4kids - revision 291)
   Docs:
       * Added license notice for Andika font to 

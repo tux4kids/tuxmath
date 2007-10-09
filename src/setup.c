@@ -474,7 +474,7 @@ void initialize_SDL(void)
   }
   
   #endif
-
+{
   SDL_VideoInfo *videoInfo;
   Uint32 surfaceMode;
   videoInfo = SDL_GetVideoInfo();
@@ -523,7 +523,7 @@ void initialize_SDL(void)
 
   SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 }
-
+}
 
 
 void load_data_files(void)

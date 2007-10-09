@@ -482,6 +482,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   questions_pending--;
 
   /* add question to wrong_quests list: */
+  {
   MC_MathQuestion* ptr1;
   MC_MathQuestion* ptr2;
 
@@ -538,7 +539,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 
   return 1;
 }
-
+}
 
 /* Tells user interface if all questions have been answered correctly! */
 /* Requires that at list contained at least one question to start with */
@@ -2692,7 +2693,7 @@ void print_list(FILE* fp, MC_MathQuestion* list)
     fprintf(fp, "\nprint_list(): list empty or pointer invalid\n");
     return;
   }
- 
+ {
   MC_MathQuestion* ptr = list;
   while (ptr)
   {
@@ -2700,7 +2701,7 @@ void print_list(FILE* fp, MC_MathQuestion* list)
     ptr = ptr->next;
   }
 }
-
+}
 
 
 /* Don't need this much now that formula_string part of card struct:  */

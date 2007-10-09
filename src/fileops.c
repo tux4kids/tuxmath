@@ -39,6 +39,119 @@
 #include "../config.h"
 #endif
 
+#ifdef OS_solaris
+#define DIRHANDLE dirp->d_fd
+#elif defined(OS_mingw)
+
+#else
+#define DIRHANDLE dirp->fd
+#endif
+
+#if defined(__BEOS__) || defined(OS_solaris) || defined(OS_mingw)
+/* The scandir() and alphasort() functions aren't available on BeOS, */
+/* so let's declare them here... */
+#ifndef OS_mingw
+#include <strings.h>
+#endif
+
+#undef DIRSIZ
+
+#define DIRSIZ(dp)                                          \
+        ((sizeof(struct dirent) - sizeof(dp)->d_name) +     \
+		(((dp)->d_reclen + 1 + 3) &~ 3))
+
+
+/*-----------------------------------------------------------------------*/
+/*
+  Alphabetic order comparison routine for those who want it.
+*/
+int alphasort(const void *d1, const void *d2)
+{
+  return(strcmp((*(struct dirent **)d1)->d_name, (*(struct dirent **)d2)->d_name));
+}
+
+/*-----------------------------------------------------------------------*/
+/*
+  Scan a directory for all its entries
+*/
+int scandir(const char *dirname, struct dirent ***namelist, int(*select) (const struct dirent *), int (*dcomp) (const void *, const void *))
+{
+  register struct dirent *d, *p, **names;
+  register size_t nitems;
+  struct stat stb;
+  unsigned long arraysz;
+  DIR *dirp;
+
+  if ((dirp = opendir(dirname)) == NULL)
+    return(-1);
+
+  if (fstat(DIRHANDLE, &stb) < 0)
+    return(-1);
+
+  /*
+   * estimate the array size by taking the size of the directory file
+   * and dividing it by a multiple of the minimum size entry.
+   */
+  arraysz = (stb.st_size / 24);
+
+  names = (struct dirent **)malloc(arraysz * sizeof(struct dirent *));
+  if (names == NULL)
+    return(-1);
+
+  nitems = 0;
+
+  while ((d = readdir(dirp)) != NULL) {
+
+     if (select != NULL && !(*select)(d))
+       continue;       /* just selected names */
+
+     /*
+      * Make a minimum size copy of the data
+      */
+
+     p = (struct dirent *)malloc(DIRSIZ(d));
+     if (p == NULL)
+       return(-1);
+
+     p->d_ino = d->d_ino;
+     p->d_reclen = d->d_reclen;
+     /*p->d_namlen = d->d_namlen;*/
+     bcopy(d->d_name, p->d_name, p->d_reclen + 1);
+
+     /*
+      * Check to make sure the array has space left and
+      * realloc the maximum size.
+      */
+
+     if (++nitems >= arraysz) {
+
+       if (fstat(DIRHANDLE, &stb) < 0)
+         return(-1);     /* just might have grown */
+
+       arraysz = stb.st_size / 12;
+
+       names = (struct dirent **)realloc((char *)names, arraysz * sizeof(struct dirent *));
+       if (names == NULL)
+         return(-1);
+     }
+
+     names[nitems-1] = p;
+   }
+
+   closedir(dirp);
+
+   if (nitems && dcomp != NULL)
+     qsort(names, nitems, sizeof(struct dirent *), dcomp);
+
+   *namelist = names;
+
+   return(nitems);
+}
+
+
+#endif /* __BEOS__ */
+
+
 
 /* SDL includes: */
 #include <SDL.h>
@@ -2757,105 +2870,3 @@ int load_sound_data(void)
 
 
 
-//  /* FIXME:Move file stuff into fileops.c.*/   
-//    /* Todo?: switch from readdir() to scandir() and use dynamic memory allocation? */   
-//    unsigned char lesson_path[PATH_MAX];             //Path to lesson directory   
-//    char* fgets_return_val;   
-//    unsigned char name_buf[NAME_BUF_SIZE];   
-//      
-//    DIR* lesson_dir = NULL;   
-//    struct dirent* lesson_file = NULL;   
-//    FILE* tempFile = NULL;   
-//      
-//    /* All pointers get explicitly set to NULL until used:*/   
-//    for (i = 0; i < MAX_LESSONS; i++)   
-//    {   
-//      titles[i] = NULL;   
-//      select[i] = NULL;   
-//    }   
-//      
-//      
-//  #ifdef TUXMATH_DEBUG  #ifdef TUXMATH_DEBUG
-//    fprintf(stderr, "Entering choose_config_file():\n");    fprintf(stderr, "Entering choose_config_file():\n");
-//  #endif  #endif
-//      
-//    /* find the directory containing the lesson files:  */   
-//    sprintf(lesson_path, "%s/missions/lessons", DATA_PREFIX);   
-//      
-//  #ifdef TUXMATH_DEBUG   
-//    fprintf(stderr, "lesson_path is: %s\n", lesson_path);   
-//  #endif   
-//      
-//    /* create a list of all the lesson files */   
-//    lesson_dir = opendir(lesson_path);   
-//      
-//    do   
-//    {   
-//      /* readdir() returns ptr to next file in dir AND resets ptr to following file: */   
-//      lesson_file = readdir(lesson_dir);   
-//     /* Get out when no more files: */   
-//     if (!lesson_file)   
-//      {   
-//        break;   
-//      }   
-//      
-//      /* file names must begin with 'lesson' (case-insensitive) */   
-//      if (0 != strncasecmp(&lesson_file->d_name, "lesson", 6))   
-//      {   
-//        continue;   
-//      }   
-//      
-//      /* FIXME Should somehow test each file to see if it is a tuxmath config file */   
-//      /* Put file name into array of names found in lesson directory */   
-//      sprintf(lesson_list[lessons].filename, "%s/%s", lesson_path, lesson_file->d_name);   
-//      
-//  #ifdef TUXMATH_DEBUG   
-//      fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list[lessons].filename);   
-//  #endif   
-//      
-//      /* load the name for the lesson from the file ... (1st line) */   
-//      tempFile = fopen(lesson_list[lessons].filename, "r");   
-//      
-//      if (tempFile==NULL)   
-//      {   
-//        /* By leaving the current iteration without incrementing 'lessons', */   
-//        /* the bad file name will get clobbered next time through: */   
-//        continue;   
-//      }   
-//      
-//      fgets_return_val = fgets(name_buf, NAME_BUF_SIZE, tempFile);   
-//      if (fgets_return_val == NULL) {   
-//        continue;   
-//      }   
-//      
-//      
-//      /* check to see if it has a \r at the end of it (dos format!) */   
-//      length = strlen(name_buf);   
-//      while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n')) {   
-//        name_buf[length - 1] = '\0';   
-//        length--;   
-//      }   
-//      
-//      /* Go past leading '#', ';', or whitespace: */   
-//      /* NOTE getting i to the correct value on exit is the main goal of the loop */   
-//      for (  i = 0;   
-//            ((name_buf[i] == '#') ||   
-//            (name_buf[i] == ';') ||   
-//             isspace(name_buf[i])) &&   
-//             (i < NAME_BUF_SIZE);   
-//             i++  )   
-//     {   
-//        length--;   
-//      }   
-//      /* Now copy the rest of the first line into the list: */   
-//      /* Note that "length + 1" is needed so that the final \0 is copied! */   
-//      memmove(&lesson_list[lessons].display_name, &name_buf[i], length + 1);   
-//      lessons++;   
-//      fclose(tempFile);   
-//    } while (lessons < MAX_LESSONS);  // Loop will end when 'break' encountered   
-//   
-//    closedir(lesson_dir);   
-//      
-//    /* FIXME The lesson list does not necessarily come out in alphabetical order. */   
-//    /* Sort the list into proper order:           */   
-//    qsort(lesson_list, lessons, sizeof(struct lesson_entry), compare_lesson_entries);   */*/

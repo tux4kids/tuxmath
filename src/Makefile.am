@@ -44,8 +44,6 @@ EXTRA_DIST = 	credits.h 	\
 		SDL_extras.h
 
 
-# SUBDIRS = po
-
 WINDRES=@WINDRES@
 
 if BUILD_MINGW32

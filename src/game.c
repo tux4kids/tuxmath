@@ -953,6 +953,7 @@ void game_handle_demo(void)
   }
 
   /* Demo mode! */
+  {
   static int demo_answer = 0;
   static int answer_digit = 0;
   static int picked_comet=-1;
@@ -1032,7 +1033,7 @@ void game_handle_demo(void)
   /* Count down counter: */
   demo_countdown--;
 }
-
+}
 
 void game_handle_answer(void)
 {

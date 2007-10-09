@@ -72,7 +72,11 @@ SectionEnd
 Section "Desktop Shortcut"
   SetShellVarContext all
   SetOutPath $INSTDIR
-  CreateShortCut "$DESKTOP\${APP_NAME}.lnk" "$INSTDIR\${APP_EXE}" "" "$INSTDIR\${APP_EXE}" 0  "" "" "Run Tux of Math Command"
+  CreateShortCut "$DESKTOP\${APP_NAME}.lnk" \
+                 "$INSTDIR\${APP_EXE}"  ""  \
+                 "$INSTDIR\data\images\tuxmath.ico" \
+                 0  "" ""  \ 
+                 "Run Tux of Math Command"
 SectionEnd
 
 ;Function .onInstSuccess
