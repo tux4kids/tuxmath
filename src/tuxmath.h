@@ -66,6 +66,7 @@
 #define DEFAULT_MENU_MUSIC 1
 #define DEFAULT_FULLSCREEN 1
 #define DEFAULT_USE_BKGD 1
+#define DEFAULT_HELP_MODE 0
 #define DEFAULT_DEMO_MODE 0
 #define DEFAULT_OPER_OVERRIDE 0
 #define DEFAULT_USE_KEYPAD 0
@@ -106,6 +107,7 @@
 
 #define DEFAULT_FONT_NAME "AndikaDesRevG.ttf"
 #define DEFAULT_MENU_FONT_SIZE 18
+#define DEFAULT_HELP_FONT_SIZE 32
 
 
 #define HIGH_SCORES_SAVED 10
@@ -160,6 +162,7 @@ extern SDL_Surface* flipped_images[];
 extern int flipped_img_lookup[];
 
 extern TTF_Font  *default_font;
+extern TTF_Font  *help_font;
 
 
 #ifndef NOSOUND

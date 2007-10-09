@@ -1,8 +1,9 @@
 TODO.txt for "tuxmath"
 
-2007.Mar.05
+2007.Oct.08
 
 Build:
+  * Make a relocatable binary for Linux (klik package?)
   * Refine NSIS installer for Windows (or perhaps executable
     itself) to create Start Menu link to options.txt file
 
@@ -13,12 +14,12 @@ Graphics:
   * svg support - allow game to draw correctly at any resolution.
 
 Interface:
+  * Create a Help sprite
   * Add more sound effects and music files
   * Speech mode
   * Add option for number-keys to control main menu and possible options
     (for mouseless scenarios where arrow keys might not be the available...
     is there such a thing as numeric-only keyboards for PCs???)
-  * High-score table
   * Implement lockfile to prevent multiple invocations.
 
 Game Play:
@@ -30,6 +31,8 @@ Game Play:
     correct, etc. on a per-user basis, even if installation doesn't have 
     students log into computers individually.
   * Multiplayer mode - points go to whoever shoots the comet first.
+  * Re-examine algorithm for spacing of comets (allow game to deliver
+    problems faster even if the comet speed limit is not raised).
 
 Documentation:
   * Finish README.txt
@@ -48,3 +51,5 @@ Code:
   * Abstract SDL_BlitSurface() calls
   * Consider moving to C++ (ducks!)
 
+Website:
+  * Make something more user-friendly

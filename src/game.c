@@ -145,8 +145,13 @@ static cloud_type cloud;
 static laser_type laser;
 static SDL_Surface* bkgd = NULL;
 
+static game_message s1, s2, s3, s4;
+static int x_is_blinking = 0;
+
 /* Local function prototypes: */
 static int  game_initialize(void);
+static void game_cleanup(void);
+static void game_handle_help(void);
 static void game_handle_user_events(void);
 static void game_handle_demo(void);
 static void game_handle_answer(void);
@@ -162,6 +167,10 @@ static int check_extra_life(void);
 static int check_exit_conditions(void);
 
 static void draw_numbers(const char* str, int x, int y);
+static void game_set_message(game_message *,unsigned char *,int x, int y);
+static void game_clear_message(game_message*);
+static void game_write_message(const game_message*);
+static void game_write_messages(void);
 static void draw_led_console(void);
 static void draw_question_counter(void);
 static void draw_console_image(int i);
@@ -203,6 +212,12 @@ int game(void)
     free_on_exit();
     return 0;
   } 
+
+  if (Opts_HelpMode()) {
+    game_handle_help();
+    game_cleanup();
+    return 0;
+  }
 
   /* --- MAIN GAME LOOP: --- */ 
   do
@@ -414,27 +429,7 @@ int game(void)
 
   } 
 
-  /* Free background: */
-  if (bkgd != NULL)
-  {
-    SDL_FreeSurface(bkgd);
-    bkgd = NULL;
-  }
-
-  /* Free dynamically-allocated items */
-  free_on_exit();
-
-  /* Stop music: */
-#ifndef NOSOUND
-  if (Opts_UsingSound())
-  {
-    if (Mix_PlayingMusic())
-    {
-      Mix_HaltMusic();
-    }
-  }
-#endif
-
+  game_cleanup();
 
   /* Write post-game info to game summary file: */
   if (Opts_SaveSummary())
@@ -444,11 +439,6 @@ int game(void)
 
   /* Save score in case needed for high score table: */
   Opts_SetLastScore(score);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Leaving game():\n");
-#endif
-
 
   /* Return the chosen command: */
   if (GAME_OVER_WINDOW_CLOSE == game_status) 
@@ -615,7 +605,320 @@ int game_initialize(void)
   tux_anim = -1;
   tux_anim_frame = 0;
 
+  // Initialize the messages
+  game_clear_message(&s1);
+  game_clear_message(&s2);
+  game_clear_message(&s3);
+  game_clear_message(&s4);
+
+  x_is_blinking = 0;
+
   return 1;
+}
+
+
+void game_cleanup(void)
+{
+  /* Free background: */
+  if (bkgd != NULL)
+  {
+    SDL_FreeSurface(bkgd);
+    bkgd = NULL;
+  }
+
+  /* Free dynamically-allocated items */
+  free_on_exit();
+
+  /* Stop music: */
+#ifndef NOSOUND
+  if (Opts_UsingSound())
+  {
+    if (Mix_PlayingMusic())
+    {
+      Mix_HaltMusic();
+    }
+  }
+#endif
+
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "Leaving game():\n");
+#endif
+
+}
+
+void game_handle_help(void)
+{
+  Uint32 last_time, now_time;
+  SDL_Rect dest;
+  const int left_edge = 140;
+
+  // Here are some things that have to happen before we can safely
+  // draw the screen
+  tux_img = IMG_TUX_CONSOLE1;
+  old_tux_img = tux_img;
+  tux_pressing = 0;
+
+  game_handle_user_events();
+  game_handle_cities();
+  game_handle_penguins();
+
+  // Write the introductory text
+  game_set_message(&s1,"Welcome to TuxMath!",-1,50);
+
+  // Draw the screen
+  game_draw();
+
+#ifndef NOSOUND
+    if (Opts_UsingSound())
+    {
+      if (!Mix_PlayingMusic())
+      {
+	    Mix_PlayMusic(musics[MUS_GAME], 0);
+      }  
+    }
+#endif
+ 
+  // Pause while accepting user input
+  for (frame = 0; frame < 20; frame++) {
+    if (game_delay_and_exit())
+      return;
+  }
+
+  game_set_message(&s2,"Your mission is to save your", left_edge, 100);
+  game_set_message(&s3,"penguins' igloos from the", left_edge, 135);
+  game_set_message(&s4,"falling comets.", left_edge, 170);
+  game_draw();
+
+  for (frame = 0; frame < 50; frame++) {
+    if (game_delay_and_exit())
+      return;
+  }
+
+  // Bring in a comet
+  speed = 2;
+  comets[0].alive = 1;
+  comets[0].expl = 0;
+  comets[0].answer = 3;
+  num_comets_alive = 1;
+  comets[0].city = 0;
+  comets[0].x = cities[0].x;
+  comets[0].y = 0;
+  comets[0].zapped = 0;
+  comets[0].bonus = 0;
+  comets[0].flashcard.num1 = 2;
+  comets[0].flashcard.num2 = 1;
+  comets[0].flashcard.num3 = 3;
+  comets[0].flashcard.operation = MC_OPER_ADD;
+  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
+  strncpy(comets[0].flashcard.formula_string,"2 + 1 = ?",MC_FORMULA_LEN);
+  strncpy(comets[0].flashcard.answer_string,"3",MC_ANSWER_LEN);
+
+  last_time = SDL_GetTicks();
+  for (frame = 0; frame < 50; frame++) {
+    game_handle_user_events();
+    game_handle_comets();
+    game_handle_cities();
+    game_handle_penguins();
+    game_draw();
+    game_status = check_exit_conditions();
+    if (game_status != GAME_IN_PROGRESS)
+      return;
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+  }
+
+  game_set_message(&s1,"Stop a comet by typing",left_edge,100);
+  game_set_message(&s2,"the answer to the math problem",left_edge,135);
+  game_set_message(&s3,"and hitting 'space' or 'enter'.",left_edge,170);
+  game_clear_message(&s4);
+
+  for (frame = 0; frame < 30; frame++) {
+    game_handle_user_events();
+    game_handle_comets();
+    game_handle_cities();
+    game_handle_penguins();
+    game_draw();
+    game_status = check_exit_conditions();
+    if (game_status != GAME_IN_PROGRESS)
+      return;
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+  }
+
+  tux_pressing = 1;
+  digits[2] = 3;
+  game_handle_user_events();
+  game_handle_answer();
+  game_handle_tux();
+  game_handle_comets();
+  game_handle_cities();
+  game_handle_penguins();
+  game_draw();
+  now_time = SDL_GetTicks();
+  if (now_time < last_time + FPS)
+    SDL_Delay(last_time+FPS - now_time);
+  last_time = now_time;
+
+  tux_pressing = 1;
+  doing_answer = 1;
+  for (frame = 0; frame < 100; frame++) {
+    if (laser.alive > 0)
+      laser.alive--;
+    game_handle_answer();
+    game_handle_comets();
+    game_handle_cities();
+    game_handle_penguins();
+    game_draw();
+    game_handle_user_events();
+    game_status = check_exit_conditions();
+    if (game_status != GAME_IN_PROGRESS)
+      return;
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+  }
+
+  game_set_message(&s1,"Fix your igloos by stopping",left_edge,100);
+  game_set_message(&s2,"bonus comets.",left_edge,135);
+  game_clear_message(&s3);
+
+  comets[0].alive = 1;
+  comets[0].expl = 0;
+  comets[0].answer = 9;
+  num_comets_alive = 1;
+  comets[0].city = 0;
+  comets[0].x = cities[0].x;
+  comets[0].y = 0;
+  comets[0].zapped = 0;
+  comets[0].bonus = 1;
+  comets[0].flashcard.num1 = 3;
+  comets[0].flashcard.num2 = 3;
+  comets[0].flashcard.num3 = 9;
+  comets[0].flashcard.operation = MC_OPER_MULT;
+  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
+  strncpy(comets[0].flashcard.formula_string,"3 * 3 = ?",MC_FORMULA_LEN);
+  strncpy(comets[0].flashcard.answer_string,"9",MC_ANSWER_LEN);
+
+  last_time = SDL_GetTicks();
+  for (frame = 0; frame < 75; frame++) {
+    game_handle_user_events();
+    game_handle_comets();
+    game_handle_cities();
+    game_handle_penguins();
+    game_draw();
+    game_status = check_exit_conditions();
+    if (game_status != GAME_IN_PROGRESS)
+      return;
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+  }
+
+  tux_pressing = 1;
+  digits[2] = 9;
+  game_handle_user_events();
+  game_handle_answer();
+  game_handle_tux();
+  game_handle_comets();
+  game_handle_cities();
+  game_handle_penguins();
+  game_draw();
+  SDL_Delay(FPS);
+
+  tux_pressing = 1;
+  doing_answer = 1;
+  last_time = SDL_GetTicks();
+  for (frame = 0; frame < 100; frame++) {
+    if (laser.alive > 0)
+      laser.alive--;
+    game_handle_answer();
+    game_handle_comets();
+    game_handle_cities();
+    game_handle_penguins();
+    game_draw();
+    game_handle_user_events();
+    game_status = check_exit_conditions();
+    if (game_status != GAME_IN_PROGRESS)
+      return;
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+  }
+
+  game_set_message(&s1,"Quit at any time by pressing",left_edge,100);
+  game_set_message(&s2,"'Esc' or clicking the 'X'",left_edge,135);
+  game_set_message(&s3,"in the upper right corner.",left_edge,170);
+
+  frame = 0;
+  x_is_blinking = 1;
+  do {
+    game_draw();
+    game_handle_user_events();
+    game_status = check_exit_conditions();
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + FPS)
+      SDL_Delay(last_time+FPS - now_time);
+    last_time = now_time;
+    frame++;
+  } while (game_status == GAME_IN_PROGRESS);
+
+  x_is_blinking = 0;
+}
+
+int game_delay_and_exit(void)
+{
+  SDL_Delay(100);
+  game_handle_user_events();
+  game_status = check_exit_conditions();
+  return (game_status != GAME_IN_PROGRESS);
+}
+
+void game_set_message(game_message *msg,unsigned char *txt,int x,int y)
+{
+  msg->x = x;
+  msg->y = y;
+  strncpy(msg->message,txt,GAME_MESSAGE_LENGTH);
+}
+
+void game_clear_message(game_message *msg)
+{
+  game_set_message(msg,"",0,0);
+}
+
+void game_write_message(const game_message *msg)
+{
+  SDL_Surface *surf;
+  SDL_Rect rect;
+
+  if (strlen(msg->message) > 0) {
+    surf = BlackOutline( _(msg->message), help_font, &white);
+    rect.w = surf->w;
+    rect.h = surf->h;
+    if (msg->x < 0)
+      rect.x = (screen->w/2) - (rect.w/2);   // centered
+    else
+      rect.x = msg->x;              // left justified
+    rect.y = msg->y;
+    SDL_BlitSurface(surf, NULL, screen, &rect);
+    SDL_FreeSurface(surf);
+    //SDL_UpdateRect(screen, rect.x, rect.y, rect.w, rect.h);
+  }
+}
+
+void game_write_messages(void)
+{
+  game_write_message(&s1);
+  game_write_message(&s2);
+  game_write_message(&s3);
+  game_write_message(&s4);
 }
 
 void game_handle_user_events(void)
@@ -1478,12 +1781,14 @@ void game_draw(void)
                0);
 
   /* Draw stop button: */
-  dest.x = (screen->w - images[IMG_STOP]->w);
-  dest.y = 0;
-  dest.w = images[IMG_STOP]->w;
-  dest.h = images[IMG_STOP]->h;
-
-  SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
+  if (!x_is_blinking || (frame % 10 < 5)) {
+    dest.x = (screen->w - images[IMG_STOP]->w);
+    dest.y = 0;
+    dest.w = images[IMG_STOP]->w;
+    dest.h = images[IMG_STOP]->h;
+    
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
+  }
    
   /* Draw cities/igloos and (if applicable) penguins: */
   if (Opts_UseIgloos()) {
@@ -1730,6 +2035,9 @@ void game_draw(void)
   /* Draw console, LED numbers, & tux: */
   draw_led_console();
   draw_console_image(tux_img);
+
+  /* Draw any messages on the screen (used for the help mode) */
+  game_write_messages();
  
   /* Swap buffers: */
   SDL_Flip(screen);

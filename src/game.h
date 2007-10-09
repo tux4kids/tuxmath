@@ -82,6 +82,13 @@ typedef struct cloud_type {
   int snowflake_size[NUM_SNOWFLAKES];
 } cloud_type;
 
+#define GAME_MESSAGE_LENGTH 100
+
+typedef struct {
+  int x,y;
+  char message[GAME_MESSAGE_LENGTH];
+} game_message;
+
 enum {
   GAME_IN_PROGRESS,
   GAME_OVER_WON,

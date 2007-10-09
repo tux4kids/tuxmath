@@ -2052,6 +2052,9 @@ MC_MathQuestion* generate_list(void)
 
   if (math_opts->addition_allowed)
   {
+    #ifdef MC_DEBUG
+    printf("\nAddition problems");
+    #endif
     for (i = math_opts->min_augend; i <= math_opts->max_augend; i++)
     {
       for (j = math_opts->min_addend; j <= math_opts->max_addend; j++)
@@ -2122,6 +2125,9 @@ MC_MathQuestion* generate_list(void)
 
   if (math_opts->subtraction_allowed)
   {
+    #ifdef MC_DEBUG
+    printf("\nSubtraction problems");
+    #endif
     for (i = math_opts->min_minuend; i <= math_opts->max_minuend; i++)
     {
       for (j = math_opts->min_subtrahend; j <= math_opts->max_subtrahend; j++)
@@ -2193,6 +2199,9 @@ MC_MathQuestion* generate_list(void)
 
   if (math_opts->multiplication_allowed)
   {
+    #ifdef MC_DEBUG
+    printf("\nMultiplication problems");
+    #endif
     for (i = math_opts->min_multiplier; i <= math_opts->max_multiplier; i++)
     {
       for (j = math_opts->min_multiplicand; j <= math_opts->max_multiplicand; j++)
@@ -2266,6 +2275,9 @@ MC_MathQuestion* generate_list(void)
 
   if (math_opts->division_allowed)
   {
+    #ifdef MC_DEBUG
+    printf("\nDivision problems");
+    #endif
     for (i = math_opts->min_quotient; i <= math_opts->max_quotient; i++)
     {
       for (j = math_opts->min_divisor; j <= math_opts->max_divisor; j++)
@@ -2338,6 +2350,9 @@ MC_MathQuestion* generate_list(void)
 
   if (math_opts->typing_practice_allowed)
   {
+    #ifdef MC_DEBUG
+    printf("\nTyping problems");
+    #endif
     for (i = math_opts->min_typing_num; i <= math_opts->max_typing_num; i++)
     {
       /* check if max_answer exceeded or if question */

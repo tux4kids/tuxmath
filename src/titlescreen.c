@@ -609,14 +609,15 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 
 int run_main_menu(void)
 {
-  const unsigned char* menu_text[5] =
+  const unsigned char* menu_text[6] =
     {(const unsigned char*)N_("Math Command Training Academy"),
      (const unsigned char*)N_("Play Arcade Game"),
      (const unsigned char*)N_("Play Custom Game"),
+     (const unsigned char*)N_("Help"),
      (const unsigned char*)N_("More Options"),
      (const unsigned char*)N_("Quit")};
-  sprite* sprites[5] =
-    {NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[6] =
+    {NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,ret;
 
@@ -624,57 +625,76 @@ int run_main_menu(void)
   sprites[0] = sprite_list[SPRITE_TRAINING];
   sprites[1] = sprite_list[SPRITE_ARCADE];
   sprites[2] = sprite_list[SPRITE_CUSTOM];
-  sprites[3] = sprite_list[SPRITE_OPTIONS];
-  sprites[4] = sprite_list[SPRITE_QUIT];
+  sprites[3] = NULL;  // no help sprite yet
+  sprites[4] = sprite_list[SPRITE_OPTIONS];
+  sprites[5] = sprite_list[SPRITE_QUIT];
 
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
   menu_opts.ygap = 15;
 
-  choice = choose_menu_item(menu_text,sprites,5,menu_opts);
-
+  choice = choose_menu_item(menu_text,sprites,6,menu_opts);
+  
   while (choice >= 0) {
     switch (choice) {
       case 0: {
-        ret = choose_config_file();
-        break;
+	// Training academy lessons
+	ret = choose_config_file();
+	break;
       }
       case 1: {
-        ret = run_arcade_menu();
-        break;
+	// Arcade games
+	ret = run_arcade_menu();
+	break;
       }
       case 2: {
-        ret = run_custom_menu();
-        break;
+	// Custom game
+	ret = run_custom_menu();
+	break;
       }
       case 3: {
-        ret = run_options_menu();
-        break;
+	// Help
+	Opts_SetHelpMode(1);
+	Opts_SetDemoMode(0);
+	if (Opts_MenuMusic())  //Turn menu music off for game
+	  {audioMusicUnload();}
+	game();
+	if (Opts_MenuMusic()) //Turn menu music back on
+	  {audioMusicLoad( "tuxi.ogg", -1 );}
+	Opts_SetHelpMode(0);
+	break;
       }
       case 4: {
+	// More options
+	ret = run_options_menu();
+        break;
+      }
+      case 5: {
+	// Quit
         return 0;
       }
     }
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+    choice = choose_menu_item(menu_text,sprites,6,menu_opts);
   }
   return 0;
 }
 
 int run_arcade_menu(void)
 {
-  const unsigned char* menu_text[5] =
+  const unsigned char* menu_text[6] =
     {(const unsigned char*)N_("Space Cadet"),
      (const unsigned char*)N_("Scout"),
      (const unsigned char*)N_("Ranger"),
      (const unsigned char*)N_("Ace"),
-     (const unsigned char*)N_("Hall Of Fame")};
+     (const unsigned char*)N_("Hall Of Fame"),
+     (const unsigned char*)N_("Main menu")};
   const char* arcade_config_files[4] =
     {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace"};
   const int arcade_high_score_tables[4] =
     {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE};
-  sprite* sprites[5] =
-    {NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[6] =
+    {NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,hs_table;
 
@@ -683,12 +703,13 @@ int run_arcade_menu(void)
   sprites[1] = sprite_list[SPRITE_SCOUT];
   sprites[2] = sprite_list[SPRITE_RANGER];
   sprites[3] = sprite_list[SPRITE_ACE];
-  sprites[4] = sprite_list[SPRITE_MAIN];
+  sprites[4] = NULL;
+  sprites[5] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
-  choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+  choice = choose_menu_item(menu_text,sprites,6,menu_opts);
 
   while (choice >= 0) {
     if (choice < 4) {
@@ -721,13 +742,17 @@ int run_arcade_menu(void)
 	fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
       }
 
-    } else {
+    } else if (choice == 4) {
       // Display the Hall of Fame
       DisplayHighScores(CADET_HIGH_SCORE);
     }
+    else {
+      // Return to main menu
+      return 0;
+    }
 
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+    choice = choose_menu_item(menu_text,sprites,6,menu_opts);
   }
 
   return 0;
@@ -759,25 +784,24 @@ int run_custom_menu(void)
 
 int run_options_menu(void)
 {
-  const unsigned char* menu_text[6] =
+  const unsigned char* menu_text[5] =
     {(const unsigned char*)N_("Settings"),
-     (const unsigned char*)N_("Help"),
      (const unsigned char*)N_("Demo"),
      (const unsigned char*)N_("Credits"),
      (const unsigned char*)N_("Project Info"),
      (const unsigned char*)N_("Main Menu")};
-  sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[5] =
+    {NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice;
 
   // Set up the sprites
-  sprites[5] = sprite_list[SPRITE_MAIN];
+  sprites[4] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
-  choice = choose_menu_item(menu_text,sprites,6,menu_opts);
+  choice = choose_menu_item(menu_text,sprites,5,menu_opts);
 
   while (choice >= 0) {
     switch (choice) {
@@ -787,11 +811,6 @@ int run_options_menu(void)
       break;
     }
     case 1: {
-      // Help
-      NotImplemented();
-      break;
-    }
-    case 2: {
       // Demo
       if (read_named_config_file("demo"))
       {
@@ -806,26 +825,26 @@ int run_options_menu(void)
 
       break;
     }
-    case 3: {
+    case 2: {
       // Credits
       //TitleScreen_unload_media();
       credits();
       //TitleScreen_load_media();
       break;
     }
-    case 4: {
+    case 3: {
       // Project Info
       NotImplemented();
       break;
     }
-    case 5: {
+    case 4: {
       // Main menu
       return 0;
     }
     }
 
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,6,menu_opts);
+    choice = choose_menu_item(menu_text,sprites,5,menu_opts);
   }
 
   return 0;

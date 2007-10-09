@@ -377,6 +377,7 @@ int Opts_Initialize(void)
   game_options->menu_music = DEFAULT_MENU_MUSIC;
   game_options->fullscreen = DEFAULT_FULLSCREEN;
   game_options->use_bkgd = DEFAULT_USE_BKGD;
+  game_options->help_mode = DEFAULT_HELP_MODE;
   game_options->demo_mode = DEFAULT_DEMO_MODE;
   game_options->oper_override = DEFAULT_OPER_OVERRIDE;
   game_options->use_keypad = DEFAULT_USE_KEYPAD;
@@ -461,6 +462,12 @@ void Opts_SetFullscreen(int val)
 void Opts_SetUseBkgd(int val)
 {
   game_options->use_bkgd = int_to_bool(val);
+}
+
+
+void Opts_SetHelpMode(int val)
+{
+  game_options->help_mode = int_to_bool(val);
 }
 
 
@@ -816,6 +823,17 @@ int Opts_UseBkgd(void)
     return GAME_OPTS_INVALID;
   }
   return game_options->use_bkgd;
+}
+
+
+int Opts_HelpMode(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_HelpMode(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->help_mode;
 }
 
 

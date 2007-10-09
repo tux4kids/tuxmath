@@ -85,6 +85,7 @@ static char* summary_filenames[NUM_SUMMARIES] = {
 };
 
 TTF_Font  *default_font;
+TTF_Font  *help_font;
 
 /* local function prototypes: */
 static int find_tuxmath_dir(void);
@@ -2644,8 +2645,10 @@ int load_default_font()
 {
   default_font = LoadFont((const unsigned char*)DEFAULT_FONT_NAME,
                            DEFAULT_MENU_FONT_SIZE);
+  help_font = LoadFont((const unsigned char*)DEFAULT_FONT_NAME,
+                           DEFAULT_HELP_FONT_SIZE);
 
-  if (default_font)
+  if (default_font && help_font)
   {
 #ifdef TUXMATH_DEBUG
     fprintf(stderr, "load_default_font(): %s loaded successfully\n\n",
