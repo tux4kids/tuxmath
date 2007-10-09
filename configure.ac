@@ -1,14 +1,14 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT(Tux Of Math Command, 1.5.5, tuxmath-devel@lists.sourceforge.net, tuxmath)
+AC_INIT([Tux Of Math Command],[1.5.5],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
 
-#AC_PREREQ(2.59)
+#AC_PREREQ(2.61)
 AC_CANONICAL_HOST
 AC_CANONICAL_BUILD
 AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE(foreign)
-AM_CONFIG_HEADER(config.h)
+AC_CONFIG_HEADERS([config.h])
 
 NAME_VERSION=$PACKAGE-$VERSION
 
@@ -109,9 +109,7 @@ NSI_INSTALL_DIR=mingw32
 AC_SUBST(NSI_INSTALL_DIR)
 
 NSI_DLL_DIR=~/tuxmath_dll
-AC_ARG_WITH(dll-directory,AC_HELP_STRING(
-    [--with-dll-directory=path],
-    [set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]), dll_path=$withval, dll_path=no)
+AC_ARG_WITH(dll-directory,AS_HELP_STRING([--with-dll-directory=path],[set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]), dll_path=$withval, dll_path=no)
 
 AM_CONDITIONAL(NSI_BUILD, test "$dll_path" = no)
 
@@ -121,9 +119,7 @@ fi
 AC_SUBST(NSI_DLL_DIR)
 
 NSI_TUXMATH_CONF_DIR=no
-AC_ARG_WITH(tuxmath_config-directory,AC_HELP_STRING(
-    [--with-tuxmath_config-directory=path],
-    [set the path where dll for TuxMath are [$(NSI_TUXMATH_CONF_DIR)]]), tuxmath_config_path=$withval, tuxmath_config_path=no)
+AC_ARG_WITH(tuxmath_config-directory,AS_HELP_STRING([--with-tuxmath_config-directory=path],[set the path where dll for TuxMath are [$(NSI_TUXMATH_CONF_DIR)]]), tuxmath_config_path=$withval, tuxmath_config_path=no)
 
 AM_CONDITIONAL(NSI_USE_TUXMATH_CONF, test "$tuxmath_config_path" != no)
 
