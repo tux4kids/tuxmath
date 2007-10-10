@@ -67,6 +67,7 @@ int debugOn; //FIXME switch to TUXMATH_DEBUG
 enum {
   SPRITE_TRAINING,
   SPRITE_ARCADE,
+  SPRITE_HELP,
   SPRITE_CUSTOM,
   SPRITE_OPTIONS,
   SPRITE_CADET,
@@ -80,6 +81,7 @@ enum {
 const unsigned char* menu_sprite_files[N_SPRITES] =
   {"lesson",
    "comet",
+   "help",
    "tux_config",
    "tux_config_brown",
    "tux_helmet_yellow",
@@ -625,7 +627,7 @@ int run_main_menu(void)
   sprites[0] = sprite_list[SPRITE_TRAINING];
   sprites[1] = sprite_list[SPRITE_ARCADE];
   sprites[2] = sprite_list[SPRITE_CUSTOM];
-  sprites[3] = NULL;  // no help sprite yet
+  sprites[3] = sprite_list[SPRITE_HELP];
   sprites[4] = sprite_list[SPRITE_OPTIONS];
   sprites[5] = sprite_list[SPRITE_QUIT];
 

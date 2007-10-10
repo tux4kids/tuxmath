@@ -1,3 +1,10 @@
+2007.Oct.10 (svn.debian.org/tux4kids - revision 294)
+  Graphics:
+      * Added a help menu sprite. The help screen will probably be
+	redesigned to give users more control over the pace of the help.
+      Tim Holy <holy@wustl.edu>
+	
+
 2007.Oct.09 (svn.debian.org/tux4kids - revision 293)
   Build:
       * Merged in code to allow build under BeOS/Zeta 
