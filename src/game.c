@@ -37,8 +37,10 @@
 #include "mathcards.h"
 #include "titlescreen.h"
 #include "options.h"  
+#include "SDL_extras.h"
 
-#define FPS (1000 / 15)   /* 15 fps max */
+#define FPS 15                     /* 15 frames per second */
+#define MS_PER_FRAME (1000 / FPS)
 
 #define CITY_EXPL_START 3 * 5  /* Must be mult. of 5 (number of expl frames) */
 #define ANIM_FRAME_START 4 * 2 /* Must be mult. of 2 (number of tux frames) */
@@ -146,7 +148,12 @@ static laser_type laser;
 static SDL_Surface* bkgd = NULL;
 
 static game_message s1, s2, s3, s4;
-static int x_is_blinking = 0;
+typedef struct {
+  int x_is_blinking;
+  int extra_life_is_blinking;
+  int laser_enabled;
+} help_controls_type;
+static help_controls_type help_controls;
 
 /* Local function prototypes: */
 static int  game_initialize(void);
@@ -167,7 +174,7 @@ static int check_extra_life(void);
 static int check_exit_conditions(void);
 
 static void draw_numbers(const char* str, int x, int y);
-static void game_set_message(game_message *,unsigned char *,int x, int y);
+static void game_set_message(game_message *,char *,int x, int y);
 static void game_clear_message(game_message*);
 static void game_write_message(const game_message*);
 static void game_write_messages(void);
@@ -186,6 +193,9 @@ static void reset_comets(void);
 static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
 static void free_on_exit(void);
+
+static void help_add_comet(int a,int oper,int b,int c);
+static int help_renderframe_exit(void);
 
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
@@ -270,14 +280,14 @@ int game(void)
  
     /* Pause (keep frame-rate event) */
     now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
+    if (now_time < last_time + MS_PER_FRAME)
     {
       //Prevent any possibility of a time wrap-around
       // (this is a very unlikely problem unless there is an SDL bug
       //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+FPS) - now_time;  // this holds the delay
-      if (now_time > FPS)
-	now_time = FPS;
+      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+      if (now_time > MS_PER_FRAME)
+	now_time = MS_PER_FRAME;
       SDL_Delay(now_time);
     }
   }
@@ -365,8 +375,8 @@ int game(void)
 
         now_time = SDL_GetTicks();
 
-        if (now_time < last_time + FPS)
-	  SDL_Delay(last_time + FPS - now_time);
+        if (now_time < last_time + MS_PER_FRAME)
+	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
       }
       while (looping);
       break;
@@ -409,8 +419,8 @@ int game(void)
 
         now_time = SDL_GetTicks();
 
-        if (now_time < last_time + FPS)
-	  SDL_Delay(last_time + FPS - now_time);     
+        if (now_time < last_time + MS_PER_FRAME)
+	  SDL_Delay(last_time + MS_PER_FRAME - now_time);     
       }
       while (looping);
 
@@ -611,7 +621,9 @@ int game_initialize(void)
   game_clear_message(&s3);
   game_clear_message(&s4);
 
-  x_is_blinking = 0;
+  help_controls.x_is_blinking = 0;
+  help_controls.extra_life_is_blinking = 0;
+  help_controls.laser_enabled = 1;
 
   return 1;
 }
@@ -649,228 +661,188 @@ void game_cleanup(void)
 
 void game_handle_help(void)
 {
-  Uint32 last_time, now_time;
-  SDL_Rect dest;
   const int left_edge = 140;
+  int frame_start;
+  int quit_help = 0;
+
+  help_controls.laser_enabled = 0;
+  help_controls.x_is_blinking = 0;
+  help_controls.extra_life_is_blinking = 0;
 
   // Here are some things that have to happen before we can safely
   // draw the screen
   tux_img = IMG_TUX_CONSOLE1;
   old_tux_img = tux_img;
   tux_pressing = 0;
-
-  game_handle_user_events();
-  game_handle_cities();
-  game_handle_penguins();
+  frame = 0;
 
   // Write the introductory text
   game_set_message(&s1,"Welcome to TuxMath!",-1,50);
 
-  // Draw the screen
-  game_draw();
-
 #ifndef NOSOUND
-    if (Opts_UsingSound())
+  if (Opts_UsingSound())
+  {
+    if (!Mix_PlayingMusic())
     {
-      if (!Mix_PlayingMusic())
-      {
-	    Mix_PlayMusic(musics[MUS_GAME], 0);
-      }  
-    }
+      Mix_PlayMusic(musics[MUS_GAME], 0);
+    }  
+  }
 #endif
  
-  // Pause while accepting user input
-  for (frame = 0; frame < 20; frame++) {
-    if (game_delay_and_exit())
-      return;
-  }
+  // Wait 2 seconds while rendering frames
+  while (frame < 2*FPS && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
 
   game_set_message(&s2,"Your mission is to save your", left_edge, 100);
   game_set_message(&s3,"penguins' igloos from the", left_edge, 135);
   game_set_message(&s4,"falling comets.", left_edge, 170);
-  game_draw();
 
-  for (frame = 0; frame < 50; frame++) {
-    if (game_delay_and_exit())
-      return;
-  }
+  frame_start = frame;
+  while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 more secs
+  if (quit_help)
+    return;
 
   // Bring in a comet
   speed = 2;
-  comets[0].alive = 1;
-  comets[0].expl = 0;
-  comets[0].answer = 3;
-  num_comets_alive = 1;
-  comets[0].city = 0;
-  comets[0].x = cities[0].x;
-  comets[0].y = 0;
-  comets[0].zapped = 0;
-  comets[0].bonus = 0;
-  comets[0].flashcard.num1 = 2;
-  comets[0].flashcard.num2 = 1;
-  comets[0].flashcard.num3 = 3;
-  comets[0].flashcard.operation = MC_OPER_ADD;
-  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
-  strncpy(comets[0].flashcard.formula_string,"2 + 1 = ?",MC_FORMULA_LEN);
-  strncpy(comets[0].flashcard.answer_string,"3",MC_ANSWER_LEN);
+  help_add_comet(2,MC_OPER_ADD,1,3);
+  help_controls.laser_enabled = 1;
+  level_start_wait = 0;
 
-  last_time = SDL_GetTicks();
-  for (frame = 0; frame < 50; frame++) {
-    game_handle_user_events();
-    game_handle_comets();
-    game_handle_cities();
-    game_handle_penguins();
-    game_draw();
-    game_status = check_exit_conditions();
-    if (game_status != GAME_IN_PROGRESS)
+  frame_start = frame;
+  while (comets[0].alive && frame-frame_start < 100 && !(quit_help = help_renderframe_exit())); // advance comet
+  if (quit_help)
+    return;
+
+  if (comets[0].alive == 1) {
+    game_set_message(&s1,"Stop a comet by typing",left_edge,100);
+    game_set_message(&s2,"the answer to the math problem",left_edge,135);
+    game_set_message(&s3,"and hitting 'space' or 'enter'.",left_edge,170);
+    game_set_message(&s4,"Try it now!",left_edge,225);
+
+    speed = 0;
+    while (comets[0].alive && !(quit_help = help_renderframe_exit()));
+    if (quit_help)
       return;
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
   }
 
-  game_set_message(&s1,"Stop a comet by typing",left_edge,100);
-  game_set_message(&s2,"the answer to the math problem",left_edge,135);
-  game_set_message(&s3,"and hitting 'space' or 'enter'.",left_edge,170);
+  game_set_message(&s1,"Good shot!",left_edge,100);
+  game_clear_message(&s2);
+  game_clear_message(&s3);
   game_clear_message(&s4);
 
-  for (frame = 0; frame < 30; frame++) {
-    game_handle_user_events();
-    game_handle_comets();
-    game_handle_cities();
-    game_handle_penguins();
-    game_draw();
-    game_status = check_exit_conditions();
-    if (game_status != GAME_IN_PROGRESS)
-      return;
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
-  }
+  help_controls.laser_enabled = 0;
+  frame_start = frame;
+  while (frame-frame_start < 3*FPS && !(quit_help = help_renderframe_exit()));  // wait 3 secs
+  
+  speed = 2;
+  game_set_message(&s1,"If an igloo gets hit by a comet,",left_edge,100);
+  game_set_message(&s2,"it melts. But don't worry, the",left_edge,135);
+  game_set_message(&s3,"penguin is OK!",left_edge,170);
+  game_set_message(&s4,"Watch what happens:",left_edge,225);
 
-  tux_pressing = 1;
-  digits[2] = 3;
-  game_handle_user_events();
-  game_handle_answer();
-  game_handle_tux();
-  game_handle_comets();
-  game_handle_cities();
-  game_handle_penguins();
-  game_draw();
-  now_time = SDL_GetTicks();
-  if (now_time < last_time + FPS)
-    SDL_Delay(last_time+FPS - now_time);
-  last_time = now_time;
+  help_add_comet(3,MC_OPER_MULT,3,9);
+  comets[0].y = 2*(screen->h)/3;   // start it low down
+  while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
+  if (quit_help)
+    return;
+  game_set_message(&s4,"Notice the answer",left_edge,comets[0].y-100);
+  help_renderframe_exit();
+  SDL_Delay(2000);
 
-  tux_pressing = 1;
-  doing_answer = 1;
-  for (frame = 0; frame < 100; frame++) {
-    if (laser.alive > 0)
-      laser.alive--;
-    game_handle_answer();
-    game_handle_comets();
-    game_handle_cities();
-    game_handle_penguins();
-    game_draw();
-    game_handle_user_events();
-    game_status = check_exit_conditions();
-    if (game_status != GAME_IN_PROGRESS)
-      return;
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
-  }
+  frame_start = frame;
+  while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 secs
+  if (quit_help)
+    return;
 
-  game_set_message(&s1,"Fix your igloos by stopping",left_edge,100);
-  game_set_message(&s2,"bonus comets.",left_edge,135);
+  game_set_message(&s1,"If it gets hit again, the",left_edge,100);
+  game_set_message(&s2,"penguin leaves.",left_edge,135);
   game_clear_message(&s3);
+  game_clear_message(&s4);
 
-  comets[0].alive = 1;
-  comets[0].expl = 0;
-  comets[0].answer = 9;
-  num_comets_alive = 1;
-  comets[0].city = 0;
-  comets[0].x = cities[0].x;
-  comets[0].y = 0;
-  comets[0].zapped = 0;
+  help_add_comet(56,MC_OPER_DIV,8,7);
+  comets[0].y = 2*(screen->h)/3;   // start it low down
+  while (comets[0].alive && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  frame_start = frame;
+  while ((frame-frame_start < 3*FPS) && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  
+  help_controls.laser_enabled = 1;
+  game_set_message(&s1,"You can fix the igloos",left_edge,100);
+  game_set_message(&s2,"by stopping bonus comets.",left_edge,135);
+  help_add_comet(2,MC_OPER_ADD,2,4);
   comets[0].bonus = 1;
-  comets[0].flashcard.num1 = 3;
-  comets[0].flashcard.num2 = 3;
-  comets[0].flashcard.num3 = 9;
-  comets[0].flashcard.operation = MC_OPER_MULT;
-  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
-  strncpy(comets[0].flashcard.formula_string,"3 * 3 = ?",MC_FORMULA_LEN);
-  strncpy(comets[0].flashcard.answer_string,"9",MC_ANSWER_LEN);
+  frame_start = frame;
+  while (comets[0].alive && (frame-frame_start < 50) && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  if (comets[0].alive)
+    speed = 0;
+  game_set_message(&s3,"Zap it now!",left_edge,225);
+  while (comets[0].alive && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  game_set_message(&s1,"Great job!",left_edge,100);
+  game_clear_message(&s2);
+  game_clear_message(&s3);
+  frame_start = frame;
+  while ((frame-frame_start < 2*FPS) && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  check_extra_life();
+  frame_start = frame;
+  while ((frame-frame_start < 10*FPS) && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
 
-  last_time = SDL_GetTicks();
-  for (frame = 0; frame < 75; frame++) {
-    game_handle_user_events();
-    game_handle_comets();
-    game_handle_cities();
-    game_handle_penguins();
-    game_draw();
-    game_status = check_exit_conditions();
-    if (game_status != GAME_IN_PROGRESS)
-      return;
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
-  }
-
-  tux_pressing = 1;
-  digits[2] = 9;
-  game_handle_user_events();
-  game_handle_answer();
-  game_handle_tux();
-  game_handle_comets();
-  game_handle_cities();
-  game_handle_penguins();
-  game_draw();
-  SDL_Delay(FPS);
-
-  tux_pressing = 1;
-  doing_answer = 1;
-  last_time = SDL_GetTicks();
-  for (frame = 0; frame < 100; frame++) {
-    if (laser.alive > 0)
-      laser.alive--;
-    game_handle_answer();
-    game_handle_comets();
-    game_handle_cities();
-    game_handle_penguins();
-    game_draw();
-    game_handle_user_events();
-    game_status = check_exit_conditions();
-    if (game_status != GAME_IN_PROGRESS)
-      return;
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
-  }
 
   game_set_message(&s1,"Quit at any time by pressing",left_edge,100);
   game_set_message(&s2,"'Esc' or clicking the 'X'",left_edge,135);
   game_set_message(&s3,"in the upper right corner.",left_edge,170);
+  game_set_message(&s4,"Do it now, and then play!",left_edge,225);
 
-  frame = 0;
-  x_is_blinking = 1;
-  do {
-    game_draw();
-    game_handle_user_events();
-    game_status = check_exit_conditions();
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + FPS)
-      SDL_Delay(last_time+FPS - now_time);
-    last_time = now_time;
-    frame++;
-  } while (game_status == GAME_IN_PROGRESS);
+  help_controls.x_is_blinking = 1;
+  while (!help_renderframe_exit());
+}
 
-  x_is_blinking = 0;
+// This function handles all the interactions expected during help
+// screens and renders a single frame. This function normally returns
+// 0, but returns 1 if the user chooses to exit help.
+int help_renderframe_exit(void)
+{
+  static Uint32 last_time = 0;
+  static Uint32 now_time;
+
+  if (last_time == 0)
+    last_time = SDL_GetTicks(); // Initialize...
+
+  tux_pressing = 0;
+  if (laser.alive > 0)
+      laser.alive--;
+  game_handle_user_events();
+  game_handle_answer();
+  game_handle_tux();
+  game_handle_comets();
+  game_handle_cities();
+  game_handle_penguins();
+  game_handle_steam();
+  game_handle_extra_life();
+  game_draw();
+  game_status = check_exit_conditions();
+
+  // Delay to keep frame rate constant. Do this in a way
+  // that won't cause a freeze if the timer wraps around.
+  now_time = SDL_GetTicks();
+  if (now_time >= last_time && now_time < last_time + MS_PER_FRAME)
+    SDL_Delay((last_time+MS_PER_FRAME) - now_time);
+  last_time = now_time;
+
+  frame++;
+
+  return (game_status != GAME_IN_PROGRESS);
 }
 
 int game_delay_and_exit(void)
@@ -881,7 +853,32 @@ int game_delay_and_exit(void)
   return (game_status != GAME_IN_PROGRESS);
 }
 
-void game_set_message(game_message *msg,unsigned char *txt,int x,int y)
+void help_add_comet(int a,int oper,int b,int c)
+{
+  char probstr[MC_FORMULA_LEN];
+  char ansstr[MC_ANSWER_LEN];
+
+  comets[0].alive = 1;
+  comets[0].expl = 0;
+  comets[0].answer = c;
+  num_comets_alive = 1;
+  comets[0].city = 0;
+  comets[0].x = cities[0].x;
+  comets[0].y = 0;
+  comets[0].zapped = 0;
+  comets[0].bonus = 0;
+  comets[0].flashcard.num1 = a;
+  comets[0].flashcard.num2 = b;
+  comets[0].flashcard.num3 = c;
+  comets[0].flashcard.operation = oper;
+  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
+  snprintf(probstr,MC_FORMULA_LEN,"%d %c %d = ?",a,operchars[oper],b);
+  strncpy(comets[0].flashcard.formula_string,probstr,MC_FORMULA_LEN);
+  snprintf(ansstr,MC_ANSWER_LEN,"%d",c);
+  strncpy(comets[0].flashcard.answer_string,ansstr,MC_ANSWER_LEN);
+}
+
+void game_set_message(game_message *msg,char *txt,int x,int y)
 {
   msg->x = x;
   msg->y = y;
@@ -1324,7 +1321,7 @@ void game_handle_comets(void)
   }
 
   /* add more comets if needed: */
-  if (level_start_wait == 0 &&
+  if (!Opts_HelpMode() && level_start_wait == 0 &&
       (frame % 20) == 0)   /* FIXME:do we want this to vary with comet speed?*/
   {
     /* num_attackers is how many comets are left in wave */
@@ -1782,7 +1779,7 @@ void game_draw(void)
                0);
 
   /* Draw stop button: */
-  if (!x_is_blinking || (frame % 10 < 5)) {
+  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
     dest.x = (screen->w - images[IMG_STOP]->w);
     dest.y = 0;
     dest.w = images[IMG_STOP]->w;
@@ -3046,6 +3043,7 @@ void game_mouse_event(SDL_Event event)
 /* on-screen keypad */
 void game_key_event(SDLKey key)
 {
+
   if (key == SDLK_ESCAPE)
   {
     /* Escape key - quit! */
@@ -3105,13 +3103,12 @@ void game_key_event(SDLKey key)
 #endif
 
     
-  if (level_start_wait > 0 || Opts_DemoMode())
+  if (level_start_wait > 0 || Opts_DemoMode() || !help_controls.laser_enabled)
   {
     /* Eat other keys until level start wait has passed,
     or if game is in demo mode: */
     key = SDLK_UNKNOWN;
   }
-
 
 
   /* The rest of the keys control the numeric answer console: */
