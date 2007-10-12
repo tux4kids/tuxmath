@@ -845,14 +845,6 @@ int help_renderframe_exit(void)
   return (game_status != GAME_IN_PROGRESS);
 }
 
-int game_delay_and_exit(void)
-{
-  SDL_Delay(100);
-  game_handle_user_events();
-  game_status = check_exit_conditions();
-  return (game_status != GAME_IN_PROGRESS);
-}
-
 void help_add_comet(int a,int oper,int b,int c)
 {
   char probstr[MC_FORMULA_LEN];

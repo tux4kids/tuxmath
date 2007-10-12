@@ -532,12 +532,14 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
   }
   if (s3)
   {
-    loc.x = 320 - (s3->w/2); loc.y = 300;
+    //loc.x = 320 - (s3->w/2); loc.y = 300;
+    loc.x = 320 - (s3->w/2); loc.y = 110;
     SDL_BlitSurface( s3, NULL, screen, &loc);
   }
   if (s4)
   {
-    loc.x = 320 - (s4->w/2); loc.y = 340;
+    //loc.x = 320 - (s4->w/2); loc.y = 340;
+    loc.x = 320 - (s4->w/2); loc.y = 200;
     SDL_BlitSurface( s4, NULL, screen, &loc);
   }
 
@@ -786,6 +788,8 @@ int run_custom_menu(void)
 
 int run_options_menu(void)
 {
+  /*
+    // Use the following version if we get "Settings" implemented
   const unsigned char* menu_text[5] =
     {(const unsigned char*)N_("Settings"),
      (const unsigned char*)N_("Demo"),
@@ -794,25 +798,36 @@ int run_options_menu(void)
      (const unsigned char*)N_("Main Menu")};
   sprite* sprites[5] =
     {NULL, NULL, NULL, NULL, NULL};
+  */
+  const unsigned char* menu_text[4] =
+    {(const unsigned char*)N_("Demo"),
+     (const unsigned char*)N_("Project Info"),
+     (const unsigned char*)N_("Credits"),
+     (const unsigned char*)N_("Main Menu")};
+  sprite* sprites[4] =
+    {NULL, NULL, NULL, NULL};
+  int n_menu_entries = 4;
   menu_options menu_opts;
   int choice;
 
   // Set up the sprites
-  sprites[4] = sprite_list[SPRITE_MAIN];
+  sprites[0] = sprite_list[SPRITE_ARCADE];
+  sprites[3] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
-  choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+  choice = choose_menu_item(menu_text,sprites,n_menu_entries,menu_opts);
 
   while (choice >= 0) {
     switch (choice) {
+      /*
     case 0: {
       // Settings
       NotImplemented();
       break;
-    }
-    case 1: {
+      }*/
+    case 0: {
       // Demo
       if (read_named_config_file("demo"))
       {
@@ -827,6 +842,15 @@ int run_options_menu(void)
 
       break;
     }
+    case 1: {
+      // Project Info
+      //NotImplemented();
+      ShowMessage(_("TuxMath is free and open-source!"),
+		  _("You can help make it better by reporting problems,"),
+		  _("suggesting improvements, or adding code."),
+		  _("Discuss the future at tuxmath-devel@lists.sourceforge.net"));
+      break;
+    }
     case 2: {
       // Credits
       //TitleScreen_unload_media();
@@ -835,18 +859,13 @@ int run_options_menu(void)
       break;
     }
     case 3: {
-      // Project Info
-      NotImplemented();
-      break;
-    }
-    case 4: {
       // Main menu
       return 0;
     }
     }
 
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,5,menu_opts);
+    choice = choose_menu_item(menu_text,sprites,n_menu_entries,menu_opts);
   }
 
   return 0;
