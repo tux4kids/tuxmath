@@ -7,7 +7,14 @@
 
 2007.Oct.09 (svn.debian.org/tux4kids - revision 293)
   Build:
-      * Merged in code to allow build under BeOS/Zeta 
+      * Merged in code to allow build under BeOS/Zeta - implementations
+      of scandir() and alphasort() originally contributed to ARAnYm 
+      project under GPLv2 - code written by:
+
+      Milan Jurik <M.Jurik xylab.cz>
+
+      and made into a patch for TuxMath by:
+
       Luc Schrijvers <Begasus@skynet.be> 
 
 2007.Oct.09 (svn.debian.org/tux4kids - revision 291)
