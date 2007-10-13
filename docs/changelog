@@ -1,3 +1,14 @@
+2007.Oct.13 (svn.debian.org/tux4kids - revision 301)
+
+  Version 1.5.6
+
+  Graphics:
+      * Replaced "Big Tux" with new images from "crystal" version
+      of Larry Ewing's Tux; minor tweaking of drawing of Tux in menus.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
+
 2007.Oct.12 (svn.debian.org/tux4kids - revision 298)
   Options:
       * Added material in "Project Info" and (temporarily) removed the

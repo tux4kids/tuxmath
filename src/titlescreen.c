@@ -1504,6 +1504,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 
     if (Tux && tux_frame)
     {
+      /* Redraw background to keep edges anti-aliased properly: */
+      SDL_BlitSurface(images[IMG_MENU_BKG],&Tuxdest, screen, &Tuxdest);
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
