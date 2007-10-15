@@ -16,6 +16,10 @@ AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Name of the Program])
 
 AC_SUBST(NAME_VERSION)
 
+AC_GNU_SOURCE
+AM_GNU_GETTEXT
+AM_GNU_GETTEXT_VERSION
+
 # Checks for programs.
 AC_PROG_CC
 AC_PROG_MAKE_SET
@@ -131,7 +135,7 @@ AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
-AC_CONFIG_FILES([
+AC_CONFIG_FILES([ intl/Makefile po/Makefile.in
 Makefile
 data/Makefile
 data/fonts/Makefile
@@ -155,6 +159,7 @@ nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
 src/po/Makefile
+po/Makefile
 ])
 
 AC_OUTPUT

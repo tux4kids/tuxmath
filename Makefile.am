@@ -1,6 +1,6 @@
 MAKENSIS=@NSIS@
 
-SUBDIRS = src	\
+SUBDIRS = intl po src	\
 	data	\
 	docs
 
@@ -66,3 +66,7 @@ clean-local:
 	fi
 #	-rm tuxmath-@VERSION@-win32-installer.exe
 
+
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = config.rpath m4/ChangeLog
