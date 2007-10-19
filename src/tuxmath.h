@@ -31,7 +31,7 @@
 #define N_(String) String
 #define _(String) String
 #else
-#include <libintl.h>
+#include "gettext.h"
 #include <locale.h>
 #define _(String) gettext (String)
 #define gettext_noop(String) String

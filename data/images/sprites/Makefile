@@ -35,8 +35,22 @@ target_triplet = i586-pc-mingw32msvc
 subdir = data/images/sprites
 DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
-am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
+	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/glibc2.m4 \
+	$(top_srcdir)/m4/glibc21.m4 $(top_srcdir)/m4/iconv.m4 \
+	$(top_srcdir)/m4/intdiv0.m4 $(top_srcdir)/m4/intl.m4 \
+	$(top_srcdir)/m4/intmax.m4 $(top_srcdir)/m4/inttypes-pri.m4 \
+	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
+	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/lock.m4 \
+	$(top_srcdir)/m4/longdouble.m4 $(top_srcdir)/m4/longlong.m4 \
+	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
+	$(top_srcdir)/m4/printf-posix.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/m4/size_max.m4 $(top_srcdir)/m4/stdint_h.m4 \
+	$(top_srcdir)/m4/uintmax_t.m4 $(top_srcdir)/m4/ulonglong.m4 \
+	$(top_srcdir)/m4/visibility.m4 $(top_srcdir)/m4/wchar_t.m4 \
+	$(top_srcdir)/m4/wint_t.m4 $(top_srcdir)/m4/xsize.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
@@ -46,17 +60,22 @@ SOURCES =
 DIST_SOURCES =
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run aclocal-1.10
+ALLOCA = 
 AMTAR = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run tar
 AUTOCONF = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run autoconf
 AUTOHEADER = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run autoheader
 AUTOMAKE = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run automake-1.10
 AWK = mawk
+BUILD_INCLUDED_LIBINTL = yes
+CATOBJEXT = .gmo
 CC = i586-mingw32msvc-gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2 -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT -D__GW32__
+CFLAG_VISIBILITY = -fvisibility=hidden
 CPP = i586-mingw32msvc-gcc -E
 CPPFLAGS = -I/usr/local/cross-tools/i586-mingw32msvc/include -idirafter /usr/local/cross-tools/i586-mingw32msvc/include/glibc
 CYGPATH_W = echo
+DATADIRNAME = share
 DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 ECHO_C = 
@@ -64,18 +83,47 @@ ECHO_N = -n
 ECHO_T = 
 EGREP = /bin/grep -E
 EXEEXT = .exe
+GENCAT = gencat
+GLIBC2 = no
+GLIBC21 = no
+GMSGFMT = /usr/bin/msgfmt
+GMSGFMT_015 = /usr/bin/msgfmt
 GREP = /bin/grep
+HAVE_ASPRINTF = 0
+HAVE_POSIX_PRINTF = 0
+HAVE_SNPRINTF = 1
+HAVE_VISIBILITY = 1
+HAVE_WPRINTF = 0
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
+INSTOBJEXT = .mo
+INTLBISON = :
+INTLLIBS = ${top_builddir}/intl/libintl.a  
+INTLOBJS = $(GETTOBJS)
+INTL_LIBTOOL_SUFFIX_PREFIX = 
+INTL_MACOSX_LIBS = 
 LDFLAGS = -L/usr/local/cross-tools/i586-mingw32msvc/lib
+LIBICONV = 
+LIBINTL = ${top_builddir}/intl/libintl.a  
+LIBMULTITHREAD = 
 LIBOBJS =  ${LIBOBJDIR}strtod$U.o
+LIBPTH = 
 LIBS =  -lmingw32 -lSDLmain -L/usr/lib -lSDL -lSDL_image -lSDL_mixer -lSDL_ttf -lgw32c -luuid -lole32 -lwsock32 -mwindows
+LIBTHREAD = 
+LTLIBICONV = 
+LTLIBINTL = ${top_builddir}/intl/libintl.a  
+LTLIBMULTITHREAD = 
 LTLIBOBJS =  ${LIBOBJDIR}strtod$U.lo
+LTLIBPTH = 
+LTLIBTHREAD = 
 MAKEINFO = ${SHELL} /home/dbruce/tux4kids/tuxmath/trunk/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
+MSGFMT = /usr/bin/msgfmt
+MSGFMT_015 = /usr/bin/msgfmt
+MSGMERGE = /usr/bin/msgmerge
 NAME_VERSION = tuxmath-1.5.6
 NSIS = /usr/bin/makensis
 NSI_DLL_DIR = /home/dbruce/tuxmath_dll
@@ -90,15 +138,23 @@ PACKAGE_STRING = Tux Of Math Command 1.5.6
 PACKAGE_TARNAME = tuxmath
 PACKAGE_VERSION = 1.5.6
 PATH_SEPARATOR = :
+POSUB = po
 POW_LIB = 
+PRI_MACROS_BROKEN = 0
+RANLIB = i586-mingw32msvc-ranlib
 SDL_CFLAGS = -I/usr/include/SDL -D_GNU_SOURCE=1 -D_REENTRANT
 SDL_CONFIG = /usr/bin/sdl-config
 SDL_LIBS = -L/usr/lib -lSDL
 SET_MAKE = 
 SHELL = /bin/sh
 STRIP = i586-mingw32msvc-strip
+USE_INCLUDED_LIBINTL = yes
+USE_NLS = yes
 VERSION = 1.5.6
 WINDRES = /usr/bin/i586-mingw32msvc-windres
+WOE32DLL = no
+XGETTEXT = /usr/bin/xgettext
+XGETTEXT_015 = /usr/bin/xgettext
 abs_builddir = /home/dbruce/tux4kids/tuxmath/trunk/data/images/sprites
 abs_srcdir = /home/dbruce/tux4kids/tuxmath/trunk/data/images/sprites
 abs_top_builddir = /home/dbruce/tux4kids/tuxmath/trunk

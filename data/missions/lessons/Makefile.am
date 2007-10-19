@@ -1,7 +1,8 @@
 ## Makefile.am for tuxmath - data/missions/lessons:
 ## Process with Automake to create Makefile.in
 
-EXTRA_DIST = lesson00	\
+EXTRA_DIST = lessons_desc	\
+	lesson00	\
 	lesson01	\
 	lesson02	\
 	lesson03	\

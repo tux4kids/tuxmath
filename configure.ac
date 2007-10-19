@@ -16,13 +16,15 @@ AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Name of the Program])
 
 AC_SUBST(NAME_VERSION)
 
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_MAKE_SET
+
+# Needed for gettext:
 AC_GNU_SOURCE
 AM_GNU_GETTEXT
 AM_GNU_GETTEXT_VERSION
 
-# Checks for programs.
-AC_PROG_CC
-AC_PROG_MAKE_SET
 
 dnl Check for SDL 
 SDL_VERSION=1.2.0
@@ -135,7 +137,9 @@ AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
-AC_CONFIG_FILES([ intl/Makefile po/Makefile.in
+AC_CONFIG_FILES([
+po/Makefile.in
+intl/Makefile
 Makefile
 data/Makefile
 data/fonts/Makefile
@@ -158,7 +162,6 @@ docs/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
-src/po/Makefile
 po/Makefile
 ])
 

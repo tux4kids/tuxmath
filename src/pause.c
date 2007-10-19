@@ -19,7 +19,8 @@ email                : jdandr2@uky.edu
 *   (at your option) any later version.                                   *
 *                                                                         *
 ***************************************************************************/
-
+// For gettext support:
+#include "tuxmath.h"
 // For tuxtype-related stuff:
 #include "titlescreen.h"
 

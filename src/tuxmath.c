@@ -34,10 +34,10 @@ int main(int argc, char * argv[])
 {
 #ifndef MACOSX
 #ifndef WIN32
-setlocale( LC_ALL, "" );
-bindtextdomain( "tuxmath", LOCALEDIR );
-bind_textdomain_codeset("tuxmath", "UTF-8");
-textdomain( "tuxmath" );
+setlocale(LC_ALL, "");
+bindtextdomain(PACKAGE, LOCALEDIR);
+bind_textdomain_codeset(PACKAGE, "UTF-8");
+textdomain(PACKAGE);
 #endif
 #endif
 

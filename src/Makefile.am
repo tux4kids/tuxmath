@@ -1,7 +1,7 @@
 ## Makefile.am for tuxmath src:
 ## Process with Automake to create Makefile.in
 
-SUBDIRS = po
+# SUBDIRS = po (po now directly under trunk)
 
 if BUILD_MINGW32
 bin_PROGRAMS = TuxMath
@@ -41,7 +41,8 @@ EXTRA_DIST = 	credits.h 	\
 		titlescreen.h	\
 		tuxmath.h	\
 		ConvertUTF.h	\
-		SDL_extras.h
+		SDL_extras.h	\
+		gettext.h
 
 
 WINDRES=@WINDRES@
