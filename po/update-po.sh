@@ -2,9 +2,9 @@
 
 # Create a 'source' file holding all the descriptions for the missions.
 cd ../data/missions/lessons
-rm -f ../lessons_desc
+rm -f ../descr_lessons
 for i in ./lesson*; do
- head --lines=1 $i | sed 's/^# \(.*\)$/_("\1")/' >> lessons_desc;
+ head --lines=1 $i | sed 's/^# \(.*\)$/_("\1")/' >> descr_lessons;
 done;
 
 # Update the POT translation template file.

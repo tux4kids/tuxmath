@@ -235,6 +235,7 @@ int read_named_config_file(const char* filename);
 int write_user_config_file(void);
 int read_high_scores(void);
 int write_high_scores(void);
+int write_goldstars(void);
 
 /* These functions used by game() to record game summary: */
 int write_pregame_summary(void);

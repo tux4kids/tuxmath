@@ -33,6 +33,7 @@
 #include "mathcards.h"
 #include "options.h"
 #include "highscore.h"
+#include "lessons.h"
 #include "titlescreen.h"
 
 #ifndef MACOSX
@@ -206,7 +207,7 @@ static int str_to_bool(const char* val);
 static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
-
+static int read_goldstars(void);
 
 
 /* fix HOME on windows */
@@ -391,16 +392,18 @@ char *GetDefaultSaveDir(const char *suffix)
 
 
 /* Windows XP: User/App Data/TuxMath/ */
-/* WIndows 98/ME: TuxMath install dir/userdata/Options */
+/* Windows 98/ME: TuxMath install dir/userdata/Options */
 #define OPTIONS_SUBDIR ""
 #define OPTIONS_FILENAME "options.cfg"
 #define HIGHSCORE_FILENAME "highscores.txt"
+#define GOLDSTAR_FILENAME "goldstars.txt"
 #else
 
 # define get_home getenv("HOME")
 #define OPTIONS_SUBDIR "/.tuxmath"
 #define OPTIONS_FILENAME "options"
 #define HIGHSCORE_FILENAME "highscores"
+#define GOLDSTAR_FILENAME "goldstars"
 
 #endif
 
@@ -842,11 +845,84 @@ int parse_lesson_file_directory(void)
   /* many there are */
   num_lessons = lessons;
 
+  /* Now we check to see which lessons have been previously completed */
+  /* so we can display the Gold Stars: */
+  read_goldstars();
+
   return (num_lessons > 0);  /* Success! */
 }
 
+
+/* Look for a completed lessons file in the user's homedir   */
+/* and if found, pass the FILE* to read_goldstars_fp()       */
+/* to actually read the data. The idea is to have TuxMath    */
+/* keep track of what lessons the student has successfully   */
+/* completed and display the "Gold Star" icon for those,     */
+/* versus a grayed-out one for lessons remaining to be done. */
+int read_goldstars(void)
+{
+  FILE* fp;
+  char opt_path[PATH_MAX];
+
+  /* find $HOME and tack on file name: */
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" GOLDSTAR_FILENAME);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn read_goldstars() full path to file is: = %s\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "r");
+  if (fp) /* file exists */
+  {
+    read_goldstars_fp(fp);
+    fclose(fp);
+    fp = NULL;
+    return 1;
+  }
+  else  /* could not open goldstar file: */
+  {
+    return 0;
+  }
+}
+
+
+/* Write gold star list in user's homedir in format     */
+/* compatible with read_goldstars() above.              */
+int write_goldstars(void)
+{
+  char opt_path[PATH_MAX];
+  FILE* fp;
+
+  if (!find_tuxmath_dir())
+  {
+    fprintf(stderr, "\nCould not find or create tuxmath dir\n");
+    return 0;
+  }
+
+  /* find $HOME and add rest of path to config file: */
+  strcpy(opt_path, get_user_data_dir());
+  strcat(opt_path, OPTIONS_SUBDIR "/" GOLDSTAR_FILENAME);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn write_goldstars() full path to file is: = %s\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "w");
+  if (fp)
+  {
+    write_goldstars_fp(fp);
+    fclose(fp);
+    fp = NULL;
+    return 1;
+  }
+  else
+    return 0;
+}
+
+
 /* Look for a high score table file in the user's homedir */
-/* and if found, pass the FILE* to read_high_scores_() in */
+/* and if found, pass the FILE* to read_high_scores_fp() in */
 /* highscore.c to actually read in scores. (A "global"    */
 /* location might in theory be better, but most schools   */
 /* run Windows with all students sharing a common login   */
@@ -872,7 +948,7 @@ int read_high_scores(void)
     fp = NULL;
     return 1;
   }
-  else  /* could not open config file: */
+  else  /* could not open highscore file: */
   {
     return 0;
   }

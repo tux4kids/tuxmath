@@ -20,6 +20,7 @@ EXTRA_DIST = 	cascade0.png	\
 	comet4.png	\
 	comet5.png	\
 	cometd.png	\
+	goldstard.png	\
 	keyboard0.png	\
 	keyboard1.png	\
 	keyboard2.png	\
@@ -50,6 +51,7 @@ EXTRA_DIST = 	cascade0.png	\
 	main7.png	\
 	maind.png	\
 	quit0.png	\
+	no_goldstard.png	\
 	quit1.png	\
 	quit2.png	\
 	quit3.png	\

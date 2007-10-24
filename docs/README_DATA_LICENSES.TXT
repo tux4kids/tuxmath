@@ -33,8 +33,9 @@ data/images/penguins/*:
   (license text: http://creativecommons.org/licenses/publicdomain/)
 data/images/sprites/*:
   All tux* images modified by David Bruce from either Larry Ewing's Tux drawing
-  or from GPL-licensed tux_config.png file in KDEArtwork from KDE. Other images
-  brought in from GPL-licensed images in Tux Typing.
+  or from GPL-licensed tux_config.png file in KDEArtwork from KDE. Goldstar*
+  images created by David Bruce using The GIMP. Other images
+  brought in from GPL-licensed images in Tux Typing. 
 data/imates/status/*:
   right.png, right_gray.png, left.png, left_gray.png, stop.png modified from
   GPL-licensed KDE icons by David Bruce using the GIMP. All other images created

@@ -52,8 +52,8 @@ struct blit {
 } blits[MAX_UPDATES];
 
 // Lessons available for play
-unsigned char **lesson_list_titles;
-unsigned char **lesson_list_filenames;
+unsigned char **lesson_list_titles = NULL;
+unsigned char **lesson_list_filenames = NULL;
 int num_lessons = 0;
 
 // globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
@@ -76,20 +76,26 @@ enum {
   SPRITE_ACE,
   SPRITE_QUIT,
   SPRITE_MAIN,
+  SPRITE_GOLDSTAR,
+  SPRITE_NO_GOLDSTAR,
   N_SPRITES};
 
 const unsigned char* menu_sprite_files[N_SPRITES] =
-  {"lesson",
-   "comet",
-   "help",
-   "tux_config",
-   "tux_config_brown",
-   "tux_helmet_yellow",
-   "tux_helmet_green",
-   "tux_helmet_blue",
-   "tux_helmet_red",
-   "quit",
-   "main"};
+{
+  "lesson",
+  "comet",
+  "help",
+  "tux_config",
+  "tux_config_brown",
+  "tux_helmet_yellow",
+  "tux_helmet_green",
+  "tux_helmet_blue",
+  "tux_helmet_red",
+  "quit",
+  "main",
+  "goldstar",
+  "no_goldstar"
+};
    
 sprite **sprite_list = NULL;
 
@@ -125,7 +131,7 @@ int run_main_menu(void);
 int run_arcade_menu(void);
 int run_custom_menu(void);
 int run_options_menu(void);
-int choose_config_file(void);
+int run_lessons_menu(void);
 
 
 
@@ -643,7 +649,7 @@ int run_main_menu(void)
     switch (choice) {
       case 0: {
 	// Training academy lessons
-	ret = choose_config_file();
+	ret = run_lessons_menu();
 	break;
       }
       case 1: {
@@ -878,15 +884,29 @@ int run_options_menu(void)
 /* returns 0 if user pressed escape
  *         1 if config was set correctly
  */
-int choose_config_file(void)
+int run_lessons_menu(void)
 {
+  int i;
   int chosen_lesson = -1;
   menu_options menu_opts;
+  sprite** star_sprites = NULL;
+
+  /* Set up sprites with: */
+  star_sprites = (sprite**)malloc(num_lessons * sizeof(sprite*));
+  for (i = 0; i < num_lessons; i++)
+  {
+    if (lesson_list_goldstars[i])
+      star_sprites[i] = sprite_list[SPRITE_GOLDSTAR];
+    else
+      star_sprites[i] = sprite_list[SPRITE_NO_GOLDSTAR];
+  }
 
   set_default_menu_options(&menu_opts);
 
-  chosen_lesson = choose_menu_item((const) lesson_list_titles,NULL,num_lessons,menu_opts);
-  while (chosen_lesson >= 0) {
+  chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
+
+  while (chosen_lesson >= 0) 
+  {
     if (Opts_MenuSound())
       {tuxtype_playsound(sounds[SND_POP]);}
     
@@ -896,25 +916,38 @@ int choose_config_file(void)
     
     /* Now read the selected file and play the "mission": */ 
     if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+    {
+      if (Opts_MenuMusic())  //Turn menu music off for game
+        {audioMusicUnload();}
+
+      game();
+
+      /* If successful, display Gold Star for this lesson: */
+      if (MC_MissionAccomplished())
       {
-	if (Opts_MenuMusic())  //Turn menu music off for game
-	  {audioMusicUnload();}
-	
-	game();
-	
-	if (Opts_MenuMusic()) //Turn menu music back on
-	  {audioMusicLoad( "tuxi.ogg", -1 );}
+        lesson_list_goldstars[chosen_lesson] = 1;
+        star_sprites[chosen_lesson] = sprite_list[SPRITE_GOLDSTAR];
+       /* and save to disk: */
+        write_goldstars();
       }
-    else  // Something went wrong - could not read config file:
-      {
-	fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
-	chosen_lesson = -1;
-      }
+
+      if (Opts_MenuMusic()) //Turn menu music back on
+        {audioMusicLoad("tuxi.ogg", -1);}
+    }
+    else  // Something went wrong - could not read lesson config file:
+    {
+      fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+      chosen_lesson = -1;
+    }
     // Let the user choose another lesson; start with the screen and
     // selection that we ended with
     menu_opts.starting_entry = chosen_lesson;
-    chosen_lesson = choose_menu_item((const) lesson_list_titles,NULL,num_lessons,menu_opts);
+    chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
   }
+
+  free(star_sprites);
+  star_sprites = NULL;
+
   if (chosen_lesson < 0)
     return 0;
   else
@@ -924,6 +957,7 @@ int choose_config_file(void)
 
 /****************************************************************/
 /* choose_menu_item: menu navigation utility function           */
+/* (the function returns the index for the selected menu item)  */
 /****************************************************************/
 int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options menu_opts)
 {
@@ -1005,15 +1039,15 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
     n_entries_per_screen = n_menu_entries;
 
   /**** Memory allocation for current screen rects  ****/
-  menu_text_rect = (SDL_Rect*) malloc(n_entries_per_screen*sizeof(SDL_Rect));
-  menu_button_rect = (SDL_Rect*) malloc(n_entries_per_screen*sizeof(SDL_Rect));
+  menu_text_rect = (SDL_Rect*) malloc(n_entries_per_screen * sizeof(SDL_Rect));
+  menu_button_rect = (SDL_Rect*) malloc(n_entries_per_screen * sizeof(SDL_Rect));
   if (menu_text_rect == NULL || menu_button_rect == NULL) {
     free(menu_text_rect);
     free(menu_button_rect);
     return -2;
   }
   if (menu_sprites != NULL) {
-    menu_sprite_rect = (SDL_Rect*) malloc(n_entries_per_screen*sizeof(SDL_Rect));
+    menu_sprite_rect = (SDL_Rect*) malloc(n_entries_per_screen * sizeof(SDL_Rect));
     if (menu_sprite_rect == NULL) {
       free(menu_sprite_rect);
       return -2;
@@ -1130,7 +1164,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                 tuxtype_playsound(sounds[SND_TOCK]);
               }
               loc = loc_screen_start + i;
-              break;
+              break;   /* from for loop */
             }
           }
 
@@ -1144,8 +1178,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                 tuxtype_playsound(sounds[SND_TOCK]);
                 click_flag = 0;
               }
-              break;
             }
+            break;  /* from case switch */
           }
 
           /* "Right" button - go to next page: */
@@ -1158,13 +1192,14 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                 tuxtype_playsound(sounds[SND_TOCK]);
                 click_flag = 0;
               }
-              break;
             }
+            break;  /* from case switch */
           }
+
           else  // Mouse outside of arrow rects - re-enable click sound:
           {
             click_flag = 1;
-            break;
+            break;  /* from case switch */
           }
         }
 

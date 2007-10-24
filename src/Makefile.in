@@ -71,7 +71,8 @@ am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	credits.$(OBJEXT) playsound.$(OBJEXT) highscore.$(OBJEXT) \
 	theme.$(OBJEXT) loaders.$(OBJEXT) alphabet.$(OBJEXT) \
 	pause.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT)
+	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
+	lessons.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
@@ -80,7 +81,8 @@ am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	credits.$(OBJEXT) playsound.$(OBJEXT) highscore.$(OBJEXT) \
 	theme.$(OBJEXT) loaders.$(OBJEXT) alphabet.$(OBJEXT) \
 	pause.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT)
+	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
+	lessons.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
@@ -262,7 +264,8 @@ tuxmath_SOURCES = tuxmath.c \
 	mathcards.c	\
 	fileops.c	\
 	ConvertUTF.c	\
-	SDL_extras.c
+	SDL_extras.c	\
+	lessons.c
 
 TuxMath_SOURCES = $(tuxmath_SOURCES) tuxmathrc.rc
 EXTRA_DIST = credits.h 	\
@@ -277,6 +280,7 @@ EXTRA_DIST = credits.h 	\
 		tuxmath.h	\
 		ConvertUTF.h	\
 		SDL_extras.h	\
+		lessons.h	\
 		gettext.h
 
 @BUILD_MINGW32_FALSE@DATA_PREFIX = ${pkgdatadir}
@@ -362,6 +366,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highscore.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lessons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@

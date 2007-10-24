@@ -49,7 +49,7 @@
 #endif
 
 //#define NOSOUND
-//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */
@@ -177,8 +177,11 @@ extern range_type ranges[NUM_Q_RANGES];
 extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 #define NAME_BUF_SIZE 200
+
+/* data for 'Training Academy' lessons: */
 extern unsigned char **lesson_list_titles;
 extern unsigned char **lesson_list_filenames;
+extern int* lesson_list_goldstars;
 extern int num_lessons;
 
 /* NOTE: default values for math options are now in mathcards.h */

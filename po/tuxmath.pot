@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-10-19 11:35-0400\n"
+"POT-Creation-Date: 2007-10-23 15:36-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,365 +151,365 @@ msgstr ""
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:111
-#: data/missions/lessons/lessons_desc:166
-#: data/missions/lessons/lessons_desc:221
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:166
+#: data/missions/lessons/descr_lessons:221
 msgid "Number Typing"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:112
-#: data/missions/lessons/lessons_desc:167
-#: data/missions/lessons/lessons_desc:222
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:167
+#: data/missions/lessons/descr_lessons:222
 msgid "Addition: 1 to 3"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:113
-#: data/missions/lessons/lessons_desc:168
-#: data/missions/lessons/lessons_desc:223
+#: data/missions/lessons/descr_lessons:113
+#: data/missions/lessons/descr_lessons:168
+#: data/missions/lessons/descr_lessons:223
 msgid "Addition: 0 to 5"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:114
+#: data/missions/lessons/descr_lessons:114
 msgid "Addition: Sums To 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:115
+#: data/missions/lessons/descr_lessons:115
 msgid "Addition: Sums To 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:116
+#: data/missions/lessons/descr_lessons:116
 msgid "Addition: Sums To 20"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:117
-#: data/missions/lessons/lessons_desc:172
-#: data/missions/lessons/lessons_desc:227
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:172
+#: data/missions/lessons/descr_lessons:227
 msgid "Addition: Two Digit Numbers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:118
-#: data/missions/lessons/lessons_desc:173
-#: data/missions/lessons/lessons_desc:228
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:173
+#: data/missions/lessons/descr_lessons:228
 msgid "Addition: Missing Numbers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:119
-#: data/missions/lessons/lessons_desc:174
-#: data/missions/lessons/lessons_desc:229
+#: data/missions/lessons/descr_lessons:119
+#: data/missions/lessons/descr_lessons:174
+#: data/missions/lessons/descr_lessons:229
 msgid "Subtraction: 0 to 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:120
-#: data/missions/lessons/lessons_desc:175
-#: data/missions/lessons/lessons_desc:230
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:175
+#: data/missions/lessons/descr_lessons:230
 msgid "Subtraction: Two Digit Numbers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:121
-#: data/missions/lessons/lessons_desc:176
-#: data/missions/lessons/lessons_desc:231
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:176
+#: data/missions/lessons/descr_lessons:231
 msgid "Addition and Subtraction Review"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:122
-#: data/missions/lessons/lessons_desc:177
-#: data/missions/lessons/lessons_desc:232
+#: data/missions/lessons/descr_lessons:122
+#: data/missions/lessons/descr_lessons:177
+#: data/missions/lessons/descr_lessons:232
 msgid "Multiplication: 0 to 3"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:123
-#: data/missions/lessons/lessons_desc:178
-#: data/missions/lessons/lessons_desc:233
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:178
+#: data/missions/lessons/descr_lessons:233
 msgid "Multiples of 2"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:124
-#: data/missions/lessons/lessons_desc:179
-#: data/missions/lessons/lessons_desc:234
+#: data/missions/lessons/descr_lessons:124
+#: data/missions/lessons/descr_lessons:179
+#: data/missions/lessons/descr_lessons:234
 msgid "Multiples of 3"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:125
-#: data/missions/lessons/lessons_desc:180
-#: data/missions/lessons/lessons_desc:235
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:180
+#: data/missions/lessons/descr_lessons:235
 msgid "Multiples of 4"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:126
-#: data/missions/lessons/lessons_desc:181
-#: data/missions/lessons/lessons_desc:236
+#: data/missions/lessons/descr_lessons:126
+#: data/missions/lessons/descr_lessons:181
+#: data/missions/lessons/descr_lessons:236
 msgid "Multiples of 5"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:127
-#: data/missions/lessons/lessons_desc:182
-#: data/missions/lessons/lessons_desc:237
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:182
+#: data/missions/lessons/descr_lessons:237
 msgid "Multiplication: 0 to 5"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:128
-#: data/missions/lessons/lessons_desc:183
-#: data/missions/lessons/lessons_desc:238
+#: data/missions/lessons/descr_lessons:128
+#: data/missions/lessons/descr_lessons:183
+#: data/missions/lessons/descr_lessons:238
 msgid "Multiples of 6"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:129
-#: data/missions/lessons/lessons_desc:184
-#: data/missions/lessons/lessons_desc:239
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:184
+#: data/missions/lessons/descr_lessons:239
 msgid "Multiples of 7"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:130
-#: data/missions/lessons/lessons_desc:185
-#: data/missions/lessons/lessons_desc:240
+#: data/missions/lessons/descr_lessons:130
+#: data/missions/lessons/descr_lessons:185
+#: data/missions/lessons/descr_lessons:240
 msgid "Multiplication: 0 to 7"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:131
-#: data/missions/lessons/lessons_desc:186
-#: data/missions/lessons/lessons_desc:241
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:186
+#: data/missions/lessons/descr_lessons:241
 msgid "Multiples of 8"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:132
-#: data/missions/lessons/lessons_desc:187
-#: data/missions/lessons/lessons_desc:242
+#: data/missions/lessons/descr_lessons:132
+#: data/missions/lessons/descr_lessons:187
+#: data/missions/lessons/descr_lessons:242
 msgid "Multiples of 9"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:133
-#: data/missions/lessons/lessons_desc:188
-#: data/missions/lessons/lessons_desc:243
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:188
+#: data/missions/lessons/descr_lessons:243
 msgid "Multiples of 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:134
-#: data/missions/lessons/lessons_desc:189
-#: data/missions/lessons/lessons_desc:244
+#: data/missions/lessons/descr_lessons:134
+#: data/missions/lessons/descr_lessons:189
+#: data/missions/lessons/descr_lessons:244
 msgid "Multiplication: 0 to 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:135
-#: data/missions/lessons/lessons_desc:190
-#: data/missions/lessons/lessons_desc:245
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:190
+#: data/missions/lessons/descr_lessons:245
 msgid "Multiples of 11 and 12"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:136
-#: data/missions/lessons/lessons_desc:191
-#: data/missions/lessons/lessons_desc:246
+#: data/missions/lessons/descr_lessons:136
+#: data/missions/lessons/descr_lessons:191
+#: data/missions/lessons/descr_lessons:246
 msgid "Multiplication: 0 to 12"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:137
-#: data/missions/lessons/lessons_desc:192
-#: data/missions/lessons/lessons_desc:247
+#: data/missions/lessons/descr_lessons:137
+#: data/missions/lessons/descr_lessons:192
+#: data/missions/lessons/descr_lessons:247
 msgid "Multiples of 13, 14, and 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:138
-#: data/missions/lessons/lessons_desc:193
-#: data/missions/lessons/lessons_desc:248
+#: data/missions/lessons/descr_lessons:138
+#: data/missions/lessons/descr_lessons:193
+#: data/missions/lessons/descr_lessons:248
 msgid "Multiplication: 0 to 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:139
-#: data/missions/lessons/lessons_desc:194
-#: data/missions/lessons/lessons_desc:249
+#: data/missions/lessons/descr_lessons:139
+#: data/missions/lessons/descr_lessons:194
+#: data/missions/lessons/descr_lessons:249
 msgid "Multiplication: Missing Numbers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:140
-#: data/missions/lessons/lessons_desc:195
-#: data/missions/lessons/lessons_desc:250
+#: data/missions/lessons/descr_lessons:140
+#: data/missions/lessons/descr_lessons:195
+#: data/missions/lessons/descr_lessons:250
 msgid "Division by 2"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:141
-#: data/missions/lessons/lessons_desc:196
-#: data/missions/lessons/lessons_desc:251
+#: data/missions/lessons/descr_lessons:141
+#: data/missions/lessons/descr_lessons:196
+#: data/missions/lessons/descr_lessons:251
 msgid "Division by 3"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:142
-#: data/missions/lessons/lessons_desc:197
-#: data/missions/lessons/lessons_desc:252
+#: data/missions/lessons/descr_lessons:142
+#: data/missions/lessons/descr_lessons:197
+#: data/missions/lessons/descr_lessons:252
 msgid "Division by 4"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:143
-#: data/missions/lessons/lessons_desc:198
-#: data/missions/lessons/lessons_desc:253
+#: data/missions/lessons/descr_lessons:143
+#: data/missions/lessons/descr_lessons:198
+#: data/missions/lessons/descr_lessons:253
 msgid "Division by 5"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:144
-#: data/missions/lessons/lessons_desc:199
-#: data/missions/lessons/lessons_desc:254
+#: data/missions/lessons/descr_lessons:144
+#: data/missions/lessons/descr_lessons:199
+#: data/missions/lessons/descr_lessons:254
 msgid "Division: 1 to 5"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:145
-#: data/missions/lessons/lessons_desc:200
-#: data/missions/lessons/lessons_desc:255
+#: data/missions/lessons/descr_lessons:145
+#: data/missions/lessons/descr_lessons:200
+#: data/missions/lessons/descr_lessons:255
 msgid "Division by 6"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:146
-#: data/missions/lessons/lessons_desc:201
-#: data/missions/lessons/lessons_desc:256
+#: data/missions/lessons/descr_lessons:146
+#: data/missions/lessons/descr_lessons:201
+#: data/missions/lessons/descr_lessons:256
 msgid "Division by 7"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:147
-#: data/missions/lessons/lessons_desc:202
-#: data/missions/lessons/lessons_desc:257
+#: data/missions/lessons/descr_lessons:147
+#: data/missions/lessons/descr_lessons:202
+#: data/missions/lessons/descr_lessons:257
 msgid "Division by 8"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:148
-#: data/missions/lessons/lessons_desc:203
-#: data/missions/lessons/lessons_desc:258
+#: data/missions/lessons/descr_lessons:148
+#: data/missions/lessons/descr_lessons:203
+#: data/missions/lessons/descr_lessons:258
 msgid "Division by 9"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:149
-#: data/missions/lessons/lessons_desc:204
-#: data/missions/lessons/lessons_desc:259
+#: data/missions/lessons/descr_lessons:149
+#: data/missions/lessons/descr_lessons:204
+#: data/missions/lessons/descr_lessons:259
 msgid "Division by 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:150
-#: data/missions/lessons/lessons_desc:205
-#: data/missions/lessons/lessons_desc:260
+#: data/missions/lessons/descr_lessons:150
+#: data/missions/lessons/descr_lessons:205
+#: data/missions/lessons/descr_lessons:260
 msgid "Division: 1 to 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:151
-#: data/missions/lessons/lessons_desc:206
-#: data/missions/lessons/lessons_desc:261
+#: data/missions/lessons/descr_lessons:151
+#: data/missions/lessons/descr_lessons:206
+#: data/missions/lessons/descr_lessons:261
 msgid "Division by 11 and 12"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:152
-#: data/missions/lessons/lessons_desc:207
-#: data/missions/lessons/lessons_desc:262
+#: data/missions/lessons/descr_lessons:152
+#: data/missions/lessons/descr_lessons:207
+#: data/missions/lessons/descr_lessons:262
 msgid "Division: 1 to 12"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:153
+#: data/missions/lessons/descr_lessons:153
 msgid "Division by 13, 14 and 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:154
-#: data/missions/lessons/lessons_desc:209
-#: data/missions/lessons/lessons_desc:264
+#: data/missions/lessons/descr_lessons:154
+#: data/missions/lessons/descr_lessons:209
+#: data/missions/lessons/descr_lessons:264
 msgid "Division: 1 to 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:155
+#: data/missions/lessons/descr_lessons:155
 msgid "Multiplication/Division Super Review!"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:156
-#: data/missions/lessons/lessons_desc:211
-#: data/missions/lessons/lessons_desc:266
+#: data/missions/lessons/descr_lessons:156
+#: data/missions/lessons/descr_lessons:211
+#: data/missions/lessons/descr_lessons:266
 msgid "Typing Negative Numbers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:157
-#: data/missions/lessons/lessons_desc:212
-#: data/missions/lessons/lessons_desc:267
+#: data/missions/lessons/descr_lessons:157
+#: data/missions/lessons/descr_lessons:212
+#: data/missions/lessons/descr_lessons:267
 msgid "Subtraction: Negative Answers"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:158
+#: data/missions/lessons/descr_lessons:158
 msgid "Adding Negatives To Positives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:159
-#: data/missions/lessons/lessons_desc:214
-#: data/missions/lessons/lessons_desc:269
+#: data/missions/lessons/descr_lessons:159
+#: data/missions/lessons/descr_lessons:214
+#: data/missions/lessons/descr_lessons:269
 msgid "Subtracting Negatives From Positives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:160
+#: data/missions/lessons/descr_lessons:160
 msgid "Adding Negatives To Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:161
-#: data/missions/lessons/lessons_desc:216
-#: data/missions/lessons/lessons_desc:271
+#: data/missions/lessons/descr_lessons:161
+#: data/missions/lessons/descr_lessons:216
+#: data/missions/lessons/descr_lessons:271
 msgid "Subtracting Negatives From Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:162
+#: data/missions/lessons/descr_lessons:162
 msgid "Neg/Pos Review"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:163
+#: data/missions/lessons/descr_lessons:163
 msgid "Multiplication And Division Of Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:164
+#: data/missions/lessons/descr_lessons:164
 msgid "Multiplication Of Positives And Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:165
+#: data/missions/lessons/descr_lessons:165
 msgid "Division Of Positives And Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:169
-#: data/missions/lessons/lessons_desc:224
+#: data/missions/lessons/descr_lessons:169
+#: data/missions/lessons/descr_lessons:224
 msgid "Addition: Sums to 10"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:170
-#: data/missions/lessons/lessons_desc:225
+#: data/missions/lessons/descr_lessons:170
+#: data/missions/lessons/descr_lessons:225
 msgid "Addition: Sums to 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:171
-#: data/missions/lessons/lessons_desc:226
+#: data/missions/lessons/descr_lessons:171
+#: data/missions/lessons/descr_lessons:226
 msgid "Addition: Sums to 20"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:208
-#: data/missions/lessons/lessons_desc:263
+#: data/missions/lessons/descr_lessons:208
+#: data/missions/lessons/descr_lessons:263
 msgid "Division by 13, 14, and 15"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:210
-#: data/missions/lessons/lessons_desc:265
+#: data/missions/lessons/descr_lessons:210
+#: data/missions/lessons/descr_lessons:265
 msgid "Multiplication and Division Review"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:213
-#: data/missions/lessons/lessons_desc:268
+#: data/missions/lessons/descr_lessons:213
+#: data/missions/lessons/descr_lessons:268
 msgid "Adding Negatives to Positives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:215
-#: data/missions/lessons/lessons_desc:270
+#: data/missions/lessons/descr_lessons:215
+#: data/missions/lessons/descr_lessons:270
 msgid "Adding Negatives to Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:217
-#: data/missions/lessons/lessons_desc:272
+#: data/missions/lessons/descr_lessons:217
+#: data/missions/lessons/descr_lessons:272
 msgid "Negative and Positive Numbers Review"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:218
-#: data/missions/lessons/lessons_desc:273
+#: data/missions/lessons/descr_lessons:218
+#: data/missions/lessons/descr_lessons:273
 msgid "Multiplication and Division of Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:219
-#: data/missions/lessons/lessons_desc:274
+#: data/missions/lessons/descr_lessons:219
+#: data/missions/lessons/descr_lessons:274
 msgid "Multiplication of Positives and Negatives"
 msgstr ""
 
-#: data/missions/lessons/lessons_desc:220
-#: data/missions/lessons/lessons_desc:275
+#: data/missions/lessons/descr_lessons:220
+#: data/missions/lessons/descr_lessons:275
 msgid "Division of Positives and Negatives"
 msgstr ""

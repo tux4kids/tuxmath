@@ -26,7 +26,8 @@ tuxmath_SOURCES = tuxmath.c \
 	mathcards.c	\
 	fileops.c	\
 	ConvertUTF.c	\
-	SDL_extras.c
+	SDL_extras.c	\
+	lessons.c
 
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
@@ -42,6 +43,7 @@ EXTRA_DIST = 	credits.h 	\
 		tuxmath.h	\
 		ConvertUTF.h	\
 		SDL_extras.h	\
+		lessons.h	\
 		gettext.h
 
 
