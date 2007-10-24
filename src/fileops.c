@@ -847,6 +847,28 @@ int parse_lesson_file_directory(void)
 
   /* Now we check to see which lessons have been previously completed */
   /* so we can display the Gold Stars: */
+  /* Allocate storage for lesson list */
+
+  /* prevent memory leak in case we called this already and */
+  /* free the list:                                         */
+  if(lesson_list_goldstars)
+  {
+    free(lesson_list_goldstars);
+    lesson_list_goldstars = NULL;
+  }
+
+  lesson_list_goldstars = (int*)malloc(num_lessons*sizeof(int));
+  if (!lesson_list_goldstars)
+  {
+    perror("unable to allocate memory for gold star list");
+    return 0;
+  }
+  for (i = 0; i < num_lessons; i++)
+  {
+    lesson_list_goldstars[i] = 0;
+  }
+
+  /* Now read file to see what lessons have been previously completed: */
   read_goldstars();
 
   return (num_lessons > 0);  /* Success! */

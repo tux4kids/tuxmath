@@ -46,26 +46,7 @@ int read_goldstars_fp(FILE* fp)
     return 0;
   }
 
-  /* Allocate storage for lesson list */
 
-  /* prevent memory leak in case we called this already and */
-  /* free the list:                                         */
-  if(lesson_list_goldstars)
-  {
-    free(lesson_list_goldstars);
-    lesson_list_goldstars = NULL;
-  }
-
-  lesson_list_goldstars = (int*)malloc(num_lessons*sizeof(int));
-  if (!lesson_list_goldstars)
-  {
-    perror("unable to allocate memory for gold star list");
-    return 0;
-  }
-  for (i = 0; i < num_lessons; i++)
-  {
-    lesson_list_goldstars[i] = 0;
-  }
 
   /* make sure we start at beginning: */
   rewind(fp);

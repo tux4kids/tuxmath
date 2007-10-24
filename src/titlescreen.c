@@ -886,21 +886,23 @@ int run_options_menu(void)
  */
 int run_lessons_menu(void)
 {
-  int i;
   int chosen_lesson = -1;
   menu_options menu_opts;
   sprite** star_sprites = NULL;
 
-  /* Set up sprites with: */
-  star_sprites = (sprite**)malloc(num_lessons * sizeof(sprite*));
-  for (i = 0; i < num_lessons; i++)
+  /* Set up sprites (as long as gold star list is valid) */
+  if (lesson_list_goldstars != NULL)
   {
-    if (lesson_list_goldstars[i])
-      star_sprites[i] = sprite_list[SPRITE_GOLDSTAR];
-    else
-      star_sprites[i] = sprite_list[SPRITE_NO_GOLDSTAR];
+    int i;
+    star_sprites = (sprite**)malloc(num_lessons * sizeof(sprite*));
+    for (i = 0; i < num_lessons; i++)
+    {
+      if (lesson_list_goldstars[i])
+        star_sprites[i] = sprite_list[SPRITE_GOLDSTAR];
+      else
+        star_sprites[i] = sprite_list[SPRITE_NO_GOLDSTAR];
+    }
   }
-
   set_default_menu_options(&menu_opts);
 
   chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
@@ -922,7 +924,7 @@ int run_lessons_menu(void)
 
       game();
 
-      /* If successful, display Gold Star for this lesson: */
+      /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
         lesson_list_goldstars[chosen_lesson] = 1;
@@ -944,9 +946,11 @@ int run_lessons_menu(void)
     menu_opts.starting_entry = chosen_lesson;
     chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
   }
-
-  free(star_sprites);
-  star_sprites = NULL;
+  if (star_sprites)
+  {
+    free(star_sprites);
+    star_sprites = NULL;
+  }
 
   if (chosen_lesson < 0)
     return 0;
