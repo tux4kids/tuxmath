@@ -1,8 +1,25 @@
+2007.Oct.19 (svn.debian.org/tux4kids - revision 306)
+
+  Build:
+      * More gettext/po/intl work (in progress)
+  Game:
+      * Implementation of "gold stars" - the game keeps track of what
+        lessons have been successfully completed and displays a gold
+        star icon for completed lessons, with a grayed-out icon for lessons
+        that have not been completed.
+      * Fix of a bug in the menu code causing unintended exiting of the
+        game.
+  Graphics:
+      * Most of sprites revised to have a more uniform and modern shiny/
+      "crystal" look - remainder to be finished shortly.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Oct.19 (svn.debian.org/tux4kids - revision 303)
 
   Build:
       * Work on gettext-related stuff - hope to get i18n supported on all
-      platforms (in progress)
+        platforms (in progress)
 
       David Bruce <dbruce@tampabay.rr.com>
 
