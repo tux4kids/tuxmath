@@ -1112,8 +1112,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       menu_button_rect[i].w = menu_text_rect[i].w + 30;
     }
     if (menu_sprite_rect != NULL) {
-      menu_sprite_rect[i].x = menu_button_rect[i].x+6;
-      menu_sprite_rect[i].y = menu_button_rect[i].y+4;
+      menu_sprite_rect[i].x = menu_button_rect[i].x+3;
+      menu_sprite_rect[i].y = menu_button_rect[i].y+3;
       menu_sprite_rect[i].w = 40;
       menu_sprite_rect[i].h = 50;
     }
@@ -1424,11 +1424,11 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 
       for (i = loc_screen_start, imod = 0; i < loc_screen_start+n_entries_per_screen && i < n_menu_entries; i++, imod++) {
 	if (i == loc) {  //Draw text in yellow
-	  DrawButton(&menu_button_rect[imod], 15, SEL_RGBA);
+	  DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
 	  SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
 	}
 	else {          //Draw text in white
-	  DrawButton(&menu_button_rect[imod], 15, REG_RGBA);
+	  DrawButton(&menu_button_rect[imod], 10, REG_RGBA);
 	  SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu_text_rect[imod]);
 	}
 	if (menu_sprites != NULL && menu_sprites[i] != NULL)
@@ -1468,7 +1468,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	  // have to make sure we redraw in the sprite rects, too
 	  SDL_BlitSurface(images[IMG_MENU_BKG], &menu_sprite_rect[imod], screen, &menu_sprite_rect[imod]);
 	}
-	DrawButton(&menu_button_rect[imod], 15, REG_RGBA);  // draw button
+	DrawButton(&menu_button_rect[imod], 10, REG_RGBA);  // draw button
 	SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &menu_text_rect[imod]);  // draw text
 	if (use_sprite) {
 	  SDL_BlitSurface(menu_sprites[old_loc]->default_img, NULL, screen, &menu_sprite_rect[imod]);
@@ -1485,7 +1485,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	SDL_BlitSurface(images[IMG_MENU_BKG], &menu_button_rect[imod], screen, &menu_button_rect[imod]);
 	if (use_sprite)
 	  SDL_BlitSurface(images[IMG_MENU_BKG], &menu_sprite_rect[imod], screen, &menu_sprite_rect[imod]);
-	DrawButton(&menu_button_rect[imod], 15, SEL_RGBA);
+	DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
 	SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
 	if (use_sprite) {
 	  menu_sprites[loc]->cur = 0;  // start at beginning of animation sequence
@@ -1502,7 +1502,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	imod = loc-loc_screen_start;
 	//SDL_BlitSurface(images[IMG_MENU_BKG], &menu_button_rect[imod], screen, &menu_button_rect[imod]);
 	SDL_BlitSurface(images[IMG_MENU_BKG], &menu_sprite_rect[imod], screen, &menu_sprite_rect[imod]);
-	DrawButton(&menu_button_rect[imod], 15, SEL_RGBA);
+	DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
 	//SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
 	// Note: even though the whole button was redrawn, we don't
 	// have to redraw the text & background as long as we don't
