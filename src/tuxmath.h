@@ -49,7 +49,7 @@
 #endif
 
 //#define NOSOUND
-#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
+//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
 //#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
 
 /* Maximum length of file path: */
@@ -124,29 +124,6 @@ enum {
 };
 
 
-/* Going away soon: */
-typedef struct range_type {
-  int min;
-  int max;
-} range_type;
-
-/* Going away soon: */
-enum {
-  OPER_ADD,
-  OPER_SUB,
-  OPER_MULT,
-  OPER_DIV,
-  NUM_OPERS
-};
-
-/* Going away soon: */
-enum {
-  Q_RANGE_1_5,
-  Q_RANGE_6_12,
-  Q_RANGE_13_20,
-  NUM_Q_RANGES
-};
-
 
 /* Global data gets 'externed' here: */
 extern SDL_Color black;
@@ -170,11 +147,7 @@ extern Mix_Chunk* sounds[];    /* declared in setup.c; also used in fileops.c, p
 extern Mix_Music* musics[];    /* declared in setup.c; also used in fileops.c, game.c  */
 #endif
 
-extern char operchars[NUM_OPERS];
-extern char* oper_opts[NUM_OPERS];
-extern char* oper_alt_opts[NUM_OPERS];
-extern range_type ranges[NUM_Q_RANGES];
-extern int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
+
 
 #define NAME_BUF_SIZE 200
 

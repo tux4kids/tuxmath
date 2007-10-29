@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-10-23 15:36-0400\n"
+"POT-Creation-Date: 2007-10-26 15:29-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,115 +39,115 @@ msgstr ""
 msgid "Press space bar to return to game"
 msgstr ""
 
-#: src/titlescreen.c:446
+#: src/titlescreen.c:456
 msgid "Work In Progress!"
 msgstr ""
 
-#: src/titlescreen.c:447
+#: src/titlescreen.c:457
 msgid "This feature is not ready yet"
 msgstr ""
 
-#: src/titlescreen.c:448
+#: src/titlescreen.c:458
 msgid "Discuss the future of TuxMath at"
 msgstr ""
 
-#: src/titlescreen.c:449
+#: src/titlescreen.c:459
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 
-#: src/titlescreen.c:617
+#: src/titlescreen.c:627
 msgid "Math Command Training Academy"
 msgstr ""
 
-#: src/titlescreen.c:618
+#: src/titlescreen.c:628
 msgid "Play Arcade Game"
 msgstr ""
 
-#: src/titlescreen.c:619
+#: src/titlescreen.c:629
 msgid "Play Custom Game"
 msgstr ""
 
-#: src/titlescreen.c:620
+#: src/titlescreen.c:630
 msgid "Help"
 msgstr ""
 
-#: src/titlescreen.c:621
+#: src/titlescreen.c:631
 msgid "More Options"
 msgstr ""
 
-#: src/titlescreen.c:622
+#: src/titlescreen.c:632
 msgid "Quit"
 msgstr ""
 
-#: src/titlescreen.c:690
+#: src/titlescreen.c:700
 msgid "Space Cadet"
 msgstr ""
 
-#: src/titlescreen.c:691
+#: src/titlescreen.c:701
 msgid "Scout"
 msgstr ""
 
-#: src/titlescreen.c:692
+#: src/titlescreen.c:702
 msgid "Ranger"
 msgstr ""
 
-#: src/titlescreen.c:693
+#: src/titlescreen.c:703
 msgid "Ace"
 msgstr ""
 
-#: src/titlescreen.c:694
+#: src/titlescreen.c:704
 msgid "Hall Of Fame"
 msgstr ""
 
-#: src/titlescreen.c:695
+#: src/titlescreen.c:705
 msgid "Main menu"
 msgstr ""
 
-#: src/titlescreen.c:769
+#: src/titlescreen.c:779
 msgid "Edit 'options' file in your home directory"
 msgstr ""
 
-#: src/titlescreen.c:770
+#: src/titlescreen.c:780
 msgid "to create customized game!"
 msgstr ""
 
-#: src/titlescreen.c:771
+#: src/titlescreen.c:781
 msgid "Press a key or click your mouse to start game."
 msgstr ""
 
-#: src/titlescreen.c:772
+#: src/titlescreen.c:782
 msgid "See README.txt for more information"
 msgstr ""
 
-#: src/titlescreen.c:803
+#: src/titlescreen.c:813
 msgid "Demo"
 msgstr ""
 
-#: src/titlescreen.c:804
+#: src/titlescreen.c:814
 msgid "Project Info"
 msgstr ""
 
-#: src/titlescreen.c:805
+#: src/titlescreen.c:815
 msgid "Credits"
 msgstr ""
 
-#: src/titlescreen.c:806
+#: src/titlescreen.c:816
 msgid "Main Menu"
 msgstr ""
 
-#: src/titlescreen.c:848
+#: src/titlescreen.c:860
 msgid "TuxMath is free and open-source!"
 msgstr ""
 
-#: src/titlescreen.c:849
+#: src/titlescreen.c:861
 msgid "You can help make it better by reporting problems,"
 msgstr ""
 
-#: src/titlescreen.c:850
+#: src/titlescreen.c:862
 msgid "suggesting improvements, or adding code."
 msgstr ""
 
-#: src/titlescreen.c:851
+#: src/titlescreen.c:863
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 

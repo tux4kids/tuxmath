@@ -78,6 +78,8 @@ enum {
   SPRITE_MAIN,
   SPRITE_GOLDSTAR,
   SPRITE_NO_GOLDSTAR,
+  SPRITE_TROPHY,
+  SPRITE_CREDITS,
   N_SPRITES};
 
 const unsigned char* menu_sprite_files[N_SPRITES] =
@@ -94,7 +96,9 @@ const unsigned char* menu_sprite_files[N_SPRITES] =
   "quit",
   "main",
   "goldstar",
-  "no_goldstar"
+  "no_goldstar",
+  "trophy",
+  "credits"
 };
    
 sprite **sprite_list = NULL;
@@ -713,7 +717,7 @@ int run_arcade_menu(void)
   sprites[1] = sprite_list[SPRITE_SCOUT];
   sprites[2] = sprite_list[SPRITE_RANGER];
   sprites[3] = sprite_list[SPRITE_ACE];
-  sprites[4] = NULL;
+  sprites[4] = sprite_list[SPRITE_TROPHY];
   sprites[5] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
@@ -818,6 +822,8 @@ int run_options_menu(void)
 
   // Set up the sprites
   sprites[0] = sprite_list[SPRITE_ARCADE];
+  sprites[1] = sprite_list[SPRITE_HELP];
+  sprites[2] = sprite_list[SPRITE_CREDITS];
   sprites[3] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
@@ -1133,7 +1139,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
   /* Move mouse to current button: */
   cursor.x = menu_button_rect[imod].x + menu_button_rect[imod].w/2;
   cursor.y = menu_button_rect[imod].y + menu_button_rect[imod].h/2;
-  SDL_WarpMouse(cursor.x, cursor.y);
+//  SDL_WarpMouse(cursor.x, cursor.y);
   SDL_WM_GrabInput(SDL_GRAB_OFF);
 
 
@@ -1522,7 +1528,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       imod = loc - loc_screen_start;
       cursor.x = menu_button_rect[imod].x + (menu_button_rect[imod].w / 2);
       cursor.y = menu_button_rect[imod].y + (3 * menu_button_rect[imod].h / 4);
-      SDL_WarpMouse(cursor.x, cursor.y);
+//      SDL_WarpMouse(cursor.x, cursor.y);
       warp_mouse = 0;
     }
 

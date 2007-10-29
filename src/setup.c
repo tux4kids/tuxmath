@@ -102,7 +102,7 @@ void setup(int argc, char * argv[])
   initialize_SDL();
   /* Read image and sound files: */
   load_data_files();
-  /* Generate flipped versions of walking images */
+ /* Generate flipped versions of walking images */
   generate_flipped_images();
 }
 
@@ -227,16 +227,7 @@ void handle_command_args(int argc, char* argv[])
 	"--speed S        - set initial speed of the game\n"
 	"                   (S may be fractional, default is 1.0)\n"
         "--allownegatives - to allow answers to be less than zero\n"
-	"--operator OP    - to automatically play with particular operators\n"
-	"                   OP may be one of:\n");
-
-      for (j = 0; j < NUM_OPERS; j++)
-        printf("                   \"%s\"\n", oper_opts[j]);
-
-      printf("            or:\n");
-      
-      for (j = 0; j < NUM_OPERS; j++)
-        printf("                   \"%s\"\n", oper_alt_opts[j]);
+	);
 
       printf("\n");
     
@@ -359,35 +350,6 @@ void handle_command_args(int argc, char* argv[])
       i++;
     }
 
-    /* FIXME this does not currently work */
-    else if (strcmp(argv[i], "--operator") == 0 ||
-	     strcmp(argv[i], "-o") == 0)
-    {
-      if (i >= argc - 1)
-      {
-	fprintf(stderr, "%s option requires an argument\n", argv[i]);
-	usage(1, argv[0]);
-      }
-     
-      found = 0; 
-      for (j = 0; j < NUM_OPERS; j++)
-      {
-	if (strcmp(argv[i + 1], oper_opts[j]) == 0 ||
-	    strcmp(argv[i + 1], oper_alt_opts[j]) == 0)
-	{
-          found = 1;
-          opers[j] = 1;
-	}
-      }
-
-      if (found == 0)
-      {
-	fprintf(stderr, "Unrecognized operator %s\n", argv[i + 1]);
-	usage(1, argv[0]);
-      }
-
-      i++;
-    }
     else
     /* TODO try to match unrecognized strings to config file names */
     {
@@ -469,7 +431,11 @@ void initialize_SDL(void)
     if (n_timesopened > 0)
       Opts_SetSoundHWAvailable(1);
     #ifdef TUXMATH_DEBUG
-    printf("Sound mixer: frequency = %d, format = %x, channels = %d, n_timesopened = %d\n",frequency,format,channels,n_timesopened);
+    fprintf(stderr, "Sound mixer: frequency = %d, "
+                    "format = %x, "
+                    "channels = %d, "
+                    "n_timesopened = %d\n",
+                    frequency,format,channels,n_timesopened);
     #endif
   }
   
@@ -534,7 +500,7 @@ void load_data_files(void)
     cleanup_on_error();
     exit(1);
   }
-  
+
   if (!load_sound_data())
   {
     fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
@@ -547,23 +513,9 @@ void load_data_files(void)
     cleanup_on_error();
     exit(1);
   }
-
-  
-  /* FIXME what does this do? */
-//   for (i = images[IMG_LOADING]->h; i >= 0; i = i - 10)
-//     {
-//       SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-// 
-//       dest.x = (screen->w - images[IMG_TITLE]->w) / 2;
-//       dest.y = i;
-//       dest.w = images[IMG_TITLE]->w;
-//       dest.h = images[IMG_TITLE]->h;
-//       
-//       SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
-//       SDL_Flip(screen);
-//       SDL_Delay(10);
-//     }
 }
+
+
 
 /* Create flipped versions of certain images; also set up the flip
    lookup table */
@@ -580,6 +532,7 @@ void generate_flipped_images(void)
     flipped_img_lookup[flipped_img[i]] = i;
   }
 }
+
 
 /* save options and free heap */
 /* use for successful exit */
@@ -676,43 +629,38 @@ void cleanup_memory(void)
 void seticon(void)
 {
   int masklen;
-  Uint8 * mask;
-  SDL_Surface * icon;
+  Uint8* mask;
+  SDL_Surface* icon;
   
   
   /* Load icon into a surface: */
-  
-  icon = IMG_Load(DATA_PREFIX "/images/icon.png");
+  icon = IMG_Load(DATA_PREFIX "/images/icons/icon.png");
   if (icon == NULL)
-    {
-      fprintf(stderr,
-              "\nWarning: I could not load the icon image: %s\n"
-              "The Simple DirectMedia error that occured was:\n"
-              "%s\n\n", DATA_PREFIX "images/icon.png", SDL_GetError());
-      return;
-    }
+  {
+    fprintf(stderr,
+            "\nWarning: I could not load the icon image: %s\n"
+            "The Simple DirectMedia error that occured was:\n"
+            "%s\n\n", DATA_PREFIX "/images/icons/icon.png", SDL_GetError());
+    return;
+  }
   
   
   /* Create mask: */
-  
   masklen = (((icon -> w) + 7) / 8) * (icon -> h);
   mask = malloc(masklen * sizeof(Uint8));
   memset(mask, 0xFF, masklen);
   
   
   /* Set icon: */
-  
   SDL_WM_SetIcon(icon, mask);
   
   
   /* Free icon surface & mask: */
-  
   free(mask);
   SDL_FreeSurface(icon);
   
   
   /* Seed random-number generator: */
-  
   srand(SDL_GetTicks());
 }
 
@@ -731,7 +679,7 @@ void usage(int err, char * cmd)
    "          [--playthroughlist] [--answersfirst] [--answersmiddle]\n"
    "       %s [--fullscreen] [--nosound] [--nobackground]\n"
    "          [--demo] [--keypad] [--allownegatives]\n"
-   "          [--operator {add | subtract | multiply | divide} ...]\n"
+//   "          [--operator {add | subtract | multiply | divide} ...]\n"
    "          [--speed <val>]\n"
     "\n", cmd, cmd);
 

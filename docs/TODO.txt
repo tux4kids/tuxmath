@@ -14,7 +14,6 @@ Graphics:
   * svg support - allow game to draw correctly at any resolution.
 
 Interface:
-  * Create a Help sprite
   * Add more sound effects and music files
   * Speech mode
   * Add option for number-keys to control main menu and possible options

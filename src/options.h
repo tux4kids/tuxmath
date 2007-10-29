@@ -85,7 +85,7 @@ enum {
 //extern game_option_type* game_options; /* used by setup.c, options.c, game.c */
 
 /* main options function called from title(): */
-int options(void);
+//int options(void);
 
 /* "Public methods" of game_option_type struct; program interacts with struct */
 /* through these simple functions (rather than directly) to allow for error   */

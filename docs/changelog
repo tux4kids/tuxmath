@@ -1,3 +1,23 @@
+2007.Oct.29 (svn.debian.org/tux4kids - revision 310)
+
+  Version 1.5.7
+
+  Build:
+      * Implementation of proper "install" and "uninstall" targets in
+        the Makefile.am's, replacing some old quick-and-dirty hackery.
+      * gettext/po/intl needs testing.
+  Code:
+      * Removal of numerous unused image files as well as unused code
+        in options.c (old options system), savings ~400 KB.
+  Graphics:
+      * Rest of sprites updated to "crystal" look.
+  Game:
+      * Inactivated mouse warping in menus (at least for now) - the
+        users I've tested it on find the warping to be unexpected and
+        confusing.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Oct.19 (svn.debian.org/tux4kids - revision 306)
 
   Build:

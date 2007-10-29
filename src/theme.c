@@ -28,13 +28,14 @@
 #include "titlescreen.h"
 
 #ifndef MACOSX
-#define NUM_PATHS 5
+#define NUM_PATHS 6
 const char PATHS[NUM_PATHS][PATH_MAX] = {
 	"./data",
-	"/usr/share/"PACKAGE"/data",
-	"/usr/local/share/"PACKAGE"/data",
-        "/usr/local/share/"PACKAGE,        //HACK added to accomodate 'make install' installation
 	DATA_PREFIX"/share/"PACKAGE"/data"
+	"/usr/share/"PACKAGE"/data",
+	"/usr/share/"PACKAGE,
+	"/usr/local/share/"PACKAGE"/data",
+        "/usr/local/share/"PACKAGE        //HACK added to accomodate 'make install' installation
 };
 #else
 #define NUM_PATHS 1

@@ -3,9 +3,9 @@ An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
 
-August 21, 2007
+October 29, 2007
 
-For tuxmath-1.5.2
+For tuxmath-1.5.7
 
 Objective
 ---------
@@ -155,7 +155,8 @@ Program Navigation
     prepared lessons, starting with simple typing of single digit numbers, and
     progressing to multiplication and division involving negatives and 
     "missing number" questions (e.g. "-17 x ? = 119").  The player wins if the
-    question list is completed successfully.
+    question list is completed successfully. Successfully completed lessons are
+    indicated with a flashing gold star. 
 
     Play Arcade Game: use this to select from one of four open-ended, "Arcade 
     Style" games, meaning the game play gets faster and faster as long as the
@@ -166,8 +167,8 @@ Program Navigation
       Ranger -      addition, subtraction, multiplication, and division to ten.
       Ace -         all four operations with operands to 20, including negative
                     numbers and "missing number" type questions.
-    The high score tables ("Hall of Fame") are partially implemented as of this
-    writing.
+    If you make one of the top ten scores for the difficulty level, you get to
+    enter your name in the TuxMath Hall of Fame!
 
     Play Custom Game: use this to play a game based on the config file in the 
     player's home directory (see below). At some point, the options will be 
@@ -176,6 +177,7 @@ Program Navigation
     More Options - this will be developed into the menus to set options not 
     directly related to math questions, such as toggling the music on and off,
     playing fullscreen vs. windowed, using cities vs. igloos, and the like.
+    Now it just has the "Demo" mode, as well as credits and project information.
 
     Use the [UP] and [DOWN] arrow keys to select what you wish to do,
     and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the

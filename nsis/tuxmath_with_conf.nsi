@@ -2,7 +2,7 @@
 # with a few tiny modifications by Phil Harper(philh@theopencd.org)
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
 
-!define PKG_VERSION "1.5.6"
+!define PKG_VERSION "1.5.7"
 !define PKG_PREFIX  "tuxmath"
 
 !define APP_PREFIX  "TuxMath"

@@ -61,22 +61,8 @@
 const int SND_IGLOO_SIZZLE = SND_SIZZLE;
 const int IMG_CITY_NONE = 0;
 
-char operchars[NUM_OPERS] = {
-  "+-*/"
-};
-
-char * oper_opts[NUM_OPERS] = {
-  "add", "subtract", "multiply", "divide"
-};
-
-char * oper_alt_opts[NUM_OPERS] = {
-  "addition", "subtraction", "multiplication", "division"
-};
-
-range_type ranges[NUM_Q_RANGES] = {
-  {0, 5},
-  {6, 12},
-  {13, 20}
+char operchars[4] = {
+   "+-*/"
 };
 
 
@@ -130,18 +116,12 @@ static int comet_feedback_number;
 static float comet_feedback_height;
 static float danger_level;
 
-
 static int digits[3];
-/*
-static comet_type comets[MAX_MAX_COMETS];
-static city_type cities[NUM_CITIES];
-static penguin_type penguins[NUM_CITIES];
-static steam_type steam[NUM_CITIES];
-*/
-static comet_type *comets;
-static city_type *cities;
-static penguin_type *penguins;
-static steam_type *steam;
+
+static comet_type* comets = NULL;
+static city_type* cities = NULL;
+static penguin_type* penguins = NULL;
+static steam_type* steam = NULL;
 
 static cloud_type cloud;
 static laser_type laser;
@@ -2437,7 +2417,7 @@ void draw_nums(const char* str, int x, int y)
   /* IMG_NUMS now consists of 10 digit graphics, NUM_OPERS (i.e. 4) */
   /* operation symbols, and the '=' and '?' symbols, all side by side. */
   /* char_width is the width of a single symbol.                     */ 
-  char_width = (images[IMG_NUMS]->w / (10 + NUM_OPERS + 2));
+  char_width = (images[IMG_NUMS]->w / (16));
   /* Calculate image_length, taking into account that the string will */
   /* usually have four empty spaces that are only half as wide:       */
   image_length = str_length * char_width - (char_width * 0.5 * 4);
@@ -2476,7 +2456,7 @@ void draw_nums(const char* str, int x, int y)
     }
     else  /* [ THIS COULD CAUSE SLOWNESS... ] */
     {
-      for (j = 0; j < NUM_OPERS; j++)
+      for (j = 0; j < 4; j++)
       {
         if (str[i] == operchars[j])
  	{

@@ -58,6 +58,11 @@ void DisplayHighScores(int level)
 
   sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
+  TTF_Font* title_font = LoadFont(DEFAULT_FONT_NAME, 32);
+  TTF_Font* player_font = LoadFont(DEFAULT_FONT_NAME, 14);
+  if (!player_font || !title_font)
+    return;  // Get out if we can't load fonts - should not happen!
+
   /* --- Set up the rects for drawing various things: ----------- */
 
   /* Put arrow buttons in right lower corner, inset by 20 pixels */
@@ -194,23 +199,21 @@ void DisplayHighScores(int level)
       }
 
       /* Draw background shading for table: */
-      table_bg.x = (screen->w)/2 - (max_width + 20)/2;
+      table_bg.x = (screen->w)/2 - (max_width + 20)/2 + 50; //don't draw over Tux
       table_bg.y = 5;
       table_bg.w = max_width + 20;
-      table_bg.h = screen->h - 10;
+      table_bg.h = screen->h - 10 - images[IMG_RIGHT]->h;
       DrawButton(&table_bg, 25, SEL_RGBA);
 
       /* Draw difficulty level heading: */
       {
         SDL_Surface* srfc = NULL;
         SDL_Rect text_rect, button_rect;
-        TTF_Font* title_font = LoadFont(DEFAULT_FONT_NAME, 32);
 
-        if (title_font)
-          srfc = BlackOutline(_("Hall Of Fame"), title_font, &yellow);
+        srfc = BlackOutline(_("Hall Of Fame"), title_font, &yellow);
         if (srfc)
         {
-          button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2;
+          button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2 + 50;
           button_rect.y = text_rect.y = 10;
           button_rect.w = text_rect.w = srfc->w;
           button_rect.h = text_rect.h = srfc->h;
@@ -247,7 +250,7 @@ void DisplayHighScores(int level)
 
         if (srfc)
         {
-          text_rect.x = (screen->w)/2 - (srfc->w)/2; 
+          text_rect.x = (screen->w)/2 - (srfc->w)/2 + 50; 
           text_rect.y += text_rect.h; /* go to bottom of first line */
           text_rect.w = srfc->w;
           text_rect.h = srfc->h;
@@ -275,7 +278,7 @@ void DisplayHighScores(int level)
         if (score_surfs[i])               /* this should not happen! */
           SDL_FreeSurface(score_surfs[i]);
 
-        score_surfs[i] = BlackOutline(N_(score_strings[i]), default_font, &white);
+        score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &white);
 
         /* Get out if BlackOutline() fails: */
         if (!score_surfs[i])
@@ -287,7 +290,7 @@ void DisplayHighScores(int level)
         else
           score_rects[i].y = score_rects[i - 1].y + score_rects[i - 1].h;
 
-        score_rects[i].x = (screen->w)/2 - max_width/2;
+        score_rects[i].x = (screen->w)/2 - max_width/2 + 50;
         score_rects[i].h = score_surfs[i]->h;
         score_rects[i].w = max_width;
 
@@ -317,7 +320,7 @@ void DisplayHighScores(int level)
     if (Tux && tux_frame)
     {
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x+37, TuxRect.y+40, 70, 45);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
     }
 
 
@@ -328,7 +331,9 @@ void DisplayHighScores(int level)
     }
     frame++;
   }  // End of while (!finished) loop
-
+  TTF_CloseFont(title_font);
+  TTF_CloseFont(player_font);
+  title_font = player_font = NULL;
   FreeSprite(Tux);
 }
 

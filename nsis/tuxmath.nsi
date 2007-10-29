@@ -2,7 +2,7 @@
 # with a few tiny modifications by Phil Harper(philh@theopencd.org)
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
 
-!define PKG_VERSION "1.5.6"
+!define PKG_VERSION "1.5.7"
 !define PKG_PREFIX  "tuxmath"
 
 !define APP_PREFIX  "TuxMath"
@@ -52,9 +52,15 @@ Section
   SetOutPath $INSTDIR\docs
   File "docs\COPYING.txt"
 
-  WriteRegStr HKLM SOFTWARE\${APP_PREFIX} "Install_Dir" "$INSTDIR"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_PREFIX}" "DisplayName" "${APP_NAME} (remove only)"
-  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_PREFIX}" "UninstallString" '"$INSTDIR\uninstall.exe"'
+  WriteRegStr HKLM SOFTWARE\${APP_PREFIX} \
+                   "Install_Dir" \ 
+                   "$INSTDIR"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_PREFIX}" \
+                   "DisplayName" \
+                   "${APP_NAME} (remove only)"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_PREFIX}" \
+                   "UninstallString"  \ 
+                   '"$INSTDIR\uninstall.exe"'
   WriteUninstaller "uninstall.exe"
 SectionEnd
 
@@ -63,18 +69,29 @@ Section "Start Menu Shortcuts"
   SetShellVarContext all
   SetOutPath $INSTDIR
   CreateDirectory "$SMPROGRAMS\${APP_NAME}"
-  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\${APP_NAME} (Full Screen).lnk" "$INSTDIR\${APP_EXE}" "-f" "$INSTDIR\${APP_EXE}" 0 "" "" "Start TuxMath in Fullscreen mode"
-  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\${APP_NAME} (Windowed).lnk" "$INSTDIR\${APP_EXE}" "-w" "$INSTDIR\${APP_EXE}" 0 "" "" "Start TuxMath in a Window"
+  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\${APP_NAME} (Full Screen).lnk" \
+                  "$INSTDIR\${APP_EXE}" \
+                  "-f" \
+                  "$INSTDIR\data\images\icons\tuxmath.ico" \
+                  0 "" ""  \
+                  "Start TuxMath in Fullscreen mode"
+
+  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\${APP_NAME} (Windowed).lnk" \
+                  "$INSTDIR\${APP_EXE}" \
+                  "-w" \
+                  "$INSTDIR\data\images\icons\tuxmath.ico"  \ 
+                  0 "" "" \
+                  "Start TuxMath in a Window"
+
   CreateShortCut  "$SMPROGRAMS\${APP_NAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0 "" "" "Remove Tux of Math Command"
 SectionEnd
-
 
 Section "Desktop Shortcut"
   SetShellVarContext all
   SetOutPath $INSTDIR
   CreateShortCut "$DESKTOP\${APP_NAME}.lnk" \
                  "$INSTDIR\${APP_EXE}"  ""  \
-                 "$INSTDIR\data\images\tuxmath.ico" \
+                 "$INSTDIR\data\images\icons\tuxmath.ico" \
                  0  "" ""  \ 
                  "Run Tux of Math Command"
 SectionEnd

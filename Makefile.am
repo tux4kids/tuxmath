@@ -19,19 +19,14 @@ NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
 dist_with_fonts:
 	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) dist_fonts='AndikaDesRevG.ttf' dist
 
-# This rule is a brute-force kludge! 
 install-data-local:
-	@$(NORMAL_INSTALL)
-	if test -d $(srcdir)/$(PACKAGE_DATA_DIR); then \
-	  $(mkinstalldirs) $(DESTDIR)/$(pkgdatadir); \
-	  cd $(srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude \ "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" --exclude "*.svn*" * \
-           | ( cd $(DESTDIR)/$(pkgdatadir) ; tar xf -) ; cd .. ; \
-          cd po ; ls;\
-          for i in *.po; do langcode=$$(echo $$i | sed 's/\.po//'); \
-	  mkdir -p $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES ; msgfmt -o $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo $$langcode.po; \
-	  done; \
-	fi
+	$(MKDIR_P) $(DESTDIR)$(prefix)/share/$(PACKAGE)
 
+uninstall-local:
+	rm -rf $(DESTDIR)$(prefix)/share/$(PACKAGE)
+
+
+## FIXME make better use of autotools here:
 install-nsi-local: all
 	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR);
 	(cd $(top_srcdir)/$(PACKAGE_DATA_DIR) ; tar cf -  --exclude "Makefile.in" --exclude "*.in" --exclude "*~" --exclude \ "Makefile" --exclude "Makefile.am" --exclude CVS --exclude .xvpics --exclude "1[1-9].ogg"  --exclude "2?.ogg" --exclude "*.svn*" * ) \
@@ -46,13 +41,6 @@ endif
 
 install-nsi-am: install-nsi-local
 
-# How's this for brute force?!
-uninstall-local:
-	-chmod -R a+w $(DESTDIR)$(prefix)/share/$(PACKAGE);
-	-rm -rf $(DESTDIR)$(prefix)/share/$(PACKAGE);
-	-for i in *.po; do langcode=$$(echo $$i | sed 's/\.po//'); \
-	rm $(DESTDIR)/$(localedir)/$$langcode/LC_MESSAGES/tuxmath.mo; \
-	done;
 
 nsis: install-nsi-local
 if NSI_USE_TUXMATH_CONF

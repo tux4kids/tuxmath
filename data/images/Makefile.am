@@ -1,9 +1,5 @@
 ## Makefile.am for tuxmath data/images:
 ## Process with AutoMake:
-EXTRA_DIST = icon.png	\
-	icon.xpm	\
-	tuxmath.icns	\
-	tuxmath.ico
 
 SUBDIRS = backgrounds	\
 	cities		\
@@ -15,3 +11,9 @@ SUBDIRS = backgrounds	\
 	status		\
 	title		\
 	tux
+
+install-data-local:
+	$(MKDIR_P) $(DESTDIR)$(prefix)/share/$(PACKAGE)/images
+
+uninstall-local:
+	rm -rf $(DESTDIR)$(prefix)/share/$(PACKAGE)/images

@@ -2622,45 +2622,19 @@ static int str_to_bool(const char* val)
 
 int load_image_data()
 {
-  int total_files, i;
-
-  SDL_Rect dest;
+  int i;
 
   static char* image_filenames[NUM_IMAGES] = {
   DATA_PREFIX "/images/status/standby.png",
   DATA_PREFIX "/images/title/menu_bkg.jpg",
   DATA_PREFIX "/images/title/title1.png",
-  DATA_PREFIX "/images/status/loading.png",
   DATA_PREFIX "/images/status/title.png",
   DATA_PREFIX "/images/status/left.png",
   DATA_PREFIX "/images/status/left_gray.png",
   DATA_PREFIX "/images/status/right.png",
   DATA_PREFIX "/images/status/right_gray.png",
-  DATA_PREFIX "/images/status/options.png",
   DATA_PREFIX "/images/status/tux4kids.png",
   DATA_PREFIX "/images/status/nbs.png",
-  DATA_PREFIX "/images/status/tux_helmet1.png",
-  DATA_PREFIX "/images/status/tux_helmet2.png",
-  DATA_PREFIX "/images/status/tux_helmet3.png", 
-  DATA_PREFIX "/images/status/play.png",
-  DATA_PREFIX "/images/status/cmd_options.png",
-  DATA_PREFIX "/images/status/cmd_credits.png",
-  DATA_PREFIX "/images/status/cmd_quit.png",
-  DATA_PREFIX "/images/status/opt_addition.png",
-  DATA_PREFIX "/images/status/opt_subtraction.png",
-  DATA_PREFIX "/images/status/opt_multiplication.png",
-  DATA_PREFIX "/images/status/opt_division.png",
-  DATA_PREFIX "/images/status/opt_max_answer.png",
-  DATA_PREFIX "/images/status/opt_speed.png",
-  DATA_PREFIX "/images/status/opt_q_range.png",
-  DATA_PREFIX "/images/status/opt_rng_1_5.png",
-  DATA_PREFIX "/images/status/opt_rng_1_5_on.png",
-  DATA_PREFIX "/images/status/opt_rng_6_12.png",
-  DATA_PREFIX "/images/status/opt_rng_6_12_on.png",
-  DATA_PREFIX "/images/status/opt_rng_13_20.png",
-  DATA_PREFIX "/images/status/opt_rng_13_20_on.png",
-  DATA_PREFIX "/images/status/opt_check.png",
-  DATA_PREFIX "/images/status/opt_check_on.png",
   DATA_PREFIX "/images/cities/city-blue.png",
   DATA_PREFIX "/images/cities/csplode-blue-1.png",
   DATA_PREFIX "/images/cities/csplode-blue-2.png",
@@ -2723,7 +2697,6 @@ int load_image_data()
   DATA_PREFIX "/images/status/demo-small.png",
   DATA_PREFIX "/images/status/keypad.png",
   DATA_PREFIX "/images/status/keypad_no_neg.png",
-  DATA_PREFIX "/images/tux/console.png",
   DATA_PREFIX "/images/tux/console_led.png",
   DATA_PREFIX "/images/tux/console_bash.png",
   DATA_PREFIX "/images/tux/tux-console1.png",
@@ -2783,68 +2756,19 @@ int load_image_data()
   DATA_PREFIX "/images/status/gameover_won.png"
   };
 
-  if (Opts_UsingSound())
-    total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
-  else
-    total_files = NUM_IMAGES;
-
   /* Load images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
     images[i] = IMG_Load(image_filenames[i]);
-    if (images[i] == NULL)
-      {
-	fprintf(stderr,
-		"\nError: I couldn't load a graphics file:\n"
-		"%s\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", image_filenames[i], SDL_GetError());
-        return 0;
-      }
 
-    /* Draw suitable user feedback during loading: */
-    if (i == IMG_STANDBY)
-      {
-	dest.x = (screen->w - images[IMG_STANDBY]->w) / 2;
-	dest.y = screen->h - images[IMG_STANDBY]->h - 10;
-	dest.w = images[IMG_STANDBY]->w;
-	dest.h = images[IMG_STANDBY]->h;
-	
-	SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
-        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
-      }
-    else if (i == IMG_LOADING)
-      {
-	dest.x = (screen->w - images[IMG_LOADING]->w) / 2;
-	dest.y = 0;
-	dest.w = images[IMG_LOADING]->w;
-	dest.h = images[IMG_LOADING]->h;
-	
-	SDL_BlitSurface(images[IMG_LOADING], NULL, screen, &dest);
-        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
-      }
-    else if (i == IMG_TITLE)
-      {
-	dest.x = (screen->w - images[IMG_TITLE]->w) / 2;
-	dest.y = images[IMG_LOADING]->h;
-	dest.w = images[IMG_TITLE]->w;
-	dest.h = images[IMG_TITLE]->h;
-	
-	SDL_BlitSurface(images[IMG_TITLE], NULL, screen, &dest);
-        SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
-      }
-    
-    /* Green 'status bar' during loading: */
-    /* Do this rarely so it doesn't take so much time to load */
-    if (i % 10 == 0)
+    if (images[i] == NULL)
     {
-      dest.x = 0;
-      dest.y = (screen->h) - 10;
-      dest.w = ((screen->w) * (i + 1)) / total_files;
-      dest.h = 10;
-      
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_UpdateRect(screen,dest.x,dest.y,dest.w,dest.h);
+      fprintf(stderr,
+              "\nError: I couldn't load a graphics file:\n"
+              "%s\n"
+              "The Simple DirectMedia error that occured was:\n"
+              "%s\n\n", image_filenames[i], SDL_GetError());
+      return 0;
     }
   }
   /* If we make it to here OK, return 1: */
