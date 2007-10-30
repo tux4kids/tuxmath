@@ -68,9 +68,8 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) playsound.$(OBJEXT) highscore.$(OBJEXT) \
-	theme.$(OBJEXT) loaders.$(OBJEXT) alphabet.$(OBJEXT) \
-	pause.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
+	credits.$(OBJEXT) highscore.$(OBJEXT) theme.$(OBJEXT) \
+	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
 	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
 	lessons.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
@@ -78,9 +77,8 @@ TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) playsound.$(OBJEXT) highscore.$(OBJEXT) \
-	theme.$(OBJEXT) loaders.$(OBJEXT) alphabet.$(OBJEXT) \
-	pause.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
+	credits.$(OBJEXT) highscore.$(OBJEXT) theme.$(OBJEXT) \
+	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
 	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
 	lessons.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
@@ -254,12 +252,9 @@ tuxmath_SOURCES = tuxmath.c \
 	game.c 		\
 	options.c	\
 	credits.c	\
-	playsound.c	\
 	highscore.c	\
 	theme.c		\
 	loaders.c	\
-	alphabet.c	\
-	pause.c		\
 	audio.c 	\
 	mathcards.c	\
 	fileops.c	\
@@ -274,7 +269,6 @@ EXTRA_DIST = credits.h 	\
 		highscore.h 	\
 		mathcards.h 	\
 		options.h	\
-		playsound.h	\
 		setup.h		\
 		titlescreen.h	\
 		tuxmath.h	\
@@ -360,7 +354,6 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConvertUTF.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDL_extras.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/alphabet.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileops.Po@am__quote@
@@ -370,8 +363,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pause.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/playsound.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theme.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@

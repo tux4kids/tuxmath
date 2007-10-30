@@ -32,7 +32,6 @@
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
-#include "playsound.h"
 #include "tuxmath.h"
 #include "mathcards.h"
 #include "titlescreen.h"
@@ -2566,9 +2565,10 @@ int pause_game(void)
   dest.y = (screen->h - images[IMG_PAUSED]->h) / 2;
   dest.w = images[IMG_PAUSED]->w;
   dest.h = images[IMG_PAUSED]->h;
-    
+
+  DarkenScreen(1);  // cut all channels by half
   SDL_BlitSurface(images[IMG_PAUSED], NULL, screen, &dest);
-  SDL_Flip(screen);
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 
 #ifndef NOSOUND
@@ -3053,7 +3053,7 @@ void game_key_event(SDLKey key)
   /* Toggle screen mode: */
   else if (key == SDLK_F10)
   {
-    switch_screen_mode();
+    SwitchScreenMode();
   }
 
   /* Toggle music: */

@@ -29,7 +29,6 @@
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
-#include "playsound.h"
 #include "game.h"
 #include "tuxmath.h"
 

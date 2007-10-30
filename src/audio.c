@@ -29,10 +29,12 @@
 Mix_Chunk      *sound[NUM_WAVES];
 Mix_Music      *music;
 
-void tuxtype_playsound(Mix_Chunk *snd) {
-	if (!Opts_UsingSound()) return;
-
-	Mix_PlayChannel(-1, snd, 0);
+void playsound(int snd)
+{
+#ifndef NOSOUND
+  if (Opts_UsingSound())
+    Mix_PlayChannel(-1, sounds[snd], 0);
+#endif
 }
 
 Mix_Music *defaultMusic = NULL; // holds music for audioMusicLoad/unload

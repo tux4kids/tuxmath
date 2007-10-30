@@ -32,5 +32,8 @@ void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Ui
 void RoundCorners(SDL_Surface* s, Uint16 radius);
 SDL_Surface* Flip(SDL_Surface *in, int x, int y);
 SDL_Surface* BlackOutline(unsigned char *t, TTF_Font* font, SDL_Color* c);
+int  inRect(SDL_Rect r, int x, int y);
+void DarkenScreen(Uint8 bits);
+void SwitchScreenMode(void);
 
 #endif

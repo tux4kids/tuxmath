@@ -43,6 +43,14 @@ SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
 int numupdates = 0; // tracks how many blits to be done
 
+// Colors we use:
+SDL_Color black;
+SDL_Color gray;
+SDL_Color dark_blue;
+SDL_Color red;
+SDL_Color white;
+SDL_Color yellow;
+
 // Type needed for TransWipe():
 struct blit {
     SDL_Surface *src;
@@ -329,62 +337,6 @@ void TitleScreen(void)
 }
 
 
-void switch_screen_mode(void)
-{
-  SDL_Surface *tmp;
-  SDL_Rect src, dst;
-
-  int window = 0;
-
-  src.x = 0;
-  src.y = 0;
-  src.w = RES_X;
-  src.h = RES_Y;
-  dst.x = 0;
-  dst.y = 0;
-
-  tmp = SDL_CreateRGBSurface(
-      SDL_SWSURFACE,
-      RES_X,
-      RES_Y,
-      BPP,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-      0xff000000,
-      0x00ff0000,
-      0x0000ff00,
-      0x000000ff
-#else
-      0x000000ff,
-      0x0000ff00,
-      0x00ff0000,
-      0xff000000
-#endif
-      );
-
-  if (screen->flags & SDL_FULLSCREEN)
-  {
-    window = 1;
-  }
-
-  SDL_BlitSurface(screen,&src,tmp,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
-  SDL_FreeSurface(screen);
-  screen = NULL;
-
-  if (window)
-  {
-    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE);
-  }
-  else
-  {
-    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
-  }
-
-  SDL_BlitSurface(tmp,&src,screen,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
-  SDL_FreeSurface(tmp);
-}
-
 
 
 /***********************************************************/
@@ -575,14 +527,14 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
           if (inRect(stopRect, event.button.x, event.button.y ))
           {
             finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
+            playsound(SND_TOCK);
             break;
           }
         }
         case SDL_KEYDOWN:
         {
           finished = 1;
-          tuxtype_playsound(sounds[SND_TOCK]);
+          playsound(SND_TOCK);
         }
       }
     }
@@ -916,7 +868,7 @@ int run_lessons_menu(void)
   while (chosen_lesson >= 0) 
   {
     if (Opts_MenuSound())
-      {tuxtype_playsound(sounds[SND_POP]);}
+      playsound(SND_POP);
     
     /* Re-read global settings first in case any settings were */
     /* clobbered by other lesson or arcade games this session: */
@@ -1171,7 +1123,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
               // Play sound if loc is being changed:
               if (Opts_MenuSound() && (old_loc != loc_screen_start + i)) 
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
               }
               loc = loc_screen_start + i;
               break;   /* from for loop */
@@ -1185,7 +1137,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             {
               if (Opts_MenuSound() && click_flag)
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
                 click_flag = 0;
               }
             }
@@ -1199,7 +1151,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             {
               if (Opts_MenuSound() && click_flag)
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
                 click_flag = 0;
               }
             }
@@ -1222,7 +1174,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             {
               if (Opts_MenuSound())
               {
-                  tuxtype_playsound(sounds[SND_POP]);
+                playsound(SND_POP);
               }
 
               loc = loc_screen_start + i;
@@ -1241,7 +1193,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	      loc = -1;  // nothing selected
               if (Opts_MenuSound())
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
               }
               break;
             }
@@ -1257,7 +1209,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	      loc = -1;  // nothing selected
               if (Opts_MenuSound())
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
               }
               break;
             }
@@ -1267,7 +1219,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
           if (inRect(stopRect, event.button.x, event.button.y ))
           {
             stop = 2;
-            tuxtype_playsound(sounds[SND_TOCK]);
+            playsound(SND_TOCK);
             break;
           }
         } /* End of case SDL_MOUSEDOWN */
@@ -1289,7 +1241,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_KP_ENTER:
             {
               if (Opts_MenuSound())
-                {tuxtype_playsound(sounds[SND_POP]);}
+                playsound(SND_POP);
 	      stop = 1;
               break;
             }
@@ -1300,7 +1252,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_PAGEUP:
             {
               if (Opts_MenuSound())
-                {tuxtype_playsound(sounds[SND_TOCK]);}
+                playsound(SND_TOCK);
               if (loc_screen_start - n_entries_per_screen >= 0) {
 		loc_screen_start -= n_entries_per_screen;
 		loc = -1;
@@ -1315,7 +1267,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_PAGEDOWN:
             {
               if (Opts_MenuSound())
-                {tuxtype_playsound(sounds[SND_TOCK]);}
+                playsound(SND_TOCK);
               if (loc_screen_start + n_entries_per_screen < n_menu_entries) {
 		loc_screen_start += n_entries_per_screen;
 		loc = -1;
@@ -1328,7 +1280,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_UP:
             {
               if (Opts_MenuSound())
-                {tuxtype_playsound(sounds[SND_TOCK]);}
+                playsound(SND_TOCK);
               if (loc > 0)
                 {loc--;}
 	      else if (n_menu_entries <= n_entries_per_screen) {
@@ -1348,7 +1300,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_DOWN:
             {
               if (Opts_MenuSound())
-                {tuxtype_playsound(sounds[SND_TOCK]);}
+                playsound(SND_TOCK);
               if (loc >= 0 && loc + 1 < n_menu_entries)
                 {loc++;}
 	      else if (n_menu_entries <= n_entries_per_screen)
@@ -1364,7 +1316,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             /* Toggle screen mode: */
             case SDLK_F10: 
             {
-              switch_screen_mode();
+              SwitchScreenMode();
               redraw = 1;
               break;
             }

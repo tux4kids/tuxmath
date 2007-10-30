@@ -16,12 +16,9 @@ tuxmath_SOURCES = tuxmath.c \
 	game.c 		\
 	options.c	\
 	credits.c	\
-	playsound.c	\
 	highscore.c	\
 	theme.c		\
 	loaders.c	\
-	alphabet.c	\
-	pause.c		\
 	audio.c 	\
 	mathcards.c	\
 	fileops.c	\
@@ -37,7 +34,6 @@ EXTRA_DIST = 	credits.h 	\
 		highscore.h 	\
 		mathcards.h 	\
 		options.h	\
-		playsound.h	\
 		setup.h		\
 		titlescreen.h	\
 		tuxmath.h	\

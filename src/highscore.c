@@ -121,7 +121,7 @@ void DisplayHighScores(int level)
           if (inRect(stopRect, event.button.x, event.button.y ))
           {
             finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
+            playsound(SND_TOCK);
           }
 
           /* "Left" button - go to previous page: */
@@ -132,7 +132,7 @@ void DisplayHighScores(int level)
               diff_level--;
               if (Opts_MenuSound())
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
               }
             }
           }
@@ -145,7 +145,7 @@ void DisplayHighScores(int level)
               diff_level++;
               if (Opts_MenuSound())
               {
-                tuxtype_playsound(sounds[SND_TOCK]);
+                playsound(SND_TOCK);
               }
             }
           }
@@ -156,7 +156,7 @@ void DisplayHighScores(int level)
         case SDL_KEYDOWN:
         {
           finished = 1;
-          tuxtype_playsound(sounds[SND_TOCK]);
+          playsound(SND_TOCK);
         }
       }
     }
@@ -467,7 +467,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
           if (inRect(stopRect, event.button.x, event.button.y ))
           {
             finished = 1;
-            tuxtype_playsound(sounds[SND_TOCK]);
+            playsound(SND_TOCK);
             break;
           }
         }
@@ -484,7 +484,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
             case SDLK_KP_ENTER:
             {
               finished = 1;
-              tuxtype_playsound(sounds[SND_TOCK]);
+              playsound(SND_TOCK);
               break;
             }
             case SDLK_BACKSPACE:

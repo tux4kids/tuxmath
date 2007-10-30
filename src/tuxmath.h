@@ -115,6 +115,11 @@
 
 #define REG_RGBA 16,16,96,96
 #define SEL_RGBA 16,16,128,128
+
+#define RES_X	640
+#define RES_Y	480
+#define BPP	32	
+
 enum { 
   CADET_HIGH_SCORE,
   SCOUT_HIGH_SCORE,

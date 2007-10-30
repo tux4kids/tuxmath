@@ -28,11 +28,6 @@
 
 //#define FNLEN	200
 
-#define RES_X	640
-#define RES_Y	480
-#define BPP	32	
-
-
 #define MAX_SPRITE_FRAMES 30
 
 #include <string.h>
@@ -234,7 +229,6 @@ enum {
 /*In titlescreen.c */
 
 void TitleScreen( void );
-void switch_screen_mode( void );
 int ChooseMission(void);  //FIXME really should be in fileops.c
 int choose_menu_item(const unsigned char**,sprite**,int,menu_options);
 void set_default_menu_options(menu_options *);
@@ -255,25 +249,8 @@ void         FreeSprite( sprite *gfx );
 Mix_Music   *LoadMusic( char *datafile );
 void next_frame(sprite* s);
 
-/* in alphabet.c (from tuxtype) */
-void LoadKeyboard( void );
-void set_letters( unsigned char *t );
-unsigned char get_letter( void );
-void custom_letter_setup( void );
-void show_letters( void );
-void WORDS_init( void );
-void WORDS_use_alphabet( void );
-void WORDS_use( char *wordFn );
-unsigned char* WORDS_get( void );
-
-/* in pause.c * (from tuxtype): */
-int  Pause( void );
-void pause_load_media( void );
-void pause_unload_media( void );
-int  inRect( SDL_Rect r, int x, int y);
-
 /* in audio.c  (from tuxtype): */
-void tuxtype_playsound( Mix_Chunk *snd );
+void playsound(int snd);
 void audioMusicLoad( char *musicFilename, int repeatQty );
 void audioMusicUnload( void );
 void audioMusicPlay( Mix_Music *musicData, int repeatQty );

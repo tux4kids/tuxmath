@@ -312,3 +312,95 @@ SDL_Surface* BlackOutline(unsigned char *t, TTF_Font *font, SDL_Color *c)
 
   return out;
 }
+
+
+int inRect( SDL_Rect r, int x, int y) {
+	if ((x < r.x) || (y < r.y) || (x > r.x + r.w) || (y > r.y + r.h))
+		return 0;
+	return 1;
+}
+
+/* Darkens the screen by a factor of 2^bits */
+void DarkenScreen(Uint8 bits)
+{
+  Uint16 rm = screen->format->Rmask;
+  Uint16 gm = screen->format->Gmask;
+  Uint16 bm = screen->format->Bmask;
+  Uint16 *p; 
+  int x, y;
+
+  /* (realistically, 1 and 2 are the only useful values) */
+  if (bits > 8 || bits < 0)
+    return;
+
+  p = screen->pixels;
+
+  for (y = 0; y < RES_Y; y++)
+  { 
+    for (x = 0; x < RES_X; x++)
+    {
+      *p = (((*p&rm)>>bits)&rm)
+         | (((*p&gm)>>bits)&gm)
+         | (((*p&bm)>>bits)&bm);
+      p++;
+    }
+  }
+}
+
+
+void SwitchScreenMode(void)
+{
+  SDL_Surface *tmp;
+  SDL_Rect src, dst;
+
+  int window = 0;
+
+  src.x = 0;
+  src.y = 0;
+  src.w = RES_X;
+  src.h = RES_Y;
+  dst.x = 0;
+  dst.y = 0;
+
+  tmp = SDL_CreateRGBSurface(
+      SDL_SWSURFACE,
+      RES_X,
+      RES_Y,
+      BPP,
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+      0xff000000,
+      0x00ff0000,
+      0x0000ff00,
+      0x000000ff
+#else
+      0x000000ff,
+      0x0000ff00,
+      0x00ff0000,
+      0xff000000
+#endif
+      );
+
+  if (screen->flags & SDL_FULLSCREEN)
+  {
+    window = 1;
+  }
+
+  SDL_BlitSurface(screen,&src,tmp,&dst);
+  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
+  SDL_FreeSurface(screen);
+  screen = NULL;
+
+  if (window)
+  {
+    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE);
+  }
+  else
+  {
+    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
+  }
+
+  SDL_BlitSurface(tmp,&src,screen,&dst);
+  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
+  SDL_FreeSurface(tmp);
+}
+
