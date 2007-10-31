@@ -4,7 +4,10 @@
       * Uncrufting! - eliminated tuxtype_playsound(), moved playsound() to audio.c,
         and removed playsound.c and .h; eliminated alphabet.c; moved DarkenScreen()
         to SDL_extras.c and eliminated pause.c; moved SwitchScreenMode() to SDL_extras.c.
-
+  Graphics:
+      * Change to using 32 bits/pixel, however all functions that need this info now
+        use PIXEL_BITS #define'd in tuxmath.h - recompiling for 16 BPP only requires
+        changing this def (confirmed that both settings work, at least in Linux).
       David Bruce <dbruce@tampabay.rr.com>
 
 2007.Oct.29 (svn.debian.org/tux4kids - revision 310)

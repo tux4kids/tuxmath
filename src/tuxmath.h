@@ -118,7 +118,7 @@
 
 #define RES_X	640
 #define RES_Y	480
-#define BPP	32	
+#define PIXEL_BITS 32	
 
 enum { 
   CADET_HIGH_SCORE,

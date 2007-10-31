@@ -440,55 +440,57 @@ void initialize_SDL(void)
   }
   
   #endif
-{
-  SDL_VideoInfo *videoInfo;
-  Uint32 surfaceMode;
-  videoInfo = SDL_GetVideoInfo();
-  if (videoInfo->hw_available) {
-    surfaceMode = SDL_HWSURFACE;
-    #ifdef TUXMATH_DEBUG    
-    printf("HW mode\n");
-    #endif
-  }
-  else {
-    surfaceMode = SDL_SWSURFACE;
-    #ifdef TUXMATH_DEBUG    
-    printf("SW mode\n");
-    #endif
-  }
-
-  if (Opts_Fullscreen())
   {
-    screen = SDL_SetVideoMode(640, 480, 16, SDL_FULLSCREEN | surfaceMode);
-    if (screen == NULL)
+    SDL_VideoInfo *videoInfo;
+    Uint32 surfaceMode;
+    videoInfo = SDL_GetVideoInfo();
+    if (videoInfo->hw_available)
     {
-      fprintf(stderr,
+      surfaceMode = SDL_HWSURFACE;
+#ifdef TUXMATH_DEBUG    
+      printf("HW mode\n");
+#endif
+    }
+    else
+    {
+      surfaceMode = SDL_SWSURFACE;
+#ifdef TUXMATH_DEBUG    
+      printf("SW mode\n");
+#endif
+    }
+
+    if (Opts_Fullscreen())
+    {
+      screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
+      if (screen == NULL)
+      {
+        fprintf(stderr,
               "\nWarning: I could not open the display in fullscreen mode.\n"
 	      "The Simple DirectMedia error that occured was:\n"
 	      "%s\n\n", SDL_GetError());
-      Opts_SetFullscreen(0);
+        Opts_SetFullscreen(0);
+      }
     }
-  }
 
-  if (!Opts_Fullscreen())
-  {
-    screen = SDL_SetVideoMode(640, 480, 16, surfaceMode);
-  }
+    if (!Opts_Fullscreen())
+    {
+      screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, surfaceMode);
+    }
 
-  if (screen == NULL)
-  {
-    fprintf(stderr,
+    if (screen == NULL)
+    {
+      fprintf(stderr,
             "\nError: I could not open the display.\n"
 	    "The Simple DirectMedia error that occured was:\n"
 	    "%s\n\n", SDL_GetError());
-    cleanup_on_error();
-    exit(1);
+      cleanup_on_error();
+      exit(1);
+    }
+
+    seticon();
+
+    SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
   }
-
-  seticon();
-
-  SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
-}
 }
 
 

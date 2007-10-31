@@ -9,20 +9,19 @@
 * Copyright: GPL v3 or later
 *
 */
-/* DrawButton() creates and draws a translucent button with */
-/* rounded ends.  The location and size are taken from the */
-/* SDL_Rect* and width arguments.  The sprite is used to   */
-/* fill in the rect with the desired translucent color and */
-/* give it nice, rounded ends.                             */
-/* FIXME make it match target_rect more precisely          */
 
 #include "SDL_extras.h"
 #include "tuxmath.h"
 
+
+/* DrawButton() creates and draws a translucent button with */
+/* rounded ends.  All colors and alpha values are supported.*/
 void DrawButton(SDL_Rect* target_rect,
                 int radius,
                 Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
+  /* NOTE - we use a 32-bit temp surface even if we have a 16-bit */
+  /* screen - it gets converted during blitting.                  */
   SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
                                           target_rect->w,
                                           target_rect->h,
@@ -34,10 +33,6 @@ void DrawButton(SDL_Rect* target_rect,
 
   SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
   SDL_FreeSurface(tmp_surf);
-//  SDL_UpdateRect(screen, 0, 0, 0, 0); 
-
-  //SDL_UpdateRect(screen, target_rect->x, target_rect->y, target_rect->w, target_rect->h); 
-
 }
 
 
@@ -323,10 +318,20 @@ int inRect( SDL_Rect r, int x, int y) {
 /* Darkens the screen by a factor of 2^bits */
 void DarkenScreen(Uint8 bits)
 {
+#if PIXEL_BITS == 32
+  Uint32 rm = screen->format->Rmask;
+  Uint32 gm = screen->format->Gmask;
+  Uint32 bm = screen->format->Bmask;
+  Uint32* p; 
+#elif PIXEL_BITS == 16
   Uint16 rm = screen->format->Rmask;
   Uint16 gm = screen->format->Gmask;
   Uint16 bm = screen->format->Bmask;
-  Uint16 *p; 
+  Uint16* p; 
+#else
+  return;
+#endif
+
   int x, y;
 
   /* (realistically, 1 and 2 are the only useful values) */
@@ -366,7 +371,7 @@ void SwitchScreenMode(void)
       SDL_SWSURFACE,
       RES_X,
       RES_Y,
-      BPP,
+      PIXEL_BITS,
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
       0xff000000,
       0x00ff0000,
@@ -386,17 +391,23 @@ void SwitchScreenMode(void)
   }
 
   SDL_BlitSurface(screen,&src,tmp,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
+  SDL_UpdateRect(tmp, 0, 0, RES_X, RES_Y);
   SDL_FreeSurface(screen);
   screen = NULL;
 
   if (window)
   {
-    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE);
+    screen = SDL_SetVideoMode(RES_X,
+                              RES_Y,
+                              PIXEL_BITS,
+                              SDL_SWSURFACE|SDL_HWPALETTE);
   }
   else
   {
-    screen = SDL_SetVideoMode(RES_X,RES_Y,BPP, SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
+    screen = SDL_SetVideoMode(RES_X,
+                              RES_Y,
+                              PIXEL_BITS,
+                              SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
   }
 
   SDL_BlitSurface(tmp,&src,screen,&dst);
