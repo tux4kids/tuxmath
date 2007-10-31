@@ -25,8 +25,6 @@
 
 #include "titlescreen.h"
 
-
-Mix_Chunk      *sound[NUM_WAVES];
 Mix_Music      *music;
 
 void playsound(int snd)

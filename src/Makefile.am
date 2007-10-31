@@ -17,7 +17,6 @@ tuxmath_SOURCES = tuxmath.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
-	theme.c		\
 	loaders.c	\
 	audio.c 	\
 	mathcards.c	\

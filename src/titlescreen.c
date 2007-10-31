@@ -64,11 +64,6 @@ unsigned char **lesson_list_titles = NULL;
 unsigned char **lesson_list_filenames = NULL;
 int num_lessons = 0;
 
-// globals from tuxtype's globals.h defined outside of titlescreen.c (in tuxtype):
-int debugOn; //FIXME switch to TUXMATH_DEBUG
-
-
-
 
 /* --- media for menus --- */
 
@@ -114,8 +109,6 @@ sprite **sprite_list = NULL;
 /* reg and sel are used to create the translucent button backgrounds. */
 sprite* Tux = NULL;
 
-
-settings localsettings;
 
 SDL_Event event;
 
@@ -327,7 +320,6 @@ void TitleScreen(void)
   fprintf(stderr, "->>Freeing title screen images\n");
 #endif
 
-  localsettings.menu_music = Opts_MenuMusic();
   TitleScreen_unload_media();
 
 #ifdef TUXMATH_DEBUG
@@ -1575,13 +1567,17 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
 
     if (!screen)
     {
-      LOG("TransWipe(): screen not valid!\n");
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "TransWipe(): screen not valid!\n");
+#endif
       return;
     }
 
     if (!newbkg)
     {
-      LOG("TransWipe(): newbkg not valid!\n");
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "TransWipe(): newbkg not valid!\n");
+#endif
       return;
     }
 
@@ -1594,9 +1590,9 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
 
         switch( type ) {
             case WIPE_BLINDS_VERT: {
-
-                LOG("--+ Doing 'WIPE_BLINDS_VERT'\n");
-
+ #ifdef TUXMATH_DEBUG
+                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_VERT'\n");
+#endif
                 /* var1 is num of divisions
                    var2 is how many frames animation should take */
                 if( var1 < 1 ) var1 = 1;
@@ -1637,7 +1633,9 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
 
                 break;
             } case WIPE_BLINDS_HORIZ: {
-                LOG("--+ Doing 'WIPE_BLINDS_HORIZ'\n");
+#ifdef TUXMATH_DEBUG
+                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_HORIZ'\n");
+#endif
                 /* var1 is num of divisions
                    var2 is how many frames animation should take */
                 if( var1 < 1 ) var1 = 1;
@@ -1676,7 +1674,9 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
 
                 break;
             } case WIPE_BLINDS_BOX: {
-                LOG("--+ Doing 'WIPE_BLINDS_BOX'\n");
+#ifdef TUXMATH_DEBUG
+                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_BOX'\n");
+#endif
                 /* var1 is num of divisions
                    var2 is how many frames animation should take */
                 if( var1 < 1 ) var1 = 1;
@@ -1734,7 +1734,9 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
                 break;
         }
     }
-    LOG("->TransWipe(): FINISH\n");
+#ifdef TUXMATH_DEBUG
+      fprintf(stderr, "->TransWipe(): FINISH\n");
+#endif
 }
 
 
@@ -1780,7 +1782,9 @@ void AddRect(SDL_Rect* src, SDL_Rect* dst) {
 
     if (!src || !dst)
     {
-      LOG("AddRect(): src or dst invalid!\n");
+#ifdef TUXMATH_DEBUG 
+     fprintf(stderr, "AddRect(): src or dst invalid!\n");
+#endif
       return;
     }
 

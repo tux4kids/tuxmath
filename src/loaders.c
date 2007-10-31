@@ -124,7 +124,6 @@ SDL_Surface* LoadImage( char *datafile, int mode )
   {
     case IMG_REGULAR:
     { 
-      LOG("mode = IMG_REGULAR\n");
 
       final_pic = SDL_DisplayFormat(tmp_pic);
       SDL_FreeSurface(tmp_pic);
@@ -133,7 +132,6 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 
     case IMG_ALPHA:
     {
-      LOG("mode = IMG_ALPHA\n");
 
       final_pic = SDL_DisplayFormatAlpha(tmp_pic);
       SDL_FreeSurface(tmp_pic);
@@ -142,7 +140,6 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 
     case IMG_COLORKEY:
     {
-      LOG("mode = IMG_COLORKEY\n");
 
       SDL_LockSurface(tmp_pic);
       SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
@@ -203,10 +200,7 @@ sprite* LoadSprite( char* name, int MODE ) {
 		}
 	}
 
-	DEBUGCODE {
-		fprintf( stderr, "loading sprite %s - contains %d frames\n",
-		        name, new_sprite->num_frames );
-	}
+
 	
 	return new_sprite;
 }

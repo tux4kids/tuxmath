@@ -68,19 +68,17 @@ binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) theme.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT)
+	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
+	audio.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT) \
+	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) theme.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT)
+	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
+	audio.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT) \
+	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
@@ -253,7 +251,6 @@ tuxmath_SOURCES = tuxmath.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
-	theme.c		\
 	loaders.c	\
 	audio.c 	\
 	mathcards.c	\
@@ -364,7 +361,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/theme.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmath.Po@am__quote@
 

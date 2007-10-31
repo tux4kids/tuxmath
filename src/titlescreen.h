@@ -50,14 +50,7 @@
 #include "tuxmath.h"
 
 
-typedef struct {
-    char lang[PATH_MAX];
-    char path[PATH_MAX];
-    char window[PATH_MAX];
-    int sfx_volume;
-    int mus_volume;
-    int menu_music;
-} settings;
+
 
 typedef struct {
 	SDL_Surface *frame[MAX_SPRITE_FRAMES];
@@ -75,24 +68,6 @@ typedef struct {
   int button_same_width; // should all buttons have the same width?
 } menu_options;
 
-/* LOGGING works as such:
- *
- * - Use LOG if you want to output a string LOG( "Hello World");
- *   
- * - Use DOUT if you want to output a value of a variable and the
- *   name of the variable gives enough context:
- *   DOUT( specialCode );  would add to stderr: "specialCode = 1\n" or
- *   whatever value specialCode had
- *   
- * - Use DEBUGCODE if you need to do something more complicated like
- *   DEBUGCODE { fprintf(stderr, "examining letter %d\n", x); }
- *   since DOUT(x) "x = 1\n" gives little information since x is used
- *   all over the place!
- */
-
-#define LOG( str ) if (debugOn) fprintf( stderr, str );
-#define DEBUGCODE if (debugOn) 
-#define DOUT(x) if (debugOn) fprintf(stderr, "%s = %d\n", #x, x);
 
 
 
@@ -114,17 +89,6 @@ typedef struct {
 #define	FRAMES_PER_SEC	                50
 #define FULL_CIRCLE		        140
 
-/* Menu Prototypes */
-/*
-enum Game_Type { 
-	LESSONS, ARCADE, OPTIONS, GAME_OPTIONS, QUIT_GAME,
-        ARCADE_CADET, ARCADE_SCOUT, ARCADE_RANGER, ARCADE_ACE, HIGH_SCORES,
-        MAIN, INTERFACE_OPTIONS, HELP, CREDITS, PROJECT_INFO,
-        INSTRUCT_CASCADE, CASCADE1, CASCADE2, CASCADE3, CASCADE4,
-	INSTRUCT_LASER,    LASER1,    LASER2,    LASER3,    LASER4,
-	FREETYPE, ASDF, ALL, SET_LANGUAGE, EDIT_WORDLIST,
-	LEVEL1, LEVEL2, LEVEL3, LEVEL4, LASER, INSTRUCT, NOT_CODED, NONE};
-*/
 
 /* Title sequence constants */
 #define PRE_ANIM_FRAMES			10
@@ -141,52 +105,14 @@ enum Game_Type {
 #define IMG_NOT_REQUIRED 0x10
 #define IMG_NO_THEME     0x20
 
-//Game difficulty levels
-enum { EASY, MEDIUM, HARD, INSANE, INF_PRACT };
-#define NUM_LEVELS		        4
+
 
 extern SDL_Surface *screen;
 //extern TTF_Font  *font;
 extern SDL_Event  event;
 
 
-
 extern SDL_Surface *bkg;
-extern SDL_Surface *letters[255];
-
-extern unsigned char ALPHABET[256];
-extern unsigned char KEYMAP[256];
-extern unsigned char FINGER[256][10];
-extern int ALPHABET_SIZE;
-
-//global vars
-extern int speed_up;
-extern int show_tux4kids;
-extern int debugOn;
-extern int o_lives;
-extern int sound_vol;
-extern int hidden; // Read the README file in the image directory for info on this ;)
-
-/* Alternative language/word/image/sound theming */
-extern unsigned char realPath[2][PATH_MAX];
-extern char themeName[PATH_MAX];
-extern int useEnglish;
-
-enum {
-	WIN_WAV,
-	BITE_WAV,
-	LOSE_WAV,
-	RUN_WAV,
-	SPLAT_WAV,
-	WINFINAL_WAV,
-	EXCUSEME_WAV,
-	PAUSE_WAV,
-	NUM_WAVES
-};
-
-extern Mix_Chunk      *sound[NUM_WAVES];
-extern Mix_Music      *music;
-extern int sys_sound;
 
 #define MUSIC_FADE_OUT_MS	80
 
@@ -227,32 +153,27 @@ enum {
 /********************************/
 
 /*In titlescreen.c */
-
-void TitleScreen( void );
+void TitleScreen(void);
 int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const unsigned char**,sprite**,int,menu_options);
+int choose_menu_item(const unsigned char**, sprite**, int, menu_options);
 void set_default_menu_options(menu_options *);
 
-/* in theme.c (from tuxtype): */
-void chooseTheme(void);
-void setupTheme( char *dirname );
 
 /* in loaders.c (from tuxtype): */
 int         checkFile( const char *file );
 TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
-void         LoadLang( void );
-Mix_Chunk   *LoadSound( char *datafile );
-SDL_Surface *LoadImage( char *datafile, int mode );
-sprite      *LoadSprite( char *name, int MODE );
-sprite      *FlipSprite( sprite *in, int X, int Y );
-void         FreeSprite( sprite *gfx );
+Mix_Chunk   *LoadSound( char* datafile );
+SDL_Surface *LoadImage( char* datafile, int mode );
+sprite      *LoadSprite( char* name, int MODE );
+sprite      *FlipSprite( sprite* in, int X, int Y );
+void         FreeSprite( sprite* gfx );
 Mix_Music   *LoadMusic( char *datafile );
 void next_frame(sprite* s);
 
 /* in audio.c  (from tuxtype): */
 void playsound(int snd);
-void audioMusicLoad( char *musicFilename, int repeatQty );
-void audioMusicUnload( void );
-void audioMusicPlay( Mix_Music *musicData, int repeatQty );
+void audioMusicLoad(char* musicFilename, int repeatQty);
+void audioMusicUnload(void);
+void audioMusicPlay(Mix_Music* musicData, int repeatQty);
 
 #endif //TITLESCREEN_H

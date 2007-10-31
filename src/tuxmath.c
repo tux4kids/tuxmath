@@ -41,11 +41,7 @@ int main(int argc, char * argv[])
 #endif
 #endif
 
-/* Link control of tuxtype-derived code's debug to TUXMATH_DEBUG: */
-  debugOn = 0; //for tuxtype-derived code  
-#ifdef TUXMATH_DEBUG
-  debugOn = 1;
-#endif
+
 
   setup(argc, argv);
   atexit(cleanup);  // register it so we clean up even if there is a crash
