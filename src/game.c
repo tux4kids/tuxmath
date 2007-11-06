@@ -108,6 +108,7 @@ static int igloo_vertical_offset;
 //static int extra_life_counter;
 static int bonus_comet_counter;
 static int extra_life_earned;
+static int key_pressed;
 
 /* Feedback-related variables */
 static int city_expl_height;
@@ -126,7 +127,7 @@ static cloud_type cloud;
 static laser_type laser;
 static SDL_Surface* bkgd = NULL;
 
-static game_message s1, s2, s3, s4;
+static game_message s1, s2, s3, s4, s5;
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -599,6 +600,7 @@ int game_initialize(void)
   game_clear_message(&s2);
   game_clear_message(&s3);
   game_clear_message(&s4);
+  game_clear_message(&s5);
 
   help_controls.x_is_blinking = 0;
   help_controls.extra_life_is_blinking = 0;
@@ -718,8 +720,15 @@ void game_handle_help(void)
   game_set_message(&s1,"If an igloo gets hit by a comet,",left_edge,100);
   game_set_message(&s2,"it melts. But don't worry, the",left_edge,135);
   game_set_message(&s3,"penguin is OK!",left_edge,170);
-  game_set_message(&s4,"Watch what happens:",left_edge,225);
+  game_set_message(&s4,"Just watch what happens:",left_edge,225);
+  game_set_message(&s5,"(Press a key to start)",left_edge,260);
 
+  key_pressed = 0;
+  while (!key_pressed && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  game_clear_message(&s5);
+  
   help_add_comet(3,MC_OPER_MULT,3,9);
   comets[0].y = 2*(screen->h)/3;   // start it low down
   while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
@@ -727,7 +736,7 @@ void game_handle_help(void)
     return;
   game_set_message(&s4,"Notice the answer",left_edge,comets[0].y-100);
   help_renderframe_exit();
-  SDL_Delay(2000);
+  SDL_Delay(4000);
 
   frame_start = frame;
   while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 secs
@@ -736,8 +745,14 @@ void game_handle_help(void)
 
   game_set_message(&s1,"If it gets hit again, the",left_edge,100);
   game_set_message(&s2,"penguin leaves.",left_edge,135);
-  game_clear_message(&s3);
+  game_set_message(&s3, "(Press a key when ready)",left_edge,200);
   game_clear_message(&s4);
+
+  key_pressed = 0;
+  while (!key_pressed && !(quit_help = help_renderframe_exit()));
+  if (quit_help)
+    return;
+  game_clear_message(&s3);
 
   help_add_comet(56,MC_OPER_DIV,8,7);
   comets[0].y = 2*(screen->h)/3;   // start it low down
@@ -887,6 +902,7 @@ void game_write_messages(void)
   game_write_message(&s2);
   game_write_message(&s3);
   game_write_message(&s4);
+  game_write_message(&s5);
 }
 
 void game_handle_user_events(void)
@@ -3015,6 +3031,8 @@ void game_mouse_event(SDL_Event event)
 /* on-screen keypad */
 void game_key_event(SDLKey key)
 {
+
+  key_pressed = 1;   // Signal back in cases where waiting on any key
 
   if (key == SDLK_ESCAPE)
   {
