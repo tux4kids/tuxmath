@@ -1,3 +1,4 @@
+#include "tuxmath.h"
 _(Number Typing)
 _(Addition: 1 to 3)
 _(Addition: 0 to 5)

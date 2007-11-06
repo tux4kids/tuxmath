@@ -1,4 +1,3 @@
 # List of source files which contain translatable strings.
-src/pause.c
 src/titlescreen.c
 data/missions/lessons/descr_lessons

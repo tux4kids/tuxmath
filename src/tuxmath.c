@@ -19,7 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <locale.h>
-
+#include "gettext.h"
 #include "tuxmath.h"
 #include "setup.h"
 #include "game.h"
@@ -32,12 +32,16 @@
 
 int main(int argc, char * argv[])
 {
+  /* NOTE - these casts to (void) prevent compiler warnings of */
+  /* "statement with no effect" - I am not sure if they do anything */
+  /* else that we need - DSB */
+
 #ifndef MACOSX
 #ifndef WIN32
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  bind_textdomain_codeset(PACKAGE, "UTF-8");
-  textdomain(PACKAGE);
+  (void)setlocale(LC_ALL, "");
+  (void)bindtextdomain(PACKAGE, LOCALEDIR);
+  (void)bind_textdomain_codeset(PACKAGE, "UTF-8");
+  (void)textdomain(PACKAGE);
 #endif
 #endif
 

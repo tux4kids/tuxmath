@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-10-26 15:29-0400\n"
+"POT-Creation-Date: 2007-11-06 12:56-0500\n"
 "PO-Revision-Date: 2007-04-14 21:38+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -17,506 +17,500 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 
-#: src/pause.c:89
-msgid "Sound Effects Volume"
-msgstr "Lydeffekter"
-
-#: src/pause.c:95
-msgid "Music Volume"
-msgstr "Musikk"
-
-#: src/pause.c:103
-msgid "Sound & Music Disabled"
-msgstr "Lyd og musikk avslått"
-
-#: src/pause.c:110
-msgid "Paused!"
-msgstr "Pause!"
-
-#: src/pause.c:116
-msgid "Press escape again to return to menu"
-msgstr "Trykk «Escape» for å gå tilbake til hovedmenyen."
-
-#: src/pause.c:122
-msgid "Press space bar to return to game"
-msgstr "Trykk mellomromstasten for å gå tilbake til spillet."
-
-#: src/titlescreen.c:456
+#: src/titlescreen.c:400
 msgid "Work In Progress!"
 msgstr "Uferdig!"
 
-#: src/titlescreen.c:457
+#: src/titlescreen.c:401
 msgid "This feature is not ready yet"
 msgstr "Denne funksjonen er ikke klar ennå."
 
-#: src/titlescreen.c:458
+#: src/titlescreen.c:402
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskuter fremtiden til TuxMath på"
 
-#: src/titlescreen.c:459
+#: src/titlescreen.c:403
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:627
+#: src/titlescreen.c:571
 msgid "Math Command Training Academy"
 msgstr "Kadettskole"
 
-#: src/titlescreen.c:628
+#: src/titlescreen.c:572
 msgid "Play Arcade Game"
 msgstr "Spill"
 
-#: src/titlescreen.c:629
+#: src/titlescreen.c:573
 msgid "Play Custom Game"
 msgstr "Selvlaget spill"
 
-#: src/titlescreen.c:630
+#: src/titlescreen.c:574
 msgid "Help"
 msgstr "Hjelp"
 
-#: src/titlescreen.c:631
+#: src/titlescreen.c:575
 msgid "More Options"
 msgstr "Flere valg"
 
-#: src/titlescreen.c:632
+#: src/titlescreen.c:576
 msgid "Quit"
 msgstr "Avslutt"
 
-#: src/titlescreen.c:700
+#: src/titlescreen.c:644
 msgid "Space Cadet"
 msgstr "Romkadett"
 
-#: src/titlescreen.c:701
+#: src/titlescreen.c:645
 msgid "Scout"
 msgstr "Romlærling"
 
-#: src/titlescreen.c:702
+#: src/titlescreen.c:646
 msgid "Ranger"
 msgstr "Romvokter"
 
-#: src/titlescreen.c:703
+#: src/titlescreen.c:647
 msgid "Ace"
 msgstr "Romsjef"
 
-#: src/titlescreen.c:704
+#: src/titlescreen.c:648
 msgid "Hall Of Fame"
 msgstr "Poengliste"
 
-#: src/titlescreen.c:705
+#: src/titlescreen.c:649
 #, fuzzy
 msgid "Main menu"
 msgstr "Hovedmeny"
 
-#: src/titlescreen.c:779
+#: src/titlescreen.c:723
 msgid "Edit 'options' file in your home directory"
 msgstr "Rediger «options»-fila i hjemmemappa di"
 
-#: src/titlescreen.c:780
+#: src/titlescreen.c:724
 msgid "to create customized game!"
 msgstr "for å lage ditt eget spill."
 
-#: src/titlescreen.c:781
+#: src/titlescreen.c:725
 msgid "Press a key or click your mouse to start game."
 msgstr ""
 
-#: src/titlescreen.c:782
+#: src/titlescreen.c:726
 msgid "See README.txt for more information"
 msgstr "Se «README.txt» for mer informasjon."
 
-#: src/titlescreen.c:813
+#: src/titlescreen.c:757
 msgid "Demo"
 msgstr ""
 
-#: src/titlescreen.c:814
+#: src/titlescreen.c:758
 msgid "Project Info"
 msgstr "Prosjektinfo"
 
-#: src/titlescreen.c:815
+#: src/titlescreen.c:759
 msgid "Credits"
 msgstr "Bidragsytere"
 
-#: src/titlescreen.c:816
+#: src/titlescreen.c:760
 msgid "Main Menu"
 msgstr "Hovedmeny"
 
-#: src/titlescreen.c:860
+#: src/titlescreen.c:804
 msgid "TuxMath is free and open-source!"
 msgstr ""
 
-#: src/titlescreen.c:861
+#: src/titlescreen.c:805
 msgid "You can help make it better by reporting problems,"
 msgstr ""
 
-#: src/titlescreen.c:862
+#: src/titlescreen.c:806
 msgid "suggesting improvements, or adding code."
 msgstr ""
 
-#: src/titlescreen.c:863
+#: src/titlescreen.c:807
 #, fuzzy
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: data/missions/lessons/descr_lessons:111
-#: data/missions/lessons/descr_lessons:166
-#: data/missions/lessons/descr_lessons:221
-msgid "Number Typing"
-msgstr "Tallskriving"
-
 #: data/missions/lessons/descr_lessons:112
 #: data/missions/lessons/descr_lessons:167
 #: data/missions/lessons/descr_lessons:222
-msgid "Addition: 1 to 3"
-msgstr "Addisjon: 1 til 3"
+msgid "Number Typing"
+msgstr "Tallskriving"
 
 #: data/missions/lessons/descr_lessons:113
 #: data/missions/lessons/descr_lessons:168
 #: data/missions/lessons/descr_lessons:223
+msgid "Addition: 1 to 3"
+msgstr "Addisjon: 1 til 3"
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:169
+#: data/missions/lessons/descr_lessons:224
 msgid "Addition: 0 to 5"
 msgstr "Addisjon: 0 til 5"
 
-#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
 msgid "Addition: Sums To 10"
 msgstr "Addisjon: Summer til 10"
 
-#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
 msgid "Addition: Sums To 15"
 msgstr "Addisjon: Summer til 15"
 
-#: data/missions/lessons/descr_lessons:116
+#: data/missions/lessons/descr_lessons:117
 msgid "Addition: Sums To 20"
 msgstr "Addisjon: Summer til 20"
-
-#: data/missions/lessons/descr_lessons:117
-#: data/missions/lessons/descr_lessons:172
-#: data/missions/lessons/descr_lessons:227
-msgid "Addition: Two Digit Numbers"
-msgstr "Addisjon: Tosifrede tall"
 
 #: data/missions/lessons/descr_lessons:118
 #: data/missions/lessons/descr_lessons:173
 #: data/missions/lessons/descr_lessons:228
-msgid "Addition: Missing Numbers"
-msgstr "Addisjon: Manglende tall"
+msgid "Addition: Two Digit Numbers"
+msgstr "Addisjon: Tosifrede tall"
 
 #: data/missions/lessons/descr_lessons:119
 #: data/missions/lessons/descr_lessons:174
 #: data/missions/lessons/descr_lessons:229
-msgid "Subtraction: 0 to 10"
-msgstr "Subtraksjon: 0 til 10"
+msgid "Addition: Missing Numbers"
+msgstr "Addisjon: Manglende tall"
 
 #: data/missions/lessons/descr_lessons:120
 #: data/missions/lessons/descr_lessons:175
 #: data/missions/lessons/descr_lessons:230
-msgid "Subtraction: Two Digit Numbers"
-msgstr "Subtraksjon: Tosifrede tall"
+msgid "Subtraction: 0 to 10"
+msgstr "Subtraksjon: 0 til 10"
 
 #: data/missions/lessons/descr_lessons:121
 #: data/missions/lessons/descr_lessons:176
 #: data/missions/lessons/descr_lessons:231
-msgid "Addition and Subtraction Review"
-msgstr "Gjennomgang: Addisjon og subtraksjon"
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Subtraksjon: Tosifrede tall"
 
 #: data/missions/lessons/descr_lessons:122
 #: data/missions/lessons/descr_lessons:177
 #: data/missions/lessons/descr_lessons:232
-msgid "Multiplication: 0 to 3"
-msgstr "Multiplikasjon: 0 til 3"
+msgid "Addition and Subtraction Review"
+msgstr "Gjennomgang: Addisjon og subtraksjon"
 
 #: data/missions/lessons/descr_lessons:123
 #: data/missions/lessons/descr_lessons:178
 #: data/missions/lessons/descr_lessons:233
-msgid "Multiples of 2"
-msgstr "Multiplum av 2"
+msgid "Multiplication: 0 to 3"
+msgstr "Multiplikasjon: 0 til 3"
 
 #: data/missions/lessons/descr_lessons:124
 #: data/missions/lessons/descr_lessons:179
 #: data/missions/lessons/descr_lessons:234
-msgid "Multiples of 3"
-msgstr "Multiplum av 3"
+msgid "Multiples of 2"
+msgstr "Multiplum av 2"
 
 #: data/missions/lessons/descr_lessons:125
 #: data/missions/lessons/descr_lessons:180
 #: data/missions/lessons/descr_lessons:235
-msgid "Multiples of 4"
-msgstr "Multiplum av 4"
+msgid "Multiples of 3"
+msgstr "Multiplum av 3"
 
 #: data/missions/lessons/descr_lessons:126
 #: data/missions/lessons/descr_lessons:181
 #: data/missions/lessons/descr_lessons:236
-msgid "Multiples of 5"
-msgstr "Multiplum av 5"
+msgid "Multiples of 4"
+msgstr "Multiplum av 4"
 
 #: data/missions/lessons/descr_lessons:127
 #: data/missions/lessons/descr_lessons:182
 #: data/missions/lessons/descr_lessons:237
-msgid "Multiplication: 0 to 5"
-msgstr "Multiplikasjon: 0 til 5"
+msgid "Multiples of 5"
+msgstr "Multiplum av 5"
 
 #: data/missions/lessons/descr_lessons:128
 #: data/missions/lessons/descr_lessons:183
 #: data/missions/lessons/descr_lessons:238
-msgid "Multiples of 6"
-msgstr "Multiplum av 6"
+msgid "Multiplication: 0 to 5"
+msgstr "Multiplikasjon: 0 til 5"
 
 #: data/missions/lessons/descr_lessons:129
 #: data/missions/lessons/descr_lessons:184
 #: data/missions/lessons/descr_lessons:239
-msgid "Multiples of 7"
-msgstr "Multiplum av 7"
+msgid "Multiples of 6"
+msgstr "Multiplum av 6"
 
 #: data/missions/lessons/descr_lessons:130
 #: data/missions/lessons/descr_lessons:185
 #: data/missions/lessons/descr_lessons:240
-msgid "Multiplication: 0 to 7"
-msgstr "Multiplikasjon: 0 til 7"
+msgid "Multiples of 7"
+msgstr "Multiplum av 7"
 
 #: data/missions/lessons/descr_lessons:131
 #: data/missions/lessons/descr_lessons:186
 #: data/missions/lessons/descr_lessons:241
-msgid "Multiples of 8"
-msgstr "Multiplum av 8"
+msgid "Multiplication: 0 to 7"
+msgstr "Multiplikasjon: 0 til 7"
 
 #: data/missions/lessons/descr_lessons:132
 #: data/missions/lessons/descr_lessons:187
 #: data/missions/lessons/descr_lessons:242
-msgid "Multiples of 9"
-msgstr "Multiplum av 9"
+msgid "Multiples of 8"
+msgstr "Multiplum av 8"
 
 #: data/missions/lessons/descr_lessons:133
 #: data/missions/lessons/descr_lessons:188
 #: data/missions/lessons/descr_lessons:243
-msgid "Multiples of 10"
-msgstr "Multiplum av 10"
+msgid "Multiples of 9"
+msgstr "Multiplum av 9"
 
 #: data/missions/lessons/descr_lessons:134
 #: data/missions/lessons/descr_lessons:189
 #: data/missions/lessons/descr_lessons:244
-msgid "Multiplication: 0 to 10"
-msgstr "Multiplikasjon: 0 til 10"
+msgid "Multiples of 10"
+msgstr "Multiplum av 10"
 
 #: data/missions/lessons/descr_lessons:135
 #: data/missions/lessons/descr_lessons:190
 #: data/missions/lessons/descr_lessons:245
-msgid "Multiples of 11 and 12"
-msgstr "Multiplum av 11 og 12"
+msgid "Multiplication: 0 to 10"
+msgstr "Multiplikasjon: 0 til 10"
 
 #: data/missions/lessons/descr_lessons:136
 #: data/missions/lessons/descr_lessons:191
 #: data/missions/lessons/descr_lessons:246
-msgid "Multiplication: 0 to 12"
-msgstr "Multiplikasjon: 0 til 12"
+msgid "Multiples of 11 and 12"
+msgstr "Multiplum av 11 og 12"
 
 #: data/missions/lessons/descr_lessons:137
 #: data/missions/lessons/descr_lessons:192
 #: data/missions/lessons/descr_lessons:247
-msgid "Multiples of 13, 14, and 15"
-msgstr "Multiplum av 13, 14 og 15"
+msgid "Multiplication: 0 to 12"
+msgstr "Multiplikasjon: 0 til 12"
 
 #: data/missions/lessons/descr_lessons:138
 #: data/missions/lessons/descr_lessons:193
 #: data/missions/lessons/descr_lessons:248
-msgid "Multiplication: 0 to 15"
-msgstr "Multiplikasjon: 0 til 15"
+msgid "Multiples of 13, 14, and 15"
+msgstr "Multiplum av 13, 14 og 15"
 
 #: data/missions/lessons/descr_lessons:139
 #: data/missions/lessons/descr_lessons:194
 #: data/missions/lessons/descr_lessons:249
-msgid "Multiplication: Missing Numbers"
-msgstr "Multiplikasjon: Manglende tall"
+msgid "Multiplication: 0 to 15"
+msgstr "Multiplikasjon: 0 til 15"
 
 #: data/missions/lessons/descr_lessons:140
 #: data/missions/lessons/descr_lessons:195
 #: data/missions/lessons/descr_lessons:250
-msgid "Division by 2"
-msgstr "Divisjon med 2"
+msgid "Multiplication: Missing Numbers"
+msgstr "Multiplikasjon: Manglende tall"
 
 #: data/missions/lessons/descr_lessons:141
 #: data/missions/lessons/descr_lessons:196
 #: data/missions/lessons/descr_lessons:251
-msgid "Division by 3"
-msgstr "Divisjon med 3"
+msgid "Division by 2"
+msgstr "Divisjon med 2"
 
 #: data/missions/lessons/descr_lessons:142
 #: data/missions/lessons/descr_lessons:197
 #: data/missions/lessons/descr_lessons:252
-msgid "Division by 4"
-msgstr "Divisjon med 4"
+msgid "Division by 3"
+msgstr "Divisjon med 3"
 
 #: data/missions/lessons/descr_lessons:143
 #: data/missions/lessons/descr_lessons:198
 #: data/missions/lessons/descr_lessons:253
-msgid "Division by 5"
-msgstr "Divisjon med 5"
+msgid "Division by 4"
+msgstr "Divisjon med 4"
 
 #: data/missions/lessons/descr_lessons:144
 #: data/missions/lessons/descr_lessons:199
 #: data/missions/lessons/descr_lessons:254
-msgid "Division: 1 to 5"
-msgstr "Divisjon: 1 til 5"
+msgid "Division by 5"
+msgstr "Divisjon med 5"
 
 #: data/missions/lessons/descr_lessons:145
 #: data/missions/lessons/descr_lessons:200
 #: data/missions/lessons/descr_lessons:255
-msgid "Division by 6"
-msgstr "Divisjon med 6"
+msgid "Division: 1 to 5"
+msgstr "Divisjon: 1 til 5"
 
 #: data/missions/lessons/descr_lessons:146
 #: data/missions/lessons/descr_lessons:201
 #: data/missions/lessons/descr_lessons:256
-msgid "Division by 7"
-msgstr "Divisjon med 7"
+msgid "Division by 6"
+msgstr "Divisjon med 6"
 
 #: data/missions/lessons/descr_lessons:147
 #: data/missions/lessons/descr_lessons:202
 #: data/missions/lessons/descr_lessons:257
-msgid "Division by 8"
-msgstr "Divisjon med 8"
+msgid "Division by 7"
+msgstr "Divisjon med 7"
 
 #: data/missions/lessons/descr_lessons:148
 #: data/missions/lessons/descr_lessons:203
 #: data/missions/lessons/descr_lessons:258
-msgid "Division by 9"
-msgstr "Divisjon med 9"
+msgid "Division by 8"
+msgstr "Divisjon med 8"
 
 #: data/missions/lessons/descr_lessons:149
 #: data/missions/lessons/descr_lessons:204
 #: data/missions/lessons/descr_lessons:259
-msgid "Division by 10"
-msgstr "Divisjon med 10"
+msgid "Division by 9"
+msgstr "Divisjon med 9"
 
 #: data/missions/lessons/descr_lessons:150
 #: data/missions/lessons/descr_lessons:205
 #: data/missions/lessons/descr_lessons:260
-msgid "Division: 1 to 10"
-msgstr "Divisjon: 1 til 10"
+msgid "Division by 10"
+msgstr "Divisjon med 10"
 
 #: data/missions/lessons/descr_lessons:151
 #: data/missions/lessons/descr_lessons:206
 #: data/missions/lessons/descr_lessons:261
-msgid "Division by 11 and 12"
-msgstr "Divisjon med 11 og 12"
+msgid "Division: 1 to 10"
+msgstr "Divisjon: 1 til 10"
 
 #: data/missions/lessons/descr_lessons:152
 #: data/missions/lessons/descr_lessons:207
 #: data/missions/lessons/descr_lessons:262
+msgid "Division by 11 and 12"
+msgstr "Divisjon med 11 og 12"
+
+#: data/missions/lessons/descr_lessons:153
+#: data/missions/lessons/descr_lessons:208
+#: data/missions/lessons/descr_lessons:263
 msgid "Division: 1 to 12"
 msgstr "Divisjon: 1 til 12"
 
-#: data/missions/lessons/descr_lessons:153
+#: data/missions/lessons/descr_lessons:154
 msgid "Division by 13, 14 and 15"
 msgstr "Divisjon med 13, 14 og 15"
 
-#: data/missions/lessons/descr_lessons:154
-#: data/missions/lessons/descr_lessons:209
-#: data/missions/lessons/descr_lessons:264
+#: data/missions/lessons/descr_lessons:155
+#: data/missions/lessons/descr_lessons:210
+#: data/missions/lessons/descr_lessons:265
 msgid "Division: 1 to 15"
 msgstr "Divisjon: 1 til 15"
 
-#: data/missions/lessons/descr_lessons:155
+#: data/missions/lessons/descr_lessons:156
 msgid "Multiplication/Division Super Review!"
 msgstr "Gjennomgang: Multiplikasjon og divisjon"
-
-#: data/missions/lessons/descr_lessons:156
-#: data/missions/lessons/descr_lessons:211
-#: data/missions/lessons/descr_lessons:266
-msgid "Typing Negative Numbers"
-msgstr "Negative tall"
 
 #: data/missions/lessons/descr_lessons:157
 #: data/missions/lessons/descr_lessons:212
 #: data/missions/lessons/descr_lessons:267
+msgid "Typing Negative Numbers"
+msgstr "Negative tall"
+
+#: data/missions/lessons/descr_lessons:158
+#: data/missions/lessons/descr_lessons:213
+#: data/missions/lessons/descr_lessons:268
 msgid "Subtraction: Negative Answers"
 msgstr "Subtraksjon: Negative svar"
 
-#: data/missions/lessons/descr_lessons:158
+#: data/missions/lessons/descr_lessons:159
 msgid "Adding Negatives To Positives"
 msgstr "Addisjon av negative til positive tall"
 
-#: data/missions/lessons/descr_lessons:159
-#: data/missions/lessons/descr_lessons:214
-#: data/missions/lessons/descr_lessons:269
+#: data/missions/lessons/descr_lessons:160
+#: data/missions/lessons/descr_lessons:215
+#: data/missions/lessons/descr_lessons:270
 msgid "Subtracting Negatives From Positives"
 msgstr "Subtraksjon av negative fra positive tall"
 
-#: data/missions/lessons/descr_lessons:160
+#: data/missions/lessons/descr_lessons:161
 msgid "Adding Negatives To Negatives"
 msgstr "Addisjon av negative til negative tall"
 
-#: data/missions/lessons/descr_lessons:161
-#: data/missions/lessons/descr_lessons:216
-#: data/missions/lessons/descr_lessons:271
+#: data/missions/lessons/descr_lessons:162
+#: data/missions/lessons/descr_lessons:217
+#: data/missions/lessons/descr_lessons:272
 msgid "Subtracting Negatives From Negatives"
 msgstr "Subtraksjon av negative fra negative tall"
 
-#: data/missions/lessons/descr_lessons:162
+#: data/missions/lessons/descr_lessons:163
 msgid "Neg/Pos Review"
 msgstr "Gjennomgang: Negative og positive tall"
 
-#: data/missions/lessons/descr_lessons:163
+#: data/missions/lessons/descr_lessons:164
 msgid "Multiplication And Division Of Negatives"
 msgstr "Multiplikasjon og divisjon av negative tall"
 
-#: data/missions/lessons/descr_lessons:164
+#: data/missions/lessons/descr_lessons:165
 msgid "Multiplication Of Positives And Negatives"
 msgstr "Multiplikasjon av positive og negative tall"
 
-#: data/missions/lessons/descr_lessons:165
+#: data/missions/lessons/descr_lessons:166
 msgid "Division Of Positives And Negatives"
 msgstr "Divisjon av positive og negative tall"
 
-#: data/missions/lessons/descr_lessons:169
-#: data/missions/lessons/descr_lessons:224
+#: data/missions/lessons/descr_lessons:170
+#: data/missions/lessons/descr_lessons:225
 msgid "Addition: Sums to 10"
 msgstr "Addisjon: Summer til 10"
 
-#: data/missions/lessons/descr_lessons:170
-#: data/missions/lessons/descr_lessons:225
+#: data/missions/lessons/descr_lessons:171
+#: data/missions/lessons/descr_lessons:226
 msgid "Addition: Sums to 15"
 msgstr "Addisjon: Summer til 15"
 
-#: data/missions/lessons/descr_lessons:171
-#: data/missions/lessons/descr_lessons:226
+#: data/missions/lessons/descr_lessons:172
+#: data/missions/lessons/descr_lessons:227
 msgid "Addition: Sums to 20"
 msgstr "Addisjon: Summer til 20"
 
-#: data/missions/lessons/descr_lessons:208
-#: data/missions/lessons/descr_lessons:263
+#: data/missions/lessons/descr_lessons:209
+#: data/missions/lessons/descr_lessons:264
 msgid "Division by 13, 14, and 15"
 msgstr "Divisjon med 13, 14 og 15"
 
-#: data/missions/lessons/descr_lessons:210
-#: data/missions/lessons/descr_lessons:265
+#: data/missions/lessons/descr_lessons:211
+#: data/missions/lessons/descr_lessons:266
 msgid "Multiplication and Division Review"
 msgstr "Gjennomgang: Multiplikasjon og divisjon"
 
-#: data/missions/lessons/descr_lessons:213
-#: data/missions/lessons/descr_lessons:268
+#: data/missions/lessons/descr_lessons:214
+#: data/missions/lessons/descr_lessons:269
 msgid "Adding Negatives to Positives"
 msgstr "Addisjon av negative til positive tall"
 
-#: data/missions/lessons/descr_lessons:215
-#: data/missions/lessons/descr_lessons:270
+#: data/missions/lessons/descr_lessons:216
+#: data/missions/lessons/descr_lessons:271
 msgid "Adding Negatives to Negatives"
 msgstr "Addisjon av negative til negative tall"
 
-#: data/missions/lessons/descr_lessons:217
-#: data/missions/lessons/descr_lessons:272
+#: data/missions/lessons/descr_lessons:218
+#: data/missions/lessons/descr_lessons:273
 msgid "Negative and Positive Numbers Review"
 msgstr "Gjennomgang: Negative og positive tall"
 
-#: data/missions/lessons/descr_lessons:218
-#: data/missions/lessons/descr_lessons:273
+#: data/missions/lessons/descr_lessons:219
+#: data/missions/lessons/descr_lessons:274
 msgid "Multiplication and Division of Negatives"
 msgstr "Multiplikasjon og divisjon av negative tall"
 
-#: data/missions/lessons/descr_lessons:219
-#: data/missions/lessons/descr_lessons:274
+#: data/missions/lessons/descr_lessons:220
+#: data/missions/lessons/descr_lessons:275
 msgid "Multiplication of Positives and Negatives"
 msgstr "Multiplikasjon av positive og negative tall"
 
-#: data/missions/lessons/descr_lessons:220
-#: data/missions/lessons/descr_lessons:275
+#: data/missions/lessons/descr_lessons:221
+#: data/missions/lessons/descr_lessons:276
 msgid "Division of Positives and Negatives"
 msgstr "Divisjon av positive og negative tall"
+
+#~ msgid "Sound Effects Volume"
+#~ msgstr "Lydeffekter"
+
+#~ msgid "Music Volume"
+#~ msgstr "Musikk"
+
+#~ msgid "Sound & Music Disabled"
+#~ msgstr "Lyd og musikk avslått"
+
+#~ msgid "Paused!"
+#~ msgstr "Pause!"
+
+#~ msgid "Press escape again to return to menu"
+#~ msgstr "Trykk «Escape» for å gå tilbake til hovedmenyen."
+
+#~ msgid "Press space bar to return to game"
+#~ msgstr "Trykk mellomromstasten for å gå tilbake til spillet."
 
 #~ msgid "Settings"
 #~ msgstr "Oppsett"
