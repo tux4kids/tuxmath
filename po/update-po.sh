@@ -6,6 +6,7 @@ rm -f ../descr_lessons
 for i in ./lesson*; do
  head --lines=1 $i | sed 's/^# \(.*\)$/_("\1")/' >> descr_lessons;
 done;
+cd -
 
 # Update the POT translation template file.
 intltool-update --pot --gettext-package=tuxmath
