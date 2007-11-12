@@ -14,8 +14,6 @@
 
 @SET_MAKE@
 
-# SUBDIRS = po (po now directly under trunk)
-
 
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
@@ -46,7 +44,8 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
 	$(top_srcdir)/m4/gettext.m4 $(top_srcdir)/m4/glibc2.m4 \
 	$(top_srcdir)/m4/glibc21.m4 $(top_srcdir)/m4/iconv.m4 \
 	$(top_srcdir)/m4/intdiv0.m4 $(top_srcdir)/m4/intl.m4 \
-	$(top_srcdir)/m4/intmax.m4 $(top_srcdir)/m4/inttypes-pri.m4 \
+	$(top_srcdir)/m4/intldir.m4 $(top_srcdir)/m4/intmax.m4 \
+	$(top_srcdir)/m4/inttypes-pri.m4 \
 	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/lcmessage.m4 \
 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
 	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/lock.m4 \
@@ -60,7 +59,7 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
 	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
-mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
+mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
@@ -74,6 +73,7 @@ am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
+TuxMath_DEPENDENCIES =
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
 	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
@@ -81,6 +81,7 @@ am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
+tuxmath_DEPENDENCIES =
 DEFAULT_INCLUDES = -I. -I$(top_builddir)@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -207,6 +208,8 @@ build_cpu = @build_cpu@
 build_os = @build_os@
 build_vendor = @build_vendor@
 builddir = @builddir@
+
+# Support for gettext:
 datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
@@ -243,6 +246,13 @@ target_os = @target_os@
 target_vendor = @target_vendor@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AM_CFLAGS = -Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
+	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
+
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
+	-I../intl -I$(top_srcdir)/intl
+
+LDADD = @LIBINTL@
 @BUILD_MINGW32_FALSE@TUXMATHRC = 
 tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
@@ -276,9 +286,6 @@ EXTRA_DIST = credits.h 	\
 
 @BUILD_MINGW32_FALSE@DATA_PREFIX = ${pkgdatadir}
 @BUILD_MINGW32_TRUE@DATA_PREFIX = @PACKAGE_DATA_DIR@
-AM_CFLAGS = -Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
-	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
-
 noinst_HEADERS = highscore.h
 all: all-am
 

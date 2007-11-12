@@ -22,14 +22,19 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
+#include "config.h"
+
 // Translation stuff:
+/* NLS not active on Mac yet: */
 #ifdef MACOSX
 #define N_(String) String
 #define _(String) String
 #else
+/* Nor on Windows: */
 #ifdef WIN32
 #define N_(String) String
 #define _(String) String
+/* Set up support for NLS on other platforms - i.e. Linux/Unix: */
 #else
 #include "gettext.h"
 #include <locale.h>
@@ -43,6 +48,7 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
+#include "config.h"
 
 #ifndef NOSOUND
 #include "SDL_mixer.h"

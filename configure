@@ -578,6 +578,7 @@ PACKAGE_VERSION='1.5.7'
 PACKAGE_STRING='Tux Of Math Command 1.5.7'
 PACKAGE_BUGREPORT='tuxmath-devel@lists.sourceforge.net'
 
+ac_unique_file="src/tuxmath.c"
 gt_needs=
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -1828,7 +1829,8 @@ ac_compiler_gnu=$ac_cv_c_compiler_gnu
 
 
 
-#AC_PREREQ(2.61)
+
+
 ac_aux_dir=
 for ac_dir in "$srcdir" "$srcdir/.." "$srcdir/../.."; do
   if test -f "$ac_dir/install-sh"; then
@@ -3624,6 +3626,7 @@ fi
 cat >>confdefs.h <<\_ACEOF
 #define _GNU_SOURCE 1
 _ACEOF
+
 
 
 
@@ -11346,12 +11349,12 @@ echo "${ECHO_T}$nls_cv_force_use_gnu_gettext" >&6; }
 
 
         if test $gt_api_version -ge 3; then
-          gt_revision_test_code='
+          gt_revision_test_code='[
 #ifndef __GNU_GETTEXT_SUPPORTED_REVISION
 #define __GNU_GETTEXT_SUPPORTED_REVISION(major) ((major) == 0 ? 0 : -1)
 #endif
 typedef int array [2 * (__GNU_GETTEXT_SUPPORTED_REVISION(0) >= 1) - 1];
-'
+]'
         else
           gt_revision_test_code=
         fi
@@ -12090,7 +12093,6 @@ _ACEOF
 
 
     INTLLIBS="$LIBINTL"
-
 
 
 
@@ -13803,7 +13805,7 @@ fi
 
 
 
-ac_config_files="$ac_config_files po/Makefile.in intl/Makefile Makefile data/Makefile data/fonts/Makefile data/images/Makefile data/images/backgrounds/Makefile data/images/cities/Makefile data/images/comets/Makefile data/images/icons/Makefile data/images/igloos/Makefile data/images/penguins/Makefile data/images/sprites/Makefile data/images/status/Makefile data/images/title/Makefile data/images/tux/Makefile data/missions/Makefile data/missions/arcade/Makefile data/missions/lessons/Makefile data/sounds/Makefile docs/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi src/Makefile po/Makefile"
+ac_config_files="$ac_config_files Makefile data/Makefile data/fonts/Makefile data/images/Makefile data/images/backgrounds/Makefile data/images/cities/Makefile data/images/comets/Makefile data/images/icons/Makefile data/images/igloos/Makefile data/images/penguins/Makefile data/images/sprites/Makefile data/images/status/Makefile data/images/title/Makefile data/images/tux/Makefile data/missions/Makefile data/missions/arcade/Makefile data/missions/lessons/Makefile data/sounds/Makefile docs/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi src/Makefile intl/Makefile po/Makefile.in"
 
 
 cat >confcache <<\_ACEOF
@@ -14421,8 +14423,6 @@ do
     "config.h") CONFIG_HEADERS="$CONFIG_HEADERS config.h" ;;
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "po-directories") CONFIG_COMMANDS="$CONFIG_COMMANDS po-directories" ;;
-    "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
-    "intl/Makefile") CONFIG_FILES="$CONFIG_FILES intl/Makefile" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "data/Makefile") CONFIG_FILES="$CONFIG_FILES data/Makefile" ;;
     "data/fonts/Makefile") CONFIG_FILES="$CONFIG_FILES data/fonts/Makefile" ;;
@@ -14445,7 +14445,8 @@ do
     "nsis/tuxmath.nsi") CONFIG_FILES="$CONFIG_FILES nsis/tuxmath.nsi" ;;
     "nsis/tuxmath_with_conf.nsi") CONFIG_FILES="$CONFIG_FILES nsis/tuxmath_with_conf.nsi" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "po/Makefile") CONFIG_FILES="$CONFIG_FILES po/Makefile" ;;
+    "intl/Makefile") CONFIG_FILES="$CONFIG_FILES intl/Makefile" ;;
+    "po/Makefile.in") CONFIG_FILES="$CONFIG_FILES po/Makefile.in" ;;
 
   *) { { echo "$as_me:$LINENO: error: invalid argument: $ac_config_target" >&5
 echo "$as_me: error: invalid argument: $ac_config_target" >&2;}

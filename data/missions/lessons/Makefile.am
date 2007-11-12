@@ -1,8 +1,10 @@
 ## Makefile.am for tuxmath - data/missions/lessons:
 ## Process with Automake to create Makefile.in
 
-EXTRA_DIST = descr_lessons	\
-	lesson00	\
+
+
+
+data_LESSONS =	lesson00	\
 	lesson01	\
 	lesson02	\
 	lesson03	\
@@ -58,6 +60,18 @@ EXTRA_DIST = descr_lessons	\
 	lesson52	\
 	lesson53	\
 	lesson54
+
+EXTRA_DIST = $(data_LESSONS) \
+	descr_lessons \
+	update-po.sh
+
+all: descr_lessons
+
+# Create a 'source' file holding all the descriptions for the missions.
+# FIXME this could be made less fragile
+descr_lessons: $(data_LESSONS)
+	$(top_srcdir)/data/missions/lessons/update-po.sh
+
 
 install-data-local:
 	$(MKDIR_P) $(DESTDIR)$(prefix)/share/$(PACKAGE)/missions/lessons

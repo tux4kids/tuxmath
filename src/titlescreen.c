@@ -855,7 +855,7 @@ int run_lessons_menu(void)
   }
   set_default_menu_options(&menu_opts);
 
-  chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
+  chosen_lesson = choose_menu_item((const unsigned char**)lesson_list_titles, star_sprites, num_lessons, menu_opts);
 
   while (chosen_lesson >= 0) 
   {
@@ -894,7 +894,7 @@ int run_lessons_menu(void)
     // Let the user choose another lesson; start with the screen and
     // selection that we ended with
     menu_opts.starting_entry = chosen_lesson;
-    chosen_lesson = choose_menu_item((const)lesson_list_titles, star_sprites, num_lessons, menu_opts);
+    chosen_lesson = choose_menu_item((const unsigned char**)lesson_list_titles, star_sprites, num_lessons, menu_opts);
   }
   if (star_sprites)
   {

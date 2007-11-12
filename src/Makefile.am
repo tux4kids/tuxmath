@@ -1,7 +1,19 @@
 ## Makefile.am for tuxmath src:
 ## Process with Automake to create Makefile.in
 
-# SUBDIRS = po (po now directly under trunk)
+# Support for gettext:
+datadir = @datadir@
+localedir = $(datadir)/locale
+DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+
+AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
+	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
+
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
+	-I../intl -I$(top_srcdir)/intl
+
+LDADD = @LIBINTL@
+
 
 if BUILD_MINGW32
 bin_PROGRAMS = TuxMath
@@ -50,15 +62,12 @@ else
   DATA_PREFIX=${pkgdatadir}
 endif
 
-datadir = @datadir@
-localedir = $(datadir)/locale
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
-
-AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
-	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
-
 # How to make an RC file
 tuxmathrc.o: tuxmathrc.rc
 	$(WINDRES) -i $< -o $@
 
 noinst_HEADERS = highscore.h
+
+
+
+

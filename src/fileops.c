@@ -476,10 +476,12 @@ int read_user_config_file(void)
 /*   5. In missions/arcade directory.                   */
 /*   6. In user's own .tuxmath directory                */
 /* FIXME redundant code - figure out way to iterate through above */
-int read_named_config_file(const char* filename)
+int read_named_config_file(const unsigned char* fn)
 {
   FILE* fp;
   char opt_path[PATH_MAX];
+  /* Make compiler happy: */
+  const char* filename = (const char*)fn;
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn read_named_config_file() filename is: = %s\n", filename);

@@ -5,7 +5,7 @@
   Calls functions in other modules (eg, "setup", "title", "game", etc.)
   as needed.
 
-  Source code by Bill Kendrick, New Breed Software
+  Original source code by Bill Kendrick, New Breed Software
   bill@newbreedsoftware.com
   http://www.newbreedsoftware.com/
 
@@ -13,39 +13,32 @@
   http://www.tux4kids.org/
   
   August 26, 2001 - August 28, 2001
+
+  Largely rewritten by David Bruce, Karl Ove Hufthammer,
+  and Tim Holy.
+  2006-2007
 */
 
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <locale.h>
-#include "gettext.h"
+/* (tuxmath.h brings in "gettext.h" and <locale.h> */
 #include "tuxmath.h"
 #include "setup.h"
-#include "game.h"
-#include "options.h"
-#include "credits.h"
-
 #include "titlescreen.h"
-
-/* global data: */
 
 int main(int argc, char * argv[])
 {
-  /* NOTE - these casts to (void) prevent compiler warnings of */
-  /* "statement with no effect" - I am not sure if they do anything */
-  /* else that we need - DSB */
-
 #ifndef MACOSX
 #ifndef WIN32
-  (void)setlocale(LC_ALL, "");
-  (void)bindtextdomain(PACKAGE, LOCALEDIR);
-  (void)bind_textdomain_codeset(PACKAGE, "UTF-8");
-  (void)textdomain(PACKAGE);
+  setlocale(LC_ALL, "");
+  bindtextdomain(PACKAGE, LOCALEDIR);
+  bind_textdomain_codeset(PACKAGE, "UTF-8");
+  textdomain(PACKAGE);
+
+  printf("gettext(\"help\"): %s\n\n", gettext("help"));
 #endif
 #endif
-
-
 
   setup(argc, argv);
   atexit(cleanup);  // register it so we clean up even if there is a crash

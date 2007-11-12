@@ -231,7 +231,7 @@ enum {
 int read_global_config_file(void);
 int read_user_config_file(void);
 int parse_lesson_file_directory(void);
-int read_named_config_file(const char* filename);
+int read_named_config_file(const unsigned char* filename);
 int write_user_config_file(void);
 int read_high_scores(void);
 int write_high_scores(void);

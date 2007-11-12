@@ -289,7 +289,7 @@
 /* Define if <inttypes.h> exists and defines unusable PRI* macros. */
 #undef PRI_MACROS_BROKEN
 
-/* Name of the Program */
+/* Tux Of Math Command */
 #undef PROGRAM_NAME
 
 /* Define if the pthread_in_use() detection is hard. */

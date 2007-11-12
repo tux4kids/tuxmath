@@ -182,7 +182,7 @@ void initialize_options(void)
 /* Handle any arguments passed from command line */
 void handle_command_args(int argc, char* argv[])
 {
-  int i, j, found;
+  int i;
 
   for (i = 1; i < argc; i++)
   {

@@ -335,7 +335,7 @@ void DarkenScreen(Uint8 bits)
   int x, y;
 
   /* (realistically, 1 and 2 are the only useful values) */
-  if (bits > 8 || bits < 0)
+  if (bits > 8)
     return;
 
   p = screen->pixels;

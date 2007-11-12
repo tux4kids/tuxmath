@@ -1,8 +1,9 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_INIT([Tux Of Math Command],[1.5.7],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
+AC_CONFIG_SRCDIR([src/tuxmath.c])
 
-#AC_PREREQ(2.61)
+AC_PREREQ(2.61)
 AC_CANONICAL_HOST
 AC_CANONICAL_BUILD
 AC_CANONICAL_TARGET
@@ -12,7 +13,7 @@ AC_CONFIG_HEADERS([config.h])
 
 NAME_VERSION=$PACKAGE-$VERSION
 
-AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Name of the Program])
+AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Tux Of Math Command])
 
 AC_SUBST(NAME_VERSION)
 
@@ -22,9 +23,9 @@ AC_PROG_MAKE_SET
 
 # Needed for gettext:
 AC_GNU_SOURCE
+AM_GNU_GETTEXT_VERSION([0.16])
 AM_GNU_GETTEXT
-AM_GNU_GETTEXT_VERSION
-
+AM_GNU_GETTEXT_INTL_SUBDIR
 
 dnl Check for SDL 
 SDL_VERSION=1.2.0
@@ -138,8 +139,6 @@ AC_SUBST(NSI_TUXMATH_CONF_DIR)
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
 
 AC_CONFIG_FILES([
-po/Makefile.in
-intl/Makefile
 Makefile
 data/Makefile
 data/fonts/Makefile
@@ -162,7 +161,8 @@ docs/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
-po/Makefile
+intl/Makefile
+po/Makefile.in
 ])
 
 AC_OUTPUT

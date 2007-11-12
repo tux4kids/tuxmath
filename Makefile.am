@@ -1,16 +1,23 @@
-MAKENSIS=@NSIS@
-
-SUBDIRS = po	\
+## Top-level Makefile.am for tuxmath:
+## Process with Automake to create Makefile.in
+SUBDIRS = docs	\
 	intl	\
+	po	\
 	src	\
-	data	\
-	docs
+	data
 
+ACLOCAL_AMFLAGS = -I m4
+
+EXTRA_DIST = config.rpath m4/ChangeLog
+datadir = @datadir@
+localedir = $(datadir)/locale
+
+
+
+MAKENSIS=@NSIS@
 NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
-##datadir = @datadir@
-##localedir = $(datadir)/locale
 
 
 ## Bundle in fonts for distribution tar.gz to be used without package manager:
@@ -54,9 +61,6 @@ clean-local:
 	if test -d $(NSI_INSTALL_DIR); then \
 	  rm -fr $(NSI_INSTALL_DIR); \
 	fi
-#	-rm tuxmath-@VERSION@-win32-installer.exe
+	-rm tuxmath-@VERSION@-win32-installer.exe
 
 
-ACLOCAL_AMFLAGS = -I m4
-
-EXTRA_DIST = config.rpath m4/ChangeLog
