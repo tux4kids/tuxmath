@@ -1,8 +1,18 @@
+2007.Nov.11 (svn.debian.org/tux4kids - revision 319)
+Version 1.5.8
+  i18n:
+      * Added Czech po file - contributed by:
+      Jaroslav Krejčí <krejci@zstenis.com>
+
+  Graphics:
+      * Minor tweak of "janitor penguin" sprite files to tone down glare
+      David Bruce <dbruce@tampabay.rr.com>
 
 2007.Nov.11 (svn.debian.org/tux4kids - revision 316)
 
   Build:
-      * Gettext again works properly, AFAICT (was broken in 1.5.6 and 1.5.7). The intl
+      * Gettext again works properly, AFAICT (was broken in 1.5.6 and 1.5.7). Much 
+        thanks to Gettext maintainer Bruno Haible for helpful correspondence! The intl
         directory is now included in preparation of trying to get gettext working on
         Windows - nothing done on that yet.  I think we can start adding as many po
         files as we can get.

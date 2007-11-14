@@ -36,7 +36,7 @@ int main(int argc, char * argv[])
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 
-  printf("gettext(\"help\"): %s\n\n", gettext("help"));
+  printf("gettext(\"Help\"): %s\n\n", gettext("Help"));
 #endif
 #endif
 
