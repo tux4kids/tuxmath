@@ -737,6 +737,7 @@ void game_handle_help(void)
   game_set_message(&s4,"Notice the answer",left_edge,comets[0].y-100);
   help_renderframe_exit();
   SDL_Delay(4000);
+  game_clear_message(&s4);
 
   frame_start = frame;
   while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 secs
@@ -746,7 +747,6 @@ void game_handle_help(void)
   game_set_message(&s1,"If it gets hit again, the",left_edge,100);
   game_set_message(&s2,"penguin leaves.",left_edge,135);
   game_set_message(&s3, "(Press a key when ready)",left_edge,200);
-  game_clear_message(&s4);
 
   key_pressed = 0;
   while (!key_pressed && !(quit_help = help_renderframe_exit()));
@@ -1610,8 +1610,8 @@ int check_extra_life(void)
 
 void game_handle_extra_life(void)
 {
-  int i,igloo_top,num_below,status,direction;
-  Uint8 cloud_transparency;
+  // This handles the animation sequence during the rebuilding of an igloo
+  int i,igloo_top,num_below_igloo,status,direction;
 
   if (cloud.status == EXTRA_LIFE_ON) {
 
@@ -1622,37 +1622,32 @@ void game_handle_extra_life(void)
      }
 #endif
 
+    // Get the cloud moving in the right direction, if not yet "parked"
     direction = 2*(cloud.city < NUM_CITIES/2) - 1;
     if (direction*cloud.x < direction*cities[cloud.city].x) {
       cloud.x += direction*PENGUIN_WALK_SPEED;
-      SDL_SetAlpha(images[IMG_CLOUD],SDL_SRCALPHA | SDL_RLEACCEL,
-		   SDL_ALPHA_OPAQUE);
     }
     else {
+      // Cloud is "parked," handle the snowfall and igloo rebuilding
       cities[cloud.city].status = CITY_REBUILDING;
-      for (i = 0, num_below = 0; i < NUM_SNOWFLAKES; i++) {
-	cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
-	if (cloud.snowflake_y[i] > cloud.y)
-	  num_below++;
-      }
-      cloud_transparency = (Uint8) ((float) (NUM_SNOWFLAKES-num_below)/NUM_SNOWFLAKES
-	* (float) SDL_ALPHA_OPAQUE);
-      status = SDL_SetAlpha(images[IMG_CLOUD],SDL_SRCALPHA,cloud_transparency);
       igloo_top = screen->h - igloo_vertical_offset
 	- images[IMG_IGLOO_INTACT]->h;
+      for (i = 0, num_below_igloo = 0; i < NUM_SNOWFLAKES; i++) {
+	cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
+	if (cloud.snowflake_y[i] > igloo_top)
+	  num_below_igloo++;
+      }
       if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > igloo_top) {
 	cities[cloud.city].hits_left = 2;
-	cities[cloud.city].img = IMG_IGLOO_INTACT;
-      }
-      else if (cloud.snowflake_y[2*NUM_SNOWFLAKES/3] > igloo_top &&
-	       cities[cloud.city].hits_left == 0)
-	cities[cloud.city].img = IMG_IGLOO_REBUILDING2;
-      else if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top &&
-	       cities[cloud.city].hits_left == 0)
-	cities[cloud.city].img = IMG_IGLOO_REBUILDING1;
-      if (cloud.snowflake_y[NUM_SNOWFLAKES/3] > igloo_top) {
+	cities[cloud.city].img = IMG_IGLOO_INTACT; // completely rebuilt
+      } else if (cities[cloud.city].hits_left == 0) {
+	// We're going to draw one of the blended igloos
+	// FIXME: It's a hack to encode a blended igloo with a negative number!
 	penguins[cloud.city].layer = 0;
 	cities[cloud.city].layer = 1;
+	if (num_below_igloo < 3)
+	  num_below_igloo = 0;   // Don't show progress until a few have fallen
+	cities[cloud.city].img = -((float) (num_below_igloo)/NUM_SNOWFLAKES) * NUM_BLENDED_IGLOOS;
       }
       if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > screen->h - igloo_vertical_offset) {
 	/* exit rebuilding when last snowflake at igloo bottom */
@@ -1790,7 +1785,13 @@ void game_draw(void)
 	  max_layer = steam[i].layer;
 	if (cities[i].layer == current_layer &&
 	    cities[i].img != IMG_CITY_NONE) {
-	  this_image = images[cities[i].img];
+	  // Handle the blended igloo images, which are encoded
+	  // (FIXME) with a negative image number
+	  if (cities[i].img <= 0)
+	    this_image = blended_igloos[-cities[i].img];
+	  else
+	    this_image = images[cities[i].img];
+	  //this_image = blended_igloos[frame % NUM_BLENDED_IGLOOS];
 	  dest.x = cities[i].x - (this_image->w / 2);
 	  dest.y = (screen->h) - (this_image->h) - igloo_vertical_offset;
 	  if (cities[i].img == IMG_IGLOO_MELTED3 ||

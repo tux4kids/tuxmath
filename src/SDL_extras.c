@@ -234,6 +234,86 @@ SDL_Surface* Flip( SDL_Surface *in, int x, int y ) {
 	return out;
 }
 
+/* Blend two surfaces together. The third argument is between 0.0 and
+   1.0, and represents the weight assigned to the first surface.  If
+   the pointer to the second surface is NULL, this performs fading.
+
+   Currently this works only with RGBA images, but this is largely to
+   make the (fast) pointer arithmetic work out; it could be easily
+   generalized to other image types. */
+SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
+{
+  SDL_PixelFormat *fmt1,*fmt2;
+  Uint8 r1,r2,g1,g2,b1,b2,a1,a2;
+  SDL_Surface *tmpS,*ret;
+  Uint32 *cpix1,*epix1,*cpix2,*epix2;
+  float gamflip;
+
+  gamflip = 1.0-gamma;
+  if (gamma < 0 || gamflip < 0) {
+    perror("gamma must be between 0 and 1");
+    exit(0);
+  }
+  fmt1 = S1->format;
+  if (fmt1->BitsPerPixel != 32) {
+    perror("This works only with RGBA images");
+    return S1;
+  }
+  if (S2 != NULL) {
+    fmt2 = S2->format;
+    if (fmt2->BitsPerPixel != 32) {
+    perror("This works only with RGBA images");
+    return S1;
+    }
+    // Check that both images have the same width dimension
+    if (S1->w != S2->w) {
+      printf("S1->w %d, S2->w %d;  S1->h %d, S2->h %d\n",
+	     S1->w,S2->w,S1->h,S2->h);
+      printf("Both images must have the same width dimensions\n");
+      return S1;
+    }
+  }
+
+  tmpS = SDL_ConvertSurface(S1,fmt1,SDL_SWSURFACE);
+  SDL_LockSurface(tmpS);
+  // We're going to go through the pixels in reverse order, to start
+  // from the bottom of each image. That way, we can blend things that
+  // are not of the same height and have them align at the bottom.
+  // So the "ending pixel" (epix) will be before the first pixel, and
+  // the current pixel (cpix) will be the last pixel.
+  epix1 = (Uint32*) tmpS->pixels-1;
+  cpix1 = epix1 + tmpS->w*tmpS->h;
+  if (S2 != NULL) {
+    SDL_LockSurface(S2);
+    epix2 = (Uint32*) S2->pixels-1;
+    cpix2 = epix2 + S2->w*S2->h;
+  } else {
+    epix2 = epix1;
+    cpix2 = cpix1;
+  }
+
+  for (; cpix1 > epix1; cpix1--,cpix2--) {
+    SDL_GetRGBA(*cpix1,fmt1,&r1,&g1,&b1,&a1);
+    a1 = gamma*a1;
+    if (S2 != NULL && cpix2 > epix2) {
+      SDL_GetRGBA(*cpix2,fmt2,&r2,&g2,&b2,&a2);
+      r1 = gamma*r1 + gamflip*r2;
+      g1 = gamma*g1 + gamflip*g2;
+      b1 = gamma*b1 + gamflip*b2;
+      a1 += gamflip*a2;
+    }
+    *cpix1 = SDL_MapRGBA(fmt1,r1,g1,b1,a1);
+  }
+  SDL_UnlockSurface(tmpS);
+  if (S2 != NULL)
+    SDL_UnlockSurface(S2);
+
+  ret = SDL_DisplayFormatAlpha(tmpS);
+  SDL_FreeSurface(tmpS);
+
+  return ret;
+}
+
 
 /* BlackOutline() creates a surface containing text of the designated */
 /* foreground color, surrounded by a black shadow, on a transparent    */

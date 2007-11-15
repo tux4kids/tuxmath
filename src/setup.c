@@ -59,6 +59,7 @@ SDL_Surface* images[NUM_IMAGES];
 #define NUM_FLIPPED_IMAGES 6
 SDL_Surface* flipped_images[NUM_FLIPPED_IMAGES];
 int flipped_img_lookup[NUM_IMAGES];
+SDL_Surface* blended_igloos[NUM_BLENDED_IGLOOS];
 
 const int flipped_img[] = {
   IMG_PENGUIN_WALK_ON1,
@@ -81,6 +82,7 @@ void handle_command_args(int argc, char* argv[]);
 void initialize_SDL(void);
 void load_data_files(void);
 void generate_flipped_images(void);
+void generate_blended_images(void);
 
 //int initialize_game_options(void);
 void seticon(void);
@@ -104,6 +106,8 @@ void setup(int argc, char * argv[])
   load_data_files();
  /* Generate flipped versions of walking images */
   generate_flipped_images();
+  /* Generate blended images (e.g., igloos) */
+  generate_blended_images();
 }
 
 
@@ -533,6 +537,28 @@ void generate_flipped_images(void)
     flipped_images[i] = Flip(images[flipped_img[i]],1,0);
     flipped_img_lookup[flipped_img[i]] = i;
   }
+}
+
+
+/* Created images that are blends of two other images to smooth out
+   the transitions. */
+void generate_blended_images(void)
+{
+  blended_igloos[0] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.06);
+  blended_igloos[1] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.125);
+  blended_igloos[2] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.185);
+  blended_igloos[3] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.25);
+  blended_igloos[4] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.5);
+  blended_igloos[5] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.75);
+  blended_igloos[6] = images[IMG_IGLOO_REBUILDING1];
+  blended_igloos[7] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.25);
+  blended_igloos[8] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.5);
+  blended_igloos[9] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.75);
+  blended_igloos[10] = images[IMG_IGLOO_REBUILDING2];
+  blended_igloos[11] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.25);
+  blended_igloos[12] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.5);
+  blended_igloos[13] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.75);
+  blended_igloos[14] = images[IMG_IGLOO_INTACT];
 }
 
 
