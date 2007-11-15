@@ -29,11 +29,12 @@
 #ifdef MACOSX
 #define N_(String) String
 #define _(String) String
-#else
+//#else
 /* Nor on Windows: */
-#ifdef WIN32
-#define N_(String) String
-#define _(String) String
+//#ifdef WIN32
+//#define N_(String) String
+//#define _(String) String
+
 /* Set up support for NLS on other platforms - i.e. Linux/Unix: */
 #else
 #include "gettext.h"
@@ -42,7 +43,7 @@
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
 #endif
-#endif
+//#endif
 
 #include <wchar.h>
 

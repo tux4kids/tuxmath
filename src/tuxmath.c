@@ -30,14 +30,15 @@
 int main(int argc, char * argv[])
 {
 #ifndef MACOSX
-#ifndef WIN32
   setlocale(LC_ALL, "");
   bindtextdomain(PACKAGE, LOCALEDIR);
   bind_textdomain_codeset(PACKAGE, "UTF-8");
   textdomain(PACKAGE);
 
-  printf("gettext(\"Help\"): %s\n\n", gettext("Help"));
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "gettext(\"Help\"): %s\n\n", gettext("Help"));
 #endif
+
 #endif
 
   setup(argc, argv);

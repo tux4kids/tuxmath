@@ -1,3 +1,17 @@
+2007.Nov.15 (svn.debian.org/tux4kids - revision 322)
+Version 1.5.8
+  i18n:
+      * Added Dutch po file - contributed by:
+       Luc Schrijvers <Begasus@skynet.be>
+
+  Build:
+      * Started work on gettext for Windows - removed
+      #ifdef WIN32 statements, program builds and runs
+      without errors but the crossbuild doesn't yet include
+      the .mo translation files.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Nov.15 (svn.debian.org/tux4kids - revision 320)
   Graphics:
       * Added a new function "Blend" to composite two images with transparency
@@ -30,6 +44,7 @@ Version 1.5.8
       David Bruce <dbruce@tampabay.rr.com>
 
 2007.Oct.30 (svn.debian.org/tux4kids - revision 311)
+
 
   Code:
       * Uncrufting! - eliminated tuxtype_playsound(), moved playsound() to audio.c,

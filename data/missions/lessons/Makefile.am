@@ -68,9 +68,8 @@ EXTRA_DIST = $(data_LESSONS) \
 all: descr_lessons
 
 # Create a 'source' file holding all the descriptions for the missions.
-# FIXME this could be made less fragile
 descr_lessons: $(data_LESSONS)
-	$(top_srcdir)/data/missions/lessons/update-po.sh
+	cd $(VPATH); ./update-po.sh
 
 
 install-data-local:
