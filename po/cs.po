@@ -63,15 +63,15 @@ msgstr "Nováček"
 
 #: src/titlescreen.c:645
 msgid "Scout"
-msgstr "Strážce"
+msgstr "Průzkumník"
 
 #: src/titlescreen.c:646
 msgid "Ranger"
-msgstr "Poručík"
+msgstr "Střelec"
 
 #: src/titlescreen.c:647
 msgid "Ace"
-msgstr "Eso"
+msgstr "Borec"
 
 #: src/titlescreen.c:648
 msgid "Hall Of Fame"
@@ -79,7 +79,7 @@ msgstr "Síň slávy"
 
 #: src/titlescreen.c:649
 msgid "Main menu"
-msgstr "Hlaví menu"
+msgstr "Hlavní menu"
 
 #: src/titlescreen.c:723
 msgid "Edit 'options' file in your home directory"
