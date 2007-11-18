@@ -157,7 +157,7 @@ data/missions/Makefile
 data/missions/arcade/Makefile
 data/missions/lessons/Makefile
 data/sounds/Makefile
-docs/Makefile
+doc/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile

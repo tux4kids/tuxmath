@@ -5,7 +5,7 @@ An educational math tutorial game starring Tux, the Linux Penguin
 
 October 29, 2007
 
-For tuxmath-1.5.7
+For tuxmath-1.5.8
 
 Objective
 ---------

@@ -1,6 +1,6 @@
 ## Top-level Makefile.am for tuxmath:
 ## Process with Automake to create Makefile.in
-SUBDIRS = docs	\
+SUBDIRS = doc	\
 	intl	\
 	po	\
 	src	\
