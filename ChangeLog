@@ -14,4 +14,4 @@
 	(EXTRA_DIST): New variable.
 	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile, po/Makefile.in.
 
-For now, see docs/changelog for changes and their contributors.
+For now, see doc/changelog for changes and their contributors.

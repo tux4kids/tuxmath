@@ -55,7 +55,7 @@ speedup_factor = 1.25
 slow_after_wrong = 0
 max_questions = 25000
 bonus_comet_interval = 20
-fraction_to_keep = 1.0
+fraction_to_keep = 0.1
 allow_pause = 0
 bonus_speed_ratio = 2.0
 
