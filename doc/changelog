@@ -1,3 +1,9 @@
+2007.Nov.26 (svn.debian.org/tux4kids - revision 342)
+  Options:
+      * Added support for user login. This should be helpful in school
+	settings where all students log in with the same username.  See
+	the README for details.
+	
 2007.Nov.18 (svn.debian.org/tux4kids - revision 327)
 
   Build:

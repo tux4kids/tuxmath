@@ -161,6 +161,8 @@ void TitleScreen(void)
   Uint32 start = 0;
 
   int i; 
+  int n_subdirs;
+  char **subdir_names;
 
 
   if (Opts_UsingSound())
@@ -311,8 +313,13 @@ void TitleScreen(void)
     audioMusicLoad("tuxi.ogg", -1);
   }
 
-  /* Start the main menu */
-  run_main_menu();
+  /* If necessary, have the user log in */
+  if (run_login_menu() != -1) {
+    /* Finish parsing user options */
+    initialize_options_user();
+    /* Start the main menu */
+    run_main_menu();
+  }
 
   /* User has selected quit, clean up */
 
@@ -909,9 +916,64 @@ int run_lessons_menu(void)
 }
 
 
+/* Sets the user home directory in a tree of possible users     */
+/* -1 indicates that the user wants to quit without logging in, */
+/* 0 indicates that a choice has been made.                     */
+int run_login_menu(void)
+{
+  menu_options menu_opts;
+  int chosen_login = -1;
+  char *user_home;
+  char **subdir_names;
+  int n_subdirs;
+  int level;
+  char opt_path[PATH_MAX];
+
+  set_default_menu_options(&menu_opts);
+  level = 0;
+  // Get current home directory
+  user_home = get_user_data_dir();
+
+  n_subdirs = tuxmath_dir_subdirs(&subdir_names);
+  while (n_subdirs) {
+    // Get the user choice
+    chosen_login = choose_menu_item(subdir_names, NULL, n_subdirs, menu_opts);
+    if (chosen_login == -1) {
+      // User pressed escape, handle by quitting or going up a level
+      free(subdir_names);
+      if (level == 0)
+	return -1;   // Indicate that the user is quitting without logging in
+      else {
+	// Go back up one level of the directory tree
+	printf("Going up a level\n");
+	printf("Previous home: %s\n",user_home);
+	dirname_up(user_home);
+	level--;
+	printf("New home: %s\n",user_home);
+	n_subdirs = tuxmath_dir_subdirs(&subdir_names);
+      }
+    }
+    else {
+      // User chose an entry, set it up
+      strcat(user_home,subdir_names[chosen_login]);
+      strcat(user_home,"/");
+      level++;
+      free(subdir_names);
+      // Keep checking to see if we need to descend further
+      n_subdirs = tuxmath_dir_subdirs(&subdir_names);
+    }
+  }
+  get_user_data_dir_with_subdir(opt_path);
+  printf("User data directory: %s\n", opt_path);
+
+  return 0;
+}
+
+
 /****************************************************************/
 /* choose_menu_item: menu navigation utility function           */
 /* (the function returns the index for the selected menu item)  */
+/* -1 indicates that the user pressed escape                    */
 /****************************************************************/
 int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options menu_opts)
 {

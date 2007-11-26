@@ -44,6 +44,8 @@ Options:
   * Admin options screen / files
   * Command-line options based on grade-level (?)
   * Internationalization - use gettext() for all strings
+  * Install some kind of security on --homedir, to make sure that
+    tuxmath can write but that students can't edit the files by hand?
 
 Code:
   * Optimize graphics blitting!!!

@@ -410,6 +410,7 @@ char *GetDefaultSaveDir(const char *suffix)
 
 /* This functions keep and returns the user data directory application path */
 static char* user_data_dir = NULL;
+static int add_subdir = 1;
 
 char *get_user_data_dir ()
 { 
@@ -423,6 +424,36 @@ char *get_user_data_dir ()
   return user_data_dir;  
 }
 
+/* This function sets the user data directory, and also sets a flag
+   indicating that this should function as a .tuxmath directory, and
+   thus doesn't need the subdir appended. */
+void set_user_data_dir(const char *dirname)
+{
+  int len;
+
+  if (user_data_dir != NULL)
+    free(user_data_dir);   // clear the previous setting
+
+  user_data_dir = strdup(dirname);
+
+  // Check to see that dirname is properly terminated
+  len = strlen(user_data_dir);
+  if (user_data_dir[len-1] != '/')
+    strcat(user_data_dir,"/");
+
+  // If the user supplies a homedir, interpret it literally and don't
+  // add .tuxmath
+  add_subdir = 0;
+}
+
+/* This gets the user data directory including the .tuxmath, if applicable */
+void get_user_data_dir_with_subdir(char *opt_path)
+{
+  strcpy(opt_path, get_user_data_dir());
+  if (add_subdir)
+    strcat(opt_path, OPTIONS_SUBDIR "/");
+}
+  
 /* FIXME should have better file path (/etc or /usr/local/etc) and name */
 int read_global_config_file(void)
 {
@@ -447,8 +478,8 @@ int read_user_config_file(void)
   char opt_path[PATH_MAX];
 
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" OPTIONS_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, OPTIONS_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn read_user_config_file() full path to config file is: = %s\n", opt_path);
@@ -650,8 +681,7 @@ int read_named_config_file(const unsigned char* fn)
 
   /* Look in user's hidden .tuxmath directory  */
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/");
+  get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, filename);
 
   #ifdef TUXMATH_DEBUG
@@ -889,8 +919,8 @@ int read_goldstars(void)
   char opt_path[PATH_MAX];
 
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" GOLDSTAR_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, GOLDSTAR_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn read_goldstars() full path to file is: = %s\n", opt_path);
@@ -925,8 +955,8 @@ int write_goldstars(void)
   }
 
   /* find $HOME and add rest of path to config file: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" GOLDSTAR_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, GOLDSTAR_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_goldstars() full path to file is: = %s\n", opt_path);
@@ -957,8 +987,8 @@ int read_high_scores(void)
   char opt_path[PATH_MAX];
 
   /* find $HOME and tack on file name: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" HIGHSCORE_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, HIGHSCORE_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn read_high_scores() full path to file is: = %s\n", opt_path);
@@ -994,8 +1024,8 @@ int write_high_scores(void)
   }
 
   /* find $HOME and add rest of path to config file: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" HIGHSCORE_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, HIGHSCORE_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_high_scores() full path to file is: = %s\n", opt_path);
@@ -1654,8 +1684,8 @@ int write_user_config_file(void)
   }
 
   /* find $HOME and add rest of path to config file: */
-  strcpy(opt_path, get_user_data_dir());
-  strcat(opt_path, OPTIONS_SUBDIR "/" OPTIONS_FILENAME);
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, OPTIONS_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_user_config_file() full path to config file is: = %s\n", opt_path);
@@ -2369,8 +2399,7 @@ int write_pregame_summary(void)
   /* and leaving summary1 available for current game:             */
 
   /* find $HOME and tack on file name: */
-  strcpy(filepath1, get_user_data_dir());
-  strcat(filepath1, OPTIONS_SUBDIR "/");
+  get_user_data_dir_with_subdir(filepath1);
   strcat(filepath1, summary_filenames[NUM_SUMMARIES - 1]);
 
   fp = fopen(filepath1, "r");
@@ -2390,20 +2419,17 @@ int write_pregame_summary(void)
   for (i = NUM_SUMMARIES - 1; i > 0; i--)
   {
     /* old filename: */
-    strcpy(filepath1, get_user_data_dir());
-    strcat(filepath1, OPTIONS_SUBDIR "/");
+    get_user_data_dir_with_subdir(filepath1);
+    strcpy(filepath2,filepath1);
     strcat(filepath1, summary_filenames[i - 1]);
     /* new filename: */
-    strcpy(filepath2, get_user_data_dir());
-    strcat(filepath2, OPTIONS_SUBDIR "/");
     strcat(filepath2, summary_filenames[i]);
     /* now change the name: */
     rename(filepath1, filepath2);
   } 
 
   /* summary_filenames[0] (i.e. 'summary1') should now be vacant:     */
-  strcpy(filepath1, get_user_data_dir());
-  strcat(filepath1, OPTIONS_SUBDIR "/");
+  get_user_data_dir_with_subdir(filepath1);
   strcat(filepath1, summary_filenames[0]);
 
   fp = fopen(filepath1, "w"); /* "w" means start writing with empty file */
@@ -2435,8 +2461,7 @@ int write_postgame_summary(void)
   char filepath1[PATH_MAX];
   int total_answered;
 
-  strcpy(filepath1, get_user_data_dir());
-  strcat(filepath1, OPTIONS_SUBDIR "/");
+  get_user_data_dir_with_subdir(filepath1);
   strcat(filepath1, summary_filenames[0]);
 
   fp = fopen(filepath1, "a"); /* "a" means append to end of file */
@@ -2493,14 +2518,7 @@ static int find_tuxmath_dir(void)
   DIR* dir_ptr;
 
   /* find $HOME */
-  strcpy(opt_path, get_user_data_dir());
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn find_tuxmath_dir() home directory is: = %s\n", opt_path);
-  #endif
-
-  /* add rest of path to user's tuxmath dir: */
-  strcat(opt_path, OPTIONS_SUBDIR);
+  get_user_data_dir_with_subdir(opt_path);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn find_tuxmath_dir() tuxmath dir is: = %s\n", opt_path);
@@ -2521,6 +2539,9 @@ static int find_tuxmath_dir(void)
   {
     FILE* fp;
     int status;
+
+    if (!add_subdir)
+      return 0;      // fail if the user specified a directory, but it doesn't exist
 
     /* if user's home has a _file_ named .tuxmath (as from previous version */
     /* of program), need to get rid of it or directory creation will fail:  */
@@ -2563,6 +2584,85 @@ static int find_tuxmath_dir(void)
       return 0;
     }
   }
+}
+
+
+/* Utility function to test whether a given dirent represents a directory */
+/* Note this assumes a base of the user's current data directory, it's
+   not a general function. */
+int isdir(const struct dirent *dirEntry)
+{
+  struct stat fileStat;
+  char opt_path[PATH_MAX];
+
+  // Exclude "." from consideration
+  if (strcmp(dirEntry->d_name,".") == 0)
+    return 0;
+  // Exclude ".." from consideration
+  if (strcmp(dirEntry->d_name,"..") == 0)
+    return 0;
+
+  // Prepend the pathname
+  get_user_data_dir_with_subdir(opt_path);
+  strncat(opt_path, dirEntry->d_name,PATH_MAX-strlen(opt_path));
+
+  if (stat(opt_path, &fileStat) < 0) {
+    printf("error parsing %s\n",opt_path);
+    return 0;
+  }
+  printf("Entry: %s, IsDir: %d\n",opt_path, S_ISDIR(fileStat.st_mode));
+  if (S_ISDIR(fileStat.st_mode))
+    return 1;
+  else
+    return 0;
+}
+
+
+/* Checks to see if the current data dir has subdirectories, and if so  */
+/* returns their names. This is used in cases where users must select   */
+/* their login information. Returns the number of subdirectories (0 if  */
+/* there are none), and sets the input argument to a malloc-ed array    */
+/* names (sets to NULL if there are no subdirectories).                 */
+int tuxmath_dir_subdirs(char ***subdir_names)
+{
+  struct dirent **namelist;
+  int n_entries,i;
+  char opt_path[PATH_MAX];
+
+  get_user_data_dir_with_subdir(opt_path);
+  n_entries = scandir(opt_path, &namelist, isdir, alphasort);
+  if (n_entries > 0) {
+    *subdir_names = (char **) malloc(n_entries*sizeof(char*));
+    for (i = 0; i < n_entries; i++)
+      (*subdir_names)[i] = strdup(namelist[i]->d_name);
+    free(namelist);
+    return n_entries;
+  }
+  else {
+    *subdir_names = NULL;
+    return 0;
+  }
+}
+
+/* A utility function to go up one level in a directory hierarchy */
+void dirname_up(char *dirname)
+{
+  int len;
+
+  len = strlen(dirname);
+  printf("up1: len = %d\n",len);
+  // Pass over all trailing "/"
+  while (len > 0 && dirname[len-1] == '/')
+    len--;
+  printf("up2: len = %d\n",len);
+
+  // Now pass over all non-"/" characters at the end
+  while (len > 0 && dirname[len-1] != '/')
+    len--;
+  printf("up3: len = %d\n",len);
+  
+  // Terminate the string after that next-to-last "/"
+  dirname[len] = '\0';
 }
 
 

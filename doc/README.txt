@@ -23,6 +23,12 @@ Installation
   please read the "INSTALL.txt" file.
 
 
+Configuration
+-------------
+  School-type settings in which all students have a single username
+  may benefit from additional configuration---see below under
+  "Configuring multiple users."
+
 
 Running The Program
 -------------------
@@ -352,6 +358,51 @@ Game Summary Files
 
   [ UNDER CONSTRUCTION ]
 
+
+Configuring Multiple Users
+--------------------------
+
+  In some cases, the user's log-in name is not very informative: an
+  example is when schools use a single username "student" for all
+  students in the school.  It is possible to set up Tuxmath so that it
+  asks students to "log in" (without any password) when they first
+  start the game.  This will insure that all gold stars, options, and
+  game summary files will be stored in a location specific to each
+  user.
+
+  Setting this up is fairly simple:
+
+     1. Decide where you want this information stored.  You might want
+        to put it on a central server.  In the appropriate place
+        (let's say it's "/servervolume/"), create a directory which
+        we'll call "tuxmath_users" for current purposes.
+
+     2. Create subdirectories of "tuxmath_users." The basic idea is
+        that you'll create a directory tree that mirrors how you want
+        students to select themselves.  For example, a large school
+        with many classrooms might create directories called
+        "Kindergarten," "1st grade," and so on.  Then inside
+        "Kindergarten" you might want to create directories for each
+        classroom, say "Mrs. Smith" and "Mr. Jones."  A smaller school
+        might choose to skip the by-grade organization and go straight
+        to each classroom; a single computer in a single classroom
+        might skip these altogether.
+
+     3. At the finest level, create one subdirectory for each student.
+
+     4. Finally, adjust the launch command for tuxmath to pass the
+        command line option "--homedir /severvolume/tuxmath_users"
+        (along with any other options) upon launching tuxmath.  Note
+        that an individual classroom could make use of this
+        school-wide service by specifying "--homedir
+        /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson" so that
+        students in a particular classroom only have to choose among
+        their own class.
+
+  You have to make sure that all the write permissions are set
+  correctly.
+
+  Note there is no security insuring that students select themselves.
 
 
 License

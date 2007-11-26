@@ -97,6 +97,7 @@ void cleanup_memory(void);
 void setup(int argc, char * argv[])
 {
   /* initialize settings and read in config files: */
+  /* Note this now only does the global settings   */
   initialize_options();
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
@@ -108,6 +109,8 @@ void setup(int argc, char * argv[])
   generate_flipped_images();
   /* Generate blended images (e.g., igloos) */
   generate_blended_images();
+  /* Note that the per-user options will be set after the call to
+     titlescreen, to allow for user-login to occur. */
 }
 
 
@@ -115,8 +118,7 @@ void setup(int argc, char * argv[])
 
 /* Set up mathcards with default values for math question options, */
 /* set up game_options with defaults for general game options,     */
-/* then read in global config file, followed if desired by user's  */
-/* own config file:                                                */
+/* then read in global config file                                 */
 void initialize_options(void)
 {
   /* Initialize MathCards backend for math questions: */
@@ -143,8 +145,14 @@ void initialize_options(void)
     fprintf(stderr, "\nCould not find global config file.\n");
     /* can still proceed using hard-coded defaults.         */
   }
+}
 
-  /* Now read in user-specific settings, if desired.  By    */
+/* Read in the user-specific options (if desired)              */
+/* This has been split from the above to allow it to be called */
+/* from titlescreen, to allow for user-login to occur.         */
+void initialize_options_user(void)
+{
+  /* Read in user-specific settings, if desired.  By    */  
   /* default, this restores settings from the player's last */
   /* game:                                                  */
   if (Opts_PerUserConfig())
@@ -210,6 +218,12 @@ void handle_command_args(int argc, char* argv[])
              "to configure the behavior of Tuxmath.\n\n");
 
       printf("Run the game with:\n"
+	"--homedir dirname      - seek for user home director(ies) in the specified\n"
+	"                         location, rather than the user's actual home\n"
+	"                         directory.  You can set up a user directory tree in\n"
+	"                         this location (see README).  This option is\n"
+	"                         especially useful for schools where all students log\n"
+	"                         in with a single user name.\n"
         "--optionfile filename  - read config settings from named file. The locations\n"
         "                         searched for a file with a matching name are the\n"
         "                         current working directory, the absolute path of the\n"
@@ -262,7 +276,23 @@ void handle_command_args(int argc, char* argv[])
 	    
       usage(0, argv[0]);
     }
-    /* TODO implement --optionfile filename */
+    else if (0 == strcmp(argv[i], "--homedir"))
+    {
+      // Parse the user choice of a non-default home directory
+      if (i >= argc -1)
+      {
+	fprintf(stderr, "%s option requires an argument (dirname)\n", argv[i]);
+	usage(1, argv[0]);
+      }
+      else // see whether the specified name is a directory
+      {
+	if (opendir(argv[i+1]) == NULL)
+	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
+	else
+	  set_user_data_dir(argv[i+1]);  // copy the homedir setting
+	i++;   // to pass over the next argument, so remaining options parsed
+      }
+    }
     else if (0 == strcmp(argv[i], "--optionfile"))
     {
       if (i >= argc - 1)
