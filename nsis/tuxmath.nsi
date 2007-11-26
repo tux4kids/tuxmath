@@ -2,7 +2,7 @@
 # with a few tiny modifications by Phil Harper(philh@theopencd.org)
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
 
-!define PKG_VERSION "1.5.7"
+!define PKG_VERSION "1.5.8"
 !define PKG_PREFIX  "tuxmath"
 
 !define APP_PREFIX  "TuxMath"
@@ -31,7 +31,7 @@ InstallDirRegKey HKLM SOFTWARE\${APP_PREFIX} "Install_Dir"
 
 # Licence text
 LicenseText "You must agree to this license before installing ${APP_NAME}"
-LicenseData "docs\COPYING.txt"
+LicenseData "doc\COPYING.txt"
 
 # Directory browsing
 # DirShow           show
@@ -49,8 +49,8 @@ Section
   File "mingw32\*.dll"
   SetOutPath $INSTDIR\data
   File /r "mingw32\data\*.*"
-  SetOutPath $INSTDIR\docs
-  File "docs\COPYING.txt"
+  SetOutPath $INSTDIR\doc
+  File "doc\COPYING.txt"
 
   WriteRegStr HKLM SOFTWARE\${APP_PREFIX} \
                    "Install_Dir" \ 
@@ -117,7 +117,7 @@ Section "Uninstall"
   DeleteRegKey HKLM SOFTWARE\${APP_PREFIX}
 
   RMDir  /r "$INSTDIR\data"
-  RMDir  /r "$INSTDIR\docs"
+  RMDir  /r "$INSTDIR\doc"
   Delete    "$INSTDIR\*.*"
 
   Delete "$DESKTOP\${APP_NAME}.lnk"
