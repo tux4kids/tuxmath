@@ -2629,6 +2629,13 @@ int tuxmath_dir_subdirs(char ***subdir_names)
   int n_entries,i;
   char opt_path[PATH_MAX];
 
+#ifdef BUILD_MINGW32
+  // Fixme: The scandir for Windows doesn't support filtering, so this
+  // feature is currently disabled on Windows. Perhaps we just have to
+  // abandon scandir??
+  *subdir_names = NULL;
+  return 0;
+#else
   get_user_data_dir_with_subdir(opt_path);
   n_entries = scandir(opt_path, &namelist, isdir, alphasort);
   if (n_entries > 0) {
@@ -2642,6 +2649,7 @@ int tuxmath_dir_subdirs(char ***subdir_names)
     *subdir_names = NULL;
     return 0;
   }
+#endif
 }
 
 /* A utility function to go up one level in a directory hierarchy */
