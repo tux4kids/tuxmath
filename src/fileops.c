@@ -2590,6 +2590,7 @@ static int find_tuxmath_dir(void)
 /* Utility function to test whether a given dirent represents a directory */
 /* Note this assumes a base of the user's current data directory, it's
    not a general function. */
+/*
 int isdir(const struct dirent *dirEntry)
 {
   struct stat fileStat;
@@ -2616,40 +2617,111 @@ int isdir(const struct dirent *dirEntry)
   else
     return 0;
 }
+*/
 
-
-/* Checks to see if the current data dir has subdirectories, and if so  */
-/* returns their names. This is used in cases where users must select   */
-/* their login information. Returns the number of subdirectories (0 if  */
-/* there are none), and sets the input argument to a malloc-ed array    */
-/* names (sets to NULL if there are no subdirectories).                 */
-int tuxmath_dir_subdirs(char ***subdir_names)
+/* A utility function to read lines from a textfile.  Upon exit, it */
+/* returns the # of lines successfully read, and sets the pointer   */
+/* array so that (*lines)[i] is a pointer to the text on the ith    */
+/* line.  Note this function also cleans up trailing whitespace,    */
+/* and skips blank lines.                                           */
+/* On entry, *lines must be NULL, as a sign that any previously     */
+/* allocated memory has been freed.                                 */
+int read_lines_from_file(FILE *fp,char ***lines)
 {
-  struct dirent **namelist;
-  int n_entries,i;
-  char opt_path[PATH_MAX];
+  char *fgets_return_val;
+  char name_buf[NAME_BUF_SIZE];
+  int n_entries;
+  int length;
 
-#ifdef BUILD_MINGW32
-  // Fixme: The scandir for Windows doesn't support filtering, so this
-  // feature is currently disabled on Windows. Perhaps we just have to
-  // abandon scandir??
-  *subdir_names = NULL;
-  return 0;
-#else
+  n_entries = 0;
+  if(*lines != NULL) {
+    printf("Error: lines buffer was not NULL upon entry");
+    exit(EXIT_FAILURE);
+  }
+
+  fgets_return_val = fgets(name_buf,NAME_BUF_SIZE,fp);
+  while (fgets_return_val != NULL) {
+    // Strip terminal whitespace and \r
+    length = strlen(name_buf);
+    while (length>0 && (name_buf[length - 1] == '\r' || name_buf[length - 1] == '\n'|| name_buf[length-1] == ' ' || name_buf[length-1] == '\t')) {
+      name_buf[length - 1] = '\0';
+      length--;
+    }
+    if (length == 0) {
+      // If we get to a blank line, skip over it
+      fgets_return_val = fgets(name_buf,NAME_BUF_SIZE,fp);
+      continue;
+    }
+    n_entries++;
+    *lines = realloc(*lines,n_entries*sizeof(char*));
+    if (*lines == NULL) {
+      // Memory allocation error
+      printf("Error #1 allocating memory in read_lines_from_file\n");
+      exit(EXIT_FAILURE);
+    }
+    // Copy the cleaned-up line to the list
+    (*lines)[n_entries-1] = strdup(name_buf);
+    if ((*lines)[n_entries-1] == NULL) {
+      // Memory allocation error
+      printf("Error #2 allocating memory in read_lines_from_file\n");
+      exit(EXIT_FAILURE);
+    }
+    // Read the next line
+    fgets_return_val = fgets(name_buf,NAME_BUF_SIZE,fp);
+  }
+  return n_entries;
+}
+
+/* Checks to see if the current homedir has a menu_entries file, and if */
+/* so returns the names of the menu entries. This is used in cases      */
+/* where users must select their login information. Returns the number  */
+/* of menu entries (0 if there are none), and sets the input            */
+/* argument to a malloc-ed array of names (sets to NULL if there are no */
+/* choices to be made).  */
+int read_user_menu_entries(char ***user_names)
+{
+  FILE *fp;
+  int n_entries;
+  char opt_path[PATH_MAX],menu_entries_file[PATH_MAX];
+
+  // Look for a menu_entries file
   get_user_data_dir_with_subdir(opt_path);
-  n_entries = scandir(opt_path, &namelist, isdir, alphasort);
-  if (n_entries > 0) {
-    *subdir_names = (char **) malloc(n_entries*sizeof(char*));
-    for (i = 0; i < n_entries; i++)
-      (*subdir_names)[i] = strdup(namelist[i]->d_name);
-    free(namelist);
-    return n_entries;
+  strncpy(menu_entries_file,opt_path,PATH_MAX);
+  strncat(menu_entries_file,"user_menu_entries",PATH_MAX-strlen(menu_entries_file));
+  n_entries = 0;
+  fp = fopen(menu_entries_file,"r");
+  if (fp)
+  {
+    // There is a menu_entries file, read it
+    n_entries = read_lines_from_file(fp,user_names);
+    fclose(fp);
   }
-  else {
-    *subdir_names = NULL;
-    return 0;
-  }
-#endif
+
+  return n_entries;
+}
+
+/* Reads the user_login_questions file. The syntax is identical to
+   read_user_menu_entries. */
+int read_user_login_questions(char ***user_login_questions)
+{
+  FILE *fp;
+  int n_entries;
+  char opt_path[PATH_MAX],user_login_questions_file[PATH_MAX];
+
+  // Look for a user_login_questions file
+  get_user_data_dir_with_subdir(opt_path);
+  strncpy(user_login_questions_file,opt_path,PATH_MAX);
+  strncat(user_login_questions_file,"user_login_questions",PATH_MAX-strlen(user_login_questions_file));
+   n_entries = 0;
+  fp = fopen(user_login_questions_file,"r");
+  if (fp)
+  {
+    // There is a user_login_questions file, read it
+    n_entries = read_lines_from_file(fp,user_login_questions);
+    fclose(fp);
+   }
+ 
+  return n_entries;
 }
 
 /* A utility function to go up one level in a directory hierarchy */
@@ -2658,16 +2730,13 @@ void dirname_up(char *dirname)
   int len;
 
   len = strlen(dirname);
-  printf("up1: len = %d\n",len);
   // Pass over all trailing "/"
   while (len > 0 && dirname[len-1] == '/')
     len--;
-  printf("up2: len = %d\n",len);
 
   // Now pass over all non-"/" characters at the end
   while (len > 0 && dirname[len-1] != '/')
     len--;
-  printf("up3: len = %d\n",len);
   
   // Terminate the string after that next-to-last "/"
   dirname[len] = '\0';

@@ -377,20 +377,36 @@ Configuring Multiple Users
         (let's say it's "/servervolume/"), create a directory which
         we'll call "tuxmath_users" for current purposes.
 
-     2. Create subdirectories of "tuxmath_users." The basic idea is
-        that you'll create a directory tree that mirrors how you want
-        students to select themselves.  For example, a large school
-        with many classrooms might create directories called
-        "Kindergarten," "1st grade," and so on.  Then inside
-        "Kindergarten" you might want to create directories for each
-        classroom, say "Mrs. Smith" and "Mr. Jones."  A smaller school
-        might choose to skip the by-grade organization and go straight
-        to each classroom; a single computer in a single classroom
-        might skip these altogether.
+     2. In tuxmath_users, create a text file called
+        "user_menu_entries."  This file contains the list of choices
+        that students will be presented with upon login, one entry per
+        line.  For example, a large school with many classrooms might
+        have choices called "Kindergarten," "1st grade," and so on.
 
-     3. At the finest level, create one subdirectory for each student.
+     3. In the same directory, create sub-directories that have the
+        same names that appear in user_menu_entries.
 
-     4. Finally, adjust the launch command for tuxmath to pass the
+     4. Create further user_menu_entries and further subdirectories
+        inside each of these.  For example, in "Kindergarten" you
+        might want to create directories for each classroom, say
+        "Mrs. Smith" and "Mr. Jones."  A smaller school might choose
+        to skip the by-grade organization and go straight to each
+        classroom; a single computer in a single classroom might skip
+        these altogether.  Always make sure that the user_menu_entry
+        file matches the directory structure (although having extra
+        directories will not cause a problem).
+
+     5. At the finest level, create a menu item and one subdirectory
+        for each student.
+
+     6. Optionally, in "tuxmath_users" you can also create a file
+        called "user_login_questions" that poses a question at each
+        step of the hierarchy.  For example, it might contain three
+        lines, "Choose your grade:", "Choose your teacher:", "Who are
+        you?" If you omit this file, then students will simply be
+        presented with the list without any kind of prompt.
+
+     7. Finally, adjust the launch command for tuxmath to pass the
         command line option "--homedir /severvolume/tuxmath_users"
         (along with any other options) upon launching tuxmath.  Note
         that an individual classroom could make use of this

@@ -66,6 +66,8 @@ typedef struct {
   int buttonheight; // size of menu item button  (-1 if calculated)
   int ygap;  // vertical gap between entries
   int button_same_width; // should all buttons have the same width?
+  char *title;
+  char *trailer;
 } menu_options;
 
 
