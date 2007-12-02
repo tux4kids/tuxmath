@@ -934,6 +934,8 @@ int run_login_menu(void)
   char *trailer_quit = "Quit";
   char *trailer_back = "Back";
 
+  DIR *dir;
+
   // Check for & read user_login_questions file
   n_login_questions = read_user_login_questions(&user_login_questions);
 
@@ -972,6 +974,13 @@ int run_login_menu(void)
       // User chose an entry, set it up
       strcat(user_home,user_names[chosen_login]);
       strcat(user_home,"/");
+      dir = opendir(user_home);
+      if (dir == NULL) {
+	printf("Directory cannot be opened, there is a configuration error\n");
+	// We can continue anyway, and tuxmath will simply be going in
+	// no-save mode. It will bail and go straight to the main menu
+	// next.
+      }
       level++;
       menu_opts.starting_entry = 0;
     }
