@@ -769,35 +769,6 @@ int read_high_scores_fp(FILE* fp)
   return 1;
 }
 
-/* Write high score table to provided FILE* in format     */
-/* compatible with read_high_scores() above.  For human-  */
-/* readable output for debugging purposes, print_high_    */
-/* scores() in highscore.c is better. write_high_scores() */
-/* in fileops.c takes care of checking paths, opening     */
-/* and closing the file, etc.                             */
-void write_high_scores_fp(FILE* fp)
-{
-  int i, j;
-
-  /* get out if file pointer invalid: */
-  if(!fp)
-  {
-    fprintf(stderr, "In write_high_scores_fp(), file pointer invalid!\n");
-    return;
-  }
-
-  for (i = 0; i < NUM_HIGH_SCORE_LEVELS; i++)
-  {
-    for (j = 0; j < HIGH_SCORES_SAVED; j++)
-    {
-      fprintf(fp, "%d\t%d\t%s\t\n", i,
-                  high_scores[i][j].score,
-                  high_scores[i][j].name);
-    }
-  }
-  return;
-}
-
 
 /* Return the score associated with a table entry:    */
 /* Note: the place is given as the array index, i.e.  */

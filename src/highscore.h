@@ -25,7 +25,7 @@ int insert_score(char* playername, int diff_level, int new_score);
 void initialize_scores(void);
 void print_high_scores(FILE* fp);
 int read_high_scores_fp(FILE* fp);
-void write_high_scores_fp(FILE* fp);
+/* Note: for writing, use append_high_score in fileops.c */
 
 int HS_Score(int diff_level, int place);
 unsigned char* HS_Name(int diff_level, int place);

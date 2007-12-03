@@ -227,15 +227,24 @@ enum {
   NUM_SUMMARIES
 };
 
-/* These functions used by setup() to read in settings: */
+/* These functions used by setup() and titlescreen() to read in settings: */
 int read_global_config_file(void);
 int read_user_config_file(void);
 int parse_lesson_file_directory(void);
 int read_named_config_file(const unsigned char* filename);
 int write_user_config_file(void);
 int read_high_scores(void);
-int write_high_scores(void);
+int append_high_scores(int tableid,int score,char *player_name);
+void set_high_score_path(void);
 int write_goldstars(void);
+
+/* These functions are used by titlescreen() to assist with the login */
+int read_user_menu_entries(char ***user_names);
+int read_user_login_questions(char ***user_login_questions);
+int high_scores_found_in_user_dir(void);
+void set_high_score_path(void);
+void user_data_dirname_up(void);
+void user_data_dirname_down(char *subdir);
 
 /* These functions used by game() to record game summary: */
 int write_pregame_summary(void);

@@ -25,9 +25,10 @@ Installation
 
 Configuration
 -------------
-  School-type settings in which all students have a single username
-  may benefit from additional configuration---see below under
-  "Configuring multiple users."
+  If all players are using a single account (e.g., a home computer
+  that is always logged in, or a school setting in which all students
+  have a single username), you may want to do some additional
+  configuration---see below under "Configuring multiple users."
 
 
 Running The Program
@@ -406,14 +407,26 @@ Configuring Multiple Users
         you?" If you omit this file, then students will simply be
         presented with the list without any kind of prompt.
 
-     7. Finally, adjust the launch command for tuxmath to pass the
+     7. Optionally, you can create an empty file called "highscores"
+        ("highscores.txt" on Windows) at whatever level of the
+        hierarchy you want users to be competing for the high score.
+        For example, if you want the high scores to be grade-wide,
+        then put a "highscores" file in each grade's directory.
+        Alternatively, each classroom could have it's own, or even
+        each student.  If you do nothing, then each student will have
+        a private high score table.  (In case of multiple highscores
+        files, the one at the lowest level of the hierarchy wins.)
+
+     8. Finally, adjust the global configuration file's "homedir"
+        property (at the very end of the file) to point to your
+	home directory tree.  Alternatively, you can employ the
         command line option "--homedir /severvolume/tuxmath_users"
         (along with any other options) upon launching tuxmath.  Note
         that an individual classroom could make use of this
-        school-wide service by specifying "--homedir
-        /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson" so that
-        students in a particular classroom only have to choose among
-        their own class.
+        school-wide service by specifying (in the option-file syntax)
+	   homedir = /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson
+        so that students in a particular classroom only have to choose
+	among their own class.
 
   You have to make sure that all the write permissions are set
   correctly.

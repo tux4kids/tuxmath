@@ -218,7 +218,7 @@ menu_music = 1
 # Use fullscreen at 640x480 resolution instead of
 # 640x480 window. Change to 0 if SDL has trouble with
 # fullscreen on your system:
-fullscreen = 1
+fullscreen = 0
 
 # Display jpg images for background:
 use_bkgd = 1
@@ -488,10 +488,12 @@ city_explode_handicap = 0.00
 
 ############################################################
 #                                                          #
-#                 Restricting User Settings                #
+#                  Managing User Settings                  #
 #                                                          #
 # Parameter: per_user_config (boolean)                     #
 # Default: 1                                               #
+# Parameter: homedir (string)                              #
+# Default: <none supplied>                                 #
 #                                                          #
 # 'per_user_config' determines whether Tuxmath will look   #
 # in the user's home directory for settings. Default is 1  #
@@ -499,10 +501,18 @@ city_explode_handicap = 0.00
 # .tuxmath file and use the the global settings in the     #
 # installation-wide config file.                           #
 #                                                          #
-# This setting cannot be changed by an ordinary user, i.e. #
-# it is ignored unless the config file is Tuxmath's global #
-# config file. Thus, users cannot 'lock themselves out'    #
-# by accidentally setting this to 0.                       #
+# 'homedir' allows you to specify the location to look for #
+# user home directories. You probably do not want to       #
+# specify this unless all users share the same login       #
+# account. See the README for details on configuration.    #
+# To enable this feature, remove the '#' comment mark and  #
+# set the path as desired.                                 #
+#                                                          #
+# These settings cannot be changed by an ordinary user, as #
+# they are ignored unless the config file is Tuxmath's     #
+# global config file. Thus, users cannot 'lock themselves  #
+# out' by accidentally setting per_user_config to 0.       #
 ############################################################
 
 per_user_config = 1
+# homedir = /servervolume/tuxmath_users

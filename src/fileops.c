@@ -61,7 +61,6 @@
         ((sizeof(struct dirent) - sizeof(dp)->d_name) +     \
 		(((dp)->d_reclen + 1 + 3) &~ 3))
 
-
 /*-----------------------------------------------------------------------*/
 /*
   Alphabetic order comparison routine for those who want it.
@@ -208,6 +207,8 @@ static int read_config_file(FILE* fp, int file_type);
 static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 static int read_goldstars(void);
+static int read_lines_from_file(FILE *fp,char ***lines);
+static void dirname_up(char *dirname);
 
 
 /* fix HOME on windows */
@@ -411,6 +412,7 @@ char *GetDefaultSaveDir(const char *suffix)
 /* This functions keep and returns the user data directory application path */
 static char* user_data_dir = NULL;
 static int add_subdir = 1;
+static char* high_scores_file_path = NULL;
 
 char *get_user_data_dir ()
 { 
@@ -975,6 +977,49 @@ int write_goldstars(void)
 }
 
 
+/* Look for a highscore table file in the current user    */
+/* data directory.  Return 1 if found, 0 if not.  This    */
+/* is used for the multi-user login code, in deciding     */
+/* where to put the highscore information.                */
+int high_scores_found_in_user_dir(void)
+{
+  FILE* fp;
+  char opt_path[PATH_MAX];
+
+  /* find $HOME and tack on file name: */
+  get_user_data_dir_with_subdir(opt_path);
+  strcat(opt_path, HIGHSCORE_FILENAME);
+
+  #ifdef TUXMATH_DEBUG
+  printf("\nIn read_high_scores() full path to file is: = %s\n", opt_path);
+  #endif
+
+  fp = fopen(opt_path, "r");
+  if (fp) /* file exists */
+  {
+    fclose(fp);
+    return 1;
+  }
+  else
+    return 0;
+}
+
+/* Set the path to the high score file to the current     */
+/* user data dir                                          */
+void set_high_score_path(void)
+{
+  char opt_path[PATH_MAX];
+
+  /* find $HOME and tack on file name: */
+  get_user_data_dir_with_subdir(opt_path);
+
+  // Free any previous allocation
+  if (high_scores_file_path != NULL)
+    free(high_scores_file_path);
+
+  high_scores_file_path = strdup(opt_path);
+}
+
 /* Look for a high score table file in the user's homedir */
 /* and if found, pass the FILE* to read_high_scores_fp() in */
 /* highscore.c to actually read in scores. (A "global"    */
@@ -987,7 +1032,10 @@ int read_high_scores(void)
   char opt_path[PATH_MAX];
 
   /* find $HOME and tack on file name: */
-  get_user_data_dir_with_subdir(opt_path);
+  if (high_scores_file_path == NULL)
+    get_user_data_dir_with_subdir(opt_path);
+  else
+    strncpy(opt_path,high_scores_file_path,PATH_MAX);
   strcat(opt_path, HIGHSCORE_FILENAME);
 
   #ifdef TUXMATH_DEBUG
@@ -1008,11 +1056,47 @@ int read_high_scores(void)
   }
 }
 
-/* Write high score table in user's homedir in format     */
-/* compatible with read_high_scores() above.  For human-  */
-/* readable output for debugging purposes, print_high_    */
-/* scores() in highscore.c is better.                     */
-int write_high_scores(void)
+/* On File Locking: With multiple users possibly updating the same
+   high-scores table simultaneously, we have to be concerned with the
+   possibility that the high score information might change between
+   the time at which it was determined that the user gets a high
+   score, and time at which the high score table actually gets
+   written.  This is especially problematic if it takes kids a while
+   to type in their name, and it's being assumed that the high scores
+   table is valid over that entire time.
+
+   As a first (easy) step, it's best to simply append new information
+   to the high scores file, rather than re-writing the whole file; the
+   read function can make sure that only the top scores are used.
+   That way, the only time there would be trouble is if two appends
+   start at exactly the same moment; and since the amount of
+   information per line is small (and is thus written quickly) and
+   updates are unlikely to be occurring on a
+   millisecond-by-millisecond basis, it's pretty unlikely that
+   problems will crop up.
+
+   An even more robust alternative is to use real file locking.  One
+   would need to design a cross-platform solution that also does
+   sensible things (like, say, delete the lock if it's been held for
+   more than 1s, so that locking doesn't block the application).  In
+   researching this, the best approach seems to be:
+   a) Open a second file - a lock file of a specific name - for read/write.
+   b) If the lock file already contains your process ID, proceed
+   c) If the lock file already contains a different process ID, deny
+   d) If the lock file is new / empty write and flush your process ID
+      to it, then go back to step (a)
+
+   However, given that this information may not be "mission critical"
+   (pun intended) and might be cleared on a somewhat regular basis
+   anyway, it seems reasonable to just use the append strategy.
+*/
+
+/* Append a new high score to the high-scores file.       */
+/* Using this approach is safer than writing the whole    */
+/* high scores table if you're in an environment where    */
+/* multiple users might be updating the table             */
+/* simultaneously.                                        */
+int append_high_score(int tableid,int score,char *player_name)
 {
   char opt_path[PATH_MAX];
   FILE* fp;
@@ -1024,23 +1108,101 @@ int write_high_scores(void)
   }
 
   /* find $HOME and add rest of path to config file: */
-  get_user_data_dir_with_subdir(opt_path);
+  if (high_scores_file_path == NULL)
+    get_user_data_dir_with_subdir(opt_path);
+  else
+    strncpy(opt_path,high_scores_file_path,PATH_MAX);
   strcat(opt_path, HIGHSCORE_FILENAME);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn write_high_scores() full path to file is: = %s\n", opt_path);
   #endif
 
-  fp = fopen(opt_path, "w");
+  fp = fopen(opt_path, "a");
   if (fp)
   {
-    write_high_scores_fp(fp);
+    fprintf(fp,"%d\t%d\t%s\t\n",tableid,score,player_name);
     fclose(fp);
     fp = NULL;
     return 1;
   }
   else
     return 0;
+}
+  
+
+
+/* Checks to see if the current homedir has a menu_entries file, and if */
+/* so returns the names of the menu entries. This is used in cases      */
+/* where users must select their login information. Returns the number  */
+/* of menu entries (0 if there are none), and sets the input            */
+/* argument to a malloc-ed array of names (sets to NULL if there are no */
+/* choices to be made).  */
+int read_user_menu_entries(char ***user_names)
+{
+  FILE *fp;
+  int n_entries;
+  char opt_path[PATH_MAX],menu_entries_file[PATH_MAX];
+
+  // Look for a menu_entries file
+  get_user_data_dir_with_subdir(opt_path);
+  strncpy(menu_entries_file,opt_path,PATH_MAX);
+  strncat(menu_entries_file,"user_menu_entries",PATH_MAX-strlen(menu_entries_file));
+  n_entries = 0;
+  fp = fopen(menu_entries_file,"r");
+  if (fp)
+  {
+    // There is a menu_entries file, read it
+    n_entries = read_lines_from_file(fp,user_names);
+    fclose(fp);
+  }
+
+  return n_entries;
+}
+
+/* Reads the user_login_questions file. The syntax is identical to
+   read_user_menu_entries. */
+int read_user_login_questions(char ***user_login_questions)
+{
+  FILE *fp;
+  int n_entries;
+  char opt_path[PATH_MAX],user_login_questions_file[PATH_MAX];
+
+  // Look for a user_login_questions file
+  get_user_data_dir_with_subdir(opt_path);
+  strncpy(user_login_questions_file,opt_path,PATH_MAX);
+  strncat(user_login_questions_file,"user_login_questions",PATH_MAX-strlen(user_login_questions_file));
+   n_entries = 0;
+  fp = fopen(user_login_questions_file,"r");
+  if (fp)
+  {
+    // There is a user_login_questions file, read it
+    n_entries = read_lines_from_file(fp,user_login_questions);
+    fclose(fp);
+   }
+ 
+  return n_entries;
+}
+
+void user_data_dirname_up(void)
+{
+  dirname_up(user_data_dir);
+}
+
+void user_data_dirname_down(char *subdir)
+{
+  DIR *dir;
+
+  if (user_data_dir != NULL)
+    strcat(user_data_dir,subdir);
+  else
+    user_data_dir = strdup(subdir);
+  strcat(user_data_dir,"/");
+  dir = opendir(user_data_dir);
+  if (dir == NULL) {
+    printf("User data directory cannot be opened, there is a configuration error\n");
+    printf("Continuing anyway without saving or loading individual settings.\n");
+  }
 }
 
 
@@ -1183,6 +1345,19 @@ int read_config_file(FILE *fp, int file_type)
         int v = str_to_bool(value);
         if (v != -1)
           Opts_SetPerUserConfig(v);
+      }
+    }
+
+    else if(0 == strcasecmp(parameter, "homedir"))
+    {
+      /* Only let administrator change this setting */
+      if (file_type == GLOBAL_CONFIG_FILE)
+      {
+	/* Check to see whether the specified homedir exists */
+	if (opendir(value) == NULL)
+	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
+	else
+	  set_user_data_dir(value);  /* copy the homedir setting */
       }
     }
 
@@ -2337,10 +2512,12 @@ int write_config_file(FILE *fp, int verbose)
   {
     fprintf (fp, "\n\n############################################################\n" 
                  "#                                                          #\n"
-                 "#                 Restricting User Settings                #\n"
+                 "#                  Managing User Settings                  #\n"
                  "#                                                          #\n"
                  "# Parameter: per_user_config (boolean)                     #\n"
                  "# Default: 1                                               #\n"
+                 "# Parameter: homedir (string)                              #\n"
+                 "# Default: <none supplied>                                 #\n"
                  "#                                                          #\n"
                  "# 'per_user_config' determines whether Tuxmath will look   #\n"
                  "# in the user's home directory for settings. Default is 1  #\n"
@@ -2348,13 +2525,21 @@ int write_config_file(FILE *fp, int verbose)
                  "# .tuxmath file and use the the global settings in the     #\n"
                  "# installation-wide config file.                           #\n"
                  "#                                                          #\n"
-                 "# This setting cannot be changed by an ordinary user, i.e. #\n"
-                 "# it is ignored unless the config file is Tuxmath's global #\n"
-                 "# config file. Thus, users cannot 'lock themselves out'    #\n"
-                 "# by accidentally setting this to 0.                       #\n"
+                 "# 'homedir' allows you to specify the location to look for #\n"
+                 "# user home directories. You probably do not want to       #\n"
+                 "# specify this unless all users share the same login       #\n"
+                 "# account. See the README for details on configuration.    #\n"
+                 "# To enable this feature, remove the '#' comment mark and  #\n"
+                 "# set the path as desired.                                 #\n"
+                 "#                                                          #\n"
+                 "# These settings cannot be changed by an ordinary user, as #\n"
+                 "# they are ignored unless the config file is Tuxmath's     #\n"
+                 "# global config file. Thus, users cannot 'lock themselves  #\n"
+                 "# out' by accidentally setting per_user_config to 0.       #\n"
                  "############################################################\n\n");
   }
   fprintf(fp, "per_user_config = %d\n", Opts_PerUserConfig());
+  fprintf(fp, "# homedir = /servervolume/tuxmath_users\n");
 
 
   /* print general game options (passing '1' as second arg causes */
@@ -2587,37 +2772,6 @@ static int find_tuxmath_dir(void)
 }
 
 
-/* Utility function to test whether a given dirent represents a directory */
-/* Note this assumes a base of the user's current data directory, it's
-   not a general function. */
-/*
-int isdir(const struct dirent *dirEntry)
-{
-  struct stat fileStat;
-  char opt_path[PATH_MAX];
-
-  // Exclude "." from consideration
-  if (strcmp(dirEntry->d_name,".") == 0)
-    return 0;
-  // Exclude ".." from consideration
-  if (strcmp(dirEntry->d_name,"..") == 0)
-    return 0;
-
-  // Prepend the pathname
-  get_user_data_dir_with_subdir(opt_path);
-  strncat(opt_path, dirEntry->d_name,PATH_MAX-strlen(opt_path));
-
-  if (stat(opt_path, &fileStat) < 0) {
-    printf("error parsing %s\n",opt_path);
-    return 0;
-  }
-  printf("Entry: %s, IsDir: %d\n",opt_path, S_ISDIR(fileStat.st_mode));
-  if (S_ISDIR(fileStat.st_mode))
-    return 1;
-  else
-    return 0;
-}
-*/
 
 /* A utility function to read lines from a textfile.  Upon exit, it */
 /* returns the # of lines successfully read, and sets the pointer   */
@@ -2626,7 +2780,7 @@ int isdir(const struct dirent *dirEntry)
 /* and skips blank lines.                                           */
 /* On entry, *lines must be NULL, as a sign that any previously     */
 /* allocated memory has been freed.                                 */
-int read_lines_from_file(FILE *fp,char ***lines)
+static int read_lines_from_file(FILE *fp,char ***lines)
 {
   char *fgets_return_val;
   char name_buf[NAME_BUF_SIZE];
@@ -2672,60 +2826,8 @@ int read_lines_from_file(FILE *fp,char ***lines)
   return n_entries;
 }
 
-/* Checks to see if the current homedir has a menu_entries file, and if */
-/* so returns the names of the menu entries. This is used in cases      */
-/* where users must select their login information. Returns the number  */
-/* of menu entries (0 if there are none), and sets the input            */
-/* argument to a malloc-ed array of names (sets to NULL if there are no */
-/* choices to be made).  */
-int read_user_menu_entries(char ***user_names)
-{
-  FILE *fp;
-  int n_entries;
-  char opt_path[PATH_MAX],menu_entries_file[PATH_MAX];
-
-  // Look for a menu_entries file
-  get_user_data_dir_with_subdir(opt_path);
-  strncpy(menu_entries_file,opt_path,PATH_MAX);
-  strncat(menu_entries_file,"user_menu_entries",PATH_MAX-strlen(menu_entries_file));
-  n_entries = 0;
-  fp = fopen(menu_entries_file,"r");
-  if (fp)
-  {
-    // There is a menu_entries file, read it
-    n_entries = read_lines_from_file(fp,user_names);
-    fclose(fp);
-  }
-
-  return n_entries;
-}
-
-/* Reads the user_login_questions file. The syntax is identical to
-   read_user_menu_entries. */
-int read_user_login_questions(char ***user_login_questions)
-{
-  FILE *fp;
-  int n_entries;
-  char opt_path[PATH_MAX],user_login_questions_file[PATH_MAX];
-
-  // Look for a user_login_questions file
-  get_user_data_dir_with_subdir(opt_path);
-  strncpy(user_login_questions_file,opt_path,PATH_MAX);
-  strncat(user_login_questions_file,"user_login_questions",PATH_MAX-strlen(user_login_questions_file));
-   n_entries = 0;
-  fp = fopen(user_login_questions_file,"r");
-  if (fp)
-  {
-    // There is a user_login_questions file, read it
-    n_entries = read_lines_from_file(fp,user_login_questions);
-    fclose(fp);
-   }
- 
-  return n_entries;
-}
-
 /* A utility function to go up one level in a directory hierarchy */
-void dirname_up(char *dirname)
+static void dirname_up(char *dirname)
 {
   int len;
 

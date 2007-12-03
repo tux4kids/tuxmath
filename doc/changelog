@@ -1,6 +1,14 @@
-2007.Nov.26 (svn.debian.org/tux4kids - revision 350)
+2007.Dec.03 (svn.debian.org/tux4kids - revision 353)
   Options:
+    * Added global config file support for specifying a home directory
+      (tree) location.
+  Game:
+    * Allow users to share a single high score file.
 	
+      Tim Holy <holy@wustl.edu>
+
+2007.Dec.02 (svn.debian.org/tux4kids - revision 350)
+  Options:
       * Reworked the user login to make it more robust and
 	user-friendly.  This version should be pretty generally usable.
 	

@@ -687,6 +687,7 @@ int run_arcade_menu(void)
 	  audioMusicLoad( "tuxi.ogg", -1 );
 	}
 	/* See if player made high score list!                        */
+	read_high_scores();  /* Update, in case other users have added to it */
 	hs_table = arcade_high_score_tables[choice];
 	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
           
@@ -695,9 +696,13 @@ int run_arcade_menu(void)
 	  /* Get name from player: */
 	  HighScoreNameEntry(&player_name[0]);
 	  insert_score(player_name, hs_table, Opts_LastScore());
+	  /* Show the high scores. Note the user will see his/her */
+	  /* achievement even if (in the meantime) another player */
+	  /* has in fact already bumped this score off the table. */
 	  DisplayHighScores(hs_table);
 	  /* save to disk: */
-	  write_high_scores();
+	  /* See "On File Locking" in fileops.c */
+	  append_high_score(choice,Opts_LastScore(),&player_name[0]);
 	  
 #ifdef TUXMATH_DEBUG
 	  print_high_scores(stderr);
@@ -928,13 +933,10 @@ int run_login_menu(void)
   
   menu_options menu_opts;
   int chosen_login = -1;
-  char *user_home;
   int level;
   int i;
   char *trailer_quit = "Quit";
   char *trailer_back = "Back";
-
-  DIR *dir;
 
   // Check for & read user_login_questions file
   n_login_questions = read_user_login_questions(&user_login_questions);
@@ -945,8 +947,11 @@ int run_login_menu(void)
   if (n_users == 0)
     return 0;   // a quick exit, there's only one user
 
+  // Check for a highscores file
+  if (high_scores_found_in_user_dir())
+    set_high_score_path();
+
   level = 0;
-  user_home = get_user_data_dir();
   set_default_menu_options(&menu_opts);
   if (n_login_questions > 0)
     menu_opts.title = user_login_questions[0];
@@ -965,25 +970,20 @@ int run_login_menu(void)
       }
       else {
 	// Go back up one level of the directory tree
-	dirname_up(user_home);
+	user_data_dirname_up();
 	level--;
 	menu_opts.starting_entry = -1;
       }
     }
     else {
       // User chose an entry, set it up
-      strcat(user_home,user_names[chosen_login]);
-      strcat(user_home,"/");
-      dir = opendir(user_home);
-      if (dir == NULL) {
-	printf("Directory cannot be opened, there is a configuration error\n");
-	// We can continue anyway, and tuxmath will simply be going in
-	// no-save mode. It will bail and go straight to the main menu
-	// next.
-      }
+      user_data_dirname_down(user_names[chosen_login]);
       level++;
       menu_opts.starting_entry = 0;
     }
+    // Check for a highscores file
+    if (high_scores_found_in_user_dir())
+      set_high_score_path();
     // Free the entries from the previous menu
     for (i = 0; i < n_users; i++)
       free(user_names[i]);
