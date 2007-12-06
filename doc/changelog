@@ -1,3 +1,13 @@
+2007.Dec.05 (svn.debian.org/tux4kids - revision 354)
+  Build:
+    * Improvement of Makefile.am code for Windows crossbuild to make
+      better use of autotools.
+    * Addition of tux4kids/tuxmath/people/dbruce/tuxmath_dll directory
+      to make it easier for others to set up crossbuild - intention is 
+      to have entire cross-compile setup managed by svn.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2007.Dec.03 (svn.debian.org/tux4kids - revision 353)
   Options:
     * Added global config file support for specifying a home directory

@@ -1,6 +1,7 @@
 # vim: noai et ts=4 tw=0
 # with a few tiny modifications by Phil Harper(philh@theopencd.org)
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
+# modified more for tuxmath by David Bruce <dbruce@tampabay.rr.com>
 
 !define PKG_VERSION "@VERSION@"
 !define PKG_PREFIX  "tuxmath"
@@ -31,7 +32,7 @@ InstallDirRegKey HKLM SOFTWARE\${APP_PREFIX} "Install_Dir"
 
 # Licence text
 LicenseText "You must agree to this license before installing ${APP_NAME}"
-LicenseData "doc\COPYING.txt"
+LicenseData "mingw32\doc\COPYING.txt"
 
 # Directory browsing
 # DirShow           show
@@ -50,7 +51,9 @@ Section
   SetOutPath $INSTDIR\data
   File /r "mingw32\data\*.*"
   SetOutPath $INSTDIR\doc
-  File "doc\COPYING.txt"
+  File /r "mingw32\doc\*.*"
+  SetOutPath $INSTDIR\locale
+  File /r "mingw32\locale\*.*"
 
   WriteRegStr HKLM SOFTWARE\${APP_PREFIX} \
                    "Install_Dir" \ 
@@ -83,7 +86,10 @@ Section "Start Menu Shortcuts"
                   0 "" "" \
                   "Start TuxMath in a Window"
 
-  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0 "" "" "Remove Tux of Math Command"
+  CreateShortCut  "$SMPROGRAMS\${APP_NAME}\Uninstall.lnk" \
+                  "$INSTDIR\uninstall.exe" ""  \ 
+                  "$INSTDIR\uninstall.exe" 0 "" "" \
+                  "Remove Tux of Math Command"
 SectionEnd
 
 Section "Desktop Shortcut"
@@ -96,23 +102,14 @@ Section "Desktop Shortcut"
                  "Run Tux of Math Command"
 SectionEnd
 
-;Function .onInstSuccess
-;  BringToFront
-;  MessageBox MB_YESNO|MB_ICONQUESTION \
-;             "${APP_NAME} was installed. Would you like to run ${APP_NAME} now ?" \
-;             IDNO NoExec
-;    Exec '$INSTDIR\${APP_EXE}'
-;  NoExec:
-;FunctionEnd
-
-; uninstall stuff
+# Uninstall stuff
 
 UninstallText "This will uninstall ${APP_NAME}. Hit 'Uninstall' to continue."
 
-; special uninstall section.
+# special uninstall section.
 Section "Uninstall"
   SetShellVarContext all
-  ; remove registry keys
+# remove registry keys
   DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\${APP_PREFIX}"
   DeleteRegKey HKLM SOFTWARE\${APP_PREFIX}
 
@@ -124,5 +121,3 @@ Section "Uninstall"
   Delete "$SMPROGRAMS\${APP_NAME}\*.*"
   RMDir  "$SMPROGRAMS\${APP_NAME}"
 SectionEnd
-
-

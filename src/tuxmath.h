@@ -22,7 +22,7 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-#include "config.h"
+#include <config.h>
 
 // Translation stuff:
 /* NLS not active on Mac yet: */
@@ -49,7 +49,6 @@
 
 #include "SDL.h"
 #include "SDL_ttf.h"
-#include "config.h"
 
 #ifndef NOSOUND
 #include "SDL_mixer.h"

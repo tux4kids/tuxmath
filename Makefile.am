@@ -19,7 +19,7 @@ NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
 
-NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/inst_w32
+NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 
 ## Bundle in fonts for distribution tar.gz to be used without package manager:
 ## i.e. to make tarball to post for individual download - use 'make distcheck' for Debian.
@@ -32,13 +32,46 @@ dist_with_fonts:
   dist_fonts=$(data_fonts) dist
 
 
-## FIXME make better use of autotools here:
-##	$(MAKE) $(AM_MAKEFLAGS) \
-##  datarootdir=$(top_srcdir)/$(NSI_INSTALL_DIR) install-data
+## For building the NSIS executable Win32 installer - this rule first
+## does a "make install" into NSI_TEMP_INSTALL_DIR, which results in
+## a local copy of the complete unix-style install.
+## Subsequent commands then copy the needed files into NSI_INSTALL_DIR,
+## which has the exact directory structure of the self-contained
+## 'TuxMath' folder that gets installed onto the Windows machine.
 
 install-nsi-local: all
+## create NSI_TEMP_INSTALL_DIR and install to that location:
 	$(INSTALL) -d $(NSI_TEMP_INSTALL_DIR)
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) install
+## create NSI_INSTALL_DIR/data dir and copy data files to that location:
+	$(INSTALL) -d $(top_builddir)/$(NSI_INSTALL_DIR)/data;
+	(cd $(NSI_TEMP_INSTALL_DIR)/$(pkgdatadir); \
+           tar cf -  * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR); \
+           tar xf -)
+## create NSI_INSTALL_DIR/doc dir and copy docs to that location:
+	$(INSTALL) -d $(top_builddir)/$(NSI_INSTALL_DIR)/doc;
+	(cd $(NSI_TEMP_INSTALL_DIR)/$(docdir); \
+           tar cf -  * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/doc; \
+           tar xf -)
+## create NSI_INSTALL_DIR/locale dir and copy locales to that location:
+	$(INSTALL) -d $(top_builddir)/$(NSI_INSTALL_DIR)/locale;
+	(cd $(NSI_TEMP_INSTALL_DIR)/$(localedir); \
+           tar cf -  * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/locale; \
+           tar xf -)
+## copy executable into NSI_INSTALL_DIR:
+	(cd $(NSI_TEMP_INSTALL_DIR)/$(bindir); \
+           mv *TuxMath.exe TuxMath.exe; \
+           tar cf - TuxMath.exe  ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR); \
+           tar xf -)
+## Done with NSI_TEMP_INSTALL_DIR so uninstall:
+	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
+	rm -rf $(NSI_TEMP_INSTALL_DIR)
+## copy needed dll files into NSI_INSTALL_DIR:
+	cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
 
 ##install-nsi-local: all
 ##	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/data;
@@ -51,7 +84,7 @@ install-nsi-local: all
 ##
 ##if NSI_USE_TUXMATH_CONF
 ##	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
-##	cp $(NSI_TUXMATH_CONF_DIR)/*.*  $(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
+##	cp $(NSI_TUXMATH_CONF_DIR)/*.*  ##$(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
 ##endif 
 
 install-nsi-am: install-nsi-local

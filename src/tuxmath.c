@@ -10,7 +10,7 @@
   http://www.newbreedsoftware.com/
 
   Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
+  http://www.tux4kids.com/
   
   August 26, 2001 - August 28, 2001
 
@@ -27,22 +27,37 @@
 #include "setup.h"
 #include "titlescreen.h"
 
+#ifdef WIN32
+#define TUXLOCALE "./locale"
+#else
+#define TUXLOCALE LOCALEDIR
+#endif
+
 int main(int argc, char * argv[])
 {
 #ifndef MACOSX
-  setlocale(LC_ALL, "");
-  bindtextdomain(PACKAGE, LOCALEDIR);
-  bind_textdomain_codeset(PACKAGE, "UTF-8");
-  textdomain(PACKAGE);
+  char *s1, *s2, *s3, *s4;
+
+  s1 = setlocale(LC_ALL, "");
+  s2 = bindtextdomain(PACKAGE, TUXLOCALE);
+  s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
+  s4 = textdomain(PACKAGE);
 
 #ifdef TUXMATH_DEBUG
+  fprintf(stderr, "PACKAGE = %s\n", PACKAGE);
+  fprintf(stderr, "TUXLOCALE = %s\n", TUXLOCALE);
+  fprintf(stderr, "setlocale(LC_ALL, \"\") returned: %s\n", s1);
+  fprintf(stderr, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n", s2);
+  fprintf(stderr, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n", s3);
+  fprintf(stderr, "textdomain(PACKAGE) returned: %s\n", s4);
   fprintf(stderr, "gettext(\"Help\"): %s\n\n", gettext("Help"));
+  fprintf(stderr, "After gettext() call\n");
 #endif
 
 #endif
 
-  setup(argc, argv);
   atexit(cleanup);  // register it so we clean up even if there is a crash
+  setup(argc, argv);
   TitleScreen();
   return 0;
 }
