@@ -50,11 +50,14 @@ AC_MSG_RESULT([$native_win32])
 
 AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
 if test "$native_win32" = yes; then
-   LIBS="$LIBS -lmingw32 -lSDLmain"
+   LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
 fi
 
-
+AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = no)
+if test "$native_win32" = no; then
 LIBS="$LIBS $SDL_LIBS"
+fi
+
 
 # Checks for libraries.
 dnl Check for SDL_image: 
@@ -82,7 +85,7 @@ AC_CHECK_LIB([SDL_ttf],
 # Checks for header files.
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h string.h unistd.h])
+AC_CHECK_HEADERS([stdlib.h string.h unistd.h iconv.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 

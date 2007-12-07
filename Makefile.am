@@ -102,6 +102,8 @@ clean-local:
 	if test -d $(NSI_INSTALL_DIR); then \
 	  rm -fr $(NSI_INSTALL_DIR); \
 	fi
-	-rm tuxmath-@VERSION@-win32-installer.exe
+	if test -e tuxmath-@VERSION@-win32-installer.exe; then \
+	  rm tuxmath-@VERSION@-win32-installer.exe; \
+	fi
 
 

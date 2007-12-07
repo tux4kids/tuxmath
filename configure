@@ -12437,11 +12437,21 @@ else
 fi
 
 if test "$native_win32" = yes; then
-   LIBS="$LIBS -lmingw32 -lSDLmain"
+   LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
 fi
 
+ if test "$native_win32" = no; then
+  BUILD_MINGW32_TRUE=
+  BUILD_MINGW32_FALSE='#'
+else
+  BUILD_MINGW32_TRUE='#'
+  BUILD_MINGW32_FALSE=
+fi
 
+if test "$native_win32" = no; then
 LIBS="$LIBS $SDL_LIBS"
+fi
+
 
 # Checks for libraries.
 { echo "$as_me:$LINENO: checking for IMG_Load in -lSDL_image" >&5
@@ -13077,7 +13087,8 @@ fi
 
 
 
-for ac_header in stdlib.h string.h unistd.h
+
+for ac_header in stdlib.h string.h unistd.h iconv.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -13915,6 +13926,13 @@ if test -z "${am__fastdepCC_TRUE}" && test -z "${am__fastdepCC_FALSE}"; then
   { { echo "$as_me:$LINENO: error: conditional \"am__fastdepCC\" was never defined.
 Usually this means the macro was only invoked conditionally." >&5
 echo "$as_me: error: conditional \"am__fastdepCC\" was never defined.
+Usually this means the macro was only invoked conditionally." >&2;}
+   { (exit 1); exit 1; }; }
+fi
+if test -z "${BUILD_MINGW32_TRUE}" && test -z "${BUILD_MINGW32_FALSE}"; then
+  { { echo "$as_me:$LINENO: error: conditional \"BUILD_MINGW32\" was never defined.
+Usually this means the macro was only invoked conditionally." >&5
+echo "$as_me: error: conditional \"BUILD_MINGW32\" was never defined.
 Usually this means the macro was only invoked conditionally." >&2;}
    { (exit 1); exit 1; }; }
 fi
