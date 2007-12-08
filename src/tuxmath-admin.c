@@ -30,14 +30,215 @@
 //#include "../config.h"
 #endif
 
-#define USER_MENU_ENTRIES "user_menu_entries"
+#ifdef BUILD_MINGW32
+#define USER_MENU_ENTRIES_FILENAME "user_menu_entries.txt"
+#define HIGHSCORE_FILENAME "highscores.txt"
+#define GOLDSTAR_FILENAME "goldstars.txt"
+#else
+#define USER_MENU_ENTRIES_FILENAME "user_menu_entries"
+#define HIGHSCORE_FILENAME "highscores"
+#define GOLDSTAR_FILENAME "goldstars"
+#endif
 
 #define PATH_MAX 4096
+#define MAX_USERS 100000
 #define ADMINVERSION "0.1"
 
 void display_help(void);
 void usage(int err, char * cmd);
 int extract_variable(FILE *fp, const char *varname, char** value);
+int directory_crawl(const char *path);
+void free_directories(int n);
+void create_homedirs(const char *path,const char *file);
+void config_highscores(const char *path,int level);
+void unconfig_highscores(const char *path);
+void clear_highscores(const char *path);
+void clear_goldstars(const char *path);
+void clear_file(const char *path,const char *filename,const char *invoke_name);
+
+char *directory[MAX_USERS];
+int directory_level[MAX_USERS];
+
+int main(int argc, char *argv[])
+{
+  int i;
+  FILE *fp;
+  DIR *dir;
+
+  int is_creatinghomedirs = 0;
+  int is_confighighscores = 0;
+  int is_unconfighighscores = 0;
+  int is_clearinggoldstars = 0;
+  int is_clearinghighscores = 0;
+  char *path = NULL;
+  char *file = NULL;
+  int level = 0;
+  int success;
+
+  // Null-out global directory pointers
+  for (i = 0; i < MAX_USERS; i++)
+    directory[i] = NULL;
+
+  if (argc < 2) {
+    display_help();
+    exit(EXIT_FAILURE);
+  }
+
+  // Check global config file for a homedir path (must be uncommented)
+  fp = fopen(DATA_PREFIX "/missions/options", "r");
+  if (fp) {
+    extract_variable(fp,"homedir",&path);
+    fclose(fp);
+  }
+
+  // Parse the command line options
+  for (i = 1; i < argc; i++) {
+    if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
+      display_help();
+      exit(EXIT_SUCCESS);
+    }
+    else if (strcmp(argv[i], "--copyright") == 0 ||
+	     strcmp(argv[i], "-c") == 0)
+    {
+      printf(
+	"\ntuxmath-admin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
+        "This program is free software; you can redistribute it and/or\n"
+        "modify it under the terms of the GNU General Public License\n"
+        "as published by the Free Software Foundation.  See COPYING.txt\n"
+	"\n"
+	"This program is distributed in the hope that it will be useful,\n"
+	"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+	"\n");
+      exit(EXIT_SUCCESS);
+    }
+    else if (strcmp(argv[i], "--usage") == 0 ||
+	     strcmp(argv[i], "-u") == 0) {
+      usage(0, argv[0]);
+      exit(EXIT_SUCCESS);
+    }
+    else if (strcmp(argv[i], "--path") == 0) {
+      if (i+1 > argc) {
+	fprintf(stderr, "%s option requires an argument (a directory name)\n", argv[i]);
+	usage(EXIT_FAILURE, argv[0]);
+      }
+      else {
+	path = argv[i+1];
+	dir = opendir(path);  // determine whether directory exists
+	if (dir == NULL)
+	  error(EXIT_FAILURE,errno,"path:\n  %s",path);
+	closedir(dir);
+	i++; // increment so further processing skips over the argument
+      }
+    }
+    else if (strcmp(argv[i], "--level") == 0) {
+      if (i+1 > argc) {
+	fprintf(stderr, "%s option requires an argument (a level number)\n", argv[i]);
+	usage(EXIT_FAILURE, argv[0]);
+      }
+      else {
+	success = sscanf(argv[i+1],"%d",&level);
+	if (!success) {
+	  fprintf(stderr,"level: %s is not a number\n",argv[i+1]);
+	  exit(EXIT_FAILURE);
+	}
+	i++; // increment so further processing skips over the argument
+      }
+    }
+    else if (strcmp(argv[i], "--createhomedirs") == 0) {
+      is_creatinghomedirs = 1;
+      if (i+1 > argc) {
+	fprintf(stderr, "%s option requires an argument (a file name)\n", argv[i]);
+	usage(EXIT_FAILURE, argv[0]);
+      }
+      else {
+	file = argv[i+1];
+	fp = fopen(file,"r");   // determine whether the file exists
+	if (fp == NULL)
+	  error(EXIT_FAILURE,errno,"createhomedirs using:\n  %s",file);
+	fclose(fp);  // don't read it yet, do that elsewhere
+	i++; // increment so further processing skips over the argument
+      }
+    }
+    else if (strcmp(argv[i], "--confighighscores") == 0) {
+      is_confighighscores = 1;
+    }
+    else if (strcmp(argv[i], "--unconfighighscores") == 0) {
+      is_unconfighighscores = 1;
+    }
+    else if (strcmp(argv[i], "--clearhighscores") == 0) {
+      is_clearinghighscores = 1;
+    }
+    else if (strcmp(argv[i], "--cleargoldstars") == 0) {
+      is_clearinggoldstars = 1;
+    }
+    else {
+      fprintf(stderr,"Error: option %s not recognized.\n",argv[i]);
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  // All operations require a valid path, so check that now
+  if (path == NULL) {
+    fprintf(stderr,"Must have a valid path (either with --path or in the global configuration)\n");
+    usage(EXIT_FAILURE, argv[0]);
+  }
+
+  // Create homedirs
+  if (is_creatinghomedirs) {
+    if (file == NULL) {
+      fprintf(stderr,"Must specify a filename when creating homedirs\n");
+      usage(EXIT_FAILURE, argv[0]);
+    }
+    create_homedirs(path,file);
+  }
+
+  // Configure high scores
+  if (is_confighighscores) {
+    if (level == 0) {
+      fprintf(stderr,"Must specify a level when configuring highscores\n");
+      usage(EXIT_FAILURE, argv[0]);
+    }
+    config_highscores(path,level);
+  }
+
+  // Unconfigure high scores
+  if (is_unconfighighscores) {
+    unconfig_highscores(path);
+  }
+
+  // Clear high scores
+  if (is_clearinghighscores) {
+    clear_highscores(path);
+  }
+
+  // Clear gold stars
+  if (is_clearinggoldstars) {
+    clear_goldstars(path);
+  }
+   
+  return EXIT_SUCCESS;
+}
+
+
+void usage(int err, char * cmd)
+{
+  FILE * f;
+
+  if (err == 0)
+    f = stdout;
+  else
+    f = stderr;
+
+  fprintf(f,
+   "\nUsage: %s {--help | --usage | --copyright}\n"
+   "       %s [--path <directory>] --createhomedirs <file>\n"
+   "       %s [--level <levelnum>] --confighighscores\n"
+   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars]\n"
+    "\n", cmd, cmd, cmd, cmd);
+
+  exit (err);
+}
 
 void display_help(void)
 {
@@ -51,11 +252,15 @@ void display_help(void)
 	 "    according to the structure specified in users.csv.  See configure.pdf\n"
 	 "    for details.  The second syntax is applicable if you've defined the\n"
 	 "    homedir path in the global configuration file.\n\n"
-	 "  tuxmath-admin --confighighscores --level 2\n"
-	 "    Sets up sharing of high scores at level 2 of the hierarchy (top is\n"
-	 "    level 1).  If you've divided things as School:Grade:Classroom:User, then\n"
-	 "    this would correspond to sharing high scores among all kids in the same\n"
-	 "    grade.\n\n"
+	 "  tuxmath-admin --confighighscores --level 3\n"
+	 "    Sets up sharing of high scores at level 3 of the hierarchy (top is\n"
+	 "    level 1).  If students logging in are presented with a choice of grade,\n"
+	 "    then classroom, and then user, then level 1 is the school, level 2 is the\n"
+	 "    grade, level 3 is the classroom, and level 4 is the individual student.\n"
+	 "    So level 3 would set it up so that all kids in the same classroom would\n"
+	 "    compete for high scores.\n\n"
+	 "  tuxmath-admin --unconfighighscores\n"
+	 "    Removes any existing highscores configuration.\n\n"
 	 "  tuxmath-admin --clearhighscores\n"
 	 "    Clears high scores for all users in the location specified by the homedir\n"
 	 "    setting in the global configuration file.\n\n"
@@ -68,42 +273,10 @@ void display_help(void)
 	 );
 }
 
-// Extracts a single variable from a configuration file. Returns 1
-// on success and 0 on failure.
-int extract_variable(FILE *fp, const char *varname, char** value)
-{
-  char buf[PATH_MAX];
-  char *param_begin;
-  char *tmpvalue;
-
-  rewind(fp);  // start at the beginning of the file
-
-  // Read in a line at a time:
-  while (fgets (buf, PATH_MAX, fp)) {
-    param_begin = buf;
-    // Skip leading whitespace
-    while (isspace(*param_begin))
-      param_begin++;
-    // Skip comments
-    if ((*param_begin == ';') || (*param_begin == '#'))
-      continue;
-    // Test whether it matches the variable name
-    if (strncmp(param_begin,varname,strlen(varname)) == 0) {
-      // Find the "=" sign
-      tmpvalue = strchr(param_begin+strlen(varname), '=');
-      if (tmpvalue == NULL)
-	continue;
-      // Skip whitespace
-      while (isspace(*tmpvalue))
-	tmpvalue++;
-      // Copy the result
-      *value = strdup(tmpvalue);
-      return 1;
-    }
-  }
-  return 0;
-}
-
+// This function does the work of creating the user directory tree,
+// given the structure specified in the CSV (comma separated value)
+// file "file".  "path" is the base directory in which this tree is
+// created.
 void create_homedirs(const char *path,const char *file)
 {
   FILE *fp,*fpue;
@@ -124,10 +297,9 @@ void create_homedirs(const char *path,const char *file)
   mode_t mask;
 
   fp = fopen(file,"r");
-  if (!fp) {
-    fprintf(stderr,"Error: couldn't open %s for reading.\n",file);
-    exit(EXIT_FAILURE);
-  }
+  if (!fp)
+    error(EXIT_FAILURE,errno,"Error: couldn't open:\n  %s for reading",file);
+
   mask = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH | S_IXUSR | S_IXGRP | S_IXOTH;
   umask(0x0);  // make dirs read/write for everyone
   while (fgets (buf, PATH_MAX, fp)) {
@@ -177,10 +349,11 @@ void create_homedirs(const char *path,const char *file)
       }
     }
     
-    // Parse the directories from back to front.  Blank fields at the
-    // end indicate a lack of subdirectories; blank fields at the
+    // Parse the pathname from back to front.  Blank fields at the end
+    // indicate a lack of subdirectories; blank fields at the
     // beginning indicate that the higher levels of the hierarchy are
-    // not to be changed.  So these have to be treated differently.
+    // not to be changed (just copied "down").  So these have to be
+    // treated differently.
     *line_cur = '\0';  // replace linefeed with terminal \0
     line_cur_end = line_cur;
     current_depth = max_depth-1;
@@ -237,7 +410,8 @@ void create_homedirs(const char *path,const char *file)
     // Create the directory
     if (strlen(fullpath) < PATH_MAX) {
       if (mkdir(fullpath,mask) < 0) {
-	// There was some kind of error, figure out what happened
+	// There was some kind of error, figure out what happened.
+	// Be a little more verbose than the standard library errors.
 	if (errno == EEXIST) {
 	  fprintf(stderr,"Warning: %s already exists, continuing.\n",fullpath);
 	}
@@ -254,9 +428,10 @@ void create_homedirs(const char *path,const char *file)
 	  exit(EXIT_FAILURE);
 	}
 	else {
-	  // This includes EACCESS and all other errors
+	  // Fall back on the standard library for the remaining error
+	  // handling
 	  fprintf(stderr,"Error: couldn't make directory %s:\nDo you have write permission for this location?\nDo you need to be root/administrator?\n",fullpath);
-	  error(1,errno,"error");
+	  error(EXIT_FAILURE,errno,"error");
 	}
       }
       else {
@@ -282,7 +457,7 @@ void create_homedirs(const char *path,const char *file)
 	strncpy(buf,line_begin,PATH_MAX);  // we don't need buf anymore
 	buf[strlen(buf)] = '/';  // append directory separator
 	len = strlen(buf);
-	strncpy(buf+len,USER_MENU_ENTRIES,PATH_MAX-len-strlen(USER_MENU_ENTRIES));
+	strncpy(buf+len,USER_MENU_ENTRIES_FILENAME,PATH_MAX-len-strlen(USER_MENU_ENTRIES_FILENAME));
 	// Now do the appending
 	fpue = fopen(buf,"a");
 	if (!fpue) {
@@ -302,7 +477,6 @@ void create_homedirs(const char *path,const char *file)
       fprintf(stderr,"Error: the directory name:\n  %s\nwas too long, quitting.\n",fullpath);
       exit(EXIT_FAILURE);
     }
-    //printf("Directory: %s\n",fullpath);
   }
   
   // Free memory
@@ -312,177 +486,270 @@ void create_homedirs(const char *path,const char *file)
     free(current_dirtree);
 }
 
-int main(int argc, char *argv[])
-{
-  int i;
-  FILE *fp;
-  DIR *dir;
 
-  int is_creatinghomedirs = 0;
-  int is_confighighscores = 0;
-  int is_clearinggoldstars = 0;
-  int is_clearinghighscores = 0;
-  char *path = NULL;
-  char *file = NULL;
-  int level = 0;
+// Creates blank highscores files at the specified level of the
+// directory hierarchy.  This will be the level at which highscore
+// competition will occur.
+void config_highscores(const char *path,int level)
+{
+  FILE *fp;
+  char buf[PATH_MAX];
+  int n_dirs;
+  int i;
   int success;
 
-  if (argc < 2) {
-    display_help();
+  n_dirs = directory_crawl(path);
+  success = 0;  // This will change to 1 if we find a directory of the
+		// right level
+  for (i = 0; i < n_dirs; i++) {
+    if (directory_level[i] == level) {
+      // Create a blank highscores file in this directory
+      strncpy(buf,directory[i],PATH_MAX);
+      strncat(buf,HIGHSCORE_FILENAME,PATH_MAX-strlen(buf)-1);
+      if (strlen(buf) >= PATH_MAX-1) {
+	fprintf(stderr,"confighighscores: pathname %s truncated, exiting.\n",buf);
+	exit(EXIT_FAILURE);
+      }
+      fp = fopen(buf,"w");
+      if (!fp)
+	error(EXIT_FAILURE,errno,"confighighscores: file:\n  %s",buf);
+      // That creates a blank file, which is all we have to do
+      fclose(fp);
+      success = 1;
+    }
+  }
+  if (!success) {
+    fprintf(stderr,"Error: no directories of level %d found!",level);
     exit(EXIT_FAILURE);
   }
 
-  // Check global config file for a homedir path (must be uncommented)
-  fp = fopen(DATA_PREFIX "/missions/options", "r");
-  if (fp) {
-    extract_variable(fp,"homedir",&path);
-    fclose(fp);
-  }
+  free_directories(n_dirs);
+}
 
-  // Parse the command line options
-  for (i = 1; i < argc; i++) {
-    if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0) {
-      display_help();
-      exit(EXIT_SUCCESS);
-    }
-    else if (strcmp(argv[i], "--copyright") == 0 ||
-	     strcmp(argv[i], "-c") == 0)
-    {
-      printf(
-	"\ntuxmath-admin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
-        "This program is free software; you can redistribute it and/or\n"
-        "modify it under the terms of the GNU General Public License\n"
-        "as published by the Free Software Foundation.  See COPYING.txt\n"
-	"\n"
-	"This program is distributed in the hope that it will be useful,\n"
-	"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-	"\n");
-      exit(EXIT_SUCCESS);
-    }
-    else if (strcmp(argv[i], "--usage") == 0 ||
-	     strcmp(argv[i], "-u") == 0) {
-      usage(0, argv[0]);
-      exit(EXIT_SUCCESS);
-    }
-    else if (strcmp(argv[i], "--path") == 0) {
-      if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a directory name)\n", argv[i]);
-	usage(1, argv[0]);
-      }
-      else {
-	path = argv[i+1];
-	dir = opendir(path);  // determine whether directory exists
-	if (dir == NULL) {
-	  fprintf(stderr,"Error: path:\n  %s\nis not an existing directory, or could not be read.\n",path);
-	  exit(EXIT_FAILURE);
-	}
-	closedir(dir);
-	i++; // increment so further processing skips over the argument
-      }
-    }
-    else if (strcmp(argv[i], "--level") == 0) {
-      if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a level number)\n", argv[i]);
-	usage(1, argv[0]);
-      }
-      else {
-	success = sscanf(argv[i+1],"%d",&level);
-	if (!success) {
-	  fprintf(stderr,"level: %s is not a number\n",argv[i+1]);
-	  exit(EXIT_FAILURE);
-	}
-      }
-    }
-    else if (strcmp(argv[i], "--createhomedirs") == 0) {
-      is_creatinghomedirs = 1;
-      if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a file name)\n", argv[i]);
-	usage(1, argv[0]);
-      }
-      else {
-	file = argv[i+1];
-	fp = fopen(file,"r");   // determine whether the file exists
-	if (fp == NULL) {
-	  fprintf(stderr,"createhomedirs: %s is not an existing filename, or could not be read\n",file);
-	  exit(EXIT_FAILURE);
-	}
-	fclose(fp);  // don't read it yet
-	i++; // increment so further processing skips over the argument
-      }
-    }
-    else if (strcmp(argv[i], "--confighighscores") == 0) {
-      is_confighighscores = 1;
-    }
-    else if (strcmp(argv[i], "--clearinghighscores") == 0) {
-      is_clearinghighscores = 1;
-    }
-    else if (strcmp(argv[i], "--clearinggoldstars") == 0) {
-      is_clearinggoldstars = 1;
-    }
-    else {
-      fprintf(stderr,"Error: option %s not recognized.\n",argv[i]);
+// Delete all highscores files in the directory hierarchy
+void unconfig_highscores(const char *path)
+{
+  clear_file(path,HIGHSCORE_FILENAME,"unconfighighscores");
+}
+
+// Replaces all highscores files with blank files anywhere in the
+// directory hierarchy.  Replacing it with a blank file, rather than
+// just deleting it, insures that the highscores configuration (in
+// terms of the level at which highscore competition occurs) is not
+// altered.
+void clear_highscores(const char *path)
+{
+  FILE *fp;
+  char buf[PATH_MAX];
+  int n_dirs;
+  int i;
+
+  n_dirs = directory_crawl(path);
+  for (i = 0; i < n_dirs; i++) {
+    // Search for a highscores file in this directory
+    strncpy(buf,directory[i],PATH_MAX);
+    strncat(buf,HIGHSCORE_FILENAME,PATH_MAX-strlen(buf)-1);
+    if (strlen(buf) >= PATH_MAX-1) {
+      fprintf(stderr,"clearhighscores: pathname %s truncated, exiting.\n",buf);
       exit(EXIT_FAILURE);
     }
+    fp = fopen(buf,"r");
+    if (fp) {
+      // We found such a file, replace it with a blank one
+      fclose(fp);
+      fp = fopen(buf,"w");
+      if (!fp)
+	error(EXIT_FAILURE,errno,"clearhighscores: file:\n  %s",buf);
+      // That creates a blank file, which is all we have to do
+      fclose(fp);
+    }
   }
 
-  // All operations require a valid path, so check that now
-  if (path == NULL) {
-    fprintf(stderr,"Must have a valid path (either with --path or in the global configuration)\n");
-    usage(1, argv[0]);
-    exit(EXIT_FAILURE);
-  }
+  free_directories(n_dirs);
+}
 
-  // Create homedirs
-  if (is_creatinghomedirs) {
-    if (file == NULL) {
-      fprintf(stderr,"Must specify a filename when creating homedirs\n");
-      usage(1, argv[0]);
+// Delete all goldstars files in the directory hierarchy
+void clear_goldstars(const char *path)
+{
+  clear_file(path,GOLDSTAR_FILENAME,"cleargoldstars");
+}
+
+// Deletes a named filetype in the directory hierarchy
+void clear_file(const char *path,const char *filename,const char *invoke_name)
+{
+  FILE *fp;
+  char buf[PATH_MAX];
+  int n_dirs;
+  int i;
+
+  n_dirs = directory_crawl(path);
+  for (i = 0; i < n_dirs; i++) {
+    // Search for a goldstars file in this directory
+    strncpy(buf,directory[i],PATH_MAX);
+    strncat(buf,filename,PATH_MAX-strlen(buf)-1);
+    if (strlen(buf) >= PATH_MAX-1) {
+      fprintf(stderr,"%s: pathname %s truncated, exiting.\n",invoke_name,buf);
       exit(EXIT_FAILURE);
     }
-    create_homedirs(path,file);
-  }
-
-  // Configure high scores
-  if (is_confighighscores) {
-    if (level == 0) {
-      fprintf(stderr,"Must specify a level when configuring highscores\n");
-      usage(1, argv[0]);
-      exit(EXIT_FAILURE);
+    fp = fopen(buf,"r");
+    if (fp != NULL) {
+      // We found such a file, delete it
+      fclose(fp);
+      if (remove(buf) < 0)
+	error(EXIT_FAILURE,errno,"%s: file:\n  %s",invoke_name,buf);
     }
-    //config_highscores(path,level);
   }
 
-  // Clear high scores
-  if (is_clearinghighscores) {
-    //clear_highscores(path);
-  }
-
-  // Clear gold stars
-  if (is_clearinggoldstars) {
-    //clear_goldstars(path);
-  }
-   
-  return EXIT_SUCCESS;
+  free_directories(n_dirs);
 }
 
 
-void usage(int err, char * cmd)
+// Extracts a single variable from a configuration file and puts the
+// string in the variable "value". Returns 1 on success and 0 on
+// failure.
+int extract_variable(FILE *fp, const char *varname, char** value)
 {
-  FILE * f;
+  char buf[PATH_MAX];
+  char *param_begin;
+  char *tmpvalue;
 
-  if (err == 0)
-    f = stdout;
-  else
-    f = stderr;
+  rewind(fp);  // start at the beginning of the file
 
-  fprintf(f,
-   "\nUsage: %s {--help | --usage | --copyright}\n"
-   "       %s [--path <directory>] --createhomedirs <file>\n"
-   "       %s [--level <levelnum>] --confighighscores\n"
-   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars]\n"
-    "\n", cmd, cmd, cmd, cmd);
+  // Read in a line at a time:
+  while (fgets (buf, PATH_MAX, fp)) {
+    param_begin = buf;
+    // Skip leading whitespace
+    while (isspace(*param_begin))
+      param_begin++;
+    // Skip comments
+    if ((*param_begin == ';') || (*param_begin == '#'))
+      continue;
+    // Test whether it matches the variable name
+    if (strncmp(param_begin,varname,strlen(varname)) == 0) {
+      // Find the "=" sign
+      tmpvalue = strchr(param_begin+strlen(varname), '=');
+      if (tmpvalue == NULL)
+	continue;
+      // Skip whitespace
+      while (isspace(*tmpvalue))
+	tmpvalue++;
+      // Copy the result
+      *value = strdup(tmpvalue);
+      return 1;
+    }
+  }
+  return 0;
+}
 
-  exit (err);
+// Recursively generates a list of all subdirectories listed in
+// user_menu_entries starting from the given path.  It populates the
+// global variables "directory" and "directory_level", and returns the
+// total number found.  Note this function allocated memory with
+// malloc, so after you're done using these directories you should
+// call free_directories.
+//
+// This function checks to make sure that each directory exists, and
+// exits if not, so you can be sure that all listed directories exist.
+//
+// Note this puts the top level directory (assigned in path) as the
+// first entry (which "main" verifies to be valid), so this function
+// is guaranteed to return at least one directory.
+int directory_crawl(const char *path)
+{
+  int current_length;
+  int previous_length;
+  int current_level;
+  FILE *fp;
+  char buf[PATH_MAX];
+  char fullpath[PATH_MAX];
+  int isdone;
+  int i;
+  char *line_begin;
+  char *line_end;
+  DIR *dir;
+  
+  current_length = 1;
+  directory[0] = (char*) malloc((strlen(path)+2)*sizeof(char));
+  if (directory[0] == NULL) {
+    fprintf(stderr,"Memory allocation error in directory_crawl.\n");
+    exit(EXIT_FAILURE);
+  }
+  strcpy(directory[0],path);
+  // Append '/' if necessary
+  if (directory[0][strlen(path)-1] != '/')
+    strcat(directory[0],"/");
+  current_level = 1;
+  directory_level[0] = current_level;
+
+  isdone = 0;
+  while (!isdone) {
+    previous_length = current_length;
+    isdone = 1;  // We'll be finished if we don't find any new user_menu_entries files
+    for (i = 0; i < previous_length; i++) {
+      // Just parse directories of the most recently-added level
+      // (we've already done the work for previous levels)
+      if (directory_level[i] == current_level) {
+	// Read the user_menu_entries file, if it exists
+	// Note that previous items already have "/" appended, no need
+	// to worry about that here.
+	strncpy(fullpath,directory[i],PATH_MAX);
+	strncat(fullpath,USER_MENU_ENTRIES_FILENAME,PATH_MAX-strlen(fullpath)-1);
+	fp = fopen(fullpath,"r");
+	if (fp != NULL) {
+	  // We found the user_menu_entries file, read it and add directories
+	  while (fgets (buf, PATH_MAX, fp)) {
+	    if (current_length >= MAX_USERS) {
+	      fprintf(stderr,"Error: maximum number of users exceeded.");
+	      exit(EXIT_FAILURE);
+	    }
+	    // Skip over white space, and especially blank lines
+	    line_begin = buf;
+	    while (isspace(*line_begin))
+	      line_begin++;
+	    // Eliminate the \n at the end of the line
+	    line_end = line_begin+strlen(line_begin)-1;
+	    while (line_end >= line_begin && (*line_end == '\n' || *line_end == '\r')) {
+	      *line_end = '\0';
+	      line_end--;
+	    }
+	      
+	    if (strlen(line_begin) == 0)
+	      continue;
+	    directory[current_length] = (char *) malloc((strlen(directory[i])+strlen(line_begin)+2)*sizeof(char));
+	    if (directory[current_length] == NULL) {
+	      fprintf(stderr,"Memory allocation error in directory_crawl.\n");
+	      exit(EXIT_FAILURE);
+	    }
+	    // Append each new directory to the list
+	    strcpy(directory[current_length],directory[i]);
+	    strcat(directory[current_length],line_begin);
+	    strcat(directory[current_length],"/");
+	    directory_level[current_length] = current_level+1;
+	    // Check to make sure it's valid
+	    dir = opendir(directory[current_length]);
+	    if (dir == NULL)
+	      error(EXIT_FAILURE,errno,"directory:\n %s",directory[current_length]);
+	    closedir(dir);
+	    current_length++;
+	  }
+	  isdone = 0;  // We know we need to check the subdirectories
+	  fclose(fp);
+	}  // end of: if (fp != NULL)
+      } // end of: if (directory_level[i] == current_level)
+    } // end of: loop over previous directories
+    current_level++;  // We're all done parsing this level, move on
+  } // end of: while (!isdone)
+  
+  return current_length;
+}
+
+void free_directories(int n)
+{
+  int i;
+
+  for (i = 0; i < n; i++) {
+    free(directory[i]);
+    directory[i] = NULL;
+  }
 }
 

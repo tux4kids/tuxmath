@@ -398,6 +398,8 @@ char *GetDefaultSaveDir(const char *suffix)
 #define OPTIONS_FILENAME "options.cfg"
 #define HIGHSCORE_FILENAME "highscores.txt"
 #define GOLDSTAR_FILENAME "goldstars.txt"
+#define USER_MENU_ENTRIES_FILENAME "user_menu_entries.txt"
+#define USER_LOGIN_QUESTIONS_FILENAME "user_login_questions.txt"
 #else
 
 # define get_home getenv("HOME")
@@ -405,6 +407,8 @@ char *GetDefaultSaveDir(const char *suffix)
 #define OPTIONS_FILENAME "options"
 #define HIGHSCORE_FILENAME "highscores"
 #define GOLDSTAR_FILENAME "goldstars"
+#define USER_MENU_ENTRIES_FILENAME "user_menu_entries"
+#define USER_LOGIN_QUESTIONS_FILENAME "user_login_questions"
 
 #endif
 
@@ -1147,7 +1151,7 @@ int read_user_menu_entries(char ***user_names)
   // Look for a menu_entries file
   get_user_data_dir_with_subdir(opt_path);
   strncpy(menu_entries_file,opt_path,PATH_MAX);
-  strncat(menu_entries_file,"user_menu_entries",PATH_MAX-strlen(menu_entries_file));
+  strncat(menu_entries_file,USER_MENU_ENTRIES_FILENAME,PATH_MAX-strlen(menu_entries_file));
   n_entries = 0;
   fp = fopen(menu_entries_file,"r");
   if (fp)
@@ -1171,7 +1175,7 @@ int read_user_login_questions(char ***user_login_questions)
   // Look for a user_login_questions file
   get_user_data_dir_with_subdir(opt_path);
   strncpy(user_login_questions_file,opt_path,PATH_MAX);
-  strncat(user_login_questions_file,"user_login_questions",PATH_MAX-strlen(user_login_questions_file));
+  strncat(user_login_questions_file,USER_LOGIN_QUESTIONS_FILENAME,PATH_MAX-strlen(user_login_questions_file));
    n_entries = 0;
   fp = fopen(user_login_questions_file,"r");
   if (fp)
