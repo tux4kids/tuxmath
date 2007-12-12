@@ -55,8 +55,10 @@
 #endif
 
 //#define NOSOUND
-//#define TUXMATH_DEBUG   /* for conditional compilation of debugging output */
-//#define FEEDBACK_DEBUG  /* for Tim's feedback speed control code           */
+/* for conditional compilation of debugging output */
+//#define TUXMATH_DEBUG
+/* for Tim's feedback speed control code           */
+//#define FEEDBACK_DEBUG
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096

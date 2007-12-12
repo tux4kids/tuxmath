@@ -1,5 +1,5 @@
 /*
-  tuxmath-admin.c
+  tuxmathadmin.c
 
   Administer user tuxmath accounts: create accounts, clear gold stars, etc.
 
@@ -101,7 +101,7 @@ int main(int argc, char *argv[])
 	     strcmp(argv[i], "-c") == 0)
     {
       printf(
-	"\ntuxmath-admin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
+	"\ntuxmathadmin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"
         "as published by the Free Software Foundation.  See COPYING.txt\n"
@@ -242,33 +242,33 @@ void usage(int err, char * cmd)
 
 void display_help(void)
 {
-  printf("\ntuxmath-admin\n"
+  printf("\ntuxmathadmin\n"
 	 "This program allows you to administer tuxmath, and is particularly\n"
 	 "useful for schools and the like that may have many users.\n\n"
 	 "Examples:\n"
-	 "  tuxmath-admin --path /servervolume/tuxmath_users --createhomedirs users.csv\n"
-	 "  tuxmath-admin --createhomedirs users.csv\n"
+	 "  tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs users.csv\n"
+	 "  tuxmathadmin --createhomedirs users.csv\n"
 	 "    Creates a user directory tree in location /servervolume/tuxmath_users,\n"
 	 "    according to the structure specified in users.csv.  See configure.pdf\n"
 	 "    for details.  The second syntax is applicable if you've defined the\n"
 	 "    homedir path in the global configuration file.\n\n"
-	 "  tuxmath-admin --confighighscores --level 3\n"
+	 "  tuxmathadmin --confighighscores --level 3\n"
 	 "    Sets up sharing of high scores at level 3 of the hierarchy (top is\n"
 	 "    level 1).  If students logging in are presented with a choice of grade,\n"
 	 "    then classroom, and then user, then level 1 is the school, level 2 is the\n"
 	 "    grade, level 3 is the classroom, and level 4 is the individual student.\n"
 	 "    So level 3 would set it up so that all kids in the same classroom would\n"
 	 "    compete for high scores.\n\n"
-	 "  tuxmath-admin --unconfighighscores\n"
+	 "  tuxmathadmin --unconfighighscores\n"
 	 "    Removes any existing highscores configuration.\n\n"
-	 "  tuxmath-admin --clearhighscores\n"
+	 "  tuxmathadmin --clearhighscores\n"
 	 "    Clears high scores for all users in the location specified by the homedir\n"
 	 "    setting in the global configuration file.\n\n"
-	 "  tuxmath-admin --path /servervolume/tuxmath_users/2ndgrade --clearhighscores\n"
+	 "  tuxmathadmin --path /servervolume/tuxmath_users/2ndgrade --clearhighscores\n"
 	 "    Clears the high scores for all users inside the 2ndgrade hierarchy.\n\n"
-	 "  tuxmath-admin --cleargoldstars\n"
+	 "  tuxmathadmin --cleargoldstars\n"
 	 "    Clears the gold stars for all users.\n\n"
-	 "  tuxmath-admin --path /servervolume/tuxmath_users/1st\\ grade/Mrs.\\ Smith --cleargoldstars\n"
+	 "  tuxmathadmin --path /servervolume/tuxmath_users/1st\\ grade/Mrs.\\ Smith --cleargoldstars\n"
 	 "    Clears the gold stars for all users in Mrs. Smith's first grade class.\n"
 	 );
 }

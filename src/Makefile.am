@@ -19,7 +19,7 @@ if BUILD_MINGW32
 bin_PROGRAMS = TuxMath
 else
 TUXMATHRC =
-bin_PROGRAMS = tuxmath
+bin_PROGRAMS = tuxmath tuxmathadmin
 endif
 
 tuxmath_SOURCES = tuxmath.c \
@@ -38,6 +38,8 @@ tuxmath_SOURCES = tuxmath.c \
 	lessons.c
 
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
+
+tuxmathadmin_SOURCES = tuxmathadmin.c
 
 EXTRA_DIST = 	credits.h 	\
 		fileops.h 	\
