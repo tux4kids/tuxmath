@@ -12,6 +12,12 @@ EXTRA_DIST = config.rpath m4/ChangeLog
 datadir = @datadir@
 localedir = $(datadir)/locale
 
+## 'data_fonts' should contain all of the fonts in data/fonts. It needs to go
+## in this Makefile.am before the 'dist_with_fonts' target for that target
+## to work - if it is in data/fonts/Makefile.am, it does not get expanded
+## before the 'dist' target starts:
+data_fonts = AndikaDesRevG.ttf
+
 
 ## These are defined in configure.ac:
 MAKENSIS=@NSIS@

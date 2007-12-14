@@ -9,7 +9,6 @@
 ## top-level Makefile.am.
 
 EXTRA_DIST = $(dist_fonts)
-data_fonts = AndikaDesRevG.ttf
 
 
 ## Handle install "manually" because otherwise it fails on package without fonts.
