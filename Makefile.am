@@ -1,10 +1,10 @@
 ## Top-level Makefile.am for tuxmath:
 ## Process with Automake to create Makefile.in
-SUBDIRS = doc	\
-	intl	\
+SUBDIRS = intl	\
 	po	\
 	src	\
-	data
+	data	\
+	doc
 
 ACLOCAL_AMFLAGS = -I m4
 
@@ -77,7 +77,7 @@ install-nsi-local: all
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
 	rm -rf $(NSI_TEMP_INSTALL_DIR)
 ## copy needed dll files into NSI_INSTALL_DIR:
-	cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
+	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
 
 ##install-nsi-local: all
 ##	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/data;
@@ -96,12 +96,16 @@ install-nsi-local: all
 install-nsi-am: install-nsi-local
 
 
+##if NO_NSIS
+##nsis: all
+##	@echo "\nError - Nullsoft Scriptable Installer System (NSIS) not installed - cannot build ##executable installer!\nDownload NSIS from:\nhttp://nsis.sourceforge.net/Download\nRe-run ##'./configure' after installing NSIS\n";
+##else
+##nsis: install-nsi-local
+##	$(MAKENSIS) -NOCD nsis/tuxmath.nsi
+##endif
 nsis: install-nsi-local
-if NSI_USE_TUXMATH_CONF
-	$(MAKENSIS) -NOCD nsis/tuxmath_with_conf.nsi
-else
 	$(MAKENSIS) -NOCD nsis/tuxmath.nsi
-endif
+
 
 clean-local:
 	@$(NORMAL_CLEAN)

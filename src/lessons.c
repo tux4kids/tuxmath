@@ -124,8 +124,8 @@ void write_goldstars_fp(FILE* fp)
 /* dirs in the path and just comparing the filenames themselves:      */
 static int filename_comp(const unsigned char* s1, const unsigned char* s2)
 {
-  char* f1 = basename(s1);
-  char* f2 = basename(s2);
+  char* f1 = s1;//basename(s1);
+  char* f2 = s2;//basename(s2);
   return strcasecmp(f1, f2);
 }
 

@@ -9,20 +9,34 @@ AC_CANONICAL_BUILD
 AC_CANONICAL_TARGET
 
 AM_INIT_AUTOMAKE(foreign)
+
 AC_CONFIG_HEADERS([config.h])
+LDFLAGS= "$LDFLAGS -I."
 
 NAME_VERSION=$PACKAGE-$VERSION
-
 AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Tux Of Math Command])
-
 AC_SUBST(NAME_VERSION)
 
 # Checks for programs.
 AC_PROG_CC
+AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+AC_PROG_AWK
+AC_PROG_CPP
+AC_PROG_MKDIR_P
+AC_PROG_RANLIB
+AC_PROG_YACC
+
+
+# Checks for header files.
+AC_GNU_SOURCE
+AC_FUNC_ALLOCA
+AC_HEADER_DIRENT
+AC_HEADER_STDC
+AC_CHECK_HEADERS([argz.h fcntl.h float.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
 
 # Needed for gettext:
-AC_GNU_SOURCE
+
 AM_GNU_GETTEXT_VERSION([0.16])
 AM_GNU_GETTEXT
 AM_GNU_GETTEXT_INTL_SUBDIR
@@ -91,7 +105,7 @@ AC_CHECK_HEADERS([stdlib.h string.h unistd.h iconv.h])
 
 # Checks for library functions.
 AC_FUNC_CLOSEDIR_VOID
-# AC_FUNC_MALLOC
+#AC_FUNC_MALLOC
 AC_FUNC_STRTOD
 AC_CHECK_FUNCS([getcwd memset mkdir strcasecmp strchr strndup])
 
@@ -105,7 +119,7 @@ AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
 if test "$native_win32" = yes; then
    AC_DEFINE([BUILD_MINGW32], 1,[Native MinGW32 build])
    CFLAGS="$CFLAGS -D__GW32__"
-   LIBS="$LIBS -lgw32c -luuid -lole32 -lwsock32 -mwindows"
+   LIBS="$LIBS -luuid -lole32 -lwsock32 -mwindows"
    CPPFLAGS="$CPPFLAGS -idirafter $prefix/include/glibc"
    #CPPFLAGS="$CPPFLAGS -I$prefix/include/glibc"
    AC_PATH_PROG(WINDRES, "$target_alias-windres", no, [$PATH])
@@ -140,6 +154,7 @@ fi
 AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 AC_PATH_PROG(NSIS, makensis, no, [$PATH])
+## AM_CONDITIONAL([NO_NSIS], [test [$NSIS]=[no]])
 
 AC_CONFIG_FILES([
 Makefile
