@@ -1049,6 +1049,7 @@ int read_high_scores(void)
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
+    initialize_scores();  // clear any previous values
     read_high_scores_fp(fp);
     fclose(fp);
     fp = NULL;
