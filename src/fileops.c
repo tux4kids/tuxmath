@@ -440,7 +440,15 @@ void set_user_data_dir(const char *dirname)
   if (user_data_dir != NULL)
     free(user_data_dir);   // clear the previous setting
 
-  user_data_dir = strdup(dirname);
+  // Allocate space for the directory name. We do it with +2 because
+  // we have to leave room for a possible addition of a "/"
+  // terminator.
+  user_data_dir = (char*) malloc((strlen(dirname)+2)*sizeof(char));
+  if (user_data_dir == NULL) {
+    fprintf(stderr,"Error: insufficient memory for duplicating string %s.\n",dirname);
+    exit(EXIT_FAILURE);
+  }
+  strcpy(user_data_dir,dirname);
 
   // Check to see that dirname is properly terminated
   len = strlen(user_data_dir);
@@ -1177,7 +1185,7 @@ int read_user_login_questions(char ***user_login_questions)
   get_user_data_dir_with_subdir(opt_path);
   strncpy(user_login_questions_file,opt_path,PATH_MAX);
   strncat(user_login_questions_file,USER_LOGIN_QUESTIONS_FILENAME,PATH_MAX-strlen(user_login_questions_file));
-   n_entries = 0;
+  n_entries = 0;
   fp = fopen(user_login_questions_file,"r");
   if (fp)
   {
@@ -1198,16 +1206,33 @@ void user_data_dirname_down(char *subdir)
 {
   DIR *dir;
 
-  if (user_data_dir != NULL)
+  // The space for user_data_dir has to have sufficient memory
+  // available for concatenating subdir and a possible final "/",
+  // hence the +2s.
+  if (user_data_dir != NULL) {
+    user_data_dir = (char*) realloc(user_data_dir,(strlen(user_data_dir) + strlen(subdir) + 2)*sizeof(char));
+    if (user_data_dir == NULL) {
+      fprintf(stderr,"Error allocating memory in user_data_dirname_down.\n");
+      exit(EXIT_FAILURE);
+    }
     strcat(user_data_dir,subdir);
-  else
-    user_data_dir = strdup(subdir);
+  }
+  else {
+    user_data_dir = (char*) malloc((strlen(subdir)+2)*sizeof(char));
+    if (user_data_dir == NULL) {
+      fprintf(stderr,"Error allocating memory in user_data_dirname_down.\n");
+      exit(EXIT_FAILURE);
+    }
+    strcpy(user_data_dir,subdir);
+  }
   strcat(user_data_dir,"/");
   dir = opendir(user_data_dir);
   if (dir == NULL) {
     printf("User data directory cannot be opened, there is a configuration error\n");
     printf("Continuing anyway without saving or loading individual settings.\n");
   }
+  else
+    closedir(dir);
 }
 
 
@@ -2812,7 +2837,7 @@ static int read_lines_from_file(FILE *fp,char ***lines)
       continue;
     }
     n_entries++;
-    *lines = realloc(*lines,n_entries*sizeof(char*));
+    *lines = (char**) realloc(*lines,n_entries*sizeof(char*));
     if (*lines == NULL) {
       // Memory allocation error
       printf("Error #1 allocating memory in read_lines_from_file\n");

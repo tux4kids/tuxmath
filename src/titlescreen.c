@@ -964,8 +964,14 @@ int run_login_menu(void)
       // User pressed escape or selected Quit/Back, handle by quitting
       // or going up a level
       if (level == 0) {
-	// We are going to quit without logging in. So, we don't have
-	// to worry about cleaning up memory.
+	// We are going to quit without logging in.
+	// Clean up memory (prob. not necessary, but prevents Valgrind errors!)
+	for (i = 0; i < n_login_questions; i++)
+	  free(user_login_questions[i]);
+	free(user_login_questions);
+	for (i = 0; i < n_users; i++)
+	  free(user_names[i]);
+	free(user_names);
 	return -1;
       }
       else {
@@ -1002,7 +1008,12 @@ int run_login_menu(void)
     n_users = read_user_menu_entries(&user_names);
   }
 
-  // The user home directory is set, signal success
+  // The user home directory is set, clean up remaining memory
+  for (i = 0; i < n_login_questions; i++)
+    free(user_login_questions[i]);
+  free(user_login_questions);
+
+  // Signal success
   return 0;
 }
 

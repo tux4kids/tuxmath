@@ -194,6 +194,7 @@ void initialize_options_user(void)
 /* Handle any arguments passed from command line */
 void handle_command_args(int argc, char* argv[])
 {
+  DIR *dirp;
   int i;
 
   for (i = 1; i < argc; i++)
@@ -286,10 +287,12 @@ void handle_command_args(int argc, char* argv[])
       }
       else // see whether the specified name is a directory
       {
-	if (opendir(argv[i+1]) == NULL)
+	if ((dirp = opendir(argv[i+1])) == NULL)
 	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
-	else
+	else {
 	  set_user_data_dir(argv[i+1]);  // copy the homedir setting
+	  closedir(dirp);
+	}
 	i++;   // to pass over the next argument, so remaining options parsed
       }
     }
