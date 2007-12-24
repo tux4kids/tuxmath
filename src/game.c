@@ -658,7 +658,7 @@ void game_handle_help(void)
   frame = 0;
 
   // Write the introductory text
-  game_set_message(&s1,"Welcome to TuxMath!",-1,50);
+  game_set_message(&s1,_("Welcome to TuxMath!"),-1,50);
 
 #ifndef NOSOUND
   if (Opts_UsingSound())
@@ -675,9 +675,9 @@ void game_handle_help(void)
   if (quit_help)
     return;
 
-  game_set_message(&s2,"Your mission is to save your", left_edge, 100);
-  game_set_message(&s3,"penguins' igloos from the", left_edge, 135);
-  game_set_message(&s4,"falling comets.", left_edge, 170);
+  game_set_message(&s2,_("Your mission is to save your"), left_edge, 100);
+  game_set_message(&s3,_("penguins' igloos from the"), left_edge, 135);
+  game_set_message(&s4,_("falling comets."), left_edge, 170);
 
   frame_start = frame;
   while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 more secs
@@ -696,10 +696,10 @@ void game_handle_help(void)
     return;
 
   if (comets[0].alive == 1) {
-    game_set_message(&s1,"Stop a comet by typing",left_edge,100);
-    game_set_message(&s2,"the answer to the math problem",left_edge,135);
-    game_set_message(&s3,"and hitting 'space' or 'enter'.",left_edge,170);
-    game_set_message(&s4,"Try it now!",left_edge,225);
+    game_set_message(&s1,_("Stop a comet by typing"),left_edge,100);
+    game_set_message(&s2,_("the answer to the math problem"),left_edge,135);
+    game_set_message(&s3,_("and hitting 'space' or 'enter'."),left_edge,170);
+    game_set_message(&s4,_("Try it now!"),left_edge,225);
 
     speed = 0;
     while (comets[0].alive && !(quit_help = help_renderframe_exit()));
@@ -707,7 +707,7 @@ void game_handle_help(void)
       return;
   }
 
-  game_set_message(&s1,"Good shot!",left_edge,100);
+  game_set_message(&s1,_("Good shot!"),left_edge,100);
   game_clear_message(&s2);
   game_clear_message(&s3);
   game_clear_message(&s4);
@@ -717,11 +717,11 @@ void game_handle_help(void)
   while (frame-frame_start < 3*FPS && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   
   speed = 2;
-  game_set_message(&s1,"If an igloo gets hit by a comet,",left_edge,100);
-  game_set_message(&s2,"it melts. But don't worry, the",left_edge,135);
-  game_set_message(&s3,"penguin is OK!",left_edge,170);
-  game_set_message(&s4,"Just watch what happens:",left_edge,225);
-  game_set_message(&s5,"(Press a key to start)",left_edge,260);
+  game_set_message(&s1,_("If an igloo gets hit by a comet,"),left_edge,100);
+  game_set_message(&s2,_("it melts. But don't worry, the"),left_edge,135);
+  game_set_message(&s3,_("penguin is OK!"),left_edge,170);
+  game_set_message(&s4,_("Just watch what happens:"),left_edge,225);
+  game_set_message(&s5,_("(Press a key to start)"),left_edge,260);
 
   key_pressed = 0;
   while (!key_pressed && !(quit_help = help_renderframe_exit()));
@@ -734,7 +734,7 @@ void game_handle_help(void)
   while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   if (quit_help)
     return;
-  game_set_message(&s4,"Notice the answer",left_edge,comets[0].y-100);
+  game_set_message(&s4,_("Notice the answer"),left_edge,comets[0].y-100);
   help_renderframe_exit();
   SDL_Delay(4000);
   game_clear_message(&s4);
@@ -744,9 +744,9 @@ void game_handle_help(void)
   if (quit_help)
     return;
 
-  game_set_message(&s1,"If it gets hit again, the",left_edge,100);
-  game_set_message(&s2,"penguin leaves.",left_edge,135);
-  game_set_message(&s3, "(Press a key when ready)",left_edge,200);
+  game_set_message(&s1,_("If it gets hit again, the"),left_edge,100);
+  game_set_message(&s2,_("penguin leaves."),left_edge,135);
+  game_set_message(&s3,_("(Press a key when ready)"),left_edge,200);
 
   key_pressed = 0;
   while (!key_pressed && !(quit_help = help_renderframe_exit()));
@@ -765,8 +765,8 @@ void game_handle_help(void)
     return;
   
   help_controls.laser_enabled = 1;
-  game_set_message(&s1,"You can fix the igloos",left_edge,100);
-  game_set_message(&s2,"by stopping bonus comets.",left_edge,135);
+  game_set_message(&s1,_("You can fix the igloos"),left_edge,100);
+  game_set_message(&s2,_("by stopping bonus comets."),left_edge,135);
   help_add_comet(2,MC_OPER_ADD,2,4);
   comets[0].bonus = 1;
   frame_start = frame;
@@ -775,11 +775,11 @@ void game_handle_help(void)
     return;
   if (comets[0].alive)
     speed = 0;
-  game_set_message(&s3,"Zap it now!",left_edge,225);
+  game_set_message(&s3,_("Zap it now!"),left_edge,225);
   while (comets[0].alive && !(quit_help = help_renderframe_exit()));
   if (quit_help)
     return;
-  game_set_message(&s1,"Great job!",left_edge,100);
+  game_set_message(&s1,_("Great job!"),left_edge,100);
   game_clear_message(&s2);
   game_clear_message(&s3);
   frame_start = frame;
@@ -793,10 +793,10 @@ void game_handle_help(void)
     return;
 
 
-  game_set_message(&s1,"Quit at any time by pressing",left_edge,100);
-  game_set_message(&s2,"'Esc' or clicking the 'X'",left_edge,135);
-  game_set_message(&s3,"in the upper right corner.",left_edge,170);
-  game_set_message(&s4,"Do it now, and then play!",left_edge,225);
+  game_set_message(&s1,_("Quit at any time by pressing"),left_edge,100);
+  game_set_message(&s2,_("'Esc' or clicking the 'X'"),left_edge,135);
+  game_set_message(&s3,_("in the upper right corner."),left_edge,170);
+  game_set_message(&s4,_("Do it now, and then play!"),left_edge,225);
 
   help_controls.x_is_blinking = 1;
   while (!help_renderframe_exit());

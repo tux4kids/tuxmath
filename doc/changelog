@@ -1,3 +1,16 @@
+2007.Dec.24 (svn.debian.org/tux4kids - revision 382-392)
+    Code:
+      * Fix bugs that came with the new login system, including: fix
+	re-reading of highscores table, and several Valgrind-detected
+	memory leaks in the string processing associate with the login
+	system.
+      * Add the gettext macro in front of the help strings so they can
+	be internationalized (does it work?)
+    Documentation:
+      * Add documentation on tuxmathadmin in the README.txt file.
+	
+	Tim Holy <holy@wustl.edu>
+	
 2007.Dec.07 (svn.debian.org/tux4kids - revision 359)
 Version 1.5.9
       David Bruce <dbruce@tampabay.rr.com>
