@@ -373,16 +373,33 @@ Configuring Multiple Users
 
   Setting this up is fairly simple.  There are two ways to do it:
   manually and using a separate program "tuxmathadmin".  The first
-  step is the same either way:
+  two steps are the same either way:
 
      1. Decide where you want this information stored.  You might want
         to put it on a central server.  In the appropriate place
         (let's say it's "/servervolume/"), create a directory which
-        we'll call "tuxmath_users" for current purposes.
+        for current purposes we'll call "tuxmath_users".
+
+     2. Set it up so that tuxmath automatically finds the
+        user directory tree.  Find the global configuration file
+        (e.g., under Linux it would usually be
+        /usr/local/share/tuxmath/missions/options; on Mac OSX it is a
+        file called "options" in the .dmg bundle).  Set the "homedir"
+        property (at the very end of the file) to point to your home
+        directory tree.
+
+	Be aware that you can employ the command line option
+        "--homedir /severvolume/tuxmath_users" (along with any other
+        options) upon launching tuxmath.  Note that an individual
+        classroom could make use of this school-wide service by
+        specifying (in the option-file syntax) homedir =
+        /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson so that
+        students in a particular classroom only have to choose among
+        their own class.
 
   If you are using tuxmathadmin, here are the remaining steps:
 
-     2. Using a spreadsheet program, create a spreadsheet that
+     3. Using a spreadsheet program, create a spreadsheet that
         reflects the way you want to organize the login system.  The
         following example should illustrate the syntax (try viewing
         this with a fixed-width font if the spacing is unclear):
@@ -434,18 +451,23 @@ Configuring Multiple Users
 	,,"Kid c"
 	,,"Kid d"
 
-     3. Create the directory hierarchy with the following command
+     4. Create the directory hierarchy with the following command
         (executed from the command line, aka shell):
+
+          tuxmathadmin --createhomedirs userfile.csv
+
+	  OR
 
           tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs userfile.csv
 
-	where "userfile.csv" is the name of the file that you created
-	in the previous step.  It should tell you that it's creating
-	all the user directories and complete without error.  Note
-	that "tuxmathadmin -h" gives help, including a list of the
-	things that tuxmathadmin can do.
+	if you haven't updated the global configuration file yet (step
+	2 above).  Here, "userfile.csv" is the name of the file that
+	you created in the previous step.  It should tell you that
+	it's creating all the user directories and complete without
+	error.  Note that "tuxmathadmin -h" gives help, including a
+	list of the things that tuxmathadmin can do.
 
-     4. Optionally, in "tuxmath_users" you can also create a file that
+     5. Optionally, in "tuxmath_users" you can also create a file that
         poses a question at each step of the hierarchy.  For the
         example above, it might contain three lines:
 
@@ -460,7 +482,7 @@ Configuring Multiple Users
 	students will simply be presented with the list without any
 	kind of prompt.
 
-     5. Decide on how you want users to compete for high scores.  For
+     6. Decide on how you want users to compete for high scores.  For
         the example above, suppose you want each student to compete
         against the other kids in their same class.  You would
         configure this with the following command:
@@ -469,23 +491,6 @@ Configuring Multiple Users
 
 	"tuxmathadmin -h" gives detail about the meaning of the
 	choices of different levels.
-
-     6. Finally, set it up so that tuxmath automatically finds the
-        user directory tree.  Find the global configuration file
-        (e.g., under Linux it would usually be
-        /usr/local/share/tuxmath/missions/options; on Mac OSX it is a
-        file called "options" in the .dmg bundle).  Set the "homedir"
-        property (at the very end of the file) to point to your home
-        directory tree.
-
-	Alternatively, you can employ the command line option
-        "--homedir /severvolume/tuxmath_users" (along with any other
-        options) upon launching tuxmath.  Note that an individual
-        classroom could make use of this school-wide service by
-        specifying (in the option-file syntax) homedir =
-        /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson so that
-        students in a particular classroom only have to choose among
-        their own class.
 
      7. Optionally, at least under Linux (and probably other OSes) you
         can also configure certain tasks to run automatically using
@@ -501,16 +506,16 @@ Configuring Multiple Users
 
    If you instead choose to configure TuxMath manually, these are the steps:
 
-     2. In tuxmath_users, create a text file called
+     3. In tuxmath_users, create a text file called
         "user_menu_entries."  This file contains the list of choices
         that students will be presented with upon login, one entry per
         line.  For example, a large school with many classrooms might
         have choices called "Kindergarten," "1st grade," and so on.
 
-     3. In the same directory, create sub-directories that have the
+     4. In the same directory, create sub-directories that have the
         same names that appear in user_menu_entries.
 
-     4. Create further user_menu_entries and further subdirectories
+     5. Create further user_menu_entries and further subdirectories
         inside each of these.  For example, in "Kindergarten" you
         might want to create directories for each classroom, say
         "Mrs. Smith" and "Mr. Jones."  A smaller school might choose
@@ -524,14 +529,14 @@ Configuring Multiple Users
 	correctly for the students to be able to write to these
 	directories.
 
-     5. At the finest level, create a menu item and one subdirectory
+     6. At the finest level, create a menu item and one subdirectory
         for each student.
 
-     6. Optionally, perform the tasks described above in step 4 of the
+     7. Optionally, perform the tasks described above in step 5 of the
         "tuxmathadmin" configuration (creation of the
         user_login_questions file).
 
-     7. Optionally, you can create an empty file called "highscores"
+     8. Optionally, you can create an empty file called "highscores"
         ("highscores.txt" on Windows) at whatever level of the
         hierarchy you want users to be competing for the high score.
         For example, if you want the high scores to be grade-wide,
@@ -540,10 +545,6 @@ Configuring Multiple Users
         each student.  If you do nothing, then each student will have
         a private high score table.  (In case of multiple highscores
         files, the one at the lowest level of the hierarchy wins.)
-
-     8. Perform the tasks described above in step 6 of the
-        "tuxmathadmin" configuration (setting of the homedir property
-        in the global configuration file).
 
   Note there is no security insuring that students select themselves.
 

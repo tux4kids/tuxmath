@@ -20,11 +20,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <error.h>
 // The next two are for mkdir and umask
 #include <sys/types.h>
 #include <sys/stat.h>
 // The next is needed for opendir
 #include <dirent.h>
+// The next is for isspace
+#include <ctype.h>
+// The next is for fsync
+#include <unistd.h>
 
 #ifndef MACOSX
 //#include "../config.h"
@@ -288,7 +293,6 @@ void create_homedirs(const char *path,const char *file)
   char fullpath[PATH_MAX];
   char **current_dirtree = NULL;
   int current_depth;
-  int old_depth = -1;
   int max_depth = 0;
   int this_line_total_depth;
   int stop_blanking;
@@ -435,9 +439,9 @@ void create_homedirs(const char *path,const char *file)
 	}
       }
       else {
-	fsync(stderr);
+	fsync(fileno(stderr));
 	fprintf(stdout,"Creating %s\n",fullpath);
-	fsync(stdout);
+	fsync(fileno(stdout));
 
 	// Append the name to the user_menu_entries file
 	// First we split off the last item in fullpath
@@ -466,8 +470,7 @@ void create_homedirs(const char *path,const char *file)
 	}
 	len = fprintf(fpue,"%s\n",line_cur);
 	if (len != strlen(line_cur)+1) {
-	  fprintf(stderr,"Error writing %s to file %s.\n",line_cur,buf);
-	  error(1,error,"");
+	  error(EXIT_FAILURE,errno,"Error writing %s to file %s.\n",line_cur,buf);
 	}
 	fclose(fpue);
       }
@@ -630,11 +633,23 @@ int extract_variable(FILE *fp, const char *varname, char** value)
       tmpvalue = strchr(param_begin+strlen(varname), '=');
       if (tmpvalue == NULL)
 	continue;
+      // Skip over the "=" sign
+      tmpvalue++;
       // Skip whitespace
       while (isspace(*tmpvalue))
 	tmpvalue++;
-      // Copy the result
-      *value = strdup(tmpvalue);
+      // Eliminate any whitespace at end
+      param_begin = tmpvalue;
+      tmpvalue = param_begin + strlen(param_begin) - 1;
+      while (tmpvalue > param_begin && isspace(*tmpvalue)) {
+	*tmpvalue = '\0';
+	tmpvalue--;
+      }
+      // Abort if empty
+      if (strlen(param_begin) == 0)
+	continue;
+      // Successful, copy the result
+      *value = strdup(param_begin);
       return 1;
     }
   }
