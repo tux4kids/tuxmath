@@ -1,3 +1,14 @@
+2007.Dec.26 (svn.debian.org/tux4kids - revision 394)
+    Code:
+      * More bugfixing in the new login system: now the system seems to
+	work if the homedir is specified in the global configuration file,
+	and in a multiuser setup file permissions are set to be
+	unrestrictive (so that a user can modify his/her own files no
+	matter how he/she is logged in).
+	
+    Tim Holy <holy@wustl.edu>
+
+
 2007.Dec.24 (svn.debian.org/tux4kids - revision 382-392)
     Code:
       * Fix bugs that came with the new login system, including: fix

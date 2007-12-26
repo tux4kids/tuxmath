@@ -166,6 +166,7 @@ int scandir(const char *dirname, struct dirent ***namelist, int(*select) (const 
 #include <dirent.h>  /* for opendir() */
 #include <sys/stat.h>/* for mkdir() */
 #include <unistd.h>  /* for getcwd() */
+#include <sys/types.h> /* for umask() */
 
 /* Standard C includes: */
 #include <stdio.h>
@@ -984,8 +985,10 @@ int write_goldstars(void)
     fp = NULL;
     return 1;
   }
-  else
+  else {
+    fprintf(stderr, "\nUnable to write goldstars file.\n");
     return 0;
+  }
 }
 
 
@@ -1231,8 +1234,12 @@ void user_data_dirname_down(char *subdir)
     printf("User data directory cannot be opened, there is a configuration error\n");
     printf("Continuing anyway without saving or loading individual settings.\n");
   }
-  else
+  else {
     closedir(dir);
+    // If we have multi-user logins, don't create restrictive
+    // permissions on new or rewritten files
+    umask(0x0);
+  }
 }
 
 
@@ -1381,7 +1388,7 @@ int read_config_file(FILE *fp, int file_type)
     else if(0 == strcasecmp(parameter, "homedir"))
     {
       /* Only let administrator change this setting */
-      if (file_type == GLOBAL_CONFIG_FILE)
+      if (file_type == GLOBAL_CONFIG_FILE && user_data_dir == NULL)
       {
 	/* Check to see whether the specified homedir exists */
 	if (opendir(value) == NULL)
