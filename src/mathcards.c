@@ -48,9 +48,12 @@ static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* cur
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
 static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
 static MC_MathQuestion* delete_list(MC_MathQuestion* list);
+static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
 static int list_length(MC_MathQuestion* list);
 
 static MC_MathQuestion* randomize_list(MC_MathQuestion* list);
+static MC_MathQuestion* new_randomize_list(MC_MathQuestion* list);
+int comp_randomizer(const void *a, const void *b);
 static MC_MathQuestion* pick_random(int length, MC_MathQuestion* list);
 static int compare_node(MC_MathQuestion* first, MC_MathQuestion* other);
 static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
@@ -60,6 +63,7 @@ static int abs_value(int i);
 static int randomly_keep(void);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
+void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
 static void print_node(FILE* fp, MC_MathQuestion* ptr);
 
 /* these functions are dead code unless compiling with debug turned on: */
@@ -67,7 +71,7 @@ static void print_node(FILE* fp, MC_MathQuestion* ptr);
 static void print_card(MC_FlashCard card);
 static void print_counters(void);
 static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
-static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
+
 static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
 #endif
 
@@ -2385,7 +2389,10 @@ MC_MathQuestion* generate_list(void)
   /*  now shuffle list if desired: */
   if (math_opts->randomize)
   {
-    top_of_list = randomize_list(top_of_list); 
+    int t = time(0); 
+    top_of_list = new_randomize_list(top_of_list); 
+    t = time(0) - t;
+    fprintf(stderr, "Time for shuffling = %d\n", t); 
   }
 
   #ifdef MC_DEBUG
@@ -2571,27 +2578,39 @@ MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
 }
 #endif
 
-#ifdef MC_DEBUG
+
 /* FIXME take care of strings */
 /* this one copies the contents, including pointers; both nodes must be allocated */
 int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
 {
-  if (!original || !copy)
+  if (!original)
   {
-    printf("\nIn copy_node(): invalid pointer as argument.\n");
-    fprintf(stderr, "\nIn copy_node(): invalid pointer as argument.\n");
+    fprintf(stderr, "\nIn copy_node(): invalid 'original' pointer arg.\n");
     return 0;
   }  
+  if (!copy)
+  {
+    fprintf(stderr, "\nIn copy_node(): invalid 'copy' pointer arg.\n");
+    return 0;
+  }  
+
   copy->card.num1 = original->card.num1;
   copy->card.num2 = original->card.num2;
   copy->card.num3 = original->card.num3;
   copy->card.operation = original->card.operation;
   copy->card.format = original->card.format;
+  strncpy(copy->card.formula_string,
+          original->card.formula_string,
+          MC_FORMULA_LEN);
+  strncpy(copy->card.answer_string,
+          original->card.answer_string,
+          MC_ANSWER_LEN);
   copy->next = original->next;
   copy->previous = original->previous;
   return 1;
 }
-#endif
+
+
 
 
 /* this puts the node into the list AFTER the node pointed to by current */
@@ -2693,16 +2712,32 @@ void print_list(FILE* fp, MC_MathQuestion* list)
     fprintf(fp, "\nprint_list(): list empty or pointer invalid\n");
     return;
   }
- {
-  MC_MathQuestion* ptr = list;
-  while (ptr)
+
   {
-    print_node(fp, ptr);
-    ptr = ptr->next;
+    MC_MathQuestion* ptr = list;
+    while (ptr)
+    {
+      print_node(fp, ptr);
+      ptr = ptr->next;
+    }
   }
 }
-}
 
+void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
+{
+  if (!vect)
+  {
+    fprintf(fp, "\nprint_vect_list(): list empty or pointer invalid\n");
+    return;
+  }
+
+  {
+    int i = 0;
+    for(i = 0; i < length; i++) 
+      print_node(fp, vect[i]);
+  }
+  fprintf(stderr, "Leaving print_vect_list()\n");
+}
 
 /* Don't need this much now that formula_string part of card struct:  */
 void print_node(FILE* fp, MC_MathQuestion* ptr)
@@ -2712,7 +2747,8 @@ void print_node(FILE* fp, MC_MathQuestion* ptr)
     return;
   }
 
-  fprintf(fp, "\n%s", ptr->card.formula_string);
+  fprintf(fp, "%s\t", ptr->card.formula_string);
+  fprintf(fp, "randomizer = %d\n", ptr->randomizer);
 }  
 
 
@@ -2818,6 +2854,87 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
   #endif
 
   return new_list;
+}
+
+
+/* This is a new implementation written in an attempt to avoid */
+/* the O(n^2) performance problems seen with the old randomization */
+/* function. The list is created as a vector, but is for now still */
+/* made a linked list to minimize changes needed elsewhere.        */
+MC_MathQuestion* new_randomize_list(MC_MathQuestion* old_list)
+{
+  MC_MathQuestion* old_tmp = old_list;
+  MC_MathQuestion** tmp_vect = NULL; 
+
+  int i = 0;
+  int old_length = list_length(old_list);
+
+  /* set random seed: */
+  srand(time(0));  
+
+  /* Allocate vector and copy in old list - this is needed because old_list */
+  /* may have "holes" in it from deletions: */
+
+  /* This just allocates the list of pointers, not space for the nodes themselves: */
+  tmp_vect = (MC_MathQuestion**)malloc(sizeof(MC_MathQuestion*) * old_length);
+
+  for (i = 0; i < old_length; i++)
+  {
+    tmp_vect[i] = (MC_MathQuestion*)malloc(sizeof(MC_MathQuestion));
+
+    if (!copy_node(old_tmp, tmp_vect[i]))
+    {
+      int j = 0;
+      fprintf(stderr, "Error during copying - cannot randomize list!\n");
+      fprintf(stderr, "Problem occurred for i = %d\n", i);
+      for (j = 0; j <= i; j++)
+        free(tmp_vect[j]);
+      free(tmp_vect);
+      return NULL;
+    }
+
+    tmp_vect[i]->randomizer = rand();
+    old_tmp = old_tmp->next;
+  }
+
+  /* free arg list now that copy made: */
+  delete_list(old_list);
+
+  /* Now just sort on 'tmp_vect[i]->randomizer' to shuffle list: */
+  qsort(tmp_vect, old_length,
+        sizeof(MC_MathQuestion*),
+        comp_randomizer);
+
+  /* Set pointers, as rest of program uses this as a linked list */
+  /* (stop at 'old_length-1' because we dereference tmp_vect[i+1]) */
+  for(i = 0; i < old_length - 1; i++)
+  {
+    if (!tmp_vect[i])
+    {
+      fprintf(stderr, "Invalid pointer!\n");
+      return 0;
+    }
+    tmp_vect[i]->next = tmp_vect[i+1];
+  }
+
+  tmp_vect[old_length-1]->next = NULL;
+  /* Now just return pointer to first element! */
+  return tmp_vect[0];
+}
+
+/* This is needed for qsort(): */
+int comp_randomizer (const void* a, const void* b)
+{
+
+  int int1 = (*(const struct MC_MathQuestion **) a)->randomizer;
+  int int2 = (*(const struct MC_MathQuestion **) b)->randomizer;
+
+  if (int1 > int2)
+    return 1;
+  else if (int1 == int2)
+    return 0;
+  else
+    return -1;
 }
 
 MC_MathQuestion* pick_random(int length, MC_MathQuestion* list)

@@ -175,8 +175,9 @@ typedef struct MC_FlashCard {
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
   MC_FlashCard card;
-  struct MC_MathQuestion *next;
-  struct MC_MathQuestion *previous;
+  struct MC_MathQuestion* next;
+  struct MC_MathQuestion* previous;
+  int randomizer;
 } MC_MathQuestion;
 
 /* "public" function prototypes: these functions are how */
