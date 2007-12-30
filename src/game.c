@@ -75,6 +75,7 @@ typedef struct comet_type {
   int bonus;
   int zapped;
   MC_FlashCard flashcard;
+  Uint32 time_started;
 } comet_type;
 
 /* Local (to game.c) 'globals': */
@@ -1022,6 +1023,7 @@ void game_handle_demo(void)
 void game_handle_answer(void)
 {
   int i, num, lowest, lowest_y;
+  Uint32 ctime;
 
   if (!doing_answer)
   {
@@ -1060,6 +1062,14 @@ void game_handle_answer(void)
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
     MC_AnsweredCorrectly(&(comets[lowest].flashcard));
+
+    /* Store the time the question was present on screen (do this */
+    /* in a way that avoids storing it if the time wrapped around */
+    ctime = SDL_GetTicks();
+    if (ctime > comets[lowest].time_started) {
+      MC_AddTimeToList((float)(ctime - comets[lowest].time_started)/1000);
+    }
+    
 
     /* Destroy comet: */
     comets[lowest].expl = COMET_EXPL_START;
@@ -1193,6 +1203,7 @@ void game_handle_comets(void)
      changes in the cities, we set some flags in them, too. */
   int i, this_city;
   num_comets_alive = 0;
+  Uint32 ctime;
       
   /* Clear the threatened flag on each city */
   for (i = 0; i < NUM_CITIES; i++)
@@ -1228,7 +1239,14 @@ void game_handle_comets(void)
         /* Tell MathCards about it - question not answered correctly: */
         MC_NotAnsweredCorrectly(&(comets[i].flashcard));
 
-        /* Record data for feedback */
+	/* Store the time the question was present on screen (do this */
+	/* in a way that avoids storing it if the time wrapped around */
+	ctime = SDL_GetTicks();
+	if (ctime > comets[i].time_started) {
+	  MC_AddTimeToList((float)(ctime - comets[i].time_started)/1000);
+	}
+
+        /* Record data for speed feedback */
 	/* Do this only for cities that are alive; dead cities */
         /* might not get much protection from the player */
 	if (Opts_UseFeedback() && cities[this_city].hits_left) {
@@ -1611,7 +1629,7 @@ int check_extra_life(void)
 void game_handle_extra_life(void)
 {
   // This handles the animation sequence during the rebuilding of an igloo
-  int i,igloo_top,num_below_igloo,status,direction;
+  int i,igloo_top,num_below_igloo,direction;
 
   if (cloud.status == EXTRA_LIFE_ON) {
 
@@ -2414,6 +2432,9 @@ int add_comet(void)
   #ifdef TUXMATH_DEBUG
   printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
   #endif
+
+  /* Record the time at which this comet was created */
+  comets[found].time_started = SDL_GetTicks();
 
   /* comet slot found and question found so return successfully: */
   return 1;

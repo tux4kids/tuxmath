@@ -210,6 +210,7 @@ static int is_lesson_file(const struct dirent *lfdirent);
 static int read_goldstars(void);
 static int read_lines_from_file(FILE *fp,char ***lines);
 static void dirname_up(char *dirname);
+static char* get_user_name(void);
 
 
 /* fix HOME on windows */
@@ -415,6 +416,11 @@ char *GetDefaultSaveDir(const char *suffix)
 
 
 /* This functions keep and returns the user data directory application path */
+/* FIXME?: currently the best way to test whether we're using the user's    */
+/* home directory, or using a different path, is to test add_subdir (which  */
+/* is 1 if we're using the user's ~/.tuxmath directory, 0 otherwise). Is    */
+/* this a bad example of using 1 thing for 2 purposes? So far there are     */
+/* no conflicts. */
 static char* user_data_dir = NULL;
 static int add_subdir = 1;
 static char* high_scores_file_path = NULL;
@@ -1258,7 +1264,7 @@ int read_config_file(FILE *fp, int file_type)
 {
   char buf[PATH_MAX];
   char *parameter, *param_begin, *param_end, *value, *value_end;
-
+  DIR *dir;
 
   #ifdef TUXMATH_DEBUG
   printf("\nEntering read_config_file()\n");
@@ -1391,10 +1397,13 @@ int read_config_file(FILE *fp, int file_type)
       if (file_type == GLOBAL_CONFIG_FILE && user_data_dir == NULL)
       {
 	/* Check to see whether the specified homedir exists */
-	if (opendir(value) == NULL)
+	dir = opendir(value);
+	if (dir == NULL)
 	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
-	else
+	else {
 	  set_user_data_dir(value);  /* copy the homedir setting */
+	  closedir(dir);
+	}
       }
     }
 
@@ -2661,7 +2670,15 @@ int write_pregame_summary(void)
     fprintf(fp, "************************\n"
                 "* Tuxmath Game Summary *\n"
                 "************************\n");
-    fprintf(fp, "\nPlayer: %s\n", getenv("USER"));
+    if (add_subdir)
+    {
+      /* Identify user by login if we're not in a multiuser configuration */
+      fprintf(fp, "\nPlayer: %s\n", getenv("USER"));
+    }
+    else {
+      /* Identify user by the directory name.*/
+      fprintf(fp, "\nPlayer: %s\n", get_user_name());
+    }
 
     /* Write question list:  */
     fprintf(fp, "\nStarting Question List:");
@@ -2713,6 +2730,8 @@ int write_postgame_summary(void)
     else
       fprintf(fp, "Percent Correct: (not applicable)\n");
 
+    fprintf(fp,"Median Time/Question:\t%g\n",MC_MedianTimePerQuestion());
+
     fprintf(fp, "Mission Accomplished:\t");
     if (MC_MissionAccomplished())
     {
@@ -2722,10 +2741,13 @@ int write_postgame_summary(void)
     {
       fprintf(fp, "No.\n\n:^(\n");
     }
+
+    fclose(fp);
     return 1;
   }
   else /* Couldn't write file for some reason: */
   {
+    fprintf(stderr,"Summary not written.\n");
     return 0;
   }
 }
@@ -2879,6 +2901,27 @@ static void dirname_up(char *dirname)
   
   // Terminate the string after that next-to-last "/"
   dirname[len] = '\0';
+}
+
+/* Identify user by the directory name. We don't want to use the */
+/* whole path, just the name of the last subdirectory. */
+static char* get_user_name(void)
+{
+  char filepath2[PATH_MAX];
+  char *username;
+
+  get_user_data_dir_with_subdir(filepath2);
+  username = &filepath2[strlen(filepath2)-1];
+  /* Chop off trailing "/" */
+  while (username > &filepath2[0] && *username == '/') {
+    *username = '\0';
+    username--;
+  }
+  /* Back up to the next "/" */
+  while (username > &filepath2[0] && *username != '/')
+    username--;
+
+  return username;
 }
 
 

@@ -33,6 +33,11 @@ int questions_pending = 0;
 int unanswered = 0;
 int starting_length = 0;
 
+/* For keeping track of timing data */
+float* time_per_question_list = NULL;
+int length_time_per_question_list = 0;
+int length_alloc_time_per_question_list = 0;
+
 /* "private" function prototypes:                        */
 /*                                                       */
 /* these are for internal use by MathCards only - like   */
@@ -61,6 +66,7 @@ static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
 static int randomly_keep(void);
+static int floatCompare(const void *v1,const void *v2);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
 void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
@@ -225,6 +231,14 @@ int MC_StartGame(void)
   question_list = NULL;
   delete_list(wrong_quests);
   wrong_quests = NULL;
+
+  /* clear the time list */
+  if (time_per_question_list != NULL) {
+    free(time_per_question_list);
+    time_per_question_list = NULL;
+    length_time_per_question_list = 0;
+    length_alloc_time_per_question_list = 0;
+  }
 
   /* set up new list with pointer to top: */
   question_list = generate_list();
@@ -577,6 +591,41 @@ int MC_ListQuestionsLeft(void)
 }
 
 
+/*  Store the amount of time a given flashcard was      */
+/*  visible on the screen. Returns 1 if the request     */
+/*  succeeds, 0 otherwise.                              */
+int MC_AddTimeToList(float t)
+{
+  int newsize = 0;
+  float *newlist;
+
+  /* This list will be allocated in an STL-like manner: when the       */
+  /* list gets full, allocate an additional amount of storage equal    */
+  /* to the current size of the list, so that only O(logN) allocations */
+  /* will ever be needed. We therefore have to keep track of 2 sizes:  */
+  /* the allocated size, and the actual number of items currently on   */
+  /* the list.                                                         */
+  if (length_time_per_question_list >= length_alloc_time_per_question_list) {
+    /* The list is full, allocate more space */
+    newsize = 2*length_time_per_question_list;
+    if (newsize == 0)
+      newsize = 100;
+    newlist = realloc(time_per_question_list,newsize*sizeof(float));
+    if (newlist == NULL) {
+      #ifdef MC_DEBUG
+      printf("\nError: allocation for time_per_question_list failed\n");
+      #endif
+      return 0;
+    }
+    time_per_question_list = newlist;
+    length_alloc_time_per_question_list = newsize;
+  }
+
+  /* Append the time to the list */
+  time_per_question_list[length_time_per_question_list++] = t;
+  return 1;
+}
+
 /* Frees heap memory used in program:                   */
 void MC_EndGame(void)
 {
@@ -590,6 +639,11 @@ void MC_EndGame(void)
     free(math_opts);
     math_opts = 0;
   }
+
+  free(time_per_question_list);
+  time_per_question_list = NULL;
+  length_alloc_time_per_question_list = 0;
+  length_time_per_question_list = 0;
 
   initialized = 0;
 }
@@ -1981,6 +2035,16 @@ int MC_NumNotAnsweredCorrectly(void)
 }
 
 
+/* Report the median time per question */
+float MC_MedianTimePerQuestion(void)
+{
+  if (length_time_per_question_list == 0)
+    return 0;
+
+  qsort(time_per_question_list,length_time_per_question_list,sizeof(float),floatCompare);
+  return time_per_question_list[length_time_per_question_list/2];
+}
+
 /* Implementation of "private methods" - (cannot be called from outside
 of this file) */
 
@@ -2607,6 +2671,7 @@ int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
           MC_ANSWER_LEN);
   copy->next = original->next;
   copy->previous = original->previous;
+  copy->randomizer = original->randomizer;
   return 1;
 }
 
@@ -2748,7 +2813,7 @@ void print_node(FILE* fp, MC_MathQuestion* ptr)
   }
 
   fprintf(fp, "%s\t", ptr->card.formula_string);
-  fprintf(fp, "randomizer = %d\n", ptr->randomizer);
+  /*fprintf(fp, "randomizer = %d\n", ptr->randomizer);*/
 }  
 
 
@@ -2864,7 +2929,8 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
 MC_MathQuestion* new_randomize_list(MC_MathQuestion* old_list)
 {
   MC_MathQuestion* old_tmp = old_list;
-  MC_MathQuestion** tmp_vect = NULL; 
+  MC_MathQuestion** tmp_vect = NULL;
+  MC_MathQuestion* new_list_head = NULL;
 
   int i = 0;
   int old_length = list_length(old_list);
@@ -2915,11 +2981,15 @@ MC_MathQuestion* new_randomize_list(MC_MathQuestion* old_list)
       return 0;
     }
     tmp_vect[i]->next = tmp_vect[i+1];
+    tmp_vect[i+1]->previous = tmp_vect[i];
   }
-
+  tmp_vect[0]->previous = NULL;
   tmp_vect[old_length-1]->next = NULL;
+
   /* Now just return pointer to first element! */
-  return tmp_vect[0];
+  new_list_head = tmp_vect[0];
+  free(tmp_vect);
+  return new_list_head;
 }
 
 /* This is needed for qsort(): */
@@ -3046,6 +3116,22 @@ int randomly_keep(void)
   random = rand() % 1000;
 
   if (random < (math_opts->fraction_to_keep * 1000))
+    return 1;
+  else
+    return 0;
+}
+
+/* Compares two floats (needed for sorting in MC_MedianTimePerQuestion) */
+int floatCompare(const void *v1,const void *v2)
+{
+  float f1,f2;
+
+  f1 = *((float *) v1);
+  f2 = *((float *) v2);
+
+  if (f1 < f2)
+    return -1;
+  else if (f1 > f2)
     return 1;
   else
     return 0;

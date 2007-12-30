@@ -248,6 +248,13 @@ int MC_TotalQuestionsLeft(void);
 /*  including questions currently "in play".              */
 int MC_ListQuestionsLeft(void);
 
+/*  To keep track of how long students take to answer the */
+/*  questions, one can report the time needed to answer   */
+/*  an individual question:                               */
+int MC_AddTimeToList(float t);
+/*  Note that initialization of the list is handled by    */
+/*  MC_StartGame.                                         */
+
 /*  Tells MathCards to clean up - should be called when   */
 /*  user interface program exits.                         */
 void MC_EndGame(void);
@@ -265,6 +272,7 @@ int MC_StartingListLength(void);
 int MC_WrongListLength(void);
 int MC_NumAnsweredCorrectly(void);
 int MC_NumNotAnsweredCorrectly(void);
+float MC_MedianTimePerQuestion(void);
 
 /* Simple "Set/Get" type functions for option parameters: */
 
