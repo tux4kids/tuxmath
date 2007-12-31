@@ -47,7 +47,7 @@
 
 #define PATH_MAX 4096
 #define MAX_USERS 100000
-#define ADMINVERSION "0.1"
+#define ADMINVERSION "0.1.1"
 
 void display_help(void);
 void usage(int err, char * cmd);
@@ -59,7 +59,9 @@ void config_highscores(const char *path,int level);
 void unconfig_highscores(const char *path);
 void clear_highscores(const char *path);
 void clear_goldstars(const char *path);
+void consolidate_logs(const char *path);
 void clear_file(const char *path,const char *filename,const char *invoke_name);
+char* eatwhite(char *buf);
 
 char *directory[MAX_USERS];
 int directory_level[MAX_USERS];
@@ -75,6 +77,7 @@ int main(int argc, char *argv[])
   int is_unconfighighscores = 0;
   int is_clearinggoldstars = 0;
   int is_clearinghighscores = 0;
+  int is_consolidatinglogs = 0;
   char *path = NULL;
   char *file = NULL;
   int level = 0;
@@ -177,6 +180,9 @@ int main(int argc, char *argv[])
     else if (strcmp(argv[i], "--cleargoldstars") == 0) {
       is_clearinggoldstars = 1;
     }
+    else if (strcmp(argv[i], "--consolidatelogs") == 0) {
+      is_consolidatinglogs = 1;
+    }
     else {
       fprintf(stderr,"Error: option %s not recognized.\n",argv[i]);
       exit(EXIT_FAILURE);
@@ -222,6 +228,13 @@ int main(int argc, char *argv[])
     clear_goldstars(path);
   }
    
+  // Consolidate logs
+  if (is_consolidatinglogs) {
+    consolidate_logs(path);
+  }
+
+  free(path);
+
   return EXIT_SUCCESS;
 }
 
@@ -239,7 +252,7 @@ void usage(int err, char * cmd)
    "\nUsage: %s {--help | --usage | --copyright}\n"
    "       %s [--path <directory>] --createhomedirs <file>\n"
    "       %s [--level <levelnum>] --confighighscores\n"
-   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars]\n"
+   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars] [--consolidatelogs]\n"
     "\n", cmd, cmd, cmd, cmd);
 
   exit (err);
@@ -248,7 +261,7 @@ void usage(int err, char * cmd)
 void display_help(void)
 {
   printf("\ntuxmathadmin\n"
-	 "This program allows you to administer tuxmath, and is particularly\n"
+	 "This program facilitates administering tuxmath, and is particularly\n"
 	 "useful for schools and the like that may have many users.\n\n"
 	 "Examples:\n"
 	 "  tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs users.csv\n"
@@ -274,7 +287,13 @@ void display_help(void)
 	 "  tuxmathadmin --cleargoldstars\n"
 	 "    Clears the gold stars for all users.\n\n"
 	 "  tuxmathadmin --path /servervolume/tuxmath_users/1st\\ grade/Mrs.\\ Smith --cleargoldstars\n"
-	 "    Clears the gold stars for all users in Mrs. Smith's first grade class.\n"
+	 "    Clears the gold stars for all users in Mrs. Smith's first grade class.\n\n"
+	 "  tuxmathadmin --consolidatelogs\n"
+	 "    Creates consolidated_log.csv files at one level above the lowest level\n"
+	 "    of the directory hierarchy. These files can be opened with a spreadsheet\n"
+	 "    program. This may be useful for tracking student progress.\n"
+	 "    Note also that each student has a personal log.csv file in his/her own\n"
+	 "    directory.\n\n"
 	 );
 }
 
@@ -307,10 +326,8 @@ void create_homedirs(const char *path,const char *file)
   mask = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH | S_IXUSR | S_IXGRP | S_IXOTH;
   umask(0x0);  // make dirs read/write for everyone
   while (fgets (buf, PATH_MAX, fp)) {
-    line_begin = buf;
-    // Skip leading whitespace
-    while (isspace(*line_begin))
-      line_begin++;
+    // Skip leading & trailing whitespace
+    line_begin = eatwhite(buf);
     // Skip comments
     if ((*line_begin == ';') || (*line_begin == '#'))
       continue;
@@ -577,6 +594,91 @@ void clear_goldstars(const char *path)
   clear_file(path,GOLDSTAR_FILENAME,"cleargoldstars");
 }
 
+// Create consolidated log files at the next-to-lowest level of the
+// hierarchy.  This is basically performing a "cat" operation on all
+// the log.csv files that are below a given point in a directory
+// hierarchy.
+void consolidate_logs(const char *path)
+{
+  int n_dirs;
+  int max_level;
+  int i;
+  int column_names_written = 0;
+  FILE *fplogwrite, *fplogread, *fpusersread;
+  char buf[PATH_MAX], buf2[PATH_MAX], buf3[PATH_MAX];
+  char *line_begin;
+  
+  // Determine the maximum level
+  n_dirs = directory_crawl(path);
+  max_level = 0;
+  for (i = 0; i < n_dirs; i++)
+    if (directory_level[i] > max_level)
+      max_level = directory_level[i];
+
+  // For every directory on the next-to-maximum level,...
+  for (i = 0; i < n_dirs; i++) {
+    if (directory_level[i] != max_level-1)
+      continue;
+
+    // Open the user_menu_entries file, so that we can cycle through
+    // all subdirectories
+    strncpy(buf,directory[i],PATH_MAX);
+    strncat(buf,USER_MENU_ENTRIES_FILENAME,PATH_MAX-strlen(buf)-1);
+    if (strlen(buf) >= PATH_MAX-1) {
+      error(EXIT_FAILURE,0,"consolidatelogs: pathname %s is truncated, exiting.\n",buf);
+    }
+    fpusersread = fopen(buf,"r");
+    if (!fpusersread)
+      error(EXIT_FAILURE,errno,"consolidatelogs: file:\n %s",buf);
+
+    // Create a blank consolidated_log.csv file
+    strncpy(buf,directory[i],PATH_MAX);
+    strncat(buf,"consolidated_log.csv",PATH_MAX-strlen(buf)-1);
+    if (strlen(buf) >= PATH_MAX-1) {
+      error(EXIT_FAILURE,0,"consolidatelogs: pathname %s is truncated, exiting.\n",buf);
+    }
+    fplogwrite = fopen(buf,"w");
+    if (!fplogwrite)
+      error(EXIT_FAILURE,errno,"consolidatelogs: file:\n  %s",buf);
+
+    // Loop over different users
+    while (fgets(buf, PATH_MAX, fpusersread)) {
+      // Skip over white space, and especially blank lines
+      line_begin = eatwhite(buf);
+      if (strlen(line_begin) == 0)
+	continue;
+      // Create the full path & filename of the user's log.csv file
+      strncpy(buf2,directory[i],PATH_MAX);
+      strncat(buf2,line_begin,PATH_MAX-strlen(buf2)-1);
+      strncat(buf2,"/log.csv",PATH_MAX-strlen(buf2)-1);
+      fplogread = fopen(buf2,"r");
+      if (fplogread) {
+	// Copy the relevant lines from the user's log.csv file to the
+	// consolidated log file.  Make sure only one copy of the
+	// column names is written.
+	while(fgets(buf3, PATH_MAX, fplogread)) {
+	  line_begin = eatwhite(buf3);
+	  if (strlen(line_begin) == 0)
+	    continue;
+	  if (strncmp(line_begin,"\"User",5) == 0) {
+	    if (!column_names_written) {
+	      fprintf(fplogwrite,"%s\n",line_begin);
+	      column_names_written = 1;
+	    }
+	  } else {
+	    fprintf(fplogwrite,"%s\n",line_begin);
+	  }
+	}
+	fclose(fplogread);
+      }
+    }
+    fclose(fpusersread);
+    fclose(fplogwrite);
+  }
+
+  free_directories(n_dirs);
+}
+
 // Deletes a named filetype in the directory hierarchy
 void clear_file(const char *path,const char *filename,const char *invoke_name)
 {
@@ -680,7 +782,6 @@ int directory_crawl(const char *path)
   int isdone;
   int i;
   char *line_begin;
-  char *line_end;
   DIR *dir;
   
   current_length = 1;
@@ -717,19 +818,12 @@ int directory_crawl(const char *path)
 	      fprintf(stderr,"Error: maximum number of users exceeded.");
 	      exit(EXIT_FAILURE);
 	    }
-	    // Skip over white space, and especially blank lines
-	    line_begin = buf;
-	    while (isspace(*line_begin))
-	      line_begin++;
-	    // Eliminate the \n at the end of the line
-	    line_end = line_begin+strlen(line_begin)-1;
-	    while (line_end >= line_begin && (*line_end == '\n' || *line_end == '\r')) {
-	      *line_end = '\0';
-	      line_end--;
-	    }
-	      
+	    // Skip over leading & trailing white space, and
+	    // especially blank lines
+	    line_begin = eatwhite(buf);
 	    if (strlen(line_begin) == 0)
 	      continue;
+
 	    directory[current_length] = (char *) malloc((strlen(directory[i])+strlen(line_begin)+2)*sizeof(char));
 	    if (directory[current_length] == NULL) {
 	      fprintf(stderr,"Memory allocation error in directory_crawl.\n");
@@ -768,3 +862,23 @@ void free_directories(int n)
   }
 }
 
+// Modify a string to eliminate leading and trailing
+// whitespace. Returns a pointer to the first non-space character.
+// Note the input string is modified in-place!
+char* eatwhite(char *buf)
+{
+  char *line_begin, *line_end;
+
+  // Eliminate leading whitespace
+  line_begin = buf;
+  while (isspace(*line_begin))
+    line_begin++;
+  // Eliminate trailing whitespace, especially the \n at the end of the line
+  line_end = line_begin+strlen(line_begin)-1;
+  while (line_end >= line_begin && isspace(*line_end)) {
+    *line_end = '\0';
+    line_end--;
+  }
+
+  return line_begin;
+}
