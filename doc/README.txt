@@ -351,13 +351,20 @@ Setting Administrative Options
 
 Game Summary Files
 ------------------
-  "Tux, of Math Command" saves summaries of the last ten games in the player's
-  .tuxmath directory.  The files are named "summary1" through "summary10",
-  with "summary1" the most recent. The files includes lists of questions asked
-  and questions missed, along with the numbers of correct and incorrect
-  answers and the percent correct.
+  "Tux, of Math Command" saves summaries of the last ten games in the
+  player's .tuxmath directory.  The files are named "summary1" through
+  "summary10", with "summary1" the most recent. The files includes
+  lists of questions asked and questions missed, along with the
+  numbers of correct and incorrect answers and the percent correct and
+  information about how long a given question was typically displayed
+  on the screen before it was answered.
 
-  [ UNDER CONSTRUCTION ]
+  In addition to these summary files, there is also a log.csv file
+  that contains a one-line summary of each attempted mission (the user
+  must have answered at least one question to count as an attempt).
+  This file can be imported into a spreadsheet program (OpenOffice.org
+  calc, Microsoft Excel, KSpread, Gnumeric, Google Docs, etc.) to
+  examine or chart student progress.
 
 
 Configuring Multiple Users
@@ -547,6 +554,16 @@ Configuring Multiple Users
         files, the one at the lowest level of the hierarchy wins.)
 
   Note there is no security insuring that students select themselves.
+
+
+Tracking Progress in Multiple-User Configurations
+-------------------------------------------------
+  tuxmathadmin contains a feature, "--consolidatelogs", that creates a
+  consolidated_log.csv file in all directories that are one above the
+  lowest level.  The basic use-case is to combine the reports on all
+  students in a particular class.  Teachers/parents can open this file
+  with a spreadsheet program as described above under "Game Summary
+  Files."
 
 
 License
