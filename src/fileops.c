@@ -2799,10 +2799,10 @@ int write_postgame_summary(void)
     fp = fopen(filepath1, "a"); /* "a" means append to end of file */
     if (fp) {
       if (write_column_names) {
-	fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Percent correct\",\"Time per question\"\n");
+	fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Number answered\",\"Percent correct\",\"Time per question\"\n");
       }
       mission_name = strdup(last_config_file_name);
-      fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
+      fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), total_answered, ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
       fclose(fp);
       free(mission_name);
     } else
