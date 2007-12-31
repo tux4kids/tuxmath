@@ -12,7 +12,7 @@
   dbruce@tampabay.rr.com
 
   Part of "Tux4Kids" Project
-  http://tux4kids.alioth.debian.org
+  http://www.tux4kids.com
       
   August 26, 2001 - July 11, 2007
 */

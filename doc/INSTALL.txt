@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.5.7
+Version 1.6.10
 
-October 29, 2007
+December 19, 2007
 
 
 Requirements
@@ -131,8 +131,14 @@ Compiling and Installing TuxMath
     Compiling the Program
     ---------------------
       You can build Tuxmath either with the latest subversion checkout or 
-      using a convenient source tar.gz distribution package. The svn
-      repository is located at:
+      using a convenient source tar.gz distribution package. The current
+      website is:
+
+        http://www.tux4kids.com
+
+      where you generally can find the latest tuxmath*tar.gz package.
+
+      The svn repository is located at:
 
         http://svn.debian.org/wsvn/tux4kids/tuxmath 
 
@@ -145,8 +151,7 @@ Compiling and Installing TuxMath
       do a typical configure, make, and install.  In other words, the
       tarball contains a complete "GNU Build System".  Note, however, that
       you will need the "-dev" files for SDL, SDL_image, SDL_mixer, and
-      SDL_ttf.  You also need Gnu gettext as "msgfmt" is called during the
-      installation.
+      SDL_ttf.
  
       For example:
  

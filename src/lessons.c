@@ -83,7 +83,7 @@ int read_goldstars_fp(FILE* fp)
 }
 
 
-/* Write lessons gold star list provided FILE* in format  */
+/* Write lessons gold star list to the provided FILE* in format  */
 /* compatible with read_goldstars_fp () above.            */
 
 void write_goldstars_fp(FILE* fp)
@@ -120,12 +120,13 @@ void write_goldstars_fp(FILE* fp)
   return;
 }
 
+/* FIXME need to get correct function - basename() wasn't correct */
 /* Perform a strcasecmp() on two path strings, stripping away all the */
 /* dirs in the path and just comparing the filenames themselves:      */
 static int filename_comp(const unsigned char* s1, const unsigned char* s2)
 {
-  char* f1 = s1;//basename(s1);
-  char* f2 = s2;//basename(s2);
+  char* f1 = s1; //basename(s1);
+  char* f2 = s2; //basename(s2);
   return strcasecmp(f1, f2);
 }
 

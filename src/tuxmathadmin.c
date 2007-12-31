@@ -7,7 +7,7 @@
   holy@wustl.edu
 
   Part of "Tux4Kids" Project
-  http://tux4kids.alioth.debian.org/
+  http://www.tux4kids.com/
   Subversion repository:
   https://svn.debian.alioth.org/tux4kids/tuxmath/
 

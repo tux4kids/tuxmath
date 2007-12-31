@@ -54,7 +54,17 @@
       * Add documentation on tuxmathadmin in the README.txt file.
 	
 	Tim Holy <holy@wustl.edu>
-	
+
+2007.Dec.18 (svn.debian.org/tux4kids -?)
+Version 1.6.0
+  Build:
+    * Successful crossbuild for Windows with functioning gettext. The
+      significant change within tuxmath was elimination of the use of
+      libgw32c.a - most of work was building mingw environment and all
+      needed libs from source with rigorous attention to documentation
+      and help from autotools, mingw, and gettext mailing lists.
+      David Bruce <dbruce@tampabay.rr.com>	
+
 2007.Dec.07 (svn.debian.org/tux4kids - revision 359)
 Version 1.5.9
       David Bruce <dbruce@tampabay.rr.com>
