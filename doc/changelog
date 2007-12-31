@@ -1,3 +1,30 @@
+2007.Dec.31 (svn.debian.org/tux4kids - revision 397)
+      Code:
+	Add some additional reporting about student progress: a log.csv
+	file that contains a brief (one-line) summary of every game
+	played.  This file organization is chosen to make it easy to
+	import the data into a spreadsheet program.
+
+      Tim Holy <holy@wustl.edu>
+
+2007.Dec.30 (svn.debian.org/tux4kids - revision 396)
+    Bug fixes:
+      fileops.c: homedir setting in read_config_file lacked a closedir,
+        resulting in a memory leak.
+      fileops.c: write_postgame_summary did not close the file after
+        appending, resulting in the summary sometimes never being
+        "flushed" (some summary files have just been truncated).
+      mathcards.c: new_randomize_list did not set the "previous" field of
+        each node, resulting in memory corruption & drawing glitches
+      mathcards.c: free tmp_vect (fixes memory leak)
+
+    New feature:
+      mathcards & game & fileops: collect data on the amount of time each
+        problem is on the screen, and report the median in the game
+        summary files.
+
+      Tim Holy <holy@wustl.edu>
+	
 2007.Dec.26 (svn.debian.org/tux4kids - revision 394)
     Code:
       * More bugfixing in the new login system: now the system seems to

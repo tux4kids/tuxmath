@@ -2812,7 +2812,7 @@ void print_node(FILE* fp, MC_MathQuestion* ptr)
     return;
   }
 
-  fprintf(fp, "%s\t", ptr->card.formula_string);
+  fprintf(fp, "%s\n", ptr->card.formula_string);
   /*fprintf(fp, "randomizer = %d\n", ptr->randomizer);*/
 }  
 

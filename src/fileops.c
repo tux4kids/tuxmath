@@ -173,7 +173,7 @@ int scandir(const char *dirname, struct dirent ***namelist, int(*select) (const 
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <time.h>
 
 
 /* Used by both write_pregame_summary() and */
@@ -211,6 +211,7 @@ static int read_goldstars(void);
 static int read_lines_from_file(FILE *fp,char ***lines);
 static void dirname_up(char *dirname);
 static char* get_user_name(void);
+static char* get_file_name(char *fullpath);
 
 
 /* fix HOME on windows */
@@ -425,6 +426,9 @@ static char* user_data_dir = NULL;
 static int add_subdir = 1;
 static char* high_scores_file_path = NULL;
 
+/* A variable for storing the "current" config filename */
+static char* last_config_file_name = NULL;
+
 char *get_user_data_dir ()
 { 
   if (! user_data_dir)
@@ -534,6 +538,10 @@ int read_named_config_file(const unsigned char* fn)
   char opt_path[PATH_MAX];
   /* Make compiler happy: */
   const char* filename = (const char*)fn;
+
+  if (last_config_file_name != NULL)
+    free(last_config_file_name);
+  last_config_file_name = strdup(filename);
 
   #ifdef TUXMATH_DEBUG
   printf("\nIn read_named_config_file() filename is: = %s\n", filename);
@@ -2680,6 +2688,8 @@ int write_pregame_summary(void)
       fprintf(fp, "\nPlayer: %s\n", get_user_name());
     }
 
+    fprintf(fp, "\nMission: %s\n", last_config_file_name);
+
     /* Write question list:  */
     fprintf(fp, "\nStarting Question List:");
     MC_PrintQuestionList(fp);
@@ -2696,12 +2706,22 @@ int write_pregame_summary(void)
 
 int write_postgame_summary(void)
 {
-  FILE* fp;
+  FILE *fp;
   char filepath1[PATH_MAX];
   int total_answered;
+  float median_time;
+  int success = 1;
+  int write_column_names = 0;
+  time_t filetime;
+  struct stat filestat;
+  struct tm datetime;
+  char *mission_name;
 
   get_user_data_dir_with_subdir(filepath1);
   strcat(filepath1, summary_filenames[0]);
+
+  total_answered = MC_NumAnsweredCorrectly() + MC_NumNotAnsweredCorrectly();
+  median_time = MC_MedianTimePerQuestion();
 
   fp = fopen(filepath1, "a"); /* "a" means append to end of file */
   if (fp)
@@ -2713,7 +2733,6 @@ int write_postgame_summary(void)
                 MC_WrongListLength());
 
     /* Write post-game statistics:     */
-    total_answered = MC_NumAnsweredCorrectly() + MC_NumNotAnsweredCorrectly();
 
     fprintf(fp, "\n\nSummary:\n");
     fprintf(fp, "Questions Answered:\t%d\n", total_answered);
@@ -2730,7 +2749,7 @@ int write_postgame_summary(void)
     else
       fprintf(fp, "Percent Correct: (not applicable)\n");
 
-    fprintf(fp,"Median Time/Question:\t%g\n",MC_MedianTimePerQuestion());
+    fprintf(fp,"Median Time/Question:\t%g\n",median_time);
 
     fprintf(fp, "Mission Accomplished:\t");
     if (MC_MissionAccomplished())
@@ -2743,13 +2762,53 @@ int write_postgame_summary(void)
     }
 
     fclose(fp);
-    return 1;
   }
   else /* Couldn't write file for some reason: */
   {
     fprintf(stderr,"Summary not written.\n");
-    return 0;
+    success = 0;
   }
+
+  /* Append brief summary to log */
+  if (total_answered > 0) {
+    /* We're going to want to write the date.  Use the filetime  */
+    /* rather than calling "time" directly, because "time"       */
+    /* returns the time according to whatever computer is        */
+    /* running tuxmath, and in a server/client mode it's likely  */
+    /* that some of the clients' clocks may be wrong. Use      */
+    /* instead the time according to the server on which the     */
+    /* accounts are stored, which can be extracted from the      */
+    /* modification time of the summary we just wrote.           */
+    if (stat(filepath1,&filestat) == 0) {
+      filetime = filestat.st_mtime;
+    } else {
+      filetime = time(NULL);
+    }
+    localtime_r(&filetime,&datetime); /* generate broken-down time */
+
+    get_user_data_dir_with_subdir(filepath1);
+    strcat(filepath1, "log.csv");
+    /* See whether the log file already exists; if not, write */
+    /* the column names */
+    fp = fopen(filepath1, "r");
+    if (fp == NULL)
+      write_column_names = 1;
+    else
+      fclose(fp);
+    
+    fp = fopen(filepath1, "a"); /* "a" means append to end of file */
+    if (fp) {
+      if (write_column_names) {
+	fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Percent correct\",\"Time per question\"\n");
+      }
+      mission_name = strdup(last_config_file_name);
+      fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
+      fclose(fp);
+      free(mission_name);
+    } else
+      success = 0;
+  }
+  return success;
 }
 
 
@@ -2908,20 +2967,27 @@ static void dirname_up(char *dirname)
 static char* get_user_name(void)
 {
   char filepath2[PATH_MAX];
-  char *username;
 
   get_user_data_dir_with_subdir(filepath2);
-  username = &filepath2[strlen(filepath2)-1];
+  return get_file_name(filepath2);
+}
+
+/* Extract the last "field" in a full pathname */
+static char* get_file_name(char *fullpath)
+{
+  char *file_name;
+
+  file_name = &fullpath[strlen(fullpath)-1];
   /* Chop off trailing "/" */
-  while (username > &filepath2[0] && *username == '/') {
-    *username = '\0';
-    username--;
+  while (file_name > &fullpath[0] && *file_name == '/') {
+    *file_name = '\0';
+    file_name--;
   }
   /* Back up to the next "/" */
-  while (username > &filepath2[0] && *username != '/')
-    username--;
+  while (file_name > &fullpath[0] && *file_name != '/')
+    file_name--;
 
-  return username;
+  return ++file_name;
 }
 
 
