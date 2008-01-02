@@ -21,9 +21,9 @@ data_fonts = AndikaDesRevG.ttf
 
 ## These are defined in configure.ac:
 MAKENSIS=@NSIS@
+NSIS_FOUND=@NSIS_FOUND@
 NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 NSI_DLL_DIR=@NSI_DLL_DIR@
-NSI_TUXMATH_CONF_DIR=@NSI_TUXMATH_CONF_DIR@
 
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 
@@ -79,29 +79,16 @@ install-nsi-local: all
 ## copy needed dll files into NSI_INSTALL_DIR:
 	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
 
-##install-nsi-local: all
-##	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/data;
-##	(cd $(top_srcdir)/$(PACKAGE_DATA_DIR) ; \
-##  tar cf - --exclude "Makefile*" --exclude "*~" --exclude "*.svn*" * ) \
-##  | ( cd $(top_srcdir)/$(NSI_INSTALL_DIR)/$(PACKAGE_DATA_DIR); \
-##  tar xf -);
-##	cp $(NSI_DLL_DIR)/*.dll $(top_srcdir)/$(NSI_INSTALL_DIR);
-##	cp src/TuxMath.exe $(top_srcdir)/$(NSI_INSTALL_DIR);
-##
-##if NSI_USE_TUXMATH_CONF
-##	$(INSTALL) -d $(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
-##	cp $(NSI_TUXMATH_CONF_DIR)/*.*  ##$(top_srcdir)/$(NSI_INSTALL_DIR)/TuxMathConfig ;
-##endif 
 
 install-nsi-am: install-nsi-local
 
 
 nsis: install-nsi-local
-#if NSI_USE_TUXMATH_CONF
-#	$(MAKENSIS) -NOCD nsis/tuxmath_with_conf.nsi
-#else
-	$(MAKENSIS) -NOCD nsis/tuxmath.nsi
-#endif
+	if test ["x$(MAKENSIS)"="x"]; then \
+	  echo "\nNSIS program not found!\n"; \
+	else \
+	  $(MAKENSIS) -NOCD nsis/tuxmath.nsi; \
+	fi
 
 clean-local:
 	@$(NORMAL_CLEAN)

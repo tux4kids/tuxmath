@@ -17015,7 +17015,6 @@ done
 done
 IFS=$as_save_IFS
 
-  test -z "$ac_cv_path_NSIS" && ac_cv_path_NSIS="no"
   ;;
 esac
 fi
@@ -17027,7 +17026,6 @@ else
   { echo "$as_me:$LINENO: result: no" >&5
 echo "${ECHO_T}no" >&6; }
 fi
-
 
 
 

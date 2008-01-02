@@ -173,8 +173,7 @@ NSI_DLL_DIR=$dll_path
 fi
 AC_SUBST(NSI_DLL_DIR)
 
-AC_PATH_PROG(NSIS, makensis, no, [$PATH])
-
+AC_PATH_PROG(NSIS, makensis, [], [$PATH])
 
 # --------------------------------------------------------------------------
 # Support for old Qt-based config prog - get rid of this soon:
