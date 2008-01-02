@@ -78,6 +78,7 @@ int main(int argc, char *argv[])
   int is_clearinggoldstars = 0;
   int is_clearinghighscores = 0;
   int is_consolidatinglogs = 0;
+  int is_clearinglogs = 0;
   char *path = NULL;
   char *file = NULL;
   int level = 0;
@@ -183,6 +184,9 @@ int main(int argc, char *argv[])
     else if (strcmp(argv[i], "--consolidatelogs") == 0) {
       is_consolidatinglogs = 1;
     }
+    else if (strcmp(argv[i], "--clearlogs") == 0) {
+      is_clearinglogs = 1;
+    }
     else {
       fprintf(stderr,"Error: option %s not recognized.\n",argv[i]);
       exit(EXIT_FAILURE);
@@ -233,6 +237,11 @@ int main(int argc, char *argv[])
     consolidate_logs(path);
   }
 
+  // Clear logs
+  if (is_clearinglogs) {
+    clear_logs(path);
+  }
+
   free(path);
 
   return EXIT_SUCCESS;
@@ -252,7 +261,7 @@ void usage(int err, char * cmd)
    "\nUsage: %s {--help | --usage | --copyright}\n"
    "       %s [--path <directory>] --createhomedirs <file>\n"
    "       %s [--level <levelnum>] --confighighscores\n"
-   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars] [--consolidatelogs]\n"
+   "       %s [--path <directory>] [--clearhighscores] [--cleargoldstars] [--consolidatelogs] [--clearlogs]\n"
     "\n", cmd, cmd, cmd, cmd);
 
   exit (err);
@@ -294,6 +303,8 @@ void display_help(void)
 	 "    program. This may be useful for tracking student progress.\n"
 	 "    Note also that each student has a personal log.csv file in his/her own\n"
 	 "    directory.\n\n"
+	 "  tuxmathadmin --clearlogs\n"
+	 "    Deletes all log.csv files in the directory hierarchy.\n\n"
 	 );
 }
 
@@ -677,6 +688,12 @@ void consolidate_logs(const char *path)
   }
 
   free_directories(n_dirs);
+}
+
+// Delete all log.csv files in the directory hierarchy
+void clear_logs(const char *path)
+{
+  clear_file(path,"log.csv","clearlogs");
 }
 
 // Deletes a named filetype in the directory hierarchy
