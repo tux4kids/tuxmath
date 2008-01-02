@@ -57,7 +57,6 @@ static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
 static int list_length(MC_MathQuestion* list);
 
 static MC_MathQuestion* randomize_list(MC_MathQuestion* list);
-static MC_MathQuestion* new_randomize_list(MC_MathQuestion* list);
 int comp_randomizer(const void *a, const void *b);
 static MC_MathQuestion* pick_random(int length, MC_MathQuestion* list);
 static int compare_node(MC_MathQuestion* first, MC_MathQuestion* other);
@@ -2453,10 +2452,7 @@ MC_MathQuestion* generate_list(void)
   /*  now shuffle list if desired: */
   if (math_opts->randomize)
   {
-    int t = time(0); 
-    top_of_list = new_randomize_list(top_of_list); 
-    t = time(0) - t;
-    fprintf(stderr, "Time for shuffling = %d\n", t); 
+    top_of_list = randomize_list(top_of_list); 
   }
 
   #ifdef MC_DEBUG
@@ -2861,72 +2857,17 @@ int list_length(MC_MathQuestion* list)
 
 
 
-MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
-{
-
-  MC_MathQuestion* old_tmp = 0;
-  MC_MathQuestion* new_list = 0;
-  MC_MathQuestion* new_tmp =0;
-
-  int old_length = list_length(old_list);
-  int new_length = 0;
-
-  #ifdef MC_DEBUG
-  printf("\nEntering randomize_list()");
-  printf("\nBefore randomization:");
-  printf("\nPrinting old_list:");
-  print_list(stdout, old_list);
-  printf("\nPrinting new_list:");
-  print_list(stdout, new_list);
-  #endif
-
-
-  while (old_length && old_list)
-  {
-    old_tmp = pick_random(old_length, old_list);
-    new_tmp = pick_random(new_length, new_list);
-
-    if (old_tmp)
-    {
-      old_list = remove_node(old_list, old_tmp);
-      new_list = insert_node(new_list, new_tmp, old_tmp);
-      old_length--;
-      new_length++;
-    }
-    else
-    {
-      #ifdef MC_DEBUG
-      printf("\nUnexpected exit!");
-      printf("\nAfter randomization:");
-      printf("\nPrinting old_list:");
-      print_list(stdout, old_list);
-      printf("\nPrinting new_list:");
-      print_list(stdout, new_list);
-      printf("\nLeaving randomize_list()");
-      #endif
-
-      return new_list;
-    }
-  }
-
-  #ifdef MC_DEBUG
-  printf("\nAfter randomization:");
-  printf("\nPrinting old_list:");
-  print_list(stdout, old_list);
-  printf("\nPrinting new_list:");
-  print_list(stdout, new_list);
-  printf("\nLeaving randomize_list()");
-  #endif
-
-  return new_list;
-}
 
 
 /* This is a new implementation written in an attempt to avoid */
 /* the O(n^2) performance problems seen with the old randomization */
 /* function. The list is created as a vector, but is for now still */
 /* made a linked list to minimize changes needed elsewhere.        */
-MC_MathQuestion* new_randomize_list(MC_MathQuestion* old_list)
+/* NOTE - the function frees the old list and returns a pointer to */
+/* a newly allocated shuffled list - maybe this is confusing.  As  */
+/* long as it is used as in "ptr = new_randomize_list(ptr);", it */
+/* should not cause problems. */
+MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
 {
   MC_MathQuestion* old_tmp = old_list;
   MC_MathQuestion** tmp_vect = NULL;

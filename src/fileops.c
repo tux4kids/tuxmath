@@ -26,6 +26,8 @@
 *
 */
 
+#include <config.h>
+
 /* Tuxmath includes: */
 #include "tuxmath.h"
 #include "fileops.h"
@@ -36,120 +38,13 @@
 #include "lessons.h"
 #include "titlescreen.h"
 
-#ifndef MACOSX
-#include "../config.h"
-#endif
-
-#ifdef OS_solaris
-#define DIRHANDLE dirp->d_fd
-#elif defined(OS_mingw)
-
-#else
-#define DIRHANDLE dirp->fd
-#endif
-
-#if defined(__BEOS__) || defined(OS_solaris) || defined(OS_mingw)
-/* The scandir() and alphasort() functions aren't available on BeOS, */
-/* so let's declare them here... */
-#ifndef OS_mingw
-#include <strings.h>
-#endif
-
-#undef DIRSIZ
-
-#define DIRSIZ(dp)                                          \
-        ((sizeof(struct dirent) - sizeof(dp)->d_name) +     \
-		(((dp)->d_reclen + 1 + 3) &~ 3))
-
-/*-----------------------------------------------------------------------*/
-/*
-  Alphabetic order comparison routine for those who want it.
-*/
-int alphasort(const void *d1, const void *d2)
-{
-  return(strcmp((*(struct dirent **)d1)->d_name, (*(struct dirent **)d2)->d_name));
-}
-
-/*-----------------------------------------------------------------------*/
-/*
-  Scan a directory for all its entries
-*/
-int scandir(const char *dirname, struct dirent ***namelist, int(*select) (const struct dirent *), int (*dcomp) (const void *, const void *))
-{
-  register struct dirent *d, *p, **names;
-  register size_t nitems;
-  struct stat stb;
-  unsigned long arraysz;
-  DIR *dirp;
-
-  if ((dirp = opendir(dirname)) == NULL)
-    return(-1);
-
-  if (fstat(DIRHANDLE, &stb) < 0)
-    return(-1);
-
-  /*
-   * estimate the array size by taking the size of the directory file
-   * and dividing it by a multiple of the minimum size entry.
-   */
-  arraysz = (stb.st_size / 24);
-
-  names = (struct dirent **)malloc(arraysz * sizeof(struct dirent *));
-  if (names == NULL)
-    return(-1);
-
-  nitems = 0;
-
-  while ((d = readdir(dirp)) != NULL) {
-
-     if (select != NULL && !(*select)(d))
-       continue;       /* just selected names */
-
-     /*
-      * Make a minimum size copy of the data
-      */
-
-     p = (struct dirent *)malloc(DIRSIZ(d));
-     if (p == NULL)
-       return(-1);
-
-     p->d_ino = d->d_ino;
-     p->d_reclen = d->d_reclen;
-     /*p->d_namlen = d->d_namlen;*/
-     bcopy(d->d_name, p->d_name, p->d_reclen + 1);
-
-     /*
-      * Check to make sure the array has space left and
-      * realloc the maximum size.
-      */
-
-     if (++nitems >= arraysz) {
-
-       if (fstat(DIRHANDLE, &stb) < 0)
-         return(-1);     /* just might have grown */
-
-       arraysz = stb.st_size / 12;
-
-       names = (struct dirent **)realloc((char *)names, arraysz * sizeof(struct dirent *));
-       if (names == NULL)
-         return(-1);
-     }
-
-     names[nitems-1] = p;
-   }
-
-   closedir(dirp);
-
-   if (nitems && dcomp != NULL)
-     qsort(names, nitems, sizeof(struct dirent *), dcomp);
-
-   *namelist = names;
-
-   return(nitems);
-}
 
 
-#endif /* __BEOS__ */
+
+
+
+
+
 
 
 
@@ -214,119 +109,31 @@ static char* get_user_name(void);
 static char* get_file_name(char *fullpath);
 
 
+/* Mingw does not have localtime_r(): */
+/* (this replacement is Windows-specific, so also check for Win32) */
+#ifndef HAVE_LOCALTIME_R
+#ifdef WIN32
+#define localtime_r( _clock, _result ) \
+        ( *(_result) = *localtime( (_clock) ), \
+          (_result) )
+#endif
+#endif
+
+
+/*************************************************************************
+Using Autoconf's "config.h", we include our portability replacements
+for scandir() and alphasort() if necessary:
+*************************************************************************/
+
+#ifndef HAVE_SCANDIR
+#include "scandir.h"
+#endif /* end of scandir() replacements */
+
 /* fix HOME on windows */
 #ifdef BUILD_MINGW32
 #include <windows.h>
 
-/* mingw32 doesn't support scandir() so this is our own replacement: */
-/* (modified from scandir() in glibc-2.3.6) - FSF - GPLv2+)          */
-static int w32_scandir(const char* dir, struct dirent*** namelist);
-int w32_alphasort (const void *a, const void *b);
 
-struct scandir_cancel_struct
-{
-  DIR *dp;
-  void *v;
-  size_t cnt;
-};
-
-
-/* mingw32 doesn't support scandir() so this is our own replacement: */
-/* (modified from scandir() in glibc-2.3.6) - FSF - GPLv2+)          */
-/* FIXME (maybe) this version doesn't check for allocation errors,   */
-/* such as running out of memory.                                    */
-int w32_scandir(const char* dir, struct dirent*** namelist)
-{
-  DIR* dp = opendir (dir);
-  struct dirent** v = NULL;
-  size_t vsize = 0;
-  struct scandir_cancel_struct c;
-  struct dirent* d = NULL;
-  int save;
-
-  if (dp == NULL)
-    return -1;
-//  save = errno;
-//  errno = 0;
-
-  c.dp = dp;
-  c.v = NULL;
-  c.cnt = 0;
-  //__libc_cleanup_push (cancel_handler, &c);
-
-  d = readdir(dp);
-
-  while (d != NULL)  /* go until no more entries in lesson directory */
-  {
-    if (is_lesson_file(d)) /* if it's a lesson file, add it to list: */
-    {
-      struct dirent* vnew;
-      size_t dsize;
-
-//      /* Ignore errors from select or readdir */
-//      errno =0 ;
-
-      if (c.cnt == vsize)
-      {
-        struct dirent** new;
-
-        if (vsize == 0)
-          vsize = 10;
-        else
-          vsize *= 2;
-
-        new = (struct dirent**) realloc (v, vsize * sizeof (*v));
-
-        if (new == NULL)
-          break;
-
-        v = new;
-        c.v = (void *) v;
-      }
-
-      dsize = &d->d_name[strlen((const char*)&d->d_name) + 1] - (char *) d;
-      vnew = (struct dirent *) malloc (dsize);
-      if (vnew == NULL)
-        break;
-
-      v[c.cnt++] = (struct dirent *) memcpy (vnew, d, dsize);
-    }
-    /* read next entry: */
-    d = readdir(dp);
-  }
-
-//   if (errno != 0)
-//   {
-//       save = errno;
-// 
-//       while (c.cnt > 0)
-// 	free (v[--c.cnt]);
-//       free (v);
-//       c.cnt = -1;
-//   }
-//   else
-  {
-    /* Sort the list if we have a comparison function to sort with.  */
-    qsort (v, c.cnt, sizeof (*v), w32_alphasort);
-    *namelist = v;
-  }
-
-//  __libc_cleanup_pop (0);
-
-  closedir(dp);
-//  errno = save;
-
-  return c.cnt;
-
-}
-
-/* This is needed for qsort() for lesson table: */
-int
-w32_alphasort (const void *a, const void *b)
-{
-  return strcoll ((*(const struct dirent **) a)->d_name,
-		  (*(const struct dirent **) b)->d_name);
-}
 
 
 
@@ -812,11 +619,12 @@ int parse_lesson_file_directory(void)
   fprintf(stderr, "lesson_path is: %s\n", lesson_path);
 #endif
 
-/* Use our home-brewed scandir() if platform doesn't have it in lib: */
-#ifdef BUILD_MINGW32
-  num_lessons = w32_scandir(lesson_path, &lesson_list_dirents);
-#else
+  /* Believe we now have complete scandir() for all platforms :) */
   num_lessons = scandir(lesson_path, &lesson_list_dirents, is_lesson_file, alphasort);
+
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "num_lessons is: %d\n", num_lessons);
 #endif
 
   if (num_lessons < 0) {

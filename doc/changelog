@@ -1,8 +1,11 @@
-2007.Dec.31 (svn.debian.org/tux4kids - revision 398)
-      Code:
-	Add a "--consolidatelogs" feature to tuxmathadmin.
-
-      Tim Holy <holy@wustl.edu>
+200.Jan.01 (svn.debian.org/tux4kids - revision 402)
+      Build:
+        New files scandir.h, .c with better cross-platform scandir()
+        and alphasort().  New code is from Hatari project at SF.net.
+        Better use of autoconf to detect need for replacement functions
+        like this when building on various platforms.
+	
+      David Bruce <dbruce@tampabay.rr.com>
 
 2007.Dec.31 (svn.debian.org/tux4kids - revision 397)
       Code:

@@ -1,6 +1,6 @@
 # English translations for Tux Of Math Command package.
 # This file is put in the public domain.
-# Automatically generated, 2007.
+# Automatically generated, 2008.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tux Of Math Command 1.6.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-12-05 18:15-0500\n"
-"PO-Revision-Date: 2007-12-05 18:15-0500\n"
+"POT-Creation-Date: 2007-12-31 14:39-0500\n"
+"PO-Revision-Date: 2007-12-31 14:39-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -218,159 +218,157 @@ msgid "Multiples of 5"
 msgstr "Multiples of 5"
 
 #: data/missions/lessons/descr_lessons:18
-#: data/missions/lessons/descr_lessons:19
 msgid "Multiplication: 0 to 5"
 msgstr "Multiplication: 0 to 5"
 
-#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:19
 msgid "Multiples of 6"
 msgstr "Multiples of 6"
 
-#: data/missions/lessons/descr_lessons:21
+#: data/missions/lessons/descr_lessons:20
 msgid "Multiples of 7"
 msgstr "Multiples of 7"
 
-#: data/missions/lessons/descr_lessons:22
-#: data/missions/lessons/descr_lessons:23
+#: data/missions/lessons/descr_lessons:21
 msgid "Multiplication: 0 to 7"
 msgstr "Multiplication: 0 to 7"
 
-#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:22
 msgid "Multiples of 8"
 msgstr "Multiples of 8"
 
-#: data/missions/lessons/descr_lessons:25
+#: data/missions/lessons/descr_lessons:23
 msgid "Multiples of 9"
 msgstr "Multiples of 9"
 
-#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:24
 msgid "Multiples of 10"
 msgstr "Multiples of 10"
 
-#: data/missions/lessons/descr_lessons:27
+#: data/missions/lessons/descr_lessons:25
 msgid "Multiplication: 0 to 10"
 msgstr "Multiplication: 0 to 10"
 
-#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:26
 msgid "Multiples of 11 and 12"
 msgstr "Multiples of 11 and 12"
 
-#: data/missions/lessons/descr_lessons:29
+#: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 12"
 msgstr "Multiplication: 0 to 12"
 
-#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:28
 msgid "Multiples of 13, 14, and 15"
 msgstr "Multiples of 13, 14, and 15"
 
-#: data/missions/lessons/descr_lessons:31
+#: data/missions/lessons/descr_lessons:29
 msgid "Multiplication: 0 to 15"
 msgstr "Multiplication: 0 to 15"
 
-#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:30
 msgid "Multiplication: Missing Numbers"
 msgstr "Multiplication: Missing Numbers"
 
-#: data/missions/lessons/descr_lessons:33
+#: data/missions/lessons/descr_lessons:31
 msgid "Division by 2"
 msgstr "Division by 2"
 
-#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:32
 msgid "Division by 3"
 msgstr "Division by 3"
 
-#: data/missions/lessons/descr_lessons:35
+#: data/missions/lessons/descr_lessons:33
 msgid "Division by 4"
 msgstr "Division by 4"
 
-#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:34
 msgid "Division by 5"
 msgstr "Division by 5"
 
-#: data/missions/lessons/descr_lessons:37
+#: data/missions/lessons/descr_lessons:35
 msgid "Division: 1 to 5"
 msgstr "Division: 1 to 5"
 
-#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:36
 msgid "Division by 6"
 msgstr "Division by 6"
 
-#: data/missions/lessons/descr_lessons:39
+#: data/missions/lessons/descr_lessons:37
 msgid "Division by 7"
 msgstr "Division by 7"
 
-#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:38
 msgid "Division by 8"
 msgstr "Division by 8"
 
-#: data/missions/lessons/descr_lessons:41
+#: data/missions/lessons/descr_lessons:39
 msgid "Division by 9"
 msgstr "Division by 9"
 
-#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:40
 msgid "Division by 10"
 msgstr "Division by 10"
 
-#: data/missions/lessons/descr_lessons:43
+#: data/missions/lessons/descr_lessons:41
 msgid "Division: 1 to 10"
 msgstr "Division: 1 to 10"
 
-#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:42
 msgid "Division by 11 and 12"
 msgstr "Division by 11 and 12"
 
-#: data/missions/lessons/descr_lessons:45
+#: data/missions/lessons/descr_lessons:43
 msgid "Division: 1 to 12"
 msgstr "Division: 1 to 12"
 
-#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:44
 msgid "Division by 13, 14, and 15"
 msgstr "Division by 13, 14, and 15"
 
-#: data/missions/lessons/descr_lessons:47
+#: data/missions/lessons/descr_lessons:45
 msgid "Division: 1 to 15"
 msgstr "Division: 1 to 15"
 
-#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:46
 msgid "Multiplication and Division Review"
 msgstr "Multiplication and Division Review"
 
-#: data/missions/lessons/descr_lessons:49
+#: data/missions/lessons/descr_lessons:47
 msgid "Typing Negative Numbers"
 msgstr "Typing Negative Numbers"
 
-#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:48
 msgid "Subtraction: Negative Answers"
 msgstr "Subtraction: Negative Answers"
 
-#: data/missions/lessons/descr_lessons:51
+#: data/missions/lessons/descr_lessons:49
 msgid "Adding Negatives to Positives"
 msgstr "Adding Negatives to Positives"
 
-#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:50
 msgid "Subtracting Negatives From Positives"
 msgstr "Subtracting Negatives From Positives"
 
-#: data/missions/lessons/descr_lessons:53
+#: data/missions/lessons/descr_lessons:51
 msgid "Adding Negatives to Negatives"
 msgstr "Adding Negatives to Negatives"
 
-#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:52
 msgid "Subtracting Negatives From Negatives"
 msgstr "Subtracting Negatives From Negatives"
 
-#: data/missions/lessons/descr_lessons:55
+#: data/missions/lessons/descr_lessons:53
 msgid "Negative and Positive Numbers Review"
 msgstr "Negative and Positive Numbers Review"
 
-#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:54
 msgid "Multiplication and Division of Negatives"
 msgstr "Multiplication and Division of Negatives"
 
-#: data/missions/lessons/descr_lessons:57
+#: data/missions/lessons/descr_lessons:55
 msgid "Multiplication of Positives and Negatives"
 msgstr "Multiplication of Positives and Negatives"
 
-#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:56
 msgid "Division of Positives and Negatives"
 msgstr "Division of Positives and Negatives"

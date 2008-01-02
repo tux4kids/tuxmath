@@ -35,7 +35,8 @@ tuxmath_SOURCES = tuxmath.c \
 	fileops.c	\
 	ConvertUTF.c	\
 	SDL_extras.c	\
-	lessons.c
+	lessons.c	\
+	scandir.c
 
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
@@ -53,7 +54,8 @@ EXTRA_DIST = 	credits.h 	\
 		ConvertUTF.h	\
 		SDL_extras.h	\
 		lessons.h	\
-		gettext.h
+		gettext.h	\
+		scandir.h
 
 
 WINDRES=@WINDRES@
