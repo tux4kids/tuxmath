@@ -349,8 +349,8 @@ Setting Administrative Options
   settings.  (This is somewhat under construction).
 
 
-Game Summary Files
-------------------
+Game Summary Files: Tracking Players' Performance
+-------------------------------------------------
   "Tux, of Math Command" saves summaries of the last ten games in the
   player's .tuxmath directory.  The files are named "summary1" through
   "summary10", with "summary1" the most recent. The files includes
@@ -364,12 +364,25 @@ Game Summary Files
   must have answered at least one question to count as an attempt).
   This file can be imported into a spreadsheet program (OpenOffice.org
   calc, Microsoft Excel, KSpread, Gnumeric, Google Docs, etc.) to
-  examine or chart student progress.
+  examine or chart child progress.
+
+
+Using Multi-User Configuration: Some Tips for Teachers
+------------------------------------------------------
+  Your school's computer administrator can configure TuxMath so that
+  students "log in" when they first start playing (see below).
+  Students will then have their own personalized gold star records,
+  and summary and log files (described immediately above) will be
+  saved for each student individually.
+
+  If you want to test TuxMath yourself without "contaminating" the
+  records in a student account, hold down the control key ("Ctrl")
+  when you click on the menu entry corresponding to you and your
+  classroom.  Then you will be playing "as yourself."
 
 
 Configuring Multiple Users
 --------------------------
-
   In some cases, the user's log-in name is not very informative: an
   example is when schools use a single username "student" for all
   students in the school.  It is possible to set up Tuxmath so that it
@@ -387,22 +400,23 @@ Configuring Multiple Users
         (let's say it's "/servervolume/"), create a directory which
         for current purposes we'll call "tuxmath_users".
 
-     2. Set it up so that tuxmath automatically finds the
-        user directory tree.  Find the global configuration file
-        (e.g., under Linux it would usually be
+     2. Set it up so that tuxmath automatically finds the user
+        directory tree.  Find the global configuration file (e.g.,
+        under Linux it would usually be
         /usr/local/share/tuxmath/missions/options; on Mac OSX it is a
         file called "options" in the .dmg bundle).  Set the "homedir"
         property (at the very end of the file) to point to your home
-        directory tree.
+        directory tree. Make sure you uncomment (remove the "#"
+        symbol) from that line.
 
-	Be aware that you can employ the command line option
+	Be aware that you can also employ the command line option
         "--homedir /severvolume/tuxmath_users" (along with any other
-        options) upon launching tuxmath.  Note that an individual
+        options) upon launching tuxmath.  An individual
         classroom could make use of this school-wide service by
         specifying (in the option-file syntax) homedir =
         /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson so that
         students in a particular classroom only have to choose among
-        their own class.
+        their own class and not go through the full login "tree".
 
   If you are using tuxmathadmin, here are the remaining steps:
 
@@ -430,14 +444,17 @@ Configuring Multiple Users
         This indicates that three kids (named "KidA", "KidB", and
         "KidC") are in Mr.  Jones' 1st grade class; two kids ("Kid1"
         and "Kid2") are in Mrs. Smith's 1st grade class, and there are
-        4 in Mrs. Wilson's 2nd grade class.
+        4 in Mrs. Wilson's 2nd grade class.  The school presumably has
+        more kids and more classrooms than this, but this is a short
+        example intended to illustrate the organization of the file.
 
 	Note that it's flexible: you don't have to divide things by
 	grade, teacher, and kid; you could just do teacher & kid, or
 	just kids, or you could do something even more complicated
 	("East Campus", "1st grade", etc.). If you were just wanting
 	to set things up for home use with a single login you could
-	just list the names of your kids and that would be it.
+	just list the names of your kids in a single column and that
+	would be it.
 
 	Save the spreadsheet as a comma-separated-value file (.csv
         file).  In case you have to prepare it manually (say, with a
@@ -467,16 +484,18 @@ Configuring Multiple Users
 
           tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs userfile.csv
 
-	if you haven't updated the global configuration file yet (step
-	2 above).  Here, "userfile.csv" is the name of the file that
-	you created in the previous step.  It should tell you that
-	it's creating all the user directories and complete without
-	error.  Note that "tuxmathadmin -h" gives help, including a
-	list of the things that tuxmathadmin can do.
+	(use the 2nd syntax if you haven't updated the global
+	configuration file yet as in step 2 above).  Here,
+	"userfile.csv" is the name of the file that you created in the
+	previous step.  It should tell you that it's creating all the
+	user directories and complete without error.  Note that
+	"tuxmathadmin -h" gives help, including a list of the things
+	that tuxmathadmin can do.
 
-     5. Optionally, in "tuxmath_users" you can also create a file that
-        poses a question at each step of the hierarchy.  For the
-        example above, it might contain three lines:
+     5. Optionally, in the "tuxmath_users" directory you can also
+        create a file that poses a question at each step of the
+        hierarchy.  For the example above, it might contain three
+        lines:
 
 	Choose your grade:
 	Choose your teacher:
@@ -491,7 +510,7 @@ Configuring Multiple Users
 
      6. Decide on how you want users to compete for high scores.  For
         the example above, suppose you want each student to compete
-        against the other kids in their same class.  You would
+        against the other kids in their same classroom.  You would
         configure this with the following command:
 
           tuxmathadmin --confighighscores --level 3
@@ -507,7 +526,9 @@ Configuring Multiple Users
 
            tuxmathadmin --cleargoldstars
 
-	in the /etc/cron.daily directory. 
+	in the /etc/cron.daily directory. See the cron documentation
+	for more detail.  You may also want to run tuxmathadmin with
+	--consolidatelogs to generate daily reports (see below).
 
 
 

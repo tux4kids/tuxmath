@@ -930,13 +930,13 @@ int run_login_menu(void)
   char **user_login_questions = NULL;
   int n_users = 0;
   char **user_names = NULL;
-  
   menu_options menu_opts;
   int chosen_login = -1;
   int level;
   int i;
   char *trailer_quit = "Quit";
   char *trailer_back = "Back";
+  SDLMod mod;
 
   // Check for & read user_login_questions file
   n_login_questions = read_user_login_questions(&user_login_questions);
@@ -960,6 +960,8 @@ int run_login_menu(void)
   while (n_users) {
     // Get the user choice
     chosen_login = choose_menu_item(user_names, NULL, n_users, menu_opts);
+    // Determine whether there were any modifier (CTRL) keys pressed
+    mod = SDL_GetModState();
     if (chosen_login == -1 || chosen_login == n_users) {
       // User pressed escape or selected Quit/Back, handle by quitting
       // or going up a level
@@ -995,6 +997,10 @@ int run_login_menu(void)
       free(user_names[i]);
     free(user_names);
     user_names = NULL;
+    // If the CTRL key was pressed, choose this as the identity, even
+    // if there is a lower level to the hierarchy
+    if (mod & KMOD_CTRL)
+      break;
     // Set the title appropriately for the next menu
     if (level < n_login_questions)
       menu_opts.title = user_login_questions[level];
