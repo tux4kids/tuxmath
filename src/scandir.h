@@ -1,3 +1,7 @@
+/* Brought to tuxmath from the Hatari project under the terms of the GPLv2+ */
+/* It should only be included if scandir is not found by Autoconf - e.g.: */
+/* #ifndef HAVE_SCANDIR (from autoconf's config.h)    - DSB               */
+
 /*
   Hatari - scandir.h
 

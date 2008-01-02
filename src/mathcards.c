@@ -17,6 +17,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 
 #include "mathcards.h"
 
@@ -55,8 +56,8 @@ static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
 static MC_MathQuestion* delete_list(MC_MathQuestion* list);
 static int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy);
 static int list_length(MC_MathQuestion* list);
+static int randomize_list(MC_MathQuestion** list);
 
-static MC_MathQuestion* randomize_list(MC_MathQuestion* list);
 int comp_randomizer(const void *a, const void *b);
 static MC_MathQuestion* pick_random(int length, MC_MathQuestion* list);
 static int compare_node(MC_MathQuestion* first, MC_MathQuestion* other);
@@ -2452,7 +2453,11 @@ MC_MathQuestion* generate_list(void)
   /*  now shuffle list if desired: */
   if (math_opts->randomize)
   {
-    top_of_list = randomize_list(top_of_list); 
+    if(!randomize_list(&top_of_list))
+    { 
+      fprintf(stderr, "Error during list randomization!\n");
+      return NULL;
+    }
   }
 
   #ifdef MC_DEBUG
@@ -2859,60 +2864,44 @@ int list_length(MC_MathQuestion* list)
 
 
 
-/* This is a new implementation written in an attempt to avoid */
-/* the O(n^2) performance problems seen with the old randomization */
-/* function. The list is created as a vector, but is for now still */
-/* made a linked list to minimize changes needed elsewhere.        */
-/* NOTE - the function frees the old list and returns a pointer to */
-/* a newly allocated shuffled list - maybe this is confusing.  As  */
-/* long as it is used as in "ptr = new_randomize_list(ptr);", it */
-/* should not cause problems. */
-MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
+/* This is a new implementation written in an attempt to avoid       */
+/* the O(n^2) performance problems seen with the old randomization   */
+/* function. The list is created as a vector, but is for now still   */
+/* made a linked list to minimize changes needed elsewhere.          */
+/* The argument is a pointer to the top of the old list.  This extra */
+/* level of indirection allows the list to be shuffled "in-place".   */
+/* The function returns 1 if successful, 0 on errors.                */
+
+static int randomize_list(MC_MathQuestion** old_list)
 {
-  MC_MathQuestion* old_tmp = old_list;
+  MC_MathQuestion* old_tmp = *old_list;
   MC_MathQuestion** tmp_vect = NULL;
-  MC_MathQuestion* new_list_head = NULL;
 
   int i = 0;
-  int old_length = list_length(old_list);
+  int old_length = list_length(old_tmp);
 
   /* set random seed: */
   srand(time(0));  
 
-  /* Allocate vector and copy in old list - this is needed because old_list */
-  /* may have "holes" in it from deletions: */
 
-  /* This just allocates the list of pointers, not space for the nodes themselves: */
+  /* Allocate vector and set ptrs to nodes in old list: */
+
+  /* Allocate a list of pointers, not space for the nodes themselves: */
   tmp_vect = (MC_MathQuestion**)malloc(sizeof(MC_MathQuestion*) * old_length);
-
+  /* Set each pointer in the vector to the corresponding node: */
   for (i = 0; i < old_length; i++)
   {
-    tmp_vect[i] = (MC_MathQuestion*)malloc(sizeof(MC_MathQuestion));
-
-    if (!copy_node(old_tmp, tmp_vect[i]))
-    {
-      int j = 0;
-      fprintf(stderr, "Error during copying - cannot randomize list!\n");
-      fprintf(stderr, "Problem occurred for i = %d\n", i);
-      for (j = 0; j <= i; j++)
-        free(tmp_vect[j]);
-      free(tmp_vect);
-      return NULL;
-    }
-
+    tmp_vect[i] = old_tmp;
     tmp_vect[i]->randomizer = rand();
     old_tmp = old_tmp->next;
   }
 
-  /* free arg list now that copy made: */
-  delete_list(old_list);
-
-  /* Now just sort on 'tmp_vect[i]->randomizer' to shuffle list: */
+  /* Now simply sort on 'tmp_vect[i]->randomizer' to shuffle list: */
   qsort(tmp_vect, old_length,
         sizeof(MC_MathQuestion*),
         comp_randomizer);
 
-  /* Set pointers, as rest of program uses this as a linked list */
+  /* Re-create pointers to provide linked-list functionality:      */
   /* (stop at 'old_length-1' because we dereference tmp_vect[i+1]) */
   for(i = 0; i < old_length - 1; i++)
   {
@@ -2924,14 +2913,17 @@ MC_MathQuestion* randomize_list(MC_MathQuestion* old_list)
     tmp_vect[i]->next = tmp_vect[i+1];
     tmp_vect[i+1]->previous = tmp_vect[i];
   }
+  /* Handle end cases: */
   tmp_vect[0]->previous = NULL;
   tmp_vect[old_length-1]->next = NULL;
 
-  /* Now just return pointer to first element! */
-  new_list_head = tmp_vect[0];
+  /* Now arrange for arg pointer to indirectly point to first element! */
+  *old_list = tmp_vect[0];
   free(tmp_vect);
-  return new_list_head;
+  return 1;
 }
+
+
 
 /* This is needed for qsort(): */
 int comp_randomizer (const void* a, const void* b)

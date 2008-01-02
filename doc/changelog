@@ -1,7 +1,20 @@
-200.Jan.01 (svn.debian.org/tux4kids - revision 402)
+2008.Jan.02 (svn.debian.org/tux4kids - revision 405)
+      Code:
+        A little more refinement of randomize_list() - now just
+        rearranges pointers to existing nodes rather than allocating
+        new list and deleting old one. Sort time for full Ace list (~16,000 
+        questions) has gone from over 7 sec to 0.012 sec! (on 3.2 GHz P4)
+        Even on much slower machines in schools, expect this will be quick enough. 
+	
+      David Bruce <dbruce@tampabay.rr.com>
+
+2008.Jan.02 (svn.debian.org/tux4kids - revision 402)
       Build:
         New files scandir.h, .c with better cross-platform scandir()
         and alphasort().  New code is from Hatari project at SF.net.
+        Thanks to Thomas Huth <thothy@users.sourceforge.net> - dev/maintainer
+        of Hatari project, and to contributers to that project.
+
         Better use of autoconf to detect need for replacement functions
         like this when building on various platforms.
 	
