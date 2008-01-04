@@ -83,10 +83,14 @@ install-nsi-local: all
 install-nsi-am: install-nsi-local
 
 
-nsis: install-nsi-local
-	if test ["x$(MAKENSIS)"="x"]; then \
-	  echo "\nNSIS program not found!\n"; \
+nsis:
+	if test "x$(MAKENSIS)" = "x"; then \
+	  echo "\nError - makensis program not found!"; \
+          echo "It is needed to build the NSIS executable installer for Windows."; \
+          echo "Install it from your distribution's repository, or" ; \
+          echo "download it from: http://nsis.sourceforge.net/Download\n"; \
 	else \
+	$(MAKE) $(AM_MAKEFLAGS) install-nsi-local; \
 	  $(MAKENSIS) -NOCD nsis/tuxmath.nsi; \
 	fi
 
@@ -99,4 +103,5 @@ clean-local:
 	  rm tuxmath-@VERSION@-win32-installer.exe; \
 	fi
 
+.PHONY: nsis
 
