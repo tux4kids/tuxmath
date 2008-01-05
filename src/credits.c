@@ -88,6 +88,7 @@ char * credit_text[] = {
   "KENDRA SWANSON AND LINNEA HOLY",
   "OLD BONHOMME ELEMENTARY,",
   "ST. LOUIS, MO",
+  "STEPHANIE CHAPIE & HOWARD NATHANSON",
   "",
   "",
   "-WEBSITE",
