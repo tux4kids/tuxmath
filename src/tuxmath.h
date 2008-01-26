@@ -24,26 +24,12 @@
 
 #include <config.h>
 
-// Translation stuff:
-/* NLS not active on Mac yet: */
-#ifdef MACOSX
-#define N_(String) String
-#define _(String) String
-//#else
-/* Nor on Windows: */
-//#ifdef WIN32
-//#define N_(String) String
-//#define _(String) String
-
-/* Set up support for NLS on other platforms - i.e. Linux/Unix: */
-#else
+// Translation stuff (now works for Mac and Win too!): 
 #include "gettext.h"
 #include <locale.h>
 #define _(String) gettext (String)
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
-#endif
-//#endif
 
 #include <wchar.h>
 

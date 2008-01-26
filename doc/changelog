@@ -1,3 +1,20 @@
+2008.Jan.26 (svn.debian.org/tux4kids - revision 410)
+      Build:
+        After a few minor modifications, tuxmath now builds and installs on
+        MacOSX Leopard with "./configure; make; sudo make install", including
+        functioning gettext!
+ 
+        The build environment needs current versions of gettext,
+        libiconv, and all the SDL* libs.  Also, it needs newer versions of
+        the autotools than are currently in either Fink or Leopard itself - 
+        not exactly trivial.
+
+        The alterations to tuxmath consisted of testing for the presence of
+        error.h in autoconf, and implementing Tim's workaround (suggested for
+        BeOS) if not found - this should also fix the BeOS issue.
+ 
+      David Bruce <dbruce@tampabay.rr.com>
+
 2008.Jan.02 (svn.debian.org/tux4kids - revision 405)
       Code:
         A little more refinement of randomize_list() - now just

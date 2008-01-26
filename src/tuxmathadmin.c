@@ -15,12 +15,21 @@
   December 3, 2007
 */
 
+#include <config.h>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+
+// error.h not always available - e.g. MacOSX, BeOS:
+#ifdef HAVE_ERROR_H
 #include <error.h>
+#else
+#define error(status, errnum, rest...) \
+  fsync(stdout); fprintf(stderr, ## rest); exit(status)
+#endif
+
 // The next two are for mkdir and umask
 #include <sys/types.h>
 #include <sys/stat.h>
