@@ -26,7 +26,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Tux Of Math Command 1.6.0\n"
+"Project-Id-Version: Tux Of Math Command 1.6.1\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2007-12-31 14:39-0500\n"
 "PO-Revision-Date: 2007-12-31 14:39-0500\n"

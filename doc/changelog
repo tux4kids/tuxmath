@@ -1,9 +1,17 @@
+2008.Jan.30 (svn.debian.org/tux4kids - revision 418)
+Version 1.6.1
+      Docs:
+        Updating of changelog, README.txt, INSTALL.txt to reflect recent work -
+        no code changes beyond what is listed below.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2008.Jan.26 (svn.debian.org/tux4kids - revision 410)
       Build:
         After a few minor modifications, tuxmath now builds and installs on
         MacOSX Leopard with "./configure; make; sudo make install", including
         functioning gettext!
- 
+
         The build environment needs current versions of gettext,
         libiconv, and all the SDL* libs.  Also, it needs newer versions of
         the autotools than are currently in either Fink or Leopard itself - 

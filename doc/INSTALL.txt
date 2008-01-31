@@ -15,35 +15,37 @@ Requirements
       Linux
       Windows 32-bit
       MacOSX
+      FreeBSD
+      BeOS
 
     In principle, Tuxmath should build and run on any platform with SDL,
     including: 
       Solaris
       IRIX
-      FreeBSD
-      BeOS
+      Other *BSDs
     However, I do not know if anyone has done a current build on these systems.
 
   CPU
   ---
-    [ Minimum requirements should be P90, but not sure yet... ]
-    [ Architectures including i386, Alpha, PPC, Sparc64, 68000<?> ]
+    Any machine from the last decade should easily handle TuxMath - when first
+    written, the minimum suggested CPU was a 90 MHz Pentium.
 
 
   Video Display
   -------------
     TuxMath displays the game screen in a 640x480 window.
 
-    If supported by your system, the game can also display in full-screen
-    mode (see "README.txt" or the program's "--usage" display).
+    If a 640x480 resolution is supported by your system, the game can also display
+    in full-screen  mode(see "README.txt" or the program's "--usage" display).
 
     When attempting to run in fullscreen mode on systems where true 640x480
     resolution isn't available for some reason, the next-lowest resolution
     available will be used, and the game area will be centered within a
     black screen.
 
-    TuxMath prefers 16bpp (bits per pixel) color depth, but can run in
-    8bpp (256 colors) if that's all that is available.
+    TuxMath prefers 32bpp (bits per pixel) color depth.  Current builds have not been
+    tested on systems that cannot provide this (AFAIK), but I believe SDL will make
+    do with lower color depth if necessary.
 
 
   Sound Card
@@ -85,12 +87,19 @@ Requirements
     sound and music.  This library is optional, but without it, the program
     will be completely silent.
 
-    Gnu gettext is required to run "make install".
-
     As of version 1.5, TuxMath uses SDL_ttf to display true type fonts.
     The freely distributable Andika font is included under data/fonts.
 
-    Note: libSDL, SDL_image, SDL_ttf and SDL_mixer are all free, 
+    As of v1.5.8 (Linux), v1.6.0 (Windows), and v1.6.1(MacOSX), internationalization
+    is supported using Gnu gettext and libiconv.
+
+    The executable Windows installer contains all needed libraries (DLLs) and
+    the Andika font - nothing else should be needed that is not part of
+    Windows.  The *tar.gz source packages require the "*-dev" versions of SDL,
+    SDL_image, SDL_mixer, SDL_ttf for building and installation (easily obtained
+    in most any Gnu/Linux distribution).  The Andika font is also included.
+
+    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, and libiconv are all free, 
     Open Source libraries, released under the GNU Library General Public 
     License (LGPL).
 
@@ -146,25 +155,27 @@ Compiling and Installing TuxMath
 
         svn://svn.debian.org/tux4kids/tuxmath
 
-      If you are using a source tar.gz package (e.g. tuxmath-1.5.5-tar.gz),
+      If you are using a source tar.gz package (e.g. tuxmath_w_fonts-1.6.1-tar.gz),
       all you need to do is unpack the archive in a convient location and
       do a typical configure, make, and install.  In other words, the
       tarball contains a complete "GNU Build System".  Note, however, that
       you will need the "-dev" files for SDL, SDL_image, SDL_mixer, and
-      SDL_ttf.
+      SDL_ttf. Your system is virtually certain to already contain the other
+      standard libs used at compile or run time.
  
       For example:
  
-        tar -xzf tuxmath-1.5.5-tar.gz
-        cd tuxmath-1.5.5
+        tar -xzf tuxmath_w_fonts-1.6.1-tar.gz
+        cd tuxmath_w_fonts-1.6.1
         ./configure
         make
         make install.  (you might need "su" or "sudo" for this)
  
       If you use a subversion checkout, you will need to generate the configure script.
-      Tuxmath uses the Gnu Autoconf/Automake tools for development. You will need
-      to run Autoconf's "autoreconf" to generate the configure script, Makefile.in's,
-      and friends, so the build process becomes:
+      Tuxmath uses the Gnu Autoconf/Automake tools for development. You will Autoconf 2.61
+      or later, Automake 1.10 or later, and Gnu Gettext 0.16 or later, in addition to the 
+      libs needed for the build itself. Run Autoconf's "autoreconf" to generate the 
+      configurescript, Makefile.in's, and friends, so the build process becomes:
       
         autoreconf --install; ./configure; make; make install
 
@@ -193,38 +204,21 @@ Compiling and Installing TuxMath
       Tuxmath can be cross-compiled for Windows under Linux.  I have done this on
       my Debian system. Once the crossbuild environment is set up, the process is
       simple and nearly automatic.
- 
-      To set up a crossbuild environment:
- 
-      1. Install mingw32 (apt-get install mingw32) and makensis (apt-get install nsis)
 
-      2. Create directory structure:
-        - mkdir /usr/local/cross-tools
-        - mkdir /usr/local/cross-tools/i586-mingw32msvc
-        - mkdir /usr/local/cross-tools/i586-mingw32msvc/lib
-        - mkdir /usr/local/cross-tools/i586-mingw32msvc/include
+      In order to get a successful crossbuild using gettext, it was necessary to set
+      up a "pure" mingw environment, in particular avoiding the use of libgw32c.
+      I also stopped using the Debian-packaged mingw32 cross-tools and used the script
+      directly from the mingw project:
 
-      3. Install precompiled win32dev files (lib and includes) for SDL, SDL-image
-         and SDL-mixer in the lib and include directories you just created.
-         You can get all of these from www.libsdl.org. I had some trouble with
-         this step as the SDL libs have varieties intended for both mingw32 and MSVC -
-         I was able to build successfully using the mingw32 ones. I also had to put
-         all the lib files directly under /usr/local/cross-tools/i586-mingw32msvc/lib
-         to get it to work.  My /usr/local/cross-tools/i586-mingw32msvc/lib contains:
+      http://downloads.sourceforge.net/mingw/x86-mingw32-build.sh-0.0-20061107-1.tar.bz2
 
-         dbruce@debian:/usr/local/cross-tools/i586-mingw32msvc/lib$ ls
-         jpeg.dll      libSDL.la     SDL_image.dll  SDL_ttf.dll     zlib1.dll
-         libgw32c.a    libSDLmain.a  SDL_image.lib  smpeg.dll
-         libpng12.dll  libtiff.dll   SDL_mixer.dll  vorbis.dll
-         libSDL.dll.a  ogg.dll       SDL_mixer.lib  vorbisfile.dll
+      I used the above to create a crossbuild environment under /usr/local/mingw.
 
-
-         The header files can be in their own folders as long as they are under
-         /usr/local/cross-tools/i586-mingw32msvc/include
-
-      4. Install libgw32c (the dev file):
-         http://gnuwin32.sourceforge.net/packages/libgw32c.htm in the same directory.
-         This gives you the file "libgw32c.a" that you need to have in the lib directory.
+      After that, I built *everything* from source needed for the crossbuild, including
+      all the SDL* libs, gettext, libiconv, libjpeg, freetype, and so forth.  There were
+      a number of pitfalls along the way, and hopefully I will get this documented at
+      some point.  Suffice to say that tuxmath itself builds fine in this way, once the
+      environment is set up.
 
       5. You need to have a directory containing all of the dlls that will need to be
          packaged into the installer.  The Makefile expects them to be in NSI_DLL_DIR,
@@ -234,21 +228,23 @@ Compiling and Installing TuxMath
         jpeg.dll      ogg.dll        SDL_mixer.dll  vorbis.dll
         libpng12.dll  SDL.dll        SDL_ttf.dll    vorbisfile.dll
         libtiff.dll   SDL_image.dll  smpeg.dll      zlib1.dll
+        libiconv-2.dll
+
+        The svn repository has a directory with copies of all of these files:
+
+        tuxmath/people/dbruce/tuxmath_dll
 
 
-        (Note - this has mostly the same files as the cross-tools lib directory - it is most
-        likely possible to eliminate this redundancy in some way.).
-
-      6. If you have done a native (Linux) build in the same source tree, run "make clean"
-         and "make distclean" to get rid of the autogenerated files.
+      6. If you have done a native (Linux) build in the same source tree, run 
+         "make distclean" to get rid of the autogenerated files.
 
       7. From the trunk dir, run:
          autoreconf --install
-         ./cross-configure.sh --with-sdl-prefix
+         ./cross-configure.sh
          ./cross-make.sh
          ./cross-make.sh nsis
 
-      This should create the windows installer file ("tuxmath-1.5-win32-installer.exe")
+      This should create the windows installer file ("tuxmath-1.6.1-win32-installer.exe")
       under trunk.
 
       Installation on Windows:
@@ -264,6 +260,14 @@ Compiling and Installing TuxMath
 
   Mac OSX: (contributed by Tim Holy)
   -------
+
+      Note - this is being actively developed.  As of 1.6.1, you can simply do a
+      "./configure; make; make install" on MacOSX 10.5 (Leopard) as long as you have
+      the needed libs.  I hope to have a user-friendly .dmg file for the next release.
+      --DSB
+
+      (build instructions for TuxMath 1.5 follow:)
+
       Building from source:
       --------------------
       You have to have the development tools and development libraries for SDL.  Here's the approach that worked for me:
