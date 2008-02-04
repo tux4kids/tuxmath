@@ -40,9 +40,6 @@
 // The next is for fsync
 #include <unistd.h>
 
-#ifndef MACOSX
-//#include "../config.h"
-#endif
 
 #ifdef BUILD_MINGW32
 #define USER_MENU_ENTRIES_FILENAME "user_menu_entries.txt"

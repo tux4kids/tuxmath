@@ -5,7 +5,7 @@ An educational math tutorial game starring Tux, the Linux Penguin
 
 October 29, 2007
 
-For tuxmath-1.5.8
+For tuxmath-1.6.1
 
 Objective
 ---------
@@ -607,11 +607,19 @@ Credits
 
 Software Used
 -------------
-  GNU C Compiler
+  GNU C Compiler, GNU Make, GNU Autoconf, GNU Automake, GNU Gettext
     http://www.gnu.org/
+
+  SDL and associated libraries:
+    http://www.libsdl.org/
 
   The GIMP
     http://www.gimp.org/
 
   KDevelop
     http://www.kdevelop.org/
+
+  Subversion
+    http://subversion.tigris.org/
+
+
