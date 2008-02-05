@@ -18,6 +18,8 @@
   2005-2007
 */
 
+/* put this first so we get <config.h> and <gettext.h> immediately: */
+#include "tuxmath.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +34,6 @@
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
-#include "tuxmath.h"
 #include "mathcards.h"
 #include "titlescreen.h"
 #include "options.h"  
@@ -157,7 +158,7 @@ static int check_exit_conditions(void);
 static void draw_numbers(const char* str, int x, int y);
 static void game_set_message(game_message *,char *,int x, int y);
 static void game_clear_message(game_message*);
-static void game_write_message(const game_message*);
+static void game_write_message(const game_message* msg);
 static void game_write_messages(void);
 static void draw_led_console(void);
 static void draw_question_counter(void);

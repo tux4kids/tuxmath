@@ -7,13 +7,117 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2007-12-31 14:39-0500\n"
+"POT-Creation-Date: 2008-02-05 05:53-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: src/game.c:663
+msgid "Welcome to TuxMath!"
+msgstr ""
+
+#: src/game.c:680
+msgid "Your mission is to save your"
+msgstr ""
+
+#: src/game.c:681
+msgid "penguins' igloos from the"
+msgstr ""
+
+#: src/game.c:682
+msgid "falling comets."
+msgstr ""
+
+#: src/game.c:701
+msgid "Stop a comet by typing"
+msgstr ""
+
+#: src/game.c:702
+msgid "the answer to the math problem"
+msgstr ""
+
+#: src/game.c:703
+msgid "and hitting 'space' or 'enter'."
+msgstr ""
+
+#: src/game.c:704
+msgid "Try it now!"
+msgstr ""
+
+#: src/game.c:712
+msgid "Good shot!"
+msgstr ""
+
+#: src/game.c:722
+msgid "If an igloo gets hit by a comet,"
+msgstr ""
+
+#: src/game.c:723
+msgid "it melts. But don't worry, the"
+msgstr ""
+
+#: src/game.c:724
+msgid "penguin is OK!"
+msgstr ""
+
+#: src/game.c:725
+msgid "Just watch what happens:"
+msgstr ""
+
+#: src/game.c:726
+msgid "(Press a key to start)"
+msgstr ""
+
+#: src/game.c:739
+msgid "Notice the answer"
+msgstr ""
+
+#: src/game.c:749
+msgid "If it gets hit again, the"
+msgstr ""
+
+#: src/game.c:750
+msgid "penguin leaves."
+msgstr ""
+
+#: src/game.c:751
+msgid "(Press a key when ready)"
+msgstr ""
+
+#: src/game.c:770
+msgid "You can fix the igloos"
+msgstr ""
+
+#: src/game.c:771
+msgid "by stopping bonus comets."
+msgstr ""
+
+#: src/game.c:780
+msgid "Zap it now!"
+msgstr ""
+
+#: src/game.c:784
+msgid "Great job!"
+msgstr ""
+
+#: src/game.c:798
+msgid "Quit at any time by pressing"
+msgstr ""
+
+#: src/game.c:799
+msgid "'Esc' or clicking the 'X'"
+msgstr ""
+
+#: src/game.c:800
+msgid "in the upper right corner."
+msgstr ""
+
+#: src/game.c:801
+msgid "Do it now, and then play!"
+msgstr ""
 
 #: src/titlescreen.c:407
 msgid "Work In Progress!"
