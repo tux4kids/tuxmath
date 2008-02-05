@@ -735,7 +735,7 @@ int run_custom_menu(void)
   s1 = _("Edit 'options' file in your home directory");
   s2 = _("to create customized game!");
   s3 = _("Press a key or click your mouse to start game.");
-  s4 = N_("See README.txt for more information");
+  s4 = _("See README.txt for more information");
   ShowMessage(s1, s2, s3, s4);
 
   if (read_user_config_file()) {
