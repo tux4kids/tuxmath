@@ -1,3 +1,13 @@
+2008.Feb.06 (svn.debian.org/tux4kids - revision 426)
+      i18n:
+        Added Swedish translation (contributed by
+        Daniel Nylander <po@danielnylander.se>)
+
+        Small syntax fix in game.c to correct error detected while
+        building for BeOS (thanks Luc Schrivers)
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2008.Feb.05 (svn.debian.org/tux4kids - revision 424)
       i18n:
         Added Hungarian translation (contributed by

@@ -1203,9 +1203,10 @@ void game_handle_comets(void)
   /* Handle comets. Since the comets also are the things that trigger
      changes in the cities, we set some flags in them, too. */
   int i, this_city;
-  num_comets_alive = 0;
   Uint32 ctime;
-      
+
+  num_comets_alive = 0;
+
   /* Clear the threatened flag on each city */
   for (i = 0; i < NUM_CITIES; i++)
     cities[i].threatened = 0;
@@ -1337,7 +1338,7 @@ void game_handle_comets(void)
       {
         if (add_comet())
         {
-	  num_attackers--;
+          num_attackers--;
         }
       }
     }
@@ -1348,8 +1349,8 @@ void game_handle_comets(void)
 	if (!check_extra_life()) {
 	  /* Time for the next wave! */
 	  wave++;
-	  reset_level();
-	}
+          reset_level();
+        }
       }
     }
   }
