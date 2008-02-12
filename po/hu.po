@@ -1,0 +1,456 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2008-02-05 05:53-0500\n"
+"PO-Revision-Date: 2008-02-11 21:56+0100\n"
+"Last-Translator: Miklos Merenyi <mermik@freemail.hu>\n"
+"Language-Team: LANGUAGE <HU@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/game.c:663
+msgid "Welcome to TuxMath!"
+msgstr "Üdvözöllek a TuxMath-ban!"
+
+#: src/game.c:680
+msgid "Your mission is to save your"
+msgstr "Küldetésed a pingvinek"
+
+#: src/game.c:681
+msgid "penguins' igloos from the"
+msgstr "jégkunyhóinak megvédése"
+
+#: src/game.c:682
+msgid "falling comets."
+msgstr "az aláhulló meteoritoktól."
+
+#: src/game.c:701
+msgid "Stop a comet by typing"
+msgstr "Gépeld be a matematikai feladat "
+
+#: src/game.c:702
+msgid "the answer to the math problem"
+msgstr "eredményét, és üss Enter-t"
+
+#: src/game.c:703
+msgid "and hitting 'space' or 'enter'."
+msgstr "a meteor megállításához!"
+
+#: src/game.c:704
+msgid "Try it now!"
+msgstr "Próbáld meg most!"
+
+#: src/game.c:712
+msgid "Good shot!"
+msgstr "Szép lövés!"
+
+#: src/game.c:722
+msgid "If an igloo gets hit by a comet,"
+msgstr "Ha egy jégkunyhót eltalál"
+
+#: src/game.c:723
+msgid "it melts. But don't worry, the"
+msgstr "egy meteor, megolvad, de a"
+
+#: src/game.c:724
+msgid "penguin is OK!"
+msgstr "pingvinnek még nem lesz baja!"
+
+#: src/game.c:725
+msgid "Just watch what happens:"
+msgstr "Nézd, mi történik:"
+
+#: src/game.c:726
+msgid "(Press a key to start)"
+msgstr "(Nyomj meg egy gombot!)"
+
+#: src/game.c:739
+msgid "Notice the answer"
+msgstr "Látod a választ?"
+
+#: src/game.c:749
+msgid "If it gets hit again, the"
+msgstr "A második találat után"
+
+#: src/game.c:750
+msgid "penguin leaves."
+msgstr "a pingvin elmenekül."
+
+#: src/game.c:751
+msgid "(Press a key when ready)"
+msgstr "(Nyomj meg egy gombot!)"
+
+#: src/game.c:770
+msgid "You can fix the igloos"
+msgstr "A jégkunyhókat a bónusz meteorok"
+
+#: src/game.c:771
+msgid "by stopping bonus comets."
+msgstr "szétlövésével javíthatod meg."
+
+#: src/game.c:780
+msgid "Zap it now!"
+msgstr "Adj neki!"
+
+#: src/game.c:784
+msgid "Great job!"
+msgstr "Szép munka!"
+
+#: src/game.c:798
+msgid "Quit at any time by pressing"
+msgstr "Akármikor kiléphetsz az 'ESC'"
+
+#: src/game.c:799
+msgid "'Esc' or clicking the 'X'"
+msgstr "gomb megnyomásával, vagy "
+
+#: src/game.c:800
+msgid "in the upper right corner."
+msgstr "az 'X'-re való kattintással."
+
+#: src/game.c:801
+msgid "Do it now, and then play!"
+msgstr "Lépj ki, és kezdd a játékot!"
+
+#: src/titlescreen.c:407
+msgid "Work In Progress!"
+msgstr "Fejlesztés alatt."
+
+#: src/titlescreen.c:408
+msgid "This feature is not ready yet"
+msgstr "Ez a funkció még nem működik"
+
+#: src/titlescreen.c:409
+msgid "Discuss the future of TuxMath at"
+msgstr "A TuxMath jövőjét itt vitathatod meg:"
+
+#: src/titlescreen.c:410
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/titlescreen.c:578
+msgid "Math Command Training Academy"
+msgstr "Matek-Parancsnok Képző Akadémia"
+
+#: src/titlescreen.c:579
+msgid "Play Arcade Game"
+msgstr "Beépített játékok"
+
+#: src/titlescreen.c:580
+msgid "Play Custom Game"
+msgstr "Testreszabott játékok"
+
+#: src/titlescreen.c:581
+msgid "Help"
+msgstr "Segítség"
+
+#: src/titlescreen.c:582
+msgid "More Options"
+msgstr "Egyebek"
+
+#: src/titlescreen.c:583
+msgid "Quit"
+msgstr "Kilépés"
+
+#: src/titlescreen.c:651
+msgid "Space Cadet"
+msgstr "Újonc"
+
+#: src/titlescreen.c:652
+msgid "Scout"
+msgstr "Felderítő"
+
+#: src/titlescreen.c:653
+msgid "Ranger"
+msgstr "Járőrparancsnok"
+
+#: src/titlescreen.c:654
+msgid "Ace"
+msgstr "Mesterpilóta"
+
+#: src/titlescreen.c:655
+msgid "Hall Of Fame"
+msgstr "Dicsőséglista"
+
+#: src/titlescreen.c:656
+msgid "Main menu"
+msgstr "Főmenü"
+
+#: src/titlescreen.c:735
+msgid "Edit 'options' file in your home directory"
+msgstr "A home-könyvtáradban levő 'options' fájl "
+
+#: src/titlescreen.c:736
+msgid "to create customized game!"
+msgstr "szerkesztésével készíthetsz testreszabott játékot."
+
+#: src/titlescreen.c:737
+msgid "Press a key or click your mouse to start game."
+msgstr "Nyomj le egy billentyűt vagy egy egérgombot a kezdéshez!"
+
+#: src/titlescreen.c:738
+msgid "See README.txt for more information"
+msgstr "További részletek a README.txt fájlban."
+
+#: src/titlescreen.c:769
+msgid "Demo"
+msgstr "Demo"
+
+#: src/titlescreen.c:770
+msgid "Project Info"
+msgstr "Projekt információ"
+
+#: src/titlescreen.c:771
+msgid "Credits"
+msgstr "Köszönetnyilvánítás"
+
+#: src/titlescreen.c:772
+msgid "Main Menu"
+msgstr "Főmenü"
+
+#: src/titlescreen.c:816
+msgid "TuxMath is free and open-source!"
+msgstr "A TuxMath ingyenes és nyílt forráskódú!"
+
+#: src/titlescreen.c:817
+msgid "You can help make it better by reporting problems,"
+msgstr "Te is segíthetsz még jobbá tenni az észlelt hibák bejelentésével,"
+
+#: src/titlescreen.c:818
+msgid "suggesting improvements, or adding code."
+msgstr "továbbfejlesztési ötletekkel, vagy programkóddal."
+
+#: src/titlescreen.c:819
+msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
+msgstr "Levelezőlista (angol nyelvű): tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr "Számok gépelése"
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr "Összeadás: 1 - 3"
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr "Összeadás: 0 - 5"
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr "Összeadás: az összeg max. 10"
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr "Összeadás: az összeg max. 15"
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr "Összeadás: az összeg max. 20"
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr "Összeadás: kétjegyű számok"
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr "Összeadás: hiányzó számok"
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr "Kivonás: 0 - 10"
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr "Kivonás: 0 - 20"
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Kivonás: kétjegyű számok"
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr "Összeadás és kivonás összefoglaló"
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr "Szorzás: 0-3"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "2 többszörösei"
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr "3 többszörösei"
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr "4 többszörösei"
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr "5 többszörösei"
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr "Szorzás: 0 - 5"
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr "6 többszörösei"
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr "7 többszörösei"
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr "Szorzás: 0 - 7"
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr "8 többszörösei"
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr "9 többszörösei"
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr "10 többszörösei"
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr "Szorzás: 0 - 10"
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr "11 és 12 többszörösei"
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr "Szorzás: 0 - 12"
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr "13, 14 és 15 többszörösei"
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr "Szorzás: 0 - 15"
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr "Szorzás: hiányzó számok"
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr "Osztás kettővel"
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr "Osztás 3-mal"
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr "Osztás 4-gyel"
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr "Osztás 5-tel"
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr "Osztás: 1 - 5"
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr "Osztás 6-tal"
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr "Osztás 7-tel"
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr "Osztás 8-cal"
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr "Osztás 9-cel"
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr "Osztás 10-zel"
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr "Osztás: 1 - 10"
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr "Osztás 11-gyel és 12-vel"
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr "Osztás: 1 - 12"
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr "Osztás 13-mal, 14-gyel és 15-tel"
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr "Osztás: 1 - 15"
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr "Szorzás és osztás összefoglaló"
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr "Negatív számok gépelése"
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr "Kivonás: negatív eredmény"
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr "Negatív és pozitív számok összeadása"
+
+#: data/missions/lessons/descr_lessons:50
+msgid "Subtracting Negatives From Positives"
+msgstr "Negatív számok kivonása pozitívakból"
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Adding Negatives to Negatives"
+msgstr "Negatív számok összeadása"
+
+#: data/missions/lessons/descr_lessons:52
+msgid "Subtracting Negatives From Negatives"
+msgstr "Negatív számok kivonása negatívokból"
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Negative and Positive Numbers Review"
+msgstr "Pozitív és negatív számok összefoglaló"
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Multiplication and Division of Negatives"
+msgstr "Negatív számok szorzása és osztása"
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication of Positives and Negatives"
+msgstr "Pozitív és negatív számok szorzása"
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Division of Positives and Negatives"
+msgstr "Pozitív és negatív számok osztása"
+
