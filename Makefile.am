@@ -12,27 +12,30 @@ EXTRA_DIST = config.rpath m4/ChangeLog
 datadir = @datadir@
 localedir = $(datadir)/locale
 
-## 'data_fonts' should contain all of the fonts in data/fonts. It needs to go
-## in this Makefile.am before the 'dist_with_fonts' target for that target
-## to work - if it is in data/fonts/Makefile.am, it does not get expanded
-## before the 'dist' target starts:
-data_fonts = AndikaDesRevG.ttf
-
 
 ## These are defined in configure.ac:
 MAKENSIS=@NSIS@
 NSIS_FOUND=@NSIS_FOUND@
 NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 NSI_DLL_DIR=@NSI_DLL_DIR@
-
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 
+
 ## Bundle in fonts for distribution tar.gz to be used without package manager:
-## i.e. to make tarball to post for individual download - use 'make distcheck' for Debian.
+## i.e. to make tarball to post for individual download. 
+## 
+## for tarball with fonts: use 'make dist_with_fonts'
+## for tarball without fonts: (e.g. for Debian packaging) - use 'make distcheck'
+##
 ## (thanks to Ralf Wildenhues <Ralf.Wildenhues@gmx.de> for automake help!)
 ## 'dist_fonts' is in EXTRA_DATA but is empty by default.  With this target,
 ## 'dist_fonts' gets set to a list of the font files in data/fonts before making
 ## 'dist', causing the fonts to be included in the tar.gz.
+## 'data_fonts' should contain all of the fonts in data/fonts. It needs to go
+## in this Makefile.am before the 'dist_with_fonts' target for that target
+## to work - if it is in data/fonts/Makefile.am, it does not get expanded
+## before the 'dist' target starts:
+data_fonts = AndikaDesRevG.ttf
 dist_with_fonts:
 	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) \
   dist_fonts=$(data_fonts) dist

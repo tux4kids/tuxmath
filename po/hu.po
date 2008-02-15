@@ -453,4 +453,3 @@ msgstr "Pozitív és negatív számok szorzása"
 #: data/missions/lessons/descr_lessons:56
 msgid "Division of Positives and Negatives"
 msgstr "Pozitív és negatív számok osztása"
-
