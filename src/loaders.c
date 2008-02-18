@@ -31,15 +31,61 @@
 
 /* FIXME Doesn't seem to work consistently on all versions of Windows */
 /* check to see if file exists, if so return true */
-int checkFile( const char *file ) {
-	static struct stat fileStats;
+// int checkFile( const char *file ) {
+// 	static struct stat fileStats;
+// 
+// 	fileStats.st_mode = 0;
+// 
+// 	stat( file, &fileStats );
+// 		
+// 	return (S_IFREG & fileStats.st_mode);
+// }
 
-	fileStats.st_mode = 0;
 
-	stat( file, &fileStats );
-		
-	return (S_IFREG & fileStats.st_mode);
+/* Returns 1 if valid file, 2 if valid dir, 0 if neither: */
+int checkFile(const char* file)
+{
+  FILE* fp = NULL;
+  DIR* dp = NULL;
+
+  if (!file)
+  {
+    fprintf(stderr, "CheckFile(): invalid char* argument!");
+    return 0;
+  }
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "CheckFile() - checking: %s\n", file);
+#endif
+
+  dp = opendir(file);
+  if (dp)
+  {
+
+#ifdef TUXMATH_DEBUG
+    printf(stderr, "Opened successfully as DIR\n");
+#endif
+
+    closedir(dp);
+    return 2;
+  }
+
+  fp = fopen(file, "r");
+  if (fp)
+  {
+
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "Opened successfully as FILE\n");
+#endif
+
+    fclose(fp);
+    return 1;
+  }
+
+  fprintf(stderr, "Unable to open '%s' as either FILE or DIR\n", file);
+  return 0;
 }
+
 
 int max( int n1, int n2 ) {
 	return (n1 > n2 ? n1 : n2);
@@ -246,14 +292,21 @@ Mix_Chunk* LoadSound( char *datafile )
 Mix_Music *LoadMusic(char *datafile )
 { 
   char fn[PATH_MAX];
-  Mix_Music* tempMusic;
+  Mix_Music* tempMusic = NULL;
 
   sprintf( fn , "%s/sounds/%s", DATA_PREFIX, datafile );
+  if (1 != checkFile(fn))
+  {
+    fprintf(stderr, "LoadMusic(): %s not found\n\n", fn);
+    return NULL;
+  }
+
   tempMusic = Mix_LoadMUS(fn);
 
   if (!tempMusic)
   {
-    fprintf(stderr, "LoadMusic(): %s not found\n\n", fn);
+    fprintf(stderr, "LoadMusic(): %s not loaded successfully\n", fn);
+    printf("Error was: %s\n\n", Mix_GetError());
   }
   return tempMusic;
 }
