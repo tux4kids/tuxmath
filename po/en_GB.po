@@ -451,4 +451,3 @@ msgstr "Multiplication of Positives and Negatives"
 #: data/missions/lessons/descr_lessons:56
 msgid "Division of Positives and Negatives"
 msgstr "Division of Positives and Negatives"
-

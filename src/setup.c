@@ -620,6 +620,11 @@ void cleanup_on_error(void)
 
 /* free any heap memory used during game DSB */
 /* and also quit SDL properly:               */
+/* NOTE - this function will get called twice if   */
+/* exit occurs because of window close, so we      */
+/* need to check all pointers before freeing them, */
+/* and set them to NULL after freeing them, so we  */
+/* avoid segfaults at exit from double free()      */
 void cleanup_memory(void)
 {
   /* Free all images and sounds used by SDL: */
@@ -627,8 +632,12 @@ void cleanup_memory(void)
   int frequency,channels,n_timesopened;
   Uint16 format;
 
-  TTF_CloseFont(default_font);
-  TTF_Quit();
+  if(default_font)
+  {
+    TTF_CloseFont(default_font);
+    default_font = NULL;
+    TTF_Quit();
+  }
 
   for (i = 0; i < NUM_IMAGES; i++)
   {
@@ -651,16 +660,39 @@ void cleanup_memory(void)
     musics[i] = NULL;
   }
 
-  for (i = 0; i < num_lessons; i++) {
-    free(lesson_list_titles[i]);
-    free(lesson_list_filenames[i]);
+  if (lesson_list_titles)
+  {
+    for (i = 0; i < num_lessons; i++)
+    {
+      if (lesson_list_titles[i])
+      {
+        free(lesson_list_titles[i]);
+        lesson_list_titles[i] = NULL;
+      }
+    }
+    free(lesson_list_titles);
+    lesson_list_titles = NULL;
   }
-  free(lesson_list_titles);
-  free(lesson_list_filenames);
-  free(lesson_list_goldstars);
-  lesson_list_titles = NULL;
-  lesson_list_filenames = NULL;
-  lesson_list_goldstars = NULL;
+
+  if (lesson_list_filenames)
+  {
+    for (i = 0; i < num_lessons; i++)
+    {
+      if (lesson_list_filenames[i])
+      {
+        free(lesson_list_filenames[i]);
+        lesson_list_filenames[i] = NULL;
+      }
+    }
+    free(lesson_list_filenames);
+    lesson_list_filenames = NULL;
+  }
+
+  if (lesson_list_goldstars)
+  {
+    free(lesson_list_goldstars);
+    lesson_list_goldstars = NULL;
+  }
 
   // Close the audio mixer. We have to do this at least as many times
   // as it was opened.
@@ -678,10 +710,6 @@ void cleanup_memory(void)
   /* frees any heap used by MathCards: */
   MC_EndGame();
 }
-
-
-
-
 
 
 

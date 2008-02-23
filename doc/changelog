@@ -1,7 +1,16 @@
+2008.Feb.23 (svn.debian.org/tux4kids - revision 435)
+      code:
+        Added some additional pointer checks to cleanup() in setup.c
+        to fix segfaults when exiting due to window close events, as
+        cleanup() gets called twice in that code path and we were
+        getting double free() errors.
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2008.Feb.12 (svn.debian.org/tux4kids - revision 427)
       i18n:
-	Added updated Hungarian translation (contributed by Miklós
-	Merényi) that includes the help text strings
+	Added updated Hungarian translation (contributed by Miklï¿½s
+	Merï¿½nyi) that includes the help text strings
 
       Committed by Tim Holy <holy@wustl.edu>      
 	

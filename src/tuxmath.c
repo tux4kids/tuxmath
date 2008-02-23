@@ -35,7 +35,6 @@
 
 int main(int argc, char * argv[])
 {
-#ifndef MACOSX
   char *s1, *s2, *s3, *s4;
 
   s1 = setlocale(LC_ALL, "");
@@ -54,7 +53,6 @@ int main(int argc, char * argv[])
   fprintf(stderr, "After gettext() call\n");
 #endif
 
-#endif
 
   atexit(cleanup);  // register it so we clean up even if there is a crash
   setup(argc, argv);
