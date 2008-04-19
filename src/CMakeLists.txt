@@ -1,0 +1,106 @@
+#The following isn't necessary because of the SDL workaround
+#cmake_minimum_required(VERSION 2.4.7 FATAL_ERROR)
+
+## Define the source files used for each executable
+# tuxmath
+set (SOURCES_TUXMATH
+  audio.c
+  ConvertUTF.c
+  credits.c
+  fileops.c
+  game.c
+  highscore.c
+  lessons.c
+  loaders.c
+  mathcards.c
+  options.c
+  scandir.c
+  SDL_extras.c
+  setup.c
+  titlescreen.c
+  tuxmath.c
+  )
+
+# tuxmathadmin
+set (SOURCES_TUXMATHADMIN
+  tuxmathadmin.c
+  )
+
+## Libraries
+find_package (SDL REQUIRED)
+find_package (SDL_image REQUIRED)
+find_package (SDL_ttf REQUIRED)
+find_package (SDL_mixer REQUIRED)
+
+if (NOT SDL_FOUND)
+  # Workaround for REQUIRED flag not working with cmake < 2.4.7.
+  # Should put other libraries in, too.
+  message (FATAL_ERROR "SDL not found!")
+endif (NOT SDL_FOUND)
+
+# Other library functionality
+check_symbol_exists(scandir dirent.h HAVE_SCANDIR)
+
+include (CheckIncludeFiles)
+check_include_file (error.h HAVE_ERROR_H)
+
+link_libraries (
+  ${SDL_LIBRARY}
+  ${SDLIMAGE_LIBRARY}
+  ${SDLTTF_LIBRARY}
+  ${SDLMIXER_LIBRARY}
+  SDLmain
+  )
+
+## Include files
+#set (CMAKE_INCLUDE_PATH /usr/include/SDL)
+configure_file(${tuxmath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+
+## OSX
+# Build universal binaries on OSX
+set(CMAKE_OSX_ARCHITECTURES ppc i386)
+
+## Define the executables
+add_executable (
+  tuxmath
+  MACOSX_BUNDLE
+  WIN32
+  ${SOURCES_TUXMATH} ${DATA_TUXMATH}
+  )
+
+add_executable (
+  tuxmathadmin
+  MACOSX_BUNDLE
+  WIN32
+  ${SOURCES_TUXMATHADMIN}
+  )
+
+set_target_properties (
+  tuxmath
+  PROPERTIES COMPILE_FLAGS 
+  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
+  )
+
+set_target_properties (
+  tuxmathadmin
+  PROPERTIES COMPILE_FLAGS 
+  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
+  )
+
+## Installation specifications
+if (UNIX AND NOT APPLE)
+  install (TARGETS tuxmath tuxmathadmin
+    RUNTIME DESTINATION bin)
+  install (DIRECTORY ${DATA_TUXMATH}/
+    DESTINATION share/tuxmath
+    PATTERN Makefile* EXCLUDE
+    PATTERN .svn EXCLUDE
+    PATTERN *~ EXCLUDE
+    )
+  install (DIRECTORY ${DOC_TUXMATH}/
+    DESTINATION doc/tuxmath
+    PATTERN Makefile* EXCLUDE
+    PATTERN .svn EXCLUDE
+    PATTERN *~ EXCLUDE
+    )
+endif(UNIX AND NOT APPLE)

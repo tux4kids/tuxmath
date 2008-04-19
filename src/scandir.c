@@ -4,7 +4,7 @@
 /* #ifndef HAVE_SCANDIR.  */
 
 /* We only need to compile this file if the host platform doesn't have scandir(): */
-#include <config.h>
+#include "config.h"
 #ifndef HAVE_SCANDIR
 
 /*

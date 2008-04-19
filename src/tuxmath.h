@@ -22,7 +22,7 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-#include <config.h>
+#include "config.h"
 
 // Translation stuff (now works for Mac and Win too!): 
 #include "gettext.h"
@@ -33,11 +33,11 @@
 
 #include <wchar.h>
 
-#include "SDL.h"
-#include "SDL_ttf.h"
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
 #ifndef NOSOUND
-#include "SDL_mixer.h"
+#include <SDL/SDL_mixer.h>
 #endif
 
 //#define NOSOUND

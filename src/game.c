@@ -25,11 +25,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
+#include <SDL/SDL.h>
 #ifndef NOSOUND
-#include "SDL_mixer.h"
+#include <SDL/SDL_mixer.h>
 #endif
-#include "SDL_image.h"
+#include <SDL/SDL_image.h>
 
 #include "game.h"
 #include "fileops.h"

@@ -26,7 +26,7 @@
 *
 */
 
-#include <config.h>
+#include "config.h"
 
 /* Tuxmath includes: */
 #include "tuxmath.h"
@@ -49,13 +49,13 @@
 
 
 /* SDL includes: */
-#include <SDL.h>
+#include <SDL/SDL.h>
 
 #ifndef NOSOUND
-#include <SDL_mixer.h>
+#include <SDL/SDL_mixer.h>
 #endif
 
-#include <SDL_image.h>
+#include <SDL/SDL_image.h>
 
 /* OS includes - NOTE: these may not be very portable */
 #include <dirent.h>  /* for opendir() */
