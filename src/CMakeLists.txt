@@ -70,7 +70,7 @@ add_executable (
   tuxmath
   MACOSX_BUNDLE
   WIN32
-  ${SOURCES_TUXMATH} ${DATA_TUXMATH}
+  ${SOURCES_TUXMATH}
   )
 
 add_executable (
@@ -103,16 +103,4 @@ set_target_properties (
 if (UNIX AND NOT APPLE)
   install (TARGETS tuxmath tuxmathadmin
     RUNTIME DESTINATION bin)
-  install (DIRECTORY ${DATA_TUXMATH}/
-    DESTINATION share/tuxmath
-    PATTERN Makefile* EXCLUDE
-    PATTERN .svn EXCLUDE
-    PATTERN *~ EXCLUDE
-    )
-  install (DIRECTORY ${DOC_TUXMATH}/
-    DESTINATION doc/tuxmath
-    PATTERN Makefile* EXCLUDE
-    PATTERN .svn EXCLUDE
-    PATTERN *~ EXCLUDE
-    )
 endif(UNIX AND NOT APPLE)
