@@ -30,14 +30,14 @@
 /* FIXME maybe unistd.h not needed, even less sure about portability */
 //#include <unistd.h>
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_ttf.h>
+#include "SDL.h"
+#include "SDL_ttf.h"
 
 #ifndef NOSOUND
-#include <SDL/SDL_mixer.h>
+#include "SDL_mixer.h"
 #endif
 
-#include <SDL/SDL_image.h>
+#include "SDL_image.h"
 
 #include "options.h"
 #include "tuxmath.h"

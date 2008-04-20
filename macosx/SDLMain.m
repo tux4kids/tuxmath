@@ -18,10 +18,10 @@
 @end
 
 /* Use this flag to determine whether we use SDLMain.nib or not */
-#define	SDL_USE_NIB_FILE	0
+#define		SDL_USE_NIB_FILE	0
 
 /* Use this flag to determine whether we use CPS (docking) or not */
-#define SDL_USE_CPS		1
+#define		SDL_USE_CPS		1
 #ifdef SDL_USE_CPS
 /* Portions of CPS.h */
 typedef struct CPSProcessSerNum
@@ -381,3 +381,4 @@ int main (int argc, char **argv)
 #endif
     return 0;
 }
+

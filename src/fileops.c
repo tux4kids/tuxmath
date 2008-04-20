@@ -49,13 +49,13 @@
 
 
 /* SDL includes: */
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #ifndef NOSOUND
-#include <SDL/SDL_mixer.h>
+#include "SDL_mixer.h"
 #endif
 
-#include <SDL/SDL_image.h>
+#include "SDL_image.h"
 
 /* OS includes - NOTE: these may not be very portable */
 #include <dirent.h>  /* for opendir() */

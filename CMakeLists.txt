@@ -11,9 +11,16 @@ set (DOC_TUXMATH ${tuxmath_SOURCE_DIR}/doc)
 set (PO_TUXMATH ${tuxmath_SOURCE_DIR}/po)
 
 ## Set up OS-specific path information
+set (EXTRA_INCLUDE)
+set (EXTRA_SRC)
 if (APPLE)
-  set(DATA_PREFIX TuxMath.app/Contents/Resources/data)
-  set(LOCALEDIR TuxMath.app/Contents/Resources/locale)
+  set(DATA_PREFIX tuxmath.app/Contents/Resources/data)
+  set(LOCALEDIR tuxmath.app/Contents/Resources/locale)
+  # OS X does not have a pre-build libSDLmain, so we instead include
+  # SDLmain as a source
+  set (EXTRA_INCLUDE ${tuxmath_SOURCE_DIR}/macosx)
+  set (EXTRA_SRC ${tuxmath_SOURCE_DIR}/macosx/SDLMain.m)
+  #include (CMakeFindFrameworks)
   set_source_files_properties (
     ${DATA_TUXMATH}
     PROPERTIES

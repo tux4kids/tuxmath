@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <SDL/SDL.h>
+#include "SDL.h"
 
 #include "tuxmath.h"
 #include "options.h"

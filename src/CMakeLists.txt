@@ -19,6 +19,7 @@ set (SOURCES_TUXMATH
   setup.c
   titlescreen.c
   tuxmath.c
+  ${EXTRA_SRC}
   )
 
 # tuxmathadmin
@@ -38,10 +39,11 @@ if (NOT SDL_FOUND)
   message (FATAL_ERROR "SDL not found!")
 endif (NOT SDL_FOUND)
 
+
 # Other library functionality
 check_symbol_exists(scandir dirent.h HAVE_SCANDIR)
 
-include (CheckIncludeFiles)
+include (CheckIncludeFile)
 check_include_file (error.h HAVE_ERROR_H)
 
 link_libraries (
@@ -49,12 +51,15 @@ link_libraries (
   ${SDLIMAGE_LIBRARY}
   ${SDLTTF_LIBRARY}
   ${SDLMIXER_LIBRARY}
-  SDLmain
   )
 
+if (NOT APPLE)
+  link_libraries (SDLmain)
+endif (NOT APPLE)
+
 ## Include files
-#set (CMAKE_INCLUDE_PATH /usr/include/SDL)
 configure_file(${tuxmath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${EXTRA_INCLUDES})
 
 ## OSX
 # Build universal binaries on OSX
@@ -80,6 +85,13 @@ set_target_properties (
   PROPERTIES COMPILE_FLAGS 
   "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
   )
+
+if (APPLE)
+  # The following seems to be needed to compile under 10.5
+  set_target_properties(tuxmath tuxmathadmin
+    PROPERTIES
+    LINK_FLAGS "-mmacosx-version-min=10.4")
+endif(APPLE)
 
 set_target_properties (
   tuxmathadmin
