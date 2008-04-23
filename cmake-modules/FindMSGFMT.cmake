@@ -17,7 +17,7 @@ IF(MSGFMT_EXECUTABLE)
 ELSE(MSGFMT_EXECUTABLE)
     FIND_PROGRAM(MSGFMT_EXECUTABLE
 	NAMES msgfmt gmsgfmt
-	PATHS /bin /usr/bin /usr/local/bin )
+	PATHS /bin /usr/bin /usr/local/bin /opt/local/bin)
     IF(MSGFMT_EXECUTABLE)
         SET(MSGFMT_FOUND TRUE)
     ELSE(MSGFMT_EXECUTABLE)
