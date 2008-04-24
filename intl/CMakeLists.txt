@@ -1,5 +1,7 @@
 # Build script for libintl. This was copied, with only slight
-# modifications, from the LyX project---thanks!
+# modifications, from the LyX project---thanks!  See attribution below.
+#
+# Modifications by Timothy E. Holy, 2008
 
 # This file is part of LyX, the document processor.
 # Licence details can be found in the file COPYING.
@@ -7,12 +9,44 @@
 # Copyright (c) 2006, Peter Kümmel, <syntheticpp@gmx.net>
 #
 
-project(intl) 
+# If you're building this as part of a larger package, the following
+# variables can be set upon entry:
+#   INTL_BINARY_DIR
+#   INTL_SOURCE_DIR
+#   LOCALE_DIR
+#   TOP_SRC_DIR  ?
+#   PREFIX    ?
 
-# libgnuintl.h.in => libintl.h
-configure_file(libgnuintl.h ${CMAKE_CURRENT_BINARY_DIR}/libgnuintl.h COPYONLY)
-configure_file(libgnuintl.h ${CMAKE_CURRENT_BINARY_DIR}/libintl.h COPYONLY)
+project(intl)
 
+#set(CMAKE_MODULE_PATH "/home/tim/src/tux4kids/tuxmath/trunk/cmake-modules")
+include(CheckFunctionExists)
+
+# We require the iconv library to be available
+find_package(ICONV REQUIRED)
+add_definitions(-DHAVE_ICONV=1)
+
+# This can either be called in standalone mode, or as part of a larger
+# project.  For that reason, we need to examine whether certain settings
+# have been made before, or not.
+if (NOT CONFIGURECHECKSINTL_DONE)
+  include(ConfigureChecksIntl)
+endif ()
+if (NOT INTL_BINARY_DIR)
+  set(INTL_BINARY_DIR ${CMAKE_BINARY_DIR})
+endif ()
+if (NOT INTL_SOURCE_DIR)
+  set(INTL_SOURCE_DIR ${CMAKE_SOURCE_DIR})
+endif ()
+
+# Generate the appropriate header files
+configure_file(libgnuintl.h.in ${INTL_BINARY_DIR}/libgnuintl.h)
+configure_file(${INTL_BINARY_DIR}/libgnuintl.h ${INTL_BINARY_DIR}/libintl.h COPYONLY)
+# Generate the appropriate config.h file
+#configure_file(intl_config.h.cmake ${INTL_BINARY_DIR}/config.h)
+# For the moment, this doesn't work: you have to run automake's
+# "configure" and then copy config.h into the build directory
+check_include_file(config.h HAVE_CONFIG_H REQUIRED)
 
 add_definitions(
     -DHAVE_CONFIG_H=1
@@ -28,8 +62,8 @@ add_definitions(
     
 if (NOT APPLE)    
 add_definitions(
-		-DLOCALEDIR=\\"${LOACLE_DIR}\\" 
-		-DLOCALE_ALIAS_PATH=\\"${LOACLE_DIR}\\"
+		-DLOCALEDIR=\\"${LOCALE_DIR}\\" 
+		-DLOCALE_ALIAS_PATH=\\"${LOCALE_DIR}\\"
 		-DLIBDIR=\\"${TOP_SRC_DIR}\\"
 		-DINSTALLDIR=\\"${PREFIX}\\" 
 		)
@@ -42,7 +76,7 @@ add_definitions(
 		)
 endif (NOT APPLE)
 
-file(GLOB intl_headers ${TOP_SRC_DIR}/intl/*.h)
+file(GLOB intl_headers ${INTL_SOURCE_DIR}/*.h)
 
 set(intl_sources 
       bindtextdom.c
@@ -70,19 +104,19 @@ set(intl_sources
       intl-compat.c
 )
 
-lyx_add_path(intl_sources ${TOP_SRC_DIR}/intl)
+#lyx_add_path(intl_sources ${TOP_SRC_DIR}/intl)
 
-include_directories(${TOP_SRC_DIR}/intl ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${INTL_BINARY_DIR} ${INTL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
 if(ICONV_FOUND)
-	include_directories(${ICONV_INCLUDE_DIR})
+  include_directories(${ICONV_INCLUDE_DIR})
 endif(ICONV_FOUND)
 
 add_library(intl STATIC ${intl_sources} ${intl_headers})
 
 if(ICONV_FOUND)
-	target_link_libraries(intl ${ICONV_LIBRARY})
+  target_link_libraries(intl ${ICONV_LIBRARY})
 endif(ICONV_FOUND)
 
-project_source_group("${GROUP_CODE}" intl_sources intl_headers)
+#project_source_group("${GROUP_CODE}" intl_sources intl_headers)
 

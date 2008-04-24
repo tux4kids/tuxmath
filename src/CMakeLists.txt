@@ -3,7 +3,7 @@
 
 ## Define the source files used for each executable
 # tuxmath
-set (SOURCES_TUXMATH
+set(SOURCES_TUXMATH
   audio.c
   ConvertUTF.c
   credits.c
@@ -23,28 +23,21 @@ set (SOURCES_TUXMATH
   )
 
 # tuxmathadmin
-set (SOURCES_TUXMATHADMIN
+set(SOURCES_TUXMATHADMIN
   tuxmathadmin.c
   )
 
 ## Libraries
-find_package (SDL REQUIRED)
-find_package (SDL_image REQUIRED)
-find_package (SDL_ttf REQUIRED)
-find_package (SDL_mixer REQUIRED)
+find_package(SDL REQUIRED)
+find_package(SDL_image REQUIRED)
+find_package(SDL_ttf REQUIRED)
+find_package(SDL_mixer REQUIRED)
 
 if (NOT SDL_FOUND)
   # Workaround for REQUIRED flag not working with cmake < 2.4.7.
   # Should put other libraries in, too.
-  message (FATAL_ERROR "SDL not found!")
+  message(FATAL_ERROR "SDL not found!")
 endif (NOT SDL_FOUND)
-
-
-# Other library functionality
-check_symbol_exists(scandir dirent.h HAVE_SCANDIR)
-
-include (CheckIncludeFile)
-check_include_file (error.h HAVE_ERROR_H)
 
 link_libraries (
   ${SDL_LIBRARY}
@@ -58,7 +51,10 @@ if (NOT APPLE)
 endif (NOT APPLE)
 
 ## Include files
-configure_file(${tuxmath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+#configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+# For the moment, this doesn't work: you have to run automake's
+# "configure" and then copy config.h into the build directory
+check_include_file(config.h HAVE_CONFIG_H REQUIRED)
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${EXTRA_INCLUDES})
 
 ## OSX
@@ -83,7 +79,7 @@ add_executable (
 set_target_properties (
   tuxmath
   PROPERTIES COMPILE_FLAGS 
-  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
+  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
   )
 
 if (APPLE)
@@ -96,7 +92,7 @@ endif(APPLE)
 set_target_properties (
   tuxmathadmin
   PROPERTIES COMPILE_FLAGS 
-  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALEDIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
+  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
   )
 
 ## Installation specifications

@@ -135,6 +135,16 @@ Requirements
 
 Compiling and Installing TuxMath
 --------------------------------
+
+Note: there are now two ways to build tuxmath from source.  The first
+(and main method) is using autotools ("./configure && make && make
+install").  The second is to use CMake.  CMake is being explored as a
+possible way to better-support MacOSX.  However, the CMake build is
+currently having some troubles with the internationalization code, and
+requires a cheat (running configure, copying a file, and then running
+CMake).  Further details are below.
+
+
   Linux/Unix
   ----------
     Compiling the Program
@@ -149,11 +159,11 @@ Compiling and Installing TuxMath
 
       The svn repository is located at:
 
-        http://svn.debian.org/wsvn/tux4kids/tuxmath 
+      � http://svn.debian.org/wsvn/tux4kids/tuxmath 
 
-        or:
+      or:
 
-        svn://svn.debian.org/tux4kids/tuxmath
+      � svn://svn.debian.org/tux4kids/tuxmath
 
       If you are using a source tar.gz package (e.g. tuxmath_w_fonts-1.6.1-tar.gz),
       all you need to do is unpack the archive in a convient location and
@@ -308,3 +318,36 @@ Compiling and Installing TuxMath
      Currently, internationalization is disabled on MacOSX.
      Anyone who knows how to get the Linux internationalization
      framework working on MacOSX is invited to contribute.
+
+CMake
+-----
+
+There is also a set of scripts to build TuxMath using CMake. CMake has
+some potential advantages in terms of cross-platform support: in
+particular, supporting the SDL Frameworks on Mac OSX and producing a
+viable universal binary .dmg file appears to be easier using XCode or
+CMake than it is using repositories like fink or macports.  Another
+potential advantage (depending on one's perspective) is that CMake can
+produce project files for many different IDEs on many different
+platforms, facilitating development on diverse platforms.
+
+With the exception of internationalization, it was fairly
+straightforward to set up the CMake build.  However,
+internationalization is proving to be very troublesome.  For that
+reason, the CMake build currently requires a cheat: using the config.h
+file produced by autotools.
+
+Starting from tuxmath's trunk directory, do the following:
+mkdir build-cmake
+mkdir build-autotools
+cd build-autotools
+autoreconf --install ../trunk
+cd ../build-cmake
+cmake ../trunk
+cp ../build-autotools/config.h ./src/
+cp ../build-autotools/config.h ./intl/
+make
+
+Then you can do a
+make install
+if you want to install.  A "make dmg" command will appear shortly (I hope).
