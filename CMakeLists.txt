@@ -39,13 +39,13 @@ endif (TUXMATH_BUILD_TYPE MATCHES installed)
 
 ## Set up OS-specific path & build information
 if (APPLE)
-  set(TUXMATH_MACOSX_BUNDLE_NAME ${PROJECT_NAME})
+  set(TUXMATH_MACOSX_BUNDLE_NAME tuxmath)
   set(TUXMATH_DATA_PREFIX ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources)
   set(LOCALE_DIR ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources/locale)
   # OS X SDL Framework does not have a pre-built libSDLmain, so we
   # instead include SDLmain.m as a source file
-  set (TUXMATH_EXTRA_INCLUDE ${tuxmath_SOURCE_DIR}/macosx)
-  set (TUXMATH_EXTRA_SRC ${tuxmath_SOURCE_DIR}/macosx/SDLMain.m)
+  set (TUXMATH_EXTRA_INCLUDE ${TuxMath_SOURCE_DIR}/macosx)
+  set (TUXMATH_EXTRA_SRC ${TuxMath_SOURCE_DIR}/macosx/SDLMain.m)
 elseif (UNIX)
   # A non-apple Unix (Linux, Solaris, etc.)
   # This is where one would test for installed/relocatable, if that
@@ -53,28 +53,30 @@ elseif (UNIX)
   set (TUXMATH_DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/tuxmath)
   set (LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
 endif (APPLE)
+message("TDP ${TUXMATH_DATA_PREFIX}")
+
 
 ## Decide on whether we're going to build with internationalization
 # We can't build with internationalization unless the build computer
 # supports msgfmt
 find_package(MSGFMT)
-if (NOT DEFINED TUXMATH_NLS OR NOT MSGFMT_FOUND)
-  # You can disable NLS with -DTUXMATH_NLS=false
-  set(TUXMATH_NLS ${MSGFMT_FOUND})
-endif (NOT DEFINED TUXMATH_NLS OR NOT MSGFMT_FOUND)
-if (NOT TUXMATH_NLS)
+if (NOT DEFINED ENABLE_NLS OR NOT MSGFMT_FOUND)
+  # You can disable NLS with -DENABLE_NLS=false
+  set(ENABLE_NLS ${MSGFMT_FOUND})
+endif (NOT DEFINED ENABLE_NLS OR NOT MSGFMT_FOUND)
+if (NOT ENABLE_NLS)
   message("Internationalization disabled")
-endif (NOT TUXMATH_NLS)
+endif (NOT ENABLE_NLS)
 # Even if the build computer supports gettext/msgfmt, we may not be
 # able to guarantee that the computers on which it is installed provides
 # runtime support for gettext.  So we may have to build gettext.
-if (TUXMATH_NLS)
+if (ENABLE_NLS)
   if (APPLE)
     set(TUXMATH_BUILD_INTL true)
   endif (APPLE)
-else (TUXMATH_NLS)
+else (ENABLE_NLS)
   set(TUXMATH_BUILD_INTL false)  # No point in building intl if no NLS
-endif (TUXMATH_NLS)
+endif (ENABLE_NLS)
 
 
 ## Run configure checks
@@ -87,9 +89,9 @@ include(ConfigureChecks)
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(doc)
-if (TUXMATH_NLS)
+if (ENABLE_NLS)
   add_subdirectory(po)
-endif (TUXMATH_NLS)
+endif (ENABLE_NLS)
 if (TUXMATH_BUILD_INTL)
   set(INTL_BINARY_DIR ${CMAKE_BINARY_DIR}/intl)
   set(INTL_SOURCE_DIR ${CMAKE_SOURCE_DIR}/intl)
@@ -98,15 +100,10 @@ if (TUXMATH_BUILD_INTL)
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
 
-## Copy any needed libraries to the installation target
+message("TMBD ${TuxMath_BINARY_DIR}")
+message("TMBN ${TUXMATH_MACOSX_BUNDLE_NAME}")
+
 if (APPLE)
-  macro (copyFramework headerDir destDir)
-    string(REPLACE "/Headers" "" FRAMEWORK_SOURCE_DIR ${headerDir})
-    install(DIRECTORY ${FRAMEWORK_SOURCE_DIR} DESTINATION ${destDir})
-  endmacro(copyFramework)
-  set(FRAMEWORK_DEST_DIR ${tuxmath_BINARY_DIR}/src/${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Frameworks)
-  copyFramework(${SDL_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
-  copyFramework(${SDLMIXER_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
-  copyFramework(${SDLIMAGE_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
-  copyFramework(${SDLTTF_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
+   add_subdirectory(macosx)
 endif (APPLE)
+

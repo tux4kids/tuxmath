@@ -19,8 +19,10 @@ set(SOURCES_TUXMATH
   setup.c
   titlescreen.c
   tuxmath.c
-  ${EXTRA_SRC}
+  ${TUXMATH_EXTRA_SRC}
   )
+
+message("${SOURCES_TUXMATH}")
 
 # tuxmathadmin
 set(SOURCES_TUXMATHADMIN
@@ -51,11 +53,14 @@ if (NOT APPLE)
 endif (NOT APPLE)
 
 ## Include files
-#configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-# For the moment, this doesn't work: you have to run automake's
-# "configure" and then copy config.h into the build directory
-check_include_file(config.h HAVE_CONFIG_H REQUIRED)
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${EXTRA_INCLUDES})
+if (NOT ENABLE_NLS)
+   # If you want internationalization, this doesn't work: you have to
+   # run automake's "configure" and then copy config.h into the build
+   # directory
+   configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+endif (NOT ENABLE_NLS)
+#check_include_file(config.h HAVE_CONFIG_H REQUIRED)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES})
 
 ## OSX
 # Build universal binaries on OSX

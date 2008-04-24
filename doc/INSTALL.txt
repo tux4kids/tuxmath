@@ -350,4 +350,20 @@ make
 
 Then you can do a
 make install
-if you want to install.  A "make dmg" command will appear shortly (I hope).
+if you want to install.
+
+UPDATE: the above approach works on Linux, but not currently on MacOSX
+because the config looks for the SDL files, and can't find them when
+installed as Framekworks.  :-(.
+
+So, for now the only approach is to disable internationalization on
+MacOSX.  This means that automake isn't needed.  Just do this:
+
+mkdir build-cmake
+cd build-cmake
+/opt/local/bin/cmake ../trunk -DENABLE_NLS=false
+make
+make install
+
+TuxMath.dmg and TuxMathAdmin.dmg should appear in this build directory.
+
