@@ -12,7 +12,12 @@ if (APPLE)
   copyFramework(${SDLTTF_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
 
   # Make the disk image
-  install(CODE "execute_process(COMMAND hdiutil create  -ov -srcfolder ${CMAKE_BINARY_DIR}/src/tuxmath.app -volname TuxMath -imagekey zlib-level=6 ${CMAKE_BINARY_DIR}/TuxMath.dmg)")
-  install(CODE "execute_process(COMMAND hdiutil create  -ov -srcfolder ${CMAKE_BINARY_DIR}/src/tuxmathadmin.app -volname TuxMathAdmin -imagekey zlib-level=6 ${CMAKE_BINARY_DIR}/TuxMathAdmin.dmg)")
+  install(CODE "file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/macdist)")
+  install(CODE "execute_process(COMMAND mv ${CMAKE_BINARY_DIR}/src/tuxmath.app ${CMAKE_BINARY_DIR}/macdist/)")
+  install(CODE "execute_process(COMMAND mv ${CMAKE_BINARY_DIR}/src/tuxmathadmin ${CMAKE_BINARY_DIR}/macdist/)")
+  #install(CODE "execute_process(COMMAND hdiutil create  -ov -srcfolder ${CMAKE_BINARY_DIR}/src/tuxmath.app -volname TuxMath -imagekey zlib-level=6 ${CMAKE_BINARY_DIR}/TuxMath.dmg)")
+  #install(CODE "execute_process(COMMAND hdiutil create  -ov -srcfolder ${CMAKE_BINARY_DIR}/src/tuxmathadmin.app -volname TuxMathAdmin -imagekey zlib-level=6 ${CMAKE_BINARY_DIR}/TuxMathAdmin.dmg)")
+  install(CODE "execute_process(COMMAND hdiutil create  -ov -srcfolder ${CMAKE_BINARY_DIR}/macdist -volname TuxMath -imagekey zlib-level=6 ${CMAKE_BINARY_DIR}/TuxMath.dmg)")
+
 endif (APPLE)
 

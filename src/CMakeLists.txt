@@ -41,13 +41,6 @@ if (NOT SDL_FOUND)
   message(FATAL_ERROR "SDL not found!")
 endif (NOT SDL_FOUND)
 
-link_libraries (
-  ${SDL_LIBRARY}
-  ${SDLIMAGE_LIBRARY}
-  ${SDLTTF_LIBRARY}
-  ${SDLMIXER_LIBRARY}
-  )
-
 if (NOT APPLE)
   link_libraries (SDLmain)
 endif (NOT APPLE)
@@ -76,15 +69,20 @@ add_executable (
 
 add_executable (
   tuxmathadmin
-  MACOSX_BUNDLE
-  WIN32
   ${SOURCES_TUXMATHADMIN}
   )
 
 set_target_properties (
   tuxmath
   PROPERTIES COMPILE_FLAGS 
-  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
+  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
+  )
+
+target_link_libraries (tuxmath
+  ${SDL_LIBRARY}
+  ${SDLIMAGE_LIBRARY}
+  ${SDLTTF_LIBRARY}
+  ${SDLMIXER_LIBRARY}
   )
 
 if (APPLE)
@@ -97,7 +95,7 @@ endif(APPLE)
 set_target_properties (
   tuxmathadmin
   PROPERTIES COMPILE_FLAGS 
-  "-DDATA_PREFIX=\\\"${DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
+  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
   )
 
 ## Installation specifications
