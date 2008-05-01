@@ -1,3 +1,11 @@
+2008.Apr.26 (svn.debian.org/tux4kids - revision 471)
+Version 1.6.2
+      i18n:
+        Added Spanish translation (contributed by
+        Angela Ruiz <angieruiz211@hotmail.com>
+
+      David Bruce <dbruce@tampabay.rr.com>
+
 2008.Feb.23 (svn.debian.org/tux4kids - revision 435)
       code:
         Added some additional pointer checks to cleanup() in setup.c
