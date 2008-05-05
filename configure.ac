@@ -97,6 +97,15 @@ AC_CHECK_LIB([SDL_ttf],
 )
 
 
+dnl sdlpango support
+have_sdlpango=no
+AC_ARG_ENABLE(sdlpango, [  --enable-sdlpango    Enable SDL_Pango (default is  disabled)],have_sdlpango=yes)
+if test $have_sdlpango = "yes"; then
+	AC_CHECK_LIB([SDL_Pango],[SDLPango_Init],LIBS="$LIBS -lSDL_Pango",have_sdlpango=no)
+fi
+if test "$have_sdlpango" = "yes"; then
+	AC_DEFINE([SDL_Pango],[],[Defined when SDL_Pango support is present and compiled])
+fi
 
 
 # --------------------------------------------------------------------------------------

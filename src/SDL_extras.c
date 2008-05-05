@@ -13,6 +13,10 @@
 #include "SDL_extras.h"
 #include "tuxmath.h"
 
+#ifdef SDL_Pango
+#include "SDL_Pango.h"
+#endif
+
 
 /* DrawButton() creates and draws a translucent button with */
 /* rounded ends.  All colors and alpha values are supported.*/
@@ -314,7 +318,19 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
   return ret;
 }
 
-
+#ifdef SDL_Pango
+SDLPango_Context *context = NULL;
+void init_SDLPango_Context()
+{
+   context =  SDLPango_CreateContext_GivenFontDesc(DEFAULT_FONT_NAME);
+}  
+void free_SDLPango_Context() 
+{
+  if(context != NULL)
+    SDLPango_FreeContext(context);
+  context = NULL;
+}
+#endif
 /* BlackOutline() creates a surface containing text of the designated */
 /* foreground color, surrounded by a black shadow, on a transparent    */
 /* background.  The appearance can be tuned by adjusting the number of */
@@ -340,7 +356,19 @@ SDL_Surface* BlackOutline(unsigned char *t, TTF_Font *font, SDL_Color *c)
   fprintf( stderr, "BlackOutline of \"%s\"\n", t );
 #endif
 
+#ifndef SDL_Pango
   black_letters = TTF_RenderUTF8_Blended(font, t, black);
+#else
+  if( context != NULL)
+  {
+    SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_BLACK_LETTER);
+    SDLPango_SetText(context, t, -1);
+    black_letters = SDLPango_CreateSurfaceDraw(context);
+  }
+  else {
+    black_letters = TTF_RenderUTF8_Blended(font, t, black);
+  }
+#endif
 
   if (!black_letters)
   {
@@ -370,7 +398,19 @@ SDL_Surface* BlackOutline(unsigned char *t, TTF_Font *font, SDL_Color *c)
   SDL_FreeSurface(black_letters);
 
   /* --- Put the color version of the text on top! --- */
+#ifndef SDL_Pango
   white_letters = TTF_RenderUTF8_Blended(font, t, *c);
+#else
+  if( context != NULL)
+  {
+    SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_WHITE_LETTER);
+    white_letters = SDLPango_CreateSurfaceDraw(context);
+  }
+  else {
+    white_letters = TTF_RenderUTF8_Blended(font, t, *c);
+  }
+#endif
+
   dstrect.x = 1;
   dstrect.y = 1;
   SDL_BlitSurface(white_letters, NULL, bg, &dstrect);

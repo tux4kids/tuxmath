@@ -439,6 +439,17 @@ void initialize_SDL(void)
 
   atexit(TTF_Quit); // Maybe this is redundant?
 
+#ifdef SDL_Pango
+  if (SDLPango_Init () < 0)
+  {
+      fprintf(stderr,
+            "\nWarning: I could not initialize SDL_Pango !\n"
+            "%s\n\n", SDL_GetError());
+  }
+  else {
+    init_SDLPango_Context();
+  }
+#endif
 
 
   #ifndef NOSOUND
@@ -701,6 +712,11 @@ void cleanup_memory(void)
     Mix_CloseAudio();
     n_timesopened--;
   }
+  
+#ifdef SDL_Pango
+   free_SDLPango_Context();
+#endif
+
 
   // Finally, quit SDL
   SDL_Quit();
