@@ -307,7 +307,12 @@ int MC_StartGameUsingWrongs(void)
 
     /* initialize lists for new game: */
     delete_list(question_list);
-    question_list = randomize_list(wrong_quests);
+    if(!randomize_list(&wrong_quests)) {
+      fprintf(stderr, "Error during randomization of wrong_quests!\n");
+      /* Punt on trying wrong question list, just run normal game */
+      return MC_StartGame();
+    }
+    question_list = wrong_quests;
     wrong_quests = 0;
     next_wrong_quest = 0; 
    /* initialize counters for new game: */
