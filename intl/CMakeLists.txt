@@ -19,11 +19,13 @@
 
 project(intl)
 
-#set(CMAKE_MODULE_PATH "/home/tim/src/tux4kids/tuxmath/trunk/cmake-modules")
+set(CMAKE_MODULE_PATH "/home/tim/src/tux4kids/tuxmath/trunk/cmake-modules")
+set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 include(CheckFunctionExists)
 
 # We require the iconv library to be available
-find_package(ICONV REQUIRED)
+find_package(Iconv REQUIRED)
+#message("Iconv const: ${ICONV_SECOND_ARGUMENT_IS_CONST}")
 add_definitions(-DHAVE_ICONV=1)
 
 # This can either be called in standalone mode, or as part of a larger
@@ -43,10 +45,7 @@ endif ()
 configure_file(libgnuintl.h.in ${INTL_BINARY_DIR}/libgnuintl.h)
 configure_file(${INTL_BINARY_DIR}/libgnuintl.h ${INTL_BINARY_DIR}/libintl.h COPYONLY)
 # Generate the appropriate config.h file
-#configure_file(intl_config.h.cmake ${INTL_BINARY_DIR}/config.h)
-# For the moment, this doesn't work: you have to run automake's
-# "configure" and then copy config.h into the build directory
-check_include_file(config.h HAVE_CONFIG_H REQUIRED)
+configure_file(intl_config.h.cmake ${INTL_BINARY_DIR}/config.h)
 
 add_definitions(
     -DHAVE_CONFIG_H=1
@@ -104,7 +103,6 @@ set(intl_sources
       intl-compat.c
 )
 
-#lyx_add_path(intl_sources ${TOP_SRC_DIR}/intl)
 
 include_directories(${INTL_BINARY_DIR} ${INTL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 

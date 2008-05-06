@@ -15,7 +15,9 @@ message("Building TuxMath version ${TUXMATH_VERSION}")
 ## Setting up CMake itself
 cmake_minimum_required(VERSION 2.4)
 set(CMAKE_MODULE_PATH "${TuxMath_SOURCE_DIR}/cmake-modules")
-message("CMP: ${CMAKE_MODULE_PATH}")
+set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
+
+#message("CMP: ${CMAKE_MODULE_PATH}")
 
 ## Decide on our build-type: installed or relocatable
 ## Linux (& Windows?) would be installed, Mac relocatable
@@ -53,7 +55,7 @@ elseif (UNIX)
   set (TUXMATH_DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/tuxmath)
   set (LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
 endif (APPLE)
-message("TDP ${TUXMATH_DATA_PREFIX}")
+#message("TDP ${TUXMATH_DATA_PREFIX}")
 
 
 ## Decide on whether we're going to build with internationalization
@@ -77,7 +79,8 @@ if (ENABLE_NLS)
 else (ENABLE_NLS)
   set(TUXMATH_BUILD_INTL false)  # No point in building intl if no NLS
 endif (ENABLE_NLS)
-
+message("ENABLE_NLS ${ENABLE_NLS}")
+set(HAVE_GETTEXT ENABLE_NLS)
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)
@@ -100,8 +103,8 @@ if (TUXMATH_BUILD_INTL)
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
 
-message("TMBD ${TuxMath_BINARY_DIR}")
-message("TMBN ${TUXMATH_MACOSX_BUNDLE_NAME}")
+#message("TMBD ${TuxMath_BINARY_DIR}")
+#message("TMBN ${TUXMATH_MACOSX_BUNDLE_NAME}")
 
 if (APPLE)
    add_subdirectory(macosx)
