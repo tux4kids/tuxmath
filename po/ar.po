@@ -31,7 +31,7 @@ msgid "the answer to the math problem"
 msgstr "الجواب على مشكلة الرياضيات"
 #: src/game.c:703
 msgid "and hitting 'space' or 'enter'."
-msgstr "والضغط على زر اﻷادخال او المساقة"
+msgstr "والضغط على زر اﻷدخال او المساقة"
 #: src/game.c:704
 msgid "Try it now!"
 msgstr "جربها الآن!"
@@ -97,7 +97,7 @@ msgid "This feature is not ready yet"
 msgstr "هذه الخاصية ليست جاهزة حتى الآن"
 #: src/titlescreen.c:409
 msgid "Discuss the future of TuxMath at"
-msgstr ""
+msgstr "ناقش مستقبل اللعبة فى"
 #: src/titlescreen.c:410
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "Tuxmath-devel@lists.sourceforge.net"
@@ -106,7 +106,7 @@ msgid "Math Command Training Academy"
 msgstr "اكاديميه التدريب"
 #: src/titlescreen.c:579
 msgid "Play Arcade Game"
-msgstr ""
+msgstr "لعبه تقليدية"
 #: src/titlescreen.c:580
 msgid "Play Custom Game"
 msgstr "لعبة مخصصة"
@@ -139,10 +139,10 @@ msgid "Main menu"
 msgstr "القائمة الرئيسية"
 #: src/titlescreen.c:735
 msgid "Edit 'options' file in your home directory"
-msgstr ""
+msgstr "حرر ملف 'الخيارات' فى مجلدك الافتراضى"
 #: src/titlescreen.c:736
 msgid "to create customized game!"
-msgstr ""
+msgstr "لإنشاء لعبة مخصصة"
 #: src/titlescreen.c:737
 msgid "Press a key or click your mouse to start game."
 msgstr "اضغط فوق مفتاح أو انقر الماوس لبدء اللعبة."
@@ -151,28 +151,28 @@ msgid "See README.txt for more information"
 msgstr "Readme.txt انظر لمزيد من المعلومات"
 #: src/titlescreen.c:769
 msgid "Demo"
-msgstr ""
+msgstr "ديمو"
 #: src/titlescreen.c:770
 msgid "Project Info"
 msgstr "معلومات المشروع"
 #: src/titlescreen.c:771
 msgid "Credits"
-msgstr ""
+msgstr "فريق العمل"
 #: src/titlescreen.c:772
 msgid "Main Menu"
 msgstr "القائمة الرئيسية"
 #: src/titlescreen.c:816
 msgid "TuxMath is free and open-source!"
-msgstr ""
+msgstr "TuxMath برنامج حر مفتوح المصدر"
 #: src/titlescreen.c:817
 msgid "You can help make it better by reporting problems,"
-msgstr ""
+msgstr "يمكنك المساعدة بجعلها افضل بإرسال اى مشاكل تواجها,"
 #: src/titlescreen.c:818
 msgid "suggesting improvements, or adding code."
-msgstr ""
+msgstr "أو اى مقترحات أو كتابة أكواد"
 #: src/titlescreen.c:819
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
-msgstr ""
+msgstr "tuxmath-devel@lists.sourceforge.net ناقش المستقبل على "
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
 msgstr "عدد الطباعه"
