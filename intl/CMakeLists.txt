@@ -39,7 +39,6 @@ endif ()
 if (NOT INTL_SOURCE_DIR)
   set(INTL_SOURCE_DIR ${CMAKE_SOURCE_DIR})
 endif ()
-message("INTL_BINARY_DIR2 ${INTL_BINARY_DIR}")
 
 # Generate the appropriate header files
 configure_file(libgnuintl.h.in ${INTL_BINARY_DIR}/libgnuintl.h)
@@ -104,8 +103,6 @@ set(INTL_SOURCES
       osdep.c
       intl-compat.c
 )
-
-message("intl_sources1: ${INTL_SOURCES}")
 
 include_directories(${INTL_BINARY_DIR} ${INTL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 

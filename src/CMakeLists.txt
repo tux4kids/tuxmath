@@ -58,7 +58,6 @@ include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_IN
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
-  message("Added link directory ${INTL_BINARY_DIR}")
 endif(TUXMATH_BUILD_INTL)
 
 

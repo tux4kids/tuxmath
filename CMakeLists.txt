@@ -8,7 +8,7 @@
 
 project(TuxMath)
 
-set(TUXMATH_VERSION "1.6.1")
+set(TUXMATH_VERSION "1.6.3")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
@@ -48,6 +48,8 @@ if (APPLE)
   # instead include SDLmain.m as a source file
   set (TUXMATH_EXTRA_INCLUDE ${TuxMath_SOURCE_DIR}/macosx)
   set (TUXMATH_EXTRA_SRC ${TuxMath_SOURCE_DIR}/macosx/SDLMain.m)
+  # Set some variables
+  set(MACOSX_BUNDLE_BUNDLE_VERSION ${TUXMATH_VERSION})
 elseif (UNIX)
   # A non-apple Unix (Linux, Solaris, etc.)
   # This is where one would test for installed/relocatable, if that
@@ -99,7 +101,6 @@ if (TUXMATH_BUILD_INTL)
   set(PREFIX ${CMAKE_BINARY_DIR})
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
-message("intl_sources1a: ${INTL_SOURCES}")
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(doc)

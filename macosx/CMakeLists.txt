@@ -11,6 +11,11 @@ if (APPLE)
   copyFramework(${SDLIMAGE_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
   copyFramework(${SDLTTF_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
 
+  # Internationalization library
+  if (TUXMATH_BUILD_INTL)
+    install(FILES ${CMAKE_BINARY_DIR}/intl/libintl.a DESTINATION ${FRAMEWORK_DEST_DIR})
+  endif (TUXMATH_BUILD_INTL)
+
   # Make the disk image
   install(CODE "file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/macdist)")
   install(CODE "execute_process(COMMAND mv ${CMAKE_BINARY_DIR}/src/tuxmath.app ${CMAKE_BINARY_DIR}/macdist/)")
