@@ -53,11 +53,14 @@ endif (NOT APPLE)
    configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 #endif (NOT ENABLE_NLS)
 #check_include_file(config.h HAVE_CONFIG_H REQUIRED)
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES})
 
-## OSX
-# Build universal binaries on OSX
-set(CMAKE_OSX_ARCHITECTURES ppc i386)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
+
+if (TUXMATH_BUILD_INTL)
+  link_directories(${INTL_BINARY_DIR})
+  message("Added link directory ${INTL_BINARY_DIR}")
+endif(TUXMATH_BUILD_INTL)
+
 
 ## Define the executables
 add_executable (
@@ -91,6 +94,11 @@ if (APPLE)
     PROPERTIES
     LINK_FLAGS "-mmacosx-version-min=10.4")
 endif(APPLE)
+
+if (TUXMATH_BUILD_INTL)
+  message("Linking iconv: ${ICONV_LIBRARIES}")
+  target_link_libraries(tuxmath ${ICONV_LIBRARIES} libintl.a)
+endif(TUXMATH_BUILD_INTL)
 
 set_target_properties (
   tuxmathadmin

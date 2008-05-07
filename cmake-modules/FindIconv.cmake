@@ -6,6 +6,12 @@
 #  ICONV_LIBRARIES - Link these to use Iconv 
 #  ICONV_SECOND_ARGUMENT_IS_CONST - the second argument for iconv() is const
 # 
+# This was mostly borrowed from Strigi.  LyX also has a (quite
+# different) FindICONV: the one in LyX does not check
+# second_argument_is_const, but seems to have more fleshed-out support
+# for WIN32.  There may need to be some merging done.
+# Tim Holy, 2008-05-07
+
 include(CheckCXXSourceCompiles)
 
 IF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
@@ -13,9 +19,20 @@ IF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
   SET(ICONV_FIND_QUIETLY TRUE)
 ENDIF (ICONV_INCLUDE_DIR AND ICONV_LIBRARIES)
 
-FIND_PATH(ICONV_INCLUDE_DIR iconv.h) 
+FIND_PATH(ICONV_INCLUDE_DIR iconv.h
+  /Developer/SDKs/MacOSX10.4u.sdk/usr/include/iconv.h
+  /Developer/SDKs/MacOSX10.5.sdk/usr/include/iconv.h
+  /usr/include
+)
+
  
-FIND_LIBRARY(ICONV_LIBRARIES NAMES iconv libiconv c)
+FIND_LIBRARY(ICONV_LIBRARIES NAMES iconv libiconv libiconv2 c
+  PATHS
+  /Developer/SDKs/MacOSX10.4u.sdk/usr/lib
+  /Developer/SDKs/MacOSX10.5.sdk/usr/lib
+ /usr/lib
+)
+  
  
 IF(ICONV_INCLUDE_DIR AND ICONV_LIBRARIES) 
    SET(ICONV_FOUND TRUE) 

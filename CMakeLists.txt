@@ -57,6 +57,9 @@ elseif (UNIX)
 endif (APPLE)
 #message("TDP ${TUXMATH_DATA_PREFIX}")
 
+## OS X
+# Build universal binaries on OSX
+set(CMAKE_OSX_ARCHITECTURES ppc i386)
 
 ## Decide on whether we're going to build with internationalization
 # We can't build with internationalization unless the build computer
@@ -89,12 +92,6 @@ endif (TUXMATH_BUILD_INTL)
 include(ConfigureChecks)
 
 ## Add subdirectories
-add_subdirectory(src)
-add_subdirectory(data)
-add_subdirectory(doc)
-if (ENABLE_NLS)
-  add_subdirectory(po)
-endif (ENABLE_NLS)
 if (TUXMATH_BUILD_INTL)
   set(INTL_BINARY_DIR ${CMAKE_BINARY_DIR}/intl)
   set(INTL_SOURCE_DIR ${CMAKE_SOURCE_DIR}/intl)
@@ -102,6 +99,14 @@ if (TUXMATH_BUILD_INTL)
   set(PREFIX ${CMAKE_BINARY_DIR})
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
+message("intl_sources1a: ${INTL_SOURCES}")
+add_subdirectory(src)
+add_subdirectory(data)
+add_subdirectory(doc)
+if (ENABLE_NLS)
+  set(LOCALE_INSTALL_DIR ${CMAKE_BINARY_DIR}/src/${LOCALE_DIR})
+  add_subdirectory(po)
+endif (ENABLE_NLS)
 
 #message("TMBD ${TuxMath_BINARY_DIR}")
 #message("TMBN ${TUXMATH_MACOSX_BUNDLE_NAME}")

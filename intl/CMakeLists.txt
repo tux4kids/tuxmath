@@ -19,7 +19,6 @@
 
 project(intl)
 
-set(CMAKE_MODULE_PATH "/home/tim/src/tux4kids/tuxmath/trunk/cmake-modules")
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 include(CheckFunctionExists)
 
@@ -40,6 +39,7 @@ endif ()
 if (NOT INTL_SOURCE_DIR)
   set(INTL_SOURCE_DIR ${CMAKE_SOURCE_DIR})
 endif ()
+message("INTL_BINARY_DIR2 ${INTL_BINARY_DIR}")
 
 # Generate the appropriate header files
 configure_file(libgnuintl.h.in ${INTL_BINARY_DIR}/libgnuintl.h)
@@ -75,9 +75,9 @@ add_definitions(
 		)
 endif (NOT APPLE)
 
-file(GLOB intl_headers ${INTL_SOURCE_DIR}/*.h)
+file(GLOB INTL_HEADERS ${INTL_SOURCE_DIR}/*.h)
 
-set(intl_sources 
+set(INTL_SOURCES 
       bindtextdom.c
       dcgettext.c
       dgettext.c
@@ -91,6 +91,8 @@ set(intl_sources
       dcigettext.c
       dcngettext.c
       dngettext.c
+      hash-string.c
+      langprefs.c
       ngettext.c
       plural.c
       plural-exp.c
@@ -103,6 +105,7 @@ set(intl_sources
       intl-compat.c
 )
 
+message("intl_sources1: ${INTL_SOURCES}")
 
 include_directories(${INTL_BINARY_DIR} ${INTL_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -110,11 +113,11 @@ if(ICONV_FOUND)
   include_directories(${ICONV_INCLUDE_DIR})
 endif(ICONV_FOUND)
 
-add_library(intl STATIC ${intl_sources} ${intl_headers})
+add_library(intl STATIC ${INTL_SOURCES} ${INTL_HEADERS})
 
 if(ICONV_FOUND)
   target_link_libraries(intl ${ICONV_LIBRARY})
 endif(ICONV_FOUND)
 
-#project_source_group("${GROUP_CODE}" intl_sources intl_headers)
+#project_source_group("${GROUP_CODE}" INTL_SOURCES INTL_HEADERS)
 

@@ -8,7 +8,7 @@
 # Macro:
 #  ADD_TRANSLATIONS
 #
-# This requires that the variable LOCALEDIR be set to the place you
+# This requires that the variable LOCALE_INSTALL_DIR be set to the place you
 # want to install the .mo files.
 
 
@@ -41,7 +41,7 @@ MACRO(ADD_TRANSLATIONS _baseName)
 	    COMMAND ${MSGFMT_EXECUTABLE} -o ${_out} ${_in}
 	    DEPENDS ${_in} )
 	INSTALL(FILES ${_out}
-	    DESTINATION ${LOCALEDIR}/${_file_we}/LC_MESSAGES/
+	    DESTINATION ${LOCALE_INSTALL_DIR}/${_file_we}/LC_MESSAGES/
 	    RENAME ${_baseName}.mo )
 	SET(_outputs ${_outputs} ${_out})
     ENDFOREACH(_file)
