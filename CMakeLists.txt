@@ -42,14 +42,16 @@ endif (TUXMATH_BUILD_TYPE MATCHES installed)
 ## Set up OS-specific path & build information
 if (APPLE)
   set(TUXMATH_MACOSX_BUNDLE_NAME tuxmath)
+  set(MACOSX_BUNDLE_BUNDLE_VERSION ${TUXMATH_VERSION})
+  set(MACOSX_BUNDLE_SHORT_VERSION_STRING ${TUXMATH_VERSION})
+  set(MACOSX_BUNDLE_LONG_VERSION_STRING ${TUXMATH_VERSION})
+  set(MACOSX_BUNDLE_ICON_FILE tuxmath.icns)
   set(TUXMATH_DATA_PREFIX ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources)
   set(LOCALE_DIR ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources/locale)
   # OS X SDL Framework does not have a pre-built libSDLmain, so we
   # instead include SDLmain.m as a source file
   set (TUXMATH_EXTRA_INCLUDE ${TuxMath_SOURCE_DIR}/macosx)
   set (TUXMATH_EXTRA_SRC ${TuxMath_SOURCE_DIR}/macosx/SDLMain.m)
-  # Set some variables
-  set(MACOSX_BUNDLE_BUNDLE_VERSION ${TUXMATH_VERSION})
 elseif (UNIX)
   # A non-apple Unix (Linux, Solaris, etc.)
   # This is where one would test for installed/relocatable, if that
