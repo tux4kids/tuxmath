@@ -1,16 +1,20 @@
+# Translation of en_GB to Norwegian Nynorsk
+# Karl Ove Hufthammer <karl@huftis.org>, 2008.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2008-05-09 20:53+0200\n"
-"PO-Revision-Date: 2008-02-15 03:00+0100\n"
-"Last-Translator: Caroline Ford <caroline.ford.work@googlemail.com>\n"
-"Language-Team: \n"
+"PO-Revision-Date: 2008-05-09 21:05+0200\n"
+"Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
+"Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-Country: UNITED KINGDOM\n"
+"X-Generator: KBabel 1.11.4\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/game.c:663
 msgid "Welcome to TuxMath!"
@@ -22,7 +26,7 @@ msgstr "Your mission is to save your"
 
 #: src/game.c:681
 msgid "penguins' igloos from the"
-msgstr "penguins' igloos from the"
+msgstr "penguins’ igloos from the"
 
 #: src/game.c:682
 msgid "falling comets."
@@ -38,7 +42,7 @@ msgstr "the answer to the maths problem"
 
 #: src/game.c:703
 msgid "and hitting 'space' or 'enter'."
-msgstr "and hitting 'space' or 'enter'."
+msgstr "and hitting ‘space’ or ‘enter’."
 
 #: src/game.c:704
 msgid "Try it now!"
@@ -53,9 +57,8 @@ msgid "If an igloo gets hit by a comet,"
 msgstr "If an igloo gets hit by a comet,"
 
 #: src/game.c:723
-#, fuzzy
 msgid "it melts. But don't worry: the"
-msgstr "it melts. But don't worry, the"
+msgstr "it melts. But don’t worry: the"
 
 #: src/game.c:724
 msgid "penguin is OK!"
@@ -107,7 +110,7 @@ msgstr "Quit at any time by pressing"
 
 #: src/game.c:799
 msgid "'Esc' or clicking the 'X'"
-msgstr "'Esc' or clicking the 'X'"
+msgstr "‘Esc’ or clicking the ‘X’"
 
 #: src/game.c:800
 msgid "in the upper right corner."
@@ -183,7 +186,7 @@ msgstr "Main menu"
 
 #: src/titlescreen.c:735
 msgid "Edit 'options' file in your home directory"
-msgstr "Edit 'options' file in your home directory"
+msgstr "Edit ‘options’ file in your home directory"
 
 #: src/titlescreen.c:736
 msgid "to create customized game!"
@@ -452,3 +455,4 @@ msgstr "Multiplication of Positives and Negatives"
 #: data/missions/lessons/descr_lessons:56
 msgid "Division of Positives and Negatives"
 msgstr "Division of Positives and Negatives"
+
