@@ -26,10 +26,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Tux Of Math Command 1.6.1\n"
+"Project-Id-Version: Tux Of Math Command 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-02-05 05:53-0500\n"
-"PO-Revision-Date: 2008-02-05 05:53-0500\n"
+"POT-Creation-Date: 2008-05-09 20:53+0200\n"
+"PO-Revision-Date: 2008-05-09 20:53+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -78,8 +78,8 @@ msgid "If an igloo gets hit by a comet,"
 msgstr "If an igloo gets hit by a comet,"
 
 #: src/game.c:723
-msgid "it melts. But don't worry, the"
-msgstr "it melts. But don't worry, the"
+msgid "it melts. But don't worry: the"
+msgstr "it melts. But don't worry: the"
 
 #: src/game.c:724
 msgid "penguin is OK!"

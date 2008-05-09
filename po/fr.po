@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.5.8\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-02-05 05:53-0500\n"
+"POT-Creation-Date: 2008-05-09 20:53+0200\n"
 "PO-Revision-Date: 2007-11-15 09:00+0100\n"
 "Last-Translator: Grumeau Rémi <remi@beosfrance.com>\n"
 "Language-Team: Dutch <LL@li.org>\n"
@@ -56,7 +56,7 @@ msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
 #: src/game.c:723
-msgid "it melts. But don't worry, the"
+msgid "it melts. But don't worry: the"
 msgstr ""
 
 #: src/game.c:724

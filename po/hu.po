@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-02-05 05:53-0500\n"
+"POT-Creation-Date: 2008-05-09 20:53+0200\n"
 "PO-Revision-Date: 2008-02-11 21:56+0100\n"
 "Last-Translator: Miklos Merenyi <mermik@freemail.hu>\n"
 "Language-Team: LANGUAGE <HU@li.org>\n"
@@ -55,7 +55,8 @@ msgid "If an igloo gets hit by a comet,"
 msgstr "Ha egy jégkunyhót eltalál"
 
 #: src/game.c:723
-msgid "it melts. But don't worry, the"
+#, fuzzy
+msgid "it melts. But don't worry: the"
 msgstr "egy meteor, megolvad, de a"
 
 #: src/game.c:724
