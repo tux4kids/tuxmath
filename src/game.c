@@ -720,7 +720,7 @@ void game_handle_help(void)
   
   speed = 2;
   game_set_message(&s1,_("If an igloo gets hit by a comet,"),left_edge,100);
-  game_set_message(&s2,_("it melts. But don't worry, the"),left_edge,135);
+  game_set_message(&s2,_("it melts. But don't worry: the"),left_edge,135);
   game_set_message(&s3,_("penguin is OK!"),left_edge,170);
   game_set_message(&s4,_("Just watch what happens:"),left_edge,225);
   game_set_message(&s5,_("(Press a key to start)"),left_edge,260);
