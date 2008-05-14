@@ -66,6 +66,7 @@ void unconfig_highscores(const char *path);
 void clear_highscores(const char *path);
 void clear_goldstars(const char *path);
 void consolidate_logs(const char *path);
+void clear_logs(const char *path);
 void clear_file(const char *path,const char *filename,const char *invoke_name);
 char* eatwhite(char *buf);
 
