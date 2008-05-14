@@ -87,6 +87,12 @@ target_link_libraries (tuxmath
   ${SDLMIXER_LIBRARY}
   )
 
+if (SDLPANGO_FOUND)
+  target_link_libraries (tuxmath
+    ${SDLPANGO_LIBRARY}
+    )
+endif (SDLPANGO_FOUND)
+
 if (APPLE)
   # The following seems to be needed to compile under 10.5
   set_target_properties(tuxmath tuxmathadmin
