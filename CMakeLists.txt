@@ -88,6 +88,12 @@ else (ENABLE_NLS)
 endif (ENABLE_NLS)
 message("ENABLE_NLS ${ENABLE_NLS}")
 set(HAVE_GETTEXT ENABLE_NLS)
+# Check to see if we have SDL_Pango support for the right-to-left languages
+if (ENABLE_NLS)
+  find_package(SDL_Pango)
+  set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
+endif (ENABLE_NLS)
+
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)
