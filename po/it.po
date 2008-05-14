@@ -3,6 +3,11 @@
 # This file is distributed under the same license as the tuxmath package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# Contributors:
+# Giovanni Condello <condellog@gmail.com>
+# Sergio Zanchetta
+# cenoura
+# lucabaffa
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"

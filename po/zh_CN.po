@@ -3,6 +3,8 @@
 # This file is distributed under the same license as the tuxmath package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# Contributors:
+# TeliuTe <teliute@163.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"

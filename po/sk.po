@@ -3,6 +3,9 @@
 # This file is distributed under the same license as the tuxmath package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
 #
+# Contributors:
+#  salwator
+# %GŠ%@tefan Lu%Gč%@ivjansk�
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
