@@ -1,3 +1,22 @@
+2008.April-May (svn.debian.org/tux4kids - revision 501)
+	Build:
+	 Create a CMake build, including support for internationalization
+	 (builds the intl directory on Mac OS X) and SDL_Pango. This also
+	 builds a .dmg on Mac OS X.
+	Code:
+	 Fix pointer bug in mathcards when initializing with wrong questions.
+	 Fix a number of compiler warnings.
+	
+      Tim Holy <holy@wustl.edu>
+	
+2008.May.05 (svn.debian.org/tux4kids - revision 477)
+        Code:
+	  SDL_Pango support for right-to-left languages 
+	
+	Contributed by Ahmed Sayed <ahmad.ahmadsayed@gmail.com>
+	Checked in on Ahmed's behalf by Tim Holy
+
+
 2008.Apr.26 (svn.debian.org/tux4kids - revision 471)
 Version 1.6.2
       i18n:
