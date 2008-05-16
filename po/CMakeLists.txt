@@ -10,9 +10,16 @@ set(TUXMATH_PO_REQUIRES_PANGO
   ja.po
 )
 
+# Some translations may be so complete that they should be excluded
+# for now. List them here.
+set (TUXMATH_EXCLUDE_PO
+  fi.po
+)
+
 file (GLOB PO_FILES *.po)
 file (GLOB PANGO_FILES ${TUXMATH_PO_REQUIRES_PANGO})
 
+list(REMOVE_ITEM PO_FILES ${TUXMATH_EXCLUDE_PO})
 if(NOT SDLPANGO_FOUND)
   list(REMOVE_ITEM PO_FILES ${PANGO_FILES})
 endif(NOT SDLPANGO_FOUND)
