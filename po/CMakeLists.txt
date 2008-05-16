@@ -4,7 +4,11 @@
 # have Pango, we want to exclude those translations.
 set(TUXMATH_PO_REQUIRES_PANGO
   ar.po
-  he.po)
+  he.po
+  zh*.po
+  ru.po
+  ja.po
+)
 
 file (GLOB PO_FILES *.po)
 file (GLOB PANGO_FILES ${TUXMATH_PO_REQUIRES_PANGO})
