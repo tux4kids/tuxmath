@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Tux Of Math Command],[1.6.2],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
+AC_INIT([Tux Of Math Command],[1.6.3],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
 AC_CONFIG_SRCDIR([src/tuxmath.c])
 
 AC_PREREQ(2.61)

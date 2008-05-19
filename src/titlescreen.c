@@ -598,6 +598,8 @@ int run_main_menu(void)
   menu_opts.ytop = 100;
   menu_opts.ygap = 15;
 
+  //This function takes care of all the drawing and receives
+  //user input:
   choice = choose_menu_item(menu_text,sprites,6,menu_opts);
   
   while (choice >= 0) {
@@ -674,6 +676,8 @@ int run_arcade_menu(void)
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
+  //This function takes care of all the drawing and receives
+  //user input:
   choice = choose_menu_item(menu_text,sprites,6,menu_opts);
 
   while (choice >= 0) {
@@ -785,6 +789,8 @@ int run_options_menu(void)
   set_default_menu_options(&menu_opts);
   menu_opts.ytop = 100;
 
+  //This function takes care of all the drawing and receives
+  //user input:
   choice = choose_menu_item(menu_text,sprites,n_menu_entries,menu_opts);
 
   while (choice >= 0) {
@@ -867,6 +873,8 @@ int run_lessons_menu(void)
   }
   set_default_menu_options(&menu_opts);
 
+  //This function takes care of all the drawing and receives
+  //user input:
   chosen_lesson = choose_menu_item((const unsigned char**)lesson_list_titles, star_sprites, num_lessons, menu_opts);
 
   while (chosen_lesson >= 0) 

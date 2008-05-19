@@ -1,4 +1,5 @@
 2008.April-May (svn.debian.org/tux4kids - revision 501)
+Version 1.6.3
 	Build:
 	 Create a CMake build, including support for internationalization
 	 (builds the intl directory on Mac OS X) and SDL_Pango. This also
@@ -6,7 +7,9 @@
 	Code:
 	 Fix pointer bug in mathcards when initializing with wrong questions.
 	 Fix a number of compiler warnings.
-	
+      i18n:
+        Added po files for many languages from Ubuntu's Launchpad
+
       Tim Holy <holy@wustl.edu>
 	
 2008.May.05 (svn.debian.org/tux4kids - revision 477)

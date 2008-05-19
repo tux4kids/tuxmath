@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-05-09 20:53+0200\n"
+"POT-Creation-Date: 2008-05-17 06:44-0400\n"
 "PO-Revision-Date: 2008-01-03 11:53+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -159,75 +159,75 @@ msgstr "Fler alternativ"
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/titlescreen.c:651
+#: src/titlescreen.c:653
 msgid "Space Cadet"
 msgstr "Rymdkadett"
 
-#: src/titlescreen.c:652
+#: src/titlescreen.c:654
 msgid "Scout"
 msgstr "Scout"
 
-#: src/titlescreen.c:653
+#: src/titlescreen.c:655
 msgid "Ranger"
 msgstr "Jägare"
 
-#: src/titlescreen.c:654
+#: src/titlescreen.c:656
 msgid "Ace"
 msgstr "Mästare"
 
-#: src/titlescreen.c:655
+#: src/titlescreen.c:657
 msgid "Hall Of Fame"
 msgstr "Poänglistan"
 
-#: src/titlescreen.c:656
+#: src/titlescreen.c:658
 msgid "Main menu"
 msgstr "Huvudmeny"
 
-#: src/titlescreen.c:735
+#: src/titlescreen.c:739
 msgid "Edit 'options' file in your home directory"
 msgstr "Redigera filen \"options\" i din hemkatalog"
 
-#: src/titlescreen.c:736
+#: src/titlescreen.c:740
 msgid "to create customized game!"
 msgstr "för att skapa anpassade spel!"
 
-#: src/titlescreen.c:737
+#: src/titlescreen.c:741
 msgid "Press a key or click your mouse to start game."
 msgstr "Tryck på en tangent eller klicka med musen för att starta spelet."
 
-#: src/titlescreen.c:738
+#: src/titlescreen.c:742
 msgid "See README.txt for more information"
 msgstr "Se README.txt för mer information"
 
-#: src/titlescreen.c:769
+#: src/titlescreen.c:773
 msgid "Demo"
 msgstr "Demonstration"
 
-#: src/titlescreen.c:770
+#: src/titlescreen.c:774
 msgid "Project Info"
 msgstr "Projektinformation"
 
-#: src/titlescreen.c:771
+#: src/titlescreen.c:775
 msgid "Credits"
 msgstr "Tack till"
 
-#: src/titlescreen.c:772
+#: src/titlescreen.c:776
 msgid "Main Menu"
 msgstr "Huvudmeny"
 
-#: src/titlescreen.c:816
+#: src/titlescreen.c:822
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath är gratis och öppen källkod!"
 
-#: src/titlescreen.c:817
+#: src/titlescreen.c:823
 msgid "You can help make it better by reporting problems,"
 msgstr "Du kan hjälpa oss att göra det bättre genom att rapportera problem,"
 
-#: src/titlescreen.c:818
+#: src/titlescreen.c:824
 msgid "suggesting improvements, or adding code."
 msgstr "föreslå förbättringar eller bidra med programkod."
 
-#: src/titlescreen.c:819
+#: src/titlescreen.c:825
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Diskutera framtiden på tuxmath-devel@lists.sourceforge.net"
 

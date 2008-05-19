@@ -331,6 +331,8 @@ void free_SDLPango_Context()
   context = NULL;
 }
 #endif
+
+
 /* BlackOutline() creates a surface containing text of the designated */
 /* foreground color, surrounded by a black shadow, on a transparent    */
 /* background.  The appearance can be tuned by adjusting the number of */
