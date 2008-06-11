@@ -4,6 +4,29 @@ Version 1.6.10
 December 19, 2007
 
 
+For users
+---------
+
+This document is mostly about building TuxMath on your own
+computer. If you just want to download a working copy of the program,
+then you might want to consider pre-built versions.
+
+For Linux: your distribution probably already has packages available.
+Your distributor probably has a graphical way to install tuxmath.
+Alternatively, you can use the command line to install it.  For
+example, with Debian systems you can say "apt-get install tuxmath" and
+you're done.
+
+For Windows/Macs: visit http://www.tux4kids.com, click on "Released
+Files," and find the most recent package for your platform.  You will
+not need the source code packages.  Save the package on your
+harddrive and double-click on the icon.
+
+
+The remainder of this document is for people who want to compile TuxMath
+themselves on their own computers.
+
+
 Requirements
 ------------
   Operating System
@@ -33,11 +56,10 @@ Requirements
 
   Video Display
   -------------
-    TuxMath displays the game screen in a 640x480 window.
-
-    If a 640x480 resolution is supported by your system, the game can
-    also display in full-screen mode(see "README.txt" or the program's
-    "--usage" display).
+    By default, TuxMath displays fullscreen, as long as a 640x480
+    resolution is supported by your system.  TuxMath can also display
+    the game screen in a 640x480 window.  F10 toggles between these
+    two modes.
 
     When attempting to run in fullscreen mode on systems where true 640x480
     resolution isn't available for some reason, the next-lowest resolution
@@ -64,7 +86,8 @@ Requirements
   -------------
     The game is typically played using a keyboard.  The numeric keypad
     portion of standard PC keyboards is supported (so if there are any
-    stand-alone numeric keyboards with no other keys, they SHOULD work, too).
+    stand-alone numeric keyboards with no other keys, they SHOULD
+    work, too).
 
     Menus and options can be controlled with either the pointer or the
     keyboard's arrow keys.
@@ -319,11 +342,12 @@ CMake).  Further details are below.
   to do a local build, using macports is perhaps the easiest approach:
   "port install tuxmath" and then wait.
 
-  To build a .dmg, currently-supported approach is to use CMake
+  To build a .dmg, the currently-supported approach is to use CMake
   (described above under Linux/Unix).  You will need to have both
   gettext and cmake installed on the build machine; using macports is
-  the easiest way, "port install cmake gettext".  "make install" will
-  create the .dmg in the build directory.
+  the easiest way, "port install cmake gettext".
+
+  "make install" will create the .dmg in the build directory.
 
   Finally, it is also possible to do the conventional "./configure;
   make; make install" if you have the required libraries.

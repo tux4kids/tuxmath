@@ -2,10 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
+June 11, 2008
 
-October 29, 2007
-
-For tuxmath-1.6.1
+For tuxmath-1.6.3
 
 Objective
 ---------
@@ -25,132 +24,34 @@ Installation
 
 Configuration
 -------------
-  If all players are using a single account (e.g., a home computer
+  If multiple players are using a single account (e.g., a home computer
   that is always logged in, or a school setting in which all students
   have a single username), you may want to do some additional
-  configuration---see below under "Configuring multiple users."
+  configuration---see below under "Configuring Multiple Users."
 
 
 Running The Program
 -------------------
   Linux/Unix
   ----------
-    Simply type the command "tuxmath" at a command prompt (eg, in an xterm).
+    Your distribution probably already has a menu entry for Tuxmath
+    under the KDE or GNOME menus.  If not, depending on your graphical
+    interface or window manager, you can probably also create a
+    clickable icon which will launch the game.  See your interface's
+    documentation or help screens for details.
 
-    Depending on your graphical interface or window manager, you can
-    probably also create a clickable icon which will launch the game.
-    See your interface's documentation or help screens for details.
+    Alternatively, simply type the command "tuxmath" at a command
+    prompt (eg, in an xterm).
 
   Windows
   -------
     Just double-click the "TuxMath.exe" icon or select "Tuxmath" in the Start
     Menu.  The current installer creates menu items to run tuxmath either in
     Fullscreen mode or within a 640 x 480 window.
-    To be prompted for command line options, run tuxmath from the "Run" dialog
-    or the "C:> Command Prompt" console. Type "TuxMath.exe" followed by any 
-    desired options (see below). If it does not run, make sure the full path
-    to the program (e.g. C:\Program Files\TuxMath\TuxMath.exe) is known to 
-    Windows, either through Control Panel settings or by changing to the
-    directory containing TuxMath.exe before issuing the command.
 
   MacOS
   -----
-    [ UNDER CONSTRUCTION ]  Just double-click the "tuxmath" icon. ???
-    To be prompted for command line options (see below), hold the [OPTION] key
-    as you double-click the icon.
-
-
-  Command Line Options
-  --------------------
-    NOTE: Tuxmath now has many pre-packaged "missions" (lessons), as  well
-    as four arcade-style open-ended games of progressive difficulty, so
-    there is much less need to change settings.  If desired, editing the
-    config file is a much better way to control the behavior of Tuxmath
-    than the command-line options, for the most part.  However, many
-    options are still supported.
-
-    The following command-line options can be sent to the program:
-     --optionfile filename - play game based on settings in the named file (see
-                         below for more on tuxmath config files). Tuxmath will
-                         look for a valid config file with a matching name in
-                         the following locations:
-                         	1. current working directory
-				2. as an absolute pathname
-				3. in the missions directory with tuxmath's 
-                                   other data files.
-				4. in the user's tuxmath options directory
-                                   (e.g. /home/laura/.tuxmath/filename
-                                5. in the user's home directory.
-
-     --playthroughlist - Game consists of working through a list of questions
-      -r                 generated based on the selected options (or defaults).
-                         If a comet strikes a city without being shot down by
-                         the player, the question is reinserted into the list
-                         in a random location. If the player answers all questions
-                         correctly before the cities are destroyed, he/she wins.
-                         If all cities get destroyed, the game ends in defeat.
-
-     --answersfirst   -  to ask questions in format: ? + num2 = num3 instead of 
-                         default format: num1 + num2 = ?.
-
-     --answersmiddle  -  to ask questions in format: num1 + ? = num3 instead of
-                         default format: num1 + num2 = ?.
-
-     --fullscreen     -  Run the game in full screen, instead of in a window,
-      -f                 if possible.
-
-     --windowed       -  Run the game in a 640 x 480 window.
-      -w
-
-     --nosound        -  Do not play any sounds or music.
-      -s
-     --quiet
-      -q
-
-     --nobackground   -  Do not display photographic backgrounds in game.
-      -b                 (Useful on slower systems.)
-
-     --keypad         -  Display an on-screen numeric keypad.  (Useful
-      -k                 for touch screens or in place of a physical keyboard.)
-
-     --operator OP    -  Add an operator to the game (will cause the program
-      -o OP              to ignore saved option screen settings).  You can
-                         use this switch multiple times to run the game
-                         with multiple operators.
-
-                         Valid values for "OP" are:
-
-                           add
-                           subtract
-                           multiply
-                           divide
-
-     --demo           -  Demo mode.  The game will cycle back and forth
-      -d                 between the title and the game, and it will
-                         auto-play the game.  The only user interaction
-                         can be for quitting or pausing.
-
-     --allownegatives    Allows subtraction answers to be less than zero.
-      -n                 When selected, the led numbers at the top of the
-                         screen will include a fourth digit for the '-' sign.
-                         Also, if --keypad is selected, the '-' and '+' may
-                         be grayed-out depending if negatives are allowed.
-
-
-    These command-line options display useful information, but the program
-    does not attempt to start up in interactive mode.
-
-     --help           -  Display a short help message, explaining how to
-      -h                 play the game.
-
-     --usage          -  Display the available command-line options.
-      -u
-
-     --version        -  Display the version of "tuxmath" you're running.
-      -v
-
-     --copyright      -  Display copyright information
-      -c
+    Double-click the "tuxmath" icon.
 
 
 
@@ -181,7 +82,9 @@ Program Navigation
     player's home directory (see below). At some point, the options will be 
     settable from within the game.
 
-    More Options - this will be developed into the menus to set options not 
+    Help: this offers a short tutorial to teach game play.
+
+    More Options: this will be developed into the menus to set options not 
     directly related to math questions, such as toggling the music on and off,
     playing fullscreen vs. windowed, using cities vs. igloos, and the like.
     Now it just has the "Demo" mode, as well as credits and project information.
@@ -197,6 +100,10 @@ Program Navigation
 
 How To Play
 -----------
+  One of the best ways to get started is by choosing the "Help" option
+  in the main menu.  This offers a tutorial for basic play.  There are
+  some additional features described below.
+
   Destroying Comets
   -----------------
     As the comets fall towards your friends, you must solve the equations.
@@ -212,7 +119,7 @@ How To Play
       LED display for the minus sign.  The '-' and '+' keys will toggle the
       minus sign on and off, respectively.
 
-      Finally, press [ENTER / RETURN].
+      Finally, press [ENTER / RETURN] or [SPACE].
 
 
     The comet that has the number you entered as its answer will
@@ -247,6 +154,15 @@ How To Play
     or for players who cannot use a keyboard.
 
 
+  Advancing Waves
+  ---------------
+    When all the comets are destroyed for one wave, the player
+    advances to the next.  The level of difficulty generally increases
+    with each level.  On Training Academy lessons, the program
+    "learns" from the player to try to adjust the difficulty, and may
+    decrease if the player has lost one or more igloos (see below).
+
+
   Losing An Igloo or City
   -----------------------
     The default setting is to play with igloo-dwelling penguins.
@@ -260,6 +176,7 @@ How To Play
     second hit destroys the city. If this seems too scary or violent,
     please use the penguin/igloo theme! 
 
+
   Regaining Igloos/Cities
   -----------------------
     When a question is answered correctly, the player earns progress toward
@@ -270,31 +187,35 @@ How To Play
     bonus progress bar, and one of the igloos/cities will be rebuilt after 
     the current wave.
 
+
   Ending The Game
   ---------------
+    The default mode is now to play through a defined list of
+    questions. This mode is used in the "Training Academy" games.  For
+    "Custom" games, it can be selected by setting the config file
+    'play_through_list' parameter to 1 ('yes' or 'true'), or via the
+    "--playthroughlist" command line argument.  The list is generated
+    by TuxMath based on a series of selectable parameters (selected
+    math operations, number ranges, etc). By default, the questions
+    are asked in a random order.  If answered correctly, they are
+    removed.  A question that is not answered correctly (allowing the
+    comet to destroy its target) will reappear in random order.  If
+    all questions are successfully answered before the igloos or
+    cities have been destroyed, the player wins and a "victory" screen
+    is displayed.
 
-    The default mode is now to play through a defined list of questions. This
-    mode is used in the "Training Academy" games.  For "Custom" games, it can 
-    be selected by setting the config file 'play_through_list' parameter
-    to 1 ('yes' or 'true'), or via the "--playthroughlist" command line argument. 
-    The list is generated by TuxMath based on a series of selectable parameters
-    (selected math operations, number ranges, etc). By default, the questions
-    are asked in a random order.  If answered correctly, they are removed.
-    A question that is not answered correctly (allowing the comet to destroy
-    its target) will reappear in random order.  If all questions are successfully
-    answered before the igloos or cities have been destroyed, the player wins
-    and a "victory" screen is displayed.
+    Arcade-style play is also supported, in which the game continues
+    until you lose all of your igloos or cities.  A GAME OVER screen
+    is then displayed.  If you use one of the standard Arcade games,
+    you'll have the opportunity to put your name in a high-score
+    table.  For the "Custom" games, you can select this mode by
+    setting 'play_through_list' to '0' ('no', 'false', 'off').
 
-    The older arcade-style mode is also supported, in which the game continues
-    until you lose all of your igloos or cities.  A GAME OVER screen is then
-    displayed. For the "Custom" games, you can select this mode by setting
-    'play_through_list' to '0' ('no', 'false', 'off').
+    By pressing Esc or clicking on the red circle in the upper right
+    corner, you can quit the game.
 
-    By pressing Esc or clicking on the red circle in the upper right corner, you
-    can quit the game.
-
-    Shortcut Keys
-    -------------
+  Shortcut Keys
+  -------------
     The following shortcuts are supported during game play:
 
       'F10':        switches between windowed and full-screen display mode.
@@ -302,12 +223,9 @@ How To Play
                     Training Academy" lessons allow pausing, while the "Arcade"
                     games do not.
       Up Arrow:     increase speed by 20%, if allowed.
-      Down Arrow:   decrease speed by 20%, if allowed.  Speed changes are allowed
-                    when pausing is enabled.
+      Down Arrow:   decrease speed by 20%, if allowed.  Speed changes
+                    are allowed when pausing is enabled.
       'Esc':        leave current game and display the menu.
-
-  Advancing Waves
-  ---------------
 
 
 
@@ -318,22 +236,28 @@ Setting Game Options
   to create a "Custom" game.  At some point the "Custom" settings will be
   modifiable from within TuxMath.
 
-  1. The program reads and writes the settings to disk in a human-readable
-  fashion, where they can be modified with a text editor. The file is created
-  in the user's home directory within a directory called ".tuxmath" and is 
-  simply called "options". As an example, a user "laura" on a Unix/Linux system
-  would find this at /home/laura/.tuxmath/options.  The file contains
-  extensive comments describing all settings. By editing and saving this file,
-  very extensive control over the program is supported, particularly with
-  respect to generation of math questions. There really is no need to use
+  1. The program reads and writes the settings to disk in a
+  human-readable fashion, where they can be modified with a text
+  editor. The file contains extensive comments describing all
+  settings. By editing and saving this file, very extensive control
+  over the program is supported, particularly with respect to
+  generation of math questions. There really is no need to use
   command-line options any more.
 
-  On a Windows XP or Windows 2000 system, the config file is called "options.txt"
-  and is located at C:\Documents And Settings\USER\Application Data\TuxMath\options.txt,
-  where USER is the login of the current user. Note that 'Application Data' is
+  On Unix/Linux (non-Mac): the file is created in the user's home
+  directory within a directory called ".tuxmath" and is simply called
+  "options". As an example, a user "laura" on a Unix/Linux system
+  would find this at /home/laura/.tuxmath/options.
+
+  On Macs: the file can be found under tuxmath/Contents/Resources.
+
+  On a Windows XP or Windows 2000 system, the config file is called
+  "options.txt" and is located at C:\Documents And
+  Settings\USER\Application Data\TuxMath\options.txt, where USER is
+  the login of the current user. Note that 'Application Data' is
   hidden by default by the operating system.
 
-  2. Many command-line options are supported (see above). 
+  2. Many command-line options are supported (see below). 
 
   
 Setting Administrative Options
@@ -341,12 +265,13 @@ Setting Administrative Options
   "Tux, of Math Command" allows parents/teachers to control whether the game
   options can be changed by the player.
 
-  The game options are first read from a master config file in the program's
-  data directory (/usr/local/share/tuxmath/missions/options on *nix if installed 
-  using "make install"), then overridden by the user's own /.tuxmath/options
-  file if "per_user_config" is selected in the master options file.
-  If "per_user_config" is deselected, the game starts up with the master
-  settings.  (This is somewhat under construction).
+  The game options are first read from a master config file in the
+  program's data directory (/usr/local/share/tuxmath/missions/options
+  on *nix if installed using "make install"), then overridden by the
+  user's own /.tuxmath/options file if "per_user_config" is selected
+  in the master options file.  If "per_user_config" is deselected, the
+  game starts up with the master settings.  (This is somewhat under
+  construction).
 
 
 Game Summary Files: Tracking Players' Performance
@@ -385,7 +310,7 @@ Configuring Multiple Users
 --------------------------
   In some cases, the user's log-in name is not very informative: an
   example is when schools use a single username "student" for all
-  students in the school.  It is possible to set up Tuxmath so that it
+  students in the school.  It is possible to set up TuxMath so that it
   asks students to "log in" (without any password) when they first
   start the game.  This will insure that all gold stars, options, and
   game summary files will be stored in a location specific to each
@@ -585,6 +510,125 @@ Tracking Progress in Multiple-User Configurations
   students in a particular class.  Teachers/parents can open this file
   with a spreadsheet program as described above under "Game Summary
   Files."
+
+
+
+
+Command Line Options
+--------------------
+    NOTE: Tuxmath now has many pre-packaged "missions" (lessons), as  well
+    as four arcade-style open-ended games of progressive difficulty, so
+    there is much less need to change settings.  If desired, editing the
+    config file is a much better way to control the behavior of TuxMath
+    than the command-line options, for the most part.  However, many
+    options are still supported.
+
+    Tips on running from the command line:
+
+    Linux:
+    -----
+    Just open a command prompt.
+
+    Windows:
+    -------
+    To be prompted for command line options, run tuxmath from the "Run" dialog
+    or the "C:> Command Prompt" console. Type "TuxMath.exe" followed by any 
+    desired options (see below). If it does not run, make sure the full path
+    to the program (e.g. C:\Program Files\TuxMath\TuxMath.exe) is known to 
+    Windows, either through Control Panel settings or by changing to the
+    directory containing TuxMath.exe before issuing the command.
+
+    MacOS:
+    -----
+    [ UNDER CONSTRUCTION ]  Just double-click the "tuxmath" icon. ???
+    To be prompted for command line options (see below), hold the [OPTION] key
+    as you double-click the icon.
+
+
+    The following command-line options can be sent to the program:
+     --optionfile filename - play game based on settings in the named file (see
+                         below for more on tuxmath config files). Tuxmath will
+                         look for a valid config file with a matching name in
+                         the following locations:
+                         	1. current working directory
+				2. as an absolute pathname
+				3. in the missions directory with tuxmath's 
+                                   other data files.
+				4. in the user's tuxmath options directory
+                                   (e.g. /home/laura/.tuxmath/filename
+                                5. in the user's home directory.
+
+     --playthroughlist - Game consists of working through a list of questions
+      -r                 generated based on the selected options (or defaults).
+                         If a comet strikes a city without being shot down by
+                         the player, the question is reinserted into the list
+                         in a random location. If the player answers all questions
+                         correctly before the cities are destroyed, he/she wins.
+                         If all cities get destroyed, the game ends in defeat.
+
+     --answersfirst   -  to ask questions in format: ? + num2 = num3 instead of 
+                         default format: num1 + num2 = ?.
+
+     --answersmiddle  -  to ask questions in format: num1 + ? = num3 instead of
+                         default format: num1 + num2 = ?.
+
+     --fullscreen     -  Run the game in full screen, instead of in a window,
+      -f                 if possible.
+
+     --windowed       -  Run the game in a 640 x 480 window.
+      -w
+
+     --nosound        -  Do not play any sounds or music.
+      -s
+     --quiet
+      -q
+
+     --nobackground   -  Do not display photographic backgrounds in game.
+      -b                 (Useful on slower systems.)
+
+     --keypad         -  Display an on-screen numeric keypad.  (Useful
+      -k                 for touch screens or in place of a physical keyboard.)
+
+     --operator OP    -  Add an operator to the game (will cause the program
+      -o OP              to ignore saved option screen settings).  You can
+                         use this switch multiple times to run the game
+                         with multiple operators.
+
+                         Valid values for "OP" are:
+
+                           add
+                           subtract
+                           multiply
+                           divide
+
+     --demo           -  Demo mode.  The game will cycle back and forth
+      -d                 between the title and the game, and it will
+                         auto-play the game.  The only user interaction
+                         can be for quitting or pausing.
+
+     --allownegatives    Allows subtraction answers to be less than zero.
+      -n                 When selected, the led numbers at the top of the
+                         screen will include a fourth digit for the '-' sign.
+                         Also, if --keypad is selected, the '-' and '+' may
+                         be grayed-out depending if negatives are allowed.
+
+
+    These command-line options display useful information, but the program
+    does not attempt to start up in interactive mode.
+
+     --help           -  Display a short help message, explaining how to
+      -h                 play the game.
+
+     --usage          -  Display the available command-line options.
+      -u
+
+     --version        -  Display the version of "tuxmath" you're running.
+      -v
+
+     --copyright      -  Display copyright information
+      -c
+
+
 
 
 License
