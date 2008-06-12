@@ -218,7 +218,7 @@ menu_music = 1
 # Use fullscreen at 640x480 resolution instead of
 # 640x480 window. Change to 0 if SDL has trouble with
 # fullscreen on your system:
-fullscreen = 0
+fullscreen = 1
 
 # Display jpg images for background:
 use_bkgd = 1
