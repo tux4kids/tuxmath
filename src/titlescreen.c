@@ -1636,7 +1636,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       tmdprintf("Updating entire screen\n");
       /* This is a full-screen redraw */
       /* Redraw background, title, stop button, and Tux: */
-      if (!current_bkg || Opts_Fullscreen() )
+      if (!current_bkg || screen->flags & SDL_FULLSCREEN )
         SDL_FillRect(screen, &screen->clip_rect, 0); //clear to black
       if (current_bkg)
         SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
