@@ -12,6 +12,7 @@
 
 #include "SDL_extras.h"
 #include "tuxmath.h"
+#include "pixels.h"
 
 #ifdef SDL_Pango
 #include "SDL_Pango.h"
@@ -29,7 +30,7 @@ void DrawButton(SDL_Rect* target_rect,
   SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
                                           target_rect->w,
                                           target_rect->h,
-                                          32, 
+                                          32,
                                           rmask, gmask, bmask, amask);
   Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
   SDL_FillRect(tmp_surf, NULL, color);
@@ -48,7 +49,7 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
   Uint32* p = NULL;
   Uint32 alpha_mask;
   int bytes_per_pix;
-  
+
   if (!s)
     return;
   if (SDL_LockSurface(s) == -1)
@@ -69,8 +70,8 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
 
   /* Now round off corners: */
   /* upper left:            */
-  for (y = 0; y < radius; y++) 
-  {  
+  for (y = 0; y < radius; y++)
+  {
     p = (Uint32*)(s->pixels + (y * s->pitch));
     x_dist = radius;
     y_dist = radius - y;
@@ -85,8 +86,8 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
   }
 
   /* upper right:            */
-  for (y = 0; y < radius; y++) 
-  {  
+  for (y = 0; y < radius; y++)
+  {
     /* start at end of top row: */
     p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
 
@@ -103,8 +104,8 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
   }
 
   /* bottom left:            */
-  for (y = (s->h - 1); y > (s->h - radius); y--) 
-  {  
+  for (y = (s->h - 1); y > (s->h - radius); y--)
+  {
     /* start at beginning of bottom row */
     p = (Uint32*)(s->pixels + (y * s->pitch));
     x_dist = radius;
@@ -120,8 +121,8 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
   }
 
   /* bottom right:            */
-  for (y = (s->h - 1); y > (s->h - radius); y--) 
-  {  
+  for (y = (s->h - 1); y > (s->h - radius); y--)
+  {
     /* start at end of bottom row */
     p = (Uint32*)(s->pixels + ((y + 1) * s->pitch) - bytes_per_pix);
     x_dist = radius;
@@ -136,7 +137,7 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
     }
   }
   SDL_UnlockSurface(s);
-} 
+}
 
 
 /**********************
@@ -144,8 +145,8 @@ void RoundCorners(SDL_Surface* s, Uint16 radius)
    input: a SDL_Surface, x, y
    output: a copy of the SDL_Surface flipped via rules:
 
-     if x is a positive value, then flip horizontally
-     if y is a positive value, then flip vertically
+     if x is a nonzero value, then flip horizontally
+     if y is a nonzero value, then flip vertically
 
      note: you can have it flip both
 **********************/
@@ -323,8 +324,8 @@ SDLPango_Context *context = NULL;
 void init_SDLPango_Context()
 {
    context =  SDLPango_CreateContext_GivenFontDesc(DEFAULT_FONT_NAME);
-}  
-void free_SDLPango_Context() 
+}
+void free_SDLPango_Context()
 {
   if(context != NULL)
     SDLPango_FreeContext(context);
@@ -441,18 +442,16 @@ int inRect( SDL_Rect r, int x, int y) {
 void DarkenScreen(Uint8 bits)
 {
 #if PIXEL_BITS == 32
-  Uint32 rm = screen->format->Rmask;
-  Uint32 gm = screen->format->Gmask;
-  Uint32 bm = screen->format->Bmask;
-  Uint32* p; 
+  Uint32* p;
 #elif PIXEL_BITS == 16
-  Uint16 rm = screen->format->Rmask;
-  Uint16 gm = screen->format->Gmask;
-  Uint16 bm = screen->format->Bmask;
-  Uint16* p; 
+  Uint16* p;
 #else
   return;
 #endif
+  Uint32 rm = screen->format->Rmask;
+  Uint32 gm = screen->format->Gmask;
+  Uint32 bm = screen->format->Bmask;
+
 
   int x, y;
 
@@ -463,7 +462,7 @@ void DarkenScreen(Uint8 bits)
   p = screen->pixels;
 
   for (y = 0; y < RES_Y; y++)
-  { 
+  {
     for (x = 0; x < RES_X; x++)
     {
       *p = (((*p&rm)>>bits)&rm)
@@ -477,63 +476,430 @@ void DarkenScreen(Uint8 bits)
 
 void SwitchScreenMode(void)
 {
-  SDL_Surface *tmp;
-  SDL_Rect src, dst;
+  int window = (screen->flags & SDL_FULLSCREEN);
+  SDL_Surface* oldscreen = screen;
 
-  int window = 0;
-
-  src.x = 0;
-  src.y = 0;
-  src.w = RES_X;
-  src.h = RES_Y;
-  dst.x = 0;
-  dst.y = 0;
-
-  tmp = SDL_CreateRGBSurface(
-      SDL_SWSURFACE,
-      RES_X,
-      RES_Y,
-      PIXEL_BITS,
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-      0xff000000,
-      0x00ff0000,
-      0x0000ff00,
-      0x000000ff
-#else
-      0x000000ff,
-      0x0000ff00,
-      0x00ff0000,
-      0xff000000
-#endif
-      );
-
-  if (screen->flags & SDL_FULLSCREEN)
+  if (!window)
   {
-    window = 1;
-  }
-
-  SDL_BlitSurface(screen,&src,tmp,&dst);
-  SDL_UpdateRect(tmp, 0, 0, RES_X, RES_Y);
-  SDL_FreeSurface(screen);
-  screen = NULL;
-
-  if (window)
-  {
-    screen = SDL_SetVideoMode(RES_X,
-                              RES_Y,
+    screen = SDL_SetVideoMode(fs_res_x,
+                              fs_res_y,
                               PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE);
+                              SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
   }
   else
   {
     screen = SDL_SetVideoMode(RES_X,
                               RES_Y,
                               PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
+                              SDL_SWSURFACE|SDL_HWPALETTE);
+
   }
 
-  SDL_BlitSurface(tmp,&src,screen,&dst);
-  SDL_UpdateRect(tmp,0,0,RES_X,RES_Y);
-  SDL_FreeSurface(tmp);
+  if (screen == NULL)
+  {
+    fprintf(stderr,
+            "\nError: I could not switch to %s mode.\n"
+            "The Simple DirectMedia error that occured was:\n"
+            "%s\n\n",
+            window ? "windowed" : "fullscreen",
+            SDL_GetError());
+    screen = oldscreen;
+  }
+  else
+  {
+    SDL_FreeSurface(oldscreen);
+    oldscreen = NULL;
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+  }
+
 }
 
+//#if 0
+
+/* Swiped shamelessly from TuxPaint
+   Based on code from: http://www.codeproject.com/cs/media/imageprocessing4.asp
+   copyright 2002 Christian Graus */
+
+SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
+{
+  SDL_Surface * s;
+  void (*putpixel) (SDL_Surface *, int, int, Uint32);
+  Uint32(*getpixel) (SDL_Surface *, int, int) =
+    getpixels[src->format->BytesPerPixel];
+  float xscale, yscale;
+  int x, y;
+  float floor_x, ceil_x, floor_y, ceil_y, fraction_x, fraction_y,
+    one_minus_x, one_minus_y;
+  float n1, n2;
+  float r1, g1, b1, a1;
+  float r2, g2, b2, a2;
+  float r3, g3, b3, a3;
+  float r4, g4, b4, a4;
+  Uint8 r, g, b, a;
+
+
+  /* Create surface for zoom: */
+
+  s = SDL_CreateRGBSurface(src->flags,	/* SDL_SWSURFACE, */
+			   new_w, new_h, src->format->BitsPerPixel,
+                           src->format->Rmask,
+                           src->format->Gmask,
+                           src->format->Bmask,
+                           src->format->Amask);
+
+
+  if (s == NULL)
+  {
+    fprintf(stderr, "\nError: Can't build zoom surface\n"
+	    "The Simple DirectMedia Layer error that occurred was:\n"
+	    "%s\n\n", SDL_GetError());
+
+    cleanup();
+    exit(1);
+  }
+
+  putpixel = putpixels[s->format->BytesPerPixel];
+
+
+  SDL_LockSurface(src);
+  SDL_LockSurface(s);
+
+  xscale = (float) src->w / (float) new_w;
+  yscale = (float) src->h / (float) new_h;
+
+  for (x = 0; x < new_w; x++)
+  {
+    for (y = 0; y < new_h; y++)
+    {
+      floor_x = floor((float) x * xscale);
+      ceil_x = floor_x + 1;
+      if (ceil_x >= src->w)
+        ceil_x = floor_x;
+
+      floor_y = floor((float) y * yscale);
+      ceil_y = floor_y + 1;
+      if (ceil_y >= src->h)
+        ceil_y = floor_y;
+
+      fraction_x = x * xscale - floor_x;
+      fraction_y = y * yscale - floor_y;
+
+      one_minus_x = 1.0 - fraction_x;
+      one_minus_y = 1.0 - fraction_y;
+
+      SDL_GetRGBA(getpixel(src, floor_x, floor_y), src->format,
+                  &r1, &g1, &b1, &a1);
+      SDL_GetRGBA(getpixel(src, ceil_x,  floor_y), src->format,
+                  &r2, &g2, &b2, &a2);
+      SDL_GetRGBA(getpixel(src, floor_x, ceil_y),  src->format,
+                  &r3, &g3, &b3, &a3);
+      SDL_GetRGBA(getpixel(src, ceil_x,  ceil_y),  src->format,
+                  &r4, &g4, &b4, &a4);
+
+      n1 = (one_minus_x * r1 + fraction_x * r2);
+      n2 = (one_minus_x * r3 + fraction_x * r4);
+      r = (one_minus_y * n1 + fraction_y * n2);
+
+      n1 = (one_minus_x * g1 + fraction_x * g2);
+      n2 = (one_minus_x * g3 + fraction_x * g4);
+      g = (one_minus_y * n1 + fraction_y * n2);
+
+      n1 = (one_minus_x * b1 + fraction_x * b2);
+      n2 = (one_minus_x * b3 + fraction_x * b4);
+      b = (one_minus_y * n1 + fraction_y * n2);
+
+      n1 = (one_minus_x * a1 + fraction_x * a2);
+      n2 = (one_minus_x * a3 + fraction_x * a4);
+      a = (one_minus_y * n1 + fraction_y * n2);
+
+      putpixel(s, x, y, SDL_MapRGBA(s->format, r, g, b, a));
+    }
+  }
+
+  SDL_UnlockSurface(s);
+  SDL_UnlockSurface(src);
+
+  return s;
+
+}
+
+//FIXME: everything below is slightly modified code from pixels.c and would do
+//       better to be included as such.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+  pixels.c
+
+  For Tux Paint
+  Pixel read/write functions
+
+  Copyright (c) 2002-2006 by Bill Kendrick and others
+  bill@newbreedsoftware.com
+  http://www.newbreedsoftware.com/tuxpaint/
+
+  This program is free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  (See COPYING.txt)
+
+  June 14, 2002 - February 17, 2006
+  $Id: pixels.c,v 1.3 2006/08/27 21:00:55 wkendrick Exp $
+*/
+
+#include "pixels.h"
+//#include "compiler.h"
+//#include "debug.h"
+
+/* Draw a single pixel into the surface: */
+void putpixel8(SDL_Surface * surface, int x, int y, Uint32 pixel)
+{
+  Uint8 *p;
+
+  /* Assuming the X/Y values are within the bounds of this surface... */
+  if (
+      (((unsigned) x < (unsigned) surface->w)
+       && ((unsigned) y < (unsigned) surface->h)))
+  {
+    // Set a pointer to the exact location in memory of the pixel
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
+		   (y * surface->pitch) +	/* Go down Y lines */
+		   x);		/* Go in X pixels */
+
+
+    /* Set the (correctly-sized) piece of data in the surface's RAM
+     *          to the pixel value sent in: */
+
+    *p = pixel;
+  }
+}
+
+/* Draw a single pixel into the surface: */
+void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)
+{
+  Uint8 *p;
+
+  /* Assuming the X/Y values are within the bounds of this surface... */
+  if (
+      (((unsigned) x < (unsigned) surface->w)
+       && ((unsigned) y < (unsigned) surface->h)))
+  {
+    // Set a pointer to the exact location in memory of the pixel
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
+		   (y * surface->pitch) +	/* Go down Y lines */
+		   (x * 2));	/* Go in X pixels */
+
+
+    /* Set the (correctly-sized) piece of data in the surface's RAM
+     *          to the pixel value sent in: */
+
+    *(Uint16 *) p = pixel;
+  }
+}
+
+/* Draw a single pixel into the surface: */
+void putpixel24(SDL_Surface * surface, int x, int y, Uint32 pixel)
+{
+  Uint8 *p;
+
+  /* Assuming the X/Y values are within the bounds of this surface... */
+  if (
+      (((unsigned) x < (unsigned) surface->w)
+       && ((unsigned) y < (unsigned) surface->h)))
+  {
+    // Set a pointer to the exact location in memory of the pixel
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
+		   (y * surface->pitch) +	/* Go down Y lines */
+		   (x * 3));	/* Go in X pixels */
+
+
+    /* Set the (correctly-sized) piece of data in the surface's RAM
+     *          to the pixel value sent in: */
+
+    if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+    {
+      p[0] = (pixel >> 16) & 0xff;
+      p[1] = (pixel >> 8) & 0xff;
+      p[2] = pixel & 0xff;
+    }
+    else
+    {
+      p[0] = pixel & 0xff;
+      p[1] = (pixel >> 8) & 0xff;
+      p[2] = (pixel >> 16) & 0xff;
+    }
+
+  }
+}
+
+/* Draw a single pixel into the surface: */
+void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)
+{
+  Uint8 *p;
+
+  /* Assuming the X/Y values are within the bounds of this surface... */
+  if (
+      (((unsigned) x < (unsigned) surface->w)
+       && ((unsigned) y < (unsigned) surface->h)))
+  {
+    // Set a pointer to the exact location in memory of the pixel
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
+		   (y * surface->pitch) +	/* Go down Y lines */
+		   (x * 4));	/* Go in X pixels */
+
+
+    /* Set the (correctly-sized) piece of data in the surface's RAM
+     *          to the pixel value sent in: */
+
+    *(Uint32 *) p = pixel;	// 32-bit display
+  }
+}
+
+/* Get a pixel: */
+Uint32 getpixel8(SDL_Surface * surface, int x, int y)
+{
+  Uint8 *p;
+
+  /* get the X/Y values within the bounds of this surface */
+  if ((unsigned) x < (unsigned) surface->w)
+    x = (x < 0) ? 0 : surface->w - 1;
+  if ((unsigned) y < (unsigned) surface->h)
+    y = (y < 0) ? 0 : surface->h - 1;
+
+  /* Set a pointer to the exact location in memory of the pixel
+     in question: */
+
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
+		 (y * surface->pitch) +	/* Go down Y lines */
+		 x);		/* Go in X pixels */
+
+
+  /* Return the correctly-sized piece of data containing the
+   * pixel's value (an 8-bit palette value, or a 16-, 24- or 32-bit
+   * RGB value) */
+
+  return (*p);
+}
+
+/* Get a pixel: */
+Uint32 getpixel16(SDL_Surface * surface, int x, int y)
+{
+  Uint8 *p;
+
+  /* get the X/Y values within the bounds of this surface */
+  if ((unsigned) x < (unsigned) surface->w)
+    x = (x < 0) ? 0 : surface->w - 1;
+  if ((unsigned) y < (unsigned) surface->h)
+    y = (y < 0) ? 0 : surface->h - 1;
+
+  /* Set a pointer to the exact location in memory of the pixel
+     in question: */
+
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
+		 (y * surface->pitch) +	/* Go down Y lines */
+		 (x * 2));	/* Go in X pixels */
+
+
+  /* Return the correctly-sized piece of data containing the
+   * pixel's value (an 8-bit palette value, or a 16-, 24- or 32-bit
+   * RGB value) */
+
+  return (*(Uint16 *) p);
+}
+
+/* Get a pixel: */
+Uint32 getpixel24(SDL_Surface * surface, int x, int y)
+{
+  Uint8 *p;
+  Uint32 pixel;
+
+  /* get the X/Y values within the bounds of this surface */
+  if ((unsigned) x < (unsigned) surface->w)
+    x = (x < 0) ? 0 : surface->w - 1;
+  if ((unsigned) y < (unsigned) surface->h)
+    y = (y < 0) ? 0 : surface->h - 1;
+
+  /* Set a pointer to the exact location in memory of the pixel
+     in question: */
+
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
+		 (y * surface->pitch) +	/* Go down Y lines */
+		 (x * 3));	/* Go in X pixels */
+
+
+  /* Return the correctly-sized piece of data containing the
+   * pixel's value (an 8-bit palette value, or a 16-, 24- or 32-bit
+   * RGB value) */
+
+  /* Depending on the byte-order, it could be stored RGB or BGR! */
+
+  if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+    pixel = p[0] << 16 | p[1] << 8 | p[2];
+  else
+    pixel = p[0] | p[1] << 8 | p[2] << 16;
+
+  return pixel;
+}
+
+/* Get a pixel: */
+Uint32 getpixel32(SDL_Surface * surface, int x, int y)
+{
+  Uint8 *p;
+
+  /* get the X/Y values within the bounds of this surface */
+  if ((unsigned) x < (unsigned) surface->w)
+    x = (x < 0) ? 0 : surface->w - 1;
+  if ((unsigned) y < (unsigned) surface->h)
+    y = (y < 0) ? 0 : surface->h - 1;
+
+  /* Set a pointer to the exact location in memory of the pixel
+     in question: */
+
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
+		 (y * surface->pitch) +	/* Go down Y lines */
+		 (x * 4));	/* Go in X pixels */
+
+
+  /* Return the correctly-sized piece of data containing the
+   * pixel's value (an 8-bit palette value, or a 16-, 24- or 32-bit
+   * RGB value) */
+
+  return *(Uint32 *) p;		// 32-bit display
+}
+
+void (*putpixels[]) (SDL_Surface *, int, int, Uint32) =
+{
+putpixel8, putpixel8, putpixel16, putpixel24, putpixel32};
+
+
+Uint32(*getpixels[])(SDL_Surface *, int, int) =
+{
+getpixel8, getpixel8, getpixel16, getpixel24, getpixel32};
+
+//#endif

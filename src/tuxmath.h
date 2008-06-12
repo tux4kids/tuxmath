@@ -45,6 +45,12 @@
 //#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
++/* nice inline debugging macro */
+#ifdef TUXMATH_DEBUG
+#define tmdprintf(...) printf(__VA_ARGS__)
+#else
+#define tmdprintf(...) 0
+#endif
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096
@@ -125,6 +131,9 @@ enum {
 
 
 /* Global data gets 'externed' here: */
+extern int fs_res_x;
+extern int fs_res_y;
+
 extern SDL_Color black;
 extern SDL_Color gray;
 extern SDL_Color dark_blue;

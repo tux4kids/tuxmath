@@ -76,7 +76,7 @@ typedef struct {
 #define menu_font  "AndikaDesRevA.ttf"  /*  "GenAI102.ttf" */
 #define menu_font_size	18
 
-#define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */ 
+#define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */
 #define ttf_font_size	18
 
 #define MAX_LESSONS 100
@@ -109,10 +109,9 @@ typedef struct {
 
 
 
-extern SDL_Surface *screen;
+//extern SDL_Surface *screen;
 //extern TTF_Font  *font;
 extern SDL_Event  event;
-
 
 extern SDL_Surface *bkg;
 
@@ -157,7 +156,7 @@ enum {
 /*In titlescreen.c */
 void TitleScreen(void);
 int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const unsigned char**, sprite**, int, menu_options);
+int choose_menu_item(const unsigned char**, sprite**, int, menu_options* menu_opts, void (*)(menu_options*) );
 void set_default_menu_options(menu_options *);
 
 

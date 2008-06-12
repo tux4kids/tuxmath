@@ -36,5 +36,7 @@ int  inRect(SDL_Rect r, int x, int y);
 void DarkenScreen(Uint8 bits);
 void SwitchScreenMode(void);
 SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2,float gamma);
+SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h);
+
 
 #endif

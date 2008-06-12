@@ -18,7 +18,7 @@
   Subversion repository:
   https://svn.debian.alioth.org/tux4kids/tuxmath/
 
- 
+
   August 26, 2001 - Sept 18, 2007.
 */
 
@@ -51,6 +51,11 @@
 
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
+
+int fs_res_x = RES_X;
+int fs_res_y = RES_Y;
+
+
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
 /* Need special handling to generate flipped versions of images. This
@@ -69,6 +74,7 @@ const int flipped_img[] = {
   IMG_PENGUIN_WALK_OFF2,
   IMG_PENGUIN_WALK_OFF3
 };
+
 
 #ifndef NOSOUND
 Mix_Chunk* sounds[NUM_SOUNDS];
@@ -152,7 +158,7 @@ void initialize_options(void)
 /* from titlescreen, to allow for user-login to occur.         */
 void initialize_options_user(void)
 {
-  /* Read in user-specific settings, if desired.  By    */  
+  /* Read in user-specific settings, if desired.  By    */
   /* default, this restores settings from the player's last */
   /* game:                                                  */
   if (Opts_PerUserConfig())
@@ -184,7 +190,7 @@ void initialize_options_user(void)
   }
 
 #ifdef TUXMATH_DEBUG
-  print_high_scores(stdout);  
+  print_high_scores(stdout);
 #endif
 }
 
@@ -249,7 +255,7 @@ void handle_command_args(int argc, char* argv[])
 	);
 
       printf("\n");
-    
+
       cleanup_on_error();
       exit(0);
     }
@@ -274,7 +280,7 @@ void handle_command_args(int argc, char* argv[])
 	     strcmp(argv[i], "-u") == 0)
     {
       /* Display (happy) usage: */
-	    
+
       usage(0, argv[0]);
     }
     else if (0 == strcmp(argv[i], "--homedir"))
@@ -305,7 +311,7 @@ void handle_command_args(int argc, char* argv[])
       }
       else /* try to read file named in following arg: */
       {
-        if (!read_named_config_file(argv[i + 1])) 
+        if (!read_named_config_file(argv[i + 1]))
         {
           fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
         }
@@ -456,7 +462,7 @@ void initialize_SDL(void)
   /* Init SDL Audio: */
   Opts_SetSoundHWAvailable(0);  // By default no sound HW
   if (Opts_UseSound())
-  { 
+  {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
       fprintf(stderr,
@@ -466,18 +472,21 @@ void initialize_SDL(void)
     }
     else {
       //if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
-      if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 2048) < 0)
+      if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
       {
 	fprintf(stderr,
 		"\nWarning: I could not set up audio for 44100 Hz "
 		"16-bit stereo.\n"
 		"The Simple DirectMedia error that occured was:\n"
 		"%s\n\n", SDL_GetError());
+
       }
     }
     n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
     if (n_timesopened > 0)
       Opts_SetSoundHWAvailable(1);
+    else
+      frequency = format = channels = 0; //more helpful than garbage
     #ifdef TUXMATH_DEBUG
     fprintf(stderr, "Sound mixer: frequency = %d, "
                     "format = %x, "
@@ -486,7 +495,7 @@ void initialize_SDL(void)
                     frequency,format,channels,n_timesopened);
     #endif
   }
-  
+
   #endif
   {
     SDL_VideoInfo *videoInfo;
@@ -495,21 +504,32 @@ void initialize_SDL(void)
     if (videoInfo->hw_available)
     {
       surfaceMode = SDL_HWSURFACE;
-#ifdef TUXMATH_DEBUG    
+#ifdef TUXMATH_DEBUG
       printf("HW mode\n");
 #endif
     }
     else
     {
       surfaceMode = SDL_SWSURFACE;
-#ifdef TUXMATH_DEBUG    
+#ifdef TUXMATH_DEBUG
       printf("SW mode\n");
 #endif
     }
 
+    //determine the best fullscreen resolution
+    int i;
+    SDL_Rect** modes = SDL_ListModes(videoInfo->vfmt, SDL_FULLSCREEN | surfaceMode);
+    if (modes != 0 && modes != -1) //if there _is_ a "best" resolution
+      {
+      fs_res_x = modes[0]->w;
+      fs_res_y = modes[0]->h;
+      tmdprintf("Optimal resolution is %dx%d\n", RES_X, RES_Y);
+      }
+
+
     if (Opts_Fullscreen())
     {
-      screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
+      screen = SDL_SetVideoMode(fs_res_x, fs_res_y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
       if (screen == NULL)
       {
         fprintf(stderr,
@@ -582,7 +602,6 @@ void generate_flipped_images(void)
     flipped_img_lookup[flipped_img[i]] = i;
   }
 }
-
 
 /* Created images that are blends of two other images to smooth out
    the transitions. */
@@ -712,7 +731,7 @@ void cleanup_memory(void)
     Mix_CloseAudio();
     n_timesopened--;
   }
-  
+
 #ifdef SDL_Pango
    free_SDLPango_Context();
 #endif
@@ -736,8 +755,8 @@ void seticon(void)
   int masklen;
   Uint8* mask;
   SDL_Surface* icon;
-  
-  
+
+
   /* Load icon into a surface: */
   icon = IMG_Load(DATA_PREFIX "/images/icons/icon.png");
   if (icon == NULL)
@@ -748,23 +767,23 @@ void seticon(void)
             "%s\n\n", DATA_PREFIX "/images/icons/icon.png", SDL_GetError());
     return;
   }
-  
-  
+
+
   /* Create mask: */
   masklen = (((icon -> w) + 7) / 8) * (icon -> h);
   mask = malloc(masklen * sizeof(Uint8));
   memset(mask, 0xFF, masklen);
-  
-  
+
+
   /* Set icon: */
   SDL_WM_SetIcon(icon, mask);
-  
-  
+
+
   /* Free icon surface & mask: */
   free(mask);
   SDL_FreeSurface(icon);
-  
-  
+
+
   /* Seed random-number generator: */
   srand(SDL_GetTicks());
 }

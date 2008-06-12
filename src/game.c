@@ -11,7 +11,7 @@
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.org/
-      
+
   August 26, 2001 - February 18, 2004
 
   Revised by David Bruce, Tim Holy and others
@@ -36,7 +36,7 @@
 #include "setup.h"
 #include "mathcards.h"
 #include "titlescreen.h"
-#include "options.h"  
+#include "options.h"
 #include "SDL_extras.h"
 
 #define FPS 15                     /* 15 frames per second */
@@ -152,6 +152,11 @@ static void game_handle_penguins(void);
 static void game_handle_steam(void);
 static void game_handle_extra_life(void);
 static void game_draw(void);
+static void game_draw_background(void);
+static void game_draw_comets(void);
+static void game_draw_cities(void);
+static void game_draw_misc(void);
+
 static int check_extra_life(void);
 static int check_exit_conditions(void);
 
@@ -179,6 +184,8 @@ static void free_on_exit(void);
 static void help_add_comet(int a,int oper,int b,int c);
 static int help_renderframe_exit(void);
 
+static void game_recalc_positions(void);
+
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
@@ -195,6 +202,13 @@ int game(void)
   fprintf(stderr, "Entering game():\n");
 #endif
 
+  //see if the option matches the actual screen
+  if (Opts_Fullscreen() == !(screen->flags & SDL_FULLSCREEN) )
+    {
+    SwitchScreenMode();
+    }
+
+
    /* most code moved into smaller functions (game_*()): */
   if (!game_initialize())
   {
@@ -203,7 +217,7 @@ int game(void)
     /* player simply has all operations deselected */
     free_on_exit();
     return 0;
-  } 
+  }
 
   if (Opts_HelpMode()) {
     game_handle_help();
@@ -211,7 +225,9 @@ int game(void)
     return 0;
   }
 
-  /* --- MAIN GAME LOOP: --- */ 
+
+
+  /* --- MAIN GAME LOOP: --- */
   do
   {
     /* reset or increment various things with each loop: */
@@ -223,11 +239,11 @@ int game(void)
     if (laser.alive > 0)
     {
       laser.alive--;
-    }   
+    }
 
     /* Most code now in smaller functions: */
     game_handle_user_events();
-    game_handle_demo(); 
+    game_handle_demo();
     game_handle_answer();
     game_countdown();
     game_handle_tux();
@@ -238,28 +254,28 @@ int game(void)
     game_handle_extra_life();
     game_draw();
     /* figure out if we should leave loop: */
-    game_status = check_exit_conditions(); 
+    game_status = check_exit_conditions();
 
-   
+
     /* If we're in "PAUSE" mode, pause! */
     if (paused)
     {
       pause_game();
       paused = 0;
     }
-      
+
       /* Keep playing music: */
-      
+
 #ifndef NOSOUND
     if (Opts_UsingSound())
     {
       if (!Mix_PlayingMusic())
       {
 	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-      }  
+      }
     }
 #endif
- 
+
     /* Pause (keep frame-rate event) */
     now_time = SDL_GetTicks();
     if (now_time < last_time + MS_PER_FRAME)
@@ -313,7 +329,7 @@ int game(void)
             || event.type == SDL_MOUSEBUTTONDOWN)
           {
             looping = 0;
-          }   
+          }
         }
 
         if (bkgd)
@@ -352,7 +368,7 @@ int game(void)
         SDL_BlitSurface(images[tux_img], NULL, screen, &dest_tux);
 
 /*        draw_console_image(tux_img);*/
-	
+
         SDL_Flip(screen);
 
         now_time = SDL_GetTicks();
@@ -370,7 +386,7 @@ int game(void)
       printf("\ngame() exiting with error");
 #endif
     }
-    case GAME_OVER_LOST: 
+    case GAME_OVER_LOST:
     case GAME_OVER_OTHER:
     {
       int looping = 1;
@@ -393,7 +409,7 @@ int game(void)
             || event.type == SDL_MOUSEBUTTONDOWN)
           {
             looping = 0;
-          }   
+          }
         }
 
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
@@ -402,7 +418,7 @@ int game(void)
         now_time = SDL_GetTicks();
 
         if (now_time < last_time + MS_PER_FRAME)
-	  SDL_Delay(last_time + MS_PER_FRAME - now_time);     
+	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
       }
       while (looping);
 
@@ -419,7 +435,7 @@ int game(void)
       break;
     }
 
-  } 
+  }
 
   game_cleanup();
 
@@ -427,13 +443,13 @@ int game(void)
   if (Opts_SaveSummary())
   {
     write_postgame_summary();
-  }  
+  }
 
   /* Save score in case needed for high score table: */
   Opts_SetLastScore(score);
 
   /* Return the chosen command: */
-  if (GAME_OVER_WINDOW_CLOSE == game_status) 
+  if (GAME_OVER_WINDOW_CLOSE == game_status)
   {
     /* program exits: */
     cleanup();
@@ -452,11 +468,11 @@ int game_initialize(void)
 {
   int i,img;
   /* Clear window: */
-  
+
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
 
-  game_status = GAME_IN_PROGRESS;  
+  game_status = GAME_IN_PROGRESS;
   gameover_counter = -1;
   SDL_quit_received = 0;
   escape_received = 0;
@@ -499,8 +515,8 @@ int game_initialize(void)
 #endif
     fprintf(stderr, "\nMC_StartGame() failed!");
     return 0;
-  }  
-  
+  }
+
   /* Write pre-game info to game summary file: */
   if (Opts_SaveSummary())
   {
@@ -514,7 +530,7 @@ int game_initialize(void)
   comet_feedback_number = 0;
   comet_feedback_height = 0;
   danger_level = Opts_DangerLevel();
-  
+
   wave = 1;
   num_attackers = 2;
   prev_wave_comets = Opts_StartingComets();
@@ -524,9 +540,9 @@ int game_initialize(void)
   demo_countdown = 2000;
   level_start_wait = LEVEL_START_WAIT_START;
   neg_answer_picked = 0;
- 
+
   /* (Create and position cities) */
-  
+
   if (Opts_UseIgloos())
     img = IMG_IGLOO_INTACT;
   else
@@ -538,7 +554,7 @@ int game_initialize(void)
     cities[i].counter = 0;
     cities[i].threatened = 0;
     cities[i].layer = 0;
-     
+
     /* Left vs. Right - makes room for Tux and the console */
     if (i < NUM_CITIES / 2)
     {
@@ -581,13 +597,13 @@ int game_initialize(void)
 
   /* (Clear laser) */
   laser.alive = 0;
-  
+
   /* Reset remaining stuff: */
- 
+
   bkgd = NULL;
   last_bkgd = -1;
   reset_level();
-  reset_comets();  
+  reset_comets();
 
   frame = 0;
   paused = 0;
@@ -668,10 +684,10 @@ void game_handle_help(void)
     if (!Mix_PlayingMusic())
     {
       Mix_PlayMusic(musics[MUS_GAME], 0);
-    }  
+    }
   }
 #endif
- 
+
   // Wait 2 seconds while rendering frames
   while (frame < 2*FPS && !(quit_help = help_renderframe_exit()));
   if (quit_help)
@@ -717,7 +733,7 @@ void game_handle_help(void)
   help_controls.laser_enabled = 0;
   frame_start = frame;
   while (frame-frame_start < 3*FPS && !(quit_help = help_renderframe_exit()));  // wait 3 secs
-  
+
   speed = 2;
   game_set_message(&s1,_("If an igloo gets hit by a comet,"),left_edge,100);
   game_set_message(&s2,_("it melts. But don't worry: the"),left_edge,135);
@@ -730,7 +746,7 @@ void game_handle_help(void)
   if (quit_help)
     return;
   game_clear_message(&s5);
-  
+
   help_add_comet(3,MC_OPER_MULT,3,9);
   comets[0].y = 2*(screen->h)/3;   // start it low down
   while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
@@ -765,7 +781,7 @@ void game_handle_help(void)
   while ((frame-frame_start < 3*FPS) && !(quit_help = help_renderframe_exit()));
   if (quit_help)
     return;
-  
+
   help_controls.laser_enabled = 1;
   game_set_message(&s1,_("You can fix the igloos"),left_edge,100);
   game_set_message(&s2,_("by stopping bonus comets."),left_edge,135);
@@ -979,7 +995,7 @@ void game_handle_demo(void)
         answer_digit = 2;
     }
   }
-  
+
   /* Add a digit: */
   if (picked_comet != -1 && (frame % 5) == 0 && (rand() % 10) < 8)
   {
@@ -1002,7 +1018,7 @@ void game_handle_demo(void)
       {
         digits[2] = (demo_answer % 10);
       }
-	    
+
       answer_digit++;
     }
     else
@@ -1040,8 +1056,8 @@ void game_handle_answer(void)
   if (neg_answer_picked)
   {
     num = -num;
-  }	
-	
+  }
+
   /*  Pick the lowest comet which has the right answer: */
   /*  FIXME: do we want it to prefer bonus comets to regular comets? */
   lowest_y = 0;
@@ -1050,7 +1066,7 @@ void game_handle_answer(void)
   for (i = 0; i < MAX_COMETS; i++)
   {
     if (comets[i].alive &&
-        comets[i].expl < COMET_EXPL_END && 
+        comets[i].expl < COMET_EXPL_END &&
         comets[i].answer == num &&
         comets[i].y > lowest_y)
     {
@@ -1058,7 +1074,7 @@ void game_handle_answer(void)
       lowest_y = comets[i].y;
     }
   }
-	
+
   /* If there was an comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
@@ -1070,7 +1086,7 @@ void game_handle_answer(void)
     if (ctime > comets[lowest].time_started) {
       MC_AddTimeToList((float)(ctime - comets[lowest].time_started)/1000);
     }
-    
+
 
     /* Destroy comet: */
     comets[lowest].expl = COMET_EXPL_START;
@@ -1095,7 +1111,7 @@ void game_handle_answer(void)
 #endif
     }
 
-	    
+
     /* FIXME maybe should move this into game_handle_tux() */
     /* 50% of the time.. */
     if ((rand() % 10) < 5)
@@ -1126,13 +1142,13 @@ void game_handle_answer(void)
     laser.y2 = 0;
     playsound(SND_LASER);
     playsound(SND_BUZZ);
-	    
+
     if ((rand() % 10) < 5)
       tux_img = IMG_TUX_DRAT;
     else
       tux_img = IMG_TUX_YIPE;
   }
-	
+
   /* Clear digits: */
   digits[0] = 0;
   digits[1] = 0;
@@ -1152,7 +1168,7 @@ void game_countdown(void)
     tux_img = IMG_TUX_RELAX2;
   else
     tux_img = IMG_TUX_SIT;
-	  
+
   if (level_start_wait == LEVEL_START_WAIT_START / 4)
   {
     playsound(SND_ALARM);
@@ -1174,7 +1190,7 @@ void game_handle_tux(void)
 
     playsound(SND_CLICK);
   }
- 
+
   /* If Tux is being animated, show the animation: */
   if (tux_anim != -1)
   {
@@ -1198,6 +1214,8 @@ void game_handle_tux(void)
     tux_same_counter = 0;
 }
 
+//FIXME might be simpler to store vertical position (and speed) in terms of time
+//rather than absolute position, and determine the latter in game_draw_comets()
 void game_handle_comets(void)
 {
   /* Handle comets. Since the comets also are the things that trigger
@@ -1223,11 +1241,13 @@ void game_handle_comets(void)
       /* Make bonus comet move faster at chosen ratio: */
       if (comets[i].bonus)
       {
-	comets[i].y += speed * Opts_BonusSpeedRatio();
+	comets[i].y += speed * Opts_BonusSpeedRatio() *
+	               city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
       }
       else /* Regular comet: */
       {
-        comets[i].y += speed;
+        comets[i].y += speed *
+                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
       }
 
       /* Does it threaten a city? */
@@ -1260,7 +1280,7 @@ void game_handle_comets(void)
                   1.0 + Opts_CityExplHandicap());
 #endif
  	}
- 
+
         /* Disable shields/destroy city/create steam cloud: */
         if (cities[this_city].hits_left)
 	{
@@ -1282,8 +1302,8 @@ void game_handle_comets(void)
 	    }
 	  }
 	  cities[this_city].hits_left--;
-	}	    
-	      
+	}
+
 	/* If this was a bonus comet, restart the counter */
 	if (comets[i].bonus)
 	  bonus_comet_counter = Opts_BonusCometInterval()+1;
@@ -1433,7 +1453,7 @@ void game_handle_cities(void)
       /* Change image to appropriate color: */
       cities[i].img = cities[i].img + ((wave % MAX_CITY_COLORS) *
 		   (IMG_CITY_GREEN - IMG_CITY_BLUE));
-      
+
     }
   }
 }
@@ -1681,116 +1701,211 @@ void game_handle_extra_life(void)
 /* FIXME consider splitting this into smaller functions e.g. draw_comets(), etc. */
 void game_draw(void)
 {
-  int i,j, img, current_layer, max_layer,offset;
-  SDL_Rect src, dest;
-  SDL_Surface *this_image;
-  char str[64];
-  char* comet_str;
+  SDL_Rect dest;
 
   /* Clear screen: */
-  if (bkgd == NULL)
+  game_draw_background();
+
+  /* Draw miscellaneous informational items */
+  game_draw_misc();
+
+  /* Draw cities/igloos and (if applicable) penguins: */
+  game_draw_cities();
+
+  /* Draw normal comets first, then bonus comets */
+  game_draw_comets();
+
+
+  /* Draw laser: */
+  if (laser.alive)
+  {
+    draw_line(laser.x1, laser.y1, laser.x2, laser.y2,
+		  255 / ((LASER_START + 1) - laser.alive),
+		  192 / ((LASER_START + 1) - laser.alive),
+		  64);
+  }
+
+  /* Draw numeric keypad: */
+  if (Opts_UseKeypad())
+  {
+    /* pick image to draw: */
+    int keypad_image;
+    if (MC_AllowNegatives())
+    {
+      /* draw regular keypad */
+      keypad_image = IMG_KEYPAD;
+    }
+    else
+    {
+      /* draw keypad with with grayed-out '+' and '-' */
+      keypad_image = IMG_KEYPAD_NO_NEG;
+    }
+
+    /* now draw it: */
+    dest.x = (screen->w - images[keypad_image]->w) / 2;
+    dest.y = (screen->h - images[keypad_image]->h) / 2;
+    dest.w = images[keypad_image]->w;
+    dest.h = images[keypad_image]->h;
+    SDL_BlitSurface(images[keypad_image], NULL, screen, &dest);
+  }
+
+  /* Draw console, LED numbers, & tux: */
+  draw_led_console();
+  draw_console_image(tux_img);
+
+  /* Draw any messages on the screen (used for the help mode) */
+  game_write_messages();
+
+  /* Swap buffers: */
+  SDL_Flip(screen);
+}
+
+void game_draw_background(void)
+{
+  static int old_wave = 0; //update wave immediately
+  static Uint32 bgcolor, fgcolor = 0;
+  SDL_Rect dest;
+
+  if (fgcolor == 0)
+    fgcolor = SDL_MapRGB(screen->format, 64, 96, 64);
+  if (old_wave != wave)
+  {
+    tmdprintf("Wave %d\n", wave);
+    old_wave = wave;
+    bgcolor = SDL_MapRGB(screen->format,
+                         64,
+                         64 + ((wave * 32) % 192),
+                         128 - ((wave * 16) % 128) );
+    tmdprintf("Filling screen with color %d\n", bgcolor);
+  }
+
+  if (bkgd == NULL || screen->flags & SDL_FULLSCREEN)
   {
     dest.x = 0;
     dest.y = 0;
     dest.w = screen->w;
     dest.h = ((screen->h) / 4) * 3;
 
-    SDL_FillRect(screen, &dest, 
-                 SDL_MapRGB(screen->format,
-                                    64,
-		                    64 + ((wave * 32) % 192),
-		                    128 - ((wave * 16) % 128)));
+    SDL_FillRect(screen, &dest, bgcolor);
 
-    dest.x = 0;
+
     dest.y = ((screen->h) / 4) * 3;
-    dest.w = screen->w;
     dest.h = (screen->h) / 4;
 
-    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 64, 96, 64));
+    SDL_FillRect(screen, &dest, fgcolor);
   }
-  else
+
+  if (bkgd)
   {
-    SDL_BlitSurface(bkgd, NULL, screen, NULL);
+    dest.x = (screen->w - bkgd->w) / 2;
+    dest.y = (screen->h - bkgd->h) / 2;
+    SDL_BlitSurface(bkgd, NULL, screen, &dest);
   }
+}
 
-  /* Draw "Demo" */
-  if (Opts_DemoMode())
+/* Draw comets: */
+/* NOTE bonus comets split into separate pass to make them */
+/* draw last (i.e. in front), as they can overlap          */
+void game_draw_comets(void)
+{
+
+  int i,j, img, max_layer,offset;
+  SDL_Rect dest;
+  char* comet_str;
+
+   /* First draw regular comets: */
+  for (i = 0; i < MAX_COMETS; i++)
   {
-    dest.x = (screen->w - images[IMG_DEMO]->w) / 2;
-    dest.y = (screen->h - images[IMG_DEMO]->h) / 2;
-    dest.w = images[IMG_DEMO]->w;
-    dest.h = images[IMG_DEMO]->h;
+    if (comets[i].alive && !comets[i].bonus)
+    {
+      if (comets[i].expl < COMET_EXPL_END)
+      {
+        /* Decide which image to display: */
+        img = IMG_COMET1 + ((frame + i) % 3);
+        /* Display the formula (flashing, in the bottom half
+		   of the screen) */
+        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+        {
+          comet_str = comets[i].flashcard.formula_string;
+        }
+        else
+        {
+          comet_str = NULL;
+        }
+      }
+      else
+      {
+        img = comets[i].expl;
+        comet_str = comets[i].flashcard.answer_string;
+      }
 
-    SDL_BlitSurface(images[IMG_DEMO], NULL, screen, &dest);
+      /* Draw it! */
+      dest.x = comets[i].x - (images[img]->w / 2);
+      dest.y = comets[i].y - images[img]->h;
+      dest.w = images[img]->w;
+      dest.h = images[img]->h;
+
+      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      if (comet_str != NULL)
+      {
+        draw_nums(comet_str, comets[i].x, comets[i].y);
+      }
+    }
   }
 
-  /* If we are playing through a defined list of questions */
-  /* without "recycling", display number of remaining questions: */
-  if (MC_PlayThroughList())
+  /* Now draw any bonus comets: */
+  for (i = 0; i < MAX_COMETS; i++)
   {
-    draw_question_counter();
+    if (comets[i].alive && comets[i].bonus)
+    {
+      if (comets[i].expl < COMET_EXPL_END)
+      {
+        /* Decide which image to display: */
+        img = IMG_COMET1 + ((frame + i) % 3);
+        /* Display the formula (flashing, in the bottom half
+		   of the screen) */
+        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+        {
+          comet_str = comets[i].flashcard.formula_string;
+        }
+        else
+        {
+          comet_str = NULL;
+        }
+      }
+      else
+      {
+        img = comets[i].expl;
+        comet_str = comets[i].flashcard.answer_string;
+      }
+
+      /* Move images[] index to bonus range: */
+      img += IMG_BONUS_COMET1 - IMG_COMET1;
+
+      /* Draw it! */
+      dest.x = comets[i].x - (images[img]->w / 2);
+      dest.y = comets[i].y - images[img]->h;
+      dest.w = images[img]->w;
+      dest.h = images[img]->h;
+
+      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      if (comet_str != NULL)
+      {
+        draw_nums(comet_str, comets[i].x, comets[i].y);
+      }
+    }
   }
 
-  if (extra_life_earned) {
-    /* Draw extra life earned icon */
-    dest.x = 0;
-    dest.y = 0;
-    dest.w = images[IMG_EXTRA_LIFE]->w;
-    dest.h = images[IMG_EXTRA_LIFE]->h;
-    SDL_BlitSurface(images[IMG_EXTRA_LIFE], NULL, screen, &dest);
-  } else if (bonus_comet_counter) {
-    /* Draw extra life progress bar */
-    dest.x = 0;
-    dest.y = images[IMG_EXTRA_LIFE]->h/4;
-    dest.h = images[IMG_EXTRA_LIFE]->h/2;
-    dest.w = ((Opts_BonusCometInterval() + 1 - bonus_comet_counter)
-	      * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
-    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-  }
 
-  /* Draw wave: */
-  if (Opts_BonusCometInterval())
-    offset = images[IMG_EXTRA_LIFE]->w + 5;
-  else
-    offset = 0;
 
-  dest.x = offset;
-  dest.y = 0;
-  dest.w = images[IMG_WAVE]->w;
-  dest.h = images[IMG_WAVE]->h;
+}
 
-  SDL_BlitSurface(images[IMG_WAVE], NULL, screen, &dest);
+void game_draw_cities(void)
+{
+  int i, j, current_layer, max_layer;
+  SDL_Rect src, dest;
+  SDL_Surface* this_image;
 
-  sprintf(str, "%d", wave);
-  draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
-
-  /* Draw "score" label: */
-  dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
-	        images[IMG_SCORE]->w -
-                images[IMG_STOP]->w - 5);
-  dest.y = 0;
-  dest.w = images[IMG_SCORE]->w;
-  dest.h = images[IMG_SCORE]->h;
-
-  SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
-        
-  /* Draw score numbers: */
-  sprintf(str, "%.6d", score);
-  draw_numbers(str,
-               screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
-               0);
-
-  /* Draw stop button: */
-  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
-    dest.x = (screen->w - images[IMG_STOP]->w);
-    dest.y = 0;
-    dest.w = images[IMG_STOP]->w;
-    dest.h = images[IMG_STOP]->h;
-    
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
-  }
-   
-  /* Draw cities/igloos and (if applicable) penguins: */
   if (Opts_UseIgloos()) {
     /* We have to draw respecting layering */
     current_layer = 0;
@@ -1859,7 +1974,7 @@ void game_draw(void)
 	  dest.w = (this_image->w);
 	  dest.h = (this_image->h);
 	  SDL_BlitSurface(this_image, NULL, screen, &dest);
-	}	  
+	}
       }
       current_layer++;
     } while (current_layer <= max_layer);
@@ -1915,138 +2030,89 @@ void game_draw(void)
   }
 
 
-   /* Draw comets: */
-   /* NOTE bonus comets split into separate pass to make them */
-   /* draw last (i.e. in front), as they can overlap          */
+}
+void game_draw_misc(void)
+{
+  int offset;
+  SDL_Rect dest;
+  char str[64];
 
-   /* First draw regular comets: */
-  for (i = 0; i < MAX_COMETS; i++)
+  /* Draw "Demo" */
+  if (Opts_DemoMode())
   {
-    if (comets[i].alive && !comets[i].bonus)
-    { 
-      if (comets[i].expl < COMET_EXPL_END)
-      {
-        /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
-        /* Display the formula (flashing, in the bottom half
-		   of the screen) */
-        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
-        {
-          comet_str = comets[i].flashcard.formula_string;
-        }
-        else 
-        {
-          comet_str = NULL;
-        }
-      }
-      else
-      {
-        img = comets[i].expl;
-        comet_str = comets[i].flashcard.answer_string;
-      }
+    dest.x = (screen->w - images[IMG_DEMO]->w) / 2;
+    dest.y = (screen->h - images[IMG_DEMO]->h) / 2;
+    dest.w = images[IMG_DEMO]->w;
+    dest.h = images[IMG_DEMO]->h;
 
-      /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
-	      
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
-      if (comet_str != NULL)
-      {
-        draw_nums(comet_str, comets[i].x, comets[i].y);
-      }
-    }
+    SDL_BlitSurface(images[IMG_DEMO], NULL, screen, &dest);
   }
 
-  /* Now draw any bonus comets: */
-  for (i = 0; i < MAX_COMETS; i++)
+  /* If we are playing through a defined list of questions */
+  /* without "recycling", display number of remaining questions: */
+  if (MC_PlayThroughList())
   {
-    if (comets[i].alive && comets[i].bonus)
-    { 
-      if (comets[i].expl < COMET_EXPL_END)
-      {
-        /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
-        /* Display the formula (flashing, in the bottom half
-		   of the screen) */
-        if (comets[i].y < screen->h / 2 || frame % 8 < 6)
-        {
-          comet_str = comets[i].flashcard.formula_string;
-        }
-        else 
-        {
-          comet_str = NULL;
-        }
-      }
-      else
-      {
-        img = comets[i].expl;
-        comet_str = comets[i].flashcard.answer_string;
-      }
-
-      /* Move images[] index to bonus range: */
-      img += IMG_BONUS_COMET1 - IMG_COMET1;
-	      
-      /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
-	      
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
-      if (comet_str != NULL)
-      {
-        draw_nums(comet_str, comets[i].x, comets[i].y);
-      }
-    }
+    draw_question_counter();
   }
 
-
-
-
-  /* Draw laser: */
-  if (laser.alive)
-  {
-    draw_line(laser.x1, laser.y1, laser.x2, laser.y2,
-		  255 / ((LASER_START + 1) - laser.alive),
-		  192 / ((LASER_START + 1) - laser.alive),
-		  64);
+  if (extra_life_earned) {
+    /* Draw extra life earned icon */
+    dest.x = 0;
+    dest.y = 0;
+    dest.w = images[IMG_EXTRA_LIFE]->w;
+    dest.h = images[IMG_EXTRA_LIFE]->h;
+    SDL_BlitSurface(images[IMG_EXTRA_LIFE], NULL, screen, &dest);
+  } else if (bonus_comet_counter) {
+    /* Draw extra life progress bar */
+    dest.x = 0;
+    dest.y = images[IMG_EXTRA_LIFE]->h/4;
+    dest.h = images[IMG_EXTRA_LIFE]->h/2;
+    dest.w = ((Opts_BonusCometInterval() + 1 - bonus_comet_counter)
+	      * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
+    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
   }
 
-  /* Draw numeric keypad: */
-  if (Opts_UseKeypad())
-  {
-    /* pick image to draw: */
-    int keypad_image;
-    if (MC_AllowNegatives())
-    {
-      /* draw regular keypad */
-      keypad_image = IMG_KEYPAD;
-    }
-    else
-    {
-      /* draw keypad with with grayed-out '+' and '-' */
-      keypad_image = IMG_KEYPAD_NO_NEG;
-    }
+  /* Draw wave: */
+  if (Opts_BonusCometInterval())
+    offset = images[IMG_EXTRA_LIFE]->w + 5;
+  else
+    offset = 0;
 
-    /* now draw it: */ 
-    dest.x = (screen->w - images[keypad_image]->w) / 2;
-    dest.y = (screen->h - images[keypad_image]->h) / 2;
-    dest.w = images[keypad_image]->w;
-    dest.h = images[keypad_image]->h;
-    SDL_BlitSurface(images[keypad_image], NULL, screen, &dest);
+  dest.x = offset;
+  dest.y = 0;
+  dest.w = images[IMG_WAVE]->w;
+  dest.h = images[IMG_WAVE]->h;
+
+  SDL_BlitSurface(images[IMG_WAVE], NULL, screen, &dest);
+
+  sprintf(str, "%d", wave);
+  draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
+
+  /* Draw "score" label: */
+  dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
+	        images[IMG_SCORE]->w -
+                images[IMG_STOP]->w - 5);
+  dest.y = 0;
+  dest.w = images[IMG_SCORE]->w;
+  dest.h = images[IMG_SCORE]->h;
+
+  SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
+
+  /* Draw score numbers: */
+  sprintf(str, "%.6d", score);
+  draw_numbers(str,
+               screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
+               0);
+
+  /* Draw stop button: */
+  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
+    dest.x = (screen->w - images[IMG_STOP]->w);
+    dest.y = 0;
+    dest.w = images[IMG_STOP]->w;
+    dest.h = images[IMG_STOP]->h;
+
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
   }
-
-  /* Draw console, LED numbers, & tux: */
-  draw_led_console();
-  draw_console_image(tux_img);
-
-  /* Draw any messages on the screen (used for the help mode) */
-  game_write_messages();
- 
-  /* Swap buffers: */
-  SDL_Flip(screen);
 }
 
 int check_exit_conditions(void)
@@ -2070,7 +2136,7 @@ int check_exit_conditions(void)
     if (gameover_counter == 0)
       return GAME_OVER_LOST;
   }
-  
+
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if (MC_MissionAccomplished())
   {
@@ -2092,11 +2158,11 @@ int check_exit_conditions(void)
     #ifdef TUXMATH_DEBUG
     printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
     printf("\nnum_comets_alive = %d", num_comets_alive);
-    #endif 
+    #endif
     return GAME_OVER_ERROR;
   }
-  
-  /* If using demo mode, see if counter has run out: */ 
+
+  /* If using demo mode, see if counter has run out: */
   if (Opts_DemoMode())
   {
     if (demo_countdown <= 0 )
@@ -2163,14 +2229,14 @@ void print_exit_conditions(void)
 void reset_level(void)
 {
   char fname[1024];
-  int i;    
+  int i;
   int next_wave_comets;
   int use_feedback;
   float comet_avg_height,height_differential;
-  
-  
+
+
   /* Clear all comets: */
-  
+
   for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;
@@ -2178,7 +2244,7 @@ void reset_level(void)
   num_comets_alive = 0;
 
   /* Clear LED digits: */
-  
+
   digits[0] = 0;
   digits[1] = 0;
   digits[2] = 0;
@@ -2186,13 +2252,14 @@ void reset_level(void)
 
 
 
-  /* Load random background image: */
-  do
-  {
-    /* Don't pick the same one as last time... */
-    i = rand() % NUM_BKGDS;
-  }
-  while (i == last_bkgd);
+  /* Load random background image, but ensure it's different from this one: */
+  for (i = last_bkgd; i == last_bkgd; i = rand() % NUM_BKGDS);
+//  do
+//  {
+//    /* Don't pick the same one as last time... */
+//    i = rand() % NUM_BKGDS;
+//  }
+//  while (i == last_bkgd);
 
   last_bkgd = i;
 
@@ -2245,17 +2312,17 @@ void reset_level(void)
       {
         next_wave_comets = Opts_MaxComets();
       }
-      
+
       use_feedback = Opts_UseFeedback();
 
-      if (use_feedback) 
+      if (use_feedback)
       {
 	#ifdef FEEDBACK_DEBUG
 	printf("Evaluating feedback...\n  old danger level = %g,",danger_level);
         #endif
-	
+
         /* Update our danger level, i.e., the target height */
-	danger_level = 1 - (1-danger_level) / 
+	danger_level = 1 - (1-danger_level) /
 	                   Opts_DangerLevelSpeedup();
 	if (danger_level > Opts_DangerLevelMax())
 	  danger_level = Opts_DangerLevelMax();
@@ -2273,7 +2340,7 @@ void reset_level(void)
 	  printf("No feedback data available, aborting.\n\n");
 	  #endif
 	}
-	else 
+	else
         {
 	  /* Compute the average height of comet destruction. */
 	  comet_avg_height = comet_feedback_height/comet_feedback_number;
@@ -2285,7 +2352,7 @@ void reset_level(void)
 	  /* height. That makes the changes a bit more conservative. */
 
 	  #ifdef FEEDBACK_DEBUG
-	  printf("  comet average height = %g, height differential = %g.\n", 
+	  printf("  comet average height = %g, height differential = %g.\n",
                  comet_avg_height, height_differential);
 	  printf("  old speed = %g,",speed);
 	  #endif
@@ -2354,19 +2421,19 @@ int add_comet(void)
       found = i;
     }
   }
-  
+
   if (-1 == found)
   {
     /* free comet slot not found - no comet added: */
     return 0;
   }
 
-  
+
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
   if (!MC_NextQuestion(&(comets[found].flashcard)))
   {
-    /* no more questions available - cannot create comet.  */ 
+    /* no more questions available - cannot create comet.  */
     return 0;
   }
 
@@ -2399,20 +2466,20 @@ int add_comet(void)
 
 
   comets[found].alive = 1;
-  num_comets_alive++;      
+  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
   /* (so formulas are less likely to overlap). */
-  do 
+  do
   {
     i = rand() % NUM_CITIES;
   }
   while (i == prev_city);
 
   prev_city = i;
-     
+
   /* Set in to attack that city: */
-  comets[found].city = i; 
+  comets[found].city = i;
   /* Start at the top, above the city in question: */
   comets[found].x = cities[i].x;
   comets[found].y = 0;
@@ -2455,7 +2522,7 @@ void draw_nums(const char* str, int x, int y)
   str_length = strlen(str);
   /* IMG_NUMS now consists of 10 digit graphics, NUM_OPERS (i.e. 4) */
   /* operation symbols, and the '=' and '?' symbols, all side by side. */
-  /* char_width is the width of a single symbol.                     */ 
+  /* char_width is the width of a single symbol.                     */
   char_width = (images[IMG_NUMS]->w / (16));
   /* Calculate image_length, taking into account that the string will */
   /* usually have four empty spaces that are only half as wide:       */
@@ -2473,20 +2540,20 @@ void draw_nums(const char* str, int x, int y)
 
 
   /* Draw each character: */
-  
+
   for (i = 0; i < str_length; i++)
   {
     c = -1;
 
 
     /* Determine which character to display: */
-      
+
     if (str[i] >= '0' && str[i] <= '9')
     {
       c = str[i] - '0';
     }
     else if ('=' == str[i])
-    {   
+    {
       c = 14;  /* determined by layout of nums.png image */
     }
     else if ('?' == str[i])
@@ -2503,7 +2570,7 @@ void draw_nums(const char* str, int x, int y)
 	}
       }
     }
-      
+
     /* Display this character! */
     if (c != -1)
     {
@@ -2511,12 +2578,12 @@ void draw_nums(const char* str, int x, int y)
       src.y = 0;
       src.w = char_width;
       src.h = images[IMG_NUMS]->h;
-	  
+
       dest.x = cur_x;
       dest.y = y - images[IMG_NUMS]->h;
       dest.w = src.w;
       dest.h = src.h;
-	  
+
       SDL_BlitSurface(images[IMG_NUMS], &src,
 			  screen, &dest);
       /* Move the 'cursor' one character width: */
@@ -2543,32 +2610,32 @@ void draw_numbers(const char* str, int x, int y)
 
 
   /* Draw each character: */
-  
+
   for (i = 0; i < strlen(str); i++)
     {
       c = -1;
 
 
       /* Determine which character to display: */
-      
+
       if (str[i] >= '0' && str[i] <= '9')
 	c = str[i] - '0';
-      
+
 
       /* Display this character! */
-      
+
       if (c != -1)
 	{
 	  src.x = c * (images[IMG_NUMBERS]->w / 10);
 	  src.y = 0;
 	  src.w = (images[IMG_NUMBERS]->w / 10);
 	  src.h = images[IMG_NUMBERS]->h;
-	  
+
 	  dest.x = cur_x;
 	  dest.y = y;
 	  dest.w = src.w;
 	  dest.h = src.h;
-	  
+
 	  SDL_BlitSurface(images[IMG_NUMBERS], &src,
 			  screen, &dest);
 
@@ -2597,7 +2664,7 @@ int pause_game(void)
     fprintf(stderr, "Pause requested but not allowed by Opts!\n");
     return 0;
   }
- 
+
   pause_done = 0;
   pause_quit = 0;
 
@@ -2615,8 +2682,8 @@ int pause_game(void)
   if (Opts_UsingSound())
     Mix_PauseMusic();
 #endif
-  
-  
+
+
   do
   {
     while (SDL_PollEvent(&event))
@@ -2641,7 +2708,7 @@ int pause_game(void)
 #endif
 
   return (pause_quit);
-}  
+}
 
 
 
@@ -2653,14 +2720,14 @@ void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
   float m, b;
   Uint32 pixel;
   SDL_Rect dest;
- 
+
   pixel = SDL_MapRGB(screen->format, red, grn, blu);
 
   dx = x2 - x1;
   dy = y2 - y1;
 
   putpixel(screen, x1, y1, pixel);
-  
+
   if (dx != 0)
   {
     m = ((float) dy) / ((float) dx);
@@ -2675,7 +2742,7 @@ void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
     {
       x1 = x1 + dx;
       y1 = m * x1 + b;
-      
+
       putpixel(screen, x1, y1, pixel);
     }
   }
@@ -2687,7 +2754,7 @@ void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
       y1 = y2;
       y2 = tmp;
     }
-    
+
     dest.x = x1;
     dest.y = y1;
     dest.w = 3;
@@ -2705,27 +2772,27 @@ void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
 #ifdef PUTPIXEL_RAW
   int bpp;
   Uint8* p;
-  
+
   /* Determine bytes-per-pixel for the surface in question: */
-  
+
   bpp = surface->format->BytesPerPixel;
-  
-  
+
+
   /* Set a pointer to the exact location in memory of the pixel
      in question: */
-  
+
   p = (Uint8 *) (surface->pixels +       /* Start at beginning of RAM */
                  (y * surface->pitch) +  /* Go down Y lines */
                  (x * bpp));             /* Go in X pixels */
-  
-  
+
+
   /* Assuming the X/Y values are within the bounds of this surface... */
-  
+
   if (x >= 0 && y >= 0 && x < surface->w && y < surface->h)
     {
       /* Set the (correctly-sized) piece of data in the surface's RAM
          to the pixel value sent in: */
-      
+
       if (bpp == 1)
         *p = pixel;
       else if (bpp == 2)
@@ -2787,7 +2854,7 @@ void draw_question_counter(void)
   int comet_x;
 
   char str[64];
-  SDL_Rect dest;  
+  SDL_Rect dest;
 
   /* Calculate placement based on image widths: */
   nums_width = (images[IMG_NUMBERS]->w / 10) * 4; /* displaying 4 digits */
@@ -2803,7 +2870,7 @@ void draw_question_counter(void)
   dest.y = 0;
   dest.w = comet_width;
   dest.h = images[comet_img]->h;
-	      
+
   SDL_BlitSurface(images[comet_img], NULL, screen, &dest);
 
   /* draw number of remaining questions: */
@@ -2824,7 +2891,7 @@ void draw_led_console(void)
   /* set y to draw LED numbers into Tux's "monitor": */
   y = (screen->h
      - images[IMG_CONSOLE_LED]->h
-     + 4);  /* "monitor" has 4 pixel margin */       
+     + 4);  /* "monitor" has 4 pixel margin */
 
   /* begin drawing so as to center display depending on whether minus */
   /* sign needed (4 digit slots) or not (3 digit slots) DSB */
@@ -2835,7 +2902,7 @@ void draw_led_console(void)
 
   for (i = -1; i < 3; i++)  /* -1 is special case to allow minus sign */
                               /* with minimal modification of existing code DSB */
-  { 
+  {
     if (-1 == i)
     {
       if (MC_AllowNegatives())
@@ -2848,11 +2915,11 @@ void draw_led_console(void)
         src.y = 0;
         src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
         src.h = images[IMG_LED_NEG_SIGN]->h;
-	  
+
         dest.y = y;
         dest.w = src.w;
         dest.h = src.h;
-	  
+
         SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
         /* move "cursor" */
         dest.x += src.w;
@@ -2864,12 +2931,12 @@ void draw_led_console(void)
       src.y = 0;
       src.w = (images[IMG_LEDNUMS]->w) / 10;
       src.h = images[IMG_LEDNUMS]->h;
-	  
+
       /* dest.x already set */
       dest.y = y;
       dest.w = src.w;
       dest.h = src.h;
-	  
+
       SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
       /* move "cursor" */
       dest.x += src.w;
@@ -2895,10 +2962,10 @@ void game_mouse_event(SDL_Event event)
     key = SDLK_ESCAPE;
     game_key_event(key);
     return;
-  } 
+  }
 
   /* get out unless we really are using keypad */
-  if ( level_start_wait 
+  if ( level_start_wait
     || Opts_DemoMode()
     || !Opts_UseKeypad())
   {
@@ -2929,7 +2996,7 @@ void game_mouse_event(SDL_Event event)
       keypad_h = images[IMG_KEYPAD]->h;
     }
   }
- 
+
   if (!keypad_w || !keypad_h)
   {
     return;
@@ -2941,7 +3008,7 @@ void game_mouse_event(SDL_Event event)
         (screen->w / 2) - (keypad_w / 2) &&
         event.button.x <=
         (screen->w / 2) + (keypad_w / 2) &&
-        event.button.y >= 
+        event.button.y >=
         (screen->h / 2) - (keypad_h / 2) &&
         event.button.y <=
         (screen->h / 2) + (keypad_h / 2))))
@@ -2949,12 +3016,12 @@ void game_mouse_event(SDL_Event event)
   {
     return;
   }
-  
-  else /* click was within keypad */ 
+
+  else /* click was within keypad */
   {
     x = (event.button.x - ((screen->w / 2) - (keypad_w / 2)));
     y = (event.button.y - ((screen->h / 2) - (keypad_h / 2)));
- 
+
   /* Now determine what onscreen key was pressed */
   /*                                             */
   /* The on-screen keypad has a 4 x 4 layout:    */
@@ -3006,7 +3073,7 @@ void game_mouse_event(SDL_Event event)
         key = SDLK_9;
       if (3 == column)
         key = SDLK_MINUS;
-    } 
+    }
     if (1 == row)
     {
       if (0 == column)
@@ -3017,7 +3084,7 @@ void game_mouse_event(SDL_Event event)
         key = SDLK_6;
       if (3 == column)
         key = SDLK_PLUS;
-    }     
+    }
     if (2 == row)
     {
       if (0 == column)
@@ -3028,7 +3095,7 @@ void game_mouse_event(SDL_Event event)
         key = SDLK_3;
       if (3 == column)
         key = SDLK_PLUS;
-    } 
+    }
     if (3 == row)
     {
       if (0 == column)
@@ -3039,7 +3106,7 @@ void game_mouse_event(SDL_Event event)
         key = SDLK_RETURN;
       if (3 == column)
         key = SDLK_RETURN;
-    }     
+    }
 
     if (key == SDLK_UNKNOWN)
     {
@@ -3095,7 +3162,9 @@ void game_key_event(SDLKey key)
   /* Toggle screen mode: */
   else if (key == SDLK_F10)
   {
+    Opts_SetFullscreen(!Opts_Fullscreen() );
     SwitchScreenMode();
+    game_recalc_positions();
   }
 
   /* Toggle music: */
@@ -3107,7 +3176,7 @@ void game_key_event(SDLKey key)
       if (Mix_PlayingMusic())
       {
         Mix_HaltMusic();
-      }  
+      }
       else
       {
         Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
@@ -3116,7 +3185,7 @@ void game_key_event(SDLKey key)
   }
 #endif
 
-    
+
   if (level_start_wait > 0 || Opts_DemoMode() || !help_controls.laser_enabled)
   {
     /* Eat other keys until level start wait has passed,
@@ -3126,7 +3195,7 @@ void game_key_event(SDLKey key)
 
 
   /* The rest of the keys control the numeric answer console: */
-	      
+
   if (key >= SDLK_0 && key <= SDLK_9)
   {
     /* [0]-[9]: Add a new digit: */
@@ -3197,8 +3266,8 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-    strncpy(comets[i].flashcard.formula_string, " ", MC_FORMULA_LEN); 
-    strncpy(comets[i].flashcard.answer_string, " ", MC_ANSWER_LEN); 
+    strncpy(comets[i].flashcard.formula_string, " ", MC_FORMULA_LEN);
+    strncpy(comets[i].flashcard.answer_string, " ", MC_ANSWER_LEN);
     comets[i].bonus = 0;
   }
 }
@@ -3232,4 +3301,56 @@ void free_on_exit(void)
   free(cities);
   free(penguins);
   free(steam);
+}
+
+/* Recalculate on-screen city & comet locations when screen dimensions change */
+void game_recalc_positions(void)
+{
+  int i, img;
+  int old_city_expl_height = city_expl_height;
+
+  tmdprintf("Recalculating positions\n");
+
+  if (Opts_UseIgloos())
+    img = IMG_IGLOO_INTACT;
+  else
+    img = IMG_CITY_BLUE;
+
+  for (i = 0; i < NUM_CITIES; ++i)
+  {
+    /* Left vs. Right - makes room for Tux and the console */
+    if (i < NUM_CITIES / 2)
+    {
+      cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
+                     ((images[img] -> w) / 2));
+      tmdprintf("%d,", cities[i].x);
+    }
+    else
+    {
+      cities[i].x = screen->w -
+                   (screen->w / (NUM_CITIES + 1) *
+                   (i - NUM_CITIES / 2) +
+                    images[img]->w / 2);
+      tmdprintf("%d,", cities[i].x);
+    }
+
+    penguins[i].x = cities[i].x;
+  }
+
+  city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
+  //move comets to a location 'equivalent' to where they were
+  //i.e. with the same amount of time left before impact
+  for (i = 0; i < MAX_COMETS; ++i)
+  {
+    if (!comets[i].alive)
+      continue;
+
+    comets[i].x = cities[comets[i].city].x;
+    //if (Opts_Fullscreen() )
+      comets[i].y = comets[i].y * city_expl_height / old_city_expl_height;
+    //else
+    //  comets[i].y = comets[i].y * RES_Y / screen->h;
+  }
+
+
 }

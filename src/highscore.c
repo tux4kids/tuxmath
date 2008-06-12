@@ -426,7 +426,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
                                   default_font, &white);
     if (s)
     {
-      loc.x = 320 - (s->w/2);
+      loc.x = (screen->w/2) - (s->w/2);
       loc.y = 110;
       SDL_BlitSurface(s, NULL, screen, &loc);
       SDL_FreeSurface(s);
@@ -436,7 +436,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
                      default_font, &white);
     if (s)
     {
-      loc.x = 320 - (s->w/2);
+      loc.x = (screen->w/2) - (s->w/2);
       loc.y = 140;
       SDL_BlitSurface(s, NULL, screen, &loc);
       SDL_FreeSurface(s);
@@ -537,7 +537,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
             if (s)
             {
               /* set up loc and blit: */
-              loc.x = 320 - (s->w/2);
+              loc.x = (screen->w/2) - (s->w/2);
               loc.y = 200;
               SDL_BlitSurface(s, NULL, screen, &loc);
 
