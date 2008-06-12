@@ -519,7 +519,7 @@ void initialize_SDL(void)
     //determine the best fullscreen resolution
     int i;
     SDL_Rect** modes = SDL_ListModes(videoInfo->vfmt, SDL_FULLSCREEN | surfaceMode);
-    if (modes != 0 && modes != -1) //if there _is_ a "best" resolution
+    if (modes != 0 && modes != -1) //if there is a "best" resolution
       {
       fs_res_x = modes[0]->w;
       fs_res_y = modes[0]->h;

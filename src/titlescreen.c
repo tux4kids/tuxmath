@@ -118,15 +118,19 @@ SDL_Rect dest,
 	 Tuxdest,
 	 Titledest,
          stopRect,
-         Backrect, //location of the background
-         Tuxback,  //the portion of the background actually covered by Tux
-         Titleback,//and that covered by the title
-	 cursor;
+         Backrect,
+         Tuxback,
+         Titleback,
+	 cursor,
+	 beak;
 
 /* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkgd = NULL;
-/* Set to scaled_bkgd if scaling fullscreen, images[IMG_MENU_BKG] otherwise */
+/* Set to images[IMG_MENU_BKG] if windowed, scaled_bkgd if fullscreen. */
 SDL_Surface* current_bkg = NULL; //DON'T SDL_Free()!
+/* "Easter Egg" cursor */
+SDL_Surface* egg = NULL; 
+int egg_active = 0; //are we currently using the egg cursor?
 
 /* Local function prototypes: */
 void TitleScreen_load_menu(void);
@@ -150,6 +154,7 @@ int run_arcade_menu(void);
 int run_custom_menu(void);
 int run_options_menu(void);
 int run_lessons_menu(void);
+int handle_easter_egg(const SDL_Event* evt);
 
 
 
@@ -292,7 +297,7 @@ void TitleScreen(void)
     Tuxback.y = Tuxdest.y - Backrect.y;
     Tuxdest.w = Tuxback.w = Tux->frame[0]->w;
     Tuxdest.h = Tuxback.h = Tux->frame[0]->h;
-
+    
 
     Titledest.x = screen->w;
     Titledest.y = 10;
@@ -354,6 +359,11 @@ void TitleScreen(void)
   fprintf(stderr, "Tux and Title are in place now\n");
 #endif
 
+  //location of Tux's beak
+  beak.x = Tuxdest.x + 70;
+  beak.y = Tuxdest.y + 60;
+  beak.w = beak.h = 50;
+    
   /* Start playing menu music if desired: */
   if (Opts_MenuMusic())
   {
@@ -420,6 +430,8 @@ int TitleScreen_load_media(void)
     sprintf(fn, "sprites/%s", menu_sprite_files[i]);
     sprite_list[i] = LoadSprite(fn, IMG_ALPHA);
   }
+  egg = LoadImage("title/egg.png", 
+                  IMG_COLORKEY | IMG_NOT_REQUIRED);
   scaled_bkgd = zoom(images[IMG_MENU_BKG], fs_res_x, fs_res_y);
   return 1;
 }
@@ -444,6 +456,7 @@ void TitleScreen_unload_media(void)
   FreeSprite(Tux);
   Tux = NULL;
   TitleScreen_unload_menu();
+  SDL_FreeSurface(egg);
   SDL_FreeSurface(scaled_bkgd);
 }
 
@@ -1601,8 +1614,13 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
           }  /* End of key switch statement */
         }  // End of case SDL_KEYDOWN in outer switch statement
       }  // End event switch statement
+      if (handle_easter_egg(&event) )
+        redraw = 1;
+      else
+        ; //egg_active = 0;
     }  // End SDL_PollEvent while loop
 
+    
 
     // Make sure the menu title is not selected
     if (loc == 0 && title_offset)
@@ -1679,6 +1697,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	  SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &right_arrow_rect);
 	}
       }
+      
       SDL_Flip(screen);//SDL_UpdateRect(screen, 0, 0, 0 ,0);
     } else if (old_loc != loc) {
       // This is not a full redraw, but the selected entry did change.
@@ -1784,6 +1803,13 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
+    }
+    
+    if (egg_active) { //if we need to, draw the egg cursor
+      SDL_GetMouseState(&cursor.x, &cursor.y);
+      cursor.x -= egg->w / 2; //center vertically
+      SDL_BlitSurface(egg, NULL, screen, &cursor);
+      SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);
     }
 
     /* Wait so we keep frame rate constant: */
@@ -2129,10 +2155,17 @@ void RecalcTitlePositions()
   Backrect = current_bkg->clip_rect;
   Backrect.x = (screen->w - Backrect.w) / 2;
   Backrect.y = (screen->h - Backrect.h) / 2;
+  
   Titledest.x = 0;
   Titledest.y = 0;
+  
   Tuxdest.x = 0;
   Tuxdest.y = screen->h - Tuxdest.h;
+  
+  beak.x = Tuxdest.x + 70;
+  beak.y = Tuxdest.y + 60;
+  beak.w = beak.h = 50;
+  
   stopRect.x = screen->w - stopRect.w;
   stopRect.y = 0;
 }
@@ -2263,3 +2296,45 @@ void RecalcMenuPositions(int* numentries,
   }
 
 }
+
+int handle_easter_egg(const SDL_Event* evt)
+  {
+  static int eggtimer = 0;
+  int tuxframe = Tux->num_frames;
+    
+  if (egg_active) //are we using the egg cursor?
+    {
+    if (eggtimer < SDL_GetTicks() ) //time's up
+      {
+      SDL_ShowCursor(SDL_ENABLE);
+      //SDL_FillRect(screen, &cursor, 0);
+      SDL_BlitSurface(current_bkg, NULL, screen, &Backrect); //cover egg up once more
+      SDL_WarpMouse(cursor.x, cursor.y);
+      SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h); //egg->x, egg->y, egg->w, egg->h);
+      egg_active = 0;
+      }
+    return 1;
+    }
+  else //if not, see if the user clicked Tux's beak
+    {
+    eggtimer = 0;
+    if (evt->type == SDL_MOUSEBUTTONDOWN &&
+          inRect(beak, evt->button.x, evt->button.y) )
+      {
+      SDL_ShowCursor(SDL_DISABLE);
+      
+      //animate
+      while (tuxframe != 0)
+        {
+        SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &Tuxdest);
+        SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
+        SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);
+        }
+      eggtimer = SDL_GetTicks() + EASTER_EGG_MS;
+      egg_active = 1;
+      SDL_WarpMouse(Tuxdest.x + Tuxdest.w / 2, Tuxdest.y + Tuxdest.h - egg->h);
+      }
+    
+    return 0;
+    }
+  }

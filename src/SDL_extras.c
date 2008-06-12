@@ -626,7 +626,7 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
 //FIXME: everything below is slightly modified code from pixels.c and would do
 //       better to be included as such.
 
-
+//#if 0 //selectively omit from here to the end of file until pixels.c is in
 
 
 

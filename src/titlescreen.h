@@ -147,7 +147,8 @@ enum {
 #define TUX5                            127
 #define TUX6                            130
 
-
+#define EASTER_EGG_MS  5000 //length of time to replace cursor
+#define GOBBLE_ANIM_MS 1000 //duration of the gobbling animation
 
 /********************************/
 /* "Global" Function Prototypes */
