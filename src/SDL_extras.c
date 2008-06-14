@@ -9,6 +9,7 @@
 * Copyright: GPL v3 or later
 *
 */
+#include <math.h>
 
 #include "SDL_extras.h"
 #include "tuxmath.h"
@@ -520,23 +521,30 @@ void SwitchScreenMode(void)
    Based on code from: http://www.codeproject.com/cs/media/imageprocessing4.asp
    copyright 2002 Christian Graus */
 
-SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
+SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 {
-  SDL_Surface * s;
-  void (*putpixel) (SDL_Surface *, int, int, Uint32);
-  Uint32(*getpixel) (SDL_Surface *, int, int) =
-    getpixels[src->format->BytesPerPixel];
+  SDL_Surface* s;
+
+  /* These function pointers will point to the appropriate */
+  /* putpixel() and getpixel() variants to be used in the  */
+  /* current colorspace:                                   */
+  void (*putpixel) (SDL_Surface*, int, int, Uint32);
+  Uint32(*getpixel) (SDL_Surface*, int, int);
+ 
   float xscale, yscale;
   int x, y;
-  float floor_x, ceil_x, floor_y, ceil_y, fraction_x, fraction_y,
-    one_minus_x, one_minus_y;
+  int floor_x, ceil_x,
+        floor_y, ceil_y;
+  float fraction_x, fraction_y,
+        one_minus_x, one_minus_y;
   float n1, n2;
-  float r1, g1, b1, a1;
-  float r2, g2, b2, a2;
-  float r3, g3, b3, a3;
-  float r4, g4, b4, a4;
+  Uint8 r1, g1, b1, a1;
+  Uint8 r2, g2, b2, a2;
+  Uint8 r3, g3, b3, a3;
+  Uint8 r4, g4, b4, a4;
   Uint8 r, g, b, a;
 
+  tmdprintf("\nEntering zoom():\n");
 
   /* Create surface for zoom: */
 
@@ -547,19 +555,25 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
                            src->format->Bmask,
                            src->format->Amask);
 
-
   if (s == NULL)
   {
     fprintf(stderr, "\nError: Can't build zoom surface\n"
 	    "The Simple DirectMedia Layer error that occurred was:\n"
 	    "%s\n\n", SDL_GetError());
-
-    cleanup();
-    exit(1);
+    return NULL;
+//    cleanup();
+//    exit(1);
   }
 
-  putpixel = putpixels[s->format->BytesPerPixel];
+  tmdprintf("orig surface %dx%d, %d bytes per pixel\n",
+            src->w, src->h, src->format->BytesPerPixel);
+  tmdprintf("new surface %dx%d, %d bytes per pixel\n",
+            s->w, s->h, s->format->BytesPerPixel);
 
+  /* Now assign function pointers to correct functions based */
+  /* on data format of original and zoomed surfaces:         */
+  getpixel = getpixels[src->format->BytesPerPixel];
+  putpixel = putpixels[s->format->BytesPerPixel];
 
   SDL_LockSurface(src);
   SDL_LockSurface(s);
@@ -571,6 +585,11 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
   {
     for (y = 0; y < new_h; y++)
     {
+      /* Here we calculate the new RGBA values for each pixel */
+      /* using a "weighted average" of the four pixels in the */
+      /* corresponding location in the orginal surface:       */
+
+      /* figure out which original pixels to use in the calc: */
       floor_x = floor((float) x * xscale);
       ceil_x = floor_x + 1;
       if (ceil_x >= src->w)
@@ -587,6 +606,7 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
       one_minus_x = 1.0 - fraction_x;
       one_minus_y = 1.0 - fraction_y;
 
+      /* Grab their values:  */
       SDL_GetRGBA(getpixel(src, floor_x, floor_y), src->format,
                   &r1, &g1, &b1, &a1);
       SDL_GetRGBA(getpixel(src, ceil_x,  floor_y), src->format,
@@ -596,6 +616,7 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
       SDL_GetRGBA(getpixel(src, ceil_x,  ceil_y),  src->format,
                   &r4, &g4, &b4, &a4);
 
+      /* Create the weighted averages: */
       n1 = (one_minus_x * r1 + fraction_x * r2);
       n2 = (one_minus_x * r3 + fraction_x * r4);
       r = (one_minus_y * n1 + fraction_y * n2);
@@ -612,21 +633,24 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
       n2 = (one_minus_x * a3 + fraction_x * a4);
       a = (one_minus_y * n1 + fraction_y * n2);
 
+      /* and put them into our new surface: */
       putpixel(s, x, y, SDL_MapRGBA(s->format, r, g, b, a));
+
     }
   }
 
   SDL_UnlockSurface(s);
   SDL_UnlockSurface(src);
 
-  return s;
+  tmdprintf("\nLeaving zoom():\n");
 
+  return s;
 }
 
 //FIXME: everything below is slightly modified code from pixels.c and would do
 //       better to be included as such.
 
-//#if 0 //selectively omit from here to the end of file until pixels.c is in
+#if 0 //selectively omit from here to the end of file until pixels.c is in
 
 
 
@@ -674,13 +698,15 @@ SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h)
 */
 
 #include "pixels.h"
-//#include "compiler.h"
+#include "compiler.h"
 //#include "debug.h"
 
 /* Draw a single pixel into the surface: */
 void putpixel8(SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   Uint8 *p;
+
+//  printf("putpixel8() called\n");
 
   /* Assuming the X/Y values are within the bounds of this surface... */
   if (
@@ -705,6 +731,8 @@ void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   Uint8 *p;
 
+//  printf("putpixel16() called\n");
+
   /* Assuming the X/Y values are within the bounds of this surface... */
   if (
       (((unsigned) x < (unsigned) surface->w)
@@ -727,6 +755,8 @@ void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)
 void putpixel24(SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   Uint8 *p;
+
+//  printf("putpixel24() called\n");
 
   /* Assuming the X/Y values are within the bounds of this surface... */
   if (
@@ -763,6 +793,8 @@ void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)
 {
   Uint8 *p;
 
+//  printf("putpixel32() called\n");
+
   /* Assuming the X/Y values are within the bounds of this surface... */
   if (
       (((unsigned) x < (unsigned) surface->w)
@@ -785,6 +817,8 @@ void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)
 Uint32 getpixel8(SDL_Surface * surface, int x, int y)
 {
   Uint8 *p;
+
+//  printf("getpixel8() called\n");
 
   /* get the X/Y values within the bounds of this surface */
   if ((unsigned) x < (unsigned) surface->w)
@@ -812,6 +846,8 @@ Uint32 getpixel16(SDL_Surface * surface, int x, int y)
 {
   Uint8 *p;
 
+//  printf("getpixel16() called\n");
+
   /* get the X/Y values within the bounds of this surface */
   if ((unsigned) x < (unsigned) surface->w)
     x = (x < 0) ? 0 : surface->w - 1;
@@ -838,6 +874,8 @@ Uint32 getpixel24(SDL_Surface * surface, int x, int y)
 {
   Uint8 *p;
   Uint32 pixel;
+
+//  printf("getpixel24() called\n");
 
   /* get the X/Y values within the bounds of this surface */
   if ((unsigned) x < (unsigned) surface->w)
@@ -872,6 +910,8 @@ Uint32 getpixel32(SDL_Surface * surface, int x, int y)
 {
   Uint8 *p;
 
+//  printf("getpixel32() called\n");
+
   /* get the X/Y values within the bounds of this surface */
   if ((unsigned) x < (unsigned) surface->w)
     x = (x < 0) ? 0 : surface->w - 1;
@@ -893,13 +933,24 @@ Uint32 getpixel32(SDL_Surface * surface, int x, int y)
   return *(Uint32 *) p;		// 32-bit display
 }
 
+/* Function pointer arrays to allow correct function */
+/* to be used according to colorspace:               */
 void (*putpixels[]) (SDL_Surface *, int, int, Uint32) =
 {
-putpixel8, putpixel8, putpixel16, putpixel24, putpixel32};
-
+  putpixel8,
+  putpixel8,
+  putpixel16,
+  putpixel24,
+  putpixel32
+};
 
 Uint32(*getpixels[])(SDL_Surface *, int, int) =
 {
-getpixel8, getpixel8, getpixel16, getpixel24, getpixel32};
+  getpixel8,
+  getpixel8,
+  getpixel16,
+  getpixel24,
+  getpixel32
+};
 
-//#endif
+#endif

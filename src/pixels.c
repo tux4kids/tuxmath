@@ -28,7 +28,7 @@
 */
 
 #include "pixels.h"
-//#include "compiler.h"
+#include "compiler.h"
 //#include "debug.h"
 
 /* Draw a single pixel into the surface: */
@@ -37,9 +37,9 @@ void putpixel8(SDL_Surface * surface, int x, int y, Uint32 pixel)
   Uint8 *p;
 
   /* Assuming the X/Y values are within the bounds of this surface... */
-  if (
-      (((unsigned) x < (unsigned) surface->w)
-       && ((unsigned) y < (unsigned) surface->h)))
+  if (likely
+      (likely((unsigned) x < (unsigned) surface->w)
+       && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
     p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
@@ -60,9 +60,9 @@ void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)
   Uint8 *p;
 
   /* Assuming the X/Y values are within the bounds of this surface... */
-  if (
-      (((unsigned) x < (unsigned) surface->w)
-       && ((unsigned) y < (unsigned) surface->h)))
+  if (likely
+      (likely((unsigned) x < (unsigned) surface->w)
+       && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
     p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
@@ -83,9 +83,9 @@ void putpixel24(SDL_Surface * surface, int x, int y, Uint32 pixel)
   Uint8 *p;
 
   /* Assuming the X/Y values are within the bounds of this surface... */
-  if (
-      (((unsigned) x < (unsigned) surface->w)
-       && ((unsigned) y < (unsigned) surface->h)))
+  if (likely
+      (likely((unsigned) x < (unsigned) surface->w)
+       && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
     p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
@@ -118,9 +118,9 @@ void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)
   Uint8 *p;
 
   /* Assuming the X/Y values are within the bounds of this surface... */
-  if (
-      (((unsigned) x < (unsigned) surface->w)
-       && ((unsigned) y < (unsigned) surface->h)))
+  if (likely
+      (likely((unsigned) x < (unsigned) surface->w)
+       && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
     p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
@@ -141,9 +141,9 @@ Uint32 getpixel8(SDL_Surface * surface, int x, int y)
   Uint8 *p;
 
   /* get the X/Y values within the bounds of this surface */
-  if ((unsigned) x < (unsigned) surface->w)
+  if (unlikely((unsigned) x > (unsigned) surface->w - 1u))
     x = (x < 0) ? 0 : surface->w - 1;
-  if ((unsigned) y < (unsigned) surface->h)
+  if (unlikely((unsigned) y > (unsigned) surface->h - 1u))
     y = (y < 0) ? 0 : surface->h - 1;
 
   /* Set a pointer to the exact location in memory of the pixel
@@ -167,9 +167,9 @@ Uint32 getpixel16(SDL_Surface * surface, int x, int y)
   Uint8 *p;
 
   /* get the X/Y values within the bounds of this surface */
-  if ((unsigned) x < (unsigned) surface->w)
+  if (unlikely((unsigned) x > (unsigned) surface->w - 1u))
     x = (x < 0) ? 0 : surface->w - 1;
-  if ((unsigned) y < (unsigned) surface->h)
+  if (unlikely((unsigned) y > (unsigned) surface->h - 1u))
     y = (y < 0) ? 0 : surface->h - 1;
 
   /* Set a pointer to the exact location in memory of the pixel
@@ -194,9 +194,9 @@ Uint32 getpixel24(SDL_Surface * surface, int x, int y)
   Uint32 pixel;
 
   /* get the X/Y values within the bounds of this surface */
-  if ((unsigned) x < (unsigned) surface->w)
+  if (unlikely((unsigned) x > (unsigned) surface->w - 1u))
     x = (x < 0) ? 0 : surface->w - 1;
-  if ((unsigned) y < (unsigned) surface->h)
+  if (unlikely((unsigned) y > (unsigned) surface->h - 1u))
     y = (y < 0) ? 0 : surface->h - 1;
 
   /* Set a pointer to the exact location in memory of the pixel
@@ -227,9 +227,9 @@ Uint32 getpixel32(SDL_Surface * surface, int x, int y)
   Uint8 *p;
 
   /* get the X/Y values within the bounds of this surface */
-  if ((unsigned) x < (unsigned) surface->w)
+  if (unlikely((unsigned) x > (unsigned) surface->w - 1u))
     x = (x < 0) ? 0 : surface->w - 1;
-  if ((unsigned) y < (unsigned) surface->h)
+  if (unlikely((unsigned) y > (unsigned) surface->h - 1u))
     y = (y < 0) ? 0 : surface->h - 1;
 
   /* Set a pointer to the exact location in memory of the pixel

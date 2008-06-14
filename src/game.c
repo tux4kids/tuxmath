@@ -2273,7 +2273,8 @@ void reset_level(void)
 
   if (Opts_UseBkgd())
   {
-    bkgd = IMG_Load(fname);
+    bkgd = LoadBkgd(fname);
+//    bkgd = LoadBkgd("/home/dbruce/red_test.jpg");
     if (bkgd == NULL)
     {
       fprintf(stderr,

@@ -63,7 +63,7 @@ int checkFile(const char* file)
   {
 
 #ifdef TUXMATH_DEBUG
-    printf(stderr, "Opened successfully as DIR\n");
+    fprintf(stderr, "Opened successfully as DIR\n");
 #endif
 
     closedir(dp);
@@ -207,6 +207,38 @@ SDL_Surface* LoadImage( char *datafile, int mode )
   fprintf(stderr, "Leaving LoadImage()\n\n");
 #endif
   return final_pic;
+}
+
+/***********************
+	LoadBkgd() : a wrapper for LoadImage() that scales the
+        image to the size of the screen using zoom(), taken
+        from TuxPaint
+************************/
+SDL_Surface* LoadBkgd(char* datafile)
+{
+  SDL_Surface* orig;
+  orig = IMG_Load(datafile);
+
+  if (!orig)
+  {
+    tmdprintf("In LoadBkgd(), LoadImage() returned NULL on %s\n",
+              datafile);
+    return NULL;
+  }
+
+  if ((orig->w == screen->w)
+   && (orig->h == screen->h))
+  {
+    tmdprintf("No zoom required - return bkgd as is\n");
+    return orig;
+  }
+  else
+  { 
+    tmdprintf("Image is %dx%d\n", orig->w, orig->h);
+    tmdprintf("Screen is %dx%d\n", screen->w, screen->h);
+    tmdprintf("Calling zoom() to rescale\n");
+    return zoom(orig, screen->w, screen->h);
+  }
 }
 
 

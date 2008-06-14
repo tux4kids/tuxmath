@@ -166,6 +166,7 @@ int         checkFile( const char *file );
 TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
 Mix_Chunk   *LoadSound( char* datafile );
 SDL_Surface *LoadImage( char* datafile, int mode );
+SDL_Surface* LoadBkgd(char* datafile);
 sprite      *LoadSprite( char* name, int MODE );
 sprite      *FlipSprite( sprite* in, int X, int Y );
 void         FreeSprite( sprite* gfx );

@@ -42,7 +42,7 @@
 
 //#define NOSOUND
 /* for conditional compilation of debugging output */
-#define TUXMATH_DEBUG
+//#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
 /* nice inline debugging macro */

@@ -1,3 +1,14 @@
+2008.June.14 (svn.debian.org/tux4kids - revision 518)
+      Graphics:
+        Got zoom() working - made pixels.c its own file instead of having
+        putpixel??() and getpixel??() in SDL_extras.c. (basically, the
+        compiler.h file from TuxPaint was needed. Also added LoadBkgd() 
+        wrapper function for IMG_Load() that automatically rescales image
+        to screen size - should use this as replacement wherever backgrounds
+        need to be drawn.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
 2008.April-May (svn.debian.org/tux4kids - revision 501)
 Version 1.6.3
 	Build:

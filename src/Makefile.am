@@ -36,7 +36,8 @@ tuxmath_SOURCES = tuxmath.c \
 	ConvertUTF.c	\
 	SDL_extras.c	\
 	lessons.c	\
-	scandir.c
+	scandir.c	\
+	pixels.c
 
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 

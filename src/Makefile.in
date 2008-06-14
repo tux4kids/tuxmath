@@ -71,7 +71,7 @@ am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
 	audio.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT) \
 	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT) \
-	scandir.$(OBJEXT)
+	scandir.$(OBJEXT) pixels.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
@@ -81,7 +81,7 @@ am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
 	audio.$(OBJEXT) mathcards.$(OBJEXT) fileops.$(OBJEXT) \
 	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT) \
-	scandir.$(OBJEXT)
+	scandir.$(OBJEXT) pixels.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
 tuxmath_DEPENDENCIES =
@@ -278,7 +278,8 @@ tuxmath_SOURCES = tuxmath.c \
 	ConvertUTF.c	\
 	SDL_extras.c	\
 	lessons.c	\
-	scandir.c
+	scandir.c	\
+	pixels.c
 
 TuxMath_SOURCES = $(tuxmath_SOURCES) tuxmathrc.rc
 tuxmathadmin_SOURCES = tuxmathadmin.c
@@ -383,6 +384,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scandir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@
