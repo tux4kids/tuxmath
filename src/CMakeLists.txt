@@ -14,6 +14,7 @@ set(SOURCES_TUXMATH
   loaders.c
   mathcards.c
   options.c
+  pixels.c
   scandir.c
   SDL_extras.c
   setup.c
