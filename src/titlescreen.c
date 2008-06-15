@@ -125,7 +125,7 @@ SDL_Rect dest,
 	 beak;
 
 /* The background image scaled to fullscreen dimensions */
-SDL_Surface* scaled_bkgd = NULL;
+SDL_Surface* scaled_bkg = NULL;
 /* Set to images[IMG_MENU_BKG] if windowed, scaled_bkgd if fullscreen. */
 SDL_Surface* current_bkg = NULL; //DON'T SDL_Free()!
 /* "Easter Egg" cursor */
@@ -253,9 +253,9 @@ void TitleScreen(void)
     return;
   }
 
-//  if (screen->flags & SDL_FULLSCREEN)
-//    current_bkg = scaled_bkgd;
-//  else
+  if (screen->flags & SDL_FULLSCREEN)
+    current_bkg = scaled_bkg;
+  else
     current_bkg = images[IMG_MENU_BKG];
   /* Draw background, if it loaded OK: */
   if (current_bkg)
@@ -432,7 +432,8 @@ int TitleScreen_load_media(void)
   }
   egg = LoadImage("title/egg.png", 
                   IMG_COLORKEY | IMG_NOT_REQUIRED);
-  scaled_bkgd = zoom(images[IMG_MENU_BKG], fs_res_x, fs_res_y);
+  //scaled_bkg = zoom(images[IMG_MENU_BKG], fs_res_x, fs_res_y);
+  LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
   return 1;
 }
 
@@ -457,7 +458,8 @@ void TitleScreen_unload_media(void)
   Tux = NULL;
   TitleScreen_unload_menu();
   SDL_FreeSurface(egg);
-  SDL_FreeSurface(scaled_bkgd);
+  SDL_FreeSurface(bkg);
+  SDL_FreeSurface(scaled_bkg);
 }
 
 
@@ -524,7 +526,7 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 #endif
 
   /* Redraw background: */
-  if (images[IMG_MENU_BKG])
+  if (current_bkg)
     SDL_BlitSurface( current_bkg, NULL, screen, &Backrect );
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
@@ -2148,10 +2150,10 @@ void set_default_menu_options(menu_options *menu_opts)
 /* Recalculate on-screen locations for title screen elements */
 void RecalcTitlePositions()
 {
-//  if (screen->flags & SDL_FULLSCREEN)
-//    current_bkg = scaled_bkgd;
-//  else
-    current_bkg = images[IMG_MENU_BKG];
+  if (screen->flags & SDL_FULLSCREEN)
+    current_bkg = scaled_bkg;
+  else
+    current_bkg = bkg;
   Backrect = current_bkg->clip_rect;
   Backrect.x = (screen->w - Backrect.w) / 2;
   Backrect.y = (screen->h - Backrect.h) / 2;

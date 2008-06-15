@@ -504,7 +504,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   questions_pending--;
 
   /* add question to wrong_quests list: */
-  {
+  
   MC_MathQuestion* ptr1;
   MC_MathQuestion* ptr2;
 
@@ -560,7 +560,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   #endif
 
   return 1;
-}
+
 }
 
 /* Tells user interface if all questions have been answered correctly! */

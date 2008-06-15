@@ -162,6 +162,7 @@ SDL_Surface* LoadImage( char *datafile, int mode )
     }
     /* If image was required, exit from program: */
     fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
+    fprintf(stderr, "%s", SDL_GetError() );
     cleanup_on_error();
   }
 
@@ -239,6 +240,43 @@ SDL_Surface* LoadBkgd(char* datafile)
     tmdprintf("Calling zoom() to rescale\n");
     return zoom(orig, screen->w, screen->h);
   }
+}
+/**********************
+LoadBothBkgds() : loads two scaled images: one for the user's native 
+resolution and one for 640x480 fullscreen. 
+Returns: the number of images that were scaled
+**********************/
+int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
+{
+  int ret = 0;
+  SDL_Surface* orig = NULL;
+  
+  orig = LoadImage(datafile, IMG_REGULAR);
+  
+  if (orig->w == RES_X && orig->h == RES_Y)
+  {
+    *win_bkgd = orig;
+  }
+  else
+  {
+    *win_bkgd = zoom(orig, RES_X, RES_Y);
+    ++ret;
+  }
+  
+  if (orig->w == fs_res_x && orig->h == fs_res_y)
+  {
+    *fs_bkgd = orig;
+  }
+  else
+  {
+    *fs_bkgd = zoom(orig, fs_res_x, fs_res_y);
+    ++ret;
+  }
+  
+  if (ret == 2) //orig won't be used at all
+    SDL_FreeSurface(orig);
+    
+  return ret;
 }
 
 
