@@ -89,7 +89,6 @@ int Opts_Initialize(void)
   game_options->last_score = DEFAULT_LAST_SCORE;
 
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
-  game_options->num_bkgds = DEFAULT_NUM_BKGDS;
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
   #ifdef TUXMATH_DEBUG

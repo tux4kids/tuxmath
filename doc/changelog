@@ -1,3 +1,12 @@
+2008.June.14 (svn.debian.org/tux4kids - revision 521)
+      Graphics:
+        New 1280x1024 versions of background images (from Debian Etch at
+        /usr/share/pixmaps/backgrounds/cosmos/*.jpg - these are public
+        domain astrophotographs released by NASA). The four older, GIMP-
+        drawn backgrounds have been removed.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
 2008.June.14 (svn.debian.org/tux4kids - revision 518)
       Graphics:
         Got zoom() working - made pixels.c its own file instead of having

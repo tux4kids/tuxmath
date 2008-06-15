@@ -94,7 +94,6 @@
 /* These values are hard-coded and used 'as is' by the program */
 /* (i.e. these behaviors require recompilation to change)   */ 
 #define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
-#define DEFAULT_NUM_BKGDS 6
 #define DEFAULT_MAX_CITY_COLORS 4
 
 #define MINIMUM_SPEED 0.8
