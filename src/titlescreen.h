@@ -113,7 +113,7 @@ typedef struct {
 //extern TTF_Font  *font;
 extern SDL_Event  event;
 
-SDL_Surface *bkg;
+extern SDL_Surface *current_bkg;
 
 #define MUSIC_FADE_OUT_MS	80
 

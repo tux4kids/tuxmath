@@ -166,8 +166,8 @@ void DisplayHighScores(int level)
     if (diff_level != old_diff_level)
     {
       /* Draw background: */
-      if (images[IMG_MENU_BKG])
-        SDL_BlitSurface( images[IMG_MENU_BKG], NULL, screen, NULL );
+      if (current_bkg)
+        SDL_BlitSurface( current_bkg, NULL, screen, NULL );
       /* FIXME maybe add image of trophy or similar pic */
       /* Draw Tux: */
       if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
@@ -383,8 +383,8 @@ void HighScoreNameEntry(unsigned char* pl_name)
 
 
   /* Draw background: */
-  if (images[IMG_MENU_BKG])
-    SDL_BlitSurface(images[IMG_MENU_BKG], NULL, screen, NULL);
+  if (current_bkg)
+    SDL_BlitSurface(current_bkg, NULL, screen, NULL);
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
@@ -524,7 +524,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
             /* Redraw background and shading in area where we drew text last time: */ 
             if (!first_draw)
             {
-              SDL_BlitSurface(images[IMG_MENU_BKG], &redraw_rect, screen, &redraw_rect);
+              SDL_BlitSurface(current_bkg, &redraw_rect, screen, &redraw_rect);
               DrawButton(&redraw_rect, 0, REG_RGBA);
               SDL_UpdateRect(screen,
                              redraw_rect.x,

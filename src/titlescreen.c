@@ -123,9 +123,11 @@ SDL_Rect dest,
 	 cursor,
 	 beak;
 
+/* The background image scaled to windowed 648x480 */
+SDL_Surface* bkg = NULL;
 /* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkg = NULL;
-/* Set to images[IMG_MENU_BKG] if windowed, scaled_bkgd if fullscreen. */
+/* Set to bkg if windowed, scaled_bkgd if fullscreen. */
 SDL_Surface* current_bkg = NULL; //DON'T SDL_Free()!
 /* "Easter Egg" cursor */
 SDL_Surface* egg = NULL; 
@@ -255,7 +257,7 @@ void TitleScreen(void)
   if (screen->flags & SDL_FULLSCREEN)
     current_bkg = scaled_bkg;
   else
-    current_bkg = images[IMG_MENU_BKG];
+    current_bkg = bkg;
   /* Draw background, if it loaded OK: */
   if (current_bkg)
   {
@@ -310,25 +312,9 @@ void TitleScreen(void)
     {
       start = SDL_GetTicks();
 
-      /*
-      if (inRect(Backrect, Tuxdest.x, Tuxdest.y) &&
-          inRect(Backrect, Tuxdest.x + Tuxdest.w, Tuxdest.y) &&
-          inRect(Backrect, Tuxdest.x, Tuxdest.y + Tuxdest.h) &&
-          inRect(Backrect, Tuxdest.x + Tuxdest.w, Tuxdest.y + Tuxdest.h) )
-        SDL_BlitSurface(images[IMG_MENU_BKG], &Tuxback, screen, &Tuxdest);
-      else
-        SDL_FillRect(screen, &Tuxdest, 0);
-      if (inRect(Backrect, Titledest.x, Titledest.y) &&
-          inRect(Backrect, Titledest.x + Titledest.w, Titledest.y) &&
-          inRect(Backrect, Titledest.x, Titledest.y + Titledest.h) &&
-          inRect(Backrect, Titledest.x + Titledest.w, Titledest.y + Titledest.h) )
-        SDL_BlitSurface(images[IMG_MENU_BKG], &Titleback, screen, &Titledest);
-      else
-        SDL_FillRect(screen, &Titledest, 0);
-      */
-
-      //just draw to the whole screen. Less error prone than the above at the cost of efficiency
-      SDL_FillRect(screen, &screen->clip_rect, 0);
+      //Draw the entire background, over a black screen if necessary
+      if (current_bkg->w != screen->w || current_bkg->h != screen->h)
+        SDL_FillRect(screen, &screen->clip_rect, 0);
       SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
 
       Tuxdest.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
@@ -431,7 +417,6 @@ int TitleScreen_load_media(void)
   }
   egg = LoadImage("title/egg.png", 
                   IMG_COLORKEY | IMG_NOT_REQUIRED);
-  //scaled_bkg = zoom(images[IMG_MENU_BKG], fs_res_x, fs_res_y);
   LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
   return 1;
 }
