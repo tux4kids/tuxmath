@@ -56,7 +56,9 @@ EXTRA_DIST = 	credits.h 	\
 		SDL_extras.h	\
 		lessons.h	\
 		gettext.h	\
-		scandir.h
+		scandir.h	\
+		pixels.h	\
+		compiler.h
 
 
 WINDRES=@WINDRES@

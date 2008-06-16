@@ -6,4 +6,4 @@ SUBDIRS = fonts	\
 	missions \
 	sounds
 
-EXTRA_DIST = options
+#EXTRA_DIST = options

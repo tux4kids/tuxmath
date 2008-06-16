@@ -57,7 +57,7 @@
   WIN32 and MINGW don't have strcasestr().
 */
 #define NOMINMAX
-#include "Shlwapi.h"
+#include "shlwapi.h"
 #define strcasestr StrStrI
 #endif /* WIN32 */
 

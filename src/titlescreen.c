@@ -106,7 +106,6 @@ const unsigned char* menu_sprite_files[N_SPRITES] =
 
 sprite **sprite_list = NULL;
 
-/* reg and sel are used to create the translucent button backgrounds. */
 sprite* Tux = NULL;
 
 
@@ -636,7 +635,7 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 }
 
 
-void main_scmo(menu_options* mo) //set custum menu opts for main
+void main_scmo(menu_options* mo) //set custom menu opts for main
 {
   mo->ygap = 15;
 }
@@ -2302,10 +2301,23 @@ void RecalcMenuPositions(int* numentries,
 int handle_easter_egg(const SDL_Event* evt)
   {
   static int eggtimer = 0;
-  int tuxframe = Tux->num_frames;
+  int tuxframe;
+
+  // Avoid segfaults if needed images not available:
+  if (!Tux || !egg)
+  {
+    fprintf(stderr,
+      "handle_easter_egg() - needed images not avail, bailing out\n");
+    egg_active = 0;
+    return 1;
+  }
+
+  tuxframe = Tux->num_frames;
+
     
   if (egg_active) //are we using the egg cursor?
     {
+
     if (eggtimer < SDL_GetTicks() ) //time's up
       {
       SDL_ShowCursor(SDL_ENABLE);
@@ -2324,7 +2336,7 @@ int handle_easter_egg(const SDL_Event* evt)
           inRect(beak, evt->button.x, evt->button.y) )
       {
       SDL_ShowCursor(SDL_DISABLE);
-      
+
       //animate
       while (tuxframe != 0)
         {
@@ -2332,11 +2344,13 @@ int handle_easter_egg(const SDL_Event* evt)
         SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
         SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);
         }
+
       eggtimer = SDL_GetTicks() + EASTER_EGG_MS;
       egg_active = 1;
       SDL_WarpMouse(Tuxdest.x + Tuxdest.w / 2, Tuxdest.y + Tuxdest.h - egg->h);
+
       }
-    
+
     return 0;
     }
   }

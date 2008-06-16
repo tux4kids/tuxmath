@@ -7,6 +7,9 @@ dist_tux_DATA = bigtux0.png \
   bigtux1.png \
   bigtux2.png \
   bigtux3.png \
+  bigtux4.png \
+  bigtux5.png \
+  bigtux6.png \
   console_led.png \
   console_bash.png \
   tux-console1.png \

@@ -3,5 +3,6 @@
 
 titledir = $(pkgdatadir)/images/title
 
-dist_title_DATA = menu_bkg.jpg \
+dist_title_DATA = egg.png \
+  menu_bkg.jpg \
   title1.png
