@@ -127,7 +127,11 @@ static steam_type* steam = NULL;
 
 static cloud_type cloud;
 static laser_type laser;
-static SDL_Surface* bkgd = NULL;
+static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
+static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
+
+SDL_Surface* current_bkgd()
+  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static game_message s1, s2, s3, s4, s5;
 typedef struct {
@@ -332,8 +336,8 @@ int game(void)
           }
         }
 
-        if (bkgd)
-          SDL_BlitSurface(bkgd, NULL, screen, NULL);
+        if (current_bkgd() )
+          SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
 
 
 
@@ -600,7 +604,7 @@ int game_initialize(void)
 
   /* Reset remaining stuff: */
 
-  bkgd = NULL;
+  bkgd = scaled_bkgd = NULL;
   last_bkgd = -1;
   reset_level();
   reset_comets();
@@ -635,6 +639,11 @@ void game_cleanup(void)
   {
     SDL_FreeSurface(bkgd);
     bkgd = NULL;
+  }
+  if (scaled_bkgd != NULL)
+  {
+    SDL_FreeSurface(scaled_bkgd);
+    scaled_bkgd = NULL;
   }
 
   /* Free dynamically-allocated items */
@@ -1779,7 +1788,8 @@ void game_draw_background(void)
     tmdprintf("Filling screen with color %d\n", bgcolor);
   }
 
-  if (bkgd == NULL || screen->flags & SDL_FULLSCREEN)
+  if (current_bkgd() == NULL || (current_bkgd()->w != screen->w && 
+                                 current_bkgd()->h != screen->h) )
   {
     dest.x = 0;
     dest.y = 0;
@@ -1795,11 +1805,11 @@ void game_draw_background(void)
     SDL_FillRect(screen, &dest, fgcolor);
   }
 
-  if (bkgd)
+  if (current_bkgd())
   {
-    dest.x = (screen->w - bkgd->w) / 2;
-    dest.y = (screen->h - bkgd->h) / 2;
-    SDL_BlitSurface(bkgd, NULL, screen, &dest);
+    dest.x = (screen->w - current_bkgd()->w) / 2;
+    dest.y = (screen->h - current_bkgd()->h) / 2;
+    SDL_BlitSurface(current_bkgd(), NULL, screen, &dest);
   }
 }
 
@@ -2263,19 +2273,25 @@ void reset_level(void)
 
   last_bkgd = i;
 
-  sprintf(fname, "%s/images/backgrounds/%d.jpg", DATA_PREFIX, i);
+  sprintf(fname, "backgrounds/%d.jpg", i);
 
   if (bkgd != NULL)
   {
     SDL_FreeSurface(bkgd);
     bkgd = NULL;
   }
+  if (scaled_bkgd != NULL)
+  {
+    SDL_FreeSurface(scaled_bkgd);
+    scaled_bkgd = NULL;
+  }
 
   if (Opts_UseBkgd())
   {
-    bkgd = LoadBkgd(fname);
+    LoadBothBkgds(fname, &scaled_bkgd, &bkgd);
+//    bkgd = LoadBkgd(fname);
 //    bkgd = LoadBkgd("/home/dbruce/red_test.jpg");
-    if (bkgd == NULL)
+    if (bkgd == NULL || scaled_bkgd == NULL)
     {
       fprintf(stderr,
 	      "\nWarning: Could not load background image:\n"

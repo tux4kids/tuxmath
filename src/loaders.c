@@ -251,8 +251,10 @@ int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
   int ret = 0;
   SDL_Surface* orig = NULL;
   
+  tmdprintf("Entering LoadBothBkgds()\n");
   orig = LoadImage(datafile, IMG_REGULAR);
-  
+  tmdprintf("Scaling %dx%d to: %dx%d, %dx%d\n", 
+           orig->w, orig->h, RES_X, RES_Y, fs_res_x, fs_res_y);
   if (orig->w == RES_X && orig->h == RES_Y)
   {
     *win_bkgd = orig;
@@ -276,6 +278,7 @@ int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
   if (ret == 2) //orig won't be used at all
     SDL_FreeSurface(orig);
     
+  tmdprintf("%d images scaled\nLeaving LoadBothBkgds()\n", ret);
   return ret;
 }
 
