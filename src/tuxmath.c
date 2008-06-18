@@ -54,9 +54,9 @@ int main(int argc, char * argv[])
 #endif
 
 
-  atexit(cleanup);  // register it so we clean up even if there is a crash
   setup(argc, argv);
-  TitleScreen();
+  TitleScreen();  /* Run the game! */
+  cleanup();
   return 0;
 }
 

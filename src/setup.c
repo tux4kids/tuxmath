@@ -487,45 +487,38 @@ void initialize_SDL(void)
       Opts_SetSoundHWAvailable(1);
     else
       frequency = format = channels = 0; //more helpful than garbage
-    #ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Sound mixer: frequency = %d, "
+    tmdprintf("Sound mixer: frequency = %d, "
                     "format = %x, "
                     "channels = %d, "
                     "n_timesopened = %d\n",
                     frequency,format,channels,n_timesopened);
-    #endif
   }
 
   #endif
   {
-    SDL_VideoInfo *videoInfo;
+    const SDL_VideoInfo *videoInfo;
     Uint32 surfaceMode;
     videoInfo = SDL_GetVideoInfo();
     if (videoInfo->hw_available)
     {
       surfaceMode = SDL_HWSURFACE;
-#ifdef TUXMATH_DEBUG
-      printf("HW mode\n");
-#endif
+      tmdprintf("HW mode\n");
     }
     else
     {
       surfaceMode = SDL_SWSURFACE;
-#ifdef TUXMATH_DEBUG
-      printf("SW mode\n");
-#endif
+      tmdprintf("SW mode\n");
     }
 
     //determine the best fullscreen resolution
     int i;
     SDL_Rect** modes = SDL_ListModes(videoInfo->vfmt, SDL_FULLSCREEN | surfaceMode);
-    if (modes != 0 && modes != -1) //if there is a "best" resolution
+    if (modes != (SDL_Rect**)0 && modes != (SDL_Rect**)-1) //if there is a "best" resolution
       {
       fs_res_x = modes[0]->w;
       fs_res_y = modes[0]->h;
-      tmdprintf("Optimal resolution is %dx%d\n", RES_X, RES_Y);
+      tmdprintf("Optimal resolution is %dx%d\n", fs_res_x, fs_res_y);
       }
-
 
     if (Opts_Fullscreen())
     {
