@@ -178,7 +178,7 @@ void TitleScreen(void)
 
   Uint32 start = 0;
 
-  int i;
+  int i,TuxPixSkip,TitlePixSkip;
   int n_subdirs;
   char **subdir_names;
 
@@ -294,19 +294,25 @@ void TitleScreen(void)
 
     Tuxdest.x = 0;
     Tuxdest.y = screen->h;
+    /*
     Tuxback.x = Tuxdest.x - Backrect.x;
     Tuxback.y = Tuxdest.y - Backrect.y;
+    */
     Tuxdest.w = Tuxback.w = Tux->frame[0]->w;
     Tuxdest.h = Tuxback.h = Tux->frame[0]->h;
     
 
     Titledest.x = screen->w;
     Titledest.y = 10;
+    /*
     Titleback.x = Titledest.x - Backrect.x;
     Titleback.y = Titledest.y - Backrect.y;
+    */
     Titledest.w = Titleback.w = images[IMG_MENU_TITLE]->w;
     Titledest.h = Titleback.h = images[IMG_MENU_TITLE]->h;
 
+    TuxPixSkip = Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
+    TitlePixSkip = (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
 
     for (i = 0; i < (PRE_ANIM_FRAMES * PRE_FRAME_MULT); i++)
     {
@@ -317,18 +323,17 @@ void TitleScreen(void)
         SDL_FillRect(screen, &screen->clip_rect, 0);
       SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
 
-      Tuxdest.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-      Tuxback.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-      Titledest.x -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-      Titleback.y -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
+      Tuxdest.y -= TuxPixSkip;
+      //Tuxback.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
+      Titledest.x -= TitlePixSkip;
+      //Titleback.y -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
 
       SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
       SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
       SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
 
-      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
-      SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w + 40,
-                     Titledest.h);
+      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h + TuxPixSkip);
+      SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w + TitlePixSkip, Titledest.h);
       SDL_UpdateRect(screen, stopRect.x, stopRect.y, stopRect.w, stopRect.h);
 
       while ((SDL_GetTicks() - start) < 33)
