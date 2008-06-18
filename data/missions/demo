@@ -217,14 +217,14 @@ max_typing_num = 10
 ############################################################
 
 # Use game sounds and background music if possible:
-use_sound = 1
-menu_sound = 1
-menu_music = 1
+#use_sound = 1
+#menu_sound = 1
+#menu_music = 1
 
 # Use fullscreen at 640x480 resolution instead of
 # 640x480 window. Change to 0 if SDL has trouble with
 # fullscreen on your system:
-fullscreen = 1
+#fullscreen = 1
 
 # Display jpg images for background:
 use_bkgd = 1
