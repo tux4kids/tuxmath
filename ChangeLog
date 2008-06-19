@@ -1,0 +1,17 @@
+2007-10-18  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile.
+
+2007-10-18  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Remove intl.
+	* configure.ac (AC_CONFIG_FILES): Remove intl/Makefile.
+
+2007-10-15  gettextize  <bug-gnu-gettext@gnu.org>
+
+	* Makefile.am (SUBDIRS): Add intl, po.
+	(ACLOCAL_AMFLAGS): New variable.
+	(EXTRA_DIST): New variable.
+	* configure.ac (AC_CONFIG_FILES): Add intl/Makefile, po/Makefile.in.
+
+For now, see doc/changelog for changes and their contributors.
