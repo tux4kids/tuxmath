@@ -127,12 +127,13 @@ SDL_Rect dest,
 SDL_Surface* bkg = NULL;
 /* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkg = NULL;
-/* Set to bkg if windowed, scaled_bkgd if fullscreen. */
-SDL_Surface* current_bkg = NULL; //DON'T SDL_Free()!
 /* "Easter Egg" cursor */
 SDL_Surface* egg = NULL; 
 int egg_active = 0; //are we currently using the egg cursor?
 
+SDL_Surface* current_bkg()
+  { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
+  
 /* Local function prototypes: */
 void TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
@@ -254,22 +255,18 @@ void TitleScreen(void)
     return;
   }
 
-  if (screen->flags & SDL_FULLSCREEN)
-    current_bkg = scaled_bkg;
-  else
-    current_bkg = bkg;
   /* Draw background, if it loaded OK: */
-  if (current_bkg)
+  if (current_bkg() )
   {
-    Backrect.x = (screen->w - current_bkg->w) / 2;
-    Backrect.y = (screen->h - current_bkg->h) / 2;
-    Backrect.w = current_bkg->w;
-    Backrect.h = current_bkg->h;
+    Backrect.x = (screen->w - current_bkg()->w) / 2;
+    Backrect.y = (screen->h - current_bkg()->h) / 2;
+    Backrect.w = current_bkg()->w;
+    Backrect.h = current_bkg()->h;
     /* FIXME not sure TransWipe() works in Windows: */
-    TransWipe(current_bkg, RANDOM_WIPE, 10, 20);
+    TransWipe(current_bkg(), RANDOM_WIPE, 10, 20);
     /* Make sure background gets drawn (since TransWipe() doesn't */
     /* seem to work reliably as of yet):                          */
-    SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
+    SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
 
   }
   /* Red "Stop" circle in upper right corner to go back to main menu: */
@@ -286,7 +283,7 @@ void TitleScreen(void)
   /* --- Pull tux & logo onscreen --- */
   /* NOTE we wind up with Tuxdest.y == (screen->h)  - (Tux->frame[0]->h), */
   /* and Titledest.x == 0.                                                */
-  if (current_bkg
+  if (current_bkg()
    && images[IMG_MENU_TITLE]
    && images[IMG_STOP]
    && Tux && Tux->frame[0])
@@ -319,9 +316,9 @@ void TitleScreen(void)
       start = SDL_GetTicks();
 
       //Draw the entire background, over a black screen if necessary
-      if (current_bkg->w != screen->w || current_bkg->h != screen->h)
+      if (current_bkg()->w != screen->w || current_bkg()->h != screen->h)
         SDL_FillRect(screen, &screen->clip_rect, 0);
-      SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
+      SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
 
       Tuxdest.y -= TuxPixSkip;
       //Tuxback.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
@@ -515,8 +512,8 @@ void ShowMessage(char* str1, char* str2, char* str3, char* str4)
 #endif
 
   /* Redraw background: */
-  if (current_bkg)
-    SDL_BlitSurface( current_bkg, NULL, screen, &Backrect );
+  if (current_bkg() )
+    SDL_BlitSurface( current_bkg(), NULL, screen, &Backrect );
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
@@ -684,6 +681,7 @@ int run_main_menu(void)
 	if (Opts_MenuMusic())  //Turn menu music off for game
 	  {audioMusicUnload();}
 	game();
+	RecalcTitlePositions();
 	if (Opts_MenuMusic()) //Turn menu music back on
 	  {audioMusicLoad( "tuxi.ogg", -1 );}
 	Opts_SetHelpMode(0);
@@ -806,6 +804,7 @@ int run_custom_menu(void)
       audioMusicUnload();
 
     game();
+    RecalcTitlePositions();
     write_user_config_file();
 
     if (Opts_MenuMusic())
@@ -866,6 +865,7 @@ int run_options_menu(void)
       {
 	audioMusicUnload();
 	game();
+	RecalcTitlePositions();
 	if (Opts_MenuMusic()) {
 	  audioMusicLoad( "tuxi.ogg", -1 );
 	}
@@ -1323,8 +1323,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
   }
 
   /**** Draw background, title, and Tux:                            ****/
-  if (current_bkg)
-    SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
+  if (current_bkg() )
+    SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
   if (images[IMG_MENU_TITLE])
     SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
   if (Tux && Tux->frame[0])
@@ -1627,10 +1627,10 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       tmdprintf("Updating entire screen\n");
       /* This is a full-screen redraw */
       /* Redraw background, title, stop button, and Tux: */
-      if (!current_bkg || screen->flags & SDL_FULLSCREEN )
+      if (!current_bkg() || screen->flags & SDL_FULLSCREEN )
         SDL_FillRect(screen, &screen->clip_rect, 0); //clear to black
-      if (current_bkg)
-        SDL_BlitSurface(current_bkg, NULL, screen, &Backrect);
+      if (current_bkg())
+        SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
       if (images[IMG_MENU_TITLE])
         SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
       if (images[IMG_STOP])
@@ -1698,11 +1698,11 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	use_sprite = (menu_sprites != NULL && old_loc >= title_offset && menu_sprites[old_loc-title_offset] != NULL);
         temp_rect = menu_button_rect[imod];
         SDL_FillRect(screen, &temp_rect, 0);
-	SDL_BlitSurface(current_bkg, &back_button_rect[imod], screen, &temp_rect);   // redraw background
+	SDL_BlitSurface(current_bkg(), &back_button_rect[imod], screen, &temp_rect);   // redraw background
 	if (use_sprite) {
 	  // Some of the sprites extend beyond the menu button, so we
 	  // have to make sure we redraw in the sprite rects, too
-	  SDL_BlitSurface(current_bkg, &back_sprite_rect[imod], screen, &temp_rect);
+	  SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
 	}
 	DrawButton(&menu_button_rect[imod], 10, REG_RGBA);  // draw button
 	//temp_rect = menu_text_rect[imod];
@@ -1745,7 +1745,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 	imod = loc-loc_screen_start;
 	//SDL_BlitSurface(current_bkg, &menu_button_rect[imod], screen, &menu_button_rect[imod]);
 	temp_rect = menu_sprite_rect[imod];
-	SDL_BlitSurface(current_bkg, &back_sprite_rect[imod], screen, &temp_rect);
+	SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
 	DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
 	//SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
 	// Note: even though the whole button was redrawn, we don't
@@ -1790,7 +1790,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
     if (Tux && tux_frame)
     {
       /* Redraw background to keep edges anti-aliased properly: */
-      SDL_BlitSurface(current_bkg,&Tuxdest, screen, &Tuxdest);
+      SDL_BlitSurface(current_bkg(),&Tuxdest, screen, &Tuxdest);
       SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
@@ -2125,8 +2125,8 @@ void InitEngine(void) {
 void set_default_menu_options(menu_options *menu_opts)
 {
   menu_opts->starting_entry = 0;
-  menu_opts->xleft = screen->w / 2 - 60;
-  menu_opts->ytop = (screen->h - current_bkg->h) / 2 + 100;
+  menu_opts->xleft = screen->w / 2 - screen->w * 3 / 32;
+  menu_opts->ytop = screen->h / 2 - 140;
   // Leave room for arrows at the bottom:
   menu_opts->ybottom = screen->h - images[IMG_LEFT]->h - 20;
   menu_opts->buttonheight = -1;
@@ -2139,11 +2139,7 @@ void set_default_menu_options(menu_options *menu_opts)
 /* Recalculate on-screen locations for title screen elements */
 void RecalcTitlePositions()
 {
-  if (screen->flags & SDL_FULLSCREEN)
-    current_bkg = scaled_bkg;
-  else
-    current_bkg = bkg;
-  Backrect = current_bkg->clip_rect;
+  Backrect = current_bkg()->clip_rect;
   Backrect.x = (screen->w - Backrect.w) / 2;
   Backrect.y = (screen->h - Backrect.h) / 2;
   
@@ -2312,7 +2308,7 @@ int handle_easter_egg(const SDL_Event* evt)
       {
       SDL_ShowCursor(SDL_ENABLE);
       //SDL_FillRect(screen, &cursor, 0);
-      SDL_BlitSurface(current_bkg, NULL, screen, &Backrect); //cover egg up once more
+      SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect); //cover egg up once more
       SDL_WarpMouse(cursor.x, cursor.y);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h); //egg->x, egg->y, egg->w, egg->h);
       egg_active = 0;
