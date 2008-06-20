@@ -510,15 +510,11 @@ void initialize_SDL(void)
       tmdprintf("SW mode\n");
     }
 
-    //determine the best fullscreen resolution
-    int i;
-    SDL_Rect** modes = SDL_ListModes(videoInfo->vfmt, SDL_FULLSCREEN | surfaceMode);
-    if (modes != (SDL_Rect**)0 && modes != (SDL_Rect**)-1) //if there is a "best" resolution
-      {
-      fs_res_x = modes[0]->w;
-      fs_res_y = modes[0]->h;
-      tmdprintf("Optimal resolution is %dx%d\n", fs_res_x, fs_res_y);
-      }
+    // Determine the current resolution: this will be used as the
+    // fullscreen resolution, if the user wants fullscreen.
+    tmdprintf("Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
+    fs_res_x = videoInfo->current_w;
+    fs_res_y = videoInfo->current_h;
 
     if (Opts_Fullscreen())
     {

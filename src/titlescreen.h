@@ -113,7 +113,7 @@ typedef struct {
 //extern TTF_Font  *font;
 extern SDL_Event  event;
 
-extern SDL_Surface *current_bkg;
+SDL_Surface* current_bkg(); //appropriate background for current video mode
 
 #define MUSIC_FADE_OUT_MS	80
 
@@ -163,7 +163,7 @@ void set_default_menu_options(menu_options *);
 
 /* in loaders.c (from tuxtype): */
 int         checkFile( const char *file );
-TTF_Font* LoadFont(const unsigned char* font_name, int font_size);
+TTF_Font*    LoadFont(const unsigned char* font_name, int font_size);
 Mix_Chunk   *LoadSound( char* datafile );
 SDL_Surface *LoadImage( char* datafile, int mode );
 SDL_Surface* LoadBkgd(char* datafile);

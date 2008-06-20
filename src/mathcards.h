@@ -38,6 +38,7 @@ enum {
   MC_FORMAT_ANS_MIDDLE    /* a + ? = c */
 };
 
+#ifndef MC_USE_NEWARC
 /* This struct contains all options that determine what */
 /* math questions are asked during a game */
 typedef struct MC_Options {
@@ -98,10 +99,141 @@ typedef struct MC_Options {
   int max_typing_num;
 
 } MC_Options;
+#else
+typedef struct _MC_Options 
+{
+  int iopts[NOPTS];
+  float fraction_to_keep;
+}
+#endif
 
-///* options for new mathcards architecture */
-//  int min_formula_nums;
-//  int max_formula_nums;
+/*
+Indices for the various integer options. These are NOT the actual values!
+Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
+Creating additional [integral] options is now centralized--this should be 
+the only place where it's necessary to add code. (Besides actually using 
+the new options!)
+*/
+
+#define PLAY_THROUGH_LIST         0  
+#define REPEAT_WRONGS             1  
+#define COPIES_REPEATED_WRONGS    2  
+#define ALLOW_NEGATIVES           3  
+#define MAX_ANSWER                4  
+#define MAX_QUESTIONS             5  
+#define QUESTION_COPIES           6  /* # times each question is put in list */
+#define MAX_FORMULA_NUMS          7  
+#define MIN_FORMULA_NUMS          8  
+
+#define FORMAT_ANSWER_LAST        9                     
+#define FORMAT_ANSWER_FIRST       10 
+#define FORMAT_ANSWER_MIDDLE      11 
+#define FORMAT_ADD_ANSWER_LAST    12 /* a + b = ?    */ 
+#define FORMAT_ADD_ANSWER_FIRST   13 /* ? + b = c    */
+#define FORMAT_ADD_ANSWER_MIDDLE  14 /* a + ? = c    */
+#define FORMAT_SUB_ANSWER_LAST    15 /* a - b = ?    */ 
+#define FORMAT_SUB_ANSWER_FIRST   16 /* ? - b = c    */
+#define FORMAT_SUB_ANSWER_MIDDLE  17 /* a - ? = c    */
+#define FORMAT_MULT_ANSWER_LAST   18 /* a * b = ?    */ 
+#define FORMAT_MULT_ANSWER_FIRST  19 /* ? * b = c    */
+#define FORMAT_MULT_ANSWER_MIDDLE 20 /* a * ? = c    */
+#define FORMAT_DIV_ANSWER_LAST    21 /* a / b = ?    */ 
+#define FORMAT_DIV_ANSWER_FIRST   22 /* ? / b = c    */
+#define FORMAT_DIV_ANSWER_MIDDLE  23 /* a / ? = c    */
+
+#define ADDITION_ALLOWED          24 
+#define SUBTRACTION_ALLOWED       25 
+#define MULTIPLICATION_ALLOWED    26 
+#define DIVISION_ALLOWED          27 
+#define TYPING_PRACTICE_ALLOWED   28 
+
+#define MIN_AUGEND                29 
+#define MAX_AUGEND                30 
+#define MIN_ADDEND                31 
+#define MAX_ADDEND                32 
+
+#define MIN_MINUEND               33 /* minuend - subtrahend = difference */
+#define MAX_MINUEND               34 
+#define MIN_SUBTRAHEND            35 
+#define MAX_SUBTRAHEND            36 
+
+#define MIN_MULTIPLIER            37 
+#define MAX_MULTIPLIER            38 
+#define MIN_MULTIPLICAND          39 /* multiplier * multiplicand = product */
+#define MAX_MULTIPLICAND          40 
+
+#define MIN_DIVISOR               41 /* dividend/divisor = quotient */
+#define MAX_DIVISOR               42 
+#define MIN_QUOTIENT              43 
+#define MAX_QUOTIENT              44 
+
+#define MIN_TYPING_NUM            45 
+#define MAX_TYPING_NUM            46 
+
+#define RANDOMIZE                 47 /* whether to shuffle cards */
+
+#define NOPTS                     48 
+
+const char** MC_OPTION_TEXT = {
+"PLAY_THROUGH_LIST",
+"REPEAT_WRONGS",
+"COPIES_REPEATED_WRONGS",
+"ALLOW_NEGATIVES",
+"MAX_ANSWER",
+"MAX_QUESTIONS",
+"QUESTION_COPIES",
+"MAX_FORMULA_NUMS",
+"MIN_FORMULA_NUMS",
+
+"FORMAT_ANSWER_LAST",
+"FORMAT_ANSWER_FIRST",
+"FORMAT_ANSWER_MIDDLE",
+"FORMAT_ADD_ANSWER_LAST",
+"FORMAT_ADD_ANSWER_FIRST",
+"FORMAT_ADD_ANSWER_MIDDLE",
+"FORMAT_SUB_ANSWER_LAST",
+"FORMAT_SUB_ANSWER_FIRST",
+"FORMAT_SUB_ANSWER_MIDDLE",
+"FORMAT_MULT_ANSWER_LAST",
+"FORMAT_MULT_ANSWER_FIRST",
+"FORMAT_MULT_ANSWER_MIDDLE",
+"FORMAT_DIV_ANSWER_LAST",
+"FORMAT_DIV_ANSWER_FIRST",
+"FORMAT_DIV_ANSWER_MIDDLE",
+
+"ADDITION_ALLOWED",
+"SUBTRACTION_ALLOWED",
+"MULTIPLICATION_ALLOWED",
+"DIVISION_ALLOWED",
+"TYPING_PRACTICE_ALLOWED",
+
+"MIN_AUGEND",
+"MAX_AUGEND",
+"MIN_ADDEND",
+"MAX_ADDEND",
+
+"MIN_MINUEND",
+"MAX_MINUEND",
+"MIN_SUBTRAHEND",
+"MAX_SUBTRAHEND",
+ 
+"MIN_MULTIPLIER",
+"MAX_MULTIPLIER",
+"MIN_MULTIPLICAND",
+"MAX_MULTIPLICAND",
+
+"MIN_DIVISOR",
+"MAX_DIVISOR",
+"MIN_QUOTIENT",
+"MAX_QUOTIENT",
+
+"MIN_TYPING_NUM",
+"MAX_TYPING_NUM",
+
+"RANDOMIZE",
+
+"END_OF_OPTS"
+};
   
 /* default values for math_options */
 #define MC_GLOBAL_MAX 999                 /* this is the largest absolute value that */
@@ -165,6 +297,7 @@ typedef struct MC_Options {
 #define DEFAULT_MAX_TYPING_NUM 12          /* just learning to use keyboard.          */
 
 
+#ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
 typedef struct MC_FlashCard {
   int num1;
@@ -175,14 +308,14 @@ typedef struct MC_FlashCard {
   char formula_string[MC_FORMULA_LEN];
   char answer_string[MC_ANSWER_LEN];
 } MC_FlashCard;
-
+#else
 /* experimental struct for a more generalized flashcard */
 typedef struct _MC_Flashcard {
   char* formula_string;
   char* answer_string;
   int answer;
 } MC_Flashcard;
-
+#endif
 
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
@@ -427,8 +560,14 @@ int MC_TypeMin(void);
 int MC_TypeMax(void);
 
 /* public functions for experimental mathcards architecture */
-void MC_SetMinFormulaNums(int opt);
-void MC_SetMaxFormulaNums(int opt);
-int MC_MinFormulaNums(void);
-int MC_MaxFormulaNums(void);
+MC_Flashcard MC_CreateFlashcard(void);
+void MC_FreeFlashcard(MC_Flashcard* fc);
+unsigned int MC_MapTextToIndex(const char* text);
+void MC_SetOpt(unsigned int index, int val);
+void MC_SetOpt(const char* param, int val);
+int MC_GetOpt(unsigned int index);
+int MC_GetOpt(const char* param);
+void MC_SetFractionToKeep(float val);
+float MC_GetFractionToKeep(void);
+int MC_VerifyOptionListSane(void);
 #endif

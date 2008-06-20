@@ -3103,117 +3103,6 @@ unsigned int MC_MapTextToIndex(const char* text)
       return i;
   printf("Sorry, don't recognize option '%s'\n", text);
   return NOT_VALID_OPTION;
-/*
-  if (!strcasecmp(text,"PLAY_THROUGH_LIST")
-    return PLAY_THROUGH_LIST;
-  if (!strcasecmp(text,"REPEAT_WRONGS")
-    return REPEAT_WRONGS;
-  if (!strcasecmp(text,"COPIES_REPEATED_WRONGS")
-    return COPIES_REPEATED_WRONGS;
-  if (!strcasecmp(text,"ALLOW_NEGATIVES")
-    return ALLOW_NEGATIVES;
-  if (!strcasecmp(text,"MAX_ANSWER")
-    return MAX_ANSWER;
-  if (!strcasecmp(text,"MAX_QUESTIONS")
-    return MAX_QUESTIONS;
-  if (!strcasecmp(text,"QUESTION_COPIES")
-    return QUESTION_COPIES;
-  if (!strcasecmp(text,"RANDOMIZE")
-    return RANDOMIZE;
-  if (!strcasecmp(text,"FRACTION_TO_KEEP")
-    return NOT_VALID_OPTION; //FRACTION_TO_KEEP is a float!
-
-
-  if (!strcasecmp(text,"FORMAT_ANSWER_LAST")
-    return  FORMAT_ANSWER_LAST;
-  if (!strcasecmp(text,"FORMAT_ANSWER_FIRST")
-    return  FORMAT_ANSWER_FIRST;
-  if (!strcasecmp(text,"FORMAT_ANSWER_MIDDLE")
-    return  FORMAT_ANSWER_MIDDLE;
-  if (!strcasecmp(text,"FORMAT_ADD_ANSWER_LAST")
-    return  FORMAT_ADD_ANSWER_LAST;
-  if (!strcasecmp(text,"FORMAT_ADD_ANSWER_FIRST")
-    return  FORMAT_ADD_ANSWER_FIRST;
-  if (!strcasecmp(text,"FORMAT_ADD_ANSWER_MIDDLE")
-    return  FORMAT_ADD_ANSWER_MIDDLE;
-  if (!strcasecmp(text,"FORMAT_SUB_ANSWER_LAST")
-    return  FORMAT_SUB_ANSWER_LAST;
-  if (!strcasecmp(text,"FORMAT_SUB_ANSWER_FIRST")
-    return  FORMAT_SUB_ANSWER_FIRST;
-  if (!strcasecmp(text,"FORMAT_SUB_ANSWER_MIDDLE")
-    return  FORMAT_SUB_ANSWER_MIDDLE;
-  if (!strcasecmp(text,"FORMAT_MULT_ANSWER_LAST")
-    return  FORMAT_MULT_ANSWER_LAST;
-  if (!strcasecmp(text,"FORMAT_MULT_ANSWER_FIRST")
-    return  FORMAT_MULT_ANSWER_FIRST;
-  if (!strcasecmp(text,"FORMAT_MULT_ANSWER_MIDDLE")
-    return  FORMAT_MULT_ANSWER_MIDDLE;
-  if (!strcasecmp(text,"FORMAT_DIV_ANSWER_LAST")
-    return  FORMAT_DIV_ANSWER_LAST;
-  if (!strcasecmp(text,"FORMAT_DIV_ANSWER_FIRST")
-    return  FORMAT_DIV_ANSWER_FIRST;
-  if (!strcasecmp(text,"FORMAT_DIV_ANSWER_MIDDLE")
-    return  FORMAT_DIV_ANSWER_MIDDLE;
-
-  if (!strcasecmp(text,"ADDITION_ALLOWED")
-    return  ADDITION_ALLOWED;
-  if (!strcasecmp(text,"SUBTRACTION_ALLOWED")
-    return  SUBTRACTION_ALLOWED;
-  if (!strcasecmp(text,"MULTIPLICATION_ALLOWED")
-    return  MULTIPLICATION_ALLOWED;
-  if (!strcasecmp(text,"DIVISION_ALLOWED")
-    return  DIVISION_ALLOWED;
-  if (!strcasecmp(text,"TYPING_PRACTICE_ALLOWED")
-    return  TYPING_PRACTICE_ALLOWED;
-
-  if (!strcasecmp(text,"MIN_AUGEND")
-    return  MIN_AUGEND;
-  if (!strcasecmp(text,"MAX_AUGEND")
-    return MAX_AUGEND;
-  if (!strcasecmp(text,"MIN_ADDEND")
-    return  MIN_ADDEND;
-  if (!strcasecmp(text,"MAX_ADDEND")
-    return  MAX_ADDEND;
-
-  if (!strcasecmp(text,"MIN_MINUEND")
-    return  MIN_MINUEND;
-  if (!strcasecmp(text,"MAX_MINUEND")
-    return  MAX_MINUEND;
-  if (!strcasecmp(text,"MIN_SUBTRAHEND")
-    return  MIN_SUBTRAHEND;
-  if (!strcasecmp(text,"MAX_SUBTRAHEND")
-    return  MAX_SUBTRAHEND;
-   
-  if (!strcasecmp(text,"MIN_MULTIPLIER")
-    return  MIN_MULTIPLIER;
-  if (!strcasecmp(text,"MAX_MULTIPLIER")
-    return  MAX_MULTIPLIER;
-  if (!strcasecmp(text,"MIN_MULTIPLICAND")
-    return  MIN_MULTIPLICAND;
-  if (!strcasecmp(text,"MAX_MULTIPLICAND")
-    return  MAX_MULTIPLICAND;
-
-  if (!strcasecmp(text,"MIN_DIVISOR")
-    return  MIN_DIVISOR;
-  if (!strcasecmp(text,"MAX_DIVISOR")
-    return  MAX_DIVISOR;
-  if (!strcasecmp(text,"MIN_QUOTIENT")
-    return  MIN_QUOTIENT;
-  if (!strcasecmp(text,"MAX_QUOTIENT")
-    return  MAX_QUOTIENT;
-
-  if (!strcasecmp(text,"MIN_TYPING_NUM")
-    return  MIN_TYPING_NUM;
-  if (!strcasecmp(text,"MAX_TYPING_NUM")
-    return  MAX_TYPING_NUM;
-    
-  if (!strcasecmp(text,"MIN_FORMULA_NUMS")
-    return  MIN_FORMULA_NUMS;
-  if (!strcasecmp(text,"MAX_FORMULA_NUMS")
-    return MAX_FORMULA_NUMS;
-    
-  return NOT_VALID_OPTION;
-*/
 }
 
 void MC_SetOpt(unsigned int index, int val)
@@ -3226,7 +3115,7 @@ void MC_SetOpt(unsigned int index, int val)
   opts.iopts[index] = val;
 }
 
-void MC_SetOpt(const char* param, int val);
+void MC_SetOpt(const char* param, int val)
 {
   MC_SetOpt(MC_MapTextToIndex(param), val);
 }
@@ -3236,8 +3125,14 @@ int MC_GetOpt(unsigned int index)
   if (index >= NOPTS)
   {
     printf("Invalid option index: %du\n", index);
-    return 0;
+    return MC_MATH_OPTS_INVALID;
   }  
+  if (!opts)
+  {
+    printf("Invalid options list!\n");
+    return MC_MATH_OPTS_INVALID;
+  }
+  return opts->iopts[index];
 }
 
 int MC_GetOpt(const char* param)
@@ -3247,11 +3142,17 @@ int MC_GetOpt(const char* param)
 
 void MC_SetFractionToKeep(float val)
 {
-  opts.fraction_to_keep = val;
+  opts->fraction_to_keep = val;
 }
 
 float MC_GetFractionToKeep(void)
 {
-  return opts.fraction_to_keep;
+  return opts->fraction_to_keep;
 }
+
+int MC_VerifyOptionListSane(void)
+{
+  return MC_OPTION_TEXT[NOPTS] == "END_OF_OPTS";
+}
+
 #endif
