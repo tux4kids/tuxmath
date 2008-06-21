@@ -16,10 +16,16 @@
 #define MATHCARDS_H
 
 //#define MC_DEBUG
+#ifdef MC_DEBUG
+#define mcdprintf(...) printf(__VA_ARGS__)
+#else
+#define mcdprintf(...) 0
+#endif
+
 #define MC_FORMULA_LEN 16
 #define MC_ANSWER_LEN 5
 
-
+#define MC_USE_NEWARC
 
 /* type of math operation used in a given question */
 enum {
@@ -37,6 +43,201 @@ enum {
   MC_FORMAT_ANS_FIRST,    /* ? + b = c */
   MC_FORMAT_ANS_MIDDLE    /* a + ? = c */
 };
+
+
+/*
+Indices for the various integer options. These are NOT the actual values!
+Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
+Creating additional [integral] options is now centralized--this should be 
+the only place where it's necessary to add code. (Besides actually using 
+the new options!)
+*/
+
+#define PLAY_THROUGH_LIST         0  /* play until all questions answered correctly */
+#define REPEAT_WRONGS             1  /* reuse incorrectly answered questions or not */
+#define COPIES_REPEATED_WRONGS    2  /* how many copies of an incorrectly answered question to re-insert*/
+#define ALLOW_NEGATIVES           3  
+#define MAX_ANSWER                4                                            
+#define MAX_QUESTIONS             5                                            
+#define QUESTION_COPIES           6  /* # times each question is put in list */
+#define MAX_FORMULA_NUMS          7                                            
+#define MIN_FORMULA_NUMS          8                                            
+                                                                               
+#define FORMAT_ANSWER_LAST        9  /* question format is: a + b = ? */
+#define FORMAT_ANSWER_FIRST       10 /* question format is: ? + b = c */
+#define FORMAT_ANSWER_MIDDLE      11 /* question format is: a + ? = c */
+#define FORMAT_ADD_ANSWER_LAST    12 /* a + b = ?    */
+#define FORMAT_ADD_ANSWER_FIRST   13 /* ? + b = c    */                           
+#define FORMAT_ADD_ANSWER_MIDDLE  14 /* a + ? = c    */                        
+#define FORMAT_SUB_ANSWER_LAST    15 /* a - b = ?    */
+#define FORMAT_SUB_ANSWER_FIRST   16 /* ? - b = c    */
+#define FORMAT_SUB_ANSWER_MIDDLE  17 /* a - ? = c    */
+#define FORMAT_MULT_ANSWER_LAST   18 /* a * b = ?    */
+#define FORMAT_MULT_ANSWER_FIRST  19 /* ? * b = c    */
+#define FORMAT_MULT_ANSWER_MIDDLE 20 /* a * ? = c    */
+#define FORMAT_DIV_ANSWER_LAST    21 /* a / b = ?    */
+#define FORMAT_DIV_ANSWER_FIRST   22 /* ? / b = c    */                           
+#define FORMAT_DIV_ANSWER_MIDDLE  23 /* a / ? = c    */                        
+                                                                               
+#define ADDITION_ALLOWED          24                                           
+#define SUBTRACTION_ALLOWED       25                                           
+#define MULTIPLICATION_ALLOWED    26                                           
+#define DIVISION_ALLOWED          27                                           
+#define TYPING_PRACTICE_ALLOWED   28                                           
+                                                                               
+#define MIN_AUGEND                29 /* augend + addend = sum */
+#define MAX_AUGEND                30                                           
+#define MIN_ADDEND                31                                           
+#define MAX_ADDEND                32                                           
+                                                                               
+#define MIN_MINUEND               33 /* minuend - subtrahend = difference */
+#define MAX_MINUEND               34                                           
+#define MIN_SUBTRAHEND            35                                           
+#define MAX_SUBTRAHEND            36                                           
+                                                                               
+#define MIN_MULTIPLIER            37 /* multiplier * multiplicand = product */
+#define MAX_MULTIPLIER            38                                           
+#define MIN_MULTIPLICAND          39  
+#define MAX_MULTIPLICAND          40                                           
+                                                                               
+#define MIN_DIVISOR               41 /* dividend/divisor = quotient */
+#define MAX_DIVISOR               42 /* note - generate_list() will prevent */
+#define MIN_QUOTIENT              43 /* questions with division by zero.    */
+#define MAX_QUOTIENT              44                                           
+                                                                               
+#define MIN_TYPING_NUM            45 /* range for "typing tutor" mode, for  */
+#define MAX_TYPING_NUM            46 /* kids just learning to use keyboard. */
+                                                                               
+#define RANDOMIZE                 47 /* whether to shuffle cards */            
+
+#define NOPTS                     48 
+
+const char const** MC_OPTION_TEXT = {
+"PLAY_THROUGH_LIST",
+"REPEAT_WRONGS",
+"COPIES_REPEATED_WRONGS",
+"ALLOW_NEGATIVES",
+"MAX_ANSWER",
+"MAX_QUESTIONS",
+"QUESTION_COPIES",
+"MAX_FORMULA_NUMS",
+"MIN_FORMULA_NUMS",
+
+"FORMAT_ANSWER_LAST",
+"FORMAT_ANSWER_FIRST",
+"FORMAT_ANSWER_MIDDLE",
+"FORMAT_ADD_ANSWER_LAST",
+"FORMAT_ADD_ANSWER_FIRST",
+"FORMAT_ADD_ANSWER_MIDDLE",
+"FORMAT_SUB_ANSWER_LAST",
+"FORMAT_SUB_ANSWER_FIRST",
+"FORMAT_SUB_ANSWER_MIDDLE",
+"FORMAT_MULT_ANSWER_LAST",
+"FORMAT_MULT_ANSWER_FIRST",
+"FORMAT_MULT_ANSWER_MIDDLE",
+"FORMAT_DIV_ANSWER_LAST",
+"FORMAT_DIV_ANSWER_FIRST",
+"FORMAT_DIV_ANSWER_MIDDLE",
+
+"ADDITION_ALLOWED",
+"SUBTRACTION_ALLOWED",
+"MULTIPLICATION_ALLOWED",
+"DIVISION_ALLOWED",
+"TYPING_PRACTICE_ALLOWED",
+
+"MIN_AUGEND",
+"MAX_AUGEND",
+"MIN_ADDEND",
+"MAX_ADDEND",
+
+"MIN_MINUEND",
+"MAX_MINUEND",
+"MIN_SUBTRAHEND",
+"MAX_SUBTRAHEND",
+ 
+"MIN_MULTIPLIER",
+"MAX_MULTIPLIER",
+"MIN_MULTIPLICAND",
+"MAX_MULTIPLICAND",
+
+"MIN_DIVISOR",
+"MAX_DIVISOR",
+"MIN_QUOTIENT",
+"MAX_QUOTIENT",
+
+"MIN_TYPING_NUM",
+"MAX_TYPING_NUM",
+
+"RANDOMIZE",
+
+"END_OF_OPTS"
+};
+  
+/* default values for math_options */
+#define MC_GLOBAL_MAX 999          /* This is the largest absolute value that */
+                                   /* can be entered for math question values.*/
+#define MC_MATH_OPTS_INVALID -9999 /* Return value for accessor functions     */
+                                   /* if math_opts not valid                  */
+#define DEFAULT_FRACTION_TO_KEEP 1
+                                          
+const int* MC_DEFAULTS = {
+  1,    //PLAY_THROUGH_LIST         
+  1,    //REPEAT_WRONGS             
+  1,    //COPIES_REPEATED_WRONGS    
+  0,    //ALLOW_NEGATIVES           
+  999,  //MAX_ANSWER                
+  5000, //MAX_QUESTIONS             
+  1,    //QUESTION_COPIES           
+  2,    //MAX_FORMULA_NUMS          
+  5,    //MIN_FORMULA_NUMS          
+        //                          
+  1,    //FORMAT_ANSWER_LAST        
+  0,    //FORMAT_ANSWER_FIRST       
+  0,    //FORMAT_ANSWER_MIDDLE      
+  1,    //FORMAT_ADD_ANSWER_LAST    
+  0,    //FORMAT_ADD_ANSWER_FIRST   
+  0,    //FORMAT_ADD_ANSWER_MIDDLE  
+  1,    //FORMAT_SUB_ANSWER_LAST    
+  0,    //FORMAT_SUB_ANSWER_FIRST   
+  0,    //FORMAT_SUB_ANSWER_MIDDLE  
+  1,    //FORMAT_MULT_ANSWER_LAST   
+  0,    //FORMAT_MULT_ANSWER_FIRST  
+  0,    //FORMAT_MULT_ANSWER_MIDDLE 
+  1,    //FORMAT_DIV_ANSWER_LAST    
+  0,    //FORMAT_DIV_ANSWER_FIRST   
+  0,    //FORMAT_DIV_ANSWER_MIDDLE  
+        //                          
+  1,    //ADDITION_ALLOWED          
+  1,    //SUBTRACTION_ALLOWED       
+  1,    //MULTIPLICATION_ALLOWED    
+  1,    //DIVISION_ALLOWED          
+  0,    //TYPING_PRACTICE_ALLOWED   
+        //                          
+  0,    //MIN_AUGEND                
+  12,   //MAX_AUGEND                
+  0,    //MIN_ADDEND                
+  12,   //MAX_ADDEND                
+        //                          
+  0,    //MIN_MINUEND               
+  12,   //MAX_MINUEND               
+  0,    //MIN_SUBTRAHEND            
+  12,   //MAX_SUBTRAHEND            
+        //                          
+  0,    //MIN_MULTIPLIER            
+  12,   //MAX_MULTIPLIER            
+  0,    //MIN_MULTIPLICAND          
+  12,   //MAX_MULTIPLICAND          
+        //                          
+  0,    //MIN_DIVISOR                                          
+  12,   //MAX_DIVISOR               
+  0,    //MIN_QUOTIENT              
+  12,   //MAX_QUOTIENT              
+        //                          
+  0,    //MIN_TYPING_NUM            
+  12,   //MAX_TYPING_NUM            
+        //                          
+  1     //RANDOMIZE                 
+};                      
 
 #ifndef MC_USE_NEWARC
 /* This struct contains all options that determine what */
@@ -103,199 +304,9 @@ typedef struct MC_Options {
 typedef struct _MC_Options 
 {
   int iopts[NOPTS];
-  float fraction_to_keep;
-}
-#endif
-
-/*
-Indices for the various integer options. These are NOT the actual values!
-Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
-Creating additional [integral] options is now centralized--this should be 
-the only place where it's necessary to add code. (Besides actually using 
-the new options!)
-*/
-
-#define PLAY_THROUGH_LIST         0  
-#define REPEAT_WRONGS             1  
-#define COPIES_REPEATED_WRONGS    2  
-#define ALLOW_NEGATIVES           3  
-#define MAX_ANSWER                4  
-#define MAX_QUESTIONS             5  
-#define QUESTION_COPIES           6  /* # times each question is put in list */
-#define MAX_FORMULA_NUMS          7  
-#define MIN_FORMULA_NUMS          8  
-
-#define FORMAT_ANSWER_LAST        9                     
-#define FORMAT_ANSWER_FIRST       10 
-#define FORMAT_ANSWER_MIDDLE      11 
-#define FORMAT_ADD_ANSWER_LAST    12 /* a + b = ?    */ 
-#define FORMAT_ADD_ANSWER_FIRST   13 /* ? + b = c    */
-#define FORMAT_ADD_ANSWER_MIDDLE  14 /* a + ? = c    */
-#define FORMAT_SUB_ANSWER_LAST    15 /* a - b = ?    */ 
-#define FORMAT_SUB_ANSWER_FIRST   16 /* ? - b = c    */
-#define FORMAT_SUB_ANSWER_MIDDLE  17 /* a - ? = c    */
-#define FORMAT_MULT_ANSWER_LAST   18 /* a * b = ?    */ 
-#define FORMAT_MULT_ANSWER_FIRST  19 /* ? * b = c    */
-#define FORMAT_MULT_ANSWER_MIDDLE 20 /* a * ? = c    */
-#define FORMAT_DIV_ANSWER_LAST    21 /* a / b = ?    */ 
-#define FORMAT_DIV_ANSWER_FIRST   22 /* ? / b = c    */
-#define FORMAT_DIV_ANSWER_MIDDLE  23 /* a / ? = c    */
-
-#define ADDITION_ALLOWED          24 
-#define SUBTRACTION_ALLOWED       25 
-#define MULTIPLICATION_ALLOWED    26 
-#define DIVISION_ALLOWED          27 
-#define TYPING_PRACTICE_ALLOWED   28 
-
-#define MIN_AUGEND                29 
-#define MAX_AUGEND                30 
-#define MIN_ADDEND                31 
-#define MAX_ADDEND                32 
-
-#define MIN_MINUEND               33 /* minuend - subtrahend = difference */
-#define MAX_MINUEND               34 
-#define MIN_SUBTRAHEND            35 
-#define MAX_SUBTRAHEND            36 
-
-#define MIN_MULTIPLIER            37 
-#define MAX_MULTIPLIER            38 
-#define MIN_MULTIPLICAND          39 /* multiplier * multiplicand = product */
-#define MAX_MULTIPLICAND          40 
-
-#define MIN_DIVISOR               41 /* dividend/divisor = quotient */
-#define MAX_DIVISOR               42 
-#define MIN_QUOTIENT              43 
-#define MAX_QUOTIENT              44 
-
-#define MIN_TYPING_NUM            45 
-#define MAX_TYPING_NUM            46 
-
-#define RANDOMIZE                 47 /* whether to shuffle cards */
-
-#define NOPTS                     48 
-
-const char** MC_OPTION_TEXT = {
-"PLAY_THROUGH_LIST",
-"REPEAT_WRONGS",
-"COPIES_REPEATED_WRONGS",
-"ALLOW_NEGATIVES",
-"MAX_ANSWER",
-"MAX_QUESTIONS",
-"QUESTION_COPIES",
-"MAX_FORMULA_NUMS",
-"MIN_FORMULA_NUMS",
-
-"FORMAT_ANSWER_LAST",
-"FORMAT_ANSWER_FIRST",
-"FORMAT_ANSWER_MIDDLE",
-"FORMAT_ADD_ANSWER_LAST",
-"FORMAT_ADD_ANSWER_FIRST",
-"FORMAT_ADD_ANSWER_MIDDLE",
-"FORMAT_SUB_ANSWER_LAST",
-"FORMAT_SUB_ANSWER_FIRST",
-"FORMAT_SUB_ANSWER_MIDDLE",
-"FORMAT_MULT_ANSWER_LAST",
-"FORMAT_MULT_ANSWER_FIRST",
-"FORMAT_MULT_ANSWER_MIDDLE",
-"FORMAT_DIV_ANSWER_LAST",
-"FORMAT_DIV_ANSWER_FIRST",
-"FORMAT_DIV_ANSWER_MIDDLE",
-
-"ADDITION_ALLOWED",
-"SUBTRACTION_ALLOWED",
-"MULTIPLICATION_ALLOWED",
-"DIVISION_ALLOWED",
-"TYPING_PRACTICE_ALLOWED",
-
-"MIN_AUGEND",
-"MAX_AUGEND",
-"MIN_ADDEND",
-"MAX_ADDEND",
-
-"MIN_MINUEND",
-"MAX_MINUEND",
-"MIN_SUBTRAHEND",
-"MAX_SUBTRAHEND",
- 
-"MIN_MULTIPLIER",
-"MAX_MULTIPLIER",
-"MIN_MULTIPLICAND",
-"MAX_MULTIPLICAND",
-
-"MIN_DIVISOR",
-"MAX_DIVISOR",
-"MIN_QUOTIENT",
-"MAX_QUOTIENT",
-
-"MIN_TYPING_NUM",
-"MAX_TYPING_NUM",
-
-"RANDOMIZE",
-
-"END_OF_OPTS"
-};
-  
-/* default values for math_options */
-#define MC_GLOBAL_MAX 999                 /* this is the largest absolute value that */
-                                          /* can be entered for math question values.    */
-#define MC_MATH_OPTS_INVALID -9999        /* return value for accessor functions */
-                                          /* if math_opts not valid    */
-
-#define DEFAULT_PLAY_THROUGH_LIST 1       /* play until all questions in list answered */                                                                               /* correctly */
-#define DEFAULT_REPEAT_WRONGS   1         /* reuse incorrectly answered questions or not */
-#define DEFAULT_COPIES_REPEATED_WRONGS 1  /* how many copies of an incorrectly answered */                                                                              /* question to re-insert*/
-#define DEFAULT_ALLOW_NEGATIVES 0
-#define DEFAULT_MAX_ANSWER 999
-#define DEFAULT_MAX_QUESTIONS 5000
-#define DEFAULT_QUESTION_COPIES 1         /* how many times each question is put in list */
-#define DEFAULT_RANDOMIZE 1               /* whether to shuffle cards */
-#define DEFAULT_FRACTION_TO_KEEP 1
-
-#define DEFAULT_FORMAT_ANSWER_LAST 1      /* question format is: a + b = ? */
-#define DEFAULT_FORMAT_ANSWER_FIRST 0     /* question format is: ? + b = c */
-#define DEFAULT_FORMAT_ANSWER_MIDDLE 0    /* question format is: a + ? = c */
-#define DEFAULT_FORMAT_ADD_ANSWER_LAST 1    /* addition-specific default formats: */
-#define DEFAULT_FORMAT_ADD_ANSWER_FIRST 0     
-#define DEFAULT_FORMAT_ADD_ANSWER_MIDDLE 0 
-#define DEFAULT_FORMAT_SUB_ANSWER_LAST 1    /* subtraction-specific default formats: */
-#define DEFAULT_FORMAT_SUB_ANSWER_FIRST 0     
-#define DEFAULT_FORMAT_SUB_ANSWER_MIDDLE 0 
-#define DEFAULT_FORMAT_MULT_ANSWER_LAST 1    /* multiplication-specific default formats: */
-#define DEFAULT_FORMAT_MULT_ANSWER_FIRST 0     
-#define DEFAULT_FORMAT_MULT_ANSWER_MIDDLE 0 
-#define DEFAULT_FORMAT_DIV_ANSWER_LAST 1     /* division-specific default formats: */
-#define DEFAULT_FORMAT_DIV_ANSWER_FIRST 0     
-#define DEFAULT_FORMAT_DIV_ANSWER_MIDDLE 0 
-
-#define DEFAULT_ADDITION_ALLOWED 1
-#define DEFAULT_SUBTRACTION_ALLOWED 1
-#define DEFAULT_MULTIPLICATION_ALLOWED 1
-#define DEFAULT_DIVISION_ALLOWED 1
-#define DEFAULT_TYPING_PRACTICE_ALLOWED 0
-
-#define DEFAULT_MIN_AUGEND 0              /* augend + addend = sum */
-#define DEFAULT_MAX_AUGEND 12
-#define DEFAULT_MIN_ADDEND 0
-#define DEFAULT_MAX_ADDEND 12
-
-#define DEFAULT_MIN_MINUEND 0             /* minuend - subtrahend = difference */
-#define DEFAULT_MAX_MINUEND 12
-#define DEFAULT_MIN_SUBTRAHEND 0
-#define DEFAULT_MAX_SUBTRAHEND 12
-
-#define DEFAULT_MIN_MULTIPLIER 0          /* multiplier * multiplicand = product */
-#define DEFAULT_MAX_MULTIPLIER 12
-#define DEFAULT_MIN_MULTIPLICAND 0
-#define DEFAULT_MAX_MULTIPLICAND 12
-
-#define DEFAULT_MIN_DIVISOR 0              /* dividend/divisor = quotient */
-#define DEFAULT_MAX_DIVISOR 12             /* note - generate_list() will prevent */
-#define DEFAULT_MIN_QUOTIENT 0             /* questions with division by zero.    */
-#define DEFAULT_MAX_QUOTIENT 12
-
-#define DEFAULT_MIN_TYPING_NUM 0           /* range for "typing tutor" mode, for kids */
-#define DEFAULT_MAX_TYPING_NUM 12          /* just learning to use keyboard.          */
-
+  float fraction_to_keep; //being a float, we can't keep this in the same array
+} MC_Options;             //it'll stay a special case, unless more float options
+#endif                    //are introduced.
 
 #ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
@@ -310,13 +321,13 @@ typedef struct MC_FlashCard {
 } MC_FlashCard;
 #else
 /* experimental struct for a more generalized flashcard */
-typedef struct _MC_Flashcard {
+typedef struct _MC_FlashCard {
   char* formula_string;
   char* answer_string;
   int answer;
-} MC_Flashcard;
+} MC_FlashCard;
 #endif
-
+                                                                  
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
   MC_FlashCard card;
@@ -424,150 +435,151 @@ float MC_MedianTimePerQuestion(void);
 /* Simple functions to set option parameters: */
 
 /* Set general math options:   */
-void MC_SetPlayThroughList(int opt);
-void MC_SetRepeatWrongs(int opt);
-void MC_SetQuestionCopies(int copies);         /* how many times each question is put in list */
-void MC_SetCopiesRepeatedWrongs(int copies);
-void MC_SetMaxAnswer(int max);
-void MC_SetMaxQuestions(int max); 
-void MC_SetAllowNegatives(int opt);
-void MC_SetRandomize(int opt);           
-void MC_SetFractionToKeep(float fract);
+//void MC_SetPlayThroughList(int opt);
+//void MC_SetRepeatWrongs(int opt);
+//void MC_SetQuestionCopies(int copies);         /* how many times each question is put in list */
+//void MC_SetCopiesRepeatedWrongs(int copies);
+//void MC_SetMaxAnswer(int max);
+//void MC_SetMaxQuestions(int max); 
+//void MC_SetAllowNegatives(int opt);
+//void MC_SetRandomize(int opt);           
+//void MC_SetFractionToKeep(float fract);
+//
+///* Set question formats for all operations:     */
+///* NOTE - list can contain more than one format */
+///* Use these to set format the same for all four operations: */
+//void MC_SetFormatAnswerLast(int opt);      /* a + b = ?, a - b = ?, a * b = ?, a / b = ?  */ 
+//void MC_SetFormatAnswerFirst(int opt);     /* ? + b = c, etc   */
+//void MC_SetFormatAnswerMiddle(int opt);    /* a + ? = c, etc   */
+///* Uset these to set operation-specific question formats:                  */
+//void MC_SetFormatAddAnswerLast(int opt);      /* a + b = ? */
+//void MC_SetFormatAddAnswerFirst(int opt);     /* ? + b = c */
+//void MC_SetFormatAddAnswerMiddle(int opt);    /* a + ? = c */
+//void MC_SetFormatSubAnswerLast(int opt);      /* a - b = ? */
+//void MC_SetFormatSubAnswerFirst(int opt);     /* ? - b = c */
+//void MC_SetFormatSubAnswerMiddle(int opt);    /* a - ? = c */
+//void MC_SetFormatMultAnswerLast(int opt);     /* a * b = ? */
+//void MC_SetFormatMultAnswerFirst(int opt);    /* ? * b = c */
+//void MC_SetFormatMultAnswerMiddle(int opt);   /* a * ? = c */
+//void MC_SetFormatDivAnswerLast(int opt);      /* a / b = ? */
+//void MC_SetFormatDivAnswerFirst(int opt);     /* ? / b = c */
+//void MC_SetFormatDivAnswerMiddle(int opt);    /* a / ? = c */ 
+//
+///* Set the allowed math operations: */
+//void MC_SetAddAllowed(int opt);
+//void MC_SetSubAllowed(int opt);
+//void MC_SetMultAllowed(int opt);
+//void MC_SetDivAllowed(int opt);
+//void MC_SetTypingAllowed(int opt);
+//
+///* Set min and max for addition: */
+//void MC_SetAddMin(int opt);                    /* augend + addend = sum */
+//void MC_SetAddMinAugend(int opt);              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
+//void MC_SetAddMinAddend(int opt);              /* options for the other addend */
+//void MC_SetAddMax(int opt);
+//void MC_SetAddMaxAugend(int opt);
+//void MC_SetAddMaxAddend(int opt);
+//
+///* Set min and max for subtraction: */
+//void MC_SetSubMin(int opt);
+//void MC_SetSubMinMinuend(int opt);             /* minuend - subtrahend = difference */
+//void MC_SetSubMinSubtrahend(int opt);
+//void MC_SetSubMax(int opt);
+//void MC_SetSubMaxMinuend(int opt);
+//void MC_SetSubMaxSubtrahend(int opt);
+//
+///* Set min and max for multiplication: */
+//void MC_SetMultMin(int opt);
+//void MC_SetMultMinMultiplier(int opt);         /* multiplier * multiplicand = product */
+//void MC_SetMultMinMultiplicand(int opt);
+//void MC_SetMultMax(int opt);
+//void MC_SetMultMaxMultiplier(int opt);
+//void MC_SetMultMaxMultiplicand(int opt);
+//
+///* Set min and max for division: */
+//void MC_SetDivMin(int opt);
+//void MC_SetDivMinDivisor(int opt);            /* dividend/divisor = quotient */
+//void MC_SetDivMinQuotient(int opt);
+//void MC_SetDivMax(int opt);
+//void MC_SetDivMaxDivisor(int opt);
+//void MC_SetDivMaxQuotient(int opt);
+//
+///* Set min and max for typing practice: */
+//void MC_SetTypeMin(int opt);
+//void MC_SetTypeMax(int opt);
+//
+///* "Get" type functions to query option parameters: */
+//
+///* Query general math options: */
+//int MC_PlayThroughList(void);
+//int MC_RepeatWrongs(void);
+//int MC_CopiesRepeatedWrongs(void);
+//int MC_MaxAnswer(void);
+//int MC_MaxQuestions(void);
+//int MC_AllowNegatives(void);
+//int MC_QuestionCopies(void);         /* how many times each question is put in list */
+//int MC_Randomize(void);         
+//float MC_FractionToKeep(void);
+//
+//int MC_FormatAddAnswerLast(void);      /* a + b = ?   */ 
+//int MC_FormatAddAnswerFirst(void);     /* ? + b = c   */
+//int MC_FormatAddAnswerMiddle(void);    /* a + ? = c   */
+//int MC_FormatSubAnswerLast(void);      /* a - b = ?   */ 
+//int MC_FormatSubAnswerFirst(void);     /* ? - b = c   */
+//int MC_FormatSubAnswerMiddle(void);    /* a - ? = c   */
+//int MC_FormatMultAnswerLast(void);      /* a * b = ?   */ 
+//int MC_FormatMultAnswerFirst(void);     /* ? * b = c   */
+//int MC_FormatMultAnswerMiddle(void);    /* a * ? = c   */
+//int MC_FormatDivAnswerLast(void);      /* a / b = ?   */ 
+//int MC_FormatDivAnswerFirst(void);     /* ? / b = c   */
+//int MC_FormatDivAnswerMiddle(void);    /* a / ? = c   */
+//
+//
+///* Query the allowed math operations: */
+//int MC_AddAllowed(void);
+//int MC_SubAllowed(void);
+//int MC_MultAllowed(void);
+//int MC_DivAllowed(void);
+//int MC_TypingAllowed(void);
+//
+///* Query min and max for addition: */
+//int MC_AddMinAugend(void);              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
+//int MC_AddMinAddend(void);              /* options for the other addend */
+//int MC_AddMaxAugend(void);
+//int MC_AddMaxAddend(void);
+//
+///* Query min and max for subtraction: */
+//int MC_SubMinMinuend(void);             /* minuend - subtrahend = difference */
+//int MC_SubMinSubtrahend(void);
+//int MC_SubMaxMinuend(void);
+//int MC_SubMaxSubtrahend(void);
+//
+///* Query min and max for multiplication: */
+//int MC_MultMinMultiplier(void);         /* multiplier * multiplicand = product */
+//int MC_MultMinMultiplicand(void);
+//int MC_MultMaxMultiplier(void);
+//int MC_MultMaxMultiplicand(void);
+//
+///* Query min and max for division: */
+//int MC_DivMinDivisor(void);            /* dividend/divisor = quotient */
+//int MC_DivMinQuotient(void);
+//int MC_DivMaxDivisor(void);
+//int MC_DivMaxQuotient(void);
+//
+///* Query min and max for typing practice: */
+//int MC_TypeMin(void);
+//int MC_TypeMax(void);
 
-/* Set question formats for all operations:     */
-/* NOTE - list can contain more than one format */
-/* Use these to set format the same for all four operations: */
-void MC_SetFormatAnswerLast(int opt);      /* a + b = ?, a - b = ?, a * b = ?, a / b = ?  */ 
-void MC_SetFormatAnswerFirst(int opt);     /* ? + b = c, etc   */
-void MC_SetFormatAnswerMiddle(int opt);    /* a + ? = c, etc   */
-/* Uset these to set operation-specific question formats:                  */
-void MC_SetFormatAddAnswerLast(int opt);      /* a + b = ? */
-void MC_SetFormatAddAnswerFirst(int opt);     /* ? + b = c */
-void MC_SetFormatAddAnswerMiddle(int opt);    /* a + ? = c */
-void MC_SetFormatSubAnswerLast(int opt);      /* a - b = ? */
-void MC_SetFormatSubAnswerFirst(int opt);     /* ? - b = c */
-void MC_SetFormatSubAnswerMiddle(int opt);    /* a - ? = c */
-void MC_SetFormatMultAnswerLast(int opt);     /* a * b = ? */
-void MC_SetFormatMultAnswerFirst(int opt);    /* ? * b = c */
-void MC_SetFormatMultAnswerMiddle(int opt);   /* a * ? = c */
-void MC_SetFormatDivAnswerLast(int opt);      /* a / b = ? */
-void MC_SetFormatDivAnswerFirst(int opt);     /* ? / b = c */
-void MC_SetFormatDivAnswerMiddle(int opt);    /* a / ? = c */ 
-
-/* Set the allowed math operations: */
-void MC_SetAddAllowed(int opt);
-void MC_SetSubAllowed(int opt);
-void MC_SetMultAllowed(int opt);
-void MC_SetDivAllowed(int opt);
-void MC_SetTypingAllowed(int opt);
-
-/* Set min and max for addition: */
-void MC_SetAddMin(int opt);                    /* augend + addend = sum */
-void MC_SetAddMinAugend(int opt);              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
-void MC_SetAddMinAddend(int opt);              /* options for the other addend */
-void MC_SetAddMax(int opt);
-void MC_SetAddMaxAugend(int opt);
-void MC_SetAddMaxAddend(int opt);
-
-/* Set min and max for subtraction: */
-void MC_SetSubMin(int opt);
-void MC_SetSubMinMinuend(int opt);             /* minuend - subtrahend = difference */
-void MC_SetSubMinSubtrahend(int opt);
-void MC_SetSubMax(int opt);
-void MC_SetSubMaxMinuend(int opt);
-void MC_SetSubMaxSubtrahend(int opt);
-
-/* Set min and max for multiplication: */
-void MC_SetMultMin(int opt);
-void MC_SetMultMinMultiplier(int opt);         /* multiplier * multiplicand = product */
-void MC_SetMultMinMultiplicand(int opt);
-void MC_SetMultMax(int opt);
-void MC_SetMultMaxMultiplier(int opt);
-void MC_SetMultMaxMultiplicand(int opt);
-
-/* Set min and max for division: */
-void MC_SetDivMin(int opt);
-void MC_SetDivMinDivisor(int opt);            /* dividend/divisor = quotient */
-void MC_SetDivMinQuotient(int opt);
-void MC_SetDivMax(int opt);
-void MC_SetDivMaxDivisor(int opt);
-void MC_SetDivMaxQuotient(int opt);
-
-/* Set min and max for typing practice: */
-void MC_SetTypeMin(int opt);
-void MC_SetTypeMax(int opt);
-
-/* "Get" type functions to query option parameters: */
-
-/* Query general math options: */
-int MC_PlayThroughList(void);
-int MC_RepeatWrongs(void);
-int MC_CopiesRepeatedWrongs(void);
-int MC_MaxAnswer(void);
-int MC_MaxQuestions(void);
-int MC_AllowNegatives(void);
-int MC_QuestionCopies(void);         /* how many times each question is put in list */
-int MC_Randomize(void);         
-float MC_FractionToKeep(void);
-
-int MC_FormatAddAnswerLast(void);      /* a + b = ?   */ 
-int MC_FormatAddAnswerFirst(void);     /* ? + b = c   */
-int MC_FormatAddAnswerMiddle(void);    /* a + ? = c   */
-int MC_FormatSubAnswerLast(void);      /* a - b = ?   */ 
-int MC_FormatSubAnswerFirst(void);     /* ? - b = c   */
-int MC_FormatSubAnswerMiddle(void);    /* a - ? = c   */
-int MC_FormatMultAnswerLast(void);      /* a * b = ?   */ 
-int MC_FormatMultAnswerFirst(void);     /* ? * b = c   */
-int MC_FormatMultAnswerMiddle(void);    /* a * ? = c   */
-int MC_FormatDivAnswerLast(void);      /* a / b = ?   */ 
-int MC_FormatDivAnswerFirst(void);     /* ? / b = c   */
-int MC_FormatDivAnswerMiddle(void);    /* a / ? = c   */
-
-
-/* Query the allowed math operations: */
-int MC_AddAllowed(void);
-int MC_SubAllowed(void);
-int MC_MultAllowed(void);
-int MC_DivAllowed(void);
-int MC_TypingAllowed(void);
-
-/* Query min and max for addition: */
-int MC_AddMinAugend(void);              /* the "augend" is the first addend i.e. "a" in "a + b = c" */
-int MC_AddMinAddend(void);              /* options for the other addend */
-int MC_AddMaxAugend(void);
-int MC_AddMaxAddend(void);
-
-/* Query min and max for subtraction: */
-int MC_SubMinMinuend(void);             /* minuend - subtrahend = difference */
-int MC_SubMinSubtrahend(void);
-int MC_SubMaxMinuend(void);
-int MC_SubMaxSubtrahend(void);
-
-/* Query min and max for multiplication: */
-int MC_MultMinMultiplier(void);         /* multiplier * multiplicand = product */
-int MC_MultMinMultiplicand(void);
-int MC_MultMaxMultiplier(void);
-int MC_MultMaxMultiplicand(void);
-
-/* Query min and max for division: */
-int MC_DivMinDivisor(void);            /* dividend/divisor = quotient */
-int MC_DivMinQuotient(void);
-int MC_DivMaxDivisor(void);
-int MC_DivMaxQuotient(void);
-
-/* Query min and max for typing practice: */
-int MC_TypeMin(void);
-int MC_TypeMax(void);
-
-/* public functions for experimental mathcards architecture */
-MC_Flashcard MC_CreateFlashcard(void);
-void MC_FreeFlashcard(MC_Flashcard* fc);
-unsigned int MC_MapTextToIndex(const char* text);
-void MC_SetOpt(unsigned int index, int val);
-void MC_SetOpt(const char* param, int val);
+/********************************************
+Public functions for new mathcards architecture
+*********************************************/
+unsigned int MC_MapTextToIndex(const char* text); //the array index of the text
+void MC_SetOpt(unsigned int index, int val); //access directly,for internal use
 int MC_GetOpt(unsigned int index);
-int MC_GetOpt(const char* param);
+void MC_SetOp(const char* param, int val); //access by text, for config reading
+int MC_GetOp(const char* param);
 void MC_SetFractionToKeep(float val);
 float MC_GetFractionToKeep(void);
 int MC_VerifyOptionListSane(void);
+
 #endif
