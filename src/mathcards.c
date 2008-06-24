@@ -20,6 +20,129 @@
 
 #include "mathcards.h"
 
+/* extern'd constants */
+const char* const MC_OPTION_TEXT[NOPTS+1] = {
+"PLAY_THROUGH_LIST",
+"REPEAT_WRONGS",
+"COPIES_REPEATED_WRONGS",
+"ALLOW_NEGATIVES",
+"MAX_ANSWER",
+"MAX_QUESTIONS",
+"QUESTION_COPIES",
+"MAX_FORMULA_NUMS",
+"MIN_FORMULA_NUMS",
+
+"FORMAT_ANSWER_LAST",
+"FORMAT_ANSWER_FIRST",
+"FORMAT_ANSWER_MIDDLE",
+"FORMAT_ADD_ANSWER_LAST",
+"FORMAT_ADD_ANSWER_FIRST",
+"FORMAT_ADD_ANSWER_MIDDLE",
+"FORMAT_SUB_ANSWER_LAST",
+"FORMAT_SUB_ANSWER_FIRST",
+"FORMAT_SUB_ANSWER_MIDDLE",
+"FORMAT_MULT_ANSWER_LAST",
+"FORMAT_MULT_ANSWER_FIRST",
+"FORMAT_MULT_ANSWER_MIDDLE",
+"FORMAT_DIV_ANSWER_LAST",
+"FORMAT_DIV_ANSWER_FIRST",
+"FORMAT_DIV_ANSWER_MIDDLE",
+
+"ADDITION_ALLOWED",
+"SUBTRACTION_ALLOWED",
+"MULTIPLICATION_ALLOWED",
+"DIVISION_ALLOWED",
+"TYPING_PRACTICE_ALLOWED",
+
+"MIN_AUGEND",
+"MAX_AUGEND",
+"MIN_ADDEND",
+"MAX_ADDEND",
+
+"MIN_MINUEND",
+"MAX_MINUEND",
+"MIN_SUBTRAHEND",
+"MAX_SUBTRAHEND",
+ 
+"MIN_MULTIPLIER",
+"MAX_MULTIPLIER",
+"MIN_MULTIPLICAND",
+"MAX_MULTIPLICAND",
+
+"MIN_DIVISOR",
+"MAX_DIVISOR",
+"MIN_QUOTIENT",
+"MAX_QUOTIENT",
+
+"MIN_TYPING_NUM",
+"MAX_TYPING_NUM",
+
+"RANDOMIZE",
+
+"END_OF_OPTS"
+};
+
+const int MC_DEFAULTS[] = {
+  1,    //PLAY_THROUGH_LIST         
+  1,    //REPEAT_WRONGS             
+  1,    //COPIES_REPEATED_WRONGS    
+  0,    //ALLOW_NEGATIVES           
+  999,  //MAX_ANSWER                
+  5000, //MAX_QUESTIONS             
+  1,    //QUESTION_COPIES           
+  2,    //MAX_FORMULA_NUMS          
+  5,    //MIN_FORMULA_NUMS          
+        //                          
+  1,    //FORMAT_ANSWER_LAST        
+  0,    //FORMAT_ANSWER_FIRST       
+  0,    //FORMAT_ANSWER_MIDDLE      
+  1,    //FORMAT_ADD_ANSWER_LAST    
+  0,    //FORMAT_ADD_ANSWER_FIRST   
+  0,    //FORMAT_ADD_ANSWER_MIDDLE  
+  1,    //FORMAT_SUB_ANSWER_LAST    
+  0,    //FORMAT_SUB_ANSWER_FIRST   
+  0,    //FORMAT_SUB_ANSWER_MIDDLE  
+  1,    //FORMAT_MULT_ANSWER_LAST   
+  0,    //FORMAT_MULT_ANSWER_FIRST  
+  0,    //FORMAT_MULT_ANSWER_MIDDLE 
+  1,    //FORMAT_DIV_ANSWER_LAST    
+  0,    //FORMAT_DIV_ANSWER_FIRST   
+  0,    //FORMAT_DIV_ANSWER_MIDDLE  
+        //                          
+  1,    //ADDITION_ALLOWED          
+  1,    //SUBTRACTION_ALLOWED       
+  1,    //MULTIPLICATION_ALLOWED    
+  1,    //DIVISION_ALLOWED          
+  0,    //TYPING_PRACTICE_ALLOWED   
+        //                          
+  0,    //MIN_AUGEND                
+  12,   //MAX_AUGEND                
+  0,    //MIN_ADDEND                
+  12,   //MAX_ADDEND                
+        //                          
+  0,    //MIN_MINUEND               
+  12,   //MAX_MINUEND               
+  0,    //MIN_SUBTRAHEND            
+  12,   //MAX_SUBTRAHEND            
+        //                          
+  0,    //MIN_MULTIPLIER            
+  12,   //MAX_MULTIPLIER            
+  0,    //MIN_MULTIPLICAND          
+  12,   //MAX_MULTIPLICAND          
+        //                          
+  0,    //MIN_DIVISOR                                          
+  12,   //MAX_DIVISOR               
+  0,    //MIN_QUOTIENT              
+  12,   //MAX_QUOTIENT              
+        //                          
+  0,    //MIN_TYPING_NUM            
+  12,   //MAX_TYPING_NUM            
+        //                          
+  1     //RANDOMIZE                 
+};                      
+
+
+
 /* "Globals" for mathcards.c: */
 MC_Options* math_opts = 0;
 MC_MathQuestion* question_list = 0;
@@ -32,11 +155,15 @@ int answered_wrong = 0;
 int questions_pending = 0;
 int unanswered = 0;
 int starting_length = 0;
+int max_formula_size = 0; //max length in chars of a flashcard's formula
+int max_answer_size = 0; //and of its answer
 
 /* For keeping track of timing data */
 float* time_per_question_list = NULL;
 int length_time_per_question_list = 0;
 int length_alloc_time_per_question_list = 0;
+
+const MC_FlashCard DEFAULT_CARD = {NULL,NULL,0,0}; //empty card to signal error
 
 /* "private" function prototypes:                        */
 /*                                                       */
@@ -81,9 +208,13 @@ static MC_FlashCard*    create_card_from_node(MC_MathQuestion* node);
 #endif
 
 /* Functions for new mathcards architecture */
-MC_FlashCard create_flashcard(void);   //allocate space for a flashcard
-void free_flashcard(MC_FlashCard* fc); //be sure to free flashcards when done
-void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy a flashcard
+static MC_FlashCard allocate_flashcard(void); //allocate space for a flashcard
+static void free_flashcard(MC_FlashCard fc); //be sure to free flashcards when done
+static void free_node(MC_MathQuestion* mq); //wrapper for free() that also frees card
+static MC_FlashCard generate_random_flashcard(void);
+static void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy a flashcard
+static MC_MathQuestion* allocate_node(void); //allocate space for a node
+static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
 
 /*  MC_Initialize() sets up the struct containing all of  */
 /*  settings regarding math questions.  It should be      */
@@ -121,12 +252,12 @@ int MC_Initialize(void)
     fprintf(stderr, "\nUnable to initialize math_options");
     return 0;
   } 
-
+  
   /* set defaults */
+  math_opts->fraction_to_keep = DEFAULT_FRACTION_TO_KEEP;
   for (i = 0; i < NOPTS; ++i)
     {
     math_opts->iopts[i] = MC_DEFAULTS[i];
-    math_opts->fraction_to_keep = DEFAULT_FRACTION_TO_KEEP;
     }
 
   /* if no negatives to be used, reset any negatives to 0 */
@@ -192,7 +323,13 @@ int MC_StartGame(void)
     length_time_per_question_list = 0;
     length_alloc_time_per_question_list = 0;
   }
-
+  
+  /* determine how much space needed for strings, based on user options */
+  max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
+                   * ((int)(log10f(MC_GLOBAL_MAX) ) + 4) //sign/operator/spaces
+                   + 2; //question mark for answer, and ending '\0'
+  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 2; //sign and ending '\0'
+                   
   /* set up new list with pointer to top: */
   question_list = generate_list();
 
@@ -475,7 +612,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   {
     int i;
 
-    mcdprintf("\nAdding %d copies to question_list:", math_opts->copies_repeated_wrongs);
+    mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
    
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
@@ -633,7 +770,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetAllowNegatives(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->allow_negatives = int_to_bool(opt);
+//  math_opts->iopts[ALLOW_NEGATIVES] = int_to_bool(opt);
 //  if (!opt)
 //  {
 //    clear_negatives();
@@ -878,7 +1015,7 @@ void MC_EndGame(void)
 //    copies = 1;
 //  if (copies > 10)
 //    copies = 10;
-//  math_opts->question_copies = copies;
+//  math_opts->iopts[QUESTION_COPIES] = copies;
 //}
 //
 //
@@ -889,7 +1026,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetRandomize(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->randomize = int_to_bool(opt);
+//  math_opts->iopts[RANDOMIZE] = int_to_bool(opt);
 //} 
 //
 //void MC_SetFractionToKeep(float fract)
@@ -916,7 +1053,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetAddAllowed(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->addition_allowed = int_to_bool(opt);
+//  math_opts->iopts[ADDITION_ALLOWED] = int_to_bool(opt);
 //}
 //
 //
@@ -927,7 +1064,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetSubAllowed(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->subtraction_allowed = int_to_bool(opt);
+//  math_opts->iopts[SUBTRACTION_ALLOWED] = int_to_bool(opt);
 //}
 //
 //
@@ -938,7 +1075,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetMultAllowed(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->multiplication_allowed = int_to_bool(opt);
+//  math_opts->iopts[MULTIPLICATION_ALLOWED] = int_to_bool(opt);
 //}
 //
 //
@@ -949,7 +1086,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetDivAllowed(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->division_allowed = int_to_bool(opt);
+//  math_opts->iopts[DIVISION_ALLOWED] = int_to_bool(opt);
 //}
 //
 //
@@ -960,7 +1097,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetTypingAllowed(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->typing_practice_allowed = int_to_bool(opt);
+//  math_opts->iopts[TYPING_PRACTICE_ALLOWED] = int_to_bool(opt);
 //}
 //
 //
@@ -980,7 +1117,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetAddMinAugend(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->min_augend = sane_value(opt);
+//  math_opts->iopts[MIN_AUGEND] = sane_value(opt);
 //}
 //
 //
@@ -991,7 +1128,7 @@ void MC_EndGame(void)
 //    fprintf(stderr, "\nMC_SetAddMinAddend(): math_opts not valid!\n");
 //    return;
 //  }
-//  math_opts->min_addend = sane_value(opt);
+//  math_opts->iopts[MIN_ADDEND] = sane_value(opt);
 //}
 //
 //
@@ -1837,7 +1974,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "# is 144. It can be set as high as 999.                    #\n"
                  "############################################################\n\n");
   }  
-  fprintf (fp, "max_answer = %d\n", math_opts->max_answer);
+  fprintf (fp, "max_answer = %d\n", math_opts->iopts[MAX_ANSWER]);
 
   if (verbose)
   {
@@ -1847,7 +1984,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "# need to raise it.                                        #\n"
                  "############################################################\n\n");
   }  
-  fprintf (fp, "max_questions = %d\n", math_opts->max_questions);  
+  fprintf (fp, "max_questions = %d\n", math_opts->iopts[MAX_QUESTIONS]);  
 
   if (verbose)
   {
@@ -1856,7 +1993,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "# at the start of the game.  Default is 1 (yes).           #\n"
                  "############################################################\n\n");
   }
-  fprintf (fp, "randomize = %d\n", math_opts->randomize);
+  fprintf (fp, "randomize = %d\n", math_opts->iopts[RANDOMIZE]);
 
   if (verbose)
   {
@@ -1868,10 +2005,10 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "# operations.  All are 1 (yes) by default.                 #\n"
                  "############################################################\n\n");
   }
-  fprintf(fp, "addition_allowed = %d\n", math_opts->addition_allowed);
-  fprintf(fp, "subtraction_allowed = %d\n", math_opts->subtraction_allowed);
-  fprintf(fp, "multiplication_allowed = %d\n", math_opts->multiplication_allowed);
-  fprintf(fp, "division_allowed = %d\n", math_opts->division_allowed);
+  fprintf(fp, "addition_allowed = %d\n", math_opts->iopts[ADDITION_ALLOWED]);
+  fprintf(fp, "subtraction_allowed = %d\n", math_opts->iopts[SUBTRACTION_ALLOWED]);
+  fprintf(fp, "multiplication_allowed = %d\n", math_opts->iopts[MULTIPLICATION_ALLOWED]);
+  fprintf(fp, "division_allowed = %d\n", math_opts->iopts[DIVISION_ALLOWED]);
 
 
   if (verbose)
@@ -1890,32 +2027,32 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
                  "############################################################\n\n");
   }
   fprintf(fp, "\n# Addition operands: augend + addend = sum\n");
-  fprintf(fp, "min_augend = %d\n", math_opts->min_augend);
-  fprintf(fp, "max_augend = %d\n", math_opts->max_augend);
-  fprintf(fp, "min_addend = %d\n", math_opts->min_addend);
-  fprintf(fp, "max_addend = %d\n", math_opts->max_addend);
+  fprintf(fp, "min_augend = %d\n", math_opts->iopts[MIN_AUGEND]);
+  fprintf(fp, "max_augend = %d\n", math_opts->iopts[MAX_AUGEND]);
+  fprintf(fp, "min_addend = %d\n", math_opts->iopts[MIN_ADDEND]);
+  fprintf(fp, "max_addend = %d\n", math_opts->iopts[MAX_ADDEND]);
 
   fprintf(fp, "\n# Subtraction operands: minuend - subtrahend = difference\n");
-  fprintf(fp, "min_minuend = %d\n", math_opts->min_minuend);
-  fprintf(fp, "max_minuend = %d\n", math_opts->max_minuend);
-  fprintf(fp, "min_subtrahend = %d\n", math_opts->min_subtrahend);
-  fprintf(fp, "max_subtrahend = %d\n", math_opts->max_subtrahend);
+  fprintf(fp, "min_minuend = %d\n", math_opts->iopts[MIN_MINUEND]);
+  fprintf(fp, "max_minuend = %d\n", math_opts->iopts[MAX_MINUEND]);
+  fprintf(fp, "min_subtrahend = %d\n", math_opts->iopts[MIN_SUBTRAHEND]);
+  fprintf(fp, "max_subtrahend = %d\n", math_opts->iopts[MAX_SUBTRAHEND]);
 
   fprintf(fp, "\n# Multiplication operands: multiplier * multiplicand = product\n");
-  fprintf(fp, "min_multiplier = %d\n", math_opts->min_multiplier);
-  fprintf(fp, "max_multiplier = %d\n", math_opts->max_multiplier);
-  fprintf(fp, "min_multiplicand = %d\n", math_opts->min_multiplicand);
-  fprintf(fp, "max_multiplicand = %d\n", math_opts->max_multiplicand);
+  fprintf(fp, "min_multiplier = %d\n", math_opts->iopts[MIN_MULTIPLIER]);
+  fprintf(fp, "max_multiplier = %d\n", math_opts->iopts[MAX_MULTIPLIER]);
+  fprintf(fp, "min_multiplicand = %d\n", math_opts->iopts[MIN_MULTIPLICAND]);
+  fprintf(fp, "max_multiplicand = %d\n", math_opts->iopts[MAX_MULTIPLICAND]);
 
   fprintf(fp, "\n# Division operands: dividend/divisor = quotient\n");
-  fprintf(fp, "min_divisor = %d\n",math_opts->min_divisor);
-  fprintf(fp, "max_divisor = %d\n", math_opts->max_divisor);
-  fprintf(fp, "min_quotient = %d\n", math_opts->min_quotient);
-  fprintf(fp, "max_quotient = %d\n", math_opts->max_quotient);
+  fprintf(fp, "min_divisor = %d\n",math_opts->iopts[MIN_DIVISOR]);
+  fprintf(fp, "max_divisor = %d\n", math_opts->iopts[MAX_DIVISOR]);
+  fprintf(fp, "min_quotient = %d\n", math_opts->iopts[MIN_QUOTIENT]);
+  fprintf(fp, "max_quotient = %d\n", math_opts->iopts[MAX_QUOTIENT]);
 
   fprintf(fp, "\n# Typing practice:\n");
-  fprintf(fp, "min_typing_num = %d\n",math_opts->min_typing_num);
-  fprintf(fp, "max_typing_num = %d\n",math_opts->max_typing_num);
+  fprintf(fp, "min_typing_num = %d\n",math_opts->iopts[MIN_TYPING_NUM]);
+  fprintf(fp, "max_typing_num = %d\n",math_opts->iopts[MAX_TYPING_NUM]);
 
   #ifdef MC_DEBUG
   printf("\nLeaving MC_PrintMathOptions()\n");
@@ -2000,52 +2137,53 @@ of this file) */
 /* Resets negative values to zero - used when allow_negatives deselected. */
 void clear_negatives(void)
 {
-  if (math_opts->min_augend < 0)
-    math_opts->min_augend = 0;
-  if (math_opts->max_augend < 0)
-    math_opts->max_augend = 0;
-  if (math_opts->min_addend < 0)
-    math_opts->min_addend = 0;
-  if (math_opts->max_addend < 0)
-    math_opts->max_addend = 0;
+  if (math_opts->iopts[MIN_AUGEND ]< 0)
+    math_opts->iopts[MIN_AUGEND ]= 0;
+  if (math_opts->iopts[MAX_AUGEND ]< 0)
+    math_opts->iopts[MAX_AUGEND ]= 0;
+  if (math_opts->iopts[MIN_ADDEND ]< 0)
+    math_opts->iopts[MIN_ADDEND] = 0;
+  if (math_opts->iopts[MAX_ADDEND] < 0)
+    math_opts->iopts[MAX_ADDEND] = 0;
 
-  if (math_opts->min_minuend < 0)
-    math_opts->min_minuend = 0;
-  if (math_opts->max_minuend < 0)
-    math_opts->max_minuend = 0;
-  if (math_opts->min_subtrahend < 0)
-    math_opts->min_subtrahend = 0;
-  if (math_opts->max_subtrahend < 0)
-    math_opts->max_subtrahend = 0;
+  if (math_opts->iopts[MIN_MINUEND] < 0)
+    math_opts->iopts[MIN_MINUEND] = 0;
+  if (math_opts->iopts[MAX_MINUEND] < 0)
+    math_opts->iopts[MAX_MINUEND] = 0;
+  if (math_opts->iopts[MIN_SUBTRAHEND] < 0)
+    math_opts->iopts[MIN_SUBTRAHEND] = 0;
+  if (math_opts->iopts[MAX_SUBTRAHEND] < 0)
+    math_opts->iopts[MAX_SUBTRAHEND] = 0;
 
-  if (math_opts->min_multiplier < 0)
-    math_opts->min_multiplier = 0;
-  if (math_opts->max_multiplier < 0)
-    math_opts->max_multiplier = 0;
-  if (math_opts->min_multiplicand < 0)
-    math_opts->min_multiplicand = 0;
-  if (math_opts->max_multiplicand < 0)
-    math_opts->max_multiplicand = 0;
+  if (math_opts->iopts[MIN_MULTIPLIER] < 0)
+    math_opts->iopts[MIN_MULTIPLIER] = 0;
+  if (math_opts->iopts[MAX_MULTIPLIER] < 0)
+    math_opts->iopts[MAX_MULTIPLIER] = 0;
+  if (math_opts->iopts[MIN_MULTIPLICAND] < 0)
+    math_opts->iopts[MIN_MULTIPLICAND] = 0;
+  if (math_opts->iopts[MAX_MULTIPLICAND] < 0)
+    math_opts->iopts[MAX_MULTIPLICAND] = 0;
 
-  if (math_opts->min_divisor < 0)
-    math_opts->min_divisor = 0;
-  if (math_opts->max_divisor < 0)
-    math_opts->max_divisor = 0;
-  if (math_opts->min_quotient < 0)
-    math_opts->min_quotient = 0;
-  if (math_opts->max_quotient < 0)
-    math_opts->max_quotient = 0;
+  if (math_opts->iopts[MIN_DIVISOR] < 0)
+    math_opts->iopts[MIN_DIVISOR] = 0;
+  if (math_opts->iopts[MAX_DIVISOR] < 0)
+    math_opts->iopts[MAX_DIVISOR] = 0;
+  if (math_opts->iopts[MIN_QUOTIENT] < 0)
+    math_opts->iopts[MIN_QUOTIENT] = 0;
+  if (math_opts->iopts[MAX_QUOTIENT] < 0)
+    math_opts->iopts[MAX_QUOTIENT] = 0;
 
-  if (math_opts->min_typing_num < 0)
-    math_opts->min_typing_num = 0;
-  if (math_opts->max_typing_num < 0)
-    math_opts->max_typing_num = 0;
+  if (math_opts->iopts[MIN_TYPING_NUM] < 0)
+    math_opts->iopts[MIN_TYPING_NUM] = 0;
+  if (math_opts->iopts[MAX_TYPING_NUM] < 0)
+    math_opts->iopts[MAX_TYPING_NUM] = 0;
 }
 
 /* using parameters from the mission struct, create linked list of "flashcards" */
 /* FIXME should figure out how to proceed correctly if we run out of memory */
 /* FIXME very redundant code - figure out way to iterate through different */
 /* math operations and question formats                                    */
+#ifndef MC_USE_NEWARC
 MC_MathQuestion* generate_list(void)
 {
   MC_MathQuestion* top_of_list = NULL;
@@ -2066,21 +2204,21 @@ MC_MathQuestion* generate_list(void)
   printf("\ngenerating addition questions\n");
   #endif
 
-  if (math_opts->addition_allowed)
+  if (math_opts->iopts[ADDITION_ALLOWED])
   {
     #ifdef MC_DEBUG
     printf("\nAddition problems");
     #endif
-    for (i = math_opts->min_augend; i <= math_opts->max_augend; i++)
+    for (i = math_opts->iopts[MIN_AUGEND]; i <= math_opts->iopts[MAX_AUGEND]; i++)
     {
-      for (j = math_opts->min_addend; j <= math_opts->max_addend; j++)
+      for (j = math_opts->iopts[MIN_ADDEND]; j <= math_opts->iopts[MAX_ADDEND]; j++)
       {
         /* check if max_answer exceeded or if question */
         /* contains undesired negative values:         */
         if (validate_question(i, j, i + j))
         {  
           /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->question_copies; k++)
+          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
           {
             /* put in questions in each selected format: */
 
@@ -2089,7 +2227,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
@@ -2104,7 +2242,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_MIDDLE);
@@ -2119,7 +2257,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
 
               {
@@ -2139,21 +2277,21 @@ MC_MathQuestion* generate_list(void)
   printf("generating subtraction questions\n");
   #endif
 
-  if (math_opts->subtraction_allowed)
+  if (math_opts->iopts[SUBTRACTION_ALLOWED])
   {
     #ifdef MC_DEBUG
     printf("\nSubtraction problems");
     #endif
-    for (i = math_opts->min_minuend; i <= math_opts->max_minuend; i++)
+    for (i = math_opts->iopts[MIN_MINUEND]; i <= math_opts->iopts[MAX_MINUEND]; i++)
     {
-      for (j = math_opts->min_subtrahend; j <= math_opts->max_subtrahend; j++)
+      for (j = math_opts->iopts[MIN_SUBTRAHEND]; j <= math_opts->iopts[MAX_SUBTRAHEND]; j++)
       {
         /* check if max_answer exceeded or if question */
         /* contains undesired negative values:         */
         if (validate_question(i, j, i - j))
         {  
           /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->question_copies; k++)
+          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
           {
             /* put in questions in each selected format: */
 
@@ -2162,7 +2300,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
 
               {
@@ -2178,7 +2316,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
 
               {
@@ -2194,7 +2332,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_FIRST);
@@ -2213,21 +2351,21 @@ MC_MathQuestion* generate_list(void)
   printf("generating multiplication questions\n");
   #endif
 
-  if (math_opts->multiplication_allowed)
+  if (math_opts->iopts[MULTIPLICATION_ALLOWED])
   {
     #ifdef MC_DEBUG
     printf("\nMultiplication problems");
     #endif
-    for (i = math_opts->min_multiplier; i <= math_opts->max_multiplier; i++)
+    for (i = math_opts->iopts[MIN_MULTIPLIER]; i <= math_opts->iopts[MAX_MULTIPLIER]; i++)
     {
-      for (j = math_opts->min_multiplicand; j <= math_opts->max_multiplicand; j++)
+      for (j = math_opts->iopts[MIN_MULTIPLICAND]; j <= math_opts->iopts[MAX_MULTIPLICAND]; j++)
       {
         /* check if max_answer exceeded or if question */
         /* contains undesired negative values:         */
         if (validate_question(i, j, i * j))
         {  
           /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->question_copies; k++)
+          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
           {
             /* put in questions in each selected format: */
 
@@ -2236,7 +2374,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
@@ -2253,7 +2391,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_MIDDLE);
@@ -2270,7 +2408,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_FIRST);
@@ -2289,14 +2427,14 @@ MC_MathQuestion* generate_list(void)
   printf("generating division questions\n");
   #endif
 
-  if (math_opts->division_allowed)
+  if (math_opts->iopts[DIVISION_ALLOWED])
   {
     #ifdef MC_DEBUG
     printf("\nDivision problems");
     #endif
-    for (i = math_opts->min_quotient; i <= math_opts->max_quotient; i++)
+    for (i = math_opts->iopts[MIN_QUOTIENT]; i <= math_opts->iopts[MAX_QUOTIENT]; i++)
     {
-      for (j = math_opts->min_divisor; j <= math_opts->max_divisor; j++)
+      for (j = math_opts->iopts[MIN_DIVISOR]; j <= math_opts->iopts[MAX_DIVISOR]; j++)
       {
         /* check if max_answer exceeded or if question */
         /* contains undesired negative values:         */
@@ -2305,7 +2443,7 @@ MC_MathQuestion* generate_list(void)
             validate_question(i * j, j, i))       /* division problems are generated as multiplication */
         {  
           /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->question_copies; k++)
+          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
           {
             /* put in questions in each selected format: */
 
@@ -2314,7 +2452,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
@@ -2330,7 +2468,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_MIDDLE);
@@ -2345,7 +2483,7 @@ MC_MathQuestion* generate_list(void)
             {
               /* make sure max_questions not exceeded, */
               /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->max_questions)
+              if ((length < math_opts->iopts[MAX_QUESTIONS])
                  && randomly_keep())
               {
                 tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_FIRST);
@@ -2364,23 +2502,23 @@ MC_MathQuestion* generate_list(void)
   printf("generating typing practice questions\n");
   #endif
 
-  if (math_opts->typing_practice_allowed)
+  if (math_opts->iopts[TYPING_PRACTICE_ALLOWED])
   {
     #ifdef MC_DEBUG
     printf("\nTyping problems");
     #endif
-    for (i = math_opts->min_typing_num; i <= math_opts->max_typing_num; i++)
+    for (i = math_opts->iopts[MIN_TYPING_NUM]; i <= math_opts->iopts[MAX_TYPING_NUM]; i++)
     {
       /* check if max_answer exceeded or if question */
       /* contains undesired negative values:         */
       if (validate_question(i, i, i))
       {  
         /* put in the desired number of copies: */
-        for (k = 0; k < math_opts->question_copies; k++)
+        for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
         {
           /* make sure max_questions not exceeded, */
           /* also check if question being randomly kept or discarded: */
-          if ((length < math_opts->max_questions)
+          if ((length < math_opts->iopts[MAX_QUESTIONS])
                && randomly_keep())
           {
             tmp_ptr = create_node(i, i, MC_OPER_TYPING_PRACTICE, i, MC_FORMAT_ANS_LAST);
@@ -2398,7 +2536,7 @@ MC_MathQuestion* generate_list(void)
   #endif
 
   /*  now shuffle list if desired: */
-  if (math_opts->randomize)
+  if (math_opts->iopts[RANDOMIZE])
   {
     if(!randomize_list(&top_of_list))
     { 
@@ -2415,7 +2553,7 @@ MC_MathQuestion* generate_list(void)
 
   return top_of_list;
 }
-
+#endif
 
 /* this is used by generate_list to see if a possible question */
 /* meets criteria to be added to the list or not:              */
@@ -2423,14 +2561,14 @@ int validate_question(int n1, int n2, int n3)
 {
   /* make sure none of values exceeds max_answer using absolute */
   /* value comparison:                                          */
-  if (abs_value(n1) > abs_value(math_opts->max_answer)
-   || abs_value(n2) > abs_value(math_opts->max_answer)
-   || abs_value(n3) > abs_value(math_opts->max_answer))
+  if (abs_value(n1) > abs_value(math_opts->iopts[MAX_ANSWER])
+   || abs_value(n2) > abs_value(math_opts->iopts[MAX_ANSWER])
+   || abs_value(n3) > abs_value(math_opts->iopts[MAX_ANSWER]))
   {
     return 0;
   }
   /* make sure none of values are negative if negatives not allowed: */
-  if (!math_opts->allow_negatives)
+  if (!math_opts->iopts[ALLOW_NEGATIVES])
   {
     if (n1 < 0 || n2 < 0 || n3 < 0)
     {
@@ -2452,98 +2590,100 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
     fprintf(stderr, "create_node() - malloc() failed!\n");
     return NULL;
   }
-
+/*
   ptr->card.num1 = n1;
   ptr->card.num2 = n2;  
   ptr->card.num3 = ans;
   ptr->card.operation = op;
   ptr->card.format = f;
+*/
+  ptr->card = allocate_flashcard();
   ptr->next = NULL;
   ptr->previous = NULL;
 
 
-  /* creating formula_string  and answer_string is a little more work: */
-  {
-    char oper_char;
-    /* find out correct operation character */
-    switch (op)
-    {
-      case MC_OPER_ADD:
-      {
-        oper_char = '+';
-        break;
-      }
-      case MC_OPER_SUB:
-      {
-        oper_char = '-';
-        break;
-      }
-      case MC_OPER_MULT:
-      {
-        oper_char = '*';
-        break;
-      }
-      case MC_OPER_DIV:
-      {
-        oper_char = '/';
-        break; 
-      }
-      case MC_OPER_TYPING_PRACTICE:
-      {
-        snprintf(ptr->card.formula_string, MC_FORMULA_LEN, "%d",ptr->card.num1);
-        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
-        return ptr;  /* Don't need to look at formats for this case. */
-      }
-      default:
-      {
-        fprintf(stderr, "\nIn create_node(): invalid math operation\n");
-        free(ptr);
-        ptr = 0;
-
-        return 0;
-      }
-    }
-
-    switch (f) /* f is format argument */
-    {
-      case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
-      {
-        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c %d = ?",
-                 ptr->card.num1,
-                 oper_char,
-                 ptr->card.num2);
-        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num3);
-       break;
-      }
-      case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
-      {
-        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c ? = %d",
-                 ptr->card.num1,
-	         oper_char,
-	         ptr->card.num3);
-        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num2);
-        break;
-      }
-      case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
-      {
-        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"? %c %d = %d",
-                 oper_char,
-                 ptr->card.num2,
-                 ptr->card.num3);
-        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
-        break;
-      }
-      default:  /* should not get to here if MathCards behaves correctly */
-      {
-        fprintf(stderr, "\ncreate_node() - invalid question format\n");
-        free(ptr);
-        ptr = 0;
-
- 
-        return 0;
-      }
-    }
-  }
+//  /* creating formula_string  and answer_string is a little more work: */
+//  {
+//    char oper_char;
+//    /* find out correct operation character */
+//    switch (op)
+//    {
+//      case MC_OPER_ADD:
+//      {
+//        oper_char = '+';
+//        break;
+//      }
+//      case MC_OPER_SUB:
+//      {
+//        oper_char = '-';
+//        break;
+//      }
+//      case MC_OPER_MULT:
+//      {
+//        oper_char = '*';
+//        break;
+//      }
+//      case MC_OPER_DIV:
+//      {
+//        oper_char = '/';
+//        break; 
+//      }
+//      case MC_OPER_TYPING_PRACTICE:
+//      {
+//        snprintf(ptr->card.formula_string, MC_FORMULA_LEN, "%d",ptr->card.num1);
+//        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
+//        return ptr;  /* Don't need to look at formats for this case. */
+//      }
+//      default:
+//      {
+//        fprintf(stderr, "\nIn create_node(): invalid math operation\n");
+//        free(ptr);
+//        ptr = 0;
+//
+//        return 0;
+//      }
+//    }
+//
+//    switch (f) /* f is format argument */
+//    {
+//      case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
+//      {
+//        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c %d = ?",
+//                 ptr->card.num1,
+//                 oper_char,
+//                 ptr->card.num2);
+//        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num3);
+//       break;
+//      }
+//      case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
+//      {
+//        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"%d %c ? = %d",
+//                 ptr->card.num1,
+//	         oper_char,
+//	         ptr->card.num3);
+//        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num2);
+//        break;
+//      }
+//      case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
+//      {
+//        snprintf(ptr->card.formula_string, MC_FORMULA_LEN,"? %c %d = %d",
+//                 oper_char,
+//                 ptr->card.num2,
+//                 ptr->card.num3);
+//        snprintf(ptr->card.answer_string, MC_ANSWER_LEN, "%d",ptr->card.num1);
+//        break;
+//      }
+//      default:  /* should not get to here if MathCards behaves correctly */
+//      {
+//        fprintf(stderr, "\ncreate_node() - invalid question format\n");
+//        free(ptr);
+//        ptr = 0;
+//
+// 
+//        return 0;
+//      }
+//    }
+//  }
 
   /* ptr should now point to a properly constructed node: */
   return ptr;
@@ -2555,21 +2695,17 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
 /* FIXME should properly return newly allocated list if more than one node DSB */
 MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
 {
-  return create_node(other->card.num1,
-                     other->card.num2,
-                     other->card.operation,
-                     other->card.num3,
-                     other->card.format);
+  MC_MathQuestion* ret = create_node();
+  copy_card(&other->card, &ret->card);
+  return ret;
 }
 #endif
 
 MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
 {
-  return create_node(flashcard->num1,
-                     flashcard->num2,
-                     flashcard->operation,
-                     flashcard->num3,
-                     flashcard->format);
+  MC_MathQuestion* ret = allocate_node();
+  copy_card(flashcard, &ret->card);
+  return ret;
 }
 
 #ifdef MC_DEBUG
@@ -2580,12 +2716,8 @@ MC_FlashCard* create_card_from_node(MC_MathQuestion* node)
   MC_FlashCard* fc;
   if (!node)
     return 0;
-  fc = malloc(sizeof(MC_FlashCard));
-  fc->num1 = node->card.num1;
-  fc->num2 = node->card.num2;
-  fc->num3 = node->card.num3;
-  fc->operation = node->card.operation;
-  fc->format = node->card.format;
+  fc = create_flashcard();
+  copy_card(&node->card, fc);
   return fc;
 }
 #endif
@@ -2606,17 +2738,8 @@ int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
     return 0;
   }  
 
-  copy->card.num1 = original->card.num1;
-  copy->card.num2 = original->card.num2;
-  copy->card.num3 = original->card.num3;
-  copy->card.operation = original->card.operation;
-  copy->card.format = original->card.format;
-  strncpy(copy->card.formula_string,
-          original->card.formula_string,
-          MC_FORMULA_LEN);
-  strncpy(copy->card.answer_string,
-          original->card.answer_string,
-          MC_ANSWER_LEN);
+  copy_card(&original->card, &copy->card);
+ 
   copy->next = original->next;
   copy->previous = original->previous;
   copy->randomizer = original->randomizer;
@@ -2917,10 +3040,7 @@ int compare_node(MC_MathQuestion* first, MC_MathQuestion* other)
 {
   if (!first || !other)
     return 0;
-  if (first->card.num1 == other->card.num1
-   && first->card.num2 == other->card.num2
-   && first->card.operation == other->card.operation
-   && first->card.format == other->card.format)
+  if (compare_card(&first->card, &first->card) ) //cards are equal
     return 1;
   else
     return 0;
@@ -2964,7 +3084,7 @@ int sane_value(int i)
   
   if (i < 0 
    && math_opts
-   && !math_opts->allow_negatives)
+   && !math_opts->iopts[ALLOW_NEGATIVES])
   {
     i = 0;
   }
@@ -3024,16 +3144,26 @@ Experimental functions for new mathcards architecture
 ****************************************************/
 
 /* allocate space for an MC_Flashcard */
-MC_FlashCard create_flashcard(void)
+MC_FlashCard allocate_flashcard(void)
 {
-  MC_FlashCard ret;
+  MC_FlashCard ret;  
   ret.formula_string = malloc(max_formula_size * sizeof(char));
   ret.answer_string = malloc(max_answer_size * sizeof(char));
+  if (!ret.formula_string || !ret.answer_string)
+    {
+    free(ret.formula_string);
+    free(ret.answer_string);
+    printf("Couldn't allocate space for a new flashcard!\n");
+    ret = DEFAULT_CARD;
+    }
+  return ret;
 }
-void free_flashcard(MC_FlashCard* fc)
+void free_flashcard(MC_FlashCard fc)
 {
-  free(fc->formula_string);
-  free(fc->answer_string);
+  if (fc.formula_string)
+    free(fc.formula_string);
+  if (fc.answer_string)
+    free(fc.answer_string);
 }
 
 void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
@@ -3042,6 +3172,54 @@ void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
   strncpy(src->answer_string, dest->answer_string, max_answer_size);
   dest->answer = src->answer;
 }
+
+void free_node(MC_MathQuestion* mq) //no, not that freenode.
+{
+  if (!mq)
+    return;
+  free_flashcard(mq->card);
+  free(mq);
+}
+
+MC_MathQuestion* allocate_node()
+{
+  MC_MathQuestion* ret = NULL;
+  ret = malloc(sizeof(MC_MathQuestion) );
+  if (!ret)
+    printf("Could not allocate space for a new node!\n");
+  else  
+    ret->card = allocate_flashcard();
+  return ret;
+}
+
+MC_FlashCard generate_random_flashcard()
+{
+  MC_FlashCard ret = allocate_flashcard();
+  
+  return ret;
+}
+
+MC_MathQuestion* generate_list(void)
+{
+  MC_MathQuestion* list = NULL;
+  
+  return list;
+}
+
+static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
+{
+  if (strncmp(a->formula_string, b->formula_string, max_formula_size) )
+    return 1;
+  if (strncmp(a->answer_string, b->answer_string, max_answer_size) )
+    return 1;
+  if (a->answer != b->answer);
+    return 1;
+    
+  return 0; //the cards are identical
+}
+
+//Begin public functions
+
 unsigned int MC_MapTextToIndex(const char* text)
 {
   int i;
@@ -3059,10 +3237,10 @@ void MC_SetOpt(unsigned int index, int val)
     printf("Invalid option index: %du\n", index);
     return;
   }
-  opts.iopts[index] = val;
+  math_opts->iopts[index] = val;
 }
 
-void MC_SetOpt(const char* param, int val)
+void MC_SetOp(const char* param, int val)
 {
   MC_SetOpt(MC_MapTextToIndex(param), val);
 }
@@ -3074,32 +3252,42 @@ int MC_GetOpt(unsigned int index)
     printf("Invalid option index: %du\n", index);
     return MC_MATH_OPTS_INVALID;
   }  
-  if (!opts)
+  if (!math_opts)
   {
     printf("Invalid options list!\n");
     return MC_MATH_OPTS_INVALID;
   }
-  return opts->iopts[index];
+  return math_opts->iopts[index];
 }
 
-int MC_GetOpt(const char* param)
+int MC_GetOp(const char* param)
 {
   return MC_GetOpt(MC_MapTextToIndex(param) );
 }
 
 void MC_SetFractionToKeep(float val)
 {
-  opts->fraction_to_keep = val;
+  math_opts->fraction_to_keep = val;
 }
 
 float MC_GetFractionToKeep(void)
 {
-  return opts->fraction_to_keep;
+  return math_opts->fraction_to_keep;
 }
 
 int MC_VerifyOptionListSane(void)
 {
   return MC_OPTION_TEXT[NOPTS] == "END_OF_OPTS";
+}
+
+int MC_MaxFormulaSize(void)
+{
+  return max_formula_size;
+}
+
+int MC_MaxAnswerSize(void)
+{
+  return max_answer_size;
 }
 
 #endif

@@ -28,13 +28,13 @@
 #define MC_USE_NEWARC
 
 /* type of math operation used in a given question */
-enum {
-  MC_OPER_ADD,
-  MC_OPER_SUB,
-  MC_OPER_MULT,
-  MC_OPER_DIV,
-  MC_OPER_TYPING_PRACTICE,
-  MC_NUM_OPERS
+enum MC_Operation {
+  MC_OPER_ADD = '+',
+  MC_OPER_SUB = '-',
+  MC_OPER_MULT = '*',
+  MC_OPER_DIV = '/',
+  MC_OPER_TYPING_PRACTICE = 'P',
+  MC_NUM_OPERS = 5
 };
 
 /* math question formats: */
@@ -48,11 +48,12 @@ enum {
 /*
 Indices for the various integer options. These are NOT the actual values!
 Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
-Creating additional [integral] options is now centralized--this should be 
-the only place where it's necessary to add code. (Besides actually using 
-the new options!)
+Creating additional [integral] options is now centralized--it should only
+be necessary to add to this list, the list of text, and the list of 
+defaults. (Besides actually using the new options!)
 */
 
+#define NOT_VALID_OPTION          -1
 #define PLAY_THROUGH_LIST         0  /* play until all questions answered correctly */
 #define REPEAT_WRONGS             1  /* reuse incorrectly answered questions or not */
 #define COPIES_REPEATED_WRONGS    2  /* how many copies of an incorrectly answered question to re-insert*/
@@ -112,132 +113,15 @@ the new options!)
 
 #define NOPTS                     48 
 
-const char const** MC_OPTION_TEXT = {
-"PLAY_THROUGH_LIST",
-"REPEAT_WRONGS",
-"COPIES_REPEATED_WRONGS",
-"ALLOW_NEGATIVES",
-"MAX_ANSWER",
-"MAX_QUESTIONS",
-"QUESTION_COPIES",
-"MAX_FORMULA_NUMS",
-"MIN_FORMULA_NUMS",
-
-"FORMAT_ANSWER_LAST",
-"FORMAT_ANSWER_FIRST",
-"FORMAT_ANSWER_MIDDLE",
-"FORMAT_ADD_ANSWER_LAST",
-"FORMAT_ADD_ANSWER_FIRST",
-"FORMAT_ADD_ANSWER_MIDDLE",
-"FORMAT_SUB_ANSWER_LAST",
-"FORMAT_SUB_ANSWER_FIRST",
-"FORMAT_SUB_ANSWER_MIDDLE",
-"FORMAT_MULT_ANSWER_LAST",
-"FORMAT_MULT_ANSWER_FIRST",
-"FORMAT_MULT_ANSWER_MIDDLE",
-"FORMAT_DIV_ANSWER_LAST",
-"FORMAT_DIV_ANSWER_FIRST",
-"FORMAT_DIV_ANSWER_MIDDLE",
-
-"ADDITION_ALLOWED",
-"SUBTRACTION_ALLOWED",
-"MULTIPLICATION_ALLOWED",
-"DIVISION_ALLOWED",
-"TYPING_PRACTICE_ALLOWED",
-
-"MIN_AUGEND",
-"MAX_AUGEND",
-"MIN_ADDEND",
-"MAX_ADDEND",
-
-"MIN_MINUEND",
-"MAX_MINUEND",
-"MIN_SUBTRAHEND",
-"MAX_SUBTRAHEND",
- 
-"MIN_MULTIPLIER",
-"MAX_MULTIPLIER",
-"MIN_MULTIPLICAND",
-"MAX_MULTIPLICAND",
-
-"MIN_DIVISOR",
-"MAX_DIVISOR",
-"MIN_QUOTIENT",
-"MAX_QUOTIENT",
-
-"MIN_TYPING_NUM",
-"MAX_TYPING_NUM",
-
-"RANDOMIZE",
-
-"END_OF_OPTS"
-};
-  
+extern const char* const MC_OPTION_TEXT[];
+extern const int MC_DEFAULTS[];  
 /* default values for math_options */
 #define MC_GLOBAL_MAX 999          /* This is the largest absolute value that */
                                    /* can be entered for math question values.*/
 #define MC_MATH_OPTS_INVALID -9999 /* Return value for accessor functions     */
                                    /* if math_opts not valid                  */
 #define DEFAULT_FRACTION_TO_KEEP 1
-                                          
-const int* MC_DEFAULTS = {
-  1,    //PLAY_THROUGH_LIST         
-  1,    //REPEAT_WRONGS             
-  1,    //COPIES_REPEATED_WRONGS    
-  0,    //ALLOW_NEGATIVES           
-  999,  //MAX_ANSWER                
-  5000, //MAX_QUESTIONS             
-  1,    //QUESTION_COPIES           
-  2,    //MAX_FORMULA_NUMS          
-  5,    //MIN_FORMULA_NUMS          
-        //                          
-  1,    //FORMAT_ANSWER_LAST        
-  0,    //FORMAT_ANSWER_FIRST       
-  0,    //FORMAT_ANSWER_MIDDLE      
-  1,    //FORMAT_ADD_ANSWER_LAST    
-  0,    //FORMAT_ADD_ANSWER_FIRST   
-  0,    //FORMAT_ADD_ANSWER_MIDDLE  
-  1,    //FORMAT_SUB_ANSWER_LAST    
-  0,    //FORMAT_SUB_ANSWER_FIRST   
-  0,    //FORMAT_SUB_ANSWER_MIDDLE  
-  1,    //FORMAT_MULT_ANSWER_LAST   
-  0,    //FORMAT_MULT_ANSWER_FIRST  
-  0,    //FORMAT_MULT_ANSWER_MIDDLE 
-  1,    //FORMAT_DIV_ANSWER_LAST    
-  0,    //FORMAT_DIV_ANSWER_FIRST   
-  0,    //FORMAT_DIV_ANSWER_MIDDLE  
-        //                          
-  1,    //ADDITION_ALLOWED          
-  1,    //SUBTRACTION_ALLOWED       
-  1,    //MULTIPLICATION_ALLOWED    
-  1,    //DIVISION_ALLOWED          
-  0,    //TYPING_PRACTICE_ALLOWED   
-        //                          
-  0,    //MIN_AUGEND                
-  12,   //MAX_AUGEND                
-  0,    //MIN_ADDEND                
-  12,   //MAX_ADDEND                
-        //                          
-  0,    //MIN_MINUEND               
-  12,   //MAX_MINUEND               
-  0,    //MIN_SUBTRAHEND            
-  12,   //MAX_SUBTRAHEND            
-        //                          
-  0,    //MIN_MULTIPLIER            
-  12,   //MAX_MULTIPLIER            
-  0,    //MIN_MULTIPLICAND          
-  12,   //MAX_MULTIPLICAND          
-        //                          
-  0,    //MIN_DIVISOR                                          
-  12,   //MAX_DIVISOR               
-  0,    //MIN_QUOTIENT              
-  12,   //MAX_QUOTIENT              
-        //                          
-  0,    //MIN_TYPING_NUM            
-  12,   //MAX_TYPING_NUM            
-        //                          
-  1     //RANDOMIZE                 
-};                      
+
 
 #ifndef MC_USE_NEWARC
 /* This struct contains all options that determine what */
@@ -325,6 +209,7 @@ typedef struct _MC_FlashCard {
   char* formula_string;
   char* answer_string;
   int answer;
+  int difficulty;
 } MC_FlashCard;
 #endif
                                                                   
@@ -581,5 +466,7 @@ int MC_GetOp(const char* param);
 void MC_SetFractionToKeep(float val);
 float MC_GetFractionToKeep(void);
 int MC_VerifyOptionListSane(void);
+int MC_MaxFormulaSize(void);
+int MC_MaxAnswerSize(void);
 
 #endif

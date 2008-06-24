@@ -361,24 +361,24 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
     {
-      MC_SetAllowNegatives(1);
+      MC_SetOpt(ALLOW_NEGATIVES, 1);
     }
     else if (strcmp(argv[i], "--playthroughlist") == 0 ||
              strcmp(argv[i], "-l") == 0)
     {
-      MC_SetPlayThroughList(1);
+      MC_SetOpt(PLAY_THROUGH_LIST, 1);
     }
     else if (strcmp(argv[i], "--answersfirst") == 0)
     {
-      MC_SetFormatAnswerLast(0);
-      MC_SetFormatAnswerFirst(1);
-      MC_SetFormatAnswerMiddle(0);
+      MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+      MC_SetOpt(FORMAT_ANSWER_FIRST, 1);
+      MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
     }
     else if (strcmp(argv[i], "--answersmiddle") == 0)
     {
-      MC_SetFormatAnswerLast(0);
-      MC_SetFormatAnswerFirst(0);
-      MC_SetFormatAnswerMiddle(1);
+      MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+      MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
+      MC_SetOpt(FORMAT_ANSWER_MIDDLE, 1);
     }
     else if (strcmp(argv[i], "--speed") == 0 ||
 	     strcmp(argv[i], "-s") == 0)

@@ -44,7 +44,7 @@
 #include "SDL_ttf.h"
 
 #ifndef MACOSX
-#include "config.h"
+//#include "config.h"
 #endif
 
 #include "tuxmath.h"

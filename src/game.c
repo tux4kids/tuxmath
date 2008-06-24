@@ -42,8 +42,8 @@
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
 
-#define CITY_EXPL_START 3 * 5  /* Must be mult. of 5 (number of expl frames) */
-#define ANIM_FRAME_START 4 * 2 /* Must be mult. of 2 (number of tux frames) */
+#define CITY_EXPL_START (3 * 5)  /* Must be mult. of 5 (number of expl frames) */
+#define ANIM_FRAME_START (4 * 2) /* Must be mult. of 2 (number of tux frames) */
 #define GAMEOVER_COUNTER_START 40
 #define LEVEL_START_WAIT_START 20
 #define LASER_START 5
@@ -185,7 +185,7 @@ static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
 static void free_on_exit(void);
 
-static void help_add_comet(int a,int oper,int b,int c);
+static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
 
 static void game_recalc_positions(void);
@@ -713,7 +713,7 @@ void game_handle_help(void)
 
   // Bring in a comet
   speed = 2;
-  help_add_comet(2,MC_OPER_ADD,1,3);
+  help_add_comet("2 + 1 = ?", "3");
   help_controls.laser_enabled = 1;
   level_start_wait = 0;
 
@@ -756,7 +756,7 @@ void game_handle_help(void)
     return;
   game_clear_message(&s5);
 
-  help_add_comet(3,MC_OPER_MULT,3,9);
+  help_add_comet("3 * 3 = ?", "9");
   comets[0].y = 2*(screen->h)/3;   // start it low down
   while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   if (quit_help)
@@ -781,7 +781,7 @@ void game_handle_help(void)
     return;
   game_clear_message(&s3);
 
-  help_add_comet(56,MC_OPER_DIV,8,7);
+  help_add_comet("56 / 8 = ?", "7");
   comets[0].y = 2*(screen->h)/3;   // start it low down
   while (comets[0].alive && !(quit_help = help_renderframe_exit()));
   if (quit_help)
@@ -794,7 +794,7 @@ void game_handle_help(void)
   help_controls.laser_enabled = 1;
   game_set_message(&s1,_("You can fix the igloos"),left_edge,100);
   game_set_message(&s2,_("by stopping bonus comets."),left_edge,135);
-  help_add_comet(2,MC_OPER_ADD,2,4);
+  help_add_comet("2 + 2 = ?", "4");
   comets[0].bonus = 1;
   frame_start = frame;
   while (comets[0].alive && (frame-frame_start < 50) && !(quit_help = help_renderframe_exit()));
@@ -866,29 +866,30 @@ int help_renderframe_exit(void)
   return (game_status != GAME_IN_PROGRESS);
 }
 
-void help_add_comet(int a,int oper,int b,int c)
+/* explicitly create a comet with a hardcoded problem */
+void help_add_comet(const char* formula_str, const char* ans_str)
 {
-  char probstr[MC_FORMULA_LEN];
-  char ansstr[MC_ANSWER_LEN];
+//  char probstr[MC_FORMULA_LEN];
+//  char ansstr[MC_ANSWER_LEN];
 
   comets[0].alive = 1;
   comets[0].expl = 0;
-  comets[0].answer = c;
+  comets[0].answer = atoi(ans_str);
   num_comets_alive = 1;
   comets[0].city = 0;
   comets[0].x = cities[0].x;
   comets[0].y = 0;
   comets[0].zapped = 0;
   comets[0].bonus = 0;
-  comets[0].flashcard.num1 = a;
-  comets[0].flashcard.num2 = b;
-  comets[0].flashcard.num3 = c;
-  comets[0].flashcard.operation = oper;
-  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
-  snprintf(probstr,MC_FORMULA_LEN,"%d %c %d = ?",a,operchars[oper],b);
-  strncpy(comets[0].flashcard.formula_string,probstr,MC_FORMULA_LEN);
-  snprintf(ansstr,MC_ANSWER_LEN,"%d",c);
-  strncpy(comets[0].flashcard.answer_string,ansstr,MC_ANSWER_LEN);
+//  comets[0].flashcard.num1 = a;
+//  comets[0].flashcard.num2 = b;
+//  comets[0].flashcard.num3 = c;
+//  comets[0].flashcard.operation = oper;
+//  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
+//  snprintf(probstr,MC_FORMULA_LEN,"%d %c %d = ?",a,operchars[oper],b);
+  strncpy(comets[0].flashcard.formula_string,formula_str,MC_MaxFormulaSize() );
+//  snprintf(ansstr,MC_ANSWER_LEN,"%d",c);
+  strncpy(comets[0].flashcard.answer_string,ans_str,MC_MaxAnswerSize() );
 }
 
 void game_set_message(game_message *msg,char *txt,int x,int y)
@@ -1137,7 +1138,8 @@ void game_handle_answer(void)
 
     /* [ add = 25, sub = 50, mul = 75, div = 100 ] */
     /* [ the higher the better ] */
-    add_score(((25 * (comets[lowest].flashcard.operation + 1)) *
+    /* FIXME looks like it might score a bit differently based on screen mode? */
+    add_score(((25 * (comets[lowest].flashcard.difficulty + 1)) *
               (screen->h - comets[lowest].y + 1)) /
 	       screen->h);
   }
@@ -1739,7 +1741,7 @@ void game_draw(void)
   {
     /* pick image to draw: */
     int keypad_image;
-    if (MC_AllowNegatives())
+    if (MC_GetOpt(ALLOW_NEGATIVES) )
     {
       /* draw regular keypad */
       keypad_image = IMG_KEYPAD;
@@ -2060,7 +2062,7 @@ void game_draw_misc(void)
 
   /* If we are playing through a defined list of questions */
   /* without "recycling", display number of remaining questions: */
-  if (MC_PlayThroughList())
+  if (MC_GetOpt(PLAY_THROUGH_LIST) )
   {
     draw_question_counter();
   }
@@ -2456,31 +2458,32 @@ int add_comet(void)
 
   /* If we make it to here, create a new comet!                  */
 
-  /* The answer may be num1, num2, or num3, depending on format. */
-  switch (comets[found].flashcard.format)
-  {
-    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
-    {
-      comets[found].answer = comets[found].flashcard.num3;
-      break;
-    }
-    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
-    {
-      comets[found].answer = comets[found].flashcard.num2;
-      break;
-    }
-    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
-    {
-      comets[found].answer = comets[found].flashcard.num1;
-      break;
-    }
-    default:  /* should not get to here if MathCards behaves correctly */
-    {
-      fprintf(stderr, "\nadd_comet() - invalid question format");
-      return 0;
-    }
-  }
-
+  comets[found].answer = comets[found].flashcard.answer;
+//  /* The answer may be num1, num2, or num3, depending on format. */
+//  switch (comets[found].flashcard.format)
+//  {
+//    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
+//    {
+//      comets[found].answer = comets[found].flashcard.num3;
+//      break;
+//    }
+//    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
+//    {
+//      comets[found].answer = comets[found].flashcard.num2;
+//      break;
+//    }
+//    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
+//    {
+//      comets[found].answer = comets[found].flashcard.num1;
+//      break;
+//    }
+//    default:  /* should not get to here if MathCards behaves correctly */
+//    {
+//      fprintf(stderr, "\nadd_comet() - invalid question format");
+//      return 0;
+//    }
+//  }
+  
 
   comets[found].alive = 1;
   num_comets_alive++;
@@ -2912,7 +2915,7 @@ void draw_led_console(void)
 
   /* begin drawing so as to center display depending on whether minus */
   /* sign needed (4 digit slots) or not (3 digit slots) DSB */
-  if (MC_AllowNegatives())
+  if (MC_GetOpt(ALLOW_NEGATIVES) )
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
   else
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
@@ -2922,7 +2925,7 @@ void draw_led_console(void)
   {
     if (-1 == i)
     {
-      if (MC_AllowNegatives())
+      if (MC_GetOpt(ALLOW_NEGATIVES))
       {
         if (neg_answer_picked)
           src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
@@ -2993,7 +2996,7 @@ void game_mouse_event(SDL_Event event)
   /* make sure keypad image is valid and has non-zero dimensions: */
   /* FIXME maybe this checking should be done once at the start */
   /* of game() rather than with every mouse click */
-  if (MC_AllowNegatives())
+  if (MC_GetOpt(ALLOW_NEGATIVES))
   {
     if (!images[IMG_KEYPAD])
       return;
@@ -3231,14 +3234,14 @@ void game_key_event(SDLKey key)
   }
   /* support for negative answer input DSB */
   else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS)
-        && MC_AllowNegatives())  /* do nothing unless neg answers allowed */
+        && MC_GetOpt(ALLOW_NEGATIVES) )  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer negative: */
     neg_answer_picked = 1;
     tux_pressing = 1;
   }
   else if ((key == SDLK_PLUS || key == SDLK_KP_PLUS)
-         && MC_AllowNegatives())  /* do nothing unless neg answers allowed */
+         && MC_GetOpt(ALLOW_NEGATIVES) )  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer positive: */
     neg_answer_picked = 0;
