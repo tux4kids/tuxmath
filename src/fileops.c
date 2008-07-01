@@ -161,8 +161,8 @@ static char *remove_slash(char *path)
 */
 static HRESULT ReadRegistry(const char *key, const char *option, char *value, int size)
 {
-  LONG	res;
-  HKEY	hKey = NULL;
+  LONG        res;
+  HKEY        hKey = NULL;
 
   res = RegOpenKeyEx(HKEY_CURRENT_USER, key, 0, KEY_READ, &hKey);
   if (res != ERROR_SUCCESS)
@@ -1189,12 +1189,11 @@ int read_config_file(FILE *fp, int file_type)
     /* terminate string here: */
     *value_end = 0;
 
-    #ifdef TUXMATH_DEBUG
-    printf("parameter = '%s'\t, length = %zu\n", parameter, strlen(parameter));
-    printf("value = '%s'\t, length = %zu\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
-    #endif
+    tmdprintf("parameter = '%s'\t, length = %zu\n", parameter, strlen(parameter));
+    tmdprintf("value = '%s'\t, length = %zu\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
+    
     /* Now ready to handle each name/value pair! */
-
+    
     /* Set general game_options struct (see tuxmath.h): */ 
     if(0 == strcasecmp(parameter, "per_user_config"))
     {
@@ -1212,14 +1211,14 @@ int read_config_file(FILE *fp, int file_type)
       /* Only let administrator change this setting */
       if (file_type == GLOBAL_CONFIG_FILE && user_data_dir == NULL)
       {
-	/* Check to see whether the specified homedir exists */
-	dir = opendir(value);
-	if (dir == NULL)
-	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
-	else {
-	  set_user_data_dir(value);  /* copy the homedir setting */
-	  closedir(dir);
-	}
+        /* Check to see whether the specified homedir exists */
+        dir = opendir(value);
+        if (dir == NULL)
+          fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
+        else {
+          set_user_data_dir(value);  /* copy the homedir setting */
+          closedir(dir);
+        }
       }
     }
 
@@ -1689,8 +1688,8 @@ int read_config_file(FILE *fp, int file_type)
       MC_SetTypeMax(atoi(value));
     }
 
-    else
     #endif
+    else
     {   
       MC_SetOp(parameter, atoi(value) ); //automatically handles bad parameters
     }
@@ -2402,7 +2401,7 @@ int write_postgame_summary(void)
     fp = fopen(filepath1, "a"); /* "a" means append to end of file */
     if (fp) {
       if (write_column_names) {
-	fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Number answered\",\"Percent correct\",\"Time per question\"\n");
+        fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Number answered\",\"Percent correct\",\"Time per question\"\n");
       }
       mission_name = strdup(last_config_file_name);
       fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), total_answered, ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
@@ -2871,7 +2870,7 @@ int load_sound_data(void)
       if (sounds[i] == NULL)
       {
         fprintf(stderr,
-	        "\nError: I couldn't load a sound file:\n"
+                "\nError: I couldn't load a sound file:\n"
                 "%s\n"
                 "The Simple DirectMedia error that occured was:\n"
                 "%s\n\n", sound_filenames[i], SDL_GetError());
@@ -2897,7 +2896,7 @@ int load_sound_data(void)
       if (musics[i] == NULL)
       {
         fprintf(stderr,
-	        "\nError: I couldn't load a music file:\n"
+                "\nError: I couldn't load a music file:\n"
                 "%s\n"
                 "The Simple DirectMedia error that occured was:\n"
                 "%s\n\n", music_filenames[i], SDL_GetError());
@@ -2906,12 +2905,12 @@ int load_sound_data(void)
       
       if (i == NUM_MUSICS - 1)
       {
-	dest.x = 0;
-	dest.y = (screen->h) - 10;
-	dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
-	dest.h = 10;
-	
-	SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
+        dest.x = 0;
+        dest.y = (screen->h) - 10;
+        dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
+        dest.h = 10;
+        
+        SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
         SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
       }
     }

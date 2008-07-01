@@ -61,12 +61,6 @@
 const int SND_IGLOO_SIZZLE = SND_SIZZLE;
 const int IMG_CITY_NONE = 0;
 
-char operchars[4] = {
-   "+-*/"
-};
-
-
-
 typedef struct comet_type {
   int alive;
   int expl;
@@ -118,7 +112,8 @@ static int comet_feedback_number;
 static float comet_feedback_height;
 static float danger_level;
 
-static int digits[3];
+#define MAX_DIGITS 3 //should really be determined by max_answer_size
+static int digits[MAX_DIGITS];
 
 static comet_type* comets = NULL;
 static city_type* cities = NULL;
@@ -209,7 +204,7 @@ int game(void)
   //see if the option matches the actual screen
   if (Opts_Fullscreen() == !(screen->flags & SDL_FULLSCREEN) )
     {
-    SwitchScreenMode();
+    ;//SwitchScreenMode();
     }
 
 
@@ -275,7 +270,7 @@ int game(void)
     {
       if (!Mix_PlayingMusic())
       {
-	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+            Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
       }
     }
 #endif
@@ -289,7 +284,7 @@ int game(void)
       //  or you leave tuxmath running for 49 days...)
       now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
       if (now_time > MS_PER_FRAME)
-	now_time = MS_PER_FRAME;
+        now_time = MS_PER_FRAME;
       SDL_Delay(now_time);
     }
   }
@@ -378,7 +373,7 @@ int game(void)
         now_time = SDL_GetTicks();
 
         if (now_time < last_time + MS_PER_FRAME)
-	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+          SDL_Delay(last_time + MS_PER_FRAME - now_time);
       }
       while (looping);
       break;
@@ -422,7 +417,7 @@ int game(void)
         now_time = SDL_GetTicks();
 
         if (now_time < last_time + MS_PER_FRAME)
-	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+          SDL_Delay(last_time + MS_PER_FRAME - now_time);
       }
       while (looping);
 
@@ -471,8 +466,10 @@ int game(void)
 int game_initialize(void)
 {
   int i,img;
-  /* Clear window: */
+  
+  tmdprintf("Entering game_initialize()\n");
 
+  /* Clear window: */
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
 
@@ -491,6 +488,18 @@ int game_initialize(void)
     printf("Allocation of comets failed");
     return 0;
   }
+  for (i = 0; i < MAX_MAX_COMETS; ++i)
+    {
+    comets[i].flashcard = MC_AllocateFlashcard();
+    if (!MC_FlashCardGood(&comets[i].flashcard) ) 
+      {
+      //something's wrong
+      printf("Allocation of flashcard %d failed\n", i);
+      for (; i >= 0; --i) //free anything we've already gotten
+        MC_FreeFlashcard(&comets[i].flashcard);
+      return 0;
+      }
+    }
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL) {
     printf("Allocation of cities failed");
@@ -514,9 +523,7 @@ int game_initialize(void)
   /* (for example) to all math operations being deselected */
   if (!MC_StartGame())
   {
-#ifdef TUXMATH_DEBUG
-    printf("\nMC_StartGame() failed!");
-#endif
+    tmdprintf("\nMC_StartGame() failed!");
     fprintf(stderr, "\nMC_StartGame() failed!");
     return 0;
   }
@@ -592,9 +599,7 @@ int game_initialize(void)
 
   if (Opts_BonusCometInterval()) {
     bonus_comet_counter = Opts_BonusCometInterval() + 1;
-#ifdef TUXMATH_DEBUG
-    printf("\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
-#endif
+    tmdprintf("\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
   }
   extra_life_earned = 0;
   cloud.status = EXTRA_LIFE_OFF;
@@ -976,8 +981,8 @@ void game_handle_demo(void)
     picked_comet = (rand() % MAX_COMETS);
 
     if (!(comets[picked_comet].alive &&
-	  comets[picked_comet].expl < COMET_EXPL_END)
-	|| comets[picked_comet].y < 80)
+          comets[picked_comet].expl < COMET_EXPL_END)
+        || comets[picked_comet].y < 80)
     {
       picked_comet = -1;
     }
@@ -986,7 +991,7 @@ void game_handle_demo(void)
       /* found a comet to blow up! */
       demo_answer = comets[picked_comet].answer;
       if ((rand() % 3) < 1)
-	demo_answer--;  // sometimes get it wrong on purpose
+        demo_answer--;  // sometimes get it wrong on purpose
 
       #ifdef TUXMATH_DEBUG
       printf("Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
@@ -1049,7 +1054,8 @@ void game_handle_demo(void)
 
 void game_handle_answer(void)
 {
-  int i, num, lowest, lowest_y;
+  int i, j, num, lowest, lowest_y;
+  char ans[MAX_DIGITS+2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
 
   if (!doing_answer)
@@ -1058,15 +1064,40 @@ void game_handle_answer(void)
   }
 
   doing_answer = 0;
-
+/*
   num = (digits[0] * 100 +
          digits[1] * 10 +
          digits[2]);
+*/
   /* negative answer support DSB */
+  
+  ans[0] = '-';
+  for (i = j = (neg_answer_picked); i < MAX_DIGITS; ++i)
+    if (digits[i])
+      ans[j++] = digits[i] + '0';
+  ans[j] = '\0';
+  
+/*
   if (neg_answer_picked)
   {
-    num = -num;
+    ans[0] = '-';
+    for (i = j = 0; i < MAX_DIGITS; ++i)
+    {
+      if (digits[i] == 0)
+        continue;
+      ans[++j] = digits[i] + '0';
+    }
   }
+  else
+  {
+    for (i = j = 0; i < MAX_DIGITS; ++i)
+    {
+      if (digits[i] == 0)
+        continue;
+      ans[j++] = digits[i] + '0';
+    }
+  } 
+*/
 
   /*  Pick the lowest comet which has the right answer: */
   /*  FIXME: do we want it to prefer bonus comets to regular comets? */
@@ -1075,9 +1106,11 @@ void game_handle_answer(void)
 
   for (i = 0; i < MAX_COMETS; i++)
   {
+    mcdprintf("Comparing '%s' with '%s'\n", comets[i].flashcard.answer_string, ans);
     if (comets[i].alive &&
         comets[i].expl < COMET_EXPL_END &&
-        comets[i].answer == num &&
+        //comets[i].answer == num &&
+        0 == strncmp(comets[i].flashcard.answer_string, ans, MAX_DIGITS+1) &&
         comets[i].y > lowest_y)
     {
       lowest = i;
@@ -1141,7 +1174,7 @@ void game_handle_answer(void)
     /* FIXME looks like it might score a bit differently based on screen mode? */
     add_score(((25 * (comets[lowest].flashcard.difficulty + 1)) *
               (screen->h - comets[lowest].y + 1)) /
-	       screen->h);
+               screen->h);
   }
   else
   {
@@ -1161,9 +1194,8 @@ void game_handle_answer(void)
   }
 
   /* Clear digits: */
-  digits[0] = 0;
-  digits[1] = 0;
-  digits[2] = 0;
+  for (i = 0; i < MAX_DIGITS; ++i)
+    digits[i] = 0;
   neg_answer_picked = 0;
 }
 
@@ -1252,8 +1284,8 @@ void game_handle_comets(void)
       /* Make bonus comet move faster at chosen ratio: */
       if (comets[i].bonus)
       {
-	comets[i].y += speed * Opts_BonusSpeedRatio() *
-	               city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
+        comets[i].y += speed * Opts_BonusSpeedRatio() *
+                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
       }
       else /* Regular comet: */
       {
@@ -1263,61 +1295,61 @@ void game_handle_comets(void)
 
       /* Does it threaten a city? */
       if (comets[i].y > 3 * screen->h / 4)
-	cities[this_city].threatened = 1;
+        cities[this_city].threatened = 1;
 
       /* Did it hit a city? */
       if (comets[i].y >= city_expl_height &&
-	  comets[i].expl < COMET_EXPL_END)
+          comets[i].expl < COMET_EXPL_END)
       {
         /* Tell MathCards about it - question not answered correctly: */
         MC_NotAnsweredCorrectly(&(comets[i].flashcard));
 
-	/* Store the time the question was present on screen (do this */
-	/* in a way that avoids storing it if the time wrapped around */
-	ctime = SDL_GetTicks();
-	if (ctime > comets[i].time_started) {
-	  MC_AddTimeToList((float)(ctime - comets[i].time_started)/1000);
-	}
+        /* Store the time the question was present on screen (do this */
+        /* in a way that avoids storing it if the time wrapped around */
+        ctime = SDL_GetTicks();
+        if (ctime > comets[i].time_started) {
+          MC_AddTimeToList((float)(ctime - comets[i].time_started)/1000);
+        }
 
         /* Record data for speed feedback */
-	/* Do this only for cities that are alive; dead cities */
+        /* Do this only for cities that are alive; dead cities */
         /* might not get much protection from the player */
-	if (Opts_UseFeedback() && cities[this_city].hits_left) {
-	  comet_feedback_number++;
+        if (Opts_UseFeedback() && cities[this_city].hits_left) {
+          comet_feedback_number++;
           comet_feedback_height += 1.0 + Opts_CityExplHandicap();
 
 #ifdef FEEDBACK_DEBUG
- 	  printf("Added comet feedback with height %g\n",
+           printf("Added comet feedback with height %g\n",
                   1.0 + Opts_CityExplHandicap());
 #endif
- 	}
+         }
 
         /* Disable shields/destroy city/create steam cloud: */
         if (cities[this_city].hits_left)
-	{
-	  cities[this_city].status = CITY_EXPLODING;
-	  if (Opts_UseIgloos()) {
-	    playsound(SND_IGLOO_SIZZLE);
-	    cities[this_city].counter = IGLOO_SWITCH_START;
-	    steam[this_city].status = STEAM_ON;
-	    steam[this_city].counter = STEAM_START;
-	  }
-	  else {
-	    if (cities[comets[i].city].hits_left == 2) {
-	      playsound(SND_SHIELDSDOWN);
-	      cities[this_city].counter = 1;  /* Will act immediately */
-	    }
-	    else {
-	      playsound(SND_EXPLOSION);
-	      cities[this_city].counter = CITY_EXPL_START;
-	    }
-	  }
-	  cities[this_city].hits_left--;
-	}
+        {
+          cities[this_city].status = CITY_EXPLODING;
+          if (Opts_UseIgloos()) {
+            playsound(SND_IGLOO_SIZZLE);
+            cities[this_city].counter = IGLOO_SWITCH_START;
+            steam[this_city].status = STEAM_ON;
+            steam[this_city].counter = STEAM_START;
+          }
+          else {
+            if (cities[comets[i].city].hits_left == 2) {
+              playsound(SND_SHIELDSDOWN);
+              cities[this_city].counter = 1;  /* Will act immediately */
+            }
+            else {
+              playsound(SND_EXPLOSION);
+              cities[this_city].counter = CITY_EXPL_START;
+            }
+          }
+          cities[this_city].hits_left--;
+        }
 
-	/* If this was a bonus comet, restart the counter */
-	if (comets[i].bonus)
-	  bonus_comet_counter = Opts_BonusCometInterval()+1;
+        /* If this was a bonus comet, restart the counter */
+        if (comets[i].bonus)
+          bonus_comet_counter = Opts_BonusCometInterval()+1;
 
        /* If slow_after_wrong selected, set flag to go back to starting speed and */
         /* number of attacking comets: */
@@ -1338,22 +1370,22 @@ void game_handle_comets(void)
       if (comets[i].expl >= COMET_EXPL_END)
       {
         comets[i].expl--;
-	if (comets[i].expl < COMET_EXPL_END) {
-	  comets[i].alive = 0;
-	  if (bonus_comet_counter > 1 && comets[i].zapped) {
-	    bonus_comet_counter--;
+        if (comets[i].expl < COMET_EXPL_END) {
+          comets[i].alive = 0;
+          if (bonus_comet_counter > 1 && comets[i].zapped) {
+            bonus_comet_counter--;
 #ifdef TUXMATH_DEBUG
-	    printf("\nbonus_comet_counter is now %d\n",bonus_comet_counter);
+            printf("\nbonus_comet_counter is now %d\n",bonus_comet_counter);
 #endif
-	  }
-	  if (comets[i].bonus && comets[i].zapped) {
-	    playsound(SND_EXTRA_LIFE);
-	    extra_life_earned = 1;
+          }
+          if (comets[i].bonus && comets[i].zapped) {
+            playsound(SND_EXTRA_LIFE);
+            extra_life_earned = 1;
 #ifdef TUXMATH_DEBUG
-	    printf("\nExtra life earned!");
+            printf("\nExtra life earned!");
 #endif
-	  }
-	}
+          }
+        }
       }
     }
   }
@@ -1377,9 +1409,9 @@ void game_handle_comets(void)
     {
       if (num_comets_alive == 0)
       {
-	if (!check_extra_life()) {
-	  /* Time for the next wave! */
-	  wave++;
+        if (!check_extra_life()) {
+          /* Time for the next wave! */
+          wave++;
           reset_level();
         }
       }
@@ -1409,61 +1441,61 @@ void game_handle_cities(void)
     {
       cities[i].counter--;
       if (cities[i].counter == 0) {
-	if (cities[i].hits_left)
-	  cities[i].status = CITY_PRESENT;
-	else {
-	  if (Opts_UseIgloos()) {
-	    cities[i].status = CITY_EVAPORATING;
-	    cities[i].counter = EVAPORATING_COUNTER_START;
-	    cities[i].img = IMG_IGLOO_MELTED1;
-	  } else {
-	    cities[i].status = CITY_GONE;
-	    cities[i].img = IMG_CITY_NONE;
-	  }
-	}
+        if (cities[i].hits_left)
+          cities[i].status = CITY_PRESENT;
+        else {
+          if (Opts_UseIgloos()) {
+            cities[i].status = CITY_EVAPORATING;
+            cities[i].counter = EVAPORATING_COUNTER_START;
+            cities[i].img = IMG_IGLOO_MELTED1;
+          } else {
+            cities[i].status = CITY_GONE;
+            cities[i].img = IMG_CITY_NONE;
+          }
+        }
       }
     }
     /* Choose the correct city/igloo image */
     if (Opts_UseIgloos()) {
       if (cities[i].status == CITY_EVAPORATING) {
-	/* Handle the evaporation animation */
-	cities[i].layer = 0;  /* these have to be drawn below the penguin */
-	cities[i].counter--;
-	if (cities[i].counter == 0) {
-	  cities[i].img--;
-	  if (cities[i].img < IMG_IGLOO_MELTED3) {
-	    cities[i].img = IMG_CITY_NONE;
-	    cities[i].status = CITY_GONE;
-	  }
-	  else
-	    cities[i].counter = EVAPORATING_COUNTER_START;
-	}
-      }	else {
-	if (cities[i].status != CITY_GONE) {
-	  cities[i].layer = 1;  /* these have to be drawn above the penguin */
-	  cities[i].img = IMG_IGLOO_MELTED1 + cities[i].hits_left;
-	  /* If we're in the middle of an "explosion," don't switch to the
-	     new igloo. Note the steam may have a different counter than
-	     the igloo on this matter; the switch is designed to occur
-	     halfway through the steam cloud. */
-	  if (cities[i].status == CITY_EXPLODING)
-	    cities[i].img++;
-	}
+        /* Handle the evaporation animation */
+        cities[i].layer = 0;  /* these have to be drawn below the penguin */
+        cities[i].counter--;
+        if (cities[i].counter == 0) {
+          cities[i].img--;
+          if (cities[i].img < IMG_IGLOO_MELTED3) {
+            cities[i].img = IMG_CITY_NONE;
+            cities[i].status = CITY_GONE;
+          }
+          else
+            cities[i].counter = EVAPORATING_COUNTER_START;
+        }
+      }        else {
+        if (cities[i].status != CITY_GONE) {
+          cities[i].layer = 1;  /* these have to be drawn above the penguin */
+          cities[i].img = IMG_IGLOO_MELTED1 + cities[i].hits_left;
+          /* If we're in the middle of an "explosion," don't switch to the
+             new igloo. Note the steam may have a different counter than
+             the igloo on this matter; the switch is designed to occur
+             halfway through the steam cloud. */
+          if (cities[i].status == CITY_EXPLODING)
+            cities[i].img++;
+        }
       }
     }
     else {
       /* We're using the original "city" graphics */
       cities[i].layer = 0;   /* No layering needed */
       if (cities[i].hits_left)
-	cities[i].img = IMG_CITY_BLUE;
+        cities[i].img = IMG_CITY_BLUE;
       else if (cities[i].status == CITY_EXPLODING)
-	cities[i].img = (IMG_CITY_BLUE_EXPL5 - (cities[i].counter / (CITY_EXPL_START / 5)));
+        cities[i].img = (IMG_CITY_BLUE_EXPL5 - (cities[i].counter / (CITY_EXPL_START / 5)));
       else
-	cities[i].img = IMG_CITY_BLUE_DEAD;
+        cities[i].img = IMG_CITY_BLUE_DEAD;
 
       /* Change image to appropriate color: */
       cities[i].img = cities[i].img + ((wave % MAX_CITY_COLORS) *
-		   (IMG_CITY_GREEN - IMG_CITY_BLUE));
+                   (IMG_CITY_GREEN - IMG_CITY_BLUE));
 
     }
   }
@@ -1486,26 +1518,26 @@ void game_handle_penguins(void)
       penguins[i].status = PENGUIN_DUCKING;
     else if (!cities[i].threatened && penguins[i].status == PENGUIN_DUCKING) {
       if (cities[i].hits_left == 2)
-	penguins[i].status = PENGUIN_HAPPY;
+        penguins[i].status = PENGUIN_HAPPY;
       else
-	penguins[i].status = PENGUIN_GRUMPY;
+        penguins[i].status = PENGUIN_GRUMPY;
     }
     switch (penguins[i].status) {
     case PENGUIN_HAPPY:
       penguins[i].img = IMG_PENGUIN_FLAPDOWN;
       if (rand() % FLAPPING_INTERVAL == 0) {
-	penguins[i].status = PENGUIN_FLAPPING;
-	penguins[i].counter = FLAPPING_START;
+        penguins[i].status = PENGUIN_FLAPPING;
+        penguins[i].counter = FLAPPING_START;
       }
       break;
     case PENGUIN_FLAPPING:
       if (penguins[i].counter % 4 >= 2)
-	penguins[i].img = IMG_PENGUIN_FLAPUP;
+        penguins[i].img = IMG_PENGUIN_FLAPUP;
       else
-	penguins[i].img = IMG_PENGUIN_FLAPDOWN;
+        penguins[i].img = IMG_PENGUIN_FLAPDOWN;
       penguins[i].counter--;
       if (penguins[i].counter == 0)
-	penguins[i].status = PENGUIN_HAPPY;
+        penguins[i].status = PENGUIN_HAPPY;
       break;
     case PENGUIN_DUCKING:
       penguins[i].img = IMG_PENGUIN_INCOMING;
@@ -1513,59 +1545,59 @@ void game_handle_penguins(void)
     case PENGUIN_GRUMPY:
       penguins[i].img = IMG_PENGUIN_GRUMPY;
       if (rand() % FLAPPING_INTERVAL == 0) {
-	penguins[i].status = PENGUIN_WORRIED;
-	penguins[i].counter = FLAPPING_START;
+        penguins[i].status = PENGUIN_WORRIED;
+        penguins[i].counter = FLAPPING_START;
       }
       break;
     case PENGUIN_WORRIED:
       penguins[i].img = IMG_PENGUIN_WORRIED;
       penguins[i].counter--;
       if (penguins[i].counter == 0)
-	penguins[i].status = PENGUIN_GRUMPY;
+        penguins[i].status = PENGUIN_GRUMPY;
       break;
     case PENGUIN_STANDING_UP:
       penguins[i].img = IMG_PENGUIN_STANDING_UP;
       penguins[i].counter--;
       if (penguins[i].counter == 0)
-	penguins[i].status = PENGUIN_WALKING_OFF;
+        penguins[i].status = PENGUIN_WALKING_OFF;
       break;
     case PENGUIN_SITTING_DOWN:
       penguins[i].img = IMG_PENGUIN_SITTING_DOWN;
       penguins[i].counter--;
       if (penguins[i].counter == 0) {
-	penguins[i].status = PENGUIN_FLAPPING;
-	penguins[i].counter = FLAPPING_START;
+        penguins[i].status = PENGUIN_FLAPPING;
+        penguins[i].counter = FLAPPING_START;
       }
       break;
     case PENGUIN_WALKING_ON:
       walk_counter = (penguins[i].counter % 8)/2;
       if (walk_counter == 3)
-	walk_counter = 1;
+        walk_counter = 1;
       penguins[i].img = IMG_PENGUIN_WALK_ON1 + walk_counter;
       penguins[i].counter++;
       direction = 2*(i < NUM_CITIES/2)-1;  /* +1 for walk right, -1 for left */
       penguins[i].x += direction*PENGUIN_WALK_SPEED;
       if (direction*penguins[i].x >= direction*cities[i].x) {
-	penguins[i].status = PENGUIN_SITTING_DOWN;
-	penguins[i].counter = STANDING_COUNTER_START;
-	penguins[i].x = cities[i].x;
+        penguins[i].status = PENGUIN_SITTING_DOWN;
+        penguins[i].counter = STANDING_COUNTER_START;
+        penguins[i].x = cities[i].x;
       }
       penguins[i].layer = 3;  /* Stand in front of steam */
       break;
     case PENGUIN_WALKING_OFF:
       walk_counter = (penguins[i].counter % 8)/2;
       if (walk_counter == 3)
-	walk_counter = 1;
+        walk_counter = 1;
       penguins[i].img = IMG_PENGUIN_WALK_OFF1 + walk_counter;
       penguins[i].counter++;
       direction = 1-2*(i < NUM_CITIES/2);
       penguins[i].x += direction*PENGUIN_WALK_SPEED;
       if (direction < 0) {
-	if (penguins[i].x + images[IMG_PENGUIN_WALK_OFF1]->w/2 < 0)
-	  penguins[i].status = PENGUIN_OFFSCREEN;
+        if (penguins[i].x + images[IMG_PENGUIN_WALK_OFF1]->w/2 < 0)
+          penguins[i].status = PENGUIN_OFFSCREEN;
       } else {
-	if (penguins[i].x - images[IMG_PENGUIN_WALK_OFF1]->w/2 > screen->w)
-	  penguins[i].status = PENGUIN_OFFSCREEN;
+        if (penguins[i].x - images[IMG_PENGUIN_WALK_OFF1]->w/2 > screen->w)
+          penguins[i].status = PENGUIN_OFFSCREEN;
       }
       penguins[i].layer = 3;
       break;
@@ -1586,16 +1618,16 @@ void game_handle_steam(void)
     if (steam[i].counter) {
       steam[i].counter--;
       if (!steam[i].counter) {
-	steam[i].status = STEAM_OFF;
-	if (cloud.status != EXTRA_LIFE_ON || cloud.city != i) {
-	  /* The penguin was ducking, now we can stop */
+        steam[i].status = STEAM_OFF;
+        if (cloud.status != EXTRA_LIFE_ON || cloud.city != i) {
+          /* The penguin was ducking, now we can stop */
           if (cities[i].hits_left)
             penguins[i].status = PENGUIN_GRUMPY;
           else {
             penguins[i].status = PENGUIN_STANDING_UP;
-	    penguins[i].counter = STANDING_COUNTER_START;
-	  }
-	}
+            penguins[i].counter = STANDING_COUNTER_START;
+          }
+        }
       }
     }
     if (steam[i].status == STEAM_OFF)
@@ -1624,8 +1656,8 @@ int check_extra_life(void)
     fewest_index = -1;
     for (i = 0; i < NUM_CITIES; i++) {
       if (cities[i].hits_left < fewest_hits_left) {
-	fewest_hits_left = cities[i].hits_left;
-	fewest_index = i;
+        fewest_hits_left = cities[i].hits_left;
+        fewest_index = i;
       }
     }
     if (fewest_hits_left == 2)
@@ -1682,28 +1714,28 @@ void game_handle_extra_life(void)
       // Cloud is "parked," handle the snowfall and igloo rebuilding
       cities[cloud.city].status = CITY_REBUILDING;
       igloo_top = screen->h - igloo_vertical_offset
-	- images[IMG_IGLOO_INTACT]->h;
+        - images[IMG_IGLOO_INTACT]->h;
       for (i = 0, num_below_igloo = 0; i < NUM_SNOWFLAKES; i++) {
-	cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
-	if (cloud.snowflake_y[i] > igloo_top)
-	  num_below_igloo++;
+        cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
+        if (cloud.snowflake_y[i] > igloo_top)
+          num_below_igloo++;
       }
       if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > igloo_top) {
-	cities[cloud.city].hits_left = 2;
-	cities[cloud.city].img = IMG_IGLOO_INTACT; // completely rebuilt
+        cities[cloud.city].hits_left = 2;
+        cities[cloud.city].img = IMG_IGLOO_INTACT; // completely rebuilt
       } else if (cities[cloud.city].hits_left == 0) {
-	// We're going to draw one of the blended igloos
-	// FIXME: It's a hack to encode a blended igloo with a negative number!
-	penguins[cloud.city].layer = 0;
-	cities[cloud.city].layer = 1;
-	if (num_below_igloo < 3)
-	  num_below_igloo = 0;   // Don't show progress until a few have fallen
-	cities[cloud.city].img = -((float) (num_below_igloo)/NUM_SNOWFLAKES) * NUM_BLENDED_IGLOOS;
+        // We're going to draw one of the blended igloos
+        // FIXME: It's a hack to encode a blended igloo with a negative number!
+        penguins[cloud.city].layer = 0;
+        cities[cloud.city].layer = 1;
+        if (num_below_igloo < 3)
+          num_below_igloo = 0;   // Don't show progress until a few have fallen
+        cities[cloud.city].img = -((float) (num_below_igloo)/NUM_SNOWFLAKES) * NUM_BLENDED_IGLOOS;
       }
       if (cloud.snowflake_y[NUM_SNOWFLAKES-1] > screen->h - igloo_vertical_offset) {
-	/* exit rebuilding when last snowflake at igloo bottom */
-	cloud.status = EXTRA_LIFE_OFF;
-	cities[cloud.city].status = CITY_PRESENT;
+        /* exit rebuilding when last snowflake at igloo bottom */
+        cloud.status = EXTRA_LIFE_OFF;
+        cities[cloud.city].status = CITY_PRESENT;
       }
     }
   }
@@ -1731,9 +1763,9 @@ void game_draw(void)
   if (laser.alive)
   {
     draw_line(laser.x1, laser.y1, laser.x2, laser.y2,
-		  255 / ((LASER_START + 1) - laser.alive),
-		  192 / ((LASER_START + 1) - laser.alive),
-		  64);
+                  255 / ((LASER_START + 1) - laser.alive),
+                  192 / ((LASER_START + 1) - laser.alive),
+                  64);
   }
 
   /* Draw numeric keypad: */
@@ -1835,7 +1867,7 @@ void game_draw_comets(void)
         /* Decide which image to display: */
         img = IMG_COMET1 + ((frame + i) % 3);
         /* Display the formula (flashing, in the bottom half
-		   of the screen) */
+                   of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
         {
           comet_str = comets[i].flashcard.formula_string;
@@ -1875,7 +1907,7 @@ void game_draw_comets(void)
         /* Decide which image to display: */
         img = IMG_COMET1 + ((frame + i) % 3);
         /* Display the formula (flashing, in the bottom half
-		   of the screen) */
+                   of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
         {
           comet_str = comets[i].flashcard.formula_string;
@@ -1924,84 +1956,84 @@ void game_draw_cities(void)
     max_layer = 0;
     do {
       for (i = 0; i < NUM_CITIES; i++) {
-	if (cities[i].status != CITY_GONE && cities[i].layer > max_layer)
-	  max_layer = cities[i].layer;
-	if (penguins[i].status != PENGUIN_OFFSCREEN && penguins[i].layer > max_layer)
-	  max_layer = penguins[i].layer;
-	if (steam[i].status == STEAM_ON && steam[i].layer > max_layer)
-	  max_layer = steam[i].layer;
-	if (cities[i].layer == current_layer &&
-	    cities[i].img != IMG_CITY_NONE) {
-	  // Handle the blended igloo images, which are encoded
-	  // (FIXME) with a negative image number
-	  if (cities[i].img <= 0)
-	    this_image = blended_igloos[-cities[i].img];
-	  else
-	    this_image = images[cities[i].img];
-	  //this_image = blended_igloos[frame % NUM_BLENDED_IGLOOS];
-	  dest.x = cities[i].x - (this_image->w / 2);
-	  dest.y = (screen->h) - (this_image->h) - igloo_vertical_offset;
-	  if (cities[i].img == IMG_IGLOO_MELTED3 ||
-	      cities[i].img == IMG_IGLOO_MELTED2)
-	    dest.y -= (images[IMG_IGLOO_MELTED1]->h - this_image->h)/2;
-	  dest.w = (this_image->w);
-	  dest.h = (this_image->h);
-	  SDL_BlitSurface(this_image, NULL, screen, &dest);
-	}
-	if (penguins[i].layer == current_layer &&
-	    penguins[i].status != PENGUIN_OFFSCREEN) {
-	  this_image = images[penguins[i].img];
-	  if (penguins[i].status == PENGUIN_WALKING_OFF ||
-	      penguins[i].status == PENGUIN_WALKING_ON) {
-	    /* With walking penguins, we have to use flipped images
-	       when it's walking left. The other issue is that the
-	       images are of different widths, so aligning on the
-	       center produces weird forward-backward walking. The
-	       reliable way is the align them all on the tip of the
-	       beak (the right border of the unflipped image) */
-	    dest.x = penguins[i].x - (this_image->w / 2);
-	    dest.y = (screen->h) - (this_image->h);
-	    if ((i<NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_OFF) ||
-		(i>=NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_ON)) {
-	      /* walking left */
-	      this_image = flipped_images[flipped_img_lookup[penguins[i].img]];
-	      dest.x = penguins[i].x - images[IMG_PENGUIN_WALK_OFF2]->w/2;
-	    } else
-	      dest.x = penguins[i].x - this_image->w
-		+ images[IMG_PENGUIN_WALK_OFF2]->w/2;   /* walking right */
-	  }
-	  else {
-	    dest.x = penguins[i].x - (this_image->w / 2);
-	    dest.y = (screen->h) - (5*(this_image->h))/4 - igloo_vertical_offset;
-	  }
-	  dest.w = (this_image->w);
-	  dest.h = (this_image->h);
-	  SDL_BlitSurface(this_image, NULL, screen, &dest);
-	}
-	if (steam[i].layer == current_layer &&
-	    steam[i].status == STEAM_ON) {
-	  this_image = images[steam[i].img];
-	  dest.x = cities[i].x - (this_image->w / 2);
-	  dest.y = (screen->h) - this_image->h - ((4 * images[IMG_IGLOO_INTACT]->h) / 7);
-	  dest.w = (this_image->w);
-	  dest.h = (this_image->h);
-	  SDL_BlitSurface(this_image, NULL, screen, &dest);
-	}
+        if (cities[i].status != CITY_GONE && cities[i].layer > max_layer)
+          max_layer = cities[i].layer;
+        if (penguins[i].status != PENGUIN_OFFSCREEN && penguins[i].layer > max_layer)
+          max_layer = penguins[i].layer;
+        if (steam[i].status == STEAM_ON && steam[i].layer > max_layer)
+          max_layer = steam[i].layer;
+        if (cities[i].layer == current_layer &&
+            cities[i].img != IMG_CITY_NONE) {
+          // Handle the blended igloo images, which are encoded
+          // (FIXME) with a negative image number
+          if (cities[i].img <= 0)
+            this_image = blended_igloos[-cities[i].img];
+          else
+            this_image = images[cities[i].img];
+          //this_image = blended_igloos[frame % NUM_BLENDED_IGLOOS];
+          dest.x = cities[i].x - (this_image->w / 2);
+          dest.y = (screen->h) - (this_image->h) - igloo_vertical_offset;
+          if (cities[i].img == IMG_IGLOO_MELTED3 ||
+              cities[i].img == IMG_IGLOO_MELTED2)
+            dest.y -= (images[IMG_IGLOO_MELTED1]->h - this_image->h)/2;
+          dest.w = (this_image->w);
+          dest.h = (this_image->h);
+          SDL_BlitSurface(this_image, NULL, screen, &dest);
+        }
+        if (penguins[i].layer == current_layer &&
+            penguins[i].status != PENGUIN_OFFSCREEN) {
+          this_image = images[penguins[i].img];
+          if (penguins[i].status == PENGUIN_WALKING_OFF ||
+              penguins[i].status == PENGUIN_WALKING_ON) {
+            /* With walking penguins, we have to use flipped images
+               when it's walking left. The other issue is that the
+               images are of different widths, so aligning on the
+               center produces weird forward-backward walking. The
+               reliable way is the align them all on the tip of the
+               beak (the right border of the unflipped image) */
+            dest.x = penguins[i].x - (this_image->w / 2);
+            dest.y = (screen->h) - (this_image->h);
+            if ((i<NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_OFF) ||
+                (i>=NUM_CITIES/2 && penguins[i].status==PENGUIN_WALKING_ON)) {
+              /* walking left */
+              this_image = flipped_images[flipped_img_lookup[penguins[i].img]];
+              dest.x = penguins[i].x - images[IMG_PENGUIN_WALK_OFF2]->w/2;
+            } else
+              dest.x = penguins[i].x - this_image->w
+                + images[IMG_PENGUIN_WALK_OFF2]->w/2;   /* walking right */
+          }
+          else {
+            dest.x = penguins[i].x - (this_image->w / 2);
+            dest.y = (screen->h) - (5*(this_image->h))/4 - igloo_vertical_offset;
+          }
+          dest.w = (this_image->w);
+          dest.h = (this_image->h);
+          SDL_BlitSurface(this_image, NULL, screen, &dest);
+        }
+        if (steam[i].layer == current_layer &&
+            steam[i].status == STEAM_ON) {
+          this_image = images[steam[i].img];
+          dest.x = cities[i].x - (this_image->w / 2);
+          dest.y = (screen->h) - this_image->h - ((4 * images[IMG_IGLOO_INTACT]->h) / 7);
+          dest.w = (this_image->w);
+          dest.h = (this_image->h);
+          SDL_BlitSurface(this_image, NULL, screen, &dest);
+        }
       }
       current_layer++;
     } while (current_layer <= max_layer);
     if (cloud.status == EXTRA_LIFE_ON) {
       /* Render cloud & snowflakes */
       for (i = 0; i < NUM_SNOWFLAKES; i++) {
-	if (cloud.snowflake_y[i] > cloud.y &&
-	    cloud.snowflake_y[i] < screen->h - igloo_vertical_offset) {
-	  this_image = images[IMG_SNOW1+cloud.snowflake_size[i]];
-	  dest.x = cloud.snowflake_x[i] - this_image->w/2 + cloud.x;
-	  dest.y = cloud.snowflake_y[i] - this_image->h/2;
-	  dest.w = this_image->w;
-	  dest.h = this_image->h;
-	  SDL_BlitSurface(this_image, NULL, screen, &dest);
-	}
+        if (cloud.snowflake_y[i] > cloud.y &&
+            cloud.snowflake_y[i] < screen->h - igloo_vertical_offset) {
+          this_image = images[IMG_SNOW1+cloud.snowflake_size[i]];
+          dest.x = cloud.snowflake_x[i] - this_image->w/2 + cloud.x;
+          dest.y = cloud.snowflake_y[i] - this_image->h/2;
+          dest.w = this_image->w;
+          dest.h = this_image->h;
+          SDL_BlitSurface(this_image, NULL, screen, &dest);
+        }
       }
       this_image = images[IMG_CLOUD];
       dest.x = cloud.x - this_image->w/2;
@@ -2024,19 +2056,19 @@ void game_draw_cities(void)
 
       /* Draw sheilds: */
       if (cities[i].hits_left > 1) {
-	for (j = (frame % 3); j < images[IMG_SHIELDS]->h; j = j + 3) {
-	  src.x = 0;
-	  src.y = j;
-	  src.w = images[IMG_SHIELDS]->w;
-	  src.h = 1;
+        for (j = (frame % 3); j < images[IMG_SHIELDS]->h; j = j + 3) {
+          src.x = 0;
+          src.y = j;
+          src.w = images[IMG_SHIELDS]->w;
+          src.h = 1;
 
-	  dest.x = cities[i].x - (images[IMG_SHIELDS]->w / 2);
-	  dest.y = (screen->h) - (images[IMG_SHIELDS]->h) + j;
-	  dest.w = src.w;
-	  dest.h = src.h;
+          dest.x = cities[i].x - (images[IMG_SHIELDS]->w / 2);
+          dest.y = (screen->h) - (images[IMG_SHIELDS]->h) + j;
+          dest.w = src.w;
+          dest.h = src.h;
 
-	  SDL_BlitSurface(images[IMG_SHIELDS], &src, screen, &dest);
-	}
+          SDL_BlitSurface(images[IMG_SHIELDS], &src, screen, &dest);
+        }
       }
     }
   }
@@ -2080,7 +2112,7 @@ void game_draw_misc(void)
     dest.y = images[IMG_EXTRA_LIFE]->h/4;
     dest.h = images[IMG_EXTRA_LIFE]->h/2;
     dest.w = ((Opts_BonusCometInterval() + 1 - bonus_comet_counter)
-	      * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
+              * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
     SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
   }
 
@@ -2102,7 +2134,7 @@ void game_draw_misc(void)
 
   /* Draw "score" label: */
   dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
-	        images[IMG_SCORE]->w -
+                images[IMG_SCORE]->w -
                 images[IMG_STOP]->w - 5);
   dest.y = 0;
   dest.w = images[IMG_SCORE]->w;
@@ -2255,11 +2287,10 @@ void reset_level(void)
   }
   num_comets_alive = 0;
 
-  /* Clear LED digits: */
+  /* Clear LED F: */
 
-  digits[0] = 0;
-  digits[1] = 0;
-  digits[2] = 0;
+  for (i = 0; i < MAX_DIGITS; ++i)
+    digits[i] = 0;
   neg_answer_picked = 0;
 
 
@@ -2296,10 +2327,10 @@ void reset_level(void)
     if (bkgd == NULL || scaled_bkgd == NULL)
     {
       fprintf(stderr,
-	      "\nWarning: Could not load background image:\n"
-	      "%s\n"
-	      "The Simple DirectMedia error that ocurred was: %s\n",
-	      fname, SDL_GetError());
+              "\nWarning: Could not load background image:\n"
+              "%s\n"
+              "The Simple DirectMedia error that ocurred was: %s\n",
+              fname, SDL_GetError());
       Opts_SetUseBkgd(0);
     }
   }
@@ -2336,70 +2367,70 @@ void reset_level(void)
 
       if (use_feedback)
       {
-	#ifdef FEEDBACK_DEBUG
-	printf("Evaluating feedback...\n  old danger level = %g,",danger_level);
+        #ifdef FEEDBACK_DEBUG
+        printf("Evaluating feedback...\n  old danger level = %g,",danger_level);
         #endif
 
         /* Update our danger level, i.e., the target height */
-	danger_level = 1 - (1-danger_level) /
-	                   Opts_DangerLevelSpeedup();
-	if (danger_level > Opts_DangerLevelMax())
-	  danger_level = Opts_DangerLevelMax();
+        danger_level = 1 - (1-danger_level) /
+                           Opts_DangerLevelSpeedup();
+        if (danger_level > Opts_DangerLevelMax())
+          danger_level = Opts_DangerLevelMax();
 
-	#ifdef FEEDBACK_DEBUG
-	printf(" new danger level = %g.\n",danger_level);
-	#endif
+        #ifdef FEEDBACK_DEBUG
+        printf(" new danger level = %g.\n",danger_level);
+        #endif
 
-	/* Check to see whether we have any feedback data. If not, skip it. */
-	if (comet_feedback_number == 0)
+        /* Check to see whether we have any feedback data. If not, skip it. */
+        if (comet_feedback_number == 0)
         {
-	  use_feedback = 0;  /* No comets above living cities, skip feedback */
+          use_feedback = 0;  /* No comets above living cities, skip feedback */
 
-	  #ifdef FEEDBACK_DEBUG
-	  printf("No feedback data available, aborting.\n\n");
-	  #endif
-	}
-	else
+          #ifdef FEEDBACK_DEBUG
+          printf("No feedback data available, aborting.\n\n");
+          #endif
+        }
+        else
         {
-	  /* Compute the average height of comet destruction. */
-	  comet_avg_height = comet_feedback_height/comet_feedback_number;
+          /* Compute the average height of comet destruction. */
+          comet_avg_height = comet_feedback_height/comet_feedback_number;
 
-	  /* Determine how this average height compares with target. */
-	  height_differential = comet_avg_height - danger_level;
+          /* Determine how this average height compares with target. */
+          height_differential = comet_avg_height - danger_level;
 
-	  /* Set the speed so that we move halfway towards the target */
-	  /* height. That makes the changes a bit more conservative. */
+          /* Set the speed so that we move halfway towards the target */
+          /* height. That makes the changes a bit more conservative. */
 
-	  #ifdef FEEDBACK_DEBUG
-	  printf("  comet average height = %g, height differential = %g.\n",
+          #ifdef FEEDBACK_DEBUG
+          printf("  comet average height = %g, height differential = %g.\n",
                  comet_avg_height, height_differential);
-	  printf("  old speed = %g,",speed);
-	  #endif
+          printf("  old speed = %g,",speed);
+          #endif
 
-	  speed *= (1 - height_differential/danger_level/2);
+          speed *= (1 - height_differential/danger_level/2);
 
-	  /* Enforce bounds on speed */
-	  if (speed < MINIMUM_SPEED)
-	    speed = MINIMUM_SPEED;
-	  if (speed > Opts_MaxSpeed())
-	    speed = Opts_MaxSpeed();
+          /* Enforce bounds on speed */
+          if (speed < MINIMUM_SPEED)
+            speed = MINIMUM_SPEED;
+          if (speed > Opts_MaxSpeed())
+            speed = Opts_MaxSpeed();
 
-	  #ifdef FEEDBACK_DEBUG
-	  printf(" new speed = %g.\n",speed);
-	  printf("Feedback evaluation complete.\n\n");
-	  #endif
-	}
+          #ifdef FEEDBACK_DEBUG
+          printf(" new speed = %g.\n",speed);
+          printf("Feedback evaluation complete.\n\n");
+          #endif
+        }
       }
 
       if (!use_feedback)
       {
         /* This is not an "else" because we might skip feedback */
-	/* when comet_feedback_number == 0 */
-	speed = speed * Opts_SpeedupFactor();
-	if (speed > Opts_MaxSpeed())
-	{
-	  speed = Opts_MaxSpeed();
-	}
+        /* when comet_feedback_number == 0 */
+        speed = speed * Opts_SpeedupFactor();
+        if (speed > Opts_MaxSpeed())
+        {
+          speed = Opts_MaxSpeed();
+        }
       }
     }
   }
@@ -2585,9 +2616,9 @@ void draw_nums(const char* str, int x, int y)
       for (j = 0; j < 4; j++)
       {
         if (str[i] == operchars[j])
- 	{
-	  c = 10 + j;
-	}
+        {
+          c = 10 + j;
+        }
       }
     }
 
@@ -2605,7 +2636,7 @@ void draw_nums(const char* str, int x, int y)
       dest.h = src.h;
 
       SDL_BlitSurface(images[IMG_NUMS], &src,
-			  screen, &dest);
+                          screen, &dest);
       /* Move the 'cursor' one character width: */
       cur_x = cur_x + char_width;
     }
@@ -2639,31 +2670,31 @@ void draw_numbers(const char* str, int x, int y)
       /* Determine which character to display: */
 
       if (str[i] >= '0' && str[i] <= '9')
-	c = str[i] - '0';
+        c = str[i] - '0';
 
 
       /* Display this character! */
 
       if (c != -1)
-	{
-	  src.x = c * (images[IMG_NUMBERS]->w / 10);
-	  src.y = 0;
-	  src.w = (images[IMG_NUMBERS]->w / 10);
-	  src.h = images[IMG_NUMBERS]->h;
+        {
+          src.x = c * (images[IMG_NUMBERS]->w / 10);
+          src.y = 0;
+          src.w = (images[IMG_NUMBERS]->w / 10);
+          src.h = images[IMG_NUMBERS]->h;
 
-	  dest.x = cur_x;
-	  dest.y = y;
-	  dest.w = src.w;
-	  dest.h = src.h;
+          dest.x = cur_x;
+          dest.y = y;
+          dest.w = src.w;
+          dest.h = src.h;
 
-	  SDL_BlitSurface(images[IMG_NUMBERS], &src,
-			  screen, &dest);
+          SDL_BlitSurface(images[IMG_NUMBERS], &src,
+                          screen, &dest);
 
 
           /* Move the 'cursor' one character width: */
 
-	  cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
-	}
+          cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
+        }
     }
 }
 
@@ -2709,11 +2740,11 @@ int pause_game(void)
     while (SDL_PollEvent(&event))
     {
       if (event.type == SDL_KEYDOWN)
-	pause_done = 1;
+        pause_done = 1;
       else if (event.type == SDL_QUIT)
       {
         SDL_quit_received = 1;
- 	pause_quit = 1;
+         pause_quit = 1;
       }
     }
 
@@ -2920,7 +2951,7 @@ void draw_led_console(void)
   else
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
 
-  for (i = -1; i < 3; i++)  /* -1 is special case to allow minus sign */
+  for (i = -1; i < MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
                               /* with minimal modification of existing code DSB */
   {
     if (-1 == i)
@@ -3142,7 +3173,7 @@ void game_mouse_event(SDL_Event event)
 /* on-screen keypad */
 void game_key_event(SDLKey key)
 {
-
+  int i;
   key_pressed = 1;   // Signal back in cases where waiting on any key
 
   if (key == SDLK_ESCAPE)
@@ -3219,17 +3250,25 @@ void game_key_event(SDLKey key)
   if (key >= SDLK_0 && key <= SDLK_9)
   {
     /* [0]-[9]: Add a new digit: */
-    digits[0] = digits[1];
-    digits[1] = digits[2];
-    digits[2] = key - SDLK_0;
+    for (i = 0; i < MAX_DIGITS-1; ++i)
+      digits[i] = digits[i+1];
+    digits[MAX_DIGITS-1] = key - SDLK_0;
+    
+//    digits[0] = digits[1];
+//    digits[1] = digits[2];
+//    digits[2] = key - SDLK_0;
     tux_pressing = 1;
   }
   else if (key >= SDLK_KP0 && key <= SDLK_KP9)
   {
     /* Keypad [0]-[9]: Add a new digit: */
-    digits[0] = digits[1];
-    digits[1] = digits[2];
-    digits[2] = key - SDLK_KP0;
+    for (i = 0; i < MAX_DIGITS-1; ++i)
+      digits[i] = digits[i+1];
+    digits[MAX_DIGITS-1] = key - SDLK_0;
+    
+//    digits[0] = digits[1];
+//    digits[1] = digits[2];
+//    digits[2] = key - SDLK_KP0;
     tux_pressing = 1;
   }
   /* support for negative answer input DSB */
@@ -3249,17 +3288,16 @@ void game_key_event(SDLKey key)
   }
   else if (key == SDLK_BACKSPACE ||
            key == SDLK_CLEAR ||
-	   key == SDLK_DELETE)
+           key == SDLK_DELETE)
   {
     /* [BKSP]: Clear digits! */
-    digits[0] = 0;
-    digits[1] = 0;
-    digits[2] = 0;
+    for (i = 0; i < MAX_DIGITS; ++i)
+      digits[i] = 0;
     tux_pressing = 1;
   }
   else if (key == SDLK_RETURN ||
            key == SDLK_KP_ENTER ||
-	   key == SDLK_SPACE)
+           key == SDLK_SPACE)
   {
     /* [ENTER]: Accept digits! */
     doing_answer = 1;
@@ -3286,8 +3324,9 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-    strncpy(comets[i].flashcard.formula_string, " ", MC_FORMULA_LEN);
-    strncpy(comets[i].flashcard.answer_string, " ", MC_ANSWER_LEN);
+//    strncpy(comets[i].flashcard.formula_string, " ", max_formula_size);
+//    strncpy(comets[i].flashcard.answer_string, " ", max_answer_size);
+    MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
 }
@@ -3317,6 +3356,9 @@ void print_status(void)
 
 void free_on_exit(void)
 {
+  int i;
+  for (i = 0; i < MAX_MAX_COMETS; ++i)
+    MC_FreeFlashcard(&comets[i].flashcard);
   free(comets);
   free(cities);
   free(penguins);

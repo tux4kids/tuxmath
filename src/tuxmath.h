@@ -81,7 +81,7 @@
 #define DEFAULT_STARTING_COMETS 2
 #define DEFAULT_EXTRA_COMETS_PER_WAVE 2
 #define DEFAULT_MAX_COMETS 10
-#define DEFAULT_SAVE_SUMMARY 1	
+#define DEFAULT_SAVE_SUMMARY 1        
 #define DEFAULT_SOUND_HW_AVAILABLE 1
 #define DEFAULT_USE_IGLOOS 1
 #define DEFAULT_USE_FEEDBACK 0
@@ -115,9 +115,9 @@
 #define REG_RGBA 16,16,96,96
 #define SEL_RGBA 16,16,128,128
 
-#define RES_X	640
-#define RES_Y	480
-#define PIXEL_BITS 32	
+#define RES_X        640
+#define RES_Y        480
+#define PIXEL_BITS 32        
 
 enum { 
   CADET_HIGH_SCORE,

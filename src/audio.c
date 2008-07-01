@@ -59,12 +59,12 @@ void audioMusicLoad(char *musicFilename, int loops)
  * loaded using the audioMusicLoad function
  */
 void audioMusicUnload( void ) {
-	if (!Opts_UsingSound()) return;
+        if (!Opts_UsingSound()) return;
 
-	if ( defaultMusic )
-		Mix_FreeMusic( defaultMusic );
+        if ( defaultMusic )
+                Mix_FreeMusic( defaultMusic );
 
-	defaultMusic=NULL;
+        defaultMusic=NULL;
 }
 
 /* audioMusicPlay attempts to play the passed music data. 
@@ -73,8 +73,8 @@ void audioMusicUnload( void ) {
  * Note: loops == -1 means forever
  */
 void audioMusicPlay( Mix_Music *musicData, int loops ) { 
-	if (!Opts_UsingSound()) return;
+        if (!Opts_UsingSound()) return;
 
-	audioMusicUnload();	
-	Mix_PlayMusic( musicData, loops );
+        audioMusicUnload();        
+        Mix_PlayMusic( musicData, loops );
 }

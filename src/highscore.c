@@ -311,7 +311,7 @@ void DisplayHighScores(int level)
       case 0:    tux_frame = 1; break;
       case TUX1: tux_frame = 2; break;
       case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;			
+      case TUX3: tux_frame = 4; break;                        
       case TUX4: tux_frame = 3; break;
       case TUX5: tux_frame = 2; break;
       default: tux_frame = 0;
@@ -568,7 +568,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
       case 0:    tux_frame = 1; break;
       case TUX1: tux_frame = 2; break;
       case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;			
+      case TUX3: tux_frame = 4; break;                        
       case TUX4: tux_frame = 3; break;
       case TUX5: tux_frame = 2; break;
       default: tux_frame = 0;

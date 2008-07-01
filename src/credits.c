@@ -398,30 +398,30 @@ int credits(void)
       
       /* Handle any incoming events: */
       while (SDL_PollEvent(&event) > 0)
-	{
-	  if (event.type == SDL_QUIT)
-	    {
-	      /* Window close event - quit! */
-	      
-	      quit = 1;
-	      done = 1;
-	    }
-	  else if (event.type == SDL_KEYDOWN)
-	    {
-	      key = event.key.keysym.sym;
-	      
-	      if (key == SDLK_ESCAPE)
-		{
-		  /* Escape key - quit! */
-		  
-		  done = 1;
-		}
-	    }
-	  else if (event.type == SDL_MOUSEBUTTONDOWN)
-	    {
+        {
+          if (event.type == SDL_QUIT)
+            {
+              /* Window close event - quit! */
+              
+              quit = 1;
               done = 1;
-	    }
-	}
+            }
+          else if (event.type == SDL_KEYDOWN)
+            {
+              key = event.key.keysym.sym;
+              
+              if (key == SDLK_ESCAPE)
+                {
+                  /* Escape key - quit! */
+                  
+                  done = 1;
+                }
+            }
+          else if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+              done = 1;
+            }
+        }
 
       
       /* Scroll: */
@@ -452,13 +452,13 @@ int credits(void)
       
 
       if (scroll >= 9)
-	{
-	  scroll = 0;
-	  line++;
-	  
-	  if (credit_text[line] == NULL)
-	    done = 1;
-	}
+        {
+          scroll = 0;
+          line++;
+          
+          if (credit_text[line] == NULL)
+            done = 1;
+        }
       
       
       SDL_Flip(screen);
@@ -468,9 +468,9 @@ int credits(void)
       
       now_time = SDL_GetTicks();
       if (now_time < last_time + (1000 / 20))
-	{
-	  SDL_Delay(last_time + (1000 / 20) - now_time);
-	}
+        {
+          SDL_Delay(last_time + (1000 / 20) - now_time);
+        }
     }
   while (!done);
   
@@ -507,50 +507,50 @@ void draw_text(char * str, int offset)
       c = -1;
       
       if (str[i] >= '0' && str[i] <= '9')
-	c = str[i] - '0';
+        c = str[i] - '0';
       else if (str[i] >= 'A' && str[i] <= 'Z')
-	c = str[i] - 'A' + 10;
+        c = str[i] - 'A' + 10;
       else if (str[i] == ',')
-	c = 36;
+        c = 36;
       else if (str[i] == '.')
-	c = 37;
+        c = 37;
       else if (str[i] == '\'')
-	c = 38;
+        c = 38;
       
       
       if (c != -1)
-	{
-	  for (y = 0; y < 5; y++)
-	    {
-	      if (hilite == 0)
-	      {
-	        r = 255 - ((line * y) % 256);
-	        g = 255 / (y + 2);
-	        b = (line * line * 2) % 256;
-	      }
-	      else
-	      {
-		r = 128;
-		g = 192;
-		b = 255 - (y * 40);
-	      }
-	      
-	      for (x = 0; x < 5; x++)
-		{
-		  if (chars[c][y][x] == '#')
-		    {
-		      dest.x = cur_x + (x * 3);
-		      dest.y = ((screen->h - (5 * 3)) + (y * 3) +
-				(18 - offset * 2));
-		      dest.w = 3;
-		      dest.h = 3;
-		      
-		      SDL_FillRect(screen, &dest,
-				   SDL_MapRGB(screen->format, r, g, b));
-		    }
-		}
-	    }
-	}
+        {
+          for (y = 0; y < 5; y++)
+            {
+              if (hilite == 0)
+              {
+                r = 255 - ((line * y) % 256);
+                g = 255 / (y + 2);
+                b = (line * line * 2) % 256;
+              }
+              else
+              {
+                r = 128;
+                g = 192;
+                b = 255 - (y * 40);
+              }
+              
+              for (x = 0; x < 5; x++)
+                {
+                  if (chars[c][y][x] == '#')
+                    {
+                      dest.x = cur_x + (x * 3);
+                      dest.y = ((screen->h - (5 * 3)) + (y * 3) +
+                                (18 - offset * 2));
+                      dest.w = 3;
+                      dest.h = 3;
+                      
+                      SDL_FillRect(screen, &dest,
+                                   SDL_MapRGB(screen->format, r, g, b));
+                    }
+                }
+            }
+        }
       
       
       /* Move virtual cursor: */
