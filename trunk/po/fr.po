@@ -1,0 +1,456 @@
+# French translation of tuxmath.pot for TuxMath
+# This file is put in the public domain.
+# Grumeau Rémi <remi@beosfrance.com>, 2007.
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.5.8\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2008-06-15 22:15-0500\n"
+"PO-Revision-Date: 2007-11-15 09:00+0100\n"
+"Last-Translator: Grumeau Rémi <remi@beosfrance.com>\n"
+"Language-Team: Dutch <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/game.c:679
+msgid "Welcome to TuxMath!"
+msgstr ""
+
+#: src/game.c:696
+msgid "Your mission is to save your"
+msgstr ""
+
+#: src/game.c:697
+msgid "penguins' igloos from the"
+msgstr ""
+
+#: src/game.c:698
+msgid "falling comets."
+msgstr ""
+
+#: src/game.c:717
+msgid "Stop a comet by typing"
+msgstr ""
+
+#: src/game.c:718
+msgid "the answer to the math problem"
+msgstr ""
+
+#: src/game.c:719
+msgid "and hitting 'space' or 'enter'."
+msgstr ""
+
+#: src/game.c:720
+msgid "Try it now!"
+msgstr ""
+
+#: src/game.c:728
+msgid "Good shot!"
+msgstr ""
+
+#: src/game.c:738
+msgid "If an igloo gets hit by a comet,"
+msgstr ""
+
+#: src/game.c:739
+msgid "it melts. But don't worry: the"
+msgstr ""
+
+#: src/game.c:740
+msgid "penguin is OK!"
+msgstr ""
+
+#: src/game.c:741
+msgid "Just watch what happens:"
+msgstr ""
+
+#: src/game.c:742
+msgid "(Press a key to start)"
+msgstr ""
+
+#: src/game.c:755
+msgid "Notice the answer"
+msgstr ""
+
+#: src/game.c:765
+msgid "If it gets hit again, the"
+msgstr ""
+
+#: src/game.c:766
+msgid "penguin leaves."
+msgstr ""
+
+#: src/game.c:767
+msgid "(Press a key when ready)"
+msgstr ""
+
+#: src/game.c:786
+msgid "You can fix the igloos"
+msgstr ""
+
+#: src/game.c:787
+msgid "by stopping bonus comets."
+msgstr ""
+
+#: src/game.c:796
+msgid "Zap it now!"
+msgstr ""
+
+#: src/game.c:800
+msgid "Great job!"
+msgstr ""
+
+#: src/game.c:814
+msgid "Quit at any time by pressing"
+msgstr ""
+
+#: src/game.c:815
+msgid "'Esc' or clicking the 'X'"
+msgstr ""
+
+#: src/game.c:816
+msgid "in the upper right corner."
+msgstr ""
+
+#: src/game.c:817
+msgid "Do it now, and then play!"
+msgstr ""
+
+#: src/titlescreen.c:470
+msgid "Work In Progress!"
+msgstr "Chargement"
+
+#: src/titlescreen.c:471
+msgid "This feature is not ready yet"
+msgstr "Cette option n'est pas encore disponible"
+
+#: src/titlescreen.c:472
+msgid "Discuss the future of TuxMath at"
+msgstr "Participer au futur de TuxMath au"
+
+#: src/titlescreen.c:473
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/titlescreen.c:645
+msgid "Math Command Training Academy"
+msgstr "Ecole d'entrainement au Math"
+
+#: src/titlescreen.c:646
+msgid "Play Arcade Game"
+msgstr "Jouer en mode arcade"
+
+#: src/titlescreen.c:647
+msgid "Play Custom Game"
+msgstr "Jouer en mode personnalisé"
+
+#: src/titlescreen.c:648
+msgid "Help"
+msgstr "Aide"
+
+#: src/titlescreen.c:649
+msgid "More Options"
+msgstr "Plus d'options"
+
+#: src/titlescreen.c:650
+msgid "Quit"
+msgstr "Quitter"
+
+#: src/titlescreen.c:721
+msgid "Space Cadet"
+msgstr "Cadet de l'espace"
+
+#: src/titlescreen.c:722
+msgid "Scout"
+msgstr "Scout"
+
+#: src/titlescreen.c:723
+msgid "Ranger"
+msgstr "Ranger"
+
+#: src/titlescreen.c:724
+msgid "Ace"
+msgstr "As"
+
+#: src/titlescreen.c:725
+msgid "Hall Of Fame"
+msgstr "Tableau des scores"
+
+#: src/titlescreen.c:726
+msgid "Main menu"
+msgstr "Menu principal"
+
+#: src/titlescreen.c:808
+msgid "Edit 'options' file in your home directory"
+msgstr "Editer le fichier 'option' dans le dossier home"
+
+#: src/titlescreen.c:809
+msgid "to create customized game!"
+msgstr "pour créer une partie personnalisée !"
+
+#: src/titlescreen.c:810
+msgid "Press a key or click your mouse to start game."
+msgstr "Appuyez sur une touche ou cliquez pour commencer"
+
+#: src/titlescreen.c:811
+msgid "See README.txt for more information"
+msgstr "Lisez README.txt pour plus d'informations"
+
+#: src/titlescreen.c:842
+msgid "Demo"
+msgstr "Demo"
+
+#: src/titlescreen.c:843
+msgid "Project Info"
+msgstr "A propos"
+
+#: src/titlescreen.c:844
+msgid "Credits"
+msgstr "Crédits"
+
+#: src/titlescreen.c:845
+msgid "Main Menu"
+msgstr "Menu principal"
+
+#: src/titlescreen.c:891
+msgid "TuxMath is free and open-source!"
+msgstr "TuxMath est gratuit et open-source!"
+
+#: src/titlescreen.c:892
+msgid "You can help make it better by reporting problems,"
+msgstr "Participez à l'amélioration du jeu en nous signalant des problemes,"
+
+#: src/titlescreen.c:893
+msgid "suggesting improvements, or adding code."
+msgstr "vos suggestions, ou en développement."
+
+#: src/titlescreen.c:894
+msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
+msgstr "Parlons-en sur tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr "Taper un nombre"
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr "Addition 1 à 3"
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr "Addition 1 à 5"
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr "Addition: Somme de 10"
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr "Addition: Somme de 15"
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr "Addition: Somme de 20"
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr "Addition: Nombres à deux chiffres"
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr "Addition: Nombre manquant"
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr "Addition: 0 à 10"
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr "Soustraction: 0 à 20"
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Soustraction: Nombre à deux chiffres"
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr "Rapport d'addition et soustraction"
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr "Multiplication: 0 à 3"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "Multiples de 2"
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr "Multiples de 3"
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr "Multiples de 4"
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr "Multiples de 5"
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr "Multiplication: 0 à 5"
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr "Multiples de 6"
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr "Multiples de 7"
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr "Multiplication: 0 à 7"
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr "Multiples de 8"
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr "Multiples de 9"
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr "Multiples de 10"
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr "Multiplication: 0 à 10"
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr "Multiples de 11 et 12"
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr "Multiplication: 0 à 12"
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr "Multiples de 13, 14 et 15"
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr "Multiplication: 0 à 15"
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr "Multiplication: Nombres manquants"
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr "Division par 2"
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr "Division par 3"
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr "Division par 4"
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr "Division par 5"
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr "Division: 1 à 5"
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr "Division par 6"
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr "Division par 7"
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr "Division par 8"
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr "Division par 9"
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr "Division par 10"
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr "Division: 1 à 10"
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr "Division par 11 et 12"
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr "Division: 1 à 12"
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr "Division par 13, 14 et 15"
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr "Division: 1 à 15"
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr "Rapport de multiplication et division"
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr "Nombres négatifs entrés"
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr "Soustraction: fausses réponses"
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr "Addition: négatifs aux positifs"
+
+#: data/missions/lessons/descr_lessons:50
+msgid "Subtracting Negatives From Positives"
+msgstr "Soustraction de négatifs au positifs"
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Adding Negatives to Negatives"
+msgstr "Ajout de négatifs aux positifs"
+
+#: data/missions/lessons/descr_lessons:52
+msgid "Subtracting Negatives From Negatives"
+msgstr "Soustraction de négatifs aux négatifs"
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Negative and Positive Numbers Review"
+msgstr "Rapport des nombres négatifs au positifs"
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Multiplication and Division of Negatives"
+msgstr "Multiplication et division de négatifs"
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication of Positives and Negatives"
+msgstr "Multiplication de positifs et négatifs"
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Division of Positives and Negatives"
+msgstr "Division de positifs et négatifs"

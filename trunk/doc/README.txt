@@ -1,0 +1,669 @@
+"Tux, of Math Command"
+An educational math tutorial game starring Tux, the Linux Penguin
+-----------------------------------------------------------------
+
+June 11, 2008
+
+For tuxmath-1.6.3
+
+Objective
+---------
+  In "Tux, of Math Command," you play the part of Commander Tux, as he
+  defends his friends from an attack of math equations.
+
+  Comets are crashing towards the friendly penguins in their igloos,
+  and you must destroy the comets by solving their equations.
+
+
+
+Installation
+------------
+  For instructions on installing the game on your system,
+  please read the "INSTALL.txt" file.
+
+
+Configuration
+-------------
+  If multiple players are using a single account (e.g., a home computer
+  that is always logged in, or a school setting in which all students
+  have a single username), you may want to do some additional
+  configuration---see below under "Configuring Multiple Users."
+
+
+Running The Program
+-------------------
+  Linux/Unix
+  ----------
+    Your distribution probably already has a menu entry for Tuxmath
+    under the KDE or GNOME menus.  If not, depending on your graphical
+    interface or window manager, you can probably also create a
+    clickable icon which will launch the game.  See your interface's
+    documentation or help screens for details.
+
+    Alternatively, simply type the command "tuxmath" at a command
+    prompt (eg, in an xterm).
+
+  Windows
+  -------
+    Just double-click the "TuxMath.exe" icon or select "Tuxmath" in the Start
+    Menu.  The current installer creates menu items to run tuxmath either in
+    Fullscreen mode or within a 640 x 480 window.
+
+  MacOS
+  -----
+    Double-click the "tuxmath" icon.
+
+
+
+Program Navigation
+------------------
+  Title Screen
+  ------------
+    Math Command Training Academy: choose this to go to a list of over fifty
+    prepared lessons, starting with simple typing of single digit numbers, and
+    progressing to multiplication and division involving negatives and 
+    "missing number" questions (e.g. "-17 x ? = 119").  The player wins if the
+    question list is completed successfully. Successfully completed lessons are
+    indicated with a flashing gold star. 
+
+    Play Arcade Game: use this to select from one of four open-ended, "Arcade 
+    Style" games, meaning the game play gets faster and faster as long as the
+    player can keep up, with the goal being to get the highest score possible.
+    The options include:
+      Space Cadet - simple addition.
+      Scout -       addition and subtraction to ten.
+      Ranger -      addition, subtraction, multiplication, and division to ten.
+      Ace -         all four operations with operands to 20, including negative
+                    numbers and "missing number" type questions.
+    If you make one of the top ten scores for the difficulty level, you get to
+    enter your name in the TuxMath Hall of Fame!
+
+    Play Custom Game: use this to play a game based on the config file in the 
+    player's home directory (see below). At some point, the options will be 
+    settable from within the game.
+
+    Help: this offers a short tutorial to teach game play.
+
+    More Options: this will be developed into the menus to set options not 
+    directly related to math questions, such as toggling the music on and off,
+    playing fullscreen vs. windowed, using cities vs. igloos, and the like.
+    Now it just has the "Demo" mode, as well as credits and project information.
+
+    Use the [UP] and [DOWN] arrow keys to select what you wish to do,
+    and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the
+    menu item.
+
+    Pressing [ESCAPE] will quit the program.
+
+
+
+
+How To Play
+-----------
+  One of the best ways to get started is by choosing the "Help" option
+  in the main menu.  This offers a tutorial for basic play.  There are
+  some additional features described below.
+
+  Destroying Comets
+  -----------------
+    As the comets fall towards your friends, you must solve the equations.
+
+    To destroy it:
+    --------------
+      First, figure out the answer to the equation.
+      For example, "3 x 4 = ?" would be "12"
+
+      Second, type in the answer.  As you type numbers on the keyboard, they
+      will appear in the "LED"-style display on Tux's flat-panel monitor.
+      If negative answers are enabled, there will be a fourth place in the
+      LED display for the minus sign.  The '-' and '+' keys will toggle the
+      minus sign on and off, respectively.
+
+      Finally, press [ENTER / RETURN] or [SPACE].
+
+
+    The comet that has the number you entered as its answer will
+    be shot down by Tux!
+
+    Note: Sometimes more than one comet will have the same answer.
+          In this case, the lowest comet will be destroyed.
+
+    Note: After typing [ENTER / RETURN], the "LED"-style display will
+          automatically reset to "000" for you, so you can answer the
+          next equation!
+
+
+  Correcting Your Answer
+  ----------------------
+    If you made a mistake as you typed in your answer, you can press
+    [BACKSPACE / DELETE] and the "LED"-style display at the top center
+    of the screen will reset to "000".
+
+
+  Using the On-Screen Keypad
+  --------------------------
+    If you launched the program with the "--keypad" (or "-k") option,
+    the game screen will also have a numeric keypad on the
+    center of the screen.  (It has a similar layout to most keyboard
+    number pads and calculators.)
+
+    Using the mouse pointer to click on the on-screen buttons acts
+    just like typing numbers on the keyboard.
+
+    This feature could be useful for computers with touchscreens,
+    or for players who cannot use a keyboard.
+
+
+  Advancing Waves
+  ---------------
+    When all the comets are destroyed for one wave, the player
+    advances to the next.  The level of difficulty generally increases
+    with each level.  On Training Academy lessons, the program
+    "learns" from the player to try to adjust the difficulty, and may
+    decrease if the player has lost one or more igloos (see below).
+
+
+  Losing An Igloo or City
+  -----------------------
+    The default setting is to play with igloo-dwelling penguins.
+    If a comet reaches the igloo, the igloo is partially melted.
+    A second hit melts the igloo the rest of the way, and the 
+    saddened penguin trudges off the screen.
+
+    If cities are used (by placing "use_igloos = 0" in the config
+    file and selecting "Play Custom Game"), game play is the same.
+    The first comet strike deactivates the city's shields, and the
+    second hit destroys the city. If this seems too scary or violent,
+    please use the penguin/igloo theme! 
+
+
+  Regaining Igloos/Cities
+  -----------------------
+    When a question is answered correctly, the player earns progress toward
+    a bonus comet that allows an igloo or city to be rebuilt.  Progress is
+    indicated with a green bar in the upper left corner of the screen. The
+    bonus comet is red and moves faster than regular comets.  If the player
+    shoots down the bonus comet, a "snowstorm" image appears in place of the
+    bonus progress bar, and one of the igloos/cities will be rebuilt after 
+    the current wave.
+
+
+  Ending The Game
+  ---------------
+    The default mode is now to play through a defined list of
+    questions. This mode is used in the "Training Academy" games.  For
+    "Custom" games, it can be selected by setting the config file
+    'play_through_list' parameter to 1 ('yes' or 'true'), or via the
+    "--playthroughlist" command line argument.  The list is generated
+    by TuxMath based on a series of selectable parameters (selected
+    math operations, number ranges, etc). By default, the questions
+    are asked in a random order.  If answered correctly, they are
+    removed.  A question that is not answered correctly (allowing the
+    comet to destroy its target) will reappear in random order.  If
+    all questions are successfully answered before the igloos or
+    cities have been destroyed, the player wins and a "victory" screen
+    is displayed.
+
+    Arcade-style play is also supported, in which the game continues
+    until you lose all of your igloos or cities.  A GAME OVER screen
+    is then displayed.  If you use one of the standard Arcade games,
+    you'll have the opportunity to put your name in a high-score
+    table.  For the "Custom" games, you can select this mode by
+    setting 'play_through_list' to '0' ('no', 'false', 'off').
+
+    By pressing Esc or clicking on the red circle in the upper right
+    corner, you can quit the game.
+
+  Shortcut Keys
+  -------------
+    The following shortcuts are supported during game play:
+
+      'F10':        switches between windowed and full-screen display mode.
+      'P' or 'Tab': pauses the game, if allowed. The included "Math Command
+                    Training Academy" lessons allow pausing, while the "Arcade"
+                    games do not.
+      Up Arrow:     increase speed by 20%, if allowed.
+      Down Arrow:   decrease speed by 20%, if allowed.  Speed changes
+                    are allowed when pausing is enabled.
+      'Esc':        leave current game and display the menu.
+
+
+
+Setting Game Options
+--------------------
+  The "Options" system remains in need of an overhaul. For now, you can
+  play the pre-packaged "Lesson" or "Arcade" games, or edit the options file
+  to create a "Custom" game.  At some point the "Custom" settings will be
+  modifiable from within TuxMath.
+
+  1. The program reads and writes the settings to disk in a
+  human-readable fashion, where they can be modified with a text
+  editor. The file contains extensive comments describing all
+  settings. By editing and saving this file, very extensive control
+  over the program is supported, particularly with respect to
+  generation of math questions. There really is no need to use
+  command-line options any more.
+
+  On Unix/Linux (non-Mac): the file is created in the user's home
+  directory within a directory called ".tuxmath" and is simply called
+  "options". As an example, a user "laura" on a Unix/Linux system
+  would find this at /home/laura/.tuxmath/options.
+
+  On Macs: the file can be found under tuxmath/Contents/Resources.
+
+  On a Windows XP or Windows 2000 system, the config file is called
+  "options.txt" and is located at C:\Documents And
+  Settings\USER\Application Data\TuxMath\options.txt, where USER is
+  the login of the current user. Note that 'Application Data' is
+  hidden by default by the operating system.
+
+  2. Many command-line options are supported (see below). 
+
+  
+Setting Administrative Options
+------------------------------
+  "Tux, of Math Command" allows parents/teachers to control whether the game
+  options can be changed by the player.
+
+  The game options are first read from a master config file in the
+  program's data directory (/usr/local/share/tuxmath/missions/options
+  on *nix if installed using "make install"), then overridden by the
+  user's own /.tuxmath/options file if "per_user_config" is selected
+  in the master options file.  If "per_user_config" is deselected, the
+  game starts up with the master settings.  (This is somewhat under
+  construction).
+
+
+Game Summary Files: Tracking Players' Performance
+-------------------------------------------------
+  "Tux, of Math Command" saves summaries of the last ten games in the
+  player's .tuxmath directory.  The files are named "summary1" through
+  "summary10", with "summary1" the most recent. The files includes
+  lists of questions asked and questions missed, along with the
+  numbers of correct and incorrect answers and the percent correct and
+  information about how long a given question was typically displayed
+  on the screen before it was answered.
+
+  In addition to these summary files, there is also a log.csv file
+  that contains a one-line summary of each attempted mission (the user
+  must have answered at least one question to count as an attempt).
+  This file can be imported into a spreadsheet program (OpenOffice.org
+  calc, Microsoft Excel, KSpread, Gnumeric, Google Docs, etc.) to
+  examine or chart child progress.
+
+
+Using Multi-User Configuration: Some Tips for Teachers
+------------------------------------------------------
+  Your school's computer administrator can configure TuxMath so that
+  students "log in" when they first start playing (see below).
+  Students will then have their own personalized gold star records,
+  and summary and log files (described immediately above) will be
+  saved for each student individually.
+
+  If you want to test TuxMath yourself without "contaminating" the
+  records in a student account, hold down the control key ("Ctrl")
+  when you click on the menu entry corresponding to you and your
+  classroom.  Then you will be playing "as yourself."
+
+
+Configuring Multiple Users
+--------------------------
+  In some cases, the user's log-in name is not very informative: an
+  example is when schools use a single username "student" for all
+  students in the school.  It is possible to set up TuxMath so that it
+  asks students to "log in" (without any password) when they first
+  start the game.  This will insure that all gold stars, options, and
+  game summary files will be stored in a location specific to each
+  user.
+
+  Setting this up is fairly simple.  There are two ways to do it:
+  manually and using a separate program "tuxmathadmin".  The first
+  two steps are the same either way:
+
+     1. Decide where you want this information stored.  You might want
+        to put it on a central server.  In the appropriate place
+        (let's say it's "/servervolume/"), create a directory which
+        for current purposes we'll call "tuxmath_users".
+
+     2. Set it up so that tuxmath automatically finds the user
+        directory tree.  Find the global configuration file (e.g.,
+        under Linux it would usually be
+        /usr/local/share/tuxmath/missions/options; on Mac OSX it is a
+        file called "options" in the .dmg bundle).  Set the "homedir"
+        property (at the very end of the file) to point to your home
+        directory tree. Make sure you uncomment (remove the "#"
+        symbol) from that line.
+
+	Be aware that you can also employ the command line option
+        "--homedir /severvolume/tuxmath_users" (along with any other
+        options) upon launching tuxmath.  An individual
+        classroom could make use of this school-wide service by
+        specifying (in the option-file syntax) homedir =
+        /servervolume/tuxmath_users/2nd\ grade/Mrs.\ Johnson so that
+        students in a particular classroom only have to choose among
+        their own class and not go through the full login "tree".
+
+  If you are using tuxmathadmin, here are the remaining steps:
+
+     3. Using a spreadsheet program, create a spreadsheet that
+        reflects the way you want to organize the login system.  The
+        following example should illustrate the syntax (try viewing
+        this with a fixed-width font if the spacing is unclear):
+
+        Col 1                  Col 2                           Col 3
+        1st Grade
+                               Mr. Jones
+                                                               KidA
+                                                               KidB
+                                                               KidC
+                               Mrs. Smith
+                                                               Kid1
+                                                               Kid2
+        2nd Grade
+                               Mrs. Wilson
+                                                               Kid a
+                                                               Kid b
+                                                               Kid c
+                                                               Kid d
+
+        This indicates that three kids (named "KidA", "KidB", and
+        "KidC") are in Mr.  Jones' 1st grade class; two kids ("Kid1"
+        and "Kid2") are in Mrs. Smith's 1st grade class, and there are
+        4 in Mrs. Wilson's 2nd grade class.  The school presumably has
+        more kids and more classrooms than this, but this is a short
+        example intended to illustrate the organization of the file.
+
+	Note that it's flexible: you don't have to divide things by
+	grade, teacher, and kid; you could just do teacher & kid, or
+	just kids, or you could do something even more complicated
+	("East Campus", "1st grade", etc.). If you were just wanting
+	to set things up for home use with a single login you could
+	just list the names of your kids in a single column and that
+	would be it.
+
+	Save the spreadsheet as a comma-separated-value file (.csv
+        file).  In case you have to prepare it manually (say, with a
+        text editor) the resulting CSV file would look like this:
+
+	"1st Grade",,
+	,"Mr. Jones",
+	,,"KidA"
+	,,"KidB"
+	,,"KidC"
+	,"Mrs. Smith",
+	,,"Kid1"
+	,,"Kid2"
+	"2nd Grade",,
+	,"Mrs. Wilson",
+	,,"Kid a"
+	,,"Kid b"
+	,,"Kid c"
+	,,"Kid d"
+
+     4. Create the directory hierarchy with the following command
+        (executed from the command line, aka shell):
+
+          tuxmathadmin --createhomedirs userfile.csv
+
+	  OR
+
+          tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs userfile.csv
+
+	(use the 2nd syntax if you haven't updated the global
+	configuration file yet as in step 2 above).  Here,
+	"userfile.csv" is the name of the file that you created in the
+	previous step.  It should tell you that it's creating all the
+	user directories and complete without error.  Note that
+	"tuxmathadmin -h" gives help, including a list of the things
+	that tuxmathadmin can do.
+
+     5. Optionally, in the "tuxmath_users" directory you can also
+        create a file that poses a question at each step of the
+        hierarchy.  For the example above, it might contain three
+        lines:
+
+	Choose your grade:
+	Choose your teacher:
+	Who are you?
+
+	You need to save this as a raw text file with the name
+	"user_login_questions" ("user_login_questions.txt" on Windows)
+	in the top level of the user hierarchy directory
+	(/servervolume/tuxmath_users).  If you omit this file, then
+	students will simply be presented with the list without any
+	kind of prompt.
+
+     6. Decide on how you want users to compete for high scores.  For
+        the example above, suppose you want each student to compete
+        against the other kids in their same classroom.  You would
+        configure this with the following command:
+
+          tuxmathadmin --confighighscores --level 3
+
+	"tuxmathadmin -h" gives detail about the meaning of the
+	choices of different levels.
+
+     7. Optionally, at least under Linux (and probably other OSes) you
+        can also configure certain tasks to run automatically using
+        "cron."  For example, if you want to clear all the students'
+        gold stars on a daily basis, you can put a script that
+        executes
+
+           tuxmathadmin --cleargoldstars
+
+	in the /etc/cron.daily directory. See the cron documentation
+	for more detail.  You may also want to run tuxmathadmin with
+	--consolidatelogs to generate daily reports (see below).
+
+
+
+   If you instead choose to configure TuxMath manually, these are the steps:
+
+     3. In tuxmath_users, create a text file called
+        "user_menu_entries."  This file contains the list of choices
+        that students will be presented with upon login, one entry per
+        line.  For example, a large school with many classrooms might
+        have choices called "Kindergarten," "1st grade," and so on.
+
+     4. In the same directory, create sub-directories that have the
+        same names that appear in user_menu_entries.
+
+     5. Create further user_menu_entries and further subdirectories
+        inside each of these.  For example, in "Kindergarten" you
+        might want to create directories for each classroom, say
+        "Mrs. Smith" and "Mr. Jones."  A smaller school might choose
+        to skip the by-grade organization and go straight to each
+        classroom; a single computer in a single classroom might skip
+        these altogether.  Always make sure that the user_menu_entry
+        file matches the directory structure (although having extra
+        directories will not cause a problem).
+
+	You have to make sure that all the write permissions are set
+	correctly for the students to be able to write to these
+	directories.
+
+     6. At the finest level, create a menu item and one subdirectory
+        for each student.
+
+     7. Optionally, perform the tasks described above in step 5 of the
+        "tuxmathadmin" configuration (creation of the
+        user_login_questions file).
+
+     8. Optionally, you can create an empty file called "highscores"
+        ("highscores.txt" on Windows) at whatever level of the
+        hierarchy you want users to be competing for the high score.
+        For example, if you want the high scores to be grade-wide,
+        then put a "highscores" file in each grade's directory.
+        Alternatively, each classroom could have it's own, or even
+        each student.  If you do nothing, then each student will have
+        a private high score table.  (In case of multiple highscores
+        files, the one at the lowest level of the hierarchy wins.)
+
+  Note there is no security insuring that students select themselves.
+
+
+Tracking Progress in Multiple-User Configurations
+-------------------------------------------------
+  tuxmathadmin contains a feature, "--consolidatelogs", that creates a
+  consolidated_log.csv file in all directories that are one above the
+  lowest level.  The basic use-case is to combine the reports on all
+  students in a particular class.  Teachers/parents can open this file
+  with a spreadsheet program as described above under "Game Summary
+  Files."
+
+
+
+
+Command Line Options
+--------------------
+    NOTE: Tuxmath now has many pre-packaged "missions" (lessons), as  well
+    as four arcade-style open-ended games of progressive difficulty, so
+    there is much less need to change settings.  If desired, editing the
+    config file is a much better way to control the behavior of TuxMath
+    than the command-line options, for the most part.  However, many
+    options are still supported.
+
+    Tips on running from the command line:
+
+    Linux:
+    -----
+    Just open a command prompt.
+
+    Windows:
+    -------
+    To be prompted for command line options, run tuxmath from the "Run" dialog
+    or the "C:> Command Prompt" console. Type "TuxMath.exe" followed by any 
+    desired options (see below). If it does not run, make sure the full path
+    to the program (e.g. C:\Program Files\TuxMath\TuxMath.exe) is known to 
+    Windows, either through Control Panel settings or by changing to the
+    directory containing TuxMath.exe before issuing the command.
+
+    MacOS:
+    -----
+    [ UNDER CONSTRUCTION ]  Just double-click the "tuxmath" icon. ???
+    To be prompted for command line options (see below), hold the [OPTION] key
+    as you double-click the icon.
+
+
+    The following command-line options can be sent to the program:
+     --optionfile filename - play game based on settings in the named file (see
+                         below for more on tuxmath config files). Tuxmath will
+                         look for a valid config file with a matching name in
+                         the following locations:
+                         	1. current working directory
+				2. as an absolute pathname
+				3. in the missions directory with tuxmath's 
+                                   other data files.
+				4. in the user's tuxmath options directory
+                                   (e.g. /home/laura/.tuxmath/filename
+                                5. in the user's home directory.
+
+     --playthroughlist - Game consists of working through a list of questions
+      -r                 generated based on the selected options (or defaults).
+                         If a comet strikes a city without being shot down by
+                         the player, the question is reinserted into the list
+                         in a random location. If the player answers all questions
+                         correctly before the cities are destroyed, he/she wins.
+                         If all cities get destroyed, the game ends in defeat.
+
+     --answersfirst   -  to ask questions in format: ? + num2 = num3 instead of 
+                         default format: num1 + num2 = ?.
+
+     --answersmiddle  -  to ask questions in format: num1 + ? = num3 instead of
+                         default format: num1 + num2 = ?.
+
+     --fullscreen     -  Run the game in full screen, instead of in a window,
+      -f                 if possible.
+
+     --windowed       -  Run the game in a 640 x 480 window.
+      -w
+
+     --nosound        -  Do not play any sounds or music.
+      -s
+     --quiet
+      -q
+
+     --nobackground   -  Do not display photographic backgrounds in game.
+      -b                 (Useful on slower systems.)
+
+     --keypad         -  Display an on-screen numeric keypad.  (Useful
+      -k                 for touch screens or in place of a physical keyboard.)
+
+     --operator OP    -  Add an operator to the game (will cause the program
+      -o OP              to ignore saved option screen settings).  You can
+                         use this switch multiple times to run the game
+                         with multiple operators.
+
+                         Valid values for "OP" are:
+
+                           add
+                           subtract
+                           multiply
+                           divide
+
+     --demo           -  Demo mode.  The game will cycle back and forth
+      -d                 between the title and the game, and it will
+                         auto-play the game.  The only user interaction
+                         can be for quitting or pausing.
+
+     --allownegatives    Allows subtraction answers to be less than zero.
+      -n                 When selected, the led numbers at the top of the
+                         screen will include a fourth digit for the '-' sign.
+                         Also, if --keypad is selected, the '-' and '+' may
+                         be grayed-out depending if negatives are allowed.
+
+
+    These command-line options display useful information, but the program
+    does not attempt to start up in interactive mode.
+
+     --help           -  Display a short help message, explaining how to
+      -h                 play the game.
+
+     --usage          -  Display the available command-line options.
+      -u
+
+     --version        -  Display the version of "tuxmath" you're running.
+      -v
+
+     --copyright      -  Display copyright information
+      -c
+
+
+
+
+License
+-------
+  "Tux, of Math Command" is Free Software, distributable under the
+  GNU General Public License (GPL).  Please read COPYING.txt for more info.
+
+
+
+Credits
+-------
+  Designed by Sam "Criswell" Hart  <criswell@geekcomix.com>
+  Software by Bill Kendrick  <bill@newbreedsoftware.com>
+
+  Current maintainer/programmer David Bruce <dbruce@tampabay.rr.com>
+
+  Please see the game's "Credits" screen for a complete list of contributors.
+
+
+
+Software Used
+-------------
+  GNU C Compiler, GNU Make, GNU Autoconf, GNU Automake, GNU Gettext
+    http://www.gnu.org/
+
+  SDL and associated libraries:
+    http://www.libsdl.org/
+
+  The GIMP
+    http://www.gimp.org/
+
+  KDevelop
+    http://www.kdevelop.org/
+
+  Subversion
+    http://subversion.tigris.org/
+
+
