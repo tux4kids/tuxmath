@@ -1,7 +1,7 @@
 /*
 *  C Implementation: mathcards.c
 *
-*         Description: implementation of backend for a flashcard-type math game. 
+*       Description: implementation of backend for a flashcard-type math game. 
         Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
         (aka tuxmath).  (If tuxmath were a C++ program, this would be a C++ class).
         MathCards could be used as the basis for similar games using a different interface.
@@ -95,8 +95,8 @@ const int MC_DEFAULTS[] = {
   999,  //MAX_ANSWER                
   5000, //MAX_QUESTIONS             
   1,    //QUESTION_COPIES           
-  3,    //MAX_FORMULA_NUMS          
-  1,    //MIN_FORMULA_NUMS          
+  2,    //MAX_FORMULA_NUMS          
+  2,    //MIN_FORMULA_NUMS          
         //                          
   1,    //FORMAT_ANSWER_LAST        
   0,    //FORMAT_ANSWER_FIRST       
@@ -184,7 +184,7 @@ static MC_MathQuestion* generate_list(void);
 static void clear_negatives(void);
 static int validate_question(int n1, int n2, int n3);
 static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
-static MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard);
+static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
 static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
@@ -200,7 +200,9 @@ static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
 static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
+#ifndef MC_USE_NEWARC
 static int randomly_keep(void);
+#endif
 static int floatCompare(const void *v1,const void *v2);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
@@ -264,7 +266,7 @@ int MC_Initialize(void)
   } 
   
   /* set defaults */
-  math_opts->fraction_to_keep = DEFAULT_FRACTION_TO_KEEP;
+  //math_opts->fraction_to_keep = DEFAULT_FRACTION_TO_KEEP;
   for (i = 0; i < NOPTS; ++i)
     {
     math_opts->iopts[i] = MC_DEFAULTS[i];
@@ -334,8 +336,8 @@ int MC_StartGame(void)
   /* determine how much space needed for strings, based on user options */
   max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
                    * ((int)(log10f(MC_GLOBAL_MAX) ) + 4) //sign/operator/spaces
-                   + 2; //question mark for answer, and ending '\0'
-  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 2; //sign and ending '\0'
+                   + 1; //question mark for answer
+  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 1; //negative sign
   
   mcdprintf("max answer, formula size: %d, %d\n", 
             max_answer_size, max_formula_size);
@@ -1509,15 +1511,15 @@ MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
 {
   MC_MathQuestion* ret = malloc(sizeof(MC_MathQuestion) );
   if (ret)
-    copy_card(&other->card, &ret->card);
+    copy_card(&(other->card), &(ret->card) );
   return ret;
 }
 #endif
 
-MC_MathQuestion* create_node_from_card(MC_FlashCard* flashcard)
+MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard)
 {
   MC_MathQuestion* ret = allocate_node();
-  copy_card(flashcard, &ret->card);
+  copy_card(flashcard, &(ret->card));
   return ret;
 }
 
@@ -1530,7 +1532,7 @@ MC_FlashCard create_card_from_node(MC_MathQuestion* node)
   if (!node)
     return DEFAULT_CARD;
   fc = MC_AllocateFlashcard();
-  copy_card(&node->card, &fc);
+  copy_card(&(node->card), &fc);
   return fc;
 }
 #endif
@@ -1551,7 +1553,7 @@ int copy_node(MC_MathQuestion* original, MC_MathQuestion* copy)
     return 0;
   }  
 
-  copy_card(&original->card, &copy->card);
+  copy_card(&(original->card), &(copy->card) );
  
   copy->next = original->next;
   copy->previous = original->previous;
@@ -1849,7 +1851,7 @@ int compare_node(MC_MathQuestion* first, MC_MathQuestion* other)
 {
   if (!first || !other)
     return 0;
-  if (compare_card(&first->card, &first->card) ) //cards are equal
+  if (compare_card(&(first->card), &(first->card) ) ) //cards are equal
     return 1;
   else
     return 0;
@@ -1909,7 +1911,7 @@ int abs_value(int i)
     return -i;
 }
 
-
+#ifndef MC_USE_NEWARC
 /* Returns true at probability set by math_opts->fraction_to_keep */
 int randomly_keep(void)
 {
@@ -1929,6 +1931,7 @@ int randomly_keep(void)
   else
     return 0;
 }
+#endif
 
 /* Compares two floats (needed for sorting in MC_MedianTimePerQuestion) */
 int floatCompare(const void *v1,const void *v2)
@@ -1946,18 +1949,32 @@ int floatCompare(const void *v1,const void *v2)
     return 0;
 }
 
+
+
+
+
+
+
+
+
 #ifdef MC_USE_NEWARC
 
 /****************************************************
 Experimental functions for new mathcards architecture
 ****************************************************/
 
+
+
+
+
 /* allocate space for an MC_Flashcard */
 MC_FlashCard MC_AllocateFlashcard(void)
 {
   MC_FlashCard ret;  
-  ret.formula_string = malloc(max_formula_size * sizeof(char));
-  ret.answer_string = malloc(max_answer_size * sizeof(char));
+  mcdprintf("Allocating %d + %d bytes for flashcard\n", 
+            max_formula_size + 1, max_answer_size + 1);
+  ret.formula_string = malloc( (max_formula_size + 1) * sizeof(char));
+  ret.answer_string = malloc( (max_answer_size + 1) * sizeof(char));
   if (!ret.formula_string || !ret.answer_string)
     {
     free(ret.formula_string);
@@ -1971,7 +1988,6 @@ void MC_FreeFlashcard(MC_FlashCard* fc)
 {
   if (!fc) 
     return;
-#ifndef MC_DEBUG
   mcdprintf("Freeing formula_string\n");
   if (fc->formula_string)
     {
@@ -1984,7 +2000,6 @@ void MC_FreeFlashcard(MC_FlashCard* fc)
     free(fc->answer_string);
     fc->answer_string = NULL;
     }
-#endif
 }
 
 void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
@@ -2003,7 +2018,7 @@ void free_node(MC_MathQuestion* mq) //no, not that freenode.
 {
   if (!mq)
     return;
-  MC_FreeFlashcard(&mq->card);
+  MC_FreeFlashcard(&(mq->card) );
   free(mq);
 }
 
@@ -2033,7 +2048,17 @@ MC_FlashCard generate_random_flashcard(void)
   MC_FlashCard ret;
   
   mcdprintf("Entering generate_random_flashcard()\n");
-  pt = rand() % MC_NUM_PTYPES;
+  
+  do
+    pt = rand() % MC_NUM_PTYPES;
+  while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
+          (pt == MC_PT_ARITHMETIC && !MC_GetOpt(ADDITION_ALLOWED) && 
+                                   !MC_GetOpt(SUBTRACTION_ALLOWED) && 
+                                   !MC_GetOpt(MULTIPLICATION_ALLOWED) && 
+                                   !MC_GetOpt(DIVISION_ALLOWED) ) ||
+         pt == MC_PT_COMPARISON //&& !MC_GetOpt(COMPARISION_ALLOWED) 
+         );
+  
   if (pt == MC_PT_TYPING) //typing practice
   {
     mcdprintf("Generating typing question\n");
@@ -2050,7 +2075,7 @@ MC_FlashCard generate_random_flashcard(void)
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf("Generating question of length %d", length);
     ret = generate_random_ooo_card_of_length(length);
-    
+    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
   }
   //TODO comparison problems (e.g. "6 ? 9", "<")
   
@@ -2068,7 +2093,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
   int r1 = 0;
   int r2 = 0;
   int ans = 0;
-  char* tempstr[max_formula_size];
+  char tempstr[max_formula_size];
   MC_FlashCard ret;
   MC_Operation op;
     
@@ -2147,7 +2172,9 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
       else if (op == MC_OPER_DIV)
         r1 = 1;
       
-      sprintf(tempstr, "%c %d", operchars[op], r1);
+      snprintf(tempstr, max_formula_size, "%s %c %d", //append
+               ret.formula_string, operchars[op], r1);
+      strncpy(ret.formula_string, tempstr, max_formula_size);
     }
     else //we're prepending
     {
@@ -2199,7 +2226,6 @@ unsigned int MC_MapTextToIndex(const char* text)
   int i;
   for (i = 0; i < NOPTS; ++i)
   {
-    mcdprintf("%d: %s", i, MC_OPTION_TEXT[i] );
     if (!strcasecmp(text, MC_OPTION_TEXT[i]) )
       return i;
   }
@@ -2212,7 +2238,7 @@ void MC_SetOpt(unsigned int index, int val)
 {
   if (index >= NOPTS)
   {
-    printf("Invalid option index: %du\n", index);
+    mcdprintf("Invalid option index: %d\n", index);
     return;
   }
   math_opts->iopts[index] = val;
@@ -2227,7 +2253,7 @@ int MC_GetOpt(unsigned int index)
 {
   if (index >= NOPTS)
   {
-    printf("Invalid option index: %du\n", index);
+    mcdprintf("Invalid option index: %d\n", index);
     return MC_MATH_OPTS_INVALID;
   }  
   if (!math_opts)
@@ -2243,15 +2269,15 @@ int MC_GetOp(const char* param)
   return MC_GetOpt(MC_MapTextToIndex(param) );
 }
 
-void MC_SetFractionToKeep(float val)
-{
-  math_opts->fraction_to_keep = val;
-}
-
-float MC_GetFractionToKeep(void)
-{
-  return math_opts->fraction_to_keep;
-}
+//void MC_SetFractionToKeep(float val)
+//{
+//  math_opts->fraction_to_keep = val;
+//}
+//
+//float MC_GetFractionToKeep(void)
+//{
+//  return math_opts->fraction_to_keep;
+//}
 
 int MC_VerifyOptionListSane(void)
 {

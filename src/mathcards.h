@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#define MC_DEBUG
+//#define MC_DEBUG
 #ifdef MC_DEBUG
 #define mcdprintf(...) printf(__VA_ARGS__)
 #else
@@ -128,13 +128,13 @@ extern const char operchars[MC_NUM_OPERS];
                                    /* can be entered for math question values.*/
 #define MC_MATH_OPTS_INVALID -9999 /* Return value for accessor functions     */
                                    /* if math_opts not valid                  */
-#define DEFAULT_FRACTION_TO_KEEP 1
+//#define DEFAULT_FRACTION_TO_KEEP 1
 
 
 typedef struct _MC_Options 
 {
   int iopts[NOPTS];
-  float fraction_to_keep; //being a float, we can't keep this in the same array
+  //float fraction_to_keep; //being a float, we can't keep this in the same array
 } MC_Options;             //it'll stay a special case, unless more float options
 
 #ifndef MC_USE_NEWARC

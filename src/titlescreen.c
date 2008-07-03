@@ -432,7 +432,7 @@ void TitleScreen_unload_menu(void)
 
   for (i = 0; i < N_SPRITES; i++)
   {
-    tmdprintf("Freeing image %d", i);
+    tmdprintf("Freeing image #%d: ", i);
     FreeSprite(sprite_list[i]);
   }
   free(sprite_list);
@@ -1728,11 +1728,11 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
         imod = loc-loc_screen_start;
         use_sprite = (menu_sprites != NULL && loc >= title_offset && menu_sprites[loc] != NULL);
         temp_rect = menu_button_rect[imod];
-        SDL_BlitSurface(current_bkg, &back_button_rect[imod], screen, &temp_rect);
+        SDL_BlitSurface(current_bkg(), &(back_button_rect[imod]), screen, &temp_rect);
         if (use_sprite)
         {
           temp_rect = menu_sprite_rect[imod];
-          SDL_BlitSurface(current_bkg, &back_sprite_rect[imod], screen, &temp_rect);
+          SDL_BlitSurface(current_bkg(), &(back_sprite_rect[imod]), screen, &temp_rect);
         }
         DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
         SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
@@ -1804,7 +1804,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
     }
     
     if (egg_active) { //if we need to, draw the egg cursor
-      SDL_GetMouseState(&cursor.x, &cursor.y);
+      //who knows why GetMouseState() doesn't take Sint16's...
+      SDL_GetMouseState((int*)&cursor.x, (int*)&cursor.y); 
       cursor.x -= egg->w / 2; //center vertically
       SDL_BlitSurface(egg, NULL, screen, &cursor);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);

@@ -330,13 +330,15 @@ void FreeSprite( sprite *gfx ) {
         int x;
         if (!gfx)
                 return;
+        printf("Freeing image");
+        tmdprintf(" at %p", gfx);
         for (x = 0; x < gfx->num_frames; x++)
         {
-                tmdprintf(".");
+                printf(".");
                 SDL_FreeSurface( gfx->frame[x] );
         }              
-        tmdprintf("\nFreeing default\n");
         SDL_FreeSurface( gfx->default_img );
+        printf("done\n");
         free(gfx);
 }
 

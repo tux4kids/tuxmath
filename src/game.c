@@ -478,6 +478,19 @@ int game_initialize(void)
   SDL_quit_received = 0;
   escape_received = 0;
 
+  /* Start MathCards backend: */
+  /* FIXME may need to move this into tuxmath.c to accomodate option */
+  /* to use MC_StartUsingWrongs() */
+  /* NOTE MC_StartGame() will return 0 if the list length is zero due */
+  /* (for example) to all math operations being deselected */
+  if (!MC_StartGame())
+  {
+    tmdprintf("\nMC_StartGame() failed!");
+    fprintf(stderr, "\nMC_StartGame() failed!");
+    return 0;
+  }
+
+
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
   cities = NULL;
@@ -488,18 +501,21 @@ int game_initialize(void)
     printf("Allocation of comets failed");
     return 0;
   }
-  for (i = 0; i < MAX_MAX_COMETS; ++i)
-    {
-    comets[i].flashcard = MC_AllocateFlashcard();
-    if (!MC_FlashCardGood(&comets[i].flashcard) ) 
+  else {
+    for (i = 0; i < MAX_MAX_COMETS; ++i)
       {
-      //something's wrong
-      printf("Allocation of flashcard %d failed\n", i);
-      for (; i >= 0; --i) //free anything we've already gotten
-        MC_FreeFlashcard(&comets[i].flashcard);
-      return 0;
+      comets[i].flashcard = MC_AllocateFlashcard();
+      if (!MC_FlashCardGood(&comets[i].flashcard) ) 
+        {
+        //something's wrong
+        printf("Allocation of flashcard %d failed\n", i);
+        for (; i >= 0; --i) //free anything we've already gotten
+          MC_FreeFlashcard(&comets[i].flashcard);
+        return 0;
+        }
       }
-    }
+  }
+  
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL) {
     printf("Allocation of cities failed");
@@ -516,18 +532,7 @@ int game_initialize(void)
     return 0;
   }
 
-  /* Start MathCards backend: */
-  /* FIXME may need to move this into tuxmath.c to accomodate option */
-  /* to use MC_StartUsingWrongs() */
-  /* NOTE MC_StartGame() will return 0 if the list length is zero due */
-  /* (for example) to all math operations being deselected */
-  if (!MC_StartGame())
-  {
-    tmdprintf("\nMC_StartGame() failed!");
-    fprintf(stderr, "\nMC_StartGame() failed!");
-    return 0;
-  }
-
+  
   /* Write pre-game info to game summary file: */
   if (Opts_SaveSummary())
   {
@@ -1071,10 +1076,10 @@ void game_handle_answer(void)
 */
   /* negative answer support DSB */
   
-  ans[0] = '-';
-  for (i = j = (neg_answer_picked); i < MAX_DIGITS; ++i)
-    if (digits[i])
-      ans[j++] = digits[i] + '0';
+  ans[0] = '-'; //this is replaced for a positive answer
+  for (i = 0; i < MAX_DIGITS - 1 && !digits[i]; ++i); //skip leading 0s
+  for (j = neg_answer_picked ? 1 : 0; i < MAX_DIGITS; ++i, ++j)
+    ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
 /*

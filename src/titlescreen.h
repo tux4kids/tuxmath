@@ -74,7 +74,7 @@ typedef struct {
 
 
 #define menu_font  "AndikaDesRevA.ttf"  /*  "GenAI102.ttf" */
-#define menu_font_size        18
+#define menu_font_size       18
 
 #define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */
 #define ttf_font_size        18
@@ -87,15 +87,15 @@ typedef struct {
 #define MAX_UPDATES 180
 
 
-#define WAIT_MS                                2500
-#define        FRAMES_PER_SEC                        50
-#define FULL_CIRCLE                        140
+#define WAIT_MS                               2500
+#define FRAMES_PER_SEC                        50
+#define FULL_CIRCLE                           140
 
 
 /* Title sequence constants */
-#define PRE_ANIM_FRAMES                        10
+#define PRE_ANIM_FRAMES                       10
 #define PRE_FRAME_MULT                        3
-#define MENU_SEP                        20
+#define MENU_SEP                              20
 
 /* paths */
 
