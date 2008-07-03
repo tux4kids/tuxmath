@@ -154,6 +154,7 @@ void set_buttons_max_width(SDL_Rect *, SDL_Rect *, int);
 int run_main_menu(void);
 int run_arcade_menu(void);
 int run_custom_menu(void);
+int run_activities_menu(void);
 int run_options_menu(void);
 int run_lessons_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
@@ -628,15 +629,16 @@ void main_scmo(menu_options* mo) //set custom menu opts for main
 }
 int run_main_menu(void)
 {
-  const unsigned char* menu_text[6] =
+  const unsigned char* menu_text[7] =
     {(const unsigned char*)N_("Math Command Training Academy"),
      (const unsigned char*)N_("Play Arcade Game"),
      (const unsigned char*)N_("Play Custom Game"),
+     (const unsigned char*)N_("Play Activities"),
      (const unsigned char*)N_("Help"),
      (const unsigned char*)N_("More Options"),
      (const unsigned char*)N_("Quit")};
-  sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[7] =
+    {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,ret;
 
@@ -644,9 +646,10 @@ int run_main_menu(void)
   sprites[0] = sprite_list[SPRITE_TRAINING];
   sprites[1] = sprite_list[SPRITE_ARCADE];
   sprites[2] = sprite_list[SPRITE_CUSTOM];
-  sprites[3] = sprite_list[SPRITE_HELP];
-  sprites[4] = sprite_list[SPRITE_OPTIONS];
-  sprites[5] = sprite_list[SPRITE_QUIT];
+  sprites[3] = sprite_list[SPRITE_CADET];
+  sprites[4] = sprite_list[SPRITE_HELP];
+  sprites[5] = sprite_list[SPRITE_OPTIONS];
+  sprites[6] = sprite_list[SPRITE_QUIT];
 
 
   //set_default_menu_options(&menu_opts);
@@ -655,7 +658,7 @@ int run_main_menu(void)
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,6,NULL,main_scmo);
+  choice = choose_menu_item(menu_text,sprites,7,NULL,main_scmo);
 
   while (choice >= 0) {
     switch (choice) {
@@ -674,7 +677,11 @@ int run_main_menu(void)
 	ret = run_custom_menu();
 	break;
       }
-      case 3: {
+      case 3:{
+         ret = run_activities_menu();
+         break;
+      }
+      case 4: {
 	// Help
 	Opts_SetHelpMode(1);
 	Opts_SetDemoMode(0);
@@ -687,12 +694,12 @@ int run_main_menu(void)
 	Opts_SetHelpMode(0);
 	break;
       }
-      case 4: {
+      case 5: {
 	// More options
 	ret = run_options_menu();
         break;
       }
-      case 5: {
+      case 6: {
 	// Quit
         return 0;
       }
@@ -813,6 +820,61 @@ int run_custom_menu(void)
 
   return 0;
 }
+
+int run_activities_menu(void)
+{ 
+  const unsigned char* menu_text[3] =
+    {(const unsigned char*)N_("Factors"),
+     (const unsigned char*)N_("Fractions"),
+     (const unsigned char*)N_("Main menu")};
+  sprite* sprites[3] =
+    {NULL, NULL, NULL};
+  menu_options menu_opts;
+  int choice,hs_table;
+
+  // Set up the sprites
+  sprites[0] = sprite_list[SPRITE_CADET];
+  sprites[1] = sprite_list[SPRITE_SCOUT];
+  sprites[2] = sprite_list[SPRITE_MAIN];
+
+  set_default_menu_options(&menu_opts);
+  menu_opts.ytop = 100;
+
+  //This function takes care of all the drawing and receives
+  //user input:
+  choice = choose_menu_item(menu_text,sprites,3,NULL,NULL);
+
+  while (choice >= 0) {
+    switch(choice){
+      case 0:
+          audioMusicUnload();
+          factors();
+	  
+	  if (Opts_MenuMusic()) {
+	      audioMusicLoad( "tuxi.ogg", -1 );
+	  }
+	  break;
+      case 1:
+          audioMusicUnload(); 
+          fractions();
+	  
+	  if (Opts_MenuMusic()) {
+	     audioMusicLoad( "tuxi.ogg", -1 );
+	  }
+	  break;
+     case 2:
+          // Return to main menu
+          return 0;
+    }
+  
+
+    menu_opts.starting_entry = choice;
+    choice = choose_menu_item(menu_text,sprites,3,NULL,NULL);
+  }
+
+  return 0; 
+}
+
 
 int run_options_menu(void)
 {

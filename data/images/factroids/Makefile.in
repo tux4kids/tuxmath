@@ -14,7 +14,6 @@
 
 @SET_MAKE@
 
-
 VPATH = @srcdir@
 pkgdatadir = $(datadir)/@PACKAGE@
 pkglibdir = $(libdir)/@PACKAGE@
@@ -34,11 +33,8 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-@BUILD_MINGW32_FALSE@bin_PROGRAMS = tuxmath$(EXEEXT) \
-@BUILD_MINGW32_FALSE@	tuxmathadmin$(EXEEXT)
-@BUILD_MINGW32_TRUE@bin_PROGRAMS = TuxMath$(EXEEXT)
-subdir = src
-DIST_COMMON = $(noinst_HEADERS) $(srcdir)/Makefile.am \
+subdir = data/images/factroids
+DIST_COMMON = $(dist_comets_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/codeset.m4 \
@@ -63,46 +59,17 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
-binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
-PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
-	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT) scandir.$(OBJEXT) pixels.$(OBJEXT)
-am_TuxMath_OBJECTS = $(am__objects_1)
-TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
-TuxMath_LDADD = $(LDADD)
-TuxMath_DEPENDENCIES =
-am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
-	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT) scandir.$(OBJEXT) pixels.$(OBJEXT)
-tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
-tuxmath_LDADD = $(LDADD)
-tuxmath_DEPENDENCIES =
-am_tuxmathadmin_OBJECTS = tuxmathadmin.$(OBJEXT)
-tuxmathadmin_OBJECTS = $(am_tuxmathadmin_OBJECTS)
-tuxmathadmin_LDADD = $(LDADD)
-tuxmathadmin_DEPENDENCIES =
-DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
-depcomp = $(SHELL) $(top_srcdir)/depcomp
-am__depfiles_maybe = depfiles
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
-SOURCES = $(TuxMath_SOURCES) $(tuxmath_SOURCES) \
-	$(tuxmathadmin_SOURCES)
-DIST_SOURCES = $(TuxMath_SOURCES) $(tuxmath_SOURCES) \
-	$(tuxmathadmin_SOURCES)
-HEADERS = $(noinst_HEADERS)
-ETAGS = etags
-CTAGS = ctags
+SOURCES =
+DIST_SOURCES =
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+am__installdirs = "$(DESTDIR)$(cometsdir)"
+dist_cometsDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(dist_comets_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALLOCA = @ALLOCA@
@@ -121,7 +88,7 @@ CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DATADIRNAME = @DATADIRNAME@
-DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
+DEFS = @DEFS@
 DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
@@ -218,8 +185,6 @@ build_cpu = @build_cpu@
 build_os = @build_os@
 build_vendor = @build_vendor@
 builddir = @builddir@
-
-# Support for gettext:
 datadir = @datadir@
 datarootdir = @datarootdir@
 docdir = @docdir@
@@ -236,7 +201,7 @@ infodir = @infodir@
 install_sh = @install_sh@
 libdir = @libdir@
 libexecdir = @libexecdir@
-localedir = $(datadir)/locale
+localedir = @localedir@
 localstatedir = @localstatedir@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
@@ -256,59 +221,36 @@ target_os = @target_os@
 target_vendor = @target_vendor@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-AM_CFLAGS = -Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
-	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
+cometsdir = $(pkgdatadir)/images/factroids
+dist_comets_DATA = asteroid1.png \
+ 		 galaxy2.png	 \
+		 ship02.png	 \
+		 ship06.png	 \
+		 ship10.png 	 \
+		 star1.jpg 	 \
+		 star4.png	 \
+		 asteroid2.png 	 \
+		 gbstars.png 	 \
+		 ship03.png 	 \
+		 ship07.png 	 \
+		 ship11.png 	 \
+		 star1.png 	 \
+		 star5.png 	 \
+		 asteroid3.png   \
+		 ship04.png 	 \
+		 ship08.png 	 \
+		 ship12.png 	 \
+		 star2.png	 \
+		 galaxy1.png  	 \
+		 ship01.png 	 \
+		 ship05.png 	 \
+		 ship09.png 	 \
+		 ship.png	 \
+		 star3.png	 
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
-	-I../intl -I$(top_srcdir)/intl
-
-LDADD = @LIBINTL@
-@BUILD_MINGW32_FALSE@TUXMATHRC = 
-tuxmath_SOURCES = tuxmath.c \
-	setup.c 	\
-	titlescreen.c	\
-	game.c 		\
-	factroids.c     \
-	options.c	\
-	credits.c	\
-	highscore.c	\
-	loaders.c	\
-	audio.c 	\
-	mathcards.c	\
-	fileops.c	\
-	ConvertUTF.c	\
-	SDL_extras.c	\
-	lessons.c	\
-	scandir.c	\
-	pixels.c
-
-TuxMath_SOURCES = $(tuxmath_SOURCES) tuxmathrc.rc
-tuxmathadmin_SOURCES = tuxmathadmin.c
-EXTRA_DIST = credits.h 	\
-		fileops.h 	\
-		game.h		\
-		factroids.h	\
-		highscore.h 	\
-		mathcards.h 	\
-		options.h	\
-		setup.h		\
-		titlescreen.h	\
-		tuxmath.h	\
-		ConvertUTF.h	\
-		SDL_extras.h	\
-		lessons.h	\
-		gettext.h	\
-		scandir.h	\
-		pixels.h	\
-		compiler.h
-
-@BUILD_MINGW32_FALSE@DATA_PREFIX = ${pkgdatadir}
-@BUILD_MINGW32_TRUE@DATA_PREFIX = @PACKAGE_DATA_DIR@
-noinst_HEADERS = highscore.h
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -318,9 +260,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  src/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  data/images/factroids/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  src/Makefile
+	  $(AUTOMAKE) --foreign  data/images/factroids/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -338,124 +280,29 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
-install-binPROGRAMS: $(bin_PROGRAMS)
+install-dist_cometsDATA: $(dist_comets_DATA)
 	@$(NORMAL_INSTALL)
-	test -z "$(bindir)" || $(MKDIR_P) "$(DESTDIR)$(bindir)"
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  p1=`echo $$p|sed 's/$(EXEEXT)$$//'`; \
-	  if test -f $$p \
-	  ; then \
-	    f=`echo "$$p1" | sed 's,^.*/,,;$(transform);s/$$/$(EXEEXT)/'`; \
-	   echo " $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) '$$p' '$(DESTDIR)$(bindir)/$$f'"; \
-	   $(INSTALL_PROGRAM_ENV) $(binPROGRAMS_INSTALL) "$$p" "$(DESTDIR)$(bindir)/$$f" || exit 1; \
-	  else :; fi; \
+	test -z "$(cometsdir)" || $(MKDIR_P) "$(DESTDIR)$(cometsdir)"
+	@list='$(dist_comets_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(dist_cometsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(cometsdir)/$$f'"; \
+	  $(dist_cometsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(cometsdir)/$$f"; \
 	done
 
-uninstall-binPROGRAMS:
+uninstall-dist_cometsDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(bin_PROGRAMS)'; for p in $$list; do \
-	  f=`echo "$$p" | sed 's,^.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/'`; \
-	  echo " rm -f '$(DESTDIR)$(bindir)/$$f'"; \
-	  rm -f "$(DESTDIR)$(bindir)/$$f"; \
+	@list='$(dist_comets_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(cometsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(cometsdir)/$$f"; \
 	done
-
-clean-binPROGRAMS:
-	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
-TuxMath$(EXEEXT): $(TuxMath_OBJECTS) $(TuxMath_DEPENDENCIES) 
-	@rm -f TuxMath$(EXEEXT)
-	$(LINK) $(TuxMath_OBJECTS) $(TuxMath_LDADD) $(LIBS)
-tuxmath$(EXEEXT): $(tuxmath_OBJECTS) $(tuxmath_DEPENDENCIES) 
-	@rm -f tuxmath$(EXEEXT)
-	$(LINK) $(tuxmath_OBJECTS) $(tuxmath_LDADD) $(LIBS)
-tuxmathadmin$(EXEEXT): $(tuxmathadmin_OBJECTS) $(tuxmathadmin_DEPENDENCIES) 
-	@rm -f tuxmathadmin$(EXEEXT)
-	$(LINK) $(tuxmathadmin_OBJECTS) $(tuxmathadmin_LDADD) $(LIBS)
-
-mostlyclean-compile:
-	-rm -f *.$(OBJEXT)
-
-distclean-compile:
-	-rm -f *.tab.c
-
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/ConvertUTF.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDL_extras.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factroids.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileops.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highscore.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lessons.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixels.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scandir.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmath.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmathadmin.Po@am__quote@
-
-.c.o:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c $<
-
-.c.obj:
-@am__fastdepCC_TRUE@	$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ `$(CYGPATH_W) '$<'`
-@am__fastdepCC_TRUE@	mv -f $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Po
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
-	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonemtpy = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	mkid -fID $$unique
 tags: TAGS
+TAGS:
 
-TAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-		$(TAGS_FILES) $(LISP)
-	tags=; \
-	here=`pwd`; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonempty = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	if test -z "$(ETAGS_ARGS)$$tags$$unique"; then :; else \
-	  test -n "$$unique" || unique=$$empty_fix; \
-	  $(ETAGS) $(ETAGSFLAGS) $(AM_ETAGSFLAGS) $(ETAGS_ARGS) \
-	    $$tags $$unique; \
-	fi
 ctags: CTAGS
-CTAGS:  $(HEADERS) $(SOURCES)  $(TAGS_DEPENDENCIES) \
-		$(TAGS_FILES) $(LISP)
-	tags=; \
-	list='$(SOURCES) $(HEADERS)  $(LISP) $(TAGS_FILES)'; \
-	unique=`for i in $$list; do \
-	    if test -f "$$i"; then echo $$i; else echo $(srcdir)/$$i; fi; \
-	  done | \
-	  $(AWK) '{ files[$$0] = 1; nonempty = 1; } \
-	      END { if (nonempty) { for (i in files) print i; }; }'`; \
-	test -z "$(CTAGS_ARGS)$$tags$$unique" \
-	  || $(CTAGS) $(CTAGSFLAGS) $(AM_CTAGSFLAGS) $(CTAGS_ARGS) \
-	     $$tags $$unique
+CTAGS:
 
-GTAGS:
-	here=`$(am__cd) $(top_builddir) && pwd` \
-	  && cd $(top_srcdir) \
-	  && gtags -i $(GTAGS_ARGS) $$here
-
-distclean-tags:
-	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH tags
 
 distdir: $(DISTFILES)
 	@srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*]/\\\\&/g'`; \
@@ -485,9 +332,9 @@ distdir: $(DISTFILES)
 	done
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS) $(HEADERS)
+all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(cometsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -516,13 +363,11 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
+clean-am: clean-generic mostlyclean-am
 
 distclean: distclean-am
-	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
-distclean-am: clean-am distclean-compile distclean-generic \
-	distclean-tags
+distclean-am: clean-am distclean-generic
 
 dvi: dvi-am
 
@@ -534,11 +379,11 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-dist_cometsDATA
 
 install-dvi: install-dvi-am
 
-install-exec-am: install-binPROGRAMS
+install-exec-am:
 
 install-html: install-html-am
 
@@ -553,13 +398,12 @@ install-ps: install-ps-am
 installcheck-am:
 
 maintainer-clean: maintainer-clean-am
-	-rm -rf ./$(DEPDIR)
 	-rm -f Makefile
 maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic
+mostlyclean-am: mostlyclean-generic
 
 pdf: pdf-am
 
@@ -569,27 +413,22 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-dist_cometsDATA
 
 .MAKE: install-am install-strip
 
-.PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic ctags distclean distclean-compile \
-	distclean-generic distclean-tags distdir dvi dvi-am html \
-	html-am info info-am install install-am install-binPROGRAMS \
-	install-data install-data-am install-dvi install-dvi-am \
+.PHONY: all all-am check check-am clean clean-generic distclean \
+	distclean-generic distdir dvi dvi-am html html-am info info-am \
+	install install-am install-data install-data-am \
+	install-dist_cometsDATA install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
 	install-pdf-am install-ps install-ps-am install-strip \
 	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
+	pdf-am ps ps-am uninstall uninstall-am \
+	uninstall-dist_cometsDATA
 
-
-# How to make an RC file
-tuxmathrc.o: tuxmathrc.rc
-	$(WINDRES) -i $< -o $@
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
