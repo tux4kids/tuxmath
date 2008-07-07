@@ -337,7 +337,7 @@ int MC_StartGame(void)
   max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
                    * ((int)(log10f(MC_GLOBAL_MAX) ) + 4) //sign/operator/spaces
                    + 1; //question mark for answer
-  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 1; //negative sign
+  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 2; //negative sign + digit
   
   mcdprintf("max answer, formula size: %d, %d\n", 
             max_answer_size, max_formula_size);
@@ -451,7 +451,7 @@ int MC_StartGameUsingWrongs(void)
 int MC_NextQuestion(MC_FlashCard* fc)
 {
   #ifdef MC_DEBUG
-  printf("\nEntering MC_NextQuestion()");
+  printf("\nEntering MC_NextQuestion()\n");
   #endif
 
   /* (so we can free the node after removed from list:) */
@@ -481,18 +481,13 @@ int MC_NextQuestion(MC_FlashCard* fc)
 
     return 0;
   }
-  copy_card(&question_list->card, fc);
-//  fc->num1 = question_list->card.num1;
-//  fc->num2 = question_list->card.num2;
-//  fc->num3 = question_list->card.num3;
-//  fc->operation = question_list->card.operation;
-//  fc->format = question_list->card.format;
-//  strncpy(fc->formula_string, question_list->card.formula_string, MC_FORMULA_LEN);  
-//  strncpy(fc->answer_string, question_list->card.answer_string, MC_ANSWER_LEN);  
+  
+  /* 'draw' - copy over the first question */
+  copy_card(&question_list->card, fc); 
 
-  /* take first question node out of list and free it:   */
+  /* 'discard' - take first question node out of list and free it */
   question_list = remove_node(question_list, question_list);
-  free(ptr);
+  free_node(ptr);
   quest_list_length--;
   questions_pending++;
 
@@ -500,7 +495,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
   printf("\nnext question is:");
   print_card(*fc);
   print_counters();
-  printf("\nLeaving MC_NextQuestion()\n");
+  printf("\n\nLeaving MC_NextQuestion()\n");
   #endif
 
   return 1;
@@ -2010,6 +2005,7 @@ void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
   mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
   strncpy(dest->formula_string, src->formula_string, max_formula_size);
   strncpy(dest->answer_string, src->answer_string, max_answer_size);
+  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
   dest->answer = src->answer;
   dest->difficulty = src->difficulty;
 }
@@ -2063,15 +2059,16 @@ MC_FlashCard generate_random_flashcard(void)
   {
     mcdprintf("Generating typing question\n");
     ret = MC_AllocateFlashcard();
-    num = rand() % (MC_GetOpt(MAX_TYPING_NUM) - MC_GetOpt(MIN_TYPING_NUM) )
-                + MC_GetOpt(MIN_TYPING_NUM);
+    num = rand() % (MC_GetOpt(MAX_TYPING_NUM)-MC_GetOpt(MIN_TYPING_NUM) + 1) - 1
+                  + MC_GetOpt(MIN_TYPING_NUM);
     snprintf(ret.formula_string, max_formula_size, "%d", num);
     snprintf(ret.answer_string, max_answer_size, "%d", num);
     ret.difficulty = 10;
   }
   else //if (pt == MC_PT_ARITHMETIC)
   {
-    length = rand() % (MC_GetOpt(MAX_FORMULA_NUMS)-MC_GetOpt(MIN_FORMULA_NUMS) )
+    length = rand() % (MC_GetOpt(MAX_FORMULA_NUMS) -
+                       MC_GetOpt(MIN_FORMULA_NUMS) + 1) - 1 //avoid div by 0
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf("Generating question of length %d", length);
     ret = generate_random_ooo_card_of_length(length);
@@ -2136,7 +2133,8 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
       mcdprintf("Invalid operator: value %d\n", op);
  
     mcdprintf("Constructing answer_string\n");     
-    snprintf(ret.answer_string, max_answer_size, "%d", ans);
+    snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
+    mcdprintf("'%s' vs '%d'\n", ret.answer_string, ans);
     mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d", 
              r1, operchars[op], r2);

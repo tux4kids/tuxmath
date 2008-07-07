@@ -157,7 +157,11 @@ enum {
 /*In titlescreen.c */
 void TitleScreen(void);
 int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const unsigned char**, sprite**, int, menu_options*, void (*)(menu_options*) );
+int choose_menu_item(const char **menu_text, 
+                     sprite **menu_sprites, 
+                     int n_menu_entries, 
+                     menu_options* custom_mo, 
+                     void (*set_custom_menu_opts)(menu_options*) );
 void set_default_menu_options(menu_options *);
 
 
@@ -167,7 +171,9 @@ TTF_Font*    LoadFont(const unsigned char* font_name, int font_size);
 Mix_Chunk   *LoadSound( char* datafile );
 SDL_Surface *LoadImage( char* datafile, int mode );
 SDL_Surface* LoadBkgd(char* datafile);
-int          LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd);
+int          LoadBothBkgds(char* datafile, 
+                           SDL_Surface** fs_bkgd, 
+                           SDL_Surface** win_bkgd);
 sprite      *LoadSprite( char* name, int MODE );
 sprite      *FlipSprite( sprite* in, int X, int Y );
 void         FreeSprite( sprite* gfx );

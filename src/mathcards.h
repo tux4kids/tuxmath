@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-//#define MC_DEBUG
+#define MC_DEBUG
 #ifdef MC_DEBUG
 #define mcdprintf(...) printf(__VA_ARGS__)
 #else

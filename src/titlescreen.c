@@ -1111,7 +1111,7 @@ int run_login_menu(void)
 /* (the function returns the index for the selected menu item)  */
 /* -1 indicates that the user pressed escape                    */
 /****************************************************************/
-int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options* custom_mo, void (*set_custom_menu_opts)(menu_options*) )
+int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options* custom_mo, void (*set_custom_menu_opts)(menu_options*) )
 {
   // Pixel renderings of menu text choices
   SDL_Surface **menu_item_unselected = NULL;

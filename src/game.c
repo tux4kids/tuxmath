@@ -1076,7 +1076,7 @@ void game_handle_answer(void)
 */
   /* negative answer support DSB */
   
-  ans[0] = '-'; //this is replaced for a positive answer
+  ans[0] = '-'; //for math questions only, this is just replaced.
   for (i = 0; i < MAX_DIGITS - 1 && !digits[i]; ++i); //skip leading 0s
   for (j = neg_answer_picked ? 1 : 0; i < MAX_DIGITS; ++i, ++j)
     ans[j] = digits[i] + '0';
