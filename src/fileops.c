@@ -1695,7 +1695,22 @@ int read_config_file(FILE *fp, int file_type)
     }
     free(parameter);
   }
-
+  //handle min > max by disallowing operation
+  if (MC_GetOpt(MIN_AUGEND) > MC_GetOpt(MAX_AUGEND) || 
+      MC_GetOpt(MIN_ADDEND) > MC_GetOpt(MAX_ADDEND) )
+      MC_SetOpt(ADDITION_ALLOWED, 0);
+  if (MC_GetOpt(MIN_MINUEND) > MC_GetOpt(MAX_MINUEND) || 
+      MC_GetOpt(MIN_SUBTRAHEND) > MC_GetOpt(MAX_SUBTRAHEND) )
+      MC_SetOpt(SUBTRACTION_ALLOWED, 0);
+  if (MC_GetOpt(MIN_MULTIPLICAND) > MC_GetOpt(MAX_MULTIPLICAND) || 
+      MC_GetOpt(MIN_MULTIPLIER) > MC_GetOpt(MAX_MULTIPLIER) )
+      MC_SetOpt(MULTIPLICATION_ALLOWED, 0);
+  if (MC_GetOpt(MIN_DIVISOR) > MC_GetOpt(MAX_DIVISOR) || 
+      MC_GetOpt(MIN_QUOTIENT) > MC_GetOpt(MAX_QUOTIENT) )
+      MC_SetOpt(DIVISION_ALLOWED, 0);
+  if (MC_GetOpt(MIN_TYPING_NUM) > MC_GetOpt(MAX_TYPING_NUM) )
+      MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
+      
   #ifdef TUXMATH_DEBUG
   printf("\nAfter file read in:\n");
   write_config_file(stdout, 0);

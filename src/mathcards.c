@@ -95,8 +95,8 @@ const int MC_DEFAULTS[] = {
   999,  //MAX_ANSWER                
   5000, //MAX_QUESTIONS             
   1,    //QUESTION_COPIES           
-  2,    //MAX_FORMULA_NUMS          
-  2,    //MIN_FORMULA_NUMS          
+  3,    //MAX_FORMULA_NUMS          
+  3,    //MIN_FORMULA_NUMS          
         //                          
   1,    //FORMAT_ANSWER_LAST        
   0,    //FORMAT_ANSWER_FIRST       
@@ -200,6 +200,7 @@ static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
 static int int_to_bool(int i);
 static int sane_value(int i);
 static int abs_value(int i);
+static int log10i(int i);
 #ifndef MC_USE_NEWARC
 static int randomly_keep(void);
 #endif
@@ -312,7 +313,7 @@ int MC_StartGame(void)
   if (!math_opts)  
   {
     mcdprintf("\nCould not initialize - bailing out");
-    mcdprintf("\nLeavinging MC_StartGame()\n");
+    mcdprintf("\nLeaving MC_StartGame()\n");
 
     return 0;
   }
@@ -334,10 +335,12 @@ int MC_StartGame(void)
   }
   
   /* determine how much space needed for strings, based on user options */
+  //mcdprintf("max_formula_size = %d * (%d + 4) + 1\n", 
+  //          MC_GetOpt(MAX_FORMULA_NUMS), log10i(MC_GLOBAL_MAX));
   max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
-                   * ((int)(log10f(MC_GLOBAL_MAX) ) + 4) //sign/operator/spaces
+                   * (log10i(MC_GLOBAL_MAX) + 4) //sign/operator/spaces
                    + 1; //question mark for answer
-  max_answer_size = (int)(log10f(MC_GLOBAL_MAX) ) + 2; //negative sign + digit
+  max_answer_size = (int)(log10i(MC_GLOBAL_MAX) ) + 2; //negative sign + digit
   
   mcdprintf("max answer, formula size: %d, %d\n", 
             max_answer_size, max_formula_size);
@@ -1906,6 +1909,13 @@ int abs_value(int i)
     return -i;
 }
 
+int log10i(int i) //base 10 logarithm for ints
+{
+  int j;
+  for (j = 0; i > 0; i /= 10, ++j);
+  return j;
+}
+
 #ifndef MC_USE_NEWARC
 /* Returns true at probability set by math_opts->fraction_to_keep */
 int randomly_keep(void)
@@ -2059,20 +2069,24 @@ MC_FlashCard generate_random_flashcard(void)
   {
     mcdprintf("Generating typing question\n");
     ret = MC_AllocateFlashcard();
-    num = rand() % (MC_GetOpt(MAX_TYPING_NUM)-MC_GetOpt(MIN_TYPING_NUM) + 1) - 1
+    num = rand() % (MC_GetOpt(MAX_TYPING_NUM)-MC_GetOpt(MIN_TYPING_NUM) + 1)
                   + MC_GetOpt(MIN_TYPING_NUM);
     snprintf(ret.formula_string, max_formula_size, "%d", num);
     snprintf(ret.answer_string, max_answer_size, "%d", num);
+    ret.answer = num;
     ret.difficulty = 10;
   }
   else //if (pt == MC_PT_ARITHMETIC)
   {
     length = rand() % (MC_GetOpt(MAX_FORMULA_NUMS) -
-                       MC_GetOpt(MIN_FORMULA_NUMS) + 1) - 1 //avoid div by 0
+                       MC_GetOpt(MIN_FORMULA_NUMS) + 1) //avoid div by 0
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf("Generating question of length %d", length);
     ret = generate_random_ooo_card_of_length(length);
     strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
+    #ifdef MC_DEBUG
+    print_card(ret);
+    #endif
   }
   //TODO comparison problems (e.g. "6 ? 9", "<")
   
@@ -2099,6 +2113,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
     return DEFAULT_CARD;
   if (length <= 2)
   {
+    mcdprintf("\n");
     ret = MC_AllocateFlashcard();
     for (op = rand() % MC_NUM_OPERS; //pick a random operation
          MC_GetOpt(op + ADDITION_ALLOWED) == 0; //make sure it's allowed
@@ -2107,42 +2122,48 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
     mcdprintf("Operation is %c\n", operchars[op]);
     if (op == MC_OPER_ADD)
     {
-      r1 = rand() % (math_opts->iopts[MAX_AUGEND] - math_opts->iopts[MIN_AUGEND]) + math_opts->iopts[MIN_AUGEND];
-      r2 = rand() % (math_opts->iopts[MAX_ADDEND] - math_opts->iopts[MIN_ADDEND]) + math_opts->iopts[MIN_ADDEND];
+      r1 = rand() % (math_opts->iopts[MAX_AUGEND] - math_opts->iopts[MIN_AUGEND] + 1) + math_opts->iopts[MIN_AUGEND];
+      r2 = rand() % (math_opts->iopts[MAX_ADDEND] - math_opts->iopts[MIN_ADDEND] + 1) + math_opts->iopts[MIN_ADDEND];
       ans = r1 + r2;
     }
     else if (op == MC_OPER_SUB)
     {
-      r1 = rand() % (math_opts->iopts[MAX_MINUEND] - math_opts->iopts[MIN_MINUEND]) + math_opts->iopts[MIN_MINUEND];
-      r2 = rand() % (math_opts->iopts[MAX_SUBTRAHEND] - math_opts->iopts[MIN_SUBTRAHEND]) + math_opts->iopts[MIN_SUBTRAHEND];
+      r1 = rand() % (math_opts->iopts[MAX_MINUEND] - math_opts->iopts[MIN_MINUEND] + 1) + math_opts->iopts[MIN_MINUEND];
+      r2 = rand() % (math_opts->iopts[MAX_SUBTRAHEND] - math_opts->iopts[MIN_SUBTRAHEND] + 1) + math_opts->iopts[MIN_SUBTRAHEND];
       ans = r1 - r2;
     }
     else if (op == MC_OPER_MULT)
     {
-      r1 = rand() % (math_opts->iopts[MAX_MULTIPLIER] - math_opts->iopts[MIN_MULTIPLIER]) + math_opts->iopts[MIN_MULTIPLIER];
-      r2 = rand() % (math_opts->iopts[MAX_MULTIPLICAND] - math_opts->iopts[MIN_MULTIPLICAND]) + math_opts->iopts[MIN_MULTIPLICAND];
+      r1 = rand() % (math_opts->iopts[MAX_MULTIPLIER] - math_opts->iopts[MIN_MULTIPLIER] + 1) + math_opts->iopts[MIN_MULTIPLIER];
+      r2 = rand() % (math_opts->iopts[MAX_MULTIPLICAND] - math_opts->iopts[MIN_MULTIPLICAND] + 1) + math_opts->iopts[MIN_MULTIPLICAND];
       ans = r1 * r2;
     }
     else if (op == MC_OPER_DIV)
     {
-      ans = rand() % (math_opts->iopts[MAX_QUOTIENT] - math_opts->iopts[MIN_QUOTIENT]) + math_opts->iopts[MIN_QUOTIENT];
-      r2 = rand() % (math_opts->iopts[MAX_DIVISOR] - math_opts->iopts[MIN_DIVISOR]) + math_opts->iopts[MIN_DIVISOR];
+      ans = rand() % (math_opts->iopts[MAX_QUOTIENT] - math_opts->iopts[MIN_QUOTIENT] + 1) + math_opts->iopts[MIN_QUOTIENT];
+      r2 = rand() % (math_opts->iopts[MAX_DIVISOR] - math_opts->iopts[MIN_DIVISOR] + 1) + math_opts->iopts[MIN_DIVISOR];
+      if (r2 == 0)
+        r2 = 1;
       r1 = ans * r2;
     }
     else
+    {
       mcdprintf("Invalid operator: value %d\n", op);
- 
+      return DEFAULT_CARD;
+    }
+    
     mcdprintf("Constructing answer_string\n");     
     snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
-    mcdprintf("'%s' vs '%d'\n", ret.answer_string, ans);
+//    mcdprintf("'%s' vs '%d'\n", ret.answer_string, ans);
     mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d", 
              r1, operchars[op], r2);
+    ret.answer = ans;
   }
   else //recurse
   {
     ret = generate_random_ooo_card_of_length(length - 1);
-    
+      
     if (strchr(ret.formula_string, '+') || strchr(ret.formula_string, '-') )
     {
       //if the expression has addition or subtraction, we can't assume that 
@@ -2151,6 +2172,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
       for (op = rand() % 2 ? MC_OPER_ADD : MC_OPER_SUB;
            MC_GetOpt(op + ADDITION_ALLOWED) == 0;
            op = rand() % 2 ? MC_OPER_ADD : MC_OPER_SUB);
+      
     }
     else
     {
@@ -2160,26 +2182,55 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
          MC_GetOpt(op + ADDITION_ALLOWED) == 0; //make sure it's allowed
          op = rand() % MC_NUM_OPERS); 
     }
+    mcdprintf("Next operation is %c,",  operchars[op]);
     
-    //next append or prepend the new number
+    //pick the next operand
+    if (op == MC_OPER_ADD)
+    {
+      r1 = rand() % (math_opts->iopts[MAX_AUGEND] - math_opts->iopts[MIN_AUGEND] + 1) + math_opts->iopts[MIN_AUGEND];
+      ret.answer += r1;
+    }
+    else if (op == MC_OPER_SUB)
+    {
+      r1 = rand() % (math_opts->iopts[MAX_SUBTRAHEND] - math_opts->iopts[MIN_SUBTRAHEND] + 1) + math_opts->iopts[MIN_SUBTRAHEND];
+      ret.answer -= r1;
+    }
+    else if (op == MC_OPER_MULT)
+    {
+      r1 = rand() % (math_opts->iopts[MAX_MULTIPLICAND] - math_opts->iopts[MIN_MULTIPLICAND] + 1) + math_opts->iopts[MIN_AUGEND];
+      ret.answer *= r1;
+    }
+    else if (op == MC_OPER_DIV)
+    {
+      r1 = 1; //rand() % (math_opts->iopts[MAX_DIVISOR] - math_opts->iopts[MIN_DIVISOR] + 1) + math_opts->iopts[MIN_DIVISOR];
+      ret.answer /= r1;
+    }
+    else
+    {
+      ; //invalid operator
+    }
+    mcdprintf(" operand is %d\n", r1);
+    mcdprintf("Answer: %d\n", ret.answer);
+    
+    //next append or prepend the new number (might need optimization)
     if (op == MC_OPER_SUB || op == MC_OPER_DIV || //noncommutative, append only
         rand() % 2)
-    {  
-      if (op == MC_OPER_SUB)
-        r1 = rand() % (math_opts->iopts[MAX_SUBTRAHEND] - math_opts->iopts[MIN_SUBTRAHEND]) + math_opts->iopts[MIN_SUBTRAHEND];
-      else if (op == MC_OPER_DIV)
-        r1 = 1;
-      
+    {       
       snprintf(tempstr, max_formula_size, "%s %c %d", //append
                ret.formula_string, operchars[op], r1);
       strncpy(ret.formula_string, tempstr, max_formula_size);
     }
     else //we're prepending
     {
-    
+      snprintf(tempstr, max_formula_size, "%d %c %s", //append
+               r1, operchars[op], ret.formula_string);
+      strncpy(ret.formula_string, tempstr, max_formula_size);
     }
     
+    //finally update the answer
+    snprintf(ret.answer_string, max_answer_size, "%d", ret.answer);    
   }
+  ret.difficulty += (length - 1) * 10;
   return ret;
 }
 
