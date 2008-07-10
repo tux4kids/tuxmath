@@ -490,7 +490,6 @@ int game_initialize(void)
     return 0;
   }
 
-
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
   cities = NULL;
@@ -1059,7 +1058,7 @@ void game_handle_demo(void)
 
 void game_handle_answer(void)
 {
-  int i, j, num, lowest, lowest_y;
+  int i, j, lowest, lowest_y;
   char ans[MAX_DIGITS+2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
 
@@ -1858,7 +1857,7 @@ void game_draw_background(void)
 void game_draw_comets(void)
 {
 
-  int i,j, img, max_layer,offset;
+  int i, img;
   SDL_Rect dest;
   char* comet_str;
 
@@ -3363,7 +3362,7 @@ void free_on_exit(void)
 {
   int i;
   for (i = 0; i < MAX_MAX_COMETS; ++i)
-    MC_FreeFlashcard(&comets[i].flashcard);
+    MC_FreeFlashcard(&(comets[i].flashcard));
   free(comets);
   free(cities);
   free(penguins);

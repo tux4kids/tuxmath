@@ -25,12 +25,12 @@
 
 const char* const MC_OPTION_TEXT[NOPTS+1] = {
 "PLAY_THROUGH_LIST",
+"QUESTION_COPIES",
 "REPEAT_WRONGS",
 "COPIES_REPEATED_WRONGS",
 "ALLOW_NEGATIVES",
 "MAX_ANSWER",
 "MAX_QUESTIONS",
-"QUESTION_COPIES",
 "MAX_FORMULA_NUMS",
 "MIN_FORMULA_NUMS",
 
@@ -55,6 +55,7 @@ const char* const MC_OPTION_TEXT[NOPTS+1] = {
 "MULTIPLICATION_ALLOWED",
 "DIVISION_ALLOWED",
 "TYPING_PRACTICE_ALLOWED",
+"COMPARISON_ALLOWED",
 
 "MIN_AUGEND",
 "MAX_AUGEND",
@@ -89,14 +90,14 @@ const char* const MC_OPTION_TEXT[NOPTS+1] = {
 
 const int MC_DEFAULTS[] = {
   1,    //PLAY_THROUGH_LIST         
+  1,    //QUESTION_COPIES           
   1,    //REPEAT_WRONGS             
   1,    //COPIES_REPEATED_WRONGS    
   0,    //ALLOW_NEGATIVES           
   999,  //MAX_ANSWER                
   5000, //MAX_QUESTIONS             
-  1,    //QUESTION_COPIES           
-  3,    //MAX_FORMULA_NUMS          
-  3,    //MIN_FORMULA_NUMS          
+  2,    //MAX_FORMULA_NUMS          
+  2,    //MIN_FORMULA_NUMS          
         //                          
   1,    //FORMAT_ANSWER_LAST        
   0,    //FORMAT_ANSWER_FIRST       
@@ -119,7 +120,8 @@ const int MC_DEFAULTS[] = {
   1,    //MULTIPLICATION_ALLOWED    
   1,    //DIVISION_ALLOWED          
   0,    //TYPING_PRACTICE_ALLOWED   
-        //                          
+  0,    //COMPARISON_ALLOWED
+        //
   0,    //MIN_AUGEND                
   12,   //MAX_AUGEND                
   0,    //MIN_ADDEND                
@@ -144,6 +146,7 @@ const int MC_DEFAULTS[] = {
   12,   //MAX_TYPING_NUM            
         //                          
   1,    //RANDOMIZE
+  
   100,  //AVG_LIST_LENGTH
   1     //VARY_LIST_LENGTH
 };                      
@@ -742,20 +745,120 @@ void MC_EndGame(void)
 void MC_PrintMathOptions(FILE* fp, int verbose)
 {
   int i, vcommentsprimed = 0;
-  static char* vcomments[NOPTS]; //comments when writing out verbose
+  //comments when writing out verbose...perhaps they can go somewhere less conspicuous
+  static char* vcomments[NOPTS]; 
   if (!vcommentsprimed) //we only want to initialize these once
   {
     vcommentsprimed = 1;
     for (i = 0; i < NOPTS; ++i)
       vcomments[i] = NULL;
-    //TODO place comments in the slots where they should be written
-    
+    vcomments[PLAY_THROUGH_LIST] = 
+      "\n############################################################\n"
+      "#                                                          #\n"
+      "#                  General Math Options                    #\n"
+      "#                                                          #\n"
+      "# If 'play_through_list' is true, Tuxmath will ask each    #\n"
+      "# question in an internally-generated list. The list is    #\n"
+      "# generated based on the question ranges selected below.   #\n"
+      "# The game ends when no questions remain.                  #\n"
+      "# If 'play_through_list' is false, the game continues      #\n"
+      "# until all cities are destroyed.                          #\n"
+      "# Default is 1 (i.e. 'true' or 'yes').                     #\n"
+      "#                                                          #\n"
+      "# 'question_copies' is the number of times each question   #\n"
+      "# will be asked. It can be 1 to 10 - Default is 1.         #\n"
+      "#                                                          #\n"
+      "# 'repeat_wrongs' tells Tuxmath whether to reinsert        #\n"
+      "# incorrectly answered questions into the list to be       #\n"
+      "# asked again. Default is 1 (yes).                         #\n"
+      "#                                                          #\n"
+      "# 'copies_repeated_wrongs' gives the number of times an    #\n"
+      "# incorrectly answered question will reappear. Default     #\n"
+      "# is 1.                                                    #\n"
+      "#                                                          #\n"    
+      "# The defaults for these values result in a 'mission'      #\n"    
+      "# for Tux that is accomplished by answering all            #\n"
+      "# questions correctly with at least one surviving city.    #\n"
+      "############################################################\n\n";
+      
+    vcomments[FORMAT_ADD_ANSWER_LAST] =
+      "\n############################################################\n"
+      "# The 'format_<op>_answer_<place>  options control         #\n"
+      "# generation of questions with the answer in different     #\n"
+      "# places in the equation.  i.e.:                           #\n"
+      "#                                                          #\n"
+      "#    format_add_answer_last:    2 + 2 = ?                  #\n"
+      "#    format_add_answer_first:   ? + 2 = 4                  #\n"
+      "#    format_add_answer_middle:  2 + ? = 4                  #\n"
+      "#                                                          #\n"
+      "# By default, 'format_answer_first' is enabled and the     #\n"
+      "# other two formats are disabled.  Note that the options   #\n"
+      "# are not mutually exclusive - the question list may       #\n"
+      "# contain questions with different formats.                #\n"
+      "#                                                          #\n"
+      "# The formats are set independently for each of the four   #\n"
+      "# math operations.                                         #\n"
+      "############################################################\n\n";
+      
+    vcomments[ALLOW_NEGATIVES] =   
+      "\n############################################################\n"
+      "# 'allow_negatives' allows or disallows use of negative    #\n"
+      "# numbers as both operands and answers.  Default is 0      #\n"    
+      "# (no), which disallows questions like:                    #\n"    
+      "#          2 - 4 = ?                                       #\n"
+      "# Note: this option must be enabled in order to set the    #\n"
+      "# operand ranges to include negatives (see below). If it   #\n"
+      "# is changed from 1 (yes) to 0 (no), any negative          #\n"
+      "# operand limits will be reset to 0.                       #\n"
+      "############################################################\n\n";
+      
+    vcomments[MAX_ANSWER] =   
+      "\n############################################################\n"
+      "# 'max_answer' is the largest absolute value allowed in    #\n"
+      "# any value in a question (not only the answer). Default   #\n"
+      "# is 144. It can be set as high as 999.                    #\n"
+      "############################################################\n\n";
+      
+    vcomments[MAX_QUESTIONS] =  
+      "\n############################################################\n"
+      "# 'max_questions' is limit of the length of the question   #\n"
+      "# list. Default is 5000 - only severe taskmasters will     #\n"
+      "# need to raise it.                                        #\n"
+      "############################################################\n\n";
+      
+    vcomments[RANDOMIZE] =   
+      "\n############################################################\n"
+      "# If 'randomize' selected, the list will be shuffled       #\n"    
+      "# at the start of the game.  Default is 1 (yes).           #\n"    
+      "############################################################\n\n";
+            
+    vcomments[ADDITION_ALLOWED] =   
+      "\n############################################################\n"
+      "#                                                          #\n"
+      "#                 Math Operations Allowed                  #\n"
+      "#                                                          #\n"
+      "# These options enable questions for each of the four math #\n"
+      "# operations.  All are 1 (yes) by default.                 #\n"
+      "############################################################\n\n";
+      
+    vcomments[MIN_AUGEND] = 
+      "\n############################################################\n"
+      "#                                                          #\n"
+      "#      Minimum and Maximum Values for Operand Ranges       #\n"
+      "#                                                          #\n"
+      "# Operand limits can be set to any integer up to the       #\n"
+      "# value of 'max_answer'.  If 'allow_negatives' is set to 1 #\n"
+      "# (yes), either negative or positive values can be used.   #\n"
+      "# Tuxmath will generate questions for every value in the   #\n"
+      "# specified range. The maximum must be greater than or     #\n"
+      "# equal to the corresponding minimum for any questions to  #\n"    
+      "# be generated for that operation.                         #\n"    
+      "############################################################\n\n";
+         
   }
   
   
-  #ifdef MC_DEBUG
-  printf("\nEntering MC_PrintMathOptions()\n");
-  #endif
+  mcdprintf("\nEntering MC_PrintMathOptions()\n");
 
   /* bail out if no struct */
   if (!math_opts)
@@ -763,190 +866,14 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
     fprintf(stderr, "\nMath Options struct does not exist!\n");
     return;
   }
-#ifdef MC_USE_NEWARC
+
   for (i = 0; i < NOPTS; ++i)
     {
     if (verbose && vcomments[i] != NULL)
       fprintf(fp, vcomments[i]);
     fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], math_opts->iopts[i]);
-    }
-  return;
-#endif
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#                  General Math Options                    #\n"
-                 "#                                                          #\n"
-                 "# If 'play_through_list' is true, Tuxmath will ask each    #\n"
-                 "# question in an internally-generated list. The list is    #\n"
-                 "# generated based on the question ranges selected below.   #\n"
-                 "# The game ends when no questions remain.                  #\n"
-                 "# If 'play_through_list' is false, the game continues      #\n"
-                 "# until all cities are destroyed.                          #\n"
-                 "# Default is 1 (i.e. 'true' or 'yes').                     #\n"
-                 "#                                                          #\n"
-                 "# 'question_copies' is the number of times each question   #\n"
-                 "# will be asked. It can be 1 to 10 - Default is 1.         #\n"
-                 "#                                                          #\n"
-                 "# 'repeat_wrongs' tells Tuxmath whether to reinsert        #\n"
-                 "# incorrectly answered questions into the list to be       #\n"
-                 "# asked again. Default is 1 (yes).                         #\n"
-                 "#                                                          #\n"
-                 "# 'copies_repeated_wrongs' gives the number of times an    #\n"
-                 "# incorrectly answered question will reappear. Default     #\n"
-                 "# is 1.                                                    #\n"
-                 "#                                                          #\n"
-                 "# The defaults for these values result in a 'mission'      #\n" 
-                 "# for Tux that is accomplished by answering all            #\n"
-                 "# questions correctly with at least one surviving city.    #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "play_through_list = %d\n", math_opts->iopts[PLAY_THROUGH_LIST]);
-  fprintf (fp, "question_copies = %d\n", math_opts->iopts[QUESTION_COPIES]);
-  fprintf (fp, "repeat_wrongs = %d\n", math_opts->iopts[REPEAT_WRONGS]);
-  fprintf (fp, "copies_repeated_wrongs = %d\n", math_opts->iopts[COPIES_REPEATED_WRONGS]);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# The 'format_<op>_answer_<place>  options control         #\n"
-                 "# generation of questions with the answer in different     #\n"
-                 "# places in the equation.  i.e.:                           #\n"
-                 "#                                                          #\n"
-                 "#    format_add_answer_last:    2 + 2 = ?                  #\n"
-                 "#    format_add_answer_first:   ? + 2 = 4                  #\n"
-                 "#    format_add_answer_middle:  2 + ? = 4                  #\n"
-                 "#                                                          #\n"
-                 "# By default, 'format_answer_first' is enabled and the     #\n"
-                 "# other two formats are disabled.  Note that the options   #\n"
-                 "# are not mutually exclusive - the question list may       #\n"
-                 "# contain questions with different formats.                #\n"
-                 "#                                                          #\n"
-                 "# The formats are set independently for each of the four   #\n"
-                 "# math operations.                                         #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "format_add_answer_last = %d\n", math_opts->iopts[FORMAT_ADD_ANSWER_LAST]);
-  fprintf (fp, "format_add_answer_first = %d\n", math_opts->iopts[FORMAT_ADD_ANSWER_FIRST]);
-  fprintf (fp, "format_add_answer_middle = %d\n", math_opts->iopts[FORMAT_ADD_ANSWER_MIDDLE]);
-  fprintf (fp, "format_sub_answer_last = %d\n", math_opts->iopts[FORMAT_SUB_ANSWER_LAST]);
-  fprintf (fp, "format_sub_answer_first = %d\n", math_opts->iopts[FORMAT_SUB_ANSWER_FIRST]);
-  fprintf (fp, "format_sub_answer_middle = %d\n", math_opts->iopts[FORMAT_SUB_ANSWER_MIDDLE]);
-  fprintf (fp, "format_mult_answer_last = %d\n", math_opts->iopts[FORMAT_MULT_ANSWER_LAST]);
-  fprintf (fp, "format_mult_answer_first = %d\n", math_opts->iopts[FORMAT_MULT_ANSWER_FIRST]);
-  fprintf (fp, "format_mult_answer_middle = %d\n", math_opts->iopts[FORMAT_MULT_ANSWER_MIDDLE]);
-  fprintf (fp, "format_div_answer_last = %d\n", math_opts->iopts[FORMAT_DIV_ANSWER_LAST]);
-  fprintf (fp, "format_div_answer_first = %d\n", math_opts->iopts[FORMAT_DIV_ANSWER_FIRST]);
-  fprintf (fp, "format_div_answer_middle = %d\n", math_opts->iopts[FORMAT_DIV_ANSWER_MIDDLE]);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'allow_negatives' allows or disallows use of negative    #\n"
-                 "# numbers as both operands and answers.  Default is 0      #\n"
-                 "# (no), which disallows questions like:                    #\n"
-                 "#          2 - 4 = ?                                       #\n"
-                 "# Note: this option must be enabled in order to set the    #\n"
-                 "# operand ranges to include negatives (see below). If it   #\n"
-                 "# is changed from 1 (yes) to 0 (no), any negative          #\n"
-                 "# operand limits will be reset to 0.                       #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "allow_negatives = %d\n", math_opts->iopts[ALLOW_NEGATIVES]);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'max_answer' is the largest absolute value allowed in    #\n"
-                 "# any value in a question (not only the answer). Default   #\n"
-                 "# is 144. It can be set as high as 999.                    #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "max_answer = %d\n", math_opts->iopts[MAX_ANSWER]);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# 'max_questions' is limit of the length of the question   #\n"
-                 "# list. Default is 5000 - only severe taskmasters will     #\n"
-                 "# need to raise it.                                        #\n"
-                 "############################################################\n\n");
-  }  
-  fprintf (fp, "max_questions = %d\n", math_opts->iopts[MAX_QUESTIONS]);  
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "# If 'randomize' selected, the list will be shuffled       #\n"
-                 "# at the start of the game.  Default is 1 (yes).           #\n"
-                 "############################################################\n\n");
-  }
-  fprintf (fp, "randomize = %d\n", math_opts->iopts[RANDOMIZE]);
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#                 Math Operations Allowed                  #\n"
-                 "#                                                          #\n"
-                 "# These options enable questions for each of the four math #\n"
-                 "# operations.  All are 1 (yes) by default.                 #\n"
-                 "############################################################\n\n");
-  }
-  fprintf(fp, "addition_allowed = %d\n", math_opts->iopts[ADDITION_ALLOWED]);
-  fprintf(fp, "subtraction_allowed = %d\n", math_opts->iopts[SUBTRACTION_ALLOWED]);
-  fprintf(fp, "multiplication_allowed = %d\n", math_opts->iopts[MULTIPLICATION_ALLOWED]);
-  fprintf(fp, "division_allowed = %d\n", math_opts->iopts[DIVISION_ALLOWED]);
-
-
-  if (verbose)
-  {
-    fprintf (fp, "\n############################################################\n"
-                 "#                                                          #\n"
-                 "#      Minimum and Maximum Values for Operand Ranges       #\n"
-                 "#                                                          #\n"
-                 "# Operand limits can be set to any integer up to the       #\n"
-                 "# value of 'max_answer'.  If 'allow_negatives' is set to 1 #\n"
-                 "# (yes), either negative or positive values can be used.   #\n"
-                 "# Tuxmath will generate questions for every value in the   #\n"
-                 "# specified range. The maximum must be greater than or     #\n"
-                 "# equal to the corresponding minimum for any questions to  #\n"
-                 "# be generated for that operation.                         #\n"
-                 "############################################################\n\n");
-  }
-  fprintf(fp, "\n# Addition operands: augend + addend = sum\n");
-  fprintf(fp, "min_augend = %d\n", math_opts->iopts[MIN_AUGEND]);
-  fprintf(fp, "max_augend = %d\n", math_opts->iopts[MAX_AUGEND]);
-  fprintf(fp, "min_addend = %d\n", math_opts->iopts[MIN_ADDEND]);
-  fprintf(fp, "max_addend = %d\n", math_opts->iopts[MAX_ADDEND]);
-
-  fprintf(fp, "\n# Subtraction operands: minuend - subtrahend = difference\n");
-  fprintf(fp, "min_minuend = %d\n", math_opts->iopts[MIN_MINUEND]);
-  fprintf(fp, "max_minuend = %d\n", math_opts->iopts[MAX_MINUEND]);
-  fprintf(fp, "min_subtrahend = %d\n", math_opts->iopts[MIN_SUBTRAHEND]);
-  fprintf(fp, "max_subtrahend = %d\n", math_opts->iopts[MAX_SUBTRAHEND]);
-
-  fprintf(fp, "\n# Multiplication operands: multiplier * multiplicand = product\n");
-  fprintf(fp, "min_multiplier = %d\n", math_opts->iopts[MIN_MULTIPLIER]);
-  fprintf(fp, "max_multiplier = %d\n", math_opts->iopts[MAX_MULTIPLIER]);
-  fprintf(fp, "min_multiplicand = %d\n", math_opts->iopts[MIN_MULTIPLICAND]);
-  fprintf(fp, "max_multiplicand = %d\n", math_opts->iopts[MAX_MULTIPLICAND]);
-
-  fprintf(fp, "\n# Division operands: dividend/divisor = quotient\n");
-  fprintf(fp, "min_divisor = %d\n",math_opts->iopts[MIN_DIVISOR]);
-  fprintf(fp, "max_divisor = %d\n", math_opts->iopts[MAX_DIVISOR]);
-  fprintf(fp, "min_quotient = %d\n", math_opts->iopts[MIN_QUOTIENT]);
-  fprintf(fp, "max_quotient = %d\n", math_opts->iopts[MAX_QUOTIENT]);
-
-  fprintf(fp, "\n# Typing practice:\n");
-  fprintf(fp, "min_typing_num = %d\n",math_opts->iopts[MIN_TYPING_NUM]);
-  fprintf(fp, "max_typing_num = %d\n",math_opts->iopts[MAX_TYPING_NUM]);
-
-  #ifdef MC_DEBUG
-  printf("\nLeaving MC_PrintMathOptions()\n");
-  #endif
+    }    
+  mcdprintf("\nLeaving MC_PrintMathOptions()\n");
 }
 
 
@@ -1069,381 +996,381 @@ void clear_negatives(void)
     math_opts->iopts[MAX_TYPING_NUM] = 0;
 }
 
-/* using parameters from the mission struct, create linked list of "flashcards" */
-/* FIXME should figure out how to proceed correctly if we run out of memory */
-/* FIXME very redundant code - figure out way to iterate through different */
-/* math operations and question formats                                    */
-#ifndef MC_USE_NEWARC
-MC_MathQuestion* generate_list(void)
-{
-  MC_MathQuestion* top_of_list = NULL;
-  MC_MathQuestion* end_of_list = NULL;
-  MC_MathQuestion* tmp_ptr = NULL;
-
-  int i, j, k;
-  int length = 0;
-
-  #ifdef MC_DEBUG
-  printf("\nEntering generate_list()");
-  MC_PrintMathOptions(stdout, 0);
-  #endif
- 
-  /* add nodes for each math operation allowed */
-
-  #ifdef MC_DEBUG
-  printf("\ngenerating addition questions\n");
-  #endif
-
-  if (math_opts->iopts[ADDITION_ALLOWED])
-  {
-    #ifdef MC_DEBUG
-    printf("\nAddition problems");
-    #endif
-    for (i = math_opts->iopts[MIN_AUGEND]; i <= math_opts->iopts[MAX_AUGEND]; i++)
-    {
-      for (j = math_opts->iopts[MIN_ADDEND]; j <= math_opts->iopts[MAX_ADDEND]; j++)
-      {
-        /* check if max_answer exceeded or if question */
-        /* contains undesired negative values:         */
-        if (validate_question(i, j, i + j))
-        {  
-          /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
-          {
-            /* put in questions in each selected format: */
-
-            /* questions like num1 + num2 = ? */
-            if (math_opts->iopts[FORMAT_ADD_ANSWER_LAST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like num1 + ? = num3 */
-            if (math_opts->iopts[FORMAT_ADD_ANSWER_MIDDLE])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_MIDDLE);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like ? + num2 = num3 */
-            if (math_opts->iopts[FORMAT_ADD_ANSWER_FIRST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_FIRST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #ifdef MC_DEBUG
-  printf("generating subtraction questions\n");
-  #endif
-
-  if (math_opts->iopts[SUBTRACTION_ALLOWED])
-  {
-    #ifdef MC_DEBUG
-    printf("\nSubtraction problems");
-    #endif
-    for (i = math_opts->iopts[MIN_MINUEND]; i <= math_opts->iopts[MAX_MINUEND]; i++)
-    {
-      for (j = math_opts->iopts[MIN_SUBTRAHEND]; j <= math_opts->iopts[MAX_SUBTRAHEND]; j++)
-      {
-        /* check if max_answer exceeded or if question */
-        /* contains undesired negative values:         */
-        if (validate_question(i, j, i - j))
-        {  
-          /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
-          {
-            /* put in questions in each selected format: */
-
-            /* questions like num1 - num2 = ? */
-            if (math_opts->iopts[FORMAT_SUB_ANSWER_LAST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_LAST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like num1 - ? = num3 */
-            if (math_opts->iopts[FORMAT_SUB_ANSWER_MIDDLE])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_MIDDLE);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like ? - num2 = num3 */
-            if (math_opts->iopts[FORMAT_SUB_ANSWER_FIRST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_FIRST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #ifdef MC_DEBUG
-  printf("generating multiplication questions\n");
-  #endif
-
-  if (math_opts->iopts[MULTIPLICATION_ALLOWED])
-  {
-    #ifdef MC_DEBUG
-    printf("\nMultiplication problems");
-    #endif
-    for (i = math_opts->iopts[MIN_MULTIPLIER]; i <= math_opts->iopts[MAX_MULTIPLIER]; i++)
-    {
-      for (j = math_opts->iopts[MIN_MULTIPLICAND]; j <= math_opts->iopts[MAX_MULTIPLICAND]; j++)
-      {
-        /* check if max_answer exceeded or if question */
-        /* contains undesired negative values:         */
-        if (validate_question(i, j, i * j))
-        {  
-          /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
-          {
-            /* put in questions in each selected format: */
-
-            /* questions like num1 x num2 = ? */
-            if (math_opts->iopts[FORMAT_MULT_ANSWER_LAST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like num1 x ? = num3 */
-            /* (no questions like 0 x ? = 0) because answer indeterminate */
-            if ((math_opts->iopts[FORMAT_MULT_ANSWER_MIDDLE])
-             && (i != 0)) 
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_MIDDLE);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like ? x num2 = num3 */
-            /* (no questions like ? X 0 = 0) because answer indeterminate */
-            if ((math_opts->iopts[FORMAT_MULT_ANSWER_FIRST])
-             && (j != 0))
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_FIRST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #ifdef MC_DEBUG
-  printf("generating division questions\n");
-  #endif
-
-  if (math_opts->iopts[DIVISION_ALLOWED])
-  {
-    #ifdef MC_DEBUG
-    printf("\nDivision problems");
-    #endif
-    for (i = math_opts->iopts[MIN_QUOTIENT]; i <= math_opts->iopts[MAX_QUOTIENT]; i++)
-    {
-      for (j = math_opts->iopts[MIN_DIVISOR]; j <= math_opts->iopts[MAX_DIVISOR]; j++)
-      {
-        /* check if max_answer exceeded or if question */
-        /* contains undesired negative values:         */
-        if (j                                     /* must avoid division by zero: */      
-            &&
-            validate_question(i * j, j, i))       /* division problems are generated as multiplication */
-        {  
-          /* put in the desired number of copies: */
-          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
-          {
-            /* put in questions in each selected format: */
-
-            /* questions like num1 / num2 = ? */
-            if (math_opts->iopts[FORMAT_DIV_ANSWER_LAST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like num1 / ? = num3 */
-            if ((math_opts->iopts[FORMAT_DIV_ANSWER_MIDDLE])
-               && (i))      /* This avoids creating indeterminate questions: 0/? = 0 */
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_MIDDLE);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-
-            /* questions like ? / num2  = num3 */
-            if (math_opts->iopts[FORMAT_DIV_ANSWER_FIRST])
-            {
-              /* make sure max_questions not exceeded, */
-              /* also check if question being randomly kept or discarded: */
-              if ((length < math_opts->iopts[MAX_QUESTIONS])
-                 && randomly_keep())
-              {
-                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_FIRST);
-                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-                end_of_list = tmp_ptr;
-                length++; 
-              } 
-            }
-          }
-        }
-      }
-    }
-  }
-
-  #ifdef MC_DEBUG
-  printf("generating typing practice questions\n");
-  #endif
-
-  if (math_opts->iopts[TYPING_PRACTICE_ALLOWED])
-  {
-    #ifdef MC_DEBUG
-    printf("\nTyping problems");
-    #endif
-    for (i = math_opts->iopts[MIN_TYPING_NUM]; i <= math_opts->iopts[MAX_TYPING_NUM]; i++)
-    {
-      /* check if max_answer exceeded or if question */
-      /* contains undesired negative values:         */
-      if (validate_question(i, i, i))
-      {  
-        /* put in the desired number of copies: */
-        for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
-        {
-          /* make sure max_questions not exceeded, */
-          /* also check if question being randomly kept or discarded: */
-          if ((length < math_opts->iopts[MAX_QUESTIONS])
-               && randomly_keep())
-          {
-            tmp_ptr = create_node(i, i, MC_OPER_TYPING_PRACTICE, i, MC_FORMAT_ANS_LAST);
-            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
-            end_of_list = tmp_ptr;
-            length++; 
-          } 
-        }
-      }
-    }
-  }
-  #ifdef MC_DEBUG
-  length = list_length(top_of_list); 
-  printf("\nlength before randomization:\t%d", length); 
-  #endif
-
-  /*  now shuffle list if desired: */
-  if (math_opts->iopts[RANDOMIZE])
-  {
-    if(!randomize_list(&top_of_list))
-    { 
-      fprintf(stderr, "Error during list randomization!\n");
-      return NULL;
-    }
-  }
-
-  #ifdef MC_DEBUG
-  length = list_length(top_of_list); 
-  printf("\nlength after randomization:\t%d", length); 
-  printf("\nLeaving generate_list()\n");
-  #endif
-
-  return top_of_list;
-}
-#endif
+///* using parameters from the mission struct, create linked list of "flashcards" */
+///* FIXME should figure out how to proceed correctly if we run out of memory */
+///* FIXME very redundant code - figure out way to iterate through different */
+///* math operations and question formats                                    */
+//#ifndef MC_USE_NEWARC
+//MC_MathQuestion* generate_list(void)
+//{
+//  MC_MathQuestion* top_of_list = NULL;
+//  MC_MathQuestion* end_of_list = NULL;
+//  MC_MathQuestion* tmp_ptr = NULL;
+//
+//  int i, j, k;
+//  int length = 0;
+//
+//  #ifdef MC_DEBUG
+//  printf("\nEntering generate_list()");
+//  MC_PrintMathOptions(stdout, 0);
+//  #endif
+// 
+//  /* add nodes for each math operation allowed */
+//
+//  #ifdef MC_DEBUG
+//  printf("\ngenerating addition questions\n");
+//  #endif
+//
+//  if (math_opts->iopts[ADDITION_ALLOWED])
+//  {
+//    #ifdef MC_DEBUG
+//    printf("\nAddition problems");
+//    #endif
+//    for (i = math_opts->iopts[MIN_AUGEND]; i <= math_opts->iopts[MAX_AUGEND]; i++)
+//    {
+//      for (j = math_opts->iopts[MIN_ADDEND]; j <= math_opts->iopts[MAX_ADDEND]; j++)
+//      {
+//        /* check if max_answer exceeded or if question */
+//        /* contains undesired negative values:         */
+//        if (validate_question(i, j, i + j))
+//        {  
+//          /* put in the desired number of copies: */
+//          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
+//          {
+//            /* put in questions in each selected format: */
+//
+//            /* questions like num1 + num2 = ? */
+//            if (math_opts->iopts[FORMAT_ADD_ANSWER_LAST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_LAST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like num1 + ? = num3 */
+//            if (math_opts->iopts[FORMAT_ADD_ANSWER_MIDDLE])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_MIDDLE);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like ? + num2 = num3 */
+//            if (math_opts->iopts[FORMAT_ADD_ANSWER_FIRST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_ADD, i + j, MC_FORMAT_ANS_FIRST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  #ifdef MC_DEBUG
+//  printf("generating subtraction questions\n");
+//  #endif
+//
+//  if (math_opts->iopts[SUBTRACTION_ALLOWED])
+//  {
+//    #ifdef MC_DEBUG
+//    printf("\nSubtraction problems");
+//    #endif
+//    for (i = math_opts->iopts[MIN_MINUEND]; i <= math_opts->iopts[MAX_MINUEND]; i++)
+//    {
+//      for (j = math_opts->iopts[MIN_SUBTRAHEND]; j <= math_opts->iopts[MAX_SUBTRAHEND]; j++)
+//      {
+//        /* check if max_answer exceeded or if question */
+//        /* contains undesired negative values:         */
+//        if (validate_question(i, j, i - j))
+//        {  
+//          /* put in the desired number of copies: */
+//          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
+//          {
+//            /* put in questions in each selected format: */
+//
+//            /* questions like num1 - num2 = ? */
+//            if (math_opts->iopts[FORMAT_SUB_ANSWER_LAST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_LAST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like num1 - ? = num3 */
+//            if (math_opts->iopts[FORMAT_SUB_ANSWER_MIDDLE])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_MIDDLE);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like ? - num2 = num3 */
+//            if (math_opts->iopts[FORMAT_SUB_ANSWER_FIRST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_SUB, i - j, MC_FORMAT_ANS_FIRST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  #ifdef MC_DEBUG
+//  printf("generating multiplication questions\n");
+//  #endif
+//
+//  if (math_opts->iopts[MULTIPLICATION_ALLOWED])
+//  {
+//    #ifdef MC_DEBUG
+//    printf("\nMultiplication problems");
+//    #endif
+//    for (i = math_opts->iopts[MIN_MULTIPLIER]; i <= math_opts->iopts[MAX_MULTIPLIER]; i++)
+//    {
+//      for (j = math_opts->iopts[MIN_MULTIPLICAND]; j <= math_opts->iopts[MAX_MULTIPLICAND]; j++)
+//      {
+//        /* check if max_answer exceeded or if question */
+//        /* contains undesired negative values:         */
+//        if (validate_question(i, j, i * j))
+//        {  
+//          /* put in the desired number of copies: */
+//          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
+//          {
+//            /* put in questions in each selected format: */
+//
+//            /* questions like num1 x num2 = ? */
+//            if (math_opts->iopts[FORMAT_MULT_ANSWER_LAST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_LAST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like num1 x ? = num3 */
+//            /* (no questions like 0 x ? = 0) because answer indeterminate */
+//            if ((math_opts->iopts[FORMAT_MULT_ANSWER_MIDDLE])
+//             && (i != 0)) 
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_MIDDLE);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like ? x num2 = num3 */
+//            /* (no questions like ? X 0 = 0) because answer indeterminate */
+//            if ((math_opts->iopts[FORMAT_MULT_ANSWER_FIRST])
+//             && (j != 0))
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i, j, MC_OPER_MULT, i * j, MC_FORMAT_ANS_FIRST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  #ifdef MC_DEBUG
+//  printf("generating division questions\n");
+//  #endif
+//
+//  if (math_opts->iopts[DIVISION_ALLOWED])
+//  {
+//    #ifdef MC_DEBUG
+//    printf("\nDivision problems");
+//    #endif
+//    for (i = math_opts->iopts[MIN_QUOTIENT]; i <= math_opts->iopts[MAX_QUOTIENT]; i++)
+//    {
+//      for (j = math_opts->iopts[MIN_DIVISOR]; j <= math_opts->iopts[MAX_DIVISOR]; j++)
+//      {
+//        /* check if max_answer exceeded or if question */
+//        /* contains undesired negative values:         */
+//        if (j                                     /* must avoid division by zero: */      
+//            &&
+//            validate_question(i * j, j, i))       /* division problems are generated as multiplication */
+//        {  
+//          /* put in the desired number of copies: */
+//          for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
+//          {
+//            /* put in questions in each selected format: */
+//
+//            /* questions like num1 / num2 = ? */
+//            if (math_opts->iopts[FORMAT_DIV_ANSWER_LAST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_LAST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like num1 / ? = num3 */
+//            if ((math_opts->iopts[FORMAT_DIV_ANSWER_MIDDLE])
+//               && (i))      /* This avoids creating indeterminate questions: 0/? = 0 */
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_MIDDLE);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//
+//            /* questions like ? / num2  = num3 */
+//            if (math_opts->iopts[FORMAT_DIV_ANSWER_FIRST])
+//            {
+//              /* make sure max_questions not exceeded, */
+//              /* also check if question being randomly kept or discarded: */
+//              if ((length < math_opts->iopts[MAX_QUESTIONS])
+//                 && randomly_keep())
+//              {
+//                tmp_ptr = create_node(i * j, j, MC_OPER_DIV, i, MC_FORMAT_ANS_FIRST);
+//                top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//                end_of_list = tmp_ptr;
+//                length++; 
+//              } 
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  #ifdef MC_DEBUG
+//  printf("generating typing practice questions\n");
+//  #endif
+//
+//  if (math_opts->iopts[TYPING_PRACTICE_ALLOWED])
+//  {
+//    #ifdef MC_DEBUG
+//    printf("\nTyping problems");
+//    #endif
+//    for (i = math_opts->iopts[MIN_TYPING_NUM]; i <= math_opts->iopts[MAX_TYPING_NUM]; i++)
+//    {
+//      /* check if max_answer exceeded or if question */
+//      /* contains undesired negative values:         */
+//      if (validate_question(i, i, i))
+//      {  
+//        /* put in the desired number of copies: */
+//        for (k = 0; k < math_opts->iopts[QUESTION_COPIES]; k++)
+//        {
+//          /* make sure max_questions not exceeded, */
+//          /* also check if question being randomly kept or discarded: */
+//          if ((length < math_opts->iopts[MAX_QUESTIONS])
+//               && randomly_keep())
+//          {
+//            tmp_ptr = create_node(i, i, MC_OPER_TYPING_PRACTICE, i, MC_FORMAT_ANS_LAST);
+//            top_of_list = insert_node(top_of_list, end_of_list, tmp_ptr);
+//            end_of_list = tmp_ptr;
+//            length++; 
+//          } 
+//        }
+//      }
+//    }
+//  }
+//  #ifdef MC_DEBUG
+//  length = list_length(top_of_list); 
+//  printf("\nlength before randomization:\t%d", length); 
+//  #endif
+//
+//  /*  now shuffle list if desired: */
+//  if (math_opts->iopts[RANDOMIZE])
+//  {
+//    if(!randomize_list(&top_of_list))
+//    { 
+//      fprintf(stderr, "Error during list randomization!\n");
+//      return NULL;
+//    }
+//  }
+//
+//  #ifdef MC_DEBUG
+//  length = list_length(top_of_list); 
+//  printf("\nlength after randomization:\t%d", length); 
+//  printf("\nLeaving generate_list()\n");
+//  #endif
+//
+//  return top_of_list;
+//}
+//#endif
 
 /* this is used by generate_list to see if a possible question */
 /* meets criteria to be added to the list or not:              */
@@ -2055,6 +1982,8 @@ MC_FlashCard generate_random_flashcard(void)
   
   mcdprintf("Entering generate_random_flashcard()\n");
   
+  
+  
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -2062,7 +1991,7 @@ MC_FlashCard generate_random_flashcard(void)
                                    !MC_GetOpt(SUBTRACTION_ALLOWED) && 
                                    !MC_GetOpt(MULTIPLICATION_ALLOWED) && 
                                    !MC_GetOpt(DIVISION_ALLOWED) ) ||
-         pt == MC_PT_COMPARISON //&& !MC_GetOpt(COMPARISION_ALLOWED) 
+         pt == MC_PT_COMPARISON && !MC_GetOpt(COMPARISON_ALLOWED) 
          );
   
   if (pt == MC_PT_TYPING) //typing practice
@@ -2078,10 +2007,11 @@ MC_FlashCard generate_random_flashcard(void)
   }
   else //if (pt == MC_PT_ARITHMETIC)
   {
+    mcdprintf("Generating arithmetic question");
     length = rand() % (MC_GetOpt(MAX_FORMULA_NUMS) -
                        MC_GetOpt(MIN_FORMULA_NUMS) + 1) //avoid div by 0
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
-    mcdprintf("Generating question of length %d", length);
+    mcdprintf(" of length %d", length);
     ret = generate_random_ooo_card_of_length(length);
     strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
     #ifdef MC_DEBUG
@@ -2242,6 +2172,15 @@ MC_MathQuestion* generate_list(void)
   MC_MathQuestion* end_of_list = NULL;
   MC_MathQuestion* tnode = NULL;
   
+  MC_PrintMathOptions(stdout, 0);
+  if (!(MC_GetOpt(ADDITION_ALLOWED) || //at least one type should be allowed
+      MC_GetOpt(SUBTRACTION_ALLOWED) ||
+      MC_GetOpt(MULTIPLICATION_ALLOWED) ||
+      MC_GetOpt(DIVISION_ALLOWED) ||
+      MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||
+      MC_GetOpt(COMPARISON_ALLOWED) ) )
+    return NULL;
+    
   //TODO handle AVG_LIST_LENGTH = 0, i.e. generate all valid questions
   //TODO randomize list length
   

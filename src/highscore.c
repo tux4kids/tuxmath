@@ -777,7 +777,7 @@ int HS_Score(int diff_level, int place)
 {
   /* Make sure diff_level is valid: */
   if (diff_level < 0
-   || diff_level > ACE_HIGH_SCORE)
+   || diff_level > COMMANDO_HIGH_SCORE)
   {
     fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
     return -1;

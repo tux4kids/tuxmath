@@ -55,69 +55,71 @@ Creating additional [integral] options is now centralized--it should only
 be necessary to add to this list, the list of text, and the list of 
 defaults. (Besides actually using the new options!)
 */
+enum {
+  NOT_VALID_OPTION = -1     ,
+  PLAY_THROUGH_LIST = 0     , /* play until all questions answered correctly */
+  QUESTION_COPIES           , /* # times each question is put in list */
+  REPEAT_WRONGS             , /* reuse incorrectly answered questions or not */
+  COPIES_REPEATED_WRONGS    , /* how many copies of an incorrectly answered question to re-insert*/
+  ALLOW_NEGATIVES           , 
+  MAX_ANSWER                ,                                           
+  MAX_QUESTIONS             ,                                           
+  MAX_FORMULA_NUMS          ,                                           
+  MIN_FORMULA_NUMS          ,                                           
 
-#define NOT_VALID_OPTION          -1
-#define PLAY_THROUGH_LIST         0  /* play until all questions answered correctly */
-#define REPEAT_WRONGS             1  /* reuse incorrectly answered questions or not */
-#define COPIES_REPEATED_WRONGS    2  /* how many copies of an incorrectly answered question to re-insert*/
-#define ALLOW_NEGATIVES           3  
-#define MAX_ANSWER                4                                            
-#define MAX_QUESTIONS             5                                            
-#define QUESTION_COPIES           6  /* # times each question is put in list */
-#define MAX_FORMULA_NUMS          7                                            
-#define MIN_FORMULA_NUMS          8                                            
-                                                                               
-#define FORMAT_ANSWER_LAST        9  /* question format is: a + b = ? */
-#define FORMAT_ANSWER_FIRST       10 /* question format is: ? + b = c */
-#define FORMAT_ANSWER_MIDDLE      11 /* question format is: a + ? = c */
-#define FORMAT_ADD_ANSWER_LAST    12 /* a + b = ?    */
-#define FORMAT_ADD_ANSWER_FIRST   13 /* ? + b = c    */                           
-#define FORMAT_ADD_ANSWER_MIDDLE  14 /* a + ? = c    */                        
-#define FORMAT_SUB_ANSWER_LAST    15 /* a - b = ?    */
-#define FORMAT_SUB_ANSWER_FIRST   16 /* ? - b = c    */
-#define FORMAT_SUB_ANSWER_MIDDLE  17 /* a - ? = c    */
-#define FORMAT_MULT_ANSWER_LAST   18 /* a * b = ?    */
-#define FORMAT_MULT_ANSWER_FIRST  19 /* ? * b = c    */
-#define FORMAT_MULT_ANSWER_MIDDLE 20 /* a * ? = c    */
-#define FORMAT_DIV_ANSWER_LAST    21 /* a / b = ?    */
-#define FORMAT_DIV_ANSWER_FIRST   22 /* ? / b = c    */                           
-#define FORMAT_DIV_ANSWER_MIDDLE  23 /* a / ? = c    */                        
-                                                                               
-#define ADDITION_ALLOWED          24                                           
-#define SUBTRACTION_ALLOWED       25                                           
-#define MULTIPLICATION_ALLOWED    26                                           
-#define DIVISION_ALLOWED          27                                           
-#define TYPING_PRACTICE_ALLOWED   28                                           
-                                                                               
-#define MIN_AUGEND                29 /* augend + addend = sum */
-#define MAX_AUGEND                30                                           
-#define MIN_ADDEND                31                                           
-#define MAX_ADDEND                32                                           
-                                                                               
-#define MIN_MINUEND               33 /* minuend - subtrahend = difference */
-#define MAX_MINUEND               34                                           
-#define MIN_SUBTRAHEND            35                                           
-#define MAX_SUBTRAHEND            36                                           
-                                                                               
-#define MIN_MULTIPLIER            37 /* multiplier * multiplicand = product */
-#define MAX_MULTIPLIER            38                                           
-#define MIN_MULTIPLICAND          39  
-#define MAX_MULTIPLICAND          40                                           
-                                                                               
-#define MIN_DIVISOR               41 /* dividend/divisor = quotient */
-#define MAX_DIVISOR               42 /* note - generate_list() will prevent */
-#define MIN_QUOTIENT              43 /* questions with division by zero.    */
-#define MAX_QUOTIENT              44                                           
-                                                                               
-#define MIN_TYPING_NUM            45 /* range for "typing tutor" mode, for  */
-#define MAX_TYPING_NUM            46 /* kids just learning to use keyboard. */
-                                                                               
-#define RANDOMIZE                 47 /* whether to shuffle cards */            
+  FORMAT_ANSWER_LAST        , /* question format is: a + b = ? */
+  FORMAT_ANSWER_FIRST       , /* question format is: ? + b = c */
+  FORMAT_ANSWER_MIDDLE      , /* question format is: a + ? = c */
+  FORMAT_ADD_ANSWER_LAST    , /* a + b = ?    */
+  FORMAT_ADD_ANSWER_FIRST   , /* ? + b = c    */                           
+  FORMAT_ADD_ANSWER_MIDDLE  , /* a + ? = c    */                        
+  FORMAT_SUB_ANSWER_LAST    , /* a - b = ?    */
+  FORMAT_SUB_ANSWER_FIRST   , /* ? - b = c    */
+  FORMAT_SUB_ANSWER_MIDDLE  , /* a - ? = c    */
+  FORMAT_MULT_ANSWER_LAST   , /* a * b = ?    */
+  FORMAT_MULT_ANSWER_FIRST  , /* ? * b = c    */
+  FORMAT_MULT_ANSWER_MIDDLE , /* a * ? = c    */
+  FORMAT_DIV_ANSWER_LAST    , /* a / b = ?    */
+  FORMAT_DIV_ANSWER_FIRST   , /* ? / b = c    */                           
+  FORMAT_DIV_ANSWER_MIDDLE  , /* a / ? = c    */                        
 
-#define AVG_LIST_LENGTH           48 
-#define VARY_LIST_LENGTH          49
+  ADDITION_ALLOWED          ,                                           
+  SUBTRACTION_ALLOWED       ,                                           
+  MULTIPLICATION_ALLOWED    ,                                           
+  DIVISION_ALLOWED          ,                                           
+  TYPING_PRACTICE_ALLOWED   ,                                           
+  COMPARISON_ALLOWED        ,
 
-#define NOPTS                     50 
+  MIN_AUGEND                , /* augend + addend = sum */
+  MAX_AUGEND                ,                                           
+  MIN_ADDEND                ,                                           
+  MAX_ADDEND                ,                                           
+
+  MIN_MINUEND               , /* minuend - subtrahend = difference */
+  MAX_MINUEND               ,                                           
+  MIN_SUBTRAHEND            ,                                           
+  MAX_SUBTRAHEND            ,                                           
+
+  MIN_MULTIPLIER            , /* multiplier * multiplicand = product */
+  MAX_MULTIPLIER            ,                                           
+  MIN_MULTIPLICAND          ,  
+  MAX_MULTIPLICAND          ,                                           
+
+  MIN_DIVISOR               , /* dividend/divisor = quotient */
+  MAX_DIVISOR               , /* note - generate_list() will prevent */
+  MIN_QUOTIENT              , /* questions with division by zero.    */
+  MAX_QUOTIENT              ,                                           
+
+  MIN_TYPING_NUM            , /* range for "typing tutor" mode, for  */
+  MAX_TYPING_NUM            , /* kids just learning to use keyboard. */
+
+  RANDOMIZE                 , /* whether to shuffle cards */            
+
+  AVG_LIST_LENGTH           , 
+  VARY_LIST_LENGTH          ,
+
+  NOPTS                     
+};
 
 extern const char* const MC_OPTION_TEXT[];
 extern const int MC_DEFAULTS[];  

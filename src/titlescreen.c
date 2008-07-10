@@ -712,19 +712,24 @@ int run_main_menu(void)
 
 int run_arcade_menu(void)
 {
-  const unsigned char* menu_text[6] =
+  const unsigned char* menu_text[7] =
     {(const unsigned char*)N_("Space Cadet"),
      (const unsigned char*)N_("Scout"),
      (const unsigned char*)N_("Ranger"),
      (const unsigned char*)N_("Ace"),
+     (const unsigned char*)N_("Commando"),
      (const unsigned char*)N_("Hall Of Fame"),
      (const unsigned char*)N_("Main menu")};
-  const char* arcade_config_files[4] =
-    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace"};
-  const int arcade_high_score_tables[4] =
-    {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE};
-  sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL};
+  const char* arcade_config_files[5] =
+    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace", 
+     "arcade/commando"
+    };
+  const int arcade_high_score_tables[5] =
+    {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE,
+     COMMANDO_HIGH_SCORE
+    };
+  sprite* sprites[7] =
+    {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,hs_table;
 
@@ -733,18 +738,19 @@ int run_arcade_menu(void)
   sprites[1] = sprite_list[SPRITE_SCOUT];
   sprites[2] = sprite_list[SPRITE_RANGER];
   sprites[3] = sprite_list[SPRITE_ACE];
-  sprites[4] = sprite_list[SPRITE_TROPHY];
-  sprites[5] = sprite_list[SPRITE_MAIN];
+  //TODO commando sprite
+  sprites[5] = sprite_list[SPRITE_TROPHY];
+  sprites[6] = sprite_list[SPRITE_MAIN];
 
 //  set_default_menu_options(&menu_opts);
 //  menu_opts.ytop = 100;
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,6,NULL,NULL);
+  choice = choose_menu_item(menu_text,sprites,7,NULL,NULL);
 
   while (choice >= 0) {
-    if (choice < 4) {
+    if (choice < NUM_HIGH_SCORE_LEVELS) {
       // Play arcade game
       if (read_named_config_file(arcade_config_files[choice]))
       {
@@ -780,7 +786,7 @@ int run_arcade_menu(void)
         fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
       }
 
-    } else if (choice == 4) {
+    } else if (choice == NUM_HIGH_SCORE_LEVELS) {
       // Display the Hall of Fame
       DisplayHighScores(CADET_HIGH_SCORE);
     }
