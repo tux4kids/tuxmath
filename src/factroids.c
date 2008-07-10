@@ -181,12 +181,6 @@ static int FF_add_laser(void);
 static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_num);
 static int FF_destroy_asteroid(int i, int xspeed, int yspeed);
 
-//void draw_nums(const char* str, int x, int y);
-static void draw_numbers(const char* str, int x, int y);
-static void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu);
-static void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
-static int pause_game(void);
-
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
@@ -423,6 +417,10 @@ static void FF_handle_asteroids(void){
                     tuxship.lives>0 &&
                     asteroid[i].alive){ 
 
+		      isdead=1;
+		      xdead=asteroid[i].x;
+		      ydead=asteroid[i].y;
+		      
 		      tuxship.lives--;
 		      FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
 
@@ -495,7 +493,7 @@ static void FF_draw(void){
        SDL_BlitSurface(images[IMG_SHIP01+i], NULL, screen, &dest);
  
   /************* Draw Asteroids ***************/
-  for(i=0; i<NUM_ASTEROIDS; i++){
+  for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
      dest.x=asteroid[i].x;
      dest.y=asteroid[i].y;
@@ -611,12 +609,16 @@ static void FF_add_level(void)
    }
 }
 
-static void FF_loose(void){}
-static void FF_win(void){}
+static void FF_loose(void){
+  
+}
+static void FF_win(void){
+  
+}
 
 static void FF_exit_free()
 {
- free(asteroid);
+  free(asteroid);
 }
 
 /******************* Math Funcs ***********************/
@@ -889,229 +891,8 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
   return 0;
 }
 
-/*******************************************************************************/
-/************************* FROM game.c FUTURE GLOBAL FUNCS! ********************/
-/*******************************************************************************/
-
-
-/* Draw status numbers: */
-void draw_numbers(const char* str, int x, int y)
-{
-  int i, cur_x, c;
-  SDL_Rect src, dest;
-
-
-  cur_x = x;
-
-
-  /* Draw each character: */
-  
-  for (i = 0; i < strlen(str); i++)
-    {
-      c = -1;
-
-
-      /* Determine which character to display: */
-      
-      if (str[i] >= '0' && str[i] <= '9')
-	c = str[i] - '0';
-      
-
-      /* Display this character! */
-      
-      if (c != -1)
-	{
-	  src.x = c * (images[IMG_NUMBERS]->w / 10);
-	  src.y = 0;
-	  src.w = (images[IMG_NUMBERS]->w / 10);
-	  src.h = images[IMG_NUMBERS]->h;
-	  
-	  dest.x = cur_x;
-	  dest.y = y;
-	  dest.w = src.w;
-	  dest.h = src.h;
-	  
-	  SDL_BlitSurface(images[IMG_NUMBERS], &src,
-			  screen, &dest);
-
-
-          /* Move the 'cursor' one character width: */
-
-	  cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
-	}
-    }
-}
-
-
-void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu){
-  int dx, dy, tmp;
-  float m, b;
-  Uint32 pixel;
-  SDL_Rect dest;
- 
-  pixel = SDL_MapRGB(screen->format, red, grn, blu);
-
-  dx = x2 - x1;
-  dy = y2 - y1;
-
-  putpixel(screen, x1, y1, pixel);
-  
-  if (dx != 0)
-  {
-    m = ((float) dy) / ((float) dx);
-    b = y1 - m * x1;
-
-    if (x2 > x1) dx = 1;
-    else dx = -1;
-
-    while (x1 != x2)
-    {
-      x1 = x1 + dx;
-      y1 = m * x1 + b;
-      
-      putpixel(screen, x1, y1, pixel);
-    }
-  }
-  else
-  {
-    if (y1 > y2)
-    {
-      tmp = y1;
-      y1 = y2;
-      y2 = tmp;
-    }
-    
-    dest.x = x1;
-    dest.y = y1;
-    dest.w = 3;
-    dest.h = y2 - y1;
-
-    SDL_FillRect(screen, &dest, pixel);
-  }
-}
-
-void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
-{
-#ifdef PUTPIXEL_RAW
-  int bpp;
-  Uint8* p;
-  
-  /* Determine bytes-per-pixel for the surface in question: */
-  
-  bpp = surface->format->BytesPerPixel;
-  
-  
-  /* Set a pointer to the exact location in memory of the pixel
-     in question: */
-  
-  p = (Uint8 *) (surface->pixels +       /* Start at beginning of RAM */
-                 (y * surface->pitch) +  /* Go down Y lines */
-                 (x * bpp));             /* Go in X pixels */
-  
-  
-  /* Assuming the X/Y values are within the bounds of this surface... */
-  
-  if (x >= 0 && y >= 0 && x < surface->w && y < surface->h)
-    {
-      /* Set the (correctly-sized) piece of data in the surface's RAM
-         to the pixel value sent in: */
-      
-      if (bpp == 1)
-        *p = pixel;
-      else if (bpp == 2)
-        *(Uint16 *)p = pixel;
-      else if (bpp == 3)
-        {
-          if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-            {
-              p[0] = (pixel >> 16) & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = pixel & 0xff;
-            }
-          else
-            {
-              p[0] = pixel & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = (pixel >> 16) & 0xff;
-            }
-        }
-      else if (bpp == 4)
-        {
-          *(Uint32 *)p = pixel;
-        }
-    }
-#else
-  SDL_Rect dest;
-
-  dest.x = x;
-  dest.y = y;
-  dest.w = 3;
-  dest.h = 4;
-
-  SDL_FillRect(surface, &dest, pixel);
-#endif
-}
-
-int pause_game(void)
-{
-  /* NOTE - done and quit changed to pause_done and pause_quit */
-  /* due to potentially confusing name collision */
-  int pause_done, pause_quit;
-  SDL_Event event;
-  SDL_Rect dest;
-
-  /* Only pause if pause allowed: */
-  if (!Opts_AllowPause())
-  {
-    fprintf(stderr, "Pause requested but not allowed by Opts!\n");
-    return 0;
-  }
- 
-  pause_done = 0;
-  pause_quit = 0;
-
-  dest.x = (screen->w - images[IMG_PAUSED]->w) / 2;
-  dest.y = (screen->h - images[IMG_PAUSED]->h) / 2;
-  dest.w = images[IMG_PAUSED]->w;
-  dest.h = images[IMG_PAUSED]->h;
-
-  DarkenScreen(1);  // cut all channels by half
-  SDL_BlitSurface(images[IMG_PAUSED], NULL, screen, &dest);
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-
-#ifndef NOSOUND
-  if (Opts_UsingSound())
-    Mix_PauseMusic();
-#endif
-  
-  
-  do
-  {
-    while (SDL_PollEvent(&event))
-    {
-      if (event.type == SDL_KEYDOWN)
-	pause_done = 1;
-      else if (event.type == SDL_QUIT)
-      {
-        SDL_quit_received = 1;
- 	pause_quit = 1;
-      }
-    }
-
-    SDL_Delay(100);
-  }
-  while (!pause_done && !pause_quit);
-
-
-#ifndef NOSOUND
-  if (Opts_UsingSound())
-    Mix_ResumeMusic();
-#endif
-
-  return (pause_quit);
-}  
-
+/***************** END OF game.c FUNCS! *********************/
+/************** MODIFIED FUNCS FROM game.c ******************/
 
 
 void game_handle_user_events(void)
@@ -1500,12 +1281,6 @@ int game_mouse_event(SDL_Event event)
   }
 }
 
-/* called by either key presses or mouse clicks on */
-/* on-screen keypad */
-
-
-/***************** END OF game.c FUNCS! *********************/
-/************** MODIFIED FUNCS FROM game.c ******************/
 
 int check_exit_conditions(void)
 {

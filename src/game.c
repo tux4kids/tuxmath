@@ -164,7 +164,6 @@ static void game_draw_misc(void);
 static int check_extra_life(void);
 static int check_exit_conditions(void);
 
-static void draw_numbers(const char* str, int x, int y);
 static void game_set_message(game_message *,char *,int x, int y);
 static void game_clear_message(game_message*);
 static void game_write_message(const game_message* msg);
@@ -172,12 +171,9 @@ static void game_write_messages(void);
 static void draw_led_console(void);
 static void draw_question_counter(void);
 static void draw_console_image(int i);
-static void draw_line(int x1, int y1, int x2, int y2, int r, int g, int b);
-static void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
 static void reset_level(void);
 static int add_comet(void);
-static int  pause_game(void);
 static void add_score(int inc);
 static void reset_comets(void);
 
@@ -187,7 +183,6 @@ static void free_on_exit(void);
 
 static void help_add_comet(int a,int oper,int b,int c);
 static int help_renderframe_exit(void);
-
 static void game_recalc_positions(void);
 
 #ifdef TUXMATH_DEBUG
