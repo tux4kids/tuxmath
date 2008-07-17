@@ -78,6 +78,7 @@ typedef struct tuxship_type {
   int x, y;
   int centerx, centery;
   int angle;
+  int hurt, hurt_count;
 } tuxship_type;
 
 typedef struct FF_laser_type{
@@ -178,7 +179,7 @@ static void FF_loose(void);
 static void FF_win(void);
 static void FF_exit_free(void);
 static int FF_add_laser(void);
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_num);
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int new_wave);
 static int FF_destroy_asteroid(int i, int xspeed, int yspeed);
 
 static int is_prime(int num);
@@ -285,19 +286,27 @@ static int FF_init(void){
   }
   NUM_ASTEROIDS=4;
   FF_add_level();
+
+  /**************Setting up the ship values! **************/
+
   tuxship.x=((screen->w)/2)-20;
   tuxship.y=((screen->h)/2)-20;
   tuxship.lives=TUXSHIP_LIVES;
+  tuxship.hurt=0;
+  tuxship.hurt_count=0;
   tuxship.angle=90;
   tuxship.xspeed=0;
   tuxship.yspeed=0;
   tuxship.centerx=(images[IMG_SHIP01]->w)/2;
   tuxship.centery=(images[IMG_SHIP01]->h)/2;
   shoot_pressed=0;
-  score=0;
+  score=1;
+  wave=1;
+
   for (i=0; i<MAX_LASER; i++)
     laser[i].alive=0;
   return 1;
+  
 }
 
 
@@ -310,11 +319,19 @@ static void FF_handle_ship(void){
   tuxship.centerx=((images[IMG_SHIP01]->w)/2)+tuxship.x;
   tuxship.centery=((images[IMG_SHIP01]->h)/2)+tuxship.y;  
 
-/******************* Extra live *********************/
+/******************* Ship live *********************/
 
   if ((wave%5==0) || (score%100==0))
+  {
     tuxship.lives++;
- 
+  }
+  
+  if(tuxship.hurt)
+  {
+    tuxship.hurt_count--;
+    if(tuxship.hurt_count<=0)
+	tuxship.hurt=0;
+  }
 /****************** Rotate Ship *********************/
 
   if (right_pressed)
@@ -417,13 +434,16 @@ static void FF_handle_asteroids(void){
                     tuxship.lives>0 &&
                     asteroid[i].alive){ 
 
-		      isdead=1;
-		      xdead=asteroid[i].x;
-		      ydead=asteroid[i].y;
+		      if(!tuxship.hurt){
+		         xdead=asteroid[i].x;
+		         ydead=asteroid[i].y;
 		      
-		      tuxship.lives--;
-		      FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
+		         tuxship.lives--;
+		         tuxship.hurt=1;
+		         tuxship.hurt_count=50;
+		         FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
 
+		      }
                 }
 	    }
          }
@@ -478,7 +498,12 @@ static void FF_draw(void){
       if(laser[i].count>0)
       {
         laser[i].count--;
-        draw_line(laser[i].x, laser[i].y, laser[i].destx, laser[i].desty, 255, 0, 0);
+	laser[i].x=laser[i].x+tuxship.xspeed;
+   	laser[i].y=laser[i].y+tuxship.yspeed;
+	laser[i].destx=laser[i].destx+tuxship.xspeed;
+	laser[i].desty=laser[i].desty+tuxship.yspeed;
+        draw_line(laser[i].x, laser[i].y, laser[i].destx, laser[i].desty,
+		  laser[i].count*18, 0, 0);
       } else if (laser[i].count <= 0)
       {
         laser[i].alive=0;
@@ -488,9 +513,10 @@ static void FF_draw(void){
   /*************** Draw Ship ******************/ 
   dest.x=tuxship.x;
   dest.y=tuxship.y;
-  for(i=0;i<12;i++)
-    if((i*30<=tuxship.angle) && (tuxship.angle<((i*30)+30)))
-       SDL_BlitSurface(images[IMG_SHIP01+i], NULL, screen, &dest);
+  if(!tuxship.hurt || (tuxship.hurt && tuxship.hurt_count%2==0))
+    for(i=0;i<12;i++)
+      if((i*30<=tuxship.angle) && (tuxship.angle<((i*30)+30)))
+        SDL_BlitSurface(images[IMG_SHIP01+i], NULL, screen, &dest);
  
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
@@ -586,18 +612,19 @@ static void FF_add_level(void)
     asteroid[i].alive=0;
   for (i=0; (i<(NUM_ASTEROIDS/2)) && NUM_ASTEROIDS<MAX_ASTEROIDS; i++){
    
-   //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number)
+   //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int new_wave)
    FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
 		   rand()%4, rand()%3,
                    rand()%2, 
 		   0, 3,
-                   (rand()%(31+(wave*2))));
+                   (rand()%(31+(wave*2))), 1);
 
    FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
 		   (-1*rand()%4), (-1*rand()%3),
                    rand()%2, 
 		   0, 3,
-                   (rand()%(31+(wave*2))));
+                   (rand()%(31+(wave*2))), 1);
+   
    } 
    if((NUM_ASTEROIDS%2)==1){
      
@@ -605,7 +632,7 @@ static void FF_add_level(void)
 		   (-1*rand()%4), (-1*rand()%3),
                    rand()%2, 
 		   0, 3,
-                   (rand()%(31+(wave*2))));
+                   (rand()%(31+(wave*2))), 1);
    }
 }
 
@@ -687,7 +714,7 @@ int FF_add_laser(void)
       laser[i].x=tuxship.centerx;
       laser[i].y=tuxship.centery;
       laser[i].angle=tuxship.angle;
-      laser[i].count=7;
+      laser[i].count=15;
 
       if(laser[i].angle>=0 && laser[i].angle<=360)
       {
@@ -820,7 +847,7 @@ int FF_add_laser(void)
 
 
 
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number)
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int new_wave)
 {
   int i;
   for(i=0; i<MAX_ASTEROIDS; i++){
@@ -836,6 +863,18 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].fact_number=fact_number;
       asteroid[i].isprime=is_prime(fact_number);
       
+      if(new_wave){
+         if(tuxship.x-50<asteroid[i].x+80 && 
+            tuxship.x+50>asteroid[i].x && 
+            tuxship.y-50<asteroid[i].y+80 && 
+            tuxship.y+50>asteroid[i].y &&
+            tuxship.lives>0 &&
+            asteroid[i].alive){ 
+	       asteroid[i].x=asteroid[i].x+300;
+	       asteroid[i].y=asteroid[i].y+300;
+	    }
+      }
+
       if(asteroid[i].isprime)
       {
         asteroid[i].size=0;
@@ -871,14 +910,14 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
 	  	   ((asteroid[i].xspeed + xspeed) / 2),
 	  	   (asteroid[i].yspeed + yspeed),
 	  	   0,
-	  	   0, 0, (int)(asteroid[i].fact_number/num));
+	  	   0, 0, (int)(asteroid[i].fact_number/num), 0);
       
         FF_add_asteroid(asteroid[i].x,
 	  	   asteroid[i].y,
 	  	   (asteroid[i].xspeed + xspeed),
 	  	   ((asteroid[i].yspeed + yspeed) / 2),
 	  	   0,
-	  	   0, 0, num);
+	  	   0, 0, num, 0);
       } 
     }
 
