@@ -49,7 +49,14 @@
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)    (((a) > (b)) ? (a) : (b))
 
-/* ---- Structures */
+/********* Enumerations ***********/
+
+enum{
+  FACTROIDS_GAME,
+  FRACTIONS_GAME
+};
+
+/********* Structures *********/
 
 typedef struct colorRGBA_type {
   Uint8 r;
@@ -97,7 +104,7 @@ typedef struct {
   int laser_enabled;
 } help_controls_type;
 
-//static help_controls_type help_controls;
+/********* Global vars ************/
 
 /* Trig junk:  (thanks to Atari BASIC for this) */
 
@@ -138,6 +145,9 @@ static SDL_Surface *bg; //The background
 
 static SDL_Rect bgSrc, bgScreen2, bgScreen;
 
+// Game type
+
+static int FF_game;
 
 // Game vars
 static int score;
@@ -179,7 +189,7 @@ static void FF_loose(void);
 static void FF_win(void);
 static void FF_exit_free(void);
 static int FF_add_laser(void);
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int new_wave);
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int a, int b, int new_wave);
 static int FF_destroy_asteroid(int i, int xspeed, int yspeed);
 
 static int is_prime(int num);
@@ -202,7 +212,8 @@ void factors(void){
      fprintf(stderr, "Entering factors():\n");
   #endif
 
-
+  FF_game=FACTROIDS_GAME;
+  
   if (!FF_init())
   {
     fprintf(stderr, "FF_init() failed!\n");
@@ -262,7 +273,84 @@ void factors(void){
   }
 }
 
-void fractions(void){return;}
+void fractions(void){
+
+  Uint32 last_time, now_time; 
+  
+  done = 0;
+  quit = 0;
+  counter = 0;
+  
+
+  
+  #ifdef TUXMATH_DEBUG
+     fprintf(stderr, "Entering factors():\n");
+  #endif
+  
+  /*****Initalizing the Factor activiy *****/
+  FF_game=FRACTIONS_GAME;
+
+  if (!FF_init())
+  {
+    fprintf(stderr, "FF_init() failed!\n");
+    FF_exit_free();
+    return;
+  } 
+
+  /************ Game Intro **************/
+  
+  FF_intro();
+
+  /************ Main Loop **************/
+  while (!done){
+      last_time = SDL_GetTicks();
+      counter++;
+      if(tuxship.lives<=0)
+        done=1;
+      
+   
+    game_handle_user_events();
+
+    FF_handle_ship();
+    FF_handle_asteroids();
+    FF_handle_answer();
+    FF_draw();
+
+    game_status = check_exit_conditions();
+
+    if (paused)
+    {
+      pause_game();
+      paused = 0;
+    }
+
+
+#ifndef NOSOUND
+    if (Opts_UsingSound())
+    {
+      if (!Mix_PlayingMusic())
+      {
+	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+      }  
+    }
+#endif
+
+
+
+      /* Pause (keep frame-rate event) */
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + MS_PER_FRAME)
+    {
+      //Prevent any possibility of a time wrap-around
+      // (this is a very unlikely problem unless there is an SDL bug
+      //  or you leave tuxmath running for 49 days...)
+      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+      if (now_time > MS_PER_FRAME)
+	now_time = MS_PER_FRAME;
+      SDL_Delay(now_time);
+    }
+  }
+}
 
 static int FF_init(void){
   int i;
@@ -532,8 +620,20 @@ static void FF_draw(void){
      if(asteroid[i].size==2){
         SDL_BlitSurface(images[IMG_ASTEROID2], NULL, screen, &dest);
      }
-     sprintf(str, "%.1d", asteroid[i].fact_number);
-     draw_numbers(str, asteroid[i].x,asteroid[i].y);
+     if(FF_game==FACTROIDS_GAME)
+     {   
+       sprintf(str, "%.1d", asteroid[i].fact_number);
+       draw_nums(str, asteroid[i].x+20,asteroid[i].y+10);
+     }
+     else if (FF_game==FRACTIONS_GAME)
+     {
+       sprintf(str, "%d", asteroid[i].a);
+       draw_nums(str, asteroid[i].x+20,asteroid[i].y+20); 
+       draw_line(asteroid[i].x+20,asteroid[i].y+25, asteroid[i].x+50,asteroid[i].y+25,
+		 255, 255, 255);
+       sprintf(str, "%d", asteroid[i].b);
+       draw_nums(str, asteroid[i].x+20,asteroid[i].y+55);
+     }
     }
   }
   /*************** Draw Strem ***************/
@@ -612,27 +712,63 @@ static void FF_add_level(void)
     asteroid[i].alive=0;
   for (i=0; (i<(NUM_ASTEROIDS/2)) && NUM_ASTEROIDS<MAX_ASTEROIDS; i++){
    
-   //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int new_wave)
-   FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		   rand()%4, rand()%3,
-                   rand()%2, 
-		   0, 3,
-                   (rand()%(31+(wave*2))), 1);
+   //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
+   if(FF_game==FACTROIDS_GAME){
+     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
+		     rand()%4, rand()%3,
+                     rand()%2, 
+		     0, 3,
+                     (rand()%(31+(wave*wave))), 
+		     0, 0,
+		     1);
 
-   FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		   (-1*rand()%4), (-1*rand()%3),
-                   rand()%2, 
-		   0, 3,
-                   (rand()%(31+(wave*2))), 1);
-   
+     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
+		    (-1*rand()%4), (-1*rand()%3),
+                     rand()%2, 
+		     0, 3,
+                     (rand()%(31+(wave*wave))), 
+		     0, 0,
+		     1);
+     }
+   else if(FF_game==FRACTIONS_GAME){
+     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
+		     rand()%4, rand()%3,
+                     rand()%2, 
+		     0, 3,
+                     0, 
+		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
+		     1);
+
+     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
+		    (-1*rand()%4), (-1*rand()%3),
+                     rand()%2, 
+		     0, 3,
+                     0, 
+		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
+		     1);
+
+     }
    } 
    if((NUM_ASTEROIDS%2)==1){
-     
+     if(FF_game==FACTROIDS_GAME){
        FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		   (-1*rand()%4), (-1*rand()%3),
-                   rand()%2, 
-		   0, 3,
-                   (rand()%(31+(wave*2))), 1);
+		       (-1*rand()%4), (-1*rand()%3),
+                       rand()%2, 
+		       0, 3,
+                       (rand()%(31+(wave*wave))), 
+		       0, 0,
+                       1);
+     }
+     else if(FF_game==FRACTIONS_GAME){
+       FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
+  		      (-1*rand()%4), (-1*rand()%3),
+                      rand()%2, 
+		      0, 3,
+                      0, 
+		      (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
+		      1);
+     
+     }
    }
 }
 
@@ -673,6 +809,14 @@ int is_prime(int num)
   return 1;
 }
 
+int is_simplified(int a, int b)
+{
+  int i;
+  for(i=2; i<1000; i++)
+    if(((a%i)==0)&&((b%i)==0))
+      return 0;
+  return 1;
+}
 /*** Fast cos by Bill***/
 
 int fast_cos(int angle)
@@ -764,20 +908,55 @@ int FF_add_laser(void)
 		   }
                    if (num!=0)
 		   {  
-                     if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
+		     if(FF_game==FACTROIDS_GAME)
 		     {
-		       isdead=1;
-		       xdead=asteroid[k].x;
-		       ydead=asteroid[k].y;
-		       if(tuxship.x<asteroid[k].x)
-		         FF_destroy_asteroid(k, m, m);
-		       if(tuxship.x>=asteroid[k].x)
-		         FF_destroy_asteroid(k, -m, m);
-		       score=score+num;
-		       laser[i].destx=xcount;
-		       laser[i].desty=ycount;
-		       return 1;
+                        if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
+		        {
+		          isdead=1;
+		          xdead=asteroid[k].x;
+		          ydead=asteroid[k].y;
+
+		          if(tuxship.x<asteroid[k].x)
+		            FF_destroy_asteroid(k, m, m);
+		          if(tuxship.x>=asteroid[k].x)
+		            FF_destroy_asteroid(k, -m, m);
+		          /*
+			  if(tuxship.x<asteroid[k].x)
+			     if(tuxship.y<asteroid[k].y)
+		                FF_destroy_asteroid(k, 2, -2);
+			     else if(tuxship.y>asteroid[k].y)
+				FF_destroy_asteroid(k, 2, 2);
+			  else if (tuxship.x>asteroid[k].x)
+			     if(tuxship.y<asteroid[k].y)
+		                FF_destroy_asteroid(k, -2, -2);
+			     else if(tuxship.y>asteroid[k].y)
+				FF_destroy_asteroid(k, -2, 2);*/
+		          score=score+num;
+		          //laser[i].destx=xcount;
+		          //laser[i].desty=ycount;
+		          return 1;
+			}
 		     }
+		     else if (FF_game==FRACTIONS_GAME)
+		     {
+			if(((asteroid[k].a%num)==0) &&
+			   ((asteroid[k].a%num)==0) &&
+			   (num!=asteroid[k].fact_number))
+		        {
+			  isdead=1;
+		          xdead=asteroid[k].x;
+		          ydead=asteroid[k].y;
+		          if(tuxship.x<asteroid[k].x)
+		            FF_destroy_asteroid(k, m, m);
+		          if(tuxship.x>=asteroid[k].x)
+		            FF_destroy_asteroid(k, -m, m);
+		          score=score+num;
+		          laser[i].destx=xcount;
+		          laser[i].desty=ycount;
+		          return 1; 
+			}  
+		     }
+		     
 		   }
 	         } 
                }
@@ -798,6 +977,7 @@ int FF_add_laser(void)
                    ycount>asteroid[k].y &&
                    asteroid[k].alive)
 	         {
+
                    if(asteroid[k].isprime)
  		   {
 		     isdead=1;
@@ -808,10 +988,15 @@ int FF_add_laser(void)
 		     if(tuxship.x>=asteroid[k].x)
 		       FF_destroy_asteroid(k, -m, m);
 
-		     laser[i].destx=xcount;
-		     laser[i].desty=ycount;
+		     //laser[i].destx=xcount;
+		     //laser[i].desty=ycount;
 		     return 1;
 		   }
+
+		  if(FF_game==FACTROIDS_GAME)
+		  {
+
+
                   if (num!=0)
 		  {  
 		   if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
@@ -825,11 +1010,35 @@ int FF_add_laser(void)
 		     if(tuxship.x>=asteroid[k].x)
 		       FF_destroy_asteroid(k, -m, m);
 		     score=score+num;
-		     laser[i].destx=xcount;
-		     laser[i].desty=ycount;
+		     //laser[i].destx=xcount;
+		     //laser[i].desty=ycount;
 		     return 1;
 		   }
+                  }
 	        }
+		else if (FF_game==FRACTIONS_GAME)
+		{
+                  if (num!=0)
+		  {  
+		    if(((asteroid[k].a%num)==0) &&
+		       ((asteroid[k].a%num)==0) &&
+		       (num!=asteroid[k].fact_number))
+		    {
+
+		     isdead=1;
+		     xdead=asteroid[k].x;
+		     ydead=asteroid[k].y;
+		     if(tuxship.x<asteroid[k].x)
+		       FF_destroy_asteroid(k, m, m);
+		     if(tuxship.x>=asteroid[k].x)
+		       FF_destroy_asteroid(k, -m, m);
+		     score=score+num;
+		     //laser[i].destx=xcount;
+		     //laser[i].desty=ycount;
+		     return 1;
+		   }
+                  }
+		}
 	      }
             }
 	  }
@@ -847,7 +1056,8 @@ int FF_add_laser(void)
 
 
 
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int new_wave)
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int
+                           angle_speed, int fact_number, int a, int b, int new_wave)
 {
   int i;
   for(i=0; i<MAX_ASTEROIDS; i++){
@@ -860,9 +1070,29 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].yspeed=yspeed;
       asteroid[i].angle=angle;
       asteroid[i].angle_speed=angle_speed;
-      asteroid[i].fact_number=fact_number;
-      asteroid[i].isprime=is_prime(fact_number);
       
+      if(FF_game==FACTROIDS_GAME){
+
+         asteroid[i].fact_number=fact_number;
+
+  	 while(!asteroid[i].fact_number)
+	   asteroid[i].fact_number=rand()%80;
+
+         asteroid[i].isprime=is_prime(asteroid[i].fact_number);
+
+      }else if(FF_game==FRACTIONS_GAME){
+
+         asteroid[i].a=a;
+         asteroid[i].b=b;
+
+ 	 while(!asteroid[i].a)
+	   asteroid[i].a=rand()%80;
+	 while(!asteroid[i].b)
+	   asteroid[i].b=rand()%80;
+
+	 asteroid[i].isprime=is_simplified(asteroid[i].a,asteroid[i].b);
+      }
+
       if(new_wave){
          if(tuxship.x-50<asteroid[i].x+80 && 
             tuxship.x+50>asteroid[i].x && 
@@ -890,7 +1120,7 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
        
       while (asteroid[i].xspeed==0)
       {
-        asteroid[i].xspeed = (rand() % 3) - 1;
+        asteroid[i].xspeed = ((rand() % 3) - 1)*2;
       }
       return 1;
     }
@@ -905,19 +1135,44 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
      if(asteroid[i].size>0){
       /* Break the rock into two smaller ones! */
       if(num!=0){
-        FF_add_asteroid(asteroid[i].x,
-	  	   asteroid[i].y,
-	  	   ((asteroid[i].xspeed + xspeed) / 2),
-	  	   (asteroid[i].yspeed + yspeed),
-	  	   0,
-	  	   0, 0, (int)(asteroid[i].fact_number/num), 0);
+        if(FF_game==FACTROIDS_GAME){
+          FF_add_asteroid(asteroid[i].x,
+	  	          asteroid[i].y,
+	  	          ((asteroid[i].xspeed + xspeed) / 2),
+	  	          (asteroid[i].yspeed + yspeed),
+	  	          0,
+	  	          0, 0, (int)(asteroid[i].fact_number/num),
+		          0, 0,
+                          0);
       
-        FF_add_asteroid(asteroid[i].x,
-	  	   asteroid[i].y,
-	  	   (asteroid[i].xspeed + xspeed),
-	  	   ((asteroid[i].yspeed + yspeed) / 2),
-	  	   0,
-	  	   0, 0, num, 0);
+          FF_add_asteroid(asteroid[i].x,
+	  	          asteroid[i].y,
+	  	          (asteroid[i].xspeed + xspeed),
+	  	          ((asteroid[i].yspeed + yspeed) / 2),
+	  	          0,
+	  	          0, 0, num,
+                          0, 0,
+                          0);
+        }
+        else if(FF_game==FRACTIONS_GAME){
+          FF_add_asteroid(asteroid[i].x,
+	  	          asteroid[i].y,
+	  	          ((asteroid[i].xspeed + xspeed) / 2),
+	  	          (asteroid[i].yspeed + yspeed),
+	  	          0,
+	  	          0, 0, 0,
+		          (int)(asteroid[i].a/num), (int)(asteroid[i].b/num),
+                          0);
+      
+          FF_add_asteroid(asteroid[i].x,
+	  	          asteroid[i].y,
+	  	          (asteroid[i].xspeed + xspeed),
+	  	          ((asteroid[i].yspeed + yspeed) / 2),
+	  	          0,
+	  	          0, 0, 0,
+                          (int)(asteroid[i].b/num), (int)(asteroid[i].a/num),
+                          0); 
+	}
       } 
     }
 
@@ -930,7 +1185,6 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
   return 0;
 }
 
-/***************** END OF game.c FUNCS! *********************/
 /************** MODIFIED FUNCS FROM game.c ******************/
 
 
