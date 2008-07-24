@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="mathcards_newarch" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="WinDebug">
+				<Option platforms="Windows;" />
+				<Option output="../src/tuxmath-mingw" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DBUILD_MINGW32" />
+					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
+					<Add option='-DDATA_PREFIX=\&quot;../data\&quot;' />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDL_image" />
+					<Add library="SDL_mixer" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
+			<Target title="WinRelease">
+				<Option output="C:/Program Files/TuxMath/tuxmath" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DBUILD_MINGW32" />
+					<Add option="-DNO_STDIO_REDIRECT" />
+					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
+					<Add option='-DDATA_PREFIX=&quot;\&quot;C:/Program Files/TuxMath/data\&quot;&quot;' />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDL_image" />
+					<Add library="SDL_mixer" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
+			<Target title="NixDebug">
+				<Option platforms="Unix;" />
+				<Option output="../src/tuxmath-mingw" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DDATA_PREFIX=\\&quot;../data\\&quot;' />
+					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDL_image" />
+					<Add library="SDL_mixer" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
+			<Add option='-DVERSION=\\&quot;1.6.3\\&quot;' />
+			<Add directory="NOTE: CHANGE TO WHEREVER CONFIG.H IS LOCATED" />
+			<Add directory="../" />
+		</Compiler>
+		<Unit filename="SDL_win32_main.c">
+			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+		</Unit>
+		<Unit filename="version.h">
+			<Option target="WinRelease" />
+		</Unit>
+		<Unit filename="../src/ConvertUTF.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/ConvertUTF.h" />
+		<Unit filename="../src/SDL_extras.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/SDL_extras.h" />
+		<Unit filename="../src/audio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/compiler.h" />
+		<Unit filename="../src/credits.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/credits.h" />
+		<Unit filename="../src/exercise_mathcards.c">
+			<Option compilerVar="CC" />
+			<Option target="WinRelease" />
+		</Unit>
+		<Unit filename="../src/fileops.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/fileops.h" />
+		<Unit filename="../src/game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/game.h" />
+		<Unit filename="../src/gettext.h" />
+		<Unit filename="../src/highscore.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/highscore.h" />
+		<Unit filename="../src/lessons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/lessons.h" />
+		<Unit filename="../src/loaders.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/mathcards.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/mathcards.h" />
+		<Unit filename="../src/options.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/options.h" />
+		<Unit filename="../src/pixels.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/pixels.h" />
+		<Unit filename="../src/scandir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/scandir.h" />
+		<Unit filename="../src/setup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/setup.h" />
+		<Unit filename="../src/titlescreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/titlescreen.h" />
+		<Unit filename="../src/tuxmath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/tuxmath.h" />
+		<Unit filename="../src/tuxmathadmin.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<AutoVersioning>
+				<Scheme minor_max="100" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" do_auto_increment="0" ask_to_increment="0" language="C" svn="1" svn_directory="../../" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+			</AutoVersioning>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
