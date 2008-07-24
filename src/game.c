@@ -129,6 +129,7 @@ SDL_Surface* current_bkgd()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static game_message s1, s2, s3, s4, s5;
+
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -160,7 +161,7 @@ static int check_extra_life(void);
 static int check_exit_conditions(void);
 
 static void draw_numbers(const char* str, int x, int y);
-static void game_set_message(game_message *,char *,int x, int y);
+static void game_set_message(game_message *,const char *,int x, int y);
 static void game_clear_message(game_message*);
 static void game_write_message(const game_message* msg);
 static void game_write_messages(void);
@@ -460,7 +461,6 @@ int game(void)
     return 0;
   }
 }
-
 
 
 int game_initialize(void)
@@ -890,18 +890,12 @@ void help_add_comet(const char* formula_str, const char* ans_str)
   comets[0].y = 0;
   comets[0].zapped = 0;
   comets[0].bonus = 0;
-//  comets[0].flashcard.num1 = a;
-//  comets[0].flashcard.num2 = b;
-//  comets[0].flashcard.num3 = c;
-//  comets[0].flashcard.operation = oper;
-//  comets[0].flashcard.format = MC_FORMAT_ANS_LAST;
-//  snprintf(probstr,MC_FORMULA_LEN,"%d %c %d = ?",a,operchars[oper],b);
+
   strncpy(comets[0].flashcard.formula_string,formula_str,MC_MaxFormulaSize() );
-//  snprintf(ansstr,MC_ANSWER_LEN,"%d",c);
   strncpy(comets[0].flashcard.answer_string,ans_str,MC_MaxAnswerSize() );
 }
 
-void game_set_message(game_message *msg,char *txt,int x,int y)
+void game_set_message(game_message *msg,const char *txt,int x,int y)
 {
   msg->x = x;
   msg->y = y;
@@ -1176,8 +1170,8 @@ void game_handle_answer(void)
     /* [ add = 25, sub = 50, mul = 75, div = 100 ] */
     /* [ the higher the better ] */
     /* FIXME looks like it might score a bit differently based on screen mode? */
-    add_score(((25 * (comets[lowest].flashcard.difficulty + 1)) *
-              (screen->h - comets[lowest].y + 1)) /
+    add_score(25 * comets[lowest].flashcard.difficulty *
+              (screen->h - comets[lowest].y + 1) /
                screen->h);
   }
   else
@@ -2301,12 +2295,6 @@ void reset_level(void)
 
   /* Load random background image, but ensure it's different from this one: */
   for (i = last_bkgd; i == last_bkgd; i = rand() % NUM_BKGDS);
-//  do
-//  {
-//    /* Don't pick the same one as last time... */
-//    i = rand() % NUM_BKGDS;
-//  }
-//  while (i == last_bkgd);
 
   last_bkgd = i;
 
@@ -3268,7 +3256,7 @@ void game_key_event(SDLKey key)
     /* Keypad [0]-[9]: Add a new digit: */
     for (i = 0; i < MAX_DIGITS-1; ++i)
       digits[i] = digits[i+1];
-    digits[MAX_DIGITS-1] = key - SDLK_0;
+    digits[MAX_DIGITS-1] = key - SDLK_KP0;
     
 //    digits[0] = digits[1];
 //    digits[1] = digits[2];

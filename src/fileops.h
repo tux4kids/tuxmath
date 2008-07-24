@@ -1,20 +1,17 @@
 /*
 C Interface: fileops.h
 
-Description: File operations - together, fileops.h and fileops.c contain 
-all code involving disk operations. The older header files images.h and 
+Description: File operations - together, fileops.h and fileops.c contain
+all code involving disk operations. The older header files images.h and
 sounds.h have been incorporated here. The intention is to make it easier to
-port tuxmath to other operating systems, as code to read and write as 
-well as paths and file locations may be more OS-dependent. 
+port tuxmath to other operating systems, as code to read and write as
+well as paths and file locations may be more OS-dependent.
 
 
 Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
 Contains code originally written by Bill Kendrick (C) 2001.
 Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 */
-
-#ifndef CONFIG_H
-#define CONFIG_H
 
 #include "tuxmath.h"
 
@@ -236,6 +233,7 @@ int write_user_config_file(void);
 int read_high_scores(void);
 int append_high_scores(int tableid,int score,char *player_name);
 void set_high_score_path(void);
+void set_user_data_dir(const char* dirname);
 int write_goldstars(void);
 
 /* These functions are used by titlescreen() to assist with the login */
@@ -258,4 +256,3 @@ int load_default_font();
 int load_sound_data();
 #endif
 
-#endif

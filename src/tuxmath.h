@@ -42,7 +42,7 @@
 
 //#define NOSOUND
 /* for conditional compilation of debugging output */
-//#define TUXMATH_DEBUG
+#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
 /* nice inline debugging macro */
@@ -98,7 +98,7 @@
 
 #define MINIMUM_SPEED 0.8
 #define MAX_MAX_SPEED 20.0
-#define MIN_SPEEDUP_FACTOR 1
+#define MIN_SPEEDUP_FACTOR 1.0
 #define MAX_SPEEDUP_FACTOR 2.0
 #define MAX_BONUS_SPEED_RATIO 3.0
 #define MIN_COMETS 1

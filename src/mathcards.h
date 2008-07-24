@@ -1,14 +1,14 @@
 /*
 
         mathcards.h
-        
-        Description: contains headers for a flashcard-type math game. 
+
+        Description: contains headers for a flashcard-type math game.
         This is a sort of interface-independent backend that could be used with a different
         user interface. Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
         (aka tuxmath).  If tuxmath were a C++ program, this would be a C++ class.
-        
+
         Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
-        
+
         Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
 
 */
@@ -41,18 +41,18 @@ typedef enum _MC_Operation {
 } MC_Operation;
 
 /* math question formats: */
-enum {
+typedef enum _MC_Format {
   MC_FORMAT_ANS_LAST,     /* a + b = ? */
   MC_FORMAT_ANS_FIRST,    /* ? + b = c */
   MC_FORMAT_ANS_MIDDLE    /* a + ? = c */
-};
+} MC_Format;
 
 
 /*
 Indices for the various integer options. These are NOT the actual values!
 Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
 Creating additional [integral] options is now centralized--it should only
-be necessary to add to this list, the list of text, and the list of 
+be necessary to add to this list, the list of text, and the list of
 defaults. (Besides actually using the new options!)
 */
 enum {
@@ -61,18 +61,18 @@ enum {
   QUESTION_COPIES           , /* # times each question is put in list */
   REPEAT_WRONGS             , /* reuse incorrectly answered questions or not */
   COPIES_REPEATED_WRONGS    , /* how many copies of an incorrectly answered question to re-insert*/
-  ALLOW_NEGATIVES           , 
-  MAX_ANSWER                ,                                           
-  MAX_QUESTIONS             ,                                           
-  MAX_FORMULA_NUMS          ,                                           
-  MIN_FORMULA_NUMS          ,                                           
+  ALLOW_NEGATIVES           ,
+  MAX_ANSWER                ,
+  MAX_QUESTIONS             ,
+  MAX_FORMULA_NUMS          ,
+  MIN_FORMULA_NUMS          ,
 
   FORMAT_ANSWER_LAST        , /* question format is: a + b = ? */
   FORMAT_ANSWER_FIRST       , /* question format is: ? + b = c */
   FORMAT_ANSWER_MIDDLE      , /* question format is: a + ? = c */
   FORMAT_ADD_ANSWER_LAST    , /* a + b = ?    */
-  FORMAT_ADD_ANSWER_FIRST   , /* ? + b = c    */                           
-  FORMAT_ADD_ANSWER_MIDDLE  , /* a + ? = c    */                        
+  FORMAT_ADD_ANSWER_FIRST   , /* ? + b = c    */
+  FORMAT_ADD_ANSWER_MIDDLE  , /* a + ? = c    */
   FORMAT_SUB_ANSWER_LAST    , /* a - b = ?    */
   FORMAT_SUB_ANSWER_FIRST   , /* ? - b = c    */
   FORMAT_SUB_ANSWER_MIDDLE  , /* a - ? = c    */
@@ -80,49 +80,56 @@ enum {
   FORMAT_MULT_ANSWER_FIRST  , /* ? * b = c    */
   FORMAT_MULT_ANSWER_MIDDLE , /* a * ? = c    */
   FORMAT_DIV_ANSWER_LAST    , /* a / b = ?    */
-  FORMAT_DIV_ANSWER_FIRST   , /* ? / b = c    */                           
-  FORMAT_DIV_ANSWER_MIDDLE  , /* a / ? = c    */                        
+  FORMAT_DIV_ANSWER_FIRST   , /* ? / b = c    */
+  FORMAT_DIV_ANSWER_MIDDLE  , /* a / ? = c    */
 
-  ADDITION_ALLOWED          ,                                           
-  SUBTRACTION_ALLOWED       ,                                           
-  MULTIPLICATION_ALLOWED    ,                                           
-  DIVISION_ALLOWED          ,                                           
-  TYPING_PRACTICE_ALLOWED   ,                                           
+  ADDITION_ALLOWED          ,
+  SUBTRACTION_ALLOWED       ,
+  MULTIPLICATION_ALLOWED    ,
+  DIVISION_ALLOWED          ,
+  TYPING_PRACTICE_ALLOWED   ,
+  ARITHMETIC_ALLOWED        ,
   COMPARISON_ALLOWED        ,
 
   MIN_AUGEND                , /* augend + addend = sum */
-  MAX_AUGEND                ,                                           
-  MIN_ADDEND                ,                                           
-  MAX_ADDEND                ,                                           
+  MAX_AUGEND                ,
+  MIN_ADDEND                ,
+  MAX_ADDEND                ,
 
   MIN_MINUEND               , /* minuend - subtrahend = difference */
-  MAX_MINUEND               ,                                           
-  MIN_SUBTRAHEND            ,                                           
-  MAX_SUBTRAHEND            ,                                           
+  MAX_MINUEND               ,
+  MIN_SUBTRAHEND            ,
+  MAX_SUBTRAHEND            ,
 
   MIN_MULTIPLIER            , /* multiplier * multiplicand = product */
-  MAX_MULTIPLIER            ,                                           
-  MIN_MULTIPLICAND          ,  
-  MAX_MULTIPLICAND          ,                                           
+  MAX_MULTIPLIER            ,
+  MIN_MULTIPLICAND          ,
+  MAX_MULTIPLICAND          ,
 
   MIN_DIVISOR               , /* dividend/divisor = quotient */
   MAX_DIVISOR               , /* note - generate_list() will prevent */
   MIN_QUOTIENT              , /* questions with division by zero.    */
-  MAX_QUOTIENT              ,                                           
+  MAX_QUOTIENT              ,
 
   MIN_TYPING_NUM            , /* range for "typing tutor" mode, for  */
   MAX_TYPING_NUM            , /* kids just learning to use keyboard. */
 
-  RANDOMIZE                 , /* whether to shuffle cards */            
+  MIN_COMPARATOR            , /* left comparison operand */
+  MAX_COMPARATOR            ,
+  MIN_COMPARISAND           , /* right comparison operannd */
+  MAX_COMPARISAND           ,
 
-  AVG_LIST_LENGTH           , 
+  RANDOMIZE                 , /* whether to shuffle cards */
+
+  COMPREHENSIVE             , /* whether to generate all questions 'in order' */
+  AVG_LIST_LENGTH           ,
   VARY_LIST_LENGTH          ,
 
-  NOPTS                     
+  NOPTS
 };
 
 extern const char* const MC_OPTION_TEXT[];
-extern const int MC_DEFAULTS[];  
+extern const int MC_DEFAULTS[];
 extern const char operchars[MC_NUM_OPERS];
 
 /* default values for math_options */
@@ -133,7 +140,7 @@ extern const char operchars[MC_NUM_OPERS];
 //#define DEFAULT_FRACTION_TO_KEEP 1
 
 
-typedef struct _MC_Options 
+typedef struct _MC_Options
 {
   int iopts[NOPTS];
   //float fraction_to_keep; //being a float, we can't keep this in the same array
@@ -159,7 +166,7 @@ typedef struct _MC_FlashCard {
   int difficulty;
 } MC_FlashCard;
 #endif
-                                                                  
+
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
   MC_FlashCard card;
@@ -177,7 +184,7 @@ typedef struct MC_MathQuestion {
 /*  settings regarding math questions.  It should be      */
 /*  called before any other function.  Many of the other  */
 /*  functions will not work properly if MC_Initialize()   */
-/*  has not been called. It only needs to be called once, */  
+/*  has not been called. It only needs to be called once, */
 /*  i.e when the program is starting, not at the beginning*/
 /*  of each math game for the player. Returns 1 if        */
 /*  successful, 0 otherwise.                              */
