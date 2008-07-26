@@ -21,5 +21,5 @@
 #define CREDITS_H
 
 int credits(void);
-
+int scroll_text(char* text[], SDL_Rect subscreen, int speed);
 #endif

@@ -134,6 +134,8 @@ SDL_Surface* current_bkgd()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static game_message s1, s2, s3, s4, s5;
+static int start_message_chosen = 0;
+
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -209,7 +211,7 @@ int game(void)
   //see if the option matches the actual screen
   if (Opts_Fullscreen() == !(screen->flags & SDL_FULLSCREEN) )
     {
-    SwitchScreenMode();
+    ;//SwitchScreenMode();
     }
 
 
@@ -226,7 +228,7 @@ int game(void)
   if (Opts_HelpMode()) {
     game_handle_help();
     game_cleanup();
-    return 0;
+    return GAME_OVER_OTHER;
   }
 
 
@@ -462,11 +464,23 @@ int game(void)
   else
   {
     /* return to title() screen: */
-    return 0;
+    
+    return game_status;
   }
 }
-
-
+/* 
+Set one to four lines of text to display at the game's start. Eventually
+this should stylishly fade out over the first few moments of the game.
+*/
+void game_set_start_message(const char* m1, const char* m2, 
+                            const char* m3, const char* m4)
+{
+  game_set_message(&s1, m1, screen->w / 2 - 40, RES_Y * 0 / 4);
+  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 1 / 4);
+  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 2 / 4);
+  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 3 / 4);
+  start_message_chosen = 1;
+}
 
 int game_initialize(void)
 {
@@ -618,10 +632,13 @@ int game_initialize(void)
   tux_anim_frame = 0;
 
   // Initialize the messages
-  game_clear_message(&s1);
-  game_clear_message(&s2);
-  game_clear_message(&s3);
-  game_clear_message(&s4);
+  if (!start_message_chosen)
+  {
+    game_clear_message(&s1);
+    game_clear_message(&s2);
+    game_clear_message(&s3);
+    game_clear_message(&s4);
+  }
   game_clear_message(&s5);
 
   help_controls.x_is_blinking = 0;
@@ -2150,6 +2167,7 @@ int check_exit_conditions(void)
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if (MC_MissionAccomplished())
   {
+    tmdprintf("Mission accomplished!\n");
     return GAME_OVER_WON;
   }
 

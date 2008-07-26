@@ -31,6 +31,7 @@
 #include "options.h"
 #include "fileops.h"
 #include "game.h"
+#include "campaign.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
 #include "credits.h"
@@ -1595,7 +1596,13 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
               }
               break;
             }
-
+#ifdef TESTING_CAMPAIGN
+            case SDLK_c:
+            {
+              start_campaign();
+              redraw = 1;
+            }
+#endif
             default:
             {
               /* Some other key - do nothing. */

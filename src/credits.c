@@ -27,7 +27,7 @@
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
-
+#include "credits.h"
 
 char * credit_text[] = {
   "-TUX, OF MATH COMMAND",  /* '-' at beginning makes highlighted: */
@@ -94,23 +94,6 @@ char * credit_text[] = {
   "",
   "-WEBSITE",
   "WWW.TUX4KIDS.COM",
-  "", /* The following blanks cause the screen to scroll to complete blank: */
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
   NULL
 };
 
@@ -354,7 +337,7 @@ char chars[39][5][5] = {
 };
 
 
-void draw_text(char * str, int offset);
+void draw_text(char * str, SDL_Rect dest);
 
 
 int line;
@@ -363,10 +346,7 @@ int line;
 int credits(void)
 {
   int done, quit, scroll;
-  SDL_Rect src, dest;
-  SDL_Event event;
-  Uint32 last_time, now_time;
-  SDLKey key;
+  SDL_Rect subscreen, dest;
   
   
   /* Clear window: */
@@ -390,75 +370,97 @@ int credits(void)
   quit = 0;
   scroll = 0;
   line = 0;
+
+  subscreen.x = 0;
+  subscreen.y = images[IMG_TITLE]->h;
+  subscreen.w = screen->w;
+  subscreen.h = screen->h - images[IMG_TITLE]->h;
+  quit = scroll_text(credit_text, subscreen, 2);
   
+  /* Return the chosen command: */
+  
+  return quit;
+}
+
+int scroll_text(char* text[], SDL_Rect subscreen, int speed)
+{
+  int done = 0, quit = 0, scroll = 0, clearing = 0;
+  SDL_Event event;
+  SDL_Rect src, dest;
+  Uint32 last_time = SDL_GetTicks(), now_time;
+
+  line = 0;
+    
   do
     {
-      last_time = SDL_GetTicks();
-      
-      
       /* Handle any incoming events: */
       while (SDL_PollEvent(&event) > 0)
-	{
-	  if (event.type == SDL_QUIT)
-	    {
-	      /* Window close event - quit! */
-	      
-	      quit = 1;
-	      done = 1;
-	    }
-	  else if (event.type == SDL_KEYDOWN)
-	    {
-	      key = event.key.keysym.sym;
-	      
-	      if (key == SDLK_ESCAPE)
-		{
-		  /* Escape key - quit! */
-		  
-		  done = 1;
-		}
-	    }
-	  else if (event.type == SDL_MOUSEBUTTONDOWN)
-	    {
+        {
+          if (event.type == SDL_QUIT)
+            {
+              /* Window close event - quit! */
+              
+              quit = 1;
               done = 1;
-	    }
-	}
+            }
+          else if (event.type == SDL_KEYDOWN)
+            {
+              if (event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                  /* Escape key - quit! */
+                  done = 1;
+                }
+            }
+          else if (event.type == SDL_MOUSEBUTTONDOWN)
+            {
+              done = 1;
+            }
+        }
 
       
       /* Scroll: */
 
-      src.x = 0;
-      src.y = (images[IMG_TITLE]->h) + 2;
-      src.w = screen->w;
-      src.h = screen->h - (images[IMG_TITLE]->h);
-      
-      dest.x = 0;
-      dest.y = (images[IMG_TITLE]->h);
-      dest.w = src.w;
-      dest.h = src.h;
+      src = dest = subscreen;
+      src.y += speed; //amount to scroll by
       
       SDL_BlitSurface(screen, &src, screen, &dest);
-
-      dest.x = 0;
-      dest.y = (screen->h) - 2;
-      dest.w = screen->w;
-      dest.h = 2;
+      
+      dest.x = subscreen.x;
+      dest.y = subscreen.y + subscreen.h - speed;
+      dest.w = subscreen.w;
+      dest.h = speed;
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
       
-      
-      scroll++;
-      
-      draw_text(credit_text[line], scroll);
-      
+      ++scroll;
 
-      if (scroll >= 9)
-	{
-	  scroll = 0;
-	  line++;
-	  
-	  if (credit_text[line] == NULL)
-	    done = 1;
-	}
+      if (clearing) //scroll/check, but don't display any more text
+        {
+          if (scroll > subscreen.h / speed)
+            done = 1;
+        }
+      else
+        {
+          dest.x = subscreen.x + subscreen.w / 2;
+          dest.y = subscreen.y + (subscreen.h - scroll * speed);
+          dest.w = 1;
+          dest.h = 1;
+          draw_text(text[line], dest);
+          
+
+          if (scroll * speed >= TTF_FontHeight(default_font) )
+            {
+              scroll = 0;
+              line++;
+              
+              if (text[line] == NULL) //end of text 
+                {
+                clearing = 1; //scroll to blank            
+                }            
+              else
+                tmdprintf("text[line]: %s\n", text[line]);
+            }
+        }
       
       
       SDL_Flip(screen);
@@ -468,19 +470,15 @@ int credits(void)
       
       now_time = SDL_GetTicks();
       if (now_time < last_time + (1000 / 20))
-	{
-	  SDL_Delay(last_time + (1000 / 20) - now_time);
-	}
+        {
+          SDL_Delay(last_time + (1000 / 20) - now_time);
+          last_time = SDL_GetTicks();
+        }
     }
   while (!done);
-  
-  
-  /* Return the chosen command: */
-  
   return quit;
 }
-
-
+#if 0
 void draw_text(char * str, int offset)
 {
   int i, c, x, y, cur_x, start, hilite;
@@ -503,54 +501,54 @@ void draw_text(char * str, int offset)
   cur_x = (screen->w - ((strlen(str) - start) * 18)) / 2;
   
   for (i = start; i < strlen(str); i++)
-    {
+    { 
       c = -1;
       
       if (str[i] >= '0' && str[i] <= '9')
-	c = str[i] - '0';
+        c = str[i] - '0';
       else if (str[i] >= 'A' && str[i] <= 'Z')
-	c = str[i] - 'A' + 10;
+        c = str[i] - 'A' + 10;
       else if (str[i] == ',')
-	c = 36;
+        c = 36;
       else if (str[i] == '.')
-	c = 37;
+        c = 37;
       else if (str[i] == '\'')
-	c = 38;
+        c = 38;
       
       
       if (c != -1)
-	{
-	  for (y = 0; y < 5; y++)
-	    {
-	      if (hilite == 0)
-	      {
-	        r = 255 - ((line * y) % 256);
-	        g = 255 / (y + 2);
-	        b = (line * line * 2) % 256;
-	      }
-	      else
-	      {
-		r = 128;
-		g = 192;
-		b = 255 - (y * 40);
-	      }
-	      
-	      for (x = 0; x < 5; x++)
-		{
-		  if (chars[c][y][x] == '#')
-		    {
-		      dest.x = cur_x + (x * 3);
-		      dest.y = ((screen->h - (5 * 3)) + (y * 3) +
-				(18 - offset * 2));
-		      dest.w = 3;
-		      dest.h = 3;
-		      
-		      SDL_FillRect(screen, &dest,
-				   SDL_MapRGB(screen->format, r, g, b));
-		    }
-		}
-	    }
-	}
+        {
+          for (y = 0; y < 5; y++)
+            {
+              if (hilite == 0)
+              {
+                r = 255 - ((line * y) % 256);
+                g = 255 / (y + 2);
+                b = (line * line * 2) % 256;
+              }
+              else
+              {
+                r = 128;
+                g = 192;
+                b = 255 - (y * 40);
+              }
+              
+              for (x = 0; x < 5; x++)
+                {
+                  if (chars[c][y][x] == '#')
+                    {
+                      dest.x = cur_x + (x * 3);
+                      dest.y = ((screen->h - (5 * 3)) + (y * 3) +
+                                (18 - offset * 2));
+                      dest.w = 3;
+                      dest.h = 3;
+                      
+                      SDL_FillRect(screen, &dest,
+                                   SDL_MapRGB(screen->format, r, g, b));
+                    }
+                }
+            }
+        }
       
       
       /* Move virtual cursor: */
@@ -558,3 +556,53 @@ void draw_text(char * str, int offset)
       cur_x = cur_x + 18;
     }
 }
+
+#else
+
+//FIXME it's possible that generating the surface every frame taxes 
+//slower machines. If so consider returning the surface to be used 
+//as long as it's needed.
+void draw_text(char* str, SDL_Rect dest)
+{
+  int hloffset = 0;
+  SDL_Color col;
+  SDL_Surface* surf = NULL;
+  if (!str || *str == '\0')
+    return;
+
+  tmdprintf("Entering draw_text(%s)\n", str);
+  
+  if (str[0] == '-') //highlight text
+  {
+    hloffset = 1;
+    col.r = 128;
+    col.g = 192;
+    col.b = 255 - (40);
+  }
+  else //normal color
+  {
+    col.r = 255 - (line % 256);
+    col.g = 255 / 2;
+    col.b = (line * line * 2) % 256;  
+  }
+  
+#ifndef SDL_Pango
+  surf = TTF_RenderUTF8_Blended(default_font, str+hloffset, col);
+#else
+  if( context != NULL)
+  {
+    SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_BLACK_LETTER);
+    SDLPango_SetText(context, t, -1);
+    surf = SDLPango_CreateSurfaceDraw(context);
+  }
+  else {
+    surf = TTF_RenderUTF8_Blended(default_font, str+hloffset, col);
+  }
+#endif
+  
+  dest.x -= surf->w / 2; //center text
+  SDL_BlitSurface(surf, NULL, screen, &dest);
+  SDL_FreeSurface(surf);
+  tmdprintf("done\n");
+}
+#endif
