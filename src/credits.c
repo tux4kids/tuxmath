@@ -472,8 +472,8 @@ int scroll_text(char* text[], SDL_Rect subscreen, int speed)
       if (now_time < last_time + (1000 / 20))
         {
           SDL_Delay(last_time + (1000 / 20) - now_time);
-          last_time = SDL_GetTicks();
         }
+      last_time = SDL_GetTicks();
     }
   while (!done);
   return quit;

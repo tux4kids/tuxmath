@@ -18,7 +18,7 @@ starting_comets = 2
 extra_comets_per_wave = 2
 max_comets = 8
 speed = 1.00
-speedup_factor = 1.2
+speedup_factor = 1.1
 bonus_comet_interval = 15
 vary_list_length = 0
 

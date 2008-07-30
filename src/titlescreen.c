@@ -1600,6 +1600,19 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             case SDLK_c:
             {
               start_campaign();
+              RecalcTitlePositions();
+              RecalcMenuPositions(&n_entries_per_screen,
+                                  n_menu_entries,
+                                  &menu_opts,
+                                  set_custom_menu_opts,
+                                  &menu_button_rect,
+                                  &menu_sprite_rect,
+                                  &menu_text_rect,
+                                  &back_button_rect,
+                                  &back_sprite_rect,
+                                  &back_text_rect,
+                                  &left_arrow_rect,
+                                  &right_arrow_rect);
               redraw = 1;
             }
 #endif

@@ -912,6 +912,7 @@ void game_set_message(game_message *msg,char *txt,int x,int y)
 {
   msg->x = x;
   msg->y = y;
+  msg->alpha = SDL_ALPHA_OPAQUE;
   strncpy(msg->message,txt,GAME_MESSAGE_LENGTH);
 }
 
@@ -934,6 +935,9 @@ void game_write_message(const game_message *msg)
     else
       rect.x = msg->x;              // left justified
     rect.y = msg->y;
+    
+    SDL_SetAlpha(surf, SDL_SRCALPHA, msg->alpha);
+    
     SDL_BlitSurface(surf, NULL, screen, &rect);
     SDL_FreeSurface(surf);
     //SDL_UpdateRect(screen, rect.x, rect.y, rect.w, rect.h);
@@ -1187,6 +1191,13 @@ void game_countdown(void)
   if (level_start_wait <= 0)
     return;
 
+  //dim start messages
+  s1.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s2.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s3.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s4.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  tmdprintf("alpha = %d\n", s1.alpha);
+  
   level_start_wait--;
   if (level_start_wait > LEVEL_START_WAIT_START / 4)
     tux_img = IMG_TUX_RELAX1;
@@ -1724,7 +1735,6 @@ void game_handle_extra_life(void)
   }
 }
 
-/* FIXME consider splitting this into smaller functions e.g. draw_comets(), etc. */
 void game_draw(void)
 {
   SDL_Rect dest;

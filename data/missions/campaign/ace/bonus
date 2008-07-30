@@ -1,0 +1,25 @@
+#ace bonus round
+
+subtraction_allowed = 1
+addition_allowed = 1
+multiplication_allowed = 1
+division_allowed = 1
+min_formula_nums = 2
+max_formula_nums = 5
+min_addend = -20
+max_addend = 20
+min_augend = -20
+max_augend = 20
+min_minuend = -20
+max_minuend = 20
+min_subtrahend = -20
+max_subtrahend = 20
+min_multiplier = -10
+max_multiplier = 10
+min_multiplicand = -10
+max_multiplicand = 10
+min_divisor = -10
+max_divisor = 10
+min_quotient = -10
+max_quotient = 10
+avg_list_length = 20

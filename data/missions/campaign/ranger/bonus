@@ -22,4 +22,4 @@ min_divisor = 0
 max_divisor = 10
 min_quotient = 0
 max_quotient = 10
-avg_list_length = 10
+avg_list_length = 20

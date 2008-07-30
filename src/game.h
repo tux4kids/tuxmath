@@ -86,6 +86,7 @@ typedef struct cloud_type {
 
 typedef struct {
   int x,y;
+  int alpha;
   char message[GAME_MESSAGE_LENGTH];
 } game_message;
 

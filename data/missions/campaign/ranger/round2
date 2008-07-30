@@ -2,11 +2,12 @@
 
 addition_allowed = 1
 subtraction_allowed = 0
-min_multiplier = 0
+min_multiplier = -20
 max_multiplier = 20
-min_multiplicand = 0
+min_multiplicand = -20
 max_multiplicand = 20
-min_addend = 0
+min_addend = -10
 max_addend = 10
-min_augend = 0
+min_augend = -10
 max_augend = 10
+avg_list_length = 130
