@@ -238,7 +238,7 @@ static MC_FlashCard    create_card_from_node(MC_MathQuestion* node);
 /* Functions for new mathcards architecture */
 static void free_node(MC_MathQuestion* mq); //wrapper for free() that also frees card
 static MC_FlashCard generate_random_flashcard(void);
-static MC_FlashCard generate_random_ooo_card_of_length(int length);
+static MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat);
 static void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy a flashcard
 static MC_MathQuestion* allocate_node(void); //allocate space for a node
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
@@ -1490,8 +1490,7 @@ MC_FlashCard generate_random_flashcard(void)
                        MC_GetOpt(MIN_FORMULA_NUMS) + 1) //avoid div by 0
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf(" of length %d", length);
-    ret = generate_random_ooo_card_of_length(length);
-    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
+    ret = generate_random_ooo_card_of_length(length, 1);
     #ifdef MC_DEBUG
     print_card(ret);
     #endif
@@ -1509,10 +1508,12 @@ raise performance issues. Difficulty is calculated based on the length of
 the formula and on the operators used. Problems have a 'base' difficulty of
 1 for binary operations, 3 for 3 numbers, 6, 10, etc. Each operator adds to
 the score: 0, 1, 2, and 3 respectively for addition, subtraction,
-multiplication and division.
+multiplication and division.If reformat is 0, FORMAT_ANS_LAST will be used,
+otherwise a format is chosen at random.
 */
-MC_FlashCard generate_random_ooo_card_of_length(int length)
+MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 {
+  int format = 0;
   int r1 = 0;
   int r2 = 0;
   int ans = 0;
@@ -1532,6 +1533,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
          op = rand() % MC_NUM_OPERS);
 
     mcdprintf("Operation is %c\n", operchars[op]);
+    /*
     if (op == MC_OPER_ADD)
     {
       r1 = rand() % (math_opts->iopts[MAX_AUGEND] - math_opts->iopts[MIN_AUGEND] + 1) + math_opts->iopts[MIN_AUGEND];
@@ -1558,24 +1560,48 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
         r2 = 1;
       r1 = ans * r2;
     }
-    else
+    */
+    if (op > MC_OPER_DIV || op < MC_OPER_ADD)
     {
       mcdprintf("Invalid operator: value %d\n", op);
       return DEFAULT_CARD;
     }
+    //choose two numbers in the proper range and get their result
+    
+    else
+    {
+      r1 = rand() % (math_opts->iopts[MAX_AUGEND+4*op] - math_opts->iopts[MIN_AUGEND+4*op] + 1) + math_opts->iopts[MIN_AUGEND+4*op];    
+      r2 = rand() % (math_opts->iopts[MAX_ADDEND+4*op] - math_opts->iopts[MIN_ADDEND+4*op] + 1) + math_opts->iopts[MIN_ADDEND+4*op]; 
+
+      if (op == MC_OPER_ADD)
+        ans = r1 + r2;
+      if (op == MC_OPER_SUB)
+        ans = r1 - r2;
+      if (op == MC_OPER_MULT)
+        ans = r1 * r2;
+      if (op == MC_OPER_DIV)  
+      {
+        if (r2 == 0)
+          r2 = 1;
+        ret.difficulty = r1;
+        r1 *= r2;
+        ans = ret.difficulty;
+      }
+    }
+
 
     mcdprintf("Constructing answer_string\n");
     snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
-//    mcdprintf("'%s' vs '%d'\n", ret.answer_string, ans);
     mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
     ret.difficulty = op + 1;
+
   }
   else //recurse
   {
-    ret = generate_random_ooo_card_of_length(length - 1);
+    ret = generate_random_ooo_card_of_length(length - 1, 0);
 
     if (strchr(ret.formula_string, '+') || strchr(ret.formula_string, '-') )
     {
@@ -1643,6 +1669,18 @@ MC_FlashCard generate_random_ooo_card_of_length(int length)
     //finally update the answer and score
     snprintf(ret.answer_string, max_answer_size, "%d", ret.answer);
     ret.difficulty += (length - 1) + op;
+  }
+  
+  if (reformat)
+  {
+    mcdprintf("Reformatting...\n");
+    do {
+      format = rand() % MC_NUM_FORMATS;
+    } while (!MC_GetOpt(FORMAT_ANSWER_LAST + format) && 
+             !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format) );
+   
+    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
+    reformat_arithmetic(&ret, format );     
   }
   return ret;
 }
@@ -1713,7 +1751,9 @@ MC_MathQuestion* generate_list(void)
       else if (length < cl) //if too many questions, chop off tail end of list
       {
         mcdprintf("Cutting list to %d questions\n", length);
-        delete_list(find_node(list, length) );
+        end_of_list = find_node(list, length);
+        delete_list(end_of_list->next);
+        end_of_list->next = NULL;
       }
     }
   }
@@ -1978,12 +2018,48 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       }
     }
   }
+  mcdprintf("Exiting add_all_valid()\n");
   return list;
 }
 
-static MC_MathQuestion* find_node(const MC_MathQuestion* list, int num)
+MC_MathQuestion* find_node(const MC_MathQuestion* list, int num)
 {
   while (--num > 0 && list)
     list = list->next;
   return list;
+}
+void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
+{
+  int i, j;
+  char* beg = 0;
+  char* end = 0;
+  char nans[max_answer_size];
+  char nformula[max_formula_size + max_answer_size]; //gets a bit larger than usual in the meantime
+  
+  {
+    snprintf(nans, max_answer_size, "%s", card->answer_string);
+   
+    //insert old answer where question mark was
+    for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)
+      nformula[i] = card->formula_string[j];
+    i += snprintf(nformula + i, max_answer_size-1, "%s", card->answer_string);
+    snprintf(nformula + i, max_formula_size - i, "%s", card->formula_string + j + 1);
+
+    //replace the new answer with a question mark
+    if (f == MC_FORMAT_ANS_LAST)
+      beg = strrchr(nformula, ' ') + 1;
+    if (f == MC_FORMAT_ANS_FIRST)
+      beg = nformula;
+    if (f == MC_FORMAT_ANS_MIDDLE)
+      beg = strchr(nformula, ' ') + 3;
+    end = strchr(beg + 1, ' ');
+    if (!end)
+      end = "";
+    //we now have beg = first digit of number to replace, end = the char after
+    sscanf(beg, "%s", nans);
+    *beg = 0; //sequester the first half of the string
+    snprintf(card->formula_string, max_formula_size, "%s?%s", nformula, end);
+    snprintf(card->answer_string, max_answer_size, nans);
+    card->answer = atoi(card->answer_string);
+  }
 }

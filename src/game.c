@@ -112,8 +112,7 @@ static int comet_feedback_number;
 static float comet_feedback_height;
 static float danger_level;
 
-#define MAX_DIGITS 3 //should really be determined by max_answer_size
-static int digits[MAX_DIGITS];
+static int digits[MC_MAX_DIGITS];
 
 static comet_type* comets = NULL;
 static city_type* cities = NULL;
@@ -1053,7 +1052,7 @@ void game_handle_demo(void)
 void game_handle_answer(void)
 {
   int i, j, lowest, lowest_y;
-  char ans[MAX_DIGITS+2]; //extra space for negative, and for final '\0'
+  char ans[MC_MAX_DIGITS+2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
 
   if (!doing_answer)
@@ -1070,8 +1069,8 @@ void game_handle_answer(void)
   /* negative answer support DSB */
   
   ans[0] = '-'; //for math questions only, this is just replaced.
-  for (i = 0; i < MAX_DIGITS - 1 && !digits[i]; ++i); //skip leading 0s
-  for (j = neg_answer_picked ? 1 : 0; i < MAX_DIGITS; ++i, ++j)
+  for (i = 0; i < MC_MAX_DIGITS - 1 && !digits[i]; ++i); //skip leading 0s
+  for (j = neg_answer_picked ? 1 : 0; i < MC_MAX_DIGITS; ++i, ++j)
     ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
@@ -1079,7 +1078,7 @@ void game_handle_answer(void)
   if (neg_answer_picked)
   {
     ans[0] = '-';
-    for (i = j = 0; i < MAX_DIGITS; ++i)
+    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
     {
       if (digits[i] == 0)
         continue;
@@ -1088,7 +1087,7 @@ void game_handle_answer(void)
   }
   else
   {
-    for (i = j = 0; i < MAX_DIGITS; ++i)
+    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
     {
       if (digits[i] == 0)
         continue;
@@ -1108,7 +1107,7 @@ void game_handle_answer(void)
     if (comets[i].alive &&
         comets[i].expl < COMET_EXPL_END &&
         //comets[i].answer == num &&
-        0 == strncmp(comets[i].flashcard.answer_string, ans, MAX_DIGITS+1) &&
+        0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1) &&
         comets[i].y > lowest_y)
     {
       lowest = i;
@@ -1192,7 +1191,7 @@ void game_handle_answer(void)
   }
 
   /* Clear digits: */
-  for (i = 0; i < MAX_DIGITS; ++i)
+  for (i = 0; i < MC_MAX_DIGITS; ++i)
     digits[i] = 0;
   neg_answer_picked = 0;
 }
@@ -2287,7 +2286,7 @@ void reset_level(void)
 
   /* Clear LED F: */
 
-  for (i = 0; i < MAX_DIGITS; ++i)
+  for (i = 0; i < MC_MAX_DIGITS; ++i)
     digits[i] = 0;
   neg_answer_picked = 0;
 
@@ -2943,7 +2942,7 @@ void draw_led_console(void)
   else
     dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
 
-  for (i = -1; i < MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
+  for (i = -1; i < MC_MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
                               /* with minimal modification of existing code DSB */
   {
     if (-1 == i)
@@ -3242,9 +3241,9 @@ void game_key_event(SDLKey key)
   if (key >= SDLK_0 && key <= SDLK_9)
   {
     /* [0]-[9]: Add a new digit: */
-    for (i = 0; i < MAX_DIGITS-1; ++i)
+    for (i = 0; i < MC_MAX_DIGITS-1; ++i)
       digits[i] = digits[i+1];
-    digits[MAX_DIGITS-1] = key - SDLK_0;
+    digits[MC_MAX_DIGITS-1] = key - SDLK_0;
     
 //    digits[0] = digits[1];
 //    digits[1] = digits[2];
@@ -3254,9 +3253,9 @@ void game_key_event(SDLKey key)
   else if (key >= SDLK_KP0 && key <= SDLK_KP9)
   {
     /* Keypad [0]-[9]: Add a new digit: */
-    for (i = 0; i < MAX_DIGITS-1; ++i)
+    for (i = 0; i < MC_MAX_DIGITS-1; ++i)
       digits[i] = digits[i+1];
-    digits[MAX_DIGITS-1] = key - SDLK_KP0;
+    digits[MC_MAX_DIGITS-1] = key - SDLK_KP0;
     
 //    digits[0] = digits[1];
 //    digits[1] = digits[2];
@@ -3283,7 +3282,7 @@ void game_key_event(SDLKey key)
            key == SDLK_DELETE)
   {
     /* [BKSP]: Clear digits! */
-    for (i = 0; i < MAX_DIGITS; ++i)
+    for (i = 0; i < MC_MAX_DIGITS; ++i)
       digits[i] = 0;
     tux_pressing = 1;
   }
@@ -3301,6 +3300,7 @@ void game_key_event(SDLKey key)
 void add_score(int inc)
 {
   score += inc;
+  tmdprintf("Score is now: %d\n", score);
 }
 
 

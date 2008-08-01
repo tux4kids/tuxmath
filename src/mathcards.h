@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#define MC_DEBUG
+//#define MC_DEBUG
 #ifdef MC_DEBUG
 #define mcdprintf(...) printf(__VA_ARGS__)
 #else
@@ -44,7 +44,8 @@ typedef enum _MC_Operation {
 typedef enum _MC_Format {
   MC_FORMAT_ANS_LAST,     /* a + b = ? */
   MC_FORMAT_ANS_FIRST,    /* ? + b = c */
-  MC_FORMAT_ANS_MIDDLE    /* a + ? = c */
+  MC_FORMAT_ANS_MIDDLE,    /* a + ? = c */
+  MC_NUM_FORMATS
 } MC_Format;
 
 
@@ -133,6 +134,7 @@ extern const int MC_DEFAULTS[];
 extern const char operchars[MC_NUM_OPERS];
 
 /* default values for math_options */
+#define MC_MAX_DIGITS 3 
 #define MC_GLOBAL_MAX 999          /* This is the largest absolute value that */
                                    /* can be entered for math question values.*/
 #define MC_MATH_OPTS_INVALID -9999 /* Return value for accessor functions     */
@@ -287,5 +289,5 @@ MC_FlashCard MC_AllocateFlashcard();
 void MC_FreeFlashcard(MC_FlashCard* fc);
 void MC_ResetFlashCard(MC_FlashCard* fc);
 int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid
-
+void reformat_arithmetic(MC_FlashCard* card, MC_Format f);
 #endif
