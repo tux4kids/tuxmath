@@ -140,7 +140,7 @@ void DisplayHighScores(int level)
           /* "Right" button - go to next page: */
           if (inRect( rightRect, event.button.x, event.button.y ))
           {
-            if (diff_level < ACE_HIGH_SCORE)
+            if (diff_level < (NUM_HIGH_SCORE_LEVELS-1))
             {
               diff_level++;
               if (Opts_MenuSound())
@@ -242,6 +242,12 @@ void DisplayHighScores(int level)
               break;
             case ACE_HIGH_SCORE:
               srfc = BlackOutline(_("Ace"), title_font, &white);
+              break;
+            case FACTORS_HIGH_SCORE:
+              srfc = BlackOutline(_("Factors"), title_font, &white);
+              break;
+            case FRACTIONS_HIGH_SCORE:
+              srfc = BlackOutline(_("Fractions"), title_font, &white);
               break;
             default:
               srfc = BlackOutline(_("Space Cadet"), title_font, &white);
@@ -624,7 +630,7 @@ int check_score_place(int diff_level, int new_score)
 
   /* Make sure diff_level is valid: */
   if (diff_level < 0
-   || diff_level > ACE_HIGH_SCORE)
+   || diff_level > (NUM_HIGH_SCORE_LEVELS-1))
   {
     fprintf(stderr, "In insert_score(), diff_level invalid!\n");
     return 0;
@@ -704,6 +710,16 @@ void print_high_scores(FILE* fp)
         fprintf(fp, "\nAce:\n");
         break;
       }
+      case FACTORS_HIGH_SCORE:
+      {
+        fprintf(fp, "\nFactors:\n");
+        break;
+      }
+      case FRACTIONS_HIGH_SCORE:
+      {
+        fprintf(fp, "\nFractions:\n");
+        break;
+      }
     }
 
     for (j = 0; j < HIGH_SCORES_SAVED; j++)
@@ -777,9 +793,9 @@ int HS_Score(int diff_level, int place)
 {
   /* Make sure diff_level is valid: */
   if (diff_level < 0
-   || diff_level > ACE_HIGH_SCORE)
+   || diff_level > (NUM_HIGH_SCORE_LEVELS-1))
   {
-    fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
+    fprintf(stderr, "In HS_Score(), diff_level %d invalid!\n", diff_level);
     return -1;
   }
 
@@ -800,7 +816,7 @@ unsigned char* HS_Name(int diff_level, int place)
 {
   /* Make sure diff_level is valid: */
   if (diff_level < 0
-   || diff_level > ACE_HIGH_SCORE)
+   || diff_level > (NUM_HIGH_SCORE_LEVELS-1))
   {
     fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
     return NULL;

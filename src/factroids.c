@@ -52,7 +52,7 @@
 /********* Enumerations ***********/
 
 enum{
-  FACTROIDS_GAME,
+  FACTOROIDS_GAME,
   FRACTIONS_GAME
 };
 
@@ -158,7 +158,7 @@ static int escape_received;
 static int gameover_counter;
 static int game_status;
 static int SDL_quit_received;
-static int done, quit;
+static int quit;
 static int digits[3];
 static int num;
 
@@ -176,43 +176,47 @@ static int NUM_ASTEROIDS;
 static int bkg_h, counter;
 static int xdead, ydead, isdead, countdead;
 
-//static int SDL_Surface *screen2;
+/*************** The Factor and Faraction Activiy game Functions ***************/
 
 static int FF_init(void);
 static void FF_intro(void);
+
 static void FF_handle_ship(void);
 static void FF_handle_asteroids(void);
 static void FF_handle_answer(void);
+
 static void FF_draw(void);
+static void FF_draw_bkgr(void);
+
 static void FF_add_level(void);
-static void FF_loose(void);
-static void FF_win(void);
+static int FF_over(int game_status);
 static void FF_exit_free(void);
+
 static int FF_add_laser(void);
 static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int a, int b, int new_wave);
 static int FF_destroy_asteroid(int i, int xspeed, int yspeed);
+
+static void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4);
 
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
 
 
+/************** factors(): The factor main function ********************/
 void factors(void){
 
 
   Uint32 last_time, now_time; 
   
-  done = 0;
   quit = 0;
   counter = 0;
-  
-
   
   #ifdef TUXMATH_DEBUG
      fprintf(stderr, "Entering factors():\n");
   #endif
 
-  FF_game=FACTROIDS_GAME;
+  FF_game=FACTOROIDS_GAME;
   
   if (!FF_init())
   {
@@ -223,12 +227,9 @@ void factors(void){
   
   FF_intro();
   
-  while (!done){
+  while (game_status==GAME_IN_PROGRESS){
       last_time = SDL_GetTicks();
-      counter++;
-      if(tuxship.lives<=0)
-        done=1;
-      
+      counter++; 
    
     game_handle_user_events();
 
@@ -271,13 +272,14 @@ void factors(void){
       SDL_Delay(now_time);
     }
   }
+  FF_over(game_status);
 }
 
+/************** fractions(): The fractions main function ********************/
 void fractions(void){
 
   Uint32 last_time, now_time; 
   
-  done = 0;
   quit = 0;
   counter = 0;
   
@@ -302,56 +304,53 @@ void fractions(void){
   FF_intro();
 
   /************ Main Loop **************/
-  while (!done){
+  while (game_status==GAME_IN_PROGRESS){
       last_time = SDL_GetTicks();
       counter++;
-      if(tuxship.lives<=0)
-        done=1;
       
-   
-    game_handle_user_events();
+      game_handle_user_events();
 
-    FF_handle_ship();
-    FF_handle_asteroids();
-    FF_handle_answer();
-    FF_draw();
+      FF_handle_ship();
+      FF_handle_asteroids();
+      FF_handle_answer();
+      FF_draw();
 
-    game_status = check_exit_conditions();
+      game_status = check_exit_conditions();
 
-    if (paused)
-    {
-      pause_game();
-      paused = 0;
-    }
+      if (paused)
+      {
+        pause_game();
+        paused = 0;
+      }
 
 
 #ifndef NOSOUND
-    if (Opts_UsingSound())
-    {
-      if (!Mix_PlayingMusic())
+      if (Opts_UsingSound())
       {
+        if (!Mix_PlayingMusic())
+        {
 	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-      }  
-    }
+        }  
+      }
 #endif
 
-
-
       /* Pause (keep frame-rate event) */
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + MS_PER_FRAME)
-    {
-      //Prevent any possibility of a time wrap-around
-      // (this is a very unlikely problem unless there is an SDL bug
-      //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
-      if (now_time > MS_PER_FRAME)
-	now_time = MS_PER_FRAME;
-      SDL_Delay(now_time);
-    }
+      now_time = SDL_GetTicks();
+      if (now_time < last_time + MS_PER_FRAME)
+      {
+        //Prevent any possibility of a time wrap-around
+        // (this is a very unlikely problem unless there is an SDL bug
+        //  or you leave tuxmath running for 49 days...)
+        now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+        if (now_time > MS_PER_FRAME)
+	  now_time = MS_PER_FRAME;
+        SDL_Delay(now_time);
+      }
   }
+  FF_over(game_status);
 }
 
+/************ Initialize all vars... ****************/
 static int FF_init(void){
   int i;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
@@ -362,6 +361,7 @@ static int FF_init(void){
   bgSrc.w=screen->w;
   bgSrc.h=screen->h;
   
+  escape_received = 0;
   game_status = GAME_IN_PROGRESS;  
   
   // Allocate memory 
@@ -398,7 +398,41 @@ static int FF_init(void){
 }
 
 
-static void FF_intro(void){}
+static void FF_intro(void){
+  
+  SDL_Event event;
+  SDL_Rect rect;
+
+  FF_draw_bkgr();
+  if(FF_game==FACTOROIDS_GAME)
+  {
+    FF_ShowMessage(_("THE FACTOR ACTIVIY"),
+		   _("To win, you need destroy all the asteroids finding their"),
+		   _("factor numbers... The rocks will split until you got the prime number!"),
+		   _("Type the factor number and shot presing return!"));
+  }
+  else if (FF_game==FRACTIONS_GAME)
+  {
+    FF_ShowMessage(_("THE FRACTION ACTIVIY"),
+		   _("To win, you need destroy all the asteroids finding a number that"),
+		   _("can simplify teh fration... The rocks will split until you got all"),
+		   _("Type the number and shot presing return!"));
+  }
+  while(1){
+    SDL_PollEvent(&event);
+    if (event.type == SDL_QUIT)
+    {
+      SDL_quit_received = 1;
+      quit = 1;
+    }
+    if (event.type == SDL_MOUSEBUTTONDOWN ||
+        event.type == SDL_KEYDOWN ||
+	event.type == SDL_KEYUP)
+    {
+      return;
+    }
+  }
+}
 
 static void FF_handle_ship(void){
 
@@ -576,9 +610,8 @@ static void FF_draw(void){
 
   /************ Draw Background ***************/ 
 
-  SDL_BlitSurface(images[BG_STARS], NULL, screen, NULL);
-  //if(bgSrc.y>bkg_h)
-  //  SDL_BlitSurface(images[BG_STARS], NULL, screen, &bgScreen);
+  FF_draw_bkgr();
+
 /******************* Draw laser *************************/
   for (i=0;i<MAX_LASER;i++){
     if(laser[i].alive)
@@ -620,7 +653,7 @@ static void FF_draw(void){
      if(asteroid[i].size==2){
         SDL_BlitSurface(images[IMG_ASTEROID2], NULL, screen, &dest);
      }
-     if(FF_game==FACTROIDS_GAME)
+     if(FF_game==FACTOROIDS_GAME)
      {   
        sprintf(str, "%.1d", asteroid[i].fact_number);
        draw_nums(str, asteroid[i].x+20,asteroid[i].y+10);
@@ -703,6 +736,15 @@ static void FF_draw(void){
 
 }
 
+static void FF_draw_bkgr(void)
+{
+
+  SDL_BlitSurface(images[BG_STARS], NULL, screen, NULL);
+  //if(bgSrc.y>bkg_h)
+  //  SDL_BlitSurface(images[BG_STARS], NULL, screen, &bgScreen);
+
+}
+
 static void FF_add_level(void)
 {
   int i;
@@ -713,7 +755,7 @@ static void FF_add_level(void)
   for (i=0; (i<(NUM_ASTEROIDS/2)) && NUM_ASTEROIDS<MAX_ASTEROIDS; i++){
    
    //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
-   if(FF_game==FACTROIDS_GAME){
+   if(FF_game==FACTOROIDS_GAME){
      FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
 		     rand()%4, rand()%3,
                      rand()%2, 
@@ -750,7 +792,7 @@ static void FF_add_level(void)
      }
    } 
    if((NUM_ASTEROIDS%2)==1){
-     if(FF_game==FACTROIDS_GAME){
+     if(FF_game==FACTOROIDS_GAME){
        FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
 		       (-1*rand()%4), (-1*rand()%3),
                        rand()%2, 
@@ -772,11 +814,141 @@ static void FF_add_level(void)
    }
 }
 
-static void FF_loose(void){
-  
-}
-static void FF_win(void){
-  
+static int FF_over(int game_status){
+  Uint32 last_time, now_time; 
+  SDL_Rect dest_message;
+  SDL_Event event;
+
+#ifdef TUXMATH_DEBUG
+  print_exit_conditions();
+#endif
+
+  /* TODO: need better "victory" screen with animation, special music, etc., */
+  /* as well as options to review missed questions, play again using missed  */
+  /* questions as question list, etc.                                        */
+  switch (game_status)
+  {
+    case GAME_OVER_WON:
+    {
+      int looping = 1;
+//      int frame;
+      /* set up victory message: */
+      dest_message.x = (screen->w - images[IMG_GAMEOVER_WON]->w) / 2;
+      dest_message.y = (screen->h - images[IMG_GAMEOVER_WON]->h) / 2;
+      dest_message.w = images[IMG_GAMEOVER_WON]->w;
+      dest_message.h = images[IMG_GAMEOVER_WON]->h;
+
+      do
+      {
+        //frame++;
+        last_time = SDL_GetTicks();
+
+        /* draw flashing victory message: */
+        //if (((frame / 2) % 4))
+        //{
+          SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
+        //}
+
+
+        SDL_Flip(screen);
+
+        while (1)
+        {
+	  SDL_PollEvent(&event);
+          if  (event.type == SDL_QUIT
+            || event.type == SDL_KEYDOWN
+            || event.type == SDL_MOUSEBUTTONDOWN)
+          {
+            looping = 0;
+	    break;
+          }
+        }
+
+        now_time = SDL_GetTicks();
+
+        if (now_time < last_time + MS_PER_FRAME)
+	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+      }
+      while (looping);
+      break;
+    }
+
+    case GAME_OVER_ERROR:
+    {
+#ifdef TUXMATH_DEBUG
+      printf("\ngame() exiting with error");
+#endif
+    }
+    case GAME_OVER_LOST:
+    case GAME_OVER_OTHER:
+    {
+      int looping = 1;
+
+      /* set up GAMEOVER message: */
+      dest_message.x = (screen->w - images[IMG_GAMEOVER]->w) / 2;
+      dest_message.y = (screen->h - images[IMG_GAMEOVER]->h) / 2;
+      dest_message.w = images[IMG_GAMEOVER]->w;
+      dest_message.h = images[IMG_GAMEOVER]->h;
+
+      do
+      {
+        //frame++;
+        last_time = SDL_GetTicks();
+
+        SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
+        SDL_Flip(screen);
+
+        while (1)
+        {
+	  SDL_PollEvent(&event);
+          if  (event.type == SDL_QUIT
+            || event.type == SDL_KEYDOWN
+            || event.type == SDL_MOUSEBUTTONDOWN)
+          {
+            looping = 0;
+	    break;
+          }
+        }
+
+        now_time = SDL_GetTicks();
+
+        if (now_time < last_time + MS_PER_FRAME)
+	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+      }
+      while (looping);
+
+      break;
+    }
+
+    case GAME_OVER_ESCAPE:
+    {
+      break;
+    }
+
+    case GAME_OVER_WINDOW_CLOSE:
+    {
+      break;
+    }
+
+  }
+
+  FF_exit_free();
+
+  /* Save score in case needed for high score table: */
+  Opts_SetLastScore(score);
+
+  /* Return the chosen command: */
+  if (GAME_OVER_WINDOW_CLOSE == game_status)
+  {
+    /* program exits: */
+    FF_exit_free();;
+    return 1;
+  }
+  else
+  {
+    /* return to title() screen: */
+    return 0;
+  }
 }
 
 static void FF_exit_free()
@@ -790,7 +962,6 @@ static void FF_exit_free()
 int is_prime(int num)
 {
   int i;
-  //int divisor=2;
   if (num==0 || num==1 || num==-1) return 1;
   else if (num>0)
   {
@@ -908,7 +1079,7 @@ int FF_add_laser(void)
 		   }
                    if (num!=0)
 		   {  
-		     if(FF_game==FACTROIDS_GAME)
+		     if(FF_game==FACTOROIDS_GAME)
 		     {
                         if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
 		        {
@@ -993,7 +1164,7 @@ int FF_add_laser(void)
 		     return 1;
 		   }
 
-		  if(FF_game==FACTROIDS_GAME)
+		  if(FF_game==FACTOROIDS_GAME)
 		  {
 
 
@@ -1071,7 +1242,7 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].angle=angle;
       asteroid[i].angle_speed=angle_speed;
       
-      if(FF_game==FACTROIDS_GAME){
+      if(FF_game==FACTOROIDS_GAME){
 
          asteroid[i].fact_number=fact_number;
 
@@ -1135,7 +1306,7 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
      if(asteroid[i].size>0){
       /* Break the rock into two smaller ones! */
       if(num!=0){
-        if(FF_game==FACTROIDS_GAME){
+        if(FF_game==FACTOROIDS_GAME){
           FF_add_asteroid(asteroid[i].x,
 	  	          asteroid[i].y,
 	  	          ((asteroid[i].xspeed + xspeed) / 2),
@@ -1185,7 +1356,73 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
   return 0;
 }
 
-/************** MODIFIED FUNCS FROM game.c ******************/
+/************** MODIFIED FUNCS FROM game.c and titlescreen.c ******************/
+
+void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
+{
+  SDL_Surface *s1, *s2, *s3, *s4;
+  SDL_Rect loc;
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+
+  s1 = s2 = s3 = s4 = NULL;
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "ShowMessage() - creating text\n" );
+#endif
+
+  if (str1)
+    s1 = BlackOutline(str1, default_font, &white);
+  if (str2)
+    s2 = BlackOutline(str2, default_font, &white);
+  if (str3)
+    s3 = BlackOutline(str3, default_font, &white);
+  /* When we get going with i18n may need to modify following - see below: */
+  if (str4)
+    s4 = BlackOutline(str4, default_font, &white);
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "NotImplemented() - drawing screen\n" );
+#endif
+
+
+  /* Draw lines of text (do after drawing Tux so text is in front): */
+  if (s1)
+  {
+    loc.x = (screen->w / 2) - (s1->w/2); 
+    loc.y = (screen->h / 2) + 10;
+    SDL_BlitSurface( s1, NULL, screen, &loc);
+  }
+  if (s2)
+  {
+    loc.x = (screen->w / 2) - (s2->w/2); 
+    loc.y = (screen->h / 2) + 60;
+    SDL_BlitSurface( s2, NULL, screen, &loc);
+  }
+  if (s3)
+  {
+    loc.x = (screen->w / 2) - (s3->w/2); 
+    loc.y = (screen->h / 2) + 110;
+    SDL_BlitSurface( s3, NULL, screen, &loc);
+  }
+  if (s4)
+  {
+    loc.x = (screen->w / 2) - (s4->w/2); 
+    loc.y = (screen->h / 2) + 200;
+    SDL_BlitSurface( s4, NULL, screen, &loc);
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+
+  SDL_FreeSurface(s1);
+  SDL_FreeSurface(s2);
+  SDL_FreeSurface(s3);
+  SDL_FreeSurface(s4);
+}
 
 
 void game_handle_user_events(void)
@@ -1198,7 +1435,6 @@ void game_handle_user_events(void)
     if (event.type == SDL_QUIT)
     {
       SDL_quit_received = 1;
-      done = 1;
       quit = 1;
     }
     if (event.type == SDL_MOUSEBUTTONDOWN)
@@ -1215,7 +1451,8 @@ void game_handle_user_events(void)
 	  if (key == SDLK_ESCAPE)
 	  {
             // Return to menu! 
-	            done = 1;
+            escape_received = 1;
+
 	  }
 	  
 	  // Key press... 
@@ -1414,7 +1651,6 @@ int game_mouse_event(SDL_Event event)
     key = SDLK_ESCAPE;
     //game_key_event(key);
     escape_received = 1;
-    done = 1;
     quit = 1;
     return -1;
   } 
@@ -1588,7 +1824,11 @@ int check_exit_conditions(void)
   }
   if(tuxship.lives<=0)
   {
-     GAME_OVER_LOST;
+    return GAME_OVER_LOST;
+  }
+  if(score>=10000 || wave >= 30 )
+  {
+    return GAME_OVER_WON;
   }
   /* determine if game lost (i.e. all cities blown up): */
   /*if (!num_cities_alive)

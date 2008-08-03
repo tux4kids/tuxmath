@@ -283,7 +283,7 @@ void TitleScreen(void)
 
   /* --- Pull tux & logo onscreen --- */
   /* NOTE we wind up with Tuxdest.y == (screen->h)  - (Tux->frame[0]->h), */
-  /* and Titledest.x == 0.                                                */
+  /* a 	nd Titledest.x == 0.                                                */
   if (current_bkg()
    && images[IMG_MENU_TITLE]
    && images[IMG_STOP]
@@ -827,6 +827,8 @@ int run_activities_menu(void)
     {(const unsigned char*)N_("Factors"),
      (const unsigned char*)N_("Fractions"),
      (const unsigned char*)N_("Main menu")};
+  const int factroids_high_score_tables[2] =
+    {FACTORS_HIGH_SCORE,FRACTIONS_HIGH_SCORE};
   sprite* sprites[3] =
     {NULL, NULL, NULL};
   menu_options menu_opts;
@@ -866,11 +868,37 @@ int run_activities_menu(void)
           // Return to main menu
           return 0;
     }
-  
+
+	hs_table = factroids_high_score_tables[choice];
+	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
+
+	  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+	  /* Get name from player: */
+	  HighScoreNameEntry(&player_name[0]);
+	  insert_score(player_name, hs_table, Opts_LastScore());
+	  /* Show the high scores. Note the user will see his/her */
+	  /* achievement even if (in the meantime) another player */
+	  /* has in fact already bumped this score off the table. */
+	  DisplayHighScores(hs_table);
+	  /* save to disk: */
+	  /* See "On File Locking" in fileops.c */
+	  append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
+
+#ifdef TUXMATH_DEBUG
+	  print_high_scores(stderr);
+#endif
+	}
+       else {
+	fprintf(stderr, "\nCould not find config file\n");
+      }  
 
     menu_opts.starting_entry = choice;
     choice = choose_menu_item(menu_text,sprites,3,NULL,NULL);
+
+
   }
+
 
   return 0; 
 }
