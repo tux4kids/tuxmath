@@ -86,6 +86,7 @@ typedef struct cloud_type {
 
 typedef struct {
   int x,y;
+  int alpha;
   char message[GAME_MESSAGE_LENGTH];
 } game_message;
 
@@ -136,6 +137,7 @@ enum {
 };
 
 int game(void);
+void game_set_start_message(const char*, const char*, const char*, const char*);
 /* draw_nums() is used in options.c so need extern linkage */
 void draw_nums(const char* str, int x, int y);
 

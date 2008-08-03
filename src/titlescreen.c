@@ -31,6 +31,7 @@
 #include "options.h"
 #include "fileops.h"
 #include "game.h"
+#include "campaign.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
 #include "credits.h"
@@ -1608,7 +1609,27 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
               }
               break;
             }
+#ifdef TESTING_CAMPAIGN
+            case SDLK_c:
+            {
+              start_campaign();
+              RecalcTitlePositions();
+              RecalcMenuPositions(&n_entries_per_screen,
+                                  n_menu_entries,
+                                  &menu_opts,
+                                  set_custom_menu_opts,
+                                  &menu_button_rect,
+                                  &menu_sprite_rect,
+                                  &menu_text_rect,
+                                  &back_button_rect,
+                                  &back_sprite_rect,
+                                  &back_text_rect,
+                                  &left_arrow_rect,
+                                  &right_arrow_rect);
+              redraw = 1;
+            }
 
+#endif
             default:
             {
               /* Some other key - do nothing. */

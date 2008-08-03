@@ -1231,6 +1231,9 @@ static int randomize_list(MC_MathQuestion** old_list)
   MC_MathQuestion** tmp_vect = NULL;
 
   int i = 0;
+  if (!old_list || !*old_list) //invalid/empty list
+    return 0;
+  
   int old_length = list_length(old_tmp);
 
   /* set random seed: */

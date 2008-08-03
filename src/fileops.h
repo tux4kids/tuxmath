@@ -13,6 +13,9 @@ Contains code originally written by Bill Kendrick (C) 2001.
 Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 */
 
+#ifndef FILEOPS_H
+#define FILEOPS_H
+
 #include "tuxmath.h"
 
 /* Flag basically telling whether or not to allow admin-level */
@@ -256,3 +259,4 @@ int load_default_font();
 int load_sound_data();
 #endif
 
+#endif

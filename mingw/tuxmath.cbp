@@ -63,6 +63,14 @@
 					<Add library="SDL_ttf" />
 				</Linker>
 			</Target>
+			<Target title="lol">
+				<Option output="tuxmath" prefix_auto="1" extension_auto="1" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
@@ -81,72 +89,178 @@
 		</Unit>
 		<Unit filename="../src/ConvertUTF.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/ConvertUTF.h" />
+		<Unit filename="../src/ConvertUTF.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/SDL_extras.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/SDL_extras.h" />
+		<Unit filename="../src/SDL_extras.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/audio.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/compiler.h" />
+		<Unit filename="../src/compiler.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/credits.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/credits.h" />
+		<Unit filename="../src/credits.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/exercise_mathcards.c">
 			<Option compilerVar="CC" />
 			<Option target="WinRelease" />
 		</Unit>
 		<Unit filename="../src/fileops.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/fileops.h" />
+		<Unit filename="../src/fileops.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/game.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/game.h" />
-		<Unit filename="../src/gettext.h" />
+		<Unit filename="../src/game.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
+		<Unit filename="../src/gettext.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/highscore.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/highscore.h" />
+		<Unit filename="../src/highscore.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/lessons.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/lessons.h" />
+		<Unit filename="../src/lessons.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/loaders.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
 		<Unit filename="../src/mathcards.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/mathcards.h" />
+		<Unit filename="../src/multiplayer.h" />
 		<Unit filename="../src/options.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/options.h" />
+		<Unit filename="../src/options.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/pixels.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/pixels.h" />
+		<Unit filename="../src/pixels.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/scandir.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/scandir.h" />
+		<Unit filename="../src/scandir.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/setup.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/setup.h" />
+		<Unit filename="../src/setup.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/titlescreen.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/titlescreen.h" />
+		<Unit filename="../src/titlescreen.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/tuxmath.c">
 			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
 		</Unit>
-		<Unit filename="../src/tuxmath.h" />
+		<Unit filename="../src/tuxmath.h">
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+			<Option target="NixDebug" />
+		</Unit>
 		<Unit filename="../src/tuxmathadmin.c">
 			<Option compilerVar="CC" />
 			<Option target="&lt;{~None~}&gt;" />

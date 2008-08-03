@@ -1,0 +1,12 @@
+#scout round 3
+
+addition_allowed = 1
+min_minuend = 0
+max_minuend = 20
+min_subtrahend = 0
+max_subtrahend = 20
+min_addend = 0
+max_addend = 10
+min_augend = 0
+max_augend = 10
+avg_list_length = 100

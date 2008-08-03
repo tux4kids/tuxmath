@@ -128,6 +128,8 @@ SDL_Surface* current_bkgd()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static game_message s1, s2, s3, s4, s5;
+static int start_message_chosen = 0;
+
 
 typedef struct {
   int x_is_blinking;
@@ -221,7 +223,7 @@ int game(void)
   if (Opts_HelpMode()) {
     game_handle_help();
     game_cleanup();
-    return 0;
+    return GAME_OVER_OTHER;
   }
 
 
@@ -457,10 +459,23 @@ int game(void)
   else
   {
     /* return to title() screen: */
-    return 0;
+    return game_status;
   }
 }
 
+/* 
+Set one to four lines of text to display at the game's start. Eventually
+this should stylishly fade out over the first few moments of the game.
+*/
+void game_set_start_message(const char* m1, const char* m2, 
+                            const char* m3, const char* m4)
+{
+  game_set_message(&s1, m1, screen->w / 2 - 40, RES_Y * 0 / 4);
+  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 1 / 4);
+  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 2 / 4);
+  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 3 / 4);
+  start_message_chosen = 1;
+}
 
 int game_initialize(void)
 {
@@ -626,11 +641,14 @@ int game_initialize(void)
   tux_anim_frame = 0;
 
   // Initialize the messages
-  game_clear_message(&s1);
-  game_clear_message(&s2);
-  game_clear_message(&s3);
-  game_clear_message(&s4);
   game_clear_message(&s5);
+  if (!start_message_chosen)
+  {
+    game_clear_message(&s1);
+    game_clear_message(&s2);
+    game_clear_message(&s3);
+    game_clear_message(&s4);
+  }
 
   help_controls.x_is_blinking = 0;
   help_controls.extra_life_is_blinking = 0;
@@ -898,6 +916,7 @@ void game_set_message(game_message *msg,const char *txt,int x,int y)
 {
   msg->x = x;
   msg->y = y;
+  msg->alpha = SDL_ALPHA_OPAQUE;
   strncpy(msg->message,txt,GAME_MESSAGE_LENGTH);
 }
 
@@ -920,6 +939,7 @@ void game_write_message(const game_message *msg)
     else
       rect.x = msg->x;              // left justified
     rect.y = msg->y;
+    SDL_SetAlpha(surf, SDL_SRCALPHA, msg->alpha);
     SDL_BlitSurface(surf, NULL, screen, &rect);
     SDL_FreeSurface(surf);
     //SDL_UpdateRect(screen, rect.x, rect.y, rect.w, rect.h);
@@ -1200,6 +1220,13 @@ void game_countdown(void)
 {
   if (level_start_wait <= 0)
     return;
+
+  //dim start messages
+  s1.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s2.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s3.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  s4.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  tmdprintf("alpha = %d\n", s1.alpha);
 
   level_start_wait--;
   if (level_start_wait > LEVEL_START_WAIT_START / 4)
@@ -1738,7 +1765,6 @@ void game_handle_extra_life(void)
   }
 }
 
-/* FIXME consider splitting this into smaller functions e.g. draw_comets(), etc. */
 void game_draw(void)
 {
   SDL_Rect dest;
@@ -2181,6 +2207,7 @@ int check_exit_conditions(void)
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if (MC_MissionAccomplished())
   {
+    tmdprintf("Mission accomplished!\n");
     return GAME_OVER_WON;
   }
 

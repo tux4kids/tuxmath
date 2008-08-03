@@ -3,7 +3,7 @@
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
 # modified more for tuxmath by David Bruce <dbruce@tampabay.rr.com>
 
-!define PKG_VERSION "1.6.0"
+!define PKG_VERSION "1.6.3"
 !define PKG_PREFIX  "tuxmath"
 
 !define APP_PREFIX  "TuxMath"
