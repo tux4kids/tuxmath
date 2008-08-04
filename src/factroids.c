@@ -3,13 +3,13 @@
  *                                                          *
  *  Description: Code for the factor and fraction activity  *
  *                                                          *
- *  Autor:       Jesus M. Mager H. (fongog@gmail.com) 2008  *
+ *  Author:       Jesus M. Mager H. (fongog@gmail.com) 2008 *
  *  Copyright:   GPL v3 or later                            *
  *                                                          *
  *  Code based on the work made by:                         *
- *               Bull kendrick (vectoroids 1.1.0)          *
- *               and Bill Kendrick avid Bruce, Tim Holy    *
- *               and others (Tuxmath 1.6.3)                *
+ *               Bill Kendrick (vectoroids 1.1.0)           *
+ *               and Bill Kendrick David Bruce, Tim Holy    *
+ *               and others (Tuxmath 1.6.3)                 *
  *                                                          *
  *  TuxMath                                                 *
  *  Part of "Tux4Kids" Project                              *
@@ -373,7 +373,6 @@ static int FF_init(void){
     return 0;
   }
   NUM_ASTEROIDS=4;
-  FF_add_level();
 
   /**************Setting up the ship values! **************/
 
@@ -389,7 +388,9 @@ static int FF_init(void){
   tuxship.centery=(images[IMG_SHIP01]->h)/2;
   shoot_pressed=0;
   score=1;
-  wave=1;
+  wave=0;
+
+  FF_add_level();
 
   for (i=0; i<MAX_LASER; i++)
     laser[i].alive=0;
@@ -406,16 +407,16 @@ static void FF_intro(void){
   FF_draw_bkgr();
   if(FF_game==FACTOROIDS_GAME)
   {
-    FF_ShowMessage(_("THE FACTOR ACTIVIY"),
-		   _("To win, you need destroy all the asteroids finding their"),
-		   _("factor numbers... The rocks will split until you got the prime number!"),
-		   _("Type the factor number and shot presing return!"));
+    FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
+		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
+		   _("type one of its factors, and press space or return..."),
+		   _("If you're right, it will split into its factors.  Rocks with prime numbers are destroyed!"));
   }
   else if (FF_game==FRACTIONS_GAME)
   {
     FF_ShowMessage(_("THE FRACTION ACTIVIY"),
 		   _("To win, you need destroy all the asteroids finding a number that"),
-		   _("can simplify teh fration... The rocks will split until you got all"),
+		   _("can simplify the fraction... The rocks will split until you got all"),
 		   _("Type the number and shot presing return!"));
   }
   while(1){
@@ -547,7 +548,7 @@ static void FF_handle_asteroids(void){
 		asteroid[i].angle = asteroid[i].angle + 360;
 	      else if (asteroid[i].angle >= 360)
 		asteroid[i].angle = asteroid[i].angle - 360;
-            // Collitions!
+            // Collisions!
               if(asteroid[i].size<=2){
 	         if(tuxship.x+30<asteroid[i].x+80 && 
                     tuxship.x+30>asteroid[i].x && 
@@ -669,7 +670,7 @@ static void FF_draw(void){
      }
     }
   }
-  /*************** Draw Strem ***************/
+  /*************** Draw Steam ***************/
   
   if(isdead)
   {
@@ -748,70 +749,71 @@ static void FF_draw_bkgr(void)
 static void FF_add_level(void)
 {
   int i;
+  int x,y,xvel,yvel,dx,dy;
+  int ok;
+
+  int width;
+  int safety_radius2;
+  int max_speed;
+
   wave++;
   NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
+  
+  // Define the "safety radius" as half of the screen width
+  width = screen->w;
+  if (screen->h < width)
+    width = screen->h;
+
+  safety_radius2 = width/2;
+  safety_radius2 = safety_radius2*safety_radius2; // the square distance
+  
+  // Define the max speed in terms of the screen width
+  max_speed = width/100;
+  if (max_speed == 0)
+    max_speed = 1;
+
   for (i=0; i<MAX_ASTEROIDS; i++)
     asteroid[i].alive=0;
-  for (i=0; (i<(NUM_ASTEROIDS/2)) && NUM_ASTEROIDS<MAX_ASTEROIDS; i++){
-   
+  for (i=0; i<NUM_ASTEROIDS && NUM_ASTEROIDS<MAX_ASTEROIDS; i++){
+    // Generate the new position, avoiding the location of the ship
+    ok = 0;
+    while (!ok) {
+      x = rand()%(screen->w);
+      y = rand()%(screen->h);
+      dx = x - tuxship.x;
+      dy = y - tuxship.y;
+      if (dx*dx + dy*dy > safety_radius2)
+	ok = 1;
+    }
+    // Generate the new speed, making none of them stationary but none
+    // of them too fast
+    ok = 0;
+    while (!ok) {
+      xvel = rand()%(2*max_speed+1) - max_speed;
+      yvel = rand()%(2*max_speed+1) - max_speed;
+      if (xvel*yvel != 0 && xvel*xvel + yvel*yvel < max_speed*max_speed)
+	ok = 1;
+    }
    //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
    if(FF_game==FACTOROIDS_GAME){
-     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		     rand()%4, rand()%3,
-                     rand()%2, 
-		     0, 3,
-                     (rand()%(31+(wave*wave))), 
-		     0, 0,
-		     1);
-
-     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		    (-1*rand()%4), (-1*rand()%3),
-                     rand()%2, 
-		     0, 3,
-                     (rand()%(31+(wave*wave))), 
-		     0, 0,
-		     1);
-     }
-   else if(FF_game==FRACTIONS_GAME){
-     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		     rand()%4, rand()%3,
-                     rand()%2, 
-		     0, 3,
-                     0, 
-		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
-		     1);
-
-     FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		    (-1*rand()%4), (-1*rand()%3),
-                     rand()%2, 
-		     0, 3,
-                     0, 
-		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
-		     1);
-
-     }
-   } 
-   if((NUM_ASTEROIDS%2)==1){
-     if(FF_game==FACTOROIDS_GAME){
-       FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-		       (-1*rand()%4), (-1*rand()%3),
-                       rand()%2, 
-		       0, 3,
-                       (rand()%(31+(wave*wave))), 
-		       0, 0,
-                       1);
-     }
-     else if(FF_game==FRACTIONS_GAME){
-       FF_add_asteroid(rand()%(screen->w), rand()%(screen->h),
-  		      (-1*rand()%4), (-1*rand()%3),
-                      rand()%2, 
-		      0, 3,
-                      0, 
-		      (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
-		      1);
-     
-     }
+     FF_add_asteroid(x,y,
+		    xvel,yvel,
+		    rand()%2,
+		    0, 3,
+		    (rand()%(31+(wave*wave))), 
+		    0, 0,
+		    1);
    }
+   else if(FF_game==FRACTIONS_GAME){
+     FF_add_asteroid(x,y,
+		     xvel,yvel,
+                     rand()%2, 
+		     0, 3,
+                     0, 
+		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
+		     1);
+   }
+  }
 }
 
 static int FF_over(int game_status){

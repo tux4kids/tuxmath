@@ -7,6 +7,7 @@ set(SOURCES_TUXMATH
   audio.c
   ConvertUTF.c
   credits.c
+  factroids.c
   fileops.c
   game.c
   highscore.c
