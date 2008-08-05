@@ -752,25 +752,35 @@ static void FF_draw_bkgr(void)
 
 }
 
+// Returns x % w but in the range [-w/2, w/2]
+static int modwrap(int x,int w)
+{
+  x = x % w;
+  if (x > (w/2))
+    x -= w;
+  else if (x < -(w/2))
+    x += w;
+  return x;
+}
+
 static void FF_add_level(void)
 {
   int i;
   int x,y,xvel,yvel,dx,dy;
   int ok;
-
   int width;
-  int safety_radius2;
+  int safety_radius2,speed2;
   int max_speed;
 
   wave++;
   NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
   
-  // Define the "safety radius" as half of the screen width
   width = screen->w;
   if (screen->h < width)
     width = screen->h;
 
-  safety_radius2 = width/2;
+  // Define the "safety radius" as one third of the screen width
+  safety_radius2 = width/3;
   safety_radius2 = safety_radius2*safety_radius2; // the square distance
   
   // Define the max speed in terms of the screen width
@@ -786,8 +796,8 @@ static void FF_add_level(void)
     while (!ok) {
       x = rand()%(screen->w);
       y = rand()%(screen->h);
-      dx = x - tuxship.x;
-      dy = y - tuxship.y;
+      dx = modwrap(x - tuxship.x,screen->w);
+      dy = modwrap(y - tuxship.y,screen->h);
       if (dx*dx + dy*dy > safety_radius2)
 	ok = 1;
     }
@@ -797,7 +807,8 @@ static void FF_add_level(void)
     while (!ok) {
       xvel = rand()%(2*max_speed+1) - max_speed;
       yvel = rand()%(2*max_speed+1) - max_speed;
-      if (xvel*yvel != 0 && xvel*xvel + yvel*yvel < max_speed*max_speed)
+      speed2 = xvel*xvel + yvel*yvel;
+      if (speed2 != 0 && speed2 < max_speed*max_speed)
 	ok = 1;
     }
    //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
