@@ -449,11 +449,6 @@ static void FF_handle_ship(void){
   tuxship.centery=((images[IMG_SHIP01]->h)/2)+tuxship.y;  
 
 /******************* Ship live *********************/
-
-  if ((wave%5==0) || (score%100==0))
-  {
-    tuxship.lives++;
-  }
   
   if(tuxship.hurt)
   {
@@ -737,7 +732,25 @@ static void FF_draw(void){
     sprintf(str, "%.3d", num);
     draw_numbers(str, ((screen->w)/2)-50, (screen->h)-30);
  
- 
+    /************** Draw lives ***************/
+   dest.y=screen->h;
+   dest.x=0;
+
+   for(i=1;i<=tuxship.lives;i++)
+   {
+      if(tuxship.lives<=5)
+      {
+         dest.y=dest.y-(images[IMG_TUX_LITTLE]->h);
+	 SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
+      }
+      else if(tuxship.lives>4)
+      {
+         dest.y=screen->h-(images[IMG_TUX_LITTLE]->h);
+	 SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
+         sprintf(str, "%d", tuxship.lives);
+         draw_numbers(str, 10, (screen->h)-30); 
+      }
+   }
   /************ Doublebuffering.. ***********/
   SDL_Flip(screen);
 
@@ -773,7 +786,18 @@ static void FF_add_level(void)
   int max_speed;
 
   wave++;
-  NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
+
+  // New lives pero wave!
+  if (wave%5==0)
+  {
+    tuxship.lives++;
+  }
+  
+  //Limit the new asteroids
+  if(NUM_ASTEROIDS<MAX_ASTEROIDS)
+     NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
+  else
+     NUM_ASTEROIDS=MAX_ASTEROIDS;
   
   width = screen->w;
   if (screen->h < width)
@@ -1036,7 +1060,7 @@ int fast_sin(int angle)
 /*Return -1 if no laser is avable*/
 int FF_add_laser(void)
 {
-  int i, k;
+  int i, j, k;
   int dx,dy;
   int xcount, ycount;
   float m, b;
@@ -1082,7 +1106,7 @@ int FF_add_laser(void)
                    ycount>asteroid[k].y &&
                    asteroid[k].alive)
 	        {
-                   if(asteroid[k].isprime)
+                   if(asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))
  		   {
 		     isdead=1;
 		     xdead=asteroid[k].x;
@@ -1121,7 +1145,14 @@ int FF_add_laser(void)
 		                FF_destroy_asteroid(k, -2, -2);
 			     else if(tuxship.y>asteroid[k].y)
 				FF_destroy_asteroid(k, -2, 2);*/
-		          score=score+num;
+			      
+			  // Lives per 100 points
+			  for(j=score;j<(score+num);j++){
+			      if((score%100)==0){
+				 tuxship.lives++;
+			      }
+			  }
+			  score=j;
 		          //laser[i].destx=xcount;
 		          //laser[i].desty=ycount;
 		          return 1;
@@ -1140,7 +1171,15 @@ int FF_add_laser(void)
 		            FF_destroy_asteroid(k, m, m);
 		          if(tuxship.x>=asteroid[k].x)
 		            FF_destroy_asteroid(k, -m, m);
-		          score=score+num;
+
+			  // Lives per 100 points
+			  for(j=score;j<(score+num);j++){
+			      if((score%100)==0){
+				 tuxship.lives++;
+			      }
+			  }
+			  score=j;
+
 		          laser[i].destx=xcount;
 		          laser[i].desty=ycount;
 		          return 1; 
@@ -1168,7 +1207,7 @@ int FF_add_laser(void)
                    asteroid[k].alive)
 	         {
 
-                   if(asteroid[k].isprime)
+                   if(asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))
  		   {
 		     isdead=1;
 		     xdead=asteroid[k].x;
@@ -1199,7 +1238,15 @@ int FF_add_laser(void)
 		       FF_destroy_asteroid(k, m, m);
 		     if(tuxship.x>=asteroid[k].x)
 		       FF_destroy_asteroid(k, -m, m);
-		     score=score+num;
+
+			  // Lives per 100 points
+			  for(j=score;j<(score+num);j++){
+			      if((score%100)==0){
+				 tuxship.lives++;
+			      }
+			  }
+			  score=j;
+
 		     //laser[i].destx=xcount;
 		     //laser[i].desty=ycount;
 		     return 1;
@@ -1222,7 +1269,16 @@ int FF_add_laser(void)
 		       FF_destroy_asteroid(k, m, m);
 		     if(tuxship.x>=asteroid[k].x)
 		       FF_destroy_asteroid(k, -m, m);
-		     score=score+num;
+
+			  // Lives per 100 points
+
+			  for(j=score;j<(score+num);j++){
+			      if((score%100)==0){
+				 tuxship.lives++;
+			      }
+			  }
+			  score=j;
+
 		     //laser[i].destx=xcount;
 		     //laser[i].desty=ycount;
 		     return 1;
