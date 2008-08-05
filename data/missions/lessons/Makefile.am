@@ -1,9 +1,6 @@
 ## Makefile.am for tuxmath - data/missions/lessons:
 ## Process with Automake to create Makefile.in
 
-
-
-
 lessonsdir = $(pkgdatadir)/missions/lessons
 
 dist_lessons_DATA = lesson00 \

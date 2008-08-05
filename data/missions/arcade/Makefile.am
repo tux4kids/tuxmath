@@ -4,6 +4,7 @@
 arcadedir = $(pkgdatadir)/missions/arcade
 
 dist_arcade_DATA = ace \
+  commando \
   ranger \
   scout \
   space_cadet

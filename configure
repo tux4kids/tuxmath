@@ -17132,7 +17132,7 @@ fi
 # Create Makefiles
 # ---------------------------------------------------------------
 
-ac_config_files="$ac_config_files Makefile data/Makefile data/fonts/Makefile data/images/Makefile data/images/backgrounds/Makefile data/images/cities/Makefile data/images/comets/Makefile data/images/icons/Makefile data/images/igloos/Makefile data/images/penguins/Makefile data/images/sprites/Makefile data/images/status/Makefile data/images/title/Makefile data/images/tux/Makefile data/missions/Makefile data/missions/arcade/Makefile data/missions/lessons/Makefile data/sounds/Makefile doc/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi src/Makefile intl/Makefile po/Makefile.in"
+ac_config_files="$ac_config_files Makefile data/Makefile data/fonts/Makefile data/images/Makefile data/images/backgrounds/Makefile data/images/cities/Makefile data/images/comets/Makefile data/images/icons/Makefile data/images/igloos/Makefile data/images/penguins/Makefile data/images/sprites/Makefile data/images/status/Makefile data/images/title/Makefile data/images/tux/Makefile data/missions/Makefile data/missions/arcade/Makefile data/missions/campaign/Makefile data/missions/campaign/ace/Makefile data/missions/campaign/cadet/Makefile data/missions/campaign/commando/Makefile data/missions/campaign/ranger/Makefile data/missions/campaign/scout/Makefile data/missions/lessons/Makefile data/sounds/Makefile doc/Makefile nsis/tuxmath.nsi nsis/tuxmath_with_conf.nsi src/Makefile intl/Makefile po/Makefile.in"
 
 
 cat >confcache <<\_ACEOF
@@ -17759,6 +17759,12 @@ do
     "data/images/tux/Makefile") CONFIG_FILES="$CONFIG_FILES data/images/tux/Makefile" ;;
     "data/missions/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/Makefile" ;;
     "data/missions/arcade/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/arcade/Makefile" ;;
+    "data/missions/campaign/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/Makefile" ;;
+    "data/missions/campaign/ace/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/ace/Makefile" ;;
+    "data/missions/campaign/cadet/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/cadet/Makefile" ;;
+    "data/missions/campaign/commando/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/commando/Makefile" ;;
+    "data/missions/campaign/ranger/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/ranger/Makefile" ;;
+    "data/missions/campaign/scout/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/campaign/scout/Makefile" ;;
     "data/missions/lessons/Makefile") CONFIG_FILES="$CONFIG_FILES data/missions/lessons/Makefile" ;;
     "data/sounds/Makefile") CONFIG_FILES="$CONFIG_FILES data/sounds/Makefile" ;;
     "doc/Makefile") CONFIG_FILES="$CONFIG_FILES doc/Makefile" ;;
