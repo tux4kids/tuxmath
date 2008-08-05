@@ -27,8 +27,9 @@ dist_comets_DATA = asteroid1.png \
 		 ship05.png 	 \
 		 ship09.png 	 \
 		 ship.png	 \
-		 star3.png	 
-
+		 star3.png	 \
+		 factoroids.png  \
+		 factors.png
 
 
 

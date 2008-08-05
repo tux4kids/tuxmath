@@ -407,6 +407,9 @@ static void FF_intro(void){
   FF_draw_bkgr();
   if(FF_game==FACTOROIDS_GAME)
   {
+    rect.x=(screen->w/2)-(images[IMG_FACTOROIDS]->w/2);
+    rect.y=(screen->h)/7;
+    SDL_BlitSurface(images[IMG_FACTOROIDS],NULL,screen,&rect);
     FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
 		   _("type one of its factors, and press space or return..."),
@@ -414,6 +417,9 @@ static void FF_intro(void){
   }
   else if (FF_game==FRACTIONS_GAME)
   {
+    rect.x=(screen->w/2)-(images[IMG_FACTORS]->w/2);
+    rect.y=(screen->h)/7;
+    SDL_BlitSurface(images[IMG_FACTORS],NULL,screen,&rect);
     FF_ShowMessage(_("THE FRACTION ACTIVIY"),
 		   _("To win, you need destroy all the asteroids finding a number that"),
 		   _("can simplify the fraction... The rocks will split until you got all"),
