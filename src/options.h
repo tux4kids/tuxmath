@@ -57,7 +57,11 @@ typedef struct game_option_type {
   float danger_level_speedup;
   float danger_level_max;
   float city_expl_handicap;
-
+  
+  int mp_multiplayer;
+  int mp_round;
+  int mp_playernum;
+  
   /* whether sound system is successfully initialized and sound files loaded: */
   /* this flag is set by the program, not the user, and is not in the config file. */
   int sound_hw_available;

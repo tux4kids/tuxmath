@@ -15,7 +15,7 @@ void showGameWon();
 
 char* stagenames[NUM_STAGES] = {"cadet", "scout", "ranger", "ace", "commando"};
 
-void start_campaign()
+int start_campaign()
 {
   int i, j;
   int gameresult = 0, endcampaign = 0;
@@ -55,6 +55,13 @@ void start_campaign()
         tmdprintf("Error!\n");
         endcampaign = 1;
       }
+#ifndef TESTING_CAMPAIGN
+      else if (gameresult == GAME_OVER_ESCAPE)
+      {
+        tmdprintf("hit escape\n");
+        endcampaign = 1;
+      }
+#endif      
       else
       {
         printf("gameresult = %d\n", gameresult);
@@ -62,7 +69,7 @@ void start_campaign()
       }
       
       if (endcampaign)
-        return;
+        return 0;
       
     }
     //if we've beaten the last stage, there is no bonus, skip to win sequence
@@ -78,6 +85,7 @@ void start_campaign()
     game();
   }
   scroll_text(endtext, screen->clip_rect, 3);
+  return 0;
 }
 
 void briefPlayer(int stage)

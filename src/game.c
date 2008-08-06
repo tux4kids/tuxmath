@@ -671,7 +671,10 @@ void game_cleanup(void)
     SDL_FreeSurface(scaled_bkgd);
     scaled_bkgd = NULL;
   }
-
+  
+  /* clear start message */
+  start_message_chosen = 0;
+  
   /* Free dynamically-allocated items */
   free_on_exit();
 
@@ -914,10 +917,13 @@ void help_add_comet(const char* formula_str, const char* ans_str)
 
 void game_set_message(game_message *msg,const char *txt,int x,int y)
 {
-  msg->x = x;
-  msg->y = y;
-  msg->alpha = SDL_ALPHA_OPAQUE;
-  strncpy(msg->message,txt,GAME_MESSAGE_LENGTH);
+  if (msg && txt)
+  {
+    msg->x = x;
+    msg->y = y;
+    msg->alpha = SDL_ALPHA_OPAQUE;
+    strncpy(msg->message,txt,GAME_MESSAGE_LENGTH);
+  }
 }
 
 void game_clear_message(game_message *msg)

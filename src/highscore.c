@@ -347,6 +347,11 @@ void DisplayHighScores(int level)
 /* multibyte encoding.                                                    */
 void HighScoreNameEntry(unsigned char* pl_name)
 {
+  NameEntry(pl_name, "You Are In The Hall of Fame!", "Enter Your Name:");
+}
+
+void NameEntry(unsigned char* pl_name, const char* heading, const char* sub)
+{
   unsigned char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
 
   SDL_Rect loc;
@@ -425,7 +430,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
 
   /* Draw heading: */
   {
-    SDL_Surface* s = BlackOutline(_("You Are In The Hall of Fame!"),
+    SDL_Surface* s = BlackOutline(_(heading),
                                   default_font, &white);
     if (s)
     {
@@ -435,7 +440,7 @@ void HighScoreNameEntry(unsigned char* pl_name)
       SDL_FreeSurface(s);
     }
 
-    s = BlackOutline(_("Enter Your Name:"),
+    s = BlackOutline(_(sub),
                      default_font, &white);
     if (s)
     {

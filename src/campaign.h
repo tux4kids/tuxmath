@@ -249,6 +249,6 @@ static char* briefings[NUM_STAGES][100] = {
   },
 };
 
-void start_campaign();
+int start_campaign();
 
 #endif // CAMPAIGN_H

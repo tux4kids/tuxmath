@@ -131,6 +131,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="../src/mathcards.h" />
+		<Unit filename="../src/multiplayer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/multiplayer.h" />
 		<Unit filename="../src/options.c">
 			<Option compilerVar="CC" />
 		</Unit>

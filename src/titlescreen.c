@@ -32,6 +32,7 @@
 #include "fileops.h"
 #include "game.h"
 #include "campaign.h"
+#include "multiplayer.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
 #include "credits.h"
@@ -84,6 +85,9 @@ enum {
   SPRITE_NO_GOLDSTAR,
   SPRITE_TROPHY,
   SPRITE_CREDITS,
+  SPRITE_ALONE,
+  SPRITE_FRIENDS,
+  SPRITE_CAMPAIGN,
   N_SPRITES};
 
 const unsigned char* menu_sprite_files[N_SPRITES] =
@@ -102,7 +106,10 @@ const unsigned char* menu_sprite_files[N_SPRITES] =
   "goldstar",
   "no_goldstar",
   "trophy",
-  "credits"
+  "credits",
+  "alone", //TODO give these two their own sprites
+  "tux_config_brown",
+  "tux_helmet_red"
 };
 
 sprite **sprite_list = NULL;
@@ -153,10 +160,14 @@ void RecalcMenuPositions(int*, int, menu_options*, void (*)(menu_options*),
                          SDL_Rect*, SDL_Rect*);
 void set_buttons_max_width(SDL_Rect *, SDL_Rect *, int);
 int run_main_menu(void);
+int run_game_menu(void);
+int run_multiplay_menu(void);
+int run_lessons_menu(void);
 int run_arcade_menu(void);
+int run_campaign_menu(void);
+int run_activities_menu(void);
 int run_custom_menu(void);
 int run_options_menu(void);
-int run_lessons_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
 
 
@@ -236,8 +247,9 @@ void TitleScreen(void)
     }
     SDL_Delay(50);
   }
-
+#ifndef TUXMATH_DEBUG //in case of a freeze, this traps the cursor
   SDL_WM_GrabInput(SDL_GRAB_ON); // User input goes to TuxMath, not window manager
+#endif
   SDL_ShowCursor(1);
 
 
@@ -636,9 +648,9 @@ void main_scmo(menu_options* mo) //set custom menu opts for main
 int run_main_menu(void)
 {
   const unsigned char* menu_text[6] =
-    {(const unsigned char*)N_("Math Command Training Academy"),
-     (const unsigned char*)N_("Play Arcade Game"),
-     (const unsigned char*)N_("Play Custom Game"),
+    {(const unsigned char*)N_("Play Alone"),
+     (const unsigned char*)N_("Play With Friends"),
+     (const unsigned char*)N_("Other Math Command Activities"),
      (const unsigned char*)N_("Help"),
      (const unsigned char*)N_("More Options"),
      (const unsigned char*)N_("Quit")};
@@ -648,9 +660,9 @@ int run_main_menu(void)
   int choice,ret;
 
   // Set up the sprites
-  sprites[0] = sprite_list[SPRITE_TRAINING];
-  sprites[1] = sprite_list[SPRITE_ARCADE];
-  sprites[2] = sprite_list[SPRITE_CUSTOM];
+  sprites[0] = sprite_list[SPRITE_ALONE];
+  sprites[1] = sprite_list[SPRITE_FRIENDS];
+  sprites[2] = sprite_list[SPRITE_CADET];
   sprites[3] = sprite_list[SPRITE_HELP];
   sprites[4] = sprite_list[SPRITE_OPTIONS];
   sprites[5] = sprite_list[SPRITE_QUIT];
@@ -667,18 +679,18 @@ int run_main_menu(void)
   while (choice >= 0) {
     switch (choice) {
       case 0: {
-        // Training academy lessons
-        ret = run_lessons_menu();
+        // All single player modes
+        ret = run_game_menu();
         break;
       }
       case 1: {
-        // Arcade games
-        ret = run_arcade_menu();
+        // Multiplayer games
+        ret = run_multiplay_menu();
         break;
       }
       case 2: {
-        // Custom game
-        ret = run_custom_menu();
+        // Factroids et. al.
+        ret = run_activities_menu();
         break;
       }
       case 3: {
@@ -709,6 +721,95 @@ int run_main_menu(void)
     choice = choose_menu_item(menu_text,sprites,6,NULL,main_scmo);
   }
   return 0;
+}
+
+#define NUM_GAME_MENU_ITEMS 5
+int run_game_menu(void)
+{
+  const unsigned char* menu_text[NUM_GAME_MENU_ITEMS] =
+    {(const unsigned char*)N_("Math Command Training Academy"),
+     (const unsigned char*)N_("Math Command Fleet Missions"),
+     (const unsigned char*)N_("Play Arcade Game"),
+     (const unsigned char*)N_("Play Custom Game"),
+     (const unsigned char*)N_("Main menu")};
+     
+  sprite* sprites[NUM_GAME_MENU_ITEMS] = {NULL, NULL, NULL, NULL, NULL};
+   
+  int ret, choice = 0;
+  
+  sprites[0] = sprite_list[SPRITE_TRAINING];
+  sprites[1] = sprite_list[SPRITE_CAMPAIGN];
+  sprites[2] = sprite_list[SPRITE_ARCADE];
+  sprites[3] = sprite_list[SPRITE_CUSTOM];
+  sprites[4] = sprite_list[SPRITE_MAIN];
+  
+  while (choice >= 0) {
+    choice = choose_menu_item(menu_text,sprites,NUM_GAME_MENU_ITEMS,NULL,NULL);
+    switch (choice) {
+      case 0:
+        ret = run_lessons_menu();
+        break;
+      case 1:
+        ret = start_campaign();
+        break;
+      case 2:
+        ret = run_arcade_menu();
+        break;
+      case 3:
+        ret = run_custom_menu();
+        break;
+      case 4:
+        return 0;
+      default:
+        tmdprintf("choose_menu_item() returned %d--returning\n", choice);
+        return 0;
+    }
+  }
+  return 0;
+}
+
+/*
+Set up and start a turn-based multiplayer game. Some funky heap issues so
+quarantine it behind the return for the time being.
+*/
+int run_multiplay_menu(void)
+{  
+  int i;
+  int nplayers = 0;
+  int mode = 0;
+  char npstr[HIGH_SCORE_NAME_LENGTH];
+  
+  char* menu_text[2] = {"Score Sweep", "Elimination"};
+  sprite* sprites = {NULL, NULL};
+  
+  NotImplemented();
+  return 0;
+
+  //choose mode
+  mode = choose_menu_item(menu_text,sprites,2,NULL,NULL);
+  
+  //ask how many players
+  while (nplayers <= 0)
+  {
+    NameEntry(npstr, "How many kids are playing?", 
+                     "(Between 2 and 4 players)");
+    nplayers = atoi(npstr);
+  }
+  
+  
+  mp_set_parameter(PLAYERS, nplayers);
+  mp_set_parameter(MODE, mode);
+  mp_set_parameter(DIFFICULTY, 0);
+  
+  //RUN!
+  mp_run_multiplayer();
+    
+  return 0;
+}
+
+int run_activities_menu(void)
+{
+  NotImplemented();
 }
 
 int run_arcade_menu(void)
@@ -1323,17 +1424,24 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
 
   for (i = 0; i < n_entries_per_screen; ++i)
   {
-    back_button_rect[i] = menu_button_rect[i];
-    back_button_rect[i].x -= Backrect.x;
-    back_button_rect[i].y -= Backrect.y;
-
-    back_text_rect[i] = menu_text_rect[i];
-    back_text_rect[i].x -= Backrect.x;
-    back_text_rect[i].y -= Backrect.y;
-
-    back_sprite_rect[i] = menu_sprite_rect[i];
-    back_sprite_rect[i].x -= Backrect.x;
-    back_sprite_rect[i].y -= Backrect.y;
+    if (menu_button_rect)
+    {
+      back_button_rect[i] = menu_button_rect[i];
+      back_button_rect[i].x -= Backrect.x;
+      back_button_rect[i].y -= Backrect.y;
+    }
+    if (menu_text_rect)
+    {
+      back_text_rect[i] = menu_text_rect[i];
+      back_text_rect[i].x -= Backrect.x;
+      back_text_rect[i].y -= Backrect.y;
+    }
+    if (menu_sprite_rect)
+    {
+      back_sprite_rect[i] = menu_sprite_rect[i];
+      back_sprite_rect[i].x -= Backrect.x;
+      back_sprite_rect[i].y -= Backrect.y;
+    }
   }
 
   /**** Draw background, title, and Tux:                            ****/

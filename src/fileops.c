@@ -2108,7 +2108,10 @@ int write_postgame_summary(void)
       if (write_column_names) {
         fprintf(fp,"\"User\",\"Mission\",\"Date\",\"Completed?\",\"Number answered\",\"Percent correct\",\"Time per question\"\n");
       }
-      mission_name = strdup(last_config_file_name);
+      if (last_config_file_name)
+        mission_name = strdup(last_config_file_name);
+      else
+        mission_name = strdup("[NONE]");
       fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), total_answered, ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
       fclose(fp);
       free(mission_name);
