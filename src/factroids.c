@@ -353,6 +353,7 @@ void fractions(void){
 /************ Initialize all vars... ****************/
 static int FF_init(void){
   int i;
+  SDL_Surface *tmp;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
   bkg_h=(images[BG_STARS]->h)>>1;
@@ -360,6 +361,11 @@ static int FF_init(void){
   bgSrc.x=0;
   bgSrc.w=screen->w;
   bgSrc.h=screen->h;
+  // Optimize the background surface so it doesn't take too much time to draw
+  SDL_SetAlpha(images[BG_STARS],SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
+  tmp = SDL_DisplayFormat(images[BG_STARS]);  // optimize the format
+  SDL_FreeSurface(images[BG_STARS]);
+  images[BG_STARS] = tmp;
   
   escape_received = 0;
   game_status = GAME_IN_PROGRESS;  
