@@ -19,6 +19,8 @@ set(SOURCES_TUXMATH
   SDL_extras.c
   setup.c
   titlescreen.c
+  multiplayer.c
+  campaign.c
   tuxmath.c
   ${TUXMATH_EXTRA_SRC}
   )
