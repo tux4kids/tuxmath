@@ -10,6 +10,8 @@
 void briefPlayer(int stage); //show text introducing the given stage
 void readStageSettings(int stage);
 void readRoundSettings(int stage, int round);
+void showGameOver();
+void showGameWon();
 
 char* stagenames[NUM_STAGES] = {"cadet", "scout", "ranger", "ace", "commando"};
 
@@ -18,7 +20,7 @@ void start_campaign()
   int i, j;
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
-  
+  char* endtext[2] = {"Congratulations! You win!", NULL};
   printf("Entering start_campaign()\n");
   
   
@@ -45,7 +47,7 @@ void start_campaign()
         ;
       else if (gameresult == GAME_OVER_LOST)
       {
-        //TODO game over sequence
+        showGameOver();
         endcampaign = 1;
       }
       else if (gameresult == GAME_OVER_ERROR)
@@ -63,12 +65,19 @@ void start_campaign()
         return;
       
     }
+    //if we've beaten the last stage, there is no bonus, skip to win sequence
+    if (i == NUM_STAGES - 1)
+    {
+      showGameWon();
+      break;
+    }
     //bonus round
     readStageSettings(i);
     readRoundSettings(i, -1);
     game_set_start_message("Bonus", "", "", "");
     game();
   }
+  scroll_text(endtext, screen->clip_rect, 3);
 }
 
 void briefPlayer(int stage)
@@ -119,4 +128,16 @@ void readRoundSettings(int stage, int round)
   else
     snprintf(fn,PATH_MAX, "campaign/%s/round%d", stagenames[stage], round);
   read_named_config_file(fn);
+}
+
+void showGameOver()
+{
+	char* text[2] = {"Sorry, try again!", NULL};
+	scroll_text(text, screen->clip_rect, 3);
+}
+
+void showGameWon()
+{
+	char* text[2] = {"Mission accomplished. The galaxy is safe!", NULL};
+	scroll_text(text, screen->clip_rect, 3);
 }

@@ -214,7 +214,7 @@ void handle_command_args(int argc, char* argv[])
         "If you don't answer a comet's math equation before it hits\n"
         "one of your cities, the city's shields will be destroyed.\n"
         "If that city is hit by another comet, it is destroyed completely.\n"
-	"When you lose all of your cities, the game ends.\n\n");
+        "When you lose all of your cities, the game ends.\n\n");
 
       printf("Note: all settings are now stored in a config file named 'options' in\n"
              "a hidden directory named './tuxmath' within the user's home directory.\n"
@@ -225,12 +225,12 @@ void handle_command_args(int argc, char* argv[])
              "to configure the behavior of Tuxmath.\n\n");
 
       printf("Run the game with:\n"
-	"--homedir dirname      - seek for user home director(ies) in the specified\n"
-	"                         location, rather than the user's actual home\n"
-	"                         directory.  You can set up a user directory tree in\n"
-	"                         this location (see README).  This option is\n"
-	"                         especially useful for schools where all students log\n"
-	"                         in with a single user name.\n"
+        "--homedir dirname      - seek for user home director(ies) in the specified\n"
+        "                         location, rather than the user's actual home\n"
+        "                         directory.  You can set up a user directory tree in\n"
+        "                         this location (see README).  This option is\n"
+        "                         especially useful for schools where all students log\n"
+        "                         in with a single user name.\n"
         "--optionfile filename  - read config settings from named file. The locations\n"
         "                         searched for a file with a matching name are the\n"
         "                         current working directory, the absolute path of the\n"
@@ -244,15 +244,15 @@ void handle_command_args(int argc, char* argv[])
         "--answersmiddle  - to ask questions in format: num1 + ? = num3\n"
         "                   instead of default format: num1 + num2 = ?\n"
         "--nosound        - to disable sound/music\n"
-	"--nobackground   - to disable background photos (for slower systems)\n"
-	"--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
+        "--nobackground   - to disable background photos (for slower systems)\n"
+        "--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
         "--windowed       - to run in a window rather than fullscreen\n"
         "--keypad         - to enable the on-sceen numeric keypad\n"
-	"--demo           - to run the program as a cycling demonstration\n"
-	"--speed S        - set initial speed of the game\n"
-	"                   (S may be fractional, default is 1.0)\n"
+        "--demo           - to run the program as a cycling demonstration\n"
+        "--speed S        - set initial speed of the game\n"
+        "                   (S may be fractional, default is 1.0)\n"
         "--allownegatives - to allow answers to be less than zero\n"
-	);
+        );
 
       printf("\n");
 
@@ -260,24 +260,24 @@ void handle_command_args(int argc, char* argv[])
       exit(0);
     }
     else if (strcmp(argv[i], "--copyright") == 0 ||
-	     strcmp(argv[i], "-c") == 0)
+             strcmp(argv[i], "-c") == 0)
     {
       printf(
-	"\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001 Bill Kendrick\n"
+        "\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001 Bill Kendrick\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"
         "as published by the Free Software Foundation.  See COPYING.txt\n"
-	"\n"
-	"This program is distributed in the hope that it will be useful,\n"
-	"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-	"\n");
+        "\n"
+        "This program is distributed in the hope that it will be useful,\n"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+        "\n");
 
       cleanup_on_error();
       exit(0);
     }
     else if (strcmp(argv[i], "--usage") == 0 ||
-	     strcmp(argv[i], "-u") == 0)
+             strcmp(argv[i], "-u") == 0)
     {
       /* Display (happy) usage: */
 
@@ -288,26 +288,26 @@ void handle_command_args(int argc, char* argv[])
       // Parse the user choice of a non-default home directory
       if (i >= argc -1)
       {
-	fprintf(stderr, "%s option requires an argument (dirname)\n", argv[i]);
-	usage(1, argv[0]);
+        fprintf(stderr, "%s option requires an argument (dirname)\n", argv[i]);
+        usage(1, argv[0]);
       }
       else // see whether the specified name is a directory
       {
-	if ((dirp = opendir(argv[i+1])) == NULL)
-	  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
-	else {
-	  set_user_data_dir(argv[i+1]);  // copy the homedir setting
-	  closedir(dirp);
-	}
-	i++;   // to pass over the next argument, so remaining options parsed
+        if ((dirp = opendir(argv[i+1])) == NULL)
+          fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
+        else {
+          set_user_data_dir(argv[i+1]);  // copy the homedir setting
+          closedir(dirp);
+        }
+        i++;   // to pass over the next argument, so remaining options parsed
       }
     }
     else if (0 == strcmp(argv[i], "--optionfile"))
     {
       if (i >= argc - 1)
       {
-	fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
-	usage(1, argv[0]);
+        fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
+        usage(1, argv[0]);
       }
       else /* try to read file named in following arg: */
       {
@@ -319,27 +319,27 @@ void handle_command_args(int argc, char* argv[])
       i++; /* so program doesn't barf on next arg (the filename) */
     }
     else if (strcmp(argv[i], "--fullscreen") == 0 ||
-	     strcmp(argv[i], "-f") == 0)
+             strcmp(argv[i], "-f") == 0)
     {
       Opts_SetFullscreen(1);
     }
     else if (strcmp(argv[i], "--windowed") == 0 ||
-	     strcmp(argv[i], "-w") == 0)
+             strcmp(argv[i], "-w") == 0)
     {
       Opts_SetFullscreen(0);
     }
     else if (strcmp(argv[i], "--nosound") == 0 ||
-	     strcmp(argv[i], "-s") == 0 ||
-	     strcmp(argv[i], "--quiet") == 0 ||
-	     strcmp(argv[i], "-q") == 0)
+             strcmp(argv[i], "-s") == 0 ||
+             strcmp(argv[i], "--quiet") == 0 ||
+             strcmp(argv[i], "-q") == 0)
     {
       Opts_SetUseSound(-1);  // prevent options files from overwriting
     }
     else if (strcmp(argv[i], "--version") == 0 ||
-	     strcmp(argv[i], "-v") == 0)
+             strcmp(argv[i], "-v") == 0)
     {
       printf("Tux, of Math Command (\"tuxmath\")\n"
-	     "Version " VERSION "\n");
+             "Version " VERSION "\n");
       cleanup_on_error();
       exit(0);
     }
@@ -349,7 +349,7 @@ void handle_command_args(int argc, char* argv[])
       Opts_SetUseBkgd(0);
     }
     else if (strcmp(argv[i], "--demo") == 0 ||
-	     strcmp(argv[i], "-d") == 0)
+             strcmp(argv[i], "-d") == 0)
     {
       Opts_SetDemoMode(1);
     }
@@ -361,32 +361,32 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
     {
-      MC_SetAllowNegatives(1);
+      MC_SetOpt(ALLOW_NEGATIVES, 1);
     }
     else if (strcmp(argv[i], "--playthroughlist") == 0 ||
              strcmp(argv[i], "-l") == 0)
     {
-      MC_SetPlayThroughList(1);
+      MC_SetOpt(PLAY_THROUGH_LIST, 1);
     }
     else if (strcmp(argv[i], "--answersfirst") == 0)
     {
-      MC_SetFormatAnswerLast(0);
-      MC_SetFormatAnswerFirst(1);
-      MC_SetFormatAnswerMiddle(0);
+      MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+      MC_SetOpt(FORMAT_ANSWER_FIRST, 1);
+      MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
     }
     else if (strcmp(argv[i], "--answersmiddle") == 0)
     {
-      MC_SetFormatAnswerLast(0);
-      MC_SetFormatAnswerFirst(0);
-      MC_SetFormatAnswerMiddle(1);
+      MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+      MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
+      MC_SetOpt(FORMAT_ANSWER_MIDDLE, 1);
     }
     else if (strcmp(argv[i], "--speed") == 0 ||
-	     strcmp(argv[i], "-s") == 0)
+             strcmp(argv[i], "-s") == 0)
     {
       if (i >= argc - 1)
       {
-	fprintf(stderr, "%s option requires an argument\n", argv[i]);
-	usage(1, argv[0]);
+        fprintf(stderr, "%s option requires an argument\n", argv[i]);
+        usage(1, argv[0]);
       }
 
       Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
@@ -427,8 +427,8 @@ void initialize_SDL(void)
   {
     fprintf(stderr,
            "\nError: I could not initialize video!\n"
-	   "The Simple DirectMedia error that occured was:\n"
-	   "%s\n\n", SDL_GetError());
+           "The Simple DirectMedia error that occured was:\n"
+           "%s\n\n", SDL_GetError());
     cleanup_on_error();
     exit(1);
   }
@@ -474,11 +474,11 @@ void initialize_SDL(void)
       //if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
       if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
       {
-	fprintf(stderr,
-		"\nWarning: I could not set up audio for 44100 Hz "
-		"16-bit stereo.\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", SDL_GetError());
+        fprintf(stderr,
+                "\nWarning: I could not set up audio for 44100 Hz "
+                "16-bit stereo.\n"
+                "The Simple DirectMedia error that occured was:\n"
+                "%s\n\n", SDL_GetError());
 
       }
     }
@@ -523,8 +523,8 @@ void initialize_SDL(void)
       {
         fprintf(stderr,
               "\nWarning: I could not open the display in fullscreen mode.\n"
-	      "The Simple DirectMedia error that occured was:\n"
-	      "%s\n\n", SDL_GetError());
+              "The Simple DirectMedia error that occured was:\n"
+              "%s\n\n", SDL_GetError());
         Opts_SetFullscreen(0);
       }
     }
@@ -538,8 +538,8 @@ void initialize_SDL(void)
     {
       fprintf(stderr,
             "\nError: I could not open the display.\n"
-	    "The Simple DirectMedia error that occured was:\n"
-	    "%s\n\n", SDL_GetError());
+            "The Simple DirectMedia error that occured was:\n"
+            "%s\n\n", SDL_GetError());
       cleanup_on_error();
       exit(1);
     }

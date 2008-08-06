@@ -219,6 +219,12 @@ data/images/title/Makefile
 data/images/tux/Makefile
 data/missions/Makefile
 data/missions/arcade/Makefile
+data/missions/campaign/Makefile
+data/missions/campaign/ace/Makefile
+data/missions/campaign/cadet/Makefile
+data/missions/campaign/commando/Makefile
+data/missions/campaign/ranger/Makefile
+data/missions/campaign/scout/Makefile
 data/missions/lessons/Makefile
 data/sounds/Makefile
 doc/Makefile

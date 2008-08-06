@@ -1,2 +1,2 @@
 #define TUXMATH_ICON                       104
-TUXMATH_ICON			ICON "../data/images/tuxmath.ico"
+TUXMATH_ICON                        ICON "../data/images/tuxmath.ico"

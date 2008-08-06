@@ -981,42 +981,42 @@ void print_game_options(FILE* fp, int verbose)
   fprintf(fp, "use_feedback = %d\n", game_options->use_feedback);
 
 
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set the desired danger level.\n"
-             "# 0 = too safe, comets typically exploded right at the very top\n"
-             "# 1 = too dangerous, comets typically exploded at the moment they hit cities\n"
-             "# Set it somewhere between these extremes. As a guideline, early\n"
-             "# elementary kids might feel comfortable around 0.2-0.3, older kids\n"
-             "# at around 0.4-0.6. Default 0.35.\n");
-   }
-   fprintf(fp, "danger_level = %f\n", game_options->danger_level);
+  if(verbose)
+  {
+    fprintf (fp, "\n# (Feedback) Set the desired danger level.\n"
+            "# 0 = too safe, comets typically exploded right at the very top\n"
+            "# 1 = too dangerous, comets typically exploded at the moment they hit cities\n"
+            "# Set it somewhere between these extremes. As a guideline, early\n"
+            "# elementary kids might feel comfortable around 0.2-0.3, older kids\n"
+            "# at around 0.4-0.6. Default 0.35.\n");
+  }
+  fprintf(fp, "danger_level = %f\n", game_options->danger_level);
 
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set danger level speedup.\n"
-                  "# The margin of safety will decrease by this factor each wave.\n"
-                  "# Default 1.1. Note 1 = no increase in danger level.\n");
-   }
-   fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
+  if(verbose)
+  {
+    fprintf (fp, "\n# (Feedback) Set danger level speedup.\n"
+                 "# The margin of safety will decrease by this factor each wave.\n"
+                 "# Default 1.1. Note 1 = no increase in danger level.\n");
+  }
+  fprintf(fp, "danger_level_speedup = %f\n", game_options->danger_level_speedup);
 
-   if(verbose)
-   {
-     fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
-                  "# Default 0.9.\n");
-   }
-   fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
+  if(verbose)
+  {
+    fprintf (fp, "\n# (Feedback) Set the maximum danger level.\n"
+                 "# Default 0.9.\n");
+  }
+  fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
 
-   if (verbose)
-   { 
-     fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
-                  "# When bigger than 0, this causes the game to slow down\n"
-                  "# by an extra amount after a wave in which one or more\n"
-                  "# cities get hit. Note that this is similar to slow_after_wrong,\n"
-                  "# but allows for more gradual changes.\n"
-                  "# Default 0 (no extra handicap).\n");
-   }
-   fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
+  if (verbose)
+  { 
+    fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
+                 "# When bigger than 0, this causes the game to slow down\n"
+                 "# by an extra amount after a wave in which one or more\n"
+                 "# cities get hit. Note that this is similar to slow_after_wrong,\n"
+                 "# but allows for more gradual changes.\n"
+                 "# Default 0 (no extra handicap).\n");
+  }
+  fprintf(fp, "city_explode_handicap = %f\n", game_options->city_expl_handicap);
 
 /*
   fprintf(fp, "num_cities = %d\n", game_options->num_cities);

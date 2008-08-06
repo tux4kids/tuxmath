@@ -42,9 +42,9 @@ void putpixel8(SDL_Surface * surface, int x, int y, Uint32 pixel)
        && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
-    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
-		   (y * surface->pitch) +	/* Go down Y lines */
-		   x);		/* Go in X pixels */
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start: beginning of RAM */
+                   (y * surface->pitch) +        /* Go down Y lines */
+                   x);                /* Go in X pixels */
 
 
     /* Set the (correctly-sized) piece of data in the surface's RAM
@@ -65,9 +65,9 @@ void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)
        && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
-    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
-		   (y * surface->pitch) +	/* Go down Y lines */
-		   (x * 2));	/* Go in X pixels */
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start: beginning of RAM */
+                   (y * surface->pitch) +        /* Go down Y lines */
+                   (x * 2));        /* Go in X pixels */
 
 
     /* Set the (correctly-sized) piece of data in the surface's RAM
@@ -88,9 +88,9 @@ void putpixel24(SDL_Surface * surface, int x, int y, Uint32 pixel)
        && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
-    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
-		   (y * surface->pitch) +	/* Go down Y lines */
-		   (x * 3));	/* Go in X pixels */
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start: beginning of RAM */
+                   (y * surface->pitch) +        /* Go down Y lines */
+                   (x * 3));        /* Go in X pixels */
 
 
     /* Set the (correctly-sized) piece of data in the surface's RAM
@@ -123,15 +123,15 @@ void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)
        && likely((unsigned) y < (unsigned) surface->h)))
   {
     // Set a pointer to the exact location in memory of the pixel
-    p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start: beginning of RAM */
-		   (y * surface->pitch) +	/* Go down Y lines */
-		   (x * 4));	/* Go in X pixels */
+    p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start: beginning of RAM */
+                   (y * surface->pitch) +        /* Go down Y lines */
+                   (x * 4));        /* Go in X pixels */
 
 
     /* Set the (correctly-sized) piece of data in the surface's RAM
      *          to the pixel value sent in: */
 
-    *(Uint32 *) p = pixel;	// 32-bit display
+    *(Uint32 *) p = pixel;        // 32-bit display
   }
 }
 
@@ -149,9 +149,9 @@ Uint32 getpixel8(SDL_Surface * surface, int x, int y)
   /* Set a pointer to the exact location in memory of the pixel
      in question: */
 
-  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
-		 (y * surface->pitch) +	/* Go down Y lines */
-		 x);		/* Go in X pixels */
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start at top of RAM */
+                 (y * surface->pitch) +        /* Go down Y lines */
+                 x);                /* Go in X pixels */
 
 
   /* Return the correctly-sized piece of data containing the
@@ -175,9 +175,9 @@ Uint32 getpixel16(SDL_Surface * surface, int x, int y)
   /* Set a pointer to the exact location in memory of the pixel
      in question: */
 
-  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
-		 (y * surface->pitch) +	/* Go down Y lines */
-		 (x * 2));	/* Go in X pixels */
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start at top of RAM */
+                 (y * surface->pitch) +        /* Go down Y lines */
+                 (x * 2));        /* Go in X pixels */
 
 
   /* Return the correctly-sized piece of data containing the
@@ -202,9 +202,9 @@ Uint32 getpixel24(SDL_Surface * surface, int x, int y)
   /* Set a pointer to the exact location in memory of the pixel
      in question: */
 
-  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
-		 (y * surface->pitch) +	/* Go down Y lines */
-		 (x * 3));	/* Go in X pixels */
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start at top of RAM */
+                 (y * surface->pitch) +        /* Go down Y lines */
+                 (x * 3));        /* Go in X pixels */
 
 
   /* Return the correctly-sized piece of data containing the
@@ -235,16 +235,16 @@ Uint32 getpixel32(SDL_Surface * surface, int x, int y)
   /* Set a pointer to the exact location in memory of the pixel
      in question: */
 
-  p = (Uint8 *) (((Uint8 *) surface->pixels) +	/* Start at top of RAM */
-		 (y * surface->pitch) +	/* Go down Y lines */
-		 (x * 4));	/* Go in X pixels */
+  p = (Uint8 *) (((Uint8 *) surface->pixels) +        /* Start at top of RAM */
+                 (y * surface->pitch) +        /* Go down Y lines */
+                 (x * 4));        /* Go in X pixels */
 
 
   /* Return the correctly-sized piece of data containing the
    * pixel's value (an 8-bit palette value, or a 16-, 24- or 32-bit
    * RGB value) */
 
-  return *(Uint32 *) p;		// 32-bit display
+  return *(Uint32 *) p;                // 32-bit display
 }
 
 void (*putpixels[]) (SDL_Surface *, int, int, Uint32) =

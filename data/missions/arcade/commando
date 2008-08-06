@@ -1,4 +1,4 @@
-# arcade_ace lesson file
+# arcade commando lesson file
 
 play_through_list = 0
 allow_speedup = 1
@@ -8,15 +8,15 @@ subtraction_allowed = 1
 multiplication_allowed = 1
 division_allowed = 1
 allow_negatives = 1
-max_formula_nums = 2
-min_formula_nums = 2
+min_formula_nums = 3
+max_formula_nums = 4
 min_augend = -20
 max_augend = 20
 min_addend = -20
 max_addend = 20
 min_minuend = -20
 max_minuend = 20
-min_subtrahend = -20
+min_subtrahend = 0
 max_subtrahend = 20
 min_multiplier = -20
 max_multiplier = 20
@@ -49,9 +49,9 @@ max_answer = 400
 starting_comets = 2
 extra_comets_per_wave = 2
 max_comets = 10
-speed = 1.00
+speed = 0.25
 max_speed = 10.00
-speedup_factor = 1.25
+speedup_factor = 1.125
 slow_after_wrong = 0
 max_questions = 25000
 bonus_comet_interval = 20

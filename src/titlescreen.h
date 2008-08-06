@@ -26,7 +26,7 @@
 #define to_upper(c) (((c) >= 'a' && (c) <= 'z') ? (c) -32 : (c))
 #define COL2RGB( col ) SDL_MapRGB( screen->format, col->r, col->g, col->b )
 
-//#define FNLEN	200
+//#define FNLEN        200
 
 #define MAX_SPRITE_FRAMES 30
 
@@ -44,7 +44,7 @@
 #include "SDL_ttf.h"
 
 #ifndef MACOSX
-#include "config.h"
+//#include "config.h"
 #endif
 
 #include "tuxmath.h"
@@ -53,10 +53,10 @@
 
 
 typedef struct {
-	SDL_Surface *frame[MAX_SPRITE_FRAMES];
-	SDL_Surface *default_img;
-	int num_frames;
-	int cur;
+  SDL_Surface *frame[MAX_SPRITE_FRAMES];
+  SDL_Surface *default_img;
+  int num_frames;
+  int cur;
 } sprite;
 
 // Options that affect how menus are presented
@@ -74,10 +74,10 @@ typedef struct {
 
 
 #define menu_font  "AndikaDesRevA.ttf"  /*  "GenAI102.ttf" */
-#define menu_font_size	18
+#define menu_font_size       18
 
 #define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */
-#define ttf_font_size	18
+#define ttf_font_size        18
 
 #define MAX_LESSONS 100
 #define MAX_NUM_WORDS   500
@@ -87,15 +87,15 @@ typedef struct {
 #define MAX_UPDATES 180
 
 
-#define WAIT_MS				2500
-#define	FRAMES_PER_SEC	                50
-#define FULL_CIRCLE		        140
+#define WAIT_MS                               2500
+#define FRAMES_PER_SEC                        50
+#define FULL_CIRCLE                           140
 
 
 /* Title sequence constants */
-#define PRE_ANIM_FRAMES			10
-#define PRE_FRAME_MULT			3
-#define MENU_SEP			20
+#define PRE_ANIM_FRAMES                       10
+#define PRE_FRAME_MULT                        3
+#define MENU_SEP                              20
 
 /* paths */
 
@@ -115,7 +115,7 @@ extern SDL_Event  event;
 
 SDL_Surface* current_bkg(); //appropriate background for current video mode
 
-#define MUSIC_FADE_OUT_MS	80
+#define MUSIC_FADE_OUT_MS        80
 
 enum {
     WIPE_BLINDS_VERT,
@@ -134,9 +134,9 @@ enum {
 #define TITLE_MENU_DEPTH                4
 
 #define OPTIONS_SUBMENU                 4
-#define GAME_OPTIONS_SUBMENU	       	3
-#define ARCADE_SUBMENU	        	2
-#define ROOTMENU		        1
+#define GAME_OPTIONS_SUBMENU                       3
+#define ARCADE_SUBMENU                        2
+#define ROOTMENU                        1
 
 
 /* --- timings for tux blinking --- */
@@ -157,7 +157,11 @@ enum {
 /*In titlescreen.c */
 void TitleScreen(void);
 int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const unsigned char**, sprite**, int, menu_options*, void (*)(menu_options*) );
+int choose_menu_item(const char **menu_text, 
+                     sprite **menu_sprites, 
+                     int n_menu_entries, 
+                     menu_options* custom_mo, 
+                     void (*set_custom_menu_opts)(menu_options*) );
 void set_default_menu_options(menu_options *);
 
 
@@ -167,7 +171,9 @@ TTF_Font*    LoadFont(const unsigned char* font_name, int font_size);
 Mix_Chunk   *LoadSound( char* datafile );
 SDL_Surface *LoadImage( char* datafile, int mode );
 SDL_Surface* LoadBkgd(char* datafile);
-int          LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd);
+int          LoadBothBkgds(char* datafile, 
+                           SDL_Surface** fs_bkgd, 
+                           SDL_Surface** win_bkgd);
 sprite      *LoadSprite( char* name, int MODE );
 sprite      *FlipSprite( sprite* in, int X, int Y );
 void         FreeSprite( sprite* gfx );

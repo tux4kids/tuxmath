@@ -22,7 +22,9 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-#include "config.h"
+//To build with CMake, comment out this line so we don't include "config.h"
+//To build with Autotools, uncomment it as we must have "config.h"
+//#include "config.h"
 
 // Translation stuff (now works for Mac and Win too!): 
 #include "gettext.h"
@@ -81,7 +83,7 @@
 #define DEFAULT_STARTING_COMETS 2
 #define DEFAULT_EXTRA_COMETS_PER_WAVE 2
 #define DEFAULT_MAX_COMETS 10
-#define DEFAULT_SAVE_SUMMARY 1	
+#define DEFAULT_SAVE_SUMMARY 1        
 #define DEFAULT_SOUND_HW_AVAILABLE 1
 #define DEFAULT_USE_IGLOOS 1
 #define DEFAULT_USE_FEEDBACK 0
@@ -98,7 +100,7 @@
 
 #define MINIMUM_SPEED 0.8
 #define MAX_MAX_SPEED 20.0
-#define MIN_SPEEDUP_FACTOR 1
+#define MIN_SPEEDUP_FACTOR 1.0
 #define MAX_SPEEDUP_FACTOR 2.0
 #define MAX_BONUS_SPEED_RATIO 3.0
 #define MIN_COMETS 1
@@ -115,15 +117,16 @@
 #define REG_RGBA 16,16,96,96
 #define SEL_RGBA 16,16,128,128
 
-#define RES_X	640
-#define RES_Y	480
-#define PIXEL_BITS 32	
+#define RES_X        640
+#define RES_Y        480
+#define PIXEL_BITS 32        
 
 enum { 
   CADET_HIGH_SCORE,
   SCOUT_HIGH_SCORE,
   RANGER_HIGH_SCORE,
   ACE_HIGH_SCORE,
+  COMMANDO_HIGH_SCORE,
   NUM_HIGH_SCORE_LEVELS
 };
 

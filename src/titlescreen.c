@@ -115,14 +115,14 @@ SDL_Event event;
 /* --- locations we need --- */
 
 SDL_Rect dest,
-	 Tuxdest,
-	 Titledest,
+         Tuxdest,
+         Titledest,
          stopRect,
          Backrect,
          Tuxback,
          Titleback,
-	 cursor,
-	 beak;
+         cursor,
+         beak;
 
 /* The background image scaled to windowed 648x480 */
 SDL_Surface* bkg = NULL;
@@ -432,8 +432,12 @@ void TitleScreen_unload_menu(void)
   int i;
 
   for (i = 0; i < N_SPRITES; i++)
+  {
+    tmdprintf("Freeing image #%d: ", i);
     FreeSprite(sprite_list[i]);
+  }
   free(sprite_list);
+  tmdprintf("Images freed\n");
   sprite_list = NULL;
 }
 
@@ -441,9 +445,11 @@ void TitleScreen_unload_menu(void)
 
 void TitleScreen_unload_media(void)
 {
+  tmdprintf("Unloading media\n");
   FreeSprite(Tux);
   Tux = NULL;
   TitleScreen_unload_menu();
+  
   SDL_FreeSurface(egg);
   SDL_FreeSurface(bkg);
   SDL_FreeSurface(scaled_bkg);
@@ -661,40 +667,41 @@ int run_main_menu(void)
   while (choice >= 0) {
     switch (choice) {
       case 0: {
-	// Training academy lessons
-	ret = run_lessons_menu();
-	break;
+        // Training academy lessons
+        ret = run_lessons_menu();
+        break;
       }
       case 1: {
-	// Arcade games
-	ret = run_arcade_menu();
-	break;
+        // Arcade games
+        ret = run_arcade_menu();
+        break;
       }
       case 2: {
-	// Custom game
-	ret = run_custom_menu();
-	break;
+        // Custom game
+        ret = run_custom_menu();
+        break;
       }
       case 3: {
-	// Help
-	Opts_SetHelpMode(1);
-	Opts_SetDemoMode(0);
-	if (Opts_MenuMusic())  //Turn menu music off for game
-	  {audioMusicUnload();}
-	game();
-	RecalcTitlePositions();
-	if (Opts_MenuMusic()) //Turn menu music back on
-	  {audioMusicLoad( "tuxi.ogg", -1 );}
-	Opts_SetHelpMode(0);
-	break;
+        // Help
+        Opts_SetHelpMode(1);
+        Opts_SetDemoMode(0);
+        if (Opts_MenuMusic())  //Turn menu music off for game
+          {audioMusicUnload();}
+        game();
+        RecalcTitlePositions();
+        if (Opts_MenuMusic()) //Turn menu music back on
+          {audioMusicLoad( "tuxi.ogg", -1 );}
+        Opts_SetHelpMode(0);
+        break;
       }
       case 4: {
-	// More options
-	ret = run_options_menu();
+        // More options
+        ret = run_options_menu();
         break;
       }
       case 5: {
-	// Quit
+        // Quit
+        tmdprintf("Exiting main menu\n");
         return 0;
       }
     }
@@ -706,19 +713,24 @@ int run_main_menu(void)
 
 int run_arcade_menu(void)
 {
-  const unsigned char* menu_text[6] =
+  const unsigned char* menu_text[7] =
     {(const unsigned char*)N_("Space Cadet"),
      (const unsigned char*)N_("Scout"),
      (const unsigned char*)N_("Ranger"),
      (const unsigned char*)N_("Ace"),
+     (const unsigned char*)N_("Commando"),
      (const unsigned char*)N_("Hall Of Fame"),
      (const unsigned char*)N_("Main menu")};
-  const char* arcade_config_files[4] =
-    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace"};
-  const int arcade_high_score_tables[4] =
-    {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE};
-  sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL};
+  const char* arcade_config_files[5] =
+    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace", 
+     "arcade/commando"
+    };
+  const int arcade_high_score_tables[5] =
+    {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE,
+     COMMANDO_HIGH_SCORE
+    };
+  sprite* sprites[7] =
+    {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,hs_table;
 
@@ -727,54 +739,55 @@ int run_arcade_menu(void)
   sprites[1] = sprite_list[SPRITE_SCOUT];
   sprites[2] = sprite_list[SPRITE_RANGER];
   sprites[3] = sprite_list[SPRITE_ACE];
-  sprites[4] = sprite_list[SPRITE_TROPHY];
-  sprites[5] = sprite_list[SPRITE_MAIN];
+  //TODO commando sprite
+  sprites[5] = sprite_list[SPRITE_TROPHY];
+  sprites[6] = sprite_list[SPRITE_MAIN];
 
 //  set_default_menu_options(&menu_opts);
 //  menu_opts.ytop = 100;
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,6,NULL,NULL);
+  choice = choose_menu_item(menu_text,sprites,7,NULL,NULL);
 
   while (choice >= 0) {
-    if (choice < 4) {
+    if (choice < NUM_HIGH_SCORE_LEVELS) {
       // Play arcade game
       if (read_named_config_file(arcade_config_files[choice]))
       {
-	audioMusicUnload();
-	game();
-	RecalcTitlePositions();
-	if (Opts_MenuMusic()) {
-	  audioMusicLoad( "tuxi.ogg", -1 );
-	}
-	/* See if player made high score list!                        */
-	read_high_scores();  /* Update, in case other users have added to it */
-	hs_table = arcade_high_score_tables[choice];
-	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
+        audioMusicUnload();
+        game();
+        RecalcTitlePositions();
+        if (Opts_MenuMusic()) {
+          audioMusicLoad( "tuxi.ogg", -1 );
+        }
+        /* See if player made high score list!                        */
+        read_high_scores();  /* Update, in case other users have added to it */
+        hs_table = arcade_high_score_tables[choice];
+        if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
 
-	  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+          unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
 
-	  /* Get name from player: */
-	  HighScoreNameEntry(&player_name[0]);
-	  insert_score(player_name, hs_table, Opts_LastScore());
-	  /* Show the high scores. Note the user will see his/her */
-	  /* achievement even if (in the meantime) another player */
-	  /* has in fact already bumped this score off the table. */
-	  DisplayHighScores(hs_table);
-	  /* save to disk: */
-	  /* See "On File Locking" in fileops.c */
-	  append_high_score(choice,Opts_LastScore(),&player_name[0]);
+          /* Get name from player: */
+          HighScoreNameEntry(&player_name[0]);
+          insert_score(player_name, hs_table, Opts_LastScore());
+          /* Show the high scores. Note the user will see his/her */
+          /* achievement even if (in the meantime) another player */
+          /* has in fact already bumped this score off the table. */
+          DisplayHighScores(hs_table);
+          /* save to disk: */
+          /* See "On File Locking" in fileops.c */
+          append_high_score(choice,Opts_LastScore(),&player_name[0]);
 
 #ifdef TUXMATH_DEBUG
-	  print_high_scores(stderr);
+          print_high_scores(stderr);
 #endif
-	}
+        }
       } else {
-	fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
+        fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
       }
 
-    } else if (choice == 4) {
+    } else if (choice == NUM_HIGH_SCORE_LEVELS) {
       // Display the Hall of Fame
       DisplayHighScores(CADET_HIGH_SCORE);
     }
@@ -864,14 +877,14 @@ int run_options_menu(void)
       // Demo
       if (read_named_config_file("demo"))
       {
-	audioMusicUnload();
-	game();
-	RecalcTitlePositions();
-	if (Opts_MenuMusic()) {
-	  audioMusicLoad( "tuxi.ogg", -1 );
-	}
+        audioMusicUnload();
+        game();
+        RecalcTitlePositions();
+        if (Opts_MenuMusic()) {
+          audioMusicLoad( "tuxi.ogg", -1 );
+        }
       } else {
-	fprintf(stderr, "\nCould not find demo config file\n");
+        fprintf(stderr, "\nCould not find demo config file\n");
       }
 
       break;
@@ -880,9 +893,9 @@ int run_options_menu(void)
       // Project Info
       //NotImplemented();
       ShowMessage(_("TuxMath is free and open-source!"),
-		  _("You can help make it better by reporting problems,"),
-		  _("suggesting improvements, or adding code."),
-		  _("Discuss the future at tuxmath-devel@lists.sourceforge.net"));
+                  _("You can help make it better by reporting problems,"),
+                  _("suggesting improvements, or adding code."),
+                  _("Discuss the future at tuxmath-devel@lists.sourceforge.net"));
       break;
     }
     case 2: {
@@ -1042,21 +1055,21 @@ int run_login_menu(void)
       // User pressed escape or selected Quit/Back, handle by quitting
       // or going up a level
       if (level == 0) {
-	// We are going to quit without logging in.
-	// Clean up memory (prob. not necessary, but prevents Valgrind errors!)
-	for (i = 0; i < n_login_questions; i++)
-	  free(user_login_questions[i]);
-	free(user_login_questions);
-	for (i = 0; i < n_users; i++)
-	  free(user_names[i]);
-	free(user_names);
-	return -1;
+        // We are going to quit without logging in.
+        // Clean up memory (prob. not necessary, but prevents Valgrind errors!)
+        for (i = 0; i < n_login_questions; i++)
+          free(user_login_questions[i]);
+        free(user_login_questions);
+        for (i = 0; i < n_users; i++)
+          free(user_names[i]);
+        free(user_names);
+        return -1;
       }
       else {
-	// Go back up one level of the directory tree
-	user_data_dirname_up();
-	level--;
-	menu_opts.starting_entry = -1;
+        // Go back up one level of the directory tree
+        user_data_dirname_up();
+        level--;
+        menu_opts.starting_entry = -1;
       }
     }
     else {
@@ -1105,7 +1118,7 @@ int run_login_menu(void)
 /* (the function returns the index for the selected menu item)  */
 /* -1 indicates that the user pressed escape                    */
 /****************************************************************/
-int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options* custom_mo, void (*set_custom_menu_opts)(menu_options*) )
+int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_entries, menu_options* custom_mo, void (*set_custom_menu_opts)(menu_options*) )
 {
   // Pixel renderings of menu text choices
   SDL_Surface **menu_item_unselected = NULL;
@@ -1206,7 +1219,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
     buttonheight = 0;
     for (i = 0; i < n_menu_entries; i++)
       if (buttonheight < menu_item_unselected[i]->h)
-	buttonheight = menu_item_unselected[i]->h;
+        buttonheight = menu_item_unselected[i]->h;
     buttonheight += 10;
   } else
     buttonheight = menu_opts.buttonheight;
@@ -1360,7 +1373,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
 
         case SDL_MOUSEMOTION:
         {
-	  loc = -1;  // By default, don't be in any entry
+          loc = -1;  // By default, don't be in any entry
           for (i = 0; (i < n_entries_per_screen) && (loc_screen_start + i < n_menu_entries); i++)
           {
             if (inRect(menu_button_rect[i], event.motion.x, event.motion.y))
@@ -1423,8 +1436,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
               }
 
               loc = loc_screen_start + i;
-	      stop = 1;
-	      break;
+              stop = 1;
+              break;
             }
           }
 
@@ -1434,8 +1447,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             if (loc_screen_start - n_entries_per_screen >= 0)
             {
               //loc = loc_screen_start - n_entries_per_screen;
-	      loc_screen_start -= n_entries_per_screen;
-	      loc = -1;  // nothing selected
+              loc_screen_start -= n_entries_per_screen;
+              loc = -1;  // nothing selected
               if (Opts_MenuSound())
               {
                 playsound(SND_TOCK);
@@ -1450,8 +1463,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             if (loc_screen_start + n_entries_per_screen < n_menu_entries)
             {
               //loc = loc_screen_start + n_entries_per_screen;
-	      loc_screen_start += n_entries_per_screen;
-	      loc = -1;  // nothing selected
+              loc_screen_start += n_entries_per_screen;
+              loc = -1;  // nothing selected
               if (Opts_MenuSound())
               {
                 playsound(SND_TOCK);
@@ -1487,7 +1500,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
             {
               if (Opts_MenuSound())
                 playsound(SND_POP);
-	      stop = 1;
+              stop = 1;
               break;
             }
 
@@ -1499,9 +1512,9 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
               if (Opts_MenuSound())
                 playsound(SND_TOCK);
               if (loc_screen_start - n_entries_per_screen >= 0) {
-		loc_screen_start -= n_entries_per_screen;
-		loc = -1;
-	      }
+                loc_screen_start -= n_entries_per_screen;
+                loc = -1;
+              }
               //  {loc = loc_screen_start - n_entries_per_screen;}
               break;
             }
@@ -1514,9 +1527,9 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
               if (Opts_MenuSound())
                 playsound(SND_TOCK);
               if (loc_screen_start + n_entries_per_screen < n_menu_entries) {
-		loc_screen_start += n_entries_per_screen;
-		loc = -1;
-	      }
+                loc_screen_start += n_entries_per_screen;
+                loc = -1;
+              }
               //  {loc = (loc_screen_start + n_entries_per_screen);}
               break;
             }
@@ -1528,15 +1541,15 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                 playsound(SND_TOCK);
               if (loc > title_offset)
                 {loc--;}
-	      else if (n_menu_entries <= n_entries_per_screen) {
-		loc = n_menu_entries-1;  // wrap around if only 1 screen
-	      }
-	      else if (loc == -1 && loc_screen_start > 0) {
-		loc = loc_screen_start-1;
-		loc_screen_start -= n_entries_per_screen;
-	      }
-	      if (loc != old_loc)
-		warp_mouse = 1;
+              else if (n_menu_entries <= n_entries_per_screen) {
+                loc = n_menu_entries-1;  // wrap around if only 1 screen
+              }
+              else if (loc == -1 && loc_screen_start > 0) {
+                loc = loc_screen_start-1;
+                loc_screen_start -= n_entries_per_screen;
+              }
+              if (loc != old_loc)
+                warp_mouse = 1;
               break;
             }
 
@@ -1548,12 +1561,12 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                 playsound(SND_TOCK);
               if (loc >= 0 && loc + 1 < n_menu_entries)
                 {loc++;}
-	      else if (n_menu_entries <= n_entries_per_screen)
-		loc = title_offset;       // wrap around if only 1 screen
-	      else if (loc == -1)
-		loc = loc_screen_start;
-	      if (loc != old_loc)
-		warp_mouse = 1;
+              else if (n_menu_entries <= n_entries_per_screen)
+                loc = title_offset;       // wrap around if only 1 screen
+              else if (loc == -1)
+                loc = loc_screen_start;
+              if (loc != old_loc)
+                warp_mouse = 1;
               break;
            }
 
@@ -1615,6 +1628,7 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
                                   &right_arrow_rect);
               redraw = 1;
             }
+
 #endif
             default:
             {
@@ -1656,57 +1670,57 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       if (images[IMG_STOP])
         SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
       if (Tux->frame[0])
-	SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+        SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
       /* Redraw the menu entries */
       for (imod = 0; imod < n_entries_per_screen; imod++)
-	menu_button_rect[imod].w = 0;  // so undrawn buttons don't affect width
+        menu_button_rect[imod].w = 0;  // so undrawn buttons don't affect width
       for (i = loc_screen_start, imod = 0; i < loc_screen_start+n_entries_per_screen && i < n_menu_entries; i++, imod++) {
-	menu_text_rect[imod].w = menu_item_unselected[i]->w;
-	if (i >= title_offset) {
-	  menu_button_rect[imod].w = menu_text_rect[imod].w + 30;
-	  if (menu_sprites != NULL)
-	    menu_button_rect[imod].w += 60;
-	}
+        menu_text_rect[imod].w = menu_item_unselected[i]->w;
+        if (i >= title_offset) {
+          menu_button_rect[imod].w = menu_text_rect[imod].w + 30;
+          if (menu_sprites != NULL)
+            menu_button_rect[imod].w += 60;
+        }
       }
 
       if (menu_opts.button_same_width)
-	set_buttons_max_width(menu_button_rect,back_button_rect,n_entries_per_screen);
+        set_buttons_max_width(menu_button_rect,back_button_rect,n_entries_per_screen);
       // Make sure the menu title mouse button didn't get turned on
       if (loc_screen_start == 0 && title_offset)
-	menu_button_rect[0].w = 0;
+        menu_button_rect[0].w = 0;
       for (i = loc_screen_start, imod = 0; i < loc_screen_start+n_entries_per_screen && i < n_menu_entries; i++, imod++) {
-	if (i == loc) {  //Draw text in yellow
-	  DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
-	  SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
-	}
-	else {          //Draw text in white
-	  if (menu_button_rect[imod].w > 0)
-	    DrawButton(&menu_button_rect[imod], 10, REG_RGBA);
-	  SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu_text_rect[imod]);
-	}
-	if (menu_sprites != NULL && (i >= title_offset) && menu_sprites[i-title_offset] != NULL)
-	  SDL_BlitSurface(menu_sprites[i-title_offset]->default_img, NULL, screen, &menu_sprite_rect[imod]);
+        if (i == loc) {  //Draw text in yellow
+          DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
+          SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
+        }
+        else {          //Draw text in white
+          if (menu_button_rect[imod].w > 0)
+            DrawButton(&menu_button_rect[imod], 10, REG_RGBA);
+          SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu_text_rect[imod]);
+        }
+        if (menu_sprites != NULL && (i >= title_offset) && menu_sprites[i-title_offset] != NULL)
+          SDL_BlitSurface(menu_sprites[i-title_offset]->default_img, NULL, screen, &menu_sprite_rect[imod]);
       }
 
       /* --- draw 'left' and 'right' buttons --- */
       if (n_menu_entries > n_entries_per_screen) {
-	if (loc_screen_start > 0)        // i.e. not on first page
-	{
-	    SDL_BlitSurface(images[IMG_LEFT], NULL, screen, &left_arrow_rect);
-	}
-	else  /* Draw grayed-out left button: */
+        if (loc_screen_start > 0)        // i.e. not on first page
         {
-	  SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &left_arrow_rect);
-	}
+            SDL_BlitSurface(images[IMG_LEFT], NULL, screen, &left_arrow_rect);
+        }
+        else  /* Draw grayed-out left button: */
+        {
+          SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &left_arrow_rect);
+        }
 
-	if (loc_screen_start + n_entries_per_screen < n_menu_entries)  // not on last page
+        if (loc_screen_start + n_entries_per_screen < n_menu_entries)  // not on last page
         {
-	  SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &right_arrow_rect);
-	}
-	else  /* Draw grayed-out right button: */
-	{
-	  SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &right_arrow_rect);
-	}
+          SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &right_arrow_rect);
+        }
+        else  /* Draw grayed-out right button: */
+        {
+          SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &right_arrow_rect);
+        }
       }
       
       SDL_Flip(screen);//SDL_UpdateRect(screen, 0, 0, 0 ,0);
@@ -1714,68 +1728,68 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
       // This is not a full redraw, but the selected entry did change.
       // By just redrawing the old and new selections, we avoid flickering.
       if (old_loc >= 0) {
-	imod = old_loc-loc_screen_start;
-	use_sprite = (menu_sprites != NULL && old_loc >= title_offset && menu_sprites[old_loc-title_offset] != NULL);
+        imod = old_loc-loc_screen_start;
+        use_sprite = (menu_sprites != NULL && old_loc >= title_offset && menu_sprites[old_loc-title_offset] != NULL);
         temp_rect = menu_button_rect[imod];
         SDL_FillRect(screen, &temp_rect, 0);
-	SDL_BlitSurface(current_bkg(), &back_button_rect[imod], screen, &temp_rect);   // redraw background
-	if (use_sprite) {
-	  // Some of the sprites extend beyond the menu button, so we
-	  // have to make sure we redraw in the sprite rects, too
-	  SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
-	}
-	DrawButton(&menu_button_rect[imod], 10, REG_RGBA);  // draw button
-	//temp_rect = menu_text_rect[imod];
-	SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &menu_text_rect[imod]);  // draw text
-	if (use_sprite) {
-	  temp_rect = menu_sprite_rect[imod];
-	  tmdprintf("Sprite %d at (%d %d)\n",  imod, temp_rect.x, temp_rect.y);
-	  SDL_BlitSurface(menu_sprites[old_loc-title_offset]->default_img, NULL, screen, &temp_rect);
-	  // Also update the sprite rect (in some cases the sprite
-	  // extends beyond the menu button)
-	  SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
-	}
-	SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
+        SDL_BlitSurface(current_bkg(), &back_button_rect[imod], screen, &temp_rect);   // redraw background
+        if (use_sprite) {
+          // Some of the sprites extend beyond the menu button, so we
+          // have to make sure we redraw in the sprite rects, too
+          SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
+        }
+        DrawButton(&menu_button_rect[imod], 10, REG_RGBA);  // draw button
+        //temp_rect = menu_text_rect[imod];
+        SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &menu_text_rect[imod]);  // draw text
+        if (use_sprite) {
+          temp_rect = menu_sprite_rect[imod];
+          tmdprintf("Sprite %d at (%d %d)\n",  imod, temp_rect.x, temp_rect.y);
+          SDL_BlitSurface(menu_sprites[old_loc-title_offset]->default_img, NULL, screen, &temp_rect);
+          // Also update the sprite rect (in some cases the sprite
+          // extends beyond the menu button)
+          SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
+        }
+        SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
       }
       if (loc >= 0) {
-	imod = loc-loc_screen_start;
-	use_sprite = (menu_sprites != NULL && loc >= title_offset && menu_sprites[loc] != NULL);
-	temp_rect = menu_button_rect[imod];
-	SDL_BlitSurface(current_bkg, &back_button_rect[imod], screen, &temp_rect);
-	if (use_sprite)
-	{
-	  temp_rect = menu_sprite_rect[imod];
-	  SDL_BlitSurface(current_bkg, &back_sprite_rect[imod], screen, &temp_rect);
-	}
-	DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
-	SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
-	if (use_sprite) {
-	  menu_sprites[loc-title_offset]->cur = 0;  // start at beginning of animation sequence
-	  SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
-	  SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
-	  next_frame(menu_sprites[loc-title_offset]);
-	}
-	SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
-	tmdprintf("Updating rect: %d %d %d %d\n", menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
+        imod = loc-loc_screen_start;
+        use_sprite = (menu_sprites != NULL && loc >= title_offset && menu_sprites[loc] != NULL);
+        temp_rect = menu_button_rect[imod];
+        SDL_BlitSurface(current_bkg(), &(back_button_rect[imod]), screen, &temp_rect);
+        if (use_sprite)
+        {
+          temp_rect = menu_sprite_rect[imod];
+          SDL_BlitSurface(current_bkg(), &(back_sprite_rect[imod]), screen, &temp_rect);
+        }
+        DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
+        SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
+        if (use_sprite) {
+          menu_sprites[loc-title_offset]->cur = 0;  // start at beginning of animation sequence
+          SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
+          SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
+          next_frame(menu_sprites[loc-title_offset]);
+        }
+        SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
+        tmdprintf("Updating rect: %d %d %d %d\n", menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
       }
     } else if (frame_counter % 5 == 0 && loc >= 0) {
       // No user input changed anything, but check to see if we need to
       // animate the sprite
       if (menu_sprites != NULL && loc >= title_offset && menu_sprites[loc-title_offset] != NULL) {
-	imod = loc-loc_screen_start;
-	//SDL_BlitSurface(current_bkg, &menu_button_rect[imod], screen, &menu_button_rect[imod]);
-	temp_rect = menu_sprite_rect[imod];
-	SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
-	DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
-	//SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
-	// Note: even though the whole button was redrawn, we don't
-	// have to redraw the text & background as long as we don't
-	// update that rect. If something else changes and we go to
-	// full-screen updates, then remove the "commenting-out" on
-	// the two lines above
-	SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
-	SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
-	next_frame(menu_sprites[loc-title_offset]);
+        imod = loc-loc_screen_start;
+        //SDL_BlitSurface(current_bkg, &menu_button_rect[imod], screen, &menu_button_rect[imod]);
+        temp_rect = menu_sprite_rect[imod];
+        SDL_BlitSurface(current_bkg(), &back_sprite_rect[imod], screen, &temp_rect);
+        DrawButton(&menu_button_rect[imod], 10, SEL_RGBA);
+        //SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu_text_rect[imod]);
+        // Note: even though the whole button was redrawn, we don't
+        // have to redraw the text & background as long as we don't
+        // update that rect. If something else changes and we go to
+        // full-screen updates, then remove the "commenting-out" on
+        // the two lines above
+        SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
+        SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
+        next_frame(menu_sprites[loc-title_offset]);
       }
     }
 
@@ -1817,7 +1831,8 @@ int choose_menu_item(const unsigned char **menu_text, sprite **menu_sprites, int
     }
     
     if (egg_active) { //if we need to, draw the egg cursor
-      SDL_GetMouseState(&cursor.x, &cursor.y);
+      //who knows why GetMouseState() doesn't take Sint16's...
+      SDL_GetMouseState((int*)&cursor.x, (int*)&cursor.y); 
       cursor.x -= egg->w / 2; //center vertically
       SDL_BlitSurface(egg, NULL, screen, &cursor);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);
@@ -2071,28 +2086,28 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
 UpdateScreen : Update the screen and increment the frame num
 ***************************/
 void UpdateScreen(int *frame) {
-	int i;
+  int i;
 
-	/* -- First erase everything we need to -- */
-	for (i = 0; i < numupdates; i++)
-		if (blits[i].type == 'E')
-			SDL_LowerBlit(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
-//	SNOW_erase();
+  /* -- First erase everything we need to -- */
+  for (i = 0; i < numupdates; i++)
+    if (blits[i].type == 'E')
+      SDL_LowerBlit(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
+//        SNOW_erase();
 
-	/* -- then draw -- */
-	for (i = 0; i < numupdates; i++)
-		if (blits[i].type == 'D')
-			SDL_BlitSurface(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
-//	SNOW_draw();
+  /* -- then draw -- */
+  for (i = 0; i < numupdates; i++)
+    if (blits[i].type == 'D')
+      SDL_BlitSurface(blits[i].src, blits[i].srcrect, screen, blits[i].dstrect);
+//        SNOW_draw();
 
-	/* -- update the screen only where we need to! -- */
-//	if (SNOW_on)
-//		SDL_UpdateRects(screen, SNOW_add( (SDL_Rect*)&dstupdate, numupdates ), SNOW_rects);
-//	else
-		SDL_UpdateRects(screen, numupdates, dstupdate);
+/* -- update the screen only where we need to! -- */
+//        if (SNOW_on)
+//                SDL_UpdateRects(screen, SNOW_add( (SDL_Rect*)&dstupdate, numupdates ), SNOW_rects);
+//        else
+    SDL_UpdateRects(screen, numupdates, dstupdate);
 
-	numupdates = 0;
-	*frame = *frame + 1;
+  numupdates = 0;
+  *frame = *frame + 1;
 }
 
 

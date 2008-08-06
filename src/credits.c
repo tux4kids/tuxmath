@@ -478,7 +478,8 @@ int scroll_text(char* text[], SDL_Rect subscreen, int speed)
   while (!done);
   return quit;
 }
-#if 0
+#if 0 //really cool effect, but not translatable. I'll leave it in in case we 
+      //decide to use it e.g. only for English
 void draw_text(char * str, int offset)
 {
   int i, c, x, y, cur_x, start, hilite;

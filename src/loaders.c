@@ -32,13 +32,13 @@
 /* FIXME Doesn't seem to work consistently on all versions of Windows */
 /* check to see if file exists, if so return true */
 // int checkFile( const char *file ) {
-// 	static struct stat fileStats;
+//         static struct stat fileStats;
 // 
-// 	fileStats.st_mode = 0;
+//         fileStats.st_mode = 0;
 // 
-// 	stat( file, &fileStats );
-// 		
-// 	return (S_IFREG & fileStats.st_mode);
+//         stat( file, &fileStats );
+//                 
+//         return (S_IFREG & fileStats.st_mode);
 // }
 
 
@@ -88,7 +88,7 @@ int checkFile(const char* file)
 
 
 int max( int n1, int n2 ) {
-	return (n1 > n2 ? n1 : n2);
+  return (n1 > n2 ? n1 : n2);
 }
 
 
@@ -132,7 +132,7 @@ TTF_Font* LoadFont(const unsigned char* font_name, int font_size)
 
 /* FIXME checkFile() not working right in Win32 - skipping. */
 /***********************
-	LoadImage : Load an image and set transparent if requested
+        LoadImage : Load an image and set transparent if requested
 ************************/
 SDL_Surface* LoadImage( char *datafile, int mode )
 {
@@ -211,7 +211,7 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 }
 
 /***********************
-	LoadBkgd() : a wrapper for LoadImage() that scales the
+        LoadBkgd() : a wrapper for LoadImage() that scales the
         image to the size of the screen using zoom(), taken
         from TuxPaint
 ************************/
@@ -284,54 +284,62 @@ int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
 
 
 sprite* FlipSprite( sprite *in, int X, int Y ) {
-	sprite *out;
+  sprite *out;
 
-	out = malloc(sizeof(sprite));
-	if (in->default_img != NULL)
-		out->default_img = Flip( in->default_img, X, Y );
-	else
-		out->default_img = NULL;
-	for ( out->num_frames=0; out->num_frames<in->num_frames; out->num_frames++ )
-		out->frame[out->num_frames] = Flip( in->frame[out->num_frames], X, Y );
-	out->cur = 0;
-	return out;
+  out = malloc(sizeof(sprite));
+  if (in->default_img != NULL)
+          out->default_img = Flip( in->default_img, X, Y );
+  else
+          out->default_img = NULL;
+  for ( out->num_frames=0; out->num_frames<in->num_frames; out->num_frames++ )
+          out->frame[out->num_frames] = Flip( in->frame[out->num_frames], X, Y );
+  out->cur = 0;
+  return out;
 }
 
 
 sprite* LoadSprite( char* name, int MODE ) {
-	sprite *new_sprite;
-	char fn[PATH_MAX];
-	int x;
+  sprite *new_sprite;
+  char fn[PATH_MAX];
+  int x;
 
-	/* JA --- HACK check out what has changed with new code */
+  /* JA --- HACK check out what has changed with new code */
 
-	new_sprite = malloc(sizeof(sprite));
+  new_sprite = malloc(sizeof(sprite));
 
-	sprintf(fn, "%sd.png", name);  // The 'd' means the default image
-	new_sprite->default_img = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
-	for (x = 0; x < MAX_SPRITE_FRAMES; x++) {
-		sprintf(fn, "%s%d.png", name, x);
-		new_sprite->frame[x] = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
-		if ( new_sprite->frame[x] == NULL ) {
-			new_sprite->cur = 0;
-			new_sprite->num_frames = x;
-			break;
-		}
-	}
+  sprintf(fn, "%sd.png", name);  // The 'd' means the default image
+  new_sprite->default_img = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
+  for (x = 0; x < MAX_SPRITE_FRAMES; x++) {
+          sprintf(fn, "%s%d.png", name, x);
+          new_sprite->frame[x] = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
+          if ( new_sprite->frame[x] == NULL ) {
+                  new_sprite->cur = 0;
+                  new_sprite->num_frames = x;
+                  break;
+          }
+  }
 
 
-	
-	return new_sprite;
+  
+  return new_sprite;
 }
 
 
 
 void FreeSprite( sprite *gfx ) {
-	int x;
-	for (x = 0; x < gfx->num_frames; x++)
-		SDL_FreeSurface( gfx->frame[x] );
-	SDL_FreeSurface( gfx->default_img );
-	free(gfx);
+  int x;
+  if (!gfx)
+    return;
+  printf("Freeing image");
+  tmdprintf(" at %p", gfx);
+  for (x = 0; x < gfx->num_frames; x++)
+  {
+    printf(".");
+    SDL_FreeSurface( gfx->frame[x] );
+  }              
+  SDL_FreeSurface( gfx->default_img );
+  printf("done\n");
+  free(gfx);
 }
 
 void next_frame(sprite* s)
@@ -341,7 +349,7 @@ void next_frame(sprite* s)
 }
 
 /***************************
-	LoadSound : Load a sound/music patch from a file.
+        LoadSound : Load a sound/music patch from a file.
 ****************************/
 Mix_Chunk* LoadSound( char *datafile )
 { 
@@ -359,8 +367,8 @@ Mix_Chunk* LoadSound( char *datafile )
 }
 
 /************************
-	LoadMusic : Load
-	music from a datafile
+        LoadMusic : Load
+        music from a datafile
 *************************/
 Mix_Music *LoadMusic(char *datafile )
 { 

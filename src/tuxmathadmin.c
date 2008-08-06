@@ -114,66 +114,66 @@ int main(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     }
     else if (strcmp(argv[i], "--copyright") == 0 ||
-	     strcmp(argv[i], "-c") == 0)
+             strcmp(argv[i], "-c") == 0)
     {
       printf(
-	"\ntuxmathadmin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
+        "\ntuxmathadmin version " ADMINVERSION ", Copyright (C) 2007 Tim Holy\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"
         "as published by the Free Software Foundation.  See COPYING.txt\n"
-	"\n"
-	"This program is distributed in the hope that it will be useful,\n"
-	"but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-	"MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-	"\n");
+        "\n"
+        "This program is distributed in the hope that it will be useful,\n"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+        "\n");
       exit(EXIT_SUCCESS);
     }
     else if (strcmp(argv[i], "--usage") == 0 ||
-	     strcmp(argv[i], "-u") == 0) {
+             strcmp(argv[i], "-u") == 0) {
       usage(0, argv[0]);
       exit(EXIT_SUCCESS);
     }
     else if (strcmp(argv[i], "--path") == 0) {
       if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a directory name)\n", argv[i]);
-	usage(EXIT_FAILURE, argv[0]);
+        fprintf(stderr, "%s option requires an argument (a directory name)\n", argv[i]);
+        usage(EXIT_FAILURE, argv[0]);
       }
       else {
-	path = argv[i+1];
-	dir = opendir(path);  // determine whether directory exists
-	if (dir == NULL)
-	  error(EXIT_FAILURE,errno,"path:\n  %s",path);
-	closedir(dir);
-	i++; // increment so further processing skips over the argument
+        path = argv[i+1];
+        dir = opendir(path);  // determine whether directory exists
+        if (dir == NULL)
+          error(EXIT_FAILURE,errno,"path:\n  %s",path);
+        closedir(dir);
+        i++; // increment so further processing skips over the argument
       }
     }
     else if (strcmp(argv[i], "--level") == 0) {
       if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a level number)\n", argv[i]);
-	usage(EXIT_FAILURE, argv[0]);
+        fprintf(stderr, "%s option requires an argument (a level number)\n", argv[i]);
+        usage(EXIT_FAILURE, argv[0]);
       }
       else {
-	success = sscanf(argv[i+1],"%d",&level);
-	if (!success) {
-	  fprintf(stderr,"level: %s is not a number\n",argv[i+1]);
-	  exit(EXIT_FAILURE);
-	}
-	i++; // increment so further processing skips over the argument
+        success = sscanf(argv[i+1],"%d",&level);
+        if (!success) {
+          fprintf(stderr,"level: %s is not a number\n",argv[i+1]);
+          exit(EXIT_FAILURE);
+        }
+        i++; // increment so further processing skips over the argument
       }
     }
     else if (strcmp(argv[i], "--createhomedirs") == 0) {
       is_creatinghomedirs = 1;
       if (i+1 > argc) {
-	fprintf(stderr, "%s option requires an argument (a file name)\n", argv[i]);
-	usage(EXIT_FAILURE, argv[0]);
+        fprintf(stderr, "%s option requires an argument (a file name)\n", argv[i]);
+        usage(EXIT_FAILURE, argv[0]);
       }
       else {
-	file = argv[i+1];
-	fp = fopen(file,"r");   // determine whether the file exists
-	if (fp == NULL)
-	  error(EXIT_FAILURE,errno,"createhomedirs using:\n  %s",file);
-	fclose(fp);  // don't read it yet, do that elsewhere
-	i++; // increment so further processing skips over the argument
+        file = argv[i+1];
+        fp = fopen(file,"r");   // determine whether the file exists
+        if (fp == NULL)
+          error(EXIT_FAILURE,errno,"createhomedirs using:\n  %s",file);
+        fclose(fp);  // don't read it yet, do that elsewhere
+        i++; // increment so further processing skips over the argument
       }
     }
     else if (strcmp(argv[i], "--confighighscores") == 0) {
@@ -277,42 +277,42 @@ void usage(int err, char * cmd)
 void display_help(void)
 {
   printf("\ntuxmathadmin\n"
-	 "This program facilitates administering tuxmath, and is particularly\n"
-	 "useful for schools and the like that may have many users.\n\n"
-	 "Examples:\n"
-	 "  tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs users.csv\n"
-	 "  tuxmathadmin --createhomedirs users.csv\n"
-	 "    Creates a user directory tree in location /servervolume/tuxmath_users,\n"
-	 "    according to the structure specified in users.csv.  See configure.pdf\n"
-	 "    for details.  The second syntax is applicable if you've defined the\n"
-	 "    homedir path in the global configuration file.\n\n"
-	 "  tuxmathadmin --confighighscores --level 3\n"
-	 "    Sets up sharing of high scores at level 3 of the hierarchy (top is\n"
-	 "    level 1).  If students logging in are presented with a choice of grade,\n"
-	 "    then classroom, and then user, then level 1 is the school, level 2 is the\n"
-	 "    grade, level 3 is the classroom, and level 4 is the individual student.\n"
-	 "    So level 3 would set it up so that all kids in the same classroom would\n"
-	 "    compete for high scores.\n\n"
-	 "  tuxmathadmin --unconfighighscores\n"
-	 "    Removes any existing highscores configuration.\n\n"
-	 "  tuxmathadmin --clearhighscores\n"
-	 "    Clears high scores for all users in the location specified by the homedir\n"
-	 "    setting in the global configuration file.\n\n"
-	 "  tuxmathadmin --path /servervolume/tuxmath_users/2ndgrade --clearhighscores\n"
-	 "    Clears the high scores for all users inside the 2ndgrade hierarchy.\n\n"
-	 "  tuxmathadmin --cleargoldstars\n"
-	 "    Clears the gold stars for all users.\n\n"
-	 "  tuxmathadmin --path /servervolume/tuxmath_users/1st\\ grade/Mrs.\\ Smith --cleargoldstars\n"
-	 "    Clears the gold stars for all users in Mrs. Smith's first grade class.\n\n"
-	 "  tuxmathadmin --consolidatelogs\n"
-	 "    Creates consolidated_log.csv files at one level above the lowest level\n"
-	 "    of the directory hierarchy. These files can be opened with a spreadsheet\n"
-	 "    program. This may be useful for tracking student progress.\n"
-	 "    Note also that each student has a personal log.csv file in his/her own\n"
-	 "    directory.\n\n"
-	 "  tuxmathadmin --clearlogs\n"
-	 "    Deletes all log.csv files in the directory hierarchy.\n\n"
-	 );
+         "This program facilitates administering tuxmath, and is particularly\n"
+         "useful for schools and the like that may have many users.\n\n"
+         "Examples:\n"
+         "  tuxmathadmin --path /servervolume/tuxmath_users --createhomedirs users.csv\n"
+         "  tuxmathadmin --createhomedirs users.csv\n"
+         "    Creates a user directory tree in location /servervolume/tuxmath_users,\n"
+         "    according to the structure specified in users.csv.  See configure.pdf\n"
+         "    for details.  The second syntax is applicable if you've defined the\n"
+         "    homedir path in the global configuration file.\n\n"
+         "  tuxmathadmin --confighighscores --level 3\n"
+         "    Sets up sharing of high scores at level 3 of the hierarchy (top is\n"
+         "    level 1).  If students logging in are presented with a choice of grade,\n"
+         "    then classroom, and then user, then level 1 is the school, level 2 is the\n"
+         "    grade, level 3 is the classroom, and level 4 is the individual student.\n"
+         "    So level 3 would set it up so that all kids in the same classroom would\n"
+         "    compete for high scores.\n\n"
+         "  tuxmathadmin --unconfighighscores\n"
+         "    Removes any existing highscores configuration.\n\n"
+         "  tuxmathadmin --clearhighscores\n"
+         "    Clears high scores for all users in the location specified by the homedir\n"
+         "    setting in the global configuration file.\n\n"
+         "  tuxmathadmin --path /servervolume/tuxmath_users/2ndgrade --clearhighscores\n"
+         "    Clears the high scores for all users inside the 2ndgrade hierarchy.\n\n"
+         "  tuxmathadmin --cleargoldstars\n"
+         "    Clears the gold stars for all users.\n\n"
+         "  tuxmathadmin --path /servervolume/tuxmath_users/1st\\ grade/Mrs.\\ Smith --cleargoldstars\n"
+         "    Clears the gold stars for all users in Mrs. Smith's first grade class.\n\n"
+         "  tuxmathadmin --consolidatelogs\n"
+         "    Creates consolidated_log.csv files at one level above the lowest level\n"
+         "    of the directory hierarchy. These files can be opened with a spreadsheet\n"
+         "    program. This may be useful for tracking student progress.\n"
+         "    Note also that each student has a personal log.csv file in his/her own\n"
+         "    directory.\n\n"
+         "  tuxmathadmin --clearlogs\n"
+         "    Deletes all log.csv files in the directory hierarchy.\n\n"
+         );
 }
 
 // This function does the work of creating the user directory tree,
@@ -359,7 +359,7 @@ void create_homedirs(const char *path,const char *file)
     line_cur = line_begin;
     while (!(*line_cur == '\r' || *line_cur == '\n')) {
       if (*line_cur == ',')
-	this_line_total_depth++;
+        this_line_total_depth++;
       line_cur++;
     }
 
@@ -368,23 +368,23 @@ void create_homedirs(const char *path,const char *file)
       max_depth = this_line_total_depth;
       current_dirtree = (char **) malloc(max_depth * sizeof(char*));
       if (current_dirtree == NULL) {
-	fprintf(stderr,"Error: couldn't allocate memory for directory tree.\n");
-	exit(EXIT_FAILURE);
+        fprintf(stderr,"Error: couldn't allocate memory for directory tree.\n");
+        exit(EXIT_FAILURE);
       }
       for (i = 0; i < max_depth; i++) {
-	current_dirtree[i] = (char *) malloc(PATH_MAX * sizeof(char));
-	if (current_dirtree[i] == NULL){
-	  fprintf(stderr,"Error: couldn't allocate memory for directory tree.\n");
-	  exit(EXIT_FAILURE);
-	} else
-	  *(current_dirtree[i]) = '\0';  // initialize with blank string
+        current_dirtree[i] = (char *) malloc(PATH_MAX * sizeof(char));
+        if (current_dirtree[i] == NULL){
+          fprintf(stderr,"Error: couldn't allocate memory for directory tree.\n");
+          exit(EXIT_FAILURE);
+        } else
+          *(current_dirtree[i]) = '\0';  // initialize with blank string
       }
     }
     else {
       // Check that this line doesn't change the size of the directory hierarchy
       if (this_line_total_depth != max_depth) {
-	fprintf(stderr,"Error: line\n  '%s'\ncontains a different number of depths to the hierarchy than the previous setting (%d).\n",buf,max_depth);
-	exit(EXIT_FAILURE);
+        fprintf(stderr,"Error: line\n  '%s'\ncontains a different number of depths to the hierarchy than the previous setting (%d).\n",buf,max_depth);
+        exit(EXIT_FAILURE);
       }
     }
     
@@ -403,29 +403,29 @@ void create_homedirs(const char *path,const char *file)
       // the string, so don't be bothered that line_cur could get to be
       // one less than line_begin.
       while (line_cur >= line_begin && *line_cur != ',')
-	line_cur--;
+        line_cur--;
       // Determine whether we have a new directory name
       if (line_cur+1 < line_cur_end) {
-	// We do, copy it over including the terminal \0
-	copy_start = line_cur+1;
-	if (*copy_start == '\"')
-	  copy_start++;
-	if (line_cur_end[-1] == '\"') {
-	  line_cur_end--;
-	  *line_cur_end = '\0';
-	}
-	memcpy(current_dirtree[current_depth],copy_start,line_cur_end-copy_start+1);
-	stop_blanking = 1;  // don't clear blank fields in the future
+        // We do, copy it over including the terminal \0
+        copy_start = line_cur+1;
+        if (*copy_start == '\"')
+          copy_start++;
+        if (line_cur_end[-1] == '\"') {
+          line_cur_end--;
+          *line_cur_end = '\0';
+        }
+        memcpy(current_dirtree[current_depth],copy_start,line_cur_end-copy_start+1);
+        stop_blanking = 1;  // don't clear blank fields in the future
       }
       else {
-	// Blank this particular field, because we don't want old
-	// subdirectories hanging around
-	if (!stop_blanking)
-	  *(current_dirtree[current_depth]) = '\0';
+        // Blank this particular field, because we don't want old
+        // subdirectories hanging around
+        if (!stop_blanking)
+          *(current_dirtree[current_depth]) = '\0';
       }
       current_depth--;
       if (line_cur >= line_begin)
-	*line_cur = '\0'; // end the processing at the comma
+        *line_cur = '\0'; // end the processing at the comma
       line_cur_end = line_cur;
     }
 
@@ -441,73 +441,73 @@ void create_homedirs(const char *path,const char *file)
       strncpy(fullpath+len,current_dirtree[i],PATH_MAX-len);
       len = strlen(fullpath);
       if (fullpath[len-1] != '/' && len+1 < PATH_MAX) {
-	fullpath[len] = '/';  // append a slash, if need be
-	fullpath[len+1] = '\0';
+        fullpath[len] = '/';  // append a slash, if need be
+        fullpath[len+1] = '\0';
       }
     }
 
     // Create the directory
     if (strlen(fullpath) < PATH_MAX) {
       if (mkdir(fullpath,mask) < 0) {
-	// There was some kind of error, figure out what happened.
-	// Be a little more verbose than the standard library errors.
-	if (errno == EEXIST) {
-	  fprintf(stderr,"Warning: %s already exists, continuing.\n",fullpath);
-	}
-	else if (errno == ENAMETOOLONG) {
-	  fprintf(stderr,"Error: the directory name:\n  %s\nwas too long.\n",fullpath);
-	  exit(EXIT_FAILURE);
-	}
-	else if (errno == ENOENT) {
-	  fprintf(stderr,"Error: One of the upper-level directories in:\n  %s\ndoesn't exist.  Check the syntax of your configuration file.\n",fullpath);
-	  exit(EXIT_FAILURE);
-	}
-	else if (errno == ENOSPC) {
-	  fprintf(stderr,"Error: the device has no room available.\n");
-	  exit(EXIT_FAILURE);
-	}
-	else {
-	  // Fall back on the standard library for the remaining error
-	  // handling
-	  fprintf(stderr,"Error: couldn't make directory %s:\nDo you have write permission for this location?\nDo you need to be root/administrator?\n",fullpath);
-	  error(EXIT_FAILURE,errno,"error");
-	}
+        // There was some kind of error, figure out what happened.
+        // Be a little more verbose than the standard library errors.
+        if (errno == EEXIST) {
+          fprintf(stderr,"Warning: %s already exists, continuing.\n",fullpath);
+        }
+        else if (errno == ENAMETOOLONG) {
+          fprintf(stderr,"Error: the directory name:\n  %s\nwas too long.\n",fullpath);
+          exit(EXIT_FAILURE);
+        }
+        else if (errno == ENOENT) {
+          fprintf(stderr,"Error: One of the upper-level directories in:\n  %s\ndoesn't exist.  Check the syntax of your configuration file.\n",fullpath);
+          exit(EXIT_FAILURE);
+        }
+        else if (errno == ENOSPC) {
+          fprintf(stderr,"Error: the device has no room available.\n");
+          exit(EXIT_FAILURE);
+        }
+        else {
+          // Fall back on the standard library for the remaining error
+          // handling
+          fprintf(stderr,"Error: couldn't make directory %s:\nDo you have write permission for this location?\nDo you need to be root/administrator?\n",fullpath);
+          error(EXIT_FAILURE,errno,"error");
+        }
       }
       else {
-	fsync(fileno(stderr));
-	fprintf(stdout,"Creating %s\n",fullpath);
-	fsync(fileno(stdout));
+        fsync(fileno(stderr));
+        fprintf(stdout,"Creating %s\n",fullpath);
+        fsync(fileno(stdout));
 
-	// Append the name to the user_menu_entries file
-	// First we split off the last item in fullpath
-	line_begin = fullpath;
-	len = strlen(line_begin);
-	line_begin[len-1] = '\0';  // replace terminal '/' with \0
-	line_cur = line_begin + len-1;
-	while (line_cur > line_begin && *line_cur != '/')
-	  line_cur--;
-	if (line_cur > line_begin) { // as long as not making in the root directory...a bad idea anyway!
-	  *line_cur = '\0';  // Split into two strings
-	}
-	else {
-	  line_begin = "/";
-	}
-	line_cur++;   // line_cur now points to beginning of newest directory
-	strncpy(buf,line_begin,PATH_MAX);  // we don't need buf anymore
-	buf[strlen(buf)] = '/';  // append directory separator
-	len = strlen(buf);
-	strncpy(buf+len,USER_MENU_ENTRIES_FILENAME,PATH_MAX-len-strlen(USER_MENU_ENTRIES_FILENAME));
-	// Now do the appending
-	fpue = fopen(buf,"a");
-	if (!fpue) {
-	  fprintf(stderr,"Error: can't open file %s for writing.\n",buf);
-	  exit(EXIT_FAILURE);
-	}
-	len = fprintf(fpue,"%s\n",line_cur);
-	if (len != strlen(line_cur)+1) {
-	  error(EXIT_FAILURE,errno,"Error writing %s to file %s.\n",line_cur,buf);
-	}
-	fclose(fpue);
+        // Append the name to the user_menu_entries file
+        // First we split off the last item in fullpath
+        line_begin = fullpath;
+        len = strlen(line_begin);
+        line_begin[len-1] = '\0';  // replace terminal '/' with \0
+        line_cur = line_begin + len-1;
+        while (line_cur > line_begin && *line_cur != '/')
+          line_cur--;
+        if (line_cur > line_begin) { // as long as not making in the root directory...a bad idea anyway!
+          *line_cur = '\0';  // Split into two strings
+        }
+        else {
+          line_begin = "/";
+        }
+        line_cur++;   // line_cur now points to beginning of newest directory
+        strncpy(buf,line_begin,PATH_MAX);  // we don't need buf anymore
+        buf[strlen(buf)] = '/';  // append directory separator
+        len = strlen(buf);
+        strncpy(buf+len,USER_MENU_ENTRIES_FILENAME,PATH_MAX-len-strlen(USER_MENU_ENTRIES_FILENAME));
+        // Now do the appending
+        fpue = fopen(buf,"a");
+        if (!fpue) {
+          fprintf(stderr,"Error: can't open file %s for writing.\n",buf);
+          exit(EXIT_FAILURE);
+        }
+        len = fprintf(fpue,"%s\n",line_cur);
+        if (len != strlen(line_cur)+1) {
+          error(EXIT_FAILURE,errno,"Error writing %s to file %s.\n",line_cur,buf);
+        }
+        fclose(fpue);
       }
     }
     else {
@@ -538,19 +538,19 @@ void config_highscores(const char *path,int level)
 
   n_dirs = directory_crawl(path);
   success = 0;  // This will change to 1 if we find a directory of the
-		// right level
+                // right level
   for (i = 0; i < n_dirs; i++) {
     if (directory_level[i] == level) {
       // Create a blank highscores file in this directory
       strncpy(buf,directory[i],PATH_MAX);
       strncat(buf,HIGHSCORE_FILENAME,PATH_MAX-strlen(buf)-1);
       if (strlen(buf) >= PATH_MAX-1) {
-	fprintf(stderr,"confighighscores: pathname %s truncated, exiting.\n",buf);
-	exit(EXIT_FAILURE);
+        fprintf(stderr,"confighighscores: pathname %s truncated, exiting.\n",buf);
+        exit(EXIT_FAILURE);
       }
       fp = fopen(buf,"w");
       if (!fp)
-	error(EXIT_FAILURE,errno,"confighighscores: file:\n  %s",buf);
+        error(EXIT_FAILURE,errno,"confighighscores: file:\n  %s",buf);
       // That creates a blank file, which is all we have to do
       fclose(fp);
       success = 1;
@@ -597,7 +597,7 @@ void clear_highscores(const char *path)
       fclose(fp);
       fp = fopen(buf,"w");
       if (!fp)
-	error(EXIT_FAILURE,errno,"clearhighscores: file:\n  %s",buf);
+        error(EXIT_FAILURE,errno,"clearhighscores: file:\n  %s",buf);
       // That creates a blank file, which is all we have to do
       fclose(fp);
     }
@@ -664,30 +664,30 @@ void consolidate_logs(const char *path)
       // Skip over white space, and especially blank lines
       line_begin = eatwhite(buf);
       if (strlen(line_begin) == 0)
-	continue;
+        continue;
       // Create the full path & filename of the user's log.csv file
       strncpy(buf2,directory[i],PATH_MAX);
       strncat(buf2,line_begin,PATH_MAX-strlen(buf2)-1);
       strncat(buf2,"/log.csv",PATH_MAX-strlen(buf2)-1);
       fplogread = fopen(buf2,"r");
       if (fplogread) {
-	// Copy the relevant lines from the user's log.csv file to the
-	// consolidated log file.  Make sure only one copy of the
-	// column names is written.
-	while(fgets(buf3, PATH_MAX, fplogread)) {
-	  line_begin = eatwhite(buf3);
-	  if (strlen(line_begin) == 0)
-	    continue;
-	  if (strncmp(line_begin,"\"User",5) == 0) {
-	    if (!column_names_written) {
-	      fprintf(fplogwrite,"%s\n",line_begin);
-	      column_names_written = 1;
-	    }
-	  } else {
-	    fprintf(fplogwrite,"%s\n",line_begin);
-	  }
-	}
-	fclose(fplogread);
+        // Copy the relevant lines from the user's log.csv file to the
+        // consolidated log file.  Make sure only one copy of the
+        // column names is written.
+        while(fgets(buf3, PATH_MAX, fplogread)) {
+          line_begin = eatwhite(buf3);
+          if (strlen(line_begin) == 0)
+            continue;
+          if (strncmp(line_begin,"\"User",5) == 0) {
+            if (!column_names_written) {
+              fprintf(fplogwrite,"%s\n",line_begin);
+              column_names_written = 1;
+            }
+          } else {
+            fprintf(fplogwrite,"%s\n",line_begin);
+          }
+        }
+        fclose(fplogread);
       }
     }
     fclose(fpusersread);
@@ -725,7 +725,7 @@ void clear_file(const char *path,const char *filename,const char *invoke_name)
       // We found such a file, delete it
       fclose(fp);
       if (remove(buf) < 0)
-	error(EXIT_FAILURE,errno,"%s: file:\n  %s",invoke_name,buf);
+        error(EXIT_FAILURE,errno,"%s: file:\n  %s",invoke_name,buf);
     }
   }
 
@@ -758,22 +758,22 @@ int extract_variable(FILE *fp, const char *varname, char** value)
       // Find the "=" sign
       tmpvalue = strchr(param_begin+strlen(varname), '=');
       if (tmpvalue == NULL)
-	continue;
+        continue;
       // Skip over the "=" sign
       tmpvalue++;
       // Skip whitespace
       while (isspace(*tmpvalue))
-	tmpvalue++;
+        tmpvalue++;
       // Eliminate any whitespace at end
       param_begin = tmpvalue;
       tmpvalue = param_begin + strlen(param_begin) - 1;
       while (tmpvalue > param_begin && isspace(*tmpvalue)) {
-	*tmpvalue = '\0';
-	tmpvalue--;
+        *tmpvalue = '\0';
+        tmpvalue--;
       }
       // Abort if empty
       if (strlen(param_begin) == 0)
-	continue;
+        continue;
       // Successful, copy the result
       *value = strdup(param_begin);
       return 1;
@@ -829,45 +829,45 @@ int directory_crawl(const char *path)
       // Just parse directories of the most recently-added level
       // (we've already done the work for previous levels)
       if (directory_level[i] == current_level) {
-	// Read the user_menu_entries file, if it exists
-	// Note that previous items already have "/" appended, no need
-	// to worry about that here.
-	strncpy(fullpath,directory[i],PATH_MAX);
-	strncat(fullpath,USER_MENU_ENTRIES_FILENAME,PATH_MAX-strlen(fullpath)-1);
-	fp = fopen(fullpath,"r");
-	if (fp != NULL) {
-	  // We found the user_menu_entries file, read it and add directories
-	  while (fgets (buf, PATH_MAX, fp)) {
-	    if (current_length >= MAX_USERS) {
-	      fprintf(stderr,"Error: maximum number of users exceeded.");
-	      exit(EXIT_FAILURE);
-	    }
-	    // Skip over leading & trailing white space, and
-	    // especially blank lines
-	    line_begin = eatwhite(buf);
-	    if (strlen(line_begin) == 0)
-	      continue;
+        // Read the user_menu_entries file, if it exists
+        // Note that previous items already have "/" appended, no need
+        // to worry about that here.
+        strncpy(fullpath,directory[i],PATH_MAX);
+        strncat(fullpath,USER_MENU_ENTRIES_FILENAME,PATH_MAX-strlen(fullpath)-1);
+        fp = fopen(fullpath,"r");
+        if (fp != NULL) {
+          // We found the user_menu_entries file, read it and add directories
+          while (fgets (buf, PATH_MAX, fp)) {
+            if (current_length >= MAX_USERS) {
+              fprintf(stderr,"Error: maximum number of users exceeded.");
+              exit(EXIT_FAILURE);
+            }
+            // Skip over leading & trailing white space, and
+            // especially blank lines
+            line_begin = eatwhite(buf);
+            if (strlen(line_begin) == 0)
+              continue;
 
-	    directory[current_length] = (char *) malloc((strlen(directory[i])+strlen(line_begin)+2)*sizeof(char));
-	    if (directory[current_length] == NULL) {
-	      fprintf(stderr,"Memory allocation error in directory_crawl.\n");
-	      exit(EXIT_FAILURE);
-	    }
-	    // Append each new directory to the list
-	    strcpy(directory[current_length],directory[i]);
-	    strcat(directory[current_length],line_begin);
-	    strcat(directory[current_length],"/");
-	    directory_level[current_length] = current_level+1;
-	    // Check to make sure it's valid
-	    dir = opendir(directory[current_length]);
-	    if (dir == NULL)
-	      error(EXIT_FAILURE,errno,"directory:\n %s",directory[current_length]);
-	    closedir(dir);
-	    current_length++;
-	  }
-	  isdone = 0;  // We know we need to check the subdirectories
-	  fclose(fp);
-	}  // end of: if (fp != NULL)
+            directory[current_length] = (char *) malloc((strlen(directory[i])+strlen(line_begin)+2)*sizeof(char));
+            if (directory[current_length] == NULL) {
+              fprintf(stderr,"Memory allocation error in directory_crawl.\n");
+              exit(EXIT_FAILURE);
+            }
+            // Append each new directory to the list
+            strcpy(directory[current_length],directory[i]);
+            strcat(directory[current_length],line_begin);
+            strcat(directory[current_length],"/");
+            directory_level[current_length] = current_level+1;
+            // Check to make sure it's valid
+            dir = opendir(directory[current_length]);
+            if (dir == NULL)
+              error(EXIT_FAILURE,errno,"directory:\n %s",directory[current_length]);
+            closedir(dir);
+            current_length++;
+          }
+          isdone = 0;  // We know we need to check the subdirectories
+          fclose(fp);
+        }  // end of: if (fp != NULL)
       } // end of: if (directory_level[i] == current_level)
     } // end of: loop over previous directories
     current_level++;  // We're all done parsing this level, move on
