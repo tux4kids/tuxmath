@@ -27,7 +27,7 @@
 #include "SDL_mixer.h"
 #endif
 #include "SDL_image.h"
-  
+#include "SDL_rotozoom.h"
 
 #include "game.h"
 #include "fileops.h"
@@ -45,6 +45,8 @@
 #define NUM_TUXSHIPS 2
 #define NUM_SPRITES 11
 #define TUXSHIP_LIVES 3
+#define DEG_PER_ROTATION 2
+#define NUM_OF_ROTO_IMGS 360/DEG_PER_ROTATION
 
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)    (((a) > (b)) ? (a) : (b))
@@ -74,8 +76,7 @@ typedef struct asteroid_type {
   int fact_number;
   int isprime;
   int a, b; /*  a / b */
-  MC_FlashCard flashcard;
-  Uint32 time_started;
+  int count;
 } asteroid_type;
 
 
@@ -86,6 +87,7 @@ typedef struct tuxship_type {
   int centerx, centery;
   int angle;
   int hurt, hurt_count;
+  int count;
 } tuxship_type;
 
 typedef struct FF_laser_type{
@@ -141,8 +143,9 @@ static int gameover_counter;
 static int escape_received;
 
 //SDL Variables
-static SDL_Surface *bg; //The background
-
+static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
+static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
+static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
 static SDL_Rect bgSrc, bgScreen2, bgScreen;
 
 // Game type
@@ -356,6 +359,37 @@ static int FF_init(void){
   SDL_Surface *tmp;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
+ 
+  for(i=0; i<NUM_OF_ROTO_IMGS; i=i++)
+  {
+    //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
+    IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i*DEG_PER_ROTATION, 1, 1);
+
+    if (IMG_tuxship[i] == NULL)
+    {
+      fprintf(stderr,
+              "\nError: I couldn't load a graphics file\n");
+      return 0;
+    }
+
+    IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i*DEG_PER_ROTATION, 1, 1);
+
+    if (IMG_tuxship[i] == NULL)
+    {
+      fprintf(stderr,
+              "\nError: I couldn't load a graphics file\n");
+      return 0;
+    }
+
+    IMG_asteroids2[i] = rotozoomSurface(images[IMG_ASTEROID2], i*DEG_PER_ROTATION, 1, 1);
+
+    if (IMG_tuxship[i] == NULL)
+    {
+      fprintf(stderr, "\nError: I couldn't load a graphics file\n");
+      return 0;
+    }    
+  }
+
   bkg_h=(images[BG_STARS]->h)>>1;
   bgSrc.y=((images[BG_STARS]->h)>>1)-bkg_h;
   bgSrc.x=0;
@@ -372,8 +406,8 @@ static int FF_init(void){
   
   // Allocate memory 
   asteroid = NULL;  // set in case allocation fails partway through
-  
   asteroid = (asteroid_type *) malloc(MAX_ASTEROIDS * sizeof(asteroid_type));
+  
   if (asteroid == NULL) {
     printf("Allocation of asteroids failed");
     return 0;
@@ -420,6 +454,7 @@ static void FF_intro(void){
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
 		   _("type one of its factors, and press space or return..."),
 		   _("If you're right, it will split into its factors.  Rocks with prime numbers are destroyed!"));
+    SDL_BlitSurface(IMG_asteroids1[3],NULL,screen,&rect);
   }
   else if (FF_game==FRACTIONS_GAME)
   {
@@ -451,8 +486,8 @@ static void FF_handle_ship(void){
 
 /****************** Ship center... ******************/
 
-  tuxship.centerx=((images[IMG_SHIP01]->w)/2)+tuxship.x;
-  tuxship.centery=((images[IMG_SHIP01]->h)/2)+tuxship.y;  
+  tuxship.centerx=((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2)+(tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
+  tuxship.centery=((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2)+(tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));  
 
 /******************* Ship live *********************/
   
@@ -466,13 +501,13 @@ static void FF_handle_ship(void){
 
   if (right_pressed)
   {
-    tuxship.angle=tuxship.angle - 30;
+    tuxship.angle=tuxship.angle - DEG_PER_ROTATION*4;
     if (tuxship.angle < 0)
       tuxship.angle = tuxship.angle + 360;
   }
   else if (left_pressed)
   {
-    tuxship.angle=tuxship.angle + 30;
+    tuxship.angle=tuxship.angle + DEG_PER_ROTATION*4;
     if (tuxship.angle >= 360)
       tuxship.angle = tuxship.angle - 360;
   }
@@ -640,26 +675,28 @@ static void FF_draw(void){
     }
   }
   /*************** Draw Ship ******************/ 
-  dest.x=tuxship.x;
-  dest.y=tuxship.y;
-  if(!tuxship.hurt || (tuxship.hurt && tuxship.hurt_count%2==0))
-    for(i=0;i<12;i++)
-      if((i*30<=tuxship.angle) && (tuxship.angle<((i*30)+30)))
-        SDL_BlitSurface(images[IMG_SHIP01+i], NULL, screen, &dest);
- 
+
+  if(!tuxship.hurt || (tuxship.hurt && tuxship.hurt_count%2==0)){
+     dest.x = (tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
+     dest.y = (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));
+     dest.w = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w;
+     dest.h = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h;
+	
+     SDL_BlitSurface(IMG_tuxship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+  }
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
      dest.x=asteroid[i].x;
      dest.y=asteroid[i].y;
      if(asteroid[i].size==0){
-        SDL_BlitSurface(images[IMG_ASTEROID1], NULL, screen, &dest);
+        SDL_BlitSurface(IMG_asteroids1[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
      }
      if(asteroid[i].size==1){
-        SDL_BlitSurface(images[IMG_ASTEROID2], NULL, screen, &dest);
+        SDL_BlitSurface(IMG_asteroids2[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
      }
      if(asteroid[i].size==2){
-        SDL_BlitSurface(images[IMG_ASTEROID2], NULL, screen, &dest);
+        SDL_BlitSurface(IMG_asteroids2[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
      }
      if(FF_game==FACTOROIDS_GAME)
      {   
@@ -846,7 +883,7 @@ static void FF_add_level(void)
      FF_add_asteroid(x,y,
 		    xvel,yvel,
 		    rand()%2,
-		    0, 3,
+		    rand()%360, rand()%3,
 		    (rand()%(31+(wave*wave))), 
 		    0, 0,
 		    1);
@@ -855,7 +892,7 @@ static void FF_add_level(void)
      FF_add_asteroid(x,y,
 		     xvel,yvel,
                      rand()%2, 
-		     0, 3,
+		     rand()%360, rand()%3,
                      0, 
 		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
 		     1);
@@ -1387,13 +1424,18 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
      if(asteroid[i].size>0){
       /* Break the rock into two smaller ones! */
       if(num!=0){
+
+
+//static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int
+//                           angle_speed, int fact_number, int a, int b, int new_wave
+
         if(FF_game==FACTOROIDS_GAME){
           FF_add_asteroid(asteroid[i].x,
 	  	          asteroid[i].y,
 	  	          ((asteroid[i].xspeed + xspeed) / 2),
 	  	          (asteroid[i].yspeed + yspeed),
 	  	          0,
-	  	          0, 0, (int)(asteroid[i].fact_number/num),
+	  	          rand()%360, rand()%3, (int)(asteroid[i].fact_number/num),
 		          0, 0,
                           0);
       
@@ -1402,7 +1444,7 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
 	  	          (asteroid[i].xspeed + xspeed),
 	  	          ((asteroid[i].yspeed + yspeed) / 2),
 	  	          0,
-	  	          0, 0, num,
+	  	          rand()%360, rand()%3, num,
                           0, 0,
                           0);
         }
@@ -1412,7 +1454,7 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
 	  	          ((asteroid[i].xspeed + xspeed) / 2),
 	  	          (asteroid[i].yspeed + yspeed),
 	  	          0,
-	  	          0, 0, 0,
+	  	          rand()%360, rand()%3, 0,
 		          (int)(asteroid[i].a/num), (int)(asteroid[i].b/num),
                           0);
       
@@ -1421,7 +1463,7 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
 	  	          (asteroid[i].xspeed + xspeed),
 	  	          ((asteroid[i].yspeed + yspeed) / 2),
 	  	          0,
-	  	          0, 0, 0,
+	  	          rand()%360, rand()%3, 0,
                           (int)(asteroid[i].b/num), (int)(asteroid[i].a/num),
                           0); 
 	}
