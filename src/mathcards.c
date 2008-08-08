@@ -1576,7 +1576,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     }
     //choose two numbers in the proper range and get their result
     
-    else
+    else do
     {
       r1 = rand() % (math_opts->iopts[MAX_AUGEND+4*op] - math_opts->iopts[MIN_AUGEND+4*op] + 1) + math_opts->iopts[MIN_AUGEND+4*op];    
       r2 = rand() % (math_opts->iopts[MAX_ADDEND+4*op] - math_opts->iopts[MIN_ADDEND+4*op] + 1) + math_opts->iopts[MIN_ADDEND+4*op]; 
@@ -1595,7 +1595,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
         r1 *= r2;
         ans = ret.difficulty;
       }
-    }
+    } while (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) );
 
 
     mcdprintf("Constructing answer_string\n");

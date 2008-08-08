@@ -1,7 +1,7 @@
 ## Makefile.am for tuxmath - data/missions:
 ## Process with Automake to create Makefile.in
 
-SUBDIRS = arcade campaign lessons
+SUBDIRS = arcade campaign lessons multiplay
 
 missionsdir = $(pkgdatadir)/missions
 

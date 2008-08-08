@@ -136,12 +136,12 @@ SDL_Surface* bkg = NULL;
 /* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkg = NULL;
 /* "Easter Egg" cursor */
-SDL_Surface* egg = NULL; 
+SDL_Surface* egg = NULL;
 int egg_active = 0; //are we currently using the egg cursor?
 
 SDL_Surface* current_bkg()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
-  
+
 /* Local function prototypes: */
 void TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
@@ -310,7 +310,7 @@ void TitleScreen(void)
     */
     Tuxdest.w = Tuxback.w = Tux->frame[0]->w;
     Tuxdest.h = Tuxback.h = Tux->frame[0]->h;
-    
+
 
     Titledest.x = screen->w;
     Titledest.y = 10;
@@ -363,7 +363,7 @@ void TitleScreen(void)
   beak.x = Tuxdest.x + 70;
   beak.y = Tuxdest.y + 60;
   beak.w = beak.h = 50;
-    
+
   /* Start playing menu music if desired: */
   if (Opts_MenuMusic())
   {
@@ -430,7 +430,7 @@ int TitleScreen_load_media(void)
     sprintf(fn, "sprites/%s", menu_sprite_files[i]);
     sprite_list[i] = LoadSprite(fn, IMG_ALPHA);
   }
-  egg = LoadImage("title/egg.png", 
+  egg = LoadImage("title/egg.png",
                   IMG_COLORKEY | IMG_NOT_REQUIRED);
   LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
   return 1;
@@ -461,7 +461,7 @@ void TitleScreen_unload_media(void)
   FreeSprite(Tux);
   Tux = NULL;
   TitleScreen_unload_menu();
-  
+
   SDL_FreeSurface(egg);
   SDL_FreeSurface(bkg);
   SDL_FreeSurface(scaled_bkg);
@@ -732,17 +732,17 @@ int run_game_menu(void)
      (const unsigned char*)N_("Play Arcade Game"),
      (const unsigned char*)N_("Play Custom Game"),
      (const unsigned char*)N_("Main menu")};
-     
+
   sprite* sprites[NUM_GAME_MENU_ITEMS] = {NULL, NULL, NULL, NULL, NULL};
-   
+
   int ret, choice = 0;
-  
+
   sprites[0] = sprite_list[SPRITE_TRAINING];
   sprites[1] = sprite_list[SPRITE_CAMPAIGN];
   sprites[2] = sprite_list[SPRITE_ARCADE];
   sprites[3] = sprite_list[SPRITE_CUSTOM];
   sprites[4] = sprite_list[SPRITE_MAIN];
-  
+
   while (choice >= 0) {
     choice = choose_menu_item(menu_text,sprites,NUM_GAME_MENU_ITEMS,NULL,NULL);
     switch (choice) {
@@ -773,37 +773,63 @@ Set up and start a turn-based multiplayer game. Some funky heap issues so
 quarantine it behind the return for the time being.
 */
 int run_multiplay_menu(void)
-{  
+{
   int i;
   int nplayers = 0;
-  int mode = 0;
-  char npstr[HIGH_SCORE_NAME_LENGTH];
-  
-  char* menu_text[2] = {"Score Sweep", "Elimination"};
-  sprite* sprites = {NULL, NULL};
-  
-  NotImplemented();
-  return 0;
+  int mode = -1;
+  int difficulty = -1;
+  unsigned char npstr[HIGH_SCORE_NAME_LENGTH * 3];
 
-  //choose mode
-  mode = choose_menu_item(menu_text,sprites,2,NULL,NULL);
-  
-  //ask how many players
-  while (nplayers <= 0)
+  char* menu_text[3] =
+    {"Score Sweep", "Elimination", "Main menu"};
+  //just leech settings from arcade modes
+  char* diff_menu_text[NUM_HIGH_SCORE_LEVELS + 1] =
+    {"Space Cadet", "Scout", "Ranger", "Ace", "Commando", "Main menu"};
+
+
+  sprite* modesprites[3] = {NULL, NULL, NULL};
+  sprite* diffsprites[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
+  // Set up the sprites
+  diffsprites[0] = sprite_list[SPRITE_CADET];
+  diffsprites[1] = sprite_list[SPRITE_SCOUT];
+  diffsprites[2] = sprite_list[SPRITE_RANGER];
+  diffsprites[3] = sprite_list[SPRITE_ACE];
+
+  diffsprites[5] = sprite_list[SPRITE_MAIN];
+
+//  NotImplemented();
+//  return 0;
+
+  while (1)
   {
-    NameEntry(npstr, "How many kids are playing?", 
-                     "(Between 2 and 4 players)");
-    nplayers = atoi(npstr);
+    //choose difficulty
+    difficulty = choose_menu_item(diff_menu_text, diffsprites, NUM_HIGH_SCORE_LEVELS + 1, NULL, NULL);
+
+    if (difficulty == -1 || difficulty == NUM_HIGH_SCORE_LEVELS)
+      break; //user chose main menu or escape
+
+    //choose mode
+    mode = choose_menu_item(menu_text,modesprites,3,NULL,NULL);
+    if (mode == 2 || mode == -1)
+      break;
+
+    //ask how many players
+    while (nplayers <= 0)
+    {
+      NameEntry(npstr, "How many kids are playing?",
+                       "(Between 2 and 4 players)");
+      nplayers = 2;// atoi(npstr);
+    }
+
+
+    mp_set_parameter(PLAYERS, nplayers);
+    mp_set_parameter(MODE, mode);
+    mp_set_parameter(DIFFICULTY, difficulty);
+
+    //RUN!
+    mp_run_multiplayer();
   }
-  
-  
-  mp_set_parameter(PLAYERS, nplayers);
-  mp_set_parameter(MODE, mode);
-  mp_set_parameter(DIFFICULTY, 0);
-  
-  //RUN!
-  mp_run_multiplayer();
-    
+
   return 0;
 }
 
@@ -823,7 +849,7 @@ int run_arcade_menu(void)
      (const unsigned char*)N_("Hall Of Fame"),
      (const unsigned char*)N_("Main menu")};
   const char* arcade_config_files[5] =
-    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace", 
+    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace",
      "arcade/commando"
     };
   const int arcade_high_score_tables[5] =
@@ -898,7 +924,7 @@ int run_arcade_menu(void)
     }
     set_default_menu_options(&menu_opts);
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,6,NULL, NULL);
+    choice = choose_menu_item(menu_text,sprites,7,NULL, NULL);
   }
 
   return 0;
@@ -1753,7 +1779,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
         ; //egg_active = 0;
     }  // End SDL_PollEvent while loop
 
-    
+
 
     // Make sure the menu title is not selected
     if (loc == 0 && title_offset)
@@ -1830,7 +1856,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &right_arrow_rect);
         }
       }
-      
+
       SDL_Flip(screen);//SDL_UpdateRect(screen, 0, 0, 0 ,0);
     } else if (old_loc != loc) {
       // This is not a full redraw, but the selected entry did change.
@@ -1937,10 +1963,10 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
       SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
-    
+
     if (egg_active) { //if we need to, draw the egg cursor
       //who knows why GetMouseState() doesn't take Sint16's...
-      SDL_GetMouseState((int*)&cursor.x, (int*)&cursor.y); 
+      SDL_GetMouseState((int*)&cursor.x, (int*)&cursor.y);
       cursor.x -= egg->w / 2; //center vertically
       SDL_BlitSurface(egg, NULL, screen, &cursor);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);
@@ -2285,17 +2311,17 @@ void RecalcTitlePositions()
   Backrect = current_bkg()->clip_rect;
   Backrect.x = (screen->w - Backrect.w) / 2;
   Backrect.y = (screen->h - Backrect.h) / 2;
-  
+
   Titledest.x = 0;
   Titledest.y = 0;
-  
+
   Tuxdest.x = 0;
   Tuxdest.y = screen->h - Tuxdest.h;
-  
+
   beak.x = Tuxdest.x + 70;
   beak.y = Tuxdest.y + 60;
   beak.w = beak.h = 50;
-  
+
   stopRect.x = screen->w - stopRect.w;
   stopRect.y = 0;
 }
@@ -2443,7 +2469,7 @@ int handle_easter_egg(const SDL_Event* evt)
 
   tuxframe = Tux->num_frames;
 
-    
+
   if (egg_active) //are we using the egg cursor?
     {
 

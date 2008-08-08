@@ -1,0 +1,8 @@
+#master option file for multiplay
+
+play_through_list = 1
+avg_list_length = 20
+vary_list_length = 1
+comprehensive = 0
+
+

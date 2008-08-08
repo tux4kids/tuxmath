@@ -377,7 +377,7 @@ void NameEntry(unsigned char* pl_name, const char* heading, const char* sub)
 
   if (!pl_name)
     return;
-
+    
   name_font = LoadFont(DEFAULT_FONT_NAME, NAME_FONT_SIZE);
   if (!name_font)
     return;
@@ -482,7 +482,7 @@ void NameEntry(unsigned char* pl_name, const char* heading, const char* sub)
         case SDL_KEYDOWN:
         {
 #ifdef TUXMATH_DEBUG
-          fprintf(stderr, "Before keypress, string is %S\tlength = %d\n",
+          fprintf(stderr, "Before keypress, string is %s\tlength = %d\n",
                   wchar_buf, (int)wcslen(wchar_buf));
 #endif
           switch (event.key.keysym.sym)
@@ -517,7 +517,7 @@ void NameEntry(unsigned char* pl_name, const char* heading, const char* sub)
           }  /* end  'switch (event.key.keysym.sym)'  */
 
 #ifdef TUXMATH_DEBUG
-          fprintf(stderr, "After keypress, string is %S\tlength = %d\n",
+          fprintf(stderr, "After keypress, string is %s\tlength = %d\n",
                     wchar_buf, (int)wcslen(wchar_buf));
 #endif
             /* Now draw name, if needed: */
@@ -769,6 +769,8 @@ int read_high_scores_fp(FILE* fp)
     if (!token)
       continue;
     diff_level = atoi(token);
+    if (diff_level >= NUM_HIGH_SCORE_LEVELS)
+      continue;
 
     token = strtok(NULL, delimiters);
     if (!token)

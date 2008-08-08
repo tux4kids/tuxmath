@@ -29,5 +29,7 @@ typedef enum {
 void mp_set_parameter(unsigned int param, int value);
 void mp_run_multiplayer();
 int mp_get_player_score(int playernum);
+const char* mp_get_player_name(int playernum);
+int mp_num_players();
 
 #endif // MULTIPLAYER_H

@@ -35,6 +35,7 @@
 #include "fileops.h"
 #include "setup.h"
 #include "mathcards.h"
+#include "multiplayer.h"
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
@@ -2106,6 +2107,7 @@ void game_draw_cities(void)
 }
 void game_draw_misc(void)
 {
+  int i;
   int offset;
   SDL_Rect dest;
   char str[64];
@@ -2176,7 +2178,19 @@ void game_draw_misc(void)
   draw_numbers(str,
                screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
                0);
-
+  
+  /* Draw other players' scores */
+  if (mp_get_param(PLAYERS) )
+  {
+    for (i = 0; i < mp_get_param(PLAYERS); ++i)
+    {
+      snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
+      SDL_Surface* score = BlackOutline(str, default_font, &white);
+      SDL_Rect loc = {screen->w - score->w, score->h * (i + 2), 0, 0};
+      SDL_BlitSurface(score, NULL, screen, &loc);
+    }
+  }
+  
   /* Draw stop button: */
   if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
     dest.x = (screen->w - images[IMG_STOP]->w);
