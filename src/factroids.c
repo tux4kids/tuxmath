@@ -197,7 +197,7 @@ static void FF_exit_free(void);
 
 static int FF_add_laser(void);
 static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int a, int b, int new_wave);
-static int FF_destroy_asteroid(int i, int xspeed, int yspeed);
+static int FF_destroy_asteroid(int i, float xspeed, float yspeed);
 
 static void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4);
 
@@ -644,6 +644,14 @@ static void FF_handle_answer(void)
 
 }
 
+static SDL_Surface* get_asteroid_image(int size,int angle)
+{
+  if (size == 0)
+    return IMG_asteroids1[angle/DEG_PER_ROTATION];
+  else
+    return IMG_asteroids2[angle/DEG_PER_ROTATION];
+}
+
 static void FF_draw(void){
   SDL_Rect dest;
   int i, offset;
@@ -689,15 +697,7 @@ static void FF_draw(void){
     if(asteroid[i].alive>0){
      dest.x=asteroid[i].x;
      dest.y=asteroid[i].y;
-     if(asteroid[i].size==0){
-        SDL_BlitSurface(IMG_asteroids1[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
-     }
-     if(asteroid[i].size==1){
-        SDL_BlitSurface(IMG_asteroids2[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
-     }
-     if(asteroid[i].size==2){
-        SDL_BlitSurface(IMG_asteroids2[asteroid[i].angle/DEG_PER_ROTATION], NULL, screen, &dest);
-     }
+     SDL_BlitSurface(get_asteroid_image(asteroid[i].size,asteroid[i].angle), NULL, screen, &dest);
      if(FF_game==FACTOROIDS_GAME)
      {   
        sprintf(str, "%.1d", asteroid[i].fact_number);
@@ -1100,242 +1100,96 @@ int fast_sin(int angle)
 
 /******************* LASER FUNCTIONS *********************/
 
-/*Return -1 if no laser is avable*/
+/*Return -1 if no laser is available*/
 int FF_add_laser(void)
 {
-  int i, j, k;
-  int dx,dy;
-  int xcount, ycount;
-  float m, b;
+  int i, k, zapIndex;
+  float ux, uy, s, smin,dx,dy,dx2, dy2, d2, thresh;
+  int screensize;
+  SDL_Surface *asteroid_image;
+
+  const float inside_factor = 0.9*0.9;
+
+  screensize = screen->w;
+  if (screensize < screen->h)
+    screensize = screen->h;
+
   for(i=0; i<=MAX_LASER; i++)
   {
     if(laser[i].alive==0)
     {
+      // Fire the laser
       laser[i].alive=1;
       laser[i].x=tuxship.centerx;
       laser[i].y=tuxship.centery;
       laser[i].angle=tuxship.angle;
       laser[i].count=15;
-
-      if(laser[i].angle>=0 && laser[i].angle<=360)
+      
+      ux = cos((float)laser[i].angle * DEG_TO_RAD);
+      uy = -sin((float)laser[i].angle * DEG_TO_RAD);
+      laser[i].destx = laser[i].x + (int)(ux * screensize);
+      laser[i].desty = laser[i].y + (int)(uy * screensize);
+      
+      // Check to see if it hits asteroids---we only check when it
+      // just starts firing, "drift" later doesn't count!
+      // We describe the laser path as p = p0 + s*u, where
+      //   p0 = (x0,y0) is the initial position vector (i.e., the ship)
+      //   u = (ux,uy) is the unit vector of the laser's direction
+      //   s (a scalar) is the distance along the laser (s >= 0)
+      // With this parametrization, it's easy to calculate the
+      // closest approach to the asteroid center, etc.
+      zapIndex = -1;  // keep track of the closest "hit" asteroid
+      smin = 10*screensize;
+      for (k=0; k<MAX_ASTEROIDS; k++)
       {
-	laser[i].m     = (int)sin((float)laser[i].angle * DEG_TO_RAD);
-	laser[i].destx = laser[i].x + (int)(cos((float)laser[i].angle * DEG_TO_RAD) * 1400);
-	laser[i].desty = laser[i].y - (int)(sin((float)laser[i].angle * DEG_TO_RAD) * 1400);
-	
-	xcount = laser[i].x;
-	ycount = laser[i].y;
-
-	dx = laser[i].destx - xcount;
-	dy = laser[i].desty - ycount;
-	if (dx != 0)
+	if (!asteroid[k].alive)
+	  continue;
+	asteroid_image = get_asteroid_image(asteroid[k].size,asteroid[k].angle);
+	dx = asteroid[k].x + asteroid_image->w/2 - laser[i].x;
+	dy = asteroid[k].y + asteroid_image->h/2 - laser[i].y;
+	// Find distance along laser of closest approach to asteroid center
+	s = dx*ux + dy*uy;
+	if (s >= 0)  // don't worry about it if it's in the opposite direction! (i.e., behind the ship)
 	{
-
-    	  m = ((float) dy) / ((float) dx);
-	  b = ycount  - m * xcount;
-
-	  if (laser[i].destx > xcount) dx = 1;
-	  else dx = -1;
-
-	  while (xcount != laser[i].destx)
+	  // Find the distance to the asteroid center at closest approach
+	  dx2 = dx - s*ux;
+	  dy2 = dy - s*uy;
+	  d2 = dx2*dx2 + dy2*dy2;
+	  thresh = (asteroid_image->h)/2;
+	  thresh = thresh*thresh*inside_factor;
+	  if (d2 < thresh)
 	  {
-            xcount = xcount + dx;
-	    ycount = m * xcount + b;
-	    for(k=0; k<MAX_ASTEROIDS; k++)
+	    // The laser intersects the asteroid. Check to see if
+	    // the answer works
+	    if((asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0))) ||
+	       (FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number)) ||
+	       (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[k].a%num)==0) && ((asteroid[k].a%num)==0) && (num!=asteroid[k].fact_number)))
 	    {
-		if(xcount<asteroid[k].x+70 && 
-                   xcount>asteroid[k].x && 
-                   ycount<asteroid[k].y+70 && 
-                   ycount>asteroid[k].y &&
-                   asteroid[k].alive)
-	        {
-                   if(asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))
- 		   {
-		     isdead=1;
-		     xdead=asteroid[k].x;
-		     ydead=asteroid[k].y;
-		     if(tuxship.x<asteroid[k].x)
-		       FF_destroy_asteroid(k, m, m);
-		     if(tuxship.x>=asteroid[k].x)
-		       FF_destroy_asteroid(k, -m, m);
-
-		     laser[i].destx=xcount;
-		     laser[i].desty=ycount;
-		     return 1;
-		   }
-                   if (num!=0)
-		   {  
-		     if(FF_game==FACTOROIDS_GAME)
-		     {
-                        if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
-		        {
-		          isdead=1;
-		          xdead=asteroid[k].x;
-		          ydead=asteroid[k].y;
-
-		          if(tuxship.x<asteroid[k].x)
-		            FF_destroy_asteroid(k, m, m);
-		          if(tuxship.x>=asteroid[k].x)
-		            FF_destroy_asteroid(k, -m, m);
-		          /*
-			  if(tuxship.x<asteroid[k].x)
-			     if(tuxship.y<asteroid[k].y)
-		                FF_destroy_asteroid(k, 2, -2);
-			     else if(tuxship.y>asteroid[k].y)
-				FF_destroy_asteroid(k, 2, 2);
-			  else if (tuxship.x>asteroid[k].x)
-			     if(tuxship.y<asteroid[k].y)
-		                FF_destroy_asteroid(k, -2, -2);
-			     else if(tuxship.y>asteroid[k].y)
-				FF_destroy_asteroid(k, -2, 2);*/
-			      
-			  // Lives per 100 points
-			  for(j=score;j<(score+num);j++){
-			      if((score%100)==0){
-				 tuxship.lives++;
-			      }
-			  }
-			  score=j;
-		          //laser[i].destx=xcount;
-		          //laser[i].desty=ycount;
-		          return 1;
-			}
-		     }
-		     else if (FF_game==FRACTIONS_GAME)
-		     {
-			if(((asteroid[k].a%num)==0) &&
-			   ((asteroid[k].a%num)==0) &&
-			   (num!=asteroid[k].fact_number))
-		        {
-			  isdead=1;
-		          xdead=asteroid[k].x;
-		          ydead=asteroid[k].y;
-		          if(tuxship.x<asteroid[k].x)
-		            FF_destroy_asteroid(k, m, m);
-		          if(tuxship.x>=asteroid[k].x)
-		            FF_destroy_asteroid(k, -m, m);
-
-			  // Lives per 100 points
-			  for(j=score;j<(score+num);j++){
-			      if((score%100)==0){
-				 tuxship.lives++;
-			      }
-			  }
-			  score=j;
-
-		          laser[i].destx=xcount;
-		          laser[i].desty=ycount;
-		          return 1; 
-			}  
-		     }
-		     
-		   }
-	         } 
-               }
+	      // It's valid, check to see if it's closest
+	      if (s < smin)
+	      {
+		// It's the closest yet examined
+		smin = s;
+		zapIndex = k;
+	      }
 	    }
 	  }
-	  else
-	  {
- 	   while (ycount != laser[i].desty)
-	   {
-   	     if (laser[i].desty > ycount) dy = 1;
-	     else dy = -1;
-             ycount=ycount+dy;
-  	     for(k=0; k<MAX_ASTEROIDS; k++)
-	     {
-                 if(xcount<asteroid[k].x+70 && 
-                   xcount>asteroid[k].x && 
-                   ycount<asteroid[k].y+70 && 
-                   ycount>asteroid[k].y &&
-                   asteroid[k].alive)
-	         {
-
-                   if(asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))
- 		   {
-		     isdead=1;
-		     xdead=asteroid[k].x;
-		     ydead=asteroid[k].y;
-		     if(tuxship.x<asteroid[k].x)
-		       FF_destroy_asteroid(k, m, m);
-		     if(tuxship.x>=asteroid[k].x)
-		       FF_destroy_asteroid(k, -m, m);
-
-		     //laser[i].destx=xcount;
-		     //laser[i].desty=ycount;
-		     return 1;
-		   }
-
-		  if(FF_game==FACTOROIDS_GAME)
-		  {
-
-
-                  if (num!=0)
-		  {  
-		   if(((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number))
-		   {
-
-		     isdead=1;
-		     xdead=asteroid[k].x;
-		     ydead=asteroid[k].y;
-		     if(tuxship.x<asteroid[k].x)
-		       FF_destroy_asteroid(k, m, m);
-		     if(tuxship.x>=asteroid[k].x)
-		       FF_destroy_asteroid(k, -m, m);
-
-			  // Lives per 100 points
-			  for(j=score;j<(score+num);j++){
-			      if((score%100)==0){
-				 tuxship.lives++;
-			      }
-			  }
-			  score=j;
-
-		     //laser[i].destx=xcount;
-		     //laser[i].desty=ycount;
-		     return 1;
-		   }
-                  }
-	        }
-		else if (FF_game==FRACTIONS_GAME)
-		{
-                  if (num!=0)
-		  {  
-		    if(((asteroid[k].a%num)==0) &&
-		       ((asteroid[k].a%num)==0) &&
-		       (num!=asteroid[k].fact_number))
-		    {
-
-		     isdead=1;
-		     xdead=asteroid[k].x;
-		     ydead=asteroid[k].y;
-		     if(tuxship.x<asteroid[k].x)
-		       FF_destroy_asteroid(k, m, m);
-		     if(tuxship.x>=asteroid[k].x)
-		       FF_destroy_asteroid(k, -m, m);
-
-			  // Lives per 100 points
-
-			  for(j=score;j<(score+num);j++){
-			      if((score%100)==0){
-				 tuxship.lives++;
-			      }
-			  }
-			  score=j;
-
-		     //laser[i].destx=xcount;
-		     //laser[i].desty=ycount;
-		     return 1;
-		   }
-                  }
-		}
-	      }
-            }
-	  }
+	}
       }
-
+      
+      // Handle the destruction, score, and extra lives
+      if (zapIndex >= 0)  // did we zap one?
+      {
+	isdead = 1;
+	laser[i].destx = laser[i].x + (int)(ux * smin);
+	laser[i].desty = laser[i].y + (int)(uy * smin);
+	FF_destroy_asteroid(zapIndex,2*ux,2*uy);
+	if (floor((float)score/100) < floor((float)(score+num)/100))
+	  tuxship.lives++;
+	score += num;
+      }
       return 1;
     }
-   }
   }
   fprintf(stderr, "Laser could't be created!\n");
   return -1;
@@ -1345,8 +1199,7 @@ int FF_add_laser(void)
 
 
 
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int
-                           angle_speed, int fact_number, int a, int b, int new_wave)
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
 {
   int i;
   for(i=0; i<MAX_ASTEROIDS; i++){
@@ -1418,9 +1271,12 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
   return -1;
 }
 
-int FF_destroy_asteroid(int i, int xspeed, int yspeed)
+int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 {
   if(asteroid[i].alive==1){
+    isdead=1;
+    xdead=asteroid[i].x;
+    ydead=asteroid[i].y;
      if(asteroid[i].size>0){
       /* Break the rock into two smaller ones! */
       if(num!=0){
@@ -1432,8 +1288,8 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
         if(FF_game==FACTOROIDS_GAME){
           FF_add_asteroid(asteroid[i].x,
 	  	          asteroid[i].y,
-	  	          ((asteroid[i].xspeed + xspeed) / 2),
-	  	          (asteroid[i].yspeed + yspeed),
+	  	          asteroid[i].xspeed + (xspeed - yspeed)/2,
+	  	          asteroid[i].yspeed + (yspeed + xspeed)/2,
 	  	          0,
 	  	          rand()%360, rand()%3, (int)(asteroid[i].fact_number/num),
 		          0, 0,
@@ -1441,8 +1297,8 @@ int FF_destroy_asteroid(int i, int xspeed, int yspeed)
       
           FF_add_asteroid(asteroid[i].x,
 	  	          asteroid[i].y,
-	  	          (asteroid[i].xspeed + xspeed),
-	  	          ((asteroid[i].yspeed + yspeed) / 2),
+	  	          asteroid[i].xspeed + (xspeed + yspeed)/2,
+	  	          asteroid[i].yspeed + (yspeed - xspeed)/2,
 	  	          0,
 	  	          rand()%360, rand()%3, num,
                           0, 0,
