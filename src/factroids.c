@@ -72,6 +72,7 @@ typedef struct asteroid_type {
   int angle, angle_speed;
   int xspeed, yspeed;
   int x, y;
+  int rx, ry;
   int centerx, centery;
   int fact_number;
   int isprime;
@@ -84,6 +85,7 @@ typedef struct tuxship_type {
   int lives, size;
   int xspeed, yspeed;
   int x, y;
+  int rx, ry;
   int centerx, centery;
   int angle;
   int hurt, hurt_count;
@@ -125,10 +127,6 @@ static int trig[12] = {
   0
 };
 
-static char operchars[4] = {
-   "+-*/"
-};
-
 // ControlKeys
 static int left_pressed;
 static int right_pressed;
@@ -137,7 +135,6 @@ static int shift_pressed;
 static int shoot_pressed;
 
 // GameControl
-static int points;
 static int game_status;
 static int gameover_counter;
 static int escape_received;
@@ -146,7 +143,7 @@ static int escape_received;
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
-static SDL_Rect bgSrc, bgScreen2, bgScreen;
+static SDL_Rect bgSrc;
 
 // Game type
 
@@ -156,9 +153,7 @@ static int FF_game;
 static int score;
 static int wave;
 static int paused;
-static int key_pressed;
 static int escape_received;
-static int gameover_counter;
 static int game_status;
 static int SDL_quit_received;
 static int quit;
@@ -360,7 +355,7 @@ static int FF_init(void){
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
  
-  for(i=0; i<NUM_OF_ROTO_IMGS; i=i++)
+  for(i=0; i<NUM_OF_ROTO_IMGS; i++)
   {
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
     IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i*DEG_PER_ROTATION, 1, 1);
@@ -563,20 +558,23 @@ static void FF_handle_asteroids(void){
 
               /**************Move the astroids ****************/
 
-	      asteroid[i].x = asteroid[i].x + asteroid[i].xspeed;
-	      asteroid[i].y = asteroid[i].y + asteroid[i].yspeed;
-	      
+	      asteroid[i].rx = asteroid[i].rx + asteroid[i].xspeed;
+	      asteroid[i].ry = asteroid[i].ry + asteroid[i].yspeed;
+
+	      asteroid[i].x  = (asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
+	      asteroid[i].y  = (asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
+
 	      // Wrap asteroid around edges of screen: 
 	      
 	      if (asteroid[i].x >= (screen->w))
-		asteroid[i].x = asteroid[i].x - (screen->w);
+		asteroid[i].rx = asteroid[i].rx - (screen->w);
 	      else if (asteroid[i].x < 0)
-		asteroid[i].x = asteroid[i].x + (screen->w);
+		asteroid[i].rx = asteroid[i].rx + (screen->w);
 	      
 	      if (asteroid[i].y >= (screen->h))
-		asteroid[i].y = asteroid[i].y - (screen->h);
-	      else if (asteroid[i].y < 0)
-		asteroid[i].y = asteroid[i].y + (screen->h);
+		asteroid[i].ry = asteroid[i].ry - (screen->h);
+	      else if (asteroid[i].ry < 0)
+		asteroid[i].ry = asteroid[i].ry + (screen->h);
 	      
 	      
 	      // Rotate asteroid: 
@@ -607,7 +605,8 @@ static void FF_handle_asteroids(void){
 		         tuxship.hurt=1;
 		         tuxship.hurt_count=50;
 		         FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
-
+			 playsound(SND_EXPLOSION);
+			 
 		      }
                 }
 	    }
@@ -695,8 +694,12 @@ static void FF_draw(void){
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
-     dest.x=asteroid[i].x;
-     dest.y=asteroid[i].y;
+     //dest.x=asteroid[i].x;
+     //dest.y=asteroid[i].y;
+
+     dest.x = asteroid[i].x;
+     dest.y = asteroid[i].y; 
+
      SDL_BlitSurface(get_asteroid_image(asteroid[i].size,asteroid[i].angle), NULL, screen, &dest);
      if(FF_game==FACTOROIDS_GAME)
      {   
@@ -1040,6 +1043,9 @@ static int FF_over(int game_status){
 static void FF_exit_free()
 {
   free(asteroid);
+  SDL_FreeSurface(*IMG_asteroids1);
+  SDL_FreeSurface(*IMG_asteroids2);
+  SDL_FreeSurface(*IMG_tuxship);
 }
 
 /******************* Math Funcs ***********************/
@@ -1184,6 +1190,8 @@ int FF_add_laser(void)
 	laser[i].destx = laser[i].x + (int)(ux * smin);
 	laser[i].desty = laser[i].y + (int)(uy * smin);
 	FF_destroy_asteroid(zapIndex,2*ux,2*uy);
+	playsound(SND_SIZZLE);
+
 	if (floor((float)score/100) < floor((float)(score+num)/100))
 	  tuxship.lives++;
 	score += num;
@@ -1206,8 +1214,10 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
     if(asteroid[i].alive==0)
     {
       asteroid[i].alive=1;
-      asteroid[i].x=x;
-      asteroid[i].y=y;
+      asteroid[i].rx=x;
+      asteroid[i].ry=y;
+      asteroid[i].x=(asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
+      asteroid[i].y=(asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
       asteroid[i].xspeed=xspeed;
       asteroid[i].yspeed=yspeed;
       asteroid[i].angle=angle;
@@ -1242,8 +1252,8 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
             tuxship.y+50>asteroid[i].y &&
             tuxship.lives>0 &&
             asteroid[i].alive){ 
-	       asteroid[i].x=asteroid[i].x+300;
-	       asteroid[i].y=asteroid[i].y+300;
+	       asteroid[i].rx=asteroid[i].rx+300;
+	       asteroid[i].ry=asteroid[i].ry+300;
 	    }
       }
 
@@ -1286,8 +1296,8 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 //                           angle_speed, int fact_number, int a, int b, int new_wave
 
         if(FF_game==FACTOROIDS_GAME){
-          FF_add_asteroid(asteroid[i].x,
-	  	          asteroid[i].y,
+          FF_add_asteroid(asteroid[i].rx,
+	  	          asteroid[i].ry,
 	  	          asteroid[i].xspeed + (xspeed - yspeed)/2,
 	  	          asteroid[i].yspeed + (yspeed + xspeed)/2,
 	  	          0,
@@ -1295,8 +1305,8 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 		          0, 0,
                           0);
       
-          FF_add_asteroid(asteroid[i].x,
-	  	          asteroid[i].y,
+          FF_add_asteroid(asteroid[i].rx,
+	  	          asteroid[i].ry,
 	  	          asteroid[i].xspeed + (xspeed + yspeed)/2,
 	  	          asteroid[i].yspeed + (yspeed - xspeed)/2,
 	  	          0,
@@ -1305,8 +1315,8 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
                           0);
         }
         else if(FF_game==FRACTIONS_GAME){
-          FF_add_asteroid(asteroid[i].x,
-	  	          asteroid[i].y,
+          FF_add_asteroid(asteroid[i].rx,
+	  	          asteroid[i].ry,
 	  	          ((asteroid[i].xspeed + xspeed) / 2),
 	  	          (asteroid[i].yspeed + yspeed),
 	  	          0,
@@ -1314,8 +1324,8 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 		          (int)(asteroid[i].a/num), (int)(asteroid[i].b/num),
                           0);
       
-          FF_add_asteroid(asteroid[i].x,
-	  	          asteroid[i].y,
+          FF_add_asteroid(asteroid[i].rx,
+	  	          asteroid[i].ry,
 	  	          (asteroid[i].xspeed + xspeed),
 	  	          ((asteroid[i].yspeed + yspeed) / 2),
 	  	          0,
@@ -1329,7 +1339,6 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
     /* Destroy the old asteroid */
 
     asteroid[i].alive=0;		  
-    playsound(SND_EXPLOSION);
     return 1;
   }
   return 0;
@@ -1341,10 +1350,6 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
-  int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
 
   s1 = s2 = s3 = s4 = NULL;
 
