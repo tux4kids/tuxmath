@@ -88,6 +88,8 @@ enum {
   SPRITE_ALONE,
   SPRITE_FRIENDS,
   SPRITE_CAMPAIGN,
+  SPRITE_SSWEEP,
+  SPRITE_ELIMINATION,
   N_SPRITES};
 
 const unsigned char* menu_sprite_files[N_SPRITES] =
@@ -107,9 +109,11 @@ const unsigned char* menu_sprite_files[N_SPRITES] =
   "no_goldstar",
   "trophy",
   "credits",
-  "alone", //TODO give these two their own sprites
-  "tux_config_brown",
-  "tux_helmet_red"
+  "alone", 
+  "tux_config_brown", //TODO give these two their own sprites
+  "tux_helmet_red",
+  "nums",
+  "exclamation"
 };
 
 sprite **sprite_list = NULL;
@@ -790,6 +794,10 @@ int run_multiplay_menu(void)
   sprite* modesprites[3] = {NULL, NULL, NULL};
   sprite* diffsprites[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
   // Set up the sprites
+  modesprites[0] = sprite_list[SPRITE_SSWEEP];
+  modesprites[1] = sprite_list[SPRITE_ELIMINATION];
+  modesprites[2] = sprite_list[SPRITE_MAIN];
+  
   diffsprites[0] = sprite_list[SPRITE_CADET];
   diffsprites[1] = sprite_list[SPRITE_SCOUT];
   diffsprites[2] = sprite_list[SPRITE_RANGER];
@@ -814,11 +822,11 @@ int run_multiplay_menu(void)
       break;
 
     //ask how many players
-    while (nplayers <= 0)
+    while (nplayers <= 0 || nplayers > MAX_PLAYERS)
     {
       NameEntry(npstr, "How many kids are playing?",
                        "(Between 2 and 4 players)");
-      nplayers = 2;// atoi(npstr);
+      nplayers = atoi(npstr);
     }
 
 
@@ -836,6 +844,7 @@ int run_multiplay_menu(void)
 int run_activities_menu(void)
 {
   NotImplemented();
+  return 0;
 }
 
 int run_arcade_menu(void)

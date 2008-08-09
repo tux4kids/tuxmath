@@ -35,6 +35,7 @@ SDL_Surface* BlackOutline(unsigned char *t, TTF_Font* font, SDL_Color* c);
 int  inRect(SDL_Rect r, int x, int y);
 void DarkenScreen(Uint8 bits);
 void SwitchScreenMode(void);
+int WaitForKeypress(void);
 SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2,float gamma);
 SDL_Surface *zoom(SDL_Surface * src, int new_w, int new_h);
 

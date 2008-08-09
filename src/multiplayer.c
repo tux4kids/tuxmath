@@ -68,12 +68,13 @@ void mp_run_multiplayer()
       if (result == GAME_OVER_LOST || result == GAME_OVER_ESCAPE)
       {
         //eliminate player
-        pnames[currentplayer] = NULL;
+        pscores[currentplayer] = 0xbeef;
         winners[--activeplayers] = currentplayer;
       }
 
-      while (pnames[currentplayer++] == NULL) //skip over eliminated players
+      while (pscores[currentplayer] == 0xbeef) //skip over eliminated players
       {
+        ++currentplayer;
         currentplayer %= params[PLAYERS];
         if (currentplayer == 0)
           ++round;
@@ -81,6 +82,7 @@ void mp_run_multiplayer()
       if (activeplayers <= 1) //last man standing!
       {
 //        showWinners(winners, params[PLAYERS]);
+        tmdprintf("%d wins\n", currentplayer);
         winners[0] = currentplayer;
         done = 1;
       }
@@ -91,7 +93,7 @@ void mp_run_multiplayer()
     int hiscore = 0;
     int currentwinner = -1;
 
-    for (round = 1; round < params[ROUNDS]; ++round)
+    for (round = 1; round <= params[ROUNDS]; ++round)
     {
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
@@ -125,10 +127,12 @@ int mp_get_player_score(int playernum)
 {
   return pscores[playernum];
 }
+
 const char* mp_get_player_name(int playernum)
 {
   return pnames[playernum];
 }
+
 int mp_get_param(int p)
 {
   if (p < 0 || p > NUM_PARAMS)
@@ -142,16 +146,19 @@ int mp_get_param(int p)
 
 void showWinners(int* winners, int num)
 {
-  int i;
+  int skip = 0;
   const int boxspeed = 3;
   char text[HIGH_SCORE_NAME_LENGTH + strlen(" wins!")];
   SDL_Rect box = {screen->w / 2, screen->h / 2, 0, 0};
   SDL_Rect center = box;
   SDL_Event evt;
 
+  tmdprintf(pnames[winners[0]] );
   tmdprintf("%d\n", snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),
                     "%s wins!", pnames[winners[0]]) );
-  printf("Win text: %s\n", text);
+  tmdprintf("Win text: %s\n", text);
+
+  DarkenScreen(1);
 
   while (box.h < screen->h || box.w < screen->w)
   {
@@ -159,20 +166,23 @@ void showWinners(int* winners, int num)
     box.y -= boxspeed;
     box.h += boxspeed * 2;
     box.w += boxspeed * 2;
-    SDL_FillRect(screen, &box, SDL_MapRGB(screen->format, 0, 0, 0) );
-    DarkenScreen(3);
+
+    SDL_FillRect(screen, &box, 0);
     draw_text(text, center);
     SDL_UpdateRect(screen, box.x, box.y, box.w, box.h);
+
+    while (SDL_PollEvent(&evt) )
+      if (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE)
+        skip = 1;
+    if (skip)
+      break;
     SDL_Delay(50);
   }
 
+  SDL_FillRect(screen, NULL, 0);
+  draw_text(text, center);
   SDL_Flip(screen);
-  while (1)
-    while (SDL_PollEvent(&evt) )
-      if (evt.type == SDL_KEYDOWN)
-        return;
-      else
-        SDL_Delay(50);
+  WaitForKeypress();
 }
 
 int initMP()

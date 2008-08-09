@@ -2180,7 +2180,7 @@ void game_draw_misc(void)
                0);
   
   /* Draw other players' scores */
-  if (mp_get_param(PLAYERS) )
+  if (mp_get_param(PLAYERS) && mp_get_param(MODE) == SCORE_SWEEP )
   {
     for (i = 0; i < mp_get_param(PLAYERS); ++i)
     {
