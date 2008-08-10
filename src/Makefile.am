@@ -26,6 +26,7 @@ tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
 	game.c 		\
+	factroids.c     \
 	options.c	\
 	credits.c	\
 	highscore.c	\
@@ -47,6 +48,7 @@ tuxmathadmin_SOURCES = tuxmathadmin.c
 EXTRA_DIST = 	credits.h 	\
 		fileops.h 	\
 		game.h		\
+		factroids.h	\
 		highscore.h 	\
 		mathcards.h 	\
 		options.h	\

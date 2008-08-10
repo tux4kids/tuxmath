@@ -67,21 +67,23 @@ am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
-	audio.$(OBJEXT) mathcards.$(OBJEXT) campaign.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT) scandir.$(OBJEXT) pixels.$(OBJEXT)
+	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
+	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
+	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
+	campaign.$(OBJEXT) fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) \
+	SDL_extras.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
+	pixels.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
 TuxMath_DEPENDENCIES =
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) game.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) loaders.$(OBJEXT) \
-	audio.$(OBJEXT) mathcards.$(OBJEXT) campaign.$(OBJEXT) \
-	fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	lessons.$(OBJEXT) scandir.$(OBJEXT) pixels.$(OBJEXT)
+	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
+	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
+	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
+	campaign.$(OBJEXT) fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) \
+	SDL_extras.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
+	pixels.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
 tuxmath_DEPENDENCIES =
@@ -268,6 +270,7 @@ tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
 	game.c 		\
+	factroids.c     \
 	options.c	\
 	credits.c	\
 	highscore.c	\
@@ -287,6 +290,7 @@ tuxmathadmin_SOURCES = tuxmathadmin.c
 EXTRA_DIST = credits.h 	\
 		fileops.h 	\
 		game.h		\
+		factroids.h	\
 		highscore.h 	\
 		mathcards.h 	\
 		options.h	\
@@ -382,6 +386,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/campaign.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factroids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileops.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/game.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highscore.Po@am__quote@

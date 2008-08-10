@@ -140,7 +140,7 @@ void DisplayHighScores(int level)
           /* "Right" button - go to next page: */
           if (inRect( rightRect, event.button.x, event.button.y ))
           {
-            if (diff_level < NUM_HIGH_SCORE_LEVELS - 1)
+            if (diff_level < (NUM_HIGH_SCORE_LEVELS-1))
             {
               diff_level++;
               if (Opts_MenuSound())
@@ -245,6 +245,12 @@ void DisplayHighScores(int level)
               break;
             case COMMANDO_HIGH_SCORE:
               srfc = BlackOutline(_("Commando"), title_font, &white);
+              break;
+            case FACTORS_HIGH_SCORE:
+              srfc = BlackOutline(_("Factors"), title_font, &white);
+              break;
+            case FRACTIONS_HIGH_SCORE:
+              srfc = BlackOutline(_("Fractions"), title_font, &white);
               break;
             default:
               srfc = BlackOutline(_("Space Cadet"), title_font, &white);
@@ -715,6 +721,16 @@ void print_high_scores(FILE* fp)
       case COMMANDO_HIGH_SCORE:
       {
         fprintf(fp, "\nCommando:\n");
+        break;
+      }
+      case FACTORS_HIGH_SCORE:
+      {
+        fprintf(fp, "\nFactors:\n");
+        break;
+      }
+      case FRACTIONS_HIGH_SCORE:
+      {
+        fprintf(fp, "\nFractions:\n");
         break;
       }
     }

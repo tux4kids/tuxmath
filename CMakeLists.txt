@@ -4,7 +4,7 @@
 # Copyright 2008 by Timothy E. Holy
 #
 # This was based on many examples, but a particular debt is owed to
-# Peter Kümmel of the LyX project.
+# Peter Kï¿½mmel of the LyX project.
 
 project(TuxMath)
 
@@ -94,6 +94,7 @@ if (ENABLE_NLS)
   set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
 endif (ENABLE_NLS)
 
+FIND_PACKAGE(SDL_gfx REQUIRED)
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)

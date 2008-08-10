@@ -96,6 +96,12 @@ AC_CHECK_LIB([SDL_ttf],
 	[AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])]
 )
 
+dnl Check for SDL_gfx:
+AC_CHECK_LIB([SDL_gfx],
+	[rotozoomSurface],
+	LIBS="$LIBS -lSDL_gfx",
+	[AC_MSG_ERROR([SDL_gfx not found! http://www.ferzkopp.net/joomla/content/view/19/14/])]
+)
 
 dnl sdlpango support
 have_sdlpango=no
@@ -217,6 +223,7 @@ data/images/sprites/Makefile
 data/images/status/Makefile
 data/images/title/Makefile
 data/images/tux/Makefile
+data/images/factroids/Makefile
 data/missions/Makefile
 data/missions/arcade/Makefile
 data/missions/campaign/Makefile
