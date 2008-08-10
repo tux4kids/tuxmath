@@ -37,6 +37,7 @@ find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
+find_package(SDL_gfx REQUIRED)
 
 if (NOT SDL_FOUND)
   # Workaround for REQUIRED flag not working with cmake < 2.4.7.
@@ -57,7 +58,7 @@ endif (NOT APPLE)
 #endif (NOT ENABLE_NLS)
 #check_include_file(config.h HAVE_CONFIG_H REQUIRED)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${SDLGFX_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
@@ -88,6 +89,7 @@ target_link_libraries (tuxmath
   ${SDLIMAGE_LIBRARY}
   ${SDLTTF_LIBRARY}
   ${SDLMIXER_LIBRARY}
+  ${SDLGFX_LIBRARY}
   )
 
 if (SDLPANGO_FOUND)
