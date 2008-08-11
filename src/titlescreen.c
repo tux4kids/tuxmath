@@ -62,8 +62,8 @@ struct blit {
 } blits[MAX_UPDATES];
 
 // Lessons available for play
-unsigned char **lesson_list_titles = NULL;
-unsigned char **lesson_list_filenames = NULL;
+char **lesson_list_titles = NULL;
+char **lesson_list_filenames = NULL;
 int num_lessons = 0;
 
 
@@ -92,7 +92,7 @@ enum {
   SPRITE_ELIMINATION,
   N_SPRITES};
 
-const unsigned char* menu_sprite_files[N_SPRITES] =
+const char* menu_sprite_files[N_SPRITES] =
 {
   "lesson",
   "comet",
@@ -156,13 +156,15 @@ void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
 void UpdateScreen(int* frame);
 void AddRect(SDL_Rect* src, SDL_Rect* dst);
 void InitEngine(void);
-void ShowMessage(char* str1, char* str2, char* str3, char* str4);
+void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
 void RecalcTitlePositions();
 void RecalcMenuPositions(int*, int, menu_options*, void (*)(menu_options*),
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
                          SDL_Rect*, SDL_Rect*);
 void set_buttons_max_width(SDL_Rect *, SDL_Rect *, int);
+
+int run_login_menu(void);
 int run_main_menu(void);
 int run_game_menu(void);
 int run_multiplay_menu(void);
@@ -475,7 +477,7 @@ void TitleScreen_unload_media(void)
 
 void NotImplemented(void)
 {
-  char *s1, *s2, *s3, *s4;
+  const char *s1, *s2, *s3, *s4;
 
   s1 = _("Work In Progress!");
   s2 = _("This feature is not ready yet");
@@ -490,7 +492,7 @@ void NotImplemented(void)
 
 
 /* FIXME add some background shading to improve legibility */
-void ShowMessage(char* str1, char* str2, char* str3, char* str4)
+void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
@@ -650,14 +652,14 @@ void main_scmo(menu_options* mo) //set custom menu opts for main
   mo->ygap = 15;
 }
 int run_main_menu(void)
-{
-  const unsigned char* menu_text[6] =
-    {(const unsigned char*)N_("Play Alone"),
-     (const unsigned char*)N_("Play With Friends"),
-     (const unsigned char*)N_("Other Math Command Activities"),
-     (const unsigned char*)N_("Help"),
-     (const unsigned char*)N_("More Options"),
-     (const unsigned char*)N_("Quit")};
+{                                                         
+  const char* menu_text[6] =
+    {N_("Play Alone"),
+     N_("Play With Friends"),
+     N_("Other Math Command Activities"),
+     N_("Help"),
+     N_("More Options"),
+     N_("Quit")};
   sprite* sprites[6] =
     {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
@@ -726,16 +728,16 @@ int run_main_menu(void)
   }
   return 0;
 }
-
+                                                     
 #define NUM_GAME_MENU_ITEMS 5
 int run_game_menu(void)
 {
-  const unsigned char* menu_text[NUM_GAME_MENU_ITEMS] =
-    {(const unsigned char*)N_("Math Command Training Academy"),
-     (const unsigned char*)N_("Math Command Fleet Missions"),
-     (const unsigned char*)N_("Play Arcade Game"),
-     (const unsigned char*)N_("Play Custom Game"),
-     (const unsigned char*)N_("Main menu")};
+  const char* menu_text[NUM_GAME_MENU_ITEMS] =
+    {N_("Math Command Training Academy"),
+     N_("Math Command Fleet Missions"),          
+     N_("Play Arcade Game"),
+     N_("Play Custom Game"),
+     N_("Main menu")};
 
   sprite* sprites[NUM_GAME_MENU_ITEMS] = {NULL, NULL, NULL, NULL, NULL};
 
@@ -778,16 +780,15 @@ quarantine it behind the return for the time being.
 */
 int run_multiplay_menu(void)
 {
-  int i;
   int nplayers = 0;
   int mode = -1;
   int difficulty = -1;
-  unsigned char npstr[HIGH_SCORE_NAME_LENGTH * 3];
+  char npstr[HIGH_SCORE_NAME_LENGTH * 3];
 
-  char* menu_text[3] =
+  const char* menu_text[3] =
     {"Score Sweep", "Elimination", "Main menu"};
   //just leech settings from arcade modes
-  char* diff_menu_text[NUM_HIGH_SCORE_LEVELS + 1] =
+  const char* diff_menu_text[NUM_HIGH_SCORE_LEVELS + 1] =
     {"Space Cadet", "Scout", "Ranger", "Ace", "Commando", "Main menu"};
 
 
@@ -843,14 +844,14 @@ int run_multiplay_menu(void)
 
 int run_arcade_menu(void)
 {
-  const unsigned char* menu_text[7] =
-    {(const unsigned char*)N_("Space Cadet"),
-     (const unsigned char*)N_("Scout"),
-     (const unsigned char*)N_("Ranger"),
-     (const unsigned char*)N_("Ace"),
-     (const unsigned char*)N_("Commando"),
-     (const unsigned char*)N_("Hall Of Fame"),
-     (const unsigned char*)N_("Main menu")};
+  const char* menu_text[7] =
+    {N_("Space Cadet"),
+     N_("Scout"),
+     N_("Ranger"),
+     N_("Ace"),
+     N_("Commando"),
+     N_("Hall Of Fame"),
+     N_("Main menu")};               
   const char* arcade_config_files[5] =
     {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace",
      "arcade/commando"
@@ -896,7 +897,7 @@ int run_arcade_menu(void)
         hs_table = arcade_high_score_tables[choice];
         if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
 
-          unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+          char player_name[HIGH_SCORE_NAME_LENGTH * 3];
 
           /* Get name from player: */
           HighScoreNameEntry(&player_name[0]);
@@ -936,7 +937,7 @@ int run_arcade_menu(void)
 
 int run_custom_menu(void)
 {
-  char *s1, *s2, *s3, *s4;
+  const char *s1, *s2, *s3, *s4;
   s1 = _("Edit 'options' file in your home directory");
   s2 = _("to create customized game!");
   s3 = _("Press a key or click your mouse to start game.");
@@ -1054,11 +1055,11 @@ int run_options_menu(void)
   sprite* sprites[5] =
     {NULL, NULL, NULL, NULL, NULL};
   */
-  const unsigned char* menu_text[4] =
-    {(const unsigned char*)N_("Demo"),
-     (const unsigned char*)N_("Project Info"),
-     (const unsigned char*)N_("Credits"),
-     (const unsigned char*)N_("Main Menu")};
+  const char* menu_text[4] =
+    {N_("Demo"),
+     N_("Project Info"),
+     N_("Credits"),
+     N_("Main Menu")};
   sprite* sprites[4] =
     {NULL, NULL, NULL, NULL};
   int n_menu_entries = 4;
@@ -1167,7 +1168,7 @@ int run_lessons_menu(void)
 
   //This function takes care of all the drawing and receives
   //user input:
-  chosen_lesson = choose_menu_item((const unsigned char**)lesson_list_titles, star_sprites, num_lessons, NULL, &lessons_scmo);
+  chosen_lesson = choose_menu_item((const char**)lesson_list_titles, star_sprites, num_lessons, NULL, &lessons_scmo);
 
   while (chosen_lesson >= 0)
   {
@@ -1208,7 +1209,7 @@ int run_lessons_menu(void)
     // selection that we ended with
     set_default_menu_options(&menu_opts);
     menu_opts.starting_entry = chosen_lesson;
-    chosen_lesson = choose_menu_item((const unsigned char**)lesson_list_titles, star_sprites, num_lessons, &menu_opts, &lessons_scmo);
+    chosen_lesson = choose_menu_item((const char**)lesson_list_titles, star_sprites, num_lessons, &menu_opts, &lessons_scmo);
   }
   if (star_sprites)
   {
@@ -2427,7 +2428,7 @@ void RecalcMenuPositions(int* numentries,
                          SDL_Rect* left_arrow_rect,
                          SDL_Rect* right_arrow_rect)
 {
-  int i, imod;
+  int i;
   SDL_Rect* old_mbr = *menu_button_rect;
   SDL_Rect* old_msr = *menu_sprite_rect;
   SDL_Rect* old_mtr = *menu_text_rect;

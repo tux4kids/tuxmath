@@ -70,9 +70,9 @@ am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
 	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
 	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	campaign.$(OBJEXT) fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) \
-	SDL_extras.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
-	pixels.$(OBJEXT)
+	campaign.$(OBJEXT) multiplayer.$(OBJEXT) fileops.$(OBJEXT) \
+	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT) \
+	scandir.$(OBJEXT) pixels.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
@@ -81,9 +81,9 @@ am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
 	titlescreen.$(OBJEXT) game.$(OBJEXT) factroids.$(OBJEXT) \
 	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
 	loaders.$(OBJEXT) audio.$(OBJEXT) mathcards.$(OBJEXT) \
-	campaign.$(OBJEXT) fileops.$(OBJEXT) ConvertUTF.$(OBJEXT) \
-	SDL_extras.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
-	pixels.$(OBJEXT)
+	campaign.$(OBJEXT) multiplayer.$(OBJEXT) fileops.$(OBJEXT) \
+	ConvertUTF.$(OBJEXT) SDL_extras.$(OBJEXT) lessons.$(OBJEXT) \
+	scandir.$(OBJEXT) pixels.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
 tuxmath_DEPENDENCIES =
@@ -278,6 +278,7 @@ tuxmath_SOURCES = tuxmath.c \
 	audio.c 	\
 	mathcards.c	\
 	campaign.c	\
+	multiplayer.c	\
 	fileops.c	\
 	ConvertUTF.c	\
 	SDL_extras.c	\
@@ -297,6 +298,7 @@ EXTRA_DIST = credits.h 	\
 		setup.h		\
 		titlescreen.h	\
 		campaign.h	\
+		multiplayer.h	\
 		tuxmath.h	\
 		ConvertUTF.h	\
 		SDL_extras.h	\
@@ -393,6 +395,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lessons.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/multiplayer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixels.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scandir.Po@am__quote@

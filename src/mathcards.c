@@ -204,7 +204,7 @@ const MC_FlashCard DEFAULT_CARD = {NULL,NULL,0,0}; //empty card to signal error
 static MC_MathQuestion* generate_list(void);
 static void clear_negatives(void);
 static int validate_question(int n1, int n2, int n3);
-static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
+//static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
 static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
@@ -244,7 +244,7 @@ static MC_MathQuestion* allocate_node(void); //allocate space for a node
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
 static int find_divisor(int a);
 static MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion* end_of_list);
-static MC_MathQuestion* find_node(const MC_MathQuestion* list, int num);
+static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
 
 /*  MC_Initialize() sets up the struct containing all of  */
 /*  settings regarding math questions.  It should be      */
@@ -972,6 +972,7 @@ int validate_question(int n1, int n2, int n3)
   return 1;
 }
 
+#if 0 //this code is probably on the way out...
 /* create a new node and return a pointer to it */
 MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
 {
@@ -998,6 +999,7 @@ MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
   /* ptr should now point to a properly constructed node: */
   return ptr;
 }
+#endif
 
 MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard)
 {
@@ -2034,7 +2036,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   return list;
 }
 
-MC_MathQuestion* find_node(const MC_MathQuestion* list, int num)
+MC_MathQuestion* find_node(MC_MathQuestion* list, int num)
 {
   while (--num > 0 && list)
     list = list->next;

@@ -17,7 +17,7 @@ int* lesson_list_goldstars = NULL;
 // extern int num_lessons;
 
 /* local function prototypes: */
-static int filename_comp(const unsigned char* s1, const unsigned char* s2);
+static int filename_comp(const char* s1, const char* s2);
 
 /* Reads the file pointed to by the arg and sets */
 /* lesson_list_goldstars* accordingly:           */
@@ -123,10 +123,10 @@ void write_goldstars_fp(FILE* fp)
 /* FIXME need to get correct function - basename() wasn't correct */
 /* Perform a strcasecmp() on two path strings, stripping away all the */
 /* dirs in the path and just comparing the filenames themselves:      */
-static int filename_comp(const unsigned char* s1, const unsigned char* s2)
+static int filename_comp(const char* s1, const char* s2)
 {
-  char* f1 = s1; //basename(s1);
-  char* f2 = s2; //basename(s2);
+  const char* f1 = s1; //basename(s1);
+  const char* f2 = s2; //basename(s2);
   return strcasecmp(f1, f2);
 }
 

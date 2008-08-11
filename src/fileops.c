@@ -339,7 +339,7 @@ int read_user_config_file(void)
 /*   5. In missions/arcade directory.                   */
 /*   6. In user's own .tuxmath directory                */
 /* FIXME redundant code - figure out way to iterate through above */
-int read_named_config_file(const unsigned char* fn)
+int read_named_config_file(const char* fn)
 {
   FILE* fp;
   char opt_path[PATH_MAX];
@@ -593,9 +593,9 @@ static int is_lesson_file(const struct dirent *lfdirent)
 
 int parse_lesson_file_directory(void)
 {
-  unsigned char lesson_path[PATH_MAX];             //Path to lesson directory
+  char lesson_path[PATH_MAX];             //Path to lesson directory
   char* fgets_return_val;
-  unsigned char name_buf[NAME_BUF_SIZE];
+  char name_buf[NAME_BUF_SIZE];
   int nchars;
 
   struct dirent **lesson_list_dirents = NULL;
@@ -634,15 +634,15 @@ int parse_lesson_file_directory(void)
   }
 
   /* Allocate storage for lesson list */
-  lesson_list_titles = (unsigned char**) malloc(num_lessons * sizeof(unsigned char*));
-  lesson_list_filenames = (unsigned char**) malloc(num_lessons * sizeof(unsigned char*));
+  lesson_list_titles = (char**) malloc(num_lessons * sizeof(char*));
+  lesson_list_filenames = (char**) malloc(num_lessons * sizeof(char*));
   if (lesson_list_titles == NULL || lesson_list_filenames == NULL) {
     perror("allocating memory for lesson list");
     return 0;
   }
   for (lessonIterator = 0; lessonIterator < num_lessons; lessonIterator++) {
-    lesson_list_titles[lessonIterator] = (unsigned char*) malloc(NAME_BUF_SIZE * sizeof(unsigned char));
-    lesson_list_filenames[lessonIterator] = (unsigned char*) malloc(NAME_BUF_SIZE * sizeof(unsigned char));
+    lesson_list_titles[lessonIterator] = (char*) malloc(NAME_BUF_SIZE * sizeof(char));
+    lesson_list_filenames[lessonIterator] = (char*) malloc(NAME_BUF_SIZE * sizeof(char));
     if (lesson_list_titles[lessonIterator] == NULL || lesson_list_filenames[lessonIterator] == NULL) {
       perror("allocating memory for lesson filenames or titles");
       return 0;
@@ -1589,7 +1589,7 @@ int write_config_file(FILE *fp, int verbose)
     "#                                                          #\n"
     "# The remaining settings further customize Tuxmath's       #\n"
     "# behavior.  Most users will probably not change them.     #\n"
-    "############################################################\n\n";
+    "############################################################\n\n"
     
     "\n############################################################\n"
     "#                                                          #\n"
@@ -2524,9 +2524,9 @@ int load_image_data()
 /* returns 1 if default font successfully loaded, 0 otherwise. */
 int load_default_font()
 {
-  default_font = LoadFont((const unsigned char*)DEFAULT_FONT_NAME,
+  default_font = LoadFont( DEFAULT_FONT_NAME,
                            DEFAULT_MENU_FONT_SIZE);
-  help_font = LoadFont((const unsigned char*)DEFAULT_FONT_NAME,
+  help_font = LoadFont(    DEFAULT_FONT_NAME,
                            DEFAULT_HELP_FONT_SIZE);
 
   if (default_font && help_font)
@@ -2539,8 +2539,8 @@ int load_default_font()
   }
   else
   {
-    fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n",
-            DEFAULT_FONT_NAME);
+    fprintf(stderr, "LoadFont(): %s NOT loaded successfully. TTF: %s\n",
+            DEFAULT_FONT_NAME, TTF_GetError() );
     return 0;
   }
 }

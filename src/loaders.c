@@ -96,7 +96,7 @@ int max( int n1, int n2 ) {
 /* FIXME: I think we need to provide a single default font with the program data, */
 /* then more flexible code to try to locate or load system fonts. DSB             */
 /* Returns ptr to loaded font if successful, NULL otherwise. */
-TTF_Font* LoadFont(const unsigned char* font_name, int font_size)
+TTF_Font* LoadFont(const char* font_name, int font_size)
 {
   TTF_Font* f;
   char fontfile[PATH_MAX];

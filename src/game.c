@@ -2175,9 +2175,9 @@ void game_draw_misc(void)
                0);
   
   /* Draw other players' scores */
-  if (mp_get_param(PLAYERS) && mp_get_param(MODE) == SCORE_SWEEP )
+  if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )
   {
-    for (i = 0; i < mp_get_param(PLAYERS); ++i)
+    for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
       SDL_Surface* score = BlackOutline(str, default_font, &white);

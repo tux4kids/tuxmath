@@ -9,6 +9,7 @@ Author: B. Luchen
 */
 
 #include "SDL.h"
+#include "SDL_extras.h"
 #include "multiplayer.h"
 #include "game.h"
 #include "options.h"
@@ -133,14 +134,14 @@ const char* mp_get_player_name(int playernum)
   return pnames[playernum];
 }
 
-int mp_get_param(int p)
+int mp_get_parameter(unsigned int param)
 {
-  if (p < 0 || p > NUM_PARAMS)
+  if (param > NUM_PARAMS)
   {
-    printf("Invalid mp_param index: %d\n", p);
+    printf("Invalid mp_param index: %d\n", param);
     return 0;
   }
-  return params[p];
+  return params[param];
 }
 
 

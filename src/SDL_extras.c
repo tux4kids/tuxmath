@@ -340,7 +340,7 @@ void free_SDLPango_Context()
 /* background.  The appearance can be tuned by adjusting the number of */
 /* background copies and the offset where the foreground text is       */
 /* finally written (see below).                                        */
-SDL_Surface* BlackOutline(unsigned char *t, TTF_Font *font, SDL_Color *c)
+SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
 {
   SDL_Surface* out = NULL;
   SDL_Surface* black_letters = NULL;

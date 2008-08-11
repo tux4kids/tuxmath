@@ -34,6 +34,7 @@ tuxmath_SOURCES = tuxmath.c \
 	audio.c 	\
 	mathcards.c	\
 	campaign.c	\
+	multiplayer.c	\
 	fileops.c	\
 	ConvertUTF.c	\
 	SDL_extras.c	\
@@ -55,6 +56,7 @@ EXTRA_DIST = 	credits.h 	\
 		setup.h		\
 		titlescreen.h	\
 		campaign.h	\
+		multiplayer.h	\
 		tuxmath.h	\
 		ConvertUTF.h	\
 		SDL_extras.h	\

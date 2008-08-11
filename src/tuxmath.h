@@ -166,8 +166,8 @@ extern Mix_Music* musics[];    /* declared in setup.c; also used in fileops.c, g
 #define NAME_BUF_SIZE 200
 
 /* data for 'Training Academy' lessons: */
-extern unsigned char **lesson_list_titles;
-extern unsigned char **lesson_list_filenames;
+extern char **lesson_list_titles;
+extern char **lesson_list_filenames;
 extern int* lesson_list_goldstars;
 extern int num_lessons;
 

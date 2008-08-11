@@ -22,7 +22,7 @@
 
 typedef struct high_score_entry {
   int score;
-  unsigned char name[HIGH_SCORE_NAME_LENGTH];
+  char name[HIGH_SCORE_NAME_LENGTH];
 } high_score_entry;
 
 
@@ -47,7 +47,7 @@ void DisplayHighScores(int level)
   SDL_Surface* score_surfs[HIGH_SCORES_SAVED] = {NULL};
 
   /* 10 spaces should be enough room for place and score on each line: */
-  unsigned char score_strings[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 10] = {{'\0'}};
+  char score_strings[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 10] = {{'\0'}};
 
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
   SDL_Rect leftRect, rightRect, stopRect, TuxRect, table_bg;
@@ -351,19 +351,18 @@ void DisplayHighScores(int level)
 /* The pl_name argument *must* point to a validly allocated string array  */
 /* at least three times HIGH_SCORE_NAME_LENGTH because UTF-8 is a         */
 /* multibyte encoding.                                                    */
-void HighScoreNameEntry(unsigned char* pl_name)
+void HighScoreNameEntry(char* pl_name)
 {
   NameEntry(pl_name, "You Are In The Hall of Fame!", "Enter Your Name:");
 }
 
-void NameEntry(unsigned char* pl_name, const char* heading, const char* sub)
+void NameEntry(char* pl_name, const char* heading, const char* sub)
 {
-  unsigned char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
+  char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
 
   SDL_Rect loc;
   SDL_Rect redraw_rect;
   SDL_Rect TuxRect,
-           Titledest,
            stopRect;
 
   int redraw = 0;
@@ -827,7 +826,7 @@ int HS_Score(int diff_level, int place)
 
 
 /* Return (pointer to) the name associated with a table entry:  */
-unsigned char* HS_Name(int diff_level, int place)
+char* HS_Name(int diff_level, int place)
 {
   /* Make sure diff_level is valid: */
   if (diff_level < 0

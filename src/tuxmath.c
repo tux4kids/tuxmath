@@ -35,7 +35,7 @@
 
 int main(int argc, char * argv[])
 {
-  char *s1, *s2, *s3, *s4;
+  const char *s1, *s2, *s3, *s4;
 
   s1 = setlocale(LC_ALL, "");
   s2 = bindtextdomain(PACKAGE, TUXLOCALE);

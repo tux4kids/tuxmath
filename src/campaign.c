@@ -5,7 +5,12 @@
  */
  
 #include "campaign.h"
-
+#include "tuxmath.h"
+#include "credits.h"
+#include "titlescreen.h"
+#include "game.h"
+#include "fileops.h"
+#include "mathcards.h"
 
 void briefPlayer(int stage); //show text introducing the given stage
 void readStageSettings(int stage);

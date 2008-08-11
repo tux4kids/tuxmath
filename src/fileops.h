@@ -240,10 +240,10 @@ enum {
 int read_global_config_file(void);
 int read_user_config_file(void);
 int parse_lesson_file_directory(void);
-int read_named_config_file(const unsigned char* filename);
+int read_named_config_file(const char* fn);
 int write_user_config_file(void);
 int read_high_scores(void);
-int append_high_scores(int tableid,int score,char *player_name);
+int append_high_score(int tableid,int score,char *player_name);
 void set_high_score_path(void);
 void set_user_data_dir(const char* dirname);
 int write_goldstars(void);

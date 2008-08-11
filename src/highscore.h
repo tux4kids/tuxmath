@@ -17,8 +17,8 @@
 #include "tuxmath.h"
 
 void DisplayHighScores(int level);
-void HighScoreNameEntry(unsigned char* pl_name);
-void NameEntry(unsigned char* pl_name, const char* heading, const char* sub);
+void HighScoreNameEntry(char* pl_name);
+void NameEntry(char* pl_name, const char* heading, const char* sub);
 
 int check_score_place(int diff_level, int new_score);
 int insert_score(char* playername, int diff_level, int new_score);
@@ -28,5 +28,5 @@ int read_high_scores_fp(FILE* fp);
 /* Note: for writing, use append_high_score in fileops.c */
 
 int HS_Score(int diff_level, int place);
-unsigned char* HS_Name(int diff_level, int place);
+char* HS_Name(int diff_level, int place);
 #endif

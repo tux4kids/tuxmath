@@ -339,7 +339,7 @@ char chars[39][5][5] = {
 };
 
 
-void draw_text(char * str, SDL_Rect dest);
+//void draw_text(char * str, SDL_Rect dest);
 
 
 int line;
