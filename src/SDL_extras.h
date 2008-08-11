@@ -28,6 +28,15 @@
 #define amask 0xff000000
 #endif
 
+#ifdef SDL_Pango
+
+#include "SDL_Pango.h"
+
+extern SDLPango_Context *context;
+void init_SDLPango_Context();
+void free_SDLPango_Context();
+#endif
+
 void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void RoundCorners(SDL_Surface* s, Uint16 radius);
 SDL_Surface* Flip(SDL_Surface *in, int x, int y);

@@ -233,6 +233,7 @@ data/missions/campaign/commando/Makefile
 data/missions/campaign/ranger/Makefile
 data/missions/campaign/scout/Makefile
 data/missions/lessons/Makefile
+data/missions/multiplay/Makefile
 data/sounds/Makefile
 doc/Makefile
 nsis/tuxmath.nsi

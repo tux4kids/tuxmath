@@ -55,6 +55,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
 					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
 					<Add option='-DDATA_PREFIX=\\&quot;../data\\&quot;' />
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
@@ -67,10 +68,32 @@
 					<Add library="SDL_ttf" />
 				</Linker>
 			</Target>
+			<Target title="NixRelease">
+				<Option platforms="Unix;" />
+				<Option output="/usr/bin/tuxmath" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O" />
+					<Add option="-Wall" />
+					<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DDATA_PREFIX=\\&quot;/usr/local/share/tuxmath\\&quot;' />
+					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
+					<Add option="-DVERSION=FULLVERSION_STRING" />
+				</Compiler>
+				<Linker>
+					<Add library="SDL" />
+					<Add library="SDL_image" />
+					<Add library="SDL_mixer" />
+					<Add library="SDL_ttf" />
+				</Linker>
+			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
-			<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
 			<Add directory="NOTE: CHANGE TO WHEREVER CONFIG.H IS LOCATED" />
 			<Add directory="../" />
 		</Compiler>
@@ -82,6 +105,7 @@
 		</Unit>
 		<Unit filename="version.h">
 			<Option target="WinRelease" />
+			<Option target="NixRelease" />
 		</Unit>
 		<Unit filename="../src/ConvertUTF.c">
 			<Option compilerVar="CC" />

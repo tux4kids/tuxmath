@@ -28,6 +28,9 @@
 #include "fileops.h"
 #include "setup.h"
 #include "credits.h"
+#ifdef SDL_Pango
+#  include "SDL_extras.h"
+#endif
 
 char * credit_text[] = {
   "-TUX, OF MATH COMMAND",  /* '-' at beginning makes highlighted: */
@@ -592,10 +595,19 @@ void draw_text(char* str, SDL_Rect dest)
 #ifndef SDL_Pango
   surf = TTF_RenderUTF8_Blended(default_font, str+hloffset, col);
 #else
+  printf("Using Pango\n");
+  
+  SDLPango_Matrix colormatrix = {
+    col.r,  col.r, 0, 0,
+    col.g,  col.g, 0, 0,
+    col.b,  col.b, 0, 0,
+    0,      255,   0, 0,
+  };
+  
   if( context != NULL)
   {
-    SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_BLACK_LETTER);
-    SDLPango_SetText(context, t, -1);
+    SDLPango_SetDefaultColor(context, &colormatrix );
+    SDLPango_SetText(context, str, -1);
     surf = SDLPango_CreateSurfaceDraw(context);
   }
   else {
