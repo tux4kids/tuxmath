@@ -52,6 +52,8 @@ char * credit_text[] = {
   "TIM HOLY",
   "KARL OVE HUFTHAMMER",
   "AHMED SAYED",
+  "BRENDAN LUCHEN",
+  "JESUS M. MAGER H.",
   "",
   "-LEAD ARTIST",
   "SAM HART",
