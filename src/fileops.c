@@ -2498,7 +2498,8 @@ int load_image_data()
   DATA_PREFIX "/images/factroids/ship01.png",
   DATA_PREFIX "/images/factroids/factoroids.png",
   DATA_PREFIX "/images/factroids/factors.png",
-  DATA_PREFIX "/images/factroids/tux.png"
+  DATA_PREFIX "/images/factroids/tux.png",
+  DATA_PREFIX "/images/factroids/good.png"
   };
 
   /* Load images: */

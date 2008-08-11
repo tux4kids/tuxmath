@@ -18,6 +18,95 @@
    inkscape:output_extension="org.inkscape.output.svg.inkscape">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3311">
+      <stop
+         style="stop-color:#afafe9;stop-opacity:1;"
+         offset="0"
+         id="stop3313" />
+      <stop
+         style="stop-color:#afafe9;stop-opacity:0;"
+         offset="1"
+         id="stop3315" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3311"
+       id="linearGradient3321"
+       gradientUnits="userSpaceOnUse"
+       x1="164.7175"
+       y1="454.11005"
+       x2="586.10876"
+       y2="454.11005" />
+    <filter
+       inkscape:collect="always"
+       id="filter3903"
+       x="-0.053494652"
+       width="1.1069893"
+       y="-0.20492889"
+       height="1.4098578">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="9.3925743"
+         id="feGaussianBlur3905" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3197"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3193"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3195"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3179">
+      <stop
+         style="stop-color:#aaccff;stop-opacity:1;"
+         offset="0"
+         id="stop3181" />
+      <stop
+         style="stop-color:#aaccff;stop-opacity:0;"
+         offset="1"
+         id="stop3183" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3191"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       gradientUnits="userSpaceOnUse" />
     <radialGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3176"
@@ -3454,5 +3543,70 @@
            id="path4961" />
       </g>
     </g>
-  </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3199"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#d7d7f4;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter3903);font-family:Bitstream Vera Sans"
+       transform="translate(-2.4054081,503.0925)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion3201"
+         style="fill:url(#linearGradient3321);fill-opacity:1"><rect
+           id="rect3203"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:#d7d7f4;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara3205"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#d7d7f4;fill-opacity:1;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2385"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(-2.7065641,501.98322)"><flowRegion
+         id="flowRegion2387"><rect
+           id="rect2389"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933" /></flowRegion><flowPara
+         id="flowPara2391"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2393"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#5599ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="translate(0.4517359,505.94965)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion2395"><rect
+           id="rect2397"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:#5599ff" /></flowRegion><flowPara
+         id="flowPara2399"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#5599ff;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2401"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#radialGradient3191);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="translate(0.4517429,505.94965)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion2403"
+         style="fill:url(#radialGradient3195);fill-opacity:1"><rect
+           id="rect2405"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:url(#radialGradient3193);fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara2407"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#radialGradient3197);fill-opacity:1;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>  </g>
 </svg>

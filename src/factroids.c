@@ -1,14 +1,16 @@
 /************************************************************
  *  factroids.c                                             *
  *                                                          *
- *  Description: Code for the factor and fraction activity  *
+ *  Description:  Code for the factor and fraction activity *
  *                                                          *
  *  Author:       Jesus M. Mager H. (fongog@gmail.com) 2008 *
- *  Copyright:   GPL v3 or later                            *
+ *  Copyright:    GPL v3 or later                           *
+ *  							    *
+ *  Also significantly enhanced by Tim Holy - 2008          *
  *                                                          *
  *  Code based on the work made by:                         *
  *               Bill Kendrick (vectoroids 1.1.0)           *
- *               and Bill Kendrick David Bruce, Tim Holy    *
+ *               and Bill Kendrick, David Bruce, Tim Holy   *
  *               and others (Tuxmath 1.6.3)                 *
  *                                                          *
  *  TuxMath                                                 *
@@ -49,7 +51,7 @@
 #define NUM_OF_ROTO_IMGS 360/DEG_PER_ROTATION
 
 #define DEG_TO_RAD 0.0174532925
-#define MAX(a,b)    (((a) > (b)) ? (a) : (b))
+#define MAX(a,b)           (((a) > (b)) ? (a) : (b))
 
 /********* Enumerations ***********/
 
@@ -74,6 +76,7 @@ typedef struct asteroid_type {
   int x, y;
   int rx, ry;
   int centerx, centery;
+  int radius;
   int fact_number;
   int isprime;
   int a, b; /*  a / b */
@@ -86,6 +89,7 @@ typedef struct tuxship_type {
   int xspeed, yspeed;
   int x, y;
   int rx, ry;
+  int radius;
   int centerx, centery;
   int angle;
   int hurt, hurt_count;
@@ -173,6 +177,7 @@ static FF_laser_type laser[MAX_LASER];
 static int NUM_ASTEROIDS;
 static int bkg_h, counter;
 static int xdead, ydead, isdead, countdead;
+static int roto_speed;
 
 /*************** The Factor and Faraction Activiy game Functions ***************/
 
@@ -204,7 +209,6 @@ static int fast_sin(int angle);
 /************** factors(): The factor main function ********************/
 void factors(void){
 
-
   Uint32 last_time, now_time; 
   
   quit = 0;
@@ -223,8 +227,6 @@ void factors(void){
     return;
   } 
   
-  FF_intro();
-  
   while (game_status==GAME_IN_PROGRESS){
       last_time = SDL_GetTicks();
       counter++; 
@@ -235,6 +237,7 @@ void factors(void){
     FF_handle_asteroids();
     FF_handle_answer();
     FF_draw();
+    SDL_Flip(screen);
 
     game_status = check_exit_conditions();
 
@@ -297,10 +300,6 @@ void fractions(void){
     return;
   } 
 
-  /************ Game Intro **************/
-  
-  FF_intro();
-
   /************ Main Loop **************/
   while (game_status==GAME_IN_PROGRESS){
       last_time = SDL_GetTicks();
@@ -312,6 +311,7 @@ void fractions(void){
       FF_handle_asteroids();
       FF_handle_answer();
       FF_draw();
+      SDL_Flip(screen);
 
       game_status = check_exit_conditions();
 
@@ -355,6 +355,8 @@ static int FF_init(void){
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
  
+  FF_intro();
+
   for(i=0; i<NUM_OF_ROTO_IMGS; i++)
   {
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
@@ -419,9 +421,9 @@ static int FF_init(void){
   tuxship.angle=90;
   tuxship.xspeed=0;
   tuxship.yspeed=0;
-  tuxship.centerx=(images[IMG_SHIP01]->w)/2;
-  tuxship.centery=(images[IMG_SHIP01]->h)/2;
+  tuxship.radius=(images[IMG_SHIP01]->h)/2;
   shoot_pressed=0;
+  
   score=1;
   wave=0;
 
@@ -494,15 +496,27 @@ static void FF_handle_ship(void){
   }
 /****************** Rotate Ship *********************/
 
+  if(right_pressed||left_pressed)
+  {
+    if(roto_speed<10)
+    {
+      roto_speed=roto_speed+2;
+    }
+  }
+  else
+  {
+    roto_speed=1;
+  }
+
   if (right_pressed)
   {
-    tuxship.angle=tuxship.angle - DEG_PER_ROTATION*4;
+    tuxship.angle=tuxship.angle - DEG_PER_ROTATION*roto_speed;
     if (tuxship.angle < 0)
       tuxship.angle = tuxship.angle + 360;
   }
   else if (left_pressed)
   {
-    tuxship.angle=tuxship.angle + DEG_PER_ROTATION*4;
+    tuxship.angle=tuxship.angle + DEG_PER_ROTATION*roto_speed;
     if (tuxship.angle >= 360)
       tuxship.angle = tuxship.angle - 360;
   }
@@ -595,9 +609,11 @@ static void FF_handle_asteroids(void){
                     tuxship.y+30<asteroid[i].y+80 && 
                     tuxship.y+30>asteroid[i].y &&
                     tuxship.lives>0 &&
-                    asteroid[i].alive){ 
+                    asteroid[i].alive)
+ 		{ 
 
-		      if(!tuxship.hurt){
+		      if(!tuxship.hurt)
+		      {
 		         xdead=asteroid[i].x;
 		         ydead=asteroid[i].y;
 		      
@@ -610,7 +626,7 @@ static void FF_handle_asteroids(void){
 		      }
                 }
 	    }
-         }
+        }
      }
   if(!found)
     FF_add_level();
@@ -652,10 +668,12 @@ static SDL_Surface* get_asteroid_image(int size,int angle)
 }
 
 static void FF_draw(void){
-  SDL_Rect dest;
+
   int i, offset;
   char str[64];
-  
+  SDL_Surface* surf;
+  SDL_Rect dest;
+
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
 
   /************ Draw Background ***************/ 
@@ -694,13 +712,13 @@ static void FF_draw(void){
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
-     //dest.x=asteroid[i].x;
-     //dest.y=asteroid[i].y;
 
      dest.x = asteroid[i].x;
      dest.y = asteroid[i].y; 
 
-     SDL_BlitSurface(get_asteroid_image(asteroid[i].size,asteroid[i].angle), NULL, screen, &dest);
+     surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
+
+     SDL_BlitSurface(surf, NULL, screen, &dest);
      if(FF_game==FACTOROIDS_GAME)
      {   
        sprintf(str, "%.1d", asteroid[i].fact_number);
@@ -797,9 +815,6 @@ static void FF_draw(void){
          draw_numbers(str, 10, (screen->h)-30); 
       }
    }
-  /************ Doublebuffering.. ***********/
-  SDL_Flip(screen);
-
 }
 
 static void FF_draw_bkgr(void)
@@ -809,6 +824,13 @@ static void FF_draw_bkgr(void)
   //if(bgSrc.y>bkg_h)
   //  SDL_BlitSurface(images[BG_STARS], NULL, screen, &bgScreen);
 
+}
+
+int CircularColl(int ax, int ay, int ar, int bx, int by, int br){
+  if ((((ax-bx)*(ax-bx))+((ay-by)*(ay-by)))<((ar+br)*(ar+br)))
+    return 1;
+  else
+    return 2;
 }
 
 // Returns x % w but in the range [-w/2, w/2]
@@ -824,16 +846,18 @@ static int modwrap(int x,int w)
 
 static void FF_add_level(void)
 {
-  int i;
+  int i=0;
   int x,y,xvel,yvel,dx,dy;
   int ok;
   int width;
   int safety_radius2,speed2;
   int max_speed;
+  Uint32 now_time, last_time;
+  SDL_Rect rect;
 
   wave++;
-
-  // New lives pero wave!
+  
+  // New lives per wave!
   if (wave%5==0)
   {
     tuxship.lives++;
@@ -900,6 +924,24 @@ static void FF_add_level(void)
 		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
 		     1);
    }
+  }
+  if(wave!=1){
+    while(i<35){
+      i++;
+      rect.x=(screen->w/2)-(images[IMG_GOOD]->w/2);
+      rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
+      FF_draw();
+      SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
+      SDL_Flip(screen);
+      now_time = SDL_GetTicks();
+      if (now_time < last_time + MS_PER_FRAME)
+      {
+        now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+        if (now_time > MS_PER_FRAME)
+ 	  now_time = MS_PER_FRAME;
+        SDL_Delay(now_time);
+      }
+    }
   }
 }
 
@@ -1260,14 +1302,17 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       if(asteroid[i].isprime)
       {
         asteroid[i].size=0;
-        asteroid[i].centerx=x+30;
-        asteroid[i].centery=y+30;
+        asteroid[i].centerx=(images[IMG_ASTEROID1]->w/2)+asteroid[i].x;
+        asteroid[i].centery=(images[IMG_ASTEROID1]->h/2)+asteroid[i].y;
+        asteroid[i].radius=(images[IMG_ASTEROID1]->h/2);
+
       }
       else if(!asteroid[i].isprime)
       {
         asteroid[i].size=1;
-        asteroid[i].centerx=x+40;
-        asteroid[i].centery=y+40;
+        asteroid[i].centerx=(images[IMG_ASTEROID2]->w/2)+asteroid[i].x;
+        asteroid[i].centery=(images[IMG_ASTEROID2]->h/2)+asteroid[i].y;
+        asteroid[i].radius=(images[IMG_ASTEROID1]->h/2);
       }
        
       while (asteroid[i].xspeed==0)
