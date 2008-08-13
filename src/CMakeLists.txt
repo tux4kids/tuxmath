@@ -8,9 +8,10 @@ find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
 find_package(SDL_gfx)
 
-if (NOT SLDGFX_FOUND)
-   set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
-endif (NOT SLDGFX_FOUND)
+if (NOT ${SLDGFX_FOUND})
+  message("Adding rotozoom")
+  set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
+endif (NOT ${SLDGFX_FOUND})
 
 
 ## Define the source files used for each executable
@@ -105,7 +106,7 @@ endif (SDLPANGO_FOUND)
 
 if (SDLGFX_FOUND)
    target_link_libraries (tuxmath
-   ${SDLGFX_INCLUDE_DIR}
+   ${SDLGFX_LIBRARY}
    )
 endif (SDLGFX_FOUND)
 
