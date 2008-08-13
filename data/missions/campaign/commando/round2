@@ -17,4 +17,4 @@ min_minuend = -10
 max_minuend = 10
 min_subtrahend = -10
 max_subtrahend = 10
-avg_list_length = 150
+avg_list_length = 80

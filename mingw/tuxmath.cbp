@@ -19,12 +19,6 @@
 					<Add option='-DDATA_PREFIX=\&quot;../data\&quot;' />
 					<Add option='-DVERSION=\&quot;1.6.3\&quot;' />
 				</Compiler>
-				<Linker>
-					<Add library="SDL" />
-					<Add library="SDL_image" />
-					<Add library="SDL_mixer" />
-					<Add library="SDL_ttf" />
-				</Linker>
 			</Target>
 			<Target title="WinRelease">
 				<Option platforms="Windows;" />
@@ -38,14 +32,8 @@
 					<Add option="-DNO_STDIO_REDIRECT" />
 					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
 					<Add option='-DDATA_PREFIX=&quot;\&quot;C:/Program Files/TuxMath/data\&quot;&quot;' />
-					<Add option='-DVERSION=\&quot;1.6.3\&quot;' />
+					<Add option="-DVERSION=FULLVERSION_STRING" />
 				</Compiler>
-				<Linker>
-					<Add library="SDL" />
-					<Add library="SDL_image" />
-					<Add library="SDL_mixer" />
-					<Add library="SDL_ttf" />
-				</Linker>
 			</Target>
 			<Target title="NixDebug">
 				<Option platforms="Unix;" />
@@ -61,12 +49,6 @@
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
 					<Add option='-DVERSION=\\&quot;1.6.3\\&quot;' />
 				</Compiler>
-				<Linker>
-					<Add library="SDL" />
-					<Add library="SDL_image" />
-					<Add library="SDL_mixer" />
-					<Add library="SDL_ttf" />
-				</Linker>
 			</Target>
 			<Target title="NixRelease">
 				<Option platforms="Unix;" />
@@ -84,12 +66,6 @@
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
 					<Add option="-DVERSION=FULLVERSION_STRING" />
 				</Compiler>
-				<Linker>
-					<Add library="SDL" />
-					<Add library="SDL_image" />
-					<Add library="SDL_mixer" />
-					<Add library="SDL_ttf" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
@@ -97,6 +73,14 @@
 			<Add directory="NOTE: CHANGE TO WHEREVER CONFIG.H IS LOCATED" />
 			<Add directory="../" />
 		</Compiler>
+		<Linker>
+			<Add library="SDL" />
+			<Add library="SDL_gfx" />
+			<Add library="SDL_image" />
+			<Add library="SDL_mixer" />
+			<Add library="SDL_ttf" />
+			<Add library="SDL_Pango" />
+		</Linker>
 		<Unit filename="../config.h" />
 		<Unit filename="SDL_win32_main.c">
 			<Option compilerVar="CC" />
@@ -131,6 +115,10 @@
 			<Option compilerVar="CC" />
 			<Option target="WinRelease" />
 		</Unit>
+		<Unit filename="../src/factroids.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/factroids.h" />
 		<Unit filename="../src/fileops.c">
 			<Option compilerVar="CC" />
 		</Unit>

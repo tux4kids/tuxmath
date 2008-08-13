@@ -4,6 +4,7 @@ addition_allowed = 1
 subtraction_allowed = 0
 multiplication_allowed = 0
 division_allowed = 0
+typing_practice_allowed = 1
 allow_negatives = 0
 max_formula_nums = 2
 min_formula_nums = 2

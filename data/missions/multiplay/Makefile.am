@@ -1,10 +1,11 @@
-## Makefile.am for tuxmath - data/missions/arcade:
+## Makefile.am for tuxmath - data/missions/multiplay:
 ## Process with Automake to create Makefile.in
 
-arcadedir = $(pkgdatadir)/missions/arcade
+multiplaydir = $(pkgdatadir)/missions/multiplay
 
-dist_arcade_DATA = ace \
+dist_multiplay_DATA = ace \
   commando \
   ranger \
   scout \
-  space_cadet
+  space_cadet \
+  mpoptions

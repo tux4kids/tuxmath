@@ -485,6 +485,10 @@ danger_level_max = 0.90
 
 city_explode_handicap = 0.00
 
+# if keep_score is false, score will not be displayed in-game
+# default true
+
+keep_score = 1
 
 ############################################################
 #                                                          #

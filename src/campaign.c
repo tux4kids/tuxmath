@@ -11,6 +11,7 @@
 #include "game.h"
 #include "fileops.h"
 #include "mathcards.h"
+#include "options.h"
 
 void briefPlayer(int stage); //show text introducing the given stage
 void readStageSettings(int stage);
@@ -44,7 +45,7 @@ int start_campaign()
       snprintf(roundmessage, 10, "Round %d", j);
       game_set_start_message(roundmessage, "", "", "");
 
-      
+      Opts_SetKeepScore(0);
       MC_PrintMathOptions(stdout, 0);
       printf("Starting game...\n");
       gameresult = game();

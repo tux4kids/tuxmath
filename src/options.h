@@ -71,6 +71,7 @@ typedef struct game_option_type {
   int num_cities;  /* MUST BE AN EVEN NUMBER! */
   int num_bkgds;
   int max_city_colors;
+  int keep_score;
 } game_option_type;
 
 
@@ -134,6 +135,7 @@ void Opts_SetSoundHWAvailable(int val);
 /* Used by high score table code, not config file: */
 void Opts_SetLastScore(int val);
 
+void Opts_SetKeepScore(int val);
 
 /* "Get" functions for tuxmath options struct: */
 int Opts_PerUserConfig(void);
@@ -165,6 +167,7 @@ float Opts_DangerLevel(void);
 float Opts_DangerLevelSpeedup(void);
 float Opts_DangerLevelMax(void);
 float Opts_CityExplHandicap(void);
+int Opts_KeepScore(void);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */

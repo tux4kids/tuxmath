@@ -444,6 +444,12 @@ void Opts_SetLastScore(int val)
   game_options->last_score = val;
 }
 
+void Opts_SetKeepScore(int val)
+{
+  game_options->keep_score = val;
+}
+
+
 /* "Get" functions for tuxmath options struct: */
 int Opts_PerUserConfig(void)
 {
@@ -800,6 +806,15 @@ int Opts_UsingSound(void)
   return (game_options->use_sound>0 && game_options->sound_hw_available);
 }
 
+int Opts_KeepScore(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_KeepScore(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->keep_score;
+}
 /********************************************************************/
 /*  "private methods" (static functions only visible in options.c)  */
 /********************************************************************/

@@ -1378,6 +1378,11 @@ int read_config_file(FILE *fp, int file_type)
     {
       Opts_SetMaxComets(atoi(value));
     }
+    
+    else if (0 == strcasecmp(parameter, "keep_score"))
+    {
+      Opts_SetKeepScore(atoi(value) );
+    }
 
     else
     {   

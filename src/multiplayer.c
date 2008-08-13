@@ -243,5 +243,9 @@ void cleanupMP()
   for (i = 0; i < params[PLAYERS]; ++i)
     if (pnames[i])
       free(pnames[i]);
+      
+  for (i = 0; i < NUM_PARAMS; ++i)
+    params[i] = 0;
+    
   inprogress = 0;
 }

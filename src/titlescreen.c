@@ -788,7 +788,7 @@ int run_multiplay_menu(void)
   const char* menu_text[3] =
     {"Score Sweep", "Elimination", "Main menu"};
   //just leech settings from arcade modes
-  const char* diff_menu_text[NUM_HIGH_SCORE_LEVELS + 1] =
+  const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
     {"Space Cadet", "Scout", "Ranger", "Ace", "Commando", "Main menu"};
 
 
@@ -806,16 +806,14 @@ int run_multiplay_menu(void)
 
   diffsprites[5] = sprite_list[SPRITE_MAIN];
 
-//  NotImplemented();
-//  return 0;
-
   while (1)
   {
     //choose difficulty
-    difficulty = choose_menu_item(diff_menu_text, diffsprites, NUM_HIGH_SCORE_LEVELS + 1, NULL, NULL);
+    difficulty = choose_menu_item(diff_menu_text, diffsprites, 
+                 NUM_MATH_COMMAND_LEVELS + 1, NULL, NULL);
 
-    if (difficulty == -1 || difficulty == NUM_HIGH_SCORE_LEVELS)
-      break; //user chose main menu or escape
+    if (difficulty == -1 || difficulty >= NUM_MATH_COMMAND_LEVELS)
+      break; //user chose main menu or hit escape
 
     //choose mode
     mode = choose_menu_item(menu_text,modesprites,3,NULL,NULL);
@@ -882,7 +880,7 @@ int run_arcade_menu(void)
   choice = choose_menu_item(menu_text,sprites,7,NULL,NULL);
 
   while (choice >= 0) {
-    if (choice < NUM_HIGH_SCORE_LEVELS) {
+    if (choice < NUM_MATH_COMMAND_LEVELS) {
       // Play arcade game
       if (read_named_config_file(arcade_config_files[choice]))
       {
@@ -918,7 +916,7 @@ int run_arcade_menu(void)
         fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
       }
 
-    } else if (choice == NUM_HIGH_SCORE_LEVELS) {
+    } else if (choice == NUM_MATH_COMMAND_LEVELS) {
       // Display the Hall of Fame
       DisplayHighScores(CADET_HIGH_SCORE);
     }
@@ -2053,7 +2051,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
 
     if (egg_active) { //if we need to, draw the egg cursor
       //who knows why GetMouseState() doesn't take Sint16's...
-      SDL_GetMouseState((int*)&cursor.x, (int*)&cursor.y);
+      SDL_GetMouseState((int*)(&cursor.x), (int*)(&cursor.y));
       cursor.x -= egg->w / 2; //center vertically
       SDL_BlitSurface(egg, NULL, screen, &cursor);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);

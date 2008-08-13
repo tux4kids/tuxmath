@@ -164,6 +164,7 @@ static int check_exit_conditions(void);
 
 static void game_set_message(game_message *,const char *,int x, int y);
 static void game_clear_message(game_message*);
+static void game_clear_messages(void);
 static void game_write_message(const game_message* msg);
 static void game_write_messages(void);
 static void draw_led_console(void);
@@ -466,10 +467,10 @@ this should stylishly fade out over the first few moments of the game.
 void game_set_start_message(const char* m1, const char* m2, 
                             const char* m3, const char* m4)
 {
-  game_set_message(&s1, m1, screen->w / 2 - 40, RES_Y * 0 / 4);
-  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 1 / 4);
-  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 2 / 4);
-  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 3 / 4);
+  game_set_message(&s1, m1, screen->w / 2 - 40, RES_Y * 2 / 10);
+  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 3 / 10);
+  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 4 / 10);
+  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 5 / 10);
   start_message_chosen = 1;
 }
 
@@ -927,6 +928,15 @@ void game_clear_message(game_message *msg)
   game_set_message(msg,"",0,0);
 }
 
+void game_clear_messages()
+{
+  game_clear_message(&s1);
+  game_clear_message(&s2);
+  game_clear_message(&s3);
+  game_clear_message(&s4);
+  game_clear_message(&s5);
+}
+
 void game_write_message(const game_message *msg)
 {
   SDL_Surface *surf;
@@ -1221,7 +1231,10 @@ void game_handle_answer(void)
 void game_countdown(void)
 {
   if (level_start_wait <= 0)
+  {
+    game_clear_messages();
     return;
+  }
 
   //dim start messages
   s1.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
@@ -2158,21 +2171,23 @@ void game_draw_misc(void)
   sprintf(str, "%d", wave);
   draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
 
-  /* Draw "score" label: */
-  dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
-                images[IMG_SCORE]->w -
-                images[IMG_STOP]->w - 5);
-  dest.y = 0;
-  dest.w = images[IMG_SCORE]->w;
-  dest.h = images[IMG_SCORE]->h;
-
-  SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
-
-  /* Draw score numbers: */
-  sprintf(str, "%.6d", score);
-  draw_numbers(str,
-               screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
-               0);
+  if (Opts_KeepScore() )
+  {
+    /* Draw "score" label: */
+    dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
+                  images[IMG_SCORE]->w -
+                  images[IMG_STOP]->w - 5);
+    dest.y = 0;
+    dest.w = images[IMG_SCORE]->w;
+    dest.h = images[IMG_SCORE]->h;
+    SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
+  
+    /* Draw score numbers: */
+    sprintf(str, "%.6d", score);
+    draw_numbers(str,
+                 screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
+                 0);
+  }
   
   /* Draw other players' scores */
   if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )

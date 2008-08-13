@@ -2,6 +2,7 @@
 
 addition_allowed = 1
 subtraction_allowed = 0
+allow_negatives = 1
 min_multiplier = -20
 max_multiplier = 20
 min_multiplicand = -20
