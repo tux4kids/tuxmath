@@ -8,7 +8,7 @@
 
 project(TuxMath)
 
-set(TUXMATH_VERSION "1.6.3")
+set(TUXMATH_VERSION "1.7.0")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 

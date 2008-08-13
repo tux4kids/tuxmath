@@ -122,6 +122,11 @@ Requirements
     languages requiring bidirectional text by using
     SDL_Pango. SDL_Pango is optional in the build process.
 
+    As of v1.7.0, TuxMath uses SDL_gfx.  Only the "rotozoom" function
+    is needed, so in case of build problems you can work around them
+    by copying the SDL_rotozoom.{c,h} files from the SDL_gfx source
+    distribution into the TuxMath source directory.
+
     The executable Windows installer contains all needed libraries
     (DLLs) and the Andika font - nothing else should be needed that is
     not part of Windows.  The *tar.gz source packages require the
@@ -129,14 +134,18 @@ Requirements
     building and installation (easily obtained in most any Gnu/Linux
     distribution).  The Andika font is also included.
 
-    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and
+    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, SDL_gfx, and
     libiconv are all free, Open Source libraries, released under the
     GNU Library General Public License (LGPL).
 
     Getting SDL
     -----------
-      You can download "libSDL," "SDL_image," "SDL_ttf", and
-      "SDL_mixer" from the SDL website:
+      On Linux, the easy way to get the required SDL packages is from
+      your distributor. See below, "Using SDL Packages".
+
+      Alternatively (and by necessity on other platforms), you can
+      download "libSDL," "SDL_image," "SDL_ttf", and "SDL_mixer" from
+      the SDL website:
 
       http://www.libsdl.org/
 
@@ -146,8 +155,9 @@ Requirements
         libSDL:     http://www.libsdl.org/download-1.2.html
         SDL_image:  http://www.libsdl.org/projects/SDL_image/
         SDL_mixer:  http://www.libsdl.org/projects/SDL_mixer/
-        SDL_ttf:  http://www.libsdl.org/projects/SDL_ttf/
-	SDL_Pango: http://sourceforge.net/projects/sdlpango/
+        SDL_ttf:    http://www.libsdl.org/projects/SDL_ttf/
+	SDL_Pango:  http://sourceforge.net/projects/sdlpango/
+	SDL_gfx:    http://www.ferzkopp.net/Software/SDL_gfx-2.0/
 
 
       Using SDL Packages
@@ -157,12 +167,14 @@ Requirements
         need to install not only each library's 'binary' package, but ALSO
         each library's 'development' package.
 
-        These contain the text "-devel" in the package name.
+        These contain the text "-devel" or "-dev" in the package name.
 
         Also note: Make sure you download the packages for the appropriate
         operating system and architecture (eg, an RPM for Linux/i386 for
         RedHat Linux on Intel-compatible computers).
 
+	For example, on (K)Ubuntu Hardy, you could say:
+           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev libsdl-gfx1.2-4 libsdl-gfx1.2-dev
 
 
 Compiling and Installing TuxMath
@@ -170,11 +182,8 @@ Compiling and Installing TuxMath
 
 Note: there are now two ways to build tuxmath from source.  The first
 (and main method) is using autotools ("./configure && make && make
-install").  The second is to use CMake.  CMake is being explored as a
-possible way to better-support MacOSX.  However, the CMake build is
-currently having some troubles with the internationalization code, and
-requires a cheat (running configure, copying a file, and then running
-CMake).  Further details are below.
+install").  The second is to use CMake, which was developed to
+better-support Mac OS X.
 
 
   Linux/Unix
@@ -250,7 +259,7 @@ CMake).  Further details are below.
       may have tuxmath in a prepared package, in which case your job
       is as simple as "apt-get install tuxmath".
 
-  Compiling the Program: CMake (Linux & Mac OSX)
+  Compiling the Program: CMake (Linux & Mac OS X)
   ----------------------------------------------
     The recommended procedure is to build out-of-source (equivalent to
     the "parallel" or "vpath" build for automake described above).
@@ -265,8 +274,10 @@ CMake).  Further details are below.
     By default, the CMake build includes support for SDL_Pango, if the
     library & its header can be found.
 
-    On Mac OSX, this builds a static "intl" library (for
-    internationalization support) and creates a .dmg file.
+    On Mac OS X, this builds a static "intl" library (for
+    internationalization support) and creates a .dmg file. Building
+    requires the full gettext infrastructure; see below under "Mac OS
+    X" for more details.
 
 
   Windows 
@@ -335,12 +346,12 @@ CMake).  Further details are below.
       privileges, even if installed by the administrator.
 
 
-  Mac OS X: (contributed by Tim Holy)
+  Mac OS X:
   ----------------------------------
 
   There are several options for compiling on OS X.  If you just want
-  to do a local build, using macports is perhaps the easiest approach:
-  "port install tuxmath" and then wait.
+  to do a local build, using macports (http://www.macports.org/) is
+  perhaps the easiest approach: "port install tuxmath" and then wait.
 
   To build a .dmg, the currently-supported approach is to use CMake
   (described above under Linux/Unix).  You will need to have both
@@ -353,6 +364,6 @@ CMake).  Further details are below.
   make; make install" if you have the required libraries.
 
   There is still an old XCode project file in the macosx/ directory,
-  but this is not up-to-date.  If you want to develop with XCode, you
-  probably want to use CMake to create a new XCode project.  See the
-  CMake documentation for details.
+  but this is not up-to-date.  If you want to develop with XCode, your
+  best bet might be to use CMake to create a new XCode project.  See
+  the CMake documentation for details.
