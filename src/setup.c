@@ -99,7 +99,7 @@ void cleanup_memory(void);
 
 
 /* --- Set-up function - now in four easier-to-digest courses! --- */
-
+/* --- Er - make that six courses! --- */
 void setup(int argc, char * argv[])
 {
   /* initialize settings and read in config files: */

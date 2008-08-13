@@ -651,8 +651,9 @@ void main_scmo(menu_options* mo) //set custom menu opts for main
 {
   mo->ygap = 15;
 }
+
 int run_main_menu(void)
-{                                                         
+{
   const char* menu_text[6] =
     {N_("Play Alone"),
      N_("Play With Friends"),

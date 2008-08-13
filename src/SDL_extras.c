@@ -462,9 +462,9 @@ void DarkenScreen(Uint8 bits)
 
   p = screen->pixels;
 
-  for (y = 0; y < RES_Y; y++)
+  for (y = 0; y < screen->h; y++)
   {
-    for (x = 0; x < RES_X; x++)
+    for (x = 0; x < screen->w; x++)
     {
       *p = (((*p&rm)>>bits)&rm)
          | (((*p&gm)>>bits)&gm)

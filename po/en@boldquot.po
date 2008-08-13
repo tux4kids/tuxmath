@@ -29,10 +29,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Tux Of Math Command 1.6.3\n"
+"Project-Id-Version: Tux Of Math Command 1.6.4\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-06-15 22:15-0500\n"
-"PO-Revision-Date: 2008-06-15 22:15-0500\n"
+"POT-Creation-Date: 2008-08-05 06:33-0500\n"
+"PO-Revision-Date: 2008-08-05 06:33-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -40,219 +40,219 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: src/game.c:679
+#: src/game.c:705
 msgid "Welcome to TuxMath!"
 msgstr "Welcome to TuxMath!"
 
-#: src/game.c:696
+#: src/game.c:722
 msgid "Your mission is to save your"
 msgstr "Your mission is to save your"
 
-#: src/game.c:697
+#: src/game.c:723
 msgid "penguins' igloos from the"
 msgstr "penguins' igloos from the"
 
-#: src/game.c:698
+#: src/game.c:724
 msgid "falling comets."
 msgstr "falling comets."
 
-#: src/game.c:717
+#: src/game.c:743
 msgid "Stop a comet by typing"
 msgstr "Stop a comet by typing"
 
-#: src/game.c:718
+#: src/game.c:744
 msgid "the answer to the math problem"
 msgstr "the answer to the math problem"
 
-#: src/game.c:719
+#: src/game.c:745
 msgid "and hitting 'space' or 'enter'."
 msgstr "and hitting ‘[1mspace[0m’ or 'enter'."
 
-#: src/game.c:720
+#: src/game.c:746
 msgid "Try it now!"
 msgstr "Try it now!"
 
-#: src/game.c:728
+#: src/game.c:754
 msgid "Good shot!"
 msgstr "Good shot!"
 
-#: src/game.c:738
+#: src/game.c:764
 msgid "If an igloo gets hit by a comet,"
 msgstr "If an igloo gets hit by a comet,"
 
-#: src/game.c:739
+#: src/game.c:765
 msgid "it melts. But don't worry: the"
 msgstr "it melts. But don't worry: the"
 
-#: src/game.c:740
+#: src/game.c:766
 msgid "penguin is OK!"
 msgstr "penguin is OK!"
 
-#: src/game.c:741
+#: src/game.c:767
 msgid "Just watch what happens:"
 msgstr "Just watch what happens:"
 
-#: src/game.c:742
+#: src/game.c:768
 msgid "(Press a key to start)"
 msgstr "(Press a key to start)"
 
-#: src/game.c:755
+#: src/game.c:781
 msgid "Notice the answer"
 msgstr "Notice the answer"
 
-#: src/game.c:765
+#: src/game.c:791
 msgid "If it gets hit again, the"
 msgstr "If it gets hit again, the"
 
-#: src/game.c:766
+#: src/game.c:792
 msgid "penguin leaves."
 msgstr "penguin leaves."
 
-#: src/game.c:767
+#: src/game.c:793
 msgid "(Press a key when ready)"
 msgstr "(Press a key when ready)"
 
-#: src/game.c:786
+#: src/game.c:812
 msgid "You can fix the igloos"
 msgstr "You can fix the igloos"
 
-#: src/game.c:787
+#: src/game.c:813
 msgid "by stopping bonus comets."
 msgstr "by stopping bonus comets."
 
-#: src/game.c:796
+#: src/game.c:822
 msgid "Zap it now!"
 msgstr "Zap it now!"
 
-#: src/game.c:800
+#: src/game.c:826
 msgid "Great job!"
 msgstr "Great job!"
 
-#: src/game.c:814
+#: src/game.c:840
 msgid "Quit at any time by pressing"
 msgstr "Quit at any time by pressing"
 
-#: src/game.c:815
+#: src/game.c:841
 msgid "'Esc' or clicking the 'X'"
 msgstr "‘[1mEsc[0m’ or clicking the ‘[1mX[0m’"
 
-#: src/game.c:816
+#: src/game.c:842
 msgid "in the upper right corner."
 msgstr "in the upper right corner."
 
-#: src/game.c:817
+#: src/game.c:843
 msgid "Do it now, and then play!"
 msgstr "Do it now, and then play!"
 
-#: src/titlescreen.c:470
+#: src/titlescreen.c:458
 msgid "Work In Progress!"
 msgstr "Work In Progress!"
 
-#: src/titlescreen.c:471
+#: src/titlescreen.c:459
 msgid "This feature is not ready yet"
 msgstr "This feature is not ready yet"
 
-#: src/titlescreen.c:472
+#: src/titlescreen.c:460
 msgid "Discuss the future of TuxMath at"
 msgstr "Discuss the future of TuxMath at"
 
-#: src/titlescreen.c:473
+#: src/titlescreen.c:461
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:645
+#: src/titlescreen.c:633
 msgid "Math Command Training Academy"
 msgstr "Math Command Training Academy"
 
-#: src/titlescreen.c:646
+#: src/titlescreen.c:634
 msgid "Play Arcade Game"
 msgstr "Play Arcade Game"
 
-#: src/titlescreen.c:647
+#: src/titlescreen.c:635
 msgid "Play Custom Game"
 msgstr "Play Custom Game"
 
-#: src/titlescreen.c:648
+#: src/titlescreen.c:636
 msgid "Help"
 msgstr "Help"
 
-#: src/titlescreen.c:649
+#: src/titlescreen.c:637
 msgid "More Options"
 msgstr "More Options"
 
-#: src/titlescreen.c:650
+#: src/titlescreen.c:638
 msgid "Quit"
 msgstr "Quit"
 
-#: src/titlescreen.c:721
+#: src/titlescreen.c:710
 msgid "Space Cadet"
 msgstr "Space Cadet"
 
-#: src/titlescreen.c:722
+#: src/titlescreen.c:711
 msgid "Scout"
 msgstr "Scout"
 
-#: src/titlescreen.c:723
+#: src/titlescreen.c:712
 msgid "Ranger"
 msgstr "Ranger"
 
-#: src/titlescreen.c:724
+#: src/titlescreen.c:713
 msgid "Ace"
 msgstr "Ace"
 
-#: src/titlescreen.c:725
+#: src/titlescreen.c:714
 msgid "Hall Of Fame"
 msgstr "Hall Of Fame"
 
-#: src/titlescreen.c:726
+#: src/titlescreen.c:715
 msgid "Main menu"
 msgstr "Main menu"
 
-#: src/titlescreen.c:808
+#: src/titlescreen.c:797
 msgid "Edit 'options' file in your home directory"
 msgstr "Edit ‘[1moptions[0m’ file in your home directory"
 
-#: src/titlescreen.c:809
+#: src/titlescreen.c:798
 msgid "to create customized game!"
 msgstr "to create customized game!"
 
-#: src/titlescreen.c:810
+#: src/titlescreen.c:799
 msgid "Press a key or click your mouse to start game."
 msgstr "Press a key or click your mouse to start game."
 
-#: src/titlescreen.c:811
+#: src/titlescreen.c:800
 msgid "See README.txt for more information"
 msgstr "See README.txt for more information"
 
-#: src/titlescreen.c:842
+#: src/titlescreen.c:832
 msgid "Demo"
 msgstr "Demo"
 
-#: src/titlescreen.c:843
+#: src/titlescreen.c:833
 msgid "Project Info"
 msgstr "Project Info"
 
-#: src/titlescreen.c:844
+#: src/titlescreen.c:834
 msgid "Credits"
 msgstr "Credits"
 
-#: src/titlescreen.c:845
+#: src/titlescreen.c:835
 msgid "Main Menu"
 msgstr "Main Menu"
 
-#: src/titlescreen.c:891
+#: src/titlescreen.c:882
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath is free and open-source!"
 
-#: src/titlescreen.c:892
+#: src/titlescreen.c:883
 msgid "You can help make it better by reporting problems,"
 msgstr "You can help make it better by reporting problems,"
 
-#: src/titlescreen.c:893
+#: src/titlescreen.c:884
 msgid "suggesting improvements, or adding code."
 msgstr "suggesting improvements, or adding code."
 
-#: src/titlescreen.c:894
+#: src/titlescreen.c:885
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 
