@@ -1,6 +1,18 @@
 #The following isn't necessary because of the SDL workaround
 #cmake_minimum_required(VERSION 2.4.7 FATAL_ERROR)
 
+## Libraries
+find_package(SDL REQUIRED)
+find_package(SDL_image REQUIRED)
+find_package(SDL_ttf REQUIRED)
+find_package(SDL_mixer REQUIRED)
+find_package(SDL_gfx)
+
+if (NOT SLDGFX_FOUND)
+   set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
+endif (NOT SLDGFX_FOUND)
+
+
 ## Define the source files used for each executable
 # tuxmath
 set(SOURCES_TUXMATH
@@ -33,13 +45,6 @@ set(SOURCES_TUXMATHADMIN
   tuxmathadmin.c
   )
 
-## Libraries
-find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED)
-find_package(SDL_ttf REQUIRED)
-find_package(SDL_mixer REQUIRED)
-find_package(SDL_gfx REQUIRED)
-
 if (NOT SDL_FOUND)
   # Workaround for REQUIRED flag not working with cmake < 2.4.7.
   # Should put other libraries in, too.
@@ -52,14 +57,14 @@ endif (NOT APPLE)
 
 ## Include files
 #if (NOT ENABLE_NLS)
-   # If you want internationalization, this doesn't work: you have to
-   # run automake's "configure" and then copy config.h into the build
-   # directory
-   configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+#   configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 #endif (NOT ENABLE_NLS)
 #check_include_file(config.h HAVE_CONFIG_H REQUIRED)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${SDLGFX_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
+include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
+if (SDLGFX_FOUND)
+   include_directories(${SDLGFX_INCLUDE_DIR})
+endif (SDLGFX_FOUND)
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
@@ -90,7 +95,6 @@ target_link_libraries (tuxmath
   ${SDLIMAGE_LIBRARY}
   ${SDLTTF_LIBRARY}
   ${SDLMIXER_LIBRARY}
-  ${SDLGFX_LIBRARY}
   )
 
 if (SDLPANGO_FOUND)
@@ -98,6 +102,12 @@ if (SDLPANGO_FOUND)
     ${SDLPANGO_LIBRARY}
     )
 endif (SDLPANGO_FOUND)
+
+if (SDLGFX_FOUND)
+   target_link_libraries (tuxmath
+   ${SDLGFX_INCLUDE_DIR}
+   )
+endif (SDLGFX_FOUND)
 
 if (APPLE)
   # The following seems to be needed to compile under 10.5
