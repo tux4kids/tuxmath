@@ -168,6 +168,7 @@ static int neg_answer_picked;
 static int tux_pressing;
 static int doing_answer;
 static int level_start_wait;
+static int tux_img;
 //static int FF_level;
 
 static asteroid_type* asteroid = NULL;
@@ -190,6 +191,8 @@ static void FF_handle_answer(void);
 
 static void FF_draw(void);
 static void FF_draw_bkgr(void);
+static void FF_draw_led_console(void);
+static void draw_console_image(int i);
 
 static void FF_add_level(void);
 static int FF_over(int game_status);
@@ -213,7 +216,8 @@ void factors(void){
   
   quit = 0;
   counter = 0;
-  
+  tux_img=IMG_TUX_CONSOLE1;
+
   #ifdef TUXMATH_DEBUG
      fprintf(stderr, "Entering factors():\n");
   #endif
@@ -230,7 +234,13 @@ void factors(void){
   while (game_status==GAME_IN_PROGRESS){
       last_time = SDL_GetTicks();
       counter++; 
-   
+    
+      if(counter%15==0)
+        if(tux_img<IMG_TUX_CONSOLE4)
+          tux_img++;
+        else 
+          tux_img=IMG_TUX_CONSOLE1;
+
     game_handle_user_events();
 
     FF_handle_ship();
@@ -283,7 +293,7 @@ void fractions(void){
   
   quit = 0;
   counter = 0;
-  
+  tux_img=IMG_TUX_CONSOLE1;
 
   
   #ifdef TUXMATH_DEBUG
@@ -305,6 +315,12 @@ void fractions(void){
       last_time = SDL_GetTicks();
       counter++;
       
+      if(counter%15==0)
+        if(tux_img<IMG_TUX_CONSOLE4)
+          tux_img++;
+        else 
+          tux_img=IMG_TUX_CONSOLE1;
+
       game_handle_user_events();
 
       FF_handle_ship();
@@ -722,7 +738,19 @@ static void FF_draw(void){
      if(FF_game==FACTOROIDS_GAME)
      {   
        sprintf(str, "%.1d", asteroid[i].fact_number);
-       draw_nums(str, asteroid[i].x+20,asteroid[i].y+10);
+       if((asteroid[i].y+10)>23 && (asteroid[i].y+30)<screen->h){
+         if((asteroid[i].x+20)>0 && (asteroid[i].x+40)<screen->w)
+           draw_nums(str, asteroid[i].x+20,asteroid[i].y+10);
+	 else if((asteroid[i].x+20)<=0)
+           draw_nums(str, 20, asteroid[i].y+10);
+	 else if((asteroid[i].x+40)<=screen->w)
+           draw_nums(str, screen->w-20, asteroid[i].y+10);
+       }
+       else if((asteroid[i].y+10)<=23)
+	 draw_nums(str, asteroid[i].x+20, 23);
+       else if((asteroid[i].y+30)>=screen->h)
+	 draw_nums(str, asteroid[i].x+20, screen->h-30);
+        
      }
      else if (FF_game==FRACTIONS_GAME)
      {
@@ -792,10 +820,11 @@ static void FF_draw(void){
 
     /************* Draw pre answer ************/
 
-  
+   
     sprintf(str, "%.3d", num);
     draw_numbers(str, ((screen->w)/2)-50, (screen->h)-30);
- 
+    FF_draw_led_console();
+    draw_console_image(tux_img);
     /************** Draw lives ***************/
    dest.y=screen->h;
    dest.x=0;
@@ -815,6 +844,84 @@ static void FF_draw(void){
          draw_numbers(str, 10, (screen->h)-30); 
       }
    }
+}
+
+/*Modified from game.c*/
+void FF_draw_led_console(void)
+{
+  int i;
+  SDL_Rect src, dest;
+  int y;
+
+  /* draw new console image with "monitor" for LED numbers: */
+  draw_console_image(IMG_CONSOLE_LED);
+  /* set y to draw LED numbers into Tux's "monitor": */
+  y = (screen->h
+     - images[IMG_CONSOLE_LED]->h
+     + 4);  /* "monitor" has 4 pixel margin */
+
+  /* begin drawing so as to center display depending on whether minus */
+  /* sign needed (4 digit slots) or not (3 digit slots) DSB */
+  if (MC_GetOpt(ALLOW_NEGATIVES) )
+    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
+  else
+    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
+
+  for (i = -1; i < MC_MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
+                              /* with minimal modification of existing code DSB */
+  {
+    if (-1 == i)
+    {
+      if (MC_GetOpt(ALLOW_NEGATIVES))
+      {
+        if (neg_answer_picked)
+          src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
+        else
+          src.x = 0;
+
+        src.y = 0;
+        src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
+        src.h = images[IMG_LED_NEG_SIGN]->h;
+
+        dest.y = y;
+        dest.w = src.w;
+        dest.h = src.h;
+
+        SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
+        /* move "cursor" */
+        dest.x += src.w;
+      }
+    }
+    else
+    {
+      src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
+      src.y = 0;
+      src.w = (images[IMG_LEDNUMS]->w) / 10;
+      src.h = images[IMG_LEDNUMS]->h;
+
+      /* dest.x already set */
+      dest.y = y;
+      dest.w = src.w;
+      dest.h = src.h;
+
+      SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
+      /* move "cursor" */
+      dest.x += src.w;
+    }
+  }
+}
+
+/* Draw image at lower center of screen: */
+void draw_console_image(int i)
+{
+  SDL_Rect dest;
+
+  dest.x = (screen->w - images[i]->w) / 2;
+  dest.y = (screen->h - images[i]->h);
+  dest.w = images[i]->w;
+  dest.h = images[i]->h;
+
+  SDL_BlitSurface(images[i], NULL, screen, &dest);
 }
 
 static void FF_draw_bkgr(void)
