@@ -17,6 +17,7 @@
 */
 const char ScanDir_rcsid[] = "Hatari $Id: scandir.c,v 1.3 2007/01/16 18:42:59 thothy Exp $";
 
+#include <stdlib.h>
 #include <string.h>
 #include <strings.h>
 #include <stdio.h>

@@ -2370,8 +2370,6 @@ void reset_level(void)
   if (Opts_UseBkgd())
   {
     LoadBothBkgds(fname, &scaled_bkgd, &bkgd);
-//    bkgd = LoadBkgd(fname);
-//    bkgd = LoadBkgd("/home/dbruce/red_test.jpg");
     if (bkgd == NULL || scaled_bkgd == NULL)
     {
       fprintf(stderr,

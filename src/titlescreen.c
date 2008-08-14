@@ -135,7 +135,7 @@ SDL_Rect dest,
          cursor,
          beak;
 
-/* The background image scaled to windowed 648x480 */
+/* The background image scaled to windowed 640x480 */
 SDL_Surface* bkg = NULL;
 /* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkg = NULL;
@@ -143,7 +143,9 @@ SDL_Surface* scaled_bkg = NULL;
 SDL_Surface* egg = NULL;
 int egg_active = 0; //are we currently using the egg cursor?
 
+
 SDL_Surface* current_bkg()
+  /* This syntax makes my brain start to explode! */
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
 
 /* Local function prototypes: */
