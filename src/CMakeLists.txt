@@ -8,12 +8,10 @@ find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
 find_package(SDL_gfx)
 
-#message("SDLGFX_FOUND ${SDLGFX_FOUND}")
-
-if (NOT SLDGFX_FOUND)
+if (NOT SDLGFX_FOUND)
   message("Adding rotozoom")
   set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
-endif (NOT SLDGFX_FOUND)
+endif (NOT SDLGFX_FOUND)
 
 
 ## Define the source files used for each executable
@@ -59,10 +57,11 @@ if (NOT APPLE)
 endif (NOT APPLE)
 
 ## Include files
-#if (NOT ENABLE_NLS)
-#   configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
-#endif (NOT ENABLE_NLS)
-#check_include_file(config.h HAVE_CONFIG_H REQUIRED)
+if (NOT BUILD_INTL)
+  # Generate the config.h file
+  configure_file(${TuxMath_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+endif (NOT BUILD_INTL)
+check_include_file(${CMAKE_CURRENT_BINARY_DIR}/config.h HAVE_CONFIG_H)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
 if (SDLGFX_FOUND)
