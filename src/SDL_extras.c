@@ -515,15 +515,24 @@ void SwitchScreenMode(void)
 
 }
 
-
-int WaitForKeypress(void)
+/*
+Block application until SDL receives an appropriate event. Events can be
+a single or OR'd combination of event masks. 
+e.g. e = WaitForEvent(SDL_KEYDOWNMASK | SDL_QUITMASK)
+*/
+SDL_EventType WaitForEvent(SDL_EventMask events)
 {
   SDL_Event evt;
   while (1)
+  {
     while (SDL_PollEvent(&evt) )
-      if (evt.type == SDL_KEYDOWN)
-        return evt.key.keysym.sym;
-      else SDL_Delay(50);
+    {
+      if (SDL_EVENTMASK(evt.type) & events)
+        return evt.type;
+      else 
+        SDL_Delay(50);
+    }
+  }
 }
 /* Swiped shamelessly from TuxPaint
    Based on code from: http://www.codeproject.com/cs/media/imageprocessing4.asp

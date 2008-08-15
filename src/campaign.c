@@ -37,18 +37,23 @@ int start_campaign()
     for (j = 1; j <= NUM_ROUNDS; ++j)
     {
       printf("Round %d\n", j);
-      
+     
+      //read in settings 
       read_named_config_file("campaign/campaign");    
       readStageSettings(i);
       readRoundSettings(i, j);
+      Opts_SetKeepScore(0);
           
       snprintf(roundmessage, 10, "Round %d", j);
       game_set_start_message(roundmessage, "", "", "");
 
-      Opts_SetKeepScore(0);
       MC_PrintMathOptions(stdout, 0);
+
+      //play!
       printf("Starting game...\n");
       gameresult = game();
+      
+      //move on if we've won, game over if not
       if (gameresult == GAME_OVER_WON)
         ;
       else if (gameresult == GAME_OVER_LOST)
@@ -76,8 +81,8 @@ int start_campaign()
       
       if (endcampaign)
         return 0;
-      
     }
+      
     //if we've beaten the last stage, there is no bonus, skip to win sequence
     if (i == NUM_STAGES - 1)
     {
@@ -110,7 +115,7 @@ void briefPlayer(int stage)
   SDL_Rect textarea = screen->clip_rect;
   SDL_Surface* loadedsprite = LoadImage(sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED);
   
-  if (loadedsprite)
+  if (loadedsprite) //stretch the tiny sprite to 3x
   {
     icon = zoom(loadedsprite, loadedsprite->w*3, loadedsprite->h*3);
     textarea.x = icon->w;
@@ -118,6 +123,7 @@ void briefPlayer(int stage)
     textarea.w = screen->w - icon->w;
     textarea.h = screen->h - icon->h;
   }
+  //show this stage's text
   tmdprintf("Briefing\n");
   SDL_BlitSurface(icon, NULL, screen, NULL);
   scroll_text(briefings[stage], textarea, 1);

@@ -72,17 +72,18 @@ void mp_run_multiplayer()
         pscores[currentplayer] = 0xbeef;
         winners[--activeplayers] = currentplayer;
       }
-
-      while (pscores[currentplayer] == 0xbeef) //skip over eliminated players
+            
+      do
       {
         ++currentplayer;
         currentplayer %= params[PLAYERS];
         if (currentplayer == 0)
           ++round;
-      }
+      } 
+      while (pscores[currentplayer] == 0xbeef); //skip over eliminated players
+      
       if (activeplayers <= 1) //last man standing!
       {
-//        showWinners(winners, params[PLAYERS]);
         tmdprintf("%d wins\n", currentplayer);
         winners[0] = currentplayer;
         done = 1;
@@ -94,6 +95,7 @@ void mp_run_multiplayer()
     int hiscore = 0;
     int currentwinner = -1;
 
+    //play through rounds
     for (round = 1; round <= params[ROUNDS]; ++round)
     {
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
@@ -105,6 +107,8 @@ void mp_run_multiplayer()
           pscores[currentplayer] += 500; //plus a possible bonus
       }
     }
+    
+    //sort out winners
     for (i = 0; i < params[PLAYERS]; ++i)
     {
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
@@ -119,6 +123,7 @@ void mp_run_multiplayer()
       }
     }
   }
+  
   tmdprintf("Game over; showing winners\n");
   showWinners(winners, params[PLAYERS]);
   cleanupMP();
@@ -126,11 +131,21 @@ void mp_run_multiplayer()
 
 int mp_get_player_score(int playernum)
 {
+  if (playernum > params[PLAYERS])
+  {
+    tmdprintf("No player %d!\n", playernum);
+    return 0;
+  }
   return pscores[playernum];
 }
 
 const char* mp_get_player_name(int playernum)
 {
+  if (playernum > params[PLAYERS])
+  {
+    tmdprintf("No player %d!\n", playernum);
+    return 0;
+  }
   return pnames[playernum];
 }
 
@@ -183,7 +198,7 @@ void showWinners(int* winners, int num)
   SDL_FillRect(screen, NULL, 0);
   draw_text(text, center);
   SDL_Flip(screen);
-  WaitForKeypress();
+  WaitForEvent(SDL_KEYDOWNMASK);
 }
 
 int initMP()

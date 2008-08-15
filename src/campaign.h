@@ -1,6 +1,12 @@
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
+/*
+ * campaign.h - prose and function declarations for TuxMath's 'Mission mode' 
+ * 
+ * Author: B. Luchen
+ */
+ 
 #include "SDL_extras.h"
 
 #define TESTING_CAMPAIGN
