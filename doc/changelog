@@ -1,3 +1,11 @@
+2008.Aug.15 (svn.debian.org/tux4kids - revision 627)
+	Added SDL_rotozoom to the sources, from the SDL_gfx library.
+	
+	Also note: most of the summer of code contributions have been
+	added, but this is not well-reflected in the changelog.
+
+	Tim Holy
+
 2008.June.19 (svn.debian.org/tux4kids - revision 537)
       Code:
         Tweaked menu locations for larger screens and fixed a number of

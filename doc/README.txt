@@ -666,4 +666,6 @@ Software Used
   Subversion
     http://subversion.tigris.org/
 
-
+  SDL_rotozoom was copied from the SDL_gfx library and re-licensed
+  (for the purposes of TuxMath only) to GPL
+    http://www.ferzkopp.net/Software/SDL_gfx-2.0/
