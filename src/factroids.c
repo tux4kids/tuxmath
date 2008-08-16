@@ -509,6 +509,7 @@ static void FF_intro(void){
   FF_draw_bkgr();
   if(FF_game==FACTOROIDS_GAME)
   {
+
     rect.x=(screen->w/2)-(IMG_factors->w/2);
     rect.y=(screen->h)/7;
     SDL_BlitSurface(IMG_factors,NULL,screen,&rect);
@@ -528,6 +529,9 @@ static void FF_intro(void){
 		   _("can simplify the fraction... The rocks will split until you got all"),
 		   _("Type the number and shot presing return!"));
   }
+
+  SDL_FreeSurface(IMG_factors);
+  SDL_FreeSurface(IMG_fractions);
 }
 
 static void FF_handle_ship(void){
@@ -775,6 +779,9 @@ static void FF_draw(void){
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
+     
+     xnum=0;
+     ynum=0;
 
      dest.x = asteroid[i].x;
      dest.y = asteroid[i].y; 
