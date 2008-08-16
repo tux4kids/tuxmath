@@ -89,6 +89,7 @@ typedef struct tuxship_type {
   int xspeed, yspeed;
   int x, y;
   int rx, ry;
+  int x1,y1,x2,y2,x3,y3;
   int radius;
   int centerx, centery;
   int angle;
@@ -204,6 +205,9 @@ static int FF_destroy_asteroid(int i, float xspeed, float yspeed);
 
 static void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4);
 
+static SDL_Surface* get_asteroid_image(int size,int angle);
+static int AsteroidColl(int astW,int astH,int astX,int astY,
+                 int x, int y);
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
@@ -438,10 +442,21 @@ static int FF_init(void){
   tuxship.xspeed=0;
   tuxship.yspeed=0;
   tuxship.radius=(images[IMG_SHIP01]->h)/2;
+
+  tuxship.x1=images[IMG_SHIP01]->w-(images[IMG_SHIP01]->w/8);
+  tuxship.y1=images[IMG_SHIP01]->h/2;
+  tuxship.x2=images[IMG_SHIP01]->w/8;
+  tuxship.y2=images[IMG_SHIP01]->h/8;
+  tuxship.x3=images[IMG_SHIP01]->w/8;
+  tuxship.y3=images[IMG_SHIP01]->h-(images[IMG_SHIP01]->h/8);
   shoot_pressed=0;
-  
+
   score=1;
   wave=0;
+  xdead=0;
+  ydead=0;
+  isdead=0;
+  countdead=0;
 
   FF_add_level();
 
@@ -479,16 +494,18 @@ static void FF_intro(void){
 		   _("can simplify the fraction... The rocks will split until you got all"),
 		   _("Type the number and shot presing return!"));
   }
+
+
   while(1){
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT)
     {
       SDL_quit_received = 1;
       quit = 1;
+      return;
     }
     if (event.type == SDL_MOUSEBUTTONDOWN ||
-        event.type == SDL_KEYDOWN ||
-	event.type == SDL_KEYUP)
+        event.type == SDL_KEYDOWN)
     {
       return;
     }
@@ -528,13 +545,25 @@ static void FF_handle_ship(void){
   {
     tuxship.angle=tuxship.angle - DEG_PER_ROTATION*roto_speed;
     if (tuxship.angle < 0)
-      tuxship.angle = tuxship.angle + 360;
+      tuxship.angle = tuxship.angle + 360;  
+
+    tuxship.x1= fast_cos(DEG_PER_ROTATION*-roto_speed)*tuxship.centerx
+               -fast_sin(DEG_PER_ROTATION*-roto_speed)*tuxship.centery;
+    tuxship.y1= fast_sin(DEG_PER_ROTATION*-roto_speed)*tuxship.centerx
+               +fast_cos(DEG_PER_ROTATION*-roto_speed)*tuxship.centery;
+
   }
   else if (left_pressed)
   {
     tuxship.angle=tuxship.angle + DEG_PER_ROTATION*roto_speed;
     if (tuxship.angle >= 360)
       tuxship.angle = tuxship.angle - 360;
+
+    tuxship.x1= fast_cos(DEG_PER_ROTATION*roto_speed)*tuxship.centerx
+               -fast_sin(DEG_PER_ROTATION*roto_speed)*tuxship.centery;
+    tuxship.y1= fast_sin(DEG_PER_ROTATION*roto_speed*tuxship.centerx
+               +fast_cos(DEG_PER_ROTATION*roto_speed))*tuxship.centery;
+
   }
 
 /**************** Move, and increse speed ***************/
@@ -568,6 +597,7 @@ static void FF_handle_ship(void){
     tuxship.y = tuxship.y - (screen->h);
   else if (tuxship.y < -60)
 	tuxship.y = tuxship.y + (screen->h);
+
 /**************** Shoot ***************/   
   if(shoot_pressed)
   {
@@ -579,6 +609,7 @@ static void FF_handle_ship(void){
 
 static void FF_handle_asteroids(void){
 
+  SDL_Surface* surf;
   int i, found=0;
       for (i = 0; i < MAX_ASTEROIDS; i++){
 	  if (asteroid[i].alive)
@@ -586,14 +617,26 @@ static void FF_handle_asteroids(void){
 
 	      found=1;
 
-              /**************Move the astroids ****************/
+	      /*************** Rotate asteroid ****************/ 
+	      
+	      asteroid[i].angle = (asteroid[i].angle + asteroid[i].angle_speed);
+
+	      // Wrap rotation angle... 
+	      
+	      if (asteroid[i].angle < 0)
+		asteroid[i].angle = asteroid[i].angle + 360;
+	      else if (asteroid[i].angle >= 360)
+		asteroid[i].angle = asteroid[i].angle - 360;
+
+             /**************Move the astroids ****************/ 
+	      surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
 
 	      asteroid[i].rx = asteroid[i].rx + asteroid[i].xspeed;
 	      asteroid[i].ry = asteroid[i].ry + asteroid[i].yspeed;
 
-	      asteroid[i].x  = (asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
-	      asteroid[i].y  = (asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
-
+	      asteroid[i].x  = (asteroid[i].rx - (surf->w/2));
+	      asteroid[i].y  = (asteroid[i].ry - (surf->h/2));
+ 	      
 	      // Wrap asteroid around edges of screen: 
 	      
 	      if (asteroid[i].x >= (screen->w))
@@ -605,43 +648,28 @@ static void FF_handle_asteroids(void){
 		asteroid[i].ry = asteroid[i].ry - (screen->h);
 	      else if (asteroid[i].ry < 0)
 		asteroid[i].ry = asteroid[i].ry + (screen->h);
-	      
-	      
-	      // Rotate asteroid: 
-	      
-	      asteroid[i].angle = (asteroid[i].angle + asteroid[i].angle_speed);
-	      
-	      
-	      // Wrap rotation angle... 
-	      
-	      if (asteroid[i].angle < 0)
-		asteroid[i].angle = asteroid[i].angle + 360;
-	      else if (asteroid[i].angle >= 360)
-		asteroid[i].angle = asteroid[i].angle - 360;
-            // Collisions!
-              if(asteroid[i].size<=2){
-	         if(tuxship.x+30<asteroid[i].x+80 && 
-                    tuxship.x+30>asteroid[i].x && 
-                    tuxship.y+30<asteroid[i].y+80 && 
-                    tuxship.y+30>asteroid[i].y &&
-                    tuxship.lives>0 &&
-                    asteroid[i].alive)
- 		{ 
+	      /**************Center Asteroids**************/
 
-		      if(!tuxship.hurt)
-		      {
-		         xdead=asteroid[i].x;
-		         ydead=asteroid[i].y;
-		      
-		         tuxship.lives--;
-		         tuxship.hurt=1;
-		         tuxship.hurt_count=50;
-		         FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
-			 playsound(SND_EXPLOSION);
+  	      asteroid[i].centerx=((surf->w)/2)+(asteroid[i].x-5);
+  	      asteroid[i].centery=((surf->h)/2)+(asteroid[i].y-5);
+
+              /*************** Collisions! ****************/
+
+              if(AsteroidColl(surf->w, surf->h, asteroid[i].x, asteroid[i].y, tuxship.centerx, tuxship.centery))
+	      {
+		if(!tuxship.hurt)
+		{
+		  xdead=asteroid[i].centerx;
+		  ydead=asteroid[i].centery;
+		     
+		  tuxship.lives--;
+		  tuxship.hurt=1;
+		  tuxship.hurt_count=50;
+		  FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
+		  playsound(SND_EXPLOSION);
 			 
-		      }
-                }
-	    }
+		}
+	      }
         }
      }
   if(!found)
@@ -686,10 +714,11 @@ static SDL_Surface* get_asteroid_image(int size,int angle)
 static void FF_draw(void){
 
   int i, offset;
+  int xnum, ynum;
   char str[64];
   SDL_Surface* surf;
   SDL_Rect dest;
-
+  
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
 
   /************ Draw Background ***************/ 
@@ -734,32 +763,52 @@ static void FF_draw(void){
 
      surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
 
+     dest.w = surf->w;
+     dest.h = surf->h;
+
      SDL_BlitSurface(surf, NULL, screen, &dest);
+
+     // Wrap the numbers of the asteroids
+     if((asteroid[i].centery)>23 && (asteroid[i].centery)<screen->h){
+       if((asteroid[i].centerx)>0 && (asteroid[i].centerx)<screen->w){
+         xnum=asteroid[i].centerx-3;
+         ynum=asteroid[i].centery;
+       }
+       else if((asteroid[i].centerx)<=0){
+         xnum=20;
+         ynum=asteroid[i].centery;
+       }
+       else if((asteroid[i].centerx)<=screen->w){
+         xnum=screen->w-20;
+         ynum=asteroid[i].centery;
+       }
+     }
+     else if((asteroid[i].centery)<=23){
+       xnum=asteroid[i].centerx;
+       ynum=23;
+     }
+     else if((asteroid[i].centery)>=screen->h){
+       xnum=asteroid[i].centerx;
+       ynum=screen->h-7;
+     }
+
+     //Draw Numbers
      if(FF_game==FACTOROIDS_GAME)
      {   
+
        sprintf(str, "%.1d", asteroid[i].fact_number);
-       if((asteroid[i].y+10)>23 && (asteroid[i].y+30)<screen->h){
-         if((asteroid[i].x+20)>0 && (asteroid[i].x+40)<screen->w)
-           draw_nums(str, asteroid[i].x+20,asteroid[i].y+10);
-	 else if((asteroid[i].x+20)<=0)
-           draw_nums(str, 20, asteroid[i].y+10);
-	 else if((asteroid[i].x+40)<=screen->w)
-           draw_nums(str, screen->w-20, asteroid[i].y+10);
-       }
-       else if((asteroid[i].y+10)<=23)
-	 draw_nums(str, asteroid[i].x+20, 23);
-       else if((asteroid[i].y+30)>=screen->h)
-	 draw_nums(str, asteroid[i].x+20, screen->h-30);
-        
+       draw_nums(str, xnum, ynum);
+
      }
      else if (FF_game==FRACTIONS_GAME)
      {
+
        sprintf(str, "%d", asteroid[i].a);
-       draw_nums(str, asteroid[i].x+20,asteroid[i].y+20); 
-       draw_line(asteroid[i].x+20,asteroid[i].y+25, asteroid[i].x+50,asteroid[i].y+25,
+       draw_nums(str, xnum, ynum); 
+       draw_line(xnum, ynum+4, xnum+30,ynum+4,
 		 255, 255, 255);
        sprintf(str, "%d", asteroid[i].b);
-       draw_nums(str, asteroid[i].x+20,asteroid[i].y+55);
+       draw_nums(str, xnum, ynum+35);
      }
     }
   }
@@ -933,11 +982,45 @@ static void FF_draw_bkgr(void)
 
 }
 
-int CircularColl(int ax, int ay, int ar, int bx, int by, int br){
-  if ((((ax-bx)*(ax-bx))+((ay-by)*(ay-by)))<((ar+br)*(ar+br)))
+/*Tree rectangle vs a point collitions
+  returns 1 if the collitions is detected
+  and 0 if not*/
+
+int AsteroidColl(int astW,int astH,int astX,int astY,
+                 int x, int y)
+{
+  int astWq=astW/8;
+  int astHq=astH/8;
+  int x1, y1, x2, y2;
+
+  x1=astX+astWq*3;
+  y1=astY;
+  
+  x2=astX+astWq*6;
+  y2=astY+astH;
+
+  if(x>x1 && x<x2 && y>y1 && y<y2)
     return 1;
-  else
-    return 2;
+
+  x1=astX;
+  y1=astY+astHq*3;
+  
+  x2=astW;
+  y2=astY+astHq*6;
+
+  if(x>x1 && x<x2 && y>y1 && y<y2)
+    return 1;
+
+  x1=astX+astWq;
+  y1=astY+astHq;
+  
+  x2=astX+astWq*7;
+  y2=astY+astHq*7;
+
+  if(x>x1 && x<x2 && y>y1 && y<y2)
+    return 1;
+
+  return 0;
 }
 
 // Returns x % w but in the range [-w/2, w/2]
