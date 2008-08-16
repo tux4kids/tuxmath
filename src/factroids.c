@@ -371,16 +371,24 @@ void fractions(void){
 /************ Initialize all vars... ****************/
 static int FF_init(void){
   int i;
+  float zoom;
   SDL_Surface *tmp;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
- 
+  
   FF_intro();
+  
+  if(screen->h<600 && screen->w<800)
+    zoom=0.7;
+  else
+    zoom=1;
+
+  /*********** Precalcualculing software rotation *********/
 
   for(i=0; i<NUM_OF_ROTO_IMGS; i++)
   {
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
-    IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i*DEG_PER_ROTATION, 1, 1);
+    IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i*DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
@@ -389,7 +397,7 @@ static int FF_init(void){
       return 0;
     }
 
-    IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i*DEG_PER_ROTATION, 1, 1);
+    IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i*DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
@@ -398,7 +406,7 @@ static int FF_init(void){
       return 0;
     }
 
-    IMG_asteroids2[i] = rotozoomSurface(images[IMG_ASTEROID2], i*DEG_PER_ROTATION, 1, 1);
+    IMG_asteroids2[i] = rotozoomSurface(images[IMG_ASTEROID2], i*DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
@@ -462,22 +470,48 @@ static int FF_init(void){
 
   for (i=0; i<MAX_LASER; i++)
     laser[i].alive=0;
-  return 1;
-  
+  while(1){
+    SDL_PollEvent(&event);
+    if (event.type == SDL_QUIT)
+    {
+      SDL_quit_received = 1;
+      quit = 1;
+      return 1;
+    }
+    if (event.type == SDL_MOUSEBUTTONDOWN ||
+        event.type == SDL_KEYDOWN)
+    {
+      return 1;
+    }
+  }
 }
 
 
 static void FF_intro(void){
-  
+
+  static SDL_Surface* IMG_factors;
+  static SDL_Surface* IMG_fractions;
+
   SDL_Event event;
   SDL_Rect rect;
+
+  float zoom;
+
+  if(screen->h<600 && screen->w<800)
+    zoom=0.7;
+  else
+    zoom=1;
+  
+  
+  IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS],0,zoom,1);
+  IMG_fractions = rotozoomSurface(images[IMG_FACTORS],0,zoom,1);
 
   FF_draw_bkgr();
   if(FF_game==FACTOROIDS_GAME)
   {
-    rect.x=(screen->w/2)-(images[IMG_FACTOROIDS]->w/2);
+    rect.x=(screen->w/2)-(IMG_factors->w/2);
     rect.y=(screen->h)/7;
-    SDL_BlitSurface(images[IMG_FACTOROIDS],NULL,screen,&rect);
+    SDL_BlitSurface(IMG_factors,NULL,screen,&rect);
     FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
 		   _("type one of its factors, and press space or return..."),
@@ -486,29 +520,13 @@ static void FF_intro(void){
   }
   else if (FF_game==FRACTIONS_GAME)
   {
-    rect.x=(screen->w/2)-(images[IMG_FACTORS]->w/2);
+    rect.x=(screen->w/2)-(IMG_fractions->w/2);
     rect.y=(screen->h)/7;
-    SDL_BlitSurface(images[IMG_FACTORS],NULL,screen,&rect);
+    SDL_BlitSurface(IMG_fractions,NULL,screen,&rect);
     FF_ShowMessage(_("THE FRACTION ACTIVIY"),
 		   _("To win, you need destroy all the asteroids finding a number that"),
 		   _("can simplify the fraction... The rocks will split until you got all"),
 		   _("Type the number and shot presing return!"));
-  }
-
-
-  while(1){
-    SDL_PollEvent(&event);
-    if (event.type == SDL_QUIT)
-    {
-      SDL_quit_received = 1;
-      quit = 1;
-      return;
-    }
-    if (event.type == SDL_MOUSEBUTTONDOWN ||
-        event.type == SDL_KEYDOWN)
-    {
-      return;
-    }
   }
 }
 
@@ -870,10 +888,17 @@ static void FF_draw(void){
     /************* Draw pre answer ************/
 
    
-    sprintf(str, "%.3d", num);
-    draw_numbers(str, ((screen->w)/2)-50, (screen->h)-30);
-    FF_draw_led_console();
-    draw_console_image(tux_img);
+    if(screen->w<800 && screen->h<600)
+    {
+      sprintf(str, "%.3d", num);
+      draw_numbers(str, ((screen->w)/2)-50, (screen->h)-30);
+    } 
+    else
+    {
+      FF_draw_led_console();
+      draw_console_image(tux_img);
+    }
+
     /************** Draw lives ***************/
    dest.y=screen->h;
    dest.x=0;
