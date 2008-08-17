@@ -515,8 +515,8 @@ static void FF_intro(void){
     SDL_BlitSurface(IMG_factors,NULL,screen,&rect);
     FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
-		   _("type one of its factors, and press space or return..."),
-		   _("If you're right, it will split into its factors.  Rocks with prime numbers are destroyed!"));
+		   _("type one of its factors, and press space or return"),
+		   _("to split it into its factors.  Rocks with prime numbers are destroyed!"));
     SDL_BlitSurface(IMG_asteroids1[3],NULL,screen,&rect);
   }
   else if (FF_game==FRACTIONS_GAME)
@@ -524,10 +524,10 @@ static void FF_intro(void){
     rect.x=(screen->w/2)-(IMG_fractions->w/2);
     rect.y=(screen->h)/7;
     SDL_BlitSurface(IMG_fractions,NULL,screen,&rect);
-    FF_ShowMessage(_("THE FRACTION ACTIVIY"),
-		   _("To win, you need destroy all the asteroids finding a number that"),
-		   _("can simplify the fraction... The rocks will split until you got all"),
-		   _("Type the number and shot presing return!"));
+    FF_ShowMessage(_("FRACTIONS: to win, you need destroy all the asteroids"),
+		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
+		   _("type a number that can simplify the fraction, and press space or return"),
+		   _("to split it.  Destroy fractions that can not be further simplified in a single shot!"));
   }
 
   SDL_FreeSurface(IMG_factors);
@@ -1649,19 +1649,19 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
   if (s2)
   {
     loc.x = (screen->w / 2) - (s2->w/2); 
-    loc.y = (screen->h / 2) + 60;
+    loc.y = (screen->h / 2) + 80;
     SDL_BlitSurface( s2, NULL, screen, &loc);
   }
   if (s3)
   {
     loc.x = (screen->w / 2) - (s3->w/2); 
-    loc.y = (screen->h / 2) + 110;
+    loc.y = (screen->h / 2) + 130;
     SDL_BlitSurface( s3, NULL, screen, &loc);
   }
   if (s4)
   {
     loc.x = (screen->w / 2) - (s4->w/2); 
-    loc.y = (screen->h / 2) + 200;
+    loc.y = (screen->h / 2) + 180;
     SDL_BlitSurface( s4, NULL, screen, &loc);
   }
 
