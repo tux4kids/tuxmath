@@ -350,7 +350,7 @@ void TitleScreen(void)
       SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
       SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
 
-      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h + TuxPixSkip);
+      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
       SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w + TitlePixSkip, Titledest.h);
       SDL_UpdateRect(screen, stopRect.x, stopRect.y, stopRect.w, stopRect.h);
 

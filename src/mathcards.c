@@ -242,7 +242,7 @@ static MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 static void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy a flashcard
 static MC_MathQuestion* allocate_node(void); //allocate space for a node
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
-static int find_divisor(int a);
+static int find_divisor(int a); //return a random positive divisor of a
 static MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion* end_of_list);
 static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
 
@@ -1914,13 +1914,17 @@ int MC_FlashCardGood(const MC_FlashCard* fc)
 int find_divisor(int a)
 {
   int div = 1; //the divisor to return
+  int realisticpasses = 3; //reasonable time after which a minimum should be met
   int i;
-  for (i = 0; i < NPRIMES; ++i) //test each prime
-    if (a % smallprimes[i] == 0)  //if it is a prime factor,
-      if (rand() % (i + 1) == 0) //maybe we'll keep it
-        if (div * smallprimes[i] <= MC_GetOpt(MAX_DIVISOR) ) //if we can,
-          div *= smallprimes[i]; //update our real divisor
-  //FIXME ensure div meets minimum divisor if possible (it might not be)
+  do
+    for (i = 0; i < NPRIMES; ++i) //test each prime
+      if (a % smallprimes[i] == 0)  //if it is a prime factor,
+        if (rand() % (i + 1) == 0) //maybe we'll keep it
+          if (div * smallprimes[i] <= MC_GetOpt(MAX_DIVISOR) ) //if we can,
+            div *= smallprimes[i]; //update our real divisor
+  //keep going if the divisor is too small
+  while (div < MC_GetOpt(MIN_DIVISOR) && --realisticpasses); 
+  
   return div;
 }
 
@@ -1933,9 +1937,11 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
 
   mcdprintf("Entering add_all_valid(%d)\n", pt);
 
+  //make sure this problem type is actually allowed
   if (!MC_GetOpt(pt + TYPING_PRACTICE_ALLOWED) )
     return list;
 
+  //add all typing questions in range
   if (pt == MC_PT_TYPING)
   {
     mcdprintf("Adding typing...\n");
@@ -1949,6 +1955,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       end_of_list = tnode;
     }
   }
+  //add all allowed arithmetic questions
   else if (MC_PT_ARITHMETIC)
   {
     mcdprintf("Adding arithmetic...\n");
@@ -2019,6 +2026,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       }
     }
   }
+  //add all comparison questions (TODO implement them!)
   else if (pt == MC_PT_COMPARISON)
   {
     for (i = MC_GetOpt(MIN_COMPARATOR); i < MC_GetOpt(MAX_COMPARATOR); ++i)
@@ -2027,6 +2035,10 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       {
         tnode = allocate_node();
         snprintf(tnode->card.formula_string, max_formula_size, "%d ? %d", i,j);
+        snprintf(tnode->card.answer_string, max_formula_size,
+                 i < j ? "<" : 
+                 i > j ? ">" : 
+                         "=");
         list = insert_node(list, end_of_list, tnode);
         end_of_list = tnode;
       }
@@ -2042,6 +2054,7 @@ MC_MathQuestion* find_node(MC_MathQuestion* list, int num)
     list = list->next;
   return list;
 }
+
 void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
 {
   int i, j;
@@ -2051,7 +2064,7 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
   char nformula[max_formula_size + max_answer_size]; //gets a bit larger than usual in the meantime
   
   {
-    snprintf(nans, max_answer_size, "%s", card->answer_string);
+    //snprintf(nans, max_answer_size, "%s", card->answer_string);
    
     //insert old answer where question mark was
     for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)

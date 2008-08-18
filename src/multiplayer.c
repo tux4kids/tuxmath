@@ -57,12 +57,12 @@ void mp_run_multiplayer()
     return;
   }
 
-
-  if (params[MODE] == ELIMINATION)
+  //cycle through players until all but one has lost
+  if (params[MODE] == ELIMINATION) 
   {
     while(!done)
     {
-
+      //TODO maybe gradually increase difficulty
       game_set_start_message(pnames[currentplayer], "Go!", "", "");
       result = game();
 
@@ -73,7 +73,7 @@ void mp_run_multiplayer()
         winners[--activeplayers] = currentplayer;
       }
             
-      do
+      do //move to the next player
       {
         ++currentplayer;
         currentplayer %= params[PLAYERS];
@@ -90,6 +90,7 @@ void mp_run_multiplayer()
       }
     }
   }
+  //players take turns, accumulating score, and the highest score wins
   else if (params[MODE] == SCORE_SWEEP)
   {
     int hiscore = 0;
@@ -178,11 +179,13 @@ void showWinners(int* winners, int num)
 
   while (box.h < screen->h || box.w < screen->w)
   {
+    //expand black box
     box.x -= boxspeed;
     box.y -= boxspeed;
     box.h += boxspeed * 2;
     box.w += boxspeed * 2;
 
+    //reveal text specifying the winner
     SDL_FillRect(screen, &box, 0);
     draw_text(text, center);
     SDL_UpdateRect(screen, box.x, box.y, box.w, box.h);
@@ -194,11 +197,11 @@ void showWinners(int* winners, int num)
       break;
     SDL_Delay(50);
   }
-
+  //in case we've skipped, cover the whole screen
   SDL_FillRect(screen, NULL, 0);
   draw_text(text, center);
   SDL_Flip(screen);
-  WaitForEvent(SDL_KEYDOWNMASK);
+  WaitForEvent(SDL_KEYDOWNMASK | SDL_MOUSEBUTTONDOWNMASK);
 }
 
 int initMP()
@@ -232,13 +235,17 @@ int initMP()
   for (i = 0; i < nplayers; ++i)
     pnames[i] = malloc((1 + 3 * HIGH_SCORE_NAME_LENGTH) * sizeof(char) );
   for (i = 0; i < nplayers; ++i)
+  {
     if (pnames[i])
       NameEntry(pnames[i], "Who is playing?", "Enter your name:");
     else
-      {
-        printf("Can't allocate name %d!\n", i);
-        return 1;
-      }
+    {
+      printf("Can't allocate name %d!\n", i);
+      return 1;
+    }
+  }
+  
+  //enter how many rounds
   if (params[MODE] == SCORE_SWEEP)
   {
     while (params[ROUNDS] <= 0)

@@ -24,6 +24,7 @@
 
 #define MC_USE_NEWARC
 
+/* different classes of problems TuxMath will ask */
 typedef enum _MC_ProblemType {
   MC_PT_TYPING,
   MC_PT_ARITHMETIC,
@@ -123,8 +124,8 @@ enum {
   RANDOMIZE                 , /* whether to shuffle cards */
 
   COMPREHENSIVE             , /* whether to generate all questions 'in order' */
-  AVG_LIST_LENGTH           ,
-  VARY_LIST_LENGTH          ,
+  AVG_LIST_LENGTH           , /* the average number of questions in a list */
+  VARY_LIST_LENGTH          , /* whether to randomly adjust list length */
 
   NOPTS
 };
@@ -145,8 +146,7 @@ extern const char operchars[MC_NUM_OPERS];
 typedef struct _MC_Options
 {
   int iopts[NOPTS];
-  //float fraction_to_keep; //being a float, we can't keep this in the same array
-} MC_Options;             //it'll stay a special case, unless more float options
+} MC_Options;
 
 #ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
@@ -280,14 +280,14 @@ void MC_SetOpt(unsigned int index, int val); //access directly,for internal use
 int MC_GetOpt(unsigned int index);
 void MC_SetOp(const char* param, int val); //access by text, for config reading
 int MC_GetOp(const char* param);
-void MC_SetFractionToKeep(float val);
-float MC_GetFractionToKeep(void);
 int MC_VerifyOptionListSane(void);
-int MC_MaxFormulaSize(void);
+int MC_MaxFormulaSize(void); //amount of memory needed to safely hold strings
 int MC_MaxAnswerSize(void);
 MC_FlashCard MC_AllocateFlashcard();
 void MC_FreeFlashcard(MC_FlashCard* fc);
-void MC_ResetFlashCard(MC_FlashCard* fc);
+void MC_ResetFlashCard(MC_FlashCard* fc); //empty flashcard of strings & values
 int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid
+/* Reorganize formula_string and answer_string to render the same equation
+   in a different format */
 void reformat_arithmetic(MC_FlashCard* card, MC_Format f);
 #endif
