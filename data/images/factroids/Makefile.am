@@ -19,9 +19,6 @@ dist_comets_DATA = asteroid1.png \
 		 star3.png	 \
 		 factoroids.png  \
 		 factors.png	 \
-		 tux.png	 \ 
-  		 good.png
-
-
-
+		 tux.png	 \
+		 good.png
 

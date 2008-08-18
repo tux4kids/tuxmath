@@ -42,10 +42,13 @@ const char ScanDir_rcsid[] = "Hatari $Id: scandir.c,v 1.3 2007/01/16 18:42:59 th
 #if defined(__sun) && defined(__SVR4)
 # define dirfd(d) ((d)->dd_fd)
 #elif defined(__BEOS__)
+#ifndef (__HAIKU__)
+#else
 # define dirfd(d) ((d)->fd)
 #endif
+#endif
 
-
+/
 /*-----------------------------------------------------------------------*/
 /**
  * Alphabetic order comparison routine.
