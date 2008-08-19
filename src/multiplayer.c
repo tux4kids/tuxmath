@@ -160,7 +160,7 @@ int mp_get_parameter(unsigned int param)
   return params[param];
 }
 
-
+//TODO a nicer-looking sequence that also recognizes second place etc.
 void showWinners(int* winners, int num)
 {
   int skip = 0;
@@ -170,9 +170,11 @@ void showWinners(int* winners, int num)
   SDL_Rect center = box;
   SDL_Event evt;
 
+  const char* winnername = (winners[0] == -1 ? "Nobody" : pnames[winners[0]] );
+  
   tmdprintf(pnames[winners[0]] );
   tmdprintf("%d\n", snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),
-                    "%s wins!", pnames[winners[0]]) );
+                    "%s wins!", winnername) );
   tmdprintf("Win text: %s\n", text);
 
   DarkenScreen(1);

@@ -89,11 +89,12 @@ int start_campaign()
       showGameWon();
       break;
     }
-    //bonus round
+/*    //bonus round
     readStageSettings(i);
     readRoundSettings(i, -1);
     game_set_start_message("Bonus", "", "", "");
     game();
+*/
   }
   scroll_text(endtext, screen->clip_rect, 3);
   return 0;

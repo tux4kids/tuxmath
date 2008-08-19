@@ -9,7 +9,8 @@
  
 #include "SDL_extras.h"
 
-#define TESTING_CAMPAIGN
+
+//#define TESTING_CAMPAIGN //allow ESC to skip missions instead of exiting
 
 #define NUM_STAGES 5 
 #define NUM_ROUNDS 3

@@ -1,8 +1,6 @@
 #cadet round 3
 
-typing_practice_allowed = 1
-min_typing_num = 0
-max_typing_num = 100
+typing_practice_allowed = 0
 min_augend = 0
 max_augend = 20
 min_augend = 0
