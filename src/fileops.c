@@ -104,6 +104,7 @@ static int write_config_file(FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 static int read_goldstars(void);
 static int read_lines_from_file(FILE *fp,char ***lines);
+static int parse_option(const char* name, int val, int file_type);
 static void dirname_up(char *dirname);
 static char* get_user_name(void);
 static char* get_file_name(char *fullpath);
@@ -1195,61 +1196,61 @@ int read_config_file(FILE *fp, int file_type)
     /* Now ready to handle each name/value pair! */
     
     /* Set general game_options struct (see tuxmath.h): */ 
-    if(0 == strcasecmp(parameter, "per_user_config"))
-    {
-      /* Only let administrator change this setting */
-      if (file_type == GLOBAL_CONFIG_FILE) 
-      {
-        int v = str_to_bool(value);
-        if (v != -1)
-          Opts_SetPerUserConfig(v);
-      }
-    }
-
-    else if(0 == strcasecmp(parameter, "homedir"))
-    {
-      /* Only let administrator change this setting */
-      if (file_type == GLOBAL_CONFIG_FILE && user_data_dir == NULL)
-      {
-        /* Check to see whether the specified homedir exists */
-        dir = opendir(value);
-        if (dir == NULL)
-          fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
-        else {
-          set_user_data_dir(value);  /* copy the homedir setting */
-          closedir(dir);
-        }
-      }
-    }
-
-    else if(0 == strcasecmp(parameter, "use_sound"))
-    {
-      int v = str_to_bool(value);
-      if (v != -1)
-        Opts_SetUseSound(v);
-    }
-    else if(0 == strcasecmp(parameter, "menu_sound"))
-    {
-      int v = str_to_bool(value);
-      if (v != -1)
-        Opts_SetMenuSound(v);
-    }
-
-    else if(0 == strcasecmp(parameter, "menu_music"))
-    {
-      int v = str_to_bool(value);
-      if (v != -1)
-        Opts_SetMenuMusic(v);
-    }
-
-    else if(0 == strcasecmp(parameter, "fullscreen"))
-    {
-      int v = str_to_bool(value);
-      if (v != -1)
-        Opts_SetFullscreen(v);
-    }
-
-    else if(0 == strcasecmp(parameter, "use_bkgd"))
+//    if(0 == strcasecmp(parameter, "per_user_config"))
+//    {
+//      /* Only let administrator change this setting */
+//      if (file_type == GLOBAL_CONFIG_FILE) 
+//      {
+//        int v = str_to_bool(value);
+//        if (v != -1)
+//          Opts_SetGlobalOpt(PER_USER_CONFIG, v);
+//      }
+//    }
+//                                 
+//    else if(0 == strcasecmp(parameter, "homedir"))
+//    {
+//      /* Only let administrator change this setting */
+//      if (file_type == GLOBAL_CONFIG_FILE && user_data_dir == NULL)
+//      {
+//        /* Check to see whether the specified homedir exists */
+//        dir = opendir(value);
+//        if (dir == NULL)
+//          fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
+//        else {
+//          set_user_data_dir(value);  /* copy the homedir setting */
+//          closedir(dir);
+//        }
+//      }
+//    }
+//
+//    else if(0 == strcasecmp(parameter, "use_sound"))
+//    {
+//      int v = str_to_bool(value);
+//      if (v != -1)
+//        Opts_SetGlobalOpt(USE_SOUND, v);
+//    }
+//    else if(0 == strcasecmp(parameter, "menu_sound"))
+//    {
+//      int v = str_to_bool(value);
+//      if (v != -1)
+//        Opts_SetGlobalOpt(MENU_SOUND, v);
+//    }
+//
+//    else if(0 == strcasecmp(parameter, "menu_music"))
+//    {
+//      int v = str_to_bool(value);
+//      if (v != -1)
+//        Opts_SetGlobalOpt(MENU_MUSIC, v);
+//    }
+//
+//    else if(0 == strcasecmp(parameter, "fullscreen"))
+//    {
+//      int v = str_to_bool(value);
+//      if (v != -1)
+//        Opts_SetGlobalOpt(FULLSCREEN, v);
+//    }
+    //TODO herd these per-game options into their own "domain" as well
+    if(0 == strcasecmp(parameter, "use_bkgd"))
     {
       int v = str_to_bool(value);
       if (v != -1)
@@ -1274,7 +1275,7 @@ int read_config_file(FILE *fp, int file_type)
     {
       int v = str_to_bool(value);
       if (v != -1)
-        Opts_SetUseKeypad(v);
+        Opts_SetGlobalOpt(USE_KEYPAD, v);
     }
 
     else if(0 == strcasecmp(parameter, "allow_pause"))
@@ -1288,7 +1289,7 @@ int read_config_file(FILE *fp, int file_type)
     {
       int v = str_to_bool(value);
       if (v != -1)
-        Opts_SetUseIgloos(v);
+        Opts_SetGlobalOpt(USE_IGLOOS, v);
     }
 
     else if(0 == strcasecmp(parameter, "bonus_comet_interval"))
@@ -1367,7 +1368,7 @@ int read_config_file(FILE *fp, int file_type)
     else if(0 == strcasecmp(parameter, "starting_comets"))
     {
       Opts_SetStartingComets(atoi(value));
-    }
+    }          
 
     else if(0 == strcasecmp(parameter, "extra_comets_per_wave"))
     {
@@ -1384,9 +1385,37 @@ int read_config_file(FILE *fp, int file_type)
       Opts_SetKeepScore(atoi(value) );
     }
 
-    else
-    {   
-      MC_SetOp(parameter, atoi(value) ); //automatically handles bad parameters
+    else //we're going to delegate the setting of options to their subsystems
+    {
+      int ival = str_to_bool(value); //see if it's a valid bool
+      if (ival == -1) //guess not, must be an int
+        ival = atoi(value);
+      if (!parse_option(parameter, ival, file_type) )
+        printf("Sorry, I couldn't set %s\n", parameter);
+//        
+//      if (file_type != GLOBAL_CONFIG_FILE)
+//        MC_SetOp(parameter, ival); 
+//      else
+//      {
+//        if(0 != strcasecmp(parameter, "homedir"))
+//        {
+//          Opts_SetGlobalOp(parameter, ival);
+//        }
+//        else //set homedir
+//        {
+//          if (user_data_dir == NULL)
+//          {
+//            /* Check to see whether the specified homedir exists */
+//            dir = opendir(value);
+//            if (dir == NULL)
+//              fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", value);
+//            else {
+//              set_user_data_dir(value);  /* copy the homedir setting */
+//              closedir(dir);
+//            }
+//          }
+//        }
+//      }
     }
     free(parameter);
   }
@@ -1415,6 +1444,28 @@ int read_config_file(FILE *fp, int file_type)
   return 1;
 }
 
+/* determine which option class a name belongs to, and set it */
+/* accordingly. Returns 1 on success, 0 on failure            */
+static int parse_option(const char* name, int val, int file_type)
+{
+  int index = -1;
+  
+  if ((index = MC_MapTextToIndex(name)) != -1) //is it a math opt?
+  {
+    MC_SetOpt(index, val);
+  }
+  else if ((index = Opts_MapTextToIndex(name)) != -1) //is it a global opt?
+  {
+    if (file_type == GLOBAL_CONFIG_FILE)
+      Opts_SetGlobalOpt(index, val);
+  }
+  else //no? oh well.
+  {
+    return 0;
+  }
+  
+  return 1;
+}
 
 
 int write_user_config_file(void)
@@ -1716,7 +1767,7 @@ int write_config_file(FILE *fp, int verbose)
   {
     //use_sound comment
   } 
-  fprintf(fp, "use_sound = %d\n", Opts_UseSound() );
+  fprintf(fp, "use_sound = %d\n", Opts_GetGlobalOpt(USE_SOUND) );
   
   if (verbose)
   {
@@ -1904,7 +1955,7 @@ int write_config_file(FILE *fp, int verbose)
                  "# out' by accidentally setting per_user_config to 0.       #\n"
                  "############################################################\n\n");
   }
-  fprintf(fp, "per_user_config = %d\n", Opts_PerUserConfig());
+  fprintf(fp, "per_user_config = %d\n", Opts_GetGlobalOpt(PER_USER_CONFIG));
   fprintf(fp, "# homedir = /servervolume/tuxmath_users\n");
 
 
@@ -2308,6 +2359,7 @@ static char* get_file_name(char *fullpath)
 
 /* Allows use of "true", "YES", T, etc. in text file for boolean values. */
 /* Return value of -1 means value string is not recognized.              */
+/* Now reject non-"boolish" ints to prevent int/bool ambiguity           */
 static int str_to_bool(const char* val)
 {
   char* ptr;
@@ -2317,6 +2369,7 @@ static int str_to_bool(const char* val)
     ||(0 == strcasecmp(val, "t"))
     ||(0 == strcasecmp(val, "yes"))
     ||(0 == strcasecmp(val, "y"))
+    ||(0 == strcasecmp(val, "1"))
     ||(0 == strcasecmp(val, "on")))
   {
     return 1;
@@ -2326,11 +2379,14 @@ static int str_to_bool(const char* val)
     ||(0 == strcasecmp(val, "f"))
     ||(0 == strcasecmp(val, "no"))
     ||(0 == strcasecmp(val, "n"))
-    ||(0 == strcasecmp(val, "off")))
+    ||(0 == strcasecmp(val, "0"))
+  ||(0 == strcasecmp(val, "off")))
   {
     return 0;
   }  
 
+  return -1;
+  
   /* Return -1 if any chars are non-digits: */
   ptr = (char*)val;
   while (*ptr)
@@ -2341,6 +2397,7 @@ static int str_to_bool(const char* val)
   }
 
   /* If we get to here, val should be an integer. */
+  
   if (atoi(val))
     return 1;
   else

@@ -201,7 +201,7 @@ int game(void)
 #endif
 
   //see if the option matches the actual screen
-  if (Opts_Fullscreen() == !(screen->flags & SDL_FULLSCREEN) )
+  if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
     {
     ;//SwitchScreenMode();
     }
@@ -467,7 +467,7 @@ this should stylishly fade out over the first few moments of the game.
 void game_set_start_message(const char* m1, const char* m2, 
                             const char* m3, const char* m4)
 {
-  game_set_message(&s1, m1, screen->w / 2 - 40, RES_Y * 2 / 10);
+  game_set_message(&s1, m1, -1, RES_Y * 2 / 10);
   game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 3 / 10);
   game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 4 / 10);
   game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 5 / 10);
@@ -569,7 +569,7 @@ int game_initialize(void)
 
   /* (Create and position cities) */
 
-  if (Opts_UseIgloos())
+  if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
   else
     img = IMG_CITY_BLUE;
@@ -951,6 +951,7 @@ void game_write_message(const game_message *msg)
     else
       rect.x = msg->x;              // left justified
     rect.y = msg->y;
+    //FIXME alpha blending doesn't seem to work properly
     SDL_SetAlpha(surf, SDL_SRCALPHA, msg->alpha);
     SDL_BlitSurface(surf, NULL, screen, &rect);
     SDL_FreeSurface(surf);
@@ -1367,7 +1368,7 @@ void game_handle_comets(void)
         if (cities[this_city].hits_left)
         {
           cities[this_city].status = CITY_EXPLODING;
-          if (Opts_UseIgloos()) {
+          if (Opts_GetGlobalOpt(USE_IGLOOS)) {
             playsound(SND_IGLOO_SIZZLE);
             cities[this_city].counter = IGLOO_SWITCH_START;
             steam[this_city].status = STEAM_ON;
@@ -1483,7 +1484,7 @@ void game_handle_cities(void)
         if (cities[i].hits_left)
           cities[i].status = CITY_PRESENT;
         else {
-          if (Opts_UseIgloos()) {
+          if (Opts_GetGlobalOpt(USE_IGLOOS)) {
             cities[i].status = CITY_EVAPORATING;
             cities[i].counter = EVAPORATING_COUNTER_START;
             cities[i].img = IMG_IGLOO_MELTED1;
@@ -1495,7 +1496,7 @@ void game_handle_cities(void)
       }
     }
     /* Choose the correct city/igloo image */
-    if (Opts_UseIgloos()) {
+    if (Opts_GetGlobalOpt(USE_IGLOOS)) {
       if (cities[i].status == CITY_EVAPORATING) {
         /* Handle the evaporation animation */
         cities[i].layer = 0;  /* these have to be drawn below the penguin */
@@ -1545,7 +1546,7 @@ void game_handle_penguins(void)
 {
   int i,direction,walk_counter;
 
-  if (!Opts_UseIgloos())
+  if (!Opts_GetGlobalOpt(USE_IGLOOS))
     return;
   for (i = 0; i < NUM_CITIES; i++) {
     penguins[i].layer = 0;
@@ -1651,7 +1652,7 @@ void game_handle_steam(void)
 {
   int i;
 
-  if (!Opts_UseIgloos())
+  if (!Opts_GetGlobalOpt(USE_IGLOOS))
     return;
   for (i = 0; i < NUM_CITIES; i++) {
     if (steam[i].counter) {
@@ -1807,7 +1808,7 @@ void game_draw(void)
   }
 
   /* Draw numeric keypad: */
-  if (Opts_UseKeypad())
+  if (Opts_GetGlobalOpt(USE_KEYPAD))
   {
     /* pick image to draw: */
     int keypad_image;
@@ -1988,7 +1989,7 @@ void game_draw_cities(void)
   SDL_Rect src, dest;
   SDL_Surface* this_image;
 
-  if (Opts_UseIgloos()) {
+  if (Opts_GetGlobalOpt(USE_IGLOOS)) {
     /* We have to draw respecting layering */
     current_layer = 0;
     max_layer = 0;
@@ -3064,7 +3065,7 @@ void game_mouse_event(SDL_Event event)
   /* get out unless we really are using keypad */
   if ( level_start_wait
     || Opts_DemoMode()
-    || !Opts_UseKeypad())
+    || !Opts_GetGlobalOpt(USE_KEYPAD))
   {
     return;
   }
@@ -3259,7 +3260,7 @@ void game_key_event(SDLKey key)
   /* Toggle screen mode: */
   else if (key == SDLK_F10)
   {
-    Opts_SetFullscreen(!Opts_Fullscreen() );
+    Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
     SwitchScreenMode();
     game_recalc_positions();
   }
@@ -3420,7 +3421,7 @@ void game_recalc_positions(void)
 
   tmdprintf("Recalculating positions\n");
 
-  if (Opts_UseIgloos())
+  if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
   else
     img = IMG_CITY_BLUE;
@@ -3455,7 +3456,7 @@ void game_recalc_positions(void)
       continue;
 
     comets[i].x = cities[comets[i].city].x;
-    //if (Opts_Fullscreen() )
+    //if (Opts_GetGlobalOpt(FULLSCREEN) )
       comets[i].y = comets[i].y * city_expl_height / old_city_expl_height;
     //else
     //  comets[i].y = comets[i].y * RES_Y / screen->h;

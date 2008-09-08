@@ -1909,7 +1909,7 @@ int game_mouse_event(SDL_Event event)
   /* get out unless we really are using keypad */
   if ( level_start_wait 
     || Opts_DemoMode()
-    || !Opts_UseKeypad())
+    || !Opts_GetGlobalOpt(USE_KEYPAD))
   {
     return -1;
   }

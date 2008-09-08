@@ -206,8 +206,8 @@ void TitleScreen(void)
 
   if (Opts_UsingSound())
   {
-    Opts_SetMenuSound(1);
-    Opts_SetMenuMusic(1);
+    Opts_SetGlobalOpt(MENU_SOUND, 1);
+    Opts_SetGlobalOpt(MENU_MUSIC, 1);
 //    menu_music = localsettings.menu_music;
   }
 
@@ -373,7 +373,7 @@ void TitleScreen(void)
   beak.w = beak.h = 50;
 
   /* Start playing menu music if desired: */
-  if (Opts_MenuMusic())
+  if (Opts_GetGlobalOpt(MENU_MUSIC))
   {
     audioMusicLoad("tuxi.ogg", -1);
   }
@@ -706,11 +706,11 @@ int run_main_menu(void)
         // Help
         Opts_SetHelpMode(1);
         Opts_SetDemoMode(0);
-        if (Opts_MenuMusic())  //Turn menu music off for game
+        if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
           {audioMusicUnload();}
         game();
         RecalcTitlePositions();
-        if (Opts_MenuMusic()) //Turn menu music back on
+        if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
           {audioMusicLoad( "tuxi.ogg", -1 );}
         Opts_SetHelpMode(0);
         break;
@@ -890,7 +890,7 @@ int run_arcade_menu(void)
         audioMusicUnload();
         game();
         RecalcTitlePositions();
-        if (Opts_MenuMusic()) {
+        if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
         }
         /* See if player made high score list!                        */
@@ -946,14 +946,14 @@ int run_custom_menu(void)
   ShowMessage(s1, s2, s3, s4);
 
   if (read_user_config_file()) {
-    if (Opts_MenuMusic())
+    if (Opts_GetGlobalOpt(MENU_MUSIC))
       audioMusicUnload();
 
     game();
     RecalcTitlePositions();
     write_user_config_file();
 
-    if (Opts_MenuMusic())
+    if (Opts_GetGlobalOpt(MENU_MUSIC))
       audioMusicLoad( "tuxi.ogg", -1 );
   }
 
@@ -991,7 +991,7 @@ int run_activities_menu(void)
           audioMusicUnload();
           factors();
 	  
-	  if (Opts_MenuMusic()) {
+	  if (Opts_GetGlobalOpt(MENU_MUSIC)) {
 	      audioMusicLoad( "tuxi.ogg", -1 );
 	  }
 	  break;
@@ -999,7 +999,7 @@ int run_activities_menu(void)
           audioMusicUnload(); 
           fractions();
 	  
-	  if (Opts_MenuMusic()) {
+	  if (Opts_GetGlobalOpt(MENU_MUSIC)) {
 	     audioMusicLoad( "tuxi.ogg", -1 );
 	  }
 	  break;
@@ -1095,7 +1095,7 @@ int run_options_menu(void)
         audioMusicUnload();
         game();
         RecalcTitlePositions();
-        if (Opts_MenuMusic()) {
+        if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
         }
       } else {
@@ -1173,7 +1173,7 @@ int run_lessons_menu(void)
 
   while (chosen_lesson >= 0)
   {
-    if (Opts_MenuSound())
+    if (Opts_GetGlobalOpt(MENU_SOUND))
       playsound(SND_POP);
 
     /* Re-read global settings first in case any settings were */
@@ -1182,7 +1182,7 @@ int run_lessons_menu(void)
     /* Now read the selected file and play the "mission": */
     if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
     {
-      if (Opts_MenuMusic())  //Turn menu music off for game
+      if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {audioMusicUnload();}
 
 
@@ -1198,7 +1198,7 @@ int run_lessons_menu(void)
         write_goldstars();
       }
 
-      if (Opts_MenuMusic()) //Turn menu music back on
+      if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
         {audioMusicLoad("tuxi.ogg", -1);}
     }
     else  // Something went wrong - could not read lesson config file:
@@ -1601,7 +1601,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             if (inRect(menu_button_rect[i], event.motion.x, event.motion.y))
             {
               // Play sound if loc is being changed:
-              if (Opts_MenuSound() && (old_loc != loc_screen_start + i))
+              if (Opts_GetGlobalOpt(MENU_SOUND) && (old_loc != loc_screen_start + i))
               {
                 playsound(SND_TOCK);
               }
@@ -1615,7 +1615,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           {
             if (loc_screen_start - n_entries_per_screen >= 0)
             {
-              if (Opts_MenuSound() && click_flag)
+              if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
               {
                 playsound(SND_TOCK);
                 click_flag = 0;
@@ -1629,7 +1629,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           {
             if (loc_screen_start + n_entries_per_screen < n_menu_entries)
             {
-              if (Opts_MenuSound() && click_flag)
+              if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
               {
                 playsound(SND_TOCK);
                 click_flag = 0;
@@ -1652,7 +1652,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           {
             if (inRect(menu_button_rect[i], event.button.x, event.button.y))
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
               {
                 playsound(SND_POP);
               }
@@ -1671,7 +1671,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
               //loc = loc_screen_start - n_entries_per_screen;
               loc_screen_start -= n_entries_per_screen;
               loc = -1;  // nothing selected
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
               {
                 playsound(SND_TOCK);
               }
@@ -1687,7 +1687,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
               //loc = loc_screen_start + n_entries_per_screen;
               loc_screen_start += n_entries_per_screen;
               loc = -1;  // nothing selected
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
               {
                 playsound(SND_TOCK);
               }
@@ -1720,7 +1720,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             case SDLK_SPACE:
             case SDLK_KP_ENTER:
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_POP);
               stop = 1;
               break;
@@ -1731,7 +1731,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             case SDLK_LEFT:
             case SDLK_PAGEUP:
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_TOCK);
               if (loc_screen_start - n_entries_per_screen >= 0) {
                 loc_screen_start -= n_entries_per_screen;
@@ -1746,7 +1746,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             case SDLK_RIGHT:
             case SDLK_PAGEDOWN:
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_TOCK);
               if (loc_screen_start + n_entries_per_screen < n_menu_entries) {
                 loc_screen_start += n_entries_per_screen;
@@ -1759,7 +1759,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             /* Go up one entry, if present: */
             case SDLK_UP:
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_TOCK);
               if (loc > title_offset)
                 {loc--;}
@@ -1779,7 +1779,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             /* Go down one entry, if present: */
             case SDLK_DOWN:
             {
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_TOCK);
               if (loc >= 0 && loc + 1 < n_menu_entries)
                 {loc++;}
@@ -1819,14 +1819,14 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             /* Toggle menu music: */
             case SDLK_F11:
             {
-              if (Opts_MenuMusic())
+              if (Opts_GetGlobalOpt(MENU_MUSIC))
               {
                 audioMusicUnload( );
-                Opts_SetMenuMusic(0);
+                Opts_SetGlobalOpt(MENU_MUSIC, 0);
               }
               else
               {
-                Opts_SetMenuMusic(1);
+                Opts_SetGlobalOpt(MENU_MUSIC, 1);
                 audioMusicLoad("tuxi.ogg", -1);
               }
               break;

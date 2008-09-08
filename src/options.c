@@ -37,12 +37,37 @@
 
 //int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
+/* extern'd constants */
+
+const char* const OPTION_TEXT[NUM_GLOBAL_OPTS+1] = {
+  "PER_USER_CONFIG",
+  "USE_SOUND",
+  "MENU_SOUND",
+  "MENU_MUSIC",
+  "FULLSCREEN",
+  "USE_KEYPAD",
+  "USE_IGLOOS",
+  "END_OF_OPTS"
+};
+
+const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {
+  1,
+  1,
+  1,
+  1,
+  1,
+  0,
+  1
+};
+  
+
 /* file scope only now that accessor functions used: */
 static game_option_type* game_options;
+static global_option_type* global_options;
 
 /*local function prototypes: */
 static int int_to_bool(int i);
-
+//static int find_and_set_option(const char* name, int val);
 
 
 /********************************************************************/
@@ -51,23 +76,30 @@ static int int_to_bool(int i);
 
 int Opts_Initialize(void)
 {
+  int i;
+  
   game_options = malloc(sizeof(game_option_type));
+  global_options = malloc(sizeof(global_option_type));
   /* bail out if no struct */
   if (!game_options)
     return 0;
 
+  /* set global program options */
+  for (i = 0; i < NUM_GLOBAL_OPTS; ++i)
+    global_options->iopts[i] = DEFAULT_GLOBAL_OPTS[i];
+    
   /* set general game options */
-  game_options->per_user_config = DEFAULT_PER_USER_CONFIG;
-  game_options->use_sound = DEFAULT_USE_SOUND;
-  game_options->menu_sound = DEFAULT_MENU_SOUND;
-  game_options->menu_music = DEFAULT_MENU_MUSIC;
-  game_options->fullscreen = DEFAULT_FULLSCREEN;
+  global_options->iopts[PER_USER_CONFIG] = DEFAULT_PER_USER_CONFIG;
+  global_options->iopts[USE_SOUND] = DEFAULT_USE_SOUND;
+  global_options->iopts[MENU_SOUND] = DEFAULT_MENU_SOUND;
+  global_options->iopts[MENU_MUSIC] = DEFAULT_MENU_MUSIC;
+  global_options->iopts[FULLSCREEN] = DEFAULT_FULLSCREEN;
+  global_options->iopts[USE_KEYPAD] = DEFAULT_USE_KEYPAD;
+  global_options->iopts[USE_IGLOOS] = DEFAULT_USE_IGLOOS;
   game_options->use_bkgd = DEFAULT_USE_BKGD;
   game_options->help_mode = DEFAULT_HELP_MODE;
   game_options->demo_mode = DEFAULT_DEMO_MODE;
   game_options->oper_override = DEFAULT_OPER_OVERRIDE;
-  game_options->use_keypad = DEFAULT_USE_KEYPAD;
-  game_options->use_igloos = DEFAULT_USE_IGLOOS;
   game_options->allow_pause = DEFAULT_ALLOW_PAUSE;
   game_options->bonus_comet_interval = DEFAULT_BONUS_COMET_INTERVAL;
   game_options->bonus_speed_ratio = DEFAULT_BONUS_SPEED_RATIO;
@@ -109,39 +141,82 @@ void Opts_Cleanup(void)
 }
 
 
-/* "Set" functions for tuxmath options struct: */
-void Opts_SetPerUserConfig(int val)
+//* "Set" functions for tuxmath options struct: */
+unsigned int Opts_MapTextToIndex(const char* text)
 {
-  game_options->per_user_config = int_to_bool(val);
+  int i;
+  for (i = 0; i < NUM_GLOBAL_OPTS; ++i)
+  {
+    if (0 == strcasecmp(text, OPTION_TEXT[i]) )
+      return i;
+  }
+  tmdprintf("'%s' isn't a global option\n", text);
+  return -1;
+}
+int Opts_GetGlobalOp(const char* text)
+{
+  int index = Opts_MapTextToIndex(text);
+  if (index < NUM_GLOBAL_OPTS)
+    return Opts_GetGlobalOpt(index);
+  return 0;
+}
+int Opts_GetGlobalOpt(unsigned int index)
+{
+  if (index < NUM_GLOBAL_OPTS)
+    return global_options->iopts[index];
+    
+  tmdprintf("Invalid global option index: %d\n", index);
+  return 0;
 }
 
-
-void Opts_SetUseSound(int val)
+void Opts_SetGlobalOp(const char* text, int val)
 {
-  if (val == -1)
-    game_options->use_sound = val;
-  else if (game_options->use_sound != -1)
-    game_options->use_sound = int_to_bool(val);
+  int index = Opts_MapTextToIndex(text);
+  if (index < NUM_GLOBAL_OPTS)
+    Opts_SetGlobalOpt(index, val);
 }
-
-
-void Opts_SetMenuSound(int val)
+    
+void Opts_SetGlobalOpt(unsigned int index, int val)
 {
-  game_options->menu_sound = int_to_bool(val);
+  if (index < NUM_GLOBAL_OPTS)
+    global_options->iopts[index] = val;
+  else
+    tmdprintf("Invalid global option index: %d\n", index);
 }
+  
+
+//void Opts_SetPerUserConfig(int val)
+//{
+//  global_options->iopts[PER_USER_CONFIG] = int_to_bool(val);
+//}
+//
+//
+//void Opts_SetUseSound(int val)
+//{
+//  if (val == -1)
+//    global_options->iopts[USE_SOUND] = val;
+//  else if (global_options->iopts[USE_SOUND] != -1)
+//    global_options->iopts[USE_SOUND] = int_to_bool(val);
+//}
+//
+//
+//void Opts_SetMenuSound(int val)
+//{
+//  global_options->iopts[MENU_SOUND] = int_to_bool(val);
+//}
+//
+//
+//void Opts_SetMenuMusic(int val)
+//{
+//  global_options->iopts[MENU_MUSIC] = int_to_bool(val);
+//}
 
 
-void Opts_SetMenuMusic(int val)
-{
-  game_options->menu_music = int_to_bool(val);
-}
-
-
-/* FIXME need to actually change screen resolution when this is called */
-void Opts_SetFullscreen(int val)
-{
-  game_options->fullscreen = int_to_bool(val);
-}
+///* FIXME need to actually change screen resolution when this is called */
+//void Opts_SetFullscreen(int val)
+//{
+//  global_options->iopts[FULLSCREEN] = int_to_bool(val);
+//}
 
 
 void Opts_SetUseBkgd(int val)
@@ -168,10 +243,10 @@ void Opts_SetOperOverride(int val)
 }
 
 
-void Opts_SetUseKeypad(int val)
-{
-  game_options->use_keypad = int_to_bool(val);
-}
+//void Opts_SetUseKeypad(int val)
+//{
+//  global_options->iopts[USE_KEYPAD] = int_to_bool(val);
+//}
 
 
 void Opts_SetAllowPause(int val)
@@ -180,10 +255,10 @@ void Opts_SetAllowPause(int val)
 }
 
 
-void Opts_SetUseIgloos(int val)
-{
-  game_options->use_igloos = int_to_bool(val);
-}
+//void Opts_SetUseIgloos(int val)
+//{
+//  global_options->iopts[USE_IGLOOS] = int_to_bool(val);
+//}
 
 
 void Opts_SetBonusCometInterval(int val)
@@ -451,59 +526,59 @@ void Opts_SetKeepScore(int val)
 
 
 /* "Get" functions for tuxmath options struct: */
-int Opts_PerUserConfig(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_PerUserConfig(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->per_user_config;
-}
-
-
-int Opts_UseSound(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_UseSound(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->use_sound > 0;
-}
-
-
-int Opts_MenuSound(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_MenuSound(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->menu_sound;
-}
-
-
-int Opts_MenuMusic(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_MenuMusic(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->menu_music;
-}
-
-
-int Opts_Fullscreen(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_Fullscreen(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->fullscreen;
-}
+//int Opts_PerUserConfig(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_PerUserConfig(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[PER_USER_CONFIG];
+//}
+//
+//
+//int Opts_UseSound(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_UseSound(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[USE_SOUND] > 0;
+//}
+//
+//
+//int Opts_MenuSound(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_MenuSound(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[MENU_SOUND];
+//}
+//
+//
+//int Opts_MenuMusic(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_MenuMusic(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[MENU_MUSIC];
+//}
+//
+//
+//int Opts_Fullscreen(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_Fullscreen(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[FULLSCREEN];
+//}
 
 
 int Opts_UseBkgd(void)
@@ -550,17 +625,17 @@ int Opts_OperOverride(void)
 }
 
 
-int Opts_UseKeypad(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_UseKeypad(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->use_keypad;
-}
-
-
+//int Opts_UseKeypad(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_UseKeypad(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[USE_KEYPAD];
+//}
+//
+//
 int Opts_AllowPause(void)
 {
   if (!game_options)
@@ -572,15 +647,15 @@ int Opts_AllowPause(void)
 }
 
 
-int Opts_UseIgloos(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_UseIgloos(): game_options not valid!\n");
-    return GAME_OPTS_INVALID;
-  }
-  return game_options->use_igloos;
-}
+//int Opts_UseIgloos(void)
+//{
+//  if (!game_options)
+//  {
+//    fprintf(stderr, "\nOpts_UseIgloos(): game_options not valid!\n");
+//    return GAME_OPTS_INVALID;
+//  }
+//  return global_options->iopts[USE_IGLOOS];
+//}
 
 int Opts_BonusCometInterval(void)
 {
@@ -803,7 +878,7 @@ int Opts_UsingSound(void)
     fprintf(stderr, "\nOpts_UsingSound(): game_options not valid!\n");
     return GAME_OPTS_INVALID;
   }
-  return (game_options->use_sound>0 && game_options->sound_hw_available);
+  return (global_options->iopts[USE_SOUND]>0 && game_options->sound_hw_available);
 }
 
 int Opts_KeepScore(void)
@@ -833,7 +908,22 @@ int int_to_bool(int i)
     return 0;
 }
 
-
+///* determine which option class a name belongs to, and set it */
+///* accordingly. Returns 1 on success, 0 on failure            */
+//static int find_and_set_option(const char* name, int val)
+//{
+//  int index = -1;
+//  
+//  if ((index = MC_MapTextToIndex(name)) != -1) //is it a math opt?
+//    MC_SetOpt(index, val);
+//  else if ((index = Opts_MapTextToIndex(name)) != -1) //is it a global opt?
+//    Opts_SetGlobalOpt(index, val);
+//  else //no? oh well.
+//    return 0;
+//    
+//  return 1;
+//}
+  
 /* prints struct to stream: */
 void print_game_options(FILE* fp, int verbose)
 {
@@ -863,7 +953,7 @@ void print_game_options(FILE* fp, int verbose)
   if(verbose)
   {
     fprintf (fp, "############################################################\n" 
-                 "# 'per_user_config' determines whether Tuxmath will look   #\n"
+                 "# 'PER_USER_CONFIG' determines whether Tuxmath will look   #\n"
                  "# in the user's home directory for settings. Default is 1  #\n"
                  "# (yes). If deselected, the program will ignore the user's #\n"
                  "# .tuxmath file and use the the global settings in the     #\n"
@@ -871,21 +961,21 @@ void print_game_options(FILE* fp, int verbose)
                  "# This setting cannot be changed by an ordinary user.      #\n"
                  "############################################################\n");
   }
-  fprintf(fp, "per_user_config = %d\n", game_options->per_user_config);
+  fprintf(fp, "PER_USER_CONFIG = %d\n", global_options->iopts[PER_USER_CONFIG]);
 
   if(verbose)
   {
     fprintf (fp, "\n# Self-explanatory, default is 1:\n");
   }
-  fprintf(fp, "use_sound = %d\n", game_options->use_sound>0);
+  fprintf(fp, "USE_SOUND = %d\n", global_options->iopts[USE_SOUND]>0);
 
   if(verbose)
   {
-    fprintf (fp, "\n# Use fullscreen at 640x480 resolution instead of\n"
-                 "640x480 window. Default is 1 (fullscreen). Change to 0\n"
-                 "if SDL has trouble with fullscreen on your system.\n");
+    fprintf (fp, "\n# Use FULLSCREEN at 640x480 resolution instead of\n"
+                 "640x480 window. Default is 1 (FULLSCREEN). Change to 0\n"
+                 "if SDL has trouble with FULLSCREEN on your system.\n");
   } 
-  fprintf(fp, "fullscreen = %d\n", game_options->fullscreen);
+  fprintf(fp, "FULLSCREEN = %d\n", global_options->iopts[FULLSCREEN]);
 
   if(verbose)
   {
@@ -909,7 +999,7 @@ void print_game_options(FILE* fp, int verbose)
   {
     fprintf (fp, "\n# Display onscreen numeric keypad; default is 0.\n");
   }
-  fprintf(fp, "use_keypad = %d\n", game_options->use_keypad);
+  fprintf(fp, "USE_KEYPAD = %d\n", global_options->iopts[USE_KEYPAD]);
 
   if(verbose)
   {

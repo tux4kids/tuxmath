@@ -47,7 +47,6 @@
 					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
 					<Add option='-DDATA_PREFIX=\\&quot;../data\\&quot;' />
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
-					<Add option='-DVERSION=\\&quot;1.6.3\\&quot;' />
 				</Compiler>
 			</Target>
 			<Target title="NixRelease">
@@ -64,7 +63,6 @@
 					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
 					<Add option='-DDATA_PREFIX=\\&quot;/usr/local/share/tuxmath\\&quot;' />
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
-					<Add option="-DVERSION=FULLVERSION_STRING" />
 				</Compiler>
 			</Target>
 		</Build>

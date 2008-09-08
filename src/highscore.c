@@ -130,7 +130,7 @@ void DisplayHighScores(int level)
             if (diff_level > CADET_HIGH_SCORE)
             {
               diff_level--;
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
               {
                 playsound(SND_TOCK);
               }
@@ -143,7 +143,7 @@ void DisplayHighScores(int level)
             if (diff_level < (NUM_HIGH_SCORE_LEVELS-1))
             {
               diff_level++;
-              if (Opts_MenuSound())
+              if (Opts_GetGlobalOpt(MENU_SOUND))
               {
                 playsound(SND_TOCK);
               }

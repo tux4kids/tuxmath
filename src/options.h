@@ -24,21 +24,34 @@
 
 #include "tuxmath.h"  /* needed for PATH_MAX definition */
 
+enum {
+  PER_USER_CONFIG,
+  USE_SOUND,
+  MENU_SOUND,
+  MENU_MUSIC,
+  FULLSCREEN,
+  USE_KEYPAD,
+  USE_IGLOOS,
+  NUM_GLOBAL_OPTS
+};                                 
+
+extern const char* const OPTION_TEXT[];
+extern const int OPTION_DEFAULTS[];
+
+/* contains options that tend to apply to the progam as a whole, rather *
+ * than on a per-game basis                                             */
+typedef struct global_option_type {
+  int iopts[NUM_GLOBAL_OPTS];
+} global_option_type;
+
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
 typedef struct game_option_type {
   /* general game options */
-  int per_user_config;
-  int use_sound;
-  int menu_sound;
-  int menu_music;
-  int fullscreen;
   int use_bkgd;
   int help_mode;
   int demo_mode;
   int oper_override;
-  int use_keypad;
-  int use_igloos;
   int allow_pause;
   int bonus_comet_interval;
   float bonus_speed_ratio;
@@ -98,18 +111,18 @@ enum {
 int Opts_Initialize(void);
 void Opts_Cleanup(void);
 
+
 /* "Set" functions for tuxmath options struct: */
-void Opts_SetPerUserConfig(int val);
-void Opts_SetUseSound(int val);
-void Opts_SetMenuSound(int val);
-void Opts_SetMenuMusic(int val);
-void Opts_SetFullscreen(int val);
+
+unsigned int Opts_MapTextToIndex(const char* text);
+
+int  Opts_GetGlobalOpt(unsigned int index);
+void Opts_SetGlobalOpt(unsigned int index, int val);
+
 void Opts_SetUseBkgd(int val);
 void Opts_SetHelpMode(int val);
 void Opts_SetDemoMode(int val);
 void Opts_SetOperOverride(int val);
-void Opts_SetUseKeypad(int val);
-void Opts_SetUseIgloos(int val);
 void Opts_SetAllowPause(int val);
 void Opts_SetBonusCometInterval(int val);
 void Opts_SetBonusSpeedRatio(float val);
@@ -138,18 +151,11 @@ void Opts_SetLastScore(int val);
 void Opts_SetKeepScore(int val);
 
 /* "Get" functions for tuxmath options struct: */
-int Opts_PerUserConfig(void);
-int Opts_UseSound(void);
-int Opts_MenuSound(void);
-int Opts_MenuMusic(void);
-int Opts_Fullscreen(void);
 int Opts_UseBkgd(void);
 int Opts_HelpMode(void);
 int Opts_DemoMode(void);
 int Opts_OperOverride(void);
 int Opts_AllowPause(void);
-int Opts_UseKeypad(void);
-int Opts_UseIgloos(void);
 int Opts_BonusCometInterval(void);
 float Opts_BonusSpeedRatio(void);
 float Opts_Speed(void);

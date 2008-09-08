@@ -1841,7 +1841,7 @@ unsigned int MC_MapTextToIndex(const char* text)
     if (!strcasecmp(text, MC_OPTION_TEXT[i]) )
       return i;
   }
-  printf("Sorry, don't recognize option '%s'\n", text);
+  mcdprintf("'%s' isn't a math option\n", text);
   return NOT_VALID_OPTION;
 }
 
@@ -1850,7 +1850,7 @@ void MC_SetOpt(unsigned int index, int val)
 {
   if (index >= NOPTS)
   {
-    mcdprintf("Invalid option index: %d\n", index);
+    mcdprintf("Invalid math option index: %d\n", index);
     return;
   }
   math_opts->iopts[index] = val;

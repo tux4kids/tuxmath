@@ -116,7 +116,10 @@ void setup(int argc, char * argv[])
   /* Generate blended images (e.g., igloos) */
   generate_blended_images();
   /* Note that the per-user options will be set after the call to
-     titlescreen, to allow for user-login to occur. */
+     titlescreen, to allow for user-login to occur. 
+     
+     FIXME this means that command-line args will be overridden!
+     Is this desirable? */
 }
 
 
@@ -161,7 +164,7 @@ void initialize_options_user(void)
   /* Read in user-specific settings, if desired.  By    */
   /* default, this restores settings from the player's last */
   /* game:                                                  */
-  if (Opts_PerUserConfig())
+  if (Opts_GetGlobalOpt(PER_USER_CONFIG))
   {
     if (!read_user_config_file())
     {
@@ -321,19 +324,19 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--fullscreen") == 0 ||
              strcmp(argv[i], "-f") == 0)
     {
-      Opts_SetFullscreen(1);
+      Opts_SetGlobalOpt(FULLSCREEN, 1);
     }
     else if (strcmp(argv[i], "--windowed") == 0 ||
              strcmp(argv[i], "-w") == 0)
     {
-      Opts_SetFullscreen(0);
+      Opts_SetGlobalOpt(FULLSCREEN, 0);
     }
     else if (strcmp(argv[i], "--nosound") == 0 ||
              strcmp(argv[i], "-s") == 0 ||
              strcmp(argv[i], "--quiet") == 0 ||
              strcmp(argv[i], "-q") == 0)
     {
-      Opts_SetUseSound(-1);  // prevent options files from overwriting
+      Opts_SetGlobalOpt(USE_SOUND, -1);  // prevent options files from overwriting
     }
     else if (strcmp(argv[i], "--version") == 0 ||
              strcmp(argv[i], "-v") == 0)
@@ -356,7 +359,7 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--keypad") == 0 ||
              strcmp(argv[i], "-k") == 0)
     {
-      Opts_SetUseKeypad(1);
+      Opts_SetGlobalOpt(USE_KEYPAD, 1);
     }
     else if (strcmp(argv[i], "--allownegatives") == 0 ||
              strcmp(argv[i], "-n") == 0)
@@ -404,10 +407,10 @@ void handle_command_args(int argc, char* argv[])
   }/* end of command-line args */
 
 
-  if (Opts_DemoMode() && Opts_UseKeypad())
+  if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
   {
     fprintf(stderr, "No use for keypad in demo mode!\n");
-    Opts_SetUseKeypad(0);
+    Opts_SetGlobalOpt(USE_KEYPAD, 0);
   }
 }
 
@@ -461,7 +464,7 @@ void initialize_SDL(void)
   #ifndef NOSOUND
   /* Init SDL Audio: */
   Opts_SetSoundHWAvailable(0);  // By default no sound HW
-  if (Opts_UseSound())
+  if (Opts_GetGlobalOpt(USE_SOUND))
   {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
     {
@@ -516,7 +519,7 @@ void initialize_SDL(void)
     fs_res_x = videoInfo->current_w;
     fs_res_y = videoInfo->current_h;
 
-    if (Opts_Fullscreen())
+    if (Opts_GetGlobalOpt(FULLSCREEN))
     {
       screen = SDL_SetVideoMode(fs_res_x, fs_res_y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
       if (screen == NULL)
@@ -525,11 +528,11 @@ void initialize_SDL(void)
               "\nWarning: I could not open the display in fullscreen mode.\n"
               "The Simple DirectMedia error that occured was:\n"
               "%s\n\n", SDL_GetError());
-        Opts_SetFullscreen(0);
+        Opts_SetGlobalOpt(FULLSCREEN, 0);
       }
     }
 
-    if (!Opts_Fullscreen())
+    if (!Opts_GetGlobalOpt(FULLSCREEN))
     {
       screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, surfaceMode);
     }
