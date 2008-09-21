@@ -286,8 +286,11 @@ void DisplayHighScores(int level)
         /* Clear out old surfaces and update: */
         if (score_surfs[i])               /* this should not happen! */
           SDL_FreeSurface(score_surfs[i]);
-
-        score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &white);
+        
+        if (HS_Score(diff_level, i) == Opts_LastScore() && frame % 5 < 2)
+          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &yellow);
+        else
+          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &white);
 
         /* Get out if BlackOutline() fails: */
         if (!score_surfs[i])
