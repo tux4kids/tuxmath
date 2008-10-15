@@ -19,6 +19,9 @@ set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
 #message("CMP: ${CMAKE_MODULE_PATH}")
 
+## Choose a debug build set
+set(CMAKE_BUILD_TYPE Debug)
+
 ## Decide on our build-type: installed or relocatable
 ## Linux (& Windows?) would be installed, Mac relocatable
 ## Someday we might supply a Linux relocatable package; this would be
