@@ -486,4 +486,3 @@ msgstr "Multiplikasjon av positive og negative tall"
 #: data/missions/lessons/descr_lessons:58
 msgid "Division of Positives and Negatives"
 msgstr "Divisjon av positive og negative tall"
-

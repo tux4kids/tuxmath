@@ -407,10 +407,18 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
 #else
   if( context != NULL)
   {
-    SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_WHITE_LETTER);
+    /* convert color arg: */
+    SDLPango_Matrix* color_matrix = SDL_Colour_to_SDLPango_Matrix(c);
+
+    if (color_matrix)
+      SDLPango_SetDefaultColor(context, color_matrix);
+    else  /* fall back to just using white if conversion fails: */
+      SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_WHITE_LETTER);
+
     white_letters = SDLPango_CreateSurfaceDraw(context);
   }
-  else {
+  else
+  {
     white_letters = TTF_RenderUTF8_Blended(font, t, *c);
   }
 #endif
