@@ -38,6 +38,7 @@ tuxmath_SOURCES = tuxmath.c \
 	fileops.c	\
 	ConvertUTF.c	\
 	SDL_extras.c	\
+	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
 	pixels.c

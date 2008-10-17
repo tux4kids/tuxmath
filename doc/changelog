@@ -1,3 +1,19 @@
+
+2008.Oct.16 (svn.debian.org/tux4kids - revision 763)
+	Credits: 
+          Changed Tim Holy's listing from "Additional Code" to "Lead
+          Programmer" to better acknowledge his major role over the last
+          year.
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2008.Oct.14 (svn.debian.org/tux4kids - revision 761)
+	i18n:
+          Added Irish translation courtesy of Seanán Ó Coistín <seananoc@gmail.com> 
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+
 2008.Aug.15 (svn.debian.org/tux4kids - revision 627)
 	Added SDL_rotozoom to the sources, from the SDL_gfx library.
 	

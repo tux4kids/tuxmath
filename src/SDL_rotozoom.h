@@ -48,16 +48,19 @@ extern "C" {
 
 /* ---- Prototypes */
 
-#ifdef WIN32
-#ifdef BUILD_DLL
-#define DLLINTERFACE __declspec(dllexport)
-#else
-#define DLLINTERFACE __declspec(dllimport)
-#endif
-#else
-#define DLLINTERFACE
-#endif
+// #ifdef WIN32
+// #ifdef BUILD_DLL
+// #define DLLINTERFACE __declspec(dllexport)
+// #else
+// #define DLLINTERFACE __declspec(dllimport)
+// #endif
+// #else
+// #define DLLINTERFACE
+// #endif
 
+/* NOTE inactivating above declspec stuff because we are building */
+/* for our own tree                                               */
+#define DLLINTERFACE
 /* 
  
  rotozoomSurface()

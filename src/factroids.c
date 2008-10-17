@@ -38,6 +38,7 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "SDL_rotozoom.h"
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -183,6 +184,8 @@ static int roto_speed;
 
 /*************** The Factor and Faraction Activiy game Functions ***************/
 
+/* Local function prototypes: */
+
 static int FF_init(void);
 static void FF_intro(void);
 
@@ -211,7 +214,7 @@ static int AsteroidColl(int astW,int astH,int astX,int astY,
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
-
+static void game_handle_user_events(void);
 
 /************** factors(): The factor main function ********************/
 void factors(void){
@@ -235,15 +238,18 @@ void factors(void){
     return;
   } 
   
-  while (game_status==GAME_IN_PROGRESS){
-      last_time = SDL_GetTicks();
-      counter++; 
+  while (game_status==GAME_IN_PROGRESS)
+  {
+    last_time = SDL_GetTicks();
+    counter++; 
     
-      if(counter%15==0)
-        if(tux_img<IMG_TUX_CONSOLE4)
-          tux_img++;
-        else 
-          tux_img=IMG_TUX_CONSOLE1;
+    if(counter%15==0)
+    {
+      if(tux_img<IMG_TUX_CONSOLE4)
+        tux_img++;
+      else 
+        tux_img=IMG_TUX_CONSOLE1;
+    }
 
     game_handle_user_events();
 
@@ -291,7 +297,8 @@ void factors(void){
 }
 
 /************** fractions(): The fractions main function ********************/
-void fractions(void){
+void fractions(void)
+{
 
   Uint32 last_time, now_time; 
   
@@ -315,58 +322,62 @@ void fractions(void){
   } 
 
   /************ Main Loop **************/
-  while (game_status==GAME_IN_PROGRESS){
-      last_time = SDL_GetTicks();
-      counter++;
+  while (game_status == GAME_IN_PROGRESS)
+  {
+    last_time = SDL_GetTicks();
+    counter++;
       
-      if(counter%15==0)
-        if(tux_img<IMG_TUX_CONSOLE4)
-          tux_img++;
-        else 
-          tux_img=IMG_TUX_CONSOLE1;
+    if(counter%15==0)
+    {    
+      if(tux_img<IMG_TUX_CONSOLE4)
+        tux_img++;
+      else 
+        tux_img=IMG_TUX_CONSOLE1;
+    }
 
-      game_handle_user_events();
+    game_handle_user_events();
 
-      FF_handle_ship();
-      FF_handle_asteroids();
-      FF_handle_answer();
-      FF_draw();
-      SDL_Flip(screen);
+    FF_handle_ship();
+    FF_handle_asteroids();
+    FF_handle_answer();
+    FF_draw();
+    SDL_Flip(screen);
 
-      game_status = check_exit_conditions();
+    game_status = check_exit_conditions();
 
-      if (paused)
-      {
-        pause_game();
-        paused = 0;
-      }
+    if (paused)
+    {
+      pause_game();
+      paused = 0;
+    }
 
 
 #ifndef NOSOUND
-      if (Opts_UsingSound())
+    if (Opts_UsingSound())
+    {
+      if (!Mix_PlayingMusic())
       {
-        if (!Mix_PlayingMusic())
-        {
-	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-        }  
-      }
+        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+      }  
+    }
 #endif
 
-      /* Pause (keep frame-rate event) */
-      now_time = SDL_GetTicks();
-      if (now_time < last_time + MS_PER_FRAME)
-      {
+    /* Pause (keep frame-rate event) */
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + MS_PER_FRAME)
+    {
         //Prevent any possibility of a time wrap-around
         // (this is a very unlikely problem unless there is an SDL bug
         //  or you leave tuxmath running for 49 days...)
-        now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
-        if (now_time > MS_PER_FRAME)
-	  now_time = MS_PER_FRAME;
-        SDL_Delay(now_time);
-      }
+      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+      if (now_time > MS_PER_FRAME)
+        now_time = MS_PER_FRAME;
+      SDL_Delay(now_time);
+    }
   }
   FF_over(game_status);
 }
+
 
 /************ Initialize all vars... ****************/
 static int FF_init(void){
@@ -492,7 +503,7 @@ static void FF_intro(void){
   static SDL_Surface* IMG_factors;
   static SDL_Surface* IMG_fractions;
 
-  SDL_Event event;
+//  SDL_Event event;
   SDL_Rect rect;
 
   float zoom;
