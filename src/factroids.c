@@ -1491,12 +1491,12 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].alive=1;
       asteroid[i].rx=x;
       asteroid[i].ry=y;
-      asteroid[i].x=(asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
-      asteroid[i].y=(asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
-      asteroid[i].xspeed=xspeed;
-      asteroid[i].yspeed=yspeed;
       asteroid[i].angle=angle;
       asteroid[i].angle_speed=angle_speed;
+      asteroid[i].y=(asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
+      asteroid[i].x=(asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
+      asteroid[i].yspeed=yspeed;
+      asteroid[i].xspeed=xspeed;
       
       if(FF_game==FACTOROIDS_GAME){
 
