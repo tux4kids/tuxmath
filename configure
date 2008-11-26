@@ -1367,7 +1367,6 @@ Optional Features:
   --disable-threads       build without multithread safety
   --disable-rpath         do not hardcode runtime library paths
   --disable-sdltest       Do not try to compile and run a test SDL program
-  --enable-sdlpango    Enable SDL_Pango (default is  disabled)
 
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
@@ -13779,6 +13778,7 @@ fi
 
 
 
+
 { echo "$as_me:$LINENO: checking for IMG_Load in -lSDL_image" >&5
 echo $ECHO_N "checking for IMG_Load in -lSDL_image... $ECHO_C" >&6; }
 if test "${ac_cv_lib_SDL_image_IMG_Load+set}" = set; then
@@ -13841,13 +13841,18 @@ fi
 { echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_image_IMG_Load" >&5
 echo "${ECHO_T}$ac_cv_lib_SDL_image_IMG_Load" >&6; }
 if test $ac_cv_lib_SDL_image_IMG_Load = yes; then
-  LIBS="$LIBS -lSDL_image"
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSDL_IMAGE 1
+_ACEOF
+
+  LIBS="-lSDL_image $LIBS"
+
 else
   { { echo "$as_me:$LINENO: error: SDL_image not found! http://www.libsdl.org/projects/SDL_image" >&5
 echo "$as_me: error: SDL_image not found! http://www.libsdl.org/projects/SDL_image" >&2;}
    { (exit 1); exit 1; }; }
-
 fi
+
 
 
 { echo "$as_me:$LINENO: checking for Mix_OpenAudio in -lSDL_mixer" >&5
@@ -13912,13 +13917,18 @@ fi
 { echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_mixer_Mix_OpenAudio" >&5
 echo "${ECHO_T}$ac_cv_lib_SDL_mixer_Mix_OpenAudio" >&6; }
 if test $ac_cv_lib_SDL_mixer_Mix_OpenAudio = yes; then
-  LIBS="$LIBS -lSDL_mixer"
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSDL_MIXER 1
+_ACEOF
+
+  LIBS="-lSDL_mixer $LIBS"
+
 else
   { { echo "$as_me:$LINENO: error: SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer" >&5
 echo "$as_me: error: SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer" >&2;}
    { (exit 1); exit 1; }; }
-
 fi
+
 
 
 { echo "$as_me:$LINENO: checking for TTF_Init in -lSDL_ttf" >&5
@@ -13983,13 +13993,18 @@ fi
 { echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_ttf_TTF_Init" >&5
 echo "${ECHO_T}$ac_cv_lib_SDL_ttf_TTF_Init" >&6; }
 if test $ac_cv_lib_SDL_ttf_TTF_Init = yes; then
-  LIBS="$LIBS -lSDL_ttf"
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSDL_TTF 1
+_ACEOF
+
+  LIBS="-lSDL_ttf $LIBS"
+
 else
   { { echo "$as_me:$LINENO: error: SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf" >&5
 echo "$as_me: error: SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf" >&2;}
    { (exit 1); exit 1; }; }
-
 fi
+
 
 
 ##dnl Check for SDL_gfx:
@@ -13999,14 +14014,8 @@ fi
 ##	[AC_MSG_ERROR([SDL_gfx not found! http://www.ferzkopp.net/joomla/content/view/19/14/])]
 ##)
 
-have_sdlpango=no
-# Check whether --enable-sdlpango was given.
-if test "${enable_sdlpango+set}" = set; then
-  enableval=$enable_sdlpango; have_sdlpango=yes
-fi
 
-if test $have_sdlpango = "yes"; then
-	{ echo "$as_me:$LINENO: checking for SDLPango_Init in -lSDL_Pango" >&5
+{ echo "$as_me:$LINENO: checking for SDLPango_Init in -lSDL_Pango" >&5
 echo $ECHO_N "checking for SDLPango_Init in -lSDL_Pango... $ECHO_C" >&6; }
 if test "${ac_cv_lib_SDL_Pango_SDLPango_Init+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
@@ -14068,19 +14077,31 @@ fi
 { echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_Pango_SDLPango_Init" >&5
 echo "${ECHO_T}$ac_cv_lib_SDL_Pango_SDLPango_Init" >&6; }
 if test $ac_cv_lib_SDL_Pango_SDLPango_Init = yes; then
-  LIBS="$LIBS -lSDL_Pango"
-else
-  have_sdlpango=no
-fi
-
-fi
-if test "$have_sdlpango" = "yes"; then
-
-cat >>confdefs.h <<\_ACEOF
-#define SDL_Pango
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSDL_PANGO 1
 _ACEOF
 
+  LIBS="-lSDL_Pango $LIBS"
+
+else
+  { echo "$as_me:$LINENO: WARNING: SDL_Pango not found http://sdlpango.sourceforge.net/" >&5
+echo "$as_me: WARNING: SDL_Pango not found http://sdlpango.sourceforge.net/" >&2;}
 fi
+
+
+
+
+##dnl sdlpango support
+##have_sdlpango=no
+
+##AC_ARG_ENABLE(sdlpango, [  --enable-sdlpango    Enable SDL_Pango (default is  ##disabled)],have_sdlpango=yes)
+##if test $have_sdlpango = "yes"; then
+##	AC_CHECK_LIB([SDL_Pango],[SDLPango_Init],LIBS="$LIBS -lSDL_Pango",have_sdlpango=no)
+
+##fi
+##if test "$have_sdlpango" = "yes"; then
+##	AC_DEFINE([SDL_Pango],[],[Defined when SDL_Pango support is present and compiled])
+##fi
 
 
 # --------------------------------------------------------------------------------------
@@ -17120,18 +17141,6 @@ fi
 
 
 
-# --------------------------------------------------------------------------
-# Support for old Qt-based config prog - get rid of this soon:
-# --------------------------------------------------------------------------
-#NSI_TUXMATH_CONF_DIR=no
-#AC_ARG_WITH(tuxmath_config-directory,AS_HELP_STRING([--with-tuxmath_config-directory=path],[set the #path where dll for TuxMath are [$(NSI_TUXMATH_CONF_DIR)]]), tuxmath_config_path=$withval, #tuxmath_config_path=no)
-#
-#AM_CONDITIONAL(NSI_USE_TUXMATH_CONF, test "$tuxmath_config_path" != no)
-#
-#if test $tuxmath_config_path != no; then
-#NSI_TUXMATH_CONF_DIR=$tuxmath_config_path
-#fi
-#AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 
 # ---------------------------------------------------------------

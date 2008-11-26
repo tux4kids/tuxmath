@@ -31,7 +31,7 @@ InstallDir  "$PROGRAMFILES\${APP_PREFIX}"
 InstallDirRegKey HKLM SOFTWARE\${APP_PREFIX} "Install_Dir"
 
 # Licence text
-LicenseText "You must agree to this license before installing ${APP_NAME}"
+LicenseText "Please read the terms of the General Public License before installing ${APP_NAME}"
 LicenseData "mingw32\doc\COPYING.txt"
 
 # Directory browsing

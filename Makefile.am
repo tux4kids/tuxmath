@@ -35,10 +35,10 @@ NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 ## in this Makefile.am before the 'dist_with_fonts' target for that target
 ## to work - if it is in data/fonts/Makefile.am, it does not get expanded
 ## before the 'dist' target starts:
-data_fonts = AndikaDesRevG.ttf
+data_fonts='AndikaDesRevG.ttf'
 dist_with_fonts:
 	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) \
-  dist_fonts=$(data_fonts) dist
+           dist_fonts=$(data_fonts) dist
 
 
 ## For building the NSIS executable Win32 installer - this rule first

@@ -15,8 +15,10 @@
 #include "tuxmath.h"
 #include "pixels.h"
 
-#ifdef SDL_Pango
+#ifdef HAVE_LIBSDL_PANGO
 #include "SDL_Pango.h"
+SDLPango_Context* context = NULL;
+static SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color* cl);
 #endif
 
 
@@ -320,18 +322,40 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
   return ret;
 }
 
-#ifdef SDL_Pango
-SDLPango_Context *context = NULL;
+
+#ifdef HAVE_LIBSDL_PANGO
+
 void init_SDLPango_Context()
 {
    context =  SDLPango_CreateContext_GivenFontDesc(DEFAULT_FONT_NAME);
 }
+
 void free_SDLPango_Context()
 {
   if(context != NULL)
     SDLPango_FreeContext(context);
   context = NULL;
 }
+
+
+SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color *cl)
+{
+  SDLPango_Matrix *colour;
+  colour=malloc(sizeof(SDLPango_Matrix));
+  int k;
+  for(k=0;k<4;k++){
+  	(*colour).m[0][k]=(*cl).r;
+  	(*colour).m[1][k]=(*cl).g;
+  	(*colour).m[2][k]=(*cl).b;
+  }
+  (*colour).m[3][0]=0;
+  (*colour).m[3][1]=255;
+  (*colour).m[3][2]=0;
+  (*colour).m[3][3]=0;
+
+  return colour;
+}
+
 #endif
 
 
@@ -360,7 +384,7 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
   fprintf( stderr, "BlackOutline of \"%s\"\n", t );
 #endif
 
-#ifndef SDL_Pango
+#ifndef HAVE_LIBSDL_PANGO
   black_letters = TTF_RenderUTF8_Blended(font, t, black);
 #else
   if( context != NULL)
@@ -402,7 +426,7 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
   SDL_FreeSurface(black_letters);
 
   /* --- Put the color version of the text on top! --- */
-#ifndef SDL_Pango
+#ifndef HAVE_LIBSDL_PANGO
   white_letters = TTF_RenderUTF8_Blended(font, t, *c);
 #else
   if( context != NULL)
@@ -439,6 +463,39 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
 
   return out;
 }
+
+
+/* This (fast) function just returns a non-outlined surf */
+/* using SDL_Pango if available, SDL_ttf as fallback     */
+SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col)
+{
+  SDL_Surface* surf = NULL;
+
+#ifdef HAVE_LIBSDL_PANGO
+  SDLPango_Matrix colormatrix = {
+    col->r,  col->r,  0,  0,
+    col->g,  col->g,  0,  0,
+    col->b,  col->b,  0,  0,
+    0,      255,      0,  0,
+  };
+
+  if(context != NULL)
+  {
+    SDLPango_SetDefaultColor(context, &colormatrix );
+    SDLPango_SetText(context, t, -1);
+    surf = SDLPango_CreateSurfaceDraw(context);
+  }
+  else {
+    surf = TTF_RenderUTF8_Blended(font, t, *col);
+  }
+#else
+  surf = TTF_RenderUTF8_Blended(font, t, *col);
+#endif
+
+  return surf;
+}
+
+
 
 
 int inRect( SDL_Rect r, int x, int y) {

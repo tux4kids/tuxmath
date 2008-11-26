@@ -61,6 +61,7 @@ EXTRA_DIST = 	credits.h 	\
 		tuxmath.h	\
 		ConvertUTF.h	\
 		SDL_extras.h	\
+		SDL_rotozoom.h	\
 		lessons.h	\
 		gettext.h	\
 		scandir.h	\

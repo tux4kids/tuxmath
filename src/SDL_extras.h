@@ -28,11 +28,8 @@
 #define amask 0xff000000
 #endif
 
-#ifdef SDL_Pango
 
-#include "SDL_Pango.h"
-
-extern SDLPango_Context *context;
+#ifdef HAVE_LIBSDL_PANGO
 void init_SDLPango_Context();
 void free_SDLPango_Context();
 #endif
@@ -41,6 +38,7 @@ void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Ui
 void RoundCorners(SDL_Surface* s, Uint16 radius);
 SDL_Surface* Flip(SDL_Surface *in, int x, int y);
 SDL_Surface* BlackOutline(const char *t, TTF_Font* font, SDL_Color* c);
+SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col);
 int  inRect(SDL_Rect r, int x, int y);
 void DarkenScreen(Uint8 bits);
 void SwitchScreenMode(void);

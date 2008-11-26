@@ -28,9 +28,8 @@
 #include "fileops.h"
 #include "setup.h"
 #include "credits.h"
-#ifdef SDL_Pango
-#  include "SDL_extras.h"
-#endif
+#include "SDL_extras.h"
+
 
 char * credit_text[] = {
   "-TUX, OF MATH COMMAND",  /* '-' at beginning makes highlighted: */
@@ -570,7 +569,6 @@ void draw_text(char * str, int offset)
 //as long as it's needed.
 void draw_text(char* str, SDL_Rect dest)
 {
-  int hloffset = 0;
   SDL_Color col;
   SDL_Surface* surf = NULL;
   if (!str || *str == '\0')
@@ -580,7 +578,7 @@ void draw_text(char* str, SDL_Rect dest)
   
   if (str[0] == '-') //highlight text
   {
-    hloffset = 1;
+    str++;
     col.r = 128;
     col.g = 192;
     col.b = 255 - (40);
@@ -591,30 +589,11 @@ void draw_text(char* str, SDL_Rect dest)
     col.g = 255 / 2;
     col.b = (line * line * 2) % 256;  
   }
-  
-#ifndef SDL_Pango
-  surf = TTF_RenderUTF8_Blended(default_font, str+hloffset, col);
-#else
-  printf("Using Pango\n");
-  
-  SDLPango_Matrix colormatrix = {
-    col.r,  col.r, 0, 0,
-    col.g,  col.g, 0, 0,
-    col.b,  col.b, 0, 0,
-    0,      255,   0, 0,
-  };
-  
-  if( context != NULL)
-  {
-    SDLPango_SetDefaultColor(context, &colormatrix );
-    SDLPango_SetText(context, str, -1);
-    surf = SDLPango_CreateSurfaceDraw(context);
-  }
-  else {
-    surf = TTF_RenderUTF8_Blended(default_font, str+hloffset, col);
-  }
-#endif
-  
+
+  /* This func from SDL_extras draws with SDL_Pango if avail, */
+  /* with SDL_ttf as fallback:                                */
+  surf =  SimpleText(str, default_font, &col);
+
   dest.x -= surf->w / 2; //center text
   SDL_BlitSurface(surf, NULL, screen, &dest);
   SDL_FreeSurface(surf);

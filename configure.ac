@@ -20,7 +20,7 @@ AC_SUBST(NAME_VERSION)
 
 # Needed for gettext:
 AC_GNU_SOURCE
-AM_GNU_GETTEXT_VERSION([0.16])
+AM_GNU_GETTEXT_VERSION([0.17])
 AM_GNU_GETTEXT
 AM_GNU_GETTEXT_INTL_SUBDIR
 
@@ -77,24 +77,22 @@ fi
 
 dnl Check for SDL_image: 
 AC_CHECK_LIB([SDL_image], 
-       [IMG_Load], 
-       LIBS="$LIBS -lSDL_image", 
-       [AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])] 
-)
+             [IMG_Load],
+             ,
+             [AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])])
 
 dnl Check for SDL_mixer:. 
 AC_CHECK_LIB([SDL_mixer], 
-       [Mix_OpenAudio], 
-       LIBS="$LIBS -lSDL_mixer", 
-       [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])] 
-)
+             [Mix_OpenAudio], 
+             ,
+             [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
 
 dnl Check for SDL_ttf:
 AC_CHECK_LIB([SDL_ttf],
-	[TTF_Init],
-	LIBS="$LIBS -lSDL_ttf",
-	[AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])]
-)
+             [TTF_Init],
+             ,
+             [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
+
 
 ##dnl Check for SDL_gfx:
 ##AC_CHECK_LIB([SDL_gfx],
@@ -103,15 +101,25 @@ AC_CHECK_LIB([SDL_ttf],
 ##	[AC_MSG_ERROR([SDL_gfx not found! http://www.ferzkopp.net/joomla/content/view/19/14/])]
 ##)
 
-dnl sdlpango support
-have_sdlpango=no
-AC_ARG_ENABLE(sdlpango, [  --enable-sdlpango    Enable SDL_Pango (default is  disabled)],have_sdlpango=yes)
-if test $have_sdlpango = "yes"; then
-	AC_CHECK_LIB([SDL_Pango],[SDLPango_Init],LIBS="$LIBS -lSDL_Pango",have_sdlpango=no)
-fi
-if test "$have_sdlpango" = "yes"; then
-	AC_DEFINE([SDL_Pango],[],[Defined when SDL_Pango support is present and compiled])
-fi
+dnl Check for SDL_Pango (should work out correct way to allow disabling arg)
+AC_CHECK_LIB([SDL_Pango], 
+             [SDLPango_Init],
+             ,
+             [AC_MSG_WARN(SDL_Pango not found http://sdlpango.sourceforge.net/)])
+
+
+
+##dnl sdlpango support
+##have_sdlpango=no
+
+##AC_ARG_ENABLE(sdlpango, [  --enable-sdlpango    Enable SDL_Pango (default is  ##disabled)],have_sdlpango=yes)
+##if test $have_sdlpango = "yes"; then
+##	AC_CHECK_LIB([SDL_Pango],[SDLPango_Init],LIBS="$LIBS -lSDL_Pango",have_sdlpango=no)
+
+##fi
+##if test "$have_sdlpango" = "yes"; then
+##	AC_DEFINE([SDL_Pango],[],[Defined when SDL_Pango support is present and compiled])
+##fi
 
 
 # --------------------------------------------------------------------------------------
@@ -190,18 +198,6 @@ AC_SUBST(NSI_DLL_DIR)
 
 AC_PATH_PROG(NSIS, makensis, [], [$PATH])
 
-# --------------------------------------------------------------------------
-# Support for old Qt-based config prog - get rid of this soon:
-# --------------------------------------------------------------------------
-#NSI_TUXMATH_CONF_DIR=no
-#AC_ARG_WITH(tuxmath_config-directory,AS_HELP_STRING([--with-tuxmath_config-directory=path],[set the #path where dll for TuxMath are [$(NSI_TUXMATH_CONF_DIR)]]), tuxmath_config_path=$withval, #tuxmath_config_path=no)
-#
-#AM_CONDITIONAL(NSI_USE_TUXMATH_CONF, test "$tuxmath_config_path" != no)
-#
-#if test $tuxmath_config_path != no; then
-#NSI_TUXMATH_CONF_DIR=$tuxmath_config_path
-#fi
-#AC_SUBST(NSI_TUXMATH_CONF_DIR)
 
 
 # ---------------------------------------------------------------

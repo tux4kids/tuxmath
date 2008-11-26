@@ -448,7 +448,7 @@ void initialize_SDL(void)
 
   atexit(TTF_Quit); // Maybe this is redundant?
 
-#ifdef SDL_Pango
+#ifdef HAVE_LIBSDL_PANGO
   if (SDLPango_Init () < 0)
   {
       fprintf(stderr,
@@ -724,7 +724,7 @@ void cleanup_memory(void)
     n_timesopened--;
   }
 
-#ifdef SDL_Pango
+#ifdef HAVE_LIBSDL_PANGO
    free_SDLPango_Context();
 #endif
 
