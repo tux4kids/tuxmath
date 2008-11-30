@@ -58,7 +58,7 @@ static char* briefings[NUM_STAGES][100] = {
     "help protect the city.  We're sending you",
     "there now...",
     "",
-    "...oh no! Now the Emperor himself is under attack,"
+    "...oh no! Now the Emperor himself is under attack,",
     "from new types of comets: these problems are",
     "multiplying! To fight these, you need great",
     "skill. We think you can do it. Join the",

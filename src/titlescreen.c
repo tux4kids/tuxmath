@@ -664,7 +664,7 @@ int run_main_menu(void)
      N_("More Options"),
      N_("Quit")};
   sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL, NULL};
+    {NULL, NULL, NULL, NULL, NULL, NULL};
   menu_options menu_opts;
   int choice,ret;
 
