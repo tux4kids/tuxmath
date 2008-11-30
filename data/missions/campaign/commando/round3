@@ -1,15 +1,16 @@
 #commando round 3
 
-max_formula_nums = 5
+max_formula_nums = 3
+allow_negatives = 1
 typing_practice_allowed = 1
-min_multiplier = -20
-max_multiplier = 20
-min_multiplicand = -20
-max_multiplicand = 20
-min_divisor = -20
-max_divisor = 20
-min_quotient = -20
-max_quotient = 20
+min_multiplier = -12
+max_multiplier = 12
+min_multiplicand = -12
+max_multiplicand = 12
+min_divisor = -12
+max_divisor = 12
+min_quotient = -12
+max_quotient = 12
 min_addend = -20
 max_addend = 20
 min_augend = -20
@@ -18,4 +19,4 @@ min_minuend = -20
 max_minuend = 20
 min_subtrahend = -20
 max_subtrahend = 20
-avg_list_length = 40
+avg_list_length = 100

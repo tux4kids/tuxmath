@@ -2,13 +2,13 @@
 
 addition_allowed = 1
 subtraction_allowed = 0
-allow_negatives = 1
-min_multiplier = -20
-max_multiplier = 20
-min_multiplicand = -20
-max_multiplicand = 20
-min_addend = -10
+allow_negatives = 0
+min_multiplier = 0
+max_multiplier = 12
+min_multiplicand = 0
+max_multiplicand = 12
+min_addend = 0
 max_addend = 10
-min_augend = -10
+min_augend = 0
 max_augend = 10
-avg_list_length = 130
+avg_list_length = 70
