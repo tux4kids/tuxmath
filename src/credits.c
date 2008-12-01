@@ -449,7 +449,7 @@ int scroll_text(char* text[], SDL_Rect subscreen, int speed)
           dest.y = subscreen.y + (subscreen.h - scroll * speed);
           dest.w = 1;
           dest.h = 1;
-          draw_text(text[line], dest);
+          draw_text(gettext(text[line]), dest);
           
 
           if (scroll * speed >= TTF_FontHeight(default_font) )
