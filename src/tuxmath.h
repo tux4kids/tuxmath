@@ -22,8 +22,6 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-//To build with CMake, comment out this line so we don't include "config.h"
-//To build with Autotools, uncomment it as we must have "config.h"
 #include "config.h"
 
 // Translation stuff (now works for Mac and Win too!): 
