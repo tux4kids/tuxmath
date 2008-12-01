@@ -2021,7 +2021,11 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           }
           //reset j to keep loop from exploding
           if (k == MC_OPER_DIV)
-            mcdprintf("resetting to %d %d\n", j = ans, i = tmp);
+          {
+            j = ans;
+            i = tmp;
+            mcdprintf("resetting to %d %d\n", j, i);
+          }
         }
       }
     }
