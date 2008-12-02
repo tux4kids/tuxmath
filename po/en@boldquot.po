@@ -31,14 +31,198 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tux Of Math Command 1.7.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-09-21 18:55+0200\n"
-"PO-Revision-Date: 2008-09-21 18:55+0200\n"
+"POT-Creation-Date: 2008-12-01 20:29-0600\n"
+"PO-Revision-Date: 2008-12-01 20:29-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/campaign.h:23
+msgid "-[Esc] to skip"
+msgstr "-[Esc] to skip"
+
+#: src/campaign.h:24
+msgid "Mission One: Careful Cadet"
+msgstr "Mission One: Careful Cadet"
+
+#: src/campaign.h:26
+msgid "I'm so glad you've come!"
+msgstr "I'm so glad you've come!"
+
+#: src/campaign.h:28
+msgid "The penguins need your help! Comets"
+msgstr "The penguins need your help! Comets"
+
+#: src/campaign.h:29
+msgid "are falling from the sky, and are melting"
+msgstr "are falling from the sky, and are melting"
+
+#: src/campaign.h:30
+msgid "the penguins' igloos. To save their homes,"
+msgstr "the penguins' igloos. To save their homes,"
+
+#: src/campaign.h:31
+msgid "we need you to find the secret code that"
+msgstr "we need you to find the secret code that"
+
+#: src/campaign.h:32
+msgid " will zap each comet."
+msgstr " will zap each comet."
+
+#: src/campaign.h:34
+msgid "Do your best!"
+msgstr "Do your best!"
+
+#: src/campaign.h:40
+msgid "Mission Two: Smart Scout"
+msgstr "Mission Two: Smart Scout"
+
+#: src/campaign.h:42
+msgid "Great job! Since you saved the penguins' homes,"
+msgstr "Great job! Since you saved the penguins' homes,"
+
+#: src/campaign.h:43
+msgid "we are promoting you to Scout. Scouts are good"
+msgstr "we are promoting you to Scout. Scouts are good"
+
+#: src/campaign.h:44
+msgid "for keeping an eye out for trouble..."
+msgstr "for keeping an eye out for trouble..."
+
+#: src/campaign.h:46
+msgid "...like what's happening right now!"
+msgstr "...like what's happening right now!"
+
+#: src/campaign.h:47
+msgid "The TakeAways have come, and they're sending"
+msgstr "The TakeAways have come, and they're sending"
+
+#: src/campaign.h:48
+msgid "new, trickier comets against the penguins!"
+msgstr "new, trickier comets against the penguins!"
+
+#: src/campaign.h:49
+msgid "But you can save them!"
+msgstr "But you can save them!"
+
+#: src/campaign.h:55
+msgid "Mission Three: Royal Ranger"
+msgstr "Mission Three: Royal Ranger"
+
+#: src/campaign.h:57
+msgid "You've done it again! The Penguin Emperor has"
+msgstr "You've done it again! The Penguin Emperor has"
+
+#: src/campaign.h:58
+msgid "chosen you to join his team of Rangers that"
+msgstr "chosen you to join his team of Rangers that"
+
+#: src/campaign.h:59
+msgid "help protect the city.  We're sending you"
+msgstr "help protect the city.  We're sending you"
+
+#: src/campaign.h:60
+msgid "there now..."
+msgstr "there now..."
+
+#: src/campaign.h:62
+msgid "...oh no! Now the Emperor himself is under attack,"
+msgstr "...oh no! Now the Emperor himself is under attack,"
+
+#: src/campaign.h:63
+msgid "from new types of comets: these problems are"
+msgstr "from new types of comets: these problems are"
+
+#: src/campaign.h:64
+msgid "multiplying! To fight these, you need great"
+msgstr "multiplying! To fight these, you need great"
+
+#: src/campaign.h:65
+msgid "skill. We think you can do it. Join the"
+msgstr "skill. We think you can do it. Join the"
+
+#: src/campaign.h:66
+msgid "Rangers and help save the city!"
+msgstr "Rangers and help save the city!"
+
+#: src/campaign.h:72
+msgid "Mission Four: Imperial Ace"
+msgstr "Mission Four: Imperial Ace"
+
+#: src/campaign.h:74
+msgid "You did it! The Emperor wants to thank you"
+msgstr "You did it! The Emperor wants to thank you"
+
+#: src/campaign.h:75
+msgid "in person. We are taking you to his ice palace"
+msgstr "in person. We are taking you to his ice palace"
+
+#: src/campaign.h:76
+msgid "for a great honor: you will become"
+msgstr "for a great honor: you will become"
+
+#: src/campaign.h:77
+msgid "the Imperial Ace!"
+msgstr "the Imperial Ace!"
+
+#: src/campaign.h:79
+msgid "But right in the middle of the ceremony,"
+msgstr "But right in the middle of the ceremony,"
+
+#: src/campaign.h:80
+msgid "a new attack from the land of Division starts!"
+msgstr "a new attack from the land of Division starts!"
+
+#: src/campaign.h:81
+msgid "Now is no time for resting; the city"
+msgstr "Now is no time for resting; the city"
+
+#: src/campaign.h:82
+msgid "needs your help!"
+msgstr "needs your help!"
+
+#: src/campaign.h:88
+msgid "Final Mission: Computing Commando"
+msgstr "Final Mission: Computing Commando"
+
+#: src/campaign.h:90
+msgid "Penguin scientists have learned that all"
+msgstr "Penguin scientists have learned that all"
+
+#: src/campaign.h:91
+msgid "these attacks are coming from a secret"
+msgstr "these attacks are coming from a secret"
+
+#: src/campaign.h:92
+msgid "base, and they need you to go fight"
+msgstr "base, and they need you to go fight"
+
+#: src/campaign.h:93
+msgid "the final battle. They also give you"
+msgstr "the final battle. They also give you"
+
+#: src/campaign.h:94
+msgid "this clue: first do multiplication and"
+msgstr "this clue: first do multiplication and"
+
+#: src/campaign.h:95
+msgid "division, and then do addition and subtraction."
+msgstr "division, and then do addition and subtraction."
+
+#: src/campaign.h:96
+msgid "I hope that hint helps!"
+msgstr "I hope that hint helps!"
+
+#: src/campaign.h:98
+msgid "This is it! You can stop these attacks"
+msgstr "This is it! You can stop these attacks"
+
+#: src/campaign.h:99
+msgid "forever, Commando!"
+msgstr "forever, Commando!"
 
 #: src/game.c:714
 msgid "Welcome to TuxMath!"

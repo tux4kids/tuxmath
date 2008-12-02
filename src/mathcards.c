@@ -690,7 +690,7 @@ int MC_AddTimeToList(float t)
     newsize = 2*length_time_per_question_list;
     if (newsize == 0)
       newsize = 100;
-    newlist = realloc(time_per_question_list,newsize*sizeof(float));
+    newlist = realloc(time_per_question_list, newsize*sizeof(float));
     if (newlist == NULL) {
       #ifdef MC_DEBUG
       printf("\nError: allocation for time_per_question_list failed\n");
@@ -1752,6 +1752,13 @@ MC_MathQuestion* generate_list(void)
         for (i = cl; i < length; ++i)
         {
           tnode = malloc(sizeof(MC_MathQuestion) );
+          if(!tnode)
+          {
+            fprintf(stderr, "In generate_list() - allocation failed!\n");
+            delete_list(list);
+            return NULL;
+          }
+
           tnode->card = generate_random_flashcard();
           list = insert_node(list, end_of_list, tnode);
           end_of_list = tnode;
@@ -1775,6 +1782,13 @@ MC_MathQuestion* generate_list(void)
     for (i = 0; i < length; ++i)
     {
       tnode = malloc(sizeof(MC_MathQuestion) );
+      if(!tnode)
+      {
+        fprintf(stderr, "In generate_list() - allocation failed!\n");
+        delete_list(list);
+        return NULL;
+      }
+
       tnode->card = generate_random_flashcard();
       list = insert_node(list, end_of_list, tnode);
       end_of_list = tnode;
@@ -1949,6 +1963,13 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
     {
       mcdprintf("(%d)\n", i);
       tnode = allocate_node();
+      if(!tnode)
+      {
+        fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
+        delete_list(list);
+        return NULL;
+      }
+
       snprintf(tnode->card.formula_string, max_formula_size, "%d", i);
       snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
       list = insert_node(list, end_of_list, tnode);
@@ -1995,6 +2016,13 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           if (MC_GetOpt(FORMAT_ANSWER_LAST) && MC_GetOpt(FORMAT_ADD_ANSWER_LAST + k * 3) )
           {
             tnode = allocate_node();
+            if(!tnode)
+            {
+              fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
+              delete_list(list);
+              return NULL;
+            }
+
             snprintf(tnode->card.answer_string, max_formula_size, "%d", ans);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c %d = ?", i, operchars[k], j);
@@ -2004,6 +2032,13 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           if (MC_GetOpt(FORMAT_ANSWER_FIRST) && MC_GetOpt(FORMAT_ADD_ANSWER_FIRST + k * 3) )
           {
             tnode = allocate_node();
+            if(!tnode)
+            {
+              fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
+              delete_list(list);
+              return NULL;
+            }
+
             snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "? %c %d = %d", operchars[k], j, ans);
@@ -2013,6 +2048,13 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           if (MC_GetOpt(FORMAT_ANSWER_MIDDLE) && MC_GetOpt(FORMAT_ADD_ANSWER_MIDDLE + k * 3) )
           {
             tnode = allocate_node();
+            if(!tnode)
+            {
+              fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
+              delete_list(list);
+              return NULL;
+            }
+
             snprintf(tnode->card.answer_string, max_formula_size, "%d", j);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c ? = %d", i, operchars[k], ans);
@@ -2038,6 +2080,13 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       for (j = MC_GetOpt(MIN_COMPARISAND); j < MC_GetOpt(MAX_COMPARISAND); ++j)
       {
         tnode = allocate_node();
+        if(!tnode)
+        {
+          fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
+          delete_list(list);
+          return NULL;
+        }
+
         snprintf(tnode->card.formula_string, max_formula_size, "%d ? %d", i,j);
         snprintf(tnode->card.answer_string, max_formula_size,
                  i < j ? "<" : 
