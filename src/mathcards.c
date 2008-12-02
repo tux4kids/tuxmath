@@ -1858,7 +1858,10 @@ unsigned int MC_MapTextToIndex(const char* text)
   mcdprintf("'%s' isn't a math option\n", text);
   return NOT_VALID_OPTION;
 }
-
+//FIXME Yikes!! Now we can put insane values into our math_opts struct
+//without any error checking.  We should either go back to the old 
+//system of a simple Set() function for each setting, or institute
+//some safety checks - DSB
 //TODO more intuitive function names for access by index vs. by text
 void MC_SetOpt(unsigned int index, int val)
 {
@@ -1980,6 +1983,11 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   else if (MC_PT_ARITHMETIC)
   {
     mcdprintf("Adding arithmetic...\n");
+
+    // k = 0 means addition
+    // k = 1 means subtraction
+    // k = 2 means multiplication
+    // k = 3 means division
     for (k = MC_OPER_ADD; k < MC_NUM_OPERS; ++k)
     {
       if (!MC_GetOpt(k + ADDITION_ALLOWED) )
@@ -1996,6 +2004,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           else if (k == MC_OPER_SUB)
           {
             ans = i - j;
+            // throw out negatives if they aren't allowed:
             if (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) )
               continue;
           }
@@ -2015,6 +2024,15 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           //add each format, provided it's allowed in general and for this op
           if (MC_GetOpt(FORMAT_ANSWER_LAST) && MC_GetOpt(FORMAT_ADD_ANSWER_LAST + k * 3) )
           {
+            // Avoid division by zero:
+            if (k == MC_OPER_DIV && j == 0)
+            {
+              // need to restore i and j to original values so loop works:
+              j = ans;
+              i = tmp;
+              continue;
+            }
+
             tnode = allocate_node();
             if(!tnode)
             {
@@ -2031,6 +2049,20 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           }
           if (MC_GetOpt(FORMAT_ANSWER_FIRST) && MC_GetOpt(FORMAT_ADD_ANSWER_FIRST + k * 3) )
           {
+            // Avoid questions with indeterminate answer:
+            // e.g. "? x 0 = 0"
+            if (k == MC_OPER_MULT && j == 0)
+              continue;
+
+            // Avoid division by zero:
+            if (k == MC_OPER_DIV && j == 0)
+            {
+              // need to restore i and j to original values so loop works:
+              j = ans;
+              i = tmp;
+              continue;
+            }
+
             tnode = allocate_node();
             if(!tnode)
             {
@@ -2047,7 +2079,21 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           }
           if (MC_GetOpt(FORMAT_ANSWER_MIDDLE) && MC_GetOpt(FORMAT_ADD_ANSWER_MIDDLE + k * 3) )
           {
-            tnode = allocate_node();
+            // Avoid questions with indeterminate answer:
+            // e.g. "0 x ? = 0"
+            if (k == MC_OPER_MULT && i == 0)
+              continue; 
+
+            // e.g. "0 / ? = 0"
+            if (k == MC_OPER_DIV && i == 0)
+            {
+              // need to restore i and j to original values so loop works:
+              j = ans;
+              i = tmp;
+              continue;
+            }
+
+           tnode = allocate_node();
             if(!tnode)
             {
               fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
@@ -2061,7 +2107,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             list = insert_node(list, end_of_list, tnode);
             end_of_list = tnode;
           }
-          //reset j to keep loop from exploding
+          //If we divided, reset i and j so loop works correctly
           if (k == MC_OPER_DIV)
           {
             j = ans;
