@@ -1,5 +1,5 @@
 /************************************************************
- *  factroids.c                                             *
+ *  factoroids.c                                             *
  *                                                          *
  *  Description:  Code for the factor and fraction activity *
  *                                                          *

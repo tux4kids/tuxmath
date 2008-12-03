@@ -968,7 +968,7 @@ int run_activities_menu(void)
     {(const unsigned char*)N_("Factors"),
      (const unsigned char*)N_("Fractions"),
      (const unsigned char*)N_("Main menu")};
-  const int factroids_high_score_tables[2] =
+  const int factoroids_high_score_tables[2] =
     {FACTORS_HIGH_SCORE,FRACTIONS_HIGH_SCORE};
   sprite* sprites[3] =
     {NULL, NULL, NULL};
@@ -1010,7 +1010,7 @@ int run_activities_menu(void)
           return 0;
     }
 
-	hs_table = factroids_high_score_tables[choice];
+	hs_table = factoroids_high_score_tables[choice];
 	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
 
 	  unsigned char player_name[HIGH_SCORE_NAME_LENGTH * 3];

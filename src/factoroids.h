@@ -1,5 +1,5 @@
 /************************************************************
- *  factroids.h                                             *
+ *  factoroids.h                                             *
  *                                                          *
  *  Description: Contains headers for the fractor and       *
  *               fraction activities.                       *
@@ -12,8 +12,8 @@
  *  http://tux4kids.alioth.debian.org/                      *
  ************************************************************/
 
-#ifndef FACTROIDS_H
-#define FACTROIDS_H
+#ifndef FACTOROIDS_H
+#define FACTOROIDS_H
 
 // Used in titleecreen.c
 

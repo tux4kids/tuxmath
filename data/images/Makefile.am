@@ -4,7 +4,7 @@
 SUBDIRS = backgrounds \
   cities \
   comets \
-  factroids \
+  factoroids \
   icons \
   igloos \
   penguins \

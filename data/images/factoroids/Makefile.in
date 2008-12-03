@@ -33,7 +33,7 @@ POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
 target_triplet = @target@
-subdir = data/images/factroids
+subdir = data/images/factoroids
 DIST_COMMON = $(dist_comets_DATA) $(srcdir)/Makefile.am \
 	$(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -221,7 +221,7 @@ target_os = @target_os@
 target_vendor = @target_vendor@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-cometsdir = $(pkgdatadir)/images/factroids
+cometsdir = $(pkgdatadir)/images/factoroids
 dist_comets_DATA = asteroid1.png \
  		 galaxy2.png	 \
 		 star1.jpg 	 \
@@ -253,9 +253,9 @@ $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  data/images/factroids/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign  data/images/factoroids/Makefile'; \
 	cd $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign  data/images/factroids/Makefile
+	  $(AUTOMAKE) --foreign  data/images/factoroids/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \

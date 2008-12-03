@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Tux Of Math Command 1.7.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-02 19:14-0600\n"
-"PO-Revision-Date: 2008-12-02 19:14-0600\n"
+"POT-Creation-Date: 2008-12-03 11:19-0600\n"
+"PO-Revision-Date: 2008-12-03 11:19-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -237,6 +237,39 @@ msgstr "Sorry, try again!"
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr "Mission accomplished. The galaxy is safe!"
 
+#: src/factoroids.c:527
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr "FACTOROIDS: to win, you need destroy all the asteroids."
+
+#: src/factoroids.c:528 src/factoroids.c:539
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+
+#: src/factoroids.c:529
+msgid "type one of its factors, and press space or return"
+msgstr "type one of its factors, and press space or return"
+
+#: src/factoroids.c:530
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr "to split it into its factors.  Rocks with prime numbers are destroyed!"
+
+#: src/factoroids.c:538
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr "FRACTIONS: to win, you need destroy all the asteroids"
+
+#: src/factoroids.c:540
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr ""
+"type a number that can simplify the fraction, and press space or return"
+
+#: src/factoroids.c:541
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+
 #: src/game.c:714
 msgid "Welcome to TuxMath!"
 msgstr "Welcome to TuxMath!"
@@ -341,6 +374,38 @@ msgstr "in the upper right corner."
 msgid "Do it now, and then play!"
 msgstr "Do it now, and then play!"
 
+#: src/highscore.c:213 src/titlescreen.c:856
+msgid "Hall Of Fame"
+msgstr "Hall Of Fame"
+
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+msgid "Space Cadet"
+msgstr "Space Cadet"
+
+#: src/highscore.c:238 src/titlescreen.c:852
+msgid "Scout"
+msgstr "Scout"
+
+#: src/highscore.c:241 src/titlescreen.c:853
+msgid "Ranger"
+msgstr "Ranger"
+
+#: src/highscore.c:244 src/titlescreen.c:854
+msgid "Ace"
+msgstr "Ace"
+
+#: src/highscore.c:247 src/titlescreen.c:855
+msgid "Commando"
+msgstr "Commando"
+
+#: src/highscore.c:250 src/titlescreen.c:968
+msgid "Factors"
+msgstr "Factors"
+
+#: src/highscore.c:253 src/titlescreen.c:969
+msgid "Fractions"
+msgstr "Fractions"
+
 #: src/titlescreen.c:486
 msgid "Work In Progress!"
 msgstr "Work In Progress!"
@@ -401,30 +466,6 @@ msgstr "Play Custom Game"
 msgid "Main menu"
 msgstr "Main menu"
 
-#: src/titlescreen.c:851
-msgid "Space Cadet"
-msgstr "Space Cadet"
-
-#: src/titlescreen.c:852
-msgid "Scout"
-msgstr "Scout"
-
-#: src/titlescreen.c:853
-msgid "Ranger"
-msgstr "Ranger"
-
-#: src/titlescreen.c:854
-msgid "Ace"
-msgstr "Ace"
-
-#: src/titlescreen.c:855
-msgid "Commando"
-msgstr "Commando"
-
-#: src/titlescreen.c:856
-msgid "Hall Of Fame"
-msgstr "Hall Of Fame"
-
 #: src/titlescreen.c:944
 msgid "Edit 'options' file in your home directory"
 msgstr "Edit ‘options’ file in your home directory"
@@ -440,14 +481,6 @@ msgstr "Press a key or click your mouse to start game."
 #: src/titlescreen.c:947
 msgid "See README.txt for more information"
 msgstr "See README.txt for more information"
-
-#: src/titlescreen.c:968
-msgid "Factors"
-msgstr "Factors"
-
-#: src/titlescreen.c:969
-msgid "Fractions"
-msgstr "Fractions"
 
 #: src/titlescreen.c:1062
 msgid "Demo"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-02 19:14-0600\n"
+"POT-Creation-Date: 2008-12-03 11:19-0600\n"
 "PO-Revision-Date: 2008-09-21 19:08+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -219,6 +219,36 @@ msgstr ""
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr ""
 
+#: src/factoroids.c:527
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr ""
+
+#: src/factoroids.c:528 src/factoroids.c:539
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr ""
+
+#: src/factoroids.c:529
+msgid "type one of its factors, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:530
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr ""
+
+#: src/factoroids.c:540
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:541
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr ""
+
 #: src/game.c:714
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
@@ -323,6 +353,38 @@ msgstr "klikke på X-en oppe til høyre."
 msgid "Do it now, and then play!"
 msgstr "Prøv det nå, og start spillet!"
 
+#: src/highscore.c:213 src/titlescreen.c:856
+msgid "Hall Of Fame"
+msgstr "Rekordar"
+
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+msgid "Space Cadet"
+msgstr "Romkadett"
+
+#: src/highscore.c:238 src/titlescreen.c:852
+msgid "Scout"
+msgstr "Romlærling"
+
+#: src/highscore.c:241 src/titlescreen.c:853
+msgid "Ranger"
+msgstr "Romvokter"
+
+#: src/highscore.c:244 src/titlescreen.c:854
+msgid "Ace"
+msgstr "Romsjef"
+
+#: src/highscore.c:247 src/titlescreen.c:855
+msgid "Commando"
+msgstr "Romkommandør"
+
+#: src/highscore.c:250 src/titlescreen.c:968
+msgid "Factors"
+msgstr "Faktorer"
+
+#: src/highscore.c:253 src/titlescreen.c:969
+msgid "Fractions"
+msgstr "Brøker"
+
 #: src/titlescreen.c:486
 msgid "Work In Progress!"
 msgstr "Uferdig!"
@@ -383,30 +445,6 @@ msgstr "Selvlaget spill"
 msgid "Main menu"
 msgstr "Hovedmeny"
 
-#: src/titlescreen.c:851
-msgid "Space Cadet"
-msgstr "Romkadett"
-
-#: src/titlescreen.c:852
-msgid "Scout"
-msgstr "Romlærling"
-
-#: src/titlescreen.c:853
-msgid "Ranger"
-msgstr "Romvokter"
-
-#: src/titlescreen.c:854
-msgid "Ace"
-msgstr "Romsjef"
-
-#: src/titlescreen.c:855
-msgid "Commando"
-msgstr "Romkommandør"
-
-#: src/titlescreen.c:856
-msgid "Hall Of Fame"
-msgstr "Rekordar"
-
 #: src/titlescreen.c:944
 msgid "Edit 'options' file in your home directory"
 msgstr "Rediger «options»-fila i hjemmemappa di"
@@ -422,14 +460,6 @@ msgstr "Trykk en tast eller med musen for å starte spillet."
 #: src/titlescreen.c:947
 msgid "See README.txt for more information"
 msgstr "Se «README.txt» for mer informasjon."
-
-#: src/titlescreen.c:968
-msgid "Factors"
-msgstr "Faktorer"
-
-#: src/titlescreen.c:969
-msgid "Fractions"
-msgstr "Brøker"
 
 #: src/titlescreen.c:1062
 msgid "Demo"

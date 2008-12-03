@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-02 19:14-0600\n"
+"POT-Creation-Date: 2008-12-03 11:19-0600\n"
 "PO-Revision-Date: 2007-11-12 20:54+0100\n"
 "Last-Translator: JardaK <krejci@zstenis.com>\n"
 "Language-Team: czech <cs@li.org>\n"
@@ -217,6 +217,36 @@ msgstr ""
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr ""
 
+#: src/factoroids.c:527
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr ""
+
+#: src/factoroids.c:528 src/factoroids.c:539
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr ""
+
+#: src/factoroids.c:529
+msgid "type one of its factors, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:530
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr ""
+
+#: src/factoroids.c:540
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:541
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr ""
+
 #: src/game.c:714
 msgid "Welcome to TuxMath!"
 msgstr ""
@@ -321,6 +351,38 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
+#: src/highscore.c:213 src/titlescreen.c:856
+msgid "Hall Of Fame"
+msgstr "Síň slávy"
+
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+msgid "Space Cadet"
+msgstr "Nováček"
+
+#: src/highscore.c:238 src/titlescreen.c:852
+msgid "Scout"
+msgstr "Průzkumník"
+
+#: src/highscore.c:241 src/titlescreen.c:853
+msgid "Ranger"
+msgstr "Střelec"
+
+#: src/highscore.c:244 src/titlescreen.c:854
+msgid "Ace"
+msgstr "Borec"
+
+#: src/highscore.c:247 src/titlescreen.c:855
+msgid "Commando"
+msgstr ""
+
+#: src/highscore.c:250 src/titlescreen.c:968
+msgid "Factors"
+msgstr ""
+
+#: src/highscore.c:253 src/titlescreen.c:969
+msgid "Fractions"
+msgstr ""
+
 #: src/titlescreen.c:486
 msgid "Work In Progress!"
 msgstr "Ve výstavbě!"
@@ -381,30 +443,6 @@ msgstr "Vlastní hra"
 msgid "Main menu"
 msgstr "Hlavní menu"
 
-#: src/titlescreen.c:851
-msgid "Space Cadet"
-msgstr "Nováček"
-
-#: src/titlescreen.c:852
-msgid "Scout"
-msgstr "Průzkumník"
-
-#: src/titlescreen.c:853
-msgid "Ranger"
-msgstr "Střelec"
-
-#: src/titlescreen.c:854
-msgid "Ace"
-msgstr "Borec"
-
-#: src/titlescreen.c:855
-msgid "Commando"
-msgstr ""
-
-#: src/titlescreen.c:856
-msgid "Hall Of Fame"
-msgstr "Síň slávy"
-
 #: src/titlescreen.c:944
 msgid "Edit 'options' file in your home directory"
 msgstr "Uprav soubor «options » ve své domovské složce,"
@@ -420,14 +458,6 @@ msgstr "Zmáčkni klávesu nebo klikni tlačítkem myši, abys začal hru"
 #: src/titlescreen.c:947
 msgid "See README.txt for more information"
 msgstr "Pokud chceš více informací, podívej se na README.txt"
-
-#: src/titlescreen.c:968
-msgid "Factors"
-msgstr ""
-
-#: src/titlescreen.c:969
-msgid "Fractions"
-msgstr ""
 
 #: src/titlescreen.c:1062
 msgid "Demo"

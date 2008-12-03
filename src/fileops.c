@@ -2553,15 +2553,15 @@ int load_image_data()
   DATA_PREFIX "/images/status/numbers.png",
   DATA_PREFIX "/images/status/gameover.png",
   DATA_PREFIX "/images/status/gameover_won.png",
-  DATA_PREFIX "/images/factroids/gbstars.png",
-  DATA_PREFIX "/images/factroids/asteroid1.png",
-  DATA_PREFIX "/images/factroids/asteroid2.png",
-  DATA_PREFIX "/images/factroids/asteroid3.png",
-  DATA_PREFIX "/images/factroids/ship01.png",
-  DATA_PREFIX "/images/factroids/factoroids.png",
-  DATA_PREFIX "/images/factroids/factors.png",
-  DATA_PREFIX "/images/factroids/tux.png",
-  DATA_PREFIX "/images/factroids/good.png"
+  DATA_PREFIX "/images/factoroids/gbstars.png",
+  DATA_PREFIX "/images/factoroids/asteroid1.png",
+  DATA_PREFIX "/images/factoroids/asteroid2.png",
+  DATA_PREFIX "/images/factoroids/asteroid3.png",
+  DATA_PREFIX "/images/factoroids/ship01.png",
+  DATA_PREFIX "/images/factoroids/factoroids.png",
+  DATA_PREFIX "/images/factoroids/factors.png",
+  DATA_PREFIX "/images/factoroids/tux.png",
+  DATA_PREFIX "/images/factoroids/good.png"
   };
 
   /* Load images: */

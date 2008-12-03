@@ -1,7 +1,7 @@
-## Makefile.am for tuxmath data/images/factroids:
+## Makefile.am for tuxmath data/images/factoroids:
 ## Process with AutoMake:
 
-cometsdir = $(pkgdatadir)/images/factroids
+cometsdir = $(pkgdatadir)/images/factoroids
 
 dist_comets_DATA = asteroid1.png \
  		 galaxy2.png	 \

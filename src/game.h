@@ -138,11 +138,11 @@ enum {
 
 int game(void);
 void game_set_start_message(const char*, const char*, const char*, const char*);
-/* draw_nums() is used in options.c and factroids.c/h so need extern linkage */
+/* draw_nums() is used in options.c and factoroids.c/h so need extern linkage */
 
 void draw_nums(const char* str, int x, int y);
 
-/*used in factroids.c/h*/
+/*used in factoroids.c/h*/
 int pause_game(void);
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 void draw_line(int x1, int y1, int x2, int y2, int r, int g, int b);
