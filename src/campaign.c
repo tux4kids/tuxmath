@@ -26,7 +26,7 @@ int start_campaign()
   int i, j;
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
-  char* endtext[2] = {"Congratulations! You win!", NULL};
+  char* endtext[2] = {N_("Congratulations! You win!"), NULL};
   printf("Entering start_campaign()\n");
   
   
@@ -44,7 +44,7 @@ int start_campaign()
       readRoundSettings(i, j);
       Opts_SetKeepScore(0);
           
-      snprintf(roundmessage, 10, "Round %d", j);
+      snprintf(roundmessage, 10, "%s %d", N_("Round"), j);
       game_set_start_message(roundmessage, "", "", "");
 
       MC_PrintMathOptions(stdout, 0);
@@ -153,12 +153,12 @@ void readRoundSettings(int stage, int round)
 
 void showGameOver()
 {
-	char* text[2] = {"Sorry, try again!", NULL};
+	char* text[2] = {N_("Sorry, try again!"), NULL};
 	scroll_text(text, screen->clip_rect, 3);
 }
 
 void showGameWon()
 {
-	char* text[2] = {"Mission accomplished. The galaxy is safe!", NULL};
+	char* text[2] = {N_("Mission accomplished. The galaxy is safe!"), NULL};
 	scroll_text(text, screen->clip_rect, 3);
 }

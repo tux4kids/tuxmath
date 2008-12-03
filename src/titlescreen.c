@@ -79,6 +79,7 @@ enum {
   SPRITE_SCOUT,
   SPRITE_RANGER,
   SPRITE_ACE,
+  SPRITE_COMMANDO,
   SPRITE_QUIT,
   SPRITE_MAIN,
   SPRITE_GOLDSTAR,
@@ -103,6 +104,7 @@ const char* menu_sprite_files[N_SPRITES] =
   "tux_helmet_green",
   "tux_helmet_blue",
   "tux_helmet_red",
+  "tux_helmet_black",
   "quit",
   "main",
   "goldstar",
@@ -871,7 +873,7 @@ int run_arcade_menu(void)
   sprites[1] = sprite_list[SPRITE_SCOUT];
   sprites[2] = sprite_list[SPRITE_RANGER];
   sprites[3] = sprite_list[SPRITE_ACE];
-  //TODO commando sprite
+  sprites[4] = sprite_list[SPRITE_COMMANDO];
   sprites[5] = sprite_list[SPRITE_TROPHY];
   sprites[6] = sprite_list[SPRITE_MAIN];
 

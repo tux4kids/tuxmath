@@ -1,5 +1,6 @@
 # List of source files which contain translatable strings.
 src/campaign.h
+src/campaign.c
 src/game.c
 src/titlescreen.c
 data/missions/lessons/descr_lessons

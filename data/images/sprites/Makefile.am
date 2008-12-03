@@ -58,6 +58,8 @@ dist_sprites_DATA = comet0.png \
   tux_config_brown1.png \
   tux_config_brownd.png \
   tux_configd.png \
+  tux_helmet_black0.png \
+  tux_helmet_blackd.png \
   tux_helmet_blue0.png \
   tux_helmet_blue1.png \
   tux_helmet_blue2.png \
