@@ -1870,6 +1870,123 @@ void MC_SetOpt(unsigned int index, int val)
     mcdprintf("Invalid math option index: %d\n", index);
     return;
   }
+
+  /* Do some sanity checks before we throw val into the struct: */
+  switch(index)
+  {
+    /* All the booleans must be 0 or 1: */
+    case PLAY_THROUGH_LIST:
+    case REPEAT_WRONGS:
+    case ALLOW_NEGATIVES:
+    case FORMAT_ANSWER_LAST:
+    case FORMAT_ANSWER_FIRST:
+    case FORMAT_ANSWER_MIDDLE:
+    case FORMAT_ADD_ANSWER_LAST:
+    case FORMAT_ADD_ANSWER_FIRST:
+    case FORMAT_ADD_ANSWER_MIDDLE:
+    case FORMAT_SUB_ANSWER_LAST:
+    case FORMAT_SUB_ANSWER_FIRST:
+    case FORMAT_SUB_ANSWER_MIDDLE:
+    case FORMAT_MULT_ANSWER_LAST:
+    case FORMAT_MULT_ANSWER_FIRST:
+    case FORMAT_MULT_ANSWER_MIDDLE:
+    case FORMAT_DIV_ANSWER_LAST:
+    case FORMAT_DIV_ANSWER_FIRST:
+    case FORMAT_DIV_ANSWER_MIDDLE:
+    case ADDITION_ALLOWED:
+    case SUBTRACTION_ALLOWED:
+    case MULTIPLICATION_ALLOWED:
+    case DIVISION_ALLOWED:
+    case TYPING_PRACTICE_ALLOWED:
+    case ARITHMETIC_ALLOWED:
+    case COMPARISON_ALLOWED:
+    case RANDOMIZE:
+    case COMPREHENSIVE:
+    case VARY_LIST_LENGTH:
+    {
+      /* Reset all non-zero values to one: */
+      if(val)
+      {
+        if(val != 1)
+        {
+          fprintf(stderr, "Warning - parameter %s with invalid value %d, "
+                          "resetting to 1\n", MC_OPTION_TEXT[index], val);
+          val = 1;
+        }
+      }
+      break;
+    }
+
+    /* Parameters concerning numbers of questions */
+    /* must be greater than or equal to zero:     */
+    /* TODO some additional checks would make sense */
+    case QUESTION_COPIES:
+    case COPIES_REPEATED_WRONGS:
+    case MAX_QUESTIONS:
+    case MAX_FORMULA_NUMS:
+    case MIN_FORMULA_NUMS:
+    case AVG_LIST_LENGTH:
+    {
+      /* Reset all negative values to zero: */
+      if(val < 0)
+      {
+        fprintf(stderr, "Warning - parameter %s with invalid value %d, "
+                        "resetting to 0\n", MC_OPTION_TEXT[index], val);
+        val = 0;
+      }
+      break;
+    }
+
+    /* Operand values - make sure they are in displayable range */
+    /* i.e. -999 to 999                                         */ 
+    case MAX_ANSWER:
+    case MIN_AUGEND:
+    case MAX_AUGEND:
+    case MIN_ADDEND:
+    case MAX_ADDEND:
+    case MIN_MINUEND:
+    case MAX_MINUEND:
+    case MIN_SUBTRAHEND:
+    case MAX_SUBTRAHEND:
+    case MIN_MULTIPLIER:
+    case MAX_MULTIPLIER:
+    case MIN_MULTIPLICAND:
+    case MAX_MULTIPLICAND:
+    case MIN_DIVISOR:
+    case MAX_DIVISOR:
+    case MIN_QUOTIENT:
+    case MAX_QUOTIENT:
+    case MIN_TYPING_NUM:
+    case MAX_TYPING_NUM:
+    case MIN_COMPARATOR:
+    case MAX_COMPARATOR:
+    case MIN_COMPARISAND:
+    case MAX_COMPARISAND:
+    {
+      if(val > MC_GLOBAL_MAX)
+      {
+        fprintf(stderr, "Warning - parameter %s with invalid value %d, "
+                       "resetting to %d\n", MC_OPTION_TEXT[index],
+                       val, MC_GLOBAL_MAX);
+        val = MC_GLOBAL_MAX;
+      }
+
+      if(val < (0 - MC_GLOBAL_MAX))
+      {
+        fprintf(stderr, "Warning - parameter %s with invalid value %d, "
+                        "resetting to %d\n", MC_OPTION_TEXT[index],
+                       val, (0 - MC_GLOBAL_MAX));
+        val = (0 - MC_GLOBAL_MAX);
+      }
+
+      break;
+    }
+
+    default:
+        fprintf(stderr, "Warning - in MC_SetOpt() - unrecognized index %d\n",
+                index);
+  }
+  /* Should now be safe to put "sanitized" value into struct: */
   math_opts->iopts[index] = val;
 }
 
