@@ -3,7 +3,10 @@
 
 spritesdir = $(pkgdatadir)/images/sprites
 
-dist_sprites_DATA = comet0.png \
+dist_sprites_DATA = alone0.png \
+  alone1.png \
+  aloned.png \
+  comet0.png \
   comet1.png \
   comet2.png \
   comet3.png \
@@ -40,6 +43,8 @@ dist_sprites_DATA = comet0.png \
   quit0.png \
   no_goldstar0.png \
   no_goldstard.png \
+  friends0.png \
+  friendsd.png \
   quit1.png \
   quit2.png \
   quit3.png \

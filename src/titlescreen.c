@@ -112,7 +112,7 @@ const char* menu_sprite_files[N_SPRITES] =
   "trophy",
   "credits",
   "alone", 
-  "tux_config_brown", //TODO give these two their own sprites
+  "friends", //TODO give these two their own sprites
   "tux_helmet_red",
   "nums",
   "exclamation"
