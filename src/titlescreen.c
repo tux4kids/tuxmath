@@ -661,7 +661,7 @@ int run_main_menu(void)
   const char* menu_text[6] =
     {N_("Play Alone"),
      N_("Play With Friends"),
-     N_("Other Math Command Activities"),
+     N_("Factoroids!"),
      N_("Help"),
      N_("More Options"),
      N_("Quit")};
@@ -791,10 +791,18 @@ int run_multiplay_menu(void)
   char npstr[HIGH_SCORE_NAME_LENGTH * 3];
 
   const char* menu_text[3] =
-    {"Score Sweep", "Elimination", "Main menu"};
+    {N_("Score Sweep"),
+     N_("Elimination"),
+     N_("Main menu")};
+
   //just leech settings from arcade modes
   const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
-    {"Space Cadet", "Scout", "Ranger", "Ace", "Commando", "Main menu"};
+    {N_("Space Cadet"),
+     N_("Scout"),
+     N_("Ranger"),
+     N_("Ace"),
+     N_("Commando"),
+     N_("Main menu")};
 
 
   sprite* modesprites[3] = {NULL, NULL, NULL};
@@ -808,7 +816,7 @@ int run_multiplay_menu(void)
   diffsprites[1] = sprite_list[SPRITE_SCOUT];
   diffsprites[2] = sprite_list[SPRITE_RANGER];
   diffsprites[3] = sprite_list[SPRITE_ACE];
-
+  diffsprites[4] = sprite_list[SPRITE_COMMANDO];
   diffsprites[5] = sprite_list[SPRITE_MAIN];
 
   while (1)
@@ -828,8 +836,8 @@ int run_multiplay_menu(void)
     //ask how many players
     while (nplayers <= 0 || nplayers > MAX_PLAYERS)
     {
-      NameEntry(npstr, "How many kids are playing?",
-                       "(Between 2 and 4 players)");
+      NameEntry(npstr, _("How many kids are playing?"),
+                       _("(Between 2 and 4 players)"));
       nplayers = atoi(npstr);
     }
 
@@ -856,11 +864,18 @@ int run_arcade_menu(void)
      N_("Hall Of Fame"),
      N_("Main menu")};               
   const char* arcade_config_files[5] =
-    {"arcade/space_cadet", "arcade/scout", "arcade/ranger", "arcade/ace",
+    {"arcade/space_cadet",
+     "arcade/scout",
+     "arcade/ranger",
+     "arcade/ace",
      "arcade/commando"
     };
+
   const int arcade_high_score_tables[5] =
-    {CADET_HIGH_SCORE,SCOUT_HIGH_SCORE,RANGER_HIGH_SCORE,ACE_HIGH_SCORE,
+    {CADET_HIGH_SCORE,
+     SCOUT_HIGH_SCORE,
+     RANGER_HIGH_SCORE,
+     ACE_HIGH_SCORE,
      COMMANDO_HIGH_SCORE
     };
   sprite* sprites[7] =

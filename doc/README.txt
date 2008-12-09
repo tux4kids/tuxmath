@@ -2,7 +2,7 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-August 13, 2008
+December 08, 2008
 
 For tuxmath-1.7.0
 
@@ -14,6 +14,9 @@ Objective
   Comets are crashing towards the friendly penguins in their igloos,
   and you must destroy the comets by solving their equations.
 
+  As of version 1.7.0, TuxMath also includes a completely new game activity,
+  "Factoroids", which gives practice in factoring numbers and simplifying
+  fractions, as well as zapping rocks floating through space.
 
 
 Installation
@@ -59,35 +62,75 @@ Program Navigation
 ------------------
   Title Screen
   ------------
-    Math Command Training Academy: choose this to go to a list of over fifty
-    prepared lessons, starting with simple typing of single digit numbers, and
-    progressing to multiplication and division involving negatives and 
-    "missing number" questions (e.g. "-17 x ? = 119").  The player wins if the
-    question list is completed successfully. Successfully completed lessons are
-    indicated with a flashing gold star. 
+    Play Alone: single player activities:
+    -----------
+      Math Command Training Academy: choose this to go to a list of over fifty
+      prepared lessons, starting with simple typing of single digit numbers, and
+      progressing to multiplication and division involving negatives and 
+      "missing number" questions (e.g. "-17 x ? = 119").  The player wins if the
+      question list is completed successfully. Successfully completed lessons are
+      indicated with a flashing gold star. 
 
-    Play Arcade Game: use this to select from one of four open-ended, "Arcade 
-    Style" games, meaning the game play gets faster and faster as long as the
-    player can keep up, with the goal being to get the highest score possible.
-    The options include:
-      Space Cadet - simple addition.
-      Scout -       addition and subtraction to ten.
-      Ranger -      addition, subtraction, multiplication, and division to ten.
-      Ace -         all four operations with operands to 20, including negative
-                    numbers and "missing number" type questions.
-    If you make one of the top ten scores for the difficulty level, you get to
-    enter your name in the TuxMath Hall of Fame!
+      Math Command Fleet Missions: choose this to be given a series of progressively
+      more advanced missions tied together by a fun story line. The fate of the 
+      galaxy is in your hands!
 
-    Play Custom Game: use this to play a game based on the config file in the 
-    player's home directory (see below). At some point, the options will be 
-    settable from within the game.
+      Play Arcade Game: use this to select from one of five open-ended, "Arcade 
+      Style" games, meaning the game play gets faster and faster as long as the
+      player can keep up, with the goal being to get the highest score possible.
+      The options include:
+
+        Space Cadet - simple addition.
+        Scout -       addition and subtraction to ten.
+        Ranger -      addition, subtraction, multiplication, and division to ten.
+        Ace -         all four operations with operands to 20, including negative
+                      numbers and "missing number" type questions.
+        Commando -    all of above plus multiple operands - e.g. -3 x ? + 14 = 2
+ 
+      If you make one of the top ten scores for the difficulty level, you get to
+      enter your name in the TuxMath Hall of Fame!
+
+      Play Custom Game: use this to play a game based on the config file in the 
+      player's home directory (see below). At some point, the options will be 
+      settable from within the game.
+
+    Play With Friends:
+    ------------------
+      Compete with your friends by playing in a turns-based fashion! The
+      math difficulty levels are the same as for the "Arcade" games. Note that
+      this involves rotating play at a single computer rather than multiplayer
+      competition over a network (although that is an idea being considered!).
+
+    Factoroids!
+    -----------
+      TuxMath now includes an entire new video game! Factoroids combines math
+      drill in factoring and fraction simplification, with video skill in shooting
+      the floating asteroids before they smash the ship. The ship is maneuvered
+      with the arrow keys in the traditional fashion:
+
+        R arrow - rotate clockwise
+        L arrow - rotate counterclockwise
+        Up arrow - thrust
+        Enter or Space - shoot
+
+      Factors: to shoot a rock, first type in one of its factors, then fire. Prime
+      numbers can simply be blasted without entering any number.
+
+      Fractions: type in a number that can simplify the fraction (i.e. a common
+      factor of the numerator and denominator).  For example, 7/70 could be 
+      simplified by shooting it with the number 7.
 
     Help: this offers a short tutorial to teach game play.
+    ----
 
-    More Options: this will be developed into the menus to set options not 
-    directly related to math questions, such as toggling the music on and off,
-    playing fullscreen vs. windowed, using cities vs. igloos, and the like.
-    Now it just has the "Demo" mode, as well as credits and project information.
+    More Options: 
+    -------------
+      This will be developed into the menus to set options not 
+      directly related to math questions, such as toggling the music on and off,
+      playing fullscreen vs. windowed, using cities vs. igloos, and the like.
+      Now it just has the "Demo" mode, as well as credits and project information.
+
+   
 
     Use the [UP] and [DOWN] arrow keys to select what you wish to do,
     and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the

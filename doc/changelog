@@ -1,3 +1,22 @@
+2008.Dec.08 (svn.debian.org/tux4kids - revision 788)
+Version 1.7.0
+        First post-Google Summer of Code release with numerous enhancements.
+        The changelog was not kept updated very well over the summer, although
+        most of the changes had descriptive commit messages in subversion.
+        To summarize the most important changes and their contributors:
+          - Fullscreen support at native resolution (Brendan Luchen).
+          - Overhaul of mathcards question-generation code with support
+            for multiple-operand questions (Brendan Luchen).
+          - Turn-based multiplayer mode (Brendan Luchen).
+          - Redo of Credits screen to allow i18n (Brendan Luchen).
+          - Very humorous menu-screen Easter egg (Brendan Luchen).
+          - Factoroids factor game activity (Jesus Mager, based on Bill
+            Kendricks' "Vectoroids").
+          - New Irish (Seanán Ó Coistín) and Turkish (Doruk Fisek)
+            translations.
+          - Several new menu icons.
+
+        David Bruce <davidstuartbruce@gmail.com>
 
 2008.Oct.16 (svn.debian.org/tux4kids - revision 763)
 	Credits: 

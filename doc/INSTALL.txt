@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.6.10
+Version 1.7.0
 
-December 19, 2007
+December 08, 2008
 
 
 For users
@@ -57,14 +57,11 @@ Requirements
   Video Display
   -------------
     By default, TuxMath displays fullscreen, as long as a 640x480
-    resolution is supported by your system.  TuxMath can also display
-    the game screen in a 640x480 window.  F10 toggles between these
-    two modes.
-
-    When attempting to run in fullscreen mode on systems where true 640x480
-    resolution isn't available for some reason, the next-lowest resolution
-    available will be used, and the game area will be centered within a
-    black screen.
+    or greater resolution is supported by your system. Beginning 
+    with the 1.7.0 release, fullscreen mode runs at the native
+    resolution of the operating system, rather than only 640x480.
+    TuxMath can also display the game screen in a 640x480 window.
+    F10 toggles between these two modes.
 
     TuxMath prefers 32bpp (bits per pixel) color depth.  Current
     builds have not been tested on systems that cannot provide this
@@ -119,22 +116,25 @@ Requirements
     internationalization is supported using Gnu gettext and libiconv.
 
     As of v1.6.3 (Linux), TuxMath can support translations into
-    languages requiring bidirectional text by using
-    SDL_Pango. SDL_Pango is optional in the build process.
-
-    As of v1.7.0, TuxMath uses SDL_gfx.  Only the "rotozoom" function
-    is needed, so in case of build problems you can work around them
-    by copying the SDL_rotozoom.{c,h} files from the SDL_gfx source
-    distribution into the TuxMath source directory.
+    languages requiring bidirectional text by using SDL_Pango. 
+    SDL_Pango is optional in the build process - it will be used if
+    found, but the program will fall back to SDL_ttf if it cannot be
+    built with SDL_Pango.
 
     The executable Windows installer contains all needed libraries
     (DLLs) and the Andika font - nothing else should be needed that is
     not part of Windows.  The *tar.gz source packages require the
-    "*-dev" versions of SDL, SDL_image, SDL_mixer, SDL_ttf for
-    building and installation (easily obtained in most any Gnu/Linux
-    distribution).  The Andika font is also included.
+    "*-dev" versions of SDL, SDL_image, SDL_mixer, SDL_ttf (and, optionally,
+    SDL_Pango) for building and installation.  These are easily installed
+    in most any GNU-Linux distribution.  For Debian and its derivatives 
+    (including Ubuntu) type "aptitude search SDL" to find the exact package
+    names, and install them with "sudo aptitude install".  For Fedora and
+    Red Hat derivatives, the "yum" tool works very similarly.
 
-    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, SDL_gfx, and
+    The Andika font is also included in the "tuxmath_w_fonts-*" packages,
+    which is almost certainly what you want.
+
+    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and
     libiconv are all free, Open Source libraries, released under the
     GNU Library General Public License (LGPL).
 
@@ -145,7 +145,7 @@ Requirements
 
       Alternatively (and by necessity on other platforms), you can
       download "libSDL," "SDL_image," "SDL_ttf", and "SDL_mixer" from
-      the SDL website:
+      the SDL website and build these libs from source:
 
       http://www.libsdl.org/
 
@@ -174,8 +174,9 @@ Requirements
         RedHat Linux on Intel-compatible computers).
 
 	For example, on (K)Ubuntu Hardy, you could say:
-           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev libsdl-gfx1.2-4 libsdl-gfx1.2-dev
+           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev
 
+        This should work for nearly any Debian variant.
 
 Compiling and Installing TuxMath
 --------------------------------
@@ -200,11 +201,11 @@ better-support Mac OS X.
 
       The svn repository is located at:
 
-        http://svn.debian.org/wsvn/tux4kids/tuxmath 
+      ï¿½ http://svn.debian.org/wsvn/tux4kids/tuxmath 
 
       or:
 
-        svn://svn.debian.org/tux4kids/tuxmath
+      ï¿½ svn://svn.debian.org/tux4kids/tuxmath
 
     Compiling the Program: Automake (Linux)
     --------------------------------------
@@ -221,12 +222,13 @@ better-support Mac OS X.
  
         tar -xzf tuxmath_w_fonts-1.6.1-tar.gz
         cd tuxmath_w_fonts-1.6.1
-        ./configure --enable-sdlpango
+        ./configure
         make
         make install.  (you might need "su" or "sudo" for this)
  
-      (The "enable-sdlpango" switch is needed if you want to compile
-      Tuxmath with support for Pango for right-to-left languages.)
+      Note: the build now uses SDL_Pango by default - the "enable-sdlpango"
+      switch is no longer needed.  If your build environment lacks this
+      lib, TuxMath will be build without SDL_Pango support.
 
       If you use a subversion checkout, you will need to generate the
       configure script.  Tuxmath uses the Gnu Autoconf/Automake tools
@@ -303,7 +305,8 @@ better-support Mac OS X.
       libjpeg, freetype, and so forth.  There were a number of
       pitfalls along the way, and hopefully I will get this documented
       at some point.  Suffice to say that tuxmath itself builds fine
-      in this way, once the environment is set up.
+      in this way, once the environment is set up.  The only deficiency
+      as of this writing is that SDL_Pango is not supported.
 
       You need to have a directory containing all of the dlls that
       will need to be packaged into the installer.  The Makefile

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-03 11:19-0600\n"
+"POT-Creation-Date: 2008-12-08 19:43-0600\n"
 "PO-Revision-Date: 2007-11-15 09:00+0100\n"
 "Last-Translator: Schrijvers Luc <Begasus@skynet.be>\n"
 "Language-Team: Dutch <LL@li.org>\n"
@@ -349,35 +349,36 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:213 src/titlescreen.c:856
+#: src/highscore.c:213 src/titlescreen.c:864
 msgid "Hall Of Fame"
 msgstr "Hoogste scores"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
+#: src/titlescreen.c:859
 msgid "Space Cadet"
 msgstr "Ruimte kadet"
 
-#: src/highscore.c:238 src/titlescreen.c:852
+#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
 msgid "Scout"
 msgstr "Scout"
 
-#: src/highscore.c:241 src/titlescreen.c:853
+#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
 msgid "Ranger"
 msgstr "Ranger"
 
-#: src/highscore.c:244 src/titlescreen.c:854
+#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
 msgid "Ace"
 msgstr "Ace"
 
-#: src/highscore.c:247 src/titlescreen.c:855
+#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:968
+#: src/highscore.c:250 src/titlescreen.c:983
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:253 src/titlescreen.c:969
+#: src/highscore.c:253 src/titlescreen.c:984
 msgid "Fractions"
 msgstr ""
 
@@ -406,7 +407,7 @@ msgid "Play With Friends"
 msgstr ""
 
 #: src/titlescreen.c:664
-msgid "Other Math Command Activities"
+msgid "Factoroids!"
 msgstr ""
 
 #: src/titlescreen.c:665
@@ -437,55 +438,72 @@ msgstr "Speel Arcade spel"
 msgid "Play Custom Game"
 msgstr "Speel je eigen spel"
 
-#: src/titlescreen.c:745 src/titlescreen.c:857 src/titlescreen.c:970
+#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
+#: src/titlescreen.c:865 src/titlescreen.c:985
 msgid "Main menu"
 msgstr "Hoofdmenu"
 
-#: src/titlescreen.c:944
+#: src/titlescreen.c:794
+msgid "Score Sweep"
+msgstr ""
+
+#: src/titlescreen.c:795
+msgid "Elimination"
+msgstr ""
+
+#: src/titlescreen.c:839
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/titlescreen.c:840
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/titlescreen.c:959
 msgid "Edit 'options' file in your home directory"
 msgstr "Bewerk 'options' bestand in je home folder"
 
-#: src/titlescreen.c:945
+#: src/titlescreen.c:960
 msgid "to create customized game!"
 msgstr "voor een eigen spel!"
 
-#: src/titlescreen.c:946
+#: src/titlescreen.c:961
 msgid "Press a key or click your mouse to start game."
 msgstr "Druk op een toets of de muis om het spel te starten."
 
-#: src/titlescreen.c:947
+#: src/titlescreen.c:962
 msgid "See README.txt for more information"
 msgstr "Lees README.txt voor meer informatie"
 
-#: src/titlescreen.c:1062
+#: src/titlescreen.c:1077
 msgid "Demo"
 msgstr "Demo"
 
-#: src/titlescreen.c:1063
+#: src/titlescreen.c:1078
 msgid "Project Info"
 msgstr "Projekt info"
 
-#: src/titlescreen.c:1064
+#: src/titlescreen.c:1079
 msgid "Credits"
 msgstr "Kredieten"
 
-#: src/titlescreen.c:1065
+#: src/titlescreen.c:1080
 msgid "Main Menu"
 msgstr "Hoofdmenu"
 
-#: src/titlescreen.c:1112
+#: src/titlescreen.c:1127
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath is gratis en open-source!"
 
-#: src/titlescreen.c:1113
+#: src/titlescreen.c:1128
 msgid "You can help make it better by reporting problems,"
 msgstr "Je kan helpen met het verbeteren door problemen te melden,"
 
-#: src/titlescreen.c:1114
+#: src/titlescreen.c:1129
 msgid "suggesting improvements, or adding code."
 msgstr "suggesties verbeteringen, of code toevoegen."
 
-#: src/titlescreen.c:1115
+#: src/titlescreen.c:1130
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Praat over de toekomst via tuxmath-devel@lists.sourceforge.net"
 

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-03 11:19-0600\n"
+"POT-Creation-Date: 2008-12-08 19:43-0600\n"
 "PO-Revision-Date: 2008-03-22 06:59+0000\n"
 "Last-Translator: Miika Metsälä <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -353,35 +353,36 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:213 src/titlescreen.c:856
+#: src/highscore.c:213 src/titlescreen.c:864
 msgid "Hall Of Fame"
 msgstr "Parhaat tulokset"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
+#: src/titlescreen.c:859
 msgid "Space Cadet"
 msgstr "Astronautti"
 
-#: src/highscore.c:238 src/titlescreen.c:852
+#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
 msgid "Scout"
 msgstr "Tiedustelija"
 
-#: src/highscore.c:241 src/titlescreen.c:853
+#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
 msgid "Ranger"
 msgstr "Jousimies"
 
-#: src/highscore.c:244 src/titlescreen.c:854
+#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
 msgid "Ace"
 msgstr ""
 
-#: src/highscore.c:247 src/titlescreen.c:855
+#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:968
+#: src/highscore.c:250 src/titlescreen.c:983
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:253 src/titlescreen.c:969
+#: src/highscore.c:253 src/titlescreen.c:984
 msgid "Fractions"
 msgstr ""
 
@@ -410,7 +411,7 @@ msgid "Play With Friends"
 msgstr ""
 
 #: src/titlescreen.c:664
-msgid "Other Math Command Activities"
+msgid "Factoroids!"
 msgstr ""
 
 #: src/titlescreen.c:665
@@ -441,56 +442,73 @@ msgstr "Pelaa arcade-peliä"
 msgid "Play Custom Game"
 msgstr ""
 
-#: src/titlescreen.c:745 src/titlescreen.c:857 src/titlescreen.c:970
+#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
+#: src/titlescreen.c:865 src/titlescreen.c:985
 msgid "Main menu"
 msgstr "Päävalikko"
 
-#: src/titlescreen.c:944
+#: src/titlescreen.c:794
+msgid "Score Sweep"
+msgstr ""
+
+#: src/titlescreen.c:795
+msgid "Elimination"
+msgstr ""
+
+#: src/titlescreen.c:839
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/titlescreen.c:840
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/titlescreen.c:959
 msgid "Edit 'options' file in your home directory"
 msgstr "Muokkaa 'options' tiedostoa kotikansiossasi"
 
-#: src/titlescreen.c:945
+#: src/titlescreen.c:960
 msgid "to create customized game!"
 msgstr "tehdäksesi kustomoidun pelin!"
 
-#: src/titlescreen.c:946
+#: src/titlescreen.c:961
 msgid "Press a key or click your mouse to start game."
 msgstr ""
 "Paina mitä tahansa näppäintä tai napsauta hiirellä aloittaaksesi pelin."
 
-#: src/titlescreen.c:947
+#: src/titlescreen.c:962
 msgid "See README.txt for more information"
 msgstr "Katso README.txt saadaksesi lisätietoja"
 
-#: src/titlescreen.c:1062
+#: src/titlescreen.c:1077
 msgid "Demo"
 msgstr ""
 
-#: src/titlescreen.c:1063
+#: src/titlescreen.c:1078
 msgid "Project Info"
 msgstr "Tietoa projektista"
 
-#: src/titlescreen.c:1064
+#: src/titlescreen.c:1079
 msgid "Credits"
 msgstr "Tekijät"
 
-#: src/titlescreen.c:1065
+#: src/titlescreen.c:1080
 msgid "Main Menu"
 msgstr "Päävalikko"
 
-#: src/titlescreen.c:1112
+#: src/titlescreen.c:1127
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath on vapaa ja avointa koodia!"
 
-#: src/titlescreen.c:1113
+#: src/titlescreen.c:1128
 msgid "You can help make it better by reporting problems,"
 msgstr "Voit auttaa meitä tekemään sen paremmaksi ilmoittamalla ongelmista,"
 
-#: src/titlescreen.c:1114
+#: src/titlescreen.c:1129
 msgid "suggesting improvements, or adding code."
 msgstr "ehdottamalla parannuksista, tai lisäämällä koodia."
 
-#: src/titlescreen.c:1115
+#: src/titlescreen.c:1130
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 "Keskustele tuxmathin tulevaisuudesta osoitteesta tuxmath-devel@lists."

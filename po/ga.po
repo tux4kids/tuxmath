@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-03 11:19-0600\n"
+"POT-Creation-Date: 2008-12-08 19:43-0600\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -349,35 +349,36 @@ msgstr "sa chÃºinne uachtarach ar dheis."
 msgid "Do it now, and then play!"
 msgstr "DÃ©an anois Ã©, agus ansin imir!"
 
-#: src/highscore.c:213 src/titlescreen.c:856
+#: src/highscore.c:213 src/titlescreen.c:864
 msgid "Hall Of Fame"
 msgstr "RÃ©im na gCuradh"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:851
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
+#: src/titlescreen.c:859
 msgid "Space Cadet"
 msgstr "Glasearcach"
 
-#: src/highscore.c:238 src/titlescreen.c:852
+#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
 msgid "Scout"
 msgstr "GasÃ³g"
 
-#: src/highscore.c:241 src/titlescreen.c:853
+#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
 msgid "Ranger"
 msgstr "RÃ¡naÃ­"
 
-#: src/highscore.c:244 src/titlescreen.c:854
+#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
 msgid "Ace"
 msgstr "Curadh"
 
-#: src/highscore.c:247 src/titlescreen.c:855
+#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:968
+#: src/highscore.c:250 src/titlescreen.c:983
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:253 src/titlescreen.c:969
+#: src/highscore.c:253 src/titlescreen.c:984
 msgid "Fractions"
 msgstr ""
 
@@ -406,7 +407,7 @@ msgid "Play With Friends"
 msgstr ""
 
 #: src/titlescreen.c:664
-msgid "Other Math Command Activities"
+msgid "Factoroids!"
 msgstr ""
 
 #: src/titlescreen.c:665
@@ -437,55 +438,72 @@ msgstr "Imir an GnÃ¡thchluiche"
 msgid "Play Custom Game"
 msgstr "Imir Cluiche Saincheaptha"
 
-#: src/titlescreen.c:745 src/titlescreen.c:857 src/titlescreen.c:970
+#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
+#: src/titlescreen.c:865 src/titlescreen.c:985
 msgid "Main menu"
 msgstr "An PrÃ­omh RoghchlÃ¡r"
 
-#: src/titlescreen.c:944
+#: src/titlescreen.c:794
+msgid "Score Sweep"
+msgstr ""
+
+#: src/titlescreen.c:795
+msgid "Elimination"
+msgstr ""
+
+#: src/titlescreen.c:839
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/titlescreen.c:840
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/titlescreen.c:959
 msgid "Edit 'options' file in your home directory"
 msgstr "Cuir in eagar an comhad 'roghanna' i do chomhadlann baile"
 
-#: src/titlescreen.c:945
+#: src/titlescreen.c:960
 msgid "to create customized game!"
 msgstr "chun cluiche saincheaptha a chruthÃº!"
 
-#: src/titlescreen.c:946
+#: src/titlescreen.c:961
 msgid "Press a key or click your mouse to start game."
 msgstr "BrÃºigh cnaipe nÃ³ brÃºigh do luchÃ³g chun an cluiche a thosÃº."
 
-#: src/titlescreen.c:947
+#: src/titlescreen.c:962
 msgid "See README.txt for more information"
 msgstr "FÃ©ach ar README.txt le haghaidh breis eolas"
 
-#: src/titlescreen.c:1062
+#: src/titlescreen.c:1077
 msgid "Demo"
 msgstr "TaispeÃ¡ntas"
 
-#: src/titlescreen.c:1063
+#: src/titlescreen.c:1078
 msgid "Project Info"
 msgstr "FaisnÃ©is an Tionscadail"
 
-#: src/titlescreen.c:1064
+#: src/titlescreen.c:1079
 msgid "Credits"
 msgstr "BuÃ­ochas le"
 
-#: src/titlescreen.c:1065
+#: src/titlescreen.c:1080
 msgid "Main Menu"
 msgstr "An PrÃ­omh RoghchlÃ¡r"
 
-#: src/titlescreen.c:1112
+#: src/titlescreen.c:1127
 msgid "TuxMath is free and open-source!"
 msgstr "TÃ¡ TuxMath ar fÃ¡il saor in aisce agus le foinse oscailte!"
 
-#: src/titlescreen.c:1113
+#: src/titlescreen.c:1128
 msgid "You can help make it better by reporting problems,"
 msgstr "Is fÃ©idir leat cuidiÃº Ã© a fheabhsÃº trÃ­ fadhbanna a fhÃ³grÃº,"
 
-#: src/titlescreen.c:1114
+#: src/titlescreen.c:1129
 msgid "suggesting improvements, or adding code."
 msgstr "feabhsaithe a mholadh, nÃ³ trÃ­ cÃ³d a chur leis."
 
-#: src/titlescreen.c:1115
+#: src/titlescreen.c:1130
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "PlÃ© an todhchaÃ­ ag tuxmath-devel@lists.sourceforge.net"
 
