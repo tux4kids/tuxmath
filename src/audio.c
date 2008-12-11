@@ -20,9 +20,9 @@
 *                                                                         *
 ***************************************************************************/
 
-//Needed for Opts_UsingSound():
-#include "options.h" 
 
+#include "tuxmath.h"
+#include "options.h"   //Needed for Opts_UsingSound()
 #include "titlescreen.h"
 
 Mix_Music *music;

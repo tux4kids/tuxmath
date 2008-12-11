@@ -11,9 +11,9 @@
 */
 #include <string.h>
 
+#include "tuxmath.h"
 #include "highscore.h"
 #include "titlescreen.h"
-#include "tuxmath.h"
 #include "fileops.h"
 #include "setup.h"
 #include "options.h"

@@ -22,7 +22,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
+//#include "SDL.h"
 
 #include "mathcards.h"
 
@@ -30,7 +30,7 @@
 #include "fileops.h"
 #include "setup.h"
 #include "game.h"
-#include "tuxmath.h"
+//#include "tuxmath.h"
 
 /* FIXME figure out what oper_override is supposed to do and make sure */
 /* this file behaves accordingly! */

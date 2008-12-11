@@ -16,7 +16,7 @@ Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 #ifndef FILEOPS_H
 #define FILEOPS_H
 
-#include "tuxmath.h"
+#include "globals.h"
 
 /* Flag basically telling whether or not to allow admin-level */
 /* settings to be changed: */

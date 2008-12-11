@@ -144,7 +144,7 @@ void draw_nums(const char* str, int x, int y);
 
 /*used in factoroids.c/h*/
 int pause_game(void);
-void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
+//void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 void draw_line(int x1, int y1, int x2, int y2, int r, int g, int b);
 void draw_numbers(const char* str, int x, int y);
 

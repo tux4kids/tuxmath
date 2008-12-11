@@ -9,6 +9,7 @@
 * Copyright: See COPYING file that comes with this distribution
 *
 */
+#include <stdio.h>
 #include "lessons.h"
 
 // extern unsigned char **lesson_list_titles;

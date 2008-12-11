@@ -13,7 +13,7 @@
 #ifndef LESSONS_H
 #define LESSONS_H
 
-#include "tuxmath.h"
+#include "globals.h"
 
 int read_goldstars_fp(FILE* fp);
 void write_goldstars_fp(FILE* fp);

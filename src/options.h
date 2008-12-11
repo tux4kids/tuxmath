@@ -22,7 +22,7 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "tuxmath.h"  /* needed for PATH_MAX definition */
+#include "globals.h"  /* needed for PATH_MAX definition */
 
 enum {
   PER_USER_CONFIG,

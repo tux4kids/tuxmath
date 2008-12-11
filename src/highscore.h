@@ -14,7 +14,7 @@
 #define HIGHSCORE_H
 
 
-#include "tuxmath.h"
+#include "globals.h"
 
 void DisplayHighScores(int level);
 void HighScoreNameEntry(char* pl_name);

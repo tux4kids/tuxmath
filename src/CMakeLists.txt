@@ -22,6 +22,7 @@ set(SOURCES_TUXMATH
   credits.c
   factoroids.c
   fileops.c
+  fileops_media.c
   game.c
   highscore.c
   lessons.c
