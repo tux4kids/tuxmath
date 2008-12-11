@@ -26,7 +26,8 @@ tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
 	game.c 		\
-	factoroids.c     \
+	factoroids.c    \
+	fileops_media.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\

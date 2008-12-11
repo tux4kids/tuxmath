@@ -25,6 +25,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+#include "config.h"
 /* for conditional compilation of debugging output */
 #define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
