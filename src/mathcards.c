@@ -1470,8 +1470,6 @@ MC_FlashCard generate_random_flashcard(void)
 
   mcdprintf("Entering generate_random_flashcard()\n");
 
-
-
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -1597,11 +1595,14 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
         r1 *= r2;
         ans = ret.difficulty;
       }
-    } while (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) );
+    } while // Here is where we filter out invalid questions
+      (
+        (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES))
+      );
 
 
     mcdprintf("Constructing answer_string\n");
-    snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
+    snprintf(ret.answer_string, max_answer_size + 1, "%d", ans);
     mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d",
              r1, operchars[op], r2);
@@ -1680,20 +1681,27 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     snprintf(ret.answer_string, max_answer_size, "%d", ret.answer);
     ret.difficulty += (length - 1) + op;
   }
-  
-  if (reformat)
+
+  // Here we add the " = ?", and if desired, rearrange the string
+  // for a "missing answer" question
+  strncat(ret.formula_string, 
+          " = ?", 
+          max_formula_size - strlen(ret.formula_string));
+
+  if(0)//(reformat)
   {
     mcdprintf("Reformatting...\n");
     do {
       format = rand() % MC_NUM_FORMATS;
     } while (!MC_GetOpt(FORMAT_ANSWER_LAST + format) && 
-             !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format) );
-   
-    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
-    reformat_arithmetic(&ret, format );     
+             !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format));
+
+    reformat_arithmetic(&ret, format);     
   }
   return ret;
 }
+
+
 
 MC_MathQuestion* generate_list(void)
 {
@@ -1775,10 +1783,10 @@ MC_MathQuestion* generate_list(void)
     }
   }
 
-  else
+  /* Here we are just generating random questions, one at a */
+  /* time until we have enough                              */
+  else 
   {
-
-
     for (i = 0; i < length; ++i)
     {
       tnode = malloc(sizeof(MC_MathQuestion) );
@@ -2101,6 +2109,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   {
     mcdprintf("Adding arithmetic...\n");
 
+    // The k loop iterates through the four arithmetic operations:
     // k = 0 means addition
     // k = 1 means subtraction
     // k = 2 means multiplication
@@ -2110,36 +2119,60 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       if (!MC_GetOpt(k + ADDITION_ALLOWED) )
         continue;
       mcdprintf("\n*%d*\n", k);
+
+      // The i loop iterates through the first value in the question:
       for (i = MC_GetOpt(MIN_AUGEND + 4 * k); i < MC_GetOpt(MAX_AUGEND + 4 * k); ++i)
       {
         mcdprintf("\n%d:\n", i);
+
+        // The j loop iterates through the second value in the question:
         for (j = MC_GetOpt(MIN_ADDEND + 4 * k); j < MC_GetOpt(MAX_ADDEND + 4 * k); ++j)
         {
-          //mcdprintf("%d,", j);
-          if (k == MC_OPER_ADD)
-            ans = i + j;
-          else if (k == MC_OPER_SUB)
+          // Generate the third number according to the operation.
+          // Although it is called "ans", it will not be the actual
+          // answer if it is a "missing number" type problem
+          // (e.g. "3 x ? = 12")
+          // We also filter out invalid questions here
+          switch (k)
           {
-            ans = i - j;
-            // throw out negatives if they aren't allowed:
-            if (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) )
+            case MC_OPER_ADD:
+            {
+              ans = i + j;
+              break;
+            }
+            case MC_OPER_SUB:
+            {
+              ans = i - j;
+              // throw out negatives if they aren't allowed:
+              if (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) )
+                continue;
+              break;
+            }
+            case MC_OPER_MULT:
+            {
+              ans = i * j;
+              break;
+            }
+            case MC_OPER_DIV:
+            {
+              tmp = i;
+              i *= j;
+              ans = j;
+              j = tmp;
+              break;
+            }
+            default:
+              fprintf(stderr, "Unrecognized operation type: %d\n", k);
               continue;
-          }
-          else if (k == MC_OPER_MULT)
-            ans = i * j;
-          else if (k == MC_OPER_DIV)
-          {
-            mcdprintf("%d %d %d\n", ans, i, j);
-            tmp = i;
-            i *= j;
-            ans = j;
-            j = tmp;
-            mcdprintf("%d %d %d\n", ans, i, j);
           }
 
           mcdprintf("Generating: %d %c %d = %d\n", i, operchars[k], j, ans);
+
+
           //add each format, provided it's allowed in general and for this op
-          if (MC_GetOpt(FORMAT_ANSWER_LAST) && MC_GetOpt(FORMAT_ADD_ANSWER_LAST + k * 3) )
+
+          // Questions like "a + b = ?"
+          if (MC_GetOpt(FORMAT_ANSWER_LAST) && MC_GetOpt(FORMAT_ADD_ANSWER_LAST + k * 3))
           {
             // Avoid division by zero:
             if (k == MC_OPER_DIV && j == 0)
@@ -2164,13 +2197,17 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             list = insert_node(list, end_of_list, tnode);
             end_of_list = tnode;
           }
+
+
+          // Questions like "? + b = c"
           if (MC_GetOpt(FORMAT_ANSWER_FIRST) && MC_GetOpt(FORMAT_ADD_ANSWER_FIRST + k * 3) )
           {
             // Avoid questions with indeterminate answer:
             // e.g. "? x 0 = 0"
             if (k == MC_OPER_MULT && j == 0)
+            {
               continue;
-
+            }
             // Avoid division by zero:
             if (k == MC_OPER_DIV && j == 0)
             {
@@ -2194,13 +2231,16 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             list = insert_node(list, end_of_list, tnode);
             end_of_list = tnode;
           }
-          if (MC_GetOpt(FORMAT_ANSWER_MIDDLE) && MC_GetOpt(FORMAT_ADD_ANSWER_MIDDLE + k * 3) )
+
+
+          // Questions like "a + ? = c"
+          if (MC_GetOpt(FORMAT_ANSWER_MIDDLE) && MC_GetOpt(FORMAT_ADD_ANSWER_MIDDLE + k * 3))
           {
             // Avoid questions with indeterminate answer:
             // e.g. "0 x ? = 0"
             if (k == MC_OPER_MULT && i == 0)
-              continue; 
-
+              continue;
+ 
             // e.g. "0 / ? = 0"
             if (k == MC_OPER_DIV && i == 0)
             {
@@ -2210,7 +2250,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
               continue;
             }
 
-           tnode = allocate_node();
+            tnode = allocate_node();
             if(!tnode)
             {
               fprintf(stderr, "In add_all_valid() - allocate_node() failed!\n");
@@ -2285,7 +2325,7 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     //insert old answer where question mark was
     for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)
       nformula[i] = card->formula_string[j];
-    i += snprintf(nformula + i, max_answer_size-1, "%s", card->answer_string);
+    i += snprintf(nformula + i, max_answer_size - 1, "%s", card->answer_string);
     snprintf(nformula + i, max_formula_size - i, "%s", card->formula_string + j + 1);
 
     //replace the new answer with a question mark
