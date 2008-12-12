@@ -1,4 +1,4 @@
-/* A Bison parser, made by GNU Bison 2.3a.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
 
@@ -47,7 +47,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.3a"
+#define YYBISON_VERSION "2.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -68,9 +68,31 @@
 #define yynerrs __gettextnerrs
 
 
+/* Tokens.  */
+#ifndef YYTOKENTYPE
+# define YYTOKENTYPE
+   /* Put the tokens into the symbol table, so that GDB and other debuggers
+      know about them.  */
+   enum yytokentype {
+     EQUOP2 = 258,
+     CMPOP2 = 259,
+     ADDOP2 = 260,
+     MULOP2 = 261,
+     NUMBER = 262
+   };
+#endif
+/* Tokens.  */
+#define EQUOP2 258
+#define CMPOP2 259
+#define ADDOP2 260
+#define MULOP2 261
+#define NUMBER 262
+
+
+
+
 /* Copy the first part of user declarations.  */
-/* Line 164 of yacc.c.  */
-#line 1 "plural.y"
+#line 1 "../../trunk/intl/plural.y"
 
 /* Expression parsing for plural form selection.
    Copyright (C) 2000-2001, 2003, 2005-2006 Free Software Foundation, Inc.
@@ -137,53 +159,26 @@
 # define YYTOKEN_TABLE 0
 #endif
 
-
-/* Tokens.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     EQUOP2 = 258,
-     CMPOP2 = 259,
-     ADDOP2 = 260,
-     MULOP2 = 261,
-     NUMBER = 262
-   };
-#endif
-/* Tokens.  */
-#define EQUOP2 258
-#define CMPOP2 259
-#define ADDOP2 260
-#define MULOP2 261
-#define NUMBER 262
-
-
-
-
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-{/* Line 191 of yacc.c.  */
-#line 51 "plural.y"
-
+#line 51 "../../trunk/intl/plural.y"
+{
   unsigned long int num;
   enum expression_operator op;
   struct expression *exp;
 }
-/* Line 191 of yacc.c.  */
-#line 175 "plural.c"
+/* Line 187 of yacc.c.  */
+#line 172 "../../trunk/intl/plural.c"
 	YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
 
 
 
-
 /* Copy the second part of user declarations.  */
-/* Line 221 of yacc.c.  */
-#line 57 "plural.y"
+#line 57 "../../trunk/intl/plural.y"
 
 /* Prototypes for local functions.  */
 static int yylex (YYSTYPE *lval, const char **pexp);
@@ -260,8 +255,9 @@ new_exp_3 (enum expression_operator op, struct expression *bexp,
 }
 
 
-/* Line 221 of yacc.c.  */
-#line 265 "plural.c"
+
+/* Line 216 of yacc.c.  */
+#line 261 "../../trunk/intl/plural.c"
 
 #ifdef short
 # undef short
@@ -336,14 +332,14 @@ typedef short int yytype_int16;
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static int
-YYID (int yyi)
+YYID (int i)
 #else
 static int
-YYID (yyi)
-    int yyi;
+YYID (i)
+    int i;
 #endif
 {
-  return yyi;
+  return i;
 }
 #endif
 
@@ -836,20 +832,17 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
+yy_stack_print (yytype_int16 *bottom, yytype_int16 *top)
 #else
 static void
-yy_stack_print (yybottom, yytop)
-    yytype_int16 *yybottom;
-    yytype_int16 *yytop;
+yy_stack_print (bottom, top)
+    yytype_int16 *bottom;
+    yytype_int16 *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
-  for (; yybottom <= yytop; yybottom++)
-    {
-      int yybot = *yybottom;
-      YYFPRINTF (stderr, " %d", yybot);
-    }
+  for (; bottom <= top; ++bottom)
+    YYFPRINTF (stderr, " %d", *bottom);
   YYFPRINTF (stderr, "\n");
 }
 
@@ -1216,10 +1209,10 @@ yyparse ()
 #endif
 #endif
 {
-  /* The lookahead symbol.  */
+  /* The look-ahead symbol.  */
 int yychar;
 
-/* The semantic value of the lookahead symbol.  */
+/* The semantic value of the look-ahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -1230,7 +1223,7 @@ int yynerrs;
   int yyresult;
   /* Number of tokens to shift before error messages enabled.  */
   int yyerrstatus;
-  /* Lookahead token as an internal (translated) token number.  */
+  /* Look-ahead token as an internal (translated) token number.  */
   int yytoken = 0;
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
@@ -1367,9 +1360,6 @@ int yynerrs;
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
-  if (yystate == YYFINAL)
-    YYACCEPT;
-
   goto yybackup;
 
 /*-----------.
@@ -1378,16 +1368,16 @@ int yynerrs;
 yybackup:
 
   /* Do appropriate processing given the current state.  Read a
-     lookahead token if we need one and don't already have one.  */
+     look-ahead token if we need one and don't already have one.  */
 
-  /* First try to decide what to do without reference to lookahead token.  */
+  /* First try to decide what to do without reference to look-ahead token.  */
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a lookahead token if don't already have one.  */
+  /* Not known => get a look-ahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -1419,16 +1409,20 @@ yybackup:
       goto yyreduce;
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   /* Count tokens shifted since error; after three, turn off error
      status.  */
   if (yyerrstatus)
     yyerrstatus--;
 
-  /* Shift the lookahead token.  */
+  /* Shift the look-ahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
+  /* Discard the shifted token unless it is eof.  */
+  if (yychar != YYEOF)
+    yychar = YYEMPTY;
 
   yystate = yyn;
   *++yyvsp = yylval;
@@ -1468,8 +1462,7 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-/* Line 1269 of yacc.c.  */
-#line 155 "plural.y"
+#line 155 "../../trunk/intl/plural.y"
     {
 	    if ((yyvsp[(1) - (1)].exp) == NULL)
 	      YYABORT;
@@ -1478,80 +1471,70 @@ yyreduce:
     break;
 
   case 3:
-/* Line 1269 of yacc.c.  */
-#line 163 "plural.y"
+#line 163 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_3 (qmop, (yyvsp[(1) - (5)].exp), (yyvsp[(3) - (5)].exp), (yyvsp[(5) - (5)].exp));
 	  }
     break;
 
   case 4:
-/* Line 1269 of yacc.c.  */
-#line 167 "plural.y"
+#line 167 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 (lor, (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 5:
-/* Line 1269 of yacc.c.  */
-#line 171 "plural.y"
+#line 171 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 (land, (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 6:
-/* Line 1269 of yacc.c.  */
-#line 175 "plural.y"
+#line 175 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 ((yyvsp[(2) - (3)].op), (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 7:
-/* Line 1269 of yacc.c.  */
-#line 179 "plural.y"
+#line 179 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 ((yyvsp[(2) - (3)].op), (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 8:
-/* Line 1269 of yacc.c.  */
-#line 183 "plural.y"
+#line 183 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 ((yyvsp[(2) - (3)].op), (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 9:
-/* Line 1269 of yacc.c.  */
-#line 187 "plural.y"
+#line 187 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_2 ((yyvsp[(2) - (3)].op), (yyvsp[(1) - (3)].exp), (yyvsp[(3) - (3)].exp));
 	  }
     break;
 
   case 10:
-/* Line 1269 of yacc.c.  */
-#line 191 "plural.y"
+#line 191 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_1 (lnot, (yyvsp[(2) - (2)].exp));
 	  }
     break;
 
   case 11:
-/* Line 1269 of yacc.c.  */
-#line 195 "plural.y"
+#line 195 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = new_exp_0 (var);
 	  }
     break;
 
   case 12:
-/* Line 1269 of yacc.c.  */
-#line 199 "plural.y"
+#line 199 "../../trunk/intl/plural.y"
     {
 	    if (((yyval.exp) = new_exp_0 (num)) != NULL)
 	      (yyval.exp)->val.num = (yyvsp[(1) - (1)].num);
@@ -1559,16 +1542,15 @@ yyreduce:
     break;
 
   case 13:
-/* Line 1269 of yacc.c.  */
-#line 204 "plural.y"
+#line 204 "../../trunk/intl/plural.y"
     {
 	    (yyval.exp) = (yyvsp[(2) - (3)].exp);
 	  }
     break;
 
 
-/* Line 1269 of yacc.c.  */
-#line 1572 "plural.c"
+/* Line 1267 of yacc.c.  */
+#line 1554 "../../trunk/intl/plural.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1644,7 +1626,7 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
       if (yychar <= YYEOF)
@@ -1661,7 +1643,7 @@ yyerrlab:
 	}
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   goto yyerrlab1;
 
@@ -1718,6 +1700,9 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   *++yyvsp = yylval;
 
 
@@ -1753,7 +1738,7 @@ yyexhaustedlab:
 #endif
 
 yyreturn:
-  if (yychar != YYEMPTY)
+  if (yychar != YYEOF && yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
 		 yytoken, &yylval);
   /* Do not reclaim the symbols of the rule which action triggered
@@ -1779,8 +1764,7 @@ yyreturn:
 }
 
 
-/* Line 1486 of yacc.c.  */
-#line 209 "plural.y"
+#line 209 "../../trunk/intl/plural.y"
 
 
 void

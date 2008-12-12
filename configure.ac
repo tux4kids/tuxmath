@@ -129,7 +129,7 @@ AC_CHECK_LIB([SDL_Pango],
 AC_FUNC_ALLOCA
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
+AC_CHECK_HEADERS([argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libgen.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
 
 
 # --------------------------------------------------------------------------------------------
@@ -160,7 +160,7 @@ AC_FUNC_STAT
 AC_FUNC_STRCOLL
 AC_FUNC_STRTOD
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul])
+AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul])
 
 
 # Set PACKAGE_DATA_DIR

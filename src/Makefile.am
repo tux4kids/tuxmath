@@ -19,7 +19,7 @@ if BUILD_MINGW32
 bin_PROGRAMS = TuxMath
 else
 TUXMATHRC =
-bin_PROGRAMS = tuxmath tuxmathadmin
+bin_PROGRAMS = tuxmath tuxmathadmin generate_lesson
 endif
 
 tuxmath_SOURCES = tuxmath.c \
@@ -48,10 +48,17 @@ TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
 
+generate_lesson_SOURCES = generate_lesson.c	\
+		mathcards.c	\
+		options.c	\
+		fileops.c	\
+		lessons.c
+
 EXTRA_DIST = 	credits.h 	\
+		factoroids.h	\
 		fileops.h 	\
 		game.h		\
-		factoroids.h	\
+		globals.h	\
 		highscore.h 	\
 		mathcards.h 	\
 		options.h	\
@@ -68,7 +75,6 @@ EXTRA_DIST = 	credits.h 	\
 		scandir.h	\
 		pixels.h	\
 		compiler.h
-
 
 WINDRES=@WINDRES@
 

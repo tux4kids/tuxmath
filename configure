@@ -15564,7 +15564,8 @@ fi
 
 
 
-for ac_header in argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h
+
+for ac_header in argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libgen.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h
 do
 as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
 if { as_var=$as_ac_Header; eval "test \"\${$as_var+set}\" = set"; }; then
@@ -17575,7 +17576,8 @@ done
 
 
 
-for ac_func in __argz_count __argz_next __argz_stringify atexit bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul
+
+for ac_func in __argz_count __argz_next __argz_stringify atexit basename bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul
 do
 as_ac_var=`echo "ac_cv_func_$ac_func" | $as_tr_sh`
 { echo "$as_me:$LINENO: checking for $ac_func" >&5

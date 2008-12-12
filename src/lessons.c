@@ -10,7 +10,13 @@
 *
 */
 #include <stdio.h>
+//for strtok()
+#include <string.h>
 #include "lessons.h"
+//for basename(), if available
+#ifdef HAVE_LIBGEN_H
+#include <libgen.h>
+#endif
 
 // extern unsigned char **lesson_list_titles;
 // extern unsigned char **lesson_list_filenames;
@@ -68,7 +74,6 @@ int read_goldstars_fp(FILE* fp)
     if (!token)
       continue;
 
-
     /* Now set "goldstar" to 1 if we find a matching lesson: */
     for (i = 0; i < num_lessons; i++)
     {
@@ -121,13 +126,18 @@ void write_goldstars_fp(FILE* fp)
   return;
 }
 
-/* FIXME need to get correct function - basename() wasn't correct */
+
 /* Perform a strcasecmp() on two path strings, stripping away all the */
 /* dirs in the path and just comparing the filenames themselves:      */
+/* FIXME: basename() may not be available on all platforms.           */
+/* If not available, just compare the full paths. Consider including  */
+/* our own implementation at some point.                              */
 static int filename_comp(const char* s1, const char* s2)
 {
-  const char* f1 = s1; //basename(s1);
-  const char* f2 = s2; //basename(s2);
+#ifdef HAVE_BASENAME
+  return strcasecmp(basename(s1), basename(s2));
+#else
   return strcasecmp(f1, f2);
+#endif
 }
 
