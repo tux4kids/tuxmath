@@ -15,7 +15,7 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-//#define MC_DEBUG
+#define MC_DEBUG
 #ifdef MC_DEBUG
 #define mcdprintf(...) printf(__VA_ARGS__)
 #else
@@ -69,6 +69,9 @@ enum {
   MAX_FORMULA_NUMS          ,
   MIN_FORMULA_NUMS          ,
 
+  //NOTE: Do _not_ rearrange the FORMAT values because the functions
+  //rely on index arithmetic to iterate through these, and will be
+  //broken if the relative position changes!
   FORMAT_ANSWER_LAST        , /* question format is: a + b = ? */
   FORMAT_ANSWER_FIRST       , /* question format is: ? + b = c */
   FORMAT_ANSWER_MIDDLE      , /* question format is: a + ? = c */

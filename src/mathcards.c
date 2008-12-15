@@ -1601,9 +1601,9 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
       );
 
 
-    mcdprintf("Constructing answer_string\n");
+//    mcdprintf("Constructing answer_string\n");
     snprintf(ret.answer_string, max_answer_size + 1, "%d", ans);
-    mcdprintf("Constructing formula_string\n");
+//    mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
@@ -1736,9 +1736,11 @@ MC_MathQuestion* generate_list(void)
 
   if (MC_GetOpt(COMPREHENSIVE) ) //generate all
   {
+    mcdprintf("In generate_list() - COMPREHENSIVE method requested\n");
+
     for (i = MC_PT_TYPING; i < MC_NUM_PTYPES; ++i)
     {
-      if (!MC_GetOpt(i + TYPING_PRACTICE_ALLOWED) )
+      if (!MC_GetOpt(i + TYPING_PRACTICE_ALLOWED))
         continue;
 
       list = add_all_valid(i, list, end_of_list);
@@ -1787,6 +1789,8 @@ MC_MathQuestion* generate_list(void)
   /* time until we have enough                              */
   else 
   {
+    mcdprintf("In generate_list() - COMPREHENSIVE method NOT requested\n");
+
     for (i = 0; i < length; ++i)
     {
       tnode = malloc(sizeof(MC_MathQuestion) );
@@ -1841,18 +1845,18 @@ void MC_FreeFlashcard(MC_FlashCard* fc)
 {
   if (!fc)
     return;
-  mcdprintf("Freeing formula_string\n");
+//  mcdprintf("Freeing formula_string\n");
   if (fc->formula_string)
-    {
+  {
     free(fc->formula_string);
     fc->formula_string = NULL;
-    }
-  mcdprintf("Freeing answer_string\n");
+  }
+//  mcdprintf("Freeing answer_string\n");
   if (fc->answer_string)
-    {
+  {
     free(fc->answer_string);
     fc->answer_string = NULL;
-    }
+  }
 }
 
 unsigned int MC_MapTextToIndex(const char* text)
@@ -1866,10 +1870,8 @@ unsigned int MC_MapTextToIndex(const char* text)
   mcdprintf("'%s' isn't a math option\n", text);
   return NOT_VALID_OPTION;
 }
-//FIXME Yikes!! Now we can put insane values into our math_opts struct
-//without any error checking.  We should either go back to the old 
-//system of a simple Set() function for each setting, or institute
-//some safety checks - DSB
+
+
 //TODO more intuitive function names for access by index vs. by text
 void MC_SetOpt(unsigned int index, int val)
 {
@@ -2150,6 +2152,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             }
             case MC_OPER_MULT:
             {
+              mcdprintf("MC_OPER_MULT\n");
               ans = i * j;
               break;
             }
@@ -2240,7 +2243,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             // e.g. "0 x ? = 0"
             if (k == MC_OPER_MULT && i == 0)
               continue;
- 
+
             // e.g. "0 / ? = 0"
             if (k == MC_OPER_DIV && i == 0)
             {

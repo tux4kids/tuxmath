@@ -88,6 +88,7 @@ enum {
   SPRITE_CREDITS,
   SPRITE_ALONE,
   SPRITE_FRIENDS,
+  SPRITE_FACTOROIDS,
   SPRITE_CAMPAIGN,
   SPRITE_SSWEEP,
   SPRITE_ELIMINATION,
@@ -112,8 +113,9 @@ const char* menu_sprite_files[N_SPRITES] =
   "trophy",
   "credits",
   "alone", 
-  "friends", //TODO give these two their own sprites
-  "tux_helmet_red",
+  "friends", 
+  "factoroids",
+  "fleet",
   "nums",
   "exclamation"
 };
@@ -673,7 +675,7 @@ int run_main_menu(void)
   // Set up the sprites
   sprites[0] = sprite_list[SPRITE_ALONE];
   sprites[1] = sprite_list[SPRITE_FRIENDS];
-  sprites[2] = sprite_list[SPRITE_CADET];
+  sprites[2] = sprite_list[SPRITE_FACTOROIDS];
   sprites[3] = sprite_list[SPRITE_HELP];
   sprites[4] = sprite_list[SPRITE_OPTIONS];
   sprites[5] = sprite_list[SPRITE_QUIT];
