@@ -18,6 +18,12 @@ dist_sprites_DATA = alone0.png \
   credits2.png \
   credits3.png \
   creditsd.png \
+  factoroids0.png \
+  factoroids1.png \
+  factoroids2.png \
+  factoroidsd.png \
+  fleet0.png \
+  fleetd.png \
   goldstard.png \
   goldstar0.png \
   goldstar1.png \
