@@ -213,7 +213,7 @@ int game(void)
     fprintf(stderr, "\ngame_initialize() failed!");
     /* return 0 so we go back to Options screen - maybe */
     /* player simply has all operations deselected */
-    free_on_exit();
+//    free_on_exit();
     return 0;
   }
 

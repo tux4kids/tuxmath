@@ -243,7 +243,8 @@ static void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy 
 static MC_MathQuestion* allocate_node(void); //allocate space for a node
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
 static int find_divisor(int a); //return a random positive divisor of a
-static MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion* end_of_list);
+static int calc_num_valid_questions(void);
+static MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion** end_of_list);
 static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
 
 /*  MC_Initialize() sets up the struct containing all of  */
@@ -1705,7 +1706,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 
 MC_MathQuestion* generate_list(void)
 {
-  int i;
+  int i, j;
   int length = MC_GetOpt(AVG_LIST_LENGTH);
   int cl; //raw length
   double r1, r2, delta, var; //randomizers for list length
@@ -1734,28 +1735,47 @@ MC_MathQuestion* generate_list(void)
       length = 1; //just in case...
   }
 
-  if (MC_GetOpt(COMPREHENSIVE) ) //generate all
+  if (MC_GetOpt(COMPREHENSIVE)) //generate all
   {
+    int num_valid_questions; //How many questions the COMPREHENSIVE list specifies
+    int cycles_needed;       //How many times we need to generate it to get enough
+
+    num_valid_questions = calc_num_valid_questions();
+    if(num_valid_questions == 0)
+    {
+      fprintf(stderr, "generate_list() - no valid questions\n");
+      return NULL;
+    }
+
+    cycles_needed = length/num_valid_questions;
+
+    if((cycles_needed * num_valid_questions) < length)
+      cycles_needed++;
+
     mcdprintf("In generate_list() - COMPREHENSIVE method requested\n");
+    mcdprintf("num_valid_questions = %d\t cycles_needed = %d\n",
+              num_valid_questions, cycles_needed);
 
     for (i = MC_PT_TYPING; i < MC_NUM_PTYPES; ++i)
     {
       if (!MC_GetOpt(i + TYPING_PRACTICE_ALLOWED))
-        continue;
-
-      list = add_all_valid(i, list, end_of_list);
-
+          continue;
+      for (j = 0; j < cycles_needed; j++)
+        list = add_all_valid(i, list, &end_of_list);
     }
 
+
     if (MC_GetOpt(RANDOMIZE) )
-      {
-        mcdprintf("Randomizing list\n");
-        randomize_list(&list);
-      }
+    {
+      mcdprintf("Randomizing list\n");
+      randomize_list(&list);
+    }
 
     if (length)
     {
       cl = list_length(list);
+      // NOTE this should no longer happen - we run the COMPREHENSIVE
+      // generation until we have enough questions.
       if (length > cl) //if not enough questions, pad out with randoms
       {
         mcdprintf("Padding out list from %d to %d questions\n", cl, length);
@@ -2072,7 +2092,59 @@ int find_divisor(int a)
   return div;
 }
 
-MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion* end_of_list)
+
+//Computes (approximately) the number of questions that will be returned
+//by add_all_valid() as specified by the current options. This does not 
+//take into account screening out of invalid questions, such
+//as divide-by-zero and questions like "0 x ? = 0".
+static int calc_num_valid_questions(void)
+{
+  int total_questions = 0;
+  int k = 0;
+  //First add the number of typing questions
+  if (MC_GetOpt(TYPING_PRACTICE_ALLOWED))
+    total_questions += (MC_GetOpt(MAX_TYPING_NUM) - MC_GetOpt(MIN_TYPING_NUM));
+
+  //Now add how many questions we will have for each operation:
+  for (k = MC_OPER_ADD; k < MC_NUM_OPERS; ++k)
+  {
+    int num_this_oper = 0;
+    int formats_this_oper = 0;
+
+    if (!MC_GetOpt(k + ADDITION_ALLOWED) )
+      continue;
+
+    //calculate number of ordered pairs of first and second operands:
+    //note the "+ 1" is due to the ranges being inclusive
+    num_this_oper = (MC_GetOpt(MAX_AUGEND + 4 * k) - MC_GetOpt(MIN_AUGEND + 4 * k) + 1)
+                    *
+                    (MC_GetOpt(MAX_ADDEND + 4 * k) - MC_GetOpt(MIN_ADDEND + 4 * k) + 1);
+    //check what formats are allowed
+    if (MC_GetOpt(FORMAT_ANSWER_LAST) && MC_GetOpt(FORMAT_ADD_ANSWER_LAST + k * 3))
+      formats_this_oper++;
+    if (MC_GetOpt(FORMAT_ANSWER_FIRST) && MC_GetOpt(FORMAT_ADD_ANSWER_FIRST + k * 3))
+      formats_this_oper++;
+    if (MC_GetOpt(FORMAT_ANSWER_MIDDLE) && MC_GetOpt(FORMAT_ADD_ANSWER_MIDDLE + k * 3))
+      formats_this_oper++;
+    //Get total of e.g. addition questions:
+    num_this_oper *= formats_this_oper;
+    //add to overall total:
+    total_questions += num_this_oper;
+  }
+
+  //TODO will also need to count up the COMPARISON questions once
+  //they are implemented
+  {
+  }
+
+  mcdprintf("calc_num_valid_questions():\t%d\n", total_questions);
+  return total_questions;
+}
+
+
+//NOTE end_of_list** needs to be doubly indirect because otherwise the end does not
+//get updated in the calling code
+MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion** end_of_list)
 {
   int i, j;
   int ans = 0, tmp;
@@ -2080,6 +2152,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   MC_MathQuestion* tnode;
 
   mcdprintf("Entering add_all_valid(%d)\n", pt);
+  mcdprintf("List already has %d questions\n", list_length(list));
 
   //make sure this problem type is actually allowed
   if (!MC_GetOpt(pt + TYPING_PRACTICE_ALLOWED) )
@@ -2089,7 +2162,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   if (pt == MC_PT_TYPING)
   {
     mcdprintf("Adding typing...\n");
-    for (i = MC_GetOpt(MIN_TYPING_NUM); i < MC_GetOpt(MAX_TYPING_NUM); ++i)
+    for (i = MC_GetOpt(MIN_TYPING_NUM); i <= MC_GetOpt(MAX_TYPING_NUM); ++i)
     {
       mcdprintf("(%d)\n", i);
       tnode = allocate_node();
@@ -2102,10 +2175,11 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
 
       snprintf(tnode->card.formula_string, max_formula_size, "%d", i);
       snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
-      list = insert_node(list, end_of_list, tnode);
-      end_of_list = tnode;
+      list = insert_node(list, *end_of_list, tnode);
+      *end_of_list = tnode;
     }
   }
+
   //add all allowed arithmetic questions
   else if (MC_PT_ARITHMETIC)
   {
@@ -2123,12 +2197,12 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       mcdprintf("\n*%d*\n", k);
 
       // The i loop iterates through the first value in the question:
-      for (i = MC_GetOpt(MIN_AUGEND + 4 * k); i < MC_GetOpt(MAX_AUGEND + 4 * k); ++i)
+      for (i = MC_GetOpt(MIN_AUGEND + 4 * k); i <= MC_GetOpt(MAX_AUGEND + 4 * k); ++i)
       {
         mcdprintf("\n%d:\n", i);
 
         // The j loop iterates through the second value in the question:
-        for (j = MC_GetOpt(MIN_ADDEND + 4 * k); j < MC_GetOpt(MAX_ADDEND + 4 * k); ++j)
+        for (j = MC_GetOpt(MIN_ADDEND + 4 * k); j <= MC_GetOpt(MAX_ADDEND + 4 * k); ++j)
         {
           // Generate the third number according to the operation.
           // Although it is called "ans", it will not be the actual
@@ -2140,24 +2214,36 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             case MC_OPER_ADD:
             {
               ans = i + j;
+              // throw anything over MAX_ANSWER
+              if (ans > MC_GetOpt(MAX_ANSWER))
+                continue;
               break;
             }
             case MC_OPER_SUB:
             {
               ans = i - j;
               // throw out negatives if they aren't allowed:
-              if (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) )
+              if (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES))
+                continue;
+              // throw anything over MAX_ANSWER
+              if (ans > MC_GetOpt(MAX_ANSWER))
                 continue;
               break;
             }
             case MC_OPER_MULT:
             {
-              mcdprintf("MC_OPER_MULT\n");
               ans = i * j;
+              // throw anything over MAX_ANSWER
+              if (ans > MC_GetOpt(MAX_ANSWER))
+                continue;
               break;
             }
             case MC_OPER_DIV:
             {
+               // throw anything over MAX_ANSWER
+              if (i * j > MC_GetOpt(MAX_ANSWER))
+                continue;
+
               tmp = i;
               i *= j;
               ans = j;
@@ -2170,7 +2256,6 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           }
 
           mcdprintf("Generating: %d %c %d = %d\n", i, operchars[k], j, ans);
-
 
           //add each format, provided it's allowed in general and for this op
 
@@ -2197,8 +2282,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", ans);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c %d = ?", i, operchars[k], j);
-            list = insert_node(list, end_of_list, tnode);
-            end_of_list = tnode;
+            list = insert_node(list, *end_of_list, tnode);
+            *end_of_list = tnode;
           }
 
 
@@ -2231,8 +2316,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "? %c %d = %d", operchars[k], j, ans);
-            list = insert_node(list, end_of_list, tnode);
-            end_of_list = tnode;
+            list = insert_node(list, *end_of_list, tnode);
+            *end_of_list = tnode;
           }
 
 
@@ -2264,8 +2349,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", j);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c ? = %d", i, operchars[k], ans);
-            list = insert_node(list, end_of_list, tnode);
-            end_of_list = tnode;
+            list = insert_node(list, *end_of_list, tnode);
+            *end_of_list = tnode;
           }
           //If we divided, reset i and j so loop works correctly
           if (k == MC_OPER_DIV)
@@ -2298,12 +2383,14 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
                  i < j ? "<" : 
                  i > j ? ">" : 
                          "=");
-        list = insert_node(list, end_of_list, tnode);
-        end_of_list = tnode;
+        list = insert_node(list, *end_of_list, tnode);
+        *end_of_list = tnode;
       }
     }
   }
-  mcdprintf("Exiting add_all_valid()\n");
+  mcdprintf("Exiting add_all_valid()\n");  
+  mcdprintf("List now has %d questions\n\n", list_length(list));
+
   return list;
 }
 
