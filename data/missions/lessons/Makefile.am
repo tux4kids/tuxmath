@@ -52,7 +52,9 @@ dist_lessons_DATA = lesson00 \
   lesson45 \
   lesson46 \
   lesson47 \
+  lesson47.1 \
   lesson48 \
+  lesson48.1 \
   lesson49 \
   lesson50 \
   lesson51 \
