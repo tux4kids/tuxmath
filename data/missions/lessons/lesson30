@@ -1,4 +1,4 @@
-# Division by 3
+# Division by 2
 
 # Math options
 play_through_list = 1
@@ -9,12 +9,12 @@ multiplication_allowed = 1
 division_allowed = 1
 typing_practice_allowed = 0
 allow_negatives = 0
-min_multiplier = 3
-max_multiplier = 3
+min_multiplier = 2
+max_multiplier = 2
 min_multiplicand = 0
 max_multiplicand = 10
-min_divisor = 3
-max_divisor = 3
+min_divisor = 2
+max_divisor = 2
 min_quotient = 0
 max_quotient = 10
 format_answer_last = 1

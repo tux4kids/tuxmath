@@ -1,4 +1,4 @@
-# Subtraction: Two Digit Numbers
+# Subtraction: 0 to 20
 
 # Math options
 play_through_list = 1
@@ -7,9 +7,9 @@ addition_allowed = 0
 subtraction_allowed = 1
 multiplication_allowed = 0
 division_allowed = 0
-min_minuend = 20
-max_minuend = 30
-min_subtrahend = 10
+min_minuend = 0
+max_minuend = 20
+min_subtrahend = 0
 max_subtrahend = 20
 format_answer_last = 1
 format_sub_answer_last = 1
@@ -24,7 +24,7 @@ randomize = 1
 comprehensive = 1
 min_formula_nums = 2
 max_formula_nums = 2
-avg_list_length = 30
+avg_list_length = 40
 vary_list_length = 0
 
 # General game options

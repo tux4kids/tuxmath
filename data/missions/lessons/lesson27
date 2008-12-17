@@ -1,4 +1,4 @@
-# Multiplication: 0 to 15
+# Multiples of 13, 14, and 15
 
 # Math options
 play_through_list = 1
@@ -7,7 +7,7 @@ addition_allowed = 0
 subtraction_allowed = 0
 multiplication_allowed = 1
 division_allowed = 0
-min_multiplier = 0
+min_multiplier = 13
 max_multiplier = 15
 min_multiplicand = 0
 max_multiplicand = 15
@@ -23,7 +23,7 @@ randomize = 1
 comprehensive = 1
 min_formula_nums = 2
 max_formula_nums = 2
-avg_list_length = 256
+avg_list_length = 96
 vary_list_length = 0
 
 # General game options
@@ -38,4 +38,3 @@ danger_level = 0.35
 danger_level_speedup = 1
 danger_level_max = 0.90
 city_explode_handicap = 0.00
-

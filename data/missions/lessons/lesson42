@@ -1,26 +1,17 @@
-# Division by 13, 14, and 15
+# Division: 1 to 12
 
 # Math options
 play_through_list = 1
 typing_practice_allowed = 0
 addition_allowed = 0
 subtraction_allowed = 0
-multiplication_allowed = 1
+multiplication_allowed = 0
 division_allowed = 1
-typing_practice_allowed = 0
-allow_negatives = 0
-min_multiplier = 13
-max_multiplier = 15
-min_multiplicand = 0
-max_multiplicand = 15
-min_divisor = 13
-max_divisor = 15
+min_divisor = 1
+max_divisor = 12
 min_quotient = 0
-max_quotient = 15
+max_quotient = 12
 format_answer_last = 1
-format_mult_answer_last = 1
-format_mult_answer_first = 0
-format_mult_answer_middle = 0
 format_div_answer_last = 1
 format_div_answer_first = 0
 format_div_answer_middle = 0
@@ -32,7 +23,7 @@ randomize = 1
 comprehensive = 1
 min_formula_nums = 2
 max_formula_nums = 2
-avg_list_length = 96
+avg_list_length = 156
 vary_list_length = 0
 
 # General game options
