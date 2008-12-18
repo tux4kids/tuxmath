@@ -12,7 +12,6 @@ dist_lessons_DATA = lesson00 \
   lesson06 \
   lesson07 \
   lesson08 \
-  lesson08.1 \
   lesson09 \
   lesson10 \
   lesson11 \
@@ -52,15 +51,16 @@ dist_lessons_DATA = lesson00 \
   lesson45 \
   lesson46 \
   lesson47 \
-  lesson47.1 \
   lesson48 \
-  lesson48.1 \
   lesson49 \
   lesson50 \
   lesson51 \
   lesson52 \
   lesson53 \
-  lesson54
+  lesson54 \
+  lesson55 \
+  lesson56 \
+  lesson57
 
 EXTRA_DIST = descr_lessons \
   update-po.sh

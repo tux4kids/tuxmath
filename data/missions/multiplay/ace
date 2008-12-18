@@ -1,5 +1,6 @@
 # multiplay ace lesson file
 
+play_through_list = 0
 allow_speedup = 1
 use_feedback = 0
 addition_allowed = 1
@@ -7,8 +8,6 @@ subtraction_allowed = 1
 multiplication_allowed = 1
 division_allowed = 1
 allow_negatives = 1
-max_formula_nums = 2
-min_formula_nums = 2
 min_augend = -20
 max_augend = 20
 min_addend = -20
@@ -44,12 +43,17 @@ format_div_answer_last = 1
 format_div_answer_first = 1
 format_div_answer_middle = 1
 randomize = 1
+comprehensive = 1
+min_formula_nums = 2
+max_formula_nums = 2
+avg_list_length = 250
+vary_list_length = 0
 max_answer = 400
 starting_comets = 2
 extra_comets_per_wave = 2
 max_comets = 10
 speed = 1.00
-max_speed = 10.00
+max_speed = 40.00
 speedup_factor = 1.25
 slow_after_wrong = 0
 max_questions = 25000

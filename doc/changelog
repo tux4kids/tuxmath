@@ -12,14 +12,7 @@
 
         David Bruce <davidstuartbruce@gmail.com>
 
-2008.Oct.16 (svn.debian.org/tux4kids - revision 763)
-	Credits: 
-          Changed Tim Holy's listing from "Additional Code" to "Lead
-          Programmer" to better acknowledge his major role over the last
-          year.
-
-        David Bruce <davidstuartbruce@gmail.com>
-008.Dec.11 (svn.debian.org/tux4kids - revision 796)
+2008.Dec.11 (svn.debian.org/tux4kids - revision 796)
 	Initial file reorganization to separate SDL-related code from more
 	infrastructural code. This is intended to allow us to create and
 	compile stand-alone programs that test specific functions (e.g.,

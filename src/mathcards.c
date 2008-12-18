@@ -1163,8 +1163,10 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():");
-  printf("formula_string = %s, answer_string = %s\n",
-         card.formula_string, card.answer_string);
+  printf("formula_string = %s\nanswer_string = %s\ndifficulty = %d\n\n",
+         card.formula_string,
+         card.answer_string,
+         card.difficulty);
 }
 
 /* This sends the values of all "global" counters and the */
@@ -1596,15 +1598,12 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
         r1 *= r2;
         ans = ret.difficulty;
       }
-    } while // Here is where we filter out invalid questions
-      (
-        (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES))
-      );
+    } while (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) );
 
 
-//    mcdprintf("Constructing answer_string\n");
-    snprintf(ret.answer_string, max_answer_size + 1, "%d", ans);
-//    mcdprintf("Constructing formula_string\n");
+    mcdprintf("Constructing answer_string\n");
+    snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
+    mcdprintf("Constructing formula_string\n");
     snprintf(ret.formula_string, max_formula_size, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
@@ -1682,22 +1681,17 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     snprintf(ret.answer_string, max_answer_size, "%d", ret.answer);
     ret.difficulty += (length - 1) + op;
   }
-
-  // Here we add the " = ?", and if desired, rearrange the string
-  // for a "missing answer" question
-  strncat(ret.formula_string, 
-          " = ?", 
-          max_formula_size - strlen(ret.formula_string));
-
-  if(0)//(reformat)
+  
+  if (reformat)
   {
     mcdprintf("Reformatting...\n");
     do {
       format = rand() % MC_NUM_FORMATS;
     } while (!MC_GetOpt(FORMAT_ANSWER_LAST + format) && 
-             !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format));
-
-    reformat_arithmetic(&ret, format);     
+             !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format) );
+   
+    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
+    reformat_arithmetic(&ret, format );     
   }
   return ret;
 }
@@ -2144,6 +2138,8 @@ static int calc_num_valid_questions(void)
 
 //NOTE end_of_list** needs to be doubly indirect because otherwise the end does not
 //get updated in the calling code
+//NOTE the difficulty is set as add = 1, sub = 2, mult = 3, div = 4, plus a 2 point
+//bonus if the format is a "missing number".
 MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion** end_of_list)
 {
   int i, j;
@@ -2175,6 +2171,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
 
       snprintf(tnode->card.formula_string, max_formula_size, "%d", i);
       snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
+      tnode->card.difficulty = 1;
       list = insert_node(list, *end_of_list, tnode);
       *end_of_list = tnode;
     }
@@ -2282,6 +2279,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", ans);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c %d = ?", i, operchars[k], j);
+            tnode->card.difficulty = k + 1;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
           }
@@ -2316,6 +2314,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "? %c %d = %d", operchars[k], j, ans);
+            tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
           }
@@ -2349,6 +2348,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, max_formula_size, "%d", j);
             snprintf(tnode->card.formula_string, max_formula_size,
                      "%d %c ? = %d", i, operchars[k], ans);
+            tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
           }
@@ -2383,6 +2383,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
                  i < j ? "<" : 
                  i > j ? ">" : 
                          "=");
+        tnode->card.difficulty = 1;
         list = insert_node(list, *end_of_list, tnode);
         *end_of_list = tnode;
       }
