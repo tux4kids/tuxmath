@@ -98,6 +98,7 @@ typedef struct tuxship_type {
   int count;
 } tuxship_type;
 
+
 typedef struct FF_laser_type{
   int alive;
   int x, y;
@@ -107,6 +108,7 @@ typedef struct FF_laser_type{
   int angle;
   int m;
 } FF_laser_type;
+
 
 typedef struct {
   int x_is_blinking;
@@ -217,19 +219,19 @@ static int fast_sin(int angle);
 static void game_handle_user_events(void);
 
 /************** factors(): The factor main function ********************/
-void factors(void){
-
+void factors(void)
+{
   Uint32 last_time, now_time; 
   
   quit = 0;
   counter = 0;
-  tux_img=IMG_TUX_CONSOLE1;
+  tux_img = IMG_TUX_CONSOLE1;
 
   #ifdef TUXMATH_DEBUG
      fprintf(stderr, "Entering factors():\n");
   #endif
 
-  FF_game=FACTOROIDS_GAME;
+  FF_game = FACTOROIDS_GAME;
   
   if (!FF_init())
   {
@@ -237,13 +239,13 @@ void factors(void){
     FF_exit_free();
     return;
   } 
-  
-  while (game_status==GAME_IN_PROGRESS)
+
+  while (game_status == GAME_IN_PROGRESS)
   {
     last_time = SDL_GetTicks();
     counter++; 
     
-    if(counter%15==0)
+    if(counter%15 == 0)
     {
       if(tux_img<IMG_TUX_CONSOLE4)
         tux_img++;
@@ -271,14 +273,14 @@ void factors(void){
 #ifndef NOSOUND
     if (Opts_UsingSound())
     {
+      //...when the music's over, turn out the lights!
+      //...oops, wrong song! Actually, we just pick next music at random:
       if (!Mix_PlayingMusic())
       {
-	    Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-      }  
+        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+      }
     }
 #endif
-
-
 
       /* Pause (keep frame-rate event) */
     now_time = SDL_GetTicks();
@@ -296,6 +298,7 @@ void factors(void){
   FF_over(game_status);
 }
 
+
 /************** fractions(): The fractions main function ********************/
 void fractions(void)
 {
@@ -304,7 +307,7 @@ void fractions(void)
   
   quit = 0;
   counter = 0;
-  tux_img=IMG_TUX_CONSOLE1;
+  tux_img = IMG_TUX_CONSOLE1;
 
   
   #ifdef TUXMATH_DEBUG
@@ -312,7 +315,7 @@ void fractions(void)
   #endif
   
   /*****Initalizing the Factor activiy *****/
-  FF_game=FRACTIONS_GAME;
+  FF_game = FRACTIONS_GAME;
 
   if (!FF_init())
   {
@@ -327,12 +330,12 @@ void fractions(void)
     last_time = SDL_GetTicks();
     counter++;
       
-    if(counter%15==0)
+    if(counter%15 == 0)
     {    
       if(tux_img<IMG_TUX_CONSOLE4)
         tux_img++;
       else 
-        tux_img=IMG_TUX_CONSOLE1;
+        tux_img = IMG_TUX_CONSOLE1;
     }
 
     game_handle_user_events();
@@ -369,7 +372,7 @@ void fractions(void)
         //Prevent any possibility of a time wrap-around
         // (this is a very unlikely problem unless there is an SDL bug
         //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+      now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
       if (now_time > MS_PER_FRAME)
         now_time = MS_PER_FRAME;
       SDL_Delay(now_time);
@@ -380,57 +383,59 @@ void fractions(void)
 
 
 /************ Initialize all vars... ****************/
-static int FF_init(void){
+static int FF_init(void)
+{
   int i;
   float zoom;
-  SDL_Surface *tmp;
+  SDL_Surface* tmp;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
   
   FF_intro();
   
-  if(screen->h<600 && screen->w<800)
-    zoom=0.7;
+  if(screen->h < 600 && screen->w < 800)
+    zoom = 0.7;
   else
-    zoom=1;
+    zoom = 1;
 
   /*********** Precalcualculing software rotation *********/
 
-  for(i=0; i<NUM_OF_ROTO_IMGS; i++)
+  for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
   {
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
-    IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i*DEG_PER_ROTATION, zoom, 1);
+    IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i * DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
       fprintf(stderr,
-              "\nError: I couldn't load a graphics file\n");
+              "\nError: rotozoomSurface() of images[IMG_SHIP01] for i = %d returned NULL\n", i);
       return 0;
     }
 
-    IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i*DEG_PER_ROTATION, zoom, 1);
+    IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i * DEG_PER_ROTATION, zoom, 1);
 
-    if (IMG_tuxship[i] == NULL)
+    if (IMG_asteroids1[i] == NULL)
     {
       fprintf(stderr,
-              "\nError: I couldn't load a graphics file\n");
+              "\nError: rotozoomSurface() of images[IMG_ASTEROID1] for i = %d returned NULL\n", i);
       return 0;
     }
 
     IMG_asteroids2[i] = rotozoomSurface(images[IMG_ASTEROID2], i*DEG_PER_ROTATION, zoom, 1);
 
-    if (IMG_tuxship[i] == NULL)
+    if (IMG_asteroids2[i] == NULL)
     {
-      fprintf(stderr, "\nError: I couldn't load a graphics file\n");
+      fprintf(stderr,
+              "\nError: rotozoomSurface() of images[IMG_ASTEROID2] for i = %d returned NULL\n", i);
       return 0;
-    }    
+    }
   }
 
-  bkg_h=(images[BG_STARS]->h)>>1;
-  bgSrc.y=((images[BG_STARS]->h)>>1)-bkg_h;
-  bgSrc.x=0;
-  bgSrc.w=screen->w;
-  bgSrc.h=screen->h;
+  bkg_h = (images[BG_STARS]->h)>>1;
+  bgSrc.y = ((images[BG_STARS]->h)>>1) - bkg_h;
+  bgSrc.x = 0;
+  bgSrc.w = screen->w;
+  bgSrc.h = screen->h;
   // Optimize the background surface so it doesn't take too much time to draw
   SDL_SetAlpha(images[BG_STARS],SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
   tmp = SDL_DisplayFormat(images[BG_STARS]);  // optimize the format
@@ -444,44 +449,54 @@ static int FF_init(void){
   asteroid = NULL;  // set in case allocation fails partway through
   asteroid = (asteroid_type *) malloc(MAX_ASTEROIDS * sizeof(asteroid_type));
   
-  if (asteroid == NULL) {
+  if (asteroid == NULL)
+  {
     printf("Allocation of asteroids failed");
     return 0;
   }
-  NUM_ASTEROIDS=4;
+
+  NUM_ASTEROIDS = 4;
 
   /**************Setting up the ship values! **************/
+  tuxship.x = ((screen->w)/2) - 20;
+  tuxship.y = ((screen->h)/2) - 20;
+  tuxship.lives = TUXSHIP_LIVES;
+  tuxship.hurt = 0;
+  tuxship.hurt_count = 0;
+  tuxship.angle = 90;
+  tuxship.xspeed = 0;
+  tuxship.yspeed = 0;
+  tuxship.radius = (images[IMG_SHIP01]->h)/2;
 
-  tuxship.x=((screen->w)/2)-20;
-  tuxship.y=((screen->h)/2)-20;
-  tuxship.lives=TUXSHIP_LIVES;
-  tuxship.hurt=0;
-  tuxship.hurt_count=0;
-  tuxship.angle=90;
-  tuxship.xspeed=0;
-  tuxship.yspeed=0;
-  tuxship.radius=(images[IMG_SHIP01]->h)/2;
+  tuxship.x1 = images[IMG_SHIP01]->w-(images[IMG_SHIP01]->w/8);
+  tuxship.y1 = images[IMG_SHIP01]->h/2;
+  tuxship.x2 = images[IMG_SHIP01]->w/8;
+  tuxship.y2 = images[IMG_SHIP01]->h/8;
+  tuxship.x3 = images[IMG_SHIP01]->w/8;
+  tuxship.y3 = images[IMG_SHIP01]->h-(images[IMG_SHIP01]->h/8);
 
-  tuxship.x1=images[IMG_SHIP01]->w-(images[IMG_SHIP01]->w/8);
-  tuxship.y1=images[IMG_SHIP01]->h/2;
-  tuxship.x2=images[IMG_SHIP01]->w/8;
-  tuxship.y2=images[IMG_SHIP01]->h/8;
-  tuxship.x3=images[IMG_SHIP01]->w/8;
-  tuxship.y3=images[IMG_SHIP01]->h-(images[IMG_SHIP01]->h/8);
-  shoot_pressed=0;
+  /*  --- reset all controls:  ---  */
+  left_pressed = 0;
+  right_pressed = 0;
+  up_pressed = 0;
+  shift_pressed = 0;
+  shoot_pressed = 0;
 
-  score=1;
-  wave=0;
-  xdead=0;
-  ydead=0;
-  isdead=0;
-  countdead=0;
+  score = 1;
+  wave = 0;
+  xdead = 0;
+  ydead = 0;
+  isdead = 0;
+  countdead = 0;
 
   FF_add_level();
 
-  for (i=0; i<MAX_LASER; i++)
-    laser[i].alive=0;
-  while(1){
+  for (i = 0; i < MAX_LASER; i++)
+    laser[i].alive = 0;
+
+  // Wait for click or keypress to start:
+  while(1)
+  {
     SDL_PollEvent(&event);
     if (event.type == SDL_QUIT)
     {
@@ -489,8 +504,8 @@ static int FF_init(void){
       quit = 1;
       return 1;
     }
-    if (event.type == SDL_MOUSEBUTTONDOWN ||
-        event.type == SDL_KEYDOWN)
+    if (event.type == SDL_MOUSEBUTTONDOWN
+     || event.type == SDL_KEYDOWN)
     {
       return 1;
     }
@@ -508,32 +523,31 @@ static void FF_intro(void){
 
   float zoom;
 
-  if(screen->h<600 && screen->w<800)
-    zoom=0.7;
+  if(screen->h < 600 && screen->w < 800)
+    zoom = 0.7;
   else
-    zoom=1;
+    zoom = 1;
   
-  
-  IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS],0,zoom,1);
-  IMG_fractions = rotozoomSurface(images[IMG_FACTORS],0,zoom,1);
+  IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS], 0, zoom, 1);
+  IMG_fractions = rotozoomSurface(images[IMG_FACTORS], 0, zoom, 1);
 
   FF_draw_bkgr();
-  if(FF_game==FACTOROIDS_GAME)
+  if(FF_game == FACTOROIDS_GAME)
   {
 
-    rect.x=(screen->w/2)-(IMG_factors->w/2);
-    rect.y=(screen->h)/7;
-    SDL_BlitSurface(IMG_factors,NULL,screen,&rect);
+    rect.x = (screen->w/2) - (IMG_factors->w/2);
+    rect.y = (screen->h)/7;
+    SDL_BlitSurface(IMG_factors, NULL, screen, &rect);
     FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
 		   _("type one of its factors, and press space or return"),
 		   _("to split it into its factors.  Rocks with prime numbers are destroyed!"));
     SDL_BlitSurface(IMG_asteroids1[3],NULL,screen,&rect);
   }
-  else if (FF_game==FRACTIONS_GAME)
+  else if (FF_game == FRACTIONS_GAME)
   {
-    rect.x=(screen->w/2)-(IMG_fractions->w/2);
-    rect.y=(screen->h)/7;
+    rect.x = (screen->w/2)-(IMG_fractions->w/2);
+    rect.y = (screen->h)/7;
     SDL_BlitSurface(IMG_fractions,NULL,screen,&rect);
     FF_ShowMessage(_("FRACTIONS: to win, you need destroy all the asteroids"),
 		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
@@ -545,12 +559,15 @@ static void FF_intro(void){
   SDL_FreeSurface(IMG_fractions);
 }
 
-static void FF_handle_ship(void){
-
+static void FF_handle_ship(void)
+{
+//FIXME - am I mssing something -- isn't tuxship.centerx just tuxship.x???
 /****************** Ship center... ******************/
 
-  tuxship.centerx=((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2)+(tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
-  tuxship.centery=((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2)+(tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));  
+  tuxship.centerx = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2) + 
+        (tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
+  tuxship.centery = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2) + 
+        (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));  
 
 /******************* Ship live *********************/
   
@@ -562,28 +579,28 @@ static void FF_handle_ship(void){
   }
 /****************** Rotate Ship *********************/
 
-  if(right_pressed||left_pressed)
+  if(right_pressed || left_pressed)
   {
-    if(roto_speed<10)
+    if(roto_speed < 10)
     {
-      roto_speed=roto_speed+2;
+      roto_speed = roto_speed + 2;
     }
   }
   else
   {
-    roto_speed=1;
+    roto_speed = 1;
   }
 
   if (right_pressed)
   {
-    tuxship.angle=tuxship.angle - DEG_PER_ROTATION*roto_speed;
+    tuxship.angle = tuxship.angle - DEG_PER_ROTATION * roto_speed;
     if (tuxship.angle < 0)
       tuxship.angle = tuxship.angle + 360;  
 
-    tuxship.x1= fast_cos(DEG_PER_ROTATION*-roto_speed)*tuxship.centerx
-               -fast_sin(DEG_PER_ROTATION*-roto_speed)*tuxship.centery;
-    tuxship.y1= fast_sin(DEG_PER_ROTATION*-roto_speed)*tuxship.centerx
-               +fast_cos(DEG_PER_ROTATION*-roto_speed)*tuxship.centery;
+    tuxship.x1= fast_cos(DEG_PER_ROTATION*-roto_speed) * tuxship.centerx
+               -fast_sin(DEG_PER_ROTATION*-roto_speed) * tuxship.centery;
+    tuxship.y1= fast_sin(DEG_PER_ROTATION*-roto_speed) * tuxship.centerx
+               +fast_cos(DEG_PER_ROTATION*-roto_speed) * tuxship.centery;
 
   }
   else if (left_pressed)
@@ -592,17 +609,17 @@ static void FF_handle_ship(void){
     if (tuxship.angle >= 360)
       tuxship.angle = tuxship.angle - 360;
 
-    tuxship.x1= fast_cos(DEG_PER_ROTATION*roto_speed)*tuxship.centerx
-               -fast_sin(DEG_PER_ROTATION*roto_speed)*tuxship.centery;
-    tuxship.y1= fast_sin(DEG_PER_ROTATION*roto_speed*tuxship.centerx
-               +fast_cos(DEG_PER_ROTATION*roto_speed))*tuxship.centery;
+    tuxship.x1= fast_cos(DEG_PER_ROTATION*roto_speed) * tuxship.centerx
+               -fast_sin(DEG_PER_ROTATION*roto_speed) * tuxship.centery;
+    tuxship.y1= fast_sin(DEG_PER_ROTATION*roto_speed * tuxship.centerx
+               +fast_cos(DEG_PER_ROTATION*roto_speed)) * tuxship.centery;
 
   }
 
 /**************** Move, and increse speed ***************/
 
       
-  if (up_pressed && (tuxship.lives>0))
+  if (up_pressed && (tuxship.lives > 0))
   {
      tuxship.xspeed = tuxship.xspeed + ((fast_cos(tuxship.angle >> 3) * 3) >> 10);
      tuxship.yspeed = tuxship.yspeed - ((fast_sin(tuxship.angle >> 3) * 3) >> 10);
@@ -1178,7 +1195,8 @@ static void FF_add_level(void)
   }
 }
 
-static int FF_over(int game_status){
+static int FF_over(int game_status)
+{
   Uint32 last_time, now_time; 
   SDL_Rect dest_message;
   SDL_Event event;
