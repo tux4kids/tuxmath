@@ -1,3 +1,10 @@
+2008.Dec.19 (svn.debian.org/tux4kids - revision 815)
+        Code - factoroids.c revised slightly - fixed bug with game control
+          values not being reset between games; also added "#define TUXSHIP_DECEL"
+          to make "drag" easier to tweak.
+
+        David Bruce <davidstuartbruce@gmail.com>
+
 2008.Dec.16 (svn.debian.org/tux4kids - revision 812)
         Code - some work on mathcards.c to check for indeterminate questions
           and to use the "comprehensive" method whenever multiple-operand

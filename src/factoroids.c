@@ -50,7 +50,8 @@
 #define TUXSHIP_LIVES 3
 #define DEG_PER_ROTATION 2
 #define NUM_OF_ROTO_IMGS 360/DEG_PER_ROTATION
-
+/* TUXSHIP_DECEL controls "friction" - 1 means ship glides infinitely, 0 stops it instantly */
+#define TUXSHIP_DECEL 0.8
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
 
@@ -605,7 +606,7 @@ static void FF_handle_ship(void)
   }
   else if (left_pressed)
   {
-    tuxship.angle=tuxship.angle + DEG_PER_ROTATION*roto_speed;
+    tuxship.angle=tuxship.angle + DEG_PER_ROTATION * roto_speed;
     if (tuxship.angle >= 360)
       tuxship.angle = tuxship.angle - 360;
 
@@ -626,10 +627,10 @@ static void FF_handle_ship(void)
   }
   else
   {
-    if ((counter % 8) == 0)
+    if ((counter % 2) == 0)
     {
-       tuxship.xspeed = (tuxship.xspeed * 7) / 8;
-       tuxship.yspeed = (tuxship.yspeed * 7) / 8;
+       tuxship.xspeed = tuxship.xspeed * TUXSHIP_DECEL; 
+       tuxship.yspeed = tuxship.yspeed * TUXSHIP_DECEL;
     }
   }
 
@@ -822,8 +823,10 @@ static void FF_draw(void){
      SDL_BlitSurface(surf, NULL, screen, &dest);
 
      // Wrap the numbers of the asteroids
-     if((asteroid[i].centery)>23 && (asteroid[i].centery)<screen->h){
-       if((asteroid[i].centerx)>0 && (asteroid[i].centerx)<screen->w){
+     if((asteroid[i].centery)>23 && (asteroid[i].centery)<screen->h)
+     {
+       if((asteroid[i].centerx)>0 && (asteroid[i].centerx)<screen->w)
+       {
          xnum=asteroid[i].centerx-3;
          ynum=asteroid[i].centery;
        }
@@ -836,11 +839,13 @@ static void FF_draw(void){
          ynum=asteroid[i].centery;
        }
      }
-     else if((asteroid[i].centery)<=23){
+     else if((asteroid[i].centery)<=23)
+     {
        xnum=asteroid[i].centerx;
        ynum=23;
      }
-     else if((asteroid[i].centery)>=screen->h){
+     else if((asteroid[i].centery)>=screen->h)
+     {
        xnum=asteroid[i].centerx;
        ynum=screen->h-7;
      }
@@ -848,20 +853,17 @@ static void FF_draw(void){
      //Draw Numbers
      if(FF_game==FACTOROIDS_GAME)
      {   
-
        sprintf(str, "%.1d", asteroid[i].fact_number);
        draw_nums(str, xnum, ynum);
-
      }
      else if (FF_game==FRACTIONS_GAME)
      {
-
        sprintf(str, "%d", asteroid[i].a);
        draw_nums(str, xnum, ynum); 
-       draw_line(xnum, ynum+4, xnum+30,ynum+4,
+       draw_line(xnum, ynum + 4, xnum + 30, ynum + 4,
 		 255, 255, 255);
        sprintf(str, "%d", asteroid[i].b);
-       draw_nums(str, xnum, ynum+35);
+       draw_nums(str, xnum, ynum + 35);
      }
     }
   }
@@ -869,15 +871,17 @@ static void FF_draw(void){
   
   if(isdead)
   {
-    dest.x=xdead;
-    dest.y=ydead;
+    dest.x = xdead;
+    dest.y = ydead;
     SDL_BlitSurface(images[IMG_STEAM1+countdead], NULL, screen, &dest);
     countdead++;
-    if(countdead>5){
-      isdead=0;
-      countdead=0;
+    if(countdead > 5)
+    {
+      isdead = 0;
+      countdead = 0;
     }
   }
+
   /* Draw wave: */
   if (1)//Opts_BonusCometInterval())
     offset = images[IMG_EXTRA_LIFE]->w + 5;
@@ -896,7 +900,7 @@ static void FF_draw(void){
   draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
 
   /* Draw "score" label: */
-  dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
+  dest.x = (screen->w - ((images[IMG_NUMBERS]->w/10) * 7) -
 	        images[IMG_SCORE]->w -
                 images[IMG_STOP]->w - 5);
   dest.y = 0;
@@ -912,47 +916,47 @@ static void FF_draw(void){
 
   /* Draw stop button: */
 //  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
-    dest.x = (screen->w - images[IMG_STOP]->w);
-    dest.y = 0;
-    dest.w = images[IMG_STOP]->w;
-    dest.h = images[IMG_STOP]->h;
+  dest.x = (screen->w - images[IMG_STOP]->w);
+  dest.y = 0;
+  dest.w = images[IMG_STOP]->w;
+  dest.h = images[IMG_STOP]->h;
     
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
+  SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
  // }
 
-    /************* Draw pre answer ************/
+  /************* Draw pre answer ************/
 
    
-    if(screen->w<800 && screen->h<600)
+  if(screen->w < 800 && screen->h < 600)
+  {
+    sprintf(str, "%.3d", num);
+    draw_numbers(str, ((screen->w)/2) - 50, (screen->h) - 30);
+  } 
+  else
+  {
+    FF_draw_led_console();
+    draw_console_image(tux_img);
+  }
+
+  /************** Draw lives ***************/
+  dest.y = screen->h;
+  dest.x = 0;
+
+  for(i = 1; i <= tuxship.lives; i++)
+  {
+    if(tuxship.lives <= 5)
     {
-      sprintf(str, "%.3d", num);
-      draw_numbers(str, ((screen->w)/2)-50, (screen->h)-30);
-    } 
-    else
-    {
-      FF_draw_led_console();
-      draw_console_image(tux_img);
+      dest.y = dest.y - (images[IMG_TUX_LITTLE]->h);
+      SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
     }
-
-    /************** Draw lives ***************/
-   dest.y=screen->h;
-   dest.x=0;
-
-   for(i=1;i<=tuxship.lives;i++)
-   {
-      if(tuxship.lives<=5)
-      {
-         dest.y=dest.y-(images[IMG_TUX_LITTLE]->h);
-	 SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
-      }
-      else if(tuxship.lives>4)
-      {
-         dest.y=screen->h-(images[IMG_TUX_LITTLE]->h);
-	 SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
-         sprintf(str, "%d", tuxship.lives);
-         draw_numbers(str, 10, (screen->h)-30); 
-      }
-   }
+    else if(tuxship.lives > 4)
+    {
+      dest.y = screen->h - (images[IMG_TUX_LITTLE]->h);
+      SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
+      sprintf(str, "%d", tuxship.lives);
+      draw_numbers(str, 10, (screen->h) - 30); 
+    }
+  }
 }
 
 /*Modified from game.c*/
