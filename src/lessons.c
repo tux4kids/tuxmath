@@ -137,7 +137,7 @@ static int filename_comp(const char* s1, const char* s2)
 #ifdef HAVE_BASENAME
   return strcasecmp(basename(s1), basename(s2));
 #else
-  return strcasecmp(f1, f2);
+  return strcasecmp(s1, s2);
 #endif
 }
 

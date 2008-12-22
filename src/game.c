@@ -184,6 +184,8 @@ static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
 static void game_recalc_positions(void);
 
+void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
+
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
