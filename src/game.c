@@ -125,7 +125,7 @@ static laser_type laser;
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
 static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
-SDL_Surface* current_bkgd()
+static SDL_Surface* current_bkgd()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static game_message s1, s2, s3, s4, s5;

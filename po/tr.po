@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-11 20:44-0600\n"
+"POT-Creation-Date: 2008-12-23 10:26-0600\n"
 "PO-Revision-Date: 2008-12-07 15:54+0200\n"
 "Last-Translator: Doruk Fisek <dfisek@fisek.com.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -215,298 +215,298 @@ msgstr "Üzgünüm, tekrar dene!"
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr "Görev başarıyla tamamlandı. Galaksi güvenli!"
 
-#: src/factoroids.c:527
+#: src/factoroids.c:558
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:528 src/factoroids.c:539
+#: src/factoroids.c:559 src/factoroids.c:570
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "Ok tuşlarını kullanarak dön ya da ileri git. Bir asteroidi hedef al,"
 
-#: src/factoroids.c:529
+#: src/factoroids.c:560
 msgid "type one of its factors, and press space or return"
 msgstr "çarpanlarından birini yaz ve boşluk ya da enter'e "
 
-#: src/factoroids.c:530
+#: src/factoroids.c:561
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "basarak çarpanlarına ayır. Asal sayılar olan kayalar yok oluyor!"
 
-#: src/factoroids.c:538
+#: src/factoroids.c:569
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "KESİRLER: Kazanmak için tüm asteroitleri yok etmen gerekiyor."
 
-#: src/factoroids.c:540
+#: src/factoroids.c:571
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "Kesiri basitleştirebilecek bir sayıyı yazıp boşluk ya da enter'e basarak onu"
 
-#: src/factoroids.c:541
+#: src/factoroids.c:572
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 "parçalayın. Daha fazla basitleştirilemeyen kesirleri tek bir atışta yok et!"
 
-#: src/game.c:714
+#: src/game.c:716
 msgid "Welcome to TuxMath!"
 msgstr "TuxMath'e Hoş Geldin!"
 
-#: src/game.c:731
+#: src/game.c:733
 msgid "Your mission is to save your"
 msgstr "Görevin penguenlerin evlerini"
 
-#: src/game.c:732
+#: src/game.c:734
 msgid "penguins' igloos from the"
 msgstr "düşen kuyruklu yıldızlardan"
 
-#: src/game.c:733
+#: src/game.c:735
 msgid "falling comets."
 msgstr "korumak."
 
-#: src/game.c:752
+#: src/game.c:754
 msgid "Stop a comet by typing"
 msgstr "Kuyruklu yıldızı durdurmak için"
 
-#: src/game.c:753
+#: src/game.c:755
 msgid "the answer to the math problem"
 msgstr "matematik probleminin yanıtını yaz"
 
-#: src/game.c:754
+#: src/game.c:756
 msgid "and hitting 'space' or 'enter'."
 msgstr "ve 'boşluk' ya da 'enter' tuşuna bas."
 
-#: src/game.c:755
+#: src/game.c:757
 msgid "Try it now!"
 msgstr "Şimdi dene!"
 
-#: src/game.c:763
+#: src/game.c:765
 msgid "Good shot!"
 msgstr "İyi atış!"
 
-#: src/game.c:773
+#: src/game.c:775
 msgid "If an igloo gets hit by a comet,"
 msgstr "Eğer bir ev kuyruklu yıldız tarafından"
 
-#: src/game.c:774
+#: src/game.c:776
 msgid "it melts. But don't worry: the"
 msgstr "vurulursa erir. Ama merak etme :"
 
-#: src/game.c:775
+#: src/game.c:777
 msgid "penguin is OK!"
 msgstr "içindeki penguene zarar gelmez!"
 
-#: src/game.c:776
+#: src/game.c:778
 msgid "Just watch what happens:"
 msgstr "Yalnız ne olduğunu izle:"
 
-#: src/game.c:777
+#: src/game.c:779
 msgid "(Press a key to start)"
 msgstr "(Başlamak için bir tuşa bas)"
 
-#: src/game.c:790
+#: src/game.c:792
 msgid "Notice the answer"
 msgstr "Yanıta dikkat et"
 
-#: src/game.c:800
+#: src/game.c:802
 msgid "If it gets hit again, the"
 msgstr "Eğer ev tekrar vurulursa,"
 
-#: src/game.c:801
+#: src/game.c:803
 msgid "penguin leaves."
 msgstr "içindeki penguen evi terk eder."
 
-#: src/game.c:802
+#: src/game.c:804
 msgid "(Press a key when ready)"
 msgstr "(Hazır olunca herhangi bir tuşa basın)"
 
-#: src/game.c:821
+#: src/game.c:823
 msgid "You can fix the igloos"
 msgstr "Ek kuyruklu yıldızları durdurarak"
 
-#: src/game.c:822
+#: src/game.c:824
 msgid "by stopping bonus comets."
 msgstr "evlerini tamir edebilirsin."
 
-#: src/game.c:831
+#: src/game.c:833
 msgid "Zap it now!"
 msgstr "Hemen vur onu!"
 
-#: src/game.c:835
+#: src/game.c:837
 msgid "Great job!"
 msgstr "İyi iş!"
 
-#: src/game.c:849
+#: src/game.c:851
 msgid "Quit at any time by pressing"
 msgstr "Her an 'Esc'e basarak ya da"
 
-#: src/game.c:850
+#: src/game.c:852
 msgid "'Esc' or clicking the 'X'"
 msgstr "sağ üst köşedeki 'X'e"
 
-#: src/game.c:851
+#: src/game.c:853
 msgid "in the upper right corner."
 msgstr "tıklayarak çıkabilirsin."
 
-#: src/game.c:852
+#: src/game.c:854
 msgid "Do it now, and then play!"
 msgstr "Hemen şimdi yap ve sonra oyna!"
 
-#: src/highscore.c:213 src/titlescreen.c:864
+#: src/highscore.c:213 src/titlescreen.c:866
 msgid "Hall Of Fame"
 msgstr "Gurur Tablosu"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
-#: src/titlescreen.c:859
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:802
+#: src/titlescreen.c:861
 msgid "Space Cadet"
 msgstr "Uzay Tertibi"
 
-#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
+#: src/highscore.c:238 src/titlescreen.c:803 src/titlescreen.c:862
 msgid "Scout"
 msgstr "İzci"
 
-#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
+#: src/highscore.c:241 src/titlescreen.c:804 src/titlescreen.c:863
 msgid "Ranger"
 msgstr "Korucu"
 
-#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
+#: src/highscore.c:244 src/titlescreen.c:805 src/titlescreen.c:864
 msgid "Ace"
 msgstr "As"
 
-#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
+#: src/highscore.c:247 src/titlescreen.c:806 src/titlescreen.c:865
 msgid "Commando"
 msgstr "Komando"
 
-#: src/highscore.c:250 src/titlescreen.c:983
+#: src/highscore.c:250 src/titlescreen.c:985
 msgid "Factors"
 msgstr "Çarpanlar"
 
-#: src/highscore.c:253 src/titlescreen.c:984
+#: src/highscore.c:253 src/titlescreen.c:986
 msgid "Fractions"
 msgstr "Kesirler"
 
-#: src/titlescreen.c:486
+#: src/titlescreen.c:488
 msgid "Work In Progress!"
 msgstr "Çalışmalar Sürüyor!"
 
-#: src/titlescreen.c:487
+#: src/titlescreen.c:489
 msgid "This feature is not ready yet"
 msgstr "Bu özellik henüz hazır değil"
 
-#: src/titlescreen.c:488
+#: src/titlescreen.c:490
 msgid "Discuss the future of TuxMath at"
 msgstr "Tuxmath'in geleceğini tartışıldığı liste :"
 
-#: src/titlescreen.c:489
+#: src/titlescreen.c:491
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:662
+#: src/titlescreen.c:664
 msgid "Play Alone"
 msgstr "Yalnız Oyna"
 
-#: src/titlescreen.c:663
+#: src/titlescreen.c:665
 msgid "Play With Friends"
 msgstr "Arkadaşlarla Oyna"
 
-#: src/titlescreen.c:664
+#: src/titlescreen.c:666
 #, fuzzy
 msgid "Factoroids!"
 msgstr "Çarpanlar"
 
-#: src/titlescreen.c:665
+#: src/titlescreen.c:667
 msgid "Help"
 msgstr "Yardım"
 
-#: src/titlescreen.c:666
+#: src/titlescreen.c:668
 msgid "More Options"
 msgstr "Daha Çok Seçenek"
 
-#: src/titlescreen.c:667
+#: src/titlescreen.c:669
 msgid "Quit"
 msgstr "Çıkış"
 
-#: src/titlescreen.c:741
+#: src/titlescreen.c:743
 msgid "Math Command Training Academy"
 msgstr "Matematik Komutanlığı Eğitim Akademisi"
 
-#: src/titlescreen.c:742
+#: src/titlescreen.c:744
 msgid "Math Command Fleet Missions"
 msgstr "Matematik Komutanlığı Donanması Görevleri"
 
-#: src/titlescreen.c:743
+#: src/titlescreen.c:745
 msgid "Play Arcade Game"
 msgstr "Eğlence Oyunu Oyna"
 
-#: src/titlescreen.c:744
+#: src/titlescreen.c:746
 msgid "Play Custom Game"
 msgstr "Özel Oyun Oyna"
 
-#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
-#: src/titlescreen.c:865 src/titlescreen.c:985
+#: src/titlescreen.c:747 src/titlescreen.c:798 src/titlescreen.c:807
+#: src/titlescreen.c:867 src/titlescreen.c:987
 msgid "Main menu"
 msgstr "Ana menü"
 
-#: src/titlescreen.c:794
+#: src/titlescreen.c:796
 msgid "Score Sweep"
 msgstr ""
 
-#: src/titlescreen.c:795
+#: src/titlescreen.c:797
 msgid "Elimination"
 msgstr ""
 
-#: src/titlescreen.c:839
+#: src/titlescreen.c:841
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/titlescreen.c:840
+#: src/titlescreen.c:842
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/titlescreen.c:959
+#: src/titlescreen.c:961
 msgid "Edit 'options' file in your home directory"
 msgstr "Özelleştirilmiş oyun yaratmak için"
 
-#: src/titlescreen.c:960
+#: src/titlescreen.c:962
 msgid "to create customized game!"
 msgstr "ev dizinindeki 'options' dosyasını düzenle!"
 
-#: src/titlescreen.c:961
+#: src/titlescreen.c:963
 msgid "Press a key or click your mouse to start game."
 msgstr "Oyuna başlamak için bir tuşa basın ya da fareye tıklayın."
 
-#: src/titlescreen.c:962
+#: src/titlescreen.c:964
 msgid "See README.txt for more information"
 msgstr "Daha fazla bilgi için README.txt dosyasına bakın"
 
-#: src/titlescreen.c:1077
+#: src/titlescreen.c:1079
 msgid "Demo"
 msgstr "Gösteri (Demo)"
 
-#: src/titlescreen.c:1078
+#: src/titlescreen.c:1080
 msgid "Project Info"
 msgstr "Proje Bilgisi"
 
-#: src/titlescreen.c:1079
+#: src/titlescreen.c:1081
 msgid "Credits"
 msgstr "Hazırlayanlar"
 
-#: src/titlescreen.c:1080
+#: src/titlescreen.c:1082
 msgid "Main Menu"
 msgstr "Ana Menü"
 
-#: src/titlescreen.c:1127
+#: src/titlescreen.c:1129
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath özgür ve açık kaynak kodlu!"
 
-#: src/titlescreen.c:1128
+#: src/titlescreen.c:1130
 msgid "You can help make it better by reporting problems,"
 msgstr "Sorunları bildirerek, iyileştirmeler önererek ya da kod yazarak"
 
-#: src/titlescreen.c:1129
+#: src/titlescreen.c:1131
 msgid "suggesting improvements, or adding code."
 msgstr "daha iyi olmasına yardımcı olabilirsin."
 
-#: src/titlescreen.c:1130
+#: src/titlescreen.c:1132
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 "tuxmath-devel@lists.sourceforge.net e-posta listesinde TuxMath'in geleceğini "
@@ -581,138 +581,146 @@ msgid "Multiples of 5"
 msgstr "5'in Katları"
 
 #: data/missions/lessons/descr_lessons:18
-#: data/missions/lessons/descr_lessons:19
 msgid "Multiplication: 0 to 5"
 msgstr "Çarpma: 0'dan 5'e"
 
-#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:19
 msgid "Multiples of 6"
 msgstr "6'nın Katları"
 
-#: data/missions/lessons/descr_lessons:21
+#: data/missions/lessons/descr_lessons:20
 msgid "Multiples of 7"
 msgstr "7'nin Katları"
 
-#: data/missions/lessons/descr_lessons:22
-#: data/missions/lessons/descr_lessons:23
+#: data/missions/lessons/descr_lessons:21
 msgid "Multiplication: 0 to 7"
 msgstr "Çarpma: 0'dan 7'ye"
 
-#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:22
 msgid "Multiples of 8"
 msgstr "8'in Katları"
 
-#: data/missions/lessons/descr_lessons:25
+#: data/missions/lessons/descr_lessons:23
 msgid "Multiples of 9"
 msgstr "9'un Katları"
 
-#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:24
 msgid "Multiples of 10"
 msgstr "10'un Katları"
 
-#: data/missions/lessons/descr_lessons:27
+#: data/missions/lessons/descr_lessons:25
 msgid "Multiplication: 0 to 10"
 msgstr "Çarpma: 0'dan 10'a"
 
-#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:26
 msgid "Multiples of 11 and 12"
 msgstr "11 ve 12'nin Katları"
 
-#: data/missions/lessons/descr_lessons:29
+#: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 12"
 msgstr "Çarpma: 0'dan 12'ye"
 
-#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:28
 msgid "Multiples of 13, 14, and 15"
 msgstr "13, 14 ve 15'in Katları"
 
-#: data/missions/lessons/descr_lessons:31
+#: data/missions/lessons/descr_lessons:29
 msgid "Multiplication: 0 to 15"
 msgstr "Çarpma: 0'dan 15'e"
 
-#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:30
 msgid "Multiplication: Missing Numbers"
 msgstr "Çarpma: Eksik Sayılar"
 
-#: data/missions/lessons/descr_lessons:33
+#: data/missions/lessons/descr_lessons:31
 msgid "Division by 2"
 msgstr "2'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:32
 msgid "Division by 3"
 msgstr "3'e Bölme"
 
-#: data/missions/lessons/descr_lessons:35
+#: data/missions/lessons/descr_lessons:33
 msgid "Division by 4"
 msgstr "4'e Bölme"
 
-#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:34
 msgid "Division by 5"
 msgstr "5'e Bölme"
 
-#: data/missions/lessons/descr_lessons:37
+#: data/missions/lessons/descr_lessons:35
 msgid "Division: 1 to 5"
 msgstr "Bölme: 1'den 5'e"
 
-#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:36
 msgid "Division by 6"
 msgstr "6'ya Bölme"
 
-#: data/missions/lessons/descr_lessons:39
+#: data/missions/lessons/descr_lessons:37
 msgid "Division by 7"
 msgstr "7'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:38
 msgid "Division by 8"
 msgstr "8'e Bölme"
 
-#: data/missions/lessons/descr_lessons:41
+#: data/missions/lessons/descr_lessons:39
 msgid "Division by 9"
 msgstr "9'a Bölme"
 
-#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:40
 msgid "Division by 10"
 msgstr "10'a Bölme"
 
-#: data/missions/lessons/descr_lessons:43
+#: data/missions/lessons/descr_lessons:41
 msgid "Division: 1 to 10"
 msgstr "Bölme: 1'den 10'a"
 
-#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:42
 msgid "Division by 11 and 12"
 msgstr "11 ve 12'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:45
+#: data/missions/lessons/descr_lessons:43
 msgid "Division: 1 to 12"
 msgstr "Bölme: 1'den 12'ye"
 
-#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:44
 msgid "Division by 13, 14, and 15"
 msgstr "13, 14 ve 15'e Bölme"
 
-#: data/missions/lessons/descr_lessons:47
+#: data/missions/lessons/descr_lessons:45
 msgid "Division: 1 to 15"
 msgstr "Bölme: 1'den 15'e"
 
-#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:46
 msgid "Multiplication and Division Review"
 msgstr "Çarpım ve Bölme Değerlendirmesi"
 
-#: data/missions/lessons/descr_lessons:49
+#: data/missions/lessons/descr_lessons:47
 msgid "Typing Negative Numbers"
 msgstr "Negatif Sayıların Yazımı"
 
-#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:48
 msgid "Subtraction: Negative Answers"
 msgstr "Çıkartma: Negatif Sonuçlar"
 
-#: data/missions/lessons/descr_lessons:51
+#: data/missions/lessons/descr_lessons:49
 msgid "Adding Negatives to Positives"
 msgstr "Negatiflerle Pozitiflerin Toplanması"
 
-#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:50
+#, fuzzy
+msgid "Adding Positives to Negatives"
+msgstr "Negatiflerin Negatiflerle Toplanması"
+
+#: data/missions/lessons/descr_lessons:51
 msgid "Subtracting Negatives From Positives"
 msgstr "Pozitiflerden Negatiflerin Çıkartılması"
+
+#: data/missions/lessons/descr_lessons:52
+#, fuzzy
+msgid "Subtracting Positives From Negatives"
+msgstr "Negatiflerin Negatiflerden Çıkartılması"
 
 #: data/missions/lessons/descr_lessons:53
 msgid "Adding Negatives to Negatives"

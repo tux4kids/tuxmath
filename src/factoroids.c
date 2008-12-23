@@ -30,6 +30,7 @@
 #endif
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
+#include "SDL_extras.h"
 
 #include "game.h"
 #include "fileops.h"
@@ -37,8 +38,6 @@
 #include "mathcards.h"
 #include "titlescreen.h"
 #include "options.h"
-#include "SDL_extras.h"
-#include "SDL_rotozoom.h"
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -152,7 +151,10 @@ static int escape_received;
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
-static SDL_Rect bgSrc;
+//static SDL_Rect bgSrc;
+static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
+static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
+
 
 // Game type
 
@@ -200,6 +202,9 @@ static void FF_draw(void);
 static void FF_draw_bkgr(void);
 static void FF_draw_led_console(void);
 static void draw_console_image(int i);
+
+static SDL_Surface* current_bkgd()
+  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
 
 static void FF_add_level(void);
 static int FF_over(int game_status);
@@ -432,7 +437,18 @@ static int FF_init(void)
     }
   }
 
-  bkg_h = (images[BG_STARS]->h)>>1;
+
+  LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
+  if (bkgd == NULL || scaled_bkgd == NULL)
+  {
+    fprintf(stderr,
+       "\nError: could not scale background\n");
+    return 0;
+  }
+
+  //FIXME should we do this optimization on the scaled bkgds?
+  //(i.e. how much does it matter?)
+/*  bkg_h = (images[BG_STARS]->h)>>1;
   bgSrc.y = ((images[BG_STARS]->h)>>1) - bkg_h;
   bgSrc.x = 0;
   bgSrc.w = screen->w;
@@ -441,7 +457,7 @@ static int FF_init(void)
   SDL_SetAlpha(images[BG_STARS],SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
   tmp = SDL_DisplayFormat(images[BG_STARS]);  // optimize the format
   SDL_FreeSurface(images[BG_STARS]);
-  images[BG_STARS] = tmp;
+  images[BG_STARS] = tmp;*/
   
   escape_received = 0;
   game_status = GAME_IN_PROGRESS;  
@@ -1040,7 +1056,7 @@ void draw_console_image(int i)
 static void FF_draw_bkgr(void)
 {
 
-  SDL_BlitSurface(images[BG_STARS], NULL, screen, NULL);
+  SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
   //if(bgSrc.y>bkg_h)
   //  SDL_BlitSurface(images[BG_STARS], NULL, screen, &bgScreen);
 
@@ -1337,12 +1353,25 @@ static int FF_over(int game_status)
   }
 }
 
+
+/* FIXME does everything really get freed? */
 static void FF_exit_free()
 {
   free(asteroid);
   SDL_FreeSurface(*IMG_asteroids1);
   SDL_FreeSurface(*IMG_asteroids2);
   SDL_FreeSurface(*IMG_tuxship);
+
+  if (bkgd != NULL)
+  {
+    SDL_FreeSurface(bkgd);
+    bkgd = NULL;
+  }
+  if (scaled_bkgd != NULL)
+  {
+    SDL_FreeSurface(scaled_bkgd);
+    scaled_bkgd = NULL;
+  }  
 }
 
 /******************* Math Funcs ***********************/
