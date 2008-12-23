@@ -157,7 +157,6 @@ static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
 
 // Game type
-
 static int FF_game;
 
 // Game vars
@@ -183,7 +182,7 @@ static tuxship_type tuxship;
 static FF_laser_type laser[MAX_LASER];
 
 static int NUM_ASTEROIDS;
-static int bkg_h, counter;
+static int counter;
 static int xdead, ydead, isdead, countdead;
 static int roto_speed;
 
@@ -197,7 +196,7 @@ static void FF_intro(void);
 static void FF_handle_ship(void);
 static void FF_handle_asteroids(void);
 static void FF_handle_answer(void);
-
+static int check_exit_conditions(void);
 static void FF_draw(void);
 static void FF_draw_bkgr(void);
 static void FF_draw_led_console(void);
@@ -223,6 +222,7 @@ static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
 static void game_handle_user_events(void);
+static int game_mouse_event(SDL_Event event);
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -338,7 +338,7 @@ void fractions(void)
       
     if(counter%15 == 0)
     {    
-      if(tux_img<IMG_TUX_CONSOLE4)
+      if(tux_img < IMG_TUX_CONSOLE4)
         tux_img++;
       else 
         tux_img = IMG_TUX_CONSOLE1;
@@ -404,7 +404,7 @@ static int FF_init(void)
   else
     zoom = 1;
 
-  /*********** Precalcualculing software rotation *********/
+  /*********** Precalculating software rotation *********/
 
   for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
   {
@@ -437,6 +437,7 @@ static int FF_init(void)
     }
   }
 
+  /********   Set up properly scaled and optimized background surfaces: *********/
 
   LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
   if (bkgd == NULL || scaled_bkgd == NULL)
@@ -446,21 +447,18 @@ static int FF_init(void)
     return 0;
   }
 
-  //FIXME should we do this optimization on the scaled bkgds?
-  //(i.e. how much does it matter?)
-/*  bkg_h = (images[BG_STARS]->h)>>1;
-  bgSrc.y = ((images[BG_STARS]->h)>>1) - bkg_h;
-  bgSrc.x = 0;
-  bgSrc.w = screen->w;
-  bgSrc.h = screen->h;
-  // Optimize the background surface so it doesn't take too much time to draw
-  SDL_SetAlpha(images[BG_STARS],SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
-  tmp = SDL_DisplayFormat(images[BG_STARS]);  // optimize the format
-  SDL_FreeSurface(images[BG_STARS]);
-  images[BG_STARS] = tmp;*/
+  //Now optimize background surface formats:
+  SDL_SetAlpha(scaled_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
+  tmp = SDL_DisplayFormat(scaled_bkgd);  // optimize the format
+  SDL_FreeSurface(scaled_bkgd);
+  scaled_bkgd = tmp;
+
+  SDL_SetAlpha(bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
+  tmp = SDL_DisplayFormat(bkgd);  // optimize the format
+  SDL_FreeSurface(bkgd);
+  bkgd = tmp;
+
   
-  escape_received = 0;
-  game_status = GAME_IN_PROGRESS;  
   
   // Allocate memory 
   asteroid = NULL;  // set in case allocation fails partway through
@@ -505,13 +503,15 @@ static int FF_init(void)
   ydead = 0;
   isdead = 0;
   countdead = 0;
+  escape_received = 0;
+  game_status = GAME_IN_PROGRESS;
 
   FF_add_level();
 
   for (i = 0; i < MAX_LASER; i++)
     laser[i].alive = 0;
 
-  // Wait for click or keypress to start:
+  // Wait for click or keypress to start (get out if user presses Esc) :
   while(1)
   {
     SDL_PollEvent(&event);
@@ -521,17 +521,22 @@ static int FF_init(void)
       quit = 1;
       return 1;
     }
-    if (event.type == SDL_MOUSEBUTTONDOWN
-     || event.type == SDL_KEYDOWN)
+    else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
+      return 1;
+    }
+    else if (event.type == SDL_KEYDOWN)
+    {
+      if (event.key.keysym.sym == SDLK_ESCAPE)
+        escape_received = 1;
       return 1;
     }
   }
 }
 
 
-static void FF_intro(void){
-
+static void FF_intro(void)
+{
   static SDL_Surface* IMG_factors;
   static SDL_Surface* IMG_fractions;
 
@@ -578,7 +583,8 @@ static void FF_intro(void){
 
 static void FF_handle_ship(void)
 {
-//FIXME - am I mssing something -- isn't tuxship.centerx just tuxship.x???
+//FIXME - am I missing something -- doesn't this just reduce to 
+//"tuxship.centerx = tuxship.x" and likewise for y???
 /****************** Ship center... ******************/
 
   tuxship.centerx = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2) + 
@@ -591,8 +597,8 @@ static void FF_handle_ship(void)
   if(tuxship.hurt)
   {
     tuxship.hurt_count--;
-    if(tuxship.hurt_count<=0)
-	tuxship.hurt=0;
+    if(tuxship.hurt_count <= 0)
+	tuxship.hurt = 0;
   }
 /****************** Rotate Ship *********************/
 
@@ -612,7 +618,7 @@ static void FF_handle_ship(void)
   {
     tuxship.angle = tuxship.angle - DEG_PER_ROTATION * roto_speed;
     if (tuxship.angle < 0)
-      tuxship.angle = tuxship.angle + 360;  
+      tuxship.angle = tuxship.angle + 360;
 
     tuxship.x1= fast_cos(DEG_PER_ROTATION*-roto_speed) * tuxship.centerx
                -fast_sin(DEG_PER_ROTATION*-roto_speed) * tuxship.centery;
@@ -1354,24 +1360,45 @@ static int FF_over(int game_status)
 }
 
 
-/* FIXME does everything really get freed? */
 static void FF_exit_free()
 {
-  free(asteroid);
-  SDL_FreeSurface(*IMG_asteroids1);
-  SDL_FreeSurface(*IMG_asteroids2);
-  SDL_FreeSurface(*IMG_tuxship);
+  int i = 0;
 
-  if (bkgd != NULL)
+  free(asteroid);
+
+  for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
+  {
+    if (IMG_tuxship[i])
+    {
+      SDL_FreeSurface(IMG_tuxship[i]);
+      IMG_tuxship[i] = NULL;
+    }
+    if (IMG_asteroids1[i])
+    {
+      SDL_FreeSurface(IMG_asteroids1[i]);
+      IMG_asteroids1[i] = NULL;
+    }
+    if (IMG_asteroids2[i])
+    {
+      SDL_FreeSurface(IMG_asteroids2[i]);
+      IMG_asteroids2[i] = NULL;
+    }
+  }
+
+//  SDL_FreeSurface(*IMG_asteroids1);
+//  SDL_FreeSurface(*IMG_asteroids2);
+//  SDL_FreeSurface(*IMG_tuxship);
+
+  if (bkgd)
   {
     SDL_FreeSurface(bkgd);
     bkgd = NULL;
   }
-  if (scaled_bkgd != NULL)
+  if (scaled_bkgd)
   {
     SDL_FreeSurface(scaled_bkgd);
     scaled_bkgd = NULL;
-  }  
+  }
 }
 
 /******************* Math Funcs ***********************/
@@ -1381,18 +1408,19 @@ int is_prime(int num)
 {
   int i;
   if (num==0 || num==1 || num==-1) return 1;
-  else if (num>0)
+  else if (num > 0)
   {
-    for(i=2; i<num; i++)
+
+    for(i = 2; i < num; i++)
     {
-      if(num%i==0) return 0; 
+      if(num%i == 0) return 0; 
     }
   }
-  else if (num<0)
+  else if (num < 0)
   {
-    for(i=2; i>num; i--)
+    for(i = 2; i > num; i--)
     {
-      if(num%i==0) return 0; 
+      if(num%i == 0) return 0; 
     } 
   }
   return 1;
@@ -1752,7 +1780,7 @@ void game_handle_user_events(void)
     }
     if (event.type == SDL_MOUSEBUTTONDOWN)
     {
-      key=game_mouse_event(event);
+      key = game_mouse_event(event);
     }
     if (event.type == SDL_KEYDOWN ||
 	event.type == SDL_KEYUP)
@@ -1948,7 +1976,7 @@ void game_handle_user_events(void)
   
 }
 
-int game_mouse_event(SDL_Event event)
+static int game_mouse_event(SDL_Event event)
 {
   int keypad_w, keypad_h, x, y, row, column;
   SDLKey key = SDLK_UNKNOWN;
@@ -2124,7 +2152,7 @@ int game_mouse_event(SDL_Event event)
 }
 
 
-int check_exit_conditions(void)
+static int check_exit_conditions(void)
 {
   if(SDL_quit_received)
   {
