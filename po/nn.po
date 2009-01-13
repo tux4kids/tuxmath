@@ -2,252 +2,253 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008.
+# Karl Ove Hufthammer <karl@huftis.org>, 2007, 2008, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-23 10:26-0600\n"
-"PO-Revision-Date: 2008-09-21 19:06+0200\n"
+"POT-Creation-Date: 2009-01-13 23:20+0100\n"
+"PO-Revision-Date: 2009-01-13 23:58+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 0.2\n"
+"X-Generator: Lokalize 0.3\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: src/campaign.h:23
 msgid "-[Esc] to skip"
-msgstr ""
+msgstr "(Trykk «Escape» for å hoppa over.)"
 
 #: src/campaign.h:24
 msgid "Mission One: Careful Cadet"
-msgstr ""
+msgstr "Oppdrag 1: Kampklare kadett"
 
 #: src/campaign.h:26
 msgid "I'm so glad you've come!"
-msgstr ""
+msgstr "Eg er så glad du endeleg er her!"
 
 #: src/campaign.h:28
 msgid "The penguins need your help! Comets"
-msgstr ""
+msgstr "Pingvinane treng hjelp frå deg! Det fell"
 
 #: src/campaign.h:29
 msgid "are falling from the sky, and are melting"
-msgstr ""
+msgstr "kometar frå himmelen, og dei smeltar"
 
 #: src/campaign.h:30
-#, fuzzy
 msgid "the penguins' igloos. To save their homes,"
-msgstr "igloane til pingvinane frå"
+msgstr "igloane til pingvinane. For å redda heimane"
 
 #: src/campaign.h:31
 msgid "we need you to find the secret code that"
-msgstr ""
+msgstr "deira, må du finna dei hemmelege kodane"
 
 #: src/campaign.h:32
 msgid " will zap each comet."
-msgstr ""
+msgstr "som øydeleggjer kometane."
 
 #: src/campaign.h:34
 msgid "Do your best!"
-msgstr ""
+msgstr "Gjer ditt beste!"
 
 #: src/campaign.h:40
 msgid "Mission Two: Smart Scout"
-msgstr ""
+msgstr "Oppdrag 2: Listige læring"
 
 #: src/campaign.h:42
 msgid "Great job! Since you saved the penguins' homes,"
-msgstr ""
+msgstr "Bra jobba! Sidan du klarte å redda heimane til"
 
 #: src/campaign.h:43
 msgid "we are promoting you to Scout. Scouts are good"
-msgstr ""
+msgstr "pingvinane, forfremjar me deg til romlærling."
 
 #: src/campaign.h:44
 msgid "for keeping an eye out for trouble..."
-msgstr ""
+msgstr "Håpar du har lært å hanska vanskar …"
 
 #: src/campaign.h:46
 msgid "...like what's happening right now!"
-msgstr ""
+msgstr "… for no får du nokon rett i hendene!"
 
 #: src/campaign.h:47
 msgid "The TakeAways have come, and they're sending"
-msgstr ""
+msgstr "TaVekk-arane kjem, og dei sender nye og"
 
 #: src/campaign.h:48
 msgid "new, trickier comets against the penguins!"
-msgstr ""
+msgstr "endå skumlare kometar mot pingvinane!"
 
 #: src/campaign.h:49
 msgid "But you can save them!"
-msgstr ""
+msgstr "Men du kan redda dei!"
 
 #: src/campaign.h:55
 msgid "Mission Three: Royal Ranger"
-msgstr ""
+msgstr "Oppdrag 3: Vaktsam vaktar"
 
 #: src/campaign.h:57
 msgid "You've done it again! The Penguin Emperor has"
-msgstr ""
+msgstr "Du klarte det igjen! Keisarpingvinen har valt"
 
 #: src/campaign.h:58
 msgid "chosen you to join his team of Rangers that"
-msgstr ""
+msgstr "deg til å delta i den offisielle romvaktargruppa"
 
 #: src/campaign.h:59
 msgid "help protect the city.  We're sending you"
-msgstr ""
+msgstr "som vernar om byen. Me sender deg"
 
 #: src/campaign.h:60
 msgid "there now..."
-msgstr ""
+msgstr "der no …"
 
 #: src/campaign.h:62
 msgid "...oh no! Now the Emperor himself is under attack,"
-msgstr ""
+msgstr "Å nei, å nei! Keisarpingvinen sjølv vert no angripen,"
 
 #: src/campaign.h:63
 msgid "from new types of comets: these problems are"
-msgstr ""
+msgstr "av dei nye gongekometane. Desse er endå"
 
 #: src/campaign.h:64
 msgid "multiplying! To fight these, you need great"
-msgstr ""
+msgstr "vanskelegare, og for å øydeleggja dei må du"
 
 #: src/campaign.h:65
 msgid "skill. We think you can do it. Join the"
-msgstr ""
+msgstr "vera dugande dyktig. Men me trur du vil"
 
 #: src/campaign.h:66
 msgid "Rangers and help save the city!"
-msgstr ""
+msgstr "klara det. Vert med romvaktarane og redd byen!"
 
 #: src/campaign.h:72
 msgid "Mission Four: Imperial Ace"
-msgstr ""
+msgstr "Oppdrag fire: Supersjef"
 
 #: src/campaign.h:74
 msgid "You did it! The Emperor wants to thank you"
-msgstr ""
+msgstr "Du klarte det! Keisaren ønskjer å takka deg"
 
 #: src/campaign.h:75
 msgid "in person. We are taking you to his ice palace"
-msgstr ""
+msgstr "personleg. Me tek deg med til ispalasset hans,"
 
 #: src/campaign.h:76
 msgid "for a great honor: you will become"
-msgstr ""
+msgstr "der du får æra av å verta utnemnd"
 
 #: src/campaign.h:77
 msgid "the Imperial Ace!"
-msgstr ""
+msgstr "til keisarleg romsjef!"
 
 #: src/campaign.h:79
 msgid "But right in the middle of the ceremony,"
-msgstr ""
+msgstr "Men midt under seremonien"
 
 #: src/campaign.h:80
 msgid "a new attack from the land of Division starts!"
-msgstr ""
+msgstr "kjem det eit angrep frå deleland!"
 
 #: src/campaign.h:81
 msgid "Now is no time for resting; the city"
-msgstr ""
+msgstr "Inga tid til å kvila på laurbæra; byen"
 
 #: src/campaign.h:82
 msgid "needs your help!"
-msgstr ""
+msgstr "treng di hjelp!"
 
 #: src/campaign.h:88
 msgid "Final Mission: Computing Commando"
-msgstr ""
+msgstr "Siste oppdrag: Kodeknekkingskommandør"
 
 #: src/campaign.h:90
 msgid "Penguin scientists have learned that all"
-msgstr ""
+msgstr "Forskarpingvinane har funne ut alle"
 
 #: src/campaign.h:91
 msgid "these attacks are coming from a secret"
-msgstr ""
+msgstr "angrepa kjem frå ein hemmeleg base,"
 
 #: src/campaign.h:92
 msgid "base, and they need you to go fight"
-msgstr ""
+msgstr "og dei treng hjelp frå deg til å"
 
 #: src/campaign.h:93
 msgid "the final battle. They also give you"
-msgstr ""
+msgstr "øydeleggja basen. Dei har òg eit"
 
 #: src/campaign.h:94
 msgid "this clue: first do multiplication and"
-msgstr ""
+msgstr "lite tips: Gonga først, dela så, og"
 
 #: src/campaign.h:95
 msgid "division, and then do addition and subtraction."
-msgstr ""
+msgstr "avslutt med å leggja til og trekkja frå."
 
 #: src/campaign.h:96
 msgid "I hope that hint helps!"
-msgstr ""
+msgstr "Håpar tipset er til hjelp!"
 
 #: src/campaign.h:98
 msgid "This is it! You can stop these attacks"
-msgstr ""
+msgstr "Endeleg! No kan du klara å stoppa angrepa"
 
 #: src/campaign.h:99
-#, fuzzy
 msgid "forever, Commando!"
-msgstr "Romkommandør"
+msgstr "for alltid, romkommandør!"
 
 #: src/campaign.c:29
 msgid "Congratulations! You win!"
-msgstr ""
+msgstr "Gratulerer! Du vann!"
 
 #: src/campaign.c:47
 msgid "Round"
-msgstr ""
+msgstr "Runde"
 
 #: src/campaign.c:156
 msgid "Sorry, try again!"
-msgstr ""
+msgstr "Prøv på nytt!"
 
 #: src/campaign.c:162
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr ""
+msgstr "Oppdrag utførd. Galaksen er no trygg!"
 
-#: src/factoroids.c:558
+#: src/factoroids.c:563
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
-msgstr ""
+msgstr "FAKTOROIDAR: For å vinna må du øydeleggja elle asteroidane."
 
-#: src/factoroids.c:559 src/factoroids.c:570
+#: src/factoroids.c:564 src/factoroids.c:575
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr ""
+msgstr "Bruk piltastane til å dreia rundt eller fly framover. Sikt på ein"
 
-#: src/factoroids.c:560
+#: src/factoroids.c:565
 msgid "type one of its factors, and press space or return"
-msgstr ""
+msgstr "asteroide, skriv inn éin av faktorane og trykk «Enter»"
 
-#: src/factoroids.c:561
+#: src/factoroids.c:566
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
+"eller «Mellomrom» for å dela han opp. Primtalsasteroidar vert øydelagde."
 
-#: src/factoroids.c:569
+#: src/factoroids.c:574
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr ""
+msgstr "BRØKAR: For å vinna må du øydeleggja elle asteroidane."
 
-#: src/factoroids.c:571
+#: src/factoroids.c:576
 msgid "type a number that can simplify the fraction, and press space or return"
-msgstr ""
+msgstr "Skriv inn eit tal som kan forenkla brøken, og trykk «Enter»"
 
-#: src/factoroids.c:572
+#: src/factoroids.c:577
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
+"eller «Mellomrom» for å dela han. Øydelegg brøkar som ikkje kan forenklast "
+"med eit enkeltskot."
 
 #: src/game.c:716
 msgid "Welcome to TuxMath!"
@@ -411,9 +412,8 @@ msgid "Play With Friends"
 msgstr "Spel med venner"
 
 #: src/titlescreen.c:666
-#, fuzzy
 msgid "Factoroids!"
-msgstr "Faktorar"
+msgstr "Faktoroidar!"
 
 #: src/titlescreen.c:667
 msgid "Help"
@@ -450,19 +450,19 @@ msgstr "Hovudmeny"
 
 #: src/titlescreen.c:796
 msgid "Score Sweep"
-msgstr ""
+msgstr "Poengsamling"
 
 #: src/titlescreen.c:797
 msgid "Elimination"
-msgstr ""
+msgstr "Eliminering"
 
 #: src/titlescreen.c:841
 msgid "How many kids are playing?"
-msgstr ""
+msgstr "Kor mange spelar?"
 
 #: src/titlescreen.c:842
 msgid "(Between 2 and 4 players)"
-msgstr ""
+msgstr "(2 til 4 spelarar)"
 
 #: src/titlescreen.c:961
 msgid "Edit 'options' file in your home directory"
@@ -709,18 +709,16 @@ msgid "Adding Negatives to Positives"
 msgstr "Addisjon av negative til positive tal"
 
 #: data/missions/lessons/descr_lessons:50
-#, fuzzy
 msgid "Adding Positives to Negatives"
-msgstr "Addisjon av negative til negative tal"
+msgstr "Addisjon av positive til negative tal"
 
 #: data/missions/lessons/descr_lessons:51
 msgid "Subtracting Negatives From Positives"
 msgstr "Subtraksjon av negative frå positive tal"
 
 #: data/missions/lessons/descr_lessons:52
-#, fuzzy
 msgid "Subtracting Positives From Negatives"
-msgstr "Subtraksjon av negative frå negative tal"
+msgstr "Subtraksjon av positive frå negative tal"
 
 #: data/missions/lessons/descr_lessons:53
 msgid "Adding Negatives to Negatives"
@@ -748,3 +746,4 @@ msgstr "Divisjon av positive og negative tal"
 
 #~ msgid "Other Math Command Activities"
 #~ msgstr "Andre aktivitetar"
+
