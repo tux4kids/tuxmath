@@ -379,6 +379,12 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
     return NULL;
   }
 
+  if (t[0] == '\0')
+  {
+    fprintf(stderr, "BlackOutline(): empty string, returning");
+    return NULL;
+  }
+
 #ifdef TUXMATH_DEBUG
   fprintf( stderr, "\nEntering BlackOutline(): \n");
   fprintf( stderr, "BlackOutline of \"%s\"\n", t );

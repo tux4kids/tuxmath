@@ -22,6 +22,13 @@ dist_sprites_DATA = alone0.png \
   factoroids1.png \
   factoroids2.png \
   factoroidsd.png \
+  factors0.png \
+  factors1.png \
+  factors2.png \
+  factors3.png \
+  factors4.png \
+  factors5.png \
+  factorsd.png \
   fleet0.png \
   fleetd.png \
   goldstard.png \

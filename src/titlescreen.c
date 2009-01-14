@@ -89,6 +89,8 @@ enum {
   SPRITE_ALONE,
   SPRITE_FRIENDS,
   SPRITE_FACTOROIDS,
+  SPRITE_FACTORS,
+  SPRITE_FRACTIONS,
   SPRITE_CAMPAIGN,
   SPRITE_SSWEEP,
   SPRITE_ELIMINATION,
@@ -115,6 +117,8 @@ const char* menu_sprite_files[N_SPRITES] =
   "alone", 
   "friends", 
   "factoroids",
+  "factors",
+  "factors",  //change this when "fractions" sprite made - DSB
   "fleet",
   "nums",
   "exclamation"
@@ -993,8 +997,8 @@ int run_activities_menu(void)
   int choice,hs_table;
 
   // Set up the sprites
-  sprites[0] = sprite_list[SPRITE_CADET];
-  sprites[1] = sprite_list[SPRITE_SCOUT];
+  sprites[0] = sprite_list[SPRITE_FACTORS];
+  sprites[1] = sprite_list[SPRITE_FRACTIONS];
   sprites[2] = sprite_list[SPRITE_MAIN];
 
   set_default_menu_options(&menu_opts);
