@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-01-13 23:20+0100\n"
+"POT-Creation-Date: 2009-01-17 09:08-0600\n"
 "PO-Revision-Date: 2009-01-13 23:58+0100\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -354,161 +354,161 @@ msgstr "klikka på X-en oppe til høgre."
 msgid "Do it now, and then play!"
 msgstr "Prøv det no, og start spelet!"
 
-#: src/highscore.c:213 src/titlescreen.c:866
+#: src/highscore.c:213 src/titlescreen.c:870
 msgid "Hall Of Fame"
 msgstr "Rekordar"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:802
-#: src/titlescreen.c:861
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:806
+#: src/titlescreen.c:865
 msgid "Space Cadet"
 msgstr "Romkadett"
 
-#: src/highscore.c:238 src/titlescreen.c:803 src/titlescreen.c:862
+#: src/highscore.c:238 src/titlescreen.c:807 src/titlescreen.c:866
 msgid "Scout"
 msgstr "Romlærling"
 
-#: src/highscore.c:241 src/titlescreen.c:804 src/titlescreen.c:863
+#: src/highscore.c:241 src/titlescreen.c:808 src/titlescreen.c:867
 msgid "Ranger"
 msgstr "Romvaktar"
 
-#: src/highscore.c:244 src/titlescreen.c:805 src/titlescreen.c:864
+#: src/highscore.c:244 src/titlescreen.c:809 src/titlescreen.c:868
 msgid "Ace"
 msgstr "Romsjef"
 
-#: src/highscore.c:247 src/titlescreen.c:806 src/titlescreen.c:865
+#: src/highscore.c:247 src/titlescreen.c:810 src/titlescreen.c:869
 msgid "Commando"
 msgstr "Romkommandør"
 
-#: src/highscore.c:250 src/titlescreen.c:985
+#: src/highscore.c:250 src/titlescreen.c:989
 msgid "Factors"
 msgstr "Faktorar"
 
-#: src/highscore.c:253 src/titlescreen.c:986
+#: src/highscore.c:253 src/titlescreen.c:990
 msgid "Fractions"
 msgstr "Brøkar"
 
-#: src/titlescreen.c:488
+#: src/titlescreen.c:492
 msgid "Work In Progress!"
 msgstr "Uferdig!"
 
-#: src/titlescreen.c:489
+#: src/titlescreen.c:493
 msgid "This feature is not ready yet"
 msgstr "Denne funksjonen er ikkje klar enno."
 
-#: src/titlescreen.c:490
+#: src/titlescreen.c:494
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskuter framtida til TuxMath på"
 
-#: src/titlescreen.c:491
+#: src/titlescreen.c:495
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:664
+#: src/titlescreen.c:668
 msgid "Play Alone"
 msgstr "Spel åleine"
 
-#: src/titlescreen.c:665
+#: src/titlescreen.c:669
 msgid "Play With Friends"
 msgstr "Spel med venner"
 
-#: src/titlescreen.c:666
+#: src/titlescreen.c:670
 msgid "Factoroids!"
 msgstr "Faktoroidar!"
 
-#: src/titlescreen.c:667
+#: src/titlescreen.c:671
 msgid "Help"
 msgstr "Hjelp"
 
-#: src/titlescreen.c:668
+#: src/titlescreen.c:672
 msgid "More Options"
 msgstr "Fleire val"
 
-#: src/titlescreen.c:669
+#: src/titlescreen.c:673
 msgid "Quit"
 msgstr "Avslutt"
 
-#: src/titlescreen.c:743
+#: src/titlescreen.c:747
 msgid "Math Command Training Academy"
 msgstr "Kadettskule"
 
-#: src/titlescreen.c:744
+#: src/titlescreen.c:748
 msgid "Math Command Fleet Missions"
 msgstr "Oppdrag"
 
-#: src/titlescreen.c:745
+#: src/titlescreen.c:749
 msgid "Play Arcade Game"
 msgstr "Arkadespel"
 
-#: src/titlescreen.c:746
+#: src/titlescreen.c:750
 msgid "Play Custom Game"
 msgstr "Sjølvlaga spel"
 
-#: src/titlescreen.c:747 src/titlescreen.c:798 src/titlescreen.c:807
-#: src/titlescreen.c:867 src/titlescreen.c:987
+#: src/titlescreen.c:751 src/titlescreen.c:802 src/titlescreen.c:811
+#: src/titlescreen.c:871 src/titlescreen.c:991
 msgid "Main menu"
 msgstr "Hovudmeny"
 
-#: src/titlescreen.c:796
+#: src/titlescreen.c:800
 msgid "Score Sweep"
 msgstr "Poengsamling"
 
-#: src/titlescreen.c:797
+#: src/titlescreen.c:801
 msgid "Elimination"
 msgstr "Eliminering"
 
-#: src/titlescreen.c:841
+#: src/titlescreen.c:845
 msgid "How many kids are playing?"
 msgstr "Kor mange spelar?"
 
-#: src/titlescreen.c:842
+#: src/titlescreen.c:846
 msgid "(Between 2 and 4 players)"
 msgstr "(2 til 4 spelarar)"
 
-#: src/titlescreen.c:961
+#: src/titlescreen.c:965
 msgid "Edit 'options' file in your home directory"
 msgstr "Rediger «options»-fila i heimemappa di"
 
-#: src/titlescreen.c:962
+#: src/titlescreen.c:966
 msgid "to create customized game!"
 msgstr "for å laga ditt eige spel."
 
-#: src/titlescreen.c:963
+#: src/titlescreen.c:967
 msgid "Press a key or click your mouse to start game."
 msgstr "Trykk ein tast eller med musa for å starta spelet."
 
-#: src/titlescreen.c:964
+#: src/titlescreen.c:968
 msgid "See README.txt for more information"
 msgstr "Sjå «README.txt» for meir informasjon."
 
-#: src/titlescreen.c:1079
+#: src/titlescreen.c:1083
 msgid "Demo"
 msgstr "Demonstrasjon"
 
-#: src/titlescreen.c:1080
+#: src/titlescreen.c:1084
 msgid "Project Info"
 msgstr "Prosjektinfo"
 
-#: src/titlescreen.c:1081
+#: src/titlescreen.c:1085
 msgid "Credits"
 msgstr "Bidragsytarar"
 
-#: src/titlescreen.c:1082
+#: src/titlescreen.c:1086
 msgid "Main Menu"
 msgstr "Hovudmeny"
 
-#: src/titlescreen.c:1129
+#: src/titlescreen.c:1133
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath er fri programvare!"
 
-#: src/titlescreen.c:1130
+#: src/titlescreen.c:1134
 msgid "You can help make it better by reporting problems,"
 msgstr "Du kan vera med på å gjera spelet betre, ved å melda frå"
 
-#: src/titlescreen.c:1131
+#: src/titlescreen.c:1135
 msgid "suggesting improvements, or adding code."
 msgstr "om feil, foreslå forbetringar eller bidra med programkode."
 
-#: src/titlescreen.c:1132
+#: src/titlescreen.c:1136
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Diskuter framtida på tuxmath-devel@lists.sourceforge.net"
 
@@ -746,4 +746,3 @@ msgstr "Divisjon av positive og negative tal"
 
 #~ msgid "Other Math Command Activities"
 #~ msgstr "Andre aktivitetar"
-

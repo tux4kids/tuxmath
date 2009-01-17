@@ -241,16 +241,19 @@ SDL_Surface* LoadBkgd(char* datafile)
     return zoom(orig, screen->w, screen->h);
   }
 }
+
 /**********************
 LoadBothBkgds() : loads two scaled images: one for the user's native 
 resolution and one for 640x480 fullscreen. 
 Returns: the number of images that were scaled
+Now we also optimize the format for best performance
 **********************/
 int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
 {
   int ret = 0;
   SDL_Surface* orig = NULL;
-  
+  SDL_Surface* tmp = NULL;
+
   tmdprintf("Entering LoadBothBkgds()\n");
   orig = LoadImage(datafile, IMG_REGULAR);
   tmdprintf("Scaling %dx%d to: %dx%d, %dx%d\n", 
@@ -277,7 +280,24 @@ int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
   
   if (ret == 2) //orig won't be used at all
     SDL_FreeSurface(orig);
-    
+
+  // Optimize images before we leave:
+  // turn off transparency, since it's the background:
+  if (*fs_bkgd)  //avoid segfault...
+  {
+    SDL_SetAlpha(*fs_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);
+    tmp = SDL_DisplayFormat(*fs_bkgd);  // optimize the format
+    SDL_FreeSurface(*fs_bkgd);
+    *fs_bkgd = tmp;
+  }
+  if (*win_bkgd)
+  {
+    SDL_SetAlpha(*win_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);
+    tmp = SDL_DisplayFormat(*win_bkgd);  // optimize the format
+    SDL_FreeSurface(*win_bkgd);
+    *win_bkgd = tmp;
+  }
+
   tmdprintf("%d images scaled\nLeaving LoadBothBkgds()\n", ret);
   return ret;
 }

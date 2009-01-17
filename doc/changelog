@@ -1,7 +1,9 @@
-2008.Dec.19 (svn.debian.org/tux4kids - revision 815)
-        Code - factoroids.c revised slightly - fixed bug with game control
-          values not being reset between games; also added "#define TUXSHIP_DECEL"
-          to make "drag" easier to tweak.
+2009.Jan.17 (svn.debian.org/tux4kids - revision 847)
+        Code - background scaling and optimization in factoroids.c cleaned up,
+          basically now uses LoadBothBkgds() from loaders.c which has the 
+          optimizations incorporated into it.
+        Graphics - new menu icon for "Factors" version of Factoroids.
+
 
         David Bruce <davidstuartbruce@gmail.com>
 

@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2008-12-23 10:26-0600\n"
+"POT-Creation-Date: 2009-01-17 09:08-0600\n"
 "PO-Revision-Date: 2008-03-03 21:35+0000\n"
 "Last-Translator: Laudeci Oliveira <laudeci@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -223,31 +223,31 @@ msgstr ""
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr ""
 
-#: src/factoroids.c:558
+#: src/factoroids.c:563
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:559 src/factoroids.c:570
+#: src/factoroids.c:564 src/factoroids.c:575
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:560
+#: src/factoroids.c:565
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:561
+#: src/factoroids.c:566
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:569
+#: src/factoroids.c:574
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:571
+#: src/factoroids.c:576
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:572
+#: src/factoroids.c:577
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -357,161 +357,161 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:213 src/titlescreen.c:866
+#: src/highscore.c:213 src/titlescreen.c:870
 msgid "Hall Of Fame"
 msgstr "Hall da Fama"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:802
-#: src/titlescreen.c:861
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:806
+#: src/titlescreen.c:865
 msgid "Space Cadet"
 msgstr "Cadete Espacial"
 
-#: src/highscore.c:238 src/titlescreen.c:803 src/titlescreen.c:862
+#: src/highscore.c:238 src/titlescreen.c:807 src/titlescreen.c:866
 msgid "Scout"
 msgstr "Sentinela"
 
-#: src/highscore.c:241 src/titlescreen.c:804 src/titlescreen.c:863
+#: src/highscore.c:241 src/titlescreen.c:808 src/titlescreen.c:867
 msgid "Ranger"
 msgstr "Defensor"
 
-#: src/highscore.c:244 src/titlescreen.c:805 src/titlescreen.c:864
+#: src/highscore.c:244 src/titlescreen.c:809 src/titlescreen.c:868
 msgid "Ace"
 msgstr "Especialista"
 
-#: src/highscore.c:247 src/titlescreen.c:806 src/titlescreen.c:865
+#: src/highscore.c:247 src/titlescreen.c:810 src/titlescreen.c:869
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:985
+#: src/highscore.c:250 src/titlescreen.c:989
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:253 src/titlescreen.c:986
+#: src/highscore.c:253 src/titlescreen.c:990
 msgid "Fractions"
 msgstr ""
 
-#: src/titlescreen.c:488
+#: src/titlescreen.c:492
 msgid "Work In Progress!"
 msgstr "Trabalho em curso"
 
-#: src/titlescreen.c:489
+#: src/titlescreen.c:493
 msgid "This feature is not ready yet"
 msgstr "Esta função ainda não está disponível"
 
-#: src/titlescreen.c:490
+#: src/titlescreen.c:494
 msgid "Discuss the future of TuxMath at"
 msgstr "Discutir o futuro do TuxMath em"
 
-#: src/titlescreen.c:491
+#: src/titlescreen.c:495
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:664
+#: src/titlescreen.c:668
 msgid "Play Alone"
 msgstr ""
 
-#: src/titlescreen.c:665
+#: src/titlescreen.c:669
 msgid "Play With Friends"
 msgstr ""
 
-#: src/titlescreen.c:666
+#: src/titlescreen.c:670
 msgid "Factoroids!"
 msgstr ""
 
-#: src/titlescreen.c:667
+#: src/titlescreen.c:671
 msgid "Help"
 msgstr "Ajuda"
 
-#: src/titlescreen.c:668
+#: src/titlescreen.c:672
 msgid "More Options"
 msgstr "Mais Opções"
 
-#: src/titlescreen.c:669
+#: src/titlescreen.c:673
 msgid "Quit"
 msgstr "Sair"
 
-#: src/titlescreen.c:743
+#: src/titlescreen.c:747
 msgid "Math Command Training Academy"
 msgstr "Comando de Treinamento Matemático Acadêmico"
 
-#: src/titlescreen.c:744
+#: src/titlescreen.c:748
 msgid "Math Command Fleet Missions"
 msgstr ""
 
-#: src/titlescreen.c:745
+#: src/titlescreen.c:749
 msgid "Play Arcade Game"
 msgstr "Jogar jogo de Arcade"
 
-#: src/titlescreen.c:746
+#: src/titlescreen.c:750
 msgid "Play Custom Game"
 msgstr "Jogar um Jogo Personalizado"
 
-#: src/titlescreen.c:747 src/titlescreen.c:798 src/titlescreen.c:807
-#: src/titlescreen.c:867 src/titlescreen.c:987
+#: src/titlescreen.c:751 src/titlescreen.c:802 src/titlescreen.c:811
+#: src/titlescreen.c:871 src/titlescreen.c:991
 msgid "Main menu"
 msgstr "Menu Principal"
 
-#: src/titlescreen.c:796
+#: src/titlescreen.c:800
 msgid "Score Sweep"
 msgstr ""
 
-#: src/titlescreen.c:797
+#: src/titlescreen.c:801
 msgid "Elimination"
 msgstr ""
 
-#: src/titlescreen.c:841
+#: src/titlescreen.c:845
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/titlescreen.c:842
+#: src/titlescreen.c:846
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/titlescreen.c:961
+#: src/titlescreen.c:965
 msgid "Edit 'options' file in your home directory"
 msgstr "Edite o arquivo 'options\" no seu diretório home"
 
-#: src/titlescreen.c:962
+#: src/titlescreen.c:966
 msgid "to create customized game!"
 msgstr "criar jogo personalizado!"
 
-#: src/titlescreen.c:963
+#: src/titlescreen.c:967
 msgid "Press a key or click your mouse to start game."
 msgstr "Pressione uma tecla ou clique com seu mouse para iniciar o jogo."
 
-#: src/titlescreen.c:964
+#: src/titlescreen.c:968
 msgid "See README.txt for more information"
 msgstr "Leia o README.txt para mais informações"
 
-#: src/titlescreen.c:1079
+#: src/titlescreen.c:1083
 msgid "Demo"
 msgstr "Demonstração"
 
-#: src/titlescreen.c:1080
+#: src/titlescreen.c:1084
 msgid "Project Info"
 msgstr "Informação do Projeto"
 
-#: src/titlescreen.c:1081
+#: src/titlescreen.c:1085
 msgid "Credits"
 msgstr "Créditos"
 
-#: src/titlescreen.c:1082
+#: src/titlescreen.c:1086
 msgid "Main Menu"
 msgstr "Menu Principal"
 
-#: src/titlescreen.c:1129
+#: src/titlescreen.c:1133
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath é gratuíto e software livre!"
 
-#: src/titlescreen.c:1130
+#: src/titlescreen.c:1134
 msgid "You can help make it better by reporting problems,"
 msgstr "Você pode ajudar a torná-lo melhor reportando problemas."
 
-#: src/titlescreen.c:1131
+#: src/titlescreen.c:1135
 msgid "suggesting improvements, or adding code."
 msgstr "sugerindo melhorias, ou programando."
 
-#: src/titlescreen.c:1132
+#: src/titlescreen.c:1136
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discutir o futuro em tuxmath-devel@lists.sourceforge.net"
 

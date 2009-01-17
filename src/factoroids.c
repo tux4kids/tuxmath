@@ -438,6 +438,8 @@ static int FF_init(void)
   }
 
   /********   Set up properly scaled and optimized background surfaces: *********/
+  /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
+  /* can take advantage of it - DSB                                             */
 
   LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
   if (bkgd == NULL || scaled_bkgd == NULL)
@@ -447,19 +449,6 @@ static int FF_init(void)
     return 0;
   }
 
-  //Now optimize background surface formats:
-  SDL_SetAlpha(scaled_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
-  tmp = SDL_DisplayFormat(scaled_bkgd);  // optimize the format
-  SDL_FreeSurface(scaled_bkgd);
-  scaled_bkgd = tmp;
-
-  SDL_SetAlpha(bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);  // turn off transparency, since it's the background
-  tmp = SDL_DisplayFormat(bkgd);  // optimize the format
-  SDL_FreeSurface(bkgd);
-  bkgd = tmp;
-
-  
-  
   // Allocate memory 
   asteroid = NULL;  // set in case allocation fails partway through
   asteroid = (asteroid_type *) malloc(MAX_ASTEROIDS * sizeof(asteroid_type));
