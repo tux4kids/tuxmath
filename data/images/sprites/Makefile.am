@@ -31,6 +31,14 @@ dist_sprites_DATA = alone0.png \
   factorsd.png \
   fleet0.png \
   fleetd.png \
+  fractions0.png \
+  fractions1.png \
+  fractions2.png \
+  fractions3.png \
+  fractions4.png \
+  fractions5.png \
+  fractions6.png \
+  fractionsd.png \
   goldstard.png \
   goldstar0.png \
   goldstar1.png \
