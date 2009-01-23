@@ -1,8 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.7.0
+Version 1.7.1
 
-December 08, 2008
-
+January 23, 2009
 
 For users
 ---------

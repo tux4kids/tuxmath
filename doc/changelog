@@ -1,3 +1,12 @@
+2009.Jan.23 (svn.debian.org/tux4kids - revision 851)
+Version 1.7.1
+        Build - tuxmath.desktop and tuxmath.spec files incorporated into tarball.
+
+        Graphics - cloud.png cleaned up a bit.
+
+
+        David Bruce <davidstuartbruce@gmail.com>
+
 2009.Jan.17 (svn.debian.org/tux4kids - revision 847)
         Code - background scaling and optimization in factoroids.c cleaned up,
           basically now uses LoadBothBkgds() from loaders.c which has the 

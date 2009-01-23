@@ -11,6 +11,7 @@ dist_sounds_DATA = alarm.wav \
   game2.mod \
   game3.mod \
   game.mod \
+  harp.wav \
   laser.wav\
   pop.wav \
   shieldsdown.wav \

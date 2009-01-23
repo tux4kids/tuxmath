@@ -199,6 +199,7 @@ enum {
 
 /* Names for game sounds (formerly in sounds.h): */
 enum {
+  SND_HARP,
   SND_POP,
   SND_TOCK,
   SND_LASER,

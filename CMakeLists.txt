@@ -8,7 +8,7 @@
 
 project(TuxMath)
 
-set(TUXMATH_VERSION "1.7.0")
+set(TUXMATH_VERSION "1.7.1")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
@@ -97,7 +97,8 @@ if (ENABLE_NLS)
   set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
 endif (ENABLE_NLS)
 
-FIND_PACKAGE(SDL_gfx REQUIRED)
+## Don't think we need SDL_gfx anymore:
+##FIND_PACKAGE(SDL_gfx REQUIRED)
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)

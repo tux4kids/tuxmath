@@ -118,7 +118,7 @@ const char* menu_sprite_files[N_SPRITES] =
   "friends", 
   "factoroids",
   "factors",
-  "factors",  //change this when "fractions" sprite made - DSB
+  "fractions",
   "fleet",
   "nums",
   "exclamation"
@@ -247,7 +247,9 @@ void TitleScreen(void)
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
     SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-  }
+    // Play "harp" greeting sound lifted from Tux Paint:
+    playsound(SND_HARP);
+ }
 
 
   /* --- wait  --- */

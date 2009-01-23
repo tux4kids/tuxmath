@@ -5,7 +5,7 @@
 # package are under the same license as the package itself.
 #
 
-# norootforbuild
+# norootforbuild 
 
 Name:           tuxmath
 %define         realname tuxmath_w_fonts

@@ -215,6 +215,7 @@ int load_sound_data(void)
   SDL_Rect dest;
 
   static char* sound_filenames[NUM_SOUNDS] = {
+  DATA_PREFIX "/sounds/harp.wav",
   DATA_PREFIX "/sounds/pop.wav",
   DATA_PREFIX "/sounds/tock.wav",
   DATA_PREFIX "/sounds/laser.wav",
@@ -253,14 +254,14 @@ int load_sound_data(void)
         return 0;
       }
       
-      
+/*      
       dest.x = 0;
       dest.y = (screen->h) - 10;
       dest.w = ((screen->w) * (i + 1 + NUM_IMAGES)) / total_files;
       dest.h = 10;
 
       SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
+      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);*/
       
     }
 
@@ -279,7 +280,7 @@ int load_sound_data(void)
         return 0;
       }
       
-      if (i == NUM_MUSICS - 1)
+/*      if (i == NUM_MUSICS - 1)
       {
         dest.x = 0;
         dest.y = (screen->h) - 10;
@@ -288,7 +289,7 @@ int load_sound_data(void)
         
         SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
         SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-      }
+      }*/
     }
   }
   return 1;

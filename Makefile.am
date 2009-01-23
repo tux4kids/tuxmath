@@ -39,7 +39,7 @@ data_fonts='AndikaDesRevG.ttf'
 dist_with_fonts:
 	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) \
            dist_fonts=$(data_fonts) dist
-
+ 
 
 ## For building the NSIS executable Win32 installer - this rule first
 ## does a "make install" into NSI_TEMP_INSTALL_DIR, which results in

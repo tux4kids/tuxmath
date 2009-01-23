@@ -1,3 +1,3 @@
-Source tar.gz archive for TuxMath 1.6.2, including the Andika font.  Suitable for installation on Unix-style systems using a simple "./configure; make; make install".  This now includes MacOSX as long as you have the needed libs (tested on MacOS 10.5 "Leopard").
+Source tar.gz archive for TuxMath 1.7.1, including the Andika font.  Suitable for installation on Unix-style systems using a simple "./configure; make; make install".  This now includes MacOSX as long as you have the needed libs (tested on MacOS 10.5 "Leopard").
 
-Build requires the *-dev files for SDL, SDL_image, SDL_mixer, SDL_gfx and SDL_ttf. GNU Gettext is no longer required for installation. All of these should be easily available in most GNU-Linux distributions. The GNU Autotools are not needed to build from this package.
+Build requires the *-dev files for SDL, SDL_image, SDL_mixer, and SDL_ttf. SDL_Pango will be used if found. GNU Gettext is no longer required for installation. All of these should be easily available in most GNU-Linux distributions. The GNU Autotools are not needed to build from this package.
