@@ -23,6 +23,7 @@ int num_lessons = 0;
 int read_high_scores_fp(FILE* fp)
 {
   /* This is a stub to let things compile */
+  return 1;
 }
 
 void initialize_scores(void)
@@ -60,4 +61,5 @@ int main(int argc,char *argv[])
 
   MC_StartGame();
   MC_PrintQuestionList(stdout);
+  return 0;
 }

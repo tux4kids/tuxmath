@@ -25,7 +25,7 @@
 //#include "funcs.h"
 
 #include "tuxmath.h"     // for TUXMATH_DEBUG
-#include "titlescreen.h"
+#include "loaders.h"
 #include "setup.h"  // for cleanup_on_error()
 #include "SDL_extras.h"
 

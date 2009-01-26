@@ -16,7 +16,8 @@
 #define NUM_STAGES 5 
 #define NUM_ROUNDS 3
 
-
+/* NOTE this has to be static to be in a header file or it will cause */
+/* multiple definition errors if included in more than one file.      */
 static const char* briefings[NUM_STAGES][20] = {
   //cadet
   {

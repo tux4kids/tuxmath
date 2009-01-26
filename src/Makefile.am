@@ -15,12 +15,16 @@ AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
 LDADD = @LIBINTL@
 
 
+
 if BUILD_MINGW32
-bin_PROGRAMS = TuxMath
+  bin_PROGRAMS = TuxMath
+  DATA_PREFIX=@MINGW32_PACKAGE_DATA_DIR@
 else
-TUXMATHRC =
-bin_PROGRAMS = tuxmath tuxmathadmin generate_lesson
+  TUXMATHRC =
+  bin_PROGRAMS = tuxmath tuxmathadmin generate_lesson
+  DATA_PREFIX=${pkgdatadir}
 endif
+
 
 tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
@@ -60,6 +64,7 @@ EXTRA_DIST = 	credits.h 	\
 		game.h		\
 		globals.h	\
 		highscore.h 	\
+		loaders.h	\
 		mathcards.h 	\
 		options.h	\
 		setup.h		\
@@ -76,13 +81,8 @@ EXTRA_DIST = 	credits.h 	\
 		pixels.h	\
 		compiler.h
 
-WINDRES=@WINDRES@
 
-if BUILD_MINGW32
-  DATA_PREFIX=@PACKAGE_DATA_DIR@
-else
-  DATA_PREFIX=${pkgdatadir}
-endif
+WINDRES=@WINDRES@
 
 # How to make an RC file
 tuxmathrc.o: tuxmathrc.rc

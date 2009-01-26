@@ -765,7 +765,6 @@ BUILD_MINGW32_TRUE
 BUILD_MINGW32_FALSE
 LIBOBJS
 POW_LIB
-PACKAGE_DATA_DIR
 NSI_INSTALL_DIR
 NSI_BUILD_TRUE
 NSI_BUILD_FALSE
@@ -14668,12 +14667,6 @@ fi
 
 
 
-##dnl Check for SDL_gfx:
-##AC_CHECK_LIB([SDL_gfx],
-##	[rotozoomSurface],
-##	LIBS="$LIBS -lSDL_gfx",
-##	[AC_MSG_ERROR([SDL_gfx not found! http://www.ferzkopp.net/joomla/content/view/19/14/])]
-##)
 
 
 { echo "$as_me:$LINENO: checking for SDLPango_Init in -lSDL_Pango" >&5
@@ -17672,10 +17665,6 @@ done
 
 
 
-# Set PACKAGE_DATA_DIR
-PACKAGE_DATA_DIR="data"
-
-
 
 #AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
 
@@ -18704,7 +18693,6 @@ BUILD_MINGW32_TRUE!$BUILD_MINGW32_TRUE$ac_delim
 BUILD_MINGW32_FALSE!$BUILD_MINGW32_FALSE$ac_delim
 LIBOBJS!$LIBOBJS$ac_delim
 POW_LIB!$POW_LIB$ac_delim
-PACKAGE_DATA_DIR!$PACKAGE_DATA_DIR$ac_delim
 NSI_INSTALL_DIR!$NSI_INSTALL_DIR$ac_delim
 NSI_BUILD_TRUE!$NSI_BUILD_TRUE$ac_delim
 NSI_BUILD_FALSE!$NSI_BUILD_FALSE$ac_delim
@@ -18713,7 +18701,7 @@ NSIS!$NSIS$ac_delim
 LTLIBOBJS!$LTLIBOBJS$ac_delim
 _ACEOF
 
-  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 58; then
+  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 57; then
     break
   elif $ac_last_try; then
     { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5

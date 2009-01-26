@@ -28,7 +28,6 @@
 
 //#define FNLEN        200
 
-#define MAX_SPRITE_FRAMES 30
 
 #include <string.h>
 #include <math.h>
@@ -48,16 +47,8 @@
 #endif
 
 #include "tuxmath.h"
+#include "loaders.h"
 
-
-
-
-typedef struct {
-  SDL_Surface *frame[MAX_SPRITE_FRAMES];
-  SDL_Surface *default_img;
-  int num_frames;
-  int cur;
-} sprite;
 
 // Options that affect how menus are presented
 typedef struct {
@@ -99,13 +90,7 @@ typedef struct {
 
 /* paths */
 
-#define IMG_REGULAR  0x01
-#define IMG_COLORKEY 0x02
-#define IMG_ALPHA    0x04
-#define IMG_MODES    0x07
 
-#define IMG_NOT_REQUIRED 0x10
-#define IMG_NO_THEME     0x20
 
 
 
@@ -165,20 +150,6 @@ int choose_menu_item(const char **menu_text,
 void set_default_menu_options(menu_options *);
 
 
-/* in loaders.c (from tuxtype): */
-int         checkFile( const char *file );
-TTF_Font*    LoadFont(const char* font_name, int font_size);
-Mix_Chunk   *LoadSound( char* datafile );
-SDL_Surface *LoadImage( char* datafile, int mode );
-SDL_Surface* LoadBkgd(char* datafile);
-int          LoadBothBkgds(char* datafile, 
-                           SDL_Surface** fs_bkgd, 
-                           SDL_Surface** win_bkgd);
-sprite      *LoadSprite( char* name, int MODE );
-sprite      *FlipSprite( sprite* in, int X, int Y );
-void         FreeSprite( sprite* gfx );
-Mix_Music   *LoadMusic( char *datafile );
-void next_frame(sprite* s);
 
 /* in audio.c  (from tuxtype): */
 void playsound(int snd);

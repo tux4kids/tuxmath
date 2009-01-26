@@ -1,5 +1,7 @@
 #include "tuxmath.h"
 #include "fileops.h"
+#include "loaders.h"
+#include "options.h"
 
 TTF_Font  *default_font;
 TTF_Font  *help_font;
@@ -210,9 +212,7 @@ int load_default_font()
 #ifndef NOSOUND
 int load_sound_data(void)
 {
-  int total_files, i;
-
-  SDL_Rect dest;
+  int i = 0;
 
   static char* sound_filenames[NUM_SOUNDS] = {
   DATA_PREFIX "/sounds/harp.wav",
@@ -238,8 +238,6 @@ int load_sound_data(void)
   /* skip loading sound files if sound system not available: */
   if (Opts_UsingSound())
   {
-    total_files = NUM_IMAGES + NUM_SOUNDS + NUM_MUSICS;
-
     for (i = 0; i < NUM_SOUNDS; i++)
     {
       sounds[i] = Mix_LoadWAV(sound_filenames[i]);
@@ -253,16 +251,6 @@ int load_sound_data(void)
                 "%s\n\n", sound_filenames[i], SDL_GetError());
         return 0;
       }
-      
-/*      
-      dest.x = 0;
-      dest.y = (screen->h) - 10;
-      dest.w = ((screen->w) * (i + 1 + NUM_IMAGES)) / total_files;
-      dest.h = 10;
-
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-      SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);*/
-      
     }
 
 
@@ -279,17 +267,7 @@ int load_sound_data(void)
                 "%s\n\n", music_filenames[i], SDL_GetError());
         return 0;
       }
-      
-/*      if (i == NUM_MUSICS - 1)
-      {
-        dest.x = 0;
-        dest.y = (screen->h) - 10;
-        dest.w = ((screen->w) * (i + 1 + NUM_IMAGES + NUM_SOUNDS)) / total_files;
-        dest.h = 10;
-        
-        SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
-        SDL_UpdateRect(screen, dest.x, dest.y, dest.w, dest.h);
-      }*/
+
     }
   }
   return 1;

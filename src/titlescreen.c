@@ -32,9 +32,11 @@
 #include "fileops.h"
 #include "game.h"
 #include "campaign.h"
+#include "factoroids.h"
 #include "multiplayer.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
+#include "loaders.h"
 #include "credits.h"
 #include "highscore.h"
 #include "ConvertUTF.h" // for wide char to UTF-8 conversion
@@ -208,8 +210,8 @@ void TitleScreen(void)
   Uint32 start = 0;
 
   int i,TuxPixSkip,TitlePixSkip;
-  int n_subdirs;
-  char **subdir_names;
+//  int n_subdirs;
+//  char **subdir_names;
 
 
   if (Opts_UsingSound())
@@ -987,12 +989,12 @@ int run_custom_menu(void)
 
 int run_activities_menu(void)
 { 
-  const unsigned char* menu_text[3] =
-    {(const unsigned char*)N_("Factors"),
-     (const unsigned char*)N_("Fractions"),
-     (const unsigned char*)N_("Main menu")};
+  const char* menu_text[3] =
+    {N_("Factors"),
+     N_("Fractions"),
+     N_("Main menu")};
   const int factoroids_high_score_tables[2] =
-    {FACTORS_HIGH_SCORE,FRACTIONS_HIGH_SCORE};
+    {FACTORS_HIGH_SCORE, FRACTIONS_HIGH_SCORE};
   sprite* sprites[3] =
     {NULL, NULL, NULL};
   menu_options menu_opts;
@@ -1008,7 +1010,7 @@ int run_activities_menu(void)
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,3,NULL,NULL);
+  choice = choose_menu_item(menu_text, sprites, 3, NULL, NULL);
 
   while (choice >= 0) {
     switch(choice){
@@ -1086,6 +1088,7 @@ int run_options_menu(void)
      N_("Project Info"),
      N_("Credits"),
      N_("Main Menu")};
+
   sprite* sprites[4] =
     {NULL, NULL, NULL, NULL};
   int n_menu_entries = 4;
@@ -1103,7 +1106,7 @@ int run_options_menu(void)
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,n_menu_entries,NULL,NULL);
+  choice = choose_menu_item(menu_text, sprites, n_menu_entries, NULL, NULL);
 
   while (choice >= 0) {
     switch (choice) {
@@ -1288,7 +1291,7 @@ int run_login_menu(void)
 
   while (n_users) {
     // Get the user choice
-    chosen_login = choose_menu_item(user_names, NULL, n_users, &menu_opts, NULL);
+    chosen_login = choose_menu_item((const char**)user_names, NULL, n_users, &menu_opts, NULL);
     // Determine whether there were any modifier (CTRL) keys pressed
     mod = SDL_GetModState();
     if (chosen_login == -1 || chosen_login == n_users) {

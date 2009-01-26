@@ -557,7 +557,6 @@ int UTF8toUnicode(const unsigned char* UTF8_word, wchar_t* wide_word)
 {
   int i = 0;
 
-  ConversionResult result;
   UTF8 temp_UTF8[BUF_LENGTH];
   UTF32 temp_UTF32[BUF_LENGTH];
 

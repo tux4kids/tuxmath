@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-01-22 05:59-0600\n"
+"POT-Creation-Date: 2009-01-24 20:34-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -16,187 +16,187 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-Language: Swedish\n"
 
-#: src/campaign.h:23
+#: src/campaign.h:24
 msgid "-[Esc] to skip"
 msgstr "-[Esc] för att hoppa över"
 
-#: src/campaign.h:24
+#: src/campaign.h:25
 msgid "Mission One: Careful Cadet"
 msgstr "Uppdrag 1: Försiktig kadett"
 
-#: src/campaign.h:26
+#: src/campaign.h:27
 msgid "I'm so glad you've come!"
 msgstr "Jag är så glad att du kom!"
 
-#: src/campaign.h:28
+#: src/campaign.h:29
 msgid "The penguins need your help! Comets"
 msgstr "Pingvinerna behöver din hjälp! Kometer"
 
-#: src/campaign.h:29
+#: src/campaign.h:30
 msgid "are falling from the sky, and are melting"
 msgstr "faller från himlen och smälter"
 
-#: src/campaign.h:30
+#: src/campaign.h:31
 msgid "the penguins' igloos. To save their homes,"
 msgstr "pingvinernas igloos. Vi behöver dig"
 
-#: src/campaign.h:31
+#: src/campaign.h:32
 msgid "we need you to find the secret code that"
 msgstr "för att hitta hemliga koden som kan"
 
-#: src/campaign.h:32
+#: src/campaign.h:33
 msgid " will zap each comet."
 msgstr "förstöra varje komet för att rädda dem."
 
-#: src/campaign.h:34
+#: src/campaign.h:35
 msgid "Do your best!"
 msgstr "Gör ditt yttersta!"
 
-#: src/campaign.h:40
+#: src/campaign.h:41
 msgid "Mission Two: Smart Scout"
 msgstr "Uppdrag 2: Smart scout"
 
-#: src/campaign.h:42
+#: src/campaign.h:43
 msgid "Great job! Since you saved the penguins' homes,"
 msgstr "Bra jobbat! Eftersom du räddat pingvinernas hem"
 
-#: src/campaign.h:43
+#: src/campaign.h:44
 msgid "we are promoting you to Scout. Scouts are good"
 msgstr "så befordrar vi dig till Scout. Scoter är bra"
 
-#: src/campaign.h:44
+#: src/campaign.h:45
 msgid "for keeping an eye out for trouble..."
 msgstr "på att se upp för problem..."
 
-#: src/campaign.h:46
+#: src/campaign.h:47
 msgid "...like what's happening right now!"
 msgstr "... precis det som händer just nu!"
 
-#: src/campaign.h:47
+#: src/campaign.h:48
 msgid "The TakeAways have come, and they're sending"
 msgstr "Bortförarna har kommit och de skickar nya"
 
-#: src/campaign.h:48
+#: src/campaign.h:49
 msgid "new, trickier comets against the penguins!"
 msgstr "svårare kometer mot pingvinerna!"
 
-#: src/campaign.h:49
+#: src/campaign.h:50
 msgid "But you can save them!"
 msgstr "Du kan rädda dem!"
 
-#: src/campaign.h:55
+#: src/campaign.h:56
 msgid "Mission Three: Royal Ranger"
 msgstr "Uppdrag 3: Kunglig jägare"
 
-#: src/campaign.h:57
+#: src/campaign.h:58
 msgid "You've done it again! The Penguin Emperor has"
 msgstr "Du har lyckats igen! Pingvinernas kejsare har"
 
-#: src/campaign.h:58
+#: src/campaign.h:59
 msgid "chosen you to join his team of Rangers that"
 msgstr "valt dig till sin grupp av jägare som ska"
 
-#: src/campaign.h:59
+#: src/campaign.h:60
 msgid "help protect the city.  We're sending you"
 msgstr "hjälpa till att skydda staden. Vi skickar dit"
 
-#: src/campaign.h:60
+#: src/campaign.h:61
 msgid "there now..."
 msgstr "dig nu..."
 
-#: src/campaign.h:62
+#: src/campaign.h:63
 msgid "...oh no! Now the Emperor himself is under attack,"
 msgstr "... Åh nej! Nu är själva kejsaren under attack"
 
-#: src/campaign.h:63
+#: src/campaign.h:64
 msgid "from new types of comets: these problems are"
 msgstr "från nya typer av kometer. Problemen bara"
 
-#: src/campaign.h:64
+#: src/campaign.h:65
 msgid "multiplying! To fight these, you need great"
 msgstr "förökar sig! Du behöver erfarenhet för"
 
-#: src/campaign.h:65
+#: src/campaign.h:66
 msgid "skill. We think you can do it. Join the"
 msgstr "att bekämpa dessa. Vi tror att du kan göra"
 
-#: src/campaign.h:66
+#: src/campaign.h:67
 msgid "Rangers and help save the city!"
 msgstr "det. Gå med jägarna och rädda staden!"
 
-#: src/campaign.h:72
+#: src/campaign.h:73
 msgid "Mission Four: Imperial Ace"
 msgstr "Uppdrag 4: Empirisk mästare"
 
-#: src/campaign.h:74
+#: src/campaign.h:75
 msgid "You did it! The Emperor wants to thank you"
 msgstr "Du klarade det! Kejsaren vill tacka dig"
 
-#: src/campaign.h:75
+#: src/campaign.h:76
 msgid "in person. We are taking you to his ice palace"
 msgstr "personligen. Vi tar dig till hans ispalats"
 
-#: src/campaign.h:76
+#: src/campaign.h:77
 msgid "for a great honor: you will become"
 msgstr "för att ge dig ära. Du kommer att"
 
-#: src/campaign.h:77
+#: src/campaign.h:78
 msgid "the Imperial Ace!"
 msgstr "bli en Empirisk mästare!"
 
-#: src/campaign.h:79
+#: src/campaign.h:80
 msgid "But right in the middle of the ceremony,"
 msgstr "Men just i mitten av ceremonin så inleds"
 
-#: src/campaign.h:80
+#: src/campaign.h:81
 msgid "a new attack from the land of Division starts!"
 msgstr "en ny attack från Divisionslandet!"
 
-#: src/campaign.h:81
+#: src/campaign.h:82
 msgid "Now is no time for resting; the city"
 msgstr "Det finns ingen tid att förlora. Staden"
 
-#: src/campaign.h:82
+#: src/campaign.h:83
 msgid "needs your help!"
 msgstr "behöver din hjälp!"
 
-#: src/campaign.h:88
+#: src/campaign.h:89
 msgid "Final Mission: Computing Commando"
 msgstr "Sista uppdraget: Beräknande kommandosoldat"
 
-#: src/campaign.h:90
+#: src/campaign.h:91
 msgid "Penguin scientists have learned that all"
 msgstr "Pingvinvetenskapsmännen har upptäckt att"
 
-#: src/campaign.h:91
+#: src/campaign.h:92
 msgid "these attacks are coming from a secret"
 msgstr "alla dessa attacker kommer från en hemlig"
 
-#: src/campaign.h:92
+#: src/campaign.h:93
 msgid "base, and they need you to go fight"
 msgstr "bas och de behöver dig för att utkämpa"
 
-#: src/campaign.h:93
+#: src/campaign.h:94
 msgid "the final battle. They also give you"
 msgstr "den sista striden. De har även gett dig"
 
-#: src/campaign.h:94
+#: src/campaign.h:95
 msgid "this clue: first do multiplication and"
 msgstr "denna ledtråd: multiplicera och dividera"
 
-#: src/campaign.h:95
+#: src/campaign.h:96
 msgid "division, and then do addition and subtraction."
 msgstr "först, gör sedan addition och subtraktion."
 
-#: src/campaign.h:96
+#: src/campaign.h:97
 msgid "I hope that hint helps!"
 msgstr "Jag hoppas att tipset hjälper!"
 
-#: src/campaign.h:98
+#: src/campaign.h:99
 msgid "This is it! You can stop these attacks"
 msgstr "Nu gäller det! Du kan stoppa dessa"
 
-#: src/campaign.h:99
+#: src/campaign.h:100
 msgid "forever, Commando!"
 msgstr "attacker för alltid, Kommandosoldat!"
 
@@ -216,299 +216,299 @@ msgstr "Tyvärr, försök igen!"
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr "Uppdraget slutfört! Galaxen är säker!"
 
-#: src/factoroids.c:552
+#: src/factoroids.c:554
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "NÄMNARE: för att vinna behöver du förstöra alla asteroider."
 
-#: src/factoroids.c:553 src/factoroids.c:564
+#: src/factoroids.c:555 src/factoroids.c:566
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Använd piltangenterna för att svänga eller gå framåt. Sikta på en asteroid,"
 
-#: src/factoroids.c:554
+#: src/factoroids.c:556
 msgid "type one of its factors, and press space or return"
 msgstr "skriv in en av dess nämnare och tryck på Blanksteg eller Return"
 
-#: src/factoroids.c:555
+#: src/factoroids.c:557
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "för att dela den i sina nämnare. Stenar med primtal förstörs!"
 
-#: src/factoroids.c:563
+#: src/factoroids.c:565
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "BRÅK: för att vinna behöver du förstöra alla asteroider"
 
-#: src/factoroids.c:565
+#: src/factoroids.c:567
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "skriv in ett tal som kan förenkla bråket och tryck på Blanksteg eller Return"
 
-#: src/factoroids.c:566
+#: src/factoroids.c:568
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 "för att dela det. Förstör bråken som inte kan förenklas mer i ett enda skott!"
 
-#: src/game.c:716
+#: src/game.c:717
 msgid "Welcome to TuxMath!"
 msgstr "Välkommen till TuxMath!"
 
-#: src/game.c:733
+#: src/game.c:734
 msgid "Your mission is to save your"
 msgstr "Ditt uppdrag är att rädda dina"
 
-#: src/game.c:734
+#: src/game.c:735
 msgid "penguins' igloos from the"
 msgstr "pingviners igloos från"
 
-#: src/game.c:735
+#: src/game.c:736
 msgid "falling comets."
 msgstr "fallande kometer."
 
-#: src/game.c:754
+#: src/game.c:755
 msgid "Stop a comet by typing"
 msgstr "Stoppa en komet genom att"
 
-#: src/game.c:755
+#: src/game.c:756
 msgid "the answer to the math problem"
 msgstr "skriva in svaret på matteproblemet,"
 
-#: src/game.c:756
+#: src/game.c:757
 msgid "and hitting 'space' or 'enter'."
 msgstr "trycka på \"blanksteg\" eller \"Enter\"."
 
-#: src/game.c:757
+#: src/game.c:758
 msgid "Try it now!"
 msgstr "Prova det nu!"
 
-#: src/game.c:765
+#: src/game.c:766
 msgid "Good shot!"
 msgstr "Bra skjutet!"
 
-#: src/game.c:775
+#: src/game.c:776
 msgid "If an igloo gets hit by a comet,"
 msgstr "Om en igloo träffas av en komet,"
 
-#: src/game.c:776
+#: src/game.c:777
 msgid "it melts. But don't worry: the"
 msgstr "så smälter den. Men var lugn,"
 
-#: src/game.c:777
+#: src/game.c:778
 msgid "penguin is OK!"
 msgstr "pingvinen är OK!"
 
-#: src/game.c:778
+#: src/game.c:779
 msgid "Just watch what happens:"
 msgstr "Se vad som händer:"
 
-#: src/game.c:779
+#: src/game.c:780
 msgid "(Press a key to start)"
 msgstr "(Tryck på en tangent)"
 
-#: src/game.c:792
+#: src/game.c:793
 msgid "Notice the answer"
 msgstr "Observera svaret"
 
-#: src/game.c:802
+#: src/game.c:803
 msgid "If it gets hit again, the"
 msgstr "Om den blir träffad igen,"
 
-#: src/game.c:803
+#: src/game.c:804
 msgid "penguin leaves."
 msgstr "kommer pingvinen att gå."
 
-#: src/game.c:804
+#: src/game.c:805
 msgid "(Press a key when ready)"
 msgstr "(Tryck på en tangent)"
 
-#: src/game.c:823
+#: src/game.c:824
 msgid "You can fix the igloos"
 msgstr "Du kan bygga nya igloos"
 
-#: src/game.c:824
+#: src/game.c:825
 msgid "by stopping bonus comets."
 msgstr "genom att stoppa bonuskometer."
 
-#: src/game.c:833
+#: src/game.c:834
 msgid "Zap it now!"
 msgstr "Skjut den nu!"
 
-#: src/game.c:837
+#: src/game.c:838
 msgid "Great job!"
 msgstr "Bra jobbat!"
 
-#: src/game.c:851
+#: src/game.c:852
 msgid "Quit at any time by pressing"
 msgstr "Avsluta när du vill genom att"
 
-#: src/game.c:852
+#: src/game.c:853
 msgid "'Esc' or clicking the 'X'"
 msgstr "trycka \"Esc\" eller klicka på \"X\""
 
-#: src/game.c:853
+#: src/game.c:854
 msgid "in the upper right corner."
 msgstr "i övre högra hörnet."
 
-#: src/game.c:854
+#: src/game.c:855
 msgid "Do it now, and then play!"
 msgstr "Gör det nu och spela sedan!"
 
-#: src/highscore.c:213 src/titlescreen.c:872
+#: src/highscore.c:213 src/titlescreen.c:874
 msgid "Hall Of Fame"
 msgstr "Poänglistan"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:808
-#: src/titlescreen.c:867
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:810
+#: src/titlescreen.c:869
 msgid "Space Cadet"
 msgstr "Rymdkadett"
 
-#: src/highscore.c:238 src/titlescreen.c:809 src/titlescreen.c:868
+#: src/highscore.c:238 src/titlescreen.c:811 src/titlescreen.c:870
 msgid "Scout"
 msgstr "Scout"
 
-#: src/highscore.c:241 src/titlescreen.c:810 src/titlescreen.c:869
+#: src/highscore.c:241 src/titlescreen.c:812 src/titlescreen.c:871
 msgid "Ranger"
 msgstr "Jägare"
 
-#: src/highscore.c:244 src/titlescreen.c:811 src/titlescreen.c:870
+#: src/highscore.c:244 src/titlescreen.c:813 src/titlescreen.c:872
 msgid "Ace"
 msgstr "Mästare"
 
-#: src/highscore.c:247 src/titlescreen.c:812 src/titlescreen.c:871
+#: src/highscore.c:247 src/titlescreen.c:814 src/titlescreen.c:873
 msgid "Commando"
 msgstr "Kommandosoldat"
 
-#: src/highscore.c:250 src/titlescreen.c:991
+#: src/highscore.c:250 src/titlescreen.c:993
 msgid "Factors"
 msgstr "Nämnare"
 
-#: src/highscore.c:253 src/titlescreen.c:992
+#: src/highscore.c:253 src/titlescreen.c:994
 msgid "Fractions"
 msgstr "Bråk"
 
-#: src/titlescreen.c:494
+#: src/titlescreen.c:496
 msgid "Work In Progress!"
 msgstr "Arbete pågår!"
 
-#: src/titlescreen.c:495
+#: src/titlescreen.c:497
 msgid "This feature is not ready yet"
 msgstr "Denna funktion är inte färdig ännu"
 
-#: src/titlescreen.c:496
+#: src/titlescreen.c:498
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskutera framtiden för TuxMath på"
 
-#: src/titlescreen.c:497
+#: src/titlescreen.c:499
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:670
+#: src/titlescreen.c:672
 msgid "Play Alone"
 msgstr "Spela ensam"
 
-#: src/titlescreen.c:671
+#: src/titlescreen.c:673
 msgid "Play With Friends"
 msgstr "Spela med vänner"
 
-#: src/titlescreen.c:672
+#: src/titlescreen.c:674
 #, fuzzy
 msgid "Factoroids!"
 msgstr "Nämnare"
 
-#: src/titlescreen.c:673
+#: src/titlescreen.c:675
 msgid "Help"
 msgstr "Hjälp"
 
-#: src/titlescreen.c:674
+#: src/titlescreen.c:676
 msgid "More Options"
 msgstr "Fler alternativ"
 
-#: src/titlescreen.c:675
+#: src/titlescreen.c:677
 msgid "Quit"
 msgstr "Avsluta"
 
-#: src/titlescreen.c:749
+#: src/titlescreen.c:751
 msgid "Math Command Training Academy"
 msgstr "Akademin för matematikträning"
 
-#: src/titlescreen.c:750
+#: src/titlescreen.c:752
 msgid "Math Command Fleet Missions"
 msgstr "Uppdrag för matematikflottan"
 
-#: src/titlescreen.c:751
+#: src/titlescreen.c:753
 msgid "Play Arcade Game"
 msgstr "Spela arkadspel"
 
-#: src/titlescreen.c:752
+#: src/titlescreen.c:754
 msgid "Play Custom Game"
 msgstr "Spela anpassat spel"
 
-#: src/titlescreen.c:753 src/titlescreen.c:804 src/titlescreen.c:813
-#: src/titlescreen.c:873 src/titlescreen.c:993
+#: src/titlescreen.c:755 src/titlescreen.c:806 src/titlescreen.c:815
+#: src/titlescreen.c:875 src/titlescreen.c:995
 msgid "Main menu"
 msgstr "Huvudmeny"
 
-#: src/titlescreen.c:802
+#: src/titlescreen.c:804
 msgid "Score Sweep"
 msgstr ""
 
-#: src/titlescreen.c:803
+#: src/titlescreen.c:805
 msgid "Elimination"
 msgstr ""
 
-#: src/titlescreen.c:847
+#: src/titlescreen.c:849
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/titlescreen.c:848
+#: src/titlescreen.c:850
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/titlescreen.c:967
+#: src/titlescreen.c:969
 msgid "Edit 'options' file in your home directory"
 msgstr "Redigera filen \"options\" i din hemkatalog"
 
-#: src/titlescreen.c:968
+#: src/titlescreen.c:970
 msgid "to create customized game!"
 msgstr "för att skapa anpassade spel!"
 
-#: src/titlescreen.c:969
+#: src/titlescreen.c:971
 msgid "Press a key or click your mouse to start game."
 msgstr "Tryck på en tangent eller klicka med musen för att starta spelet."
 
-#: src/titlescreen.c:970
+#: src/titlescreen.c:972
 msgid "See README.txt for more information"
 msgstr "Se README.txt för mer information"
 
-#: src/titlescreen.c:1085
+#: src/titlescreen.c:1087
 msgid "Demo"
 msgstr "Demonstration"
 
-#: src/titlescreen.c:1086
+#: src/titlescreen.c:1088
 msgid "Project Info"
 msgstr "Projektinformation"
 
-#: src/titlescreen.c:1087
+#: src/titlescreen.c:1089
 msgid "Credits"
 msgstr "Tack till"
 
-#: src/titlescreen.c:1088
+#: src/titlescreen.c:1090
 msgid "Main Menu"
 msgstr "Huvudmeny"
 
-#: src/titlescreen.c:1135
+#: src/titlescreen.c:1138
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath är gratis och öppen källkod!"
 
-#: src/titlescreen.c:1136
+#: src/titlescreen.c:1139
 msgid "You can help make it better by reporting problems,"
 msgstr "Du kan hjälpa oss att göra det bättre genom att rapportera problem,"
 
-#: src/titlescreen.c:1137
+#: src/titlescreen.c:1140
 msgid "suggesting improvements, or adding code."
 msgstr "föreslå förbättringar eller bidra med programkod."
 
-#: src/titlescreen.c:1138
+#: src/titlescreen.c:1141
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Diskutera framtiden på tuxmath-devel@lists.sourceforge.net"
 

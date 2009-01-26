@@ -170,7 +170,7 @@ void showWinners(int* winners, int num)
   SDL_Rect center = box;
   SDL_Event evt;
 
-  const char* winnername = (winners[0] == -1 ? "Nobody" : pnames[winners[0]] );
+//  const char* winnername = (winners[0] == -1 ? "Nobody" : pnames[winners[0]] );
   
   tmdprintf(pnames[winners[0]] );
   tmdprintf("%d\n", snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),

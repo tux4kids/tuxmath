@@ -36,6 +36,7 @@
 #include "fileops.h"
 #include "setup.h"
 #include "mathcards.h"
+#include "loaders.h"
 #include "titlescreen.h"
 #include "options.h"
 
@@ -144,14 +145,13 @@ static int shoot_pressed;
 
 // GameControl
 static int game_status;
-static int gameover_counter;
+//static int gameover_counter;
 static int escape_received;
 
-//SDL Variables
+//SDL_Surfaces:
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
-//static SDL_Rect bgSrc;
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
 static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
@@ -393,7 +393,6 @@ static int FF_init(void)
 {
   int i;
   float zoom;
-  SDL_Surface* tmp;
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
   
@@ -437,17 +436,20 @@ static int FF_init(void)
     }
   }
 
+
   /********   Set up properly scaled and optimized background surfaces: *********/
   /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
   /* can take advantage of it - DSB                                             */
 
   LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
+
   if (bkgd == NULL || scaled_bkgd == NULL)
   {
     fprintf(stderr,
        "\nError: could not scale background\n");
     return 0;
   }
+
 
   // Allocate memory 
   asteroid = NULL;  // set in case allocation fails partway through
@@ -1111,14 +1113,16 @@ static int modwrap(int x,int w)
 
 static void FF_add_level(void)
 {
-  int i=0;
-  int x,y,xvel,yvel,dx,dy;
+  int i = 0;
+  int x, y, xvel, yvel, dx, dy;
   int ok;
   int width;
-  int safety_radius2,speed2;
+  int safety_radius2, speed2;
   int max_speed;
   Uint32 now_time, last_time;
   SDL_Rect rect;
+
+  last_time = now_time = SDL_GetTicks();
 
   wave++;
   
@@ -1171,7 +1175,7 @@ static void FF_add_level(void)
 	ok = 1;
     }
    //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
-   if(FF_game==FACTOROIDS_GAME){
+   if(FF_game == FACTOROIDS_GAME){
      FF_add_asteroid(x,y,
 		    xvel,yvel,
 		    rand()%2,
@@ -1190,18 +1194,24 @@ static void FF_add_level(void)
 		     1);
    }
   }
-  if(wave!=1){
-    while(i<35){
+
+  if(wave != 1)
+  {
+    while(i < 35)
+    {
       i++;
       rect.x=(screen->w/2)-(images[IMG_GOOD]->w/2);
       rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
       FF_draw();
       SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
       SDL_Flip(screen);
+
+      last_time = now_time;
       now_time = SDL_GetTicks();
+
       if (now_time < last_time + MS_PER_FRAME)
       {
-        now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
+        now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
         if (now_time > MS_PER_FRAME)
  	  now_time = MS_PER_FRAME;
         SDL_Delay(now_time);

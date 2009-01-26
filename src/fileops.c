@@ -38,8 +38,7 @@
 #include "options.h"
 #include "highscore.h"
 #include "lessons.h"
-//#include "titlescreen.h"
-
+#include "scandir.h"
 
 /* OS includes - NOTE: these may not be very portable */
 #include <dirent.h>  /* for opendir() */
@@ -1062,7 +1061,6 @@ int read_config_file(FILE *fp, int file_type)
 {
   char buf[PATH_MAX];
   char *parameter, *param_begin, *param_end, *value, *value_end;
-  DIR *dir;
 
   #ifdef TUXMATH_DEBUG
   printf("\nEntering read_config_file()\n");

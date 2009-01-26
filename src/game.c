@@ -34,6 +34,7 @@
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
+#include "loaders.h"
 #include "mathcards.h"
 #include "multiplayer.h"
 #include "titlescreen.h"

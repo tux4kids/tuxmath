@@ -44,6 +44,7 @@
 #include "mathcards.h"
 #include "setup.h"
 #include "fileops.h"
+#include "loaders.h"
 #include "game.h"
 #include "titlescreen.h"
 #include "highscore.h"

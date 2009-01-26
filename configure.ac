@@ -94,12 +94,6 @@ AC_CHECK_LIB([SDL_ttf],
              [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
 
 
-##dnl Check for SDL_gfx:
-##AC_CHECK_LIB([SDL_gfx],
-##	[rotozoomSurface],
-##	LIBS="$LIBS -lSDL_gfx",
-##	[AC_MSG_ERROR([SDL_gfx not found! http://www.ferzkopp.net/joomla/content/view/19/14/])]
-##)
 
 dnl Check for SDL_Pango (should work out correct way to allow disabling arg)
 AC_CHECK_LIB([SDL_Pango], 
@@ -162,10 +156,6 @@ AC_FUNC_STRTOD
 AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul])
 
-
-# Set PACKAGE_DATA_DIR
-PACKAGE_DATA_DIR="data"
-AC_SUBST(PACKAGE_DATA_DIR)
 
 
 #AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
