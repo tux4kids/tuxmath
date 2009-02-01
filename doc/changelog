@@ -1,3 +1,9 @@
+2009.Feb.01 (svn.debian.org/tux4kids - revision 860)
+	Build - small changes to get the CMake build working with intl.
+	This allows the OS X build to work.
+
+	Tim Holy <holy@wustl.edu>
+	
 2009.Jan.23 (svn.debian.org/tux4kids - revision 851)
 Version 1.7.1
         Build - tuxmath.desktop and tuxmath.spec files incorporated into tarball.

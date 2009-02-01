@@ -3,6 +3,7 @@
 #cmakedefine HAVE_UNISTD_H 1
 #cmakedefine HAVE_INTTYPES_H_WITH_UINTMAX 1
 #cmakedefine HAVE_STDINT_H_WITH_UINTMAX 1
+#cmakedefine HAVE_TSEARCH 1
 
 /* Required functions */
 #cmakedefine HAVE_STPCPY 1
