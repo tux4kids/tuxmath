@@ -1598,7 +1598,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
         r1 *= r2;
         ans = ret.difficulty;
       }
-    } while (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES) );
+    } while ( (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES)) || ans > MC_GetOpt(MAX_ANSWER) );
 
 
     mcdprintf("Constructing answer_string\n");
