@@ -1,0 +1,6 @@
+#! /bin/bash
+# Usage: cpfiles <libgettextpo-directory-name>
+cp -ir $1/unistr* ./
+cp -ir $1/uniwidth* ./
+cp -i $1/lbrkprop.h $1/linebreak.{c,h} $1/unitypes.h $1/xsize.h $1/localcharset.h ./
+cp -i $1/c-ctype.h $1/streq.h ./

@@ -13,6 +13,10 @@
 #include "mathcards.h"
 #include "options.h"
 
+#ifdef LINEBREAK
+#include "linewrap.h"
+#endif
+
 void briefPlayer(int stage); //show text introducing the given stage
 void readStageSettings(int stage);
 void readRoundSettings(int stage, int round);
@@ -26,7 +30,7 @@ int start_campaign()
   int i, j;
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
-  char* endtext[2] = {N_("Congratulations! You win!"), NULL};
+  char* endtext[2] = {N_("Congratulations! You win!"), ""};
   printf("Entering start_campaign()\n");
   
   
@@ -127,7 +131,12 @@ void briefPlayer(int stage)
   //show this stage's text
   tmdprintf("Briefing\n");
   SDL_BlitSurface(icon, NULL, screen, NULL);
+#ifdef LINEBREAK
+  linewrap_list(briefings[stage], wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  scroll_text(wrapped_lines, textarea, 1);
+#else
   scroll_text(briefings[stage], textarea, 1);
+#endif
   tmdprintf("Finished briefing\n");
   
   SDL_FreeSurface(loadedsprite);
@@ -153,12 +162,22 @@ void readRoundSettings(int stage, int round)
 
 void showGameOver()
 {
-	char* text[2] = {N_("Sorry, try again!"), NULL};
-	scroll_text(text, screen->clip_rect, 3);
+  char* text[2] = {N_("Sorry, try again!"), ""};
+#ifdef LINEBREAK
+  linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  scroll_text(wrapped_lines, screen->clip_rect, 3);
+#else
+  scroll_text(text, screen->clip_rect, 3);
+#endif
 }
 
 void showGameWon()
 {
-	char* text[2] = {N_("Mission accomplished. The galaxy is safe!"), NULL};
-	scroll_text(text, screen->clip_rect, 3);
+  char* text[2] = {N_("Mission accomplished. The galaxy is safe!"), ""};
+#ifdef LINEBREAK
+  linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  scroll_text(wrapped_lines, screen->clip_rect, 3);
+#else
+  scroll_text(text, screen->clip_rect, 3);
+#endif
 }

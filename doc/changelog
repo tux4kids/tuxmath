@@ -1,3 +1,11 @@
+2009.Feb.04 (svn.debian.org/tux4kids - revision 869)
+	Added algorithmic linewrapping to the code.  This should make life
+	easier for the translators.
+	This works with the CMake build. Needs to have the autotools build
+	incorporated.
+
+	Tim Holy <holy@wustl.edu>
+	
 2009.Feb.01 (svn.debian.org/tux4kids - revision 860)
 	Build - small changes to get the CMake build working with intl.
 	This allows the OS X build to work.
@@ -36,6 +44,11 @@ Version 1.7.1
 
         David Bruce <davidstuartbruce@gmail.com>
 
+2008.Dec.11 (svn.debian.org/tux4kids - revision 797)
+	Add a "unit test" function, generate_lesson.c. See the file itself
+	for compiling instructions.
+
+	Tim Holy <holy@wustl.edu>
 2008.Dec.11 (svn.debian.org/tux4kids - revision 796)
 	Initial file reorganization to separate SDL-related code from more
 	infrastructural code. This is intended to allow us to create and

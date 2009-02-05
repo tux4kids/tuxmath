@@ -37,6 +37,7 @@ set(SOURCES_TUXMATH
   multiplayer.c
   campaign.c
   tuxmath.c
+  linewrap.c
   ${TUXMATH_EXTRA_SRC}
   )
 
@@ -73,6 +74,9 @@ if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
 endif(TUXMATH_BUILD_INTL)
 
+if (TUXMATH_BUILD_LINEBREAK)
+  link_directories(${LINEBREAK_BINARY_DIR})
+endif (TUXMATH_BUILD_LINEBREAK)
 
 ## Define the executables
 add_executable (
@@ -123,6 +127,10 @@ if (TUXMATH_BUILD_INTL)
   message("Linking iconv: ${ICONV_LIBRARIES}")
   target_link_libraries(tuxmath ${ICONV_LIBRARIES} libintl.a)
 endif(TUXMATH_BUILD_INTL)
+
+if (TUXMATH_BUILD_LINEBREAK)
+  target_link_libraries(tuxmath ${ICONV_LIBRARIES} liblinebreak.a)
+endif(TUXMATH_BUILD_LINEBREAK)
 
 set_target_properties (
   tuxmathadmin

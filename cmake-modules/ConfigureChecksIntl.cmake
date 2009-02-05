@@ -28,11 +28,6 @@ if (NOT INTL_CHECKS_DONE)
   # Other checks (in some cases only for check_symbol_exists commands)
   check_include_files(inttypes.h HAVE_INTTYPES_H)
   check_include_files(unistd.h HAVE_UNISTD_H)
-  #check_include_files(fcntl.h HAVE_FCNTL_H)
-  #check_include_files(string.h HAVE_STRING_H)
-  #check_include_files(wchar.h HAVE_WCHAR_H)
-  #check_include_files(alloca.h HAVE_ALLOCA_H)
-  #check_include_files(stdio.h HAVE_STDIO_H)
 
   # The next 4 checks are required for the conversion of libgnuintl.h.in
   # to libintl.h and libgnuintl.h

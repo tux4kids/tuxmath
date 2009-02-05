@@ -33,6 +33,11 @@
 #define TUXLOCALE LOCALEDIR
 #endif
 
+#ifdef LINEBREAK
+//#include "../linebreak/linebreak.h"
+#include "linewrap.h"
+#endif
+
 int main(int argc, char * argv[])
 {
   const char *s1, *s2, *s3, *s4;
@@ -53,6 +58,23 @@ int main(int argc, char * argv[])
   fprintf(stderr, "After gettext() call\n");
 #endif
 
+  /*
+  const char* brief[5] = {
+    N_("I'm so glad you've come!"),
+    " ",
+    N_("The penguins need your help! Comets are falling from the sky, and are melting the penguins' igloos. To save their homes, we need you to find the secret code that will zap each comet."),
+    ""
+  };
+  linewrap_initialize();
+  linewrap_list(brief, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+
+  int i;
+  i = 0;
+  while (strlen(wrapped_lines[i]) > 0)
+    printf("%s\n",wrapped_lines[i++]);
+  linewrap_cleanup();
+  return 0;
+  */
 
   setup(argc, argv);
   TitleScreen();  /* Run the game! */

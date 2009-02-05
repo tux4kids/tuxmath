@@ -5,4 +5,5 @@ src/factoroids.c
 src/game.c
 src/highscore.c
 src/titlescreen.c
+src/campaign.h
 data/missions/lessons/descr_lessons
