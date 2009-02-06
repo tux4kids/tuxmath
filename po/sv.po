@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-01-24 20:34-0600\n"
+"POT-Creation-Date: 2009-02-06 11:04-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -29,190 +29,109 @@ msgid "I'm so glad you've come!"
 msgstr "Jag är så glad att du kom!"
 
 #: src/campaign.h:29
-msgid "The penguins need your help! Comets"
-msgstr "Pingvinerna behöver din hjälp! Kometer"
-
-#: src/campaign.h:30
-msgid "are falling from the sky, and are melting"
-msgstr "faller från himlen och smälter"
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
 
 #: src/campaign.h:31
-msgid "the penguins' igloos. To save their homes,"
-msgstr "pingvinernas igloos. Vi behöver dig"
-
-#: src/campaign.h:32
-msgid "we need you to find the secret code that"
-msgstr "för att hitta hemliga koden som kan"
-
-#: src/campaign.h:33
-msgid " will zap each comet."
-msgstr "förstöra varje komet för att rädda dem."
-
-#: src/campaign.h:35
 msgid "Do your best!"
 msgstr "Gör ditt yttersta!"
 
-#: src/campaign.h:41
+#: src/campaign.h:37
 msgid "Mission Two: Smart Scout"
 msgstr "Uppdrag 2: Smart scout"
 
-#: src/campaign.h:43
-msgid "Great job! Since you saved the penguins' homes,"
-msgstr "Bra jobbat! Eftersom du räddat pingvinernas hem"
+#: src/campaign.h:39
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
 
-#: src/campaign.h:44
-msgid "we are promoting you to Scout. Scouts are good"
-msgstr "så befordrar vi dig till Scout. Scoter är bra"
+#: src/campaign.h:41
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
 
-#: src/campaign.h:45
-msgid "for keeping an eye out for trouble..."
-msgstr "på att se upp för problem..."
-
-#: src/campaign.h:47
-msgid "...like what's happening right now!"
-msgstr "... precis det som händer just nu!"
-
-#: src/campaign.h:48
-msgid "The TakeAways have come, and they're sending"
-msgstr "Bortförarna har kommit och de skickar nya"
-
-#: src/campaign.h:49
-msgid "new, trickier comets against the penguins!"
-msgstr "svårare kometer mot pingvinerna!"
-
-#: src/campaign.h:50
+#: src/campaign.h:42
 msgid "But you can save them!"
 msgstr "Du kan rädda dem!"
 
-#: src/campaign.h:56
+#: src/campaign.h:48
 msgid "Mission Three: Royal Ranger"
 msgstr "Uppdrag 3: Kunglig jägare"
 
+#: src/campaign.h:50
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+
+#: src/campaign.h:52
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+
 #: src/campaign.h:58
-msgid "You've done it again! The Penguin Emperor has"
-msgstr "Du har lyckats igen! Pingvinernas kejsare har"
-
-#: src/campaign.h:59
-msgid "chosen you to join his team of Rangers that"
-msgstr "valt dig till sin grupp av jägare som ska"
-
-#: src/campaign.h:60
-msgid "help protect the city.  We're sending you"
-msgstr "hjälpa till att skydda staden. Vi skickar dit"
-
-#: src/campaign.h:61
-msgid "there now..."
-msgstr "dig nu..."
-
-#: src/campaign.h:63
-msgid "...oh no! Now the Emperor himself is under attack,"
-msgstr "... Åh nej! Nu är själva kejsaren under attack"
-
-#: src/campaign.h:64
-msgid "from new types of comets: these problems are"
-msgstr "från nya typer av kometer. Problemen bara"
-
-#: src/campaign.h:65
-msgid "multiplying! To fight these, you need great"
-msgstr "förökar sig! Du behöver erfarenhet för"
-
-#: src/campaign.h:66
-msgid "skill. We think you can do it. Join the"
-msgstr "att bekämpa dessa. Vi tror att du kan göra"
-
-#: src/campaign.h:67
-msgid "Rangers and help save the city!"
-msgstr "det. Gå med jägarna och rädda staden!"
-
-#: src/campaign.h:73
 msgid "Mission Four: Imperial Ace"
 msgstr "Uppdrag 4: Empirisk mästare"
 
-#: src/campaign.h:75
-msgid "You did it! The Emperor wants to thank you"
-msgstr "Du klarade det! Kejsaren vill tacka dig"
+#: src/campaign.h:60
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
 
-#: src/campaign.h:76
-msgid "in person. We are taking you to his ice palace"
-msgstr "personligen. Vi tar dig till hans ispalats"
-
-#: src/campaign.h:77
-msgid "for a great honor: you will become"
-msgstr "för att ge dig ära. Du kommer att"
-
-#: src/campaign.h:78
-msgid "the Imperial Ace!"
-msgstr "bli en Empirisk mästare!"
-
-#: src/campaign.h:80
-msgid "But right in the middle of the ceremony,"
-msgstr "Men just i mitten av ceremonin så inleds"
-
-#: src/campaign.h:81
-msgid "a new attack from the land of Division starts!"
+#: src/campaign.h:62
+#, fuzzy
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
 msgstr "en ny attack från Divisionslandet!"
 
-#: src/campaign.h:82
-msgid "Now is no time for resting; the city"
+#: src/campaign.h:63
+#, fuzzy
+msgid "Now is no time for resting; the city needs your help!"
 msgstr "Det finns ingen tid att förlora. Staden"
 
-#: src/campaign.h:83
-msgid "needs your help!"
-msgstr "behöver din hjälp!"
-
-#: src/campaign.h:89
+#: src/campaign.h:69
 msgid "Final Mission: Computing Commando"
 msgstr "Sista uppdraget: Beräknande kommandosoldat"
 
-#: src/campaign.h:91
-msgid "Penguin scientists have learned that all"
-msgstr "Pingvinvetenskapsmännen har upptäckt att"
+#: src/campaign.h:71
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
 
-#: src/campaign.h:92
-msgid "these attacks are coming from a secret"
-msgstr "alla dessa attacker kommer från en hemlig"
-
-#: src/campaign.h:93
-msgid "base, and they need you to go fight"
-msgstr "bas och de behöver dig för att utkämpa"
-
-#: src/campaign.h:94
-msgid "the final battle. They also give you"
-msgstr "den sista striden. De har även gett dig"
-
-#: src/campaign.h:95
-msgid "this clue: first do multiplication and"
-msgstr "denna ledtråd: multiplicera och dividera"
-
-#: src/campaign.h:96
-msgid "division, and then do addition and subtraction."
-msgstr "först, gör sedan addition och subtraktion."
-
-#: src/campaign.h:97
+#: src/campaign.h:72
 msgid "I hope that hint helps!"
 msgstr "Jag hoppas att tipset hjälper!"
 
-#: src/campaign.h:99
-msgid "This is it! You can stop these attacks"
+#: src/campaign.h:74
+#, fuzzy
+msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr "Nu gäller det! Du kan stoppa dessa"
 
-#: src/campaign.h:100
-msgid "forever, Commando!"
-msgstr "attacker för alltid, Kommandosoldat!"
-
-#: src/campaign.c:29
+#: src/campaign.c:31
 msgid "Congratulations! You win!"
 msgstr "Gratulerar! Du vann!"
 
-#: src/campaign.c:47
+#: src/campaign.c:49
 msgid "Round"
 msgstr "Omgång"
 
-#: src/campaign.c:156
+#: src/campaign.c:159
 msgid "Sorry, try again!"
 msgstr "Tyvärr, försök igen!"
 
-#: src/campaign.c:162
+#: src/campaign.c:166
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr "Uppdraget slutfört! Galaxen är säker!"
 
@@ -745,6 +664,105 @@ msgstr "Multiplikation med positiva och negativa tal"
 #: data/missions/lessons/descr_lessons:58
 msgid "Division of Positives and Negatives"
 msgstr "Division med positiva och negativa tal"
+
+#~ msgid "The penguins need your help! Comets"
+#~ msgstr "Pingvinerna behöver din hjälp! Kometer"
+
+#~ msgid "are falling from the sky, and are melting"
+#~ msgstr "faller från himlen och smälter"
+
+#~ msgid "the penguins' igloos. To save their homes,"
+#~ msgstr "pingvinernas igloos. Vi behöver dig"
+
+#~ msgid "we need you to find the secret code that"
+#~ msgstr "för att hitta hemliga koden som kan"
+
+#~ msgid " will zap each comet."
+#~ msgstr "förstöra varje komet för att rädda dem."
+
+#~ msgid "Great job! Since you saved the penguins' homes,"
+#~ msgstr "Bra jobbat! Eftersom du räddat pingvinernas hem"
+
+#~ msgid "we are promoting you to Scout. Scouts are good"
+#~ msgstr "så befordrar vi dig till Scout. Scoter är bra"
+
+#~ msgid "for keeping an eye out for trouble..."
+#~ msgstr "på att se upp för problem..."
+
+#~ msgid "...like what's happening right now!"
+#~ msgstr "... precis det som händer just nu!"
+
+#~ msgid "The TakeAways have come, and they're sending"
+#~ msgstr "Bortförarna har kommit och de skickar nya"
+
+#~ msgid "new, trickier comets against the penguins!"
+#~ msgstr "svårare kometer mot pingvinerna!"
+
+#~ msgid "You've done it again! The Penguin Emperor has"
+#~ msgstr "Du har lyckats igen! Pingvinernas kejsare har"
+
+#~ msgid "chosen you to join his team of Rangers that"
+#~ msgstr "valt dig till sin grupp av jägare som ska"
+
+#~ msgid "help protect the city.  We're sending you"
+#~ msgstr "hjälpa till att skydda staden. Vi skickar dit"
+
+#~ msgid "there now..."
+#~ msgstr "dig nu..."
+
+#~ msgid "...oh no! Now the Emperor himself is under attack,"
+#~ msgstr "... Åh nej! Nu är själva kejsaren under attack"
+
+#~ msgid "from new types of comets: these problems are"
+#~ msgstr "från nya typer av kometer. Problemen bara"
+
+#~ msgid "multiplying! To fight these, you need great"
+#~ msgstr "förökar sig! Du behöver erfarenhet för"
+
+#~ msgid "skill. We think you can do it. Join the"
+#~ msgstr "att bekämpa dessa. Vi tror att du kan göra"
+
+#~ msgid "Rangers and help save the city!"
+#~ msgstr "det. Gå med jägarna och rädda staden!"
+
+#~ msgid "You did it! The Emperor wants to thank you"
+#~ msgstr "Du klarade det! Kejsaren vill tacka dig"
+
+#~ msgid "in person. We are taking you to his ice palace"
+#~ msgstr "personligen. Vi tar dig till hans ispalats"
+
+#~ msgid "for a great honor: you will become"
+#~ msgstr "för att ge dig ära. Du kommer att"
+
+#~ msgid "the Imperial Ace!"
+#~ msgstr "bli en Empirisk mästare!"
+
+#~ msgid "But right in the middle of the ceremony,"
+#~ msgstr "Men just i mitten av ceremonin så inleds"
+
+#~ msgid "needs your help!"
+#~ msgstr "behöver din hjälp!"
+
+#~ msgid "Penguin scientists have learned that all"
+#~ msgstr "Pingvinvetenskapsmännen har upptäckt att"
+
+#~ msgid "these attacks are coming from a secret"
+#~ msgstr "alla dessa attacker kommer från en hemlig"
+
+#~ msgid "base, and they need you to go fight"
+#~ msgstr "bas och de behöver dig för att utkämpa"
+
+#~ msgid "the final battle. They also give you"
+#~ msgstr "den sista striden. De har även gett dig"
+
+#~ msgid "this clue: first do multiplication and"
+#~ msgstr "denna ledtråd: multiplicera och dividera"
+
+#~ msgid "division, and then do addition and subtraction."
+#~ msgstr "först, gör sedan addition och subtraktion."
+
+#~ msgid "forever, Commando!"
+#~ msgstr "attacker för alltid, Kommandosoldat!"
 
 #~ msgid "Other Math Command Activities"
 #~ msgstr "Andra matematikaktiviteter"

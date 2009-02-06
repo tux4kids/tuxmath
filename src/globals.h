@@ -30,6 +30,7 @@
 //#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
+#define LINEBREAK
 /* nice inline debugging macro */
 #ifdef TUXMATH_DEBUG
 #define tmdprintf(...) printf(__VA_ARGS__)

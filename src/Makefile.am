@@ -35,6 +35,7 @@ tuxmath_SOURCES = tuxmath.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
+	linewrap.c	\
 	loaders.c	\
 	audio.c 	\
 	mathcards.c	\
@@ -46,8 +47,22 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
-	pixels.c
+	pixels.c	\
+	linebreak.c	\
+	width.c	\
+	u16-mbtouc-aux.c	\
+	u16-mbtouc.c	\
+	u16-mbtouc-unsafe-aux.c	\
+	u16-mbtouc-unsafe.c	\
+	u8-mbtouc-aux.c	\
+	u8-mbtouc.c	\
+	u8-mbtouc-unsafe-aux.c	\
+	u8-mbtouc-unsafe.c	\
+.	u8-uctomb-aux.c	\
+	u8-uctomb.c
 
+
+# HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
@@ -59,27 +74,37 @@ generate_lesson_SOURCES = generate_lesson.c	\
 		lessons.c
 
 EXTRA_DIST = 	credits.h 	\
-		factoroids.h	\
-		fileops.h 	\
-		game.h		\
-		globals.h	\
-		highscore.h 	\
-		loaders.h	\
-		mathcards.h 	\
-		options.h	\
-		setup.h		\
-		titlescreen.h	\
-		campaign.h	\
-		multiplayer.h	\
-		tuxmath.h	\
-		ConvertUTF.h	\
-		SDL_extras.h	\
-		SDL_rotozoom.h	\
-		lessons.h	\
-		gettext.h	\
-		scandir.h	\
-		pixels.h	\
-		compiler.h
+	factoroids.h	\
+	fileops.h 	\
+	game.h		\
+	globals.h	\
+	highscore.h 	\
+	linewrap.h	\
+	loaders.h	\
+	mathcards.h 	\
+	options.h	\
+	setup.h		\
+	titlescreen.h	\
+	campaign.h	\
+	multiplayer.h	\
+	tuxmath.h	\
+	ConvertUTF.h	\
+	SDL_extras.h	\
+	SDL_rotozoom.h	\
+	lessons.h	\
+	gettext.h	\
+	scandir.h	\
+	pixels.h	\
+	compiler.h	 \
+	lbrkprop.h	\
+	localcharset.h	\
+	streq.h	\
+	unistr.h	\
+	xsize.h	\
+	linebreak.h	\
+	unitypes.h	\
+	uniwidth.h
+
 
 
 WINDRES=@WINDRES@
@@ -87,8 +112,6 @@ WINDRES=@WINDRES@
 # How to make an RC file
 tuxmathrc.o: tuxmathrc.rc
 	$(WINDRES) -i $< -o $@
-
-noinst_HEADERS = highscore.h
 
 
 

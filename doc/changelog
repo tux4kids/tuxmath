@@ -1,3 +1,10 @@
+2009.Feb.06 (svn.debian.org/tux4kids - revision 871)
+	Moved linewrapping source files into main src directory and
+	adjusted autotools files accordingly. Note - plan to combine most of
+	the libgettextpo-derived files into one larger file to reduce clutter.
+
+	David Bruce <davidstuartbruce@gmail.com>
+	
 2009.Feb.04 (svn.debian.org/tux4kids - revision 869)
 	Added algorithmic linewrapping to the code.  This should make life
 	easier for the translators.

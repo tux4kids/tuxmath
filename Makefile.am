@@ -1,10 +1,10 @@
 ## Top-level Makefile.am for tuxmath:
 ## Process with Automake to create Makefile.in
-SUBDIRS = doc	\
+SUBDIRS = data	\
+	doc	\
 	intl	\
 	po	\
-	src	\
-	data
+	src
 
 ACLOCAL_AMFLAGS = -I m4
 

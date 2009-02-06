@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "xsize.h"
 #include "unistr.h"
 #include "uniwidth.h"
-#include "uniwidth/cjk.h"
+#include "cjk.h"
 #include "streq.h"
 
 

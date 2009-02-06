@@ -24,7 +24,7 @@
 //#include <locale.h>
 #include "gettext.h"
 
-#include "../linebreak/linebreak.h"
+#include "linebreak.h"
 #include "linewrap.h"
 
 static char *wrapped_lines0[MAX_LINES];  // for internal storage

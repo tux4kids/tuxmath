@@ -6,4 +6,5 @@ iconsdir = $(pkgdatadir)/images/icons
 dist_icons_DATA = tuxmath.ico \
   icon.png \
   icon.xpm \
-  tuxmath.icns
+  tuxmath.icns \
+  tuxmath.svg
