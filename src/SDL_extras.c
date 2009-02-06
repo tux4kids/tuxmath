@@ -476,7 +476,13 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
 SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col)
 {
   SDL_Surface* surf = NULL;
+  int using_pango = 0;
 
+#ifdef HAVE_LIBSDL_PANGO
+  using_pango = (context != NULL);
+#endif
+
+  if (using_pango) {
 #ifdef HAVE_LIBSDL_PANGO
   SDLPango_Matrix colormatrix = {
     col->r,  col->r,  0,  0,
@@ -484,19 +490,57 @@ SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col)
     col->b,  col->b,  0,  0,
     0,      255,      0,  0,
   };
-
-  if(context != NULL)
-  {
-    SDLPango_SetDefaultColor(context, &colormatrix );
-    SDLPango_SetText(context, t, -1);
-    surf = SDLPango_CreateSurfaceDraw(context);
+  SDLPango_SetDefaultColor(context, &colormatrix );
+  SDLPango_SetText(context, t, -1);
+  surf = SDLPango_CreateSurfaceDraw(context);
+#endif
   }
   else {
     surf = TTF_RenderUTF8_Blended(font, t, *col);
   }
-#else
-  surf = TTF_RenderUTF8_Blended(font, t, *col);
+
+  return surf;
+}
+
+
+/* This (fast) function just returns a non-outlined surf */
+/* using SDL_Pango if available, SDL_ttf as fallback     */
+SDL_Surface* SimpleTextWithOffset(const char *t, TTF_Font* font, SDL_Color* col, int *glyph_offset)
+{
+  SDL_Surface* surf = NULL;
+  int using_pango = 0;
+
+#ifdef HAVE_LIBSDL_PANGO
+  using_pango = (context != NULL);
 #endif
+
+  if (using_pango) {
+#ifdef HAVE_LIBSDL_PANGO
+  SDLPango_Matrix colormatrix = {
+    col->r,  col->r,  0,  0,
+    col->g,  col->g,  0,  0,
+    col->b,  col->b,  0,  0,
+    0,      255,      0,  0,
+  };
+  SDLPango_SetDefaultColor(context, &colormatrix );
+  SDLPango_SetText(context, t, -1);
+  surf = SDLPango_CreateSurfaceDraw(context);
+  *glyph_offset = 0; // fixme?
+#endif
+  }
+  else {
+    surf = TTF_RenderUTF8_Blended(font, t, *col);
+    int h;
+    int hmax = 0;
+    int len = strlen(t);
+    int i;
+    for (i = 0; i < len; i++) {
+      TTF_GlyphMetrics(font, t[i], NULL, NULL, NULL, &h, NULL);
+      if (h > hmax)
+	hmax = h;
+    }
+    *glyph_offset = hmax - TTF_FontAscent(font);
+  }
 
   return surf;
 }

@@ -223,16 +223,6 @@ void TitleScreen(void)
 
   InitEngine();  //set up pointers for blitting structure.
 
-
-  /* --- setup colors we use --- */
-  black.r       = 0x00; black.g       = 0x00; black.b       = 0x00;
-  gray.r        = 0x80; gray.g        = 0x80; gray.b        = 0x80;
-  dark_blue.r   = 0x00; dark_blue.g   = 0x00; dark_blue.b   = 0x60;
-  red.r         = 0xff; red.g         = 0x00; red.b         = 0x00;
-  white.r       = 0xff; white.g       = 0xff; white.b       = 0xff;
-  yellow.r      = 0xff; yellow.g      = 0xff; yellow.b      = 0x00;
-
-
   start = SDL_GetTicks();
 
 

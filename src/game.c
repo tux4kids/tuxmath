@@ -2166,7 +2166,7 @@ void game_draw_misc(void)
     offset = 0;
 
   dest.x = offset;
-  dest.y = 0;
+  dest.y = glyph_offset;
   dest.w = images[IMG_WAVE]->w;
   dest.h = images[IMG_WAVE]->h;
 
@@ -2181,7 +2181,7 @@ void game_draw_misc(void)
     dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
                   images[IMG_SCORE]->w -
                   images[IMG_STOP]->w - 5);
-    dest.y = 0;
+    dest.y = glyph_offset;
     dest.w = images[IMG_SCORE]->w;
     dest.h = images[IMG_SCORE]->h;
     SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);

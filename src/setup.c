@@ -557,18 +557,21 @@ void initialize_SDL(void)
 
     SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
   }
+
+  /* --- Define the colors we use --- */
+  /* This was moved here because of wanting to replace some images
+     with fonts during setup */
+  black.r       = 0x00; black.g       = 0x00; black.b       = 0x00;
+  gray.r        = 0x80; gray.g        = 0x80; gray.b        = 0x80;
+  dark_blue.r   = 0x00; dark_blue.g   = 0x00; dark_blue.b   = 0x60;
+  red.r         = 0xff; red.g         = 0x00; red.b         = 0x00;
+  white.r       = 0xff; white.g       = 0xff; white.b       = 0xff;
+  yellow.r      = 0xff; yellow.g      = 0xff; yellow.b      = 0x00;
 }
 
 
 void load_data_files(void)
 {
-  if (!load_image_data())
-  {
-    fprintf(stderr, "\nCould not load image file - exiting!\n");
-    cleanup_on_error();
-    exit(1);
-  }
-
   if (!load_sound_data())
   {
     fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
@@ -578,6 +581,15 @@ void load_data_files(void)
    if (!load_default_font())
   {
     fprintf(stderr, "\nCould not load default font - exiting!\n");
+    cleanup_on_error();
+    exit(1);
+  }
+   
+  /* This now has to come after loading the font, because it replaces
+     a couple of images with translatable versions. */
+  if (!load_image_data())
+  {
+    fprintf(stderr, "\nCould not load image file - exiting!\n");
     cleanup_on_error();
     exit(1);
   }

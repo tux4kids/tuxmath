@@ -2,10 +2,11 @@
 #include "fileops.h"
 #include "loaders.h"
 #include "options.h"
+#include "SDL_extras.h"
 
 TTF_Font  *default_font;
 TTF_Font  *help_font;
-
+int glyph_offset;
 
 /*****************************************************************/
 /*   Loading of data files for images and sounds.                */
@@ -178,6 +179,21 @@ int load_image_data()
       return 0;
     }
   }
+
+  glyph_offset = 0;
+
+#ifdef REPLACE_WAVESCORE  
+  /* Replace the "WAVE" and "SCORE" with translate-able versions */
+  TTF_Font *wavescore_font;
+  wavescore_font = LoadFont(DEFAULT_FONT_NAME, 28);
+  SDL_FreeSurface(images[IMG_WAVE]);
+  images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), wavescore_font, &white, &glyph_offset);
+  SDL_FreeSurface(images[IMG_SCORE]);
+  images[IMG_SCORE] = SimpleTextWithOffset(_("SCORE"), wavescore_font, &white, &glyph_offset);
+  glyph_offset++;
+  TTF_CloseFont(wavescore_font);
+#endif
+
   /* If we make it to here OK, return 1: */
   return 1;
 }

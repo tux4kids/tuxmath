@@ -68,6 +68,7 @@ extern int flipped_img_lookup[];
 
 extern TTF_Font  *default_font;
 extern TTF_Font  *help_font;
+extern int glyph_offset;
 
 
 #ifndef NOSOUND

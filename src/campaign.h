@@ -18,6 +18,11 @@
 
 /* NOTE this has to be static to be in a header file or it will cause */
 /* multiple definition errors if included in more than one file.      */
+
+/* NOTE: the convention has changed. Use " " for a blank line (note
+   the space), and use "" (rather than NULL) for the termination
+   string. This is a consequence of the linewrapping code.  TEH Feb
+   2009. */
 static const char* briefings[NUM_STAGES][20] = {
   //cadet
   {
