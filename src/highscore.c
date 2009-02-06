@@ -356,7 +356,7 @@ void DisplayHighScores(int level)
 /* multibyte encoding.                                                    */
 void HighScoreNameEntry(char* pl_name)
 {
-  NameEntry(pl_name, "You Are In The Hall of Fame!", "Enter Your Name:");
+  NameEntry(pl_name, _("You Are In The Hall of Fame!"), _("Enter Your Name:"));
 }
 
 void NameEntry(char* pl_name, const char* heading, const char* sub)
