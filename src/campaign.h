@@ -11,7 +11,7 @@
 #include "tuxmath.h"
 
 
-#define TESTING_CAMPAIGN //allow ESC to skip missions instead of exiting
+//#define TESTING_CAMPAIGN //allow ESC to skip missions instead of exiting
 
 #define NUM_STAGES 5 
 #define NUM_ROUNDS 3
