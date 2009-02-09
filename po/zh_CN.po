@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2009-02-06 11:04-0600\n"
-"PO-Revision-Date: 2008-02-22 11:56+0000\n"
-"Last-Translator: TeliuTe <teliute@163.com>\n"
+"PO-Revision-Date: 2009-02-07 18:04+0800\n"
+"Last-Translator: Xavier <XavierXavierye@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,286 +21,278 @@ msgstr ""
 
 #: src/campaign.h:24
 msgid "-[Esc] to skip"
-msgstr ""
+msgstr "按Esc键跳过"
 
 #: src/campaign.h:25
 msgid "Mission One: Careful Cadet"
-msgstr ""
+msgstr "第一个任务:认真的军校学员"
 
 #: src/campaign.h:27
 msgid "I'm so glad you've come!"
-msgstr ""
+msgstr "很高兴你来了"
 
 #: src/campaign.h:29
-msgid ""
-"The penguins need your help! Comets are falling from the sky, and are "
-"melting the penguins' igloos. To save their homes, we need you to find the "
-"secret code that will zap each comet."
-msgstr ""
+msgid "The penguins need your help! Comets are falling from the sky, and are melting the penguins' igloos. To save their homes, we need you to find the secret code that will zap each comet."
+msgstr "企鹅需要你的帮助！彗星从天而降，正在融化企鹅的小屋。为了保护它们的房子，需要你找到密码打败"
 
 #: src/campaign.h:31
 msgid "Do your best!"
-msgstr ""
+msgstr "尽你所能！"
 
 #: src/campaign.h:37
 msgid "Mission Two: Smart Scout"
-msgstr ""
+msgstr "第二个任务：聪明的侦察员"
 
 #: src/campaign.h:39
-msgid ""
-"Great job! Since you saved the penguins' homes, we are promoting you to "
-"Scout. Scouts are good for keeping an eye out for trouble..."
-msgstr ""
+msgid "Great job! Since you saved the penguins' homes, we are promoting you to Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr "干的好！因为你保护了企鹅的小屋，提升你为侦察员，监控可能的麻烦..."
 
 #: src/campaign.h:41
-msgid ""
-"...like what's happening right now! The TakeAways have come, and they're "
-"sending new, trickier comets against the penguins!"
-msgstr ""
+msgid "...like what's happening right now! The TakeAways have come, and they're sending new, trickier comets against the penguins!"
+msgstr "...就象正在发生的!掠夺者来了，他们正在发射新的，更狡猾的彗星来攻击企鹅！"
 
 #: src/campaign.h:42
 msgid "But you can save them!"
-msgstr ""
+msgstr "但是你可以保护他们！"
 
 #: src/campaign.h:48
 msgid "Mission Three: Royal Ranger"
-msgstr ""
+msgstr "第三个任务：皇家突击队"
 
 #: src/campaign.h:50
-msgid ""
-"You've done it again! The Penguin Emperor has chosen you to join his team of "
-"Rangers that help protect the city.  We're sending you there now..."
-msgstr ""
+msgid "You've done it again! The Penguin Emperor has chosen you to join his team of Rangers that help protect the city.  We're sending you there now..."
+msgstr "你又做到了！企鹅国王挑选你参加他的突击队，保卫城市。我们现在就送你到那儿去..."
 
 #: src/campaign.h:52
-msgid ""
-"...oh no! Now the Emperor himself is under attack, from new types of comets: "
-"these problems are multiplying! To fight these, you need great skill. We "
-"think you can do it. Join the Rangers and help save the city!"
-msgstr ""
+msgid "...oh no! Now the Emperor himself is under attack, from new types of comets: these problems are multiplying! To fight these, you need great skill. We think you can do it. Join the Rangers and help save the city!"
+msgstr "...哦不！现在国王自己受到来自新的彗星攻击了，这些是乘法问题！你需要更强的技能击败攻击。我们相信你能做到。加入突击队保卫城市吧！"
 
 #: src/campaign.h:58
 msgid "Mission Four: Imperial Ace"
-msgstr ""
+msgstr "第四个任务：皇家王牌飞行员"
 
 #: src/campaign.h:60
-msgid ""
-"You did it! The Emperor wants to thank you in person. We are taking you to "
-"his ice palace for a great honor: you will become the Imperial Ace!"
-msgstr ""
+msgid "You did it! The Emperor wants to thank you in person. We are taking you to his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr "你做到了！国外想亲自感谢你。我们非常荣幸地带你到他的冰做的宫殿去：你将成为皇家王牌飞行员！"
 
 #: src/campaign.h:62
-msgid ""
-"But right in the middle of the ceremony, a new attack from the land of "
-"Division starts!"
-msgstr ""
+msgid "But right in the middle of the ceremony, a new attack from the land of Division starts!"
+msgstr "但就在庆典时，一个来自除法之地的新攻击开始了！"
 
 #: src/campaign.h:63
 msgid "Now is no time for resting; the city needs your help!"
-msgstr ""
+msgstr "现在没有时间让你休息；城市需要你的帮助！"
 
 #: src/campaign.h:69
 msgid "Final Mission: Computing Commando"
-msgstr ""
+msgstr "最后任务：计算突击队"
 
 #: src/campaign.h:71
-msgid ""
-"Penguin scientists have learned that all these attacks are coming from a "
-"secret base, and they need you to go fight the final battle. They also give "
-"you this clue: first do multiplication and division, and then do addition "
-"and subtraction."
-msgstr ""
+msgid "Penguin scientists have learned that all these attacks are coming from a secret base, and they need you to go fight the final battle. They also give you this clue: first do multiplication and division, and then do addition and subtraction."
+msgstr "企鹅科学家研究后发显，所有的攻击都来自一个秘密基地，他们需要你去打赢这最后的战斗。科学家们还给你一个线索：先做乘法再做除法，然后做加法和减法。"
 
 #: src/campaign.h:72
 msgid "I hope that hint helps!"
-msgstr ""
+msgstr "希望提示能帮到你！"
 
 #: src/campaign.h:74
 msgid "This is it! You can stop these attacks forever, Commando!"
-msgstr ""
+msgstr "就是这样！你是突击队员，你可以永远制止这些攻击，"
 
 #: src/campaign.c:31
 msgid "Congratulations! You win!"
-msgstr ""
+msgstr "恭喜！你赢了！"
 
 #: src/campaign.c:49
 msgid "Round"
-msgstr ""
+msgstr "回合"
 
 #: src/campaign.c:159
 msgid "Sorry, try again!"
-msgstr ""
+msgstr "对不起，请再试一次！"
 
 #: src/campaign.c:166
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr ""
+msgstr "任务完成。银河系安全了！"
 
 #: src/factoroids.c:554
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
-msgstr ""
+msgstr "因数分解游戏：要赢的话，你得击毁所有的小行星。"
 
-#: src/factoroids.c:555 src/factoroids.c:566
+#: src/factoroids.c:555
+#: src/factoroids.c:566
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr ""
+msgstr "用键盘上的方向键转动或前进。瞄准一个小行星，"
 
 #: src/factoroids.c:556
 msgid "type one of its factors, and press space or return"
-msgstr ""
+msgstr "输入其中一个的系数，然后按空格或回车"
 
 #: src/factoroids.c:557
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
-msgstr ""
+msgstr "分解成系数。带有质数的岩石会被摧毁"
 
 #: src/factoroids.c:565
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr ""
+msgstr "分数:要赢的话，你得消灭所有的小行星"
 
 #: src/factoroids.c:567
 msgid "type a number that can simplify the fraction, and press space or return"
-msgstr ""
+msgstr "输入可以简化分数的数，然后按空格或回车键"
 
 #: src/factoroids.c:568
-msgid ""
-"to split it.  Destroy fractions that can not be further simplified in a "
-"single shot!"
-msgstr ""
+msgid "to split it.  Destroy fractions that can not be further simplified in a single shot!"
+msgstr "分解它。"
 
 #: src/game.c:717
 msgid "Welcome to TuxMath!"
-msgstr ""
+msgstr "欢迎来到TuxMax!"
 
 #: src/game.c:734
 msgid "Your mission is to save your"
-msgstr ""
+msgstr "你的任务是保护你的"
 
 #: src/game.c:735
 msgid "penguins' igloos from the"
-msgstr ""
+msgstr "企鹅的小屋"
 
 #: src/game.c:736
 msgid "falling comets."
-msgstr ""
+msgstr "正在降落的彗星。"
 
 #: src/game.c:755
 msgid "Stop a comet by typing"
-msgstr ""
+msgstr "要制止彗星的话，按"
 
 #: src/game.c:756
 msgid "the answer to the math problem"
-msgstr ""
+msgstr "数学问题的答案"
 
 #: src/game.c:757
 msgid "and hitting 'space' or 'enter'."
-msgstr ""
+msgstr "按空格或回车键"
 
 #: src/game.c:758
 msgid "Try it now!"
-msgstr ""
+msgstr "现在就试一试吧！"
 
 #: src/game.c:766
 msgid "Good shot!"
-msgstr ""
+msgstr "打的好！"
 
 #: src/game.c:776
 msgid "If an igloo gets hit by a comet,"
-msgstr ""
+msgstr "如果一个小屋被彗星击中的话,"
 
 #: src/game.c:777
 msgid "it melts. But don't worry: the"
-msgstr ""
+msgstr "如果融化的话，别担心:"
 
 #: src/game.c:778
 msgid "penguin is OK!"
-msgstr ""
+msgstr "企鹅正常！"
 
 #: src/game.c:779
 msgid "Just watch what happens:"
-msgstr ""
+msgstr "只要观察发生了什么:"
 
 #: src/game.c:780
 msgid "(Press a key to start)"
-msgstr ""
+msgstr "(按任意键开始)"
 
 #: src/game.c:793
 msgid "Notice the answer"
-msgstr ""
+msgstr "注意答案"
 
 #: src/game.c:803
 msgid "If it gets hit again, the"
-msgstr ""
+msgstr "如果再次被击中的话，"
 
 #: src/game.c:804
 msgid "penguin leaves."
-msgstr ""
+msgstr "企鹅离开了。"
 
 #: src/game.c:805
 msgid "(Press a key when ready)"
-msgstr ""
+msgstr "(准备好后按任意键)"
 
 #: src/game.c:824
 msgid "You can fix the igloos"
-msgstr ""
+msgstr "你可以修复小屋"
 
 #: src/game.c:825
 msgid "by stopping bonus comets."
-msgstr ""
+msgstr "通过停止奖励的彗星"
 
 #: src/game.c:834
 msgid "Zap it now!"
-msgstr ""
+msgstr "现在攻击!"
 
 #: src/game.c:838
 msgid "Great job!"
-msgstr ""
+msgstr "干的好!"
 
 #: src/game.c:852
 msgid "Quit at any time by pressing"
-msgstr ""
+msgstr "任何时间退出，按"
 
 #: src/game.c:853
 msgid "'Esc' or clicking the 'X'"
-msgstr ""
+msgstr "按'Esc'键或点击'X'"
 
 #: src/game.c:854
 msgid "in the upper right corner."
-msgstr ""
+msgstr "在右上角"
 
 #: src/game.c:855
 msgid "Do it now, and then play!"
-msgstr ""
+msgstr "现在就做，开始吧！"
 
-#: src/highscore.c:213 src/titlescreen.c:874
+#: src/highscore.c:213
+#: src/titlescreen.c:874
 msgid "Hall Of Fame"
 msgstr "排行榜"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:810
+#: src/highscore.c:235
+#: src/highscore.c:256
+#: src/titlescreen.c:810
 #: src/titlescreen.c:869
 msgid "Space Cadet"
 msgstr "太空警"
 
-#: src/highscore.c:238 src/titlescreen.c:811 src/titlescreen.c:870
+#: src/highscore.c:238
+#: src/titlescreen.c:811
+#: src/titlescreen.c:870
 msgid "Scout"
 msgstr "童子军"
 
-#: src/highscore.c:241 src/titlescreen.c:812 src/titlescreen.c:871
+#: src/highscore.c:241
+#: src/titlescreen.c:812
+#: src/titlescreen.c:871
 msgid "Ranger"
 msgstr "巡逻兵"
 
-#: src/highscore.c:244 src/titlescreen.c:813 src/titlescreen.c:872
+#: src/highscore.c:244
+#: src/titlescreen.c:813
+#: src/titlescreen.c:872
 msgid "Ace"
 msgstr "王牌飞行员"
 
-#: src/highscore.c:247 src/titlescreen.c:814 src/titlescreen.c:873
+#: src/highscore.c:247
+#: src/titlescreen.c:814
+#: src/titlescreen.c:873
 msgid "Commando"
-msgstr ""
+msgstr "突击队"
 
-#: src/highscore.c:250 src/titlescreen.c:993
+#: src/highscore.c:250
+#: src/titlescreen.c:993
 msgid "Factors"
-msgstr ""
+msgstr "系数"
 
-#: src/highscore.c:253 src/titlescreen.c:994
+#: src/highscore.c:253
+#: src/titlescreen.c:994
 msgid "Fractions"
-msgstr ""
+msgstr "分数"
 
 #: src/titlescreen.c:496
 msgid "Work In Progress!"
@@ -320,15 +312,15 @@ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #: src/titlescreen.c:672
 msgid "Play Alone"
-msgstr ""
+msgstr "自己玩"
 
 #: src/titlescreen.c:673
 msgid "Play With Friends"
-msgstr ""
+msgstr "和朋友一起玩"
 
 #: src/titlescreen.c:674
 msgid "Factoroids!"
-msgstr ""
+msgstr "因数分解！"
 
 #: src/titlescreen.c:675
 msgid "Help"
@@ -348,7 +340,7 @@ msgstr "数学运算练习"
 
 #: src/titlescreen.c:752
 msgid "Math Command Fleet Missions"
-msgstr ""
+msgstr "数学命令舰队任务"
 
 #: src/titlescreen.c:753
 msgid "Play Arcade Game"
@@ -358,26 +350,29 @@ msgstr "街机游戏"
 msgid "Play Custom Game"
 msgstr "自定义游戏"
 
-#: src/titlescreen.c:755 src/titlescreen.c:806 src/titlescreen.c:815
-#: src/titlescreen.c:875 src/titlescreen.c:995
+#: src/titlescreen.c:755
+#: src/titlescreen.c:806
+#: src/titlescreen.c:815
+#: src/titlescreen.c:875
+#: src/titlescreen.c:995
 msgid "Main menu"
 msgstr "主菜单"
 
 #: src/titlescreen.c:804
 msgid "Score Sweep"
-msgstr ""
+msgstr "消除得分"
 
 #: src/titlescreen.c:805
 msgid "Elimination"
-msgstr ""
+msgstr "消减"
 
 #: src/titlescreen.c:849
 msgid "How many kids are playing?"
-msgstr ""
+msgstr "参加游戏的小朋友数量？"
 
 #: src/titlescreen.c:850
 msgid "(Between 2 and 4 players)"
-msgstr ""
+msgstr "(２到４个玩家)"
 
 #: src/titlescreen.c:969
 msgid "Edit 'options' file in your home directory"
@@ -660,3 +655,4 @@ msgstr "正负数乘法"
 #: data/missions/lessons/descr_lessons:58
 msgid "Division of Positives and Negatives"
 msgstr "正负数除法"
+
