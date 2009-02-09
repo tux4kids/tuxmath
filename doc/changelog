@@ -1,3 +1,10 @@
+2009.Feb.09 (svn.debian.org/tux4kids - revision 876)
+        i18n - modified credits text slightly (replaced empty line
+        strings "" with " ") because otherwise the wrapping text truncates
+        the credits at the first blank line.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Feb.06 (svn.debian.org/tux4kids - revision 873)
         Put two more strings in highscore.c under the domain of gettext.
 
@@ -6,7 +13,7 @@
 
 2009.Feb.06 (svn.debian.org/tux4kids - revision 872)
         Add the facility to use translatable versions of "SCORE" and
-	"WAVE".  To enable, define REPLACE_WAVESCORE upon compliation
+	"WAVE".  To enable, define REPLACE_WAVESCORE upon compilation
 	(disabled by default, because they don't look as nice).
 
 	Tim Holy <holy@wustl.edu>
