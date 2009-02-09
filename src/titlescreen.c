@@ -39,7 +39,7 @@
 #include "loaders.h"
 #include "credits.h"
 #include "highscore.h"
-#include "ConvertUTF.h" // for wide char to UTF-8 conversion
+#include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
 
 /* --- Data Structure for Dirty Blitting --- */

@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-02-06 11:04-0600\n"
+"POT-Creation-Date: 2009-02-09 14:42-0600\n"
 "PO-Revision-Date: 2008-04-12 04:12+0000\n"
 "Last-Translator: Mykas0 <Mykas0@gmail.com>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -21,91 +21,91 @@ msgstr ""
 "X-Launchpad-Export-Date: 2008-05-06 22:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: src/campaign.h:24
+#: src/campaign.h:29
 msgid "-[Esc] to skip"
 msgstr ""
 
-#: src/campaign.h:25
+#: src/campaign.h:30
 msgid "Mission One: Careful Cadet"
 msgstr ""
 
-#: src/campaign.h:27
+#: src/campaign.h:32
 msgid "I'm so glad you've come!"
 msgstr ""
 
-#: src/campaign.h:29
+#: src/campaign.h:34
 msgid ""
 "The penguins need your help! Comets are falling from the sky, and are "
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
 
-#: src/campaign.h:31
+#: src/campaign.h:36
 msgid "Do your best!"
 msgstr ""
 
-#: src/campaign.h:37
+#: src/campaign.h:42
 msgid "Mission Two: Smart Scout"
 msgstr ""
 
-#: src/campaign.h:39
+#: src/campaign.h:44
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
 
-#: src/campaign.h:41
+#: src/campaign.h:46
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
 
-#: src/campaign.h:42
+#: src/campaign.h:47
 msgid "But you can save them!"
 msgstr ""
 
-#: src/campaign.h:48
+#: src/campaign.h:53
 msgid "Mission Three: Royal Ranger"
 msgstr ""
 
-#: src/campaign.h:50
+#: src/campaign.h:55
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
 
-#: src/campaign.h:52
+#: src/campaign.h:57
 msgid ""
 "...oh no! Now the Emperor himself is under attack, from new types of comets: "
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
 
-#: src/campaign.h:58
+#: src/campaign.h:63
 msgid "Mission Four: Imperial Ace"
 msgstr ""
 
-#: src/campaign.h:60
+#: src/campaign.h:65
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
 
-#: src/campaign.h:62
+#: src/campaign.h:67
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
 msgstr ""
 
-#: src/campaign.h:63
+#: src/campaign.h:68
 msgid "Now is no time for resting; the city needs your help!"
 msgstr ""
 
-#: src/campaign.h:69
+#: src/campaign.h:74
 msgid "Final Mission: Computing Commando"
 msgstr ""
 
-#: src/campaign.h:71
+#: src/campaign.h:76
 msgid ""
 "Penguin scientists have learned that all these attacks are coming from a "
 "secret base, and they need you to go fight the final battle. They also give "
@@ -113,11 +113,11 @@ msgid ""
 "and subtraction."
 msgstr ""
 
-#: src/campaign.h:72
+#: src/campaign.h:77
 msgid "I hope that hint helps!"
 msgstr ""
 
-#: src/campaign.h:74
+#: src/campaign.h:79
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr ""
 
@@ -271,161 +271,169 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:213 src/titlescreen.c:874
+#: src/highscore.c:213 src/titlescreen.c:864
 msgid "Hall Of Fame"
 msgstr "Corredor da Fama"
 
-#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:810
-#: src/titlescreen.c:869
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
+#: src/titlescreen.c:859
 msgid "Space Cadet"
 msgstr "Cadete Espacial"
 
-#: src/highscore.c:238 src/titlescreen.c:811 src/titlescreen.c:870
+#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
 msgid "Scout"
 msgstr "Batedor"
 
-#: src/highscore.c:241 src/titlescreen.c:812 src/titlescreen.c:871
+#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
 msgid "Ranger"
 msgstr ""
 
-#: src/highscore.c:244 src/titlescreen.c:813 src/titlescreen.c:872
+#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
 msgid "Ace"
 msgstr "Ás"
 
-#: src/highscore.c:247 src/titlescreen.c:814 src/titlescreen.c:873
+#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:993
+#: src/highscore.c:250 src/titlescreen.c:983
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:253 src/titlescreen.c:994
+#: src/highscore.c:253 src/titlescreen.c:984
 msgid "Fractions"
 msgstr ""
 
-#: src/titlescreen.c:496
+#: src/highscore.c:359
+msgid "You Are In The Hall of Fame!"
+msgstr ""
+
+#: src/highscore.c:359
+msgid "Enter Your Name:"
+msgstr ""
+
+#: src/titlescreen.c:486
 msgid "Work In Progress!"
 msgstr "Trabalho em Progresso!"
 
-#: src/titlescreen.c:497
+#: src/titlescreen.c:487
 msgid "This feature is not ready yet"
 msgstr ""
 
-#: src/titlescreen.c:498
+#: src/titlescreen.c:488
 msgid "Discuss the future of TuxMath at"
 msgstr "Discuta o futuro do TuxMath em"
 
-#: src/titlescreen.c:499
+#: src/titlescreen.c:489
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:672
+#: src/titlescreen.c:662
 msgid "Play Alone"
 msgstr ""
 
-#: src/titlescreen.c:673
+#: src/titlescreen.c:663
 msgid "Play With Friends"
 msgstr ""
 
-#: src/titlescreen.c:674
+#: src/titlescreen.c:664
 msgid "Factoroids!"
 msgstr ""
 
-#: src/titlescreen.c:675
+#: src/titlescreen.c:665
 msgid "Help"
 msgstr "Ajuda"
 
-#: src/titlescreen.c:676
+#: src/titlescreen.c:666
 msgid "More Options"
 msgstr "Mais Opções"
 
-#: src/titlescreen.c:677
+#: src/titlescreen.c:667
 msgid "Quit"
 msgstr "Sair"
 
-#: src/titlescreen.c:751
+#: src/titlescreen.c:741
 msgid "Math Command Training Academy"
 msgstr ""
 
-#: src/titlescreen.c:752
+#: src/titlescreen.c:742
 msgid "Math Command Fleet Missions"
 msgstr ""
 
-#: src/titlescreen.c:753
+#: src/titlescreen.c:743
 msgid "Play Arcade Game"
 msgstr ""
 
-#: src/titlescreen.c:754
+#: src/titlescreen.c:744
 msgid "Play Custom Game"
 msgstr ""
 
-#: src/titlescreen.c:755 src/titlescreen.c:806 src/titlescreen.c:815
-#: src/titlescreen.c:875 src/titlescreen.c:995
+#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
+#: src/titlescreen.c:865 src/titlescreen.c:985
 msgid "Main menu"
 msgstr "Menu principal"
 
-#: src/titlescreen.c:804
+#: src/titlescreen.c:794
 msgid "Score Sweep"
 msgstr ""
 
-#: src/titlescreen.c:805
+#: src/titlescreen.c:795
 msgid "Elimination"
 msgstr ""
 
-#: src/titlescreen.c:849
+#: src/titlescreen.c:839
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/titlescreen.c:850
+#: src/titlescreen.c:840
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/titlescreen.c:969
+#: src/titlescreen.c:959
 msgid "Edit 'options' file in your home directory"
 msgstr ""
 
-#: src/titlescreen.c:970
+#: src/titlescreen.c:960
 msgid "to create customized game!"
 msgstr ""
 
-#: src/titlescreen.c:971
+#: src/titlescreen.c:961
 msgid "Press a key or click your mouse to start game."
 msgstr "Pressione uma tecla ou clique o rato para começar o jogo."
 
-#: src/titlescreen.c:972
+#: src/titlescreen.c:962
 msgid "See README.txt for more information"
 msgstr "Veja o README.txt para mais informações!"
 
-#: src/titlescreen.c:1087
+#: src/titlescreen.c:1077
 msgid "Demo"
 msgstr "Demonstração"
 
-#: src/titlescreen.c:1088
+#: src/titlescreen.c:1078
 msgid "Project Info"
 msgstr "Informação do Projecto"
 
-#: src/titlescreen.c:1089
+#: src/titlescreen.c:1079
 msgid "Credits"
 msgstr "Créditos"
 
-#: src/titlescreen.c:1090
+#: src/titlescreen.c:1080
 msgid "Main Menu"
 msgstr "Menu Principal"
 
-#: src/titlescreen.c:1138
+#: src/titlescreen.c:1128
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath é livre e com código aberto!"
 
-#: src/titlescreen.c:1139
+#: src/titlescreen.c:1129
 msgid "You can help make it better by reporting problems,"
 msgstr "Você pode ajudar o TuxMath ao reportar problemas,"
 
-#: src/titlescreen.c:1140
+#: src/titlescreen.c:1130
 msgid "suggesting improvements, or adding code."
 msgstr "sugerindo melhorias, ou adicionando código."
 
-#: src/titlescreen.c:1141
+#: src/titlescreen.c:1131
 msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discuta o futuro em tuxmath-devel@lists.sourceforge.net"
 

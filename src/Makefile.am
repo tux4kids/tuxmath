@@ -42,7 +42,7 @@ tuxmath_SOURCES = tuxmath.c \
 	campaign.c	\
 	multiplayer.c	\
 	fileops.c	\
-	ConvertUTF.c	\
+	convert_utf.c	\
 	SDL_extras.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
@@ -88,7 +88,7 @@ EXTRA_DIST = 	credits.h 	\
 	campaign.h	\
 	multiplayer.h	\
 	tuxmath.h	\
-	ConvertUTF.h	\
+	convert_utf.h	\
 	SDL_extras.h	\
 	SDL_rotozoom.h	\
 	lessons.h	\
