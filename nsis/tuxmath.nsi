@@ -3,7 +3,7 @@
 # modified for tuxmath by Yves Combe (yves@ycombe.net)
 # modified more for tuxmath by David Bruce <dbruce@tampabay.rr.com>
 
-!define PKG_VERSION "1.7.0"
+!define PKG_VERSION "1.7.1"
 !define PKG_PREFIX  "tuxmath"
 
 !define APP_PREFIX  "TuxMath"
@@ -31,7 +31,7 @@ InstallDir  "$PROGRAMFILES\${APP_PREFIX}"
 InstallDirRegKey HKLM SOFTWARE\${APP_PREFIX} "Install_Dir"
 
 # Licence text
-LicenseText "You must agree to this license before installing ${APP_NAME}"
+LicenseText "Please read the terms of the General Public License before installing ${APP_NAME}"
 LicenseData "mingw32\doc\COPYING.txt"
 
 # Directory browsing

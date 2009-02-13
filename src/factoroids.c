@@ -42,6 +42,7 @@
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
+#define BASE_RES_X 1280 
 
 #define MAX_LASER 5
 #define MAX_ASTEROIDS 50
@@ -393,17 +394,20 @@ static int FF_init(void)
 {
   int i;
   float zoom;
+
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
   
   FF_intro();
   
   if(screen->h < 600 && screen->w < 800)
-    zoom = 0.7;
+    zoom = 0.65;
   else
-    zoom = 1;
+    zoom=(float)screen->w/(float)BASE_RES_X;
 
-  /*********** Precalculating software rotation *********/
+  printf("The zoome rate is: %f\n", zoom);
+
+  /*************** Precalculating software rotation ***************/
 
   for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
   {
@@ -537,9 +541,9 @@ static void FF_intro(void)
   float zoom;
 
   if(screen->h < 600 && screen->w < 800)
-    zoom = 0.7;
+    zoom = 0.65;
   else
-    zoom = 1;
+    zoom=(float)screen->w/(float)BASE_RES_X;
   
   IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS], 0, zoom, 1);
   IMG_fractions = rotozoomSurface(images[IMG_FACTORS], 0, zoom, 1);
