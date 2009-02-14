@@ -59,8 +59,8 @@ int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)
 
   /* NOTE casts to prevent compiler warnings */
   bytes_converted = iconv(conv_descr,
-                          (const char**)&UTF8_word, &in_length,
-                          (char **)&wchar_start, &out_length);
+                          (char**)&UTF8_word, &in_length,
+                          (char**)&wchar_start, &out_length);
   iconv_close(conv_descr);
   wcsncpy(wide_word, temp_wchar, max_length);
 
@@ -108,10 +108,11 @@ int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)
   conv_descr = iconv_open("UTF-8", "wchar_t");
 #endif
 
-  /* NOTE casts to prevent compiler warnings */
+  /* NOTE casts to prevent compiler warnings. While the documentation for iconv() */
+  /* says arg 2 is a "const char**", it is "char**" in the iconv.h header itself. */
   bytes_converted = iconv(conv_descr,
-                          (const char**)&wide_word, &in_length,
-                          &UTF8_Start, &out_length);
+                          (char**)&wide_word, &in_length,
+                          (char**)&UTF8_Start, &out_length);
   iconv_close(conv_descr);
   strncpy(UTF8_word, temp_UTF8, max_length);
 
