@@ -226,6 +226,7 @@ nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
 intl/Makefile
+linebreak/Makefile
 po/Makefile.in
 ])
 
