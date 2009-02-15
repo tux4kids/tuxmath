@@ -1,0 +1,3612 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="comp.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3311">
+      <stop
+         style="stop-color:#afafe9;stop-opacity:1;"
+         offset="0"
+         id="stop3313" />
+      <stop
+         style="stop-color:#afafe9;stop-opacity:0;"
+         offset="1"
+         id="stop3315" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3311"
+       id="linearGradient3321"
+       gradientUnits="userSpaceOnUse"
+       x1="164.7175"
+       y1="454.11005"
+       x2="586.10876"
+       y2="454.11005" />
+    <filter
+       inkscape:collect="always"
+       id="filter3903"
+       x="-0.053494652"
+       width="1.1069893"
+       y="-0.20492889"
+       height="1.4098578">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="9.3925743"
+         id="feGaussianBlur3905" />
+    </filter>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3197"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3193"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3195"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3179">
+      <stop
+         style="stop-color:#aaccff;stop-opacity:1;"
+         offset="0"
+         id="stop3181" />
+      <stop
+         style="stop-color:#aaccff;stop-opacity:0;"
+         offset="1"
+         id="stop3183" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3191"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       gradientUnits="userSpaceOnUse" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4948"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85652"
+       cy="389.94933"
+       fx="388.85652"
+       fy="389.94933"
+       r="324.77004" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4946"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85652"
+       cy="389.94933"
+       fx="388.85652"
+       fy="389.94933"
+       r="324.77004" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4950"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85652"
+       cy="389.94933"
+       fx="388.85652"
+       fy="389.94933"
+       r="324.77004" />
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient3192"
+       cx="388.85652"
+       cy="389.94933"
+       fx="388.85652"
+       fy="389.94933"
+       r="324.77004"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       inkscape:collect="always"
+       id="filter3393"
+       x="-0.022309087"
+       width="1.0446182"
+       y="-0.12573879"
+       height="1.2514776">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="10.949753"
+         id="feGaussianBlur3395" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2443"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,163.41481,-268.86605)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2441"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.8960528,0,0,2.0441806,79.81316,-469.08976)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2439"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,327.70053,-273.15177)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2437"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2332478,0,0,1,55.34524,22.396582)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2435"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.3589371,97.14286,-393.41272)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient2433"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(170.28571,-190.57143)"
+       x1="102.82881"
+       y1="589.505"
+       x2="640.02832"
+       y2="589.505" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3198"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,163.41481,-268.86605)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3194"
+       gradientUnits="userSpaceOnUse"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846"
+       gradientTransform="matrix(1.8960528,0,0,2.0441806,79.81316,-469.08976)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3190"
+       gradientUnits="userSpaceOnUse"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,327.70053,-273.15177)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3186"
+       gradientUnits="userSpaceOnUse"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846"
+       gradientTransform="matrix(1.2332478,0,0,1,55.34524,22.396582)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3182"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.3589371,97.14286,-393.41272)" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3171"
+       x1="102.82881"
+       y1="589.505"
+       x2="640.02832"
+       y2="589.505"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(170.28571,-190.57143)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3176">
+      <stop
+         style="stop-color:#28170b;stop-opacity:1;"
+         offset="0"
+         id="stop3178" />
+      <stop
+         style="stop-color:#28170b;stop-opacity:0;"
+         offset="1"
+         id="stop3180" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3163">
+      <stop
+         style="stop-color:#a05a2c;stop-opacity:1;"
+         offset="0"
+         id="stop3165" />
+      <stop
+         style="stop-color:#a05a2c;stop-opacity:0;"
+         offset="1"
+         id="stop3167" />
+    </linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient2599"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-1.1428571,-2)"
+       x1="102.82881"
+       y1="589.505"
+       x2="640.02832"
+       y2="589.505" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2601"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.3589371,-74.285714,-204.84129)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2603"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.2332478,0,0,1,-116.08333,210.96801)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2605"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,156.27196,-84.58034)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2607"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.8960528,0,0,2.0441806,-91.615416,-280.51833)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient2609"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,-8.0137643,-80.294624)"
+       x1="248.63581"
+       y1="487.10846"
+       x2="334.72768"
+       y2="487.10846" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="27.64451"
+     inkscape:cy="381.45226"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1280"
+     inkscape:window-height="949"
+     inkscape:window-x="0"
+     inkscape:window-y="25" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Capa 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g2590"
+       transform="matrix(0.1898691,0,0,0.177722,171.86665,100.68367)">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path2388"
+         d="M 317.8125,314.6875 C 282.87531,314.79434 252.54994,340.29645 238.1875,370.84375 C 222.05821,383.70653 197.42276,372.0935 182.4375,387.28125 C 166.95463,401.68231 168.2127,424.41414 165.10517,443.62981 C 158.03427,469.0544 145.26781,495.44989 153.05761,522.27065 C 158.16521,546.46846 170.77903,571.32553 162.51431,596.3084 C 151.17977,630.69026 124.42507,656.36421 101.76757,683.36817 C 93.9584,701.06333 105.89109,720.36331 119.73926,731.17266 C 134.08491,742.82035 155.67534,747.30589 163.33117,765.86585 C 170.93289,783.24793 175.55636,804.69151 193.70457,814.41601 C 212.80858,824.93714 234.96819,817.91038 254.67875,813.32604 C 271.89608,809.21468 290.6962,808.42247 306.91795,816.56419 C 341.16958,830.3948 369.97416,858.33434 407.95608,862.16227 C 446.71522,865.41061 486.2155,847.96216 511.36609,818.65999 C 520.15024,801.98961 509.94527,783.80476 508.8125,766.59375 C 506.17147,748.23441 512.95819,727.8898 529.34375,717.9375 C 547.35147,705.58017 570.24684,706.46365 590,698.8125 C 609.15379,689.75589 616.02772,668.25085 626.31572,651.36856 C 637.84901,630.09856 638.36389,604.92852 633.84188,581.66711 C 627.64494,549.82905 613.45105,520.37606 602.54678,490.02582 C 593.4162,468.08316 577.56572,448.80989 556.53826,437.37821 C 533.61447,423.79754 504.85413,416.73562 489.28125,393.40625 C 479.30111,379.11386 473.64284,360.74144 458.72874,350.60454 C 446.5086,344.73687 433.22422,350.87076 421.82455,355.40434 C 401.85737,356.5954 388.06909,339.63826 371.5884,331.33641 C 355.25831,321.90487 337.05895,313.96723 317.8125,314.6875 z"
+         style="fill:#28170b" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path2391"
+         d="M 320.20824,313.597 C 285.27105,313.70384 254.94568,339.20595 240.58324,369.75325 C 224.45395,382.61603 199.8185,371.003 184.83324,386.19075 C 169.35037,400.59181 170.60844,423.32364 167.50091,442.53931 C 160.43001,467.9639 147.66355,494.35939 155.45335,521.18015 C 160.56095,545.37796 173.17477,570.23503 164.91005,595.2179 C 153.57551,629.59976 126.82081,655.27371 104.16331,682.27767 C 96.35414,699.97283 108.28683,719.27281 122.135,730.08216 C 136.48065,741.72985 158.07108,746.21539 165.72691,764.77535 C 173.32863,782.15743 177.9521,803.60101 196.10031,813.32551 C 215.20432,823.84664 237.36393,816.81988 257.07449,812.23554 C 274.29182,808.12418 293.09194,807.33197 309.31369,815.47369 C 343.56532,829.3043 372.3699,857.24384 410.35182,861.07177 C 449.11096,864.32011 488.61124,846.87166 513.76183,817.56949 C 522.54598,800.89911 512.34101,782.71426 511.20824,765.50325 C 508.56721,747.14391 515.35393,726.7993 531.73949,716.847 C 549.74723,704.48967 572.64263,705.37315 592.39573,697.722 C 611.54953,688.66539 618.42343,667.16035 628.71143,650.27806 C 640.24473,629.00806 640.75963,603.83802 636.23763,580.57661 C 630.04073,548.73855 615.84683,519.28556 604.94253,488.93532 C 595.81193,466.99266 579.96143,447.71939 558.93403,436.28771 C 536.01021,422.70704 507.24987,415.64512 491.67699,392.31575 C 481.69685,378.02336 476.03858,359.65094 461.12448,349.51404 C 448.90434,343.64637 435.61996,349.78026 424.22029,354.31384 C 404.25311,355.5049 390.46483,338.54776 373.98414,330.24591 C 357.65405,320.81437 339.45469,312.87673 320.20824,313.597 z"
+         style="fill:url(#linearGradient2599);fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3173"
+         d="M 206.75447,397.61677 C 191.97602,399.18015 186.77959,421.96262 185.74333,438.83055 C 180.26739,449.87823 170.12844,462.97764 176.25447,477.28446 C 179.22701,488.4465 179.71487,505.05385 189.91072,508.62495 C 199.33643,504.20814 211.07782,504.13788 218.25447,514.86756 C 226.55543,521.15352 235.7611,509.20559 234.77331,497.53064 C 234.02423,488.04837 232.3849,476.44122 240.08515,471.09669 C 246.48291,462.77267 259.40764,461.25014 260.44197,447.0631 C 259.10991,433.42743 247.79214,428.11048 239.90481,422.65429 C 227.39015,417.74819 220.46512,397.34645 206.75447,397.61677 z"
+         style="fill:url(#linearGradient2601);fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3184"
+         d="M 232.94073,642.75893 C 225.3807,646.83494 226.27358,656.64317 218.27086,660.93549 C 209.36921,666.86701 202.53299,676.08316 206.08766,685.6745 C 208.87759,695.20849 209.53698,707.3331 198.17377,713.45529 C 188.68847,718.90538 176.70666,726.26328 179.52568,737.04018 C 181.99991,746.65706 196.54031,750.86303 206.73071,746.21437 C 221.04526,741.64387 236.67414,734.98533 252.21023,740.25893 C 266.63009,744.08242 281.60169,753.99641 297.30085,748.41518 C 307.80368,737.10651 283.95581,729.21188 281.5384,718.50893 C 275.91095,705.89598 299.03937,697.70892 291.73436,685.07826 C 286.29707,674.30978 267.6516,674.38606 262.97708,663.06853 C 256.6513,653.39646 247.58413,643.50189 232.94073,642.75893 z"
+         style="fill:url(#linearGradient2603);fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3188"
+         d="M 502.60058,460.0131 C 484.38895,461.42631 477.98533,482.02059 476.70834,497.26839 C 469.96028,507.25497 457.46596,519.09621 465.01512,532.0289 C 468.67821,542.11885 469.27941,557.13111 481.84386,560.35921 C 493.45925,556.36663 507.92829,556.30312 516.77214,566.00224 C 527.0015,571.68444 538.34574,560.88408 537.12847,550.33048 C 536.20538,541.75896 534.18521,531.26665 543.67431,526.43545 C 551.55833,518.91093 567.4856,517.53464 568.76022,504.71022 C 567.11871,492.38423 553.17171,487.57796 543.45207,482.64582 C 528.03013,478.21094 519.49635,459.76874 502.60058,460.0131 z"
+         style="fill:url(#linearGradient2605);fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3192"
+         d="M 443.1875,628.67857 C 415.72608,633.59504 398.4051,662.14726 398.5569,688.69331 C 395.22939,711.0735 381.6663,732.61863 387.15625,755.77232 C 393.07321,763.36741 405.12339,759.87353 411.76169,766.86524 C 415.16785,770.84584 420.15748,766.1045 424.57979,767.7284 C 433.13324,768.10509 440.26518,773.66556 446.53125,778.52232 C 457.34467,779.57116 463.82626,768.60949 473.52551,765.84022 C 488.74789,757.88725 503.63398,744.29536 504.09375,725.92857 C 504.89059,722.27213 507.31134,716.37258 510.78125,716.30357 C 510.39125,718.39604 513.39678,721.42276 512.27364,717.41416 C 509.07643,701.49805 522.31864,686.40518 517.09375,670.74107 C 509.45425,659.75895 494.59383,662.85259 483.23001,663.44607 C 472.78757,663.21409 463.14649,655.35395 461.71875,644.86607 C 458.59146,637.16878 452.86388,627.61948 443.1875,628.67857 z M 505.53125,718.83482 C 505.51945,719.06422 505.38588,718.8234 505.53125,718.83482 z M 519.125,761.77232 C 519.11217,762.00476 519.28498,761.54675 519.125,761.77232 z"
+         style="fill:url(#linearGradient2607);fill-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3196"
+         d="M 333.99554,465.58929 C 327.95955,473.3254 339.79077,484.73984 330.50169,491.29267 C 322.24476,501.68456 307.61891,509.94827 307.90085,524.79897 C 313.1423,537.57637 318.36045,551.69747 314.96894,565.54673 C 318.8326,574.56405 331.61676,573.70244 336.05804,582.15179 C 342.87423,583.72322 344.65674,574.52145 349.74554,571.87054 C 356.17015,566.24781 359.23194,557.82792 359.62054,549.58929 C 364.47717,540.80657 374.888,548.76527 375.62054,556.21429 C 380.19166,565.61454 396.25352,563.81768 397.43304,553.05804 C 401.67505,538.69836 394.64642,524.53516 386.87246,512.83319 C 381.68429,506.92073 388.95286,501.47477 393.24554,498.08929 C 389.94302,491.89814 381.31114,496.13421 377.02679,499.08929 C 372.34885,502.56952 370.1674,510.14706 364.21429,511.27679 C 357.02585,507.14645 358.1109,497.33671 354.75771,490.65183 C 351.50761,480.48014 345.72625,466.93129 333.99554,465.58929 z"
+         style="fill:url(#linearGradient2609);fill-opacity:1" />
+    </g>
+    <g
+       id="g3592"
+       transform="matrix(0.3841207,0,0,0.3342857,144.0712,543.47866)">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         y="0.93361717"
+         x="2.1798271e-05"
+         height="1000"
+         width="1243.2861"
+         id="rect2383"
+         style="fill:#000000" />
+      <image
+         transform="scale(-1,-1)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image2394"
+         x="-676.42865"
+         y="-941.43365" />
+      <image
+         transform="scale(-1,1)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         width="180.57143"
+         height="204.28572"
+         id="image2407"
+         x="-906.71429"
+         y="18.076487" />
+      <image
+         transform="matrix(0,1,-1,0,0,0)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image2420"
+         x="201.64789"
+         y="-819.07147" />
+      <image
+         transform="matrix(0,-1,-1,0,0,0)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         width="66.285713"
+         height="91.428574"
+         id="image2433"
+         x="-487.64789"
+         y="-1171.4286" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         width="45"
+         height="45"
+         id="image2472"
+         x="870.35724"
+         y="315.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2498"
+         x="750.71429"
+         y="556.43365" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2511"
+         x="756.42865"
+         y="230.71933" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2524"
+         x="730.21429"
+         y="72.576485" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2537"
+         x="678.78571"
+         y="344.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2550"
+         x="913.57147"
+         y="425.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2563"
+         x="926.42865"
+         y="737.86224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2576"
+         x="1096.4286"
+         y="627.86218" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2589"
+         x="893.57147"
+         y="587.86218" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2602"
+         x="1145"
+         y="287.86215" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2615"
+         x="1049.2856"
+         y="877.86224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2628"
+         x="815.92865"
+         y="464.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2641"
+         x="641.64288"
+         y="632.57648" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2654"
+         x="684.50006"
+         y="481.14792" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2667"
+         x="693.07147"
+         y="201.14789" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2680"
+         x="904.50006"
+         y="26.862186" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2693"
+         x="1098.7856"
+         y="304.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2706"
+         x="1067.3571"
+         y="58.290745" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2719"
+         x="1200.2142"
+         y="796.86224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2732"
+         x="1015.9286"
+         y="532.57648" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2745"
+         x="1053.0714"
+         y="258.29074" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2758"
+         x="768.78571"
+         y="768.29077" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2771"
+         x="669.28571"
+         y="812.14795" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2784"
+         x="780.21429"
+         y="885.43365" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2797"
+         x="728.78571"
+         y="862.57648" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2810"
+         x="894.50006"
+         y="928.29077" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2823"
+         x="890.21429"
+         y="106.86219" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2836"
+         x="1030.2142"
+         y="246.86215" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2849"
+         x="1084.5"
+         y="435.43362" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2862"
+         x="1024.5"
+         y="332.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2875"
+         x="935.92865"
+         y="255.43362" />
+      <image
+         transform="scale(-1,1)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image2888"
+         x="-1230.7145"
+         y="631.86224" />
+      <image
+         transform="scale(-1,1)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image2901"
+         x="-792.14288"
+         y="603.29077" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2914"
+         x="615.92865"
+         y="209.71933" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2927"
+         x="759.28571"
+         y="313.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2940"
+         x="1156.4286"
+         y="245.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image2953"
+         x="1030.7142"
+         y="87.86219" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2966"
+         x="798.78571"
+         y="55.433598" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2979"
+         x="967.35724"
+         y="175.43359" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image2992"
+         x="910.21429"
+         y="55.433598" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3005"
+         x="849.28571"
+         y="932.14795" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3018"
+         x="764.50006"
+         y="12.576482" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3031"
+         x="1090.2142"
+         y="381.14792" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3044"
+         x="1173.0714"
+         y="586.86218" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3057"
+         x="1138.7856"
+         y="598.29077" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3070"
+         x="1038.7856"
+         y="389.71933" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3083"
+         x="964.50006"
+         y="281.14792" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3096"
+         x="675.92865"
+         y="18.290745" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3109"
+         x="680.21429"
+         y="742.57648" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3122"
+         x="764.50006"
+         y="181.14789" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3135"
+         x="835.92865"
+         y="38.290745" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3148"
+         x="1045"
+         y="299.29074" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3161"
+         x="899.28571"
+         y="473.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3174"
+         x="787.85724"
+         y="433.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3187"
+         x="982.14288"
+         y="430.71933" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3200"
+         x="676.42865"
+         y="313.57645" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3213"
+         x="1052.1428"
+         y="809.29077" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3226"
+         x="1187.8571"
+         y="125.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3239"
+         x="1042.1428"
+         y="690.71936" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3252"
+         x="1047.8571"
+         y="365.00504" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3265"
+         x="905.00006"
+         y="605.00507" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3278"
+         x="727.85724"
+         y="399.29074" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3304"
+         x="1029.6428"
+         y="659.71936" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.png"
+         width="35"
+         height="31"
+         id="image3317"
+         x="629.64288"
+         y="385.43362" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         width="45"
+         height="45"
+         id="image3330"
+         x="1083.2142"
+         y="765.57648" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3343"
+         x="962.71552"
+         y="819.90625" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3356"
+         x="1096.5555"
+         y="907.77936" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3369"
+         x="1208.6825"
+         y="883.53571" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3382"
+         x="1093.2158"
+         y="154.07597" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3395"
+         x="1050.0885"
+         y="937.07379" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3408"
+         x="763.90619"
+         y="685.4162" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3421"
+         x="886.6347"
+         y="681.36548" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star2.png"
+         width="77"
+         height="65"
+         id="image3434"
+         x="837.98236"
+         y="489.72073" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3447"
+         x="975.02814"
+         y="555.10657" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3460"
+         x="744.71332"
+         y="509.64963" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3473"
+         x="679.55341"
+         y="564.18774" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3486"
+         x="959.87579"
+         y="624.80707" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3499"
+         x="783.09906"
+         y="344.99478" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3512"
+         x="879.56354"
+         y="205.58359" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3525"
+         x="1021.4951"
+         y="179.32977" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3538"
+         x="1178.1904"
+         y="363.27902" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3551"
+         x="1161.3961"
+         y="158.10641" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3564"
+         x="1196.2515"
+         y="511.66995" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3577"
+         x="1151.2946"
+         y="683.38574" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3590"
+         x="1122.5103"
+         y="70.233284" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3603"
+         x="1125.5408"
+         y="35.888096" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3616"
+         x="1109.8783"
+         y="40.928715" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3629"
+         x="1092.2057"
+         y="78.314522" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3642"
+         x="1097.7565"
+         y="45.979465" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3655"
+         x="1112.9087"
+         y="104.56834" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3668"
+         x="1068.9722"
+         y="90.436348" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3681"
+         x="1078.0636"
+         y="51.040379" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3694"
+         x="1048.259"
+         y="64.162239" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3707"
+         x="1090.1854"
+         y="43.969334" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3720"
+         x="666.04327"
+         y="95.588631" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3733"
+         x="713.89862"
+         y="110.62926" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3746"
+         x="683.09393"
+         y="73.263741" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3759"
+         x="685.61432"
+         y="101.53788" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3772"
+         x="715.91888"
+         y="90.426186" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3785"
+         x="657.33002"
+         y="95.476936" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3798"
+         x="678.54327"
+         y="123.76123" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3811"
+         x="637.63715"
+         y="156.09625" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3824"
+         x="628.03558"
+         y="168.20795" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3837"
+         x="656.31989"
+         y="114.66986" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3850"
+         x="709.85797"
+         y="120.73078" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3863"
+         x="670.46198"
+         y="146.99472" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3876"
+         x="626.52545"
+         y="91.44651" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3889"
+         x="852.09869"
+         y="721.91125" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3902"
+         x="908.1673"
+         y="796.67273" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3915"
+         x="1022.3145"
+         y="716.87067" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3928"
+         x="1007.6622"
+         y="780.50012" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3941"
+         x="931.40082"
+         y="897.68799" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3954"
+         x="971.29669"
+         y="802.72351" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3967"
+         x="999.08099"
+         y="763.33771" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3980"
+         x="961.70538"
+         y="793.64227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3993"
+         x="705.81732"
+         y="532.87305" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image4006"
+         x="718.44928"
+         y="494.49734" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image4019"
+         x="732.08136"
+         y="540.95422" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image4032"
+         x="679.55341"
+         y="524.79181" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image4045"
+         x="706.32745"
+         y="517.7309" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image4058"
+         x="731.07111"
+         y="518.7309" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image4071"
+         x="718.94928"
+         y="522.77148" />
+      <image
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image4084"
+         x="703.29706"
+         y="508.6395" />
+      <image
+         transform="scale(1,-1)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image3531"
+         x="171.619"
+         y="-130.50082" />
+      <image
+         transform="matrix(0,1,-1,0,0,0)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         width="70.571426"
+         height="100"
+         id="image3533"
+         x="310.42938"
+         y="-343.76196" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="87.14286"
+         height="78.14286"
+         id="image3535"
+         x="200.19041"
+         y="435.21509" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy2.png"
+         width="170.57143"
+         height="182.85715"
+         id="image3537"
+         x="477.04761"
+         y="588.57227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         width="45"
+         height="45"
+         id="image3539"
+         x="296.9762"
+         y="544.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3541"
+         x="177.3333"
+         y="785.50085" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3543"
+         x="183.04759"
+         y="459.78653" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3545"
+         x="156.8333"
+         y="301.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3547"
+         x="105.40472"
+         y="573.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3549"
+         x="340.19043"
+         y="654.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3552"
+         x="291.61902"
+         y="28.357964" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3554"
+         x="523.04767"
+         y="856.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3556"
+         x="320.19043"
+         y="816.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3558"
+         x="571.61908"
+         y="516.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3560"
+         x="414.4762"
+         y="168.35796" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3562"
+         x="242.54759"
+         y="693.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3565"
+         x="68.261894"
+         y="861.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3567"
+         x="111.11901"
+         y="710.21515" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3569"
+         x="119.69042"
+         y="430.21509" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3571"
+         x="331.11902"
+         y="255.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3573"
+         x="525.40485"
+         y="533.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3575"
+         x="493.9762"
+         y="287.35794" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3578"
+         x="565.40485"
+         y="87.357964" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3580"
+         x="442.54761"
+         y="761.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3582"
+         x="479.69043"
+         y="487.35794" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3584"
+         x="133.97618"
+         y="58.786518" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3586"
+         x="34.476189"
+         y="102.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3588"
+         x="145.40471"
+         y="175.92937" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3591"
+         x="93.976189"
+         y="153.07222" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3593"
+         x="259.69043"
+         y="218.78651" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3595"
+         x="316.83337"
+         y="335.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3597"
+         x="456.83337"
+         y="475.92935" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3599"
+         x="511.11902"
+         y="664.50085" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3601"
+         x="451.11902"
+         y="561.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3604"
+         x="362.54761"
+         y="484.50082" />
+      <image
+         transform="matrix(0,-1,-1,0,0,0)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image3606"
+         x="-69.286522"
+         y="-565.69049" />
+      <image
+         transform="matrix(0,1,-1,0,0,0)"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/galaxy1.png"
+         width="50"
+         height="41"
+         id="image3608"
+         x="906.42938"
+         y="-79.976189" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3610"
+         x="42.5476"
+         y="438.78653" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3612"
+         x="185.90477"
+         y="542.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3614"
+         x="583.04767"
+         y="474.07224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3617"
+         x="457.33337"
+         y="316.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3619"
+         x="225.40477"
+         y="284.50079" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3621"
+         x="393.9762"
+         y="404.50079" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3623"
+         x="336.83337"
+         y="284.50079" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3625"
+         x="214.47618"
+         y="222.64366" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3627"
+         x="191.119"
+         y="241.64366" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3630"
+         x="516.83337"
+         y="610.21515" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3632"
+         x="599.69049"
+         y="815.92938" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3634"
+         x="565.40485"
+         y="827.35797" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3636"
+         x="465.40479"
+         y="618.78656" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3638"
+         x="391.11902"
+         y="510.21512" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3640"
+         x="102.5476"
+         y="247.35793" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3643"
+         x="45.404716"
+         y="33.072227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3645"
+         x="191.119"
+         y="410.21509" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3647"
+         x="262.54761"
+         y="267.35794" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3649"
+         x="471.61902"
+         y="528.35797" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3651"
+         x="325.90479"
+         y="702.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3653"
+         x="214.47618"
+         y="662.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3656"
+         x="408.76184"
+         y="659.78656" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3658"
+         x="103.0476"
+         y="542.64368" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3660"
+         x="417.33337"
+         y="99.786522" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3662"
+         x="614.47626"
+         y="354.07224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3664"
+         x="468.76196"
+         y="919.78656" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3666"
+         x="474.4762"
+         y="594.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3669"
+         x="331.61902"
+         y="834.07227" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3671"
+         x="154.47618"
+         y="628.35797" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3673"
+         x="456.26184"
+         y="888.78656" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.png"
+         width="35"
+         height="31"
+         id="image3675"
+         x="29.119038"
+         y="615.92944" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star5.png"
+         width="45"
+         height="45"
+         id="image3677"
+         x="448.40479"
+         y="56.072224" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3679"
+         x="327.90588"
+         y="110.40197" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3682"
+         x="461.74609"
+         y="198.27507" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3684"
+         x="573.87311"
+         y="174.03142" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3686"
+         x="519.83502"
+         y="383.14316" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3688"
+         x="415.27905"
+         y="227.5695" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3690"
+         x="190.52519"
+         y="914.4834" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3692"
+         x="313.25366"
+         y="910.43268" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star2.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star2.png"
+         width="77"
+         height="65"
+         id="image3695"
+         x="264.60132"
+         y="718.78796" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3697"
+         x="401.64709"
+         y="784.17377" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3699"
+         x="171.33232"
+         y="738.71686" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3701"
+         x="106.17236"
+         y="793.25494" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3703"
+         x="386.49475"
+         y="853.87427" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3705"
+         x="209.718"
+         y="574.06201" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3708"
+         x="306.18262"
+         y="434.65079" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3710"
+         x="448.11414"
+         y="408.39697" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3712"
+         x="604.80963"
+         y="592.34625" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3714"
+         x="588.0152"
+         y="387.17361" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3716"
+         x="622.87054"
+         y="740.73718" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3718"
+         x="577.91364"
+         y="912.45294" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3721"
+         x="549.12946"
+         y="299.30048" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3723"
+         x="552.15985"
+         y="264.95529" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3725"
+         x="536.49738"
+         y="269.99591" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3727"
+         x="518.82477"
+         y="307.38171" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3729"
+         x="524.37555"
+         y="275.04666" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3731"
+         x="539.52789"
+         y="333.63553" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3734"
+         x="495.59131"
+         y="319.50354" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3736"
+         x="504.68262"
+         y="280.10757" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3738"
+         x="474.87805"
+         y="293.22943" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3740"
+         x="516.80438"
+         y="273.03653" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star1.jpg"
+         width="35"
+         height="31"
+         id="image3742"
+         x="92.662224"
+         y="324.65582" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3744"
+         x="140.51756"
+         y="339.69644" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3747"
+         x="109.71294"
+         y="302.33093" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3749"
+         x="112.23327"
+         y="330.60507" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3751"
+         x="142.53783"
+         y="319.49338" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3753"
+         x="83.948967"
+         y="324.54413" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3755"
+         x="105.16222"
+         y="352.82843" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3757"
+         x="64.256096"
+         y="385.16345" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3760"
+         x="54.654594"
+         y="397.27515" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3762"
+         x="82.938835"
+         y="343.73706" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3764"
+         x="136.47691"
+         y="349.79797" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3766"
+         x="97.080986"
+         y="376.06192" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3768"
+         x="53.144402"
+         y="320.5137" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3770"
+         x="217.28917"
+         y="12.407004" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3773"
+         x="273.35767"
+         y="87.168449" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3775"
+         x="387.50488"
+         y="7.3664155" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3777"
+         x="372.85266"
+         y="70.995872" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3779"
+         x="296.59119"
+         y="188.1837" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3781"
+         x="336.48718"
+         y="93.219231" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3783"
+         x="364.27148"
+         y="53.833424" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3786"
+         x="326.89575"
+         y="84.137993" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3788"
+         x="132.43633"
+         y="761.94025" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3790"
+         x="145.06828"
+         y="723.56458" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3792"
+         x="158.7003"
+         y="770.02142" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3794"
+         x="106.17236"
+         y="753.85901" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3796"
+         x="132.94646"
+         y="746.7981" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3799"
+         x="157.69011"
+         y="747.7981" />
+      <image
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star3.png"
+         width="10"
+         height="9"
+         id="image3801"
+         x="145.56828"
+         y="751.83868" />
+      <image
+         inkscape:export-filename="/home/usuario/Imágenes/bg.png"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         xlink:href="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         sodipodi:absref="/home/usuario/Escritorio/carpeta sin título/se va/star4.png"
+         width="11"
+         height="11"
+         id="image3803"
+         x="129.916"
+         y="737.70673" />
+    </g>
+    <g
+       id="g4771"
+       transform="matrix(0.298545,0,0,0.3090126,560.9169,269.73575)">
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         transform="translate(-954.28571,-8.5714283)"
+         id="g2400">
+        <path
+           style="fill:#28170b"
+           d="M 489.24107,126.11607 C 454.30388,126.22291 423.97851,151.72502 409.61607,182.27232 C 393.48678,195.1351 368.85133,183.52207 353.86607,198.70982 C 338.3832,213.11088 339.64127,235.84271 336.53374,255.05838 C 329.46284,280.48297 316.69638,306.87846 324.48618,333.69922 C 329.59378,357.89703 342.2076,382.7541 333.94288,407.73697 C 322.60834,442.11883 295.85364,467.79278 273.19614,494.79674 C 265.38697,512.4919 277.31966,531.79188 291.16783,542.60123 C 305.51348,554.24892 327.10391,558.73446 334.75974,577.29442 C 342.36146,594.6765 346.98493,616.12008 365.13314,625.84458 C 384.23715,636.36571 406.39676,629.33895 426.10732,624.75461 C 443.32465,620.64325 462.12477,619.85104 478.34652,627.99276 C 512.59815,641.82337 541.40273,669.76291 579.38465,673.59084 C 618.14379,676.83918 657.64407,659.39073 682.79466,630.08856 C 691.57881,613.41818 681.37384,595.23333 680.24107,578.02232 C 677.60004,559.66298 684.38676,539.31837 700.77232,529.36607 C 718.78004,517.00874 741.67541,517.89222 761.42857,510.24107 C 780.58236,501.18446 787.45629,479.67942 797.74429,462.79713 C 809.27758,441.52713 809.79246,416.35709 805.27045,393.09568 C 799.07351,361.25762 784.87962,331.80463 773.97535,301.45439 C 764.84477,279.51173 748.99429,260.23846 727.96683,248.80678 C 705.04304,235.22611 676.2827,228.16419 660.70982,204.83482 C 650.72968,190.54243 645.07141,172.17001 630.15731,162.03311 C 617.93717,156.16544 604.65279,162.29933 593.25312,166.83291 C 573.28594,168.02397 559.49766,151.06683 543.01697,142.76498 C 526.68688,133.33344 508.48752,125.3958 489.24107,126.11607 z"
+           id="path4828"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3171);fill-opacity:1"
+           d="M 491.63681,125.02557 C 456.69962,125.13241 426.37425,150.63452 412.01181,181.18182 C 395.88252,194.0446 371.24707,182.43157 356.26181,197.61932 C 340.77894,212.02038 342.03701,234.75221 338.92948,253.96788 C 331.85858,279.39247 319.09212,305.78796 326.88192,332.60872 C 331.98952,356.80653 344.60334,381.6636 336.33862,406.64647 C 325.00408,441.02833 298.24938,466.70228 275.59188,493.70624 C 267.78271,511.4014 279.7154,530.70138 293.56357,541.51073 C 307.90922,553.15842 329.49965,557.64396 337.15548,576.20392 C 344.7572,593.586 349.38067,615.02958 367.52888,624.75408 C 386.63289,635.27521 408.7925,628.24845 428.50306,623.66411 C 445.72039,619.55275 464.52051,618.76054 480.74226,626.90226 C 514.99389,640.73287 543.79847,668.67241 581.78039,672.50034 C 620.53953,675.74868 660.03981,658.30023 685.1904,628.99806 C 693.97455,612.32768 683.76958,594.14283 682.63681,576.93182 C 679.99578,558.57248 686.7825,538.22787 703.16806,528.27557 C 721.1758,515.91824 744.0712,516.80172 763.8243,509.15057 C 782.9781,500.09396 789.852,478.58892 800.14,461.70663 C 811.6733,440.43663 812.1882,415.26659 807.6662,392.00518 C 801.4693,360.16712 787.2754,330.71413 776.3711,300.36389 C 767.2405,278.42123 751.39,259.14796 730.3626,247.71628 C 707.43878,234.13561 678.67844,227.07369 663.10556,203.74432 C 653.12542,189.45193 647.46715,171.07951 632.55305,160.94261 C 620.33291,155.07494 607.04853,161.20883 595.64886,165.74241 C 575.68168,166.93347 561.8934,149.97633 545.41271,141.67448 C 529.08262,132.24294 510.88326,124.3053 491.63681,125.02557 z"
+           id="path4830"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3182);fill-opacity:1"
+           d="M 378.18304,209.04534 C 363.40459,210.60872 358.20816,233.39119 357.1719,250.25912 C 351.69596,261.3068 341.55701,274.40621 347.68304,288.71303 C 350.65558,299.87507 351.14344,316.48242 361.33929,320.05352 C 370.765,315.63671 382.50639,315.56645 389.68304,326.29613 C 397.984,332.58209 407.18967,320.63416 406.20188,308.95921 C 405.4528,299.47694 403.81347,287.86979 411.51372,282.52526 C 417.91148,274.20124 430.83621,272.67871 431.87054,258.49167 C 430.53848,244.856 419.22071,239.53905 411.33338,234.08286 C 398.81872,229.17676 391.89369,208.77502 378.18304,209.04534 z"
+           id="path4832"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3186);fill-opacity:1"
+           d="M 404.3693,454.1875 C 396.80927,458.26351 397.70215,468.07174 389.69943,472.36406 C 380.79778,478.29558 373.96156,487.51173 377.51623,497.10307 C 380.30616,506.63706 380.96555,518.76167 369.60234,524.88386 C 360.11704,530.33395 348.13523,537.69185 350.95425,548.46875 C 353.42848,558.08563 367.96888,562.2916 378.15928,557.64294 C 392.47383,553.07244 408.10271,546.4139 423.6388,551.6875 C 438.05866,555.51099 453.03026,565.42498 468.72942,559.84375 C 479.23225,548.53508 455.38438,540.64045 452.96697,529.9375 C 447.33952,517.32455 470.46794,509.13749 463.16293,496.50683 C 457.72564,485.73835 439.08017,485.81463 434.40565,474.4971 C 428.07987,464.82503 419.0127,454.93046 404.3693,454.1875 z"
+           id="path4834"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3190);fill-opacity:1"
+           d="M 674.02915,271.44167 C 655.81752,272.85488 649.4139,293.44916 648.13691,308.69696 C 641.38885,318.68354 628.89453,330.52478 636.44369,343.45747 C 640.10678,353.54742 640.70798,368.55968 653.27243,371.78778 C 664.88782,367.7952 679.35686,367.73169 688.20071,377.43081 C 698.43007,383.11301 709.77431,372.31265 708.55704,361.75905 C 707.63395,353.18753 705.61378,342.69522 715.10288,337.86402 C 722.9869,330.3395 738.91417,328.96321 740.18879,316.13879 C 738.54728,303.8128 724.60028,299.00653 714.88064,294.07439 C 699.4587,289.63951 690.92492,271.19731 674.02915,271.44167 z"
+           id="path4836"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3194);fill-opacity:1"
+           d="M 614.61607,440.10714 C 587.15465,445.02361 569.83367,473.57583 569.98547,500.12188 C 566.65796,522.50207 553.09487,544.0472 558.58482,567.20089 C 564.50178,574.79598 576.55196,571.3021 583.19026,578.29381 C 586.59642,582.27441 591.58605,577.53307 596.00836,579.15697 C 604.56181,579.53366 611.69375,585.09413 617.95982,589.95089 C 628.77324,590.99973 635.25483,580.03806 644.95408,577.26879 C 660.17646,569.31582 675.06255,555.72393 675.52232,537.35714 C 676.31916,533.7007 678.73991,527.80115 682.20982,527.73214 C 681.81982,529.82461 684.82535,532.85133 683.70221,528.84273 C 680.505,512.92662 693.74721,497.83375 688.52232,482.16964 C 680.88282,471.18752 666.0224,474.28116 654.65858,474.87464 C 644.21614,474.64266 634.57506,466.78252 633.14732,456.29464 C 630.02003,448.59735 624.29245,439.04805 614.61607,440.10714 z M 676.95982,530.26339 C 676.94802,530.49279 676.81445,530.25197 676.95982,530.26339 z M 690.55357,573.20089 C 690.54074,573.43333 690.71355,572.97532 690.55357,573.20089 z"
+           id="path4838"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient3198);fill-opacity:1"
+           d="M 505.42411,277.01786 C 499.38812,284.75397 511.21934,296.16841 501.93026,302.72124 C 493.67333,313.11313 479.04748,321.37684 479.32942,336.22754 C 484.57087,349.00494 489.78902,363.12604 486.39751,376.9753 C 490.26117,385.99262 503.04533,385.13101 507.48661,393.58036 C 514.3028,395.15179 516.08531,385.95002 521.17411,383.29911 C 527.59872,377.67638 530.66051,369.25649 531.04911,361.01786 C 535.90574,352.23514 546.31657,360.19384 547.04911,367.64286 C 551.62023,377.04311 567.68209,375.24625 568.86161,364.48661 C 573.10362,350.12693 566.07499,335.96373 558.30103,324.26176 C 553.11286,318.3493 560.38143,312.90334 564.67411,309.51786 C 561.37159,303.32671 552.73971,307.56278 548.45536,310.51786 C 543.77742,313.99809 541.59597,321.57563 535.64286,322.70536 C 528.45442,318.57502 529.53947,308.76528 526.18628,302.0804 C 522.93618,291.90871 517.15482,278.35986 505.42411,277.01786 z"
+           id="path4840"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+      </g>
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         transform="matrix(0.5181574,0,0,0.5212052,-1418.644,418.43744)"
+         id="g2417">
+        <path
+           style="fill:#28170b"
+           d="M 489.24107,126.11607 C 454.30388,126.22291 423.97851,151.72502 409.61607,182.27232 C 393.48678,195.1351 368.85133,183.52207 353.86607,198.70982 C 338.3832,213.11088 339.64127,235.84271 336.53374,255.05838 C 329.46284,280.48297 316.69638,306.87846 324.48618,333.69922 C 329.59378,357.89703 342.2076,382.7541 333.94288,407.73697 C 322.60834,442.11883 295.85364,467.79278 273.19614,494.79674 C 265.38697,512.4919 277.31966,531.79188 291.16783,542.60123 C 305.51348,554.24892 327.10391,558.73446 334.75974,577.29442 C 342.36146,594.6765 346.98493,616.12008 365.13314,625.84458 C 384.23715,636.36571 406.39676,629.33895 426.10732,624.75461 C 443.32465,620.64325 462.12477,619.85104 478.34652,627.99276 C 512.59815,641.82337 541.40273,669.76291 579.38465,673.59084 C 618.14379,676.83918 657.64407,659.39073 682.79466,630.08856 C 691.57881,613.41818 681.37384,595.23333 680.24107,578.02232 C 677.60004,559.66298 684.38676,539.31837 700.77232,529.36607 C 718.78004,517.00874 741.67541,517.89222 761.42857,510.24107 C 780.58236,501.18446 787.45629,479.67942 797.74429,462.79713 C 809.27758,441.52713 809.79246,416.35709 805.27045,393.09568 C 799.07351,361.25762 784.87962,331.80463 773.97535,301.45439 C 764.84477,279.51173 748.99429,260.23846 727.96683,248.80678 C 705.04304,235.22611 676.2827,228.16419 660.70982,204.83482 C 650.72968,190.54243 645.07141,172.17001 630.15731,162.03311 C 617.93717,156.16544 604.65279,162.29933 593.25312,166.83291 C 573.28594,168.02397 559.49766,151.06683 543.01697,142.76498 C 526.68688,133.33344 508.48752,125.3958 489.24107,126.11607 z"
+           id="path2419"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2433);fill-opacity:1"
+           d="M 491.63681,125.02557 C 456.69962,125.13241 426.37425,150.63452 412.01181,181.18182 C 395.88252,194.0446 371.24707,182.43157 356.26181,197.61932 C 340.77894,212.02038 342.03701,234.75221 338.92948,253.96788 C 331.85858,279.39247 319.09212,305.78796 326.88192,332.60872 C 331.98952,356.80653 344.60334,381.6636 336.33862,406.64647 C 325.00408,441.02833 298.24938,466.70228 275.59188,493.70624 C 267.78271,511.4014 279.7154,530.70138 293.56357,541.51073 C 307.90922,553.15842 329.49965,557.64396 337.15548,576.20392 C 344.7572,593.586 349.38067,615.02958 367.52888,624.75408 C 386.63289,635.27521 408.7925,628.24845 428.50306,623.66411 C 445.72039,619.55275 464.52051,618.76054 480.74226,626.90226 C 514.99389,640.73287 543.79847,668.67241 581.78039,672.50034 C 620.53953,675.74868 660.03981,658.30023 685.1904,628.99806 C 693.97455,612.32768 683.76958,594.14283 682.63681,576.93182 C 679.99578,558.57248 686.7825,538.22787 703.16806,528.27557 C 721.1758,515.91824 744.0712,516.80172 763.8243,509.15057 C 782.9781,500.09396 789.852,478.58892 800.14,461.70663 C 811.6733,440.43663 812.1882,415.26659 807.6662,392.00518 C 801.4693,360.16712 787.2754,330.71413 776.3711,300.36389 C 767.2405,278.42123 751.39,259.14796 730.3626,247.71628 C 707.43878,234.13561 678.67844,227.07369 663.10556,203.74432 C 653.12542,189.45193 647.46715,171.07951 632.55305,160.94261 C 620.33291,155.07494 607.04853,161.20883 595.64886,165.74241 C 575.68168,166.93347 561.8934,149.97633 545.41271,141.67448 C 529.08262,132.24294 510.88326,124.3053 491.63681,125.02557 z"
+           id="path2421"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2435);fill-opacity:1"
+           d="M 378.18304,209.04534 C 363.40459,210.60872 358.20816,233.39119 357.1719,250.25912 C 351.69596,261.3068 341.55701,274.40621 347.68304,288.71303 C 350.65558,299.87507 351.14344,316.48242 361.33929,320.05352 C 370.765,315.63671 382.50639,315.56645 389.68304,326.29613 C 397.984,332.58209 407.18967,320.63416 406.20188,308.95921 C 405.4528,299.47694 403.81347,287.86979 411.51372,282.52526 C 417.91148,274.20124 430.83621,272.67871 431.87054,258.49167 C 430.53848,244.856 419.22071,239.53905 411.33338,234.08286 C 398.81872,229.17676 391.89369,208.77502 378.18304,209.04534 z"
+           id="path2423"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2437);fill-opacity:1"
+           d="M 404.3693,454.1875 C 396.80927,458.26351 397.70215,468.07174 389.69943,472.36406 C 380.79778,478.29558 373.96156,487.51173 377.51623,497.10307 C 380.30616,506.63706 380.96555,518.76167 369.60234,524.88386 C 360.11704,530.33395 348.13523,537.69185 350.95425,548.46875 C 353.42848,558.08563 367.96888,562.2916 378.15928,557.64294 C 392.47383,553.07244 408.10271,546.4139 423.6388,551.6875 C 438.05866,555.51099 453.03026,565.42498 468.72942,559.84375 C 479.23225,548.53508 455.38438,540.64045 452.96697,529.9375 C 447.33952,517.32455 470.46794,509.13749 463.16293,496.50683 C 457.72564,485.73835 439.08017,485.81463 434.40565,474.4971 C 428.07987,464.82503 419.0127,454.93046 404.3693,454.1875 z"
+           id="path2425"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2439);fill-opacity:1"
+           d="M 674.02915,271.44167 C 655.81752,272.85488 649.4139,293.44916 648.13691,308.69696 C 641.38885,318.68354 628.89453,330.52478 636.44369,343.45747 C 640.10678,353.54742 640.70798,368.55968 653.27243,371.78778 C 664.88782,367.7952 679.35686,367.73169 688.20071,377.43081 C 698.43007,383.11301 709.77431,372.31265 708.55704,361.75905 C 707.63395,353.18753 705.61378,342.69522 715.10288,337.86402 C 722.9869,330.3395 738.91417,328.96321 740.18879,316.13879 C 738.54728,303.8128 724.60028,299.00653 714.88064,294.07439 C 699.4587,289.63951 690.92492,271.19731 674.02915,271.44167 z"
+           id="path2427"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2441);fill-opacity:1"
+           d="M 614.61607,440.10714 C 587.15465,445.02361 569.83367,473.57583 569.98547,500.12188 C 566.65796,522.50207 553.09487,544.0472 558.58482,567.20089 C 564.50178,574.79598 576.55196,571.3021 583.19026,578.29381 C 586.59642,582.27441 591.58605,577.53307 596.00836,579.15697 C 604.56181,579.53366 611.69375,585.09413 617.95982,589.95089 C 628.77324,590.99973 635.25483,580.03806 644.95408,577.26879 C 660.17646,569.31582 675.06255,555.72393 675.52232,537.35714 C 676.31916,533.7007 678.73991,527.80115 682.20982,527.73214 C 681.81982,529.82461 684.82535,532.85133 683.70221,528.84273 C 680.505,512.92662 693.74721,497.83375 688.52232,482.16964 C 680.88282,471.18752 666.0224,474.28116 654.65858,474.87464 C 644.21614,474.64266 634.57506,466.78252 633.14732,456.29464 C 630.02003,448.59735 624.29245,439.04805 614.61607,440.10714 z M 676.95982,530.26339 C 676.94802,530.49279 676.81445,530.25197 676.95982,530.26339 z M 690.55357,573.20089 C 690.54074,573.43333 690.71355,572.97532 690.55357,573.20089 z"
+           id="path2429"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+        <path
+           style="fill:url(#linearGradient2443);fill-opacity:1"
+           d="M 505.42411,277.01786 C 499.38812,284.75397 511.21934,296.16841 501.93026,302.72124 C 493.67333,313.11313 479.04748,321.37684 479.32942,336.22754 C 484.57087,349.00494 489.78902,363.12604 486.39751,376.9753 C 490.26117,385.99262 503.04533,385.13101 507.48661,393.58036 C 514.3028,395.15179 516.08531,385.95002 521.17411,383.29911 C 527.59872,377.67638 530.66051,369.25649 531.04911,361.01786 C 535.90574,352.23514 546.31657,360.19384 547.04911,367.64286 C 551.62023,377.04311 567.68209,375.24625 568.86161,364.48661 C 573.10362,350.12693 566.07499,335.96373 558.30103,324.26176 C 553.11286,318.3493 560.38143,312.90334 564.67411,309.51786 C 561.37159,303.32671 552.73971,307.56278 548.45536,310.51786 C 543.77742,313.99809 541.59597,321.57563 535.64286,322.70536 C 528.45442,318.57502 529.53947,308.76528 526.18628,302.0804 C 522.93618,291.90871 517.15482,278.35986 505.42411,277.01786 z"
+           id="path2431"
+           inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+           inkscape:export-xdpi="90"
+           inkscape:export-ydpi="90" />
+      </g>
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         style="fill:#cccccc"
+         transform="matrix(0.9408807,-0.3387379,0.3387379,0.9408807,-190.19469,51.976429)"
+         id="g3467">
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot3419"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"><flowRegion
+             id="flowRegion3421"><rect
+               id="rect3423"
+               width="285.71429"
+               height="237.14285"
+               x="-1240"
+               y="135.21933"
+               style="fill:#cccccc" /></flowRegion><flowPara
+             id="flowPara3425"
+             style="font-size:72px;text-align:center;text-anchor:middle;fill:#cccccc">5</flowPara><flowPara
+             id="flowPara3429"
+             style="font-size:72px;text-align:center;text-anchor:middle;fill:#cccccc">15</flowPara><flowPara
+             id="flowPara3427" /></flowRoot>        <rect
+           style="fill:#cccccc;fill-opacity:1;stroke-width:12.39999962;stroke-miterlimit:11.69999695;stroke-dasharray:none"
+           id="rect3459"
+           width="68.571426"
+           height="5.7142859"
+           x="-1134.2858"
+           y="221.21933" />
+      </g>
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         style="filter:url(#filter3393)"
+         id="g2465">
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot2409"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           transform="translate(37.142857,294.28571)"><flowRegion
+             id="flowRegion2411"><rect
+               id="rect2413"
+               width="1240"
+               height="602.85712"
+               x="-1402.8572"
+               y="189.50504"
+               style="fill:#ffffff" /></flowRegion><flowPara
+             id="flowPara2415"
+             style="font-size:200px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Purisa;-inkscape-font-specification:Purisa Bold">Fractoroids</flowPara></flowRoot>      </g>
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         transform="translate(-4.654906,-6.997388)"
+         id="g3397">
+        <flowRoot
+           xml:space="preserve"
+           id="flowRoot3399"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           transform="translate(37.142857,294.28571)"><flowRegion
+             id="flowRegion3401"><rect
+               id="rect3403"
+               width="1240"
+               height="602.85712"
+               x="-1402.8572"
+               y="189.50504"
+               style="fill:#ffffff" /></flowRegion><flowPara
+             id="flowPara3405"
+             style="font-size:200px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:Purisa;-inkscape-font-specification:Purisa Bold">Fractoroids</flowPara></flowRoot>      </g>
+      <g
+         inkscape:export-ydpi="37.450562"
+         inkscape:export-xdpi="37.450562"
+         inkscape:export-filename="/home/usuario/Imágenes/factors.png"
+         style="fill:#cccccc"
+         transform="matrix(0.9924512,0.2733666,-0.2655561,0.9640954,24.59077,122.12833)"
+         id="g3461">
+        <text
+           xml:space="preserve"
+           style="font-size:120px;font-style:normal;font-weight:normal;fill:#cccccc;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="-414.28571"
+           y="280.93362"
+           id="text3451"><tspan
+             sodipodi:role="line"
+             id="tspan3453"
+             x="-414.28571"
+             y="280.93362">1</tspan><tspan
+             sodipodi:role="line"
+             x="-414.28571"
+             y="430.93362"
+             id="tspan3455">3</tspan></text>
+        <rect
+           style="fill:#cccccc;fill-opacity:1;stroke-width:12.39999962;stroke-miterlimit:11.69999695;stroke-dasharray:none"
+           id="rect3457"
+           width="97.14286"
+           height="14.285714"
+           x="-422.85715"
+           y="303.79074" />
+      </g>
+    </g>
+    <g
+       id="g4925"
+       transform="matrix(0.1982098,0,0,0.2037799,487.91293,168.73538)">
+      <g
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/ship.png"
+         style="fill:#000080"
+         transform="translate(-420.28509,-323.30143)"
+         id="g2398">
+        <path
+           sodipodi:type="arc"
+           style="fill:#000080"
+           id="path2400"
+           sodipodi:cx="364.28571"
+           sodipodi:cy="409.50504"
+           sodipodi:rx="341.42856"
+           sodipodi:ry="28.571428"
+           d="M 705.71426,409.50504 A 341.42856,28.571428 0 1 1 22.857147,409.50504 A 341.42856,28.571428 0 1 1 705.71426,409.50504 z"
+           transform="matrix(0,1,-1,0,808.07646,-0.4949586)" />
+        <path
+           transform="translate(8.5714283,225.71428)"
+           style="fill:#000080"
+           d="M 388.5,6.78125 C 365.62807,17.200628 356.28343,43.610425 354.60685,67.075018 C 337.63014,156.82365 288.21381,237.62597 225.78125,303.125 C 176.40367,357.40333 116.84207,400.87242 57.875,444 C 48.800952,462.56908 67.460953,485.34861 87.166523,483.37279 C 148.34333,497.50292 212.91794,480.4189 273.22156,500.0443 C 307.08449,512.28683 339.60577,533.11447 376.87295,531.75919 C 417.47912,530.90269 452.98181,508.72884 489.58026,493.86508 C 524.56048,478.87608 562.78892,468.02892 601.15625,472.875 C 632.47474,475.22629 665.32623,482.46189 695.75,471.21875 C 711.49972,461.70555 706.01571,434.49371 688.5945,430.2896 C 643.33158,401.49483 594.36596,376.40324 557.96714,335.99566 C 522.34754,298.96777 490.83216,257.66488 466.34375,212.4375 C 442.99238,167.10265 430.78303,117.09563 422.1875,67.125 C 417.24762,46.050493 411.76297,22.875963 394.96875,7.9375 C 392.96114,7.0033539 390.71243,6.5269346 388.5,6.78125 z"
+           id="path2402" />
+      </g>
+      <g
+         inkscape:export-filename="/home/usuario/Imágenes/ship.png"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         style="fill:url(#radialGradient4950);fill-opacity:1"
+         transform="translate(-422.85715,-322.85714)"
+         id="g2394">
+        <path
+           sodipodi:type="arc"
+           style="fill:url(#radialGradient4946);fill-opacity:1"
+           id="path2383"
+           sodipodi:cx="364.28571"
+           sodipodi:cy="409.50504"
+           sodipodi:rx="341.42856"
+           sodipodi:ry="28.571428"
+           d="M 705.71426,409.50504 A 341.42856,28.571428 0 1 1 22.857147,409.50504 A 341.42856,28.571428 0 1 1 705.71426,409.50504 z"
+           transform="matrix(0,1,-1,0,808.07646,-0.4949586)" />
+        <path
+           transform="translate(8.5714283,225.71428)"
+           style="fill:url(#radialGradient4948);fill-opacity:1"
+           d="M 388.5,6.78125 C 365.62807,17.200628 356.28343,43.610425 354.60685,67.075018 C 337.63014,156.82365 288.21381,237.62597 225.78125,303.125 C 176.40367,357.40333 116.84207,400.87242 57.875,444 C 48.800952,462.56908 67.460953,485.34861 87.166523,483.37279 C 148.34333,497.50292 212.91794,480.4189 273.22156,500.0443 C 307.08449,512.28683 339.60577,533.11447 376.87295,531.75919 C 417.47912,530.90269 452.98181,508.72884 489.58026,493.86508 C 524.56048,478.87608 562.78892,468.02892 601.15625,472.875 C 632.47474,475.22629 665.32623,482.46189 695.75,471.21875 C 711.49972,461.70555 706.01571,434.49371 688.5945,430.2896 C 643.33158,401.49483 594.36596,376.40324 557.96714,335.99566 C 522.34754,298.96777 490.83216,257.66488 466.34375,212.4375 C 442.99238,167.10265 430.78303,117.09563 422.1875,67.125 C 417.24762,46.050493 411.76297,22.875963 394.96875,7.9375 C 392.96114,7.0033539 390.71243,6.5269346 388.5,6.78125 z"
+           id="path4961" />
+      </g>
+    </g>
+    <flowRoot
+       xml:space="preserve"
+       id="flowRoot3199"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#d7d7f4;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter3903);font-family:Bitstream Vera Sans"
+       transform="translate(-2.4054081,503.0925)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion3201"
+         style="fill:url(#linearGradient3321);fill-opacity:1"><rect
+           id="rect3203"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:#d7d7f4;fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara3205"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#d7d7f4;fill-opacity:1;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2385"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(-2.7065641,501.98322)"><flowRegion
+         id="flowRegion2387"><rect
+           id="rect2389"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933" /></flowRegion><flowPara
+         id="flowPara2391"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2393"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:#5599ff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="translate(0.4517359,505.94965)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion2395"><rect
+           id="rect2397"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:#5599ff" /></flowRegion><flowPara
+         id="flowPara2399"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#5599ff;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot2401"
+       style="font-size:40px;font-style:normal;font-weight:normal;fill:url(#radialGradient3191);fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       transform="translate(0.4517429,505.94965)"
+       inkscape:export-filename="/home/usuario/goodtux.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><flowRegion
+         id="flowRegion2403"
+         style="fill:url(#radialGradient3195);fill-opacity:1"><rect
+           id="rect2405"
+           width="480"
+           height="148.57143"
+           x="151.42857"
+           y="395.21933"
+           style="fill:url(#radialGradient3193);fill-opacity:1" /></flowRegion><flowPara
+         id="flowPara2407"
+         style="font-size:144px;font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;fill:url(#radialGradient3197);fill-opacity:1;font-family:Rasheeq;-inkscape-font-specification:Rasheeq Bold Italic">Good!</flowPara></flowRoot>  </g>
+</svg>

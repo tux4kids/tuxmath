@@ -1,0 +1,11 @@
+#ace round 1
+
+addition_allowed = 0
+subtraction_allowed = 0
+multiplication_allowed = 0
+allow_negatives = 0
+min_divisor = 0
+max_divisor = 10
+min_quotient = 0
+max_quotient = 10
+avg_list_length = 40

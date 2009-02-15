@@ -1,0 +1,45 @@
+# Division of Positives and Negatives
+
+# Math options
+play_through_list = 1
+allow_speedup = 1
+use_feedback = 1
+addition_allowed = 0
+subtraction_allowed = 0
+multiplication_allowed = 0
+division_allowed = 1
+typing_practice_allowed = 0
+allow_negatives = 1
+min_divisor = -5
+max_divisor = 5
+min_quotient = -5
+max_quotient = 5
+save_summary = 1
+question_copies = 1
+repeat_wrongs = 1
+copies_repeated_wrongs = 2
+format_answer_last = 1
+format_answer_first = 0
+format_answer_middle = 0
+format_div_answer_last = 1
+format_div_answer_first = 0
+format_div_answer_middle = 0
+max_answer = 999
+max_questions = 5000
+randomize = 1
+comprehensive = 1
+min_formula_nums = 2
+max_formula_nums = 2
+avg_list_length = 40
+vary_list_length = 0
+
+# General game options
+starting_comets = 2
+extra_comets_per_wave = 2
+max_comets = 10
+speed = 1.00
+max_speed = 10.00
+danger_level = 0.35
+danger_level_speedup = 1
+danger_level_max = 0.90
+city_explode_handicap = 0.00

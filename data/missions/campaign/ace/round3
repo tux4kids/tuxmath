@@ -1,0 +1,23 @@
+#ace round 3
+
+addition_allowed = 1
+subtraction_allowed = 1
+multiplication_allowed = 1
+allow_negatives = 1
+min_divisor = -12
+max_divisor = 12
+min_quotient = -12
+max_quotient = 12
+min_multiplier = -12
+max_multiplier = 12
+min_multiplicand = -12
+max_multiplicand = 12
+min_addend = -10
+max_addend = 10
+min_augend = -10
+max_augend = 10
+min_minuend = -10
+max_minuend = 10
+min_subtrahend = -10
+max_subtrahend = 10
+avg_list_length = 100

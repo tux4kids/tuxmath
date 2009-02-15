@@ -1,0 +1,25 @@
+#ranger bonus round
+
+subtraction_allowed = 1
+addition_allowed = 1
+multiplication_allowed = 1
+division_allowed = 1
+min_formula_nums = 3
+max_formula_nums = 4
+min_addend = 0
+max_addend = 10
+min_augend = 0
+max_augend = 10
+min_minuend = 0
+max_minuend = 10
+min_subtrahend = 0
+max_subtrahend = 10
+min_multiplier = 0
+max_multiplier = 10
+min_multiplicand = 0
+max_multiplicand = 10
+min_divisor = 0
+max_divisor = 10
+min_quotient = 0
+max_quotient = 10
+avg_list_length = 20

@@ -1,0 +1,262 @@
+// !$*UTF8*$!
+{
+	002F3A2B09D0888800EBEB88 /* SDLMain.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 429}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{84, 120}, {750, 558}}";
+		};
+	};
+	002F3A2C09D0888800EBEB88 /* SDLMain.m */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {818, 5376}}";
+			sepNavSelRange = "{345, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{160, 44}, {750, 558}}";
+		};
+	};
+	089C165DFE840E0CC02AAC07 /* English */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 429}}";
+			sepNavSelRange = "{168, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{176, 36}, {750, 558}}";
+		};
+	};
+	29B97313FDCFA39411CA2CEA /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeExecutable = A2AE40D10B32C71000C66A5D /* TuxMath */;
+		activeTarget = 8D1107260486CEB800E47090 /* TuxMath */;
+		addToTargets = (
+			8D1107260486CEB800E47090 /* TuxMath */,
+		);
+		codeSenseManager = A2AE40DB0B32C73000C66A5D /* Code sense */;
+		executables = (
+			A2AE40D10B32C71000C66A5D /* TuxMath */,
+		);
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					243,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					200,
+					63,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 195661484;
+			PBXWorkspaceStateSaveDate = 195661484;
+		};
+		perUserProjectItems = {
+			A2BFF0B60BA98EC100E42E36 /* PBXTextBookmark */ = A2BFF0B60BA98EC100E42E36 /* PBXTextBookmark */;
+			A2BFF0BA0BA9947D00E42E36 /* PBXTextBookmark */ = A2BFF0BA0BA9947D00E42E36 /* PBXTextBookmark */;
+			A2BFF0C20BA9980900E42E36 /* PBXTextBookmark */ = A2BFF0C20BA9980900E42E36 /* PBXTextBookmark */;
+			A2BFF0C30BA9980900E42E36 /* PBXTextBookmark */ = A2BFF0C30BA9980900E42E36 /* PBXTextBookmark */;
+			A2DD45860BA96A1800C5A800 = A2DD45860BA96A1800C5A800 /* PBXBookmark */;
+			A2DD458D0BA975F500C5A800 = A2DD458D0BA975F500C5A800 /* PBXTextBookmark */;
+		};
+		sourceControlManager = A2AE40DA0B32C73000C66A5D /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	32CA4F630368D1EE00C91783 /* TuxMath_Prefix.pch */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 429}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{84, 120}, {750, 558}}";
+		};
+	};
+	8D1107260486CEB800E47090 /* TuxMath */ = {
+		activeExec = 0;
+		executables = (
+			A2AE40D10B32C71000C66A5D /* TuxMath */,
+		);
+	};
+	8D1107310486CEB800E47090 /* Info.plist */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 429}}";
+			sepNavSelRange = "{715, 0}";
+			sepNavVisRect = "{{0, 0}, {711, 429}}";
+			sepNavWindowFrame = "{{61, 141}, {750, 558}}";
+		};
+	};
+	A210C4980B927F0F004EB748 /* theme.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {940, 5348}}";
+			sepNavSelRange = "{1212, 0}";
+			sepNavVisRect = "{{0, 183}, {940, 376}}";
+		};
+	};
+	A210C4990B927F0F004EB748 /* titlescreen.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {940, 30982}}";
+			sepNavSelRange = "{39347, 0}";
+			sepNavVisRect = "{{0, 366}, {940, 376}}";
+		};
+	};
+	A210C49A0B927F0F004EB748 /* titlescreen.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {692, 4102}}";
+			sepNavSelRange = "{1847, 0}";
+			sepNavVisRect = "{{0, 768}, {459, 186}}";
+			sepNavWindowFrame = "{{61, 141}, {750, 558}}";
+		};
+	};
+	A2AE40D10B32C71000C66A5D /* TuxMath */ = {
+		isa = PBXExecutable;
+		activeArgIndex = 2147483647;
+		activeArgIndices = (
+		);
+		argumentStrings = (
+		);
+		autoAttachOnCrash = 1;
+		configStateDict = {
+		};
+		customDataFormattersEnabled = 1;
+		debuggerPlugin = GDBDebugging;
+		disassemblyDisplayState = 0;
+		dylibVariantSuffix = "";
+		enableDebugStr = 1;
+		environmentEntries = (
+		);
+		executableSystemSymbolLevel = 0;
+		executableUserSymbolLevel = 0;
+		libgmallocEnabled = 0;
+		name = TuxMath;
+		savedGlobals = {
+		};
+		sourceDirectories = (
+		);
+	};
+	A2AE40DA0B32C73000C66A5D /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+		scmType = "";
+	};
+	A2AE40DB0B32C73000C66A5D /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	A2AE41820B32C88100C66A5D /* fileops.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {764, 34888}}";
+			sepNavSelRange = "{1068, 0}";
+			sepNavVisRect = "{{0, 306}, {459, 186}}";
+			sepNavWindowFrame = "{{38, 162}, {750, 558}}";
+		};
+	};
+	A2AE41910B32C88100C66A5D /* setup.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {940, 9814}}";
+			sepNavSelRange = "{7477, 86}";
+			sepNavVisRect = "{{0, 3151}, {940, 376}}";
+		};
+	};
+	A2AE41960B32C88100C66A5D /* tuxmath.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {711, 728}}";
+			sepNavSelRange = "{724, 0}";
+			sepNavVisRect = "{{0, 270}, {711, 429}}";
+			sepNavWindowFrame = "{{107, 99}, {750, 558}}";
+		};
+	};
+	A2AE41970B32C88100C66A5D /* tuxmath.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {752, 2226}}";
+			sepNavSelRange = "{465, 21}";
+			sepNavVisRect = "{{0, 264}, {459, 186}}";
+		};
+	};
+	A2BFF0B60BA98EC100E42E36 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C165DFE840E0CC02AAC07 /* English */;
+		name = "English: 5";
+		rLen = 0;
+		rLoc = 168;
+		rType = 0;
+		vrLen = 272;
+		vrLoc = 0;
+	};
+	A2BFF0BA0BA9947D00E42E36 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C165DFE840E0CC02AAC07 /* English */;
+		name = "English: 5";
+		rLen = 0;
+		rLoc = 168;
+		rType = 0;
+		vrLen = 272;
+		vrLoc = 0;
+	};
+	A2BFF0C20BA9980900E42E36 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "error: 'bytes_read' undeclared (first use in this function)";
+		fRef = A210C4990B927F0F004EB748 /* titlescreen.c */;
+		rLen = 1;
+		rLoc = 1477;
+		rType = 1;
+	};
+	A2BFF0C30BA9980900E42E36 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = A210C4990B927F0F004EB748 /* titlescreen.c */;
+		name = "titlescreen.c: 1411";
+		rLen = 0;
+		rLoc = 39347;
+		rType = 0;
+		vrLen = 671;
+		vrLoc = 1361;
+	};
+	A2DD45860BA96A1800C5A800 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 089C165DFE840E0CC02AAC07 /* English */;
+	};
+	A2DD458D0BA975F500C5A800 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C165DFE840E0CC02AAC07 /* English */;
+		name = "English: 5";
+		rLen = 0;
+		rLoc = 168;
+		rType = 0;
+		vrLen = 272;
+		vrLoc = 0;
+	};
+}

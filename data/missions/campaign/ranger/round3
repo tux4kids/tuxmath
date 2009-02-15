@@ -1,0 +1,18 @@
+#ranger round 3
+
+addition_allowed = 1
+subtraction_allowed = 1
+allow_negatives = 1
+min_multiplier = -12
+max_multiplier = 12
+min_multiplicand = -12
+max_multiplicand = 12
+min_addend = -20
+max_addend = 20
+min_augend = -20
+max_augend = 20
+min_minuend = -10
+max_minuend = 10
+min_subtrahend = -10
+max_subtrahend = 10
+avg_list_length = 100
