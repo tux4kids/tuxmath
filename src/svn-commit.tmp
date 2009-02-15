@@ -1,0 +1,36 @@
+updated source files
+
+--This line, and those below, will be ignored--
+
+A    Makefile.in
+M    mathcards.c
+D    localcharset.h
+D    cjk.h
+M    campaign.c
+D    unitypes.h
+M    loaders.h
+D    uniwidth.h
+D    u16-mbtouc-aux.c
+D    u16-mbtouc.c
+M    SDL_extras.c
+AM   exercise_mathcards
+D    u16-mbtouc-unsafe-aux.c
+D    width.c
+M    titlescreen.c
+D    u16-mbtouc-unsafe.c
+M    lessons.c
+D    linebreak.c
+D    u8-mbtouc-unsafe-aux.c
+D    lbrkprop.h
+D    linebreak.h
+D    u8-mbtouc-unsafe.c
+D    streq.h
+D    xsize.h
+D    u8-mbtouc-aux.c
+D    u8-uctomb-aux.c
+M    linewrap.c
+D    u8-mbtouc.c
+D    u8-uctomb.c
+M    linewrap.h
+M    Makefile.am
+D    unistr.h
