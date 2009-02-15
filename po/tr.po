@@ -1,0 +1,776 @@
+# translation of tr2.po to Turkish
+# This file is put in the public domain.
+#
+# Doruk Fisek <dfisek@fisek.com.tr>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: tr2\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2009-02-14 16:59-0600\n"
+"PO-Revision-Date: 2008-12-07 15:54+0200\n"
+"Last-Translator: Doruk Fisek <dfisek@fisek.com.tr>\n"
+"Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: KBabel 1.11.4\n"
+
+#: src/campaign.h:29
+msgid "-[Esc] to skip"
+msgstr "-Atlamak için [Esc]"
+
+#: src/campaign.h:30
+msgid "Mission One: Careful Cadet"
+msgstr "Görev Bir : Dikkatli Tertip"
+
+#: src/campaign.h:32
+msgid "I'm so glad you've come!"
+msgstr "Geldiğine çok sevindim!"
+
+#: src/campaign.h:34
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+
+#: src/campaign.h:36
+msgid "Do your best!"
+msgstr "En iyisini yap!"
+
+#: src/campaign.h:42
+msgid "Mission Two: Smart Scout"
+msgstr "Görev İki: Akıllı İzci"
+
+#: src/campaign.h:44
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+
+#: src/campaign.h:46
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+
+#: src/campaign.h:47
+msgid "But you can save them!"
+msgstr "Ama sen onları kurtarabilirsin!"
+
+#: src/campaign.h:53
+msgid "Mission Three: Royal Ranger"
+msgstr "Görev Üç: Asil Korucu"
+
+#: src/campaign.h:55
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+
+#: src/campaign.h:57
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+
+#: src/campaign.h:63
+msgid "Mission Four: Imperial Ace"
+msgstr "Görev Dört: İmparatorluk Ası"
+
+#: src/campaign.h:65
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+
+#: src/campaign.h:67
+#, fuzzy
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr "yeni bir saldırı başlar!"
+
+#: src/campaign.h:68
+#, fuzzy
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Şimdi dinlenmek için zaman yok; şehrin"
+
+#: src/campaign.h:74
+msgid "Final Mission: Computing Commando"
+msgstr "Son Görev: Hesaplama Komandosu"
+
+#: src/campaign.h:76
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+
+#: src/campaign.h:77
+msgid "I hope that hint helps!"
+msgstr "Umarım bu ipucu işine yarar!"
+
+#: src/campaign.h:79
+#, fuzzy
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Hepsi bu! Bu saldırıları sonsuza dek"
+
+#: src/campaign.c:31
+msgid "Congratulations! You win!"
+msgstr "Tebrikler! Kazandın!"
+
+#: src/campaign.c:49
+msgid "Round"
+msgstr "Tur"
+
+#: src/campaign.c:159
+msgid "Sorry, try again!"
+msgstr "Üzgünüm, tekrar dene!"
+
+#: src/campaign.c:166
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Görev başarıyla tamamlandı. Galaksi güvenli!"
+
+#: src/factoroids.c:558
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr ""
+
+#: src/factoroids.c:559 src/factoroids.c:570
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr "Ok tuşlarını kullanarak dön ya da ileri git. Bir asteroidi hedef al,"
+
+#: src/factoroids.c:560
+msgid "type one of its factors, and press space or return"
+msgstr "çarpanlarından birini yaz ve boşluk ya da enter'e "
+
+#: src/factoroids.c:561
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr "basarak çarpanlarına ayır. Asal sayılar olan kayalar yok oluyor!"
+
+#: src/factoroids.c:569
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr "KESİRLER: Kazanmak için tüm asteroitleri yok etmen gerekiyor."
+
+#: src/factoroids.c:571
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr ""
+"Kesiri basitleştirebilecek bir sayıyı yazıp boşluk ya da enter'e basarak onu"
+
+#: src/factoroids.c:572
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr ""
+"parçalayın. Daha fazla basitleştirilemeyen kesirleri tek bir atışta yok et!"
+
+#: src/game.c:717
+msgid "Welcome to TuxMath!"
+msgstr "TuxMath'e Hoş Geldin!"
+
+#: src/game.c:734
+msgid "Your mission is to save your"
+msgstr "Görevin penguenlerin evlerini"
+
+#: src/game.c:735
+msgid "penguins' igloos from the"
+msgstr "düşen kuyruklu yıldızlardan"
+
+#: src/game.c:736
+msgid "falling comets."
+msgstr "korumak."
+
+#: src/game.c:755
+msgid "Stop a comet by typing"
+msgstr "Kuyruklu yıldızı durdurmak için"
+
+#: src/game.c:756
+msgid "the answer to the math problem"
+msgstr "matematik probleminin yanıtını yaz"
+
+#: src/game.c:757
+msgid "and hitting 'space' or 'enter'."
+msgstr "ve 'boşluk' ya da 'enter' tuşuna bas."
+
+#: src/game.c:758
+msgid "Try it now!"
+msgstr "Şimdi dene!"
+
+#: src/game.c:766
+msgid "Good shot!"
+msgstr "İyi atış!"
+
+#: src/game.c:776
+msgid "If an igloo gets hit by a comet,"
+msgstr "Eğer bir ev kuyruklu yıldız tarafından"
+
+#: src/game.c:777
+msgid "it melts. But don't worry: the"
+msgstr "vurulursa erir. Ama merak etme :"
+
+#: src/game.c:778
+msgid "penguin is OK!"
+msgstr "içindeki penguene zarar gelmez!"
+
+#: src/game.c:779
+msgid "Just watch what happens:"
+msgstr "Yalnız ne olduğunu izle:"
+
+#: src/game.c:780
+msgid "(Press a key to start)"
+msgstr "(Başlamak için bir tuşa bas)"
+
+#: src/game.c:793
+msgid "Notice the answer"
+msgstr "Yanıta dikkat et"
+
+#: src/game.c:803
+msgid "If it gets hit again, the"
+msgstr "Eğer ev tekrar vurulursa,"
+
+#: src/game.c:804
+msgid "penguin leaves."
+msgstr "içindeki penguen evi terk eder."
+
+#: src/game.c:805
+msgid "(Press a key when ready)"
+msgstr "(Hazır olunca herhangi bir tuşa basın)"
+
+#: src/game.c:824
+msgid "You can fix the igloos"
+msgstr "Ek kuyruklu yıldızları durdurarak"
+
+#: src/game.c:825
+msgid "by stopping bonus comets."
+msgstr "evlerini tamir edebilirsin."
+
+#: src/game.c:834
+msgid "Zap it now!"
+msgstr "Hemen vur onu!"
+
+#: src/game.c:838
+msgid "Great job!"
+msgstr "İyi iş!"
+
+#: src/game.c:852
+msgid "Quit at any time by pressing"
+msgstr "Her an 'Esc'e basarak ya da"
+
+#: src/game.c:853
+msgid "'Esc' or clicking the 'X'"
+msgstr "sağ üst köşedeki 'X'e"
+
+#: src/game.c:854
+msgid "in the upper right corner."
+msgstr "tıklayarak çıkabilirsin."
+
+#: src/game.c:855
+msgid "Do it now, and then play!"
+msgstr "Hemen şimdi yap ve sonra oyna!"
+
+#: src/highscore.c:213 src/titlescreen.c:864
+msgid "Hall Of Fame"
+msgstr "Gurur Tablosu"
+
+#: src/highscore.c:235 src/highscore.c:256 src/titlescreen.c:800
+#: src/titlescreen.c:859
+msgid "Space Cadet"
+msgstr "Uzay Tertibi"
+
+#: src/highscore.c:238 src/titlescreen.c:801 src/titlescreen.c:860
+msgid "Scout"
+msgstr "İzci"
+
+#: src/highscore.c:241 src/titlescreen.c:802 src/titlescreen.c:861
+msgid "Ranger"
+msgstr "Korucu"
+
+#: src/highscore.c:244 src/titlescreen.c:803 src/titlescreen.c:862
+msgid "Ace"
+msgstr "As"
+
+#: src/highscore.c:247 src/titlescreen.c:804 src/titlescreen.c:863
+msgid "Commando"
+msgstr "Komando"
+
+#: src/highscore.c:250 src/titlescreen.c:983
+msgid "Factors"
+msgstr "Çarpanlar"
+
+#: src/highscore.c:253 src/titlescreen.c:984
+msgid "Fractions"
+msgstr "Kesirler"
+
+#: src/highscore.c:359
+msgid "You Are In The Hall of Fame!"
+msgstr ""
+
+#: src/highscore.c:359
+msgid "Enter Your Name:"
+msgstr ""
+
+#: src/titlescreen.c:486
+msgid "Work In Progress!"
+msgstr "Çalışmalar Sürüyor!"
+
+#: src/titlescreen.c:487
+msgid "This feature is not ready yet"
+msgstr "Bu özellik henüz hazır değil"
+
+#: src/titlescreen.c:488
+msgid "Discuss the future of TuxMath at"
+msgstr "Tuxmath'in geleceğini tartışıldığı liste :"
+
+#: src/titlescreen.c:489
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/titlescreen.c:662
+msgid "Play Alone"
+msgstr "Yalnız Oyna"
+
+#: src/titlescreen.c:663
+msgid "Play With Friends"
+msgstr "Arkadaşlarla Oyna"
+
+#: src/titlescreen.c:664
+#, fuzzy
+msgid "Factoroids!"
+msgstr "Çarpanlar"
+
+#: src/titlescreen.c:665
+msgid "Help"
+msgstr "Yardım"
+
+#: src/titlescreen.c:666
+msgid "More Options"
+msgstr "Daha Çok Seçenek"
+
+#: src/titlescreen.c:667
+msgid "Quit"
+msgstr "Çıkış"
+
+#: src/titlescreen.c:741
+msgid "Math Command Training Academy"
+msgstr "Matematik Komutanlığı Eğitim Akademisi"
+
+#: src/titlescreen.c:742
+msgid "Math Command Fleet Missions"
+msgstr "Matematik Komutanlığı Donanması Görevleri"
+
+#: src/titlescreen.c:743
+msgid "Play Arcade Game"
+msgstr "Eğlence Oyunu Oyna"
+
+#: src/titlescreen.c:744
+msgid "Play Custom Game"
+msgstr "Özel Oyun Oyna"
+
+#: src/titlescreen.c:745 src/titlescreen.c:796 src/titlescreen.c:805
+#: src/titlescreen.c:865 src/titlescreen.c:985
+msgid "Main menu"
+msgstr "Ana menü"
+
+#: src/titlescreen.c:794
+msgid "Score Sweep"
+msgstr ""
+
+#: src/titlescreen.c:795
+msgid "Elimination"
+msgstr ""
+
+#: src/titlescreen.c:839
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/titlescreen.c:840
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/titlescreen.c:959
+msgid "Edit 'options' file in your home directory"
+msgstr "Özelleştirilmiş oyun yaratmak için"
+
+#: src/titlescreen.c:960
+msgid "to create customized game!"
+msgstr "ev dizinindeki 'options' dosyasını düzenle!"
+
+#: src/titlescreen.c:961
+msgid "Press a key or click your mouse to start game."
+msgstr "Oyuna başlamak için bir tuşa basın ya da fareye tıklayın."
+
+#: src/titlescreen.c:962
+msgid "See README.txt for more information"
+msgstr "Daha fazla bilgi için README.txt dosyasına bakın"
+
+#: src/titlescreen.c:1077
+msgid "Demo"
+msgstr "Gösteri (Demo)"
+
+#: src/titlescreen.c:1078
+msgid "Project Info"
+msgstr "Proje Bilgisi"
+
+#: src/titlescreen.c:1079
+msgid "Credits"
+msgstr "Hazırlayanlar"
+
+#: src/titlescreen.c:1080
+msgid "Main Menu"
+msgstr "Ana Menü"
+
+#: src/titlescreen.c:1128
+msgid "TuxMath is free and open-source!"
+msgstr "TuxMath özgür ve açık kaynak kodlu!"
+
+#: src/titlescreen.c:1129
+msgid "You can help make it better by reporting problems,"
+msgstr "Sorunları bildirerek, iyileştirmeler önererek ya da kod yazarak"
+
+#: src/titlescreen.c:1130
+msgid "suggesting improvements, or adding code."
+msgstr "daha iyi olmasına yardımcı olabilirsin."
+
+#: src/titlescreen.c:1131
+msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"tuxmath-devel@lists.sourceforge.net e-posta listesinde TuxMath'in geleceğini "
+"tartışabilirsin"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr "Sayı Yazmak"
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr "Toplama: 1'den 3'e"
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr "Toplama: 0'dan 5'e"
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr "Toplama: Toplamı 10"
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr "Toplama: Toplamı 15"
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr "Toplama: Toplamı 20"
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr "Toplama : İki Basamaklı Sayılar"
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr "Toplama : Eksik Sayılar"
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr "Çıkarma: 0'dan 10'a"
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr "Çıkarma: 0'dan 20'ye"
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Çıkarma: İki Basamaklı Sayılar"
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr "Toplama ve Çıkarma Değerlendirmesi"
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr "Çarpma: 0'dan 3'e"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "2'nin Katları"
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr "3'ün Katları"
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr "4'ün Katları"
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr "5'in Katları"
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr "Çarpma: 0'dan 5'e"
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr "6'nın Katları"
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr "7'nin Katları"
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr "Çarpma: 0'dan 7'ye"
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr "8'in Katları"
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr "9'un Katları"
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr "10'un Katları"
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr "Çarpma: 0'dan 10'a"
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr "11 ve 12'nin Katları"
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr "Çarpma: 0'dan 12'ye"
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr "13, 14 ve 15'in Katları"
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr "Çarpma: 0'dan 15'e"
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr "Çarpma: Eksik Sayılar"
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr "2'ye Bölme"
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr "3'e Bölme"
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr "4'e Bölme"
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr "5'e Bölme"
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr "Bölme: 1'den 5'e"
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr "6'ya Bölme"
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr "7'ye Bölme"
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr "8'e Bölme"
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr "9'a Bölme"
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr "10'a Bölme"
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr "Bölme: 1'den 10'a"
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr "11 ve 12'ye Bölme"
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr "Bölme: 1'den 12'ye"
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr "13, 14 ve 15'e Bölme"
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr "Bölme: 1'den 15'e"
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr "Çarpım ve Bölme Değerlendirmesi"
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr "Negatif Sayıların Yazımı"
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr "Çıkartma: Negatif Sonuçlar"
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr "Negatiflerle Pozitiflerin Toplanması"
+
+#: data/missions/lessons/descr_lessons:50
+#, fuzzy
+msgid "Adding Positives to Negatives"
+msgstr "Negatiflerin Negatiflerle Toplanması"
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Subtracting Negatives From Positives"
+msgstr "Pozitiflerden Negatiflerin Çıkartılması"
+
+#: data/missions/lessons/descr_lessons:52
+#, fuzzy
+msgid "Subtracting Positives From Negatives"
+msgstr "Negatiflerin Negatiflerden Çıkartılması"
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Adding Negatives to Negatives"
+msgstr "Negatiflerin Negatiflerle Toplanması"
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Subtracting Negatives From Negatives"
+msgstr "Negatiflerin Negatiflerden Çıkartılması"
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Negative and Positive Numbers Review"
+msgstr "Negatif ve Pozitif Sayıların Değerlendirmesi"
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Multiplication and Division of Negatives"
+msgstr "Negatif Sayıların Çarpma ve Bölmesi"
+
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiplication of Positives and Negatives"
+msgstr "Pozitiflerle Negatiflerin Çarpılması"
+
+#: data/missions/lessons/descr_lessons:58
+msgid "Division of Positives and Negatives"
+msgstr "Pozitif ve Negatiflerin Bölünmesi"
+
+#~ msgid "The penguins need your help! Comets"
+#~ msgstr "Penguenlerin yardımına ihtiyacı var!"
+
+#~ msgid "are falling from the sky, and are melting"
+#~ msgstr "Kuyruklu yıldızlar gökten düşüyor ve"
+
+#~ msgid "the penguins' igloos. To save their homes,"
+#~ msgstr "penguenlerin evlerini eritiyor. Evlerini kurtarmak için,"
+
+#~ msgid "we need you to find the secret code that"
+#~ msgstr "her kuyruklu yıldızı düşürecek"
+
+#~ msgid " will zap each comet."
+#~ msgstr "gizli kodu bulmanı istiyoruz"
+
+#~ msgid "Great job! Since you saved the penguins' homes,"
+#~ msgstr "İyi iş çıkardın! Penguenlerin evlerini kurtardığın için,"
+
+#~ msgid "we are promoting you to Scout. Scouts are good"
+#~ msgstr "seni \"İzci\"liğe yükseltiyoruz. İzciler"
+
+#~ msgid "for keeping an eye out for trouble..."
+#~ msgstr "olası bir soruna karşı tetikte olurlar"
+
+#~ msgid "...like what's happening right now!"
+#~ msgstr "... tıpkı şimdi olan gibi!"
+
+#~ msgid "The TakeAways have come, and they're sending"
+#~ msgstr "Paket servisleri geldi ve penguenlere yeni  daha becerikli"
+
+#~ msgid "new, trickier comets against the penguins!"
+#~ msgstr "kuyruklu yıldızlar gönderiyorlar!"
+
+#~ msgid "You've done it again! The Penguin Emperor has"
+#~ msgstr "Tekrar başardın! İmparator Penguen seni"
+
+#~ msgid "chosen you to join his team of Rangers that"
+#~ msgstr "şehri korumaya yardımcı olan kendi korucular"
+
+#~ msgid "help protect the city.  We're sending you"
+#~ msgstr "takımına katılman için seçti. Şimdi seni"
+
+#~ msgid "there now..."
+#~ msgstr "oraya gönderiyoruz..."
+
+#~ msgid "...oh no! Now the Emperor himself is under attack,"
+#~ msgstr "... oo hayır! Şimdi İmparator'un kendisine saldırılıyor,"
+
+#~ msgid "from new types of comets: these problems are"
+#~ msgstr "hem de yeni tip kuyruklu yıldızlarla : problemler"
+
+#~ msgid "multiplying! To fight these, you need great"
+#~ msgstr "katlanıyor! Bunlarla savaşmak için, harika yeteneklere"
+
+#~ msgid "skill. We think you can do it. Join the"
+#~ msgstr "gereksinim var. Yapabileceğini düşünüyoruz."
+
+#~ msgid "Rangers and help save the city!"
+#~ msgstr "Koruculara katıl ve şehri kurtarmaya yardım et!"
+
+#~ msgid "You did it! The Emperor wants to thank you"
+#~ msgstr "Başardın! İmparator sana bizzat kendisi teşekkür"
+
+#~ msgid "in person. We are taking you to his ice palace"
+#~ msgstr "etmek istiyor. Seni büyük bir onur kazanman için"
+
+#~ msgid "for a great honor: you will become"
+#~ msgstr "buzdan kalesine götürüyoruz :"
+
+#~ msgid "the Imperial Ace!"
+#~ msgstr "İmparatorluk Ası olacaksın!"
+
+#~ msgid "But right in the middle of the ceremony,"
+#~ msgstr "Törenin tam ortasında Bölme Ülkesi'nden"
+
+#~ msgid "needs your help!"
+#~ msgstr "yardımında gereksinimi var!"
+
+#~ msgid "Penguin scientists have learned that all"
+#~ msgstr "Penguen bilim adamları tüm bu saldırıların"
+
+#~ msgid "these attacks are coming from a secret"
+#~ msgstr "gizli bir üsten geldiğini öğrendi ve senin"
+
+#~ msgid "base, and they need you to go fight"
+#~ msgstr "gidip bu işi sona erdirecek savaşı"
+
+#~ msgid "the final battle. They also give you"
+#~ msgstr "kazanmana ihtiyaçları var. Sana bir de ipuuc"
+
+#~ msgid "this clue: first do multiplication and"
+#~ msgstr "verdiler: Önce çarpma ve bölmeyi, ondan"
+
+#~ msgid "division, and then do addition and subtraction."
+#~ msgstr "sonra toplama ve çıkarmayı yap."
+
+#~ msgid "forever, Commando!"
+#~ msgstr "durdurabilirsin Komando!"
+
+#~ msgid "Other Math Command Activities"
+#~ msgstr "Diğer Matematik Komutanlığı Etkinlikleri"
