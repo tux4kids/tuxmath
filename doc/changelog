@@ -1,4 +1,4 @@
-2009.Feb.15 
+2009.Feb.15 (svn.debian.org/tux4kids - revision 889)
         build - moved linebreak-related code back to /linebreak, adjusted 
         autotools files. The code in /linebreak is now built as a static 
         library when using the autotools build.

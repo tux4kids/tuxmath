@@ -9,7 +9,12 @@ SUBDIRS = data	\
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = tuxmath.spec tuxmath.desktop config.rpath m4/ChangeLog
+EXTRA_DIST = tuxmath.spec \
+	tuxmath.desktop \
+	config.rpath \
+	m4/ChangeLog \
+	CMakeLists.txt
+
 datadir = @datadir@
 localedir = $(datadir)/locale
 

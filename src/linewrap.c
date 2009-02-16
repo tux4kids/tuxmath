@@ -27,8 +27,8 @@
 #include "../linebreak/linebreak.h"
 #include "linewrap.h"
 
-static char *wrapped_lines0[MAX_LINES];  // for internal storage
-char *wrapped_lines[MAX_LINES];  // publicly available!
+static char *wrapped_lines0[MAX_LINES] = {NULL};  // for internal storage
+char *wrapped_lines[MAX_LINES] = {NULL}; // publicly available!
 
 void linewrap_initialize()
 {
@@ -43,12 +43,25 @@ void linewrap_initialize()
 void linewrap_cleanup()
 {
   int i;
+  fprintf(stderr, "enter linewrap_cleanup()\n");
 
   for (i = 0; i < MAX_LINES; i++) {
-    free(wrapped_lines[i]);
-    free(wrapped_lines0[i]);
+
+    if (wrapped_lines[i] != NULL) {
+    fprintf(stderr, "about to try to free wrapped_lines[%d]: %s\n", i, wrapped_lines[i]);
+      free(wrapped_lines[i]);
+      wrapped_lines[i] = NULL;
+    }
+
+    if(wrapped_lines0[i] != NULL) {
+      fprintf(stderr, "about to try to free wrapped_lines0[%d]: %s\n", i, wrapped_lines0[i]);
+      free(wrapped_lines0[i]);
+      wrapped_lines0[i] = NULL;
+    }
   }
-}  
+
+  fprintf(stderr, "done linewrap_cleanup()\n");
+}
 
 
 int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_width)
@@ -67,7 +80,7 @@ int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_
   // values at the first character of the next line, not at the space
   // between words.
   listIndex = 0;
-  for (strIndex = 0, i = 0; i < length; strIndex++,i++) {
+  for (strIndex = 0, i = 0; i < length; strIndex++, i++) {
     if (breaks[i] == UC_BREAK_POSSIBLE || breaks[i] == UC_BREAK_MANDATORY) {
       str_list[listIndex][strIndex] = '\0';  // terminate the previous string
       strIndex = 0;                          // start the next line
@@ -107,11 +120,11 @@ void linewrap_list(const char *input[],char *str_list[],int width,int max_lines,
     }
     /* Handle real strings */
     printf("Not blank. Translated: %s\n",gettext(input[inputIndex]));
-    n_lines = linewrap(gettext(input[inputIndex]),wrapped_lines0,width,max_lines,max_width);
-    printf("Wrapped to %d lines.\n",n_lines);
+    n_lines = linewrap(gettext(input[inputIndex]), wrapped_lines0, width,max_lines, max_width);
+    printf("Wrapped to %d lines.\n", n_lines);
     for (intermedIndex = 0; intermedIndex < n_lines && outputIndex < max_lines-1; intermedIndex++, outputIndex++) {
-      printf("intermedIndex %d, outputIndex %d, string %s\n",intermedIndex,outputIndex,wrapped_lines0[intermedIndex]);
-      strncpy(str_list[outputIndex],wrapped_lines0[intermedIndex],max_width);
+      printf("intermedIndex %d, outputIndex %d, string %s\n",intermedIndex,outputIndex, wrapped_lines0[intermedIndex]);
+      strncpy(str_list[outputIndex], wrapped_lines0[intermedIndex], max_width);
     }
   }
   printf("All done (outputIndex = %d)\n",outputIndex);

@@ -346,19 +346,30 @@ sprite* LoadSprite( char* name, int MODE ) {
 
 
 
-void FreeSprite( sprite *gfx ) {
+void FreeSprite(sprite* gfx )
+{
   int x;
   if (!gfx)
     return;
-  printf("Freeing image");
-  tmdprintf(" at %p", gfx);
+
+  tmdprintf("Freeing image at %p", gfx);
   for (x = 0; x < gfx->num_frames; x++)
   {
-    printf(".");
-    SDL_FreeSurface( gfx->frame[x] );
-  }              
-  SDL_FreeSurface( gfx->default_img );
-  printf("done\n");
+    tmdprintf(".");
+    if (gfx->frame[x])
+    {
+      SDL_FreeSurface(gfx->frame[x]);
+      gfx->frame[x] = NULL;
+    }
+  }
+
+  if (gfx->default_img)
+  {
+    SDL_FreeSurface(gfx->default_img);
+    gfx->default_img = NULL;
+  }
+
+  tmdprintf("FreeSprite() - done\n");
   free(gfx);
 }
 

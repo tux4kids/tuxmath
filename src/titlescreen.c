@@ -455,8 +455,9 @@ void TitleScreen_unload_menu(void)
 
   for (i = 0; i < N_SPRITES; i++)
   {
-    tmdprintf("Freeing image #%d: ", i);
+    tmdprintf("Freeing image %d: ", i);
     FreeSprite(sprite_list[i]);
+    sprite_list[i] = NULL;
   }
   free(sprite_list);
   tmdprintf("Images freed\n");

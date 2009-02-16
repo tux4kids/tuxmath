@@ -449,14 +449,14 @@ int scroll_text(char* text[], SDL_Rect subscreen, int speed)
           dest.y = subscreen.y + (subscreen.h - scroll * speed);
           dest.w = 1;
           dest.h = 1;
-#ifdef LINEBREAK
+//#ifdef LINEBREAK
 	  draw_text(text[line], dest);  // translation should have already occurred
-#else
-	  if (strlen(text[line]) > 0)
-	    draw_text(gettext(text[line]), dest);
-	  else
-	    draw_text(text[line], dest);
-#endif
+//#else
+//	  if (strlen(text[line]) > 0)
+//	    draw_text(gettext(text[line]), dest);
+//	  else
+//	    draw_text(text[line], dest);
+//#endif
 
           if (scroll * speed >= TTF_FontHeight(default_font) )
             {

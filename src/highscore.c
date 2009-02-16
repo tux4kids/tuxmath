@@ -18,6 +18,7 @@
 #include "setup.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "convert_utf.h"
 
 
 typedef struct high_score_entry {
@@ -490,7 +491,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
         case SDL_KEYDOWN:
         {
 #ifdef TUXMATH_DEBUG
-          fprintf(stderr, "Before keypress, string is %s\tlength = %d\n",
+          fprintf(stderr, "Before keypress, string is %S\tlength = %d\n",
                   wchar_buf, (int)wcslen(wchar_buf));
 #endif
           switch (event.key.keysym.sym)
@@ -525,7 +526,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
           }  /* end  'switch (event.key.keysym.sym)'  */
 
 #ifdef TUXMATH_DEBUG
-          fprintf(stderr, "After keypress, string is %s\tlength = %d\n",
+          fprintf(stderr, "After keypress, string is %S\tlength = %d\n",
                     wchar_buf, (int)wcslen(wchar_buf));
 #endif
             /* Now draw name, if needed: */

@@ -253,7 +253,12 @@ SUBDIRS = data	\
 	src
 
 ACLOCAL_AMFLAGS = -I m4
-EXTRA_DIST = tuxmath.spec tuxmath.desktop config.rpath m4/ChangeLog
+EXTRA_DIST = tuxmath.spec \
+	tuxmath.desktop \
+	config.rpath \
+	m4/ChangeLog \
+	CMakeLists.txt
+
 MAKENSIS = @NSIS@
 NSIS_FOUND = @NSIS_FOUND@
 NSI_TEMP_INSTALL_DIR = $(abs_top_builddir)/_instw32

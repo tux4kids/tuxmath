@@ -50,9 +50,9 @@
 #include "highscore.h"
 #include "SDL_extras.h"
 
-#ifdef LINEBREAK
+//#ifdef LINEBREAK
 #include "linewrap.h"
-#endif
+//#endif
 
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
@@ -113,9 +113,9 @@ void setup(int argc, char * argv[])
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
   /* Allocate memory for line wrapping */
-#ifdef LINEBREAK
+//#ifdef LINEBREAK
   linewrap_initialize();
-#endif
+//#endif
   /* SDL setup in own function:*/
   initialize_SDL();
   /* Read image and sound files: */
@@ -643,7 +643,7 @@ void cleanup(void)
   /* want to save settings from certain types of games. */
   //write_user_config_file();
   cleanup_memory();
-  exit(0);
+//  exit(0);
 }
 
 
@@ -672,9 +672,9 @@ void cleanup_memory(void)
   Uint16 format;
 
   /* Free memory used for line breaking */
-#ifdef LINEBREAK
+//#ifdef LINEBREAK
   linewrap_cleanup();
-#endif
+//#endif
 
   /* Free all images and sounds used by SDL: */
   if(default_font)
