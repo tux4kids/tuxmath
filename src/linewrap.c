@@ -27,8 +27,8 @@
 #include "../linebreak/linebreak.h"
 #include "linewrap.h"
 
-static char *wrapped_lines0[MAX_LINES] = {NULL};  // for internal storage
-char *wrapped_lines[MAX_LINES] = {NULL}; // publicly available!
+static char *wrapped_lines0[MAX_LINES];  // for internal storage
+char *wrapped_lines[MAX_LINES]; // publicly available!
 
 void linewrap_initialize()
 {
