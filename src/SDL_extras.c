@@ -476,6 +476,7 @@ SDL_Surface* BlackOutline(const char *t, TTF_Font *font, SDL_Color *c)
       SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_WHITE_LETTER);
 
     white_letters = SDLPango_CreateSurfaceDraw(context);
+    free(color_matrix);
   }
   else
   {

@@ -50,6 +50,10 @@
 #include "highscore.h"
 #include "SDL_extras.h"
 
+#ifdef HAVE_LIBSDL_PANGO
+#include "SDL_Pango.h"
+#endif
+
 //#ifdef LINEBREAK
 #include "linewrap.h"
 //#endif
