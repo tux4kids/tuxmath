@@ -2102,7 +2102,10 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
   free(menu_item_selected);
   free(menu_text_rect);
   free(menu_button_rect);
+  free(back_text_rect);
+  free(back_button_rect);
   free(menu_sprite_rect);
+  free(back_sprite_rect);
 
   /* Return the value of the chosen item (-1 indicates escape) */
   if (stop == 2)
