@@ -860,7 +860,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
   for (i = 0; i < NOPTS; ++i)
     {
     if (verbose && vcomments[i] != NULL)
-      fprintf(fp, vcomments[i]);
+      fprintf(fp, "%s", vcomments[i]);
     fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], math_opts->iopts[i]);
     }
   mcdprintf("\nLeaving MC_PrintMathOptions()\n");
@@ -2433,7 +2433,7 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     sscanf(beg, "%s", nans);
     *beg = 0; //sequester the first half of the string
     snprintf(card->formula_string, max_formula_size, "%s?%s", nformula, end);
-    snprintf(card->answer_string, max_answer_size, nans);
+    snprintf(card->answer_string, max_answer_size, "%s", nans);
     card->answer = atoi(card->answer_string);
   }
 }

@@ -1732,7 +1732,7 @@ int write_config_file(FILE *fp, int verbose)
   for (i = 0; i < NOPTS; ++i) //for each option
   {
     if (verbose && vcomments[i]) //comment goes before
-      fprintf(fp, vcomments[i]);
+      fprintf(fp, "%s", vcomments[i]);
     fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], MC_GetOpt(i) );
   }
   

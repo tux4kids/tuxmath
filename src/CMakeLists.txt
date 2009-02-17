@@ -18,7 +18,7 @@ endif (NOT SDLGFX_FOUND)
 # tuxmath
 set(SOURCES_TUXMATH
   audio.c
-  ConvertUTF.c
+  convert_utf.c
   credits.c
   factoroids.c
   fileops.c

@@ -1,3 +1,10 @@
+2009.Feb.17 (svn.debian.org/tux4kids - revision 892)
+        Fix convert_utf filename in CMake build. Eliminate the last few
+	warnings (David got almost all of them), so now tuxmath builds
+	without any compiler warnings.
+
+	Tim Holy <holy@wustl.edu>
+
 2009.Feb.15 (svn.debian.org/tux4kids - revision 889)
         build - moved linebreak-related code back to /linebreak, adjusted 
         autotools files. The code in /linebreak is now built as a static 

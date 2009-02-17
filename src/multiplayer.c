@@ -172,7 +172,7 @@ void showWinners(int* winners, int num)
 
   const char* winnername = (winners[0] == -1 ? "Nobody" : pnames[winners[0]] );
   
-  tmdprintf(pnames[winners[0]] );
+  tmdprintf("%s", pnames[winners[0]] );
   tmdprintf("%d\n", snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),
                     "%s wins!", winnername) );
   tmdprintf("Win text: %s\n", text);
