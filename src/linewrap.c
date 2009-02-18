@@ -67,7 +67,7 @@ void linewrap_cleanup()
 int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_width)
 {
   int length = strlen (input);
-  char *breaks = malloc (length);
+  char *breaks = malloc (length*sizeof(char));
   int i;
   int listIndex;
   int strIndex;
