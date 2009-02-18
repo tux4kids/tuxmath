@@ -27,51 +27,29 @@
 #include "../linebreak/linebreak.h"
 #include "linewrap.h"
 
-static char *wrapped_lines0[MAX_LINES];  // for internal storage
-char *wrapped_lines[MAX_LINES]; // publicly available!
-
-void linewrap_initialize()
-{
-  int i;
-
-  for (i = 0; i < MAX_LINES; i++) {
-    wrapped_lines[i] = (char *) malloc(sizeof(char)*MAX_LINEWIDTH);
-    wrapped_lines0[i] = (char *) malloc(sizeof(char)*MAX_LINEWIDTH);
-  }
-}
-
-void linewrap_cleanup()
-{
-  int i;
-  fprintf(stderr, "enter linewrap_cleanup()\n");
-
-  for (i = 0; i < MAX_LINES; i++) {
-
-    if (wrapped_lines[i] != NULL) {
-    fprintf(stderr, "about to try to free wrapped_lines[%d]: %s\n", i, wrapped_lines[i]);
-      free(wrapped_lines[i]);
-      wrapped_lines[i] = NULL;
-    }
-
-    if(wrapped_lines0[i] != NULL) {
-      fprintf(stderr, "about to try to free wrapped_lines0[%d]: %s\n", i, wrapped_lines0[i]);
-      free(wrapped_lines0[i]);
-      wrapped_lines0[i] = NULL;
-    }
-  }
-
-  fprintf(stderr, "done linewrap_cleanup()\n");
-}
+static char wrapped_lines0[MAX_LINES][MAX_LINEWIDTH];  // for internal storage
+char wrapped_lines[MAX_LINES][MAX_LINEWIDTH]; // publicly available!
 
 
-int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_width)
+
+int linewrap(const char *input, char str_list[MAX_LINES][MAX_LINEWIDTH],
+             int width, int max_lines, int max_width)
 {
   int length = strlen (input);
-  char *breaks = malloc (length*sizeof(char));
+//  char *breaks = malloc (length);
+  char breaks[MAX_LINES * MAX_LINEWIDTH];
+
   int i;
   int listIndex;
   int strIndex;
-  
+
+  if (length > MAX_LINES * MAX_LINEWIDTH)
+  {
+    fprintf(stderr, "warning: in linewrap(), length of input %d exceeds maximum %d, truncating\n",
+            length, MAX_LINES * MAX_LINEWIDTH);
+    length = MAX_LINES * MAX_LINEWIDTH;
+  }
+
   // Generate the positions with line breaks
   //mbs_width_linebreaks (input, length, width, 0, 0, NULL, locale_charset (), breaks);
   mbs_width_linebreaks (input, length, width, 0, 0, NULL, "UTF-8", breaks);
@@ -80,8 +58,10 @@ int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_
   // values at the first character of the next line, not at the space
   // between words.
   listIndex = 0;
-  for (strIndex = 0, i = 0; i < length; strIndex++, i++) {
-    if (breaks[i] == UC_BREAK_POSSIBLE || breaks[i] == UC_BREAK_MANDATORY) {
+  for (strIndex = 0, i = 0; i < length; strIndex++, i++)
+  {
+    if (breaks[i] == UC_BREAK_POSSIBLE || breaks[i] == UC_BREAK_MANDATORY)
+    {
       str_list[listIndex][strIndex] = '\0';  // terminate the previous string
       strIndex = 0;                          // start the next line
       listIndex++;
@@ -93,16 +73,17 @@ int linewrap(const char *input,char *str_list[],int width,int max_lines,int max_
   }
   str_list[listIndex][strIndex] = '\0';
 
-  free(breaks);
+//  free(breaks);
 
   // Return the number of lines
   if (listIndex < max_lines)
-    return listIndex+1;
+    return listIndex + 1;
   else
     return max_lines;
 }
 
-void linewrap_list(const char *input[],char *str_list[],int width,int max_lines,int max_width)
+void linewrap_list(const char *input[], char str_list[MAX_LINES][MAX_LINEWIDTH],
+                   int width, int max_lines, int max_width)
 {
   int inputIndex;
   int outputIndex;

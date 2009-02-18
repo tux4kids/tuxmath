@@ -13,6 +13,7 @@ EXTRA_DIST = tuxmath.spec \
 	tuxmath.desktop \
 	config.rpath \
 	m4/ChangeLog \
+	Info.plist \
 	CMakeLists.txt
 
 datadir = @datadir@

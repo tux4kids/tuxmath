@@ -116,10 +116,6 @@ void setup(int argc, char * argv[])
   initialize_options();
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
-  /* Allocate memory for line wrapping */
-//#ifdef LINEBREAK
-  linewrap_initialize();
-//#endif
   /* SDL setup in own function:*/
   initialize_SDL();
   /* Read image and sound files: */
@@ -674,11 +670,6 @@ void cleanup_memory(void)
   int i;
   int frequency,channels,n_timesopened;
   Uint16 format;
-
-  /* Free memory used for line breaking */
-//#ifdef LINEBREAK
-  linewrap_cleanup();
-//#endif
 
   /* Free all images and sounds used by SDL: */
   if(default_font)

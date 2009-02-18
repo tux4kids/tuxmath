@@ -31,74 +31,74 @@
 #include "SDL_extras.h"
 
 
-char * credit_text[] = {
-  "-TUX, OF MATH COMMAND",  /* '-' at beginning makes highlighted: */
-  "COPYRIGHT 2001-2006",
-  " ",
-  "PART OF THE 'TUX4KIDS' PROJECT",
-  " ",
-  "-DESIGNED BY",
-  "SAM 'CRISWELL' HART",
-  " ",
-  "-LEAD PROGRAMMERS",
-  "BILL KENDRICK,",
-  "NEW BREED SOFTWARE",
-  "DAVID BRUCE",
-  "TIM HOLY",
-  " ",
-  "-ADDITIONAL CODE",
-  "GLEN DITCHFIELD",
-  "MICHAEL BEHRISCH",
-  "DONNY VISZNEKI",
-  "YVES COMBE",
-  "DAVID YODER",
-  "KARL OVE HUFTHAMMER",
-  "AHMED SAYED",
-  "BRENDAN LUCHEN",
-  "JESUS M. MAGER H.",
-  " ",
-  "-LEAD ARTIST",
-  "SAM HART",
-  "",
-  "-ADDITIONAL ART",
-  "BILL KENDRICK",
-  "KENDRA SWANSON & LINNEA HOLY",
-  " ",
-  "-SOUND EFFECTS",
-  "TBA",
-  " ",
-  "-MUSIC",
-  "BEYOND THE HORIZON",
-  "BY MYSTRA OF STONE ARTS, 1994",
-  " ",
-  "CCCP MAIN",
-  "BY GROO OF CNCD, 1994",
-  " ",
-  "SOFT BRILLIANCE",
-  "TJOPPBASS, 1994",
-  " ",
-  "-PACKAGERS",
-  "JESSE ANDREWS",
-  "HOLGER LEVSEN",
-  " ",
-  "-'TUX' THE PENGUIN CREATED BY",
-  "LARRY EWING",
-  " ",
-  "-TESTERS",
-  "PETE SALZMAN",
-  "ST. CATHERINE ELEM., CINCINNATI, OH",
-  "WESTWOOD ELEMENTARY, CINCINNATI, OH",
-  "LAURA BRUCE",
-  "ROOSEVELT ELEMENTARY, TAMPA, FL",
-  "KENDRA SWANSON AND LINNEA HOLY",
-  "OLD BONHOMME ELEMENTARY,",
-  "ST. LOUIS, MO",
-  "STEPHANIE CHAPIE & HOWARD NATHANSON",
-  " ",
-  " ",
-  "-WEBSITE",
-  "WWW.TUX4KIDS.COM",
-  NULL
+char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
+  {"-TUX, OF MATH COMMAND"},  /* '-' at beginning makes highlighted: */
+  {"COPYRIGHT 2001-2009 "},
+  {"  "},
+  {"PART OF THE 'TUX4KIDS' PROJECT "},
+  {"  "},
+  {"-DESIGNED BY "},
+  {"SAM 'CRISWELL' HART "},
+  {"  "},
+  {"-LEAD PROGRAMMERS "},
+  {"BILL KENDRICK, "},
+  {"NEW BREED SOFTWARE "},
+  {"DAVID BRUCE "},
+  {"TIM HOLY "},
+  {"  "},
+  {"-ADDITIONAL CODE "},
+  {"GLEN DITCHFIELD "},
+  {"MICHAEL BEHRISCH "},
+  {"DONNY VISZNEKI "},
+  {"YVES COMBE "},
+  {"DAVID YODER "},
+  {"KARL OVE HUFTHAMMER "},
+  {"AHMED SAYED "},
+  {"BRENDAN LUCHEN "},
+  {"JESUS M. MAGER H. "},
+  {"  "},
+  {"-LEAD ARTIST "},
+  {"SAM HART "},
+  {" "},
+  {"-ADDITIONAL ART "},
+  {"BILL KENDRICK "},
+  {"KENDRA SWANSON & LINNEA HOLY "},
+  {"  "},
+  {"-SOUND EFFECTS "},
+  {"TBA "},
+  {"  "},
+  {"-MUSIC "},
+  {"BEYOND THE HORIZON "},
+  {"BY MYSTRA OF STONE ARTS, 1994 "},
+  {"  "},
+  {"CCCP MAIN "},
+  {"BY GROO OF CNCD, 1994 "},
+  {"  "},
+  {"SOFT BRILLIANCE "},
+  {"TJOPPBASS, 1994 "},
+  {"  "},
+  {"-PACKAGERS "},
+  {"JESSE ANDREWS "},
+  {"HOLGER LEVSEN "},
+  {"  "},
+  {"-'TUX' THE PENGUIN CREATED BY "},
+  {"LARRY EWING "},
+  {"  "},
+  {"-TESTERS "},
+  {"PETE SALZMAN "},
+  {"ST. CATHERINE ELEM., CINCINNATI, OH "},
+  {"WESTWOOD ELEMENTARY, CINCINNATI, OH "},
+  {"LAURA BRUCE "},
+  {"ROOSEVELT ELEMENTARY, TAMPA, FL "},
+  {"KENDRA SWANSON AND LINNEA HOLY "},
+  {"OLD BONHOMME ELEMENTARY, "},
+  {"ST. LOUIS, MO "},
+  {"STEPHANIE CHAPIE & HOWARD NATHANSON "},
+  {"  "},
+  {"  "},
+  {"-WEBSITE "},
+  {"WWW.TUX4KIDS.COM "},
+  {NULL}
 };
 
 
@@ -386,7 +386,7 @@ int credits(void)
   return quit;
 }
 
-int scroll_text(char* text[], SDL_Rect subscreen, int speed)
+int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int speed)
 {
   int done = 0, quit = 0, scroll = 0, clearing = 0;
   SDL_Event event;
@@ -396,96 +396,85 @@ int scroll_text(char* text[], SDL_Rect subscreen, int speed)
   line = 0;
     
   do
+  {
+    /* Handle any incoming events: */
+    while (SDL_PollEvent(&event) > 0)
     {
-      /* Handle any incoming events: */
-      while (SDL_PollEvent(&event) > 0)
+      if (event.type == SDL_QUIT)
+      {
+        /* Window close event - quit! */
+        quit = 1;
+        done = 1;
+      }
+      else if (event.type == SDL_KEYDOWN)
+      {
+        if (event.key.keysym.sym == SDLK_ESCAPE)
         {
-          if (event.type == SDL_QUIT)
-            {
-              /* Window close event - quit! */
-              
-              quit = 1;
-              done = 1;
-            }
-          else if (event.type == SDL_KEYDOWN)
-            {
-              if (event.key.keysym.sym == SDLK_ESCAPE)
-                {
-                  /* Escape key - quit! */
-                  done = 1;
-                }
-            }
-          else if (event.type == SDL_MOUSEBUTTONDOWN)
-            {
-              done = 1;
-            }
+          /* Escape key - quit! */
+          done = 1;
         }
-
-      
-      /* Scroll: */
-
-      src = dest = subscreen;
-      src.y += speed; //amount to scroll by
-      
-      SDL_BlitSurface(screen, &src, screen, &dest);
-      
-      dest.x = subscreen.x;
-      dest.y = subscreen.y + subscreen.h - speed;
-      dest.w = subscreen.w;
-      dest.h = speed;
-
-      SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
-      
-      ++scroll;
-
-      if (clearing) //scroll/check, but don't display any more text
-        {
-          if (scroll > subscreen.h / speed)
-            done = 1;
-        }
-      else
-        {
-          dest.x = subscreen.x + subscreen.w / 2;
-          dest.y = subscreen.y + (subscreen.h - scroll * speed);
-          dest.w = 1;
-          dest.h = 1;
-//#ifdef LINEBREAK
-	  draw_text(text[line], dest);  // translation should have already occurred
-//#else
-//	  if (strlen(text[line]) > 0)
-//	    draw_text(gettext(text[line]), dest);
-//	  else
-//	    draw_text(text[line], dest);
-//#endif
-
-          if (scroll * speed >= TTF_FontHeight(default_font) )
-            {
-              scroll = 0;
-              line++;
-              
-              if (text[line][0] == '\0') //end of text 
-                {
-                clearing = 1; //scroll to blank            
-                }            
-              else
-                tmdprintf("text[line]: %s\n", text[line]);
-            }
-        }
-      
-      
-      SDL_Flip(screen);
-      
-      
-      /* Pause (keep frame-rate event) */
-      
-      now_time = SDL_GetTicks();
-      if (now_time < last_time + (1000 / 20))
-        {
-          SDL_Delay(last_time + (1000 / 20) - now_time);
-        }
-      last_time = SDL_GetTicks();
+      }
+      else if (event.type == SDL_MOUSEBUTTONDOWN)
+      {
+        done = 1;
+      }
     }
+
+    /* Scroll: */
+    src = dest = subscreen;
+    src.y += speed; //amount to scroll by
+
+    SDL_BlitSurface(screen, &src, screen, &dest);
+
+    dest.x = subscreen.x;
+    dest.y = subscreen.y + subscreen.h - speed;
+    dest.w = subscreen.w;
+    dest.h = speed;
+
+    SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
+ 
+    ++scroll;
+
+    if (clearing) //scroll/check, but don't display any more text
+    {
+      if (scroll > subscreen.h/speed)
+            done = 1;
+    }
+    else
+    {
+      dest.x = subscreen.x + subscreen.w / 2;
+      dest.y = subscreen.y + (subscreen.h - scroll * speed);
+      dest.w = 1;
+      dest.h = 1;
+      draw_text(text[line], dest);  // translation should have already occurred
+
+      if (scroll * speed >= TTF_FontHeight(default_font) )
+      {
+        scroll = 0;
+        line++;
+
+        if (text[line][0] == '\0') //end of text 
+        {
+          clearing = 1; //scroll to blank            
+        }            
+        else
+          tmdprintf("text[line]: %s\n", text[line]);
+      }
+    }
+
+    SDL_Flip(screen);
+
+    /* Pause (keep frame-rate event) */
+    now_time = SDL_GetTicks();
+    if (now_time < last_time + (1000 / 20))
+    {
+      SDL_Delay(last_time + (1000 / 20) - now_time);
+    }
+    last_time = SDL_GetTicks();
+
+  }
   while (!done);
+
   return quit;
 }
 #if 0 //really cool effect, but not translatable. I'll leave it in in case we 
