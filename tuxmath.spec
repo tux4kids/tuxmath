@@ -10,7 +10,7 @@
 Name:           tuxmath
 %define         realname tuxmath_w_fonts
 Summary:        Tux Math - educational math game
-Version:        1.7.0
+Version:        1.7.1
 Release:        1
 License:        GPL
 Group:          Productivity/Scientific/Math
@@ -49,6 +49,10 @@ In this case, though, he must do it by solving math problems.
 Authors:
 ========
   Bill Kendrick
+  David Bruce
+  Tim Holy
+  Brendan Luchen
+  Jesus Mager
   Sam 'Criswell' Hart
   Larry Ewing
 

@@ -42,10 +42,7 @@
 #endif
 
 //#define NOSOUND
-
-#ifndef GLOBALS_H
 #include "globals.h"
-#endif
 
 
 /* Global data gets 'externed' here: */
