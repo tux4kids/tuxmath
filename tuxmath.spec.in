@@ -1,3 +1,5 @@
+## tuxmath.spec.in - process with configure to substitute in PACKAGE
+# VERSION strings
 #
 # spec file for package tuxmath 
 #
@@ -5,12 +7,11 @@
 # package are under the same license as the package itself.
 #
 
-# norootforbuild 
 
-Name:           tuxmath
+Name:           @PACKAGE@
 %define         realname tuxmath_w_fonts
 Summary:        Tux Math - educational math game
-Version:        1.7.1
+Version:        @VERSION@
 Release:        1
 License:        GPL
 Group:          Productivity/Scientific/Math
@@ -30,14 +31,13 @@ BuildRequires:  fdupes
 BuildRequires:  desktop-file-utils
 %endif
 %if 0%{?mandriva_version}
+BuildRequires:  desktop-file-utils
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 %endif
 Source0:        %realname-%version.tar.bz2
-Source1:        %name.desktop
-Source2:        tuxmath-1.7.0-de.po
-Source3:        tuxmath-1.7.0-de.gmo
-Patch1:         tuxmath-1.7.0-german.patch
+Source1:        tuxmath.desktop
+
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
@@ -61,9 +61,6 @@ Authors:
 rm -rf $(find . -type d -name CVS)
 rm -rf $(find . -type d -name .svn)
 rm -rf $(find . -type d -name .xvpics)
-install -m644 %{SOURCE2} po/de.po 
-install -m644 %{SOURCE3} po/de.gmo
-%patch1 -p0
 
 %build
 %configure --enable-sdlpango
@@ -115,5 +112,4 @@ rm -rf %buildroot
 %_datadir/applications/*
 %_datadir/%name
 
-%changelog 
-s
+%changelog

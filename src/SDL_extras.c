@@ -21,7 +21,6 @@ SDLPango_Context* context = NULL;
 static SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color* cl);
 #endif
 
-
 /* DrawButton() creates and draws a translucent button with */
 /* rounded ends.  All colors and alpha values are supported.*/
 void DrawButton(SDL_Rect* target_rect,
@@ -354,6 +353,9 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
 
 
 #ifdef HAVE_LIBSDL_PANGO
+/* NOTE these functions are wrapped within SDL_extras.c/h because there */
+/* appears to be a bug in SDL_Pango that causes symbol collision errors */
+/* on some compilers if more than one file has #include "SDL_Pango.h"   */
 
 void init_SDLPango_Context()
 {
@@ -365,6 +367,21 @@ void free_SDLPango_Context()
   if(context != NULL)
     SDLPango_FreeContext(context);
   context = NULL;
+}
+
+
+void SetupSDL_Pango()
+{
+  if (SDLPango_Init () < 0)
+  {
+      fprintf(stderr,
+            "\nWarning: I could not initialize SDL_Pango !\n"
+            "%s\n\n", SDL_GetError());
+  }
+  else 
+  {
+    init_SDLPango_Context();
+  }
 }
 
 

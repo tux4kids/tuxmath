@@ -50,9 +50,6 @@
 #include "highscore.h"
 #include "SDL_extras.h"
 
-#ifdef HAVE_LIBSDL_PANGO
-#include "SDL_Pango.h"
-#endif
 
 //#ifdef LINEBREAK
 #include "linewrap.h"
@@ -454,16 +451,9 @@ void initialize_SDL(void)
 
   atexit(TTF_Quit); // Maybe this is redundant?
 
+
 #ifdef HAVE_LIBSDL_PANGO
-  if (SDLPango_Init () < 0)
-  {
-      fprintf(stderr,
-            "\nWarning: I could not initialize SDL_Pango !\n"
-            "%s\n\n", SDL_GetError());
-  }
-  else {
-    init_SDLPango_Context();
-  }
+  SetupSDL_Pango();
 #endif
 
 

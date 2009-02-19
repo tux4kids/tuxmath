@@ -3,8 +3,8 @@
 
 iconsdir = $(pkgdatadir)/images/icons
 
-dist_icons_DATA = tuxmath.ico \
-  icon.png \
+dist_icons_DATA =  icon.png \
   icon.xpm \
+  tuxmath.ico \
   tuxmath.icns \
   tuxmath.svg

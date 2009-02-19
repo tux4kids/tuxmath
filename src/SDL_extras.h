@@ -32,6 +32,7 @@
 #ifdef HAVE_LIBSDL_PANGO
 void init_SDLPango_Context();
 void free_SDLPango_Context();
+void SetupSDL_Pango();
 #endif
 
 void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);

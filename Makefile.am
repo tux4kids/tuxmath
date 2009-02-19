@@ -1,5 +1,12 @@
 ## Top-level Makefile.am for tuxmath:
 ## Process with Automake to create Makefile.in
+
+
+## ---------------------------------------------------------------------------
+## Variables: ----------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+
 SUBDIRS = data	\
 	doc	\
 	intl	\
@@ -28,10 +35,16 @@ NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 
 
+## ---------------------------------------------------------------------------
+## Rules: --------------------------------------------------------------------
+## ---------------------------------------------------------------------------
+
+
 ## Bundle in fonts for distribution tar.gz to be used without package manager:
 ## i.e. to make tarball to post for individual download. 
 ## 
-## for tarball with fonts: use 'make dist_with_fonts'
+## for tarball with fonts: use 'make dist_with_fonts' (for *tar.gz)
+## or 'make dist_with_fonts_bzip2 (for *tar.bzip2)
 ## for tarball without fonts: (e.g. for Debian packaging) - use 'make distcheck'
 ##
 ## (thanks to Ralf Wildenhues <Ralf.Wildenhues@gmx.de> for automake help!)
@@ -46,7 +59,12 @@ data_fonts='AndikaDesRevG.ttf'
 dist_with_fonts:
 	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) \
            dist_fonts=$(data_fonts) dist
- 
+dist_with_fonts_bzip2:
+	$(MAKE) $(AM_MAKEFLAGS) distdir=$(PACKAGE)_w_fonts-$(VERSION) \
+           dist_fonts=$(data_fonts) dist-bzip2
+
+
+
 
 ## For building the NSIS executable Win32 installer - this rule first
 ## does a "make install" into NSI_TEMP_INSTALL_DIR, which results in
