@@ -102,6 +102,13 @@ AC_CHECK_LIB([SDL_Pango],
              [AC_MSG_WARN(SDL_Pango not found http://sdlpango.sourceforge.net/)])
 
 
+dnl Check for complex math functions
+AC_CHECK_LIB([m],
+             [csin],
+             ,
+             [AC_MSG_ERROR([Math library not found - functions in <math.h> may not be available.])])
+
+
 
 ##dnl sdlpango support
 ##have_sdlpango=no
@@ -123,7 +130,7 @@ AC_CHECK_LIB([SDL_Pango],
 AC_FUNC_ALLOCA
 AC_HEADER_DIRENT
 AC_HEADER_STDC
-AC_CHECK_HEADERS([argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libgen.h libintl.h limits.h locale.h malloc.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
+AC_CHECK_HEADERS([argz.h error.h errno.h fcntl.h float.h iconv.h inttypes.h langinfo.h libgen.h libintl.h limits.h locale.h malloc.h math.h stddef.h stdint.h stdio_ext.h stdlib.h string.h strings.h sys/param.h unistd.h wchar.h])
 
 
 # --------------------------------------------------------------------------------------------

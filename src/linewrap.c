@@ -60,7 +60,8 @@ int linewrap(const char *input, char str_list[MAX_LINES][MAX_LINEWIDTH],
   listIndex = 0;
   for (strIndex = 0, i = 0; i < length; strIndex++, i++)
   {
-    if (breaks[i] == UC_BREAK_POSSIBLE || breaks[i] == UC_BREAK_MANDATORY)
+    if (breaks[i] == UC_BREAK_POSSIBLE
+     || breaks[i] == UC_BREAK_MANDATORY)
     {
       str_list[listIndex][strIndex] = '\0';  // terminate the previous string
       strIndex = 0;                          // start the next line
@@ -82,7 +83,8 @@ int linewrap(const char *input, char str_list[MAX_LINES][MAX_LINEWIDTH],
     return max_lines;
 }
 
-void linewrap_list(const char *input[], char str_list[MAX_LINES][MAX_LINEWIDTH],
+void linewrap_list(const char input[MAX_LINES][MAX_LINEWIDTH],
+                   char str_list[MAX_LINES][MAX_LINEWIDTH],
                    int width, int max_lines, int max_width)
 {
   int inputIndex;
@@ -91,25 +93,37 @@ void linewrap_list(const char *input[], char str_list[MAX_LINES][MAX_LINEWIDTH],
   int n_lines;
 
   outputIndex = 0;
-  for (inputIndex = 0; strlen(input[inputIndex]) > 0 && outputIndex < max_lines-1; inputIndex++) {
-    printf("inputIndex = %d, outputIndex = %d, String: %s\n",inputIndex,outputIndex,input[inputIndex]);
+  for (inputIndex = 0; strlen(input[inputIndex]) > 0 && outputIndex < max_lines-1; inputIndex++)
+  {
+    printf("inputIndex = %d, outputIndex = %d, String: %s\n",
+           inputIndex, outputIndex, input[inputIndex]);
+
     /* Handle blank strings */
-    if (strcmp(input[inputIndex], " ") == 0) {
+    if (strcmp(input[inputIndex], " ") == 0)
+    {
       strcpy(str_list[outputIndex++]," ");
       printf("Blank (%d)\n",inputIndex);
       continue;
     }
+
     /* Handle real strings */
     printf("Not blank. Translated: %s\n",gettext(input[inputIndex]));
-    n_lines = linewrap(gettext(input[inputIndex]), wrapped_lines0, width,max_lines, max_width);
+    n_lines = linewrap(gettext(input[inputIndex]), wrapped_lines0, width, max_lines, max_width);
     printf("Wrapped to %d lines.\n", n_lines);
-    for (intermedIndex = 0; intermedIndex < n_lines && outputIndex < max_lines-1; intermedIndex++, outputIndex++) {
+
+    for (intermedIndex = 0;
+         intermedIndex < n_lines && outputIndex < max_lines-1;
+         intermedIndex++, outputIndex++)
+    {
       printf("intermedIndex %d, outputIndex %d, string %s\n",intermedIndex,outputIndex, wrapped_lines0[intermedIndex]);
       strncpy(str_list[outputIndex], wrapped_lines0[intermedIndex], max_width);
     }
   }
+
   printf("All done (outputIndex = %d)\n",outputIndex);
-  for (; outputIndex < max_lines; outputIndex++) {
+
+  for (; outputIndex < max_lines; outputIndex++)
+  {
     //printf("  blanking %d\n", outputIndex);
     str_list[outputIndex][0] = '\0';
   }

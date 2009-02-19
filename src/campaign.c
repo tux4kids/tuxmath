@@ -12,7 +12,6 @@
 #include "fileops.h"
 #include "mathcards.h"
 #include "options.h"
-#include "linewrap.h"
 
 
 void briefPlayer(int stage); //show text introducing the given stage
@@ -28,7 +27,7 @@ int start_campaign()
   int i, j;
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
-  char* endtext[2] = {N_("Congratulations! You win!"), ""};
+  char* endtext[2] = {N_("Congratulations! You win!"), " "};
   printf("Entering start_campaign()\n");
   
   

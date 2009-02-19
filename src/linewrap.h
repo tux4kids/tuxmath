@@ -4,7 +4,8 @@
 
 /* Storage for linewrapping */
 #define MAX_LINES 128
-#define MAX_LINEWIDTH 40
+#define MAX_LINEWIDTH 256
+
 extern char wrapped_lines[MAX_LINES][MAX_LINEWIDTH];
 
 /* linewrap takes an input string (can be in essentially arbitrary
@@ -23,13 +24,11 @@ extern char wrapped_lines[MAX_LINES][MAX_LINEWIDTH];
    On output, linewrap returns the number of lines used to format the
    string.
 */
-extern int linewrap(const char *input, char str_list[MAX_LINES][MAX_LINEWIDTH], int width, int max_lines, int max_width);
+extern int linewrap(const char* input, char str_list[MAX_LINES][MAX_LINEWIDTH], int width, int max_lines, int max_width);
 
 /* This takes a NULL-terminated array of strings and performs
    translation and linewrapping, outputting another NULL-terminated
    array. */
-extern void linewrap_list(const char *input[], char str_list[MAX_LINES][MAX_LINEWIDTH], int width, int max_lines, int max_width);
-
-
+extern void linewrap_list(const char input[MAX_LINES][MAX_LINEWIDTH], char str_list[MAX_LINES][MAX_LINEWIDTH], int width, int max_lines, int max_width);
 
 #endif
