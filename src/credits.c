@@ -31,11 +31,12 @@
 #include "SDL_extras.h"
 
 
-char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
+const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {"-TUX, OF MATH COMMAND"},  /* '-' at beginning makes highlighted: */
   {"COPYRIGHT 2001-2009"},
   {" "},
   {"PART OF THE 'TUX4KIDS' PROJECT"},
+  {"WWW.TUX4KIDS.COM"},
   {" "},
   {"-DESIGNED BY"},
   {"SAM 'CRISWELL' HART"},
@@ -98,6 +99,15 @@ char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {" "},
   {"-WEBSITE"},
   {"WWW.TUX4KIDS.COM"},
+  {" "},
+  {"TuxMath is Free Software licensed under the GNU General Public License (GPL). As such, you are specifically granted the rights that proprietary software usually denies you."},
+  {" "},
+  {"These rights include the freedom to study, copy, modify, and redistribute the program."},
+  {" "},
+  {"A full copy of the GPL is included with the documenation for this program."},
+  {" "},
+  {"For more information about Free Software and the GNU GPL, visit:"},
+  {"http://www.fsf.org"},
   {NULL}
 };
 
@@ -379,7 +389,10 @@ int credits(void)
   subscreen.y = images[IMG_TITLE]->h;
   subscreen.w = screen->w;
   subscreen.h = screen->h - images[IMG_TITLE]->h;
-  quit = scroll_text(credit_text, subscreen, 2);
+
+  /*convert the text array to one wrapped at 40 columns: */
+  linewrap_list(credit_text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  quit = scroll_text(wrapped_lines, subscreen, 2);
   
   /* Return the chosen command: */
   

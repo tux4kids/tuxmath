@@ -27,7 +27,7 @@ int start_campaign()
   int i, j;
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
-  char* endtext[2] = {N_("Congratulations! You win!"), " "};
+  char endtext[2][MAX_LINEWIDTH] = {N_("Congratulations! You win!"), " "};
   printf("Entering start_campaign()\n");
   
   
@@ -103,20 +103,85 @@ int start_campaign()
 
 void briefPlayer(int stage)
 {
-  SDL_FillRect(screen, NULL, 0);
-  //TransWipe(black, RANDOM_WIPE, 10, 20);
+/* NOTE: the convention has changed. Use " " for a blank line (note
+   the space), and use "" (rather than NULL) for the termination
+   string. This is a consequence of the linewrapping code.  TEH Feb
+   2009. */
 
-  static char* sprites[] = {
+  const char briefings[NUM_STAGES][MAX_LINES][MAX_LINEWIDTH] = 
+  {
+    //cadet
+    {
+      {N_("-[Esc] to skip")},
+      {N_("Mission One: Careful Cadet")},
+      {"--------------------------"},
+      {N_("I'm so glad you've come!")},
+      {" "},
+      {N_("The penguins need your help! Comets are falling from the sky, and are melting the penguins' igloos. To save their homes, we need you to find the secret code that will zap each comet.")},
+      {" "},
+      {N_("Do your best!")},
+      {""}
+    },
+    //scout
+    {
+      {"-[Esc] to skip"},
+      {N_("Mission Two: Smart Scout")},
+      {"------------------------"},
+      {N_("Great job! Since you saved the penguins' homes, we are promoting you to Scout. Scouts are good for keeping an eye out for trouble...")},
+      {" "},
+      {N_("...like what's happening right now! The TakeAways have come, and they're sending new, trickier comets against the penguins!")},
+      {N_("But you can save them!")},
+      {""}
+    },
+    //ranger
+    {
+      {"-[Esc] to skip"},
+      {N_("Mission Three: Royal Ranger")},
+      {"---------------------------"},
+      {N_("You've done it again! The Penguin Emperor has chosen you to join his team of Rangers that help protect the city.  We're sending you there now...")},
+      {" "},
+      {N_("...oh no! Now the Emperor himself is under attack, from new types of comets: these problems are multiplying! To fight these, you need great skill. We think you can do it. Join the Rangers and help save the city!")},
+      {""}
+    },
+    //ace
+    {
+      {"-[Esc] to skip"},
+      {N_("Mission Four: Imperial Ace")},
+      {"--------------------------"},
+      {N_("You did it! The Emperor wants to thank you in person. We are taking you to his ice palace for a great honor: you will become the Imperial Ace!")},
+      {" "},
+      {N_("But right in the middle of the ceremony, a new attack from the land of Division starts!")},
+      {N_("Now is no time for resting; the city needs your help!")},
+      {""}
+    },
+  //commando
+    {
+      {"-[Esc] to skip"},
+      {N_("Final Mission: Computing Commando")},
+      {"---------------------------------"},
+      {N_("Penguin scientists have learned that all these attacks are coming from a secret base, and they need you to go fight the final battle. They also give you this clue: first do multiplication and division, and then do addition and subtraction.")},
+      {N_("I hope that hint helps!")},
+      {" "},
+      {N_("This is it! You can stop these attacks forever, Commando!")},
+      {""}
+    },
+  };
+
+
+  char* sprites[] = {
     "sprites/tux_helmet_yellowd.png",
     "sprites/tux_helmet_greend.png",
     "sprites/tux_helmet_blued.png",
     "sprites/tux_helmet_redd.png",
     "sprites/tux_helmet_blackd.png"
   };
+
   SDL_Surface* icon = NULL;
   SDL_Rect textarea = screen->clip_rect;
   SDL_Surface* loadedsprite = LoadImage(sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED);
-  
+
+
+
   if (loadedsprite) //stretch the tiny sprite to 3x
   {
     icon = zoom(loadedsprite, loadedsprite->w*3, loadedsprite->h*3);
@@ -125,11 +190,17 @@ void briefPlayer(int stage)
     textarea.w = screen->w - icon->w;
     textarea.h = screen->h - icon->h;
   }
+
+  SDL_FillRect(screen, NULL, 0);
+  //TransWipe(black, RANDOM_WIPE, 10, 20);
   //show this stage's text
   tmdprintf("Briefing\n");
+
   SDL_BlitSurface(icon, NULL, screen, NULL);
+
   linewrap_list(briefings[stage], wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, textarea, 1);
+
   tmdprintf("Finished briefing\n");
   
   SDL_FreeSurface(loadedsprite);
@@ -138,14 +209,14 @@ void briefPlayer(int stage)
 
 void readStageSettings(int stage)
 {
-  static char fn[PATH_MAX];
+  char fn[PATH_MAX];
   snprintf(fn,PATH_MAX, "campaign/%s/%s", stagenames[stage], stagenames[stage]);
   read_named_config_file(fn);
 }
 
 void readRoundSettings(int stage, int round)
 {
-  static char fn[PATH_MAX];
+  char fn[PATH_MAX];
   if (round == -1)
     snprintf(fn, PATH_MAX, "campaign/%s/bonus", stagenames[stage]);
   else
@@ -155,14 +226,14 @@ void readRoundSettings(int stage, int round)
 
 void showGameOver()
 {
-  const char* text[2] = {N_("Sorry, try again!"), ""};
+  const char text[2][MAX_LINEWIDTH] = {N_("Sorry, try again!"), ""};
   linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, screen->clip_rect, 3);
 }
 
 void showGameWon()
 {
-  const char* text[2] = {N_("Mission accomplished. The galaxy is safe!"), ""};
+  const char text[2][MAX_LINEWIDTH] = {N_("Mission accomplished. The galaxy is safe!"), ""};
   linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, screen->clip_rect, 3);
 }
