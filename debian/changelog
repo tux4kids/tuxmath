@@ -1,0 +1,153 @@
+tuxmath (1.6.3-3) unstable; urgency=low
+
+  * Bump Standards-version to 3.8.0, no changes needed.
+  * Add quilt to build-depends.
+  * Patch the source to use 1.0 basic release of the ttf-sil-andika fonts and
+    not the "design review" version.
+  * Add information about AndikaDesRevG.ttf which is included in the upstream
+    tarball and therefore in the debian source package to debian/copyright.
+
+ -- Holger Levsen <holger@debian.org>  Wed, 25 Jun 2008 20:31:15 +0000
+
+tuxmath (1.6.3-2) unstable; urgency=low
+
+  * Add suggests to ttf-wqy-zenhei and remove suggests to ttf-arphic-ukai as
+    suggested by native speakers.
+
+ -- Holger Levsen <holger@debian.org>  Wed, 18 Jun 2008 10:18:36 +0000
+
+tuxmath (1.6.3-1) unstable; urgency=low
+
+  * New upstream release (Closes: #479855) with 16 new translations, making it
+    23 translations in total!
+
+ -- Holger Levsen <holger@debian.org>  Tue, 17 Jun 2008 15:02:28 +0000
+
+tuxmath (1.6.1-1) unstable; urgency=low
+
+  * new upstream version which adds French and Dutch translations as well as a
+    new login system to keep track of individual student progress
+  * updated to comply with policy 3.7.3.0
+  * debian/copyright: remove a bogus line and clarify GPL-2 licence
+  * increased debhelper compat level to 5
+  * use dh_install as intended (with debian/tuxmath.install)
+  * use dh_installdoc as intended (with debian/tuxmath.docs)
+  * only call "make clean" if Makefile exits
+
+ -- Holger Levsen <holger@debian.org>  Mon, 11 Feb 2008 18:50:54 +0100
+
+tuxmath (1.5.8-2) unstable; urgency=low
+
+  * add depends to ttf-sil-andika
+
+ -- Holger Levsen <holger@debian.org>  Sun, 18 Nov 2007 20:02:34 +0100
+
+tuxmath (1.5.8-1) unstable; urgency=low
+
+  * new upstream version with many bugfixes, localisation, new icons, a new
+    high score feature and a feature to keep track of succesfully completed
+    lessons
+  * updated debian/copyright:
+    - updated SVN repo and release URL
+    - include the GPL short text
+    - added licence information about ConvertUTF* files
+  * updated section in debian/menu
+  * added Homepage: and Vcs-*: fields to debian/control
+  * tuxmath.desktop: now in the category Games/KidsGame
+  * debian/menu: changed to Games/Arcade
+
+ -- Holger Levsen <holger@debian.org>  Sat, 17 Nov 2007 22:07:53 +0000
+
+tuxmath (1.5.4-1) unstable; urgency=low
+
+  * new upstream version
+
+ -- Holger Levsen <holger@debian.org>  Fri, 14 Sep 2007 01:22:59 +0200
+
+tuxmath (1.5.3-1) unstable; urgency=low
+
+  * new upstream version with lots of improvements and bugfixes
+  * new maintainer address
+  * fix pathes in debian/rules for new upstream version
+  * cleanup clean target in debian/rules
+  * don't ship Makefiles in binary packages
+  * added build-dependency on libsdl-ttf2.0-dev, removed the build-dependency
+    for autotools-dev, autoconf and automake1.9
+  * updated debian/copyright
+
+ -- Holger Levsen <holger@debian.org>  Sun, 02 Sep 2007 22:33:28 +0000
+
+tuxmath (1.0.1-1) unstable; urgency=low
+
+  * new upstream release (two simple bugfixes, documentation updates)
+  * added .desktop file - thanks to Oliver Grawert
+
+ -- Holger Levsen <debian@layer-acht.org>  Sun, 19 Nov 2006 10:23:47 +0000
+
+tuxmath (1.0-1) unstable; urgency=low
+
+  * new upstream version (minor bugfixes, code cleanups, build system for 
+    cross-compiling the windows version on linux, the "1.0 release")
+
+ -- Holger Levsen <debian@layer-acht.org>  Wed,  1 Nov 2006 12:22:44 +0000
+
+tuxmath (0.97-1) unstable; urgency=low
+
+  * new upstream version (new features: dynamically adjust game speed based
+    on player performance, summaries of the last ten games are saved games in 
+    the player's .tuxmath directory, some buxgfixes, improved documentation)
+  * added build-depends on autotools-dev, autoconf and automake1.9 plus a
+    build-conflicts on autoconf2.13, automake1.4 to build it as intended by 
+    upstream
+
+ -- Holger Levsen <debian@layer-acht.org>  Sun,  8 Oct 2006 11:04:10 +0000
+
+tuxmath (0.94-1) unstable; urgency=low
+
+  * new upstream version with many fixes and improvements, i.e. config files 
+    are now supported. For full details see upstream changelog.
+
+ -- Holger Levsen <debian@layer-acht.org>  Wed,  6 Sep 2006 17:12:35 +0200
+
+tuxmath (0.8-1) unstable; urgency=low
+
+  * new upstream version which has a speed parameter in option screen (Closes:
+    #352446) and some other enhancements, see doc/CHANGES.txt (since r4) for a 
+    complete list
+  * new upstream maintainer and author, David Bruce - hi & thanks! :)
+  * removed old patch ./debian/patches/01fixoptions.dpatch from him, as this
+    is now included in the upstream code. Removed build-dependency on dpatch.
+  * adapted debian/rules to new upstream version and cleaned it
+  * complies with policy 3.7.2
+
+ -- Holger Levsen <debian@layer-acht.org>  Wed, 19 Jul 2006 17:37:54 +0000
+
+tuxmath (0.0.20050316-4) unstable; urgency=low
+
+  * New maintainer (Closes: #348763)
+  * included patch to prevent users from deselecting all math operations, 
+    which leads to a sort of dead-lock (Closes: #336272) Thanks David Bruce! 
+  * used dpatch to apply this patch
+  * updated debian/copyright
+
+ -- Holger Levsen <debian@layer-acht.org>  Sun, 22 Jan 2006 00:27:22 +0000
+
+tuxmath (0.0.20050316-3) unstable; urgency=low
+
+  * Added menu icon (Closes: #319197) 
+
+ -- Fabio Brito <fabio@debian-ba.org>  Wed, 20 Jul 2005 16:58:45 -0300
+
+tuxmath (0.0.20050316-2) unstable; urgency=low
+
+  * debian/rules
+    * Using dh_installmenu (Closes: #310521)
+
+ -- Fabio Brito <fabio@debian-ba.org>  Tue, 24 May 2005 20:22:23 -0300
+
+tuxmath (0.0.20050316-1) unstable; urgency=low
+
+  * Initial Debian release
+
+ -- Fabio Brito <fabio@debian-ba.org>  Wed, 16 Mar 2005 05:05:28 -0300
+

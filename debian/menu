@@ -1,0 +1,3 @@
+?package(tuxmath):needs="X11" section="Games/Action"\
+  icon="/usr/share/tuxmath/images/icons/icon.xpm" \
+  title="Tuxmath" command="/usr/games/tuxmath"
