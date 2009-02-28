@@ -1,3 +1,9 @@
+tuxmath (1.7.1-1) UNRELEASED; urgency=low
+
+  * new upstream version. (DESCRIBE CHANGES HERE)
+
+ -- Holger Levsen <holger@debian.org>  Sat, 28 Feb 2009 22:07:12 +0100
+
 tuxmath (1.6.3-3) unstable; urgency=low
 
   * Bump Standards-version to 3.8.0, no changes needed.
