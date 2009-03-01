@@ -26,7 +26,7 @@ config.status:
 	dh_testdir
 	# Add here commands to configure the package.
 	QUILT_PATCHES=debian/patches quilt push -a || test $$? = 2
-	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --bindir=\$${prefix}/games --enable-sdlpango
+	CFLAGS="$(CFLAGS)" ./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --bindir=\$${prefix}/games
 	
 
 build: build-stamp
