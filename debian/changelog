@@ -3,8 +3,8 @@ tuxmath (1.7.1-1) UNRELEASED; urgency=low
   * new upstream version, with several bugfixes, new translations and lots of 
     other improvements: a new "Campaign Mode" featuring an overall story line,
     a new game activity, "Factoroids", teaching factorization and reduction of
-    fractions, a more flexible engine for generating questions and fullscreen
-    mode has been improved to use the native resolution. 
+    fractions, a more flexible engine for generating questions and an improved 
+    fullscreen which now uses the native resolution. 
   * For a complete list, see the upstream changelog.
 
  -- Holger Levsen <holger@debian.org>  Sat, 28 Feb 2009 22:07:12 +0100
