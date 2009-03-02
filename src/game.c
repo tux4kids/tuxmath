@@ -946,7 +946,7 @@ void game_write_message(const game_message *msg)
   SDL_Rect rect;
 
   if (strlen(msg->message) > 0) {
-    surf = BlackOutline( _(msg->message), help_font, &white);
+    surf = BlackOutline( _(msg->message), DEFAULT_HELP_FONT_SIZE, &white);
     rect.w = surf->w;
     rect.h = surf->h;
     if (msg->x < 0)
@@ -2199,7 +2199,7 @@ void game_draw_misc(void)
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      SDL_Surface* score = BlackOutline(str, default_font, &white);
+      SDL_Surface* score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
       SDL_Rect loc = {screen->w - score->w, score->h * (i + 2), 0, 0};
       SDL_BlitSurface(score, NULL, screen, &loc);
     }

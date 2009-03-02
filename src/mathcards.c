@@ -12,7 +12,10 @@
 *
 * Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
 *
+* Revised extensively in 2008 by Brendan Luchen, Tim Holy, and David Bruce
+*
 */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

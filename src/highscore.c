@@ -58,11 +58,9 @@ void DisplayHighScores(int level)
   int score_table_y = 100;
 
   sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+  const int title_font_size = 32;
+  const int player_font_size = 14;
 
-  TTF_Font* title_font = LoadFont(DEFAULT_FONT_NAME, 32);
-  TTF_Font* player_font = LoadFont(DEFAULT_FONT_NAME, 14);
-  if (!player_font || !title_font)
-    return;  // Get out if we can't load fonts - should not happen!
 
   /* --- Set up the rects for drawing various things: ----------- */
 
@@ -211,7 +209,7 @@ void DisplayHighScores(int level)
         SDL_Surface* srfc = NULL;
         SDL_Rect text_rect, button_rect;
 
-        srfc = BlackOutline(_("Hall Of Fame"), title_font, &yellow);
+        srfc = BlackOutline(_("Hall Of Fame"), title_font_size, &yellow);
         if (srfc)
         {
           button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2 + 50;
@@ -228,34 +226,31 @@ void DisplayHighScores(int level)
           srfc = NULL;
         }
 
-        if (title_font)
+        switch (diff_level)
         {
-          switch (diff_level)
-          {
-            case CADET_HIGH_SCORE:
-              srfc = BlackOutline(_("Space Cadet"), title_font, &white);
-              break;
-            case SCOUT_HIGH_SCORE:
-              srfc = BlackOutline(_("Scout"), title_font, &white);
-              break;
-            case RANGER_HIGH_SCORE:
-              srfc = BlackOutline(_("Ranger"), title_font, &white);
-              break;
-            case ACE_HIGH_SCORE:
-              srfc = BlackOutline(_("Ace"), title_font, &white);
-              break;
-            case COMMANDO_HIGH_SCORE:
-              srfc = BlackOutline(_("Commando"), title_font, &white);
-              break;
-            case FACTORS_HIGH_SCORE:
-              srfc = BlackOutline(_("Factors"), title_font, &white);
-              break;
-            case FRACTIONS_HIGH_SCORE:
-              srfc = BlackOutline(_("Fractions"), title_font, &white);
-              break;
-            default:
-              srfc = BlackOutline(_("Space Cadet"), title_font, &white);
-          }
+          case CADET_HIGH_SCORE:
+            srfc = BlackOutline(_("Space Cadet"), title_font_size, &white);
+            break;
+          case SCOUT_HIGH_SCORE:
+            srfc = BlackOutline(_("Scout"), title_font_size, &white);
+            break;
+          case RANGER_HIGH_SCORE:
+            srfc = BlackOutline(_("Ranger"), title_font_size, &white);
+            break;
+          case ACE_HIGH_SCORE:
+            srfc = BlackOutline(_("Ace"), title_font_size, &white);
+            break;
+          case COMMANDO_HIGH_SCORE:
+            srfc = BlackOutline(_("Commando"), title_font_size, &white);
+            break;
+          case FACTORS_HIGH_SCORE:
+            srfc = BlackOutline(_("Factors"), title_font_size, &white);
+            break;
+          case FRACTIONS_HIGH_SCORE:
+            srfc = BlackOutline(_("Fractions"), title_font_size, &white);
+            break;
+          default:
+            srfc = BlackOutline(_("Space Cadet"), title_font_size, &white);
         }
 
         if (srfc)
@@ -289,9 +284,9 @@ void DisplayHighScores(int level)
           SDL_FreeSurface(score_surfs[i]);
         
         if (HS_Score(diff_level, i) == Opts_LastScore() && frame % 5 < 2)
-          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &yellow);
+          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font_size, &yellow);
         else
-          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font, &white);
+          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font_size, &white);
 
         /* Get out if BlackOutline() fails: */
         if (!score_surfs[i])
@@ -344,9 +339,7 @@ void DisplayHighScores(int level)
     }
     frame++;
   }  // End of while (!finished) loop
-  TTF_CloseFont(title_font);
-  TTF_CloseFont(player_font);
-  title_font = player_font = NULL;
+
   FreeSprite(Tux);
 }
 
@@ -376,7 +369,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   Uint32 frame = 0;
   Uint32 start = 0;
   wchar_t wchar_buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
-  TTF_Font* name_font = NULL;
+//  TTF_Font* name_font = NULL;
   const int NAME_FONT_SIZE = 32;
   const int BG_Y = 100;
   const int BG_WIDTH = 400;
@@ -387,9 +380,6 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   if (!pl_name)
     return;
     
-  name_font = LoadFont(DEFAULT_FONT_NAME, NAME_FONT_SIZE);
-  if (!name_font)
-    return;
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
@@ -440,7 +430,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   /* Draw heading: */
   {
     SDL_Surface* s = BlackOutline(_(heading),
-                                  default_font, &white);
+                                  DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
       loc.x = (screen->w/2) - (s->w/2);
@@ -450,7 +440,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
     }
 
     s = BlackOutline(_(sub),
-                     default_font, &white);
+                     DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
       loc.x = (screen->w/2) - (s->w/2);
@@ -550,7 +540,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
                              redraw_rect.h);
             }
 
-            s = BlackOutline(UTF8_buf, name_font, &yellow);
+            s = BlackOutline(UTF8_buf, NAME_FONT_SIZE, &yellow);
             if (s)
             {
               /* set up loc and blit: */
@@ -605,7 +595,6 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
     frame++;
   }  // End of while (!finished) loop
 
-  TTF_CloseFont(name_font);
   FreeSprite(Tux);
 
   /* Turn off SDL Unicode lookup (because has some overhead): */

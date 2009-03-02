@@ -32,15 +32,13 @@
 #ifdef HAVE_LIBSDL_PANGO
 void init_SDLPango_Context();
 void free_SDLPango_Context();
-void SetupSDL_Pango();
+void SetupSDL_Pango(void);
 #endif
 
+/* Non-text graphics functions: */
 void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void RoundCorners(SDL_Surface* s, Uint16 radius);
 SDL_Surface* Flip(SDL_Surface *in, int x, int y);
-SDL_Surface* BlackOutline(const char *t, TTF_Font* font, SDL_Color* c);
-SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col);
-SDL_Surface* SimpleTextWithOffset(const char *t, TTF_Font* font, SDL_Color* col, int *glyph_offset);
 int  inRect(SDL_Rect r, int x, int y);
 void DarkenScreen(Uint8 bits);
 void SwitchScreenMode(void);
@@ -48,5 +46,11 @@ SDL_EventType WaitForEvent(SDL_EventMask events);
 SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2,float gamma);
 SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h);
 
+/*Text rendering functions: */
+int Setup_SDL_Text();
+SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c);
+SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col);
+SDL_Surface* SimpleTextWithOffset(const char *t, TTF_Font* font, SDL_Color* col, int *glyph_offset);
+int Cleanup_SDL_Text();
 
 #endif

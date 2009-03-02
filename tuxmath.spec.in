@@ -1,5 +1,5 @@
 ## tuxmath.spec.in - process with configure to substitute in PACKAGE
-# VERSION strings
+## VERSION strings
 #
 # spec file for package tuxmath 
 #
@@ -9,7 +9,11 @@
 
 
 Name:           @PACKAGE@
+Obsoletes:      tuxmath = 2001.09.07
+Obsoletes: 	tuxmath_preview <= @VERSION@
+Provides:  	tuxmath_preview = @VERSION@
 %define         realname tuxmath_w_fonts
+%define         progname tuxmath
 Summary:        Tux Math - educational math game
 Version:        @VERSION@
 Release:        1
@@ -17,26 +21,33 @@ License:        GPL
 Group:          Productivity/Scientific/Math
 Url:            http://tux4kids.alioth.debian.org/
 Vendor:         openSUSE-Education
-Obsoletes:      tuxmath = 2001.09.07
+
 BuildRequires:  SDL_image-devel >= 1.2.2
 BuildRequires:  SDL_ttf-devel > 2.0.8
 BuildRequires:  SDL-devel
 BuildRequires:  SDL_mixer-devel
 BuildRequires:  SDL_Pango-devel
+BuildRequires:  ImageMagick
+
 %if 0%{?suse_version}
 BuildRequires:  update-desktop-files
 BuildRequires:  fdupes
 %endif
+
 %if 0%{?fedora_version}
 BuildRequires:  desktop-file-utils
 %endif
+
 %if 0%{?mandriva_version}
 BuildRequires:  desktop-file-utils
 Requires(post): desktop-file-utils
 Requires(postun): desktop-file-utils
 %endif
+%if 0%{?mandriva_version} >= 2009
+BuildRequires: pulseaudio-esound-compat
+%endif  
+
 Source0:        %realname-%version.tar.bz2
-Source1:        tuxmath.desktop
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
@@ -67,13 +78,14 @@ rm -rf $(find . -type d -name .xvpics)
 make %{?jobs:-j %jobs}
 
 %install
-install -d %buildroot/{%_bindir,%_datadir/pixmaps,%_datadir/applications,%_datadir/%name,%_defaultdocdir/%name}
+install -d %buildroot/{%_bindir,%_datadir/pixmaps,%_datadir/applications,%_datadir/%progname,%_defaultdocdir/%progname}
 make DESTDIR=%{buildroot} install
-install -m 644 data/images/icons/icon.png %buildroot%_datadir/pixmaps/%name.png
+install -m 644 data/images/icons/icon.png %buildroot%_datadir/pixmaps/%progname.png
+
 %if 0%{?suse_version}
 # handle special docdir path
-mv %buildroot/%_datadir/doc/%name/* %buildroot/%_defaultdocdir/%name/
-rm -rf %buildroot/%_datadir/doc/%name
+mv %buildroot/%_datadir/doc/%progname/* %buildroot/%_defaultdocdir/%progname/
+rm -rf %buildroot/%_datadir/doc/%progname
 # install desktop file
 %suse_update_desktop_file -i tuxmath Education Math
 %fdupes -s %buildroot
@@ -82,16 +94,16 @@ rm -rf %buildroot/%_datadir/doc/%name
 # install desktop file
 desktop-file-install --vendor="%{vendor}" \
   --dir=%buildroot/%_datadir/applications \
-  %{SOURCE1}
+  tuxmath.desktop
 %endif
 %if 0%{?mandriva_version}
 desktop-file-install --vendor="%{vendor}" \
   --dir=%buildroot/%_datadir/applications \
-  %{SOURCE1}
+  tuxmath.desktop
 %endif
 # remove invalid locale directories
 rm -rf %buildroot/%{_datadir}/locale/en@*
-%find_lang %name
+%find_lang %progname
 
 %if 0%{?mandriva_version}
 %post
@@ -104,12 +116,12 @@ rm -rf %buildroot/%{_datadir}/locale/en@*
 %clean
 rm -rf %buildroot
 
-%files -f %name.lang
+%files -f %progname.lang
 %defattr(-,root,root)
-%doc %_defaultdocdir/%name
+%doc %_defaultdocdir/%progname
 %_bindir/*
 %_datadir/pixmaps/*
 %_datadir/applications/*
-%_datadir/%name
+%_datadir/%progname
 
 %changelog

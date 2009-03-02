@@ -1718,17 +1718,17 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
 #endif
 
   if (str1)
-    s1 = BlackOutline(str1, default_font, &white);
+    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
   if (str2)
-    s2 = BlackOutline(str2, default_font, &white);
+    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
   if (str3)
-    s3 = BlackOutline(str3, default_font, &white);
+    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
   /* When we get going with i18n may need to modify following - see below: */
   if (str4)
-    s4 = BlackOutline(str4, default_font, &white);
+    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
 
 #ifdef TUXMATH_DEBUG
-  fprintf(stderr, "NotImplemented() - drawing screen\n" );
+  fprintf(stderr, "ShowMessage() - drawing screen\n" );
 #endif
 
 

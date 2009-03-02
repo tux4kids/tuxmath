@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Tux Of Math Command],[1.7.2.preview],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
+AC_INIT([Tux Of Math Command],[1.7.2],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
 AC_CONFIG_SRCDIR([src/tuxmath.c])
 
 AC_PREREQ(2.61)
@@ -21,8 +21,9 @@ AC_SUBST(NAME_VERSION)
 # Needed for gettext:
 AC_GNU_SOURCE
 AM_GNU_GETTEXT_VERSION([0.17])
-AM_GNU_GETTEXT
-AM_GNU_GETTEXT_INTL_SUBDIR
+AM_GNU_GETTEXT([external])
+#AM_GNU_GETTEXT
+#AM_GNU_GETTEXT_INTL_SUBDIR
 
 
 # ----------------------------------------------------------------------
@@ -204,6 +205,7 @@ AC_PATH_PROG(NSIS, makensis, [], [$PATH])
 AC_CONFIG_FILES([
 Makefile
 tuxmath.spec
+tuxmath_preview.spec
 data/Makefile
 data/fonts/Makefile
 data/images/Makefile

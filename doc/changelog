@@ -1,3 +1,23 @@
+2009.Feb.28 
+        Text drawing - as all of this is handled by functions within SDL_extras,
+        there isn't any need for code elsewhere in the program to have to know 
+        about TTF fonts - changed BlackOutline() to take int size parameter instead
+        of a TTF_Font* parameter. With a little more work we can confine all mention
+        of SDL_Pango/SDL_ttf to within SDL_extras. When this is done, we will not
+        have any dependencies on specific fonts (or need to bundle them) whenever
+        SDL_Pango is available.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.28 
+        Build - added tuxmath.spec.in and tuxmath_preview.spec.in, which
+        are processed by configure to give the corresponding specfiles.
+        tuxmath.spec is for rpm packaging of official releases.  tuxmath_preview.spec
+        generates rpm packages with "tuxmath_preview" as the title, but otherwise
+        identical.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Feb.17 (svn.debian.org/tux4kids - revision 892)
         Fix convert_utf filename in CMake build. Eliminate the last few
 	warnings (David got almost all of them), so now tuxmath builds

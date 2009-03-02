@@ -513,32 +513,16 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 #endif
 
   if (str1)
-    s1 = BlackOutline(str1, default_font, &white);
+    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
   if (str2)
-    s2 = BlackOutline(str2, default_font, &white);
+    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
   if (str3)
-    s3 = BlackOutline(str3, default_font, &white);
-  /* When we get going with i18n may need to modify following - see below: */
+    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
   if (str4)
-    s4 = BlackOutline(str4, default_font, &white);
-
-//   /* we always want the URL in english */
-//   if (!useEnglish)
-//   {
-//     TTF_Font *english_font;
-//     useEnglish = 1;
-//     english_font = LoadFont( menu_font, menu_font_size );
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", english_font, &white);
-//     TTF_CloseFont(english_font);
-//     useEnglish = 0;
-//   }
-//   else
-//   {
-//     s4 = black_outline( "tuxmath-devel@lists.sourceforge.net", default_font, &white);
-//   }
+    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
 
 #ifdef TUXMATH_DEBUG
-  fprintf(stderr, "NotImplemented() - drawing screen\n" );
+  fprintf(stderr, "ShowMessage() - drawing screen\n" );
 #endif
 
   /* Redraw background: */
@@ -1428,18 +1412,18 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
   /**** Render the menu choices                               ****/
   if (title_offset)
   {
-    menu_item_unselected[0] = BlackOutline( _(menu_opts.title),default_font,&red);
+    menu_item_unselected[0] = BlackOutline( _(menu_opts.title), DEFAULT_MENU_FONT_SIZE, &red);
     // It will never be selected, so we don't have to do anything for selected.
     menu_item_selected[0] = NULL;
   }
   for (i = 0; i < n_menu_entries; i++)
   {
-    menu_item_unselected[i+title_offset] = BlackOutline( _(menu_text[i]), default_font, &white );
-    menu_item_selected[i+title_offset] = BlackOutline( _(menu_text[i]), default_font, &yellow);
+    menu_item_unselected[i+title_offset] = BlackOutline( _(menu_text[i]), DEFAULT_MENU_FONT_SIZE, &white );
+    menu_item_selected[i+title_offset] = BlackOutline( _(menu_text[i]), DEFAULT_MENU_FONT_SIZE, &yellow);
   }
   if (have_trailer) {
-    menu_item_unselected[n_menu_entries+title_offset] = BlackOutline( _(menu_opts.trailer), default_font, &white );
-    menu_item_selected[n_menu_entries+title_offset] = BlackOutline( _(menu_opts.trailer), default_font, &yellow);
+    menu_item_unselected[n_menu_entries+title_offset] = BlackOutline( _(menu_opts.trailer), DEFAULT_MENU_FONT_SIZE, &white );
+    menu_item_selected[n_menu_entries+title_offset] = BlackOutline( _(menu_opts.trailer), DEFAULT_MENU_FONT_SIZE, &yellow);
   }
   // We won't need the menu_text again, so now we can keep track of
   // the total entries including the title & trailer
