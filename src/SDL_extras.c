@@ -932,7 +932,9 @@ free_font_list(void)
   }
 }
 
-
+/* FIXME - could combine this with load_font() below, also we */
+/* will want to support a "current_font" setting rather than  */
+/* always using DEFAULT_FONT_NAME                             */
 /* Loads and caches fonts in each size as they are requested: */
 /* We use the font size as an array index, keeping each size  */
 /* font in memory once loaded until cleanup.                  */

@@ -124,7 +124,7 @@ void briefPlayer(int stage)
     },
     //scout
     {
-      {"-[Esc] to skip"},
+      {N_("-[Esc] to skip")},
       {N_("Mission Two: Smart Scout")},
       {"------------------------"},
       {N_("Great job! Since you saved the penguins' homes, we are promoting you to Scout. Scouts are good for keeping an eye out for trouble...")},
@@ -145,7 +145,7 @@ void briefPlayer(int stage)
     },
     //ace
     {
-      {"-[Esc] to skip"},
+      {N_("-[Esc] to skip")},
       {N_("Mission Four: Imperial Ace")},
       {"--------------------------"},
       {N_("You did it! The Emperor wants to thank you in person. We are taking you to his ice palace for a great honor: you will become the Imperial Ace!")},
@@ -156,7 +156,7 @@ void briefPlayer(int stage)
     },
   //commando
     {
-      {"-[Esc] to skip"},
+      {N_("-[Esc] to skip")},
       {N_("Final Mission: Computing Commando")},
       {"---------------------------------"},
       {N_("Penguin scientists have learned that all these attacks are coming from a secret base, and they need you to go fight the final battle. They also give you this clue: first do multiplication and division, and then do addition and subtraction.")},

@@ -1,3 +1,9 @@
+2009.Mar.03 (svn.debian.org/tux4kids - revision 919)
+        i18n - marking of some additional strings in campaign.c and credits.c for
+        translation.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Mar.03 (svn.debian.org/tux4kids - revision 918)
         Text drawing - all of text drawing now encapsulated within SDL_extras.
         Other code no longer has any SDL_ttf-specific data or includes. Tuxmath no

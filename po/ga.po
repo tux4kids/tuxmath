@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-03-02 12:41-0600\n"
+"POT-Creation-Date: 2009-03-03 10:16-0600\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -128,6 +128,84 @@ msgstr ""
 
 #: src/campaign.c:236
 msgid "Mission accomplished. The galaxy is safe!"
+msgstr ""
+
+#: src/credits.c:35
+msgid "TUX, OF MATH COMMAND"
+msgstr ""
+
+#: src/credits.c:36
+msgid "COPYRIGHT 2001-2009"
+msgstr ""
+
+#: src/credits.c:38
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr ""
+
+#: src/credits.c:41
+msgid "DESIGNED BY"
+msgstr ""
+
+#: src/credits.c:44
+msgid "LEAD PROGRAMMERS"
+msgstr ""
+
+#: src/credits.c:50
+msgid "ADDITIONAL CODE"
+msgstr ""
+
+#: src/credits.c:61
+msgid "LEAD ARTIST"
+msgstr ""
+
+#: src/credits.c:64
+msgid "ADDITIONAL ART"
+msgstr ""
+
+#: src/credits.c:68
+msgid "SOUND EFFECTS"
+msgstr ""
+
+#: src/credits.c:71
+msgid "MUSIC"
+msgstr ""
+
+#: src/credits.c:81
+msgid "PACKAGERS"
+msgstr ""
+
+#: src/credits.c:86
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr ""
+
+#: src/credits.c:89
+msgid "TESTERS"
+msgstr ""
+
+#: src/credits.c:101
+msgid "WEBSITE"
+msgstr ""
+
+#: src/credits.c:104
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+
+#: src/credits.c:106
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+
+#: src/credits.c:108
+msgid ""
+"A full copy of the GPL is included with the documenation for this program."
+msgstr ""
+
+#: src/credits.c:110
+msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
 #: src/factoroids.c:558
