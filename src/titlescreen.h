@@ -62,14 +62,6 @@ typedef struct {
 } menu_options;
 
 
-
-
-#define menu_font  "AndikaDesRevA.ttf"  /*  "GenAI102.ttf" */
-#define menu_font_size       18
-
-#define ttf_font  "AndikaDesRevA.ttf"  /*   "GenAI102.ttf" */
-#define ttf_font_size        18
-
 #define MAX_LESSONS 100
 #define MAX_NUM_WORDS   500
 #define MAX_WORD_SIZE   8
@@ -94,11 +86,8 @@ typedef struct {
 
 
 
-//extern SDL_Surface *screen;
-//extern TTF_Font  *font;
 extern SDL_Event  event;
 
-SDL_Surface* current_bkg(); //appropriate background for current video mode
 
 #define MUSIC_FADE_OUT_MS        80
 
@@ -148,6 +137,7 @@ int choose_menu_item(const char **menu_text,
                      menu_options* custom_mo, 
                      void (*set_custom_menu_opts)(menu_options*) );
 void set_default_menu_options(menu_options *);
+SDL_Surface* current_bkg(); //appropriate background for current video mode
 
 
 

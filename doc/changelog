@@ -1,3 +1,10 @@
+2009.Mar.03 (svn.debian.org/tux4kids - revision 918)
+        Text drawing - all of text drawing now encapsulated within SDL_extras.
+        Other code no longer has any SDL_ttf-specific data or includes. Tuxmath no
+        longer depends on any specific fonts as long as SDL_Pango is available.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Feb.28 
         Text drawing - as all of this is handled by functions within SDL_extras,
         there isn't any need for code elsewhere in the program to have to know 

@@ -41,7 +41,6 @@ typedef struct {
 
 /* in loaders.c (from tuxtype): */
 int         checkFile( const char *file );
-TTF_Font*    LoadFont(const char* font_name, int font_size);
 Mix_Chunk*   LoadSound( char* datafile );
 SDL_Surface* LoadImage( char* datafile, int mode );
 SDL_Surface* LoadBkgd(char* datafile);

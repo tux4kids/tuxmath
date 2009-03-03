@@ -4,8 +4,6 @@
 #include "options.h"
 #include "SDL_extras.h"
 
-TTF_Font  *default_font;
-TTF_Font  *help_font;
 int glyph_offset;
 
 /*****************************************************************/
@@ -184,43 +182,17 @@ int load_image_data()
 
 #ifdef REPLACE_WAVESCORE  
   /* Replace the "WAVE" and "SCORE" with translate-able versions */
-  TTF_Font *wavescore_font;
-  wavescore_font = LoadFont(DEFAULT_FONT_NAME, 28);
   SDL_FreeSurface(images[IMG_WAVE]);
-  images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), wavescore_font, &white, &glyph_offset);
+  images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
   SDL_FreeSurface(images[IMG_SCORE]);
-  images[IMG_SCORE] = SimpleTextWithOffset(_("SCORE"), wavescore_font, &white, &glyph_offset);
+  images[IMG_SCORE] = SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
   glyph_offset++;
-  TTF_CloseFont(wavescore_font);
 #endif
 
   /* If we make it to here OK, return 1: */
   return 1;
 }
 
-/* returns 1 if default font successfully loaded, 0 otherwise. */
-int load_default_font()
-{
-  default_font = LoadFont( DEFAULT_FONT_NAME,
-                           DEFAULT_MENU_FONT_SIZE);
-  help_font = LoadFont(    DEFAULT_FONT_NAME,
-                           DEFAULT_HELP_FONT_SIZE);
-
-  if (default_font && help_font)
-  {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "load_default_font(): %s loaded successfully\n\n",
-            DEFAULT_FONT_NAME);
-#endif
-    return 1;
-  }
-  else
-  {
-    fprintf(stderr, "LoadFont(): %s NOT loaded successfully. TTF: %s\n",
-            DEFAULT_FONT_NAME, TTF_GetError() );
-    return 0;
-  }
-}
 
 
 

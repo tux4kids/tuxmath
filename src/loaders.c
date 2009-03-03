@@ -93,40 +93,7 @@ int max( int n1, int n2 ) {
 
 
 
-/* FIXME: I think we need to provide a single default font with the program data, */
-/* then more flexible code to try to locate or load system fonts. DSB             */
-/* Returns ptr to loaded font if successful, NULL otherwise. */
-TTF_Font* LoadFont(const char* font_name, int font_size)
-{
-  TTF_Font* f;
-  char fontfile[PATH_MAX];
-  sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, font_name);
 
-  f = TTF_OpenFont(fontfile, font_size);
-
-  /* HACK - better font searching needed! */
-  /* This should mean that font wasn't bundled into data path, which for  */
-  /* now means we are using Debian, so grab from Debian installation loc: */
-  if (!f)
-  { 
-    sprintf(fontfile, "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf");
-    f = TTF_OpenFont(fontfile, font_size);
-  }
-
-
-  if (f)
-  {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fontfile);
-#endif
-    return f;
-  }
-  else
-  {
-   fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fontfile);
-   return NULL;
-  }
-}
 
 
 

@@ -461,7 +461,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
       dest.h = 1;
       draw_text(text[line], dest);  // translation should have already occurred
 
-      if (scroll * speed >= TTF_FontHeight(default_font) )
+      if (scroll * speed >= DEFAULT_MENU_FONT_SIZE)
       {
         scroll = 0;
         line++;
@@ -600,7 +600,7 @@ void draw_text(char* str, SDL_Rect dest)
 
   /* This func from SDL_extras draws with SDL_Pango if avail, */
   /* with SDL_ttf as fallback:                                */
-  surf =  SimpleText(str, default_font, &col);
+  surf =  SimpleText(str, DEFAULT_MENU_FONT_SIZE, &col);
 
   dest.x -= surf->w / 2; //center text
   SDL_BlitSurface(surf, NULL, screen, &dest);

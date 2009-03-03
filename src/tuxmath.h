@@ -34,7 +34,6 @@
 #include <wchar.h>
 
 #include "SDL.h"
-#include "SDL_ttf.h"
 #include "SDL_image.h"
 
 #ifndef NOSOUND
@@ -63,8 +62,6 @@ extern SDL_Surface* flipped_images[];
 extern SDL_Surface* blended_igloos[];
 extern int flipped_img_lookup[];
 
-extern TTF_Font  *default_font;
-extern TTF_Font  *help_font;
 extern int glyph_offset;
 
 

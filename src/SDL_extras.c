@@ -589,21 +589,32 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 /* which library is used to do the actual rendering.                    */
 /************************************************************************/
 
+#define MAX_FONT_SIZE 40
 
+/*-- file-scope variables and local file prototypes for SDL_Pango-based code: */
 #ifdef HAVE_LIBSDL_PANGO
 #include "SDL_Pango.h"
 SDLPango_Context* context = NULL;
 static SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color* cl);
+
+
+/*-- file-scope variables and local file prototypes for SDL_ttf-based code: */
 #else
 #include "SDL_ttf.h"
-TTF_Font* menu_font = NULL;
-TTF_Font* help_font = NULL;
-TTF_Font* HS_title_font = NULL;
-TTF_Font* HS_player_font = NULL;
+/* We cache fonts here once loaded to improve performance: */
+TTF_Font* font_list[MAX_FONT_SIZE] = {NULL};
+static void free_font_list(void);
+static TTF_Font* get_font(int size);
+static TTF_Font* load_font(const char* font_name, int font_size);
 #endif
 
+
+/* "Public" functions called from other files that use either */
+/*SDL_Pango or SDL_ttf:                                       */
+
+
 /* For setup, we either initialize SDL_Pango and set its context, */
-/* or we initialize SDL_ttf and load required fonts:              */
+/* or we initialize SDL_ttf:                                      */
 int Setup_SDL_Text(void)
 {
 #ifdef HAVE_LIBSDL_PANGO
@@ -628,78 +639,22 @@ int Setup_SDL_Text(void)
     fprintf(stderr, "\nError: I could not initialize SDL_ttf\n");
     return 0;
   }
-
-
+  return 1;
 #endif
 }
 
 
-
+void Cleanup_SDL_Text(void)
+{
 #ifdef HAVE_LIBSDL_PANGO
-/* NOTE these functions are wrapped within SDL_extras.c/h because there */
-/* appears to be a bug in SDL_Pango that causes symbol collision errors */
-/* on some compilers if more than one file has #include "SDL_Pango.h"   */
-
-void init_SDLPango_Context()
-{
-   char buf[64];
-   snprintf(buf, 64, "[%s][][%d]", DEFAULT_FONT_NAME, DEFAULT_MENU_FONT_SIZE);
-   context =  SDLPango_CreateContext_GivenFontDesc(buf);
-}
-
-void free_SDLPango_Context()
-{
   if(context != NULL)
     SDLPango_FreeContext(context);
   context = NULL;
-}
-
-
-void SetupSDL_Pango()
-{
-  if (SDLPango_Init () < 0)
-  {
-      fprintf(stderr,
-            "\nWarning: I could not initialize SDL_Pango !\n"
-            "%s\n\n", SDL_GetError());
-  }
-  else 
-  {
-    init_SDLPango_Context();
-  }
-}
-
-
-SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color *cl)
-{
-  int k = 0;
-  SDLPango_Matrix* colour = NULL;
-
-  if (!cl)
-  {
-    fprintf(stderr, "Invalid SDL_Color* arg\n");
-    return NULL;
-  }
-
-  colour = (SDLPango_Matrix*)malloc(sizeof(SDLPango_Matrix));
-
-  for(k = 0; k < 4; k++)
-  {
-    (*colour).m[0][k] = (*cl).r;
-    (*colour).m[1][k] = (*cl).g;
-    (*colour).m[2][k] = (*cl).b;
-  }
-  (*colour).m[3][0] = 0;
-  (*colour).m[3][1] = 255;
-  (*colour).m[3][2] = 0;
-  (*colour).m[3][3] = 0;
-
-  return colour;
-}
-
+#else
+  free_font_list();
+  TTF_Quit();
 #endif
-
-
+}
 /* BlackOutline() creates a surface containing text of the designated */
 /* foreground color, surrounded by a black shadow, on a transparent    */
 /* background.  The appearance can be tuned by adjusting the number of */
@@ -715,17 +670,18 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
   SDL_Rect dstrect;
   Uint32 color_key;
 
-#ifndef HAVE_LIBSDL_PANGO
-  TTF_Font* font = LoadFont(DEFAULT_FONT_NAME, size);
-  if (!font)
-  {
-    fprintf(stderr, "BlackOutline(): could not load needed font - returning.");
-    return NULL;
-  }
-#else
+/* Make sure everything is sane before we proceed: */
+#ifdef HAVE_LIBSDL_PANGO
   if (!context)
   {
     fprintf(stderr, "BlackOutline(): invalid SDL_Pango context - returning.");
+    return NULL;
+  }
+#else
+  TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+  if (!font)
+  {
+    fprintf(stderr, "BlackOutline(): could not load needed font - returning.");
     return NULL;
   }
 #endif
@@ -747,12 +703,12 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
   fprintf( stderr, "BlackOutline of \"%s\"\n", t );
 #endif
 
-#ifndef HAVE_LIBSDL_PANGO
-  black_letters = TTF_RenderUTF8_Blended(font, t, black);
-#else
+#ifdef HAVE_LIBSDL_PANGO
   SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_BLACK_LETTER);
   SDLPango_SetText(context, t, -1);
   black_letters = SDLPango_CreateSurfaceDraw(context);
+#else
+  black_letters = TTF_RenderUTF8_Blended(font, t, black);
 #endif
 
   if (!black_letters)
@@ -783,10 +739,7 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
   SDL_FreeSurface(black_letters);
 
   /* --- Put the color version of the text on top! --- */
-#ifndef HAVE_LIBSDL_PANGO
-  white_letters = TTF_RenderUTF8_Blended(font, t, *c);
-  TTF_CloseFont(font);
-#else
+#ifdef HAVE_LIBSDL_PANGO
   /* convert color arg: */
   SDLPango_Matrix* color_matrix = SDL_Colour_to_SDLPango_Matrix(c);
 
@@ -799,6 +752,9 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
     SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_WHITE_LETTER);
 
   white_letters = SDLPango_CreateSurfaceDraw(context);
+
+#else
+  white_letters = TTF_RenderUTF8_Blended(font, t, *c);
 #endif
 
   if (!white_letters)
@@ -826,78 +782,211 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
 
 
 /* This (fast) function just returns a non-outlined surf */
-/* using SDL_Pango if available, SDL_ttf as fallback     */
-SDL_Surface* SimpleText(const char *t, TTF_Font* font, SDL_Color* col)
+/* using either SDL_Pango or SDL_ttf                     */
+SDL_Surface* SimpleText(const char *t, int size, SDL_Color* col)
 {
   SDL_Surface* surf = NULL;
-  int using_pango = 0;
+
+  if (!t||!col)
+    return NULL;
 
 #ifdef HAVE_LIBSDL_PANGO
-  using_pango = (context != NULL);
-#endif
-
-  if (using_pango) {
-#ifdef HAVE_LIBSDL_PANGO
-  SDLPango_Matrix colormatrix = {
-    col->r,  col->r,  0,  0,
-    col->g,  col->g,  0,  0,
-    col->b,  col->b,  0,  0,
-    0,      255,      0,  0,
-  };
-  SDLPango_SetDefaultColor(context, &colormatrix );
-  SDLPango_SetText(context, t, -1);
-  surf = SDLPango_CreateSurfaceDraw(context);
-#endif
+  if (!context)
+  {
+    fprintf(stderr, "SimpleText() - context not valid!\n");
+    return NULL;
   }
-  else {
+  else
+  {
+    SDLPango_Matrix colormatrix = 
+    {
+      col->r,  col->r,  0,  0,
+      col->g,  col->g,  0,  0,
+      col->b,  col->b,  0,  0,
+      0,      255,      0,  0,
+    };
+    SDLPango_SetDefaultColor(context, &colormatrix );
+    SDLPango_SetText(context, t, -1);
+    surf = SDLPango_CreateSurfaceDraw(context);
+  }
+
+#else
+  {
+    TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+    if (!font)
+      return NULL;
     surf = TTF_RenderUTF8_Blended(font, t, *col);
   }
+#endif
 
   return surf;
 }
-
 
 /* This (fast) function just returns a non-outlined surf */
 /* using SDL_Pango if available, SDL_ttf as fallback     */
-SDL_Surface* SimpleTextWithOffset(const char *t, TTF_Font* font, SDL_Color* col, int *glyph_offset)
+SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *glyph_offset)
 {
   SDL_Surface* surf = NULL;
-  int using_pango = 0;
+
+  if (!t||!col)
+    return NULL;
 
 #ifdef HAVE_LIBSDL_PANGO
-  using_pango = (context != NULL);
-#endif
-
-  if (using_pango) {
-#ifdef HAVE_LIBSDL_PANGO
-  SDLPango_Matrix colormatrix = {
-    col->r,  col->r,  0,  0,
-    col->g,  col->g,  0,  0,
-    col->b,  col->b,  0,  0,
-    0,      255,      0,  0,
-  };
-  SDLPango_SetDefaultColor(context, &colormatrix );
-  SDLPango_SetText(context, t, -1);
-  surf = SDLPango_CreateSurfaceDraw(context);
-  *glyph_offset = 0; // fixme?
-#endif
+  if (!context)
+  {
+    fprintf(stderr, "SimpleText() - context not valid!\n");
+    return NULL;
   }
-  else {
+  else
+  {
+    SDLPango_Matrix colormatrix = 
+    {
+      col->r,  col->r,  0,  0,
+      col->g,  col->g,  0,  0,
+      col->b,  col->b,  0,  0,
+      0,      255,      0,  0,
+    };
+    SDLPango_SetDefaultColor(context, &colormatrix );
+    SDLPango_SetText(context, t, -1);
+    surf = SDLPango_CreateSurfaceDraw(context);
+    *glyph_offset = 0; // fixme?
+  }
+
+#else
+  {
+    TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+    if (!font)
+      return NULL;
     surf = TTF_RenderUTF8_Blended(font, t, *col);
-    int h;
-    int hmax = 0;
-    int len = strlen(t);
-    int i;
-    for (i = 0; i < len; i++) {
-      TTF_GlyphMetrics(font, t[i], NULL, NULL, NULL, &h, NULL);
-      if (h > hmax)
-	hmax = h;
+    {
+      int h;
+      int hmax = 0;
+      int len = strlen(t);
+      int i;
+      for (i = 0; i < len; i++)
+      {
+        TTF_GlyphMetrics(font, t[i], NULL, NULL, NULL, &h, NULL);
+        if (h > hmax)
+	  hmax = h;
+      }
+      *glyph_offset = hmax - TTF_FontAscent(font);
     }
-    *glyph_offset = hmax - TTF_FontAscent(font);
   }
+#endif
 
   return surf;
 }
+
+
+
+/*-----------------------------------------------------------*/
+/* Local functions, callable only within SDL_extras, divided */
+/* according with which text lib we are using:               */
+/*-----------------------------------------------------------*/
+
+
+
+#ifdef HAVE_LIBSDL_PANGO
+/* Local functions when using SDL_Pango:   */
+
+SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color *cl)
+{
+  int k = 0;
+  SDLPango_Matrix* colour = NULL;
+
+  if (!cl)
+  {
+    fprintf(stderr, "Invalid SDL_Color* arg\n");
+    return NULL;
+  }
+
+  colour = (SDLPango_Matrix*)malloc(sizeof(SDLPango_Matrix));
+
+  for(k = 0; k < 4; k++)
+  {
+    (*colour).m[0][k] = (*cl).r;
+    (*colour).m[1][k] = (*cl).g;
+    (*colour).m[2][k] = (*cl).b;
+  }
+  (*colour).m[3][0] = 0;
+  (*colour).m[3][1] = 255;
+  (*colour).m[3][2] = 0;
+  (*colour).m[3][3] = 0;
+
+  return colour;
+}
+
+#else
+/* Local functions when using SDL_ttf: */
+
+free_font_list(void)
+{
+  int i;
+  for(i = 0; i < MAX_FONT_SIZE; i++);
+  {
+    if(font_list[i])
+    {
+      TTF_CloseFont(font_list[i]);
+      font_list[i] = NULL;
+    }
+  }
+}
+
+
+/* Loads and caches fonts in each size as they are requested: */
+/* We use the font size as an array index, keeping each size  */
+/* font in memory once loaded until cleanup.                  */
+static TTF_Font* get_font(int size)
+{
+  if (size < 0 || size > MAX_FONT_SIZE)
+  {
+    fprintf(stderr, "Error - requested font size %d is invalid\n", size);
+    return NULL;
+  }
+
+  if(font_list[size] == NULL)
+    font_list[size] = LoadFont(DEFAULT_FONT_NAME, size);
+  return font_list[size];
+}
+
+
+/* FIXME: I think we need to provide a single default font with the program data, */
+/* then more flexible code to try to locate or load system fonts. DSB             */
+/* Returns ptr to loaded font if successful, NULL otherwise. */
+static TTF_Font* load_font(const char* font_name, int font_size)
+{
+  TTF_Font* f;
+  char fontfile[PATH_MAX];
+  sprintf(fontfile, "%s/fonts/%s", DATA_PREFIX, font_name);
+
+  f = TTF_OpenFont(fontfile, font_size);
+
+  /* HACK - better font searching needed! */
+  /* This should mean that font wasn't bundled into data path, which for  */
+  /* now means we are using Debian, so grab from Debian installation loc: */
+  if (!f)
+  { 
+    sprintf(fontfile, "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf");
+    f = TTF_OpenFont(fontfile, font_size);
+  }
+
+
+  if (f)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fontfile);
+#endif
+    return f;
+  }
+  else
+  {
+   fprintf(stderr, "LoadFont(): %s NOT loaded successfully.\n", fontfile);
+   return NULL;
+  }
+}
+#endif
+
+
 
 
 

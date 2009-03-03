@@ -369,7 +369,6 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   Uint32 frame = 0;
   Uint32 start = 0;
   wchar_t wchar_buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
-//  TTF_Font* name_font = NULL;
   const int NAME_FONT_SIZE = 32;
   const int BG_Y = 100;
   const int BG_WIDTH = 400;

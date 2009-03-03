@@ -439,22 +439,15 @@ void initialize_SDL(void)
     exit(1);
   }
 
-
-  if (TTF_Init() < 0)
+  if (!Setup_SDL_Text())
   {
-    fprintf( stderr, "Couldn't initialize SDL_ttf\n"
-           "The Simple DirectMedia error that occured was:\n"
-           "%s\n\n", SDL_GetError());
+    fprintf( stderr, "Couldn't initialize text (SDL_ttf or SDL_Pango)\n");
     cleanup_on_error();
     exit(2);
   }
 
-  atexit(TTF_Quit); // Maybe this is redundant?
+//  atexit(TTF_Quit); // Maybe this is redundant?
 
-
-#ifdef HAVE_LIBSDL_PANGO
-  SetupSDL_Pango();
-#endif
 
 
   #ifndef NOSOUND
@@ -568,15 +561,9 @@ void load_data_files(void)
     Opts_SetSoundHWAvailable(0);
   }
 
-   if (!load_default_font())
-  {
-    fprintf(stderr, "\nCould not load default font - exiting!\n");
-    cleanup_on_error();
-    exit(1);
-  }
-   
   /* This now has to come after loading the font, because it replaces
      a couple of images with translatable versions. */
+  /* NOTE now the text code will load the font if it isn't already loaded */
   if (!load_image_data())
   {
     fprintf(stderr, "\nCould not load image file - exiting!\n");
@@ -662,12 +649,7 @@ void cleanup_memory(void)
   Uint16 format;
 
   /* Free all images and sounds used by SDL: */
-  if(default_font)
-  {
-    TTF_CloseFont(default_font);
-    default_font = NULL;
-    TTF_Quit();
-  }
+  Cleanup_SDL_Text();
 
   for (i = 0; i < NUM_IMAGES; i++)
   {
@@ -731,10 +713,6 @@ void cleanup_memory(void)
     Mix_CloseAudio();
     n_timesopened--;
   }
-
-#ifdef HAVE_LIBSDL_PANGO
-   free_SDLPango_Context();
-#endif
 
 
   // Finally, quit SDL
