@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-03-03 10:16-0600\n"
+"POT-Creation-Date: 2009-03-03 10:29-0600\n"
 "PO-Revision-Date: 2008-02-25 16:55+0000\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Round"
 msgstr ""
 
-#: src/campaign.c:115
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
 msgid "-[Esc] to skip"
 msgstr ""
 

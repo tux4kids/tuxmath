@@ -239,7 +239,12 @@ int initMP()
   for (i = 0; i < nplayers; ++i)
   {
     if (pnames[i])
-      NameEntry(pnames[i], "Who is playing?", "Enter your name:");
+    {
+      if (i == 0) //First player
+        NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"));
+      else //subsequent players
+        NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"));
+    }
     else
     {
       printf("Can't allocate name %d!\n", i);
@@ -252,7 +257,7 @@ int initMP()
   {
     while (params[ROUNDS] <= 0)
     {
-      NameEntry(nrstr, "How many rounds will you play?", "Enter a number");
+      NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"));
       params[ROUNDS] = atoi(nrstr);
     }
   }

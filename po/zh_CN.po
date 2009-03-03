@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-03-03 10:16-0600\n"
+"POT-Creation-Date: 2009-03-03 10:29-0600\n"
 "PO-Revision-Date: 2009-02-07 18:04+0800\n"
 "Last-Translator: Xavier <XavierXavierye@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "恭喜！你赢了！"
 msgid "Round"
 msgstr "回合"
 
-#: src/campaign.c:115
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
 msgid "-[Esc] to skip"
 msgstr "按Esc键跳过"
 

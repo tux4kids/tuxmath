@@ -19,7 +19,7 @@ Name:           @PACKAGE@_preview
 Obsoletes:      tuxmath = 2001.09.07
 Obsoletes: 	tuxmath <= @VERSION@
 Provides:  	tuxmath = @VERSION@
-%define         realname tuxmath_w_fonts
+%define         realname tuxmath
 %define         progname tuxmath
 Summary:        Tux Math - educational math game
 Version:        @VERSION@

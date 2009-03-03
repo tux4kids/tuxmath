@@ -655,6 +655,8 @@ void Cleanup_SDL_Text(void)
   TTF_Quit();
 #endif
 }
+
+
 /* BlackOutline() creates a surface containing text of the designated */
 /* foreground color, surrounded by a black shadow, on a transparent    */
 /* background.  The appearance can be tuned by adjusting the number of */
@@ -919,7 +921,7 @@ SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color *cl)
 #else
 /* Local functions when using SDL_ttf: */
 
-free_font_list(void)
+static void free_font_list(void)
 {
   int i;
   for(i = 0; i < MAX_FONT_SIZE; i++);

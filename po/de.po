@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-03-03 10:16-0600\n"
+"POT-Creation-Date: 2009-03-03 10:29-0600\n"
 "PO-Revision-Date: 2008-05-02 16:08+0200\n"
 "Last-Translator: Lars Vogdt <lars@linux-schulserver.de>\n"
 "MIME-Version: 1.0\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "Round"
 msgstr ""
 
-#: src/campaign.c:115
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
 msgid "-[Esc] to skip"
 msgstr ""
 
