@@ -595,14 +595,15 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 #ifdef HAVE_LIBSDL_PANGO
 #include "SDL_Pango.h"
 SDLPango_Context* context = NULL;
+static int current_pango_font_size = 0;
 static SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color* cl);
-
+static int Set_SDL_Pango_Font_Size(int size);
 
 /*-- file-scope variables and local file prototypes for SDL_ttf-based code: */
 #else
 #include "SDL_ttf.h"
 /* We cache fonts here once loaded to improve performance: */
-TTF_Font* font_list[MAX_FONT_SIZE] = {NULL};
+TTF_Font* font_list[MAX_FONT_SIZE + 1] = {NULL};
 static void free_font_list(void);
 static TTF_Font* get_font(int size);
 static TTF_Font* load_font(const char* font_name, int font_size);
@@ -618,13 +619,11 @@ static TTF_Font* load_font(const char* font_name, int font_size);
 int Setup_SDL_Text(void)
 {
 #ifdef HAVE_LIBSDL_PANGO
-  char buf[64];
+
+  tmdprintf("Setup_SDL_Text() - using SDL_Pango\n");
 
   SDLPango_Init();
-
-  snprintf(buf, 64, "[%s][][%d]", DEFAULT_FONT_NAME, DEFAULT_MENU_FONT_SIZE);
-  context =  SDLPango_CreateContext_GivenFontDesc(buf);
-  if (!context)
+  if (!Set_SDL_Pango_Font_Size(DEFAULT_MENU_FONT_SIZE))
   {
     fprintf(stderr, "\nError: I could not set SDL_Pango context\n");
     return 0;
@@ -633,6 +632,7 @@ int Setup_SDL_Text(void)
 
 #else
 /* using SDL_ttf: */
+  tmdprintf("Setup_SDL_Text() - using SDL_ttf\n");
 
   if (TTF_Init() < 0)
   {
@@ -642,6 +642,7 @@ int Setup_SDL_Text(void)
   return 1;
 #endif
 }
+
 
 
 void Cleanup_SDL_Text(void)
@@ -706,6 +707,7 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
 #endif
 
 #ifdef HAVE_LIBSDL_PANGO
+  Set_SDL_Pango_Font_Size(size);
   SDLPango_SetDefaultColor(context, MATRIX_TRANSPARENT_BACK_BLACK_LETTER);
   SDLPango_SetText(context, t, -1);
   black_letters = SDLPango_CreateSurfaceDraw(context);
@@ -807,6 +809,7 @@ SDL_Surface* SimpleText(const char *t, int size, SDL_Color* col)
       col->b,  col->b,  0,  0,
       0,      255,      0,  0,
     };
+    Set_SDL_Pango_Font_Size(size);
     SDLPango_SetDefaultColor(context, &colormatrix );
     SDLPango_SetText(context, t, -1);
     surf = SDLPango_CreateSurfaceDraw(context);
@@ -848,6 +851,7 @@ SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *
       col->b,  col->b,  0,  0,
       0,      255,      0,  0,
     };
+    Set_SDL_Pango_Font_Size(size);
     SDLPango_SetDefaultColor(context, &colormatrix );
     SDLPango_SetText(context, t, -1);
     surf = SDLPango_CreateSurfaceDraw(context);
@@ -890,6 +894,38 @@ SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *
 
 #ifdef HAVE_LIBSDL_PANGO
 /* Local functions when using SDL_Pango:   */
+
+
+/* FIXME the '0.7' a few lines down is to compensate for the larger font size   */
+/* that SDL_Pango generates relative to a TTF_Font of the same numerical size - */
+/* this was picked by trial and error, ought to understand this better - DSB    */
+static int Set_SDL_Pango_Font_Size(int size)
+{
+  /* Do nothing unless we need to change size: */
+  if (size == current_pango_font_size)
+    return 1;
+  else
+  {
+    char buf[64];
+
+    tmdprintf("Setting font size to %d\n", size);
+
+    if(context != NULL)
+      SDLPango_FreeContext(context);
+    context = NULL;
+    snprintf(buf, sizeof(buf), "%s %d", DEFAULT_FONT_NAME, (int)(size * 0.7));
+    context =  SDLPango_CreateContext_GivenFontDesc(buf);
+  }
+
+  if (!context)
+    return 0;
+  else
+  {
+    current_pango_font_size = size;
+    return 1;
+  }
+}
+
 
 SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color *cl)
 {
