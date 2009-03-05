@@ -423,7 +423,7 @@ void handle_command_args(int argc, char* argv[])
 void initialize_SDL(void)
 {
   // Audio parameters
-  int frequency,channels,n_timesopened;
+  int frequency, channels, n_timesopened;
   Uint16 format;
 
   /* Init SDL Video: */
