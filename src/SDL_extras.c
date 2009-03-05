@@ -15,6 +15,7 @@
 #include "tuxmath.h"
 #include "loaders.h"
 #include "pixels.h"
+#include "options.h"
 
 
 
@@ -591,11 +592,13 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 
 #define MAX_FONT_SIZE 40
 
+//Uncomment to test program with SDL_ttf:
+//#undef HAVE_LIBSDL_PANGO
+
 /*-- file-scope variables and local file prototypes for SDL_Pango-based code: */
 #ifdef HAVE_LIBSDL_PANGO
 #include "SDL_Pango.h"
 SDLPango_Context* context = NULL;
-static int current_pango_font_size = 0;
 static SDLPango_Matrix* SDL_Colour_to_SDLPango_Matrix(const SDL_Color* cl);
 static int Set_SDL_Pango_Font_Size(int size);
 
@@ -896,13 +899,18 @@ SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *
 /* Local functions when using SDL_Pango:   */
 
 
-/* FIXME the '0.7' a few lines down is to compensate for the larger font size   */
-/* that SDL_Pango generates relative to a TTF_Font of the same numerical size - */
-/* this was picked by trial and error, ought to understand this better - DSB    */
+/* NOTE the scaling by 3/4 a few lines down represents a conversion from      */
+/* the usual text dpi of 72 to the typical screen dpi of 96. It gives         */
+/* font sizes fairly similar to a SDL_ttf font with the same numerical value. */
 static int Set_SDL_Pango_Font_Size(int size)
 {
-  /* Do nothing unless we need to change size: */
-  if (size == current_pango_font_size)
+  /* static so we can "remember" values from previous time through: */
+  static int prev_pango_font_size;
+  static char prev_font_name[FONT_NAME_LENGTH];
+  /* Do nothing unless we need to change size or font: */
+  if ((size == prev_pango_font_size)
+      &&
+      (0 == strncmp(prev_font_name, Opts_FontName(), sizeof(prev_font_name))))
     return 1;
   else
   {
@@ -913,7 +921,7 @@ static int Set_SDL_Pango_Font_Size(int size)
     if(context != NULL)
       SDLPango_FreeContext(context);
     context = NULL;
-    snprintf(buf, sizeof(buf), "%s %d", DEFAULT_FONT_NAME, (int)(size * 0.7));
+    snprintf(buf, sizeof(buf), "%s %d", Opts_FontName(), (int)((size * 3)/4));
     context =  SDLPango_CreateContext_GivenFontDesc(buf);
   }
 
@@ -921,7 +929,8 @@ static int Set_SDL_Pango_Font_Size(int size)
     return 0;
   else
   {
-    current_pango_font_size = size;
+    prev_pango_font_size = size;
+    strncpy(prev_font_name, Opts_FontName(), sizeof(prev_font_name));
     return 1;
   }
 }

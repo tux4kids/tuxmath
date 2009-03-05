@@ -91,6 +91,7 @@
 #define MAX_MAX_COMETS 100
 
 #define DEFAULT_FONT_NAME "AndikaDesRevG.ttf"
+#define FONT_NAME_LENGTH 64
 #define DEFAULT_MENU_FONT_SIZE 18
 #define DEFAULT_HELP_FONT_SIZE 32
 

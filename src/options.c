@@ -96,6 +96,7 @@ int Opts_Initialize(void)
   global_options->iopts[FULLSCREEN] = DEFAULT_FULLSCREEN;
   global_options->iopts[USE_KEYPAD] = DEFAULT_USE_KEYPAD;
   global_options->iopts[USE_IGLOOS] = DEFAULT_USE_IGLOOS;
+  strncpy(game_options->current_font_name, DEFAULT_FONT_NAME, sizeof(game_options->current_font_name));
   game_options->use_bkgd = DEFAULT_USE_BKGD;
   game_options->help_mode = DEFAULT_HELP_MODE;
   game_options->demo_mode = DEFAULT_DEMO_MODE;
@@ -153,6 +154,7 @@ unsigned int Opts_MapTextToIndex(const char* text)
   tmdprintf("'%s' isn't a global option\n", text);
   return -1;
 }
+
 int Opts_GetGlobalOp(const char* text)
 {
   int index = Opts_MapTextToIndex(text);
@@ -160,6 +162,7 @@ int Opts_GetGlobalOp(const char* text)
     return Opts_GetGlobalOpt(index);
   return 0;
 }
+
 int Opts_GetGlobalOpt(unsigned int index)
 {
   if (index < NUM_GLOBAL_OPTS)
@@ -218,6 +221,11 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
 //  global_options->iopts[FULLSCREEN] = int_to_bool(val);
 //}
 
+void Opts_SetFontName(char* font_name)
+{
+  if (font_name && font_name[0] != '\0')
+  strncpy(game_options->current_font_name, font_name, sizeof(game_options->current_font_name));
+}
 
 void Opts_SetUseBkgd(int val)
 {
@@ -580,6 +588,15 @@ void Opts_SetKeepScore(int val)
 //  return global_options->iopts[FULLSCREEN];
 //}
 
+const char* Opts_FontName(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_FontName(): game_options not valid!\n");
+    return NULL;
+  }
+  return (const char*) game_options->current_font_name;
+}
 
 int Opts_UseBkgd(void)
 {
