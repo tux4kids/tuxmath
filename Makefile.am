@@ -9,6 +9,7 @@
 
 SUBDIRS = data	\
 	doc	\
+	intl	\
 	linebreak \
 	po	\
 	src

@@ -684,7 +684,7 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
     return NULL;
   }
 #else
-  TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+  TTF_Font* font = get_font(size);
   if (!font)
   {
     fprintf(stderr, "BlackOutline(): could not load needed font - returning.");
@@ -820,7 +820,7 @@ SDL_Surface* SimpleText(const char *t, int size, SDL_Color* col)
 
 #else
   {
-    TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+    TTF_Font* font = get_font(size);
     if (!font)
       return NULL;
     surf = TTF_RenderUTF8_Blended(font, t, *col);
@@ -863,7 +863,7 @@ SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *
 
 #else
   {
-    TTF_Font* font = get_font(DEFAULT_FONT_NAME, size);
+    TTF_Font* font = get_font(size);
     if (!font)
       return NULL;
     surf = TTF_RenderUTF8_Blended(font, t, *col);
@@ -987,14 +987,28 @@ static void free_font_list(void)
 /* font in memory once loaded until cleanup.                  */
 static TTF_Font* get_font(int size)
 {
-  if (size < 0 || size > MAX_FONT_SIZE)
+  if (size < 0)
   {
-    fprintf(stderr, "Error - requested font size %d is invalid\n", size);
+    fprintf(stderr, "Error - requested font size %d is negative\n", size);
     return NULL;
   }
 
+  if (size > MAX_FONT_SIZE)
+  {
+    fprintf(stderr, "Error - requested font size %d exceeds max = %d, resetting.\n",
+            size, MAX_FONT_SIZE);
+    size = MAX_FONT_SIZE;
+  }
+
+  /* If the font has changed, we need to wipe out the old ones: */
+  if (0 != strncmp(prev_font_name, Opts_FontName(), FNLEN))
+  {
+    free_font_list();
+    strncpy(prev_font_name, Opts_FontName(), sizeof(prev_font_name));
+  }
+
   if(font_list[size] == NULL)
-    font_list[size] = LoadFont(DEFAULT_FONT_NAME, size);
+    font_list[size] = load_font(DEFAULT_FONT_NAME, size);
   return font_list[size];
 }
 

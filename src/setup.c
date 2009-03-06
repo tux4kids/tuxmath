@@ -439,6 +439,7 @@ void initialize_SDL(void)
     exit(1);
   }
 
+  /* This sets up whichever text library we are using: */
   if (!Setup_SDL_Text())
   {
     fprintf( stderr, "Couldn't initialize text (SDL_ttf or SDL_Pango)\n");

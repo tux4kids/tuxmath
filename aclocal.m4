@@ -13,8 +13,8 @@
 
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(AC_AUTOCONF_VERSION, [2.61],,
-[m4_warning([this file was generated for autoconf 2.61.
+m4_if(AC_AUTOCONF_VERSION, [2.63],,
+[m4_warning([this file was generated for autoconf 2.63.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically `autoreconf'.])])
@@ -866,13 +866,34 @@ AC_SUBST([am__tar])
 AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
+m4_include([m4/codeset.m4])
 m4_include([m4/gettext.m4])
+m4_include([m4/glibc2.m4])
+m4_include([m4/glibc21.m4])
 m4_include([m4/iconv.m4])
+m4_include([m4/intdiv0.m4])
+m4_include([m4/intl.m4])
+m4_include([m4/intldir.m4])
 m4_include([m4/intlmacosx.m4])
+m4_include([m4/intmax.m4])
+m4_include([m4/inttypes-pri.m4])
+m4_include([m4/inttypes_h.m4])
+m4_include([m4/lcmessage.m4])
 m4_include([m4/lib-ld.m4])
 m4_include([m4/lib-link.m4])
 m4_include([m4/lib-prefix.m4])
+m4_include([m4/lock.m4])
+m4_include([m4/longlong.m4])
 m4_include([m4/nls.m4])
 m4_include([m4/po.m4])
+m4_include([m4/printf-posix.m4])
 m4_include([m4/progtest.m4])
+m4_include([m4/size_max.m4])
+m4_include([m4/stdint_h.m4])
+m4_include([m4/uintmax_t.m4])
+m4_include([m4/ulonglong.m4])
+m4_include([m4/visibility.m4])
+m4_include([m4/wchar_t.m4])
+m4_include([m4/wint_t.m4])
+m4_include([m4/xsize.m4])
 m4_include([acinclude.m4])

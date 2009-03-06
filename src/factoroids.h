@@ -20,5 +20,4 @@
 int factors(void);
 int fractions(void);
 
-
 #endif
