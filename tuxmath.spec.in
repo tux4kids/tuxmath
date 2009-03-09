@@ -23,7 +23,7 @@ Url:            http://tux4kids.alioth.debian.org/
 Vendor:         openSUSE-Education
 
 BuildRequires:  SDL_image-devel >= 1.2.2
-BuildRequires:  SDL_ttf-devel > 2.0.8
+#BuildRequires:  SDL_ttf-devel > 2.0.8
 BuildRequires:  SDL-devel
 BuildRequires:  SDL_mixer-devel
 BuildRequires:  SDL_Pango-devel

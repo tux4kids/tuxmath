@@ -1001,7 +1001,7 @@ static TTF_Font* get_font(int size)
   }
 
   /* If the font has changed, we need to wipe out the old ones: */
-  if (0 != strncmp(prev_font_name, Opts_FontName(), FNLEN))
+  if (0 != strncmp(prev_font_name, Opts_FontName(),sizeof(prev_font_name)))
   {
     free_font_list();
     strncpy(prev_font_name, Opts_FontName(), sizeof(prev_font_name));

@@ -809,6 +809,7 @@ with_libintl_prefix
 with_sdl_prefix
 with_sdl_exec_prefix
 enable_sdltest
+with_sdlpango
 with_dll_directory
 '
       ac_precious_vars='build_alias
@@ -1475,6 +1476,7 @@ Optional Packages:
   --without-libintl-prefix     don't search for libintl in includedir and libdir
   --with-sdl-prefix=PFX   Prefix where SDL is installed (optional)
   --with-sdl-exec-prefix=PFX Exec prefix where SDL is installed (optional)
+  --without-sdlpango      don't use SDL_Pango even if available
   --with-dll-directory=path
                           set the path where dll for TuxMath are
                           $(NSI_DLL_DIR)
@@ -15047,6 +15049,104 @@ fi
 
 
 
+
+# Check whether --with-sdlpango was given.
+if test "${with_sdlpango+set}" = set; then
+  withval=$with_sdlpango;
+else
+  with_sdlpango=yes
+fi
+
+
+if test "x$with_sdlpango" != xno; then
+
+{ $as_echo "$as_me:$LINENO: checking for SDLPango_Init in -lSDL_Pango" >&5
+$as_echo_n "checking for SDLPango_Init in -lSDL_Pango... " >&6; }
+if test "${ac_cv_lib_SDL_Pango_SDLPango_Init+set}" = set; then
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lSDL_Pango  $LIBS"
+cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+
+/* Override any GCC internal prototype to avoid an error.
+   Use char because int might match the return type of a GCC
+   builtin and then its argument prototype would still apply.  */
+#ifdef __cplusplus
+extern "C"
+#endif
+char SDLPango_Init ();
+int
+main ()
+{
+return SDLPango_Init ();
+  ;
+  return 0;
+}
+_ACEOF
+rm -f conftest.$ac_objext conftest$ac_exeext
+if { (ac_try="$ac_link"
+case "(($ac_try" in
+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+  *) ac_try_echo=$ac_try;;
+esac
+eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
+$as_echo "$ac_try_echo") >&5
+  (eval "$ac_link") 2>conftest.er1
+  ac_status=$?
+  grep -v '^ *+' conftest.er1 >conftest.err
+  rm -f conftest.er1
+  cat conftest.err >&5
+  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
+  (exit $ac_status); } && {
+	 test -z "$ac_c_werror_flag" ||
+	 test ! -s conftest.err
+       } && test -s conftest$ac_exeext && {
+	 test "$cross_compiling" = yes ||
+	 $as_test_x conftest$ac_exeext
+       }; then
+  ac_cv_lib_SDL_Pango_SDLPango_Init=yes
+else
+  $as_echo "$as_me: failed program was:" >&5
+sed 's/^/| /' conftest.$ac_ext >&5
+
+	ac_cv_lib_SDL_Pango_SDLPango_Init=no
+fi
+
+rm -rf conftest.dSYM
+rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
+      conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_Pango_SDLPango_Init" >&5
+$as_echo "$ac_cv_lib_SDL_Pango_SDLPango_Init" >&6; }
+if test "x$ac_cv_lib_SDL_Pango_SDLPango_Init" = x""yes; then
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBSDL_PANGO 1
+_ACEOF
+
+  LIBS="-lSDL_Pango $LIBS"
+
+else
+  with_sdlpango=no;
+              { { $as_echo "$as_me:$LINENO: error: in \`$ac_pwd':" >&5
+$as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
+{ { $as_echo "$as_me:$LINENO: error: SDL_Pango test failed (--without-sdlpango to disable)
+See \`config.log' for more details." >&5
+$as_echo "$as_me: error: SDL_Pango test failed (--without-sdlpango to disable)
+See \`config.log' for more details." >&2;}
+   { (exit 1); exit 1; }; }; }
+fi
+
+fi
+
+if test "x$with_sdlpango" = xno; then
+
 { $as_echo "$as_me:$LINENO: checking for TTF_Init in -lSDL_ttf" >&5
 $as_echo_n "checking for TTF_Init in -lSDL_ttf... " >&6; }
 if test "${ac_cv_lib_SDL_ttf_TTF_Init+set}" = set; then
@@ -15125,87 +15225,7 @@ $as_echo "$as_me: error: SDL_ttf not found! http://www.libsdl.org/projects/SDL_t
    { (exit 1); exit 1; }; }
 fi
 
-
-
-
-
-{ $as_echo "$as_me:$LINENO: checking for SDLPango_Init in -lSDL_Pango" >&5
-$as_echo_n "checking for SDLPango_Init in -lSDL_Pango... " >&6; }
-if test "${ac_cv_lib_SDL_Pango_SDLPango_Init+set}" = set; then
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lSDL_Pango  $LIBS"
-cat >conftest.$ac_ext <<_ACEOF
-/* confdefs.h.  */
-_ACEOF
-cat confdefs.h >>conftest.$ac_ext
-cat >>conftest.$ac_ext <<_ACEOF
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char SDLPango_Init ();
-int
-main ()
-{
-return SDLPango_Init ();
-  ;
-  return 0;
-}
-_ACEOF
-rm -f conftest.$ac_objext conftest$ac_exeext
-if { (ac_try="$ac_link"
-case "(($ac_try" in
-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-  *) ac_try_echo=$ac_try;;
-esac
-eval ac_try_echo="\"\$as_me:$LINENO: $ac_try_echo\""
-$as_echo "$ac_try_echo") >&5
-  (eval "$ac_link") 2>conftest.er1
-  ac_status=$?
-  grep -v '^ *+' conftest.er1 >conftest.err
-  rm -f conftest.er1
-  cat conftest.err >&5
-  $as_echo "$as_me:$LINENO: \$? = $ac_status" >&5
-  (exit $ac_status); } && {
-	 test -z "$ac_c_werror_flag" ||
-	 test ! -s conftest.err
-       } && test -s conftest$ac_exeext && {
-	 test "$cross_compiling" = yes ||
-	 $as_test_x conftest$ac_exeext
-       }; then
-  ac_cv_lib_SDL_Pango_SDLPango_Init=yes
-else
-  $as_echo "$as_me: failed program was:" >&5
-sed 's/^/| /' conftest.$ac_ext >&5
-
-	ac_cv_lib_SDL_Pango_SDLPango_Init=no
 fi
-
-rm -rf conftest.dSYM
-rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
-      conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:$LINENO: result: $ac_cv_lib_SDL_Pango_SDLPango_Init" >&5
-$as_echo "$ac_cv_lib_SDL_Pango_SDLPango_Init" >&6; }
-if test "x$ac_cv_lib_SDL_Pango_SDLPango_Init" = x""yes; then
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBSDL_PANGO 1
-_ACEOF
-
-  LIBS="-lSDL_Pango $LIBS"
-
-else
-  { $as_echo "$as_me:$LINENO: WARNING: SDL_Pango not found http://sdlpango.sourceforge.net/" >&5
-$as_echo "$as_me: WARNING: SDL_Pango not found http://sdlpango.sourceforge.net/" >&2;}
-fi
-
 
 
 
@@ -15289,18 +15309,6 @@ fi
 
 
 
-
-##dnl sdlpango support
-##have_sdlpango=no
-
-##AC_ARG_ENABLE(sdlpango, [  --enable-sdlpango    Enable SDL_Pango (default is  ##disabled)],have_sdlpango=yes)
-##if test $have_sdlpango = "yes"; then
-##	AC_CHECK_LIB([SDL_Pango],[SDLPango_Init],LIBS="$LIBS -lSDL_Pango",have_sdlpango=no)
-
-##fi
-##if test "$have_sdlpango" = "yes"; then
-##	AC_DEFINE([SDL_Pango],[],[Defined when SDL_Pango support is present and compiled])
-##fi
 
 
 # --------------------------------------------------------------------------------------

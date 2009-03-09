@@ -1,4 +1,11 @@
-2009.Mar.03 (svn.debian.org/tux4kids - revision 922)
+2009.Mar.06 (svn.debian.org/tux4kids - revision 929)
+        Text drawing - SDL_extras revamp done, AFAIK - supports resetting of font
+        sizes and run-time changing of fonts (new field added to options struct
+        for current font name). 
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Mar.04 (svn.debian.org/tux4kids - revision 922)
         Text drawing - implemented Set_SDL_Pango_Font_Size() in SDL_extras.c so
         that BlackOutline() e.g. now use the font size argument, albeit still with
         a slight hack.
