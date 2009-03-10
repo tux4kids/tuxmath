@@ -15052,7 +15052,7 @@ fi
 
 # Check whether --with-sdlpango was given.
 if test "${with_sdlpango+set}" = set; then
-  withval=$with_sdlpango;
+  withval=$with_sdlpango; with_sdlpango=no
 else
   with_sdlpango=yes
 fi

@@ -95,7 +95,7 @@ dnl we look for SDL_ttf:
 AC_ARG_WITH([sdlpango],
             [AS_HELP_STRING([--without-sdlpango],
             [don't use SDL_Pango even if available])],
-            [],
+            [with_sdlpango=no],
             [with_sdlpango=yes])
 
 if test "x$with_sdlpango" != xno; then

@@ -31,7 +31,6 @@
 //#include <unistd.h>
 
 #include "SDL.h"
-#include "SDL_ttf.h"
 
 #ifndef NOSOUND
 #include "SDL_mixer.h"
