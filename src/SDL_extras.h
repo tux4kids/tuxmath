@@ -14,7 +14,6 @@
 #define SDL_EXTRAS_H
 
 #include "SDL.h"
-#include "SDL_ttf.h"
 
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define rmask 0xff000000
