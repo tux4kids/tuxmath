@@ -592,8 +592,8 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 
 #define MAX_FONT_SIZE 40
 
-//Uncomment to test program with SDL_ttf:
-//#undef HAVE_LIBSDL_PANGO
+//NOTE to test program with SDL_ttf, do "./configure --without-sdlpango"
+
 
 /*-- file-scope variables and local file prototypes for SDL_Pango-based code: */
 #ifdef HAVE_LIBSDL_PANGO
@@ -979,14 +979,13 @@ static void free_font_list(void)
   }
 }
 
-/* FIXME - could combine this with load_font() below, also we */
-/* will want to support a "current_font" setting rather than  */
-/* always using DEFAULT_FONT_NAME                             */
+/* FIXME - could combine this with load_font() below:         */
 /* Loads and caches fonts in each size as they are requested: */
 /* We use the font size as an array index, keeping each size  */
 /* font in memory once loaded until cleanup.                  */
 static TTF_Font* get_font(int size)
 {
+  static char prev_font_name[FONT_NAME_LENGTH];
   if (size < 0)
   {
     fprintf(stderr, "Error - requested font size %d is negative\n", size);
