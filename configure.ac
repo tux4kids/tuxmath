@@ -93,8 +93,7 @@ dnl If SDL_Pango disabled at configure time, or if we can't find it,
 dnl we look for SDL_ttf:
 
 AC_ARG_WITH([sdlpango],
-            [AS_HELP_STRING([--without-sdlpango],
-            [don't use SDL_Pango even if available])],
+            [AS_HELP_STRING([--without-sdlpango],[don't use SDL_Pango even if available])],
             [with_sdlpango=no],
             [with_sdlpango=yes])
 
@@ -164,6 +163,9 @@ AC_FUNC_VPRINTF
 AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy getcwd localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strstr strtoul])
 
 
+# Set the 
+MINGW32_PACKAGE_DATA_DIR="data"
+AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
 
 #AM_CONDITIONAL(BUILD_MINGW32, test "$native_win32" = yes)
 
@@ -180,11 +182,21 @@ fi
 # Support for building NSIS Win32 installer:
 # ------------------------------------------------------------
 
+# This is the temporary DESTDIR target into which we do a "make install" before
+# the files get copied into the NSIS installer:
 NSI_INSTALL_DIR=mingw32
 AC_SUBST(NSI_INSTALL_DIR)
 
+# This is the path (relative to the TuxMath.exe binary) where the data files are
+# placed within the TuxMath folder on the user's Windows machine:
+MINGW32_PACKAGE_DATA_DIR="data"
+AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
+
 NSI_DLL_DIR=~/tuxmath_dll
-AC_ARG_WITH(dll-directory,AS_HELP_STRING([--with-dll-directory=path],[set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]), dll_path=$withval, dll_path=no)
+AC_ARG_WITH([dll-directory],
+            AS_HELP_STRING([--with-dll-directory=path], [set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]),
+            [dll_path=$withval], 
+            [dll_path=no])
 
 AM_CONDITIONAL(NSI_BUILD, test $dll_path = no)
 
