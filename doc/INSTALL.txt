@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.7.1
+Version 1.7.2
 
-January 23, 2009
+March 12, 2009
 
 For users
 ---------
@@ -16,10 +16,23 @@ Alternatively, you can use the command line to install it.  For
 example, with Debian systems you can say "apt-get install tuxmath" and
 you're done.
 
+The openSUSE Build Service now has extremely up-to-date builds of TuxMath
+for most rpm-based distributions (all recent openSUSE versions, Mandriva 2008
+and 2009, Fedora 9 and 10) that can be found via http://software.opensuse.org/search
+by searching for "tuxmath" (btw, TuxType is available there, too). Preliminary
+developer builds will have "tuxmath_preview" in the package name instead of just
+"tuxmath", but all are available to everyone.
+
 For Windows/Macs: visit http://www.tux4kids.com, click on "Released
 Files," and find the most recent package for your platform.  You will
 not need the source code packages.  Save the package on your
 harddrive and double-click on the icon.
+
+Also, Mac users interested in free/open source software should strongly consider
+the MacPorts project (http://www.macports.org).  MacPorts is a package manager
+for over 5000 free software programs for the Mac. Both TuxMath and TuxType are
+included in MacPorts. Once MacPorts is installed (a simple
+dmg file), it is extremely easy to automatically get the latest version of TuxMath.
 
 
 The remainder of this document is for people who want to compile TuxMath
@@ -46,6 +59,7 @@ Requirements
       IRIX
       Other *BSDs
     However, I do not know if anyone has done a current build on these systems.
+    (as of Jan 2009, OpenSolaris does not have all the needed SDL libs -DSB)
 
   CPU
   ---
@@ -108,17 +122,21 @@ Requirements
     sound and music.  This library is optional, but without it, the program
     will be completely silent.
 
-    As of version 1.5, TuxMath uses SDL_ttf to display true type fonts.
-    The freely distributable Andika font is included under data/fonts.
-
     As of v1.5.8 (Linux), v1.6.0 (Windows), and v1.6.1(MacOSX),
     internationalization is supported using Gnu gettext and libiconv.
 
-    As of v1.6.3 (Linux), TuxMath can support translations into
-    languages requiring bidirectional text by using SDL_Pango. 
-    SDL_Pango is optional in the build process - it will be used if
-    found, but the program will fall back to SDL_ttf if it cannot be
-    built with SDL_Pango.
+    TuxMath can use either SDL_Pango or SDL_ttf to display text. SDL_Pango
+    is more capable and is required for right-to-left display (e.g. Arabic,
+    Hebrew) and proper rendering of Indic and many other non-Western languages.
+    Also, SDL_Pango takes care of font selection, so it eliminates the need
+    for any bundled fonts. For these reasons, SDL_Pango is the default when
+    available (Linux and the MacPorts build for MacOSX). If SDL_Pango is
+    available, SDL_ttf is not needed (as of v1.7.2).
+
+    SDL_Pango is not yet supported in the Windows build or the CMake MacOSX
+    build (the ones available for download from www.tux4kids.com), so the
+    program still supports SDL_ttf.  For testing purposes, TuxMath can be
+    built without SDL_Pango by "./configure --without-sdlpango".
 
     The executable Windows installer contains all needed libraries
     (DLLs) and the Andika font - nothing else should be needed that is
@@ -130,9 +148,12 @@ Requirements
     names, and install them with "sudo aptitude install".  For Fedora and
     Red Hat derivatives, the "yum" tool works very similarly.
 
-    The Andika font is also included in the "tuxmath_w_fonts-*" packages,
-    which is almost certainly what you want.
-
+    The Andika font is also included in the "tuxmath_w_fonts-*" packages.
+    You will definitely want this if building for a platform without
+    SDL_Pango. If you have SDL_Pango, both the packages with and without
+    fonts should work fine - the fonts will just take up a bit of space
+    on your hard drive.
+    
     Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and
     libiconv are all free, Open Source libraries, released under the
     GNU Library General Public License (LGPL).
@@ -209,35 +230,44 @@ better-support Mac OS X.
     Compiling the Program: Automake (Linux)
     --------------------------------------
       If you are using a source tar.gz package (e.g.,
-      tuxmath_w_fonts-1.6.1-tar.gz), all you need to do is unpack the
+      tuxmath_w_fonts-1.7.2-tar.gz), all you need to do is unpack the
       archive in a convient location and do a typical configure, make,
       and install.  In other words, the tarball contains a complete
       "GNU Build System".  Note, however, that you will need the
-      "-dev" files for SDL, SDL_image, SDL_mixer, and SDL_ttf. Your
+      "-dev" files for SDL, SDL_image, SDL_mixer, and SDL_ttf/SDL_Pango.
+
+      (NOTE: -If you have built other packages from source, your
       system is virtually certain to already contain the other
-      standard libs used at compile or run time.
- 
+      standard libs used at compile or run time. If you haven't built
+      anything before, you might need to install some other packages.
+      Notably, on Ubuntu the needed tools are included in a package
+      called "build-essential").
+
       For example:
  
-        tar -xzf tuxmath_w_fonts-1.6.1-tar.gz
-        cd tuxmath_w_fonts-1.6.1
+        tar -xzf tuxmath_w_fonts-1.7.2-tar.gz
+        cd tuxmath_w_fonts-1.7.2
         ./configure
         make
         make install.  (you might need "su" or "sudo" for this)
  
       Note: the build now uses SDL_Pango by default - the "enable-sdlpango"
-      switch is no longer needed.  If your build environment lacks this
-      lib, TuxMath will be build without SDL_Pango support.
+      switch is no longer needed.  We now have a "--without-sdlpango" option
+      for testing purposes.  If your build environment lacks SDL_Pango, TuxMath
+      will be built using SDL_ttf instead.
 
       If you use a subversion checkout, you will need to generate the
       configure script.  Tuxmath uses the Gnu Autoconf/Automake tools
       for development. You will Autoconf 2.61 or later, Automake 1.10
       or later, and Gnu Gettext 0.16 or later, in addition to the libs
       needed for the build itself. Run Autoconf's "autoreconf" to
-      generate the configurescript, Makefile.in's, and friends, so the
+      generate the configure script, Makefile.in's, and friends, so the
       build process becomes:
       
-        autoreconf --install; ./configure; make; make install
+        autoreconf --install;
+        ./configure;
+        make;
+        sudo make install
 
       Tuxmath supports "parallel" or "vpath" builds to avoid
       cluttering the source tree with object files, so a clean way
@@ -248,7 +278,7 @@ better-support Mac OS X.
         autoreconf --install ../trunk
         ../trunk/configure
         make
-        make install
+        sudo make install
 
       (which is what I do).
 
@@ -258,7 +288,8 @@ better-support Mac OS X.
 
       If you are using a deb or rpm-based distribution, your distro
       may have tuxmath in a prepared package, in which case your job
-      is as simple as "apt-get install tuxmath".
+      is as simple as "apt-get install tuxmath", "yum install tuxmath",
+      or using a GUI package manager.
 
   Compiling the Program: CMake (Linux & Mac OS X)
   ----------------------------------------------
@@ -333,7 +364,7 @@ better-support Mac OS X.
          ./cross-make.sh nsis
 
       This should create the windows installer file
-      ("tuxmath-1.6.1-win32-installer.exe") under trunk.
+      ("tuxmath-1.7.2-win32-installer.exe") under trunk.
 
       Installation on Windows:
       ------------------------
@@ -354,11 +385,14 @@ better-support Mac OS X.
   There are several options for compiling on OS X.  If you just want
   to do a local build, using macports (http://www.macports.org/) is
   perhaps the easiest approach: "port install tuxmath" and then wait.
+  MacPorts can also build .dmg files with "port mdmg tuxmath".  The
+  MacPorts dmg files are very big because they include all the library
+  dependencies, even things like the X server. 
 
-  To build a .dmg, the currently-supported approach is to use CMake
-  (described above under Linux/Unix).  You will need to have both
-  gettext and cmake installed on the build machine; using macports is
-  the easiest way, "port install cmake gettext".
+  To build a .dmg, another approach is to use CMake (described above
+  under Linux/Unix).  You will need to have both gettext and cmake
+  installed on the build machine; using macports is the easiest way,
+  "port install cmake gettext".
 
   "make install" will create the .dmg in the build directory.
 

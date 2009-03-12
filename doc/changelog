@@ -1,3 +1,10 @@
+2009.Mar.12 (svn.debian.org/tux4kids - revision 937)
+Version 1.7.2
+        Build- some minor tweaks to tuxmath.desktop and specfiles.
+        Doc - update of README, INSTALL for new release
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Mar.06 (svn.debian.org/tux4kids - revision 929)
         Text drawing - SDL_extras revamp done, AFAIK - supports resetting of font
         sizes and run-time changing of fonts (new field added to options struct

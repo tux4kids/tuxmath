@@ -1,7 +1,17 @@
 TODO.txt for "tuxmath"
 
-2007.Oct.08
+2009.Mar.12
+These are the main (difficult) issues we would like to tackle
+at some point:
+1. svg support
+2. stand-alone, GUI config/admin program
+3. client/server model to support LAN multiplayer play
 
+We also need to get SDL_Pango support functioning in the Windows
+build, if possible.
+
+Older stuff:
+2007.Oct.08
 Build:
   * Make a relocatable binary for Linux (klik package?)
   * Refine NSIS installer for Windows (or perhaps executable
@@ -50,7 +60,6 @@ Options:
 Code:
   * Optimize graphics blitting!!!
   * Abstract SDL_BlitSurface() calls
-  * Consider moving to C++ (ducks!)
 
 Website:
   * Make something more user-friendly

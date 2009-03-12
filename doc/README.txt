@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-January 23, 2009
+March 12, 2009
 
-For tuxmath-1.7.1
+For tuxmath-1.7.2
 
 Objective
 ---------
@@ -120,7 +120,7 @@ Program Navigation
       factor of the numerator and denominator).  For example, 7/70 could be 
       simplified by shooting it with the number 7.
 
-    Help: this offers a short tutorial to teach game play.
+    Help: this offers a short tutorial to teach game play for the main comet game.
     ----
 
     More Options: 

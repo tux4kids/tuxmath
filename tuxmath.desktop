@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=Tux Math 
-GenericName=Educational game
+GenericName=Educational math game
 GenericName[de]=Mathe Spiel
 GenericName[ru]=Образовательная игра
 Comment=Tux Math - Learn math with tux!
@@ -11,5 +11,5 @@ Exec=tuxmath
 Icon=tuxmath
 Type=Application
 Terminal=false
-Categories=Education;X-Teaching;
+Categories=Education;Math;
 ## X-SuSE-translate=false 
