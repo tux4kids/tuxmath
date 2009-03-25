@@ -805,13 +805,13 @@ SDL_Surface* SimpleText(const char *t, int size, SDL_Color* col)
   }
   else
   {
-    SDLPango_Matrix colormatrix = 
-    {
-      col->r,  col->r,  0,  0,
-      col->g,  col->g,  0,  0,
-      col->b,  col->b,  0,  0,
-      0,      255,      0,  0,
-    };
+    SDLPango_Matrix colormatrix =
+    {{
+      {col->r,  col->r,  0,  0},
+      {col->g,  col->g,  0,  0},
+      {col->b,  col->b,  0,  0},
+      {0,      255,      0,  0}
+    }};
     Set_SDL_Pango_Font_Size(size);
     SDLPango_SetDefaultColor(context, &colormatrix );
     SDLPango_SetText(context, t, -1);
@@ -847,13 +847,13 @@ SDL_Surface* SimpleTextWithOffset(const char *t, int size, SDL_Color* col, int *
   }
   else
   {
-    SDLPango_Matrix colormatrix = 
-    {
-      col->r,  col->r,  0,  0,
-      col->g,  col->g,  0,  0,
-      col->b,  col->b,  0,  0,
-      0,      255,      0,  0,
-    };
+    SDLPango_Matrix colormatrix =
+    {{
+      {col->r,  col->r,  0,  0},
+      {col->g,  col->g,  0,  0},
+      {col->b,  col->b,  0,  0},
+      {0,      255,      0,  0}
+    }};
     Set_SDL_Pango_Font_Size(size);
     SDLPango_SetDefaultColor(context, &colormatrix );
     SDLPango_SetText(context, t, -1);
