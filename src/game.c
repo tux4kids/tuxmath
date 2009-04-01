@@ -79,8 +79,7 @@ typedef struct comet_type {
 
 static int gameover_counter;
 static int game_status;
-static int SDL_quit_received;
-static int escape_received;
+static int user_quit_received;
 static int paused;
 static int wave;
 static int score;
@@ -489,8 +488,7 @@ int game_initialize(void)
 
   game_status = GAME_IN_PROGRESS;
   gameover_counter = -1;
-  SDL_quit_received = 0;
-  escape_received = 0;
+  user_quit_received = 0;
 
   /* Start MathCards backend: */
   /* FIXME may need to move this into tuxmath.c to accomodate option */
@@ -980,7 +978,7 @@ void game_handle_user_events(void)
   {
     if (event.type == SDL_QUIT)
     {
-      SDL_quit_received = 1;
+      user_quit_received = GAME_OVER_WINDOW_CLOSE;
     }
     else if (event.type == SDL_KEYDOWN)
     {
@@ -2218,17 +2216,19 @@ void game_draw_misc(void)
 
 int check_exit_conditions(void)
 {
-  if (SDL_quit_received)
+  if (user_quit_received)
   {
-    return GAME_OVER_WINDOW_CLOSE;
+    if (user_quit_received != GAME_OVER_WINDOW_CLOSE &&
+        user_quit_received != GAME_OVER_ESCAPE &&
+        user_quit_received != GAME_OVER_CHEATER)
+    {
+    	 tmdprintf("Unexpected value %d for user_quit_received\n", user_quit_received);
+    	 return GAME_OVER_OTHER;
+    }
+    return user_quit_received;    
   }
 
-  if (escape_received)
-  {
-    return GAME_OVER_ESCAPE;
-  }
-
-  /* determine if game lost (i.e. all cities blown up): */
+  /* determine if game lost (i.e. all igloos melted): */
   if (!num_cities_alive)
   {
     if (gameover_counter < 0)
@@ -2793,8 +2793,8 @@ int pause_game(void)
         pause_done = 1;
       else if (event.type == SDL_QUIT)
       {
-        SDL_quit_received = 1;
-         pause_quit = 1;
+        user_quit_received = GAME_OVER_WINDOW_CLOSE;
+        pause_quit = 1;
       }
     }
 
@@ -3229,9 +3229,14 @@ void game_key_event(SDLKey key)
   if (key == SDLK_ESCAPE)
   {
     /* Escape key - quit! */
-    escape_received = 1;
+    user_quit_received = GAME_OVER_ESCAPE;
   }
-
+#ifdef TUXMATH_DEBUG
+  if (key == SDLK_LEFTBRACKET) //a nice nonobvious/unused key
+  {
+    user_quit_received = GAME_OVER_CHEATER;
+  }
+#endif
   else if (key == SDLK_TAB
         || key == SDLK_p)
   {
