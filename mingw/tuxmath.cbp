@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="tuxmath" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="WinDebug">
+				<Option platforms="Windows;" />
+				<Option output="../src/tuxmath-mingw" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DTUXMATH_DEBUG" />
+					<Add option="-DBUILD_MINGW32" />
+					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
+					<Add option='-DDATA_PREFIX=\&quot;../data\&quot;' />
+					<Add option='-DVERSION=\&quot;1.6.3\&quot;' />
+				</Compiler>
+			</Target>
+			<Target title="WinRelease">
+				<Option platforms="Windows;" />
+				<Option output="C:/Program Files/TuxMath/tuxmath" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DBUILD_MINGW32" />
+					<Add option="-DNO_STDIO_REDIRECT" />
+					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
+					<Add option='-DDATA_PREFIX=&quot;\&quot;C:/Program Files/TuxMath/data\&quot;&quot;' />
+					<Add option="-DVERSION=FULLVERSION_STRING" />
+				</Compiler>
+			</Target>
+			<Target title="NixDebug">
+				<Option platforms="Unix;" />
+				<Option output="../src/tuxmath-mingw" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/debug" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DDATA_PREFIX=\\&quot;../data\\&quot;' />
+					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
+				</Compiler>
+			</Target>
+			<Target title="NixRelease">
+				<Option platforms="Unix;" />
+				<Option output="/usr/bin/tuxmath" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/release" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="-O" />
+					<Add option="-Wall" />
+					<Add option='-DPACKAGE=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DPROGRAM_NAME=\\&quot;tuxmath\\&quot;' />
+					<Add option='-DDATA_PREFIX=\\&quot;/usr/local/share/tuxmath\\&quot;' />
+					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
+				</Compiler>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="../linebreak" />
+			<Add directory="../" />
+		</Compiler>
+		<Linker>
+			<Add library="SDL" />
+			<Add library="SDL_gfx" />
+			<Add library="SDL_image" />
+			<Add library="SDL_mixer" />
+			<Add library="SDL_ttf" />
+			<Add library="SDL_Pango" />
+		</Linker>
+		<Unit filename="../config.h" />
+		<Unit filename="../linebreak/lbrkprop.h" />
+		<Unit filename="../linebreak/linebreak.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/linebreak.h" />
+		<Unit filename="../linebreak/localcharset.h" />
+		<Unit filename="../linebreak/streq.h" />
+		<Unit filename="../linebreak/unistr.h" />
+		<Unit filename="../linebreak/unistr/u16-mbtouc-aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u16-mbtouc-unsafe-aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u16-mbtouc-unsafe.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u16-mbtouc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-mbtouc-aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-mbtouc-unsafe-aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-mbtouc-unsafe.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-mbtouc.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-uctomb-aux.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unistr/u8-uctomb.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/unitypes.h" />
+		<Unit filename="../linebreak/uniwidth.h" />
+		<Unit filename="../linebreak/uniwidth/cjk.h" />
+		<Unit filename="../linebreak/uniwidth/width.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../linebreak/xsize.h" />
+		<Unit filename="SDL_win32_main.c">
+			<Option compilerVar="CC" />
+			<Option target="WinDebug" />
+			<Option target="WinRelease" />
+		</Unit>
+		<Unit filename="version.h">
+			<Option target="WinRelease" />
+			<Option target="NixRelease" />
+		</Unit>
+		<Unit filename="../src/SDL_extras.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/SDL_extras.h" />
+		<Unit filename="../src/SDL_rotozoom.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/SDL_rotozoom.h" />
+		<Unit filename="../src/audio.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/campaign.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/campaign.h" />
+		<Unit filename="../src/compiler.h" />
+		<Unit filename="../src/convert_utf.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/convert_utf.h" />
+		<Unit filename="../src/credits.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/credits.h" />
+		<Unit filename="../src/factoroids.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/factoroids.h" />
+		<Unit filename="../src/fileops.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/fileops.h" />
+		<Unit filename="../src/fileops_media.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/game.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/game.h" />
+		<Unit filename="../src/gettext.h" />
+		<Unit filename="../src/globals.h" />
+		<Unit filename="../src/highscore.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/highscore.h" />
+		<Unit filename="../src/lessons.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/lessons.h" />
+		<Unit filename="../src/linewrap.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/linewrap.h" />
+		<Unit filename="../src/loaders.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/loaders.h" />
+		<Unit filename="../src/mathcards.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/mathcards.h" />
+		<Unit filename="../src/multiplayer.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/multiplayer.h" />
+		<Unit filename="../src/options.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/options.h" />
+		<Unit filename="../src/pixels.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/pixels.h" />
+		<Unit filename="../src/scandir.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/scandir.h" />
+		<Unit filename="../src/setup.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/setup.h" />
+		<Unit filename="../src/titlescreen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/titlescreen.h" />
+		<Unit filename="../src/tuxmath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="../src/tuxmath.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+			<AutoVersioning>
+				<Scheme minor_max="100" build_max="0" rev_max="0" rev_rand_max="10" build_times_to_increment_minor="100" />
+				<Settings autoincrement="1" date_declarations="1" do_auto_increment="0" ask_to_increment="0" language="C" svn="1" svn_directory="../../" header_path="version.h" />
+				<Changes_Log show_changes_editor="0" app_title="released version %M.%m.%b of %p" changeslog_path="ChangesLog.txt" />
+			</AutoVersioning>
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
