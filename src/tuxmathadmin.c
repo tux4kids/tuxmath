@@ -104,6 +104,7 @@ int main(int argc, char *argv[])
   fp = fopen(DATA_PREFIX "/missions/options", "r");
   if (fp) {
     extract_variable(fp,"homedir",&path);
+    free(path);
     fclose(fp);
   }
 
@@ -249,8 +250,6 @@ int main(int argc, char *argv[])
     clear_logs(path);
   }
 
-  free(path);
-
   return EXIT_SUCCESS;
 }
 
@@ -357,7 +356,7 @@ void create_homedirs(const char *path,const char *file)
     // Count the number of levels by counting the commas + 1
     this_line_total_depth = 1;
     line_cur = line_begin;
-    while (!(*line_cur == '\r' || *line_cur == '\n')) {
+    while (!(*line_cur == '\r' || *line_cur == '\n' || *line_cur == '\0')) {
       if (*line_cur == ',')
         this_line_total_depth++;
       line_cur++;
