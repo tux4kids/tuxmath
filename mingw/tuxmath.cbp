@@ -16,9 +16,12 @@
 					<Add option="-g" />
 					<Add option="-DTUXMATH_DEBUG" />
 					<Add option="-DBUILD_MINGW32" />
+					<Add option="-DHAVE_STDINT_H" />
 					<Add option='-DPROGRAM_NAME=\&quot;TuxMath\&quot;' />
+					<Add option='-DPACKAGE=\&quot;tuxmath\&quot;' />
 					<Add option='-DDATA_PREFIX=\&quot;../data\&quot;' />
-					<Add option='-DVERSION=\&quot;1.6.3\&quot;' />
+					<Add option='-DVERSION=\&quot;1.7.2\&quot;' />
+					<Add directory="." />
 				</Compiler>
 			</Target>
 			<Target title="WinRelease">
@@ -49,6 +52,10 @@
 					<Add option='-DDATA_PREFIX=\\&quot;../data\\&quot;' />
 					<Add option='-DLOCALEDIR=\\&quot;/usr/local/share/locale\\&quot;' />
 				</Compiler>
+				<Linker>
+					<Add library="SDL_Pango" />
+					<Add library="SDL_gfx" />
+				</Linker>
 			</Target>
 			<Target title="NixRelease">
 				<Option platforms="Unix;" />
@@ -74,11 +81,9 @@
 		</Compiler>
 		<Linker>
 			<Add library="SDL" />
-			<Add library="SDL_gfx" />
 			<Add library="SDL_image" />
 			<Add library="SDL_mixer" />
 			<Add library="SDL_ttf" />
-			<Add library="SDL_Pango" />
 		</Linker>
 		<Unit filename="../config.h" />
 		<Unit filename="../linebreak/lbrkprop.h" />
@@ -128,11 +133,13 @@
 		<Unit filename="../linebreak/xsize.h" />
 		<Unit filename="SDL_win32_main.c">
 			<Option compilerVar="CC" />
-			<Option target="WinDebug" />
 			<Option target="WinRelease" />
+			<Option target="WinDebug" />
+		</Unit>
+		<Unit filename="config.h">
+			<Option target="WinDebug" />
 		</Unit>
 		<Unit filename="version.h">
-			<Option target="WinRelease" />
 			<Option target="NixRelease" />
 		</Unit>
 		<Unit filename="../src/SDL_extras.c">
