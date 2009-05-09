@@ -1,4 +1,4 @@
-tuxmath (1.7.1-1) UNRELEASED; urgency=low
+tuxmath (1.7.2-1) unstable; urgency=low
 
   * new upstream version, with several bugfixes, new translations and lots of 
     other improvements: a new "Campaign Mode" featuring an overall story line,
@@ -6,8 +6,12 @@ tuxmath (1.7.1-1) UNRELEASED; urgency=low
     fractions, a more flexible engine for generating questions and an improved 
     fullscreen which now uses the native resolution. 
   * For a complete list, see the upstream changelog.
+  * Drop debian/patches/100-ttf-sil-andika.patch and build dependency on
+    quilt, as it was the only patch. 
+  * Remove no-op dh_desktop from debian/rules. 
+  * Bump Standards-version to 3.8.1, no changes needed.
 
- -- Holger Levsen <holger@debian.org>  Sat, 28 Feb 2009 22:07:12 +0100
+ -- Holger Levsen <holger@debian.org>  Sat, 09 May 2009 16:35:13 +0200
 
 tuxmath (1.6.3-3) unstable; urgency=low
 
