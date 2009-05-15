@@ -10,7 +10,7 @@ DummyPlugin::~DummyPlugin()
 
 QString DummyPlugin::name()
 {
-	return "dummy plugin";
+	return tr("dummy plugin");
 }
 
 Q_EXPORT_PLUGIN2(dummyPlugin, DummyPlugin);

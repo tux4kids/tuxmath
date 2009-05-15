@@ -10,9 +10,9 @@ MainController::MainController()
 	loadPlugins();
 
 	if (plugins.isEmpty()) {
-		qDebug() << "Failed to load plugins";
+		qDebug() << tr("Failed to load plugins");
 	} else {
-		qDebug() << "Loaded plugins: ";
+		qDebug() << tr("Loaded plugins: ");
 		foreach(PluginInterface *plugin, plugins) {
 			qDebug() << plugin->name();
 		}
