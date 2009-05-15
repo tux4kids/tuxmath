@@ -91,11 +91,134 @@ int max( int n1, int n2 ) {
   return (n1 > n2 ? n1 : n2);
 }
 
+#ifdef HAVE_RSVG
+/***********************
+    SVG related functions
+************************/
+#include<librsvg/rsvg.h>
+#include<librsvg/rsvg-cairo.h>
 
+/* Load an SVG file and resize it to given dimensions
+   (partly based on TuxPaint's SVG loading function) */
+SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
+{
+  cairo_surface_t* temp_surf;
+  cairo_t* context;
+  RsvgHandle* file_handle;
+  RsvgDimensionData dimensions;
+  SDL_Surface* dest;
+  float scale_x;
+  float scale_y;
+  int bpp = 32;
+  Uint32 Rmask, Gmask, Bmask, Amask;
 
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "LoadSVGOfDimensions(): looking for %s\n", filename);
+#endif
 
+  rsvg_init();
 
+  file_handle = rsvg_handle_new_from_file(filename, NULL);
+  if(file_handle == NULL)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "LoadSVGOfDimensions(): file %s not found\n", filename);
+#endif
+    rsvg_term();
+    return NULL;
+  }
 
+  rsvg_handle_get_dimensions(file_handle, &dimensions);
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "SVG is %d x %d\n", dimensions.width, dimensions.height);
+#endif
+  scale_x = (float)width / dimensions.width;
+  scale_y = (float)height / dimensions.height;
+
+  /* FIXME: We assume that our bpp = 32 */
+
+  /* rmask, gmask, bmask, amask defined in SDL_extras.h do not work !
+     are those (taken from TuxPaint) dependent on endianness ? */
+  Rmask = 0x00ff0000;
+  Gmask = 0x0000ff00;
+  Bmask = 0x000000ff;
+  Amask = 0xff000000;
+
+  dest = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA,
+        width, height, bpp, Rmask, Gmask, Bmask, Amask);
+
+  SDL_LockSurface(dest);
+  temp_surf = cairo_image_surface_create_for_data(dest->pixels,
+        CAIRO_FORMAT_ARGB32, dest->w, dest->h, dest->pitch);
+
+  context = cairo_create(temp_surf);
+  if(cairo_status(context) != CAIRO_STATUS_SUCCESS)
+  {
+#ifdef TUXMATH_DEBUG
+    fprintf(stderr, "LoadSVGOfDimensions(): error rendering SVG from %s\n", filename);
+#endif
+    g_object_unref(file_handle);
+    cairo_surface_destroy(temp_surf);
+    rsvg_term();
+    return NULL;
+  }
+
+  cairo_scale(context, scale_x, scale_y);
+  rsvg_handle_render_cairo(file_handle, context);
+
+  SDL_UnlockSurface(dest);
+
+  g_object_unref(file_handle);
+  cairo_surface_destroy(temp_surf);
+  cairo_destroy(context);
+  rsvg_term();
+
+  return dest;
+}
+
+#endif
+
+/***********************
+        LoadImageFromFile : Simply load an image from given file
+        or its SVG equivalent (if present). Return NULL if loading failed.
+************************/
+SDL_Surface* LoadImageFromFile(char *datafile)
+{
+  SDL_Surface* tmp_pic = NULL;
+  SDL_Surface* svg_pic = NULL;
+
+  char svgfn[PATH_MAX];
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "LoadImageFromFile(): looking in %s\n", datafile);
+#endif
+
+  /* Try to load image with SDL_image: */
+  tmp_pic = IMG_Load(datafile);
+
+#ifdef HAVE_RSVG
+  /* This is just an ugly workaround to test SVG
+     before any scaling routines are implemented */
+  if(tmp_pic != NULL)
+  {
+    /* change extension into .svg */
+    char* dotpos = strrchr(datafile, '.');
+    strncpy(svgfn, datafile, dotpos - datafile);
+    svgfn[dotpos - datafile] = '\0';
+    strcat(svgfn, ".svg");
+
+    /* try to load an SVG equivalent resizing it properly */
+    svg_pic = LoadSVGOfDimensions(svgfn, tmp_pic->w, tmp_pic->h);
+    if(svg_pic != NULL)
+    {
+      SDL_FreeSurface(tmp_pic);
+      tmp_pic = svg_pic;
+    }
+  }
+#endif
+
+  return tmp_pic;
+}
 
 /* FIXME checkFile() not working right in Win32 - skipping. */
 /***********************
@@ -110,13 +233,8 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 
   sprintf( fn, "%s/images/%s", DATA_PREFIX, datafile );
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "LoadImage(): looking in %s\n", fn);
-#endif
 
-
-  /* Try to load it with SDL_image: */
-  tmp_pic = IMG_Load(fn);
+  tmp_pic = LoadImageFromFile(fn);
 
   if (NULL == tmp_pic) /* Could not load image: */
   {

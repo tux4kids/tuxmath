@@ -165,7 +165,7 @@ int load_image_data()
   /* Load images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
-    images[i] = IMG_Load(image_filenames[i]);
+    images[i] = LoadImageFromFile(image_filenames[i]);
 
     if (images[i] == NULL)
     {

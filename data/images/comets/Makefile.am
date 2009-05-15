@@ -13,6 +13,9 @@ dist_comets_DATA = bonus_comet1.png \
   comet1.png \
   comet2.png \
   comet3.png \
+	comet1.svg \
+	comet2.svg \
+	comet3.svg \
   cometex1a.png \
   cometex1.png \
   cometex2.png \
