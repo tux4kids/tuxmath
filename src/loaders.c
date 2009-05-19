@@ -98,7 +98,8 @@ int max( int n1, int n2 ) {
 #include<librsvg/rsvg.h>
 #include<librsvg/rsvg-cairo.h>
 
-/* Load an SVG file and resize it to given dimensions
+/* Load an SVG file and resize it to given dimensions.
+   if width or height is set to 0 no resizing is applied
    (partly based on TuxPaint's SVG loading function) */
 SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
 {
@@ -132,8 +133,19 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
 #ifdef TUXMATH_DEBUG
     fprintf(stderr, "SVG is %d x %d\n", dimensions.width, dimensions.height);
 #endif
-  scale_x = (float)width / dimensions.width;
-  scale_y = (float)height / dimensions.height;
+
+  if(width <= 0 || height <= 0)
+  {
+    width = dimensions.width;
+    height = dimensions.height;
+    scale_x = 1.0;
+    scale_y = 1.0;
+  }
+  else
+  {
+    scale_x = (float)width / dimensions.width;
+    scale_y = (float)height / dimensions.height;
+  }
 
   /* FIXME: We assume that our bpp = 32 */
 
@@ -185,37 +197,32 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
 SDL_Surface* LoadImageFromFile(char *datafile)
 {
   SDL_Surface* tmp_pic = NULL;
-  SDL_Surface* svg_pic = NULL;
 
+#ifdef HAVE_RSVG
   char svgfn[PATH_MAX];
+#endif
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "LoadImageFromFile(): looking in %s\n", datafile);
 #endif
 
-  /* Try to load image with SDL_image: */
-  tmp_pic = IMG_Load(datafile);
-
 #ifdef HAVE_RSVG
   /* This is just an ugly workaround to test SVG
      before any scaling routines are implemented */
-  if(tmp_pic != NULL)
-  {
-    /* change extension into .svg */
-    char* dotpos = strrchr(datafile, '.');
-    strncpy(svgfn, datafile, dotpos - datafile);
-    svgfn[dotpos - datafile] = '\0';
-    strcat(svgfn, ".svg");
 
-    /* try to load an SVG equivalent resizing it properly */
-    svg_pic = LoadSVGOfDimensions(svgfn, tmp_pic->w, tmp_pic->h);
-    if(svg_pic != NULL)
-    {
-      SDL_FreeSurface(tmp_pic);
-      tmp_pic = svg_pic;
-    }
-  }
+  /* change extension into .svg */
+  char* dotpos = strrchr(datafile, '.');
+  strncpy(svgfn, datafile, dotpos - datafile);
+  svgfn[dotpos - datafile] = '\0';
+  strcat(svgfn, ".svg");
+
+  /* try to load an SVG equivalent */
+  tmp_pic = LoadSVGOfDimensions(svgfn, 0, 0);
 #endif
+
+  if(tmp_pic == NULL)
+    /* Try to load image with SDL_image: */
+    tmp_pic = IMG_Load(datafile);
 
   return tmp_pic;
 }

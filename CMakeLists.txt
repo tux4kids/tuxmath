@@ -13,7 +13,7 @@ set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
 ## Setting up CMake itself
-cmake_minimum_required(VERSION 2.4)
+cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH "${TuxMath_SOURCE_DIR}/cmake-modules")
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -103,6 +103,18 @@ set(LINEBREAK true)
 
 ## Don't think we need SDL_gfx anymore:
 ##FIND_PACKAGE(SDL_gfx REQUIRED)
+
+# Check for libRSVG for SVG support
+
+include(FindPkgConfig OPTIONAL)
+
+if(PKG_CONFIG_FOUND)
+  include(FindPkgConfig)
+  PKG_CHECK_MODULES(RSVG librsvg-2.0)
+  if(RSVG_FOUND)
+    set(HAVE_RSVG 1)  # For the config.h file
+  endif(RSVG_FOUND)
+endif(PKG_CONFIG_FOUND)
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)

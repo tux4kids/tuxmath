@@ -91,10 +91,22 @@ add_executable (
   ${SOURCES_TUXMATHADMIN}
   )
 
+# getting rid of semicolons
+set(_rsvg_cflags "")
+foreach(f ${RSVG_CFLAGS})
+  set(_rsvg_cflags "${_rsvg_cflags} ${f}")
+endforeach(f)
+
+set(_rsvg_ldflags "")
+foreach(f ${RSVG_LDFLAGS})
+  set(_rsvg_ldflags "${_rsvg_ldflags} ${f}")
+endforeach(f)
+
 set_target_properties (
   tuxmath
-  PROPERTIES COMPILE_FLAGS 
-  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\""
+  PROPERTIES COMPILE_FLAGS
+  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\" ${_rsvg_cflags}"
+  LINK_FLAGS "${_rsvg_ldflags}"
   )
 
 target_link_libraries (tuxmath
