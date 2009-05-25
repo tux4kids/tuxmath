@@ -110,13 +110,13 @@ SDL_Delay(100); //sleep 1/10th of a second
 continue;
 }
 
-// get the clients IP and port number
-remoteip=SDLNet_TCP_GetPeerAddress(client);
-if(!remoteip)
-{
-printf("SDLNet_TCP_GetPeerAddress: %s\n",SDLNet_GetError());
-continue;
-}
+/// get the clients IP and port number
+//remoteip=SDLNet_TCP_GetPeerAddress(client);
+//if(!remoteip)
+//{
+//printf("SDLNet_TCP_GetPeerAddress: %s\n",SDLNet_GetError());
+//continue;
+//}
 
 /*for testing purpose to check if it is connected to the desired client
 // print out the clients IP and port number
@@ -129,6 +129,8 @@ ipaddr&0xff,
 remoteip->port);
 
 */
-}
 
 return(0);
+}
+
+
