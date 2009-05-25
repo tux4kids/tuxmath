@@ -96,6 +96,8 @@ enum {
   SPRITE_CAMPAIGN,
   SPRITE_SSWEEP,
   SPRITE_ELIMINATION,
+  SPRITE_SERVER,
+  SPRITE_CLIENT,
   N_SPRITES};
 
 const char* menu_sprite_files[N_SPRITES] =
@@ -186,6 +188,8 @@ int run_campaign_menu(void);
 int run_custom_menu(void);
 int run_activities_menu(void);
 int run_options_menu(void);
+int run_lan_menu(void);
+int run_server_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
 
 
@@ -643,34 +647,34 @@ void main_scmo(menu_options* mo) //set custom menu opts for main
 
 int run_main_menu(void)
 {
-  const char* menu_text[6] =
+  const char* menu_text[7] =
     {N_("Play Alone"),
+     N_("LAN Game"),
      N_("Play With Friends"),
      N_("Factoroids!"),
      N_("Help"),
      N_("More Options"),
      N_("Quit")};
-  sprite* sprites[6] =
-    {NULL, NULL, NULL, NULL, NULL, NULL};
+  sprite* sprites[7] =
+    {NULL, NULL, NULL, NULL, NULL, NULL,NULL};
   menu_options menu_opts;
   int choice,ret;
 
   // Set up the sprites
   sprites[0] = sprite_list[SPRITE_ALONE];
-  sprites[1] = sprite_list[SPRITE_FRIENDS];
-  sprites[2] = sprite_list[SPRITE_FACTOROIDS];
-  sprites[3] = sprite_list[SPRITE_HELP];
-  sprites[4] = sprite_list[SPRITE_OPTIONS];
-  sprites[5] = sprite_list[SPRITE_QUIT];
-
-
+  sprites[2] = sprite_list[SPRITE_FRIENDS];
+  sprites[3] = sprite_list[SPRITE_FACTOROIDS];
+  sprites[4] = sprite_list[SPRITE_HELP];
+  sprites[5] = sprite_list[SPRITE_OPTIONS];
+  sprites[6] = sprite_list[SPRITE_QUIT];
+  
   //set_default_menu_options(&menu_opts);
   //menu_opts.ytop = 100;
   //menu_opts.ygap = 15;
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,6,NULL,main_scmo);
+  choice = choose_menu_item(menu_text,sprites,7,NULL,main_scmo);
 
   while (choice >= 0) {
     switch (choice) {
@@ -680,16 +684,20 @@ int run_main_menu(void)
         break;
       }
       case 1: {
+        ret = run_lan_menu();
+        break;
+      }
+      case 2: {
         // Multiplayer games
         ret = run_multiplay_menu();
         break;
       }
-      case 2: {
+      case 3: {
         // Factroids et. al.
         ret = run_activities_menu();
         break;
       }
-      case 3: {
+      case 4: {
         // Help
         Opts_SetHelpMode(1);
         Opts_SetDemoMode(0);
@@ -702,19 +710,19 @@ int run_main_menu(void)
         Opts_SetHelpMode(0);
         break;
       }
-      case 4: {
+      case 5: {
         // More options
         ret = run_options_menu();
         break;
       }
-      case 5: {
+      case 6: {
         // Quit
         tmdprintf("Exiting main menu\n");
         return 0;
-      }
+      }    
     }
     menu_opts.starting_entry = choice;
-    choice = choose_menu_item(menu_text,sprites,6,NULL,main_scmo);
+    choice = choose_menu_item(menu_text,sprites,7,NULL,main_scmo);
   }
   return 0;
 }
@@ -837,6 +845,87 @@ int run_multiplay_menu(void)
 
   return 0;
 }
+
+///////////////////////////   LAN game menu()////////////
+
+
+int run_lan_menu(void)
+{
+  int mode = -1;
+  char ipstr[HIGH_SCORE_NAME_LENGTH * 3];
+  
+  const char* menu_text[3] =
+    {N_("Host"),
+     N_("Join"),
+     N_("Main menu")};
+
+  sprite* modesprites[3] = {NULL, NULL, NULL};
+  // Set up the sprites
+  modesprites[0] = sprite_list[SPRITE_SERVER];
+  modesprites[1] = sprite_list[SPRITE_CLIENT];
+  modesprites[2] = sprite_list[SPRITE_MAIN];
+   while (1)
+  {
+    //choose mode
+    mode = choose_menu_item(menu_text,modesprites,3,NULL,NULL);
+    if (mode == 2 || mode == -1)
+      break;
+
+    if(mode == 0)                     //chooses Host
+    run_server_menu();
+    
+    if(mode == 1)
+    NameEntry(ipstr, _("Enter the IP Address"),
+                       _("(of the Host)"));
+      
+
+   }
+
+  return 0;
+
+}
+
+
+int run_server_menu(void)
+{
+
+  int difficulty = -1;
+  
+
+  //just leech settings from arcade modes
+  const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
+    {N_("Space Cadet"),
+     N_("Scout"),
+     N_("Ranger"),
+     N_("Ace"),      
+     N_("Commando"),
+     N_("Main menu")};
+ 
+  
+
+   sprite* diffsprites[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
+  
+ 
+  diffsprites[0] = sprite_list[SPRITE_CADET];
+  diffsprites[1] = sprite_list[SPRITE_SCOUT];
+  diffsprites[2] = sprite_list[SPRITE_RANGER];
+  diffsprites[3] = sprite_list[SPRITE_ACE];
+  diffsprites[4] = sprite_list[SPRITE_COMMANDO];
+  diffsprites[5] = sprite_list[SPRITE_MAIN];
+
+     while (1)
+  {
+    //choose difficulty
+    difficulty = choose_menu_item(diff_menu_text,diffsprites,6,NULL,NULL);
+    break;
+   }
+   return 0;
+
+
+}
+
+
+
 
 int run_arcade_menu(void)
 {
