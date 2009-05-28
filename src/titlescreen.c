@@ -41,6 +41,7 @@
 #include "highscore.h"
 #include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
+//#include "lan_client.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -852,7 +853,8 @@ int run_multiplay_menu(void)
 int run_lan_menu(void)
 {
   int mode = -1;
-  char ipstr[HIGH_SCORE_NAME_LENGTH * 3];
+  char host[HIGH_SCORE_NAME_LENGTH * 3];
+  char port[HIGH_SCORE_NAME_LENGTH * 3];
   
   const char* menu_text[3] =
     {N_("Host"),
@@ -875,9 +877,16 @@ int run_lan_menu(void)
     run_server_menu();
     
     if(mode == 1)
-    NameEntry(ipstr, _("Enter the IP Address"),
+   { NameEntry(host, _("Enter the name"),
                        _("(of the Host)"));
-      
+    NameEntry(port, _("Enter the port number"),
+                       _(""));
+    
+   // lan_client_set_parameter(HOST, host);
+   // lan_client_set_parameter(PORT, port);
+  //  lan_client_connect(host,port);
+    game();
+   }   
 
    }
 
@@ -890,7 +899,8 @@ int run_server_menu(void)
 {
 
   int difficulty = -1;
-  
+  char port[HIGH_SCORE_NAME_LENGTH * 3];
+
 
   //just leech settings from arcade modes
   const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
@@ -917,6 +927,14 @@ int run_server_menu(void)
   {
     //choose difficulty
     difficulty = choose_menu_item(diff_menu_text,diffsprites,6,NULL,NULL);
+     if (difficulty == -1 || difficulty >= NUM_MATH_COMMAND_LEVELS)
+     { break;} //user chose main menu or hit escape
+     else
+     {NameEntry(port, _("Enter the PORT"),
+                       _(""));
+
+   // lan_server_connect(port);
+       game();}
     break;
    }
    return 0;
