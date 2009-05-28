@@ -89,6 +89,23 @@ AC_CHECK_LIB([SDL_mixer],
              ,
              [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
 
+dnl SDL_Net is enabled by default 
+dnl unless SDL_net is disabled at configure time.
+
+AC_ARG_WITH([sdlnet],
+            [AS_HELP_STRING([--without-sdlnet],[don't use SDL_Net even if available])],
+            [with_sdlnet=no],
+            [with_sdlnet=yes])
+
+if test "x$with_sdlnet" != xno; then
+AC_CHECK_LIB([SDL_net],
+             [SDLNet_Init],
+             ,
+             [with_sdlnet=no;
+              AC_MSG_FAILURE([SDL_Net test failed (--without-sdlnet to disable LAN support)])])
+fi
+
+
 dnl SDL_Pango is enabled by default.
 dnl If SDL_Pango disabled at configure time, or if we can't find it,
 dnl we look for SDL_ttf:
