@@ -36,6 +36,7 @@
 #include "multiplayer.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
+#include "network.h"
 #include "loaders.h"
 #include "credits.h"
 #include "highscore.h"
@@ -884,7 +885,7 @@ int run_lan_menu(void)
     
    // lan_client_set_parameter(HOST, host);
    // lan_client_set_parameter(PORT, port);
-  //  lan_client_connect(host,port);
+   // lan_client_connect(host,port);
     game();
    }   
 

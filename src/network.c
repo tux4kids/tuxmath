@@ -19,7 +19,7 @@ IPaddress ip;
 TCPsocket sock;
 Uint16 portnum;
 
-portnum=(Uint16) strtol(port,NULL,0);
+portnum=(Uint16) strtol(&port,NULL,0);
 
 // initialize SDL
 if(SDL_Init(0)==-1)
@@ -37,7 +37,7 @@ exit(2);
 
 
 // Resolve the argument into an IPaddress type
-if(SDLNet_ResolveHost(&ip,*host,portnum)==-1)
+if(SDLNet_ResolveHost(&ip,host,portnum)==-1)
 {
 printf("SDLNet_ResolveHost: %s\n",SDLNet_GetError());
 exit(3);
@@ -82,10 +82,10 @@ exit(2);
 }
 
 
-portnum=(Uint16)strtol(port,NULL,0);
+portnum=(Uint16)strtol(&port,NULL,0);
 
 // Resolve the argument into an IPaddress type
-if(SDLNet_ResolveHost(&ip,NULL,portum)==-1)
+if(SDLNet_ResolveHost(&ip,NULL,portnum)==-1)
 {
 printf("SDLNet_ResolveHost: %s\n",SDLNet_GetError());
 exit(3);
@@ -129,7 +129,7 @@ ipaddr&0xff,
 remoteip->port);
 
 */
-
+}
 return(0);
 }
 

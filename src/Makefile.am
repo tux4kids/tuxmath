@@ -49,7 +49,8 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
-	pixels.c	
+	pixels.c	\
+        network.c
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -85,7 +86,8 @@ EXTRA_DIST = 	credits.h 	\
 	gettext.h	\
 	scandir.h	\
 	pixels.h	\
-	compiler.h
+	compiler.h	\
+        network.h
 
 
 WINDRES=@WINDRES@
