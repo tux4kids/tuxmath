@@ -891,11 +891,7 @@ int run_lan_menu(void)
    // lan_client_set_parameter(PORT, port);
    //  if((lan_client_connect(host,port))==0)
    Standby(_("No Host...=("),_("Press Esc to go back"),host,port);    // this function is defined in highscore.c...
-
-
-
-
- game();
+   game();
    }   
 
    }
@@ -2823,18 +2819,20 @@ void Standby(const char* heading, const char* sub,char *host,char *port)
     {
       if(host==NULL)
       {l=lan_server_connect(port);
-       printf("%d\n",l);  
+       printf("###############%d\##############n",l);  
       }
       else
       {l=lan_client_connect(host,port);
-       printf("%d\n",l);
+       printf("##############%d#################\n",l);
       }
-      while(1)
-      {
+     
+     
         if(!l)
-        printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
-        break;
-      }
+        {printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
+        return 0;
+         break;
+         }
+      
  
       switch (event.type)
       {
@@ -2901,7 +2899,17 @@ void Standby(const char* heading, const char* sub,char *host,char *port)
     frame++;
   } 
 }
+
 }
+
+        if(!l)
+        {printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
+        return 0;
+        break;
+        
+        }
+      
+ 
 } // End of while (!finished) loop
 
   FreeSprite(Tux);
