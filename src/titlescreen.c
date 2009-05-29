@@ -21,8 +21,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-
-
+  
 // titlescreen.h has all of the tuxtype-related stuff:
 #include "titlescreen.h"
 
@@ -42,6 +41,8 @@
 #include "highscore.h"
 #include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
+
+
 
 //#include "lan_client.h"
 
@@ -194,7 +195,7 @@ int run_options_menu(void);
 int run_lan_menu(void);
 int run_server_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
-
+void Standby(const char* heading, const char* sub,char *host,char *port);
 
 
 /***********************************************************/
@@ -854,9 +855,10 @@ int run_multiplay_menu(void)
 
 int run_lan_menu(void)
 {
-  int mode = -1,l;
-  char host[HIGH_SCORE_NAME_LENGTH * 3];
-  char port[HIGH_SCORE_NAME_LENGTH * 3];
+  int mode = -1;
+ char host[1024]="NULL";
+  char port[1024];
+
   
   const char* menu_text[3] =
     {N_("Host"),
@@ -888,7 +890,7 @@ int run_lan_menu(void)
    // lan_client_set_parameter(HOST, host);
    // lan_client_set_parameter(PORT, port);
    //  if((lan_client_connect(host,port))==0)
-   Standby(_("No Host...=("),_("Press Esc to go back"));    // this function is defined in highscore.c...
+   Standby(_("No Host...=("),_("Press Esc to go back"),host,port);    // this function is defined in highscore.c...
 
 
 
@@ -907,7 +909,7 @@ int run_server_menu(void)
 {
 
   int difficulty = -1;
-  char port[HIGH_SCORE_NAME_LENGTH * 3];
+   char port[1024];
 
 
   //just leech settings from arcade modes
@@ -940,7 +942,7 @@ int run_server_menu(void)
      else
      {NameEntry(port, _("Enter the PORT"),
                        _(""));
-      Standby(_("Waiting for other player"),_("Press Esc to go back"));
+      Standby(_("Waiting for other player"),_("Press Esc to go back"),NULL,port);
    // lan_server_connect(port);
        game();}
     break;
@@ -2718,3 +2720,195 @@ int handle_easter_egg(const SDL_Event* evt)
     return 0;
     }
   }
+
+
+
+void Standby(const char* heading, const char* sub,char *host,char *port)
+{
+  
+  SDL_Rect loc;
+  SDL_Rect TuxRect,
+           stopRect;
+
+ 
+  int finished = 0,l;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+  
+  const int BG_Y = 100;
+  const int BG_WIDTH = 400;
+  const int BG_HEIGHT = 200;
+
+  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+
+    
+
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
+
+  /* Draw background: */
+  if (current_bkg())
+    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
+  {
+    TuxRect.w = Tux->frame[0]->w;
+    TuxRect.h = Tux->frame[0]->h;
+    TuxRect.x = 0;
+    TuxRect.y = screen->h - Tux->frame[0]->h;
+  }
+
+  /* Draw translucent background for text: */
+  {
+    SDL_Rect bg_rect;
+    bg_rect.x = (screen->w)/2 - BG_WIDTH/2;
+    bg_rect.y = BG_Y;
+    bg_rect.w = BG_WIDTH;
+    bg_rect.h = BG_HEIGHT;
+    DrawButton(&bg_rect, 15, REG_RGBA);
+
+    bg_rect.x += 10;
+    bg_rect.y += 10;
+    bg_rect.w -= 20;
+    bg_rect.h = 180;
+    DrawButton(&bg_rect, 10, SEL_RGBA);
+  }
+
+  /* Draw heading: */
+  {
+    SDL_Surface* s = BlackOutline(_(heading),
+                                  DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 150;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+    s = BlackOutline(_(sub),
+                     DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 170;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+
+
+  while (!finished)
+  {
+   printf("I AM HERE!!!!!!!!!!!!!!!!!!!!!!!!"); 
+   start = SDL_GetTicks();
+
+    while (SDL_PollEvent(&event)) 
+    {
+      if(host==NULL)
+      {l=lan_server_connect(port);
+       printf("%d\n",l);  
+      }
+      else
+      {l=lan_client_connect(host,port);
+       printf("%d\n",l);
+      }
+      while(1)
+      {
+        if(!l)
+        printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
+        break;
+      }
+ 
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            break;
+          }
+        }
+        case SDL_KEYDOWN:
+        {
+
+          switch (event.key.keysym.sym)
+          {
+            case SDLK_ESCAPE:
+           
+            {
+              finished = 1;
+              playsound(SND_TOCK);
+              break;
+            }
+           
+            default:
+            continue;
+            /* For any other keys, if the key has a Unicode value, */
+            /* we add it to our string:                            */
+           
+           
+          }  /* end  'switch (event.key.keysym.sym)'  */
+
+ 
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;                        
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
+    }
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  } 
+}
+}
+} // End of while (!finished) loop
+
+  FreeSprite(Tux);
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
+
+}
+
+

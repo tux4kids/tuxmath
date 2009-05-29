@@ -9,7 +9,7 @@ network.h     - Provides routines for various networking functions to be used
 
 */
 
-int lan_server_connect(int port);
-int lan_client_connect(char *host,int port);
+int lan_server_connect(char *port);
+int lan_client_connect(char *host,char *port);
  
 #endif // NETWORK_H

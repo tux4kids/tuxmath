@@ -78,8 +78,7 @@ exit(4);
 	// shutdown SDL_net
 	SDLNet_Quit();
 
-	// shutdown SDL
-	SDL_Quit();
+
 
 	return(0);
 }
@@ -128,7 +127,7 @@ server=SDLNet_TCP_Open(&ip);
 if(!server)
 {
 printf("SDLNet_TCP_Open: %s\n",SDLNet_GetError());
-exit(4);
+return 1;
 }
 
 game_set_start_message(waiting, "", "", "");
@@ -164,13 +163,11 @@ while(1)
 		}
                 break;
 }
+
 	SDLNet_TCP_Close(client);	
 	SDLNet_TCP_Close(server);
         // shutdown SDL_net
 	SDLNet_Quit();
-
-	// shutdown SDL
-	SDL_Quit();
 
 
 return 0;
