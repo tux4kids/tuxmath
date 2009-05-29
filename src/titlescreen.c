@@ -853,7 +853,7 @@ int run_multiplay_menu(void)
 
 int run_lan_menu(void)
 {
-  int mode = -1;
+  int mode = -1,l;
   char host[HIGH_SCORE_NAME_LENGTH * 3];
   char port[HIGH_SCORE_NAME_LENGTH * 3];
   
@@ -885,7 +885,7 @@ int run_lan_menu(void)
     
    // lan_client_set_parameter(HOST, host);
    // lan_client_set_parameter(PORT, port);
-   // lan_client_connect(host,port);
+  //  if((lan_client_connect(host,port))==0)
     game();
    }   
 
@@ -933,7 +933,6 @@ int run_server_menu(void)
      else
      {NameEntry(port, _("Enter the PORT"),
                        _(""));
-
    // lan_server_connect(port);
        game();}
     break;

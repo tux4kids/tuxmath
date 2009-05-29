@@ -8,18 +8,21 @@
 #include <unistd.h>
 #include "SDL.h"
 #include "SDL_net.h"
-
+#include <game.h>
 //*** ipaddress of the server and the port would be taken by the user @ the time he selects "LAN multiplayer" from the options menu..
 
 //***also should I fix the port beforehand or ask it from the user...
 
-int lan_client_connect(char *host,int port)            //here "host" is either the hostname or the ipaddress(of the server) in string
+
+int lan_client_connect(char *host,char *port)            //here "host" is either the hostname or the ipaddress(of the server) in string
 {
+char message[]="Client got connected";
+int len;
 IPaddress ip;
 TCPsocket sock;
 Uint16 portnum;
 
-portnum=(Uint16) strtol(&port,NULL,0);
+portnum=(Uint16) strtol(port,NULL,0);
 
 // initialize SDL
 if(SDL_Init(0)==-1)
@@ -50,22 +53,49 @@ if(!sock)
 printf("SDLNet_TCP_Open: %s\n",SDLNet_GetError());
 exit(4);
 }
+	len=strlen(message);
+
+	// strip the newline
+	message[len]='\0';
+	
+	if(len)
+	{
+		int result;
+		
+		// print out the message
+		printf("Sending: %.*s\n",len,message);
+
+		result=SDLNet_TCP_Send(sock,message,len); // add 1 for the NULL
+		if(result<len)
+			printf("SDLNet_TCP_Send: %s\n",SDLNet_GetError());
+	}
 
 
+	SDLNet_TCP_Close(sock);
+	
+	// shutdown SDL_net
+	SDLNet_Quit();
 
-return(0);
+	// shutdown SDL
+	SDL_Quit();
+
+	return(0);
 }
+
 
 
 /***      server connection function    ****/
 
-int lan_server_connect(int port)
+
+int lan_server_connect(char *port)
 {
 IPaddress ip; //int *remoteip;
 TCPsocket server,client;
 //Uint32 ipaddr;
 Uint16 portnum;
-
+int len;
+char message[1024];
+char waiting[]="WAITING FOR OTHER PLAYER(minimum 2 players required)";
 
 // initialize SDL
 if(SDL_Init(0)==-1)
@@ -82,7 +112,7 @@ exit(2);
 }
 
 
-portnum=(Uint16)strtol(&port,NULL,0);
+portnum=(Uint16)strtol(port,NULL,0);
 
 // Resolve the argument into an IPaddress type
 if(SDLNet_ResolveHost(&ip,NULL,portnum)==-1)
@@ -99,38 +129,49 @@ printf("SDLNet_TCP_Open: %s\n",SDLNet_GetError());
 exit(4);
 }
 
+game_set_start_message(waiting, "", "", "");
+printf("%s\n",waiting);
 while(1)
 {
+
 // try to accept a connection
-client=SDLNet_TCP_Accept(server);
-if(!client)
-{ // no connection accepted
-//printf("SDLNet_TCP_Accept: %s\n",SDLNet_GetError());
-SDL_Delay(100); //sleep 1/10th of a second
-continue;
+ client=SDLNet_TCP_Accept(server);
+ if(!client)
+  {    // no connection accepted
+      //printf("SDLNet_TCP_Accept: %s\n",SDLNet_GetError());
+    SDL_Delay(100); //sleep 1/10th of a second
+    continue;
+  }
+  
+
+              // read the buffer from client
+		len=SDLNet_TCP_Recv(client,message,1024);
+		if(!len)
+		{
+			printf("SDLNet_TCP_Recv: %s\n",SDLNet_GetError());
+			continue;
+		}
+
+		// print out the message
+		printf("Received: %.*s\n",len,message);
+
+		if(message[0]=='Q')
+		{
+			printf("Quitting on a Q received\n");
+			break;
+		}
+                break;
 }
+	SDLNet_TCP_Close(client);	
+	SDLNet_TCP_Close(server);
+        // shutdown SDL_net
+	SDLNet_Quit();
 
-/// get the clients IP and port number
-//remoteip=SDLNet_TCP_GetPeerAddress(client);
-//if(!remoteip)
-//{
-//printf("SDLNet_TCP_GetPeerAddress: %s\n",SDLNet_GetError());
-//continue;
-//}
+	// shutdown SDL
+	SDL_Quit();
 
-/*for testing purpose to check if it is connected to the desired client
-// print out the clients IP and port number
-ipaddr=SDL_SwapBE32(remoteip->host);
-printf("Accepted a connection from %d.%d.%d.%d port %hu\n",
-ipaddr>>24,
-(ipaddr>>16)&0xff,
-(ipaddr>>8)&0xff,
-ipaddr&0xff,
-remoteip->port);
 
-*/
-}
-return(0);
+return 0;
 }
 
 
