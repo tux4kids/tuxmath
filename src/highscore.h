@@ -16,6 +16,7 @@
 
 #include "globals.h"
 
+void Standby(const char* heading, const char* sub);
 void DisplayHighScores(int level);
 void HighScoreNameEntry(char* pl_name);
 void NameEntry(char* pl_name, const char* heading, const char* sub);

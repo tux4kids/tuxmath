@@ -42,6 +42,7 @@
 #include "highscore.h"
 #include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
+
 //#include "lan_client.h"
 
 /* --- Data Structure for Dirty Blitting --- */
@@ -883,10 +884,16 @@ int run_lan_menu(void)
     NameEntry(port, _("Enter the port number"),
                        _(""));
     
+
    // lan_client_set_parameter(HOST, host);
    // lan_client_set_parameter(PORT, port);
-  //  if((lan_client_connect(host,port))==0)
-    game();
+   //  if((lan_client_connect(host,port))==0)
+   Standby(_("No Host...=("),_("Press Esc to go back"));    // this function is defined in highscore.c...
+
+
+
+
+ game();
    }   
 
    }
@@ -933,6 +940,7 @@ int run_server_menu(void)
      else
      {NameEntry(port, _("Enter the PORT"),
                        _(""));
+      Standby(_("Waiting for other player"),_("Press Esc to go back"));
    // lan_server_connect(port);
        game();}
     break;

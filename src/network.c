@@ -8,7 +8,9 @@
 #include <unistd.h>
 #include "SDL.h"
 #include "SDL_net.h"
-#include <game.h>
+
+
+
 //*** ipaddress of the server and the port would be taken by the user @ the time he selects "LAN multiplayer" from the options menu..
 
 //***also should I fix the port beforehand or ask it from the user...
