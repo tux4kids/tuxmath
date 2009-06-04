@@ -13,7 +13,7 @@
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.org/
-      
+
   Added March 2, 2006
 
   Copyright: See COPYING file that comes with this distribution
@@ -37,6 +37,30 @@
 #else
 #define tmdprintf(...) 0
 #endif
+
+/* debug data (declared in setup.c) */
+extern int debug_status;
+
+/* bitmasks for debugging options (declared in setup.c) */
+extern const int debug_setup;
+extern const int debug_fileops;
+extern const int debug_loaders;
+extern const int debug_titlescreen;
+extern const int debug_menu;
+extern const int debug_menu_parser;
+extern const int debug_game;
+extern const int debug_factoroids;
+extern const int debug_lan;
+extern const int debug_svg;
+extern const int debug_mathcards;
+extern const int debug_sdl;
+extern const int debug_lessons;
+extern const int debug_highscore;
+extern const int debug_all;
+
+/* debug macros */
+#define DEBUGCODE(mask) if(mask & debug_status)
+#define DEBUGMSG(mask, ...) if(mask & debug_status) fprintf(stderr, __VA_ARGS__); fflush(stderr);
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096

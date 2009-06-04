@@ -45,6 +45,7 @@
 #include "fileops.h"
 #include "loaders.h"
 #include "game.h"
+#include "menu.h"
 #include "titlescreen.h"
 #include "highscore.h"
 #include "SDL_extras.h"
@@ -85,6 +86,25 @@ Mix_Chunk* sounds[NUM_SOUNDS];
 Mix_Music* musics[NUM_MUSICS];
 #endif
 
+/* global debug masks */
+int debug_status;
+
+/* bitmasks for debugging options */
+const int debug_setup          = 1 << 0;
+const int debug_fileops        = 1 << 1;
+const int debug_loaders        = 1 << 2;
+const int debug_titlescreen    = 1 << 3;
+const int debug_menu           = 1 << 4;
+const int debug_menu_parser    = 1 << 5;
+const int debug_game           = 1 << 6;
+const int debug_factoroids     = 1 << 7;
+const int debug_lan            = 1 << 8;
+const int debug_svg            = 1 << 9;
+const int debug_mathcards      = 1 << 10;
+const int debug_sdl            = 1 << 11;
+const int debug_lessons        = 1 << 12;
+const int debug_highscore      = 1 << 13;
+const int debug_all            = ~0;
 
 /* Local function prototypes: */
 void initialize_options(void);
@@ -112,6 +132,8 @@ void setup(int argc, char * argv[])
   initialize_options();
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
+  /* load menus */
+  LoadMenus();
   /* SDL setup in own function:*/
   initialize_SDL();
   /* Read image and sound files: */
@@ -400,7 +422,18 @@ void handle_command_args(int argc, char* argv[])
       Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
       i++;
     }
-
+    else if (strcmp(argv[i], "--debug-all") == 0)
+    {
+      debug_status |= debug_all;
+    }
+    else if (strcmp(argv[i], "--debug-menu") == 0)
+    {
+      debug_status |= debug_menu;
+    }
+    else if (strcmp(argv[i], "--debug-menu-parser") == 0)
+    {
+      debug_status |= debug_menu_parser;
+    }
     else
     /* TODO try to match unrecognized strings to config file names */
     {
@@ -714,6 +747,7 @@ void cleanup_memory(void)
     n_timesopened--;
   }
 
+  UnloadMenus();
 
   // Finally, quit SDL
   SDL_Quit();

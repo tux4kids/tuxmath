@@ -24,6 +24,7 @@ set(SOURCES_TUXMATH
   fileops.c
   fileops_media.c
   game.c
+  menu.c
   highscore.c
   lessons.c
   loaders.c

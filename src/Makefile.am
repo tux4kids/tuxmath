@@ -40,6 +40,7 @@ tuxmath_SOURCES = tuxmath.c \
 	linewrap.c	\
 	loaders.c	\
 	audio.c 	\
+	menu.c   	\
 	mathcards.c	\
 	campaign.c	\
 	multiplayer.c	\
@@ -49,7 +50,7 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
-	pixels.c	
+	pixels.c
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -67,6 +68,7 @@ EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
 	fileops.h 	\
 	game.h		\
+	menu.h		\
 	globals.h	\
 	highscore.h 	\
 	linewrap.h	\
