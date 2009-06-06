@@ -242,7 +242,10 @@ int game(void)
     }
 
     /* Most code now in smaller functions: */
+
+    // 1. Check for user input
     game_handle_user_events();
+    // 2. Update state of various game elements
     game_handle_demo();
     game_handle_answer();
     game_countdown();
@@ -252,8 +255,9 @@ int game(void)
     game_handle_penguins();
     game_handle_steam();
     game_handle_extra_life();
+    // 3. Redraw:
     game_draw();
-    /* figure out if we should leave loop: */
+    // 4. Figure out if we should leave loop:
     game_status = check_exit_conditions();
 
 
