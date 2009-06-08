@@ -22,7 +22,8 @@
 #include <math.h>
 #include <time.h>
 
-#include "mathcards.h"
+//#include "mathcards.h"
+#include "network.h"
 
 /* extern'd constants */
 
@@ -490,7 +491,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
 
   /* 'draw' - copy over the first question */
   copy_card(&question_list->card, fc);
-
+ 
   /* 'discard' - take first question node out of list and free it */
   question_list = remove_node(question_list, question_list);
   free_node(ptr);

@@ -50,6 +50,8 @@
 SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
 int numupdates = 0; // tracks how many blits to be done
+char host[1024]="NULL";
+char port[1024];
 
 // Colors we use:
 SDL_Color black;
@@ -71,6 +73,7 @@ struct blit {
 char **lesson_list_titles = NULL;
 char **lesson_list_filenames = NULL;
 int num_lessons = 0;
+int n=0;
 
 
 /* --- media for menus --- */
@@ -195,7 +198,7 @@ int run_options_menu(void);
 int run_lan_menu(void);
 int run_server_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
-void Standby(const char* heading, const char* sub,char *host,char *port);
+int Standby(const char* heading, const char* sub,char *host,char *port);
 
 
 /***********************************************************/
@@ -786,6 +789,7 @@ int run_multiplay_menu(void)
   int mode = -1;
   int difficulty = -1;
   char npstr[HIGH_SCORE_NAME_LENGTH * 3];
+  
 
   const char* menu_text[3] =
     {N_("Score Sweep"),
@@ -856,9 +860,7 @@ int run_multiplay_menu(void)
 int run_lan_menu(void)
 {
   int mode = -1;
- char host[1024]="NULL";
-  char port[1024];
-
+  int b;
   
   const char* menu_text[3] =
     {N_("Host"),
@@ -890,7 +892,10 @@ int run_lan_menu(void)
    // lan_client_set_parameter(HOST, host);
    // lan_client_set_parameter(PORT, port);
    //  if((lan_client_connect(host,port))==0)
-   Standby(_("No Host...=("),_("Press Esc to go back"),host,port);    // this function is defined in highscore.c...
+   b=Standby(_("No Host...=("),_("Press Esc to go back"),host,port);
+   if(b==7)
+   return 0;
+   else    
    game();
    }   
 
@@ -905,9 +910,8 @@ int run_server_menu(void)
 {
 
   int difficulty = -1;
-   char port[1024];
-
-
+   n=1;
+   int g;
   //just leech settings from arcade modes
   const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
     {N_("Space Cadet"),
@@ -938,7 +942,10 @@ int run_server_menu(void)
      else
      {NameEntry(port, _("Enter the PORT"),
                        _(""));
-      Standby(_("Waiting for other player"),_("Press Esc to go back"),NULL,port);
+      g=Standby(_("Waiting for other player"),_("Press Esc to go back"),NULL,port);
+      if(g==7)
+      return 0;
+      else
    // lan_server_connect(port);
        game();}
     break;
@@ -2719,7 +2726,7 @@ int handle_easter_egg(const SDL_Event* evt)
 
 
 
-void Standby(const char* heading, const char* sub,char *host,char *port)
+int Standby(const char* heading, const char* sub,char *host,char *port)
 {
   
   SDL_Rect loc;
@@ -2727,10 +2734,12 @@ void Standby(const char* heading, const char* sub,char *host,char *port)
            stopRect;
 
  
-  int finished = 0,l;
+  int finished = 0;
   int tux_frame = 0;
+  int l;
   Uint32 frame = 0;
   Uint32 start = 0;
+  
   
   const int BG_Y = 100;
   const int BG_WIDTH = 400;
@@ -2819,19 +2828,25 @@ void Standby(const char* heading, const char* sub,char *host,char *port)
     {
       if(host==NULL)
       {l=lan_server_connect(port);
-       printf("###############%d\##############n",l);  
+       if(l==7)
+       return 7;
+       printf("###############%d##############\n",l);
+       return 0;  
       }
       else
       {l=lan_client_connect(host,port);
        printf("##############%d#################\n",l);
+       return 0;
       }
      
-     
-        if(!l)
-        {printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
-        return 0;
+
+         if(!l)
+        {
+         printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
+         return 0;
          break;
          }
+      
       
  
       switch (event.type)
@@ -2902,13 +2917,6 @@ void Standby(const char* heading, const char* sub,char *host,char *port)
 
 }
 
-        if(!l)
-        {printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
-        return 0;
-        break;
-        
-        }
-      
  
 } // End of while (!finished) loop
 

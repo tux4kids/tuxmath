@@ -40,6 +40,7 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "network.h"
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -2500,6 +2501,7 @@ int add_comet(void)
   static int prev_city = -1;
   int i, found;
   float y_spacing;
+  extern int n;
 
   /* Look for a free comet slot and see if all live comets are far */
   /* enough down to avoid overlap and keep formulas legible:       */
@@ -2531,11 +2533,25 @@ int add_comet(void)
 
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
-  if (!MC_NextQuestion(&(comets[found].flashcard)))
-  {
-    /* no more questions available - cannot create comet.  */
-    return 0;
-  }
+//  if(n==1)
+ // {
+    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    {
+      /* no more questions available - cannot create comet.  */
+      return 0;
+    }
+//    if(!SendQuestion(&(comets[found].flashcard)))
+//  {
+//    printf("Unable to send Question\n");
+// }
+//   }
+
+//   if(n==0)
+//   { 
+//     SDL_Delay(5000);
+//     if(!ReceiveQuestion(&(comets[found].flashcard)))
+//     printf("unable to recv question\n");
+//    }
 
   /* If we make it to here, create a new comet!                  */
 
