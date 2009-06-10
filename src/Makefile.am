@@ -73,10 +73,10 @@ EXTRA_DIST = 	credits.h 	\
 	linewrap.h	\
 	loaders.h	\
         network.h       \
-	mathcards.h 	\
+	titlescreen.h   \
 	options.h	\
 	setup.h		\
-	titlescreen.h	\
+	mathcards.h 	\
 	campaign.h	\
 	multiplayer.h	\
 	tuxmath.h	\

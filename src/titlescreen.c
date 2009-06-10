@@ -2835,6 +2835,8 @@ int Standby(const char* heading, const char* sub,char *host,char *port)
       }
       else
       {l=lan_client_connect(host,port);
+       if(l==7)
+       return 7;
        printf("##############%d#################\n",l);
        return 0;
       }

@@ -99,6 +99,8 @@ const char* const MC_OPTION_TEXT[NOPTS+1] = {
 "END_OF_OPTS"
 };
 
+
+  
 const int MC_DEFAULTS[] = {
   1,    //PLAY_THROUGH_LIST
   1,    //QUESTION_COPIES
@@ -177,6 +179,7 @@ const int MC_DEFAULTS[] = {
 #define NPRIMES 9
 const int smallprimes[NPRIMES] = {2, 3, 5 ,7, 11, 13, 17, 19, 23};
 const char operchars[4] = "+-*/";
+extern int n;
 
 MC_Options* math_opts = 0;
 MC_MathQuestion* question_list = 0;
@@ -320,6 +323,7 @@ int MC_Initialize(void)
 /*  successfully.                                         */
 int MC_StartGame(void)
 {
+
   mcdprintf("\nEntering MC_StartGame()");
 
   /* if math_opts not set up yet, initialize it: */
@@ -364,11 +368,23 @@ int MC_StartGame(void)
   mcdprintf("max answer, formula size: %d, %d\n",
             max_answer_size, max_formula_size);
   /* set up new list with pointer to top: */
-  question_list = generate_list();
+ if(n==1)                             				//if selects server , n==1 from titlescreen.c 
+  { 
+   question_list = generate_list();
 
-  next_wrong_quest = 0;
-  /* initialize counters for new game: */
-  quest_list_length = list_length(question_list);
+   next_wrong_quest = 0;
+   /* initialize counters for new game: */
+   quest_list_length = list_length(question_list);
+  
+   SendQuestionList(question_list,quest_list_length);
+  } 
+  
+if(n==0)							//if selects client , n==0 from titlescreen.c
+{
+   next_wrong_quest = 0;
+   ReceiveQuestionList(question_list,quest_list_length);
+ 
+}
   /* Note: the distinction between quest_list_length and  */
   /* unanswered is that the latter includes questions     */
   /* that are currently "in play" by the user interface - */
