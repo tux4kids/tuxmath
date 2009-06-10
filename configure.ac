@@ -256,6 +256,7 @@ data/images/status/Makefile
 data/images/title/Makefile
 data/images/tux/Makefile
 data/images/factoroids/Makefile
+data/menus/Makefile
 data/missions/Makefile
 data/missions/arcade/Makefile
 data/missions/campaign/Makefile

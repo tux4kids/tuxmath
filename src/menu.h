@@ -25,27 +25,29 @@
 
 /* create enum */
 #define X(name) name
-typedef enum {
-  ACTIVITIES
-} ActivityType;
+enum { ACTIVITIES };
 #undef X
 
 struct mNode {
   char* title;
   char* sprite;
 
-  ActivityType activity;
-
-  /* submenu available only if activity = RUN_SUBMENU */
+  /* submenu_size = 0 if no submenu */
   int submenu_size;
   struct mNode** submenu;
+
+  /* available only if submenu_size = 0 */
+  int choice;
 };
 
 typedef struct mNode MenuNode;
 
 /* global functions */
 void LoadMenus(void);
+int RunLoginMenu(void);
+void RunMainMenu(void);
 void RenderMenus(void);
 void UnloadMenus(void);
 
 #endif // MENU_H
+

@@ -50,7 +50,7 @@ MenuNode* create_empty_node()
   MenuNode* new_node = malloc(sizeof(MenuNode));
   new_node->title = NULL;
   new_node->sprite = NULL;
-  new_node->activity = 0;
+  new_node->choice = 0;
   new_node->submenu_size = 0;
   new_node->submenu = NULL;
 
@@ -86,7 +86,7 @@ void read_attributes(FILE* xml_file, MenuNode* node)
     {
       for(i = 0; i < N_OF_ACTIVITIES; i++)
         if(strcmp(attr_val, activities[i]) == 0)
-          node->activity = i;
+          node->choice = i;
     }
     else
       DEBUGMSG(debug_menu_parser, "read_attributes(): unknown attribute %s , omitting\n", attr_name);
@@ -149,6 +149,7 @@ void free_menu(MenuNode* menu)
 {
   int i;
 
+  DEBUGMSG(debug_menu, "entering free_menu()\n");
   if(menu != NULL)
   {
     if(menu->title != NULL)
@@ -171,6 +172,14 @@ void free_menu(MenuNode* menu)
   }
 }
 
+/* display the menu
+   if return_choice = true then return chosen value instead of
+   running handle_choice() */
+int run_menu(MenuNode* menu, bool return_choice)
+{
+  
+}
+
 /* load menu trees from disk */
 void LoadMenus(void)
 {
@@ -184,6 +193,20 @@ void LoadMenus(void)
     menus[MENU_MAIN] = load_menu_from_file(main_menu_file);
     fclose(main_menu_file);
   }
+}
+
+/* create login menu tree, run it and set the user home directory
+   -1 indicates that the user wants to quit without logging in,
+    0 indicates that a choice has been made. */
+int RunLoginMenu(void)
+{
+
+}
+
+/* run main menu. If this function ends it means that tuxmath is going to quit */ 
+void RunMainMenu(void)
+{
+  run_menu(menus[MENU_MAIN], false);
 }
 
 /* calculate proper sizes and positions of menu elements,

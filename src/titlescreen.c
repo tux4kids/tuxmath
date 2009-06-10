@@ -135,6 +135,10 @@ sprite* Tux = NULL;
 
 SDL_Event event;
 
+/* screen dimensions to which titlescreen graphics are currently rendered */
+int curr_res_x = -1;
+int curr_res_y = -1;
+
 /* --- locations we need --- */
 
 SDL_Rect dest,
@@ -210,10 +214,9 @@ int handle_easter_egg(const SDL_Event* evt);
 
 void TitleScreen(void)
 {
-
   Uint32 start = 0;
 
-  int i,TuxPixSkip,TitlePixSkip;
+  int i, TuxPixSkip, TitlePixSkip;
 //  int n_subdirs;
 //  char **subdir_names;
 
@@ -261,9 +264,11 @@ void TitleScreen(void)
     }
     SDL_Delay(50);
   }
-#ifndef TUXMATH_DEBUG //in case of a freeze, this traps the cursor
-  SDL_WM_GrabInput(SDL_GRAB_ON); // User input goes to TuxMath, not window manager
-#endif
+
+  DEBUGCODE(debug_titlescreen)
+    SDL_WM_GrabInput(SDL_GRAB_OFF); //in case of a freeze, this traps the cursor
+  else
+    SDL_WM_GrabInput(SDL_GRAB_ON); // User input goes to TuxMath, not window manager
   SDL_ShowCursor(1);
 
 
@@ -271,9 +276,7 @@ void TitleScreen(void)
   * Tux and Title animations *
   ***************************/
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "->Now Animating Tux and Title onto the screen\n" );
-#endif
+  DEBUGMSG(debug_titlescreen, "TitleScreen(): Now Animating Tux and Title onto the screen\n" );
 
   /* Load media and menu data: */
   /* FIXME should get out if needed media not loaded OK */
@@ -369,9 +372,7 @@ void TitleScreen(void)
 
   }
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Tux and Title are in place now\n");
-#endif
+  DEBUGMSG(debug_titlescreen, "TitleScreen(): Tux and Title are in place now\n");
 
   //location of Tux's beak
   beak.x = Tuxdest.x + 70;
@@ -393,17 +394,43 @@ void TitleScreen(void)
   }
 
   /* User has selected quit, clean up */
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "->>Freeing title screen images\n");
-#endif
+  DEBUGMSG(debug_titlescreen, "TitleScreen(): Freeing title screen images\n");
 
   TitleScreen_unload_media();
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr,"->TitleScreen():END \n");
-#endif
+  DEBUGMSG(debug_titlescreen, "leaving TitleScreen()\n");
+}
 
+/* Render and position all titlescreen items to match current
+   screen size. Rendering is done only if needed.
+   This function must be called after every resolution change */
+void RenderTitleScreen(void)
+{
+  SDL_Surface* new_bkg = NULL;
+
+  if(curr_res_x != RES_X || curr_res_y != RES_Y)
+  {
+    /* we need to rerender titlescreen items */
+    DEBUGMSG(debug_titlescreen, "Re-rendering titlescreen items.\n");
+
+    new_bkg = LoadBkgd("title/menu_bkg.jpg");
+    if(new_bkg == NULL)
+    {
+      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
+    }
+    else
+    {
+      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): New background loaded.\n");
+      if(bkg != NULL)
+        SDL_FreeSurface(bkg);
+      bkg = new_bkg;
+    }
+
+    curr_res_x = RES_X;
+    curr_res_y = RES_Y;
+
+    DEBUGMSG(debug_titlescreen, "Leaving RenderTitleScreen().\n");
+  }
 }
 
 
@@ -414,7 +441,6 @@ void TitleScreen(void)
 /*    "Private functions" (callable only from this file)   */
 /*                                                         */
 /***********************************************************/
-
 
 // 1 = success, 0 = failure
 int TitleScreen_load_media(void)
@@ -1882,13 +1908,74 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
               if (loc != old_loc)
                 warp_mouse = 1;
               break;
-           }
+            }
+
+            /* Change window size (used only to debug) */
+            case SDLK_F5:
+            case SDLK_F6:
+            case SDLK_F7:
+            case SDLK_F8:
+            {
+              /* these keys are available only if in debug mode */
+              DEBUGCODE(debug_titlescreen | debug_menu)
+              {
+                switch(event.key.keysym.sym)
+                {
+                  case SDLK_F5:
+                  {
+                    /* decrease screen width */
+                    ChangeScreenSize(RES_X - 50, RES_Y);
+                    break;
+                  }
+                  case SDLK_F6:
+                  {
+                    /* increase screen width */
+                    ChangeScreenSize(RES_X + 50, RES_Y);
+                    break;
+                  }
+                  case SDLK_F7:
+                  {
+                    /* decrease screen height */
+                    ChangeScreenSize(RES_X, RES_Y - 50);
+                    break;
+                  }
+                  case SDLK_F8:
+                  {
+                    /* increase screen height */
+                    ChangeScreenSize(RES_X, RES_Y + 50);
+                    break;
+                  }
+                  default:
+                    break;
+                }
+
+                RenderTitleScreen();
+                RecalcTitlePositions();
+                RecalcMenuPositions(&n_entries_per_screen,
+                                    n_menu_entries,
+                                    &menu_opts,
+                                    set_custom_menu_opts,
+                                    &menu_button_rect,
+                                    &menu_sprite_rect,
+                                    &menu_text_rect,
+                                    &back_button_rect,
+                                    &back_sprite_rect,
+                                    &back_text_rect,
+                                    &left_arrow_rect,
+                                    &right_arrow_rect);
+                //we're unsure how the entries might shuffle, so return to start
+                loc_screen_start = 0;
+                redraw = 1;
+              }
+              break;
+            }
 
 
             /* Toggle screen mode: */
             case SDLK_F10:
             {
               SwitchScreenMode();
+              RenderTitleScreen();
               RecalcTitlePositions();
               RecalcMenuPositions(&n_entries_per_screen,
                                   n_menu_entries,

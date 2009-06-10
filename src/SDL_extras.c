@@ -390,6 +390,31 @@ void DarkenScreen(Uint8 bits)
   }
 }
 
+void ChangeScreenSize(int new_res_x, int new_res_y)
+{
+  SDL_Surface* oldscreen = screen;
+
+  screen = SDL_SetVideoMode(new_res_x,
+                            new_res_y,
+                            PIXEL_BITS,
+                            SDL_SWSURFACE|SDL_HWPALETTE);
+
+  if(screen == NULL)
+  {
+    fprintf(stderr,
+            "\nError: I could not change screen mode into %d x %d.\n",
+            new_res_x, new_res_y);
+    screen = oldscreen;
+  }
+  else
+  {
+    SDL_FreeSurface(oldscreen);
+    oldscreen = NULL;
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    RES_X = new_res_x;
+    RES_Y = new_res_y;
+  }
+}
 
 void SwitchScreenMode(void)
 {
@@ -405,8 +430,8 @@ void SwitchScreenMode(void)
   }
   else
   {
-    screen = SDL_SetVideoMode(RES_X,
-                              RES_Y,
+    screen = SDL_SetVideoMode(640,
+                              480,
                               PIXEL_BITS,
                               SDL_SWSURFACE|SDL_HWPALETTE);
 
@@ -426,6 +451,16 @@ void SwitchScreenMode(void)
   {
     SDL_FreeSurface(oldscreen);
     oldscreen = NULL;
+    if(!window)
+    {
+      RES_X = fs_res_x;
+      RES_Y = fs_res_y;
+    }
+    else
+    {
+      RES_X = 640;
+      RES_Y = 480;
+    }
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
 

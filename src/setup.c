@@ -58,8 +58,10 @@
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
 
-int fs_res_x = RES_X;
-int fs_res_y = RES_Y;
+int RES_X = 640;
+int RES_Y = 480;
+int fs_res_x = 640;
+int fs_res_y = 480;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
@@ -99,11 +101,10 @@ const int debug_menu_parser    = 1 << 5;
 const int debug_game           = 1 << 6;
 const int debug_factoroids     = 1 << 7;
 const int debug_lan            = 1 << 8;
-const int debug_svg            = 1 << 9;
-const int debug_mathcards      = 1 << 10;
-const int debug_sdl            = 1 << 11;
-const int debug_lessons        = 1 << 12;
-const int debug_highscore      = 1 << 13;
+const int debug_mathcards      = 1 << 9;
+const int debug_sdl            = 1 << 10;
+const int debug_lessons        = 1 << 11;
+const int debug_highscore      = 1 << 12;
 const int debug_all            = ~0;
 
 /* Local function prototypes: */
@@ -426,6 +427,22 @@ void handle_command_args(int argc, char* argv[])
     {
       debug_status |= debug_all;
     }
+    else if (strcmp(argv[i], "--debug-setup") == 0)
+    {
+      debug_status |= debug_setup;
+    }
+    else if (strcmp(argv[i], "--debug-fileops") == 0)
+    {
+      debug_status |= debug_fileops;
+    }
+    else if (strcmp(argv[i], "--debug-loaders") == 0)
+    {
+      debug_status |= debug_loaders;
+    }
+    else if (strcmp(argv[i], "--debug-titlescreen") == 0)
+    {
+      debug_status |= debug_titlescreen;
+    }
     else if (strcmp(argv[i], "--debug-menu") == 0)
     {
       debug_status |= debug_menu;
@@ -433,6 +450,34 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--debug-menu-parser") == 0)
     {
       debug_status |= debug_menu_parser;
+    }
+    else if (strcmp(argv[i], "--debug-game") == 0)
+    {
+      debug_status |= debug_game;
+    }
+    else if (strcmp(argv[i], "--debug-factoroids") == 0)
+    {
+      debug_status |= debug_factoroids;
+    }
+    else if (strcmp(argv[i], "--debug-lan") == 0)
+    {
+      debug_status |= debug_lan;
+    }
+    else if (strcmp(argv[i], "--debug-mathcards") == 0)
+    {
+      debug_status |= debug_mathcards;
+    }
+    else if (strcmp(argv[i], "--debug-sdl") == 0)
+    {
+      debug_status |= debug_sdl;
+    }
+    else if (strcmp(argv[i], "--debug-lessons") == 0)
+    {
+      debug_status |= debug_lessons;
+    }
+    else if (strcmp(argv[i], "--debug-highscore") == 0)
+    {
+      debug_status |= debug_highscore;
     }
     else
     /* TODO try to match unrecognized strings to config file names */

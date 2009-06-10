@@ -26,6 +26,9 @@
 #define GLOBALS_H
 
 #include "config.h"
+
+typedef enum { false, true } bool;
+
 /* for conditional compilation of debugging output */
 //#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
@@ -51,7 +54,6 @@ extern const int debug_menu_parser;
 extern const int debug_game;
 extern const int debug_factoroids;
 extern const int debug_lan;
-extern const int debug_svg;
 extern const int debug_mathcards;
 extern const int debug_sdl;
 extern const int debug_lessons;
@@ -60,7 +62,7 @@ extern const int debug_all;
 
 /* debug macros */
 #define DEBUGCODE(mask) if(mask & debug_status)
-#define DEBUGMSG(mask, ...) if(mask & debug_status) fprintf(stderr, __VA_ARGS__); fflush(stderr);
+#define DEBUGMSG(mask, ...) if(mask & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096
@@ -126,11 +128,12 @@ extern const int debug_all;
 #define REG_RGBA 16,16,96,96
 #define SEL_RGBA 16,16,128,128
 
-#define RES_X        640
-#define RES_Y        480
-#define PIXEL_BITS 32        
+#define PIXEL_BITS 32
 
-enum { 
+extern int RES_X;
+extern int RES_Y;
+
+enum {
   CADET_HIGH_SCORE,
   SCOUT_HIGH_SCORE,
   RANGER_HIGH_SCORE,

@@ -310,7 +310,7 @@ SDL_Surface* LoadImage( char *datafile, int mode )
 SDL_Surface* LoadBkgd(char* datafile)
 {
   SDL_Surface* orig;
-  orig = IMG_Load(datafile);
+  orig = LoadImage(datafile, IMG_REGULAR);
 
   if (!orig)
   {
