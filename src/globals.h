@@ -61,8 +61,8 @@ extern const int debug_highscore;
 extern const int debug_all;
 
 /* debug macros */
-#define DEBUGCODE(mask) if(mask & debug_status)
-#define DEBUGMSG(mask, ...) if(mask & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
+#define DEBUGCODE(mask) if((mask) & debug_status)
+#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096
