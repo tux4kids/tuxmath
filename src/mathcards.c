@@ -368,23 +368,23 @@ int MC_StartGame(void)
   mcdprintf("max answer, formula size: %d, %d\n",
             max_answer_size, max_formula_size);
   /* set up new list with pointer to top: */
- if(n==1)                             				//if selects server , n==1 from titlescreen.c 
-  { 
+// if(n==1)                             				//if selects server , n==1 from titlescreen.c 
+//  { 
    question_list = generate_list();
 
    next_wrong_quest = 0;
    /* initialize counters for new game: */
    quest_list_length = list_length(question_list);
   
-   SendQuestionList(question_list,quest_list_length);
-  } 
+//   SendQuestionList(question_list,quest_list_length);
+//  } 
   
-if(n==0)							//if selects client , n==0 from titlescreen.c
-{
-   next_wrong_quest = 0;
-   ReceiveQuestionList(question_list,quest_list_length);
+//if(n==0)							//if selects client , n==0 from titlescreen.c
+//{
+//   next_wrong_quest = 0;
+//   ReceiveQuestionList(question_list,quest_list_length);
  
-}
+//}
   /* Note: the distinction between quest_list_length and  */
   /* unanswered is that the latter includes questions     */
   /* that are currently "in play" by the user interface - */

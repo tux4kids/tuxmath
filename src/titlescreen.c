@@ -73,7 +73,7 @@ struct blit {
 char **lesson_list_titles = NULL;
 char **lesson_list_filenames = NULL;
 int num_lessons = 0;
-int n=0;
+//int n=0;
 
 
 /* --- media for menus --- */
@@ -910,7 +910,7 @@ int run_server_menu(void)
 {
 
   int difficulty = -1;
-   n=1;
+ //  n=1;
    int g;
   //just leech settings from arcade modes
   const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
