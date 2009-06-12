@@ -35,6 +35,10 @@ int main(int argc, char **argv)
         char buffer[512];
         char func;
         MC_FlashCard* fc;
+
+        fc = malloc(sizeof(MC_FlashCard));
+        fc->answer_string="";
+        fc->formula_string="";
  
         if (SDLNet_Init() < 0)
         {
@@ -43,7 +47,7 @@ int main(int argc, char **argv)
         }
  
         /* Resolving the host using NULL make network interface to listen */
-        if (SDLNet_ResolveHost(&ip, NULL, 2740) < 0)
+        if (SDLNet_ResolveHost(&ip, NULL, 2950) < 0)
         {
                 fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
                 exit(EXIT_FAILURE);
@@ -77,6 +81,7 @@ int main(int argc, char **argv)
                         quit2 = 0;
                         while (!quit2)
                         {
+                                func='\0';
                                 if (SDLNet_TCP_Recv(csd, buffer, 512) > 0)
                                 {
                                         printf("Client say: %s\n", buffer);
@@ -97,26 +102,33 @@ int main(int argc, char **argv)
  
 					{
 						case '1':                                                //mainly to setup the question list
-                                                 if (!MC_StartGame())
-						  {
+                                                 
+                                                 {
+                                                   if (!MC_StartGame())
+						   {
 						    
-						    fprintf(stderr, "\nMC_StartGame() failed!");
-						    return 0;
-						  } 
-  
-						case '2':
+						     fprintf(stderr, "\nMC_StartGame() failed!");
+						     return 0;
+						   }                                                                                  
+                                                 
+                                                   break;                                           
+                                                 } 
+						
+                                                case '2':
                                                   
                                                   {
-                                                   if (!MC_NextQuestion(fc))
-                                                   { 
-                                                     /* no more questions available - cannot create comet.  */
-                                                     return 0;
-                                                   }
+                                                    if (!MC_NextQuestion(fc))
+                                                    { 
+                                                      /* no more questions available - cannot create comet.  */
+                                                      return 0;
+                                                    }
                                                      
-                                            //      if(!SendQuestion(fc))
-                                            //       {
-      				            //          printf("Unable to send Question\n");
-     				//		     }
+                                                    if(!SendQuestion(fc))
+                                                    {
+      				                       printf("Unable to send Question\n");
+     			                            }
+                                                  
+                                                    break;
                                                   }					
 					}
 
@@ -148,8 +160,9 @@ int main(int argc, char **argv)
 }
 
 
-/*                 ********workin on this now*******
-int SendQuestion(MC_FlashCard* fc)                           //function to send a flashcard from the server to the client
+
+
+int SendQuestion(MC_FlashCard* fc)                           //function to send a flashcard(question) from the server to the client
 {
       char *ch;
 
@@ -173,11 +186,12 @@ int SendQuestion(MC_FlashCard* fc)                           //function to send 
 	       return 0;
               }
             }
-       }
-    return 1;
+        }
+      }
+      return 1;
 
 }
-*/
+
 
 
 

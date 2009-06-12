@@ -23,13 +23,17 @@
 #include "SDL_net.h"
 #include "transtruct.h"
 
+TCPsocket sd;           /* Socket descriptor */
+
 int main(int argc, char **argv)
 {
         IPaddress ip;           /* Server address */
-        TCPsocket sd;           /* Socket descriptor */
         int quit, len;
         char buffer[512];
         MC_FlashCard* fc;
+        fc = malloc(sizeof(MC_FlashCard));
+        fc->answer_string="";
+        fc->formula_string="";
      
         /* Simple parameter checking */
         if (argc < 3)
@@ -71,11 +75,11 @@ int main(int argc, char **argv)
                         fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
                         exit(EXIT_FAILURE);
                 }
-               /* if(strcmp(buffer,"b")==0)
+                if(strcmp(buffer,"b")==0)
 		{ 
-                 if(!ReceiveQuestion(fc))
+                 if(!RecvQuestion(fc))
                  printf("unable to recv question\n"); 
-                } */ 
+                }  
 
                 if(strcmp(buffer, "exit") == 0)
                         quit = 1;
@@ -88,3 +92,21 @@ int main(int argc, char **argv)
  
         return EXIT_SUCCESS;
 }
+
+int RecvQuestion(MC_FlashCard* fc)                           //function to receive a flashcard(question) by the client
+{
+      char *ch="1";
+
+
+        SDLNet_TCP_Recv(sd,fc->formula_string,4);
+	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
+	SDLNet_TCP_Recv(sd,fc->answer_string,4);
+        SDLNet_TCP_Send(sd,ch,1);
+        SDLNet_TCP_Recv(sd,&(fc->answer),4);
+        SDLNet_TCP_Send(sd,ch,1);
+        SDLNet_TCP_Recv(sd,&(fc->difficulty),4);
+        SDLNet_TCP_Send(sd,ch,1);
+       
+       return 1;
+}
+ 
