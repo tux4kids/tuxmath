@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-04-16 18:48+0200\n"
+"POT-Creation-Date: 2009-03-06 06:12-0600\n"
 "PO-Revision-Date: 2009-04-16 18:58+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -270,107 +270,107 @@ msgstr ""
 "eller «Mellomrom» for å dela han. Øydelegg brøkar som ikkje kan forenklast "
 "med eit enkeltskot."
 
-#: src/game.c:715
+#: src/game.c:717
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
 
-#: src/game.c:732
+#: src/game.c:734
 msgid "Your mission is to save your"
 msgstr "Oppdraget ditt er å redda"
 
-#: src/game.c:733
+#: src/game.c:735
 msgid "penguins' igloos from the"
 msgstr "igloane til pingvinane frå"
 
-#: src/game.c:734
+#: src/game.c:736
 msgid "falling comets."
 msgstr "kometar frå verdsrommet."
 
-#: src/game.c:753
+#: src/game.c:755
 msgid "Stop a comet by typing"
 msgstr "Du kan stoppa ein komet ved"
 
-#: src/game.c:754
+#: src/game.c:756
 msgid "the answer to the math problem"
 msgstr "å skriva inn svaret, og så"
 
-#: src/game.c:755
+#: src/game.c:757
 msgid "and hitting 'space' or 'enter'."
 msgstr "«Mellomrom» eller «Enter»."
 
-#: src/game.c:756
+#: src/game.c:758
 msgid "Try it now!"
 msgstr "Prøv det no!"
 
-#: src/game.c:764
+#: src/game.c:766
 msgid "Good shot!"
 msgstr "Bra skot!"
 
-#: src/game.c:774
+#: src/game.c:776
 msgid "If an igloo gets hit by a comet,"
 msgstr "Viss ein iglo vert treft av ein"
 
-#: src/game.c:775
+#: src/game.c:777
 msgid "it melts. But don't worry: the"
 msgstr "komet, smeltar han. Men ta det"
 
-#: src/game.c:776
+#: src/game.c:778
 msgid "penguin is OK!"
 msgstr "med ro: pingvinen klarer seg!"
 
-#: src/game.c:777
+#: src/game.c:779
 msgid "Just watch what happens:"
 msgstr "Berre sjå kva som skjer."
 
-#: src/game.c:778
+#: src/game.c:780
 msgid "(Press a key to start)"
 msgstr "(Trykk ein tast for å sjå.)"
 
-#: src/game.c:791
+#: src/game.c:793
 msgid "Notice the answer"
 msgstr "Legg merke til rett svar."
 
-#: src/game.c:801
+#: src/game.c:803
 msgid "If it gets hit again, the"
 msgstr "Viss igloen vert treft på nytt,"
 
-#: src/game.c:802
+#: src/game.c:804
 msgid "penguin leaves."
 msgstr "vandrar pingvinen vekk."
 
-#: src/game.c:803
+#: src/game.c:805
 msgid "(Press a key when ready)"
 msgstr "(Trykk ein tast når du er klar.)"
 
-#: src/game.c:822
+#: src/game.c:824
 msgid "You can fix the igloos"
 msgstr "Du kan byggja opp att igloane"
 
-#: src/game.c:823
+#: src/game.c:825
 msgid "by stopping bonus comets."
 msgstr "ved å stoppa bonuskometar."
 
-#: src/game.c:832
+#: src/game.c:834
 msgid "Zap it now!"
 msgstr "Skyt kometen no!"
 
-#: src/game.c:836
+#: src/game.c:838
 msgid "Great job!"
 msgstr "Kjempebra!"
 
-#: src/game.c:850
+#: src/game.c:852
 msgid "Quit at any time by pressing"
 msgstr "Du kan når som helst gje deg,"
 
-#: src/game.c:851
+#: src/game.c:853
 msgid "'Esc' or clicking the 'X'"
 msgstr "ved å trykkja «Escape» eller"
 
-#: src/game.c:852
+#: src/game.c:854
 msgid "in the upper right corner."
 msgstr "klikka på X-en oppe til høgre."
 
-#: src/game.c:853
+#: src/game.c:855
 msgid "Do it now, and then play!"
 msgstr "Prøv det no, og start spelet!"
 

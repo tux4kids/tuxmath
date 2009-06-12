@@ -287,6 +287,7 @@ data/sounds/Makefile
 doc/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
+server/Makefile
 src/Makefile
 intl/Makefile
 linebreak/Makefile
