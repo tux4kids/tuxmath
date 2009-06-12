@@ -21,14 +21,16 @@
 #include <string.h>
  
 #include "SDL_net.h"
- 
+#include "transtruct.h"
+
 int main(int argc, char **argv)
 {
         IPaddress ip;           /* Server address */
         TCPsocket sd;           /* Socket descriptor */
         int quit, len;
         char buffer[512];
- 
+        MC_FlashCard* fc;
+     
         /* Simple parameter checking */
         if (argc < 3)
         {
@@ -69,7 +71,12 @@ int main(int argc, char **argv)
                         fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
                         exit(EXIT_FAILURE);
                 }
- 
+               /* if(strcmp(buffer,"b")==0)
+		{ 
+                 if(!ReceiveQuestion(fc))
+                 printf("unable to recv question\n"); 
+                } */ 
+
                 if(strcmp(buffer, "exit") == 0)
                         quit = 1;
                 if(strcmp(buffer, "quit") == 0)

@@ -22,8 +22,9 @@
 #include <math.h>
 #include <time.h>
 
-#include "mathcards.h"
 
+#include "transtruct.h"
+#include "mathcards.h"
 
 /* extern'd constants */
 

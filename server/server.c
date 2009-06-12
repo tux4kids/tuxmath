@@ -21,13 +21,20 @@
 #include <string.h>
  
 #include "SDL_net.h"
+#include "transtruct.h"
+#include "mathcards.h"
  
+
+TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
+
 int main(int argc, char **argv)
 {
-        TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
+       
         IPaddress ip, *remoteIP;
         int quit, quit2;
         char buffer[512];
+        char func;
+        MC_FlashCard* fc;
  
         if (SDLNet_Init() < 0)
         {
@@ -36,7 +43,7 @@ int main(int argc, char **argv)
         }
  
         /* Resolving the host using NULL make network interface to listen */
-        if (SDLNet_ResolveHost(&ip, NULL, 2000) < 0)
+        if (SDLNet_ResolveHost(&ip, NULL, 2740) < 0)
         {
                 fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
                 exit(EXIT_FAILURE);
@@ -73,8 +80,49 @@ int main(int argc, char **argv)
                                 if (SDLNet_TCP_Recv(csd, buffer, 512) > 0)
                                 {
                                         printf("Client say: %s\n", buffer);
+                                        
+                                        //'a' for the setting up the question list                                           
+                                        if(strcmp(buffer,"a")==0)
+                                        {
+                                           func='1';              
+					} 
+                                       
+					//'b' for asking for a question(flashcard)
+                                        if(strcmp(buffer,"b")==0)
+                                        {
+                                           func='2';              
+					} 
  
-                                        if(strcmp(buffer, "exit") == 0) /* Terminate this connection */
+					switch(func)
+ 
+					{
+						case '1':                                                //mainly to setup the question list
+                                                 if (!MC_StartGame())
+						  {
+						    
+						    fprintf(stderr, "\nMC_StartGame() failed!");
+						    return 0;
+						  } 
+  
+						case '2':
+                                                  
+                                                  {
+                                                   if (!MC_NextQuestion(fc))
+                                                   { 
+                                                     /* no more questions available - cannot create comet.  */
+                                                     return 0;
+                                                   }
+                                                     
+                                            //      if(!SendQuestion(fc))
+                                            //       {
+      				            //          printf("Unable to send Question\n");
+     				//		     }
+                                                  }					
+					}
+
+
+
+                                       if(strcmp(buffer, "exit") == 0) /* Terminate this connection */
                                         {
                                                 quit2 = 1;
                                                 printf("Terminate connection\n");
@@ -98,3 +146,40 @@ int main(int argc, char **argv)
  
         return EXIT_SUCCESS;
 }
+
+
+/*                 ********workin on this now*******
+int SendQuestion(MC_FlashCard* fc)                           //function to send a flashcard from the server to the client
+{
+      char *ch;
+
+
+      SDLNet_TCP_Send(csd,fc->formula_string,4);
+      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
+      if(*ch=='1')
+      {
+       SDLNet_TCP_Send(csd,fc->answer_string,4);
+       SDLNet_TCP_Recv(csd,ch,1);
+        if(*ch=='1')
+        { 
+         SDLNet_TCP_Send(csd,&(fc->answer),4);
+	 SDLNet_TCP_Recv(csd,ch,1);
+          if(*ch=='1')
+           {
+            SDLNet_TCP_Send(csd,&(fc->difficulty),4);
+            SDLNet_TCP_Recv(csd,ch,1);
+             if(*ch=='1')
+              {		
+	       return 0;
+              }
+            }
+       }
+    return 1;
+
+}
+*/
+
+
+
+
+

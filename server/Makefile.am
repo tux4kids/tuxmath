@@ -3,7 +3,7 @@
 
 bin_PROGRAMS = tuxmathserver tuxmathtestclient
 
-tuxmathserver_SOURCES = server.c mathcards.c
+tuxmathserver_SOURCES = server.c mathcards.c 
 tuxmathtestclient_SOURCES = testclient.c
 
 EXTRA_DIST = mathcards.h
