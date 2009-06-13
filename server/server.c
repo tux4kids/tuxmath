@@ -194,28 +194,31 @@ int main(int argc, char **argv)
 int SendQuestion(MC_FlashCard* fc)                           //function to send a flashcard(question) from the server to the client
 {
       char *ch;
+      int x;
 
-
-      SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string));
-
-       printf("%d\n",strlen(fc->formula_string));
+     x=SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
+       printf("no:(1):::::::Sent %d bytes\n",x);
 //      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
 //     if(*ch=='1')
 //      {
-       SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string));
-        
-       printf("%d\n",strlen(fc->answer_string));
+        x=SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
+
+       printf("no:(2):::::::Sent %d bytes\n",x);
 //       SDLNet_TCP_Recv(csd,ch,1);
 //        if(*ch=='1')
 //        { 
-         SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
 
-       printf("%d\n",sizeof(fc->answer));
+       x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string));
+        
+       printf("no:(3):::::::Sent %d bytes\n",x);
+
 //	 SDLNet_TCP_Recv(csd,ch,1);
 //          if(*ch=='1')
 //           {
-            SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
-       printf("%d\n",sizeof(fc->difficulty));
+      x=SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string));
+
+       printf("no:(4):::::::Sent %d bytes\n",x);
+    
 
 //            SDLNet_TCP_Recv(csd,ch,1);
 //             if(*ch=='1')

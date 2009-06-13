@@ -114,27 +114,33 @@ int main(int argc, char **argv)
 int RecvQuestion(MC_FlashCard* fc)                           //function to receive a flashcard(question) by the client
 {
       char *ch="1";
+      int x;
 
-
-        SDLNet_TCP_Recv(sd,fc->formula_string,strlen(fc->formula_string)+1);
-       
-       printf("%d\n",strlen(fc->formula_string));
-        printf("RECEIVED >>          %s\n",fc->formula_string);  
-//	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
-	SDLNet_TCP_Recv(sd,fc->answer_string,strlen(fc->answer_string)+1);      
-       
-       printf("%d\n",strlen(fc->answer_string));
-        printf("RECEIVED >>          %s\n",fc->answer_string);  
-//        SDLNet_TCP_Send(sd,ch,1);
-        SDLNet_TCP_Recv(sd,&(fc->answer),sizeof(fc->answer));
-        
-       printf("%d\n",sizeof(fc->answer));
-         printf("RECEIVED >>          %d\n",fc->answer);  
-//        SDLNet_TCP_Send(sd,ch,1);
-        SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
-       printf("%d\n",sizeof(fc->difficulty));
+x=SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
+       printf("no:(1):::::::Received %d bytes\n",x);
         printf("RECEIVED >>          %d\n",fc->difficulty);  
+
+       //	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
+        x=SDLNet_TCP_Recv(sd,&(fc->answer),sizeof(fc->answer));
+        
+       printf("no:(2):::::::Received %d bytes\n",x);
+         printf("RECEIVED >>          %d\n",fc->answer);  
+
+
 //        SDLNet_TCP_Send(sd,ch,1);
+
+	x=SDLNet_TCP_Recv(sd,fc->answer_string,1);      
+       
+       printf("no:(3):::::::Received %d bytes\n",x);
+        printf("RECEIVED >>          %s\n",fc->answer_string);  
+
+//        SDLNet_TCP_Send(sd,ch,1);
+x=SDLNet_TCP_Recv(sd,fc->formula_string,strlen(fc->formula_string)+1);
+       
+       printf("no:(4):::::::Received %d bytes\n",x);
+        printf("RECEIVED >>          %s\n",fc->formula_string);  
+       
+ //        SDLNet_TCP_Send(sd,ch,1);
        
        return 1;
 }
