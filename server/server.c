@@ -208,14 +208,14 @@ int SendQuestion(MC_FlashCard* fc)                           //function to send 
 //        if(*ch=='1')
 //        { 
 
-       x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string));
+       x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string)+1);
         
        printf("no:(3):::::::Sent %d bytes\n",x);
 
 //	 SDLNet_TCP_Recv(csd,ch,1);
 //          if(*ch=='1')
 //           {
-      x=SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string));
+      x=SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string)+1);
 
        printf("no:(4):::::::Sent %d bytes\n",x);
     

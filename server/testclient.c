@@ -113,8 +113,8 @@ int main(int argc, char **argv)
 
 int RecvQuestion(MC_FlashCard* fc)                           //function to receive a flashcard(question) by the client
 {
-      char *ch="1";
-      int x;
+      char ch[5];
+      int x,i=0;
 
 x=SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
        printf("no:(1):::::::Received %d bytes\n",x);
@@ -128,14 +128,16 @@ x=SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
 
 
 //        SDLNet_TCP_Send(sd,ch,1);
-
-	x=SDLNet_TCP_Recv(sd,fc->answer_string,1);      
-       
-       printf("no:(3):::::::Received %d bytes\n",x);
+       do{
+	x=SDLNet_TCP_Recv(sd,&ch[i],1);      
+       printf("<<<%d>>>no:(3):::::::Received %d bytes\n",i,x);
+       i++;
+       }while(ch[i-1]!='\0');
+       strncpy(fc->answer_string,ch,i+1);
         printf("RECEIVED >>          %s\n",fc->answer_string);  
 
 //        SDLNet_TCP_Send(sd,ch,1);
-x=SDLNet_TCP_Recv(sd,fc->formula_string,strlen(fc->formula_string)+1);
+x=SDLNet_TCP_Recv(sd,fc->formula_string,13);
        
        printf("no:(4):::::::Received %d bytes\n",x);
         printf("RECEIVED >>          %s\n",fc->formula_string);  
