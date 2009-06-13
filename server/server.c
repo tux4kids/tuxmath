@@ -35,6 +35,7 @@ int main(int argc, char **argv)
         char buffer[512];
         char func;
         MC_FlashCard* fc;
+   //     size_t length;
 
         
         if (SDLNet_Init() < 0)
@@ -44,7 +45,7 @@ int main(int argc, char **argv)
         }
  
         /* Resolving the host using NULL make network interface to listen */
-        if (SDLNet_ResolveHost(&ip, NULL, 4767) < 0)
+        if (SDLNet_ResolveHost(&ip, NULL, 4778) < 0)
         {
                 fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
                 exit(EXIT_FAILURE);
@@ -195,27 +196,35 @@ int SendQuestion(MC_FlashCard* fc)                           //function to send 
       char *ch;
 
 
-      SDLNet_TCP_Send(csd,fc->formula_string,4);
-      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
-      if(*ch=='1')
-      {
-       SDLNet_TCP_Send(csd,fc->answer_string,4);
-       SDLNet_TCP_Recv(csd,ch,1);
-        if(*ch=='1')
-        { 
-         SDLNet_TCP_Send(csd,&(fc->answer),4);
-	 SDLNet_TCP_Recv(csd,ch,1);
-          if(*ch=='1')
-           {
-            SDLNet_TCP_Send(csd,&(fc->difficulty),4);
-            SDLNet_TCP_Recv(csd,ch,1);
-             if(*ch=='1')
-              {		
-	       return 0;
-              }
-            }
-        }
-      }
+      SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string));
+
+       printf("%d\n",strlen(fc->formula_string));
+//      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
+//     if(*ch=='1')
+//      {
+       SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string));
+        
+       printf("%d\n",strlen(fc->answer_string));
+//       SDLNet_TCP_Recv(csd,ch,1);
+//        if(*ch=='1')
+//        { 
+         SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
+
+       printf("%d\n",sizeof(fc->answer));
+//	 SDLNet_TCP_Recv(csd,ch,1);
+//          if(*ch=='1')
+//           {
+            SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
+       printf("%d\n",sizeof(fc->difficulty));
+
+//            SDLNet_TCP_Recv(csd,ch,1);
+//             if(*ch=='1')
+//              {		
+//	       return 0;
+//              }
+//            }
+//        }
+//      }
       return 1;
 
 }

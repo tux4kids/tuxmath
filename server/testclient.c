@@ -22,6 +22,8 @@
  
 #include "SDL_net.h"
 #include "transtruct.h"
+#include "mathcards.h"
+#include "mathcards.c"
 
 TCPsocket sd;           /* Socket descriptor */
 
@@ -31,10 +33,7 @@ int main(int argc, char **argv)
         int quit, len;
         char buffer[512];
         MC_FlashCard* fc;
-        fc = malloc(sizeof(MC_FlashCard));
-        fc->answer_string="";
-        fc->formula_string="";
-     
+      
         /* Simple parameter checking */
         if (argc < 3)
         {
@@ -77,6 +76,25 @@ int main(int argc, char **argv)
                 }
                 if(strcmp(buffer,"b")==0)
 		{ 
+                  fc = (MC_FlashCard *)malloc(sizeof(MC_FlashCard));
+        
+                                                    if (fc == NULL) 
+            						{
+						             printf("Allocation of comets failed");
+						             return 0;
+					                }
+         
+					           else 
+					                {
+    						            *fc = MC_AllocateFlashcard();
+						            if (!MC_FlashCardGood(fc) ) 
+						             {
+						              //something's wrong
+						              printf("Allocation of flashcard failed\n");
+						              MC_FreeFlashcard(fc);
+						              return 0;
+						             }
+					                }
                  if(!RecvQuestion(fc))
                  printf("unable to recv question\n"); 
                 }  
@@ -98,16 +116,29 @@ int RecvQuestion(MC_FlashCard* fc)                           //function to recei
       char *ch="1";
 
 
-        SDLNet_TCP_Recv(sd,fc->formula_string,4);
+        SDLNet_TCP_Recv(sd,fc->formula_string,strlen(fc->formula_string)+1);
+       
+       printf("%d\n",strlen(fc->formula_string));
         printf("RECEIVED >>          %s\n",fc->formula_string);  
-	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
-	SDLNet_TCP_Recv(sd,fc->answer_string,4);
-        SDLNet_TCP_Send(sd,ch,1);
-        SDLNet_TCP_Recv(sd,&(fc->answer),4);
-        SDLNet_TCP_Send(sd,ch,1);
-        SDLNet_TCP_Recv(sd,&(fc->difficulty),4);
-        SDLNet_TCP_Send(sd,ch,1);
+//	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
+	SDLNet_TCP_Recv(sd,fc->answer_string,strlen(fc->answer_string)+1);      
+       
+       printf("%d\n",strlen(fc->answer_string));
+        printf("RECEIVED >>          %s\n",fc->answer_string);  
+//        SDLNet_TCP_Send(sd,ch,1);
+        SDLNet_TCP_Recv(sd,&(fc->answer),sizeof(fc->answer));
+        
+       printf("%d\n",sizeof(fc->answer));
+         printf("RECEIVED >>          %d\n",fc->answer);  
+//        SDLNet_TCP_Send(sd,ch,1);
+        SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
+       printf("%d\n",sizeof(fc->difficulty));
+        printf("RECEIVED >>          %d\n",fc->difficulty);  
+//        SDLNet_TCP_Send(sd,ch,1);
        
        return 1;
 }
+
+
+
  
