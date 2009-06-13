@@ -99,6 +99,7 @@ int RecvQuestion(MC_FlashCard* fc)                           //function to recei
 
 
         SDLNet_TCP_Recv(sd,fc->formula_string,4);
+        printf("RECEIVED >>          %s\n",fc->formula_string);  
 	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
 	SDLNet_TCP_Recv(sd,fc->answer_string,4);
         SDLNet_TCP_Send(sd,ch,1);

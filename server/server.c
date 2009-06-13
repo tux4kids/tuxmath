@@ -44,7 +44,7 @@ int main(int argc, char **argv)
         }
  
         /* Resolving the host using NULL make network interface to listen */
-        if (SDLNet_ResolveHost(&ip, NULL, 2940) < 0)
+        if (SDLNet_ResolveHost(&ip, NULL, 4767) < 0)
         {
                 fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
                 exit(EXIT_FAILURE);
@@ -134,19 +134,23 @@ int main(int argc, char **argv)
 						              return 0;
 						             }
 					                }
-					          fc->answer_string="";
-					          fc->formula_string="";
+					    //      fc->answer_string="";
+					    //      fc->formula_string="";
  
-
-                                                      
-
-
+						    
                                                     if (!MC_NextQuestion(fc))
                                                     { 
                                                       /* no more questions available - cannot create comet.  */
                                                       return 0;
                                                     }
                                                      
+                                                    printf("WILL SEND >>          %s\n",fc->formula_string);
+                                                    printf("          %s\n",fc->answer_string);
+						    printf("          %d\n",fc->answer);
+  						    printf("          %d\n",fc->difficulty);
+
+
+
                                                     if(!SendQuestion(fc))
                                                     {
       				                       printf("Unable to send Question\n");
