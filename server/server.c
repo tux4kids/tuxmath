@@ -28,7 +28,7 @@
 TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
 
 int main(int argc, char **argv)
-{
+{ 
        
         IPaddress ip, *remoteIP;
         int quit, quit2;
@@ -36,10 +36,7 @@ int main(int argc, char **argv)
         char func;
         MC_FlashCard* fc;
 
-        fc = malloc(sizeof(MC_FlashCard));
-        fc->answer_string="";
-        fc->formula_string="";
- 
+        
         if (SDLNet_Init() < 0)
         {
                 fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
@@ -47,7 +44,7 @@ int main(int argc, char **argv)
         }
  
         /* Resolving the host using NULL make network interface to listen */
-        if (SDLNet_ResolveHost(&ip, NULL, 2950) < 0)
+        if (SDLNet_ResolveHost(&ip, NULL, 2940) < 0)
         {
                 fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
                 exit(EXIT_FAILURE);
@@ -117,6 +114,33 @@ int main(int argc, char **argv)
                                                 case '2':
                                                   
                                                   {
+
+                                                   fc = (MC_FlashCard *)malloc(sizeof(MC_FlashCard));
+        
+                                                    if (fc == NULL) 
+            						{
+						             printf("Allocation of comets failed");
+						             return 0;
+					                }
+         
+					           else 
+					                {
+    						            *fc = MC_AllocateFlashcard();
+						            if (!MC_FlashCardGood(fc) ) 
+						             {
+						              //something's wrong
+						              printf("Allocation of flashcard failed\n");
+						              MC_FreeFlashcard(fc);
+						              return 0;
+						             }
+					                }
+					          fc->answer_string="";
+					          fc->formula_string="";
+ 
+
+                                                      
+
+
                                                     if (!MC_NextQuestion(fc))
                                                     { 
                                                       /* no more questions available - cannot create comet.  */

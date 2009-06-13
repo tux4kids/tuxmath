@@ -1447,7 +1447,7 @@ void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
     return;
   mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
   mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
-  strncpy(dest->formula_string, src->formula_string, max_formula_size);
+  strncpy(dest->formula_string, src->formula_string, 1);
   strncpy(dest->answer_string, src->answer_string, max_answer_size);
   mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
   dest->answer = src->answer;
