@@ -23,7 +23,7 @@
 #include "SDL_net.h"
 #include "transtruct.h"
 #include "mathcards.h"
- 
+#include "server.h" 
 
 TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
 
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
         IPaddress ip, *remoteIP;
         int quit, quit2;
         char buffer[512];
-        char func;
+        int network_function=0;
         MC_FlashCard* fc;
    //     size_t length;
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
                         quit2 = 0;
                         while (!quit2)
                         {
-                                func='\0';
+                                
                                 if (SDLNet_TCP_Recv(csd, buffer, 512) > 0)
                                 {
                                         printf("Client say: %s\n", buffer);
@@ -87,19 +87,19 @@ int main(int argc, char **argv)
                                         //'a' for the setting up the question list                                           
                                         if(strcmp(buffer,"a")==0)
                                         {
-                                           func='1';              
+                                           network_function=SETUP_QUESTION_LIST;              
 					} 
                                        
 					//'b' for asking for a question(flashcard)
                                         if(strcmp(buffer,"b")==0)
                                         {
-                                           func='2';              
+                                           network_function=SEND_A_QUESTION;              
 					} 
  
-					switch(func)
+					switch(network_function)
  
 					{
-						case '1':                                                //mainly to setup the question list
+						case SETUP_QUESTION_LIST:                                                //mainly to setup the question list
                                                  
                                                  {
                                                    if (!MC_StartGame())
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
                                                    break;                                           
                                                  } 
 						
-                                                case '2':
+                                                case SEND_A_QUESTION:
                                                   
                                                   {
 
