@@ -1184,7 +1184,8 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():");
-  printf("formula_string = %s\nanswer_string = %s\ndifficulty = %d\n\n",
+  printf("question_id=%d\nformula_string = %s\nanswer_string = %s\ndifficulty = %d\n\n",
+         card.question_id,
          card.formula_string,
          card.answer_string,
          card.difficulty);
@@ -1452,6 +1453,7 @@ void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
   mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
   dest->answer = src->answer;
   dest->difficulty = src->difficulty;
+  dest->question_id = src->question_id;
 }
 
 void free_node(MC_MathQuestion* mq) //no, not that freenode.
@@ -1491,9 +1493,11 @@ MC_FlashCard generate_random_flashcard(void)
   int length;
   MC_ProblemType pt;
   MC_FlashCard ret;
+  static int generate_random_flashcard_id=0;
 
+  generate_random_flashcard_id+=1;
   mcdprintf("Entering generate_random_flashcard()\n");
-
+  printf("%d\n",generate_random_flashcard_id);
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -1514,6 +1518,7 @@ MC_FlashCard generate_random_flashcard(void)
     snprintf(ret.answer_string, max_answer_size, "%d", num);
     ret.answer = num;
     ret.difficulty = 10;
+    ret.question_id=generate_random_flashcard_id;
   }
   else //if (pt == MC_PT_ARITHMETIC)
   {
@@ -1552,7 +1557,9 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   char tempstr[max_formula_size];
   MC_FlashCard ret;
   MC_Operation op;
+  static int id=0;
 
+  id+=1;
   printf(".");
   if (length > MAX_FORMULA_NUMS)
     return DEFAULT_CARD;
@@ -1714,6 +1721,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
     reformat_arithmetic(&ret, format );     
   }
+  ret.question_id=id;
   return ret;
 }
 

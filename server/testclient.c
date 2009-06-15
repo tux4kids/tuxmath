@@ -116,33 +116,31 @@ int RecvQuestion(MC_FlashCard* fc)                           //function to recei
        char ch[5];
        int x,i=0;
 
-       x=SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
-       printf("no:(1):::DIFFICULTY::::Received %d bytes\n",x);
+       x=SDLNet_TCP_Recv(sd,&(fc->question_id),sizeof(fc->question_id));
+       printf("no:(1):::QUESTION_ID::::Received %d bytes\n",x);
  
-       //	SDLNet_TCP_Send(sd,ch,1); 		                  // send a conformation that the 1st item has been received				
+       x=SDLNet_TCP_Recv(sd,&(fc->difficulty),sizeof(fc->difficulty));
+       printf("no:(2):::DIFFICULTY::::Received %d bytes\n",x);
+ 
        x=SDLNet_TCP_Recv(sd,&(fc->answer),sizeof(fc->answer));
-       printf("no:(2):::ANSWER::::Received %d bytes\n",x);
+       printf("no:(3):::ANSWER::::Received %d bytes\n",x);
 
-
-//        SDLNet_TCP_Send(sd,ch,1);
        do{
-	x=SDLNet_TCP_Recv(sd,&ch[i],1);      
-       printf("<<<SUB-PACKET%d>>>no:(3):::ANSWER_STRING::::Received %d bytes\n",i,x);
+       x=SDLNet_TCP_Recv(sd,&ch[i],1);      
+       printf("<<<SUB-PACKET%d>>>no:(4):::ANSWER_STRING::::Received %d bytes\n",i,x);
        i++;
        }while(ch[i-1]!='\0');
        strncpy(fc->answer_string,ch,i+1);
 
-//        SDLNet_TCP_Send(sd,ch,1);
        x=SDLNet_TCP_Recv(sd,fc->formula_string,13);
-       printf("no:(4):::FORMULA_STRING::::Received %d bytes\n",x);
+       printf("no:(5):::FORMULA_STRING::::Received %d bytes\n",x);
        
        printf("RECEIVED >>\n");
-       printf("DIFFICULTY     >>          %d\n",fc->difficulty);  
-       printf("ANSWER         >>          %d\n",fc->answer);  
-       printf("ANSWER_STRING  >>          %s\n",fc->answer_string);  
+       printf("QUESTION_ID    >>          %d\n",fc->question_id);  
        printf("FORMULA_STRING >>          %s\n",fc->formula_string);  
-       
- //        SDLNet_TCP_Send(sd,ch,1);
+       printf("ANSWER_STRING  >>          %s\n",fc->answer_string);  
+       printf("ANSWER         >>          %d\n",fc->answer);  
+       printf("DIFFICULTY     >>          %d\n",fc->difficulty);  
        
        return 1;
 }

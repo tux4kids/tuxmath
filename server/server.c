@@ -146,7 +146,9 @@ int main(int argc, char **argv)
                                                       return 0;
                                                     }
                                                    
-						     printf("WILL SEND >>\n");  
+						    printf("WILL SEND >>\n");  
+                                                    
+						    printf("QUESTION_ID       :      %d\n",fc->question_id);
                                                     printf("FORMULA_STRING    :      %s\n",fc->formula_string);
                                                     printf("ANSWER STRING     :      %s\n",fc->answer_string);
 						    printf("ANSWER            :      %d\n",fc->answer);
@@ -202,38 +204,21 @@ int SendQuestion(MC_FlashCard* fc)                           //function to send 
       char *ch;
       int x;
 
-     x=SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
-       printf("no:(1):::DIFFICULTY::::Sent %d bytes\n",x);
-//      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
-//     if(*ch=='1')
-//      {
-        x=SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
+      x=SDLNet_TCP_Send(csd,&(fc->question_id),sizeof(fc->question_id));
+      printf("no:(1):::QUESTION_ID::::Sent %d bytes\n",x);
+      
+      x=SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
+      printf("no:(2):::DIFFICULTY::::Sent %d bytes\n",x);
 
-       printf("no:(2)::::ANSWER:::Sent %d bytes\n",x);
-//       SDLNet_TCP_Recv(csd,ch,1);
-//        if(*ch=='1')
-//        { 
+      x=SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
+      printf("no:(3)::::ANSWER:::Sent %d bytes\n",x);
 
-       x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string)+1);
-        
-       printf("no:(3):::ANSWER_STRING::::Sent %d bytes\n",x);
+      x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string)+1);
+      printf("no:(4):::ANSWER_STRING::::Sent %d bytes\n",x);
 
-//	 SDLNet_TCP_Recv(csd,ch,1);
-//          if(*ch=='1')
-//           {
       x=SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string)+1);
-
-       printf("no:(4):::FORMULA_STRING::::Sent %d bytes\n",x);
+      printf("no:(5):::FORMULA_STRING::::Sent %d bytes\n",x);
     
-
-//            SDLNet_TCP_Recv(csd,ch,1);
-//             if(*ch=='1')
-//              {		
-//	       return 0;
-//              }
-//            }
-//        }
-//      }
       return 1;
 
 }

@@ -33,6 +33,7 @@ typedef struct MC_FlashCard {
 typedef struct _MC_FlashCard {
   char* formula_string;
   char* answer_string;
+  int question_id;
   int answer;
   int difficulty;
 } MC_FlashCard;
