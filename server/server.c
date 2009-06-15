@@ -33,7 +33,7 @@ int main(int argc, char **argv)
         IPaddress ip, *remoteIP;
         int quit, quit2;
         char buffer[512];
-        int network_function=0;
+        int network_function=-1;
         MC_FlashCard* fc;
    //     size_t length;
 
