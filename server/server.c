@@ -82,6 +82,7 @@ int main(int argc, char **argv)
                                 
                                 if (SDLNet_TCP_Recv(csd, buffer, 512) > 0)
                                 {
+                                        network_function = -1;
                                         printf("Client say: %s\n", buffer);
                                         
                                         //'a' for the setting up the question list                                           
@@ -144,11 +145,12 @@ int main(int argc, char **argv)
                                                       /* no more questions available - cannot create comet.  */
                                                       return 0;
                                                     }
-                                                     
-                                                    printf("WILL SEND >>          %s\n",fc->formula_string);
-                                                    printf("          %s\n",fc->answer_string);
-						    printf("          %d\n",fc->answer);
-  						    printf("          %d\n",fc->difficulty);
+                                                   
+						     printf("WILL SEND >>\n");  
+                                                    printf("FORMULA_STRING    :      %s\n",fc->formula_string);
+                                                    printf("ANSWER STRING     :      %s\n",fc->answer_string);
+						    printf("ANSWER            :      %d\n",fc->answer);
+  						    printf("DIFFICULTY        :      %d\n",fc->difficulty);
 
 
 
@@ -158,7 +160,11 @@ int main(int argc, char **argv)
      			                            }
                                                   
                                                     break;
-                                                  }					
+                                                  }	
+                                                  
+        
+						  default:
+                                                  break;				
 					}
 
 
@@ -197,27 +203,27 @@ int SendQuestion(MC_FlashCard* fc)                           //function to send 
       int x;
 
      x=SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
-       printf("no:(1):::::::Sent %d bytes\n",x);
+       printf("no:(1):::DIFFICULTY::::Sent %d bytes\n",x);
 //      SDLNet_TCP_Recv(csd,ch,1);                                     //will send in the next item only when the first one is receive
 //     if(*ch=='1')
 //      {
         x=SDLNet_TCP_Send(csd,&(fc->answer),sizeof(fc->answer));
 
-       printf("no:(2):::::::Sent %d bytes\n",x);
+       printf("no:(2)::::ANSWER:::Sent %d bytes\n",x);
 //       SDLNet_TCP_Recv(csd,ch,1);
 //        if(*ch=='1')
 //        { 
 
        x=SDLNet_TCP_Send(csd,fc->answer_string,strlen(fc->answer_string)+1);
         
-       printf("no:(3):::::::Sent %d bytes\n",x);
+       printf("no:(3):::ANSWER_STRING::::Sent %d bytes\n",x);
 
 //	 SDLNet_TCP_Recv(csd,ch,1);
 //          if(*ch=='1')
 //           {
       x=SDLNet_TCP_Send(csd,fc->formula_string,strlen(fc->formula_string)+1);
 
-       printf("no:(4):::::::Sent %d bytes\n",x);
+       printf("no:(4):::FORMULA_STRING::::Sent %d bytes\n",x);
     
 
 //            SDLNet_TCP_Recv(csd,ch,1);
