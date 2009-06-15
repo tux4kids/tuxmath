@@ -423,19 +423,19 @@ void SwitchScreenMode(void)
 
   if (!window)
   {
-    screen = SDL_SetVideoMode(fs_res_x,
-                              fs_res_y,
-                              PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
+    RES_X = fs_res_x;
+    RES_Y = fs_res_y;
   }
   else
   {
-    screen = SDL_SetVideoMode(640,
-                              480,
-                              PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE);
-
+    RES_X = 640;
+    RES_Y = 480;
   }
+
+  screen = SDL_SetVideoMode(RES_X,
+                            RES_Y,
+                            PIXEL_BITS,
+                            screen->flags ^ SDL_FULLSCREEN);
 
   if (screen == NULL)
   {
@@ -446,21 +446,14 @@ void SwitchScreenMode(void)
             window ? "windowed" : "fullscreen",
             SDL_GetError());
     screen = oldscreen;
+    RES_X = screen->w;
+    RES_Y = screen->h;
   }
   else
   {
-    SDL_FreeSurface(oldscreen);
+    //success, no need to free the old video surface
+    DEBUGMSG(debug_sdl, "Switched screen mode to %s\n", window ? "windowed" : "fullscreen");
     oldscreen = NULL;
-    if(!window)
-    {
-      RES_X = fs_res_x;
-      RES_Y = fs_res_y;
-    }
-    else
-    {
-      RES_X = 640;
-      RES_Y = 480;
-    }
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
 
