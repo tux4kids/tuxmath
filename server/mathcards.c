@@ -201,7 +201,7 @@ float* time_per_question_list = NULL;
 int length_time_per_question_list = 0;
 int length_alloc_time_per_question_list = 0;
 
-const MC_FlashCard DEFAULT_CARD = {NULL,NULL,0,0}; //empty card to signal error
+const MC_FlashCard DEFAULT_CARD = {0,0,0,0}; //empty card to signal error
 
 /* "private" function prototypes:                        */
 /*                                                       */
@@ -1870,36 +1870,41 @@ static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
 MC_FlashCard MC_AllocateFlashcard(void)
 {
   MC_FlashCard ret;
-  mcdprintf("Allocating %d + %d bytes for flashcard\n",
-            max_formula_size + 1, max_answer_size + 1);
-  ret.formula_string = malloc( (max_formula_size + 1) * sizeof(char));
-  ret.answer_string = malloc( (max_answer_size + 1) * sizeof(char));
-  if (!ret.formula_string || !ret.answer_string)
-    {
-    free(ret.formula_string);
-    free(ret.answer_string);
-    printf("Couldn't allocate space for a new flashcard!\n");
-    ret = DEFAULT_CARD;
-    }
+
+//NOTE strings now simply hard-coded to MC_FORMULA_LEN (= 40) and
+//MC_ANSWER_LEN (= 5) instead of tailoring them to save a few bytes - DSB
+//  mcdprintf("Allocating %d + %d bytes for flashcard\n",
+//            max_formula_size + 1, max_answer_size + 1);
+//  ret.formula_string = malloc( (max_formula_size + 1) * sizeof(char));
+//  ret.answer_string = malloc( (max_answer_size + 1) * sizeof(char));
+//   if (!ret.formula_string || !ret.answer_string)
+//     {
+//     free(ret.formula_string);
+//     free(ret.answer_string);
+//     printf("Couldn't allocate space for a new flashcard!\n");
+//     ret = DEFAULT_CARD;
+//     }
   return ret;
 }
 
+//Now a no-op - MC_FlashCard no longer has dynamically allocated strings
 void MC_FreeFlashcard(MC_FlashCard* fc)
 {
-  if (!fc)
-    return;
-//  mcdprintf("Freeing formula_string\n");
-  if (fc->formula_string)
-  {
-    free(fc->formula_string);
-    fc->formula_string = NULL;
-  }
-//  mcdprintf("Freeing answer_string\n");
-  if (fc->answer_string)
-  {
-    free(fc->answer_string);
-    fc->answer_string = NULL;
-  }
+  return;
+//   if (!fc)
+//     return;
+// //  mcdprintf("Freeing formula_string\n");
+//   if (fc->formula_string)
+//   {
+//     free(fc->formula_string);
+//     fc->formula_string = NULL;
+//   }
+// //  mcdprintf("Freeing answer_string\n");
+//   if (fc->answer_string)
+//   {
+//     free(fc->answer_string);
+//     fc->answer_string = NULL;
+//   }
 }
 
 unsigned int MC_MapTextToIndex(const char* text)

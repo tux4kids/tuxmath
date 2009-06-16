@@ -31,10 +31,10 @@ int main(int argc, char **argv)
 { 
   IPaddress ip, *remoteIP;
   int quit, quit2;
-  char buffer[512];
+  char buffer[NET_BUF_LEN];
   int network_function = -1;
-  MC_FlashCard* fc;
   //     size_t length;
+  MC_FlashCard flash;
 
         
   if (SDLNet_Init() < 0)
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
   }
  
   /* Resolving the host using NULL make network interface to listen */
-  if (SDLNet_ResolveHost(&ip, NULL, 4778) < 0)
+  if (SDLNet_ResolveHost(&ip, NULL, DEFAULT_PORT) < 0)
   {
     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
       quit2 = 0;
       while (!quit2)
       {
-        if (SDLNet_TCP_Recv(csd, buffer, 512) > 0)
+        if (SDLNet_TCP_Recv(csd, buffer, NET_BUF_LEN) > 0)
         {
           network_function = -1;
           printf("Client say: %s\n", buffer);
@@ -96,7 +96,20 @@ int main(int argc, char **argv)
           {
             network_function = SEND_A_QUESTION;              
           } 
- 
+
+          if(strcmp(buffer, "exit") == 0) /* Terminate this connection */
+          {
+            quit2 = 1;
+            printf("Terminate connection\n");
+          }
+
+          if(strcmp(buffer, "quit") == 0) /* Quit the program */
+          {
+            quit2 = 1;
+            quit = 1;
+            printf("Quit program\n");
+          }
+
           switch(network_function)
           {
             case SETUP_QUESTION_LIST:  //mainly to setup the question list
@@ -112,63 +125,33 @@ int main(int argc, char **argv)
 
             case SEND_A_QUESTION:
             {
-              fc = (MC_FlashCard *)malloc(sizeof(MC_FlashCard));
-              if (fc == NULL) 
-              {
-                printf("Allocation of comets failed");
-                return 0;
-              }
-              else 
-              {
-                *fc = MC_AllocateFlashcard();
-                if (!MC_FlashCardGood(fc) ) 
-                {
-                  //something's wrong
-                  printf("Allocation of flashcard failed\n");
-                  MC_FreeFlashcard(fc);
-                  return 0;
-                }
-              }
-              //      fc->answer_string="";
-              //      fc->formula_string="";
- 
-              if (!MC_NextQuestion(fc))
+              if (!MC_NextQuestion(&flash))
               { 
-                /* no more questions available - cannot create comet.  */
-                return 0;
+                /* no more questions available */
+                printf("MC_NextQuestion() returned NULL - no questions available\n");
               }
-                                                   
-              printf("WILL SEND >>\n");  
-              printf("QUESTION_ID       :      %d\n", fc->question_id);
-              printf("FORMULA_STRING    :      %s\n", fc->formula_string);
-              printf("ANSWER STRING     :      %s\n", fc->answer_string);
-              printf("ANSWER            :      %d\n",fc->answer);
-              printf("DIFFICULTY        :      %d\n",fc->difficulty);
+              else
+              {                                     
+                printf("WILL SEND >>\n");  
+                printf("QUESTION_ID       :      %d\n", flash.question_id);
+                printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+                printf("ANSWER STRING     :      %s\n", flash.answer_string);
+                printf("ANSWER            :      %d\n",flash.answer);
+                printf("DIFFICULTY        :      %d\n",flash.difficulty);
 
-              if(!SendQuestion(fc))
-              {
-                printf("Unable to send Question\n");
-              }
-                                                 
+                if(!SendQuestion(flash))
+                {
+                  printf("Unable to send Question\n");
+                }
+              } 
+
               break;
-            }                             
+            } 
         
             default:
               break;
           }
 
-          if(strcmp(buffer, "exit") == 0) /* Terminate this connection */
-          {
-            quit2 = 1;
-            printf("Terminate connection\n");
-          }
-
-          if(strcmp(buffer, "quit") == 0) /* Quit the program */
-          {
-            quit2 = 1;
-            quit = 1;
-            printf("Quit program\n");
-          }
         }
       }
  
@@ -185,27 +168,44 @@ int main(int argc, char **argv)
 
 
 //function to send a flashcard(question) from the server to the client
-int SendQuestion(MC_FlashCard* fc)
+int SendQuestion(MC_FlashCard flash)
 {
   char *ch;
   int x;
 
-  x = SDLNet_TCP_Send(csd, &(fc->question_id), sizeof(fc->question_id));
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\t%d\t%d\t%d\t%s\t%s\n",
+                "SEND_QUESTION",
+                flash.question_id,
+                flash.difficulty,
+                flash.answer,
+                flash.answer_string,
+                flash.formula_string);
+  printf("buf is: %s\n", buf);
+  x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+
+
+  //old code:
+  x = SDLNet_TCP_Send(csd, &(flash.question_id), sizeof(flash.question_id));
   printf("no:(1):::QUESTION_ID::::Sent %d bytes\n", x);
       
-  x = SDLNet_TCP_Send(csd,&(fc->difficulty),sizeof(fc->difficulty));
+  x = SDLNet_TCP_Send(csd,&(flash.difficulty),sizeof(flash.difficulty));
   printf("no:(2):::DIFFICULTY::::Sent %d bytes\n", x);
 
-  x = SDLNet_TCP_Send(csd, &(fc->answer), sizeof(fc->answer));
+  x = SDLNet_TCP_Send(csd, &(flash.answer), sizeof(flash.answer));
   printf("no:(3)::::ANSWER:::Sent %d bytes\n",x);
 
-  x = SDLNet_TCP_Send(csd, fc->answer_string, strlen(fc->answer_string) + 1);
+  x = SDLNet_TCP_Send(csd, flash.answer_string, strlen(flash.answer_string) + 1);
   printf("no:(4):::ANSWER_STRING::::Sent %d bytes\n", x);
 
-  x = SDLNet_TCP_Send(csd, fc->formula_string, strlen(fc->formula_string) + 1);
+  x = SDLNet_TCP_Send(csd, flash.formula_string, strlen(flash.formula_string) + 1);
   printf("no:(5):::FORMULA_STRING::::Sent %d bytes\n", x);
     
   return 1;
+
+
 }
 
 

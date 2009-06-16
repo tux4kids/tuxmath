@@ -26,14 +26,17 @@
 #include "mathcards.c"
 
 TCPsocket sd;           /* Socket descriptor */
+MC_FlashCard flash;
 
 int main(int argc, char **argv)
 {
   IPaddress ip;           /* Server address */
   int quit, len;
-  char buffer[512];
+  char buffer[512];  // for command-line input
+  char buf[512];     // for network messages from server
   MC_FlashCard* fc;
-      
+  int x, i = 0;
+
   /* Simple parameter checking */
   if (argc < 3)
   {
@@ -65,9 +68,15 @@ int main(int argc, char **argv)
   quit = 0;
   while (!quit)
   {
+    //Get user input from command line and send it to server: 
     printf("Write something:\n>");
     scanf("%s", buffer);
- 
+
+    if(strcmp(buffer, "exit") == 0)
+      quit = 1;
+    if(strcmp(buffer, "quit") == 0)
+      quit = 1;
+
     len = strlen(buffer) + 1;
     if (SDLNet_TCP_Send(sd, (void *)buffer, len) < len)
     {
@@ -75,35 +84,26 @@ int main(int argc, char **argv)
       exit(EXIT_FAILURE);
     }
 
-    if(strcmp(buffer,"b") == 0)
-    { 
-      fc = (MC_FlashCard *)malloc(sizeof(MC_FlashCard));
-        
-      if (fc == NULL) 
-      {
-        printf("Allocation of comets failed");
-        return 0;
-      }
-      else 
-      {
-        *fc = MC_AllocateFlashcard();
-        if (!MC_FlashCardGood(fc) ) 
-        {
-          //something's wrong
-          printf("Allocation of flashcard failed\n");
-          MC_FreeFlashcard(fc);
-          return 0;
-        }
-      }
+    //Now we check for any responses from server:
+    //FIXME have to make this not block so we can keep checking until all the messages are gone
+    //do
+    {
+      char command[NET_BUF_LEN];
+      int i = 0;
+      x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
 
-      if(!RecvQuestion(fc))
-        printf("unable to recv question\n"); 
-    }  
+      /* Copy the command name out of the tab-delimited buffer: */
+      for (i = 0; buf[i] != '\t' && i < NET_BUF_LEN; i++)
+        command[i] = buf[i];
+      command[i] = '\0';
 
-    if(strcmp(buffer, "exit") == 0)
-      quit = 1;
-    if(strcmp(buffer, "quit") == 0)
-      quit = 1;
+      /* Now we process the buffer according to the command: */
+      if(strcmp(command, "") == 0)
+
+
+      
+    }// while (x > 0);
+
   }
  
   SDLNet_TCP_Close(sd);
@@ -114,18 +114,18 @@ int main(int argc, char **argv)
 
 
 //function to receive a flashcard(question) by the client
-int RecvQuestion(MC_FlashCard* fc)
+int RecvQuestion(void)
 {
   char ch[5];
-  int x,i=0;
+  int x, i = 0;
 
-  x = SDLNet_TCP_Recv(sd, &(fc->question_id), sizeof(fc->question_id));
+  x = SDLNet_TCP_Recv(sd, &(flash.question_id), sizeof(flash.question_id));
   printf("no:(1):::QUESTION_ID::::Received %d bytes\n",x);
  
-  x = SDLNet_TCP_Recv(sd, &(fc->difficulty), sizeof(fc->difficulty));
+  x = SDLNet_TCP_Recv(sd, &(flash.difficulty), sizeof(flash.difficulty));
   printf("no:(2):::DIFFICULTY::::Received %d bytes\n",x);
  
-  x = SDLNet_TCP_Recv(sd, &(fc->answer), sizeof(fc->answer));
+  x = SDLNet_TCP_Recv(sd, &(flash.answer), sizeof(flash.answer));
   printf("no:(3):::ANSWER::::Received %d bytes\n",x);
 
   do{
@@ -134,17 +134,17 @@ int RecvQuestion(MC_FlashCard* fc)
     i++;
   }while(ch[i-1]!='\0');
 
-  strncpy(fc->answer_string, ch, i + 1);
+  strncpy(flash.answer_string, ch, i + 1);
 
-  x = SDLNet_TCP_Recv(sd, fc->formula_string, 13);
+  x = SDLNet_TCP_Recv(sd, flash.formula_string, 13);
 
   printf("no:(5):::FORMULA_STRING::::Received %d bytes\n",x);
   printf("RECEIVED >>\n");
-  printf("QUESTION_ID    >>          %d\n",fc->question_id);  
-  printf("FORMULA_STRING >>          %s\n",fc->formula_string);  
-  printf("ANSWER_STRING  >>          %s\n",fc->answer_string);  
-  printf("ANSWER         >>          %d\n",fc->answer);  
-  printf("DIFFICULTY     >>          %d\n",fc->difficulty);  
+  printf("QUESTION_ID    >>          %d\n",flash.question_id);  
+  printf("FORMULA_STRING >>          %s\n",flash.formula_string);  
+  printf("ANSWER_STRING  >>          %s\n",flash.answer_string);  
+  printf("ANSWER         >>          %d\n",flash.answer);  
+  printf("DIFFICULTY     >>          %d\n",flash.difficulty);  
        
   return 1;
 }

@@ -15,7 +15,11 @@
 #define TRANSTRUCT_H
 
 #define MC_USE_NEWARC
+#define MC_FORMULA_LEN 40
+#define MC_ANSWER_LEN 5
 
+#define NET_BUF_LEN 512
+#define DEFAULT_PORT 4778
 
 #ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
@@ -31,8 +35,8 @@ typedef struct MC_FlashCard {
 #else
 /* experimental struct for a more generalized flashcard */
 typedef struct _MC_FlashCard {
-  char* formula_string;
-  char* answer_string;
+  char formula_string[MC_FORMULA_LEN];
+  char answer_string[MC_ANSWER_LEN];
   int question_id;
   int answer;
   int difficulty;
