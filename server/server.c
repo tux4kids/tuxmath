@@ -35,6 +35,7 @@ int main(int argc, char **argv)
   int network_function = -1;
   //     size_t length;
   MC_FlashCard flash;
+  static int initialize=0;
 
         
   if (SDLNet_Init() < 0)
@@ -88,12 +89,17 @@ int main(int argc, char **argv)
           //'a' for the setting up the question list                                           
           if(strcmp(buffer,"a") == 0)
           {
+            initialize=1; 
             network_function = SETUP_QUESTION_LIST;              
           } 
                                        
           //'b' for asking for a question(flashcard)
           if(strcmp(buffer,"b") == 0)
           {
+            if(!initialize)
+             {SendMessage(NO_QUESTION_LIST);
+              continue;
+             }
             network_function = SEND_A_QUESTION;              
           } 
 
@@ -170,7 +176,6 @@ int main(int argc, char **argv)
 //function to send a flashcard(question) from the server to the client
 int SendQuestion(MC_FlashCard flash)
 {
-  char *ch;
   int x;
 
   char buf[NET_BUF_LEN];
@@ -188,7 +193,7 @@ int SendQuestion(MC_FlashCard flash)
 
 
   //old code:
-  x = SDLNet_TCP_Send(csd, &(flash.question_id), sizeof(flash.question_id));
+/*  x = SDLNet_TCP_Send(csd, &(flash.question_id), sizeof(flash.question_id));
   printf("no:(1):::QUESTION_ID::::Sent %d bytes\n", x);
       
   x = SDLNet_TCP_Send(csd,&(flash.difficulty),sizeof(flash.difficulty));
@@ -202,14 +207,39 @@ int SendQuestion(MC_FlashCard flash)
 
   x = SDLNet_TCP_Send(csd, flash.formula_string, strlen(flash.formula_string) + 1);
   printf("no:(5):::FORMULA_STRING::::Sent %d bytes\n", x);
-    
+*/    
   return 1;
 
 
 }
 
 
+/*Function to send any messages to the client be it any warnings
+  or anything the client is made to be informed*/
+int SendMessage(int message)         
+{
+ char *msg;
+ int x,len;
+  char buf[NET_BUF_LEN];
 
-
+ switch(message)
+ {
+  case NO_QUESTION_LIST:
+   {
+     msg="Please! first setup the question list by typing <a>";
+     len=strlen(msg)+1;    // add one for the terminating NULL
+     snprintf(buf, NET_BUF_LEN, 
+                   "%s\t%s\n",
+                   "SEND_MESSAGE",
+                   msg);
+     printf("buf is: %s\n", buf);
+     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+     printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+     break;
+   }
+  }
+  
+  return 1;
+}
 
 

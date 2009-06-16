@@ -22,4 +22,10 @@ enum {
   SEND_A_QUESTION
 };
 
+
+/*enum for messages for SendMessage*/
+enum {
+  NO_QUESTION_LIST
+};
+
 #endif
