@@ -360,6 +360,8 @@ int MC_StartGame(void)
     length_alloc_time_per_question_list = 0;
   }
 
+  //NOTE this is going away - complicates code too much to calculate this to
+  //save a few bytes rather than making the string size constant
   /* determine how much space needed for strings, based on user options */
   max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
                    * (log10i(MC_GLOBAL_MAX) + 4) //sign/operator/spaces
@@ -1448,8 +1450,8 @@ void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
     return;
   mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
   mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
-  strncpy(dest->formula_string, src->formula_string, max_formula_size);
-  strncpy(dest->answer_string, src->answer_string, max_answer_size);
+  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
+  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
   mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
   dest->answer = src->answer;
   dest->difficulty = src->difficulty;
@@ -1514,8 +1516,8 @@ MC_FlashCard generate_random_flashcard(void)
     ret = MC_AllocateFlashcard();
     num = rand() % (MC_GetOpt(MAX_TYPING_NUM)-MC_GetOpt(MIN_TYPING_NUM) + 1)
                   + MC_GetOpt(MIN_TYPING_NUM);
-    snprintf(ret.formula_string, max_formula_size, "%d", num);
-    snprintf(ret.answer_string, max_answer_size, "%d", num);
+    snprintf(ret.formula_string, MC_FORMULA_LEN, "%d", num);
+    snprintf(ret.answer_string, MC_ANSWER_LEN, "%d", num);
     ret.answer = num;
     ret.difficulty = 10;
     ret.question_id=generate_random_flashcard_id;
@@ -1554,7 +1556,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   int r1 = 0;
   int r2 = 0;
   int ans = 0;
-  char tempstr[max_formula_size];
+  char tempstr[MC_FORMULA_LEN];
   MC_FlashCard ret;
   MC_Operation op;
   static int id=0;
@@ -1630,9 +1632,9 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 
 
     mcdprintf("Constructing answer_string\n");
-    snprintf(ret.answer_string, max_answer_size+1, "%d", ans);
+    snprintf(ret.answer_string, MC_ANSWER_LEN, "%d", ans);
     mcdprintf("Constructing formula_string\n");
-    snprintf(ret.formula_string, max_formula_size, "%d %c %d",
+    snprintf(ret.formula_string, MC_FORMULA_LEN, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
     ret.difficulty = op + 1;
@@ -1694,19 +1696,19 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     if (op == MC_OPER_SUB || op == MC_OPER_DIV || //noncommutative, append only
         rand() % 2)
     {
-      snprintf(tempstr, max_formula_size, "%s %c %d", //append
+      snprintf(tempstr, MC_FORMULA_LEN, "%s %c %d", //append
                ret.formula_string, operchars[op], r1);
-      strncpy(ret.formula_string, tempstr, max_formula_size);
+      strncpy(ret.formula_string, tempstr, MC_FORMULA_LEN);
     }
     else //we're prepending
     {
-      snprintf(tempstr, max_formula_size, "%d %c %s", //append
+      snprintf(tempstr, MC_FORMULA_LEN, "%d %c %s", //append
                r1, operchars[op], ret.formula_string);
-      strncpy(ret.formula_string, tempstr, max_formula_size);
+      strncpy(ret.formula_string, tempstr, MC_FORMULA_LEN);
     }
 
     //finally update the answer and score
-    snprintf(ret.answer_string, max_answer_size, "%d", ret.answer);
+    snprintf(ret.answer_string, MC_ANSWER_LEN, "%d", ret.answer);
     ret.difficulty += (length - 1) + op;
   }
   
@@ -1718,7 +1720,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     } while (!MC_GetOpt(FORMAT_ANSWER_LAST + format) && 
              !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format) );
    
-    strncat(ret.formula_string, " = ?", max_formula_size - strlen(ret.formula_string) );
+    strncat(ret.formula_string, " = ?", MC_FORMULA_LEN - strlen(ret.formula_string) );
     reformat_arithmetic(&ret, format );     
   }
   ret.question_id=id;
@@ -1854,9 +1856,9 @@ MC_MathQuestion* generate_list(void)
 
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
 {
-  if (strncmp(a->formula_string, b->formula_string, max_formula_size) )
+  if (strncmp(a->formula_string, b->formula_string, MC_FORMULA_LEN) )
     return 1;
-  if (strncmp(a->answer_string, b->answer_string, max_answer_size) )
+  if (strncmp(a->answer_string, b->answer_string, MC_ANSWER_LEN) )
     return 1;
   if (a->answer != b->answer);
     return 1;
@@ -2080,20 +2082,20 @@ int MC_VerifyOptionListSane(void)
 
 int MC_MaxFormulaSize(void)
 {
-  return max_formula_size;
+  return MC_FORMULA_LEN;
 }
 
 int MC_MaxAnswerSize(void)
 {
-  return max_answer_size;
+  return MC_ANSWER_LEN;
 }
 
 void MC_ResetFlashCard(MC_FlashCard* fc)
 {
   if (!fc || !fc->formula_string || !fc->answer_string)
     return;
-  strncpy(fc->formula_string, " ", max_formula_size);
-  strncpy(fc->answer_string, " ", max_answer_size);
+  strncpy(fc->formula_string, " ", MC_FORMULA_LEN);
+  strncpy(fc->answer_string, " ", MC_ANSWER_LEN);
   fc->answer = 0;
   fc->difficulty = 0;
 }
@@ -2203,8 +2205,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
         return NULL;
       }
 
-      snprintf(tnode->card.formula_string, max_formula_size, "%d", i);
-      snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
+      snprintf(tnode->card.formula_string, MC_FORMULA_LEN, "%d", i);
+      snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
       tnode->card.difficulty = 1;
       list = insert_node(list, *end_of_list, tnode);
       *end_of_list = tnode;
@@ -2310,8 +2312,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
               return NULL;
             }
 
-            snprintf(tnode->card.answer_string, max_formula_size, "%d", ans);
-            snprintf(tnode->card.formula_string, max_formula_size,
+            snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", ans);
+            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "%d %c %d = ?", i, operchars[k], j);
             tnode->card.difficulty = k + 1;
             list = insert_node(list, *end_of_list, tnode);
@@ -2345,8 +2347,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
               return NULL;
             }
 
-            snprintf(tnode->card.answer_string, max_formula_size, "%d", i);
-            snprintf(tnode->card.formula_string, max_formula_size,
+            snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
+            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "? %c %d = %d", operchars[k], j, ans);
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
@@ -2379,8 +2381,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
               return NULL;
             }
 
-            snprintf(tnode->card.answer_string, max_formula_size, "%d", j);
-            snprintf(tnode->card.formula_string, max_formula_size,
+            snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", j);
+            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "%d %c ? = %d", i, operchars[k], ans);
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
@@ -2412,8 +2414,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           return NULL;
         }
 
-        snprintf(tnode->card.formula_string, max_formula_size, "%d ? %d", i,j);
-        snprintf(tnode->card.answer_string, max_formula_size,
+        snprintf(tnode->card.formula_string, MC_FORMULA_LEN, "%d ? %d", i,j);
+        snprintf(tnode->card.answer_string, MC_ANSWER_LEN,
                  i < j ? "<" : 
                  i > j ? ">" : 
                          "=");
@@ -2441,8 +2443,8 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
   int i, j;
   char* beg = 0;
   char* end = 0;
-  char nans[max_answer_size];
-  char nformula[max_formula_size + max_answer_size]; //gets a bit larger than usual in the meantime
+  char nans[MC_ANSWER_LEN];
+  char nformula[MC_FORMULA_LEN + MC_ANSWER_LEN]; //gets a bit larger than usual in the meantime
   
   {
     //snprintf(nans, max_answer_size, "%s", card->answer_string);
@@ -2450,8 +2452,8 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     //insert old answer where question mark was
     for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)
       nformula[i] = card->formula_string[j];
-    i += snprintf(nformula + i, max_answer_size - 1, "%s", card->answer_string);
-    snprintf(nformula + i, max_formula_size - i, "%s", card->formula_string + j + 1);
+    i += snprintf(nformula + i, MC_ANSWER_LEN - 1, "%s", card->answer_string);
+    snprintf(nformula + i, MC_FORMULA_LEN - i, "%s", card->formula_string + j + 1);
 
     //replace the new answer with a question mark
     if (f == MC_FORMAT_ANS_LAST)
@@ -2466,8 +2468,8 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     //we now have beg = first digit of number to replace, end = the char after
     sscanf(beg, "%s", nans);
     *beg = 0; //sequester the first half of the string
-    snprintf(card->formula_string, max_formula_size, "%s?%s", nformula, end);
-    snprintf(card->answer_string, max_answer_size, "%s", nans);
+    snprintf(card->formula_string, MC_FORMULA_LEN, "%s?%s", nformula, end);
+    snprintf(card->answer_string, MC_ANSWER_LEN, "%s", nans);
     card->answer = atoi(card->answer_string);
   }
 }
