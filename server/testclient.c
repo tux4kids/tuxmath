@@ -26,12 +26,14 @@
 #include "mathcards.c"
 
 TCPsocket sd;           /* Socket descriptor */
+SDLNet_SocketSet set;
+
 MC_FlashCard flash;
 
 int main(int argc, char **argv)
 {
   IPaddress ip;           /* Server address */
-  int quit, len;
+  int quit, len, sockets_used;
   char buffer[512];  // for command-line input
   char buf[512];     // for network messages from server
   MC_FlashCard* fc;
@@ -63,7 +65,20 @@ int main(int argc, char **argv)
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
- 
+
+  // Create a socket set to handle up to 16 sockets
+  set = SDLNet_AllocSocketSet(16);
+  if(!set) {
+    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+  sockets_used = SDLNet_TCP_AddSocket(set, sd);
+  if(sockets_used == -1) {
+    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+    // perhaps you need to restart the set and make it bigger...
+  }
+
   /* Send messages */
   quit = 0;
   while (!quit)
@@ -90,17 +105,37 @@ int main(int argc, char **argv)
     {
       char command[NET_BUF_LEN];
       int i = 0;
-      x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+      int numready;
 
-      /* Copy the command name out of the tab-delimited buffer: */
-      for (i = 0; buf[i] != '\t' && i < NET_BUF_LEN; i++)
-        command[i] = buf[i];
-      command[i] = '\0';
-
-      /* Now we process the buffer according to the command: */
-      if(strcmp(command, "") == 0)
-
-
+      //This is supposed to check to see if there is activity and time out
+      // after 1000 ms if no activity
+      numready = SDLNet_CheckSockets(set, 1000);
+      if(numready == -1)
+      {
+        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+        //most of the time this is a system error, where perror might help you.
+        perror("SDLNet_CheckSockets");
+      }
+      else if(numready)
+      {
+        printf("There are %d sockets with activity!\n",numready);
+        // check all sockets with SDLNet_SocketReady and handle the active ones.
+        if(SDLNet_SocketReady(sd))
+        {
+          x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+          /* Copy the command name out of the tab-delimited buffer: */
+          for (i = 0; buf[i] != '\t' && i < NET_BUF_LEN; i++)
+            command[i] = buf[i];
+          command[i] = '\0';
+          printf("buf is %s\n", buf);
+          printf("command is %s\n", command);
+          /* Now we process the buffer according to the command: */
+          if(strcmp(command, "SEND_QUESTION") == 0)
+          {
+            /* function call to parse buffer into MC_FlashCard */
+          }
+        }
+      }
       
     }// while (x > 0);
 
@@ -114,6 +149,8 @@ int main(int argc, char **argv)
 
 
 //function to receive a flashcard(question) by the client
+//FIXME - this is going to change - will just need a function to convert the
+//buffer string into a flashcard.
 int RecvQuestion(void)
 {
   char ch[5];
