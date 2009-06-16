@@ -23,20 +23,20 @@
 #include "SDL_net.h"
 #include "transtruct.h"
 #include "mathcards.h"
-#include "mathcards.c"
+
 
 TCPsocket sd;           /* Socket descriptor */
 SDLNet_SocketSet set;
 
 MC_FlashCard flash;
-
+MC_FlashCard* Make_Flashcard(char *buf);
 int main(int argc, char **argv)
 {
+  MC_FlashCard* fclist;
   IPaddress ip;           /* Server address */
   int quit, len, sockets_used;
   char buffer[512];  // for command-line input
   char buf[512];     // for network messages from server
-  MC_FlashCard* fc;
   int x, i = 0;
 
   /* Simple parameter checking */
@@ -129,10 +129,12 @@ int main(int argc, char **argv)
           command[i] = '\0';
           printf("buf is %s\n", buf);
           printf("command is %s\n", command);
+        
           /* Now we process the buffer according to the command: */
           if(strcmp(command, "SEND_QUESTION") == 0)
           {
-            /* function call to parse buffer into MC_FlashCard */
+           
+            fclist=Make_Flashcard(buf);  /* function call to parse buffer into MC_FlashCard */
           }
         }
       }
@@ -148,10 +150,61 @@ int main(int argc, char **argv)
 }
 
 
+MC_FlashCard* Make_Flashcard(char *buf)
+{
+  MC_FlashCard *fc;
+  int i,j,tab=0,s=0;
+  char formula[MC_FORMULA_LEN];
+  sscanf (buf,"%*s %d %d %d %s",
+              &fc->question_id,
+              &fc->difficulty,
+              &fc->answer,
+              fc->answer_string);                          /* can't formula_string in sscanf in here cause it includes spaces*/
+ 
+ /*doing all this cause sscanf will break on encountering space in formula_string*/
+   while(*buf!='\n')
+   {
+    if(*buf=='\t')
+    tab++; 
+    buf++;
+    if(tab==5)
+    break;
+   }
+
+  while(*buf!='\n')
+   {
+    formula[s]=*buf;
+    buf++;
+    s++;
+   }
+ 
+  formula[s]='\0';
+  strcpy(fc->formula_string,formula); 
+ 
+
+  printf ("card is:\n");
+  printf("QUESTION_ID       :      %d\n",fc->question_id);
+  printf("FORMULA_STRING    :      %s\n",fc->formula_string);
+  printf("ANSWER STRING     :      %s\n",fc->answer_string);
+  printf("ANSWER            :      %d\n",fc->answer);
+  printf("DIFFICULTY        :      %d\n",fc->difficulty);  
+  
+  return fc;
+} 
+
+
+
+
+
+
+
+
+
+
 //function to receive a flashcard(question) by the client
 //FIXME - this is going to change - will just need a function to convert the
 //buffer string into a flashcard.
-int RecvQuestion(void)
+/*int RecvQuestion(void)
 {
   char ch[5];
   int x, i = 0;
@@ -186,6 +239,6 @@ int RecvQuestion(void)
   return 1;
 }
 
-
+*/
 
  
