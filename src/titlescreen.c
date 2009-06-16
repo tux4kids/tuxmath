@@ -55,7 +55,7 @@ SDL_Color red;
 SDL_Color white;
 SDL_Color yellow;
 
-// Type needed for TransWipe():
+// Type needed for trans_wipe():
 struct blit {
     SDL_Surface *src;
     SDL_Rect *srcrect;
@@ -130,8 +130,6 @@ const char* menu_sprite_files[N_SPRITES] =
 
 sprite **sprite_list = NULL;
 
-sprite* Tux = NULL;
-
 
 SDL_Event event;
 
@@ -139,41 +137,46 @@ SDL_Event event;
 int curr_res_x = -1;
 int curr_res_y = -1;
 
-/* --- locations we need --- */
-
-SDL_Rect dest,
-         Tuxdest,
-         Titledest,
-         stopRect,
-         Backrect,
-         Tuxback,
-         Titleback,
-         cursor,
-         beak;
-
-/* The background image scaled to windowed 640x480 */
+/* titlescreen items */
 SDL_Surface* bkg = NULL;
-/* The background image scaled to fullscreen dimensions */
 SDL_Surface* scaled_bkg = NULL;
+
+SDL_Surface* logo = NULL;
+sprite* Tux = NULL;
+SDL_Surface* title = NULL;
+
 /* "Easter Egg" cursor */
 SDL_Surface* egg = NULL;
 int egg_active = 0; //are we currently using the egg cursor?
 
+/* locations we need */
+SDL_Rect bkg_rect,
+         logo_rect,
+         tux_rect,
+         title_rect,
+         Tuxback,
+         Titleback,
+         stopRect,
+         cursor,
+         beak;
 
 SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
 
+
 /* Local function prototypes: */
-void TitleScreen_load_menu(void);
+int TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
-int TitleScreen_load_media(void);
-void TitleScreen_unload_media(void);
 void NotImplemented(void);
-void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2);
-void UpdateScreen(int* frame);
-void AddRect(SDL_Rect* src, SDL_Rect* dst);
-void InitEngine(void);
+
+void free_titlescreen(void);
+
+void trans_wipe(SDL_Surface* newbkg, int type, int var1, int var2);
+void init_blits(void);
+void update_screen(int* frame);
+void add_rect(SDL_Rect* src, SDL_Rect* dst);
+
 void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
 void RecalcTitlePositions();
 void RecalcMenuPositions(int*, int, menu_options*, void (*)(menu_options*),
@@ -205,55 +208,60 @@ int handle_easter_egg(const SDL_Event* evt);
 /***********************************************************/
 
 
-
-/****************************************
-* TitleScreen: Display the title screen *
-****************************************/
-
-/* display title screen, get input */
-
+/* Display Tux4Kids logo, then animate title screen
+   items onto the screen and run main menu */
 void TitleScreen(void)
 {
-  Uint32 start = 0;
-
+  Uint32 start_time = 0;
   int i, TuxPixSkip, TitlePixSkip;
-//  int n_subdirs;
-//  char **subdir_names;
-
 
   if (Opts_UsingSound())
   {
     Opts_SetGlobalOpt(MENU_SOUND, 1);
     Opts_SetGlobalOpt(MENU_MUSIC, 1);
-//    menu_music = localsettings.menu_music;
   }
 
-  InitEngine();  //set up pointers for blitting structure.
+  start_time = SDL_GetTicks();
 
-  start = SDL_GetTicks();
+  logo = images[IMG_STANDBY]; /* going to be svg ? */
 
-
-  /* StandbyScreen: Display the Standby screen: */
-  if (images[IMG_STANDBY])
+  /* display the Standby screen */
+  if(logo)
   {
-    // Center horizontally
-    dest.x = ((screen->w) / 2) - (images[IMG_STANDBY]->w) / 2;
-    // Center vertically
-    dest.y = ((screen->h) / 2) - (images[IMG_STANDBY]->h) / 2;
-    dest.w = images[IMG_STANDBY]->w;
-    dest.h = images[IMG_STANDBY]->h;
+    /* Center horizontally and vertically */
+    logo_rect.x = (screen->w - logo->w) / 2;
+    logo_rect.y = (screen->h - logo->h) / 2;
+
+    logo_rect.w = logo->w;
+    logo_rect.h = logo->h;
 
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_BlitSurface(images[IMG_STANDBY], NULL, screen, &dest);
+    SDL_BlitSurface(logo, NULL, screen, &logo_rect);
     SDL_UpdateRect(screen, 0, 0, 0, 0);
-    // Play "harp" greeting sound lifted from Tux Paint:
+    /* Play "harp" greeting sound lifted from Tux Paint */
     playsound(SND_HARP);
- }
+  }
 
+
+  /* temporary additional load for current menu code */
+  LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
+  if(bkg)
+  {
+    SDL_FreeSurface(bkg);
+    bkg = NULL;
+  }
+
+  TitleScreen_load_menu();
+
+  /* load titlescreen images */
+  if(RenderTitleScreen() == 0)
+  {
+    fprintf(stderr, "Media was not properly loaded, exiting");
+    return;
+  }
 
   /* --- wait  --- */
-
-  while ((SDL_GetTicks() - start) < 2000)
+  while ((SDL_GetTicks() - start_time) < 2000)
   {
     /* Check to see if user pressed escape */
     if (SDL_PollEvent(&event)
@@ -266,39 +274,24 @@ void TitleScreen(void)
   }
 
   DEBUGCODE(debug_titlescreen)
-    SDL_WM_GrabInput(SDL_GRAB_OFF); //in case of a freeze, this traps the cursor
+    SDL_WM_GrabInput(SDL_GRAB_OFF); /* in case of a freeze, this traps the cursor */
   else
-    SDL_WM_GrabInput(SDL_GRAB_ON); // User input goes to TuxMath, not window manager
+    SDL_WM_GrabInput(SDL_GRAB_ON);  /* User input goes to TuxMath, not window manager */
   SDL_ShowCursor(1);
 
 
-  /***************************
-  * Tux and Title animations *
-  ***************************/
-
+  /* Tux and Title animations */
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Now Animating Tux and Title onto the screen\n" );
 
-  /* Load media and menu data: */
-  /* FIXME should get out if needed media not loaded OK */
-  if (TitleScreen_load_media() == 0) {
-    fprintf(stderr,"Media was not properly loaded, exiting");
-    return;
-  }
-
-  /* Draw background, if it loaded OK: */
-  if (current_bkg() )
-  {
-    Backrect.x = (screen->w - current_bkg()->w) / 2;
-    Backrect.y = (screen->h - current_bkg()->h) / 2;
-    Backrect.w = current_bkg()->w;
-    Backrect.h = current_bkg()->h;
-    /* FIXME not sure TransWipe() works in Windows: */
-    TransWipe(current_bkg(), RANDOM_WIPE, 10, 20);
-    /* Make sure background gets drawn (since TransWipe() doesn't */
+  /* Draw background (center it if it's smaller than screen) */
+  if(bkg){
+    /* FIXME not sure trans_wipe() works in Windows: */
+    trans_wipe(bkg, RANDOM_WIPE, 10, 20);
+    /* Make sure background gets drawn (since trans_wipe() doesn't */
     /* seem to work reliably as of yet):                          */
-    SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
-
+    SDL_BlitSurface(bkg, NULL, screen, &bkg_rect);
   }
+
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
   {
@@ -311,59 +304,59 @@ void TitleScreen(void)
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
   /* --- Pull tux & logo onscreen --- */
-  /* NOTE we wind up with Tuxdest.y == (screen->h)  - (Tux->frame[0]->h), */
-  /* a 	nd Titledest.x == 0.                                                */
-  if (current_bkg()
+  /* NOTE we wind up with tux_rect.y == (screen->h)  - (Tux->frame[0]->h), */
+  /* a 	nd title_rect.x == 0.                                                */
+  if (bkg
    && images[IMG_MENU_TITLE]
    && images[IMG_STOP]
    && Tux && Tux->frame[0])
   {
 
-    Tuxdest.x = 0;
-    Tuxdest.y = screen->h;
+    tux_rect.x = 0;
+    tux_rect.y = screen->h;
     /*
-    Tuxback.x = Tuxdest.x - Backrect.x;
-    Tuxback.y = Tuxdest.y - Backrect.y;
+    Tuxback.x = tux_rect.x - bkg_rect.x;
+    Tuxback.y = tux_rect.y - bkg_rect.y;
     */
-    Tuxdest.w = Tuxback.w = Tux->frame[0]->w;
-    Tuxdest.h = Tuxback.h = Tux->frame[0]->h;
+    tux_rect.w = Tuxback.w = Tux->frame[0]->w;
+    tux_rect.h = Tuxback.h = Tux->frame[0]->h;
 
 
-    Titledest.x = screen->w;
-    Titledest.y = 10;
+    title_rect.x = screen->w;
+    title_rect.y = 10;
     /*
-    Titleback.x = Titledest.x - Backrect.x;
-    Titleback.y = Titledest.y - Backrect.y;
+    Titleback.x = title_rect.x - bkg_rect.x;
+    Titleback.y = title_rect.y - bkg_rect.y;
     */
-    Titledest.w = Titleback.w = images[IMG_MENU_TITLE]->w;
-    Titledest.h = Titleback.h = images[IMG_MENU_TITLE]->h;
+    title_rect.w = Titleback.w = images[IMG_MENU_TITLE]->w;
+    title_rect.h = Titleback.h = images[IMG_MENU_TITLE]->h;
 
     TuxPixSkip = Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
     TitlePixSkip = (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
 
     for (i = 0; i < (PRE_ANIM_FRAMES * PRE_FRAME_MULT); i++)
     {
-      start = SDL_GetTicks();
+      start_time = SDL_GetTicks();
 
       //Draw the entire background, over a black screen if necessary
       if (current_bkg()->w != screen->w || current_bkg()->h != screen->h)
         SDL_FillRect(screen, &screen->clip_rect, 0);
-      SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
+      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
 
-      Tuxdest.y -= TuxPixSkip;
+      tux_rect.y -= TuxPixSkip;
       //Tuxback.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-      Titledest.x -= TitlePixSkip;
+      title_rect.x -= TitlePixSkip;
       //Titleback.y -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
 
-      SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
-      SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
+      SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
+      SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &title_rect);
       SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
 
-      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
-      SDL_UpdateRect(screen, Titledest.x, Titledest.y, Titledest.w + TitlePixSkip, Titledest.h);
+      SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
+      SDL_UpdateRect(screen, title_rect.x, title_rect.y, title_rect.w + TitlePixSkip, title_rect.h);
       SDL_UpdateRect(screen, stopRect.x, stopRect.y, stopRect.w, stopRect.h);
 
-      while ((SDL_GetTicks() - start) < 33)
+      while ((SDL_GetTicks() - start_time) < 33)
       {
         SDL_Delay(2);
       }
@@ -375,8 +368,8 @@ void TitleScreen(void)
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Tux and Title are in place now\n");
 
   //location of Tux's beak
-  beak.x = Tuxdest.x + 70;
-  beak.y = Tuxdest.y + 60;
+  beak.x = tux_rect.x + 70;
+  beak.y = tux_rect.y + 60;
   beak.w = beak.h = 50;
 
   /* Start playing menu music if desired: */
@@ -396,15 +389,17 @@ void TitleScreen(void)
   /* User has selected quit, clean up */
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Freeing title screen images\n");
 
-  TitleScreen_unload_media();
+  free_titlescreen();
+  TitleScreen_unload_menu();
 
   DEBUGMSG(debug_titlescreen, "leaving TitleScreen()\n");
 }
 
 /* Render and position all titlescreen items to match current
    screen size. Rendering is done only if needed.
-   This function must be called after every resolution change */
-void RenderTitleScreen(void)
+   This function must be called after every resolution change
+   returns 1 on success, 0 on failure */
+int RenderTitleScreen(void)
 {
   SDL_Surface* new_bkg = NULL;
 
@@ -413,10 +408,12 @@ void RenderTitleScreen(void)
     /* we need to rerender titlescreen items */
     DEBUGMSG(debug_titlescreen, "Re-rendering titlescreen items.\n");
 
+    /* background */
     new_bkg = LoadBkgd("title/menu_bkg.jpg");
     if(new_bkg == NULL)
     {
       DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
+      return 0;
     }
     else
     {
@@ -426,11 +423,38 @@ void RenderTitleScreen(void)
       bkg = new_bkg;
     }
 
+    bkg_rect = bkg->clip_rect;
+    bkg_rect.x = (screen->w - bkg_rect.w) / 2;
+    bkg_rect.y = (screen->h - bkg_rect.h) / 2;
+
+    Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+    egg = LoadImage("title/egg.png", IMG_COLORKEY | IMG_NOT_REQUIRED);
+
+
+
+    title_rect.x = 0;
+    title_rect.y = 0;
+
+    tux_rect.x = 0;
+    tux_rect.y = screen->h - tux_rect.h;
+
+    beak.x = tux_rect.x + 70;
+    beak.y = tux_rect.y + 60;
+    beak.w = beak.h = 50;
+
+    stopRect.x = screen->w - stopRect.w;
+    stopRect.y = 0;
+
+
+
     curr_res_x = RES_X;
     curr_res_y = RES_Y;
 
     DEBUGMSG(debug_titlescreen, "Leaving RenderTitleScreen().\n");
+
+
   }
+  return 1;
 }
 
 
@@ -442,24 +466,12 @@ void RenderTitleScreen(void)
 /*                                                         */
 /***********************************************************/
 
-// 1 = success, 0 = failure
-int TitleScreen_load_media(void)
+
+/* this is going to be moved to menu.c */
+int TitleScreen_load_menu(void)
 {
   char fn[PATH_MAX];
   int i;
-
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Entering TitleScreen_load_media():\n");
-#endif
-
-  Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-
-  SDL_ShowCursor(1);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "loading sprites\n");
-#endif
 
   sprite_list = (sprite**) malloc(N_SPRITES*sizeof(sprite*));
   if (sprite_list == NULL)
@@ -470,13 +482,8 @@ int TitleScreen_load_media(void)
     sprintf(fn, "sprites/%s", menu_sprite_files[i]);
     sprite_list[i] = LoadSprite(fn, IMG_ALPHA);
   }
-  egg = LoadImage("title/egg.png",
-                  IMG_COLORKEY | IMG_NOT_REQUIRED);
-  LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
   return 1;
 }
-
-
 
 
 void TitleScreen_unload_menu(void)
@@ -496,12 +503,11 @@ void TitleScreen_unload_menu(void)
 
 
 
-void TitleScreen_unload_media(void)
+void free_titlescreen(void)
 {
   tmdprintf("Unloading media\n");
   FreeSprite(Tux);
   Tux = NULL;
-  TitleScreen_unload_menu();
 
   SDL_FreeSurface(egg);
   SDL_FreeSurface(bkg);
@@ -557,7 +563,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
   /* Redraw background: */
   if (current_bkg() )
-    SDL_BlitSurface( current_bkg(), NULL, screen, &Backrect );
+    SDL_BlitSurface( current_bkg(), NULL, screen, &bkg_rect );
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   if (images[IMG_STOP])
@@ -571,7 +577,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
   if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
   {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+    SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
   }
 
   /* Draw lines of text (do after drawing Tux so text is in front): */
@@ -646,9 +652,9 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
     if (Tux && tux_frame)
     {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-//      SDL_UpdateRect(screen, Tuxdest.x+37, Tuxdest.y+40, 70, 45);
-      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &tux_rect);
+//      SDL_UpdateRect(screen, tux_rect.x+37, tux_rect.y+40, 70, 45);
+      SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
 
     }
     /* Wait so we keep frame rate constant: */
@@ -730,6 +736,7 @@ int run_main_menu(void)
         if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
           {audioMusicUnload();}
         game();
+        RenderTitleScreen();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
           {audioMusicLoad( "tuxi.ogg", -1 );}
@@ -1007,6 +1014,7 @@ int run_arcade_menu(void)
         audioMusicUnload();
         game();
         RecalcTitlePositions();
+        RenderTitleScreen();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
         }
@@ -1068,6 +1076,7 @@ int run_custom_menu(void)
 
     game();
     RecalcTitlePositions();
+    RenderTitleScreen();
     write_user_config_file();
 
     if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -1213,6 +1222,7 @@ int run_options_menu(void)
         audioMusicUnload();
         game();
         RecalcTitlePositions();
+        RenderTitleScreen();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
         }
@@ -1306,6 +1316,7 @@ int run_lessons_menu(void)
 
       game();
       RecalcTitlePositions();
+      RenderTitleScreen();
 
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
@@ -1659,30 +1670,30 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
     if (menu_button_rect)
     {
       back_button_rect[i] = menu_button_rect[i];
-      back_button_rect[i].x -= Backrect.x;
-      back_button_rect[i].y -= Backrect.y;
+      back_button_rect[i].x -= bkg_rect.x;
+      back_button_rect[i].y -= bkg_rect.y;
     }
     if (menu_text_rect)
     {
       back_text_rect[i] = menu_text_rect[i];
-      back_text_rect[i].x -= Backrect.x;
-      back_text_rect[i].y -= Backrect.y;
+      back_text_rect[i].x -= bkg_rect.x;
+      back_text_rect[i].y -= bkg_rect.y;
     }
     if (menu_sprite_rect)
     {
       back_sprite_rect[i] = menu_sprite_rect[i];
-      back_sprite_rect[i].x -= Backrect.x;
-      back_sprite_rect[i].y -= Backrect.y;
+      back_sprite_rect[i].x -= bkg_rect.x;
+      back_sprite_rect[i].y -= bkg_rect.y;
     }
   }
 
   /**** Draw background, title, and Tux:                            ****/
   if (current_bkg() )
-    SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
+    SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
   if (images[IMG_MENU_TITLE])
-    SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
+    SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &title_rect);
   if (Tux && Tux->frame[0])
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+    SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
   SDL_UpdateRect(screen, 0, 0, 0 ,0);
 
   /* Move mouse to current button: */
@@ -2014,6 +2025,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             case SDLK_c:
             {
               start_campaign();
+              RenderTitleScreen();
               RecalcTitlePositions();
               RecalcMenuPositions(&n_entries_per_screen,
                                   n_menu_entries,
@@ -2065,13 +2077,13 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
       if (!current_bkg() || screen->flags & SDL_FULLSCREEN )
         SDL_FillRect(screen, &screen->clip_rect, 0); //clear to black
       if (current_bkg())
-        SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect);
+        SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
       if (images[IMG_MENU_TITLE])
-        SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &Titledest);
+        SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &title_rect);
       if (images[IMG_STOP])
         SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
       if (Tux->frame[0])
-        SDL_BlitSurface(Tux->frame[0], NULL, screen, &Tuxdest);
+        SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
       /* Redraw the menu entries */
       for (imod = 0; imod < n_entries_per_screen; imod++)
         menu_button_rect[imod].w = 0;  // so undrawn buttons don't affect width
@@ -2225,9 +2237,9 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
     if (Tux && tux_frame)
     {
       /* Redraw background to keep edges anti-aliased properly: */
-      SDL_BlitSurface(current_bkg(),&Tuxdest, screen, &Tuxdest);
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &Tuxdest);
-      SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
+      SDL_BlitSurface(current_bkg(),&tux_rect, screen, &tux_rect);
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &tux_rect);
+      SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
       //SDL_UpdateRect(screen, 0, 0, 0, 0);
     }
 
@@ -2292,204 +2304,202 @@ void set_buttons_max_width(SDL_Rect *menu_button_rect,
   tmdprintf("All buttons at width %d\n", max);
 }
 
-// Was in playgame.c in tuxtype:
+/* Was in playgame.c in tuxtype: */
 
-/*************************************************/
-/* TransWipe: Performs various wipes to new bkgs */
-/*************************************************/
-/*
- * Given a wipe request type, and any variables
- * that wipe requires, will perform a wipe from
- * the current screen image to a new one.
- */
-void TransWipe(SDL_Surface* newbkg, int type, int var1, int var2)
+/* trans_wipe: Performs various wipes to new bkgs
+   Given a wipe request type, and any variables
+   that wipe requires, will perform a wipe from
+   the current screen image to a new one. */
+void trans_wipe(SDL_Surface* newbkg, int type, int var1, int var2)
 {
-    int i, j, x1, x2, y1, y2;
-    int step1, step2, step3, step4;
-    int frame;
-    SDL_Rect src;
-    SDL_Rect dst;
+  int i, j, x1, x2, y1, y2;
+  int step1, step2, step3, step4;
+  int frame;
+  SDL_Rect src;
+  SDL_Rect dst;
 
-    if (!screen)
-    {
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "TransWipe(): screen not valid!\n");
-#endif
-      return;
-    }
+  if (!screen)
+  {
+    DEBUGMSG(debug_titlescreen, "trans_wipe(): screen not valid!\n");
+    return;
+  }
 
-    if (!newbkg)
-    {
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "TransWipe(): newbkg not valid!\n");
-#endif
-      return;
-    }
+  if (!newbkg)
+  {
+    DEBUGMSG(debug_titlescreen, "trans_wipe(): newbkg not valid!\n");
+    return;
+  }
 
-    numupdates = 0;
-    frame = 0;
+  init_blits();
 
-    if(newbkg->w == screen->w && newbkg->h == screen->h) {
-        if( type == RANDOM_WIPE )
-            type = (RANDOM_WIPE * ((float) rand()) / (RAND_MAX+1.0));
+  numupdates = 0;
+  frame = 0;
 
-        switch( type ) {
-            case WIPE_BLINDS_VERT: {
- #ifdef TUXMATH_DEBUG
-                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_VERT'\n");
-#endif
-                /* var1 is num of divisions
-                   var2 is how many frames animation should take */
-                if( var1 < 1 ) var1 = 1;
-                if( var2 < 1 ) var2 = 1;
-                step1 = screen->w / var1;
-                step2 = step1 / var2;
+  if(newbkg->w == screen->w && newbkg->h == screen->h) {
+    if( type == RANDOM_WIPE )
+      type = (RANDOM_WIPE * ((float) rand()) / (RAND_MAX+1.0));
 
-                for(i = 0; i <= var2; i++)
-                {
-                    for(j = 0; j <= var1; j++)
-                    {
-                        x1 = step1 * (j - 0.5) - i * step2 + 1;
-                        x2 = step1 * (j - 0.5) + i * step2 + 1;
-                        src.x = x1;
-                        src.y = 0;
-                        src.w = step2;
-                        src.h = screen->h;
-                        dst.x = x2;
-                        dst.y = 0;
-                        dst.w = step2;
-                        dst.h = screen->h;
+    switch( type ) {
+      case WIPE_BLINDS_VERT: {
+        DEBUGMSG(debug_titlescreen, "trans_wipe(): Doing 'WIPE_BLINDS_VERT'\n");
+        /*var1 isnum ofdivisions
+          var2is howmany framesanimation shouldtake */
+        if(var1 <1 )var1 =1;
+        if( var2< 1) var2= 1;
+        step1= screen->w/ var1;
+        step2= step1/ var2;
 
-                        SDL_BlitSurface(newbkg, &src, screen, &src);
-                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
+        for(i= 0;i <=var2; i++)
+        {
+          for(j= 0;j <=var1; j++)
+          {
+            x1= step1* (j- 0.5)- i* step2+ 1;
+            x2= step1* (j- 0.5)+ i* step2+ 1;
+            src.x= x1;
+            src.y= 0;
+            src.w= step2;
+            src.h= screen->h;
+            dst.x= x2;
+            dst.y= 0;
+            dst.w= step2;
+            dst.h= screen->h;
 
-                        AddRect(&src, &src);
-                        AddRect(&dst, &dst);
-                    }
-                    UpdateScreen(&frame);
-                }
+            SDL_BlitSurface(newbkg,&src, screen,&src);
+            SDL_BlitSurface(newbkg, &dst,screen, &dst);
 
-                src.x = 0;
-                src.y = 0;
-                src.w = screen->w;
-                src.h = screen->h;
-                SDL_BlitSurface(newbkg, NULL, screen, &src);
-                SDL_Flip(screen);
-
-                break;
-            } case WIPE_BLINDS_HORIZ: {
-#ifdef TUXMATH_DEBUG
-                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_HORIZ'\n");
-#endif
-                /* var1 is num of divisions
-                   var2 is how many frames animation should take */
-                if( var1 < 1 ) var1 = 1;
-                if( var2 < 1 ) var2 = 1;
-                step1 = screen->h / var1;
-                step2 = step1 / var2;
-
-                for(i = 0; i <= var2; i++) {
-                    for(j = 0; j <= var1; j++) {
-                        y1 = step1 * (j - 0.5) - i * step2 + 1;
-                        y2 = step1 * (j - 0.5) + i * step2 + 1;
-                        src.x = 0;
-                        src.y = y1;
-                        src.w = screen->w;
-                        src.h = step2;
-                        dst.x = 0;
-                        dst.y = y2;
-                        dst.w = screen->w;
-                        dst.h = step2;
-
-                        SDL_BlitSurface(newbkg, &src, screen, &src);
-                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
-
-                        AddRect(&src, &src);
-                        AddRect(&dst, &dst);
-                    }
-                    UpdateScreen(&frame);
-                }
-
-                src.x = 0;
-                src.y = 0;
-                src.w = screen->w;
-                src.h = screen->h;
-                SDL_BlitSurface(newbkg, NULL, screen, &src);
-                SDL_Flip(screen);
-
-                break;
-            } case WIPE_BLINDS_BOX: {
-#ifdef TUXMATH_DEBUG
-                fprintf(stderr, "--+ Doing 'WIPE_BLINDS_BOX'\n");
-#endif
-                /* var1 is num of divisions
-                   var2 is how many frames animation should take */
-                if( var1 < 1 ) var1 = 1;
-                if( var2 < 1 ) var2 = 1;
-                step1 = screen->w / var1;
-                step2 = step1 / var2;
-                step3 = screen->h / var1;
-                step4 = step1 / var2;
-
-                for(i = 0; i <= var2; i++) {
-                    for(j = 0; j <= var1; j++) {
-                        x1 = step1 * (j - 0.5) - i * step2 + 1;
-                        x2 = step1 * (j - 0.5) + i * step2 + 1;
-                        src.x = x1;
-                        src.y = 0;
-                        src.w = step2;
-                        src.h = screen->h;
-                        dst.x = x2;
-                        dst.y = 0;
-                        dst.w = step2;
-                        dst.h = screen->h;
-
-                        SDL_BlitSurface(newbkg, &src, screen, &src);
-                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
-
-                        AddRect(&src, &src);
-                        AddRect(&dst, &dst);
-                        y1 = step3 * (j - 0.5) - i * step4 + 1;
-                        y2 = step3 * (j - 0.5) + i * step4 + 1;
-                        src.x = 0;
-                        src.y = y1;
-                        src.w = screen->w;
-                        src.h = step4;
-                        dst.x = 0;
-                        dst.y = y2;
-                        dst.w = screen->w;
-                        dst.h = step4;
-                        SDL_BlitSurface(newbkg, &src, screen, &src);
-                        SDL_BlitSurface(newbkg, &dst, screen, &dst);
-                        AddRect(&src, &src);
-                        AddRect(&dst, &dst);
-                    }
-                    UpdateScreen(&frame);
-                }
-
-                src.x = 0;
-                src.y = 0;
-                src.w = screen->w;
-                src.h = screen->h;
-                SDL_BlitSurface(newbkg, NULL, screen, &src);
-                SDL_Flip(screen);
-
-                break;
-            } default:
-                break;
+            add_rect(&src,&src);
+            add_rect(&dst, &dst);
+          }
+          update_screen(&frame);
         }
+
+        src.x= 0;
+        src.y= 0;
+        src.w= screen->w;
+        src.h= screen->h;
+        SDL_BlitSurface(newbkg,NULL, screen,&src);
+        SDL_Flip(screen);
+
+        break;
+      }
+      case WIPE_BLINDS_HORIZ:{
+        DEBUGMSG(debug_titlescreen, "trans_wipe(): Doing 'WIPE_BLINDS_HORIZ'\n");
+        /* var1is numof divisions
+         var2 ishow manyframes animationshould take*/
+        if( var1< 1) var1= 1;
+        if(var2 <1 )var2 =1;
+        step1 =screen->h /var1;
+        step2 =step1 /var2;
+
+        for(i =0; i<= var2;i++) {
+          for(j= 0;j <=var1; j++){
+            y1 =step1 *(j -0.5) -i *step2 +1;
+            y2 =step1 *(j -0.5) +i *step2 +1;
+            src.x =0;
+            src.y =y1;
+            src.w =screen->w;
+            src.h =step2;
+            dst.x =0;
+            dst.y =y2;
+            dst.w =screen->w;
+            dst.h =step2;
+
+            SDL_BlitSurface(newbkg, &src,screen, &src);
+            SDL_BlitSurface(newbkg,&dst, screen,&dst);
+
+            add_rect(&src, &src);
+            add_rect(&dst,&dst);
+          }
+          update_screen(&frame);
+        }
+
+        src.x =0;
+        src.y =0;
+        src.w =screen->w;
+        src.h =screen->h;
+        SDL_BlitSurface(newbkg, NULL,screen, &src);
+        SDL_Flip(screen);
+
+        break;
+      }
+      case WIPE_BLINDS_BOX:{
+        DEBUGMSG(debug_titlescreen, "trans_wipe(): Doing 'WIPE_BLINDS_BOX'\n");
+        /* var1is numof divisions
+         var2 ishow manyframes animationshould take*/
+        if( var1< 1) var1= 1;
+        if(var2 <1 )var2 =1;
+        step1 =screen->w /var1;
+        step2 =step1 /var2;
+        step3 =screen->h /var1;
+        step4 =step1 /var2;
+
+        for(i =0; i<= var2;i++) {
+          for(j= 0;j <=var1; j++){
+            x1 =step1 *(j -0.5) -i *step2 +1;
+            x2 =step1 *(j -0.5) +i *step2 +1;
+            src.x =x1;
+            src.y =0;
+            src.w =step2;
+            src.h =screen->h;
+            dst.x =x2;
+            dst.y =0;
+            dst.w =step2;
+            dst.h =screen->h;
+
+            SDL_BlitSurface(newbkg, &src,screen, &src);
+            SDL_BlitSurface(newbkg,&dst, screen,&dst);
+
+            add_rect(&src, &src);
+            add_rect(&dst,&dst);
+            y1 =step3 *(j -0.5) -i *step4 +1;
+            y2 =step3 *(j -0.5) +i *step4 +1;
+            src.x =0;
+            src.y =y1;
+            src.w =screen->w;
+            src.h =step4;
+            dst.x =0;
+            dst.y =y2;
+            dst.w =screen->w;
+            dst.h =step4;
+            SDL_BlitSurface(newbkg, &src,screen, &src);
+            SDL_BlitSurface(newbkg,&dst, screen,&dst);
+            add_rect(&src, &src);
+            add_rect(&dst,&dst);
+          }
+          update_screen(&frame);
+        }
+
+        src.x =0;
+        src.y =0;
+        src.w =screen->w;
+        src.h =screen->h;
+        SDL_BlitSurface(newbkg, NULL,screen, &src);
+        SDL_Flip(screen);
+
+        break;
+      }
+      default:
+        break;
     }
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "->TransWipe(): FINISH\n");
-#endif
+  }
+  DEBUGMSG(debug_titlescreen, "trans_wipe(): FINISH\n");
+}
+
+/* InitEngine - Set up the update rectangle pointers
+   (user by trans_wipe() ) */
+void init_blits(void) {
+  int i;
+
+  for (i = 0; i < MAX_UPDATES; ++i) {
+    blits[i].srcrect = &srcupdate[i];
+    blits[i].dstrect = &dstupdate[i];
+  }
 }
 
 
-
-/************************
-UpdateScreen : Update the screen and increment the frame num
-***************************/
-void UpdateScreen(int *frame) {
+/* update_screen : Update the screen and increment the frame num
+   (used by trans_wipe() ) */
+void update_screen(int *frame) {
   int i;
 
   /* -- First erase everything we need to -- */
@@ -2515,50 +2525,34 @@ void UpdateScreen(int *frame) {
 }
 
 
-/******************************
-AddRect: Don't actually blit a surface,
-    but add a rect to be updated next
-    update
-*******************************/
-void AddRect(SDL_Rect* src, SDL_Rect* dst) {
-    /*borrowed from SL's alien (and modified)*/
+/* add_rect: Don't actually blit a surface,
+   but add a rect to be updated next update
+   (used by trans_wipe() ) */
+void add_rect(SDL_Rect* src, SDL_Rect* dst) {
+  /*borrowed from SL's alien (and modified)*/
 
-    struct blit    *update;
+  struct blit *update;
 
-    if (!src || !dst)
-    {
-#ifdef TUXMATH_DEBUG
-     fprintf(stderr, "AddRect(): src or dst invalid!\n");
-#endif
-      return;
-    }
+  if (!src || !dst)
+  {
+    DEBUGMSG(debug_titlescreen, "add_rect(): src or dst invalid!\n");
+    return;
+  }
 
-    update = &blits[numupdates++];
+  update = &blits[numupdates++];
 
-    update->srcrect->x = src->x;
-    update->srcrect->y = src->y;
-    update->srcrect->w = src->w;
-    update->srcrect->h = src->h;
-    update->dstrect->x = dst->x;
-    update->dstrect->y = dst->y;
-    update->dstrect->w = dst->w;
-    update->dstrect->h = dst->h;
-    update->type = 'I';
+  update->srcrect->x = src->x;
+  update->srcrect->y = src->y;
+  update->srcrect->w = src->w;
+  update->srcrect->h = src->h;
+  update->dstrect->x = dst->x;
+  update->dstrect->y = dst->y;
+  update->dstrect->w = dst->w;
+  update->dstrect->h = dst->h;
+  update->type = 'I';
 }
 
-/***********************
- InitEngine
- ***********************/
-void InitEngine(void) {
-    int i;
 
-    /* --- Set up the update rectangle pointers --- */
-
-    for (i = 0; i < MAX_UPDATES; ++i) {
-        blits[i].srcrect = &srcupdate[i];
-        blits[i].dstrect = &dstupdate[i];
-    }
-}
 
 
 void set_default_menu_options(menu_options *menu_opts)
@@ -2578,22 +2572,6 @@ void set_default_menu_options(menu_options *menu_opts)
 /* Recalculate on-screen locations for title screen elements */
 void RecalcTitlePositions()
 {
-  Backrect = current_bkg()->clip_rect;
-  Backrect.x = (screen->w - Backrect.w) / 2;
-  Backrect.y = (screen->h - Backrect.h) / 2;
-
-  Titledest.x = 0;
-  Titledest.y = 0;
-
-  Tuxdest.x = 0;
-  Tuxdest.y = screen->h - Tuxdest.h;
-
-  beak.x = Tuxdest.x + 70;
-  beak.y = Tuxdest.y + 60;
-  beak.w = beak.h = 50;
-
-  stopRect.x = screen->w - stopRect.w;
-  stopRect.y = 0;
 }
 
 /* Recalculate on-screen locations for menus when screen dimensions change */
@@ -2709,16 +2687,16 @@ void RecalcMenuPositions(int* numentries,
   for (i = 0; i < *numentries; ++i)
   {
     back_button_rect[0][i] = menu_button_rect[0][i];
-    back_button_rect[0][i].x -= Backrect.x;
-    back_button_rect[0][i].y -= Backrect.y;
+    back_button_rect[0][i].x -= bkg_rect.x;
+    back_button_rect[0][i].y -= bkg_rect.y;
 
     back_text_rect[0][i] = menu_text_rect[0][i];
-    back_text_rect[0][i].x -= Backrect.x;
-    back_text_rect[0][i].y -= Backrect.y;
+    back_text_rect[0][i].x -= bkg_rect.x;
+    back_text_rect[0][i].y -= bkg_rect.y;
 
     back_sprite_rect[0][i] = menu_sprite_rect[0][i];
-    back_sprite_rect[0][i].x -= Backrect.x;
-    back_sprite_rect[0][i].y -= Backrect.y;
+    back_sprite_rect[0][i].x -= bkg_rect.x;
+    back_sprite_rect[0][i].y -= bkg_rect.y;
   }
 
 }
@@ -2747,7 +2725,7 @@ int handle_easter_egg(const SDL_Event* evt)
       {
       SDL_ShowCursor(SDL_ENABLE);
       //SDL_FillRect(screen, &cursor, 0);
-      SDL_BlitSurface(current_bkg(), NULL, screen, &Backrect); //cover egg up once more
+      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect); //cover egg up once more
       SDL_WarpMouse(cursor.x, cursor.y);
       SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h); //egg->x, egg->y, egg->w, egg->h);
       egg_active = 0;
@@ -2765,14 +2743,14 @@ int handle_easter_egg(const SDL_Event* evt)
       //animate
       while (tuxframe != 0)
         {
-        SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &Tuxdest);
-        SDL_UpdateRect(screen, Tuxdest.x, Tuxdest.y, Tuxdest.w, Tuxdest.h);
+        SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &tux_rect);
+        SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
         SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);
         }
 
       eggtimer = SDL_GetTicks() + EASTER_EGG_MS;
       egg_active = 1;
-      SDL_WarpMouse(Tuxdest.x + Tuxdest.w / 2, Tuxdest.y + Tuxdest.h - egg->h);
+      SDL_WarpMouse(tux_rect.x + tux_rect.w / 2, tux_rect.y + tux_rect.h - egg->h);
 
       }
 

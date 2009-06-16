@@ -604,6 +604,9 @@ void initialize_SDL(void)
       screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, surfaceMode);
     }
 
+    RES_X = screen->w;
+    RES_Y = screen->h;
+
     if (screen == NULL)
     {
       fprintf(stderr,

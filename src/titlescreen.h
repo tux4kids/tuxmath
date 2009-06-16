@@ -129,7 +129,7 @@ enum {
 
 /*In titlescreen.c */
 void TitleScreen(void);
-void RenderTitleScreen(void);
+int RenderTitleScreen(void);
 int ChooseMission(void);  //FIXME really should be in fileops.c
 int choose_menu_item(const char **menu_text, 
                      sprite **menu_sprites, 
