@@ -29,12 +29,14 @@ TCPsocket sd;           /* Socket descriptor */
 SDLNet_SocketSet set;
 
 MC_FlashCard flash;
-MC_FlashCard* Make_Flashcard(char *buf);
+int Make_Flashcard(char *buf, MC_FlashCard* fc);
+
 int main(int argc, char **argv)
 {
-  MC_FlashCard* fclist;
+//  MC_FlashCard* fclist;
   IPaddress ip;           /* Server address */
   int quit, len, sockets_used;
+  int numready;
   char buffer[512];  // for command-line input
   char buf[512];     // for network messages from server
   int x, i = 0;
@@ -100,46 +102,52 @@ int main(int argc, char **argv)
     }
 
     //Now we check for any responses from server:
-    //FIXME have to make this not block so we can keep checking until all the messages are gone
-    //do
+    //NOTE keep looping until SDLNet_CheckSockets() detects no activity.
+    numready = 1;
+    while(numready > 0 && !quit)
     {
       char command[NET_BUF_LEN];
       int i = 0;
-      int numready;
 
       //This is supposed to check to see if there is activity and time out
       // after 1000 ms if no activity
-      numready = SDLNet_CheckSockets(set, 1000);
+      numready = SDLNet_CheckSockets(set, 10);
       if(numready == -1)
       {
         printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
         //most of the time this is a system error, where perror might help you.
         perror("SDLNet_CheckSockets");
       }
-      else if(numready)
+      else
       {
-        printf("There are %d sockets with activity!\n",numready);
+        printf("There are %d sockets with activity!\n", numready);
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         if(SDLNet_SocketReady(sd))
         {
+          buf[0] = '\0';
           x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
           /* Copy the command name out of the tab-delimited buffer: */
-          for (i = 0; buf[i] != '\t' && i < NET_BUF_LEN; i++)
+          for (i = 0;
+               buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
+               i++)
+          {
             command[i] = buf[i];
+          }
+
           command[i] = '\0';
+
           printf("buf is %s\n", buf);
           printf("command is %s\n", command);
         
           /* Now we process the buffer according to the command: */
           if(strcmp(command, "SEND_QUESTION") == 0)
           {
-           
-            fclist=Make_Flashcard(buf);  /* function call to parse buffer into MC_FlashCard */
+            Make_Flashcard(buf, &flash);  /* function call to parse buffer into MC_FlashCard */
           }
         }
       }
-      
-    }// while (x > 0);
+    }
+    printf("No active sockets within timeout interval\n");
 
   }
  
@@ -150,10 +158,9 @@ int main(int argc, char **argv)
 }
 
 
-MC_FlashCard* Make_Flashcard(char *buf)
+int Make_Flashcard(char* buf, MC_FlashCard* fc)
 {
-  MC_FlashCard *fc;
-  int i,j,tab=0,s=0;
+  int i, j, tab = 0, s = 0;
   char formula[MC_FORMULA_LEN];
   sscanf (buf,"%*s %d %d %d %s",
               &fc->question_id,
@@ -167,20 +174,20 @@ MC_FlashCard* Make_Flashcard(char *buf)
     if(*buf=='\t')
     tab++; 
     buf++;
-    if(tab==5)
+    if(tab == 5)
     break;
    }
 
-  while(*buf!='\n')
-   {
+  while((*buf!='\n') 
+    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
+  {
     formula[s]=*buf;
     buf++;
     s++;
-   }
- 
+  }
+
   formula[s]='\0';
-  strcpy(fc->formula_string,formula); 
- 
+  strcpy(fc->formula_string, formula); 
 
   printf ("card is:\n");
   printf("QUESTION_ID       :      %d\n",fc->question_id);
@@ -189,7 +196,7 @@ MC_FlashCard* Make_Flashcard(char *buf)
   printf("ANSWER            :      %d\n",fc->answer);
   printf("DIFFICULTY        :      %d\n",fc->difficulty);  
   
-  return fc;
+  return 1;
 } 
 
 

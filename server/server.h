@@ -18,7 +18,7 @@
 
 
 enum {
-  SETUP_QUESTION_LIST,
+  NEW_GAME,
   SEND_A_QUESTION
 };
 
