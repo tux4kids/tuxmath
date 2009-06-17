@@ -23,7 +23,7 @@
 #include "SDL_net.h"
 #include "transtruct.h"
 #include "mathcards.h"
-
+#include "testclient.h"
 
 TCPsocket sd;           /* Socket descriptor */
 SDLNet_SocketSet set;
@@ -40,6 +40,7 @@ int main(int argc, char **argv)
   char buffer[512];  // for command-line input
   char buf[512];     // for network messages from server
   int x, i = 0;
+  int command_type;
 
   /* Simple parameter checking */
   if (argc < 3)
@@ -138,13 +139,25 @@ int main(int argc, char **argv)
 
           printf("buf is %s\n", buf);
           printf("command is %s\n", command);
-        
+          command_type=-1;
           /* Now we process the buffer according to the command: */
           if(strcmp(command, "SEND_QUESTION") == 0)
           {
-            Make_Flashcard(buf, &flash);  /* function call to parse buffer into MC_FlashCard */
+            command_type=SEND_QUESTION;        //from the enum in testclient.h
           }
-        }
+             
+          switch(command_type)
+          {
+            case SEND_QUESTION:
+             { 
+              if(!Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
+              printf("Unable to parse buffer into FlashCard\n");
+              break;
+             }
+            default :
+             break;
+          }
+       }
       }
     }
     printf("No active sockets within timeout interval\n");
@@ -162,7 +175,7 @@ int Make_Flashcard(char* buf, MC_FlashCard* fc)
 {
   int i, j, tab = 0, s = 0;
   char formula[MC_FORMULA_LEN];
-  sscanf (buf,"%*s %d %d %d %s",
+  sscanf (buf,"%*s%d%d%d%s",
               &fc->question_id,
               &fc->difficulty,
               &fc->answer,

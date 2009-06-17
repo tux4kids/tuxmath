@@ -6,5 +6,5 @@ bin_PROGRAMS = tuxmathserver tuxmathtestclient
 tuxmathserver_SOURCES = server.c mathcards.c 
 tuxmathtestclient_SOURCES = testclient.c
 
-EXTRA_DIST = mathcards.h server.h
-
+EXTRA_DIST = mathcards.h server.h testclient.h
+ 
