@@ -19,12 +19,16 @@
 
 enum {
   NEW_GAME,
-  SEND_A_QUESTION
+  SEND_A_QUESTION,
+  LIST_NOT_SETUP,
+  CORRECT_ANSWER
 };
 
 
 /*enum for messages for SendMessage*/
 enum {
+  ANSWER_CORRECT,
+  LIST_SET_UP,
   NO_QUESTION_LIST
 };
 

@@ -30,6 +30,9 @@ SDLNet_SocketSet set;
 
 MC_FlashCard flash;
 int Make_Flashcard(char *buf, MC_FlashCard* fc);
+int MC_AnsweredCorrectly(MC_FlashCard* fc);
+
+char buffer[512];  // for command-line input
 
 int main(int argc, char **argv)
 {
@@ -37,11 +40,10 @@ int main(int argc, char **argv)
   IPaddress ip;           /* Server address */
   int quit, len, sockets_used;
   int numready;
-  char buffer[512];  // for command-line input
   char buf[512];     // for network messages from server
   int x, i = 0;
   int command_type;
-
+  int ans;
   /* Simple parameter checking */
   if (argc < 3)
   {
@@ -86,7 +88,7 @@ int main(int argc, char **argv)
   quit = 0;
   while (!quit)
   {
-    //Get user input from command line and send it to server: 
+   //Get user input from command line and send it to server: 
     printf("Write something:\n>");
     scanf("%s", buffer);
 
@@ -145,17 +147,31 @@ int main(int argc, char **argv)
           {
             command_type=SEND_QUESTION;        //from the enum in testclient.h
           }
+
              
           switch(command_type)
           {
-            case SEND_QUESTION:
-             { 
-              if(!Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
-              printf("Unable to parse buffer into FlashCard\n");
+           case SEND_QUESTION:                                   
+           { 
+            if(!Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
+            printf("Unable to parse buffer into FlashCard\n");
+            while(1)
+            { 
+             printf("Enter ur answer...\n");
+             scanf("%d",&ans);
+             if(ans==flash.answer)
+             {  
+              if(!MC_AnsweredCorrectly(&flash))
+              printf("Unable to communicate the same to server\n");
               break;
              }
-            default :
-             break;
+             else
+             printf("Sorry try again....At present the game won't move forward unless u answer this =D \n");
+            }          
+            break;
+           }
+           default :
+           break;
           }
        }
       }
@@ -170,7 +186,23 @@ int main(int argc, char **argv)
   return EXIT_SUCCESS;
 }
 
-
+int MC_AnsweredCorrectly(MC_FlashCard* fc)
+{
+ int len;
+ snprintf(buffer, NET_BUF_LEN, 
+                  "%s %d\n",
+                  "CORRECT_ANSWER",
+                  fc->question_id);
+ len = strlen(buffer) + 1;
+ if (SDLNet_TCP_Send(sd, (void *)buffer, len) < len)
+ {
+  fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+  exit(EXIT_FAILURE);
+ }
+ return 1;
+}
+                
+ 
 int Make_Flashcard(char* buf, MC_FlashCard* fc)
 {
   int i, j, tab = 0, s = 0;

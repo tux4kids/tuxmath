@@ -26,16 +26,18 @@
 #include "server.h" 
 
 TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
-
+int SendMessage(int ,int );
+ 
 int main(int argc, char **argv)
 { 
   IPaddress ip, *remoteIP;
   int quit, quit2;
   char buffer[NET_BUF_LEN];
-  int network_function = -1;
+  int command_type = -1;
   //     size_t length;
   MC_FlashCard flash;
   static int initialize = 0;
+  int id;
 
   printf("Started tuxmathserver, waiting for client to connect:\n");
 
@@ -89,53 +91,85 @@ int main(int argc, char **argv)
       quit2 = 0;
       while (!quit2)
       {
+        char command[NET_BUF_LEN];
         if (SDLNet_TCP_Recv(csd, buffer, NET_BUF_LEN) > 0)
         {
-          network_function = -1;
+          command_type = -1;
           printf("Client say: %s\n", buffer);
-                                       
-          //'a' for the setting up the question list                                           
-          if(strcmp(buffer,"a") == 0)
+          sscanf (buffer,"%s %d\n",
+                         command,
+                         &id);  
+     
+          if(strcmp(command,"CORRECT_ANSWER") == 0)
           {
             initialize=1; 
-            network_function = NEW_GAME;              
+            command_type = CORRECT_ANSWER;              
+          }                             
+          
+          //'a' for the setting up the question list                                           
+          if(strcmp(command,"a") == 0)
+          {
+            initialize=1; 
+            command_type = NEW_GAME;              
           } 
                                        
           //'b' for asking for a question(flashcard)
-          if(strcmp(buffer,"b") == 0)
+          if(strcmp(command,"b") == 0)
           {
-            if(!initialize)
-             {SendMessage(NO_QUESTION_LIST);
-              continue;
-             }
-            network_function = SEND_A_QUESTION;              
+           if(!initialize)
+            {
+             command_type=LIST_NOT_SETUP;                    
+            }
+           else
+           command_type = SEND_A_QUESTION;              
           } 
 
-          if(strcmp(buffer, "exit") == 0) /* Terminate this connection */
+          if(strcmp(command, "exit") == 0) /* Terminate this connection */
           {
             quit2 = 1;
             printf("Terminate connection\n");
           }
 
-          if(strcmp(buffer, "quit") == 0) /* Quit the program */
+          if(strcmp(command, "quit") == 0) /* Quit the program */
           {
             quit2 = 1;
             quit = 1;
             printf("Quit program\n");
           }
-
-          switch(network_function)
+          
+          switch(command_type)
           {
             case NEW_GAME:  //mainly to setup the question list
             {
               if (!MC_StartGame())
               {
                 fprintf(stderr, "\nMC_StartGame() failed!");
-                return 0;
-              }                                                                                  
+              }
+              if(!SendMessage(LIST_SET_UP,0))
+             {
+              printf("Unable to communicate to the client\n");
+             }                                                                                  
                                                  
               break;                                           
             } 
+
+            case CORRECT_ANSWER:
+            {
+             if(!SendMessage(ANSWER_CORRECT,0))
+             {
+              printf("Unable to communicate to the client\n");
+             }
+             break;
+            }
+
+            case LIST_NOT_SETUP:                    //to send any message to the client 
+            {              
+             if(!SendMessage(NO_QUESTION_LIST,id))
+             {
+              printf("Unable to communicate to the client\n");
+             }
+             break;
+            }
 
             case SEND_A_QUESTION:
             {
@@ -209,28 +243,59 @@ int SendQuestion(MC_FlashCard flash)
 
 /*Function to send any messages to the client be it any warnings
   or anything the client is made to be informed*/
-int SendMessage(int message)         
+int SendMessage(int message,int z)         
 {
- char *msg;
  int x,len;
-  char buf[NET_BUF_LEN];
+ char buf[NET_BUF_LEN];
 
  switch(message)
  {
-   case NO_QUESTION_LIST:
-   {
-     msg = "Please! first setup the question list by typing <a>";
-     len = strlen(msg) + 1;    // add one for the terminating NULL
-     snprintf(buf, NET_BUF_LEN, 
-                   "%s\t%s\n",
-                   "SEND_MESSAGE",
-                   msg);
-     printf("buf is: %s\n", buf);
-     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-     printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-     break;
-   }
+  case NO_QUESTION_LIST:
+  {
+   char msg[100] = "Please! first setup the question list by typing <a>";
+   snprintf(buf, NET_BUF_LEN, 
+                 "%s\t%s\n",
+                 "SEND_MESSAGE",
+                 msg);
+   printf("buf is: %s\n", buf);
+   x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+   break;
   }
+  
+  case ANSWER_CORRECT:
+  {
+    char msg[100];  
+    sprintf(msg,"%s   %d   %s",
+                "Question ID:",
+                z,
+                "was answered correctly by the client");
+    snprintf(buf, NET_BUF_LEN, 
+                  "%s\t%s\n",
+                  "SEND_MESSAGE",
+                  msg);
+    printf("buf is: %s\n", buf);
+    x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+    printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+    break;
+  } 
+  
+  case LIST_SET_UP:
+  {
+   char msg[100] = "Question list was successfully setup";
+   snprintf(buf, NET_BUF_LEN, 
+                 "%s\t%s\n",
+                 "SEND_MESSAGE",
+                 msg);
+   printf("buf is: %s\n", buf);
+   x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+   break;
+  } 
+  
+  default :
+  break;
+ }
   
   return 1;
 }
