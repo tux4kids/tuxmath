@@ -154,11 +154,10 @@ SDL_Rect bkg_rect,
          logo_rect,
          tux_rect,
          title_rect,
-         Tuxback,
-         Titleback,
-         stopRect,
          cursor,
          beak;
+
+SDL_Rect stopRect; /* part of the menu */
 
 SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
@@ -178,7 +177,6 @@ void update_screen(int* frame);
 void add_rect(SDL_Rect* src, SDL_Rect* dst);
 
 void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
-void RecalcTitlePositions();
 void RecalcMenuPositions(int*, int, menu_options*, void (*)(menu_options*),
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
@@ -213,7 +211,8 @@ int handle_easter_egg(const SDL_Event* evt);
 void TitleScreen(void)
 {
   Uint32 start_time = 0;
-  int i, TuxPixSkip, TitlePixSkip;
+  SDL_Rect tux_anim, title_anim;
+  int i, tux_pix_skip, title_pix_skip;
 
   if (Opts_UsingSound())
   {
@@ -284,7 +283,8 @@ void TitleScreen(void)
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Now Animating Tux and Title onto the screen\n" );
 
   /* Draw background (center it if it's smaller than screen) */
-  if(bkg){
+  if(bkg)
+  {
     /* FIXME not sure trans_wipe() works in Windows: */
     trans_wipe(bkg, RANDOM_WIPE, 10, 20);
     /* Make sure background gets drawn (since trans_wipe() doesn't */
@@ -292,7 +292,54 @@ void TitleScreen(void)
     SDL_BlitSurface(bkg, NULL, screen, &bkg_rect);
   }
 
+  /* --- Pull tux & logo onscreen --- */
+  if(bkg && title && Tux && Tux->frame[0])
+  {
+    /* final tux & title positioins are already calculated,
+       start outside the screen */
+    tux_anim = tux_rect;
+    tux_anim.y = screen->h;
+
+    title_anim = title_rect;
+    title_anim.x = screen->w;
+
+    for(i = 0; i < ANIM_FRAMES; i++)
+    {
+      start_time = SDL_GetTicks();
+
+      /* Draw the entire background, over a black screen if necessary */
+      if(bkg->w != screen->w || bkg->h != screen->h)
+        SDL_FillRect(screen, &screen->clip_rect, 0);
+
+      SDL_BlitSurface(bkg, NULL, screen, &bkg_rect);
+
+      /* calculate shifts */
+      tux_pix_skip = (tux_anim.y - tux_rect.y) / (ANIM_FRAMES - i);
+      tux_anim.y -= tux_pix_skip;
+      title_pix_skip = (title_anim.x - title_rect.x) / (ANIM_FRAMES - i);
+      title_anim.x -= title_pix_skip;
+
+      /* update screen */
+      SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_anim);
+      SDL_BlitSurface(title, NULL, screen, &title_anim);
+
+      SDL_UpdateRect(screen, tux_anim.x, tux_anim.y, tux_anim.w,
+          min(tux_anim.h + tux_pix_skip, screen->h - tux_anim.y));
+      SDL_UpdateRect(screen, title_anim.x, title_anim.y,
+          min(title_anim.w + title_pix_skip, screen->w - title_anim.x), title_anim.h);
+
+      while((SDL_GetTicks() - start_time) < 1000 / ANIM_FPS)
+      {
+        SDL_Delay(2);
+      }
+    }
+  }
+
+  DEBUGMSG(debug_titlescreen, "TitleScreen(): Tux and Title are in place now\n");
+
+
   /* Red "Stop" circle in upper right corner to go back to main menu: */
+  /* this is going to be part of the menu */
   if (images[IMG_STOP])
   {
     stopRect.w = images[IMG_STOP]->w;
@@ -302,75 +349,6 @@ void TitleScreen(void)
     SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
   }
   SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-  /* --- Pull tux & logo onscreen --- */
-  /* NOTE we wind up with tux_rect.y == (screen->h)  - (Tux->frame[0]->h), */
-  /* a 	nd title_rect.x == 0.                                                */
-  if (bkg
-   && images[IMG_MENU_TITLE]
-   && images[IMG_STOP]
-   && Tux && Tux->frame[0])
-  {
-
-    tux_rect.x = 0;
-    tux_rect.y = screen->h;
-    /*
-    Tuxback.x = tux_rect.x - bkg_rect.x;
-    Tuxback.y = tux_rect.y - bkg_rect.y;
-    */
-    tux_rect.w = Tuxback.w = Tux->frame[0]->w;
-    tux_rect.h = Tuxback.h = Tux->frame[0]->h;
-
-
-    title_rect.x = screen->w;
-    title_rect.y = 10;
-    /*
-    Titleback.x = title_rect.x - bkg_rect.x;
-    Titleback.y = title_rect.y - bkg_rect.y;
-    */
-    title_rect.w = Titleback.w = images[IMG_MENU_TITLE]->w;
-    title_rect.h = Titleback.h = images[IMG_MENU_TITLE]->h;
-
-    TuxPixSkip = Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-    TitlePixSkip = (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-
-    for (i = 0; i < (PRE_ANIM_FRAMES * PRE_FRAME_MULT); i++)
-    {
-      start_time = SDL_GetTicks();
-
-      //Draw the entire background, over a black screen if necessary
-      if (current_bkg()->w != screen->w || current_bkg()->h != screen->h)
-        SDL_FillRect(screen, &screen->clip_rect, 0);
-      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
-
-      tux_rect.y -= TuxPixSkip;
-      //Tuxback.y -= Tux->frame[0]->h / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-      title_rect.x -= TitlePixSkip;
-      //Titleback.y -= (screen->w) / (PRE_ANIM_FRAMES * PRE_FRAME_MULT);
-
-      SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
-      SDL_BlitSurface(images[IMG_MENU_TITLE], NULL, screen, &title_rect);
-      SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-
-      SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
-      SDL_UpdateRect(screen, title_rect.x, title_rect.y, title_rect.w + TitlePixSkip, title_rect.h);
-      SDL_UpdateRect(screen, stopRect.x, stopRect.y, stopRect.w, stopRect.h);
-
-      while ((SDL_GetTicks() - start_time) < 33)
-      {
-        SDL_Delay(2);
-      }
-    }
-
-
-  }
-
-  DEBUGMSG(debug_titlescreen, "TitleScreen(): Tux and Title are in place now\n");
-
-  //location of Tux's beak
-  beak.x = tux_rect.x + 70;
-  beak.y = tux_rect.y + 60;
-  beak.w = beak.h = 50;
 
   /* Start playing menu music if desired: */
   if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -427,21 +405,45 @@ int RenderTitleScreen(void)
     bkg_rect.x = (screen->w - bkg_rect.w) / 2;
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
 
+    /* Tux in lower left corner of the screen */
     Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+    if(Tux && Tux->frame[0])
+    {
+      tux_rect = Tux->frame[0]->clip_rect;
+      tux_rect.x = 0;
+      tux_rect.y = screen->h - tux_rect.h;
+    }
+    else
+    {
+      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load Tux image.\n");
+      return 0;
+    }
+
+    /* "Tux, of math command" title in upper right corner */
+    title = images[IMG_MENU_TITLE];
+    if(title)
+    {
+      title_rect = title->clip_rect;
+      title_rect.x = 0;
+      title_rect.y = 0;
+    }
+    else
+    {
+      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load title image.\n");
+      return 0;
+    }
+
+    /* easter egg */
     egg = LoadImage("title/egg.png", IMG_COLORKEY | IMG_NOT_REQUIRED);
 
+    /* FIXME: it would be  better to read those values from file */
+    beak.x = tux_rect.x + 0.36 * tux_rect.w;
+    beak.y = tux_rect.y + 0.21 * tux_rect.h;
+    beak.w = 0.27 * tux_rect.w;
+    beak.h = 0.14 * tux_rect.h;
 
 
-    title_rect.x = 0;
-    title_rect.y = 0;
-
-    tux_rect.x = 0;
-    tux_rect.y = screen->h - tux_rect.h;
-
-    beak.x = tux_rect.x + 70;
-    beak.y = tux_rect.y + 60;
-    beak.w = beak.h = 50;
-
+    /* stop button - going to be part of the menu */
     stopRect.x = screen->w - stopRect.w;
     stopRect.y = 0;
 
@@ -451,8 +453,6 @@ int RenderTitleScreen(void)
     curr_res_y = RES_Y;
 
     DEBUGMSG(debug_titlescreen, "Leaving RenderTitleScreen().\n");
-
-
   }
   return 1;
 }
@@ -492,12 +492,12 @@ void TitleScreen_unload_menu(void)
 
   for (i = 0; i < N_SPRITES; i++)
   {
-    tmdprintf("Freeing image %d: ", i);
+    DEBUGMSG(debug_menu, "Freeing image %d: ", i);
     FreeSprite(sprite_list[i]);
     sprite_list[i] = NULL;
   }
   free(sprite_list);
-  tmdprintf("Images freed\n");
+  DEBUGMSG(debug_menu, "Images freed\n");
   sprite_list = NULL;
 }
 
@@ -505,7 +505,8 @@ void TitleScreen_unload_menu(void)
 
 void free_titlescreen(void)
 {
-  tmdprintf("Unloading media\n");
+  DEBUGMSG(debug_titlescreen, "Unloading media\n");
+
   FreeSprite(Tux);
   Tux = NULL;
 
@@ -544,9 +545,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
   s1 = s2 = s3 = s4 = NULL;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "ShowMessage() - creating text\n" );
-#endif
+  DEBUGMSG(debug_titlescreen, "ShowMessage() - creating text\n" );
 
   if (str1)
     s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
@@ -557,9 +556,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
   if (str4)
     s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "ShowMessage() - drawing screen\n" );
-#endif
+  DEBUGMSG(debug_titlescreen, "ShowMessage() - drawing screen\n" );
 
   /* Redraw background: */
   if (current_bkg() )
@@ -737,7 +734,6 @@ int run_main_menu(void)
           {audioMusicUnload();}
         game();
         RenderTitleScreen();
-        RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
           {audioMusicLoad( "tuxi.ogg", -1 );}
         Opts_SetHelpMode(0);
@@ -1013,7 +1009,6 @@ int run_arcade_menu(void)
       {
         audioMusicUnload();
         game();
-        RecalcTitlePositions();
         RenderTitleScreen();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
@@ -1036,9 +1031,8 @@ int run_arcade_menu(void)
           /* See "On File Locking" in fileops.c */
           append_high_score(choice,Opts_LastScore(),&player_name[0]);
 
-#ifdef TUXMATH_DEBUG
-          print_high_scores(stderr);
-#endif
+          DEBUGCODE(debug_titlescreen)
+            print_high_scores(stderr);
         }
       } else {
         fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
@@ -1075,7 +1069,6 @@ int run_custom_menu(void)
       audioMusicUnload();
 
     game();
-    RecalcTitlePositions();
     RenderTitleScreen();
     write_user_config_file();
 
@@ -1150,9 +1143,8 @@ int run_activities_menu(void)
 	  /* See "On File Locking" in fileops.c */
 	  append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
 
-#ifdef TUXMATH_DEBUG
-	  print_high_scores(stderr);
-#endif
+    DEBUGCODE(debug_titlescreen)
+	    print_high_scores(stderr);
 	}
        else {
 	fprintf(stderr, "\nCould not find config file\n");
@@ -1221,7 +1213,6 @@ int run_options_menu(void)
       {
         audioMusicUnload();
         game();
-        RecalcTitlePositions();
         RenderTitleScreen();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );
@@ -1315,7 +1306,6 @@ int run_lessons_menu(void)
 
 
       game();
-      RecalcTitlePositions();
       RenderTitleScreen();
 
       /* If successful, display Gold Star for this lesson! */
@@ -1503,15 +1493,14 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
   int title_offset = 0;
   int have_trailer = 0;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Entering choose_menu_item():\n");
-#endif
+  DEBUGMSG(debug_menu, "Entering choose_menu_item():\n");
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr,"%d menu entries:\n",n_menu_entries);
-  for (i = 0; i < n_menu_entries; i++)
-    fprintf(stderr,"%s\n",menu_text[i]);
-#endif
+  DEBUGMSG(debug_menu, "%d menu entries:\n", n_menu_entries);
+  DEBUGCODE(debug_menu)
+  {
+    for (i = 0; i < n_menu_entries; i++)
+      DEBUGMSG(debug_menu, "%s\n", menu_text[i]);
+  }
 
   if (custom_mo == NULL)
     set_default_menu_options(&menu_opts);
@@ -1520,7 +1509,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
   if (set_custom_menu_opts != NULL)
     set_custom_menu_opts(&menu_opts);
 
-  tmdprintf("Allocating memory\n");
+  DEBUGMSG(debug_menu, "Allocating memory\n");
   /**** Memory allocation for menu text  ****/
   title_offset = 0;
   if (menu_opts.title != NULL)
@@ -1961,7 +1950,6 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
                 }
 
                 RenderTitleScreen();
-                RecalcTitlePositions();
                 RecalcMenuPositions(&n_entries_per_screen,
                                     n_menu_entries,
                                     &menu_opts,
@@ -1987,7 +1975,6 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             {
               SwitchScreenMode();
               RenderTitleScreen();
-              RecalcTitlePositions();
               RecalcMenuPositions(&n_entries_per_screen,
                                   n_menu_entries,
                                   &menu_opts,
@@ -2026,7 +2013,6 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
             {
               start_campaign();
               RenderTitleScreen();
-              RecalcTitlePositions();
               RecalcMenuPositions(&n_entries_per_screen,
                                   n_menu_entries,
                                   &menu_opts,
@@ -2071,7 +2057,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
       redraw = 1;
     if (redraw)
     {
-      tmdprintf("Updating entire screen\n");
+      DEBUGMSG(debug_menu, "Updating entire screen\n");
       /* This is a full-screen redraw */
       /* Redraw background, title, stop button, and Tux: */
       if (!current_bkg() || screen->flags & SDL_FULLSCREEN )
@@ -2156,7 +2142,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
         SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &menu_text_rect[imod]);  // draw text
         if (use_sprite) {
           temp_rect = menu_sprite_rect[imod];
-          tmdprintf("Sprite %d at (%d %d)\n",  imod, temp_rect.x, temp_rect.y);
+          DEBUGMSG(debug_menu, "Sprite %d at (%d %d)\n",  imod, temp_rect.x, temp_rect.y);
           SDL_BlitSurface(menu_sprites[old_loc-title_offset]->default_img, NULL, screen, &temp_rect);
           // Also update the sprite rect (in some cases the sprite
           // extends beyond the menu button)
@@ -2183,7 +2169,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           next_frame(menu_sprites[loc-title_offset]);
         }
         SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
-        tmdprintf("Updating rect: %d %d %d %d\n", menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
+        DEBUGMSG(debug_menu, "Updating rect: %d %d %d %d\n", menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
       }
     } else if (frame_counter % 5 == 0 && loc >= 0) {
       // No user input changed anything, but check to see if we need to
@@ -2301,7 +2287,7 @@ void set_buttons_max_width(SDL_Rect *menu_button_rect,
   for (i = 0; i < n; i++)
     menu_button_rect[i].w = back_button_rect[i].w = max;
 
-  tmdprintf("All buttons at width %d\n", max);
+  DEBUGMSG(debug_menu, "All buttons at width %d\n", max);
 }
 
 /* Was in playgame.c in tuxtype: */
@@ -2569,11 +2555,6 @@ void set_default_menu_options(menu_options *menu_opts)
   menu_opts->trailer = NULL;
 }
 
-/* Recalculate on-screen locations for title screen elements */
-void RecalcTitlePositions()
-{
-}
-
 /* Recalculate on-screen locations for menus when screen dimensions change */
 /* Perhaps consider generalizing this for use in initial menu calculations? */
 void RecalcMenuPositions(int* numentries,
@@ -2678,11 +2659,12 @@ void RecalcMenuPositions(int* numentries,
       menu_sprite_rect[0][i].w = 40;
       menu_sprite_rect[0][i].h = 50;
     }
-    tmdprintf("***Rects[%d]****\n", i);
-    tmdprintf("%3d %3d %3d %3d\n", menu_button_rect[0][i].x, menu_button_rect[0][i].y, menu_button_rect[0][i].w, menu_button_rect[0][i].h);
-    tmdprintf("%3d %3d %3d %3d\n", menu_text_rect[0][i].x, menu_text_rect[0][i].y, menu_text_rect[0][i].w, menu_text_rect[0][i].h);
-    tmdprintf("%3d %3d %3d %3d\n", menu_sprite_rect[0][i].x, menu_sprite_rect[0][i].y, menu_sprite_rect[0][i].w, menu_sprite_rect[0][i].h);
-    tmdprintf("***************\n");
+
+    DEBUGMSG(debug_menu, "***Rects[%d]****\n", i);
+    DEBUGMSG(debug_menu, "%3d %3d %3d %3d\n", menu_button_rect[0][i].x, menu_button_rect[0][i].y, menu_button_rect[0][i].w, menu_button_rect[0][i].h);
+    DEBUGMSG(debug_menu, "%3d %3d %3d %3d\n", menu_text_rect[0][i].x, menu_text_rect[0][i].y, menu_text_rect[0][i].w, menu_text_rect[0][i].h);
+    DEBUGMSG(debug_menu, "%3d %3d %3d %3d\n", menu_sprite_rect[0][i].x, menu_sprite_rect[0][i].y, menu_sprite_rect[0][i].w, menu_sprite_rect[0][i].h);
+    DEBUGMSG(debug_menu, "***************\n");
   }
   for (i = 0; i < *numentries; ++i)
   {

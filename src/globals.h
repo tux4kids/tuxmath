@@ -29,6 +29,9 @@
 
 typedef enum { false, true } bool;
 
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+
 /* for conditional compilation of debugging output */
 //#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */

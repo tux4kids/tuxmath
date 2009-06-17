@@ -74,14 +74,9 @@ typedef struct {
 #define FULL_CIRCLE                           140
 
 
-/* Title sequence constants */
-#define PRE_ANIM_FRAMES                       10
-#define PRE_FRAME_MULT                        3
-#define MENU_SEP                              20
-
-/* paths */
-
-
+/* Title screen animation constants */
+#define ANIM_FRAMES                30 /* frames to be displayed */
+#define ANIM_FPS                   25 /* max fps */
 
 
 
