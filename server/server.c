@@ -163,7 +163,7 @@ int main(int argc, char **argv)
 
             case CORRECT_ANSWER:
             {
-              if(!SendMessage(ANSWER_CORRECT, 0))
+              if(!SendMessage(ANSWER_CORRECT,id))
               {
                 printf("Unable to communicate to the client\n");
               }
@@ -213,7 +213,7 @@ int main(int argc, char **argv)
       }
 
       /* Close the client socket */
-      SDLNet_TCP_Close(csd);
+      SDLNet_TCP_Close(csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
     }
   }
   /* Clean up mathcards heap memory */
@@ -282,10 +282,10 @@ int SendMessage(int message, int z)
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
   x = SDLNet_TCP_Send(csd, buf, NET_BUF_LEN);
 
-#ifdef LAN_DEBUG
+//#ifdef LAN_DEBUG
   printf("buf is: %s\n", buf);
   printf("SendMessage() - buf sent:::: %d bytes\n", x);
-#endif
+//#endif
 
   return 1;
 }
