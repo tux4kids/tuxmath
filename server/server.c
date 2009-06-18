@@ -34,11 +34,12 @@ int main(int argc, char **argv)
   int quit, quit2;
   char buffer[NET_BUF_LEN];
   int command_type = -1;
+  //     size_t length;
   MC_FlashCard flash;
   static int initialize = 0;
   int id;
 
-  printf("Started tuxmathserver, waiting for client to connect:\n");
+  printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
   if (!MC_Initialize())
   {
@@ -81,9 +82,14 @@ int main(int argc, char **argv)
       /* Get the remote address */
       if ((remoteIP = SDLNet_TCP_GetPeerAddress(csd)))
         /* Print the address, converting in the host format */
-        printf("Host connected: IP = %x, Port = %d\n",
+      {
+        printf("Client connected\n>\n");
+#ifdef LAN_DEBUG
+        printf("Client: IP = %x, Port = %d\n",
 	       SDLNet_Read32(&remoteIP->host),
 	       SDLNet_Read16(&remoteIP->port));
+#endif
+      }
       else
         fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
                         
@@ -94,25 +100,31 @@ int main(int argc, char **argv)
         if (SDLNet_TCP_Recv(csd, buffer, NET_BUF_LEN) > 0)
         {
           command_type = -1;
-          printf("Client say: %s\n", buffer);
+#ifdef LAN_DEBUG  
+          printf("Buffer received from client: %s\n", buffer);
+#endif
           sscanf (buffer,"%s %d\n",
                          command,
                          &id);  
      
-          if(strcmp(command,"CORRECT_ANSWER") == 0)
+          if(strcmp(command, "CORRECT_ANSWER") == 0)
           {
             command_type = CORRECT_ANSWER;              
-          }                                      
-          //'a' for the setting up the question list                   
-          else if(strcmp(command,"a") == 0)
+          }                             
+          
+          //'a' for the setting up the question list                                           
+          if(strcmp(command, "a") == 0)
           {
-            initialize=1; 
+            initialize = 1; 
             command_type = NEW_GAME;              
           } 
+                                       
           //'b' for asking for a question(flashcard)
-          else if(strcmp(command,"b") == 0)
+          if(strcmp(command, "b") == 0)
           {
+#ifdef LAN_DEBUG
             printf("received request to send question\n");
+#endif
             if(!initialize)
             {
               command_type = LIST_NOT_SETUP;                    
@@ -120,18 +132,19 @@ int main(int argc, char **argv)
             else
               command_type = SEND_A_QUESTION;              
           } 
-          else if(strcmp(command, "exit") == 0) /* Terminate this connection */
+
+          if(strcmp(command, "exit") == 0) /* Terminate this connection */
           {
             quit2 = 1;
-            printf("Terminate connection\n");
+            printf("Terminating client connection\n");
           }
-          else if(strcmp(command, "quit") == 0) /* Quit the program */
+
+          if(strcmp(command, "quit") == 0) /* Quit the program */
           {
             quit2 = 1;
             quit = 1;
             printf("Quit program\n");
           }
-          else;
           
           switch(command_type)
           {
@@ -150,7 +163,7 @@ int main(int argc, char **argv)
 
             case CORRECT_ANSWER:
             {
-              if(!SendMessage(ANSWER_CORRECT,id))
+              if(!SendMessage(ANSWER_CORRECT, 0))
               {
                 printf("Unable to communicate to the client\n");
               }
@@ -175,13 +188,14 @@ int main(int argc, char **argv)
               }
               else
               {                                     
+#ifdef LAN_DEBUG
                 printf("WILL SEND >>\n");  
                 printf("QUESTION_ID       :      %d\n", flash.question_id);
                 printf("FORMULA_STRING    :      %s\n", flash.formula_string);
                 printf("ANSWER STRING     :      %s\n", flash.answer_string);
                 printf("ANSWER            :      %d\n",flash.answer);
                 printf("DIFFICULTY        :      %d\n",flash.difficulty);
-
+#endif
                 if(!SendQuestion(flash))
                 {
                   printf("Unable to send Question\n");
@@ -216,6 +230,7 @@ int main(int argc, char **argv)
 int SendQuestion(MC_FlashCard flash)
 {
   int x;
+
   char buf[NET_BUF_LEN];
   snprintf(buf, NET_BUF_LEN, 
                 "%s\t%d\t%d\t%d\t%s\t%s\n",
@@ -225,9 +240,12 @@ int SendQuestion(MC_FlashCard flash)
                 flash.answer,
                 flash.answer_string,
                 flash.formula_string);
-  printf("buf is: %s\n", buf);
   x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+
+#ifdef LAN_DEBUG
   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
 
   if (x == 0)
     return 0;
@@ -239,58 +257,36 @@ int SendQuestion(MC_FlashCard flash)
   or anything the client is made to be informed*/
 int SendMessage(int message, int z)         
 {
- int x,len;
+ int x, len;
  char buf[NET_BUF_LEN];
+ char msg[100];  
 
- switch(message)
- {
-   case NO_QUESTION_LIST:
-   {
-     char msg[100] = "Please! first setup the question list by typing <a>";
-     snprintf(buf, NET_BUF_LEN, 
-                 "%s\t%s\n",
-                 "SEND_MESSAGE",
-                 msg);
-     printf("buf is: %s\n", buf);
-     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-     printf("SendMessage() - buf sent:::: %d bytes\n", x);
-     break;
-   }
-  
-   case ANSWER_CORRECT:
-   {
-     char msg[100];  
-     sprintf(msg,"%s   %d   %s",
-                "Question ID:",
-                z,
-                "was answered correctly by the client");
-     snprintf(buf, NET_BUF_LEN, 
-                  "%s\t%s\n",
-                  "SEND_MESSAGE",
-                  msg);
-     printf("buf is: %s\n", buf);
-     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-     printf("SendMessage() - buf sent:::: %d bytes\n", x);
-     break;
-   } 
-  
+ /* Create appropriate message: */
+  switch(message)
+  {
+    case NO_QUESTION_LIST:
+      sprintf(msg,"%s", "Please! first setup the question list by typing <a>\n");
+      break;
+    case ANSWER_CORRECT:
+      sprintf(msg,"%s %d %s", "Question ID:",
+              z, "was answered correctly by the client\n");
+      break;
    case LIST_SET_UP:
-   {
-     char msg[100] = "Question list was successfully setup";
-     snprintf(buf, NET_BUF_LEN, 
-                 "%s\t%s\n",
-                 "SEND_MESSAGE",
-                 msg);
-     printf("buf is: %s\n", buf);
-     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-     printf("SendMessage() - buf sent:::: %d bytes\n", x);
-     break;
-   } 
-  
+      sprintf(msg,"%s", "Question list was successfully setup\n");
+      break;
    default :
-     break;
- }
-  
+     fprintf(stderr, "SendMessage() - unrecognized message type\n");
+     return 0;
+  }
+  //transmit:
+  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+  x = SDLNet_TCP_Send(csd, buf, NET_BUF_LEN);
+
+#ifdef LAN_DEBUG
+  printf("buf is: %s\n", buf);
+  printf("SendMessage() - buf sent:::: %d bytes\n", x);
+#endif
+
   return 1;
 }
 

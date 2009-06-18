@@ -1,5 +1,5 @@
 /*
-*  C Implementation: testclient.c
+*  C Implementation: server.c
 *
 *       Description: Test client program for LAN-based play in Tux,of Math Command.
 *
@@ -25,12 +25,12 @@
 #include "mathcards.h"
 #include "testclient.h"
 
-TCPsocket sd;           /* Socket descriptor */
+TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 
 MC_FlashCard flash;    //current question
 int Make_Flashcard(char *buf, MC_FlashCard* fc);
-int MC_AnsweredCorrectly(MC_FlashCard* fc);
+int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int playgame(void);
 
 
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 
   // Create a socket set to handle up to 16 sockets
   // NOTE 16 taken from example - almost certainly don't need that many
-  set = SDLNet_AllocSocketSet(1);                         // it has to be one since this is client and it has to communicate with ONLY 1 SERVER.
+  set = SDLNet_AllocSocketSet(1);
   if(!set) {
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
@@ -83,17 +83,18 @@ int main(int argc, char **argv)
     // perhaps you need to restart the set and make it bigger...
   }
 
-  printf("Welcome to the Tux Math Test Client!\n");
-  printf("Type:\n"
-             "'game' to start math game;\n"
-             "'exit' to end client leaving server running;\n"
-             "'quit' to end both client and server\n\n");
+
 
   /* Send messages */
   quit = 0;
   while (!quit)
-  {
-   //Get user input from command line and send it to server: 
+  { 
+    //Get user input from command line and send it to server: 
+    printf("Welcome to the Tux Math Test Client!\n");
+    printf("Type:\n"
+             "'game' to start math game;\n"
+             "'exit' to end client leaving server running;\n"
+             "'quit' to end both client and server\n>\n"); 
     scanf("%s", buffer);
 
     //Figure out if we are trying to quit:
@@ -110,21 +111,20 @@ int main(int argc, char **argv)
     }
     else if (strcmp(buffer, "game") == 0)
     {
+      printf("Starting math game:\n");
       playgame();
+      printf("Math game finished.\n");
     }
     else
     {
       printf("Command not recognized. Type:\n"
              "'game' to start math game;\n"
              "'exit' to end client leaving server running;\n"
-             "'quit' to end both client and server\n\n");
+             "'quit' to end both client and server\n\n>\n");
     }
   }
  
   SDLNet_TCP_Close(sd);
-  SDLNet_FreeSocketSet(set);
-  set=NULL; //this helps us remember that this set is not allocated
-
   SDLNet_Quit();
  
   return EXIT_SUCCESS;
@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 
 
 
-int MC_AnsweredCorrectly(MC_FlashCard* fc)
+int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 {
   int len;
   char buffer[NET_BUF_LEN];
@@ -142,7 +142,7 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
                   "CORRECT_ANSWER",
                   fc->question_id);
   len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, len) < len)
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
@@ -155,57 +155,61 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
 
 int Make_Flashcard(char* buf, MC_FlashCard* fc)
 {
-  int i, j, tab = 0, s = 0;
+  int i = 0, j, tab = 0, s = 0;
   char formula[MC_FORMULA_LEN];
   sscanf (buf,"%*s%d%d%d%s",
               &fc->question_id,
               &fc->difficulty,
               &fc->answer,
-              fc->answer_string);                          /* can't formula_string in sscanf in here cause it includes spaces*/
+              fc->answer_string); /* can't formula_string in sscanf in here cause it includes spaces*/
  
- /*doing all this cause sscanf will break on encountering space in formula_string*/
-   while(*buf!='\n')
-   {
-    if(*buf=='\t')
-    tab++; 
-    buf++;
-    if(tab == 5)
-    break;
-   }
-
-  while((*buf!='\n') 
-    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
+  /*doing all this cause sscanf will break on encountering space in formula_string*/
+  /* NOTE changed to index notation so we keep within NET_BUF_LEN */
+  while(buf[i]!='\n' && i < NET_BUF_LEN)
   {
-    formula[s]=*buf;
-    buf++;
-    s++;
+    if(buf[i]=='\t')
+      tab++; 
+    i++;
+    if(tab == 5)
+      break;
   }
 
+  while((buf[i] != '\n') 
+    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
+  {
+    formula[s] = buf[i] ;
+    i++;
+    s++;
+  }
   formula[s]='\0';
   strcpy(fc->formula_string, formula); 
 
+#ifdef LAN_DEBUG
   printf ("card is:\n");
   printf("QUESTION_ID       :      %d\n",fc->question_id);
   printf("FORMULA_STRING    :      %s\n",fc->formula_string);
   printf("ANSWER STRING     :      %s\n",fc->answer_string);
   printf("ANSWER            :      %d\n",fc->answer);
   printf("DIFFICULTY        :      %d\n",fc->difficulty);  
-  
-  return 1;
+#endif
+
+return 1;
 } 
 
 int playgame(void)
 {
   int numready;
   int command_type;
-  int ans;
+  int ans = 0;
   int x, i = 0;
   int end = 0;
   int have_question = 0;
   int len = 0;
   char buf[NET_BUF_LEN];
 
+#ifdef LAN_DEBUG
   printf("Entering playgame()\n");
+#endif
 
   //Tell server to start new game:
   snprintf(buf, NET_BUF_LEN, "%s\n", "a");
@@ -234,9 +238,8 @@ int playgame(void)
       char command[NET_BUF_LEN];
       int i = 0;
 
-      //This is supposed to check to see if there is activity and time out
-      // after 1000 ms if no activity
-      numready = SDLNet_CheckSockets(set, 1000);
+      //This is supposed to check to see if there is activity:
+      numready = SDLNet_CheckSockets(set, 0);
       if(numready == -1)
       {
         printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
@@ -245,7 +248,9 @@ int playgame(void)
       }
       else
       {
+#ifdef LAN_DEBUG
         printf("There are %d sockets with activity!\n", numready);
+#endif
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         if(SDLNet_SocketReady(sd))
         {
@@ -261,8 +266,10 @@ int playgame(void)
 
           command[i] = '\0';
 
+#ifdef LAN_DEBUG
           printf("buf is %s\n", buf);
           printf("command is %s\n", command);
+#endif
           /* Now we process the buffer according to the command: */
           if(strcmp(command, "SEND_QUESTION") == 0)
           {
@@ -275,42 +282,59 @@ int playgame(void)
       }
     } // End of loop for checking server activity
 
+#ifdef LAN_DEBUG
     printf("No active sockets within timeout interval\n");
-
-
+#endif
 
     //Now we check for any user responses
     while(have_question && !end)
     { 
       printf("Question is: %s\n", flash.formula_string);
-      printf("Enter answer:\n");
-      scanf("%d",&ans);
-      if (ans == 999)
+      printf("Enter answer:\n>");
+      fgets(buf, sizeof(buf), stdin);
+      printf("buf is %s\n", buf);
+      if ((strncmp(buf, "quit", 4) == 0)
+        ||(strncmp(buf, "exit", 4) == 0)
+	||(strncmp(buf, "q", 1) == 0))
+      {
         end = 1;
-      else if(ans == flash.answer)
-      {  
-        have_question = 0;
-        //Tell server we answered it right:
-        if(!MC_AnsweredCorrectly(&flash))
-        {
-          printf("Unable to communicate the same to server\n");
-          exit(EXIT_FAILURE);
-        }
-        //and ask it to send us the next one:
-        //Ask for first question:
-        snprintf(buf, NET_BUF_LEN, "%s\n", "b");
-        printf("requesting next question, buf: %s", buf);
-        if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-        {
-          fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-          exit(EXIT_FAILURE);
-        }
       }
-      else  //incorrect answer:
-        printf("Sorry try again!\n");
+      else
+      {
+        /*NOTE atoi() will return zero for any string that is not
+	a valid int, not just '0' - should not be a big deal for
+	our test program - DSB */
+        ans = atoi(buf);
+        if(ans == flash.answer)
+        {  
+          have_question = 0;
+          //Tell server we answered it right:
+          if(!LAN_AnsweredCorrectly(&flash))
+          {
+            printf("Unable to communicate the same to server\n");
+            exit(EXIT_FAILURE);
+          }
+
+          //and ask it to send us the next one:
+          snprintf(buf, NET_BUF_LEN, "%s\n", "b");
+
+#ifdef LAN_DEBUG
+          printf("requesting next question, buf: %s", buf);
+#endif
+          if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
+          {
+            fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+            exit(EXIT_FAILURE);
+          }
+        }
+        else  //incorrect answer:
+          printf("Sorry, incorrect. Try again!\n");
+      }  //isint() returned false:
     }
   } //End of game loop 
+#ifdef LAN_DEBUG
   printf("Leaving playgame()\n");
+#endif
 }
 
 

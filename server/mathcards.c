@@ -193,10 +193,12 @@ int answered_wrong = 0;
 int questions_pending = 0;
 int unanswered = 0;
 int starting_length = 0;
+//NOTE these are no longer used:
 int max_formula_size = 0; //max length in chars of a flashcard's formula
 int max_answer_size = 0; //and of its answer
 
 /* For keeping track of timing data */
+/*FIXME do we really need any of these? */
 float* time_per_question_list = NULL;
 int length_time_per_question_list = 0;
 int length_alloc_time_per_question_list = 0;
@@ -284,8 +286,7 @@ int MC_Initialize(void)
   /* bail out if no struct */
   if (!math_opts)
   {
-
-    mcdprintf("\nError: math_opts null or invalid");
+    mcdprintf("\nError: malloc couldn't allocate math_opts for some reason\n");
     mcdprintf("\nLeaving MC_Initialize()\n");
 
     fprintf(stderr, "\nUnable to initialize math_options");
@@ -295,7 +296,7 @@ int MC_Initialize(void)
   /* set defaults */
   for (i = 0; i < NOPTS; ++i)
     {
-    math_opts->iopts[i] = MC_DEFAULTS[i];
+      math_opts->iopts[i] = MC_DEFAULTS[i];
     }
 
   /* if no negatives to be used, reset any negatives to 0 */
@@ -370,24 +371,14 @@ int MC_StartGame(void)
 
   mcdprintf("max answer, formula size: %d, %d\n",
             max_answer_size, max_formula_size);
-  /* set up new list with pointer to top: */
-// if(n==1)                             				//if selects server , n==1 from titlescreen.c 
-//  { 
-   question_list = generate_list();
 
-   next_wrong_quest = 0;
-   /* initialize counters for new game: */
-   quest_list_length = list_length(question_list);
+  question_list = generate_list();
+
+  next_wrong_quest = 0;
+  /* initialize counters for new game: */
+  quest_list_length = list_length(question_list);
   
-//   SendQuestionList(question_list,quest_list_length);
-//  } 
-  
-//if(n==0)							//if selects client , n==0 from titlescreen.c
-//{
-//   next_wrong_quest = 0;
-//   ReceiveQuestionList(question_list,quest_list_length);
- 
-//}
+
   /* Note: the distinction between quest_list_length and  */
   /* unanswered is that the latter includes questions     */
   /* that are currently "in play" by the user interface - */
@@ -442,7 +433,8 @@ int MC_StartGameUsingWrongs(void)
 
     /* initialize lists for new game: */
     delete_list(question_list);
-    if(!randomize_list(&wrong_quests)) {
+    if(!randomize_list(&wrong_quests))
+    {
       fprintf(stderr, "Error during randomization of wrong_quests!\n");
       /* Punt on trying wrong question list, just run normal game */
       return MC_StartGame();
@@ -476,13 +468,13 @@ int MC_StartGameUsingWrongs(void)
 }
 
 
-/*  MC_NextQuestion() takes a pointer to an allocated     */
-/*  MC_MathQuestion struct and fills in the fields for    */
-/*  use by the user interface program. It basically is    */
-/*  like taking the next flashcard from the pile. The     */
-/*  node containing the question is removed from the list.*/
-/*  Returns 1 if question found, 0 if list empty/invalid  */
-/*  or if argument pointer is invalid.                    */
+/*  MC_NextQuestion() takes a pointer to an allocated      */
+/*  MC_MathQuestion struct and fills in the fields for     */
+/*  use by the user interface program. It basically is     */
+/*  like taking the next flashcard from the pile. The      */
+/*  node containing the question is removed from the list. */
+/*  Returns 1 if question found, 0 if list empty/invalid   */
+/*  or if argument pointer is invalid.                     */
 int MC_NextQuestion(MC_FlashCard* fc)
 {
   mcdprintf("\nEntering MC_NextQuestion()\n");
@@ -1166,6 +1158,7 @@ void print_list(FILE* fp, MC_MathQuestion* list)
   }
 }
 
+
 void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 {
   if (!vect)
@@ -1181,6 +1174,8 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 
   mcdprintf("Leaving print_vect_list()\n");
 }
+
+
 
 #ifdef MC_DEBUG
 void print_card(MC_FlashCard card)
@@ -1229,6 +1224,9 @@ void print_counters(void)
 //   return fc;
 // }
 #endif
+
+
+
 
 int list_length(MC_MathQuestion* list)
 {
@@ -1499,7 +1497,7 @@ MC_FlashCard generate_random_flashcard(void)
 
   generate_random_flashcard_id+=1;
   mcdprintf("Entering generate_random_flashcard()\n");
-  printf("%d\n",generate_random_flashcard_id);
+  mcdprintf("%d\n",generate_random_flashcard_id);
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -1559,10 +1557,10 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   char tempstr[MC_FORMULA_LEN];
   MC_FlashCard ret;
   MC_Operation op;
-  static int id=0;
+  static int id = 0;
 
-  id+=1;
-  printf(".");
+  id += 1;
+  mcdprintf(".");
   if (length > MAX_FORMULA_NUMS)
     return DEFAULT_CARD;
   if (length <= 2)
@@ -1739,12 +1737,16 @@ MC_MathQuestion* generate_list(void)
   MC_MathQuestion* end_of_list = NULL;
   MC_MathQuestion* tnode = NULL;
 
+#ifdef MC_DEBUG
   MC_PrintMathOptions(stdout, 0);
+#endif
+
   if (!(MC_GetOpt(ARITHMETIC_ALLOWED) ||
       MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||
       MC_GetOpt(COMPARISON_ALLOWED) ) )
     return NULL;
 
+  //FIXME - remind me, why are we doing this??
   //randomize list length by a "bell curve" centered on average
   if (length && MC_GetOpt(VARY_LIST_LENGTH) )
   {
@@ -1817,7 +1819,7 @@ MC_MathQuestion* generate_list(void)
           tnode->card = generate_random_flashcard();
           list = insert_node(list, end_of_list, tnode);
           end_of_list = tnode;
-          mcdprintf("%d...", list_length(list) );
+//          mcdprintf("%d.", list_length(list) );
         }
       }
       else if (length < cl) //if too many questions, chop off tail end of list

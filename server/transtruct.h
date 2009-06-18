@@ -14,12 +14,15 @@
 #ifndef TRANSTRUCT_H
 #define TRANSTRUCT_H
 
+//#define LAN_DEBUG
+#define NET_BUF_LEN 512
+#define DEFAULT_PORT 4778
+
 #define MC_USE_NEWARC
 #define MC_FORMULA_LEN 40
 #define MC_ANSWER_LEN 5
 
-#define NET_BUF_LEN 512
-#define DEFAULT_PORT 4778
+
 
 #ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
