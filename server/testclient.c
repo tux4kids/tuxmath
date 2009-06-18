@@ -1,5 +1,5 @@
 /*
-*  C Implementation: server.c
+*  C Implementation: testclient.c
 *
 *       Description: Test client program for LAN-based play in Tux,of Math Command.
 *
@@ -71,7 +71,7 @@ int main(int argc, char **argv)
 
   // Create a socket set to handle up to 16 sockets
   // NOTE 16 taken from example - almost certainly don't need that many
-  set = SDLNet_AllocSocketSet(16);
+  set = SDLNet_AllocSocketSet(1);                         // it has to be one since this is client and it has to communicate with ONLY 1 SERVER.
   if(!set) {
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
@@ -122,6 +122,9 @@ int main(int argc, char **argv)
   }
  
   SDLNet_TCP_Close(sd);
+  SDLNet_FreeSocketSet(set);
+  set=NULL; //this helps us remember that this set is not allocated
+
   SDLNet_Quit();
  
   return EXIT_SUCCESS;
@@ -288,11 +291,11 @@ int playgame(void)
       {  
         have_question = 0;
         //Tell server we answered it right:
-/*        if(!MC_AnsweredCorrectly(&flash))
+        if(!MC_AnsweredCorrectly(&flash))
         {
           printf("Unable to communicate the same to server\n");
           exit(EXIT_FAILURE);
-        }*/
+        }
         //and ask it to send us the next one:
         //Ask for first question:
         snprintf(buf, NET_BUF_LEN, "%s\n", "b");

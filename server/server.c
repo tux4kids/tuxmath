@@ -34,7 +34,6 @@ int main(int argc, char **argv)
   int quit, quit2;
   char buffer[NET_BUF_LEN];
   int command_type = -1;
-  //     size_t length;
   MC_FlashCard flash;
   static int initialize = 0;
   int id;
@@ -103,17 +102,15 @@ int main(int argc, char **argv)
           if(strcmp(command,"CORRECT_ANSWER") == 0)
           {
             command_type = CORRECT_ANSWER;              
-          }                             
-          
-          //'a' for the setting up the question list                                           
-          if(strcmp(command,"a") == 0)
+          }                                      
+          //'a' for the setting up the question list                   
+          else if(strcmp(command,"a") == 0)
           {
             initialize=1; 
             command_type = NEW_GAME;              
           } 
-                                       
           //'b' for asking for a question(flashcard)
-          if(strcmp(command,"b") == 0)
+          else if(strcmp(command,"b") == 0)
           {
             printf("received request to send question\n");
             if(!initialize)
@@ -123,19 +120,18 @@ int main(int argc, char **argv)
             else
               command_type = SEND_A_QUESTION;              
           } 
-
-          if(strcmp(command, "exit") == 0) /* Terminate this connection */
+          else if(strcmp(command, "exit") == 0) /* Terminate this connection */
           {
             quit2 = 1;
             printf("Terminate connection\n");
           }
-
-          if(strcmp(command, "quit") == 0) /* Quit the program */
+          else if(strcmp(command, "quit") == 0) /* Quit the program */
           {
             quit2 = 1;
             quit = 1;
             printf("Quit program\n");
           }
+          else;
           
           switch(command_type)
           {
@@ -154,7 +150,7 @@ int main(int argc, char **argv)
 
             case CORRECT_ANSWER:
             {
-              if(!SendMessage(ANSWER_CORRECT, 0))
+              if(!SendMessage(ANSWER_CORRECT,id))
               {
                 printf("Unable to communicate to the client\n");
               }
@@ -220,7 +216,6 @@ int main(int argc, char **argv)
 int SendQuestion(MC_FlashCard flash)
 {
   int x;
-
   char buf[NET_BUF_LEN];
   snprintf(buf, NET_BUF_LEN, 
                 "%s\t%d\t%d\t%d\t%s\t%s\n",

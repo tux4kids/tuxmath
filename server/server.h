@@ -16,7 +16,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-
+/*enum for commands coming from the client side*/
 enum {
   NEW_GAME,
   SEND_A_QUESTION,
