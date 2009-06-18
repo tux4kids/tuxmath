@@ -102,7 +102,6 @@ int main(int argc, char **argv)
      
           if(strcmp(command,"CORRECT_ANSWER") == 0)
           {
-            initialize=1; 
             command_type = CORRECT_ANSWER;              
           }                             
           
@@ -116,12 +115,13 @@ int main(int argc, char **argv)
           //'b' for asking for a question(flashcard)
           if(strcmp(command,"b") == 0)
           {
-           if(!initialize)
+            printf("received request to send question\n");
+            if(!initialize)
             {
-             command_type=LIST_NOT_SETUP;                    
+              command_type = LIST_NOT_SETUP;                    
             }
-           else
-           command_type = SEND_A_QUESTION;              
+            else
+              command_type = SEND_A_QUESTION;              
           } 
 
           if(strcmp(command, "exit") == 0) /* Terminate this connection */
@@ -146,29 +146,28 @@ int main(int argc, char **argv)
                 fprintf(stderr, "\nMC_StartGame() failed!");
               }
               if(!SendMessage(LIST_SET_UP,0))
-             {
-              printf("Unable to communicate to the client\n");
-             }                                                                                  
-                                                 
+              {
+                printf("Unable to communicate to the client\n");
+              }
               break;                                           
             } 
 
             case CORRECT_ANSWER:
             {
-             if(!SendMessage(ANSWER_CORRECT,id))
-             {
-              printf("Unable to communicate to the client\n");
-             }
-             break;
+              if(!SendMessage(ANSWER_CORRECT, 0))
+              {
+                printf("Unable to communicate to the client\n");
+              }
+              break;
             }
 
             case LIST_NOT_SETUP:                    //to send any message to the client 
             {              
-             if(!SendMessage(NO_QUESTION_LIST,id))
-             {
-              printf("Unable to communicate to the client\n");
-             }
-             break;
+              if(!SendMessage(NO_QUESTION_LIST,id))
+              {
+                printf("Unable to communicate to the client\n");
+              }
+              break;
             }
 
             case SEND_A_QUESTION:
@@ -243,58 +242,58 @@ int SendQuestion(MC_FlashCard flash)
 
 /*Function to send any messages to the client be it any warnings
   or anything the client is made to be informed*/
-int SendMessage(int message,int z)         
+int SendMessage(int message, int z)         
 {
  int x,len;
  char buf[NET_BUF_LEN];
 
  switch(message)
  {
-  case NO_QUESTION_LIST:
-  {
-   char msg[100] = "Please! first setup the question list by typing <a>";
-   snprintf(buf, NET_BUF_LEN, 
+   case NO_QUESTION_LIST:
+   {
+     char msg[100] = "Please! first setup the question list by typing <a>";
+     snprintf(buf, NET_BUF_LEN, 
                  "%s\t%s\n",
                  "SEND_MESSAGE",
                  msg);
-   printf("buf is: %s\n", buf);
-   x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-   break;
-  }
+     printf("buf is: %s\n", buf);
+     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+     printf("SendMessage() - buf sent:::: %d bytes\n", x);
+     break;
+   }
   
-  case ANSWER_CORRECT:
-  {
-    char msg[100];  
-    sprintf(msg,"%s   %d   %s",
+   case ANSWER_CORRECT:
+   {
+     char msg[100];  
+     sprintf(msg,"%s   %d   %s",
                 "Question ID:",
                 z,
                 "was answered correctly by the client");
-    snprintf(buf, NET_BUF_LEN, 
+     snprintf(buf, NET_BUF_LEN, 
                   "%s\t%s\n",
                   "SEND_MESSAGE",
                   msg);
-    printf("buf is: %s\n", buf);
-    x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-    printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-    break;
-  } 
+     printf("buf is: %s\n", buf);
+     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+     printf("SendMessage() - buf sent:::: %d bytes\n", x);
+     break;
+   } 
   
-  case LIST_SET_UP:
-  {
-   char msg[100] = "Question list was successfully setup";
-   snprintf(buf, NET_BUF_LEN, 
+   case LIST_SET_UP:
+   {
+     char msg[100] = "Question list was successfully setup";
+     snprintf(buf, NET_BUF_LEN, 
                  "%s\t%s\n",
                  "SEND_MESSAGE",
                  msg);
-   printf("buf is: %s\n", buf);
-   x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
-   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-   break;
-  } 
+     printf("buf is: %s\n", buf);
+     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+     printf("SendMessage() - buf sent:::: %d bytes\n", x);
+     break;
+   } 
   
-  default :
-  break;
+   default :
+     break;
  }
   
   return 1;

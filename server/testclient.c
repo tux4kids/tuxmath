@@ -83,12 +83,17 @@ int main(int argc, char **argv)
     // perhaps you need to restart the set and make it bigger...
   }
 
+  printf("Welcome to the Tux Math Test Client!\n");
+  printf("Type:\n"
+             "'game' to start math game;\n"
+             "'exit' to end client leaving server running;\n"
+             "'quit' to end both client and server\n\n");
+
   /* Send messages */
   quit = 0;
   while (!quit)
   {
    //Get user input from command line and send it to server: 
-    printf("Write something:\n>");
     scanf("%s", buffer);
 
     //Figure out if we are trying to quit:
@@ -192,7 +197,7 @@ int playgame(void)
   int command_type;
   int ans;
   int x, i = 0;
-  int quit = 0;
+  int end = 0;
   int have_question = 0;
   int len = 0;
   char buf[NET_BUF_LEN];
@@ -200,7 +205,7 @@ int playgame(void)
   printf("Entering playgame()\n");
 
   //Tell server to start new game:
-  sprintf(buf, "a");
+  snprintf(buf, NET_BUF_LEN, "%s\n", "a");
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -208,7 +213,7 @@ int playgame(void)
   }
 
   //Ask for first question:
-  sprintf(buf, "b");
+  snprintf(buf, NET_BUF_LEN, "%s\n", "b");
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "failed on b: SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -216,72 +221,82 @@ int playgame(void)
   }
 
   //Begin game loop:
-  //First we check for any responses from server:
-  //NOTE keep looping until SDLNet_CheckSockets() detects no activity.
-  numready = 1;
-  while(numready > 0)
+  while (!end)
   {
-    char command[NET_BUF_LEN];
-    int i = 0;
+    //First we check for any responses from server:
+    //NOTE keep looping until SDLNet_CheckSockets() detects no activity.
+    numready = 1;
+    while(numready > 0)
+    {
+      char command[NET_BUF_LEN];
+      int i = 0;
 
-    //This is supposed to check to see if there is activity and time out
-    // after 10 ms if no activity
-    numready = SDLNet_CheckSockets(set, 1000);
-    if(numready == -1)
-    {
-      printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-      //most of the time this is a system error, where perror might help you.
-      perror("SDLNet_CheckSockets");
-    }
-    else
-    {
-      printf("There are %d sockets with activity!\n", numready);
-      // check all sockets with SDLNet_SocketReady and handle the active ones.
-      if(SDLNet_SocketReady(sd))
+      //This is supposed to check to see if there is activity and time out
+      // after 1000 ms if no activity
+      numready = SDLNet_CheckSockets(set, 1000);
+      if(numready == -1)
       {
-        buf[0] = '\0';
-        x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
-        /* Copy the command name out of the tab-delimited buffer: */
-        for (i = 0;
-             buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
-             i++)
+        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+        //most of the time this is a system error, where perror might help you.
+        perror("SDLNet_CheckSockets");
+      }
+      else
+      {
+        printf("There are %d sockets with activity!\n", numready);
+        // check all sockets with SDLNet_SocketReady and handle the active ones.
+        if(SDLNet_SocketReady(sd))
         {
-          command[i] = buf[i];
-        }
+          buf[0] = '\0';
+          x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+          /* Copy the command name out of the tab-delimited buffer: */
+          for (i = 0;
+               buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
+               i++)
+          {
+            command[i] = buf[i];
+          }
 
-        command[i] = '\0';
+          command[i] = '\0';
 
-        printf("buf is %s\n", buf);
-        printf("command is %s\n", command);
-        /* Now we process the buffer according to the command: */
-        if(strcmp(command, "SEND_QUESTION") == 0)
-        {
-          if(Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
-            have_question = 1; 
-          else
-            printf("Unable to parse buffer into FlashCard\n");
+          printf("buf is %s\n", buf);
+          printf("command is %s\n", command);
+          /* Now we process the buffer according to the command: */
+          if(strcmp(command, "SEND_QUESTION") == 0)
+          {
+            if(Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
+              have_question = 1; 
+            else
+              printf("Unable to parse buffer into FlashCard\n");
+          }
         }
       }
-    }        
+    } // End of loop for checking server activity
+
     printf("No active sockets within timeout interval\n");
 
+
+
     //Now we check for any user responses
-    while(have_question)
+    while(have_question && !end)
     { 
       printf("Question is: %s\n", flash.formula_string);
       printf("Enter answer:\n");
       scanf("%d",&ans);
-      if(ans == flash.answer)
+      if (ans == 999)
+        end = 1;
+      else if(ans == flash.answer)
       {  
         have_question = 0;
         //Tell server we answered it right:
-        if(!MC_AnsweredCorrectly(&flash))
+/*        if(!MC_AnsweredCorrectly(&flash))
         {
           printf("Unable to communicate the same to server\n");
           exit(EXIT_FAILURE);
-        }
+        }*/
         //and ask it to send us the next one:
-        sprintf(buf, "b");
+        //Ask for first question:
+        snprintf(buf, NET_BUF_LEN, "%s\n", "b");
+        printf("requesting next question, buf: %s", buf);
         if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
         {
           fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
