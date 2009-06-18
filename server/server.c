@@ -155,7 +155,7 @@ int main(int argc, char **argv)
 
             case CORRECT_ANSWER:
             {
-             if(!SendMessage(ANSWER_CORRECT,0))
+             if(!SendMessage(ANSWER_CORRECT,id))
              {
               printf("Unable to communicate to the client\n");
              }
