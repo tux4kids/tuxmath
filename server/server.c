@@ -25,7 +25,8 @@
 #include "mathcards.h"
 #include "server.h" 
 
-TCPsocket sd, csd; /* Socket descriptor, Client socket descriptor */
+TCPsocket sd; /* Socket descriptor, Client socket descriptor */
+SDLNet_SocketSet client_set;
 int SendMessage(int ,int );
  
 int main(int argc, char **argv)
@@ -34,6 +35,7 @@ int main(int argc, char **argv)
   int quit, quit2;
   char buffer[NET_BUF_LEN];
   int command_type = -1;
+  int sockets_used;
   //     size_t length;
   MC_FlashCard flash;
   static int initialize = 0;
@@ -67,20 +69,42 @@ int main(int argc, char **argv)
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
+
+  client_set = SDLNet_AllocSocketSet(16);
+  if(!client_set) {
+    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+
  
   /* Wait for a connection, send data and term */
   quit = 0;
   while (!quit)
   {
+   for(i=0;i<16;i++)
+   {
+    if(client[i].flag==0)
+    break;
+   } 
+  
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
-    if ((csd = SDLNet_TCP_Accept(sd)))
+    if ((client[i].csd = SDLNet_TCP_Accept(sd)))
     {
+      sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
+      if(sockets_used == -1) {
+      printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+      // perhaps you need to restart the set and make it bigger...
+      }
+     client[i].flag=1;
+
+
+
       /* Now we can communicate with the client using csd socket
        * sd will remain opened waiting other connections */
  
       /* Get the remote address */
-      if ((remoteIP = SDLNet_TCP_GetPeerAddress(csd)))
+      if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].csd)))
         /* Print the address, converting in the host format */
       {
         printf("Client connected\n>\n");
@@ -97,7 +121,8 @@ int main(int argc, char **argv)
       while (!quit2)
       {
         char command[NET_BUF_LEN];
-        if (SDLNet_TCP_Recv(csd, buffer, NET_BUF_LEN) > 0)
+        // basically we cant wait here anymore we need to check if the socket is ready if not then give a chance to other client sockets
+        if (SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
         {
           command_type = -1;
 #ifdef LAN_DEBUG  
@@ -213,12 +238,13 @@ int main(int argc, char **argv)
       }
 
       /* Close the client socket */
-      SDLNet_TCP_Close(csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
+      SDLNet_TCP_Close(client[i].csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
+      
     }
   }
   /* Clean up mathcards heap memory */
   MC_EndGame();
-
+  SDL_NetFreeSocketSet(client_set);
   SDLNet_TCP_Close(sd);
   SDLNet_Quit();
  
@@ -240,7 +266,7 @@ int SendQuestion(MC_FlashCard flash)
                 flash.answer,
                 flash.answer_string,
                 flash.formula_string);
-  x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+  x = SDLNet_TCP_Send(client[i].csd, buf, sizeof(buf));
 
 #ifdef LAN_DEBUG
   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
@@ -280,7 +306,7 @@ int SendMessage(int message, int z)
   }
   //transmit:
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-  x = SDLNet_TCP_Send(csd, buf, NET_BUF_LEN);
+  x = SDLNet_TCP_Send(client[i].csd, buf, NET_BUF_LEN);
 
 //#ifdef LAN_DEBUG
   printf("buf is: %s\n", buf);

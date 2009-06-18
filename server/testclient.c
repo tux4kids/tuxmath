@@ -125,6 +125,9 @@ int main(int argc, char **argv)
   }
  
   SDLNet_TCP_Close(sd);
+  SDLNet_FreeSocketSet(set);
+  set=NULL; //this helps us remember that this set is not allocated
+
   SDLNet_Quit();
  
   return EXIT_SUCCESS;
