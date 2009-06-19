@@ -20,26 +20,27 @@
 #include <stdlib.h>
 #include <string.h>
  
-#include "SDL_net.h"
+#include "server.h" 
 #include "transtruct.h"
 #include "mathcards.h"
-#include "server.h" 
 
 
-TCPsocket sd; /* Socket descriptor, Client socket descriptor */
+#define NUM_CLIENTS 16
+
+TCPsocket sd; /* Socket descriptor */
 SDLNet_SocketSet client_set;
 
- 
+
+static client_type client[NUM_CLIENTS];
+
+
 int main(int argc, char **argv)
 { 
-  struct client_struct
+  int h;
+  for(h=0;h<NUM_CLIENTS;h++)
   {
-   int flag = 0;                 //flag=1 , if it has been alloted to a client, and 0 otherwise
-   TCPsocket csd;
-  }; 
-
-struct client_struct client[16];
-
+       client[h].flag=0;                          /*doing all flags = 0 meaning no clients are connected */
+   }
 
 
   IPaddress ip, *remoteIP;
@@ -96,7 +97,7 @@ struct client_struct client[16];
   {
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
-    if ((client[i].csd = SDLNet_TCP_Accept(sd)))
+    if (client[i].csd = SDLNet_TCP_Accept(sd))
     {
      num_clients++;
      /* Now we can communicate with the client using client[i].csd socket

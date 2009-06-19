@@ -12,10 +12,17 @@
 */
 
 
+#include "SDL_net.h"
 
 #ifndef SERVER_H
 #define SERVER_H
+typedef struct client_type {
+  int flag;                 //flag=1 , if it has been alloted to a client, and 0 otherwise
+  TCPsocket csd;
+}client_type;
 
+  
+ 
 /*enum for commands coming from the client side*/
 enum {
   NEW_GAME,
