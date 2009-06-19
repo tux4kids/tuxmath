@@ -24,7 +24,7 @@
 #include "transtruct.h"
 #include "mathcards.h"
 
-
+#define LAN_DEBUG
 #define NUM_CLIENTS 16
 
 TCPsocket sd; /* Socket descriptor */
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
   char buffer[NET_BUF_LEN];
   int command_type = -1;
   int sockets_used,numready,j;
-  static int i=0;
+  static int i=-1;
   static int num_clients=0;
   //     size_t length;
   MC_FlashCard flash;
@@ -95,6 +95,9 @@ int main(int argc, char **argv)
   quit = 0;                                                    /*****can say this loop to be the connection manager, which after accepting starts the game*****/
   while (!quit)
   {
+    
+    i++;
+
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
     if (client[i].csd = SDLNet_TCP_Accept(sd))
@@ -115,13 +118,17 @@ int main(int argc, char **argv)
       }
       else
         fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
-      i++;
+      
       sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
       if(sockets_used == -1) 
       {
         printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
         // perhaps you need to restart the set and make it bigger...
       }
+
+#ifdef LAN_DEBUG
+      printf("%d\n",sockets_used);
+#endif
       client[i].flag=1;
     }//end of *if(client[i].csd = SDLNet_TCP_Accept(sd))*  
       //This is supposed to check to see if there is activity:
@@ -136,25 +143,38 @@ int main(int argc, char **argv)
       {
 #ifdef LAN_DEBUG
         printf("There are %d sockets with activity!\n", numready);
+        SDL_Delay(2000);
+       
 #endif
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         for(j=0;j<=(numready-1);j++)
         {
+#ifdef LAN_DEBUG
+          printf("I am here\n");
+ #endif
           char buf[NET_BUF_LEN];
-          if(SDLNet_SocketReady(client[j].csd))
-          {
-            buf[0] = '\0';
-            SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+          int x;
+            buf[0]='\0';
+//          if(SDLNet_SocketReady(client[j].csd))
+//          {
+          x=SDLNet_TCP_Recv(client[j].csd, buf, sizeof(buf));
+          if(x<=0) {
+          // An error may have occured, but sometimes you can just ignore it
+          // It may be good to disconnect sock because it is likely invalid now.
+          }
+
+
+
 #ifdef LAN_DEBUG
             printf("buf is %s\n", buf);
- #endif
+#endif
             /* Now we process the buffer according to the command: */
-            if(strcmp(buf, "game") == 0)
+            if(strcmp(buf, "set_up_list") == 0)
             {
               quit=1;
               break;                //tell the server to stop accepting connections and start the game                           
             }
-          }//end of *if*
+//          }//end of *if*
         }//end of *for* loop
       }//end of *else*
      } // End of *while(!quit)* loop

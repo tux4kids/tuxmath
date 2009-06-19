@@ -25,6 +25,8 @@
 #include "mathcards.h"
 #include "testclient.h"
 
+#define LAN_DEBUG
+
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 
@@ -216,6 +218,9 @@ int playgame(void)
 
   //Tell server to start new game:
   snprintf(buf, NET_BUF_LEN, "%s\n", "set_up_list");
+#ifdef LAN_DEBUG
+  printf("%s\n",buf);
+#endif
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -238,6 +243,12 @@ int playgame(void)
     numready = 1;
     while(numready > 0)
     {
+     
+
+     SDL_Delay(5000);
+
+
+
       char command[NET_BUF_LEN];
       int i = 0;
 
