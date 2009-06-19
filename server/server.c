@@ -35,7 +35,9 @@ int main(int argc, char **argv)
   int quit, quit2;
   char buffer[NET_BUF_LEN];
   int command_type = -1;
-  int sockets_used;
+  int sockets_used,numready,j;
+  static int i=0;
+  static int num_clients=0;
   //     size_t length;
   MC_FlashCard flash;
   static int initialize = 0;
@@ -78,32 +80,17 @@ int main(int argc, char **argv)
 
  
   /* Wait for a connection, send data and term */
-  quit = 0;
+  quit = 0;                                                    /*****can say this loop to be the connection manager, which after accepting starts the game*****/
   while (!quit)
   {
-   for(i=0;i<16;i++)
-   {
-    if(client[i].flag==0)
-    break;
-   } 
-  
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
     if ((client[i].csd = SDLNet_TCP_Accept(sd)))
     {
-      sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
-      if(sockets_used == -1) {
-      printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-      // perhaps you need to restart the set and make it bigger...
-      }
-     client[i].flag=1;
-
-
-
-      /* Now we can communicate with the client using csd socket
-       * sd will remain opened waiting other connections */
- 
-      /* Get the remote address */
+     num_clients++;
+     /* Now we can communicate with the client using client[i].csd socket
+     /* sd will remain opened waiting other connections */
+     /* Get the remote address */
       if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].csd)))
         /* Print the address, converting in the host format */
       {
@@ -116,133 +103,188 @@ int main(int argc, char **argv)
       }
       else
         fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
-                        
+      i++;
+      sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
+      if(sockets_used == -1) 
+      {
+        printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+        // perhaps you need to restart the set and make it bigger...
+      }
+      client[i].flag=1;
+    }//end of *(client[i].csd = SDLNet_TCP_Accept(sd))*  
+      //This is supposed to check to see if there is activity:
+      numready = SDLNet_CheckSockets(client_set, 0);
+      if(numready == -1)
+      {
+        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+        //most of the time this is a system error, where perror might help you.
+        perror("SDLNet_CheckSockets");
+      }
+      else
+      {
+#ifdef LAN_DEBUG
+        printf("There are %d sockets with activity!\n", numready);
+#endif
+        // check all sockets with SDLNet_SocketReady and handle the active ones.
+        for(j=0;j<=(numready-1);j++)
+        {
+          if(SDLNet_SocketReady(client[j].csd))
+          {
+            buf[0] = '\0';
+            x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+#ifdef LAN_DEBUG
+            printf("buf is %s\n", buf);
+ #endif
+            /* Now we process the buffer according to the command: */
+            if(strcmp(buf, "game") == 0)
+            {
+              break;                //tell the server to stop accepting connections                  **********need a "goto" here************           
+            }
+          }//end of *if*
+        }//end of *for* loop
+      }//end of *else*
+     } // End of *while(!quit)* loop
+
+
+
+
+
+ 
+
       quit2 = 0;
       while (!quit2)
       {
-        char command[NET_BUF_LEN];
-        // basically we cant wait here anymore we need to check if the socket is ready if not then give a chance to other client sockets
-        if (SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
+       while(1)       //keep on checking for all the clients in a round robin manner
+       {
+        for(j=0;j<num_clients;j++)
         {
-          command_type = -1;
+  
+         char command[NET_BUF_LEN];
+         // basically we cant wait here anymore we need to check if the socket is ready if not then give a chance to other client sockets
+         if (SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
+         {
+           command_type = -1;
 #ifdef LAN_DEBUG  
-          printf("Buffer received from client: %s\n", buffer);
+           printf("Buffer received from client: %s\n", buffer);
 #endif
-          sscanf (buffer,"%s %d\n",
+           sscanf (buffer,"%s %d\n",
                          command,
                          &id);  
      
-          if(strcmp(command, "CORRECT_ANSWER") == 0)
-          {
-            command_type = CORRECT_ANSWER;              
-          }                             
+           if(strcmp(command, "CORRECT_ANSWER") == 0)
+           {
+             command_type = CORRECT_ANSWER;              
+           }                             
           
-          //'a' for the setting up the question list                                           
-          if(strcmp(command, "a") == 0)
-          {
-            initialize = 1; 
-            command_type = NEW_GAME;              
-          } 
+           //'a' for the setting up the question list                                           
+           if(strcmp(command, "a") == 0)
+           {
+             initialize = 1; 
+             command_type = NEW_GAME;              
+           } 
                                        
-          //'b' for asking for a question(flashcard)
-          if(strcmp(command, "b") == 0)
-          {
+           //'b' for asking for a question(flashcard)
+           if(strcmp(command, "b") == 0)
+           {
 #ifdef LAN_DEBUG
-            printf("received request to send question\n");
+             printf("received request to send question\n");
 #endif
-            if(!initialize)
-            {
-              command_type = LIST_NOT_SETUP;                    
-            }
-            else
-              command_type = SEND_A_QUESTION;              
-          } 
+             if(!initialize)
+             {
+               command_type = LIST_NOT_SETUP;                    
+             }
+             else
+               command_type = SEND_A_QUESTION;              
+           } 
 
-          if(strcmp(command, "exit") == 0) /* Terminate this connection */
-          {
-            quit2 = 1;
-            printf("Terminating client connection\n");
-          }
+           if(strcmp(command, "exit") == 0) /* Terminate this connection */
+           {
+             quit2 = 1;
+             printf("Terminating client connection\n");
+           }
 
-          if(strcmp(command, "quit") == 0) /* Quit the program */
-          {
-            quit2 = 1;
-            quit = 1;
-            printf("Quit program\n");
-          }
+           if(strcmp(command, "quit") == 0) /* Quit the program */
+           {
+             quit2 = 1;
+             quit = 1;
+             printf("Quit program\n");
+           }
           
-          switch(command_type)
-          {
-            case NEW_GAME:  //mainly to setup the question list
-            {
-              if (!MC_StartGame())
-              {
-                fprintf(stderr, "\nMC_StartGame() failed!");
-              }
-              if(!SendMessage(LIST_SET_UP,0))
-              {
-                printf("Unable to communicate to the client\n");
-              }
-              break;                                           
-            } 
+           switch(command_type)
+           {
+             case NEW_GAME:  //mainly to setup the question list
+             {
+               if (!MC_StartGame())
+               {
+                 fprintf(stderr, "\nMC_StartGame() failed!");
+               }
+               if(!SendMessage(LIST_SET_UP,0))
+               {
+                 printf("Unable to communicate to the client\n");
+               }
+               break;                                           
+             } 
 
-            case CORRECT_ANSWER:
-            {
-              if(!SendMessage(ANSWER_CORRECT,id))
-              {
-                printf("Unable to communicate to the client\n");
-              }
-              break;
-            }
+             case CORRECT_ANSWER:
+             {
+               if(!SendMessage(ANSWER_CORRECT,id))
+               {
+                 printf("Unable to communicate to the client\n");
+               }
+               break;
+             }
 
-            case LIST_NOT_SETUP:                    //to send any message to the client 
-            {              
-              if(!SendMessage(NO_QUESTION_LIST,id))
-              {
-                printf("Unable to communicate to the client\n");
-              }
-              break;
-            }
+             case LIST_NOT_SETUP:                    //to send any message to the client 
+             {              
+               if(!SendMessage(NO_QUESTION_LIST,id))
+               {
+                 printf("Unable to communicate to the client\n");
+               }
+               break;
+             }
 
-            case SEND_A_QUESTION:
-            {
-              if (!MC_NextQuestion(&flash))
-              { 
-                /* no more questions available */
-                printf("MC_NextQuestion() returned NULL - no questions available\n");
-              }
-              else
-              {                                     
+             case SEND_A_QUESTION:
+             {
+               if (!MC_NextQuestion(&flash))
+               { 
+                 /* no more questions available */
+                 printf("MC_NextQuestion() returned NULL - no questions available\n");
+               }
+               else
+               {                                     
 #ifdef LAN_DEBUG
-                printf("WILL SEND >>\n");  
-                printf("QUESTION_ID       :      %d\n", flash.question_id);
-                printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-                printf("ANSWER STRING     :      %s\n", flash.answer_string);
-                printf("ANSWER            :      %d\n",flash.answer);
-                printf("DIFFICULTY        :      %d\n",flash.difficulty);
+                 printf("WILL SEND >>\n");  
+                 printf("QUESTION_ID       :      %d\n", flash.question_id);
+                 printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+                 printf("ANSWER STRING     :      %s\n", flash.answer_string);
+                 printf("ANSWER            :      %d\n",flash.answer);
+                 printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-                if(!SendQuestion(flash))
-                {
-                  printf("Unable to send Question\n");
-                }
-              } 
+                 if(!SendQuestion(flash))
+                 {
+                   printf("Unable to send Question\n");
+                 }
+               } 
 
-              break;
-            } 
+               break;
+             } 
         
-            default:
-              break;
-          }
+             default:
+               break;
+           }
 
-        }
-      }
+         }//if loop
+        }//end of for loop
+       }//  end of while(1) loop
+      }//while loop
 
       /* Close the client socket */
-      SDLNet_TCP_Close(client[i].csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
+  
+
+    SDLNet_TCP_Close(client[i].csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
       
-    }
-  }
-  /* Clean up mathcards heap memory */
+  
+ /* Clean up mathcards heap memory */
   MC_EndGame();
   SDL_NetFreeSocketSet(client_set);
   SDLNet_TCP_Close(sd);
