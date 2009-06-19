@@ -16,13 +16,6 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-struct client
-{
- TCPsocket csd;
- static int flag=0;                 //flag=1 , if it has been alloted to a client, and 0 otherwise
-}client[16];
-
-
 /*enum for commands coming from the client side*/
 enum {
   NEW_GAME,

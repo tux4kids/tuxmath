@@ -215,7 +215,7 @@ int playgame(void)
 #endif
 
   //Tell server to start new game:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "a");
+  snprintf(buf, NET_BUF_LEN, "%s\n", "set_up_list");
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -223,7 +223,7 @@ int playgame(void)
   }
 
   //Ask for first question:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "b");
+  snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "failed on b: SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -319,7 +319,7 @@ int playgame(void)
           }
 
           //and ask it to send us the next one:
-          snprintf(buf, NET_BUF_LEN, "%s\n", "b");
+          snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
 
 #ifdef LAN_DEBUG
           printf("requesting next question, buf: %s", buf);

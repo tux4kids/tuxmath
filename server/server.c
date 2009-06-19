@@ -25,12 +25,23 @@
 #include "mathcards.h"
 #include "server.h" 
 
+
 TCPsocket sd; /* Socket descriptor, Client socket descriptor */
 SDLNet_SocketSet client_set;
-int SendMessage(int ,int );
+
  
 int main(int argc, char **argv)
 { 
+  struct client_struct
+  {
+   int flag = 0;                 //flag=1 , if it has been alloted to a client, and 0 otherwise
+   TCPsocket csd;
+  }; 
+
+struct client_struct client[16];
+
+
+
   IPaddress ip, *remoteIP;
   int quit, quit2;
   char buffer[NET_BUF_LEN];
@@ -111,7 +122,7 @@ int main(int argc, char **argv)
         // perhaps you need to restart the set and make it bigger...
       }
       client[i].flag=1;
-    }//end of *(client[i].csd = SDLNet_TCP_Accept(sd))*  
+    }//end of *if(client[i].csd = SDLNet_TCP_Accept(sd))*  
       //This is supposed to check to see if there is activity:
       numready = SDLNet_CheckSockets(client_set, 0);
       if(numready == -1)
@@ -128,17 +139,19 @@ int main(int argc, char **argv)
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         for(j=0;j<=(numready-1);j++)
         {
+          char buf[NET_BUF_LEN];
           if(SDLNet_SocketReady(client[j].csd))
           {
             buf[0] = '\0';
-            x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+            SDLNet_TCP_Recv(sd, buf, sizeof(buf));
 #ifdef LAN_DEBUG
             printf("buf is %s\n", buf);
  #endif
             /* Now we process the buffer according to the command: */
             if(strcmp(buf, "game") == 0)
             {
-              break;                //tell the server to stop accepting connections                  **********need a "goto" here************           
+              quit=1;
+              break;                //tell the server to stop accepting connections and start the game                           
             }
           }//end of *if*
         }//end of *for* loop
@@ -150,19 +163,25 @@ int main(int argc, char **argv)
 
 
  
-
+game:
       quit2 = 0;
       while (!quit2)
       {
        while(1)       //keep on checking for all the clients in a round robin manner
        {
-        for(j=0;j<num_clients;j++)
+        for(j=0;j<num_clients;j++)                  // keep on looping across the num_clients in a round-robin manner
         {
-  
-         char command[NET_BUF_LEN];
-         // basically we cant wait here anymore we need to check if the socket is ready if not then give a chance to other client sockets
-         if (SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
+
+         /*Implies that this particular client has already quit itself , so move on to other clients*/         
+         if(client[j].flag==0)
+         continue;                                           
+
+         if(!(SDLNet_SocketReady(client[j].csd)))             //check if that client is ready or not..
+         continue;                                           //if that client is not ready then move to next one
+
+         if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
          {
+           char command[NET_BUF_LEN];
            command_type = -1;
 #ifdef LAN_DEBUG  
            printf("Buffer received from client: %s\n", buffer);
@@ -177,14 +196,14 @@ int main(int argc, char **argv)
            }                             
           
            //'a' for the setting up the question list                                           
-           if(strcmp(command, "a") == 0)
+           if(strcmp(command, "set_up_list") == 0)
            {
              initialize = 1; 
              command_type = NEW_GAME;              
            } 
                                        
            //'b' for asking for a question(flashcard)
-           if(strcmp(command, "b") == 0)
+           if(strcmp(command, "next_question") == 0)
            {
 #ifdef LAN_DEBUG
              printf("received request to send question\n");
@@ -199,15 +218,15 @@ int main(int argc, char **argv)
 
            if(strcmp(command, "exit") == 0) /* Terminate this connection */
            {
-             quit2 = 1;
+             client[i].flag=0;
+             SDLNet_TCP_Close(client[j].csd);
              printf("Terminating client connection\n");
            }
 
            if(strcmp(command, "quit") == 0) /* Quit the program */
            {
              quit2 = 1;
-             quit = 1;
-             printf("Quit program\n");
+             printf("Quit program....Server is shutting down...\n");
            }
           
            switch(command_type)
@@ -218,7 +237,7 @@ int main(int argc, char **argv)
                {
                  fprintf(stderr, "\nMC_StartGame() failed!");
                }
-               if(!SendMessage(LIST_SET_UP,0))
+               if(!SendMessage(LIST_SET_UP,0,client[j].csd))
                {
                  printf("Unable to communicate to the client\n");
                }
@@ -227,7 +246,7 @@ int main(int argc, char **argv)
 
              case CORRECT_ANSWER:
              {
-               if(!SendMessage(ANSWER_CORRECT,id))
+               if(!SendMessage(ANSWER_CORRECT,id,client[j].csd))
                {
                  printf("Unable to communicate to the client\n");
                }
@@ -236,7 +255,7 @@ int main(int argc, char **argv)
 
              case LIST_NOT_SETUP:                    //to send any message to the client 
              {              
-               if(!SendMessage(NO_QUESTION_LIST,id))
+               if(!SendMessage(NO_QUESTION_LIST,id,client[j].csd))
                {
                  printf("Unable to communicate to the client\n");
                }
@@ -260,7 +279,7 @@ int main(int argc, char **argv)
                  printf("ANSWER            :      %d\n",flash.answer);
                  printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-                 if(!SendQuestion(flash))
+                 if(!SendQuestion(flash,client[j].csd))
                  {
                    printf("Unable to send Question\n");
                  }
@@ -270,23 +289,32 @@ int main(int argc, char **argv)
              } 
         
              default:
-               break;
+               break;                             //this *break* comes out of the switch statement
            }
 
          }//if loop
+         if(quit2==1)
+         break;   
+
         }//end of for loop
+        if(quit2==1)
+        break;   
        }//  end of while(1) loop
       }//while loop
 
       /* Close the client socket */
   
-
-    SDLNet_TCP_Close(client[i].csd);            //  int SDLNet TCP DelSocket(SDLNet_SocketSet set, TCPsocket sock )
+    for(j=0;j<num_clients;j++)
+    {
+     if(client[j].flag==1)                           //close only those clients that are still connected 
+     SDLNet_TCP_Close(client[j].csd);                //close all the client sockets one by one
+    }          
+    SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
+    client_set=NULL; //this helps us remember that this set is not allocated
       
   
  /* Clean up mathcards heap memory */
   MC_EndGame();
-  SDL_NetFreeSocketSet(client_set);
   SDLNet_TCP_Close(sd);
   SDLNet_Quit();
  
@@ -295,7 +323,7 @@ int main(int argc, char **argv)
 
 
 //function to send a flashcard(question) from the server to the client
-int SendQuestion(MC_FlashCard flash)
+int SendQuestion(MC_FlashCard flash,TCPsocket client_sock)
 {
   int x;
 
@@ -308,7 +336,7 @@ int SendQuestion(MC_FlashCard flash)
                 flash.answer,
                 flash.answer_string,
                 flash.formula_string);
-  x = SDLNet_TCP_Send(client[i].csd, buf, sizeof(buf));
+  x = SDLNet_TCP_Send(client_sock, buf, sizeof(buf));
 
 #ifdef LAN_DEBUG
   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
@@ -323,7 +351,7 @@ int SendQuestion(MC_FlashCard flash)
 
 /*Function to send any messages to the client be it any warnings
   or anything the client is made to be informed*/
-int SendMessage(int message, int z)         
+int SendMessage(int message, int z,TCPsocket client_sock)         
 {
  int x, len;
  char buf[NET_BUF_LEN];
@@ -348,7 +376,7 @@ int SendMessage(int message, int z)
   }
   //transmit:
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-  x = SDLNet_TCP_Send(client[i].csd, buf, NET_BUF_LEN);
+  x = SDLNet_TCP_Send(client_sock, buf, NET_BUF_LEN);
 
 //#ifdef LAN_DEBUG
   printf("buf is: %s\n", buf);
