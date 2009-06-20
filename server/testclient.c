@@ -25,7 +25,7 @@
 #include "mathcards.h"
 #include "testclient.h"
 
-#define LAN_DEBUG
+//#define LAN_DEBUG
 
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
@@ -212,6 +212,18 @@ int playgame(void)
   int len = 0;
   char buf[NET_BUF_LEN];
 
+  //Tell server to start new game:
+  snprintf(buf, NET_BUF_LEN, "%s\n", "start");
+#ifdef LAN_DEBUG
+  printf("%s\n",buf);
+#endif
+  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
 #endif
@@ -244,11 +256,6 @@ int playgame(void)
     while(numready > 0)
     {
      
-
-     SDL_Delay(5000);
-
-
-
       char command[NET_BUF_LEN];
       int i = 0;
 
@@ -297,7 +304,7 @@ int playgame(void)
     } // End of loop for checking server activity
 
 #ifdef LAN_DEBUG
-    printf("No active sockets within timeout interval\n");
+    printf(".\n");
 #endif
 
     //Now we check for any user responses
@@ -305,7 +312,7 @@ int playgame(void)
     { 
       printf("Question is: %s\n", flash.formula_string);
       printf("Enter answer:\n>");
-      fgets(buf, sizeof(buf), stdin);
+      gets(buf);
       printf("buf is %s\n", buf);
       if ((strncmp(buf, "quit", 4) == 0)
         ||(strncmp(buf, "exit", 4) == 0)

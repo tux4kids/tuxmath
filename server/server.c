@@ -172,10 +172,12 @@ int main(int argc, char **argv)
 
 #ifdef LAN_DEBUG
        printf("buf is %s\n", buf);
+       printf("%d\n",strncmp(buf, "start",5));
 #endif
        /* Now we process the buffer according to the command: */
-       if(strcmp(buf, "set_up_list") == 0)
+       if(strncmp(buf, "start",5) == 0)
        {
+         printf("I am here!\n");
          quit = 1;
          break;                //tell the server to stop accepting connections and start the game                           
        }
@@ -202,8 +204,8 @@ game:
          if(client[j].flag==0)
          continue;                                           
 
-         if(!(SDLNet_SocketReady(client[j].csd)))             //check if that client is ready or not..
-         continue;                                           //if that client is not ready then move to next one
+//         if(!(SDLNet_SocketReady(client[j].csd)))             //check if that client is ready or not..
+//         continue;                                           //if that client is not ready then move to next one
 
          if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
          {
@@ -216,20 +218,20 @@ game:
                          command,
                          &id);  
      
-           if(strcmp(command, "CORRECT_ANSWER") == 0)
+           if(strncmp(command, "CORRECT_ANSWER",14) == 0)
            {
              command_type = CORRECT_ANSWER;              
            }                             
           
            //'a' for the setting up the question list                                           
-           if(strcmp(command, "set_up_list") == 0)
+           if(strncmp(command, "set_up_list",11) == 0)
            {
              initialize = 1; 
              command_type = NEW_GAME;              
            } 
                                        
            //'b' for asking for a question(flashcard)
-           if(strcmp(command, "next_question") == 0)
+           if(strncmp(command, "next_question",13) == 0)
            {
 #ifdef LAN_DEBUG
              printf("received request to send question\n");
@@ -242,14 +244,14 @@ game:
                command_type = SEND_A_QUESTION;              
            } 
 
-           if(strcmp(command, "exit") == 0) /* Terminate this connection */
+           if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
            {
              client[i].flag=0;
              SDLNet_TCP_Close(client[j].csd);
              printf("Terminating client connection\n");
            }
 
-           if(strcmp(command, "quit") == 0) /* Quit the program */
+           if(strncmp(command, "quit",4) == 0) /* Quit the program */
            {
              quit2 = 1;
              printf("Quit program....Server is shutting down...\n");
