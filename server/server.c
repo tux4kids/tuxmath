@@ -85,7 +85,8 @@ int main(int argc, char **argv)
   }
 
   client_set = SDLNet_AllocSocketSet(16);
-  if(!client_set) {
+  if(!client_set)
+  {
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
@@ -100,12 +101,13 @@ int main(int argc, char **argv)
 
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
-    if (client[i].csd = SDLNet_TCP_Accept(sd))
+    client[i].csd = SDLNet_TCP_Accept(sd);
+    if (client[i].csd !=NULL)
     {
-     num_clients++;
-     /* Now we can communicate with the client using client[i].csd socket
-     /* sd will remain opened waiting other connections */
-     /* Get the remote address */
+      num_clients++;
+      /* Now we can communicate with the client using client[i].csd socket
+      /* sd will remain opened waiting other connections */
+      /* Get the remote address */
       if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].csd)))
         /* Print the address, converting in the host format */
       {
@@ -132,52 +134,52 @@ int main(int argc, char **argv)
       client[i].flag=1;
     }//end of *if(client[i].csd = SDLNet_TCP_Accept(sd))*  
       //This is supposed to check to see if there is activity:
-      numready = SDLNet_CheckSockets(client_set, 0);
-      if(numready == -1)
-      {
-        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("SDLNet_CheckSockets");
-      }
-      else
-      {
+    numready = SDLNet_CheckSockets(client_set, 0);
+    if(numready == -1)
+    {
+      printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+      //most of the time this is a system error, where perror might help you.
+      perror("SDLNet_CheckSockets");
+    }
+    else
+    {
 #ifdef LAN_DEBUG
-        printf("There are %d sockets with activity!\n", numready);
-        SDL_Delay(2000);
-       
+      printf("There are %d sockets with activity!\n", numready);
+      SDL_Delay(2000);  //We only delay when debugging?
 #endif
-        // check all sockets with SDLNet_SocketReady and handle the active ones.
-        for(j=0;j<=(numready-1);j++)
-        {
+    // check all sockets with SDLNet_SocketReady and handle the active ones.
+    for(j = 0; j <= (numready - 1); j++)
+    {
 #ifdef LAN_DEBUG
-          printf("I am here\n");
+      printf("I am here\n");
  #endif
-          char buf[NET_BUF_LEN];
-          int x;
-            buf[0]='\0';
+      char buf[NET_BUF_LEN];
+      int x;
+      buf[0] = '\0';
 //          if(SDLNet_SocketReady(client[j].csd))
 //          {
-          x=SDLNet_TCP_Recv(client[j].csd, buf, sizeof(buf));
-          if(x<=0) {
-          // An error may have occured, but sometimes you can just ignore it
-          // It may be good to disconnect sock because it is likely invalid now.
-          }
+      x = SDLNet_TCP_Recv(client[j].csd, buf, sizeof(buf));
+      if(x <= 0)
+      {
+         // An error may have occured, but sometimes you can just ignore it
+         // It may be good to disconnect sock because it is likely invalid now.
+      }
 
 
 
 #ifdef LAN_DEBUG
-            printf("buf is %s\n", buf);
+      printf("buf is %s\n", buf);
 #endif
-            /* Now we process the buffer according to the command: */
-            if(strcmp(buf, "set_up_list") == 0)
-            {
-              quit=1;
-              break;                //tell the server to stop accepting connections and start the game                           
-            }
+      /* Now we process the buffer according to the command: */
+      if(strcmp(buf, "set_up_list") == 0)
+      {
+        quit = 1;
+        break;                //tell the server to stop accepting connections and start the game                           
+      }
 //          }//end of *if*
-        }//end of *for* loop
-      }//end of *else*
-     } // End of *while(!quit)* loop
+      }//end of *for* loop
+    }//end of *else*
+  } // End of *while(!quit)* loop
 
 
 
