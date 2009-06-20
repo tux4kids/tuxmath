@@ -147,8 +147,8 @@ int main(int argc, char **argv)
     else
     {
 #ifdef LAN_DEBUG
-      printf("There are %d sockets with activity!\n", numready);
-      SDL_Delay(2000);  //We only delay when debugging?
+//      printf("There are %d sockets with activity!\n", numready);
+//      SDL_Delay(2000);  //We only delay when debugging?
 #endif
     // check all sockets with SDLNet_SocketReady and handle the active ones.
       for(j = 0; j <= (numready - 1); j++)
@@ -172,14 +172,12 @@ int main(int argc, char **argv)
 
 #ifdef LAN_DEBUG
        printf("buf is %s\n", buf);
-       printf("%d\n",strncmp(buf, "start",5));
+       printf("%d\n",strncmp(buf, "next_question",13));
 #endif
        /* Now we process the buffer according to the command: */
-       if(strncmp(buf, "start",5) == 0)
+       if(strncmp(buf,"next_question",13) == 0)
        {
-         printf("I am here!\n");
-         quit = 1;
-         break;                //tell the server to stop accepting connections and start the game                           
+        goto game;            //tell the server to stop accepting connections and start the game                           
        }
 //          }//end of *if*
       }//end of *for* loop
@@ -187,11 +185,21 @@ int main(int argc, char **argv)
   } // End of *while(!quit)* loop
 
 
-
+//for(j=0;j<num_clients;j++)                               //sending this message to all clients
+// {
+//  if(!SendMessage(LIST_SET_UP,0,client[j].csd))
+//  {
+//   printf("Unable to communicate to the client\n");
+// }
+// }
 
 
  
 game:
+      if (!MC_StartGame())                   //setting up the list itself
+      {
+        fprintf(stderr, "\nMC_StartGame() failed!");
+      }
       quit2 = 0;
       while (!quit2)
       {
@@ -224,11 +232,11 @@ game:
            }                             
           
            //'a' for the setting up the question list                                           
-           if(strncmp(command, "set_up_list",11) == 0)
-           {
-             initialize = 1; 
-             command_type = NEW_GAME;              
-           } 
+//           if(strncmp(command, "set_up_list",11) == 0)
+//           {
+//             initialize = 1; 
+//             command_type = NEW_GAME;              
+//           } 
                                        
            //'b' for asking for a question(flashcard)
            if(strncmp(command, "next_question",13) == 0)
@@ -236,11 +244,11 @@ game:
 #ifdef LAN_DEBUG
              printf("received request to send question\n");
 #endif
-             if(!initialize)
-             {
-               command_type = LIST_NOT_SETUP;                    
-             }
-             else
+//             if(!initialize)
+//             {
+//               command_type = LIST_NOT_SETUP;                    
+//             }
+//             else
                command_type = SEND_A_QUESTION;              
            } 
 
@@ -259,18 +267,18 @@ game:
           
            switch(command_type)
            {
-             case NEW_GAME:  //mainly to setup the question list
-             {
-               if (!MC_StartGame())
-               {
-                 fprintf(stderr, "\nMC_StartGame() failed!");
-               }
-               if(!SendMessage(LIST_SET_UP,0,client[j].csd))
-               {
-                 printf("Unable to communicate to the client\n");
-               }
-               break;                                           
-             } 
+//             case NEW_GAME:  //mainly to setup the question list
+//             {
+//               if (!MC_StartGame())
+//               {
+//                 fprintf(stderr, "\nMC_StartGame() failed!");
+//               }
+//               if(!SendMessage(LIST_SET_UP,0,client[j].csd))
+//              {
+//                 printf("Unable to communicate to the client\n");
+//               }
+//               break;                                           
+//             } 
 
              case CORRECT_ANSWER:
              {

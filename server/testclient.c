@@ -212,32 +212,28 @@ int playgame(void)
   int len = 0;
   char buf[NET_BUF_LEN];
 
-  //Tell server to start new game:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "start");
-#ifdef LAN_DEBUG
-  printf("%s\n",buf);
-#endif
-  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
 
 
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
 #endif
-
-  //Tell server to start new game:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "set_up_list");
-#ifdef LAN_DEBUG
-  printf("%s\n",buf);
-#endif
+  //Ask for first question:
+  snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
   if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    fprintf(stderr, "failed on b: SDLNet_TCP_Send: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
+  //Tell server to start new game:
+//  snprintf(buf, NET_BUF_LEN, "%s\n", "set_up_list");
+//#ifdef LAN_DEBUG
+//  printf("%s\n",buf);
+//#endif
+//  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
+//  {
+//    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+//    exit(EXIT_FAILURE);
+// }
 
   //Ask for first question:
   snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
