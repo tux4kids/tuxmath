@@ -489,6 +489,7 @@ void handle_command_args(int argc, char* argv[])
     }
   }/* end of command-line args */
 
+  DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
 
   if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
   {

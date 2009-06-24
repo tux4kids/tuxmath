@@ -22,6 +22,7 @@
 #include <math.h>
 #include <time.h>
 
+#include "globals.h"
 #include "mathcards.h"
 
 /* extern'd constants */
@@ -231,12 +232,10 @@ static void print_list(FILE* fp,MC_MathQuestion* list);
 void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
 
 /* these functions are dead code unless compiling with debug turned on: */
-#ifdef MC_DEBUG
 static void print_card(MC_FlashCard card);
 static void print_counters(void);
 //static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
 //static MC_FlashCard    create_card_from_node(MC_MathQuestion* node);
-#endif
 
 /* Functions for new mathcards architecture */
 static void free_node(MC_MathQuestion* mq); //wrapper for free() that also frees card
@@ -267,11 +266,11 @@ int MC_Initialize(void)
   if (initialized)
   {
 
-    #ifdef MC_DEBUG
-    printf("\nAlready initialized");
-    MC_PrintMathOptions(stdout, 0);
-    printf("\nLeaving MC_Initialize()\n");
-    #endif
+    if (debug_status & debug_mathcards) {
+      printf("\nAlready initialized");
+      MC_PrintMathOptions(stdout, 0);
+      printf("\nLeaving MC_Initialize()\n");
+    }
 
     return 1;
   }
@@ -301,10 +300,10 @@ int MC_Initialize(void)
 
   initialized = 1;
 
-  #ifdef MC_DEBUG
-  MC_PrintMathOptions(stdout, 0);
-  printf("\nLeaving MC_Initialize()\n");
-  #endif
+  if (debug_status & debug_mathcards) {
+    MC_PrintMathOptions(stdout, 0);
+    printf("\nLeaving MC_Initialize()\n");
+  }
 
   return 1;
 }
@@ -378,9 +377,9 @@ int MC_StartGame(void)
   answered_wrong = 0;
   questions_pending = 0;
 
-  #ifdef MC_DEBUG
-  print_counters();
-  #endif
+  if (debug_status & debug_mathcards) {
+    print_counters();
+  }
 
   /* make sure list now exists and has non-zero length: */
   if (question_list && quest_list_length)
@@ -437,11 +436,11 @@ int MC_StartGameUsingWrongs(void)
     answered_wrong = 0;
     questions_pending = 0;
 
-    #ifdef MC_DEBUG
-    print_counters();
-    print_list(stdout, question_list);
-    printf("\nLeaving MC_StartGameUsingWrongs()\n");
-    #endif
+    if (debug_status & debug_mathcards) {
+      print_counters();
+      print_list(stdout, question_list);
+      printf("\nLeaving MC_StartGameUsingWrongs()\n");
+    }
 
     return 1;
   }
@@ -497,12 +496,12 @@ int MC_NextQuestion(MC_FlashCard* fc)
   quest_list_length--;
   questions_pending++;
 
-  #ifdef MC_DEBUG
-  printf("\nnext question is:");
-  print_card(*fc);
-  print_counters();
-  printf("\n\nLeaving MC_NextQuestion()\n");
-  #endif
+  if (debug_status & debug_mathcards) {
+    printf("\nnext question is:");
+    print_card(*fc);
+    print_counters();
+    printf("\n\nLeaving MC_NextQuestion()\n");
+  }
 
   return 1;
 }
@@ -524,10 +523,10 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
-  #ifdef MC_DEBUG
-  printf("\nQuestion was:");
-  print_card(*fc);
-  #endif
+  if (debug_status & debug_mathcards) {
+    printf("\nQuestion was:");
+    print_card(*fc);
+  }
 
   answered_correctly++;
   questions_pending--;
@@ -555,10 +554,10 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     unanswered--;
   }
 
-  #ifdef MC_DEBUG
-  print_counters();
-  printf("\nLeaving MC_AnsweredCorrectly()\n");
-  #endif
+  if (debug_status & debug_mathcards) {
+    print_counters();
+    printf("\nLeaving MC_AnsweredCorrectly()\n");
+  }
 
   return 1;
 }
@@ -582,10 +581,10 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
-  #ifdef MC_DEBUG
-  printf("\nQuestion was:");
-  print_card(*fc);
-  #endif
+  if (debug_status & debug_mathcards) {
+    printf("\nQuestion was:");
+    print_card(*fc);
+  }
 
   answered_wrong++;
   questions_pending--;
@@ -634,10 +633,10 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     unanswered--;
   }
 
-  #ifdef MC_DEBUG
-  print_counters();
-  printf("\nLeaving MC_NotAnswered_Correctly()\n");
-  #endif
+  if (debug_status & debug_mathcards) {
+    print_counters();
+    printf("\nLeaving MC_NotAnswered_Correctly()\n");
+  }
 
   return 1;
 
@@ -696,9 +695,7 @@ int MC_AddTimeToList(float t)
       newsize = 100;
     newlist = realloc(time_per_question_list, newsize*sizeof(float));
     if (newlist == NULL) {
-      #ifdef MC_DEBUG
-      printf("\nError: allocation for time_per_question_list failed\n");
-      #endif
+      DEBUGMSG(debug_mathcards,"\nError: allocation for time_per_question_list failed\n");
       return 0;
     }
     time_per_question_list = newlist;
@@ -1134,14 +1131,14 @@ void print_list(FILE* fp, MC_MathQuestion* list)
 {
   if (!list)
   {
-    fprintf(fp, "\nprint_list(): list empty or pointer invalid\n");
+    fprintf(stderr, "\nprint_list(): list empty or pointer invalid\n");
     return;
   }
 
   MC_MathQuestion* ptr = list;
   while (ptr)
   {
-    fprintf(stderr, "%s\n", ptr->card.formula_string);
+    fprintf(fp, "%s\n", ptr->card.formula_string);
     ptr = ptr->next;
   }
 }
@@ -1162,7 +1159,6 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
   mcdprintf("Leaving print_vect_list()\n");
 }
 
-#ifdef MC_DEBUG
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():");
@@ -1207,7 +1203,6 @@ void print_counters(void)
 //   copy_card(&(node->card), &fc);
 //   return fc;
 // }
-#endif
 
 int list_length(MC_MathQuestion* list)
 {
@@ -1505,9 +1500,9 @@ MC_FlashCard generate_random_flashcard(void)
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf(" of length %d", length);
     ret = generate_random_ooo_card_of_length(length, 1);
-    #ifdef MC_DEBUG
-    print_card(ret);
-    #endif
+    if (debug_status & debug_mathcards) {
+      print_card(ret);
+    }
   }
   //TODO comparison problems (e.g. "6 ? 9", "<")
 
@@ -1711,7 +1706,8 @@ MC_MathQuestion* generate_list(void)
   MC_MathQuestion* end_of_list = NULL;
   MC_MathQuestion* tnode = NULL;
 
-  MC_PrintMathOptions(stdout, 0);
+  if (debug_status & debug_mathcards)
+    MC_PrintMathOptions(stdout, 0);
   if (!(MC_GetOpt(ARITHMETIC_ALLOWED) ||
       MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||
       MC_GetOpt(COMPARISON_ALLOWED) ) )

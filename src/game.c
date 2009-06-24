@@ -186,10 +186,8 @@ static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
-#ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
-#endif
 
 /* --- MAIN GAME FUNCTION!!! --- */
 
@@ -296,9 +294,7 @@ int game(void)
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
 
-#ifdef TUXMATH_DEBUG
-  print_exit_conditions();
-#endif
+  DEBUGCODE(debug_game) print_exit_conditions();
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
@@ -386,9 +382,7 @@ int game(void)
 
     case GAME_OVER_ERROR:
     {
-#ifdef TUXMATH_DEBUG
       printf("\ngame() exiting with error");
-#endif
     }
     case GAME_OVER_LOST:
     case GAME_OVER_OTHER:
@@ -484,7 +478,7 @@ int game_initialize(void)
 {
   int i,img;
   
-  tmdprintf("Entering game_initialize()\n");
+  DEBUGMSG(debug_game,"Entering game_initialize()\n");
 
   /* Clear window: */
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
@@ -501,10 +495,10 @@ int game_initialize(void)
   /* (for example) to all math operations being deselected */
   if (!MC_StartGame())
   {
-    tmdprintf("\nMC_StartGame() failed!");
     fprintf(stderr, "\nMC_StartGame() failed!");
     return 0;
   }
+  DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
 
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
@@ -530,7 +524,9 @@ int game_initialize(void)
         }
       }
   }
-  
+
+  DEBUGMSG(debug_game,"Flashcards allocated.\n");
+
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL) {
     printf("Allocation of cities failed");
@@ -553,7 +549,7 @@ int game_initialize(void)
   {
     write_pregame_summary();
   }
-
+  
   /* Prepare to start the game: */
   city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
 
@@ -619,7 +615,7 @@ int game_initialize(void)
 
   if (Opts_BonusCometInterval()) {
     bonus_comet_counter = Opts_BonusCometInterval() + 1;
-    tmdprintf("\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
+    DEBUGMSG(debug_game,"\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter)
   }
   extra_life_earned = 0;
   cloud.status = EXTRA_LIFE_OFF;
@@ -655,6 +651,8 @@ int game_initialize(void)
   help_controls.x_is_blinking = 0;
   help_controls.extra_life_is_blinking = 0;
   help_controls.laser_enabled = 1;
+
+  DEBUGMSG(debug_game,"Exiting game_initialize()\n");
 
   return 1;
 }
@@ -1247,7 +1245,6 @@ void game_countdown(void)
   s2.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s3.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s4.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
-  tmdprintf("alpha = %d\n", s1.alpha);
 
   level_start_wait--;
   if (level_start_wait > LEVEL_START_WAIT_START / 4)
@@ -1857,13 +1854,13 @@ void game_draw_background(void)
     fgcolor = SDL_MapRGB(screen->format, 64, 96, 64);
   if (old_wave != wave)
   {
-    tmdprintf("Wave %d\n", wave);
+    DEBUGMSG(debug_game,"Wave %d\n", wave)
     old_wave = wave;
     bgcolor = SDL_MapRGB(screen->format,
                          64,
                          64 + ((wave * 32) % 192),
                          128 - ((wave * 16) % 128) );
-    tmdprintf("Filling screen with color %d\n", bgcolor);
+    DEBUGMSG(debug_game,"Filling screen with color %d\n", bgcolor);
   }
 
   if (current_bkgd() == NULL || (current_bkgd()->w != screen->w && 
@@ -2226,7 +2223,7 @@ int check_exit_conditions(void)
         user_quit_received != GAME_OVER_ESCAPE &&
         user_quit_received != GAME_OVER_CHEATER)
     {
-    	 tmdprintf("Unexpected value %d for user_quit_received\n", user_quit_received);
+    	 fprintf(stderr,"Unexpected value %d for user_quit_received\n", user_quit_received);
     	 return GAME_OVER_OTHER;
     }
     return user_quit_received;    
@@ -2245,7 +2242,7 @@ int check_exit_conditions(void)
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if (MC_MissionAccomplished())
   {
-    tmdprintf("Mission accomplished!\n");
+    DEBUGMSG(debug_game,"Mission accomplished!\n");
     return GAME_OVER_WON;
   }
 
@@ -2279,7 +2276,6 @@ int check_exit_conditions(void)
   return GAME_IN_PROGRESS;
 }
 
-#ifdef TUXMATH_DEBUG
 void print_exit_conditions(void)
 {
   printf("\ngame_status:\t");
@@ -2329,7 +2325,6 @@ void print_exit_conditions(void)
     }
   }
 }
-#endif
 
 /* Reset stuff for the next level! */
 void reset_level(void)
@@ -3368,7 +3363,7 @@ void game_key_event(SDLKey key)
 void add_score(int inc)
 {
   score += inc;
-  tmdprintf("Score is now: %d\n", score);
+  DEBUGMSG(debug_game,"Score is now: %d\n", score)
 }
 
 
@@ -3431,7 +3426,7 @@ void game_recalc_positions(void)
   int i, img;
   int old_city_expl_height = city_expl_height;
 
-  tmdprintf("Recalculating positions\n");
+  DEBUGMSG(debug_game,"Recalculating positions\n")
 
   if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
@@ -3445,7 +3440,7 @@ void game_recalc_positions(void)
     {
       cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
                      ((images[img] -> w) / 2));
-      tmdprintf("%d,", cities[i].x);
+      DEBUGMSG(debug_game,"%d,", cities[i].x)
     }
     else
     {
@@ -3453,7 +3448,7 @@ void game_recalc_positions(void)
                    (screen->w / (NUM_CITIES + 1) *
                    (i - NUM_CITIES / 2) +
                     images[img]->w / 2);
-      tmdprintf("%d,", cities[i].x);
+      DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
 
     penguins[i].x = cities[i].x;

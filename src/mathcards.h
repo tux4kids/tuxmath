@@ -15,12 +15,12 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#define MC_DEBUG
-#ifdef MC_DEBUG
-#define mcdprintf(...) printf(__VA_ARGS__)
-#else
-#define mcdprintf(...) 0
-#endif
+//#define MC_DEBUG
+//#ifdef MC_DEBUG
+#define mcdprintf(...) DEBUGMSG(debug_mathcards,__VA_ARGS__)
+//#else
+//#define mcdprintf(...) 0
+//#endif
 
 #define MC_USE_NEWARC
 

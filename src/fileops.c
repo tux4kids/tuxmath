@@ -1967,6 +1967,8 @@ int write_pregame_summary(void)
   char filepath1[PATH_MAX];
   char filepath2[PATH_MAX];
 
+  DEBUGMSG(debug_fileops,"Entering write_pregame_summary.\n")
+
   /* Make sure tuxmath dir exists or can be created: */
   if (!find_tuxmath_dir())
   {
@@ -1986,9 +1988,7 @@ int write_pregame_summary(void)
   fp = fopen(filepath1, "r");
   if (fp)
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn write_pregame_summary() - removing oldest summary file\n");
-    #endif
+    DEBUGMSG(debug_fileops,"\nIn write_pregame_summary() - removing oldest summary file\n")
 
     fclose(fp);
     remove(filepath1);
@@ -2038,10 +2038,12 @@ int write_pregame_summary(void)
     fprintf(fp, "\n\nNumber of Questions: %d", MC_StartingListLength());
 
     fclose(fp);
+    DEBUGMSG(debug_fileops,"Leaving write_pregame_summary.\n")
     return 1;
   }
   else /* Couldn't write file for some reason: */
   {
+    DEBUGMSG(debug_fileops,"Can't write_pregame_summary.\n")
     return 0;
   }
 }
