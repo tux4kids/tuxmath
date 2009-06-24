@@ -97,11 +97,14 @@ int main(int argc, char **argv)
              "'game' to start math game;\n"
              "'exit' to end client leaving server running;\n"
              "'quit' to end both client and server\n>\n"); 
-    scanf("%s", buffer);
-
+    char *check;
+    check=fgets(buffer,NET_BUF_LEN,stdin);
+    printf("buffer is %s",buffer);   
+    printf("check is %s",check);
+    printf("%d",strncmp(buffer, "quit",4));
     //Figure out if we are trying to quit:
-    if(  (strcmp(buffer, "exit") == 0)
-      || (strcmp(buffer, "quit") == 0))
+    if(  (strncmp(buffer, "exit",4) == 0)
+      || (strncmp(buffer, "quit",4) == 0))
     {
       quit = 1;
       len = strlen(buffer) + 1;
@@ -111,7 +114,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
       }
     }
-    else if (strcmp(buffer, "game") == 0)
+    else if (strncmp(buffer, "game",4) == 0)
     {
       printf("Starting math game:\n");
       playgame();
@@ -288,7 +291,7 @@ int playgame(void)
           printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
-          if(strcmp(command, "SEND_QUESTION") == 0)
+          if(strncmp(command, "SEND_QUESTION",13) == 0)
           {
             if(Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
               have_question = 1; 
@@ -306,9 +309,11 @@ int playgame(void)
     //Now we check for any user responses
     while(have_question && !end)
     { 
+      char *check1;
       printf("Question is: %s\n", flash.formula_string);
       printf("Enter answer:\n>");
-      gets(buf);
+      check1=fgets(buf,NET_BUF_LEN,stdin);
+      printf("check is %s\n",check1);
       printf("buf is %s\n", buf);
       if ((strncmp(buf, "quit", 4) == 0)
         ||(strncmp(buf, "exit", 4) == 0)
