@@ -1,3 +1,12 @@
+2009.Jun.24 (svn.debian.org/tux4kids - revision xxx)
+        i18n - new languages from launchpad.
+        Asturian by Xuacu
+        Kurdish by Amed Çeko Jiyan
+        Slovenian by Štefan Baebler
+        Vietnamese by lusiads
+
+        Caroline Ford <caroline.ford.work@googlemail.com> 
+
 2009.Mar.12 (svn.debian.org/tux4kids - revision 937)
 Version 1.7.2
         Build- some minor tweaks to tuxmath.desktop and specfiles.
