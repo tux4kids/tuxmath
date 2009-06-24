@@ -99,9 +99,10 @@ int main(int argc, char **argv)
              "'quit' to end both client and server\n>\n"); 
     char *check;
     check=fgets(buffer,NET_BUF_LEN,stdin);
+#ifdef LAN_DEBUG
     printf("buffer is %s",buffer);   
-    printf("check is %s",check);
     printf("%d",strncmp(buffer, "quit",4));
+#endif
     //Figure out if we are trying to quit:
     if(  (strncmp(buffer, "exit",4) == 0)
       || (strncmp(buffer, "quit",4) == 0))
@@ -220,31 +221,6 @@ int playgame(void)
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
 #endif
-  //Ask for first question:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
-  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "failed on b: SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-  //Tell server to start new game:
-//  snprintf(buf, NET_BUF_LEN, "%s\n", "set_up_list");
-//#ifdef LAN_DEBUG
-//  printf("%s\n",buf);
-//#endif
-//  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-//  {
-//    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-//    exit(EXIT_FAILURE);
-// }
-
-  //Ask for first question:
-  snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
-  if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "failed on b: SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
 
   //Begin game loop:
   while (!end)
@@ -313,8 +289,10 @@ int playgame(void)
       printf("Question is: %s\n", flash.formula_string);
       printf("Enter answer:\n>");
       check1=fgets(buf,NET_BUF_LEN,stdin);
+#ifdef LAN_DEBUG
       printf("check is %s\n",check1);
       printf("buf is %s\n", buf);
+#endif
       if ((strncmp(buf, "quit", 4) == 0)
         ||(strncmp(buf, "exit", 4) == 0)
 	||(strncmp(buf, "q", 1) == 0))
@@ -337,17 +315,10 @@ int playgame(void)
             exit(EXIT_FAILURE);
           }
 
-          //and ask it to send us the next one:
-          snprintf(buf, NET_BUF_LEN, "%s\n", "next_question");
 
 #ifdef LAN_DEBUG
           printf("requesting next question, buf: %s", buf);
 #endif
-          if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-          {
-            fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-            exit(EXIT_FAILURE);
-          }
         }
         else  //incorrect answer:
           printf("Sorry, incorrect. Try again!\n");
