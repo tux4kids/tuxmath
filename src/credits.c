@@ -105,7 +105,7 @@ const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {" "},
   {N_("These rights include the freedom to study, copy, modify, and redistribute the program.")},
   {" "},
-  {N_("A full copy of the GPL is included with the documenation for this program.")},
+  {N_("A full copy of the GPL is included with the documentation for this program.")},
   {" "},
   {N_("For more information about Free Software and the GNU GPL, visit:")},
   {"http://www.fsf.org"},
