@@ -40,8 +40,9 @@ int main(int argc, char **argv)
   IPaddress ip, *remoteIP;
   int quit, quit2;
   char buffer[NET_BUF_LEN];
-  int command_type = -1;
-  int sockets_used,numready,j;
+  int command_type = -1,numready,j;
+  static int sockets_used=0;
+  static int game_started=0;
   static int i=0;
   static int num_clients=0;
   MC_FlashCard flash;
@@ -135,6 +136,15 @@ int main(int argc, char **argv)
     SDL_Delay(2000);
   }
 
+/* If no players join the game */
+if(sockets_used==0)
+{
+ printf("There were no players........=(\n");
+ exit(1);
+}
+
+game_started=1;                 //indicating the game has started
+
 #ifdef LAN_DEBUG
 printf("We have %d players.......\n",sockets_used);
 #endif
@@ -178,6 +188,20 @@ num_clients=sockets_used;
    {
     for(j=0;j<num_clients;j++)                  // keep on looping across the num_clients in a round-robin manner
     {
+
+      /*This loop mainly checks if all the clients have disconnected*/
+      int c;
+      for(c=0;c<num_clients;c++)
+      {
+       if(client[c].flag==1)
+       break;     
+       if(c==(num_clients-1))
+        {
+         printf("All the clients have disconnected..=( \n");
+         exit(2);
+        }
+      }
+
       /*Implies that this particular client has already quit itself , so move on to other clients*/         
       if(client[j].flag==0)
       continue;                                           
@@ -254,6 +278,9 @@ num_clients=sockets_used;
 
            if(strncmp(command, "quit",4) == 0) /* Quit the program */
            {
+             client[j].flag=0;
+             SDLNet_TCP_DelSocket(client_set,client[j].csd);
+             SDLNet_TCP_Close(client[j].csd);
              quit2 = 1;
              printf("Quit program....Server is shutting down...\n");
            }
