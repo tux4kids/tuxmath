@@ -27,7 +27,7 @@
 #define LAN_DEBUG
 #define NUM_CLIENTS 16
 
-TCPsocket sd; /* Socket descriptor */
+TCPsocket sd,csd; /* Socket descriptor */
 SDLNet_SocketSet client_set=NULL;
 
 
@@ -287,6 +287,22 @@ printf("We have %d players.......\n",sockets_used);
     for(j=0;j<num_clients;j++)                  // keep on looping across the num_clients in a round-robin manner
     {
 
+
+      /* this is mainly to avoid joining of clients after the game has started*/
+      csd = SDLNet_TCP_Accept(sd);
+      if (csd !=NULL)
+      {
+
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "Sorry the game has started...... =(\n");
+     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+#ifdef LAN_DEBUG
+  printf("buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+    
+      }        
       /*This loop mainly checks if all the clients have disconnected*/
       int c;
       for(c=0;c<num_clients;c++)
