@@ -16,7 +16,7 @@
 
 //#define LAN_DEBUG
 #define NET_BUF_LEN 512
-#define DEFAULT_PORT 4789
+#define DEFAULT_PORT 4779
 
 #define MC_USE_NEWARC
 #define MC_FORMULA_LEN 40

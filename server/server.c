@@ -28,7 +28,7 @@
 #define NUM_CLIENTS 16
 
 TCPsocket sd; /* Socket descriptor */
-SDLNet_SocketSet client_set;
+SDLNet_SocketSet client_set=NULL;
 
 
 static client_type client[NUM_CLIENTS];
@@ -40,6 +40,7 @@ int main(int argc, char **argv)
   IPaddress ip, *remoteIP;
   int quit, quit2;
   char buffer[NET_BUF_LEN];
+  char buf[NET_BUF_LEN];
   int command_type = -1,numready,j;
   static int sockets_used=0;
   static int game_started=0;
@@ -47,7 +48,7 @@ int main(int argc, char **argv)
   static int num_clients=0;
   MC_FlashCard flash;
   static int initialize = 0;
-  int id;
+  int id,x;
 
   for(h=0;h<NUM_CLIENTS;h++)
   {
@@ -93,8 +94,66 @@ int main(int argc, char **argv)
  
   /* Wait for a client connections*/
   quit = 0;                                                    /*****can say this loop to be the connection manager, which after accepting starts the game*****/
-  while (quit!=5)
+  while (!quit)
   {
+
+      numready=SDLNet_CheckSockets(client_set,0);
+      if(numready==-1)
+      {
+        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+        //most of the time this is a system error, where perror might help you.
+        perror("SDLNet_CheckSockets");
+      }
+
+      else if(numready) 
+      {
+        printf("There are %d sockets with activity!\n",numready);
+        // check all sockets with SDLNet_SocketReady and handle the active ones.
+        for(j=0;j<sockets_used;j++)
+        {
+#ifdef LAN_DEBUG
+  printf("inside for %d\n",quit);
+#endif
+
+         if(SDLNet_SocketReady(client[j].csd)) 
+         {
+#ifdef LAN_DEBUG
+  printf("inside ready\n",quit);
+#endif
+
+          if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
+          {
+#ifdef LAN_DEBUG
+  printf("inside recv %d         %s\n",quit,buffer);
+#endif
+#ifdef LAN_DEBUG
+  printf("inside recv %d  \n",strncmp(buffer,"start",5));
+#endif
+
+
+           if(strncmp(buffer,"start",5)==0)
+           {
+           quit=1;
+#ifdef LAN_DEBUG
+  printf("quit is %d\n",quit);
+#endif
+
+
+           snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "Success");
+           x = SDLNet_TCP_Send(client[j].csd, buf, sizeof(buf));
+#ifdef LAN_DEBUG
+  printf("buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+           client[j].flag=1;
+           }
+          }
+         }
+        }
+      }
+
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
     client[i].csd = SDLNet_TCP_Accept(sd);
@@ -117,7 +176,10 @@ int main(int argc, char **argv)
       }
       else
         fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
-      
+
+#ifdef LAN_DEBUG
+printf("before add socket\n");
+#endif      
       sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
       if(sockets_used == -1) 
       {
@@ -125,30 +187,66 @@ int main(int argc, char **argv)
         // perhaps you need to restart the set and make it bigger...
       }
 
+
 #ifdef LAN_DEBUG
-      printf("%d\n",sockets_used);
+      printf("sockets used::::%d\n",sockets_used);
 #endif
-      client[i].flag=1;
+      
       i++;
     
     }//end of *if(client[i].csd = SDLNet_TCP_Accept(sd))*  
-    quit++;
-    SDL_Delay(2000);
+    
   }
 
+num_clients=sockets_used;
+
+ for(j=0;j<num_clients;j++)
+ {
+  if(client[j].flag!=1)
+  {
+   if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
+   {
+    if(strncmp(buffer,"start",5)==0)
+    {
+     client[j].flag=1;
+     snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "Success");
+     x = SDLNet_TCP_Send(client[j].csd, buf, sizeof(buf));
+#ifdef LAN_DEBUG
+  printf("buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+    }
+   }
+  }
+ }
+
+#ifdef LAN_DEBUG
+printf("Out of the while loop.......\n",sockets_used);
+#endif
+
+
+
 /* If no players join the game */
-if(sockets_used==0)
+if(num_clients==0)
 {
  printf("There were no players........=(\n");
+ SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
+ client_set=NULL; //this helps us remember that this set is not allocated
+ SDLNet_TCP_Close(sd);
+ SDLNet_Quit();
  exit(1);
 }
+
+
 
 game_started=1;                 //indicating the game has started
 
 #ifdef LAN_DEBUG
 printf("We have %d players.......\n",sockets_used);
 #endif
-num_clients=sockets_used;
+
 
 
  if (!MC_StartGame())                   //setting up the list itself

@@ -25,7 +25,7 @@
 #include "mathcards.h"
 #include "testclient.h"
 
-//#define LAN_DEBUG
+#define LAN_DEBUG
 
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
@@ -210,17 +210,54 @@ int playgame(void)
   int numready;
   int command_type;
   int ans = 0;
-  int x, i = 0;
+  int x=0, i = 0;
   int end = 0;
   int have_question = 0;
   int len = 0;
   char buf[NET_BUF_LEN];
-
-
+  char buffer[NET_BUF_LEN];
 
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
 #endif
+
+
+  snprintf(buffer, NET_BUF_LEN, 
+                  "%s\n",
+                  "start");
+  len = strlen(buffer) + 1;
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+#ifdef LAN_DEBUG
+  printf("Sent the game notification %s\n",buffer);
+#endif
+
+
+
+  if( SDLNet_TCP_Recv(sd, buf, sizeof(buf)))
+  {
+   if(strncmp(buf,"Sorry",5) == 0)
+   {
+     printf("Sorry , the game has already been started.......=(\n");
+     SDLNet_TCP_Close(sd);
+     SDLNet_FreeSocketSet(set);
+     set=NULL; //this helps us remember that this set is not allocated
+     SDLNet_Quit();
+     exit(5);
+   }
+   else if(strncmp(buf,"Success",7)==0)
+   {
+    printf("You Are In game.....Waiting for other players to be ready...\n");
+   }
+  }
+#ifdef LAN_DEBUG
+  printf("Received %s\n",buf);
+#endif
+
+
 
   //Begin game loop:
   while (!end)
