@@ -88,25 +88,6 @@ Mix_Chunk* sounds[NUM_SOUNDS];
 Mix_Music* musics[NUM_MUSICS];
 #endif
 
-/* global debug masks */
-int debug_status;
-
-/* bitmasks for debugging options */
-const int debug_setup          = 1 << 0;
-const int debug_fileops        = 1 << 1;
-const int debug_loaders        = 1 << 2;
-const int debug_titlescreen    = 1 << 3;
-const int debug_menu           = 1 << 4;
-const int debug_menu_parser    = 1 << 5;
-const int debug_game           = 1 << 6;
-const int debug_factoroids     = 1 << 7;
-const int debug_lan            = 1 << 8;
-const int debug_mathcards      = 1 << 9;
-const int debug_sdl            = 1 << 10;
-const int debug_lessons        = 1 << 11;
-const int debug_highscore      = 1 << 12;
-const int debug_all            = ~0;
-
 /* Local function prototypes: */
 void initialize_options(void);
 void handle_command_args(int argc, char* argv[]);

@@ -44,10 +44,10 @@ typedef enum { false, true } bool;
 #define tmdprintf(...) 0
 #endif
 
-/* debug data (declared in setup.c) */
+/* debug data (declared in options.c) */
 extern int debug_status;
 
-/* bitmasks for debugging options (declared in setup.c) */
+/* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;
 extern const int debug_fileops;
 extern const int debug_loaders;
@@ -61,6 +61,7 @@ extern const int debug_mathcards;
 extern const int debug_sdl;
 extern const int debug_lessons;
 extern const int debug_highscore;
+extern const int debug_options;
 extern const int debug_all;
 
 /* debug macros */

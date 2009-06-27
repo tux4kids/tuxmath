@@ -13,7 +13,7 @@
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.com
-      
+
   August 26, 2001 - July 11, 2007
 */
 
@@ -30,12 +30,33 @@
 #include "fileops.h"
 #include "setup.h"
 #include "game.h"
+#include "globals.h"
 //#include "tuxmath.h"
 
 /* FIXME figure out what oper_override is supposed to do and make sure */
 /* this file behaves accordingly! */
 
 //int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
+
+/* global debug masks */
+int debug_status;
+
+/* bitmasks for debugging options */
+const int debug_setup          = 1 << 0;
+const int debug_fileops        = 1 << 1;
+const int debug_loaders        = 1 << 2;
+const int debug_titlescreen    = 1 << 3;
+const int debug_menu           = 1 << 4;
+const int debug_menu_parser    = 1 << 5;
+const int debug_game           = 1 << 6;
+const int debug_factoroids     = 1 << 7;
+const int debug_lan            = 1 << 8;
+const int debug_mathcards      = 1 << 9;
+const int debug_sdl            = 1 << 10;
+const int debug_lessons        = 1 << 11;
+const int debug_highscore      = 1 << 12;
+const int debug_options        = 1 << 13;
+const int debug_all            = ~0;
 
 /* extern'd constants */
 
@@ -59,7 +80,7 @@ const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {
   0,
   1
 };
-  
+
 
 /* file scope only now that accessor functions used: */
 static game_option_type* game_options;
@@ -124,9 +145,8 @@ int Opts_Initialize(void)
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
-  #ifdef TUXMATH_DEBUG
-  print_game_options(stdout, 0);
-  #endif
+  DEBUGCODE(debug_options)
+    print_game_options(stdout, 0);
 
   return 1;
 }
@@ -151,7 +171,7 @@ unsigned int Opts_MapTextToIndex(const char* text)
     if (0 == strcasecmp(text, OPTION_TEXT[i]) )
       return i;
   }
-  tmdprintf("'%s' isn't a global option\n", text);
+  DEBUGMSG(debug_options, "'%s' isn't a global option\n", text);
   return -1;
 }
 
@@ -167,8 +187,7 @@ int Opts_GetGlobalOpt(unsigned int index)
 {
   if (index < NUM_GLOBAL_OPTS)
     return global_options->iopts[index];
-    
-  tmdprintf("Invalid global option index: %d\n", index);
+  DEBUGMSG(debug_options, "Invalid global option index: %d\n", index);
   return 0;
 }
 
@@ -184,7 +203,7 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
   if (index < NUM_GLOBAL_OPTS)
     global_options->iopts[index] = val;
   else
-    tmdprintf("Invalid global option index: %d\n", index);
+    DEBUGMSG(debug_options, "Invalid global option index: %d\n", index);
 }
   
 
