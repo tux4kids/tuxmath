@@ -25,7 +25,6 @@
 #include "mathcards.h"
 #include "testclient.h"
 
-#define LAN_DEBUG
 
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
@@ -99,11 +98,7 @@ int main(int argc, char **argv)
              "'quit' to end both client and server\n>\n"); 
     char *check;
     check=fgets(buffer,NET_BUF_LEN,stdin);
-#ifdef LAN_DEBUG
-    printf("buffer is %s",buffer);   
-    printf("%d",strncmp(buffer, "quit",4));
-#endif
-    //Figure out if we are trying to quit:
+   //Figure out if we are trying to quit:
     if(  (strncmp(buffer, "exit",4) == 0)
       || (strncmp(buffer, "quit",4) == 0))
     {
@@ -117,6 +112,23 @@ int main(int argc, char **argv)
     }
     else if (strncmp(buffer, "game",4) == 0)
     {
+      char name[NAME_SIZE];
+      printf("Enter your Name.\n");
+      check=fgets(buffer,NET_BUF_LEN,stdin);
+      strncpy(name,check,strlen(check));
+      snprintf(buffer, NET_BUF_LEN, 
+                       "%s",
+                       name);
+      len = strlen(buffer) + 1;
+      if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+      {
+       fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+       exit(EXIT_FAILURE);
+      }
+#ifdef LAN_DEBUG
+  printf("Sent the name of the player %s\n",check);
+#endif
+
       printf("Starting math game:\n");
       playgame();
       printf("Math game finished.\n");
