@@ -95,11 +95,18 @@
 
 #define NUM_CLIENTS 16
 
-TCPsocket sd,csd; /* Socket descriptor */
-SDLNet_SocketSet client_set=NULL;
+TCPsocket server_sock; /* Socket descriptor for server            */
+TCPsocket temp_sock;        /* Just used when client can't be accepted */
+
+SDLNet_SocketSet client_set = NULL;
 
 
 static client_type client[NUM_CLIENTS];
+
+/* Local function prototypes: */
+int setup_server(void);
+int SendQuestion(MC_FlashCard flash,TCPsocket client_sock);
+int SendMessage(int message, int z,TCPsocket client_sock);
 
 
 int main(int argc, char **argv)
@@ -119,7 +126,7 @@ int main(int argc, char **argv)
 
   for(h=0;h<NUM_CLIENTS;h++)
   {
-       client[h].flag=0;                          /*doing all flags = 0 meaning no clients are connected */
+       client[h].connected=0;                          /*doing all connecteds = 0 meaning no clients are connected */
   }
 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
@@ -145,7 +152,7 @@ int main(int argc, char **argv)
   }
  
   /* Open a connection with the IP provided (listen on the host's port) */
-  if (!(sd = SDLNet_TCP_Open(&ip)))
+  if (!(server_sock = SDLNet_TCP_Open(&ip)))
   {
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
@@ -178,9 +185,9 @@ int main(int argc, char **argv)
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         for(j=0;j<sockets_used;j++)
         {
-         if(SDLNet_SocketReady(client[j].csd)) 
+         if(SDLNet_SocketReady(client[j].sock)) 
          {
-          if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
+          if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
           {
            if(strncmp(buffer,"start",5)==0)
            {
@@ -188,8 +195,8 @@ int main(int argc, char **argv)
            snprintf(buf, NET_BUF_LEN, 
                 "%s\n",
                 "Success");
-           x = SDLNet_TCP_Send(client[j].csd, buf, sizeof(buf));
-           client[j].flag=1;
+           x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+           client[j].connected=1;
            }
           }
          }
@@ -198,21 +205,21 @@ int main(int argc, char **argv)
 
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
-    client[i].csd = SDLNet_TCP_Accept(sd);
-    if (client[i].csd !=NULL)
+    client[i].sock = SDLNet_TCP_Accept(server_sock);
+    if (client[i].sock !=NULL)
     {
     
-     if( SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
+     if( SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
      {
       strcpy(client[i].name, buffer);
       printf(" JOINED  :::   %s",client[i].name);
      }
       printf("this is the value of i = %d\n",i);
       num_clients++;
-      /* Now we can communicate with the client using client[i].csd socket
+      /* Now we can communicate with the client using client[i].sock socket
       /* sd will remain opened waiting other connections */
       /* Get the remote address */
-      if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].csd)))
+      if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].sock)))
         /* Print the address, converting in the host format */
       {
         printf("Client connected\n>\n");
@@ -224,7 +231,7 @@ int main(int argc, char **argv)
       }
       else
         fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
-      sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].csd);
+      sockets_used = SDLNet_TCP_AddSocket(client_set,client[i].sock);
       if(sockets_used == -1) 
       {
         printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
@@ -232,7 +239,7 @@ int main(int argc, char **argv)
       }
       i++;
     
-    }//end of *if(client[i].csd = SDLNet_TCP_Accept(sd))*  
+    }//end of *if(client[i].sock = SDLNet_TCP_Accept(sd))*  
     
   }
 
@@ -242,17 +249,17 @@ num_clients=sockets_used;
 /*This loop sees that the game starts only when all the players are ready */
  for(j=0;j<num_clients;j++)
  {
-  if(client[j].flag!=1)
+  if(client[j].connected!=1)
   {
-   if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0)
+   if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
    {
     if(strncmp(buffer,"start",5)==0)
     {
-     client[j].flag=1;
+     client[j].connected=1;
      snprintf(buf, NET_BUF_LEN, 
                 "%s\n",
                 "Success");
-     x = SDLNet_TCP_Send(client[j].csd, buf, sizeof(buf));
+     x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
     }
    }
   }
@@ -264,7 +271,7 @@ if(num_clients==0)
  printf("There were no players........=(\n");
  SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
  client_set=NULL; //this helps us remember that this set is not allocated
- SDLNet_TCP_Close(sd);
+ SDLNet_TCP_Close(server_sock);
  SDLNet_Quit();
  exit(1);
 }
@@ -299,7 +306,7 @@ printf("We have %d players.......\n",sockets_used);
  }
  for(j=0;j<num_clients;j++)
  {
-  if(!SendQuestion(flash,client[j].csd))
+  if(!SendQuestion(flash,client[j].sock))
   {
     printf("Unable to send Question\n");
   }
@@ -315,14 +322,14 @@ printf("We have %d players.......\n",sockets_used);
 
 
       /* this is mainly to avoid joining of clients after the game has started*/
-      csd = SDLNet_TCP_Accept(sd);
-      if (csd !=NULL)
+      temp_sock = SDLNet_TCP_Accept(server_sock);
+      if (temp_sock !=NULL)
       {
 
   snprintf(buf, NET_BUF_LEN, 
                 "%s\n",
                 "Sorry the game has started...... =(\n");
-     x = SDLNet_TCP_Send(csd, buf, sizeof(buf));
+     x = SDLNet_TCP_Send(temp_sock, buf, sizeof(buf));
 #ifdef LAN_DEBUG
   printf("buf sent:::: %d bytes\n", x);
   printf("buf is: %s\n", buf);
@@ -333,7 +340,7 @@ printf("We have %d players.......\n",sockets_used);
       int c;
       for(c=0;c<num_clients;c++)
       {
-       if(client[c].flag==1)
+       if(client[c].connected==1)
        break;     
        if(c==(num_clients-1))
         {
@@ -343,7 +350,7 @@ printf("We have %d players.......\n",sockets_used);
       }
 
       /*Implies that this particular client has already quit itself , so move on to other clients*/         
-      if(client[j].flag==0)
+      if(client[j].connected==0)
       continue;                                           
       numready=SDLNet_CheckSockets(client_set,0);
       if(numready==-1) 
@@ -356,9 +363,9 @@ printf("We have %d players.......\n",sockets_used);
       {
         printf("There are %d sockets with activity!\n",numready);
         // check all sockets with SDLNet_SocketReady and handle the active ones.
-        if(SDLNet_SocketReady(client[j].csd)) 
+        if(SDLNet_SocketReady(client[j].sock)) 
         {
-         if (SDLNet_TCP_Recv(client[j].csd, buffer, NET_BUF_LEN) > 0  )
+         if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0  )
          {
            char command[NET_BUF_LEN];
            command_type = -1;
@@ -390,10 +397,10 @@ printf("We have %d players.......\n",sockets_used);
 #endif
                }
                int n;
-               for(n=0;n<num_clients&&client[n].csd;n++)
+               for(n=0;n<num_clients&&client[n].sock;n++)
                {
 
-                 if(!SendQuestion(flash,client[n].csd))
+                 if(!SendQuestion(flash,client[n].sock))
                  {
                    printf("Unable to send Question\n");
                  }
@@ -412,18 +419,18 @@ printf("We have %d players.......\n",sockets_used);
            if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
            {
              printf("LEFT the GAME : %s",client[j].name);
-             client[j].flag=0;
-             SDLNet_TCP_DelSocket(client_set,client[j].csd);
-             SDLNet_TCP_Close(client[j].csd);
+             client[j].connected=0;
+             SDLNet_TCP_DelSocket(client_set,client[j].sock);
+             SDLNet_TCP_Close(client[j].sock);
              printf("Terminating client connection\n");
            }
 
            if(strncmp(command, "quit",4) == 0) /* Quit the program */
            {
              printf("Server has been shut down by %s",client[j].name); 
-             client[j].flag=0;
-             SDLNet_TCP_DelSocket(client_set,client[j].csd);
-             SDLNet_TCP_Close(client[j].csd);
+             client[j].connected=0;
+             SDLNet_TCP_DelSocket(client_set,client[j].sock);
+             SDLNet_TCP_Close(client[j].sock);
              quit2 = 1;
              printf("Quit program....Server is shutting down...\n");
            }
@@ -436,7 +443,7 @@ printf("We have %d players.......\n",sockets_used);
 //               {
 //                 fprintf(stderr, "\nMC_StartGame() failed!");
 //               }
-//               if(!SendMessage(LIST_SET_UP,0,client[j].csd))
+//               if(!SendMessage(LIST_SET_UP,0,client[j].sock))
 //              {
 //                 printf("Unable to communicate to the client\n");
 //               }
@@ -445,7 +452,7 @@ printf("We have %d players.......\n",sockets_used);
 
              case CORRECT_ANSWER:
              {
- //              if(!SendMessage(ANSWER_CORRECT,id,client[j].csd))
+ //              if(!SendMessage(ANSWER_CORRECT,id,client[j].sock))
  //              {
  //                printf("Unable to communicate to the client\n");
  //              }
@@ -454,7 +461,7 @@ printf("We have %d players.......\n",sockets_used);
 
              case LIST_NOT_SETUP:                    //to send any message to the client 
              {              
-               if(!SendMessage(NO_QUESTION_LIST,id,client[j].csd))
+               if(!SendMessage(NO_QUESTION_LIST,id,client[j].sock))
                {
                  printf("Unable to communicate to the client\n");
                }
@@ -478,7 +485,7 @@ printf("We have %d players.......\n",sockets_used);
                  printf("ANSWER            :      %d\n",flash.answer);
                  printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-                 if(!SendQuestion(flash,client[j].csd))
+                 if(!SendQuestion(flash,client[j].sock))
                  {
                    printf("Unable to send Question\n");
                  }
@@ -508,8 +515,8 @@ printf("We have %d players.......\n",sockets_used);
   
     for(j=0;j<num_clients;j++)
     {
-     if(client[j].flag==1)                           //close only those clients that are still connected 
-     SDLNet_TCP_Close(client[j].csd);                //close all the client sockets one by one
+     if(client[j].connected==1)                           //close only those clients that are still connected 
+     SDLNet_TCP_Close(client[j].sock);                //close all the client sockets one by one
     }          
     SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
     client_set=NULL; //this helps us remember that this set is not allocated
@@ -517,11 +524,25 @@ printf("We have %d players.......\n",sockets_used);
   
  /* Clean up mathcards heap memory */
   MC_EndGame();
-  SDLNet_TCP_Close(sd);
+  SDLNet_TCP_Close(server_sock);
   SDLNet_Quit();
  
   return EXIT_SUCCESS;
 }
+
+
+/*********************************************************************/
+/*  "Private" (to server.c) functions                                */
+/*********************************************************************/
+
+// Initialize mathcards with hard-coded defaults and set up server
+// socket:
+int setup_server(void)
+{
+  return 1;
+}
+
+
 
 
 //function to send a flashcard(question) from the server to the client

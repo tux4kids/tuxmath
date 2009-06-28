@@ -18,9 +18,9 @@
 #ifndef SERVER_H
 #define SERVER_H
 typedef struct client_type {
-  int flag;                 //flag=1 , if it has been alloted to a client, and 0 otherwise
+  int connected;                 //connected = 1 , if it has been allotted to a client, and 0 otherwise
   char name[NAME_SIZE];
-  TCPsocket csd;
+  TCPsocket sock;
 }client_type;
 
   
