@@ -93,26 +93,23 @@
 #include "mathcards.h"
 
 
-#define NUM_CLIENTS 16
+#define MAX_CLIENTS 16
 
-TCPsocket server_sock; /* Socket descriptor for server            */
-TCPsocket temp_sock;        /* Just used when client can't be accepted */
-
+TCPsocket server_sock = NULL; /* Socket descriptor for server            */
+TCPsocket temp_sock = NULL;        /* Just used when client can't be accepted */
+IPaddress ip;
 SDLNet_SocketSet client_set = NULL;
-
-
-static client_type client[NUM_CLIENTS];
+static client_type client[MAX_CLIENTS];
 
 /* Local function prototypes: */
 int setup_server(void);
-int SendQuestion(MC_FlashCard flash,TCPsocket client_sock);
-int SendMessage(int message, int z,TCPsocket client_sock);
+int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
+int SendMessage(int message, int z, TCPsocket client_sock);
 
 
 int main(int argc, char **argv)
 { 
   int h;
-  IPaddress ip, *remoteIP;
   int quit, quit2;
   char buffer[NET_BUF_LEN];
   char buf[NET_BUF_LEN];
@@ -124,109 +121,88 @@ int main(int argc, char **argv)
   static int initialize = 0;
   int id,x;
 
-  for(h=0;h<NUM_CLIENTS;h++)
-  {
-       client[h].connected=0;                          /*doing all connecteds = 0 meaning no clients are connected */
-  }
-
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
-  if (!MC_Initialize())
+  if (!setup_server())
   {
-    fprintf(stderr, "Could not initialize MathCards\n");
-    exit(EXIT_FAILURE);
-  }
-
-      
-  if (SDLNet_Init() < 0)
-  {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
- 
-  /* Resolving the host using NULL make network interface to listen */
-  if (SDLNet_ResolveHost(&ip, NULL, DEFAULT_PORT) < 0)
-  {
-    fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
- 
-  /* Open a connection with the IP provided (listen on the host's port) */
-  if (!(server_sock = SDLNet_TCP_Open(&ip)))
-  {
-    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-
-  client_set = SDLNet_AllocSocketSet(16);
-  if(!client_set)
-  {
-    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    fprintf(stderr, "setup_server() failed - exiting.\n");
     exit(EXIT_FAILURE);
   }
 
  
   /* Wait for a client connections*/
-  quit = 0;                                                    /*****can say this loop to be the connection manager, which after accepting starts the game*****/
+  quit = 0;
   while (!quit)
   {
+    /* Check for any pending messages from clients already connected: */
+    numready = SDLNet_CheckSockets(client_set, 0);
+    if(numready == -1)
+    {
+      printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+      //most of the time this is a system error, where perror might help you.
+      perror("SDLNet_CheckSockets");
+    }
 
-      numready=SDLNet_CheckSockets(client_set,0);
-      if(numready==-1)
-      {
-        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("SDLNet_CheckSockets");
-      }
+    else if(numready) 
+    {
+#ifdef LAN_DEBUG
+      printf("There are %d sockets with activity!\n", numready);
+#endif
 
-      else if(numready) 
+      // check all sockets with SDLNet_SocketReady and handle the active ones.
+      for(j = 0; j < sockets_used;j++)
       {
-        printf("There are %d sockets with activity!\n",numready);
-        // check all sockets with SDLNet_SocketReady and handle the active ones.
-        for(j=0;j<sockets_used;j++)
+        if(SDLNet_SocketReady(client[j].sock)) 
         {
-         if(SDLNet_SocketReady(client[j].sock)) 
-         {
+#ifdef LAN_DEBUG
+          printf("client socket %d is ready\n", j);
+#endif
+
           if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
           {
-           if(strncmp(buffer,"start",5)==0)
-           {
-           quit=1;                                        //if any one player is ready the game stops accepting the connections , this can be modified later to suit the needs
-           snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "Success");
-           x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-           client[j].connected=1;
-           }
+#ifdef LAN_DEBUG
+            printf("buffer received from socket = %s\n", buffer);
+#endif
+            if(strncmp(buffer, "start", 5) == 0)
+            {
+              quit = 1;  //For now, stop accepting connections as soon as the first player says so
+              snprintf(buf, NET_BUF_LEN,
+                      "%s\n",
+                      "Success");  //FIXME what did we succeed at?
+              x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+              client[j].connected = 1; //FIXME why is this here?
+            }
           }
-         }
         }
       }
+    }
 
     /* This check the sd if there is a pending connection.
      * If there is one, accept that, and open a new socket for communicating */
     client[i].sock = SDLNet_TCP_Accept(server_sock);
     if (client[i].sock !=NULL)
     {
-    
+      IPaddress* client_ip = NULL;
+
      if( SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
      {
-      strcpy(client[i].name, buffer);
+      strncpy(client[i].name, buffer, NAME_SIZE);
       printf(" JOINED  :::   %s",client[i].name);
      }
       printf("this is the value of i = %d\n",i);
       num_clients++;
       /* Now we can communicate with the client using client[i].sock socket
-      /* sd will remain opened waiting other connections */
+      /* serv_sock will remain opened waiting other connections */
       /* Get the remote address */
-      if ((remoteIP = SDLNet_TCP_GetPeerAddress(client[i].sock)))
+      client_ip = SDLNet_TCP_GetPeerAddress(client[i].sock);
+      if (client_ip != NULL)
         /* Print the address, converting in the host format */
       {
         printf("Client connected\n>\n");
 #ifdef LAN_DEBUG
         printf("Client: IP = %x, Port = %d\n",
-	       SDLNet_Read32(&remoteIP->host),
-	       SDLNet_Read16(&remoteIP->port));
+	       SDLNet_Read32(&client_ip->host),
+	       SDLNet_Read16(&client_ip->port));
 #endif
       }
       else
@@ -281,11 +257,11 @@ printf("We have %d players.......\n",sockets_used);
 #endif
 
 
-
- if (!MC_StartGame())                   //setting up the list itself
- {
-  fprintf(stderr, "\nMC_StartGame() failed!");
- }
+  //Start a new math game as far as mathcards is concerned:
+  if (!MC_StartGame())
+  {
+    fprintf(stderr, "\nMC_StartGame() failed!");
+  }
 
 
  if (!MC_NextQuestion(&flash))
@@ -535,11 +511,54 @@ printf("We have %d players.......\n",sockets_used);
 /*  "Private" (to server.c) functions                                */
 /*********************************************************************/
 
-// Initialize mathcards with hard-coded defaults and set up server
-// socket:
+
+// setup_server() - all the things needed to get server running:
 int setup_server(void)
 {
-  return 1;
+  int i = 0;
+
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    client[i].connected = 0;    /* all sockets start out unconnected */
+    client[i].name[0] = '\0';   /* no nicknames yet                  */
+  }
+
+  //this sets up mathcards with hard-coded defaults - no settings
+  //read from config file here:
+  if (!MC_Initialize())
+  {
+    fprintf(stderr, "Could not initialize MathCards\n");
+    return 0;
+  }
+
+      
+  if (SDLNet_Init() < 0)
+  {
+    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+    return 0;
+  }
+ 
+  /* Resolving the host using NULL make network interface to listen */
+  if (SDLNet_ResolveHost(&ip, NULL, DEFAULT_PORT) < 0)
+  {
+    fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
+    return 0;
+  }
+ 
+  /* Open a connection with the IP provided (listen on the host's port) */
+  if (!(server_sock = SDLNet_TCP_Open(&ip)))
+  {
+    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
+    return 0;
+  }
+
+  client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
+  if(!client_set)
+  {
+    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    return 0;
+  }
+ return 1;
 }
 
 
