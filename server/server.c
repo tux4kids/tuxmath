@@ -16,6 +16,74 @@
 * derivative works into a GPLv2+ project like TuxMath - David Bruce 
 */
 
+
+// NOTE: here are some pseudo-code thoughts about structuring the server program - DSB:
+// 
+// int main()
+// {
+//   //All the stuff before starting the main loop:
+//   if (!setup_server())
+//   {
+//     //print error and exit...
+//   }
+// 
+//   while (!done)
+//   {
+//     //See if any clients trying to connect:
+//     //If we aren't playing a game yet, we take their name and add them to the client set,
+//     //if we have room.
+//     //If a game is in progress, we just tell them "sorry, call back later"
+//     check_for_new_clients();
+//     
+//     //Now check all the connected clients to see if we have any messages from them:
+//     check_client_messages();
+// 
+//   }
+// 
+//   //Free resources, call MC_EndGame(), and so forth:
+//   server_cleanup();
+// }
+// 
+// 
+// //This function will use SDLNet_CheckSockets() and SDLNet_SocketReady()
+// //Some of the messages will only be meaningful between games, and others will
+// //only be meaningful during games;
+// void check_client_messages(void)
+// {
+//   for (go through client set and handle active ones)
+//   {
+//     get_buffer_from_client();
+//     get_title_out_of_buffer();
+// 
+//     //Handle all the 'non-game'messages:
+//     if (strcmp(title, NON_GAME_FOO) == 0)
+//     {
+//       //do something (e.g. disconnect)
+//     }
+//     else if (strcmp(title, NON_GAME_BAR) == 0)
+//     {
+//       //do something else (e.g. start a new game)
+//     }
+// 
+//     //Now handle gameplay-related messages:
+//     if (strcmp(title, GAME_FOO) == 0)
+//     {
+//       //do something (e.g. client answered correctly)
+//     }
+//     else if (strcmp(title, GAME_BAR) == 0)
+//     {
+//       //do something else (e.g. client quits game)
+//     }
+// 
+//   }
+// }
+
+
+
+
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -136,7 +204,7 @@ int main(int argc, char **argv)
     
      if( SDLNet_TCP_Recv(client[i].csd, buffer, NET_BUF_LEN) > 0)
      {
-      strcpy(client[i].name,buffer);
+      strcpy(client[i].name, buffer);
       printf(" JOINED  :::   %s",client[i].name);
      }
       printf("this is the value of i = %d\n",i);
