@@ -18,7 +18,7 @@
 #ifndef SERVER_H
 #define SERVER_H
 typedef struct client_type {
-  int connected;                 //connected = 1 , if it has been allotted to a client, and 0 otherwise
+  int game_ready;                 //game_ready = 1 , if client has said OK to start, and 0 otherwise
   char name[NAME_SIZE];
   TCPsocket sock;
 }client_type;
