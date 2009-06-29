@@ -163,7 +163,6 @@ SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
 
-
 /* Local function prototypes: */
 int TitleScreen_load_menu(void);
 void TitleScreen_unload_menu(void);
@@ -381,13 +380,13 @@ int RenderTitleScreen(void)
 {
   SDL_Surface* new_bkg = NULL;
 
-  if(curr_res_x != RES_X || curr_res_y != RES_Y)
+  if(curr_res_x != screen->w || curr_res_y != screen->h)
   {
     /* we need to rerender titlescreen items */
     DEBUGMSG(debug_titlescreen, "Re-rendering titlescreen items.\n");
 
     /* background */
-    new_bkg = LoadBkgd("title/menu_bkg.jpg");
+    new_bkg = LoadBkgd("title/menu_bkg.jpg", screen->w, screen->h);
     if(new_bkg == NULL)
     {
       DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
@@ -449,8 +448,8 @@ int RenderTitleScreen(void)
 
 
 
-    curr_res_x = RES_X;
-    curr_res_y = RES_Y;
+    curr_res_x = screen->w;
+    curr_res_y = screen->h;
 
     DEBUGMSG(debug_titlescreen, "Leaving RenderTitleScreen().\n");
   }
@@ -1924,25 +1923,25 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
                   case SDLK_F5:
                   {
                     /* decrease screen width */
-                    ChangeScreenSize(RES_X - 50, RES_Y);
+                    ChangeWindowSize(win_res_x - 50, win_res_y);
                     break;
                   }
                   case SDLK_F6:
                   {
                     /* increase screen width */
-                    ChangeScreenSize(RES_X + 50, RES_Y);
+                    ChangeWindowSize(win_res_x + 50, win_res_y);
                     break;
                   }
                   case SDLK_F7:
                   {
                     /* decrease screen height */
-                    ChangeScreenSize(RES_X, RES_Y - 50);
+                    ChangeWindowSize(win_res_x, win_res_y - 50);
                     break;
                   }
                   case SDLK_F8:
                   {
                     /* increase screen height */
-                    ChangeScreenSize(RES_X, RES_Y + 50);
+                    ChangeWindowSize(win_res_x, win_res_y + 50);
                     break;
                   }
                   default:
@@ -2166,7 +2165,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           menu_sprites[loc-title_offset]->cur = 0;  // start at beginning of animation sequence
           SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
           SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
-          next_frame(menu_sprites[loc-title_offset]);
+          NextFrame(menu_sprites[loc-title_offset]);
         }
         SDL_UpdateRect(screen, menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
         DEBUGMSG(debug_menu, "Updating rect: %d %d %d %d\n", menu_button_rect[imod].x, menu_button_rect[imod].y, menu_button_rect[imod].w, menu_button_rect[imod].h);
@@ -2188,7 +2187,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
         // the two lines above
         SDL_BlitSurface(menu_sprites[loc-title_offset]->frame[menu_sprites[loc-title_offset]->cur], NULL, screen, &menu_sprite_rect[imod]);
         SDL_UpdateRect(screen, menu_sprite_rect[imod].x, menu_sprite_rect[imod].y, menu_sprite_rect[imod].w, menu_sprite_rect[imod].h);
-        next_frame(menu_sprites[loc-title_offset]);
+        NextFrame(menu_sprites[loc-title_offset]);
       }
     }
 

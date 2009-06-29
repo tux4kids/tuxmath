@@ -390,50 +390,46 @@ void DarkenScreen(Uint8 bits)
   }
 }
 
-void ChangeScreenSize(int new_res_x, int new_res_y)
+/* change window size (works only in windowed mode) */
+void ChangeWindowSize(int new_res_x, int new_res_y)
 {
   SDL_Surface* oldscreen = screen;
 
-  screen = SDL_SetVideoMode(new_res_x,
-                            new_res_y,
-                            PIXEL_BITS,
-                            SDL_SWSURFACE|SDL_HWPALETTE);
-
-  if(screen == NULL)
+  if(!(screen->flags & SDL_FULLSCREEN))
   {
-    fprintf(stderr,
-            "\nError: I could not change screen mode into %d x %d.\n",
-            new_res_x, new_res_y);
-    screen = oldscreen;
+    screen = SDL_SetVideoMode(new_res_x,
+                              new_res_y,
+                              PIXEL_BITS,
+                              SDL_SWSURFACE|SDL_HWPALETTE);
+
+    if(screen == NULL)
+    {
+      fprintf(stderr,
+              "\nError: I could not change screen mode into %d x %d.\n",
+              new_res_x, new_res_y);
+      screen = oldscreen;
+    }
+    else
+    {
+      DEBUGMSG(debug_sdl, "ChangeWindowSize(): Changed window size to %d x %d\n", screen->w, screen->h);
+      oldscreen = NULL;
+      win_res_x = screen->w;
+      win_res_y = screen->h;
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+    }
   }
   else
-  {
-    SDL_FreeSurface(oldscreen);
-    oldscreen = NULL;
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
-    RES_X = new_res_x;
-    RES_Y = new_res_y;
-  }
+    DEBUGMSG(debug_sdl, "ChangeWindowSize() can be run only in windowed mode !");
 }
 
+/* switch between fullscreen and windowed mode */
 void SwitchScreenMode(void)
 {
   int window = (screen->flags & SDL_FULLSCREEN);
   SDL_Surface* oldscreen = screen;
 
-  if (!window)
-  {
-    RES_X = fs_res_x;
-    RES_Y = fs_res_y;
-  }
-  else
-  {
-    RES_X = 640;
-    RES_Y = 480;
-  }
-
-  screen = SDL_SetVideoMode(RES_X,
-                            RES_Y,
+  screen = SDL_SetVideoMode(window ? win_res_x : fs_res_x,
+                            window ? win_res_y : fs_res_y,
                             PIXEL_BITS,
                             screen->flags ^ SDL_FULLSCREEN);
 
@@ -446,8 +442,6 @@ void SwitchScreenMode(void)
             window ? "windowed" : "fullscreen",
             SDL_GetError());
     screen = oldscreen;
-    RES_X = screen->w;
-    RES_Y = screen->h;
   }
   else
   {
@@ -456,7 +450,6 @@ void SwitchScreenMode(void)
     oldscreen = NULL;
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
-
 }
 
 /*

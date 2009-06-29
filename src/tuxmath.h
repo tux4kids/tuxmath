@@ -43,8 +43,14 @@
 //#define NOSOUND
 #include "globals.h"
 
-
 /* Global data gets 'externed' here: */
+
+/* declared in setup.c */
+/* windowed mode screen  size */
+extern int win_res_x;
+extern int win_res_y;
+
+/* full screen size */
 extern int fs_res_x;
 extern int fs_res_y;
 

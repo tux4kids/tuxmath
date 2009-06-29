@@ -134,9 +134,6 @@ extern const int debug_all;
 
 #define PIXEL_BITS 32
 
-extern int RES_X;
-extern int RES_Y;
-
 enum {
   CADET_HIGH_SCORE,
   SCOUT_HIGH_SCORE,

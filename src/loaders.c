@@ -1,71 +1,60 @@
-/***************************************************************************
- -  file: loaders.c
- -  description: Functions to load multimedia for Tux Typing
-                             -------------------
-    begin                : Thu May 4 2000
-    copyright            : (C) 2000 by Sam Hart
-                         : (C) 2003 by Jesse Andrews
-    email                : tuxtype-dev@tux4kids.net
+/*
+  loaders.c
 
-    Modified for use in tuxmath by David Bruce - 2006.
-    email                : <dbruce@tampabay.rr.com>
-                           <tuxmath-devel@lists.sourceforge.net>
- ***************************************************************************/
+  Functions responsible for loading multimedia.
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+  begin                : Thu May 4 2000
+  copyright            : (C) 2000 by Sam Hart
+                       : (C) 2003 by Jesse Andrews
+  email                : tuxtype-dev@tux4kids.net
 
-//#include "globals.h"
-//#include "funcs.h"
+  Modified for use in tuxmath by David Bruce - 2006.
+  email                : <dbruce@tampabay.rr.com>
+                         <tuxmath-devel@lists.sourceforge.net>
 
-#include "tuxmath.h"     // for TUXMATH_DEBUG
+  Modified to support SVG by Boleslaw Kulbabinski - 2009
+  email                : <bkulbabinski@gmail.com>
+
+  Part of "Tux4Kids" Project
+  http://www.tux4kids.com/
+
+  Copyright: See COPYING file that comes with this distribution.
+*/
+
 #include "loaders.h"
-#include "setup.h"  // for cleanup_on_error()
+#include "globals.h"
+#include "tuxmath.h"
+#include "setup.h"       // for cleanup_on_error()
 #include "SDL_extras.h"
 
-/* FIXME Doesn't seem to work consistently on all versions of Windows */
+
 /* check to see if file exists, if so return true */
 // int checkFile( const char *file ) {
 //         static struct stat fileStats;
-// 
 //         fileStats.st_mode = 0;
-// 
 //         stat( file, &fileStats );
-//                 
 //         return (S_IFREG & fileStats.st_mode);
 // }
 
 
 /* Returns 1 if valid file, 2 if valid dir, 0 if neither: */
-int checkFile(const char* file)
+int check_file(const char* file)
 {
   FILE* fp = NULL;
   DIR* dp = NULL;
 
   if (!file)
   {
-    fprintf(stderr, "CheckFile(): invalid char* argument!");
+    fprintf(stderr, "check_file(): invalid char* argument!");
     return 0;
   }
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "CheckFile() - checking: %s\n", file);
-#endif
+  DEBUGMSG(debug_loaders, "check_file(): checking: %s\n", file);
 
   dp = opendir(file);
   if (dp)
   {
-
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Opened successfully as DIR\n");
-#endif
-
+    DEBUGMSG(debug_loaders, "check_file(): Opened successfully as DIR\n");
     closedir(dp);
     return 2;
   }
@@ -73,31 +62,27 @@ int checkFile(const char* file)
   fp = fopen(file, "r");
   if (fp)
   {
-
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Opened successfully as FILE\n");
-#endif
-
+    DEBUGMSG(debug_loaders, "check_file(): Opened successfully as FILE\n");
     fclose(fp);
     return 1;
   }
 
-  fprintf(stderr, "Unable to open '%s' as either FILE or DIR\n", file);
+  fprintf(stderr, "check_file(): Unable to open '%s' as either FILE or DIR\n", file);
   return 0;
 }
 
 
 #ifdef HAVE_RSVG
-/***********************
-    SVG related functions
-************************/
+
 #include<librsvg/rsvg.h>
 #include<librsvg/rsvg-cairo.h>
 
-/* Load an SVG file and resize it to given dimensions.
-   if width or height is set to 0 no resizing is applied
+/* Load a layer of SVG file and resize it to given dimensions.
+   If width or height is negative no resizing is applied.
+   If layer = NULL then the whole image is loaded.
+   Return NULL on failure.
    (partly based on TuxPaint's SVG loading function) */
-SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
+SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name)
 {
   cairo_surface_t* temp_surf;
   cairo_t* context;
@@ -106,31 +91,26 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
   SDL_Surface* dest;
   float scale_x;
   float scale_y;
-  int bpp = 32;
   Uint32 Rmask, Gmask, Bmask, Amask;
+  char* full_layer_name;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "LoadSVGOfDimensions(): looking for %s\n", filename);
-#endif
+  DEBUGMSG(debug_loaders, "load_svg(): looking for %s\n", file_name);
 
   rsvg_init();
 
-  file_handle = rsvg_handle_new_from_file(filename, NULL);
+  file_handle = rsvg_handle_new_from_file(file_name, NULL);
   if(file_handle == NULL)
   {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadSVGOfDimensions(): file %s not found\n", filename);
-#endif
+    DEBUGMSG(debug_loaders, "load_svg(): file %s not found\n", file_name);
     rsvg_term();
     return NULL;
   }
 
   rsvg_handle_get_dimensions(file_handle, &dimensions);
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "SVG is %d x %d\n", dimensions.width, dimensions.height);
-#endif
 
-  if(width <= 0 || height <= 0)
+  DEBUGMSG(debug_loaders, "load_svg(): SVG is %d x %d\n", dimensions.width, dimensions.height);
+
+  if(width < 0 || height < 0)
   {
     width = dimensions.width;
     height = dimensions.height;
@@ -143,17 +123,20 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
     scale_y = (float)height / dimensions.height;
   }
 
-  /* FIXME: We assume that our bpp = 32 */
+  Rmask = screen->format->Rmask;
+  Gmask = screen->format->Gmask;
+  Bmask = screen->format->Bmask;
+  if(screen->format->Amask == 0)
+    /* find a free byte to use for Amask */
+    Amask = ~(Rmask | Gmask | Bmask);
+  else
+    Amask = screen->format->Amask;
 
-  /* rmask, gmask, bmask, amask defined in SDL_extras.h do not work !
-     are those (taken from TuxPaint) dependent on endianness ? */
-  Rmask = 0x00ff0000;
-  Gmask = 0x0000ff00;
-  Bmask = 0x000000ff;
-  Amask = 0xff000000;
+  DEBUGMSG(debug_loaders, "load_svg(): color masks: R=%u, G=%u, B=%u, A=%u ",
+        Rmask, Gmask, Bmask, Amask);
 
   dest = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA,
-        width, height, bpp, Rmask, Gmask, Bmask, Amask);
+        width, height, screen->format->BitsPerPixel, Rmask, Gmask, Bmask, Amask);
 
   SDL_LockSurface(dest);
   temp_surf = cairo_image_surface_create_for_data(dest->pixels,
@@ -162,9 +145,7 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
   context = cairo_create(temp_surf);
   if(cairo_status(context) != CAIRO_STATUS_SUCCESS)
   {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadSVGOfDimensions(): error rendering SVG from %s\n", filename);
-#endif
+    DEBUGMSG(debug_loaders, "load_svg(): error rendering SVG from %s\n", file_name);
     g_object_unref(file_handle);
     cairo_surface_destroy(temp_surf);
     rsvg_term();
@@ -172,7 +153,21 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
   }
 
   cairo_scale(context, scale_x, scale_y);
-  rsvg_handle_render_cairo(file_handle, context);
+
+  /* insert '#' symbol at the beginning of layername */
+  if(layer_name != NULL)
+  {
+    full_layer_name = malloc((strlen(layer_name) + 2) * sizeof(char));
+    sprintf(full_layer_name, "#%s", layer_name);
+  }
+  else
+    full_layer_name = NULL;
+
+  /* render appropriate layer */
+  rsvg_handle_render_cairo_sub(file_handle, context, full_layer_name);
+
+  if(full_layer_name != NULL)
+    free(full_layer_name);
 
   SDL_UnlockSurface(dest);
 
@@ -184,229 +179,179 @@ SDL_Surface* LoadSVGOfDimensions(char* filename, int width, int height)
   return dest;
 }
 
-#endif
+#endif /* HAVE_RSVG */
 
-/***********************
-        LoadImageFromFile : Simply load an image from given file
-        or its SVG equivalent (if present). Return NULL if loading failed.
-************************/
-SDL_Surface* LoadImageFromFile(char *datafile)
+
+/* LoadScaledImage : Load an image and resize it to given dimensions.
+   If width or height is negative no resizing is applied.
+   The loader (load_svg() or IMG_Load()) is chosen depending on file extension,
+   If an SVG file is not found try to load its PNG equivalent
+   (unless IMG_NO_PNG_FALLBACK is set) */
+SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
 {
-  SDL_Surface* tmp_pic = NULL;
-
-#ifdef HAVE_RSVG
-  char svgfn[PATH_MAX];
-#endif
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "LoadImageFromFile(): looking in %s\n", datafile);
-#endif
-
-#ifdef HAVE_RSVG
-  /* This is just an ugly workaround to test SVG
-     before any scaling routines are implemented */
-
-  /* change extension into .svg */
-  char* dotpos = strrchr(datafile, '.');
-  strncpy(svgfn, datafile, dotpos - datafile);
-  svgfn[dotpos - datafile] = '\0';
-  strcat(svgfn, ".svg");
-
-  /* try to load an SVG equivalent */
-  tmp_pic = LoadSVGOfDimensions(svgfn, 0, 0);
-#endif
-
-  if(tmp_pic == NULL)
-    /* Try to load image with SDL_image: */
-    tmp_pic = IMG_Load(datafile);
-
-  return tmp_pic;
-}
-
-/* FIXME checkFile() not working right in Win32 - skipping. */
-/***********************
-        LoadImage : Load an image and set transparent if requested
-************************/
-SDL_Surface* LoadImage( char *datafile, int mode )
-{
-  SDL_Surface* tmp_pic = NULL;
+  SDL_Surface* loaded_pic = NULL;
   SDL_Surface* final_pic = NULL;
-
   char fn[PATH_MAX];
+  int fn_len;
 
-  sprintf( fn, "%s/images/%s", DATA_PREFIX, datafile );
+  if(NULL == file_name)
+  {
+    DEBUGMSG(debug_loaders, "LoadScaledImage(): file_name is NULL, exiting.\n");
+    return NULL;
+  }
 
+  /* run loader depending on file extension */
 
-  tmp_pic = LoadImageFromFile(fn);
+  /* add path prefix */
+  sprintf(fn, "%s/images/%s", DATA_PREFIX, file_name);
+  fn_len = strlen(fn);
 
-  if (NULL == tmp_pic) /* Could not load image: */
+  if(strcmp(fn + fn_len - 4, ".svg"))
+  {
+    DEBUGMSG(debug_loaders, "LoadScaledImage(): %s is not an SVG, loading using IMG_Load()\n", fn);
+    loaded_pic = IMG_Load(fn);
+  }
+  else
+  {
+#ifdef HAVE_RSVG
+    DEBUGMSG(debug_loaders, "LoadScaledImage(): trying to load %s as SVG.\n", fn);
+    loaded_pic = load_svg(fn, width, height, NULL);
+#endif
+
+    if(loaded_pic == NULL)
+    {
+#ifdef HAVE_RSVG
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): failed to load %s as SVG.\n", fn);
+#else
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): SVG support not available.\n");
+#endif
+      if(mode & IMG_NO_PNG_FALLBACK)
+      {
+        DEBUGMSG(debug_loaders, "LoadScaledImage(): %s : IMG_NO_PNG_FALLBACK is set.\n", fn);
+      }
+      else
+      {
+        DEBUGMSG(debug_loaders, "LoadScaledImage(): Trying to load PNG eqivalent of %s\n", fn);
+        strcpy(fn + fn_len - 3, "png");
+
+        loaded_pic = IMG_Load(fn);
+      }
+    }
+  }
+
+  if (NULL == loaded_pic) /* Could not load image: */
   {
     if (mode & IMG_NOT_REQUIRED)
-    { 
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "Warning: could not load optional graphics file %s\n", datafile);
-#endif
+    {
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): Warning: could not load optional graphics file %s\n", file_name);
       return NULL;  /* Allow program to continue */
     }
     /* If image was required, exit from program: */
-    fprintf(stderr, "ERROR could not load required graphics file %s\n", datafile);
+    fprintf(stderr, "LoadScaledImage(): ERROR could not load required graphics file %s\n", file_name);
     fprintf(stderr, "%s", SDL_GetError() );
     cleanup_on_error();
   }
 
   /* "else" - now setup the image to the proper format */
+  if(width >= 0 && height >= 0 &&
+     (loaded_pic->w != width || loaded_pic->h != height))
+  {
+    final_pic = zoom(loaded_pic, width, height);
+    SDL_FreeSurface(loaded_pic);
+    loaded_pic = final_pic;
+    final_pic = NULL;
+  }
+
   switch (mode & IMG_MODES)
   {
     case IMG_REGULAR:
-    { 
-
-      final_pic = SDL_DisplayFormat(tmp_pic);
-      SDL_FreeSurface(tmp_pic);
+    {
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_REGULAR mode.\n");
+      final_pic = SDL_DisplayFormat(loaded_pic);
+      SDL_FreeSurface(loaded_pic);
       break;
     }
 
     case IMG_ALPHA:
     {
-
-      final_pic = SDL_DisplayFormatAlpha(tmp_pic);
-      SDL_FreeSurface(tmp_pic);
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_ALPHA mode.\n");
+      final_pic = SDL_DisplayFormatAlpha(loaded_pic);
+      SDL_FreeSurface(loaded_pic);
       break;
     }
 
     case IMG_COLORKEY:
     {
-
-      SDL_LockSurface(tmp_pic);
-      SDL_SetColorKey(tmp_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
-                      SDL_MapRGB(tmp_pic->format, 255, 255, 0));
-      final_pic = SDL_DisplayFormat(tmp_pic);
-      SDL_FreeSurface(tmp_pic);
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_COLORKEY mode.\n");
+      SDL_LockSurface(loaded_pic);
+      SDL_SetColorKey(loaded_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
+                      SDL_MapRGB(loaded_pic->format, 255, 255, 0));
+      final_pic = SDL_DisplayFormat(loaded_pic);
+      SDL_FreeSurface(loaded_pic);
       break;
     }
 
     default:
     {
-#ifdef TUXMATH_DEBUG
-      fprintf(stderr, "Image mode not recognized\n");
-#endif
-      SDL_FreeSurface(tmp_pic);
+      DEBUGMSG(debug_loaders, "LoadScaledImage(): Image mode not recognized\n");
+      SDL_FreeSurface(loaded_pic);
     }
   }
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Leaving LoadImage()\n\n");
-#endif
+
+  DEBUGMSG(debug_loaders, "Leaving LoadScaledImage()\n\n");
+
   return final_pic;
 }
 
-/***********************
-        LoadBkgd() : a wrapper for LoadImage() that scales the
-        image to the size of the screen using zoom(), taken
-        from TuxPaint
-************************/
-SDL_Surface* LoadBkgd(char* datafile)
+/* Load an image without scaling it */
+SDL_Surface* LoadImage(char* file_name, int mode)
 {
-  SDL_Surface* orig;
-  orig = LoadImage(datafile, IMG_REGULAR);
+  return LoadScaledImage(file_name, mode, -1, -1);
+}
+
+
+/* LoadBkgd() : a wrapper for LoadImage() that optimizes
+   the format of background image */
+SDL_Surface* LoadBkgd(char* file_name, int width, int height)
+{
+  SDL_Surface* orig = NULL;
+  SDL_Surface* final_pic = NULL;
+
+  orig = LoadScaledImage(file_name, IMG_REGULAR, width, height);
 
   if (!orig)
   {
-    tmdprintf("In LoadBkgd(), LoadImage() returned NULL on %s\n",
-              datafile);
+    DEBUGMSG(debug_loaders, "In LoadBkgd(), LoadImage() returned NULL on %s\n",
+             file_name);
     return NULL;
   }
 
-  if ((orig->w == screen->w)
-   && (orig->h == screen->h))
-  {
-    tmdprintf("No zoom required - return bkgd as is\n");
-    return orig;
-  }
-  else
-  { 
-    tmdprintf("Image is %dx%d\n", orig->w, orig->h);
-    tmdprintf("Screen is %dx%d\n", screen->w, screen->h);
-    tmdprintf("Calling zoom() to rescale\n");
-    return zoom(orig, screen->w, screen->h);
-  }
+  /* turn off transparency, since it's the background */
+  SDL_SetAlpha(orig, SDL_RLEACCEL, SDL_ALPHA_OPAQUE);
+  final_pic = SDL_DisplayFormat(orig); /* optimize the format */
+  SDL_FreeSurface(orig);
+
+  return final_pic;
 }
 
-/**********************
-LoadBothBkgds() : loads two scaled images: one for the user's native 
-resolution and one for 640x480 fullscreen. 
-Returns: the number of images that were scaled
-Now we also optimize the format for best performance
-**********************/
-int LoadBothBkgds(char* datafile, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
+/* LoadBothBkgds() : loads two scaled images: one for the fullscreen mode
+   (fs_res_x,fs_rex_y) and one for the windowed mode (win_res_x,win_rex_y)
+   Now we also optimize the format for best performance */
+void LoadBothBkgds(char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
 {
-  int ret = 0;
-  SDL_Surface* orig = NULL;
-  SDL_Surface* tmp = NULL;
-
-  tmdprintf("Entering LoadBothBkgds()\n");
-  orig = LoadImage(datafile, IMG_REGULAR);
-  tmdprintf("Scaling %dx%d to: %dx%d, %dx%d\n", 
-           orig->w, orig->h, RES_X, RES_Y, fs_res_x, fs_res_y);
-  if (orig->w == RES_X && orig->h == RES_Y)
-  {
-    *win_bkgd = orig;
-  }
-  else
-  {
-    *win_bkgd = zoom(orig, RES_X, RES_Y);
-    ++ret;
-  }
-  
-  if (orig->w == fs_res_x && orig->h == fs_res_y)
-  {
-    *fs_bkgd = orig;
-  }
-  else
-  {
-    *fs_bkgd = zoom(orig, fs_res_x, fs_res_y);
-    ++ret;
-  }
-  
-  if (ret == 2) //orig won't be used at all
-    SDL_FreeSurface(orig);
-
-  // Optimize images before we leave:
-  // turn off transparency, since it's the background:
-  if (*fs_bkgd)  //avoid segfault...
-  {
-    SDL_SetAlpha(*fs_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);
-    tmp = SDL_DisplayFormat(*fs_bkgd);  // optimize the format
-    SDL_FreeSurface(*fs_bkgd);
-    *fs_bkgd = tmp;
-  }
-  if (*win_bkgd)
-  {
-    SDL_SetAlpha(*win_bkgd, SDL_RLEACCEL,SDL_ALPHA_OPAQUE);
-    tmp = SDL_DisplayFormat(*win_bkgd);  // optimize the format
-    SDL_FreeSurface(*win_bkgd);
-    *win_bkgd = tmp;
-  }
-
-  tmdprintf("%d images scaled\nLeaving LoadBothBkgds()\n", ret);
-  return ret;
+  DEBUGMSG(debug_loaders, "Entering LoadBothBkgds()\n");
+  *fs_bkgd = LoadBkgd(file_name, fs_res_x, fs_res_y);
+  *win_bkgd = LoadBkgd(file_name, win_res_x, win_res_y);
 }
 
 
-sprite* FlipSprite( sprite *in, int X, int Y ) {
-  sprite *out;
-
-  out = malloc(sizeof(sprite));
-  if (in->default_img != NULL)
-          out->default_img = Flip( in->default_img, X, Y );
-  else
-          out->default_img = NULL;
-  for ( out->num_frames=0; out->num_frames<in->num_frames; out->num_frames++ )
-          out->frame[out->num_frames] = Flip( in->frame[out->num_frames], X, Y );
-  out->cur = 0;
-  return out;
+sprite* LoadSprite(char* name, int mode)
+{
+  return LoadScaledSprite(name, mode, -1, -1);
 }
 
-
-sprite* LoadSprite( char* name, int MODE ) {
+sprite* LoadScaledSprite(char* name, int mode, int width, int height)
+{
   sprite *new_sprite;
   char fn[PATH_MAX];
   int x;
@@ -415,35 +360,49 @@ sprite* LoadSprite( char* name, int MODE ) {
 
   new_sprite = malloc(sizeof(sprite));
 
-  sprintf(fn, "%sd.png", name);  // The 'd' means the default image
-  new_sprite->default_img = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
-  for (x = 0; x < MAX_SPRITE_FRAMES; x++) {
-          sprintf(fn, "%s%d.png", name, x);
-          new_sprite->frame[x] = LoadImage( fn, MODE|IMG_NOT_REQUIRED );
-          if ( new_sprite->frame[x] == NULL ) {
-                  new_sprite->cur = 0;
-                  new_sprite->num_frames = x;
-                  break;
-          }
+  sprintf(fn, "%sd.svg", name);  // The 'd' means the default image
+  new_sprite->default_img = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
+
+  for(x = 0; x < MAX_SPRITE_FRAMES; x++)
+  {
+    sprintf(fn, "%s%d.svg", name, x);
+    new_sprite->frame[x] = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
+    if( new_sprite->frame[x] == NULL)
+    {
+      new_sprite->cur = 0;
+      new_sprite->num_frames = x;
+      break;
+    }
   }
 
-
-  
   return new_sprite;
 }
 
+sprite* FlipSprite(sprite* in, int X, int Y)
+{
+  sprite *out;
 
+  out = malloc(sizeof(sprite));
+  if (in->default_img != NULL)
+    out->default_img = Flip( in->default_img, X, Y );
+  else
+    out->default_img = NULL;
+  for( out->num_frames=0; out->num_frames<in->num_frames; out->num_frames++ )
+    out->frame[out->num_frames] = Flip( in->frame[out->num_frames], X, Y );
+  out->cur = 0;
+  return out;
+}
 
-void FreeSprite(sprite* gfx )
+void FreeSprite(sprite* gfx)
 {
   int x;
   if (!gfx)
     return;
 
-  tmdprintf("Freeing image at %p", gfx);
+  DEBUGMSG(debug_loaders, "Freeing image at %p", gfx);
   for (x = 0; x < gfx->num_frames; x++)
   {
-    tmdprintf(".");
+    DEBUGMSG(debug_loaders, ".");
     if (gfx->frame[x])
     {
       SDL_FreeSurface(gfx->frame[x]);
@@ -457,21 +416,21 @@ void FreeSprite(sprite* gfx )
     gfx->default_img = NULL;
   }
 
-  tmdprintf("FreeSprite() - done\n");
+  DEBUGMSG(debug_loaders, "FreeSprite() - done\n");
   free(gfx);
 }
 
-void next_frame(sprite* s)
+void NextFrame(sprite* s)
 {
   if (s && s->num_frames)
     s->cur = (s->cur + 1) % s->num_frames;
 }
 
-/***************************
-        LoadSound : Load a sound/music patch from a file.
-****************************/
+
+
+/* LoadSound : Load a sound/music patch from a file. */
 Mix_Chunk* LoadSound( char *datafile )
-{ 
+{
   Mix_Chunk* tempChunk = NULL;
   char fn[PATH_MAX];
 
@@ -485,17 +444,14 @@ Mix_Chunk* LoadSound( char *datafile )
   return tempChunk;
 }
 
-/************************
-        LoadMusic : Load
-        music from a datafile
-*************************/
+/* LoadMusic : Load music from a datafile */
 Mix_Music *LoadMusic(char *datafile )
-{ 
+{
   char fn[PATH_MAX];
   Mix_Music* tempMusic = NULL;
 
   sprintf( fn , "%s/sounds/%s", DATA_PREFIX, datafile );
-  if (1 != checkFile(fn))
+  if (1 != check_file(fn))
   {
     fprintf(stderr, "LoadMusic(): %s not found\n\n", fn);
     return NULL;
@@ -510,3 +466,4 @@ Mix_Music *LoadMusic(char *datafile )
   }
   return tempMusic;
 }
+

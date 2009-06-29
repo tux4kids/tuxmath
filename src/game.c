@@ -467,10 +467,10 @@ this should stylishly fade out over the first few moments of the game.
 void game_set_start_message(const char* m1, const char* m2, 
                             const char* m3, const char* m4)
 {
-  game_set_message(&s1, m1, -1, RES_Y * 2 / 10);
-  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 3 / 10);
-  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 4 / 10);
-  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 5 / 10);
+  game_set_message(&s1, m1, -1, screen->h * 2 / 10);
+  game_set_message(&s2, m2, screen->w / 2 - 40, screen->h * 3 / 10);
+  game_set_message(&s3, m3, screen->w / 2 - 40, screen->h * 4 / 10);
+  game_set_message(&s4, m4, screen->w / 2 - 40, screen->h * 5 / 10);
   start_message_chosen = 1;
 }
 
@@ -1327,12 +1327,12 @@ void game_handle_comets(void)
       if (comets[i].bonus)
       {
         comets[i].y += speed * Opts_BonusSpeedRatio() *
-                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
+                       city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
       }
       else /* Regular comet: */
       {
         comets[i].y += speed *
-                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
+                       city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
       }
 
       /* Does it threaten a city? */

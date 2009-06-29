@@ -58,10 +58,13 @@
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
 
-int RES_X = 640;
-int RES_Y = 480;
-int fs_res_x = 640;
-int fs_res_y = 480;
+/* window size */
+int win_res_x = 640;
+int win_res_y = 480;
+
+/* full screen size (set in initialize_SDL() ) */
+int fs_res_x = 0;
+int fs_res_y = 0;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
@@ -583,11 +586,8 @@ void initialize_SDL(void)
 
     if (!Opts_GetGlobalOpt(FULLSCREEN))
     {
-      screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, surfaceMode);
+      screen = SDL_SetVideoMode(win_res_x, win_res_y, PIXEL_BITS, surfaceMode);
     }
-
-    RES_X = screen->w;
-    RES_Y = screen->h;
 
     if (screen == NULL)
     {

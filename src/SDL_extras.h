@@ -35,7 +35,7 @@ SDL_Surface* Flip(SDL_Surface *in, int x, int y);
 int  inRect(SDL_Rect r, int x, int y);
 void DarkenScreen(Uint8 bits);
 void SwitchScreenMode(void);
-void ChangeScreenSize(int new_res_x, int new_res_y);
+void ChangeWindowSize(int new_res_x, int new_res_y);
 SDL_EventType WaitForEvent(SDL_EventMask events);
 SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2,float gamma);
 SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h);
