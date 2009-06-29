@@ -94,26 +94,22 @@ int main(int argc, char **argv)
     // perhaps you need to restart the set and make it bigger...
   }
 
-
-
-  /* Send messages */
-  quit = 0;
-  while (!quit)
-  { 
-    //Get user input from command line and send it to server: 
-
-
-      if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-      {
-       fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-       exit(EXIT_FAILURE);
-      }
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+   fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+   exit(EXIT_FAILURE);
+  }
 #ifdef LAN_DEBUG
   printf("Sent the name of the player %s\n",check1);
 #endif
 
 
-   /*now display the options*/
+  /* Send messages */
+  quit = 0;
+  do
+  { 
+    //Get user input from command line and send it to server: 
+  /*now display the options*/
     printf("Welcome to the Tux Math Test Client!\n");
     printf("Type:\n"
              "'game' to start math game;\n"
@@ -146,7 +142,7 @@ int main(int argc, char **argv)
              "'exit' to end client leaving server running;\n"
              "'quit' to end both client and server\n\n>\n");
     }
-  }
+  }while(!quit);
  
   SDLNet_TCP_Close(sd);
   SDLNet_FreeSocketSet(set);
