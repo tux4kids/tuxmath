@@ -152,7 +152,7 @@ int main(int argc, char **argv)
     else if(numready) 
     {
 #ifdef LAN_DEBUG
-      printf("There are %d sockets with activity!\n", numready);
+//      printf("There are %d sockets with activity!\n", numready);
 #endif
 
       // check all sockets with SDLNet_SocketReady and handle the active ones.
@@ -595,6 +595,8 @@ int update_clients(void)
     strncpy(client[slot].name, buffer, NAME_SIZE);
     num_clients = sockets_used;
     printf(" JOINED  :::   %s\n", client[slot].name);
+//    client[slot].game_ready=1;
+    printf("slot %d  is %d\n",slot,client[slot].game_ready); 
         //FIXME AFAICT, num_clients and i are always the same /* ya they are same , but would have to check for it*/
   }
   /* Now we can communicate with the client using client[i].sock socket
@@ -623,7 +625,7 @@ int update_clients(void)
 }
 
 
-//Returns the index of the first vacant client, or -1 if all clients full)
+//Returns the index of the first vacant client, or -1 if all clients full
 int find_vacant_client(void)
 {
   int i = 0;

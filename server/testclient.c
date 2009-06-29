@@ -42,6 +42,16 @@ int main(int argc, char **argv)
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
 
+      /* first just take in the name */
+      char *check1;
+      char name[NAME_SIZE];
+      printf("Enter your Name.\n");
+      check1=fgets(buffer,NET_BUF_LEN,stdin);
+      strncpy(name,check1,strlen(check1));
+      snprintf(buffer, NET_BUF_LEN, 
+                       "%s",
+                       name);
+      len = strlen(buffer) + 1;
 
   /* Simple parameter checking */
   if (argc < 3)
@@ -91,6 +101,19 @@ int main(int argc, char **argv)
   while (!quit)
   { 
     //Get user input from command line and send it to server: 
+
+
+      if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+      {
+       fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+       exit(EXIT_FAILURE);
+      }
+#ifdef LAN_DEBUG
+  printf("Sent the name of the player %s\n",check1);
+#endif
+
+
+   /*now display the options*/
     printf("Welcome to the Tux Math Test Client!\n");
     printf("Type:\n"
              "'game' to start math game;\n"
@@ -112,23 +135,6 @@ int main(int argc, char **argv)
     }
     else if (strncmp(buffer, "game",4) == 0)
     {
-      char name[NAME_SIZE];
-      printf("Enter your Name.\n");
-      check=fgets(buffer,NET_BUF_LEN,stdin);
-      strncpy(name,check,strlen(check));
-      snprintf(buffer, NET_BUF_LEN, 
-                       "%s",
-                       name);
-      len = strlen(buffer) + 1;
-      if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-      {
-       fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-       exit(EXIT_FAILURE);
-      }
-#ifdef LAN_DEBUG
-  printf("Sent the name of the player %s\n",check);
-#endif
-
       printf("Starting math game:\n");
       playgame();
       printf("Math game finished.\n");
@@ -228,26 +234,26 @@ int playgame(void)
   int len = 0;
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
+  char ch;
 
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
 #endif
 
-
-  snprintf(buffer, NET_BUF_LEN, 
+ 
+   snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
                   "start");
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-#ifdef LAN_DEBUG
-  printf("Sent the game notification %s\n",buffer);
-#endif
-
-
+   len = strlen(buffer) + 1;
+   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+   {
+     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+     exit(EXIT_FAILURE);
+   }
+ #ifdef LAN_DEBUG
+   printf("Sent the game notification %s\n",buffer);
+ #endif
+ 
 
   if( SDLNet_TCP_Recv(sd, buf, sizeof(buf)))
   {
@@ -294,7 +300,7 @@ int playgame(void)
       else
       {
 #ifdef LAN_DEBUG
-        printf("There are %d sockets with activity!\n", numready);
+//        printf("There are %d sockets with activity!\n", numready);
 #endif
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         if(SDLNet_SocketReady(sd))
