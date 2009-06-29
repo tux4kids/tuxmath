@@ -174,9 +174,11 @@ int main(int argc, char **argv)
               quit = 1;  //For now, stop accepting connections as soon as the first player says so
               snprintf(buf, NET_BUF_LEN,
                       "%s\n",
-                      "Success");  //FIXME what did we succeed at?
+                      "Success");  //FIXME what did we succeed at? This is basically a sort of handshaking signal , although it is not much needed here , but since we have a blocking recv call in the client for the case of game_started , so no client join , therefore it is in accordance with that SDL_NetRecv()
+
               x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-              client[j].game_ready = 1; //FIXME why is this here?
+              client[j].game_ready = 1; //FIXME why is this here? ::: beacuse whenever a client is connected we change the flag value 
+                                        //from 0 to 1 , look down *next* FIXME for more explanation
             }
           }
         }
@@ -189,6 +191,9 @@ int main(int argc, char **argv)
 
   /*FIXME this will only work if the clients are in a contiguous series starting */
   /* at client[0].                                                             */
+  /* Basically , when the clients are allocated sockets , they are allocated contiguos
+     locations  starting from client[0] , so I dont think this will fail anytime.*/
+
   /*This loop sees that the game starts only when all the players are ready */
   for(j = 0; j < num_clients; j++)
   {
@@ -281,6 +286,9 @@ int main(int argc, char **argv)
         }        
         /*This loop mainly checks if all the clients have disconnected*/
         /* FIXME how do we know the client is really connected?  */
+        /*we know this by means of the flag game_ready*/
+        /*Whenever a client gets connected the game_ready flag is changed to 1 from default 0
+          so even if one client has gem_ready as 1 , it breaks the loop.*/
         int c;
         for(c = 0; c < num_clients; c++)
         {
@@ -351,14 +359,6 @@ int main(int argc, char **argv)
                   }
                 } 
               }                            
-              //Now it has no use , since the clients dont ask question.
-              else if(strncmp(command, "next_question", 13) == 0)
-              {
-#ifdef LAN_DEBUG
-                printf("received request to send question\n");
-#endif
-                command_type = SEND_A_QUESTION;              
-              } 
 
               else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
               {
@@ -381,19 +381,6 @@ int main(int argc, char **argv)
           
               switch(command_type)
               {
-//               case NEW_GAME:  //mainly to setup the question list
-//               {
-//                 if (!MC_StartGame())
-//                 {
-//                   fprintf(stderr, "\nMC_StartGame() failed!");
-//                 }
-//                 if(!SendMessage(LIST_SET_UP,0,client[j].sock))
-//                 {
-//                   printf("Unable to communicate to the client\n");
-//                 }
-//                 break;                                           
-//               } 
-
                 case CORRECT_ANSWER:
                 {
  //               if(!SendMessage(ANSWER_CORRECT,id,client[j].sock))
@@ -535,6 +522,7 @@ int setup_server(void)
 //check_new_clients() sees if anyone is trying to connect, and connects if a slot
 //is open and the game is not in progress. It returns the number of connected clients.
 //FIXME we need to be able to test to see if the clients are really still connected
+/* we can do that by means of the game_ready flag that are there for this purpose*/
 int update_clients(void)
 {
   int slot = 0;
@@ -607,7 +595,7 @@ int update_clients(void)
     strncpy(client[slot].name, buffer, NAME_SIZE);
     num_clients = sockets_used;
     printf(" JOINED  :::   %s\n", client[slot].name);
-        //FIXME AFAICT, num_clients and i are always the same
+        //FIXME AFAICT, num_clients and i are always the same /* ya they are same , but would have to check for it*/
   }
   /* Now we can communicate with the client using client[i].sock socket
   /* serv_sock will remain opened waiting other connections */
