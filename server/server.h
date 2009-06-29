@@ -27,9 +27,8 @@ typedef struct client_type {
  
 /*enum for commands coming from the client side*/
 enum {
-  NEW_GAME,
-  SEND_A_QUESTION,
-  LIST_NOT_SETUP,
+  EXIT,
+  QUIT,
   CORRECT_ANSWER
 };
 

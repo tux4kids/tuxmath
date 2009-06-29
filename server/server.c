@@ -110,7 +110,7 @@ int update_clients(void);
 int find_vacant_client(void);
 int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int z, TCPsocket client_sock);
-
+int server_cleanup(void);
 
 int main(int argc, char **argv)
 { 
@@ -333,78 +333,27 @@ int main(int argc, char **argv)
               if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
               {
                 command_type = CORRECT_ANSWER; 
-                printf("question id %d was answered correctly by %s",id,client[j].name);             
-                if (!MC_NextQuestion(&flash))
-                { 
-                  /* no more questions available */
-                  printf("MC_NextQuestion() returned NULL - no questions available\n");
-                }
-                else
-                {                                     
-#ifdef LAN_DEBUG
-                  printf("WILL SEND >>\n");  
-                  printf("QUESTION_ID       :      %d\n", flash.question_id);
-                  printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-                  printf("ANSWER STRING     :      %s\n", flash.answer_string);
-                  printf("ANSWER            :      %d\n",flash.answer);
-                  printf("DIFFICULTY        :      %d\n",flash.difficulty);
-#endif
-                }
-                int n;
-                for(n = 0; n < num_clients && client[n].sock; n++)
-                {
-                  if(!SendQuestion(flash,client[n].sock))
-                  {
-                    printf("Unable to send Question\n");
-                  }
-                } 
               }                            
 
               else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
               {
-                printf("LEFT the GAME : %s",client[j].name);
-                client[j].game_ready=0;
-                SDLNet_TCP_DelSocket(client_set,client[j].sock);
-                SDLNet_TCP_Close(client[j].sock);
-                printf("Terminating client connection\n");
+                command_type = EXIT;
               }
 
               else if(strncmp(command, "quit",4) == 0) /* Quit the program */
               {
-                printf("Server has been shut down by %s",client[j].name); 
-                client[j].game_ready=0;
-                SDLNet_TCP_DelSocket(client_set,client[j].sock);
-                SDLNet_TCP_Close(client[j].sock);
-                quit2 = 1;
-                printf("Quit program....Server is shutting down...\n");
+                command_type = QUIT;
               }
           
               switch(command_type)
               {
                 case CORRECT_ANSWER:
                 {
- //               if(!SendMessage(ANSWER_CORRECT,id,client[j].sock))
- //               {
- //                 printf("Unable to communicate to the client\n");
- //               }
-                  break;
-                }
-
-                case LIST_NOT_SETUP:                    //to send any message to the client 
-                {              
-                  if(!SendMessage(NO_QUESTION_LIST,id,client[j].sock))
-                  {
-                    printf("Unable to communicate to the client\n");
-                  }
-                  break;
-                }
-
-                case SEND_A_QUESTION:
-                {
+                  printf("question id %d was answered correctly by %s",id,client[j].name);             
                   if (!MC_NextQuestion(&flash))
                   { 
-                    /* no more questions available */
-                    printf("MC_NextQuestion() returned NULL - no questions available\n");
+                   /* no more questions available */
+                   printf("MC_NextQuestion() returned NULL - no questions available\n");
                   }
                   else
                   {                                     
@@ -416,14 +365,42 @@ int main(int argc, char **argv)
                     printf("ANSWER            :      %d\n",flash.answer);
                     printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-                    if(!SendQuestion(flash,client[j].sock))
-                    {
-                      printf("Unable to send Question\n");
-                    }
+                  }
+                  int n;
+                  for(n = 0; n < num_clients && client[n].sock; n++)
+                  {
+                   if(!SendQuestion(flash,client[n].sock))
+                   {
+                     printf("Unable to send Question\n");
+                   }
                   } 
+    
                   break;
-                } 
-        
+                }
+
+                case EXIT:
+                {
+                 printf("LEFT the GAME : %s",client[j].name);
+                 client[j].game_ready=0;
+                 SDLNet_TCP_DelSocket(client_set,client[j].sock);
+                 SDLNet_TCP_Close(client[j].sock);
+                 printf("Terminating client connection\n");
+
+                 break;
+                }
+           
+                case QUIT:
+                {
+                 printf("Server has been shut down by %s",client[j].name); 
+                 client[j].game_ready=0;
+                 SDLNet_TCP_DelSocket(client_set,client[j].sock);
+                 SDLNet_TCP_Close(client[j].sock);
+                 quit2 = 1;
+                 printf("Quit program....Server is shutting down...\n");
+
+                 break;
+                }        
+
                 default:
                   break;                             //this *break* comes out of the switch statement
               }  // end of switch() statement
@@ -439,22 +416,6 @@ int main(int argc, char **argv)
         break;   
     }//  end of while(1) loop
   }//while loop
-
-  /* Close the client socket */
-  
-  for(j = 0; j < num_clients; j++)
-  {
-    if(client[j].game_ready == 1)                           //close only those clients that are still connected 
-      SDLNet_TCP_Close(client[j].sock);                //close all the client sockets one by one
-  }          
-  SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
-  client_set=NULL; //this helps us remember that this set is not allocated
-      
-  
- /* Clean up mathcards heap memory */
-  MC_EndGame();
-  SDLNet_TCP_Close(server_sock);
-  SDLNet_Quit();
  
   return EXIT_SUCCESS;
 }
@@ -624,6 +585,28 @@ int update_clients(void)
   return num_clients;
 }
 
+
+//Free resources, closing sockets, call MC_EndGame(), and so forth:
+int server_cleanup(void)
+{
+ 
+  int j;
+  /* Close the client socket(s) */
+  
+  for(j = 0; j < num_clients; j++)
+  {
+    if(client[j].game_ready == 1)                           //close only those clients that are still connected 
+      SDLNet_TCP_Close(client[j].sock);                //close all the client sockets one by one
+  }          
+  SDLNet_FreeSocketSet(client_set);              //releasing the memory of the client socket set
+  client_set=NULL; //this helps us remember that this set is not allocated
+      
+  
+ /* Clean up mathcards heap memory */
+  MC_EndGame();
+  SDLNet_TCP_Close(server_sock);
+  SDLNet_Quit();
+}
 
 //Returns the index of the first vacant client, or -1 if all clients full
 int find_vacant_client(void)
