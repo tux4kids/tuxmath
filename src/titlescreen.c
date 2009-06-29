@@ -138,8 +138,8 @@ int curr_res_x = -1;
 int curr_res_y = -1;
 
 /* titlescreen items */
-SDL_Surface* bkg = NULL;
-SDL_Surface* scaled_bkg = NULL;
+SDL_Surface* win_bkg = NULL;
+SDL_Surface* fs_bkg = NULL;
 
 SDL_Surface* logo = NULL;
 sprite* Tux = NULL;
@@ -161,7 +161,23 @@ SDL_Rect stopRect; /* part of the menu */
 
 SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
-  { return screen->flags & SDL_FULLSCREEN ? scaled_bkg : bkg; }
+  { return screen->flags & SDL_FULLSCREEN ? fs_bkg : win_bkg; }
+
+void set_current_bkg(SDL_Surface* new_bkg)
+{
+  if(screen->flags & SDL_FULLSCREEN)
+  {
+    if(fs_bkg != NULL)
+      free(fs_bkg);
+    fs_bkg = new_bkg;
+  }
+  else
+  {
+    if(win_bkg != NULL)
+      free(win_bkg);
+    win_bkg = new_bkg;
+  }
+}
 
 /* Local function prototypes: */
 int TitleScreen_load_menu(void);
@@ -240,13 +256,16 @@ void TitleScreen(void)
     playsound(SND_HARP);
   }
 
-
-  /* temporary additional load for current menu code */
-  LoadBothBkgds("title/menu_bkg.jpg", &scaled_bkg, &bkg);
-  if(bkg)
+  /* load backgrounds */
+  LoadBothBkgds("title/menu_bkg.jpg", &fs_bkg, &win_bkg);
+  if(fs_bkg == NULL || win_bkg == NULL)
   {
-    SDL_FreeSurface(bkg);
-    bkg = NULL;
+    fprintf(stderr, "Backgrounds were not properly loaded, exiting");
+    if(fs_bkg)
+      SDL_FreeSurface(fs_bkg);
+    if(win_bkg)
+      SDL_FreeSurface(win_bkg);
+    return;
   }
 
   TitleScreen_load_menu();
@@ -282,17 +301,17 @@ void TitleScreen(void)
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Now Animating Tux and Title onto the screen\n" );
 
   /* Draw background (center it if it's smaller than screen) */
-  if(bkg)
+  if(current_bkg())
   {
     /* FIXME not sure trans_wipe() works in Windows: */
-    trans_wipe(bkg, RANDOM_WIPE, 10, 20);
+    trans_wipe(current_bkg(), RANDOM_WIPE, 10, 20);
     /* Make sure background gets drawn (since trans_wipe() doesn't */
     /* seem to work reliably as of yet):                          */
-    SDL_BlitSurface(bkg, NULL, screen, &bkg_rect);
+    SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
   }
 
   /* --- Pull tux & logo onscreen --- */
-  if(bkg && title && Tux && Tux->frame[0])
+  if(title && Tux && Tux->frame[0])
   {
     /* final tux & title positioins are already calculated,
        start outside the screen */
@@ -307,10 +326,10 @@ void TitleScreen(void)
       start_time = SDL_GetTicks();
 
       /* Draw the entire background, over a black screen if necessary */
-      if(bkg->w != screen->w || bkg->h != screen->h)
+      if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
         SDL_FillRect(screen, &screen->clip_rect, 0);
 
-      SDL_BlitSurface(bkg, NULL, screen, &bkg_rect);
+      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
 
       /* calculate shifts */
       tux_pix_skip = (tux_anim.y - tux_rect.y) / (ANIM_FRAMES - i);
@@ -385,22 +404,23 @@ int RenderTitleScreen(void)
     /* we need to rerender titlescreen items */
     DEBUGMSG(debug_titlescreen, "Re-rendering titlescreen items.\n");
 
-    /* background */
-    new_bkg = LoadBkgd("title/menu_bkg.jpg", screen->w, screen->h);
-    if(new_bkg == NULL)
+    /* we keep two backgrounds to make screen mode switch faster */
+    if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
     {
-      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
-      return 0;
-    }
-    else
-    {
-      DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): New background loaded.\n");
-      if(bkg != NULL)
-        SDL_FreeSurface(bkg);
-      bkg = new_bkg;
+      new_bkg = LoadBkgd("title/menu_bkg.jpg", screen->w, screen->h);
+      if(new_bkg == NULL)
+      {
+        DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
+        return 0;
+      }
+      else
+      {
+        DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): New background loaded.\n");
+        set_current_bkg(new_bkg);
+      }
     }
 
-    bkg_rect = bkg->clip_rect;
+    bkg_rect = current_bkg()->clip_rect;
     bkg_rect.x = (screen->w - bkg_rect.w) / 2;
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
 
@@ -504,14 +524,28 @@ void TitleScreen_unload_menu(void)
 
 void free_titlescreen(void)
 {
-  DEBUGMSG(debug_titlescreen, "Unloading media\n");
+  DEBUGMSG(debug_titlescreen, "Entering free_titlescreen()\n");
 
   FreeSprite(Tux);
   Tux = NULL;
 
-  SDL_FreeSurface(egg);
-  SDL_FreeSurface(bkg);
-  SDL_FreeSurface(scaled_bkg);
+  if(egg)
+  {
+    SDL_FreeSurface(egg);
+    egg = NULL;
+  }
+
+  if(fs_bkg)
+  {
+    SDL_FreeSurface(fs_bkg);
+    fs_bkg = NULL;
+  }
+
+  if(win_bkg)
+  {
+    SDL_FreeSurface(win_bkg);
+    win_bkg = NULL;
+  }
 }
 
 
