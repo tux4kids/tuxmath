@@ -46,8 +46,8 @@ int main(int argc, char **argv)
       char *check1;
       char name[NAME_SIZE];
       printf("Enter your Name.\n");
-      check1=fgets(buffer,NET_BUF_LEN,stdin);
-      strncpy(name,check1,strlen(check1));
+      check1 = fgets(buffer, NET_BUF_LEN, stdin);
+      strncpy(name, check1, strlen(check1));
       snprintf(buffer, NET_BUF_LEN, 
                        "%s",
                        name);
@@ -80,8 +80,7 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  // Create a socket set to handle up to 16 sockets
-  // NOTE 16 taken from example - almost certainly don't need that many
+  /* We create a socket set so we can check for activity: */
   set = SDLNet_AllocSocketSet(1);
   if(!set) {
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
@@ -239,7 +238,7 @@ int playgame(void)
  
    snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
-                  "start");
+                  "START_GAME");
    len = strlen(buffer) + 1;
    if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
    {
