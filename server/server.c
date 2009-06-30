@@ -118,6 +118,7 @@ void game_msg_correct_answer(int i, int id);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
 void start_game(int i);
+void ping_client(int i);
 int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int z, TCPsocket client_sock);
 
@@ -417,9 +418,56 @@ int check_messages(void)
       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
              "but only %d messages received.\n", actives, msg_found);
       /* We can investigate further - maybe ping all the sockets, etc. */
+      for(i = 0; i < MAX_CLIENTS; i++)
+      {
+        ping_client(i);
+      }
+    
+   
+      /* Check the client socket set for activity: */
+      actives = SDLNet_CheckSockets(client_set, 0);
+      if(actives == 0)
+      {
+        printf("No clients , All clients have disconnected...=(\n");
+      }
+
+      else if(actives == -1)
+      {
+        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+        //most of the time this is a system error, where perror might help you.
+        perror("SDLNet_CheckSockets");
+      }
+
+      else if(actives) 
+      {
+#ifdef LAN_DEBUG
+       printf("There are %d sockets with activity\n", actives);
+#endif
+
+       // check all sockets with SDLNet_SocketReady and handle the active ones.
+       // NOTE we have to check all the slots in the set because
+       // the set will become discontinuous if someone disconnects
+       for(i = 0; i < MAX_CLIENTS; i++)
+       {
+         if((client[i].sock != NULL)
+            && (SDLNet_SocketReady(client[i].sock))) 
+         {
+#ifdef LAN_DEBUG
+           printf("client socket %d is ready\n", i);
+#endif
+           if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
+           {
+#ifdef LAN_DEBUG
+             printf("buffer received from client %d is: %s\n", i, buffer);
+#endif
+             if(strncmp(buffer,"PING_BACK",9))
+             printf("%s is connected =) \n",client[i].name);       
+           }
+         }
+       }
+      }
     }
   }
-  return(0);
 }
 
 void handle_client_nongame_msg(int i,char *buffer)
@@ -440,7 +488,8 @@ int handle_client_game_msg(int i , char *buffer)
 #endif
   sscanf (buffer,"%s %d\n",
                   command,
-                  &id);  
+                  &id);
+
   if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
   {
     game_msg_correct_answer(i,id);
@@ -489,6 +538,23 @@ void game_msg_correct_answer(int i,int id)
     }
   } 
 
+}
+
+void ping_client(int i)
+{
+  char buf[NET_BUF_LEN];
+  char msg[NET_BUF_LEN];
+  int x;
+
+  sprintf(msg,"%s", "PING\n");
+
+  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+  x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+
+//#ifdef LAN_DEBUG
+  printf("buf is: %s\n", buf);
+  printf("SendMessage() - buf sent:::: %d bytes\n", x);
+//#endif
 }
 
 
@@ -673,10 +739,10 @@ int SendMessage(int message, int z,TCPsocket client_sock)
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
   x = SDLNet_TCP_Send(client_sock, buf, NET_BUF_LEN);
 
-//#ifdef LAN_DEBUG
+#ifdef LAN_DEBUG
   printf("buf is: %s\n", buf);
   printf("SendMessage() - buf sent:::: %d bytes\n", x);
-//#endif
+#endif
 
   return 1;
 }

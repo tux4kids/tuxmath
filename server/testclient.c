@@ -33,7 +33,7 @@ MC_FlashCard flash;    //current question
 int Make_Flashcard(char *buf, MC_FlashCard* fc);
 int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int playgame(void);
-
+void server_pinged(void);
 
 int main(int argc, char **argv)
 {
@@ -172,7 +172,22 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
                 
+void server_pinged(void)
+{ 
+  int len;
+  char buffer[NET_BUF_LEN];
+
+  snprintf(buffer, NET_BUF_LEN, 
+                  "%s \n",
+                  "PING_BACK");
+  len = strlen(buffer) + 1;
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
  
+}
 
 
 int Make_Flashcard(char* buf, MC_FlashCard* fc)
@@ -324,6 +339,11 @@ int playgame(void)
             else
               printf("Unable to parse buffer into FlashCard\n");
           }
+          if(strncmp(command,"PING",4)==0)
+          {
+            server_pinged();
+          }
+
         }
       }
     } // End of loop for checking server activity
