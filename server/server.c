@@ -424,103 +424,92 @@ int check_messages(void)
 
 void handle_client_nongame_msg(int i,char *buffer)
 {
- #ifdef LAN_DEBUG
-            printf("buffer received from socket = %s\n", buffer);
-#endif
-            if(strncmp(buffer, "START_GAME", 10) == 0)
-            {
-              start_game(i);
-            }
-
-
-
-   
+  if(strncmp(buffer, "START_GAME", 10) == 0)
+  {
+    start_game(i);
+  }
 }
 
 int handle_client_game_msg(int i , char *buffer)
 {
   int id;
-              char command[NET_BUF_LEN];
+  char command[NET_BUF_LEN];
 
 #ifdef LAN_DEBUG  
-              printf("Buffer received from client: %s\n", buffer);
+  printf("Buffer received from client: %s\n", buffer);
 #endif
-              sscanf (buffer,"%s %d\n",
-                         command,
-                         &id);  
-     
-              if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
-              {
-                game_msg_correct_answer(i,id);
-              }                            
+  sscanf (buffer,"%s %d\n",
+                  command,
+                  &id);  
+  if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
+  {
+    game_msg_correct_answer(i,id);
+  }                            
 
-              else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
-              {
-                game_msg_exit(i);
-              }
+  else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
+  {
+    game_msg_exit(i);
+  }
 
-              else if(strncmp(command, "quit",4) == 0) /* Quit the program */
-              {
-                game_msg_quit(i);
-                return(1);
-              }
- return(0);
+  else if(strncmp(command, "quit",4) == 0) /* Quit the program */
+  {
+    game_msg_quit(i);
+    return(1);
+  }
+
+  return(0);
 }
 
 void game_msg_correct_answer(int i,int id)
 {
- int n; 
-               printf("question id %d was answered correctly by %s",id,client[i].name);             
-                  if (!MC_NextQuestion(&flash))
-                  { 
-                   /* no more questions available */
-                   printf("MC_NextQuestion() returned NULL - no questions available\n");
-                  }
-                  else
-                  {                                     
+  int n; 
+  printf("question id %d was answered correctly by %s",id,client[i].name);             
+  if (!MC_NextQuestion(&flash))
+  { 
+    /* no more questions available */
+    printf("MC_NextQuestion() returned NULL - no questions available\n");
+  }
+  else
+  {                                     
 #ifdef LAN_DEBUG
-                    printf("WILL SEND >>\n");  
-                    printf("QUESTION_ID       :      %d\n", flash.question_id);
-                    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-                    printf("ANSWER STRING     :      %s\n", flash.answer_string);
-                    printf("ANSWER            :      %d\n",flash.answer);
-                    printf("DIFFICULTY        :      %d\n",flash.difficulty);
+    printf("WILL SEND >>\n");  
+    printf("QUESTION_ID       :      %d\n", flash.question_id);
+    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+    printf("ANSWER STRING     :      %s\n", flash.answer_string);
+    printf("ANSWER            :      %d\n",flash.answer);
+    printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-                  }
+  }
                   
-                  for(n = 0; n < num_clients && client[n].sock; n++)
-                  {
-                   if(!SendQuestion(flash,client[n].sock))
-                   {
-                     printf("Unable to send Question\n");
-                   }
-                  } 
+  for(n = 0; n < num_clients && client[n].sock; n++)
+  {
+    if(!SendQuestion(flash,client[n].sock))
+    {
+      printf("Unable to send Question\n");
+    }
+  } 
 
 }
 
 
 void game_msg_exit(int i)
 {
-
   printf("LEFT the GAME : %s",client[i].name);
-                 client[i].game_ready=0;
-                 SDLNet_TCP_DelSocket(client_set,client[i].sock);
-                 SDLNet_TCP_Close(client[i].sock);
-                 printf("Terminating client connection\n");
-
-
+  client[i].game_ready=0;
+  SDLNet_TCP_DelSocket(client_set,client[i].sock);
+  SDLNet_TCP_Close(client[i].sock);
+  printf("Terminating client connection\n");
 }
 
 
 void game_msg_quit(int i)
 {
-
-                 printf("Server has been shut down by %s",client[i].name); 
-                 client[i].game_ready=0;
-                 SDLNet_TCP_DelSocket(client_set,client[i].sock);
-                 SDLNet_TCP_Close(client[i].sock);
-                 printf("Quit program....Server is shutting down...\n");
-                 exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
+  printf("Server has been shut down by %s",client[i].name); 
+  client[i].game_ready=0;
+  SDLNet_TCP_DelSocket(client_set,client[i].sock);
+  SDLNet_TCP_Close(client[i].sock);
+  printf("Quit program....Server is shutting down...\n");
+  exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
 }
 
 
@@ -529,15 +518,13 @@ void start_game(int i)
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   int x,j;
+  game_in_progress = 1;  //setting the game_in_progress flag to '1'
+  snprintf(buf, NET_BUF_LEN,
+                "%s\n",
+                "Success");  //FIXME what did we succeed at? This is basically a sort of handshaking signal , although it is not much needed here , but since we have a blocking recv call in the client for the case of game_in_progress , so no client join , therefore it is in accordance with that SDL_NetRecv()
 
-                game_in_progress = 1;  //setting the game_in_progress flag to '1'
-              snprintf(buf, NET_BUF_LEN,
-                      "%s\n",
-                      "Success");  //FIXME what did we succeed at? This is basically a sort of handshaking signal , although it is not much needed here , but since we have a blocking recv call in the client for the case of game_in_progress , so no client join , therefore it is in accordance with that SDL_NetRecv()
-
-              x = SDLNet_TCP_Send(client[i].sock, buf, sizeof(buf));
-              client[i].game_ready = 1; // Means this player is ready to start game
-
+  x = SDLNet_TCP_Send(client[i].sock, buf, sizeof(buf));
+  client[i].game_ready = 1; // Means this player is ready to start game
 
   /*FIXME this will only work if the clients are in a contiguous series starting */
   /* at client[0].                                                             */
