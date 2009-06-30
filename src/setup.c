@@ -463,6 +463,10 @@ void handle_command_args(int argc, char* argv[])
     {
       debug_status |= debug_highscore;
     }
+    else if (strcmp(argv[i], "--debug-options") == 0)
+    {
+      debug_status |= debug_options;
+    }
     else
     /* TODO try to match unrecognized strings to config file names */
     {

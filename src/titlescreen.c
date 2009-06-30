@@ -168,13 +168,13 @@ void set_current_bkg(SDL_Surface* new_bkg)
   if(screen->flags & SDL_FULLSCREEN)
   {
     if(fs_bkg != NULL)
-      free(fs_bkg);
+      SDL_FreeSurface(fs_bkg);
     fs_bkg = new_bkg;
   }
   else
   {
     if(win_bkg != NULL)
-      free(win_bkg);
+      SDL_FreeSurface(win_bkg);
     win_bkg = new_bkg;
   }
 }
