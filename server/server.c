@@ -104,14 +104,20 @@ static int num_clients = 0;
 static int sockets_used = 0;
 static int numready = 0;
 static int game_in_progress = 0;
-
+MC_FlashCard flash;
 
 /* Local function prototypes: */
 int setup_server(void);
 void cleanup_server(void);
 int update_clients(void);
-void check_messages(void);
+int check_messages(void);
+int handle_client_game_msg(int i,char *buffer);
+void handle_client_nongame_msg(int i,char *buffer);
 int find_vacant_client(void);
+void game_msg_correct_answer(int i, int id);
+void game_msg_quit(int i);
+void game_msg_exit(int i);
+void start_game(int i);
 int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int z, TCPsocket client_sock);
 
@@ -123,7 +129,6 @@ int main(int argc, char **argv)
   char buf[NET_BUF_LEN];
   int command_type = -1, j;
   static int i = 0;
-  MC_FlashCard flash;
   static int initialize = 0;
   int id,x;
 
@@ -142,285 +147,10 @@ int main(int argc, char **argv)
   {
     /* Now we check to see if anyone is trying to connect. */
     num_clients = update_clients();
-
     /* Check for any pending messages from clients already connected: */
-//NOTE uncomment next line once message handling implemented
-//    check_messages();
-
-//NOTE following code will be superseded by check_messages:
-    numready = SDLNet_CheckSockets(client_set, 0);
-    if(numready == -1)
-    {
-      printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-      //most of the time this is a system error, where perror might help you.
-      perror("SDLNet_CheckSockets");
-    }
-
-    else if(numready) 
-    {
-#ifdef LAN_DEBUG
-//      printf("There are %d sockets with activity!\n", numready);
-#endif
-
-      // check all sockets with SDLNet_SocketReady and handle the active ones.
-      for(j = 0; j < sockets_used;j++)
-      {
-        if(SDLNet_SocketReady(client[j].sock)) 
-        {
-#ifdef LAN_DEBUG
-          printf("client socket %d is ready\n", j);
-#endif
-          if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
-          {
-#ifdef LAN_DEBUG
-            printf("buffer received from socket = %s\n", buffer);
-#endif
-            if(strncmp(buffer, "START_GAME", 10) == 0)
-            {
-              quit = 1;  //For now, stop accepting connections as soon as the first player says so
-              snprintf(buf, NET_BUF_LEN,
-                      "%s\n",
-                      "Success");  //FIXME what did we succeed at? This is basically a sort of handshaking signal , although it is not much needed here , but since we have a blocking recv call in the client for the case of game_started , so no client join , therefore it is in accordance with that SDL_NetRecv()
-
-              x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-              client[j].game_ready = 1; // Means this player is ready to start game
-            }
-          }
-        }
-      }
-    }
+    quit=check_messages();
   }
-
-
-
-
-  /*FIXME this will only work if the clients are in a contiguous series starting */
-  /* at client[0].                                                             */
-  /* Basically , when the clients are allocated sockets , they are allocated contiguos
-     locations  starting from client[0] , so I dont think this will fail anytime.*/
-
-  /*This loop sees that the game starts only when all the players are ready */
-  for(j = 0; j < num_clients; j++)
-  {
-    if(client[j].game_ready != 1)
-    {
-      if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
-      {
-        if(strncmp(buffer, "START_GAME", 10) == 0)
-        {
-          client[j].game_ready = 1;
-          snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "Success");
-          x = SDLNet_TCP_Send(client[j].sock, buf, NET_BUF_LEN);
-        }
-      }
-    }
-  }
-
-  /* If no players join the game (should not happen) */
-  if(num_clients == 0)
-  {
-    printf("There were no players........=(\n");
-    cleanup_server();
-    exit(1);
-  }
-
-#ifdef LAN_DEBUG
-  printf("We have %d players.......\n",sockets_used);
-#endif
-
-
-  //Start a new math game as far as mathcards is concerned:
-  if (!MC_StartGame())
-  {
-    fprintf(stderr, "\nMC_StartGame() failed!");
-    exit(1);
-  }
-
-  game_in_progress = 1;
-
-  if (!MC_NextQuestion(&flash))
-  { 
-    /* no more questions available */
-    printf("MC_NextQuestion() returned NULL - no questions available\n");
-    exit(1);
-  }
-  else
-  {                                     
-#ifdef LAN_DEBUG
-    printf("WILL SEND >>\n");  
-    printf("QUESTION_ID       :      %d\n", flash.question_id);
-    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-    printf("ANSWER STRING     :      %s\n", flash.answer_string);
-    printf("ANSWER            :      %d\n",flash.answer);
-    printf("DIFFICULTY        :      %d\n",flash.difficulty);
-#endif
-  }
-
-  for(j = 0; j < num_clients; j++)
-  {
-    if(!SendQuestion(flash, client[j].sock))
-    {
-      printf("Unable to send Question to %s\n", client[j].name);
-    }
-  } 
-
-  quit2 = 0;
-  while (!quit2)
-  {
-    while(1)       //keep on checking for all the clients in a round robin manner
-    {
-      for(j = 0; j < num_clients; j++)                  // keep on looping across the num_clients in a round-robin manner
-      {
-        /* this is only to avoid joining of clients after the game has started: */
-        temp_sock = SDLNet_TCP_Accept(server_sock);
-        if (temp_sock !=NULL)
-        {
-          snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "Sorry the game has started...... =(\n");
-          x = SDLNet_TCP_Send(temp_sock, buf, sizeof(buf));
-#ifdef LAN_DEBUG
-          printf("buf sent:::: %d bytes\n", x);
-          printf("buf is: %s\n", buf);
-#endif
-        }        
-        /*This loop mainly checks if all the clients have disconnected*/
-        /* FIXME how do we know the client is really connected?  */
-        /*we know this by means of the flag game_ready*/
-        /*Whenever a client gets connected the game_ready flag is changed to 1 from default 0
-          so even if one client has gem_ready as 1 , it breaks the loop.*/
-        int c;
-        for(c = 0; c < num_clients; c++)
-        {
-          if(client[c].game_ready == 1)
-            break;     
-          if(c==(num_clients - 1))
-          {
-            printf("All the clients have disconnected..=( \n");
-            exit(2);
-          }
-        }
-
-        /*Implies that this particular client has already quit itself , so move on to other clients*/         
-        if(client[j].game_ready == 0)
-          continue;                                           
-
-        numready = SDLNet_CheckSockets(client_set, 0);
-
-        if(numready == -1) 
-        {
-          printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-          //most of the time this is a system error, where perror might help you.
-          perror("SDLNet_CheckSockets");
-        }
-        else if(numready) 
-        {
-          printf("There are %d sockets with activity!\n", numready);
-          // check all sockets with SDLNet_SocketReady and handle the active ones.
-          if(SDLNet_SocketReady(client[j].sock)) 
-          {
-            if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0  )
-            {
-              char command[NET_BUF_LEN];
-              command_type = -1;
-#ifdef LAN_DEBUG  
-              printf("Buffer received from client: %s\n", buffer);
-#endif
-              sscanf (buffer,"%s %d\n",
-                         command,
-                         &id);  
-     
-              if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
-              {
-                command_type = CORRECT_ANSWER; 
-              }                            
-
-              else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
-              {
-                command_type = EXIT;
-              }
-
-              else if(strncmp(command, "quit",4) == 0) /* Quit the program */
-              {
-                command_type = QUIT;
-              }
-          
-              switch(command_type)
-              {
-                case CORRECT_ANSWER:
-                {
-                  printf("question id %d was answered correctly by %s",id,client[j].name);             
-                  if (!MC_NextQuestion(&flash))
-                  { 
-                   /* no more questions available */
-                   printf("MC_NextQuestion() returned NULL - no questions available\n");
-                  }
-                  else
-                  {                                     
-#ifdef LAN_DEBUG
-                    printf("WILL SEND >>\n");  
-                    printf("QUESTION_ID       :      %d\n", flash.question_id);
-                    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-                    printf("ANSWER STRING     :      %s\n", flash.answer_string);
-                    printf("ANSWER            :      %d\n",flash.answer);
-                    printf("DIFFICULTY        :      %d\n",flash.difficulty);
-#endif
-                  }
-                  int n;
-                  for(n = 0; n < num_clients && client[n].sock; n++)
-                  {
-                   if(!SendQuestion(flash,client[n].sock))
-                   {
-                     printf("Unable to send Question\n");
-                   }
-                  } 
-    
-                  break;
-                }
-
-                case EXIT:
-                {
-                 printf("LEFT the GAME : %s",client[j].name);
-                 client[j].game_ready=0;
-                 SDLNet_TCP_DelSocket(client_set,client[j].sock);
-                 SDLNet_TCP_Close(client[j].sock);
-                 printf("Terminating client connection\n");
-
-                 break;
-                }
-           
-                case QUIT:
-                {
-                 printf("Server has been shut down by %s",client[j].name); 
-                 client[j].game_ready=0;
-                 SDLNet_TCP_DelSocket(client_set,client[j].sock);
-                 SDLNet_TCP_Close(client[j].sock);
-                 quit2 = 1;
-                 printf("Quit program....Server is shutting down...\n");
-
-                 break;
-                }        
-
-                default:
-                  break;                             //this *break* comes out of the switch statement
-              }  // end of switch() statement
-
-            }//if loop
-          }
-        }
-
-        if(quit2 == 1)
-          break;   
-      }//end of for loop
-      if(quit2==1)
-        break;   
-    }//  end of while(1) loop
-  }//while loop
-
-
-
+   
   /*   -----  Free resources before exiting: -------    */
   cleanup_server();
 
@@ -627,7 +357,7 @@ int update_clients(void)
 // or not a math game is in progress (although we expect different messages
 // during a game from those encountered outside of a game)
 
-void check_messages(void)
+int check_messages(void)
 {
   int i = 0;
   int actives = 0;
@@ -667,11 +397,15 @@ void check_messages(void)
 #endif
           msg_found++;
 
-          /* Here we can pass the client number and the message buffer */
+          /* Here we pass the client number and the message buffer */
           /* to a suitable function for further action:                */
-
-          // handle_client_msg(i, buffer);
-
+           if(game_in_progress==1)
+           {
+            if(handle_client_game_msg(i, buffer))
+            return(1);
+           }
+           if(game_in_progress==0)
+           handle_client_nongame_msg(i,buffer);
 
         }
       }
@@ -685,9 +419,200 @@ void check_messages(void)
       /* We can investigate further - maybe ping all the sockets, etc. */
     }
   }
+  return(0);
+}
+
+void handle_client_nongame_msg(int i,char *buffer)
+{
+ #ifdef LAN_DEBUG
+            printf("buffer received from socket = %s\n", buffer);
+#endif
+            if(strncmp(buffer, "START_GAME", 10) == 0)
+            {
+              start_game(i);
+            }
+
+
+
+   
+}
+
+int handle_client_game_msg(int i , char *buffer)
+{
+  int id;
+              char command[NET_BUF_LEN];
+
+#ifdef LAN_DEBUG  
+              printf("Buffer received from client: %s\n", buffer);
+#endif
+              sscanf (buffer,"%s %d\n",
+                         command,
+                         &id);  
+     
+              if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
+              {
+                game_msg_correct_answer(i,id);
+              }                            
+
+              else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
+              {
+                game_msg_exit(i);
+              }
+
+              else if(strncmp(command, "quit",4) == 0) /* Quit the program */
+              {
+                game_msg_quit(i);
+                return(1);
+              }
+ return(0);
+}
+
+void game_msg_correct_answer(int i,int id)
+{
+ int n; 
+               printf("question id %d was answered correctly by %s",id,client[i].name);             
+                  if (!MC_NextQuestion(&flash))
+                  { 
+                   /* no more questions available */
+                   printf("MC_NextQuestion() returned NULL - no questions available\n");
+                  }
+                  else
+                  {                                     
+#ifdef LAN_DEBUG
+                    printf("WILL SEND >>\n");  
+                    printf("QUESTION_ID       :      %d\n", flash.question_id);
+                    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+                    printf("ANSWER STRING     :      %s\n", flash.answer_string);
+                    printf("ANSWER            :      %d\n",flash.answer);
+                    printf("DIFFICULTY        :      %d\n",flash.difficulty);
+#endif
+                  }
+                  
+                  for(n = 0; n < num_clients && client[n].sock; n++)
+                  {
+                   if(!SendQuestion(flash,client[n].sock))
+                   {
+                     printf("Unable to send Question\n");
+                   }
+                  } 
+
 }
 
 
+void game_msg_exit(int i)
+{
+
+  printf("LEFT the GAME : %s",client[i].name);
+                 client[i].game_ready=0;
+                 SDLNet_TCP_DelSocket(client_set,client[i].sock);
+                 SDLNet_TCP_Close(client[i].sock);
+                 printf("Terminating client connection\n");
+
+
+}
+
+
+void game_msg_quit(int i)
+{
+
+                 printf("Server has been shut down by %s",client[i].name); 
+                 client[i].game_ready=0;
+                 SDLNet_TCP_DelSocket(client_set,client[i].sock);
+                 SDLNet_TCP_Close(client[i].sock);
+                 printf("Quit program....Server is shutting down...\n");
+                 exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
+}
+
+
+void start_game(int i)
+{
+  char buf[NET_BUF_LEN];
+  char buffer[NET_BUF_LEN];
+  int x,j;
+
+                game_in_progress = 1;  //setting the game_in_progress flag to '1'
+              snprintf(buf, NET_BUF_LEN,
+                      "%s\n",
+                      "Success");  //FIXME what did we succeed at? This is basically a sort of handshaking signal , although it is not much needed here , but since we have a blocking recv call in the client for the case of game_in_progress , so no client join , therefore it is in accordance with that SDL_NetRecv()
+
+              x = SDLNet_TCP_Send(client[i].sock, buf, sizeof(buf));
+              client[i].game_ready = 1; // Means this player is ready to start game
+
+
+  /*FIXME this will only work if the clients are in a contiguous series starting */
+  /* at client[0].                                                             */
+  /* Basically , when the clients are allocated sockets , they are allocated contiguos
+     locations  starting from client[0] , so I dont think this will fail anytime.*/
+
+  /*This loop sees that the game starts only when all the players are ready */
+  for(j = 0; j < num_clients; j++)
+  {
+    if(client[j].game_ready != 1)
+    {
+      if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
+      {
+        if(strncmp(buffer, "START_GAME", 10) == 0)
+        {
+          client[j].game_ready = 1;
+          snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "Success");
+          x = SDLNet_TCP_Send(client[j].sock, buf, NET_BUF_LEN);
+        }
+      }
+    }
+  }
+
+  /* If no players join the game (should not happen) */
+  if(num_clients == 0)
+  {
+    printf("There were no players........=(\n");
+    cleanup_server();
+    exit(1);
+  }
+
+#ifdef LAN_DEBUG
+  printf("We have %d players.......\n",sockets_used);
+#endif
+
+
+  //Start a new math game as far as mathcards is concerned:
+  if (!MC_StartGame())
+  {
+    fprintf(stderr, "\nMC_StartGame() failed!");
+    exit(1);
+  }
+
+  game_in_progress = 1;
+
+  if (!MC_NextQuestion(&flash))
+  { 
+    /* no more questions available */
+    printf("MC_NextQuestion() returned NULL - no questions available\n");
+    exit(1);
+  }
+  else
+  {                                     
+#ifdef LAN_DEBUG
+    printf("WILL SEND >>\n");  
+    printf("QUESTION_ID       :      %d\n", flash.question_id);
+    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+    printf("ANSWER STRING     :      %s\n", flash.answer_string);
+    printf("ANSWER            :      %d\n",flash.answer);
+    printf("DIFFICULTY        :      %d\n",flash.difficulty);
+#endif
+  }
+
+  for(j = 0; j < num_clients; j++)
+  {
+    if(!SendQuestion(flash, client[j].sock))
+    {
+      printf("Unable to send Question to %s\n", client[j].name);
+    }
+  } 
+
+
+}
 //Returns the index of the first vacant client, or -1 if all clients full
 int find_vacant_client(void)
 {
