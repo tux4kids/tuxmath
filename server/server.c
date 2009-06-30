@@ -413,7 +413,7 @@ int check_messages(void)
     }  // end of for() loop - all client sockets checked
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
-    if(actives != msg_found)
+    if(actives == 0)
     {
       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
              "but only %d messages received.\n", actives, msg_found);
@@ -425,7 +425,7 @@ int check_messages(void)
     
    
       /* Check the client socket set for activity: */
-      actives = SDLNet_CheckSockets(client_set, 0);
+      actives = SDLNet_CheckSockets(client_set, 5000);
       if(actives == 0)
       {
         printf("No clients , All clients have disconnected...=(\n");
