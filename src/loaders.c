@@ -28,6 +28,22 @@
 #include "SDL_extras.h"
 
 
+
+/* local functions */
+int check_file(const char* file);
+
+#ifdef HAVE_RSVG
+SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name);
+void get_svg_dimensions(char* file_name, int* width, int* height);
+#endif
+
+SDL_Surface* load_image(char* file_name, int mode, int w, int h, bool proportional);
+void fit_in_rectangle(int* width, int* height, int max_width, int max_height);
+SDL_Surface* set_format(SDL_Surface* img, int mode);
+sprite* load_sprite(char* name, int mode, int width, int height, bool proportional);
+
+
+
 /* check to see if file exists, if so return true */
 // int checkFile( const char *file ) {
 //         static struct stat fileStats;
@@ -45,7 +61,7 @@ int check_file(const char* file)
 
   if (!file)
   {
-    fprintf(stderr, "check_file(): invalid char* argument!");
+    DEBUGMSG(debug_loaders, "check_file(): invalid char* argument!");
     return 0;
   }
 
@@ -67,7 +83,7 @@ int check_file(const char* file)
     return 1;
   }
 
-  fprintf(stderr, "check_file(): Unable to open '%s' as either FILE or DIR\n", file);
+  DEBUGMSG(debug_loaders, "check_file(): Unable to open '%s' as either FILE or DIR\n", file);
   return 0;
 }
 
@@ -179,6 +195,30 @@ SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name)
   return dest;
 }
 
+void get_svg_dimensions(char* file_name, int* width, int* height)
+{
+  RsvgHandle* file_handle;
+  RsvgDimensionData dimensions;
+
+  rsvg_init();
+
+  file_handle = rsvg_handle_new_from_file(file_name, NULL);
+  if(file_handle == NULL)
+  {
+    DEBUGMSG(debug_loaders, "get_svg_dimensions(): file %s not found\n", file_name);
+    rsvg_term();
+    return;
+  }
+
+  rsvg_handle_get_dimensions(file_handle, &dimensions);
+
+  *width = dimensions.width;
+  *height = dimensions.height;
+
+  g_object_unref(file_handle);
+  rsvg_term();
+}
+
 #endif /* HAVE_RSVG */
 
 
@@ -189,14 +229,31 @@ SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name)
    (unless IMG_NO_PNG_FALLBACK is set) */
 SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
 {
+  return load_image(file_name, mode, width, height, false);
+}
+
+/* LoadImageOfBoundingBox : Same as LoadScaledImage but preserve image proportions
+   and fit it into max_width x max_height rectangle.
+   Returned surface is not necessarily max_width x max_height ! */
+SDL_Surface* LoadImageOfBoundingBox(char* file_name, int mode, int max_width, int max_height)
+{
+  return load_image(file_name, mode, max_width, max_height, true);
+}
+
+
+/* load_image : helper function used by LoadScaledImage and LoadImageOfBoundingBox */
+SDL_Surface* load_image(char* file_name, int mode, int w, int h, bool proportional)
+{
   SDL_Surface* loaded_pic = NULL;
   SDL_Surface* final_pic = NULL;
   char fn[PATH_MAX];
   int fn_len;
+  int width = -1, height = -1;
+  bool is_svg = true;
 
   if(NULL == file_name)
   {
-    DEBUGMSG(debug_loaders, "LoadScaledImage(): file_name is NULL, exiting.\n");
+    DEBUGMSG(debug_loaders, "load_image(): file_name is NULL, exiting.\n");
     return NULL;
   }
 
@@ -208,33 +265,41 @@ SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
 
   if(strcmp(fn + fn_len - 4, ".svg"))
   {
-    DEBUGMSG(debug_loaders, "LoadScaledImage(): %s is not an SVG, loading using IMG_Load()\n", fn);
+    DEBUGMSG(debug_loaders, "load_image(): %s is not an SVG, loading using IMG_Load()\n", fn);
     loaded_pic = IMG_Load(fn);
+    is_svg = false;
   }
   else
   {
 #ifdef HAVE_RSVG
-    DEBUGMSG(debug_loaders, "LoadScaledImage(): trying to load %s as SVG.\n", fn);
+    DEBUGMSG(debug_loaders, "load_image(): trying to load %s as SVG.\n", fn);
+    if(proportional)
+    {
+      get_svg_dimensions(fn, &width, &height);
+      if(width > 0 && height > 0)
+        fit_in_rectangle(&width, &height, w, h);
+    }
     loaded_pic = load_svg(fn, width, height, NULL);
 #endif
 
     if(loaded_pic == NULL)
     {
 #ifdef HAVE_RSVG
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): failed to load %s as SVG.\n", fn);
+      DEBUGMSG(debug_loaders, "load_image(): failed to load %s as SVG.\n", fn);
 #else
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): SVG support not available.\n");
+      DEBUGMSG(debug_loaders, "load_image(): SVG support not available.\n");
 #endif
       if(mode & IMG_NO_PNG_FALLBACK)
       {
-        DEBUGMSG(debug_loaders, "LoadScaledImage(): %s : IMG_NO_PNG_FALLBACK is set.\n", fn);
+        DEBUGMSG(debug_loaders, "load_image(): %s : IMG_NO_PNG_FALLBACK is set.\n", fn);
       }
       else
       {
-        DEBUGMSG(debug_loaders, "LoadScaledImage(): Trying to load PNG eqivalent of %s\n", fn);
+        DEBUGMSG(debug_loaders, "load_image(): Trying to load PNG equivalent of %s\n", fn);
         strcpy(fn + fn_len - 3, "png");
 
         loaded_pic = IMG_Load(fn);
+        is_svg = false;
       }
     }
   }
@@ -243,64 +308,87 @@ SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
   {
     if (mode & IMG_NOT_REQUIRED)
     {
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): Warning: could not load optional graphics file %s\n", file_name);
+      DEBUGMSG(debug_loaders, "load_image(): Warning: could not load optional graphics file %s\n", file_name);
       return NULL;  /* Allow program to continue */
     }
     /* If image was required, exit from program: */
-    fprintf(stderr, "LoadScaledImage(): ERROR could not load required graphics file %s\n", file_name);
+    fprintf(stderr, "load_image(): ERROR could not load required graphics file %s\n", file_name);
     fprintf(stderr, "%s", SDL_GetError() );
     cleanup_on_error();
   }
-
-  /* "else" - now setup the image to the proper format */
-  if(width >= 0 && height >= 0 &&
-     (loaded_pic->w != width || loaded_pic->h != height))
+  else if(!is_svg && w > 0 && h > 0)
   {
+    if(proportional)
+    {
+      width = loaded_pic->w;
+      height = loaded_pic->h;
+      fit_in_rectangle(&width, &height, w, h);
+    }
+    else
+    {
+      width = w;
+      height = h;
+    }
     final_pic = zoom(loaded_pic, width, height);
     SDL_FreeSurface(loaded_pic);
     loaded_pic = final_pic;
     final_pic = NULL;
   }
 
+  final_pic = set_format(loaded_pic, mode);
+  SDL_FreeSurface(loaded_pic);
+  DEBUGMSG(debug_loaders, "Leaving load_image()\n\n");
+
+  return final_pic;
+}
+
+/* adjust width and height to fit in max_width x max_height rectangle
+   but preserve their proportion */
+void fit_in_rectangle(int* width, int* height, int max_width, int max_height)
+{
+  float scale_w, scale_h;
+
+  if(width != 0 && height != 0)
+  {
+    scale_w = (float) max_width / (*width);
+    scale_h = (float) max_height / (*height);
+    *width *= min(scale_w, scale_h);
+    *height *= min(scale_w, scale_h);
+  }
+}
+
+SDL_Surface* set_format(SDL_Surface* img, int mode)
+{
   switch (mode & IMG_MODES)
   {
     case IMG_REGULAR:
     {
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_REGULAR mode.\n");
-      final_pic = SDL_DisplayFormat(loaded_pic);
-      SDL_FreeSurface(loaded_pic);
-      break;
+      DEBUGMSG(debug_loaders, "set_format(): handling IMG_REGULAR mode.\n");
+      return SDL_DisplayFormat(img);
     }
 
     case IMG_ALPHA:
     {
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_ALPHA mode.\n");
-      final_pic = SDL_DisplayFormatAlpha(loaded_pic);
-      SDL_FreeSurface(loaded_pic);
-      break;
+      DEBUGMSG(debug_loaders, "set_format(): handling IMG_ALPHA mode.\n");
+      return SDL_DisplayFormatAlpha(img);
     }
 
     case IMG_COLORKEY:
     {
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): handling IMG_COLORKEY mode.\n");
-      SDL_LockSurface(loaded_pic);
-      SDL_SetColorKey(loaded_pic, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
-                      SDL_MapRGB(loaded_pic->format, 255, 255, 0));
-      final_pic = SDL_DisplayFormat(loaded_pic);
-      SDL_FreeSurface(loaded_pic);
-      break;
+      DEBUGMSG(debug_loaders, "set_format(): handling IMG_COLORKEY mode.\n");
+      SDL_LockSurface(img);
+      SDL_SetColorKey(img, (SDL_SRCCOLORKEY | SDL_RLEACCEL),
+                      SDL_MapRGB(img->format, 255, 255, 0));
+      return SDL_DisplayFormat(img);
     }
 
     default:
     {
-      DEBUGMSG(debug_loaders, "LoadScaledImage(): Image mode not recognized\n");
-      SDL_FreeSurface(loaded_pic);
+      DEBUGMSG(debug_loaders, "set_format(): Image mode not recognized\n");
     }
   }
 
-  DEBUGMSG(debug_loaders, "Leaving LoadScaledImage()\n\n");
-
-  return final_pic;
+  return NULL;
 }
 
 /* Load an image without scaling it */
@@ -352,27 +440,47 @@ sprite* LoadSprite(char* name, int mode)
 
 sprite* LoadScaledSprite(char* name, int mode, int width, int height)
 {
+  return load_sprite(name, mode, width, height, false);
+}
+
+sprite* LoadSpriteOfBoundingBox(char* name, int mode, int max_width, int max_height)
+{
+  return load_sprite(name, mode, max_width, max_height, true);
+}
+
+sprite* load_sprite(char* name, int mode, int width, int height, bool proportional)
+{
   sprite *new_sprite;
   char fn[PATH_MAX];
   int x;
 
-  /* JA --- HACK check out what has changed with new code */
-
   new_sprite = malloc(sizeof(sprite));
 
   sprintf(fn, "%sd.svg", name);  // The 'd' means the default image
-  new_sprite->default_img = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
+  if(proportional)
+    new_sprite->default_img = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, width, height);
+  else
+    new_sprite->default_img = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
+
+  if(!new_sprite->default_img)
+    DEBUGMSG(debug_loaders, "load_sprite(): failed to load default image for %s\n", name);
 
   for(x = 0; x < MAX_SPRITE_FRAMES; x++)
   {
     sprintf(fn, "%s%d.svg", name, x);
-    new_sprite->frame[x] = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
-    if( new_sprite->frame[x] == NULL)
+    if(proportional)
+        new_sprite->frame[x] = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, width, height);
+    else
+        new_sprite->frame[x] = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
+
+    if(new_sprite->frame[x] == NULL)
     {
       new_sprite->cur = 0;
       new_sprite->num_frames = x;
       break;
     }
+    else
+      DEBUGMSG(debug_loaders, "load_sprite(): loaded frame %d of %s\n", x, name);
   }
 
   return new_sprite;
@@ -445,7 +553,7 @@ Mix_Chunk* LoadSound( char *datafile )
 }
 
 /* LoadMusic : Load music from a datafile */
-Mix_Music *LoadMusic(char *datafile )
+Mix_Music* LoadMusic(char *datafile )
 {
   char fn[PATH_MAX];
   Mix_Music* tempMusic = NULL;

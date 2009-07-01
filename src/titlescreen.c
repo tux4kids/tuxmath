@@ -424,8 +424,9 @@ int RenderTitleScreen(void)
     bkg_rect.x = (screen->w - bkg_rect.w) / 2;
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
 
-    /* Tux in lower left corner of the screen */
-    Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+    /* Tux in lower left corner of the screen
+       (no more than 20% of screen width and 50% of screen height) */
+    Tux = LoadSpriteOfBoundingBox("tux/bigtux", IMG_ALPHA, (int)(0.2 * screen->w), (int)(0.5 * screen->h));
     if(Tux && Tux->frame[0])
     {
       tux_rect = Tux->frame[0]->clip_rect;
