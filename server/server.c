@@ -104,6 +104,7 @@ static int num_clients = 0;
 static int sockets_used = 0;
 static int numready = 0;
 static int game_in_progress = 0;
+static int quit = 0; 
 MC_FlashCard flash;
 
 /* Local function prototypes: */
@@ -114,6 +115,7 @@ int check_messages(void);
 int handle_client_game_msg(int i,char *buffer);
 void handle_client_nongame_msg(int i,char *buffer);
 int find_vacant_client(void);
+void remove_client(int i);
 void game_msg_correct_answer(int i, int id);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
@@ -125,7 +127,7 @@ int SendMessage(int message, int z, TCPsocket client_sock);
 int main(int argc, char **argv)
 { 
   int h;
-  int quit = 0, quit2;
+  int quit2;
   char buffer[NET_BUF_LEN];
   char buf[NET_BUF_LEN];
   int command_type = -1, j;
@@ -149,7 +151,7 @@ int main(int argc, char **argv)
     /* Now we check to see if anyone is trying to connect. */
     num_clients = update_clients();
     /* Check for any pending messages from clients already connected: */
-    quit=check_messages();
+    check_messages();
   }
    
   /*   -----  Free resources before exiting: -------    */
@@ -310,22 +312,29 @@ int update_clients(void)
   printf("creating connection for client[%d].sock:\n", slot);
 #endif
 
-  sockets_used = SDLNet_TCP_AddSocket(client_set, temp_sock);
-  if(sockets_used == -1) //No way this should happen
+  client[slot].sock = temp_sock;
+
+  /* We are receiving the client's name that was entered: */
+  if( SDLNet_TCP_Recv(client[slot].sock, buffer, NET_BUF_LEN) > 0)
   {
-    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-    SDLNet_TCP_Close(temp_sock);
-    temp_sock = NULL;
-    return num_clients;
-  }
-  else if( SDLNet_TCP_Recv(temp_sock, buffer, NET_BUF_LEN) > 0)
-  {
-    client[slot].sock = temp_sock;
     strncpy(client[slot].name, buffer, NAME_SIZE);
     num_clients = sockets_used;
     printf(" JOINED  :::   %s\n", client[slot].name);
     printf("slot %d  is %d\n",slot,client[slot].game_ready); 
-        //FIXME AFAICT, num_clients and i are always the same /* ya they are same , but would have to check for it*/
+
+    /* Add client socket to set: */
+    sockets_used = SDLNet_TCP_AddSocket(client_set, client[slot].sock);
+    if(sockets_used == -1) //No way this should happen
+    {
+      printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+      remove_client(slot);
+      return num_clients;
+    }
+  }
+  else 
+  {
+    printf("SDLNet_TCP_Recv() failed");
+    remove_client(slot);
   }
   /* Now we can communicate with the client using client[i].sock socket
   /* serv_sock will remain opened waiting other connections */
@@ -353,6 +362,7 @@ int update_clients(void)
 }
 
 
+
 // check_messages() is where we look at the client socket set to see which 
 // have sent us messages. This function is used in each server loop whether
 // or not a math game is in progress (although we expect different messages
@@ -362,7 +372,7 @@ int check_messages(void)
 {
   int i = 0;
   int actives = 0;
-  int msg_found = 0;
+  int ready_found = 0;
   char buffer[NET_BUF_LEN];
 
   /* Check the client socket set for activity: */
@@ -387,7 +397,9 @@ int check_messages(void)
     {
       if((client[i].sock != NULL)
         && (SDLNet_SocketReady(client[i].sock))) 
-      {
+      { 
+        ready_found++;
+
 #ifdef LAN_DEBUG
         printf("client socket %d is ready\n", i);
 #endif
@@ -396,79 +408,34 @@ int check_messages(void)
 #ifdef LAN_DEBUG
           printf("buffer received from client %d is: %s\n", i, buffer);
 #endif
-          msg_found++;
 
           /* Here we pass the client number and the message buffer */
           /* to a suitable function for further action:                */
-           if(game_in_progress==1)
-           {
-            if(handle_client_game_msg(i, buffer))
-            return(1);
-           }
-           if(game_in_progress==0)
-           handle_client_nongame_msg(i,buffer);
-
+          if(game_in_progress)
+            handle_client_game_msg(i, buffer);
+          else
+            handle_client_nongame_msg(i, buffer);
+        }
+        else  // Socket activity but cannot receive - client invalid
+        {
+          printf("Client %d active but receive failed - apparently disconnected\n>\n", i);
+          remove_client(i);
         }
       }
     }  // end of for() loop - all client sockets checked
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
-    if(actives == 0)
+    if(actives != ready_found)
     {
       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
-             "but only %d messages received.\n", actives, msg_found);
+             "but only %d detected by SDLNet_SocketReady()\n", actives, ready_found);
       /* We can investigate further - maybe ping all the sockets, etc. */
-      for(i = 0; i < MAX_CLIENTS; i++)
-      {
-        ping_client(i);
-      }
-    
-   
-      /* Check the client socket set for activity: */
-      actives = SDLNet_CheckSockets(client_set, 5000);
-      if(actives == 0)
-      {
-        printf("No clients , All clients have disconnected...=(\n");
-      }
 
-      else if(actives == -1)
-      {
-        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("SDLNet_CheckSockets");
-      }
-
-      else if(actives) 
-      {
-#ifdef LAN_DEBUG
-       printf("There are %d sockets with activity\n", actives);
-#endif
-
-       // check all sockets with SDLNet_SocketReady and handle the active ones.
-       // NOTE we have to check all the slots in the set because
-       // the set will become discontinuous if someone disconnects
-       for(i = 0; i < MAX_CLIENTS; i++)
-       {
-         if((client[i].sock != NULL)
-            && (SDLNet_SocketReady(client[i].sock))) 
-         {
-#ifdef LAN_DEBUG
-           printf("client socket %d is ready\n", i);
-#endif
-           if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
-           {
-#ifdef LAN_DEBUG
-             printf("buffer received from client %d is: %s\n", i, buffer);
-#endif
-             if(strncmp(buffer,"PING_BACK",9))
-             printf("%s is connected =) \n",client[i].name);       
-           }
-         }
-       }
-      }
     }
   }
 }
+
+
 
 void handle_client_nongame_msg(int i,char *buffer)
 {
@@ -508,6 +475,7 @@ int handle_client_game_msg(int i , char *buffer)
 
   return(0);
 }
+
 
 void game_msg_correct_answer(int i,int id)
 {
@@ -561,20 +529,14 @@ void ping_client(int i)
 void game_msg_exit(int i)
 {
   printf("LEFT the GAME : %s",client[i].name);
-  client[i].game_ready=0;
-  SDLNet_TCP_DelSocket(client_set,client[i].sock);
-  SDLNet_TCP_Close(client[i].sock);
-  printf("Terminating client connection\n");
+  remove_client(i);
 }
 
 
 void game_msg_quit(int i)
 {
-  printf("Server has been shut down by %s",client[i].name); 
-  client[i].game_ready=0;
-  SDLNet_TCP_DelSocket(client_set,client[i].sock);
-  SDLNet_TCP_Close(client[i].sock);
-  printf("Quit program....Server is shutting down...\n");
+  printf("Server has been shut down by %s\n",client[i].name); 
+  cleanup_server();
   exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
 }
 
@@ -663,9 +625,9 @@ void start_game(int i)
       printf("Unable to send Question to %s\n", client[j].name);
     }
   } 
-
-
 }
+
+
 //Returns the index of the first vacant client, or -1 if all clients full
 int find_vacant_client(void)
 {
@@ -681,6 +643,19 @@ int find_vacant_client(void)
 }
 
 
+void remove_client(int i)
+{
+  printf("Removing client[%d] - name: %s\n>\n", i, client[i].name);
+
+  SDLNet_TCP_DelSocket(client_set,client[i].sock);
+
+  if(client[i].sock != NULL)
+    SDLNet_TCP_Close(client[i].sock);
+
+  client[i].sock = NULL;  
+  client[i].game_ready = 0;
+  client[i].name[0] = '\0';
+}
 
 
 //function to send a flashcard(question) from the server to the client
@@ -748,3 +723,117 @@ int SendMessage(int message, int z,TCPsocket client_sock)
 }
 
 
+//Commented-out copy of old check_messages() to keep ping work from 
+//being lost
+
+// int check_messages(void)
+// {
+//   int i = 0;
+//   int actives = 0;
+//   int msg_found = 0;
+//   char buffer[NET_BUF_LEN];
+// 
+//   /* Check the client socket set for activity: */
+//   actives = SDLNet_CheckSockets(client_set, 0);
+//   if(actives == -1)
+//   {
+//     printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+//     //most of the time this is a system error, where perror might help you.
+//     perror("SDLNet_CheckSockets");
+//   }
+// 
+//   else if(actives) 
+//   {
+// #ifdef LAN_DEBUG
+//     printf("There are %d sockets with activity\n", actives);
+// #endif
+// 
+//     // check all sockets with SDLNet_SocketReady and handle the active ones.
+//     // NOTE we have to check all the slots in the set because
+//     // the set will become discontinuous if someone disconnects
+//     for(i = 0; i < MAX_CLIENTS; i++)
+//     {
+//       if((client[i].sock != NULL)
+//         && (SDLNet_SocketReady(client[i].sock))) 
+//       {
+// #ifdef LAN_DEBUG
+//         printf("client socket %d is ready\n", i);
+// #endif
+//         if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
+//         {
+// #ifdef LAN_DEBUG
+//           printf("buffer received from client %d is: %s\n", i, buffer);
+// #endif
+//           msg_found++;
+// 
+//           /* Here we pass the client number and the message buffer */
+//           /* to a suitable function for further action:                */
+//            if(game_in_progress==1)
+//            {
+//             if(handle_client_game_msg(i, buffer))
+//             return(1);
+//            }
+//            if(game_in_progress==0)
+//            handle_client_nongame_msg(i,buffer);
+// 
+//         }
+//       }
+//     }  // end of for() loop - all client sockets checked
+//     // Make sure all the active sockets reported by SDLNet_CheckSockets()
+//     // are accounted for:
+//     if(actives == 0)
+//     {
+//       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
+//              "but only %d messages received.\n", actives, msg_found);
+//       /* We can investigate further - maybe ping all the sockets, etc. */
+//       for(i = 0; i < MAX_CLIENTS; i++)
+//       {
+//         ping_client(i);
+//       }
+//     
+//    
+//       /* Check the client socket set for activity: */
+//       actives = SDLNet_CheckSockets(client_set, 5000);
+//       if(actives == 0)
+//       {
+//         printf("No clients , All clients have disconnected...=(\n");
+//       }
+// 
+//       else if(actives == -1)
+//       {
+//         printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+//         //most of the time this is a system error, where perror might help you.
+//         perror("SDLNet_CheckSockets");
+//       }
+// 
+//       else if(actives) 
+//       {
+// #ifdef LAN_DEBUG
+//        printf("There are %d sockets with activity\n", actives);
+// #endif
+// 
+//        // check all sockets with SDLNet_SocketReady and handle the active ones.
+//        // NOTE we have to check all the slots in the set because
+//        // the set will become discontinuous if someone disconnects
+//        for(i = 0; i < MAX_CLIENTS; i++)
+//        {
+//          if((client[i].sock != NULL)
+//             && (SDLNet_SocketReady(client[i].sock))) 
+//          {
+// #ifdef LAN_DEBUG
+//            printf("client socket %d is ready\n", i);
+// #endif
+//            if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
+//            {
+// #ifdef LAN_DEBUG
+//              printf("buffer received from client %d is: %s\n", i, buffer);
+// #endif
+//              if(strncmp(buffer,"PING_BACK",9))
+//              printf("%s is connected =) \n",client[i].name);       
+//            }
+//          }
+//        }
+//       }
+//     }
+//   }
+// }
