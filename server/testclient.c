@@ -264,26 +264,35 @@ int playgame(void)
    printf("Sent the game notification %s\n",buffer);
  #endif
  
-
-  if( SDLNet_TCP_Recv(sd, buf, sizeof(buf)))
-  {
-   if(strncmp(buf,"Sorry",5) == 0)
-   {
-     printf("Sorry , the game has already been started.......=(\n");
-     SDLNet_TCP_Close(sd);
-     SDLNet_FreeSocketSet(set);
-     set=NULL; //this helps us remember that this set is not allocated
-     SDLNet_Quit();
-     exit(5);
-   }
-   else if(strncmp(buf,"Success",7)==0)
-   {
-    printf("You Are In game.....Waiting for other players to be ready...\n");
-   }
-  }
-#ifdef LAN_DEBUG
-  printf("Received %s\n",buf);
-#endif
+//NOTE don't think we want to just stick this SDL_Net_TCP_Recv()
+// here because it could block.  Just wait for it in our message queue
+// below. If we receive "Sorry..." then we just have play_game() return.
+//
+//   if( SDLNet_TCP_Recv(sd, buf, sizeof(buf)) > 0)
+//   {
+//    if(strncmp(buf,"Sorry",5) == 0)
+//    {
+//      printf("Sorry , the game has already been started.......=(\n");
+//      SDLNet_TCP_Close(sd);
+//      SDLNet_FreeSocketSet(set);
+//      set=NULL; //this helps us remember that this set is not allocated
+//      SDLNet_Quit();
+//      exit(5);
+//    }
+//    else if(strncmp(buf,"Success",7) == 0)
+//    {
+//     printf("You Are In game.....Waiting for other players to be ready...\n");
+//    }
+//   }
+//   else
+//   {
+//     fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
+//     exit(EXIT_FAILURE);
+//   }
+// 
+// #ifdef LAN_DEBUG
+//   printf("Received %s\n",buf);
+// #endif
 
 
 
@@ -307,16 +316,24 @@ int playgame(void)
         //most of the time this is a system error, where perror might help you.
         perror("SDLNet_CheckSockets");
       }
-      else
+      else if(numready > 0)
       {
 #ifdef LAN_DEBUG
-//        printf("There are %d sockets with activity!\n", numready);
+        printf("There are %d sockets with activity!\n", numready);
 #endif
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         if(SDLNet_SocketReady(sd))
         {
           buf[0] = '\0';
           x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+          if( x <= 0)
+          {
+            fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
+            exit(EXIT_FAILURE);
+          }
+#ifdef LAN_DEBUG
+          printf("%d bytes received\n", x);
+#endif
           /* Copy the command name out of the tab-delimited buffer: */
           for (i = 0;
                buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
@@ -332,14 +349,14 @@ int playgame(void)
           printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
-          if(strncmp(command, "SEND_QUESTION",13) == 0)
+          if(strncmp(command, "SEND_QUESTION", 13) == 0)
           {
             if(Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
               have_question = 1; 
             else
               printf("Unable to parse buffer into FlashCard\n");
           }
-          if(strncmp(command,"PING",4)==0)
+          if(strncmp(command,"PING", 4) == 0)
           {
             server_pinged();
           }
