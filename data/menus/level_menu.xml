@@ -1,0 +1,9 @@
+<menu title="Difficulty Level Menu" entries="7">
+    <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_SPACE_CADET">
+    <item title="Scout" sprite="tux_helmet_green" run="RUN_SCOUT">
+    <item title="Ranger" sprite="tux_helmet_blue" run="RUN_RANGER">
+    <item title="Ace" sprite="tux_helmet_red" run="RUN_ACE">
+    <item title="Commando" sprite="tux_helmet_black" run="RUN_COMMANDO">
+    <item title="Hall Of Fame" sprite="trophy" run="RUN_HALL_OF_FAME">
+    <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+</menu>

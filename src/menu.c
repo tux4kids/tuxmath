@@ -26,7 +26,7 @@ char* activities[] = { ACTIVITIES };
 /* we may use a few separate menu trees */
 typedef enum {
   MENU_MAIN,
-  MENU_GAME_DIFFICULTY,
+  MENU_DIFFICULTY,
   N_OF_MENUS
 } MenuType;
 
@@ -183,15 +183,28 @@ int run_menu(MenuNode* menu, bool return_choice)
 /* load menu trees from disk */
 void LoadMenus(void)
 {
-  FILE* main_menu_file = fopen(DATA_PREFIX "/menus/main_menu.xml", "r");
-  if(main_menu_file == NULL)
+  /* main menu */
+  FILE* menu_file = fopen(DATA_PREFIX "/menus/main_menu.xml", "r");
+  if(menu_file == NULL)
   {
     DEBUGMSG(debug_menu, "LoadMenus(): Could not load main menu file !\n");
   }
   else
   {
-    menus[MENU_MAIN] = load_menu_from_file(main_menu_file);
-    fclose(main_menu_file);
+    menus[MENU_MAIN] = load_menu_from_file(menu_file);
+    fclose(menu_file);
+  }
+
+  /* difficulty menu */
+  menu_file = fopen(DATA_PREFIX "/menus/level_menu.xml", "r");
+  if(menu_file == NULL)
+  {
+    DEBUGMSG(debug_menu, "LoadMenus(): Could not load level menu file !\n");
+  }
+  else
+  {
+    menus[MENU_DIFFICULTY] = load_menu_from_file(menu_file);
+    fclose(menu_file);
   }
 }
 

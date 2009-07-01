@@ -1,28 +1,31 @@
 <menu title="Main Menu" entries="7">
-    <menu title="Play Alone" entries="5">
-        <item title="Math Command Training Academy" run="RUN_ACADEMY">
-        <item title="Math Command Fleet Missions" run="RUN_FLEET_MISSIONS">
-        <item title="Play Arcade Game" run="RUN_ARCADE">
-        <item title="Play Custom Game" run="RUN_CUSTOM">
-        <item title="Main Menu" run="RUN_MAIN_MENU">
+    <menu title="Play Alone" sprite="alone" entries="5">
+        <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY">
+        <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_FLEET_MISSIONS">
+        <item title="Play Arcade Game" sprite="comet" run="RUN_ARCADE">
+        <item title="Play Custom Game" sprite="tux_config" run="RUN_CUSTOM">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
     <menu title="LAN Game" entries="3">
         <item title="Host" run="RUN_LAN_HOST">
         <item title="Join" run="RUN_LAN_JOIN">
-        <item title="Main Menu" run="RUN_MAIN_MENU">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
-    <menu title="Play With Friends" entries="0">
+    <menu title="Play With Friends" sprite="friends" entries="3">
+        <item title="Score Sweep" sprite="nums" run="RUN_SCORE_SWEEP">
+        <item title="Elimination" sprite="exclamation" run="RUN_ELIMINATION">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
-    <menu title="Factoroids!" entries="2">
-        <item title="Factors" run="RUN_FACTORS">
-        <item title="Fractions" run="RUN_FRACTIONS">
+    <menu title="Factoroids!" sprite="factoroids" entries="2">
+        <item title="Factors" sprite="factors" run="RUN_FACTORS">
+        <item title="Fractions" sprite="fractions" run="RUN_FRACTIONS">
     </menu>
-    <item title="Help" run="RUN_HELP">
-    <menu title="More Options" entries="4">
-        <item title="Demo" run="RUN_DEMO">
-        <item title="Project Info" run="RUN_PROJECT_INFO">
-        <item title="Credits" run="RUN_CREDITS">
-        <item title="Main Menu" run="RUN_MAIN_MENU">
+    <item title="Help" sprite="help" run="RUN_HELP">
+    <menu title="More Options" sprite="tux_config" entries="4">
+        <item title="Demo" sprite="comet" run="RUN_DEMO">
+        <item title="Project Info" sprite="help" run="RUN_INFO">
+        <item title="Credits" sprite="credits" run="RUN_CREDITS">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
     <item title="Quit" sprite="quit" run="RUN_QUIT">
 </menu>
