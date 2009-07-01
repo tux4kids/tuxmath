@@ -187,6 +187,10 @@ void server_pinged(void)
     exit(EXIT_FAILURE);
   }
  
+ #ifdef LAN_DEBUG
+   printf("Buffer sent is %s\n",buffer);
+ #endif
+ 
 }
 
 
@@ -372,12 +376,15 @@ int playgame(void)
     //Now we check for any user responses
     while(have_question && !end)
     { 
-      char *check1;
+      int check1;
       printf("Question is: %s\n", flash.formula_string);
       printf("Enter answer:\n>");
-      check1=fgets(buf,NET_BUF_LEN,stdin);
+      check1=read(stdin,buf,NET_BUF_LEN);
+   if(check1==0)
+    printf("no input\n");
+
 #ifdef LAN_DEBUG
-      printf("check is %s\n",check1);
+//      printf("check is %s\n",check1);
       printf("buf is %s\n", buf);
 #endif
       if ((strncmp(buf, "quit", 4) == 0)
