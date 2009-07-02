@@ -54,7 +54,7 @@ int SendMessage(int message, int z, TCPsocket client_sock);
 /* "Local globals" for server.c:   */
 TCPsocket server_sock = NULL; /* Socket descriptor for server            */
 IPaddress ip;
-SDLNet_SocketSet client_set = NULL;
+SDLNet_SocketSet client_set = NULL,temp_sock=NULL,temp_set=NULL;
 static client_type client[MAX_CLIENTS];
 static int num_clients = 0;
 static int numready = 0;
@@ -194,8 +194,10 @@ void update_clients(void)
   TCPsocket temp_sock = NULL;        /* Just used when client can't be accepted */
   int slot = 0;
   int x = 0,j,c=0;
+  static int counter=0;
   int sockets_used = 0;
   char buffer[NET_BUF_LEN];
+  int numused,num_ready;
 
   if(game_in_progress==1)
   {
@@ -203,7 +205,7 @@ void update_clients(void)
     {
       if(client[j].sock!=NULL)
       { 
-        printf("Client %d is still alive...\n");
+        printf("%s is still connected...\n",client[j].name);
         c=1;
         break;
       }
@@ -214,6 +216,34 @@ void update_clients(void)
     {
       printf("ALL the players have been disconnected ... =(\n");
       exit(1);
+    }
+    else
+    { 
+     counter++;
+     printf("counter is %d",counter);
+    }
+    if (counter%5==0)
+    {
+     counter=0;
+     ping_client(j);
+     numused=SDLNet_TCP_AddSocket(temp_set,client[j].sock);
+     if(numused==-1)
+     {
+       printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+       // perhaps you need to restart the set and make it bigger...
+     }
+     num_ready=SDLNet_CheckSockets(temp_set,0);
+     if(num_ready==-1) 
+     {
+       printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+       //most of the time this is a system error, where perror might help you.
+       perror("SDLNet_CheckSockets");
+     }
+     else if(num_ready==0)
+     {
+       remove_client(j);
+       printf(" %s has been disconnected due to no activity\n",client[j].name);
+     }
     }
   }
 

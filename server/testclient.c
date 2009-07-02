@@ -54,7 +54,7 @@ int main(int argc, char **argv)
       snprintf(buffer, NET_BUF_LEN, 
                        "%s",
                        name);
-      len = strlen(buffer) + 1;
+      
 
   /* Simple parameter checking */
   if (argc < 3)
@@ -364,7 +364,7 @@ int playgame(void)
             else
               printf("Unable to parse buffer into FlashCard\n");
           }
-          if(strncmp(command,"PING", 4) == 0)
+          if(strncmp(command,"SEND_MESSAGE", 4) == 0)
           {
             server_pinged();
           }
