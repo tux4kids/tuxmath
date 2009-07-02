@@ -19,7 +19,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
- 
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h> 
+
 #include "SDL_net.h"
 #include "transtruct.h"
 #include "mathcards.h"
@@ -249,6 +252,7 @@ int playgame(void)
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   char ch;
+  size_t bytes_read = 0;
 
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
@@ -376,48 +380,54 @@ int playgame(void)
     //Now we check for any user responses
     while(have_question && !end)
     { 
-      int check1;
-      printf("Question is: %s\n", flash.formula_string);
-      printf("Enter answer:\n>");
-      check1=read(stdin,buf,NET_BUF_LEN);
-   if(check1==0)
-    printf("no input\n");
+      buf[0] = '\0';
+      fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
+      bytes_read = fread (buf, 1, NET_BUF_LEN, stdin);
 
 #ifdef LAN_DEBUG
-//      printf("check is %s\n",check1);
-      printf("buf is %s\n", buf);
+//      printf("\nbytes_read is %d\n", bytes_read);
+//      printf("buf is %s\n", buf);
 #endif
-      if ((strncmp(buf, "quit", 4) == 0)
-        ||(strncmp(buf, "exit", 4) == 0)
-	||(strncmp(buf, "q", 1) == 0))
+     
+
+      if(bytes_read == 0)
       {
-        end = 1;
+//        printf("no input\n");
+//        SDL_Delay(2000);
       }
       else
       {
-        /*NOTE atoi() will return zero for any string that is not
-	a valid int, not just '0' - should not be a big deal for
-	our test program - DSB */
-        ans = atoi(buf);
-        if(ans == flash.answer)
-        {  
-          have_question = 0;
-          //Tell server we answered it right:
-          if(!LAN_AnsweredCorrectly(&flash))
-          {
-            printf("Unable to communicate the same to server\n");
-            exit(EXIT_FAILURE);
-          }
-
-
-#ifdef LAN_DEBUG
-          printf("requesting next question, buf: %s", buf);
-#endif
+        if ((strncmp(buf, "quit", 4) == 0)
+          ||(strncmp(buf, "exit", 4) == 0)
+	  ||(strncmp(buf, "q", 1) == 0))
+        {
+          end = 1;
         }
-        else  //incorrect answer:
-          printf("Sorry, incorrect. Try again!\n");
-      }  //isint() returned false:
-    }
+        else
+        {
+          /*NOTE atoi() will return zero for any string that is not
+          a valid int, not just '0' - should not be a big deal for
+          our test program - DSB */
+          ans = atoi(buf);
+          if(ans == flash.answer)
+          {  
+            have_question = 0;
+#ifdef LAN_DEBUG
+            printf("requesting next question, buf: %s", buf);
+#endif
+
+           //Tell server we answered it right:
+           if(!LAN_AnsweredCorrectly(&flash))
+            {
+              printf("Unable to communicate the same to server\n");
+              exit(EXIT_FAILURE);
+            }
+          }
+          else  //we got input, but not the correct answer:
+            printf("Sorry, incorrect. Try again!\n");
+        }  //input wasn't any of our keywords
+      } // Input was received 
+    }  // End of while loop
   } //End of game loop 
 #ifdef LAN_DEBUG
   printf("Leaving playgame()\n");
