@@ -36,6 +36,8 @@
 int setup_server(void);
 void cleanup_server(void);
 void update_clients(void);
+void test_connections(void);
+void ping_client(int i);
 int check_messages(void);
 int handle_client_game_msg(int i,char *buffer);
 void handle_client_nongame_msg(int i,char *buffer);
@@ -45,7 +47,6 @@ void game_msg_correct_answer(int i, int id);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
 void start_game(int i);
-void ping_client(int i);
 int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int z, TCPsocket client_sock);
 
@@ -59,7 +60,8 @@ static client_type client[MAX_CLIENTS];
 static int num_clients = 0;
 static int numready = 0;
 static int game_in_progress = 0;
-static int quit = 0; 
+static int quit = 0;
+static int frame = 0;
 MC_FlashCard flash;
 
 
@@ -80,6 +82,12 @@ int main(int argc, char **argv)
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
+    frame++;
+    /* See if our existing clients are really still there. For */
+    /* performance reasons, we don't do this on every loop:    */
+    if(frame%1000 == 0)
+      test_connections();
+
     /* Now we check to see if anyone is trying to connect. */
     update_clients();
     /* Check for any pending messages from clients already connected: */
@@ -187,65 +195,16 @@ void cleanup_server(void)
 
 
 //update_clients() sees if anyone is trying to connect, and connects if a slot
-//is open and the game is not in progress. It returns the number of connected clients.
+//is open and the game is not in progress. The purpose is to make sure our
+//client set accurately reflects the current state.
 //FIXME we need to be able to test to see if the clients are really still connected
 void update_clients(void)
 {
   TCPsocket temp_sock = NULL;        /* Just used when client can't be accepted */
   int slot = 0;
-  int x = 0,j,c=0;
-  static int counter=0;
   int sockets_used = 0;
   char buffer[NET_BUF_LEN];
-  int numused,num_ready;
 
-  if(game_in_progress==1)
-  {
-    for(j=0;j<MAX_CLIENTS;j++)
-    {
-      if(client[j].sock!=NULL)
-      { 
-        printf("%s is still connected...\n",client[j].name);
-        c=1;
-        break;
-      }
-      else
-       c=0;   
-    }
-    if(c==0)
-    {
-      printf("ALL the players have been disconnected ... =(\n");
-      exit(1);
-    }
-    else
-    { 
-     counter++;
-     printf("counter is %d",counter);
-    }
-    if (counter%5==0)
-    {
-     counter=0;
-     ping_client(j);
-     numused=SDLNet_TCP_AddSocket(temp_set,client[j].sock);
-     if(numused==-1)
-     {
-       printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-       // perhaps you need to restart the set and make it bigger...
-     }
-     num_ready=SDLNet_CheckSockets(temp_set,0);
-     if(num_ready==-1) 
-     {
-       printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-       //most of the time this is a system error, where perror might help you.
-       perror("SDLNet_CheckSockets");
-     }
-     else if(num_ready==0)
-     {
-       remove_client(j);
-       printf(" %s has been disconnected due to no activity\n",client[j].name);
-     }
-    }
-  }
 
   /* See if we have a pending connection: */
   temp_sock = SDLNet_TCP_Accept(server_sock);
@@ -261,12 +220,12 @@ void update_clients(void)
     snprintf(buffer, NET_BUF_LEN, 
              "%s\n",
              "Sorry, already have maximum number of clients connected\n");
-    x = SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
+    SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
     //hang up:
     SDLNet_TCP_Close(temp_sock);
     temp_sock = NULL;
 #ifdef LAN_DEBUG
-    printf("buffer sent:::: %d bytes\n", x);
+    printf("buffer sent:\n");
     printf("buffer is: %s\n", buffer);
 #endif
     return;   // Leave num_clients unchanged
@@ -278,12 +237,12 @@ void update_clients(void)
     snprintf(buffer, NET_BUF_LEN, 
              "%s\n",
              "Sorry the game has started...... =(\n");
-    x = SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
+    SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
     //hang up:
     SDLNet_TCP_Close(temp_sock);
     temp_sock = NULL;
 #ifdef LAN_DEBUG
-    printf("buffer sent:::: %d bytes\n", x);
+    printf("buffer sent\n");
     printf("buffer is: %s\n", buffer);
 #endif
     return;   // Leave num_clients unchanged
@@ -324,7 +283,6 @@ void update_clients(void)
 
   /* At this point num_clients can be updated: */
   num_clients = sockets_used;
-  printf("num_clients = %d\n", num_clients);
 
   /* Now we can communicate with the client using client[i].sock socket
   /* serv_sock will remain opened waiting other connections */
@@ -335,6 +293,8 @@ void update_clients(void)
   {
     IPaddress* client_ip = NULL;
     client_ip = SDLNet_TCP_GetPeerAddress(client[slot].sock);
+
+    printf("num_clients = %d\n", num_clients);
     if (client_ip != NULL)
     /* Print the address, converting in the host format */
     {
@@ -366,8 +326,8 @@ int check_messages(void)
   char buffer[NET_BUF_LEN];
 
   /* Check the client socket set for activity: */
-  actives = SDLNet_CheckSockets(client_set,3000);
-  printf("in check_messages(), actives = %d\n", actives);
+  actives = SDLNet_CheckSockets(client_set, 0);
+//  printf("in check_messages(), actives = %d\n", actives);
   if(actives == -1)
   {
     printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
@@ -421,57 +381,10 @@ int check_messages(void)
     {
       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
              "but only %d detected by SDLNet_SocketReady()\n", actives, ready_found);
-      /* We can investigate further - maybe ping all the sockets, etc. */
-       for(i = 0; i < num_clients; i++)
-       {
-         ping_client(i);
-       }
-//     printf("I am b4 SDL_Delay\n");
-
-//       SDL_Delay(60000);
-
-//     printf("I am after SDL_Delay\n");
-       /* Check the client socket set for activity: */
-       actives = SDLNet_CheckSockets(client_set, 0);
-       if(actives == -1)
-       {
-         printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-         //most of the time this is a system error, where perror might help you.
-         perror("SDLNet_CheckSockets");
-       }
- 
-       else if(actives) 
-       {
- #ifdef LAN_DEBUG
-        printf("There are %d sockets with activity\n", actives);
- #endif
- 
-        // check all sockets with SDLNet_SocketReady and handle the active ones.
-        // NOTE we have to check all the slots in the set because
-        // the set will become discontinuous if someone disconnects
-        for(i = 0; i < MAX_CLIENTS; i++)
-        {
-          if((client[i].sock != NULL)
-             && (SDLNet_SocketReady(client[i].sock))) 
-          {
- #ifdef LAN_DEBUG
-            printf("client socket %d is ready\n", i);
- #endif
-            if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
-            {
- #ifdef LAN_DEBUG
-              printf("buffer received from client %d is: %s\n", i, buffer);
- #endif
-              if(strncmp(buffer,"PING_BACK",9))
-              printf("%s is connected =) \n",client[i].name);       
-            }
-          }
-        }
-       }
-     }
-    } 
-    
-  
+      //Presently, this just runs ping_client() on all the sockets:
+      test_connections();
+    }
+  } 
 }
 
 
@@ -483,6 +396,7 @@ void handle_client_nongame_msg(int i,char *buffer)
     start_game(i);
   }
 }
+
 
 int handle_client_game_msg(int i , char *buffer)
 {
@@ -547,17 +461,47 @@ void game_msg_correct_answer(int i,int id)
 
 }
 
+
+// Go through and test all the current connections, removing
+// any clients that fail to respond:
+void test_connections(void)
+{
+  int i = 0;
+
+  for (i = 0; i < MAX_CLIENTS; i++)
+    ping_client(i);
+}
+
+
+// This is supposed to be a way to test and see if each client
+// is really connected.
+// FIXME I think we need to put in a SDLNet_TCP_Recv() to see
+// if we get a reply, now that the client is modified to send back
+// PING_BACK.  I am worried, however, that we could have a problem
+// with intercepting messages not related to the ping testing - DSB
+
 void ping_client(int i)
 {
   char buf[NET_BUF_LEN];
   char msg[NET_BUF_LEN];
   int x;
 
-  sprintf(msg,"%s", "PING\n");
-
-  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+  if(i < 0 || i > MAX_CLIENTS)
+  {
+    printf("ping_client() - invalid index argument\n");
+    return;
+  }
+  
+  if(client[i].sock == NULL)
+  {
+    return;
+  }
+  
+//  sprintf(msg,"%s", "PING\n");
+//  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+  snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
   x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
-  if(x<NET_BUF_LEN)
+  if(x < NET_BUF_LEN)
   {
    printf("The client %s is disconnected\n",client[i].name);
    remove_client(i);

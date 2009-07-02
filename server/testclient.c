@@ -118,7 +118,7 @@ int main(int argc, char **argv)
              "'exit' to end client leaving server running;\n"
              "'quit' to end both client and server\n>\n"); 
     char *check;
-    check=fgets(buffer,NET_BUF_LEN,stdin);
+    check = fgets(buffer, NET_BUF_LEN, stdin);
    //Figure out if we are trying to quit:
     if(  (strncmp(buffer, "exit",4) == 0)
       || (strncmp(buffer, "quit",4) == 0))
@@ -175,6 +175,7 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
                 
+
 void server_pinged(void)
 { 
   int len;
@@ -190,9 +191,9 @@ void server_pinged(void)
     exit(EXIT_FAILURE);
   }
  
- #ifdef LAN_DEBUG
-   printf("Buffer sent is %s\n",buffer);
- #endif
+#ifdef LAN_DEBUG
+//   printf("Buffer sent is %s\n",buffer);
+#endif
  
 }
 
@@ -327,7 +328,7 @@ int playgame(void)
       else if(numready > 0)
       {
 #ifdef LAN_DEBUG
-        printf("There are %d sockets with activity!\n", numready);
+//        printf("There are %d sockets with activity!\n", numready);
 #endif
         // check all sockets with SDLNet_SocketReady and handle the active ones.
         if(SDLNet_SocketReady(sd))
@@ -340,7 +341,7 @@ int playgame(void)
             exit(EXIT_FAILURE);
           }
 #ifdef LAN_DEBUG
-          printf("%d bytes received\n", x);
+//          printf("%d bytes received\n", x);
 #endif
           /* Copy the command name out of the tab-delimited buffer: */
           for (i = 0;
@@ -353,22 +354,26 @@ int playgame(void)
           command[i] = '\0';
 
 #ifdef LAN_DEBUG
-          printf("buf is %s\n", buf);
-          printf("command is %s\n", command);
+//          printf("buf is %s\n", buf);
+//          printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
           if(strncmp(command, "SEND_QUESTION", 13) == 0)
           {
-            if(Make_Flashcard(buf, &flash))  /* function call to parse buffer into MC_FlashCard */
+            /* function call to parse buffer into MC_FlashCard */
+            if(Make_Flashcard(buf, &flash))
               have_question = 1; 
             else
               printf("Unable to parse buffer into FlashCard\n");
           }
-          if(strncmp(command,"SEND_MESSAGE", 4) == 0)
+          else if(strncmp(command,"SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
+          {
+            // Presumably we want to print the message to stdout
+          }
+          else if(strncmp(command,"PING", strlen("PING")) == 0)
           {
             server_pinged();
           }
-
         }
       }
     } // End of loop for checking server activity
