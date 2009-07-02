@@ -37,12 +37,9 @@ typedef enum { false, true } bool;
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
 //#define LINEBREAK
-/* nice inline debugging macro */
-#ifdef TUXMATH_DEBUG
-#define tmdprintf(...) printf(__VA_ARGS__)
-#else
-#define tmdprintf(...) 0
-#endif
+
+/* deprecated ;) */
+#define tmdprintf(...) DEBUGMSG(debug_all, __VA_ARGS__)
 
 /* debug data (declared in options.c) */
 extern int debug_status;
