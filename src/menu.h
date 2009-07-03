@@ -15,6 +15,10 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "SDL.h"
+#include "globals.h"
+#include "loaders.h"
+
 /* these are all menu choices that are available in tuxmath.
    By using a define we can create both an enum and
    a string array without writing these names twice */
@@ -49,15 +53,27 @@ enum { ACTIVITIES };
 #undef X
 
 struct mNode {
+  struct mNode* parent;
+
   char* title;
-  char* sprite;
+  int font_size;
+
+  char* icon_name;
+  sprite* icon;
+
+  SDL_Rect button_rect;
 
   /* submenu_size = 0 if no submenu */
   int submenu_size;
   struct mNode** submenu;
 
-  /* available only if submenu_size = 0 */
-  int choice;
+  /* these fields are used only if submenu_size = 0 */
+  int activity;
+
+  /* these fields are used only if submenu_size > 0 */
+  bool display_title;
+  int entries_per_page;
+  int begin;
 };
 
 typedef struct mNode MenuNode;
@@ -66,7 +82,6 @@ typedef struct mNode MenuNode;
 void LoadMenus(void);
 int RunLoginMenu(void);
 void RunMainMenu(void);
-void RenderMenus(void);
 void UnloadMenus(void);
 
 #endif // MENU_H

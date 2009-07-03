@@ -30,6 +30,8 @@
 
 /* Non-text graphics functions: */
 void DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+SDL_Surface* CreateButton(int w, int h, int radius,
+                          Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void RoundCorners(SDL_Surface* s, Uint16 radius);
 SDL_Surface* Flip(SDL_Surface *in, int x, int y);
 int  inRect(SDL_Rect r, int x, int y);

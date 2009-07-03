@@ -25,21 +25,28 @@ void DrawButton(SDL_Rect* target_rect,
                 int radius,
                 Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-  /* NOTE - we use a 32-bit temp surface even if we have a 16-bit */
-  /* screen - it gets converted during blitting.                  */
-  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
-                                          target_rect->w,
-                                          target_rect->h,
-                                          32,
-                                          rmask, gmask, bmask, amask);
-  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
-  SDL_FillRect(tmp_surf, NULL, color);
-  RoundCorners(tmp_surf, radius);
-
+  SDL_Surface* tmp_surf = CreateButton(target_rect->w, target_rect->h,
+                                       radius, r, g, b, a);
   SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
   SDL_FreeSurface(tmp_surf);
 }
 
+SDL_Surface* CreateButton(int w, int h, int radius,
+                          Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+  /* NOTE - we use a 32-bit temp surface even if we have a 16-bit */
+  /* screen - it gets converted during blitting.                  */
+  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
+                                          w,
+                                          h,
+                                          32,
+                                          rmask, gmask, bmask, amask);
+
+  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
+  SDL_FillRect(tmp_surf, NULL, color);
+  RoundCorners(tmp_surf, radius);
+  return tmp_surf;
+}
 
 
 void RoundCorners(SDL_Surface* s, Uint16 radius)

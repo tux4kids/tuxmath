@@ -374,6 +374,7 @@ void TitleScreen(void)
     audioMusicLoad("tuxi.ogg", -1);
   }
 
+  //RunMainMenu();
   /* If necessary, have the user log in */
   if (run_login_menu() != -1) {
     /* Finish parsing user options */
