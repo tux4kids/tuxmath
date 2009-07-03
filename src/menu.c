@@ -33,6 +33,8 @@ typedef enum {
   N_OF_MENUS
 } MenuType;
 
+enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP, RESIZED };
+
 MenuNode* menus[N_OF_MENUS];
 
 /* buffer size used when reading attributes or names */
@@ -46,6 +48,8 @@ void read_attributes(FILE* xml_file, MenuNode* node);
 MenuNode* load_menu_from_file(FILE* xml_file);
 void free_menu(MenuNode* menu);
 
+int run_menu(MenuNode* menu, bool return_choice);
+void render_menu(MenuNode* menu);
 SDL_Surface** render_buttons(MenuNode* menu, bool selected);
 
 
@@ -60,7 +64,7 @@ MenuNode* create_empty_node()
   new_node->submenu_size = 0;
   new_node->submenu = NULL;
   new_node->activity = 0;
-  new_node->begin = 0;
+  new_node->first_entry = 0;
 
   return new_node;
 }
@@ -186,61 +190,374 @@ void free_menu(MenuNode* menu)
 
 /* Display the menu and run the event loop.
    if return_choice = true then return chosen value instead of
-   running handle_choice() */
+   running handle_choice()
+   this function is just a modification of choose_menu_item() */
 int run_menu(MenuNode* menu, bool return_choice)
 {
-  SDL_Surface **menu_item_unselected = NULL;
-  SDL_Surface **menu_item_selected = NULL;
+  SDL_Surface** menu_item_unselected = NULL;
+  SDL_Surface** menu_item_selected = NULL;
+  //SDL_Surface* title = NULL;
   SDL_Event event;
+
+  SDL_Rect left_arrow_rect, right_arrow_rect, stopRect, tmp_rect;
   int redraw, i;
   int stop = 0;
   int items;
 
-  for(;;) /* one execution for one menu level */
+  int action = NONE;
+
+  Uint32 frame_start = 0;       //For keeping frame rate constant
+  /*Uint32 frame_counter = 0;
+  Uint32 frame_now = 0;
+  int tux_frame = 0;*/
+  int loc = 0;                  //The currently selected menu item
+  int old_loc = 1;
+  int click_flag = 1;
+
+  for(;;) /* one loop body execution for one menu page */
   {
+    DrawTitleScreen();
     /* render buttons for current menu page */
     menu_item_unselected = render_buttons(menu, false);
     menu_item_selected = render_buttons(menu, true);
-    items = min(menu->entries_per_page, menu->submenu_size - menu->begin);
+    items = min(menu->entries_per_screen, menu->submenu_size - menu->first_entry);
+
+    /* Arrow buttons in right lower corner, inset by 20 pixels     */
+    /* with a 10 pixel space between:                              */
+    if (images[IMG_RIGHT])
+    {
+      right_arrow_rect.w = images[IMG_RIGHT]->w;
+      right_arrow_rect.h = images[IMG_RIGHT]->h;
+      right_arrow_rect.x = screen->w - images[IMG_RIGHT]->w - 20;
+      right_arrow_rect.y = screen->h - images[IMG_RIGHT]->h - 20;
+    }
+
+    if (images[IMG_LEFT])
+    {
+      left_arrow_rect.w = images[IMG_LEFT]->w;
+      left_arrow_rect.h = images[IMG_LEFT]->h;
+      left_arrow_rect.x = right_arrow_rect.x - 10 - images[IMG_LEFT]->w;
+      left_arrow_rect.y = screen->h - images[IMG_LEFT]->h - 20;
+    }
+    /* Red "Stop" circle in upper right corner to go back to main menu: */
+    if (images[IMG_STOP])
+    {
+      stopRect.w = images[IMG_STOP]->w;
+      stopRect.h = images[IMG_STOP]->h;
+      stopRect.x = screen->w - images[IMG_STOP]->w;
+      stopRect.y = 0;
+    }
+
+    old_loc = loc = 0;
 
 
-    redraw = 1;  // force a full redraw on first pass
+    for(i = 0; i < menu->submenu_size; i++)
+      SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[i]->button_rect);
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+    /* Move mouse to current button: */
+    //cursor.x = menu_button_rect[imod].x + menu_button_rect[imod].w/2;
+    //cursor.y = menu_button_rect[imod].y + menu_button_rect[imod].h/2;
+    SDL_WM_GrabInput(SDL_GRAB_OFF);
+
+
+    /******** Main loop:                                *********/
     while (SDL_PollEvent(&event));  // clear pending events
+    stop = false;
     while (!stop)
     {
+      frame_start = SDL_GetTicks();         /* For keeping frame rate constant.*/
+
+      action = NONE;
       while (SDL_PollEvent(&event))
       {
         switch (event.type)
         {
           case SDL_MOUSEMOTION:
           {
-            for (i = menu->begin; i < menu->begin + items; i++)
+            loc = -1;  // By default, don't be in any entry
+
+            for (i = 0; i < items; i++)
             {
-              if (inRect(menu->submenu[i]->button_rect, event.motion.x, event.motion.y))
+              if (inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
               {
                 // Play sound if loc is being changed:
-                if (Opts_GetGlobalOpt(MENU_SOUND))
-                {
+                if (Opts_GetGlobalOpt(MENU_SOUND) && old_loc != i)
                   playsound(SND_TOCK);
-                }
+                loc = i;
                 break;   /* from for loop */
               }
             }
 
-            break;
-          }
-        }
-      }
+            /* "Left" button - make click if button active: */
+            if (inRect(left_arrow_rect, event.motion.x, event.motion.y))
+            {
+              if (menu->first_entry > 0)
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
+                {
+                  playsound(SND_TOCK);
+                  click_flag = 0;
+                }
+              }
+              break;  /* from case switch */
+            }
 
-      if(redraw)
-      {
-        for(i = 0; i < menu->submenu_size; i++)
-          SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[i]->button_rect);
-        SDL_UpdateRect(screen, 0, 0, 0, 0);
-        redraw = 0;
-      }
+            /* "Right" button - go to next page: */
+            else if (inRect(right_arrow_rect, event.motion.x, event.motion.y ))
+            {
+              if (menu->first_entry + items < menu->submenu_size)
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
+                {
+                  playsound(SND_TOCK);
+                  click_flag = 0;
+                }
+              }
+              break;  /* from case switch */
+            }
+
+            else  // Mouse outside of arrow rects - re-enable click sound:
+            {
+              click_flag = 1;
+              break;  /* from case switch */
+            }
+          }
+
+          case SDL_MOUSEBUTTONDOWN:
+          {
+            loc = -1;  // By default, don't be in any entry
+            for (i = 0; i < items; i++)
+            {
+              if (inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
+              {
+                // Play sound if loc is being changed:
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_POP);
+                loc = i;
+                action = CLICK;
+                break;   /* from for loop */
+              }
+            }
+
+            /* "Left" button */
+            if (inRect(left_arrow_rect, event.motion.x, event.motion.y))
+            {
+              if (menu->first_entry > 0)
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_POP);
+                action = PAGEDOWN;
+              }
+              break;  /* from case switch */
+            }
+
+            /* "Right" button - go to next page: */
+            else if (inRect(right_arrow_rect, event.motion.x, event.motion.y ))
+            {
+              if (menu->first_entry + items < menu->submenu_size)
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
+                  playsound(SND_POP);
+                action = PAGEUP;
+              }
+              break;  /* from case switch */
+            }
+
+          /* "Stop" button - go to main menu: */
+            else if (inRect(stopRect, event.button.x, event.button.y ))
+            {
+              playsound(SND_TOCK);
+              action = STOP;
+              break;
+            }
+          } /* End of case SDL_MOUSEDOWN */
+
+
+          case SDL_KEYDOWN:
+          {
+            /* Proceed according to particular key pressed: */
+            switch (event.key.keysym.sym)
+            {
+              case SDLK_ESCAPE:
+              {
+                action = STOP;
+                break;
+              }
+
+              case SDLK_RETURN:
+              case SDLK_SPACE:
+              case SDLK_KP_ENTER:
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_POP);
+                action = CLICK;
+                break;
+              }
+
+              /* Go to previous page, if present: */
+              case SDLK_LEFT:
+              case SDLK_PAGEUP:
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_TOCK);
+                if (menu->first_entry > 0)
+                  action = PAGEDOWN;
+                break;
+              }
+
+              /* Go to next page, if present: */
+              case SDLK_RIGHT:
+              case SDLK_PAGEDOWN:
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_TOCK);
+                if (menu->first_entry + items < menu->submenu_size)
+                  action = PAGEUP;
+                break;
+              }
+
+              /* Go up one entry, if present: */
+              /*case SDLK_UP:
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_TOCK);
+                if (loc > title_offset)
+                  {loc--;}
+                else if (n_menu_entries <= n_entries_per_screen) {
+                  loc = n_menu_entries-1;  // wrap around if only 1 screen
+                }
+                else if (loc == -1 && loc_screen_start > 0) {
+                  loc = loc_screen_start-1;
+                  loc_screen_start -= n_entries_per_screen;
+                }
+                if (loc != old_loc)
+                  warp_mouse = 1;
+                break;
+              }*/
+
+
+              /* Go down one entry, if present: */
+              /*case SDLK_DOWN:
+              {
+                if (Opts_GetGlobalOpt(MENU_SOUND))
+                  playsound(SND_TOCK);
+                if (loc >= 0 && loc + 1 < n_menu_entries)
+                  {loc++;}
+                else if (n_menu_entries <= n_entries_per_screen)
+                  loc = title_offset;       // wrap around if only 1 screen
+                else if (loc == -1)
+                  loc = loc_screen_start;
+                if (loc != old_loc)
+                  warp_mouse = 1;
+                break;
+              }*/
+
+              /* Change window size (used only to debug) */
+              case SDLK_F5:
+              case SDLK_F6:
+              case SDLK_F7:
+              case SDLK_F8:
+              {
+                /* these keys are available only if in debug mode */
+                DEBUGCODE(debug_titlescreen | debug_menu)
+                {
+                  switch(event.key.keysym.sym)
+                  {
+                    case SDLK_F5:
+                    {
+                      /* decrease screen width */
+                      ChangeWindowSize(win_res_x - 50, win_res_y);
+                      break;
+                    }
+                    case SDLK_F6:
+                    {
+                      /* increase screen width */
+                      ChangeWindowSize(win_res_x + 50, win_res_y);
+                      break;
+                    }
+                    case SDLK_F7:
+                    {
+                      /* decrease screen height */
+                      ChangeWindowSize(win_res_x, win_res_y - 50);
+                      break;
+                    }
+                    case SDLK_F8:
+                    {
+                      /* increase screen height */
+                      ChangeWindowSize(win_res_x, win_res_y + 50);
+                      break;
+                    }
+                    default:
+                      break;
+                  }
+                  render_menu(menu);
+                  action = RESIZED;
+                }
+                break;
+              }
+
+              /* Toggle screen mode: */
+              case SDLK_F10:
+              {
+                SwitchScreenMode();
+                RenderTitleScreen();
+                render_menu(menu);
+                action = RESIZED;
+                break;
+              }
+
+              /* Toggle menu music: */
+              case SDLK_F11:
+              {
+                if (Opts_GetGlobalOpt(MENU_MUSIC))
+                {
+                  audioMusicUnload( );
+                  Opts_SetGlobalOpt(MENU_MUSIC, 0);
+                }
+                else
+                {
+                  Opts_SetGlobalOpt(MENU_MUSIC, 1);
+                  audioMusicLoad("tuxi.ogg", -1);
+                }
+                break;
+              }
+
+              default:
+              {
+                /* Some other key - do nothing. */
+              }
+
+              break;  /* To get out of _outer_ switch/case statement */
+            }  /* End of key switch statement */
+          }  // End of case SDL_KEYDOWN in outer switch statement
+        }  // End event switch statement
+
+        if (old_loc != loc) {
+          if(old_loc >= 0)
+          {
+            tmp_rect = menu->submenu[old_loc + menu->first_entry]->button_rect;
+            SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &tmp_rect);
+            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.x + tmp_rect.w, tmp_rect.y + tmp_rect.h);
+          }
+          if(loc >= 0)
+          {
+            tmp_rect = menu->submenu[loc + menu->first_entry]->button_rect;
+            SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &tmp_rect);
+            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.x + tmp_rect.w, tmp_rect.y + tmp_rect.h);
+          }
+          old_loc = loc;
+        }
+
+        switch(action)
+        {
+          case RESIZED:
+            stop = true;
+            break;
+        }
+
+      }  // End SDL_PollEvent while loop
     }
-    break;
 
     /* free button surfaces */
     for(i = 0; i < items; i++)
@@ -261,7 +578,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
   SDL_Rect curr_rect, tmp_rect;
   SDL_Surface* tmp_surf = NULL;
   int i;
-  int items = min(menu->entries_per_page, menu->submenu_size - menu->begin);
+  int items = min(menu->entries_per_screen, menu->submenu_size - menu->first_entry);
 
   menu_items = (SDL_Surface**) malloc(items * sizeof(SDL_Surface*));
   if(NULL == menu_items)
@@ -272,7 +589,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
 
   for (i = 0; i < items; i++)
   {
-    curr_rect = menu->submenu[menu->begin + i]->button_rect;
+    curr_rect = menu->submenu[menu->first_entry + i]->button_rect;
     menu_items[i] = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
                                           curr_rect.w,
                                           curr_rect.h,
@@ -290,7 +607,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     SDL_FreeSurface(tmp_surf);
 
     /* text */
-    tmp_surf = BlackOutline(_(menu->submenu[menu->begin + i]->title),
+    tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
                             DEFAULT_MENU_FONT_SIZE, selected ? &yellow : &white);
     tmp_rect = tmp_surf->clip_rect;
     tmp_rect.x = curr_rect.h * 2;
@@ -299,12 +616,12 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     SDL_FreeSurface(tmp_surf);
 
     /* icon */
-    if(menu->submenu[menu->begin + i]->icon)
+    if(menu->submenu[menu->first_entry + i]->icon)
     {
-      tmp_rect = menu->submenu[menu->begin + i]->icon->default_img->clip_rect;
+      tmp_rect = menu->submenu[menu->first_entry + i]->icon->default_img->clip_rect;
       tmp_rect.x = 0;
       tmp_rect.y = 0;
-      SDL_BlitSurface(menu->submenu[menu->begin + i]->icon->default_img, NULL, menu_items[i], &tmp_rect);
+      SDL_BlitSurface(menu->submenu[menu->first_entry + i]->icon->default_img, NULL, menu_items[i], &tmp_rect);
     }
   }
 
@@ -356,7 +673,7 @@ void render_menu(MenuNode* menu)
   button_w = max_text_w + 3 * max_text_h;
 
   gap = 0.2;
-  menu->entries_per_page = (int) ( (menu_rect.h - gap * button_h) / (1.0 + gap) );
+  menu->entries_per_screen = (int) ( (menu_rect.h - gap * button_h) / (1.0 + gap) );
 
   for(i = 0; i < menu->submenu_size; i++)
   {
@@ -378,6 +695,8 @@ void render_menu(MenuNode* menu)
     }
     else
       DEBUGMSG(debug_menu, "render_menu(): no sprite for item #%d.\n", i);
+
+    render_menu(menu->submenu[i]);
   }
 
 }

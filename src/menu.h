@@ -72,8 +72,8 @@ struct mNode {
 
   /* these fields are used only if submenu_size > 0 */
   bool display_title;
-  int entries_per_page;
-  int begin;
+  int entries_per_screen;
+  int first_entry;
 };
 
 typedef struct mNode MenuNode;

@@ -41,6 +41,7 @@
 #include "highscore.h"
 #include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
+#include "menu.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -390,6 +391,14 @@ void TitleScreen(void)
   TitleScreen_unload_menu();
 
   DEBUGMSG(debug_titlescreen, "leaving TitleScreen()\n");
+}
+
+void DrawTitleScreen(void)
+{
+  SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
+  SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
+  SDL_BlitSurface(title, NULL, screen, &title_rect);
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
 /* Render and position all titlescreen items to match current
