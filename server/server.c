@@ -85,8 +85,8 @@ int main(int argc, char **argv)
     frame++;
     /* See if our existing clients are really still there. For */
     /* performance reasons, we don't do this on every loop:    */
-    if(frame%1000 == 0)
-      test_connections();
+//    if(frame%1000 == 0)
+//      test_connections();
 
     /* Now we check to see if anyone is trying to connect. */
     update_clients();
@@ -185,7 +185,7 @@ void cleanup_server(void)
     server_sock = NULL;
   }
 
-  SDLNet_Quit();
+  
 
  /* Clean up mathcards heap memory */
   MC_EndGame();
@@ -320,10 +320,34 @@ void update_clients(void)
 
 int check_messages(void)
 {
-  int i = 0;
+  int i = 0,c=0;
   int actives = 0;
   int ready_found = 0;
   char buffer[NET_BUF_LEN];
+
+
+
+  if(game_in_progress==1)
+  {
+    for(i=0;i<MAX_CLIENTS;i++)
+    {
+      if(client[i].sock!=NULL)
+      {
+        c=1;
+        break;
+      }
+    }
+    if(c==0)
+    {
+      printf("All the clients have been disconnected....\n");
+      cleanup_server();
+      setup_server();
+      game_in_progress=0;
+      return 0;
+    }     
+  }
+
+
 
   /* Check the client socket set for activity: */
   actives = SDLNet_CheckSockets(client_set, 0);
