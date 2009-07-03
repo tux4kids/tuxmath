@@ -33,15 +33,18 @@ TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 
 MC_FlashCard flash;    //current question
+int quit = 0;
+
 int Make_Flashcard(char *buf, MC_FlashCard* fc);
 int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int playgame(void);
 void server_pinged(void);
 
+
 int main(int argc, char **argv)
 {
   IPaddress ip;           /* Server address */
-  int quit, len, sockets_used;
+  int len, sockets_used;
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
 
@@ -406,7 +409,8 @@ int playgame(void)
           ||(strncmp(buf, "exit", 4) == 0)
 	  ||(strncmp(buf, "q", 1) == 0))
         {
-          end = 1;
+          quit = 1;  //So we exit loop in main()
+          end = 1;   //Exit our loop in playgame()
         }
         else
         {
