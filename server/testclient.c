@@ -361,10 +361,6 @@ int playgame(void)
             // Presumably we want to print the message to stdout
             printf("%s\n", buf);
           }
-          else if(strncmp(command,"NOTIFICATION",strlen("NOTIFICATION")) == 0)
-          {
-             printf("%s\n", buf);
-          }
 
           else if(strncmp(command,"PING", strlen("PING")) == 0)
           {

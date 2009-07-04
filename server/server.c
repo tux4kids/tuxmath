@@ -463,7 +463,7 @@ void game_msg_correct_answer(int i,int id)
  /*Send score notification to all the clients except the one who answered it*/
  for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
   {
-    if(n==id)      /*I dont think , we would like to send it to the client who answered it*/
+    if(n==i)      /*I dont think , we would like to send it to the client who answered it*/
     continue;
     if(!SendMessage(ANSWER_CORRECT,id,client[i].name,client[n].sock))
     {
