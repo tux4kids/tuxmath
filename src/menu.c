@@ -16,6 +16,7 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "fileops.h"
+#include "setup.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -148,7 +149,7 @@ MenuNode* load_menu_from_file(FILE* xml_file)
   }
   else
   {
-    DEBUGMSG(debug_menu_parser, "load_menu_from_file(): unknown tag: %s\n, exiting", buffer);
+    DEBUGMSG(debug_menu_parser, "load_menu_from_file(): unknown tag: %s\n, exiting\n", buffer);
     return NULL;
   }
 
@@ -200,16 +201,16 @@ int run_menu(MenuNode* menu, bool return_choice)
   SDL_Event event;
 
   SDL_Rect left_arrow_rect, right_arrow_rect, stopRect, tmp_rect;
-  int redraw, i;
+  sprite* tmp_sprite;
+  int i;
   int stop = 0;
   int items;
 
   int action = NONE;
 
   Uint32 frame_start = 0;       //For keeping frame rate constant
-  /*Uint32 frame_counter = 0;
   Uint32 frame_now = 0;
-  int tux_frame = 0;*/
+  Uint32 frame_counter = 0;
   int loc = 0;                  //The currently selected menu item
   int old_loc = 1;
   int click_flag = 1;
@@ -248,18 +249,21 @@ int run_menu(MenuNode* menu, bool return_choice)
       stopRect.y = 0;
     }
 
-    old_loc = loc = 0;
 
 
-    for(i = 0; i < menu->submenu_size; i++)
-      SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[i]->button_rect);
+    for(i = 0; i < items; i++)
+    {
+      SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[menu->first_entry + i]->button_rect);
+      if(menu->submenu[menu->first_entry + i]->icon)
+        SDL_BlitSurface(menu->submenu[menu->first_entry + i]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + i]->icon_rect);
+    }
     SDL_UpdateRect(screen, 0, 0, 0, 0);
 
     /* Move mouse to current button: */
     //cursor.x = menu_button_rect[imod].x + menu_button_rect[imod].w/2;
     //cursor.y = menu_button_rect[imod].y + menu_button_rect[imod].h/2;
     SDL_WM_GrabInput(SDL_GRAB_OFF);
-
+    old_loc = loc = 0;
 
     /******** Main loop:                                *********/
     while (SDL_PollEvent(&event));  // clear pending events
@@ -273,6 +277,12 @@ int run_menu(MenuNode* menu, bool return_choice)
       {
         switch (event.type)
         {
+          case SDL_QUIT:
+          {
+            cleanup();
+            break;
+          }
+
           case SDL_MOUSEMOTION:
           {
             loc = -1;  // By default, don't be in any entry
@@ -534,17 +544,22 @@ int run_menu(MenuNode* menu, bool return_choice)
         }  // End event switch statement
 
         if (old_loc != loc) {
+          DEBUGMSG(debug_menu, "run_menu(): changed button focus, old=%d, new=%d\n", old_loc, loc);
           if(old_loc >= 0)
           {
             tmp_rect = menu->submenu[old_loc + menu->first_entry]->button_rect;
             SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &tmp_rect);
-            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.x + tmp_rect.w, tmp_rect.y + tmp_rect.h);
+            if(menu->submenu[menu->first_entry + old_loc]->icon)
+              SDL_BlitSurface(menu->submenu[menu->first_entry + old_loc]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + old_loc]->icon_rect);
+            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.w, tmp_rect.h);
           }
           if(loc >= 0)
           {
             tmp_rect = menu->submenu[loc + menu->first_entry]->button_rect;
             SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &tmp_rect);
-            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.x + tmp_rect.w, tmp_rect.y + tmp_rect.h);
+            if(menu->submenu[menu->first_entry + loc]->icon)
+              SDL_BlitSurface(menu->submenu[menu->first_entry + loc]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+            SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.w, tmp_rect.h);
           }
           old_loc = loc;
         }
@@ -556,10 +571,32 @@ int run_menu(MenuNode* menu, bool return_choice)
             break;
         }
 
-      }  // End SDL_PollEvent while loop
-    }
+      }  // End of SDL_PollEvent while loop
+
+      if(frame_counter % 5 == 0 && loc >= 0)
+      {
+        tmp_sprite = menu->submenu[menu->first_entry + loc]->icon;
+        if(tmp_sprite)
+        {
+          SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+          SDL_BlitSurface(tmp_sprite->frame[tmp_sprite->cur], NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+          UpdateRect(screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+          NextFrame(tmp_sprite);
+        }
+      }
+
+      /* Wait so we keep frame rate constant: */
+      frame_now = SDL_GetTicks();
+      if (frame_now < frame_start)
+        frame_start = frame_now;  // in case the timer wraps around
+      if (frame_now - frame_start < 33)
+        SDL_Delay(33-(frame_now-frame_start));
+
+      frame_counter++;
+    } // End of while(!stop) loop
 
     /* free button surfaces */
+    DEBUGMSG(debug_menu, "run_menu(): freeing button surfaces\n");
     for(i = 0; i < items; i++)
     {
       SDL_FreeSurface(menu_item_unselected[i]);
@@ -572,10 +609,11 @@ int run_menu(MenuNode* menu, bool return_choice)
   return -1;
 }
 
+/* return button surfaces that are currently displayed (without sprites) */
 SDL_Surface** render_buttons(MenuNode* menu, bool selected)
 {
   SDL_Surface** menu_items = NULL;
-  SDL_Rect curr_rect, tmp_rect;
+  SDL_Rect curr_rect;
   SDL_Surface* tmp_surf = NULL;
   int i;
   int items = min(menu->entries_per_screen, menu->submenu_size - menu->first_entry);
@@ -583,7 +621,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
   menu_items = (SDL_Surface**) malloc(items * sizeof(SDL_Surface*));
   if(NULL == menu_items)
   {
-    DEBUGMSG(debug_menu, "render_buttons(): failed to allocate memory for buttons!");
+    DEBUGMSG(debug_menu, "render_buttons(): failed to allocate memory for buttons!\n");
     return NULL;  // error
   }
 
@@ -609,20 +647,8 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     /* text */
     tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
                             DEFAULT_MENU_FONT_SIZE, selected ? &yellow : &white);
-    tmp_rect = tmp_surf->clip_rect;
-    tmp_rect.x = curr_rect.h * 2;
-    tmp_rect.y = (curr_rect.h - tmp_surf->h) / 2;
-    SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &tmp_rect);
+    SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &menu->submenu[menu->first_entry + i]->text_rect);
     SDL_FreeSurface(tmp_surf);
-
-    /* icon */
-    if(menu->submenu[menu->first_entry + i]->icon)
-    {
-      tmp_rect = menu->submenu[menu->first_entry + i]->icon->default_img->clip_rect;
-      tmp_rect.x = 0;
-      tmp_rect.y = 0;
-      SDL_BlitSurface(menu->submenu[menu->first_entry + i]->icon->default_img, NULL, menu_items[i], &tmp_rect);
-    }
   }
 
   return menu_items;
@@ -642,20 +668,20 @@ void render_menu(MenuNode* menu)
 
   if(NULL == menu)
   {
-    DEBUGMSG(debug_menu, "render_menu(): NULL pointer, exiting !");
+    DEBUGMSG(debug_menu, "render_menu(): NULL pointer, exiting !\n");
     return;
   }
 
   if(0 == menu->submenu_size)
   {
-    DEBUGMSG(debug_menu, "render_menu(): no submenu, exiting.");
+    DEBUGMSG(debug_menu, "render_menu(): no submenu, exiting.\n");
     return;
   }
 
-  menu_rect.x = 0.3 * screen->w;
+  menu_rect.x = 0.4 * screen->w;
   menu_rect.y = 0.25 * screen->h;
-  menu_rect.w = 0.65 * screen->w;
-  menu_rect.h = 0.75 * screen->h;
+  menu_rect.w = 0.55 * screen->w;
+  menu_rect.h = 0.7 * screen->h;
 
   for(i = 0; i < menu->submenu_size; i++)
   {
@@ -673,7 +699,7 @@ void render_menu(MenuNode* menu)
   button_w = max_text_w + 3 * max_text_h;
 
   gap = 0.2;
-  menu->entries_per_screen = (int) ( (menu_rect.h - gap * button_h) / (1.0 + gap) );
+  menu->entries_per_screen = (int) ( (menu_rect.h - gap * button_h) / ( (1.0 + gap) * button_h ));
 
   for(i = 0; i < menu->submenu_size; i++)
   {
@@ -682,6 +708,16 @@ void render_menu(MenuNode* menu)
     curr_node->button_rect.y = menu_rect.y + i * button_h + (i + 1) * gap * button_h;
     curr_node->button_rect.w = button_w;
     curr_node->button_rect.h = button_h;
+
+    curr_node->icon_rect = curr_node->button_rect;
+    curr_node->icon_rect.w = curr_node->icon_rect.h;
+
+    curr_node->text_rect = curr_node->button_rect;
+    curr_node->text_rect.y = 0.25 * button_h;
+    curr_node->text_rect.x = (1.0 + gap) * button_h;
+    curr_node->text_rect.h -= 0.25 * button_h;
+    curr_node->text_rect.w -= (1.0 + gap) * button_h;
+
     curr_node->font_size = DEFAULT_MENU_FONT_SIZE;
 
     if(curr_node->icon)

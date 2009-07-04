@@ -356,6 +356,11 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
   return ret;
 }
 
+void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
+{
+  SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
+}
+
 int inRect( SDL_Rect r, int x, int y) {
         if ((x < r.x) || (y < r.y) || (x > r.x + r.w) || (y > r.y + r.h))
                 return 0;

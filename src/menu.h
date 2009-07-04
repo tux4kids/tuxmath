@@ -62,6 +62,8 @@ struct mNode {
   sprite* icon;
 
   SDL_Rect button_rect;
+  SDL_Rect icon_rect;
+  SDL_Rect text_rect;
 
   /* submenu_size = 0 if no submenu */
   int submenu_size;
