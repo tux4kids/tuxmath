@@ -99,12 +99,14 @@ int main(int argc, char **argv)
 
   /* first just take in the name */
   printf("Enter your Name.\n");
-  check1 = fgets(buffer, NET_BUF_LEN, stdin);
-  strncpy(name, check1, strlen(check1));
+  check1=gets(name);
+  if(check1==NULL)
+  printf(" gets() failed...\n");
+ 
   snprintf(buffer, NET_BUF_LEN, 
-                       "%s",
+                       "%s\n",
                        name);
-
+ 
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -357,7 +359,13 @@ int playgame(void)
           else if(strncmp(command,"SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
           {
             // Presumably we want to print the message to stdout
+            printf("%s\n", buf);
           }
+          else if(strncmp(command,"NOTIFICATION",strlen("NOTIFICATION")) == 0)
+          {
+             printf("%s\n", buf);
+          }
+
           else if(strncmp(command,"PING", strlen("PING")) == 0)
           {
             server_pinged();

@@ -48,7 +48,7 @@ void game_msg_quit(int i);
 void game_msg_exit(int i);
 void start_game(int i);
 int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
-int SendMessage(int message, int z, TCPsocket client_sock);
+int SendMessage(int message, int ques_id,char *name, TCPsocket client_sock);
 
 
 
@@ -457,8 +457,21 @@ int handle_client_game_msg(int i , char *buffer)
 
 void game_msg_correct_answer(int i,int id)
 {
-  int n; 
+  int n;
   printf("question id %d was answered correctly by %s",id,client[i].name);             
+ 
+ /*Send score notification to all the clients except the one who answered it*/
+ for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
+  {
+    if(n==id)      /*I dont think , we would like to send it to the client who answered it*/
+    continue;
+    if(!SendMessage(ANSWER_CORRECT,id,client[i].name,client[n].sock))
+    {
+      printf("Unable to score changes\n");
+    }
+  }
+
+
   if (!MC_NextQuestion(&flash))
   { 
     /* no more questions available */
@@ -702,7 +715,7 @@ int SendQuestion(MC_FlashCard flash,TCPsocket client_sock)
 
 /*Function to send any messages to the client be it any warnings
   or anything the client is made to be informed*/
-int SendMessage(int message, int z,TCPsocket client_sock)         
+int SendMessage(int message, int ques_id,char *name,TCPsocket client_sock)         
 {
  int x, len;
  char buf[NET_BUF_LEN];
@@ -715,8 +728,8 @@ int SendMessage(int message, int z,TCPsocket client_sock)
       sprintf(msg,"%s", "Please! first setup the question list by typing <a>\n");
       break;
     case ANSWER_CORRECT:
-      sprintf(msg,"%s %d %s", "Question ID:",
-              z, "was answered correctly by the client\n");
+      sprintf(msg,"%s %d %s %s", "Question ID:",
+              ques_id, "was answered correctly by the client",name);
       break;
    case LIST_SET_UP:
       sprintf(msg,"%s", "Question list was successfully setup\n");
