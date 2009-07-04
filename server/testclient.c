@@ -47,17 +47,12 @@ int main(int argc, char **argv)
   int len, sockets_used;
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
+  char *check1;
+  char name[NAME_SIZE];
 
-      /* first just take in the name */
-      char *check1;
-      char name[NAME_SIZE];
-      printf("Enter your Name.\n");
-      check1 = fgets(buffer, NET_BUF_LEN, stdin);
-      strncpy(name, check1, strlen(check1));
-      snprintf(buffer, NET_BUF_LEN, 
-                       "%s",
-                       name);
-      
+
+
+
 
   /* Simple parameter checking */
   if (argc < 3)
@@ -65,7 +60,7 @@ int main(int argc, char **argv)
     fprintf(stderr, "Usage: %s host port\n", argv[0]);
     exit(EXIT_FAILURE);
   }
- 
+
   if (SDLNet_Init() < 0)
   {
     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
@@ -99,14 +94,27 @@ int main(int argc, char **argv)
     // perhaps you need to restart the set and make it bigger...
   }
 
+
+  /* Now we are connected. Take in nickname and send to server. */
+
+  /* first just take in the name */
+  printf("Enter your Name.\n");
+  check1 = fgets(buffer, NET_BUF_LEN, stdin);
+  strncpy(name, check1, strlen(check1));
+  snprintf(buffer, NET_BUF_LEN, 
+                       "%s",
+                       name);
+
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
    exit(EXIT_FAILURE);
   }
+
 #ifdef LAN_DEBUG
   printf("Sent the name of the player %s\n",check1);
 #endif
+
 
 
   /* Send messages */
@@ -114,7 +122,7 @@ int main(int argc, char **argv)
   do
   { 
     //Get user input from command line and send it to server: 
-  /*now display the options*/
+    /*now display the options*/
     printf("Welcome to the Tux Math Test Client!\n");
     printf("Type:\n"
              "'game' to start math game;\n"
@@ -122,9 +130,10 @@ int main(int argc, char **argv)
              "'quit' to end both client and server\n>\n"); 
     char *check;
     check = fgets(buffer, NET_BUF_LEN, stdin);
-   //Figure out if we are trying to quit:
-    if(  (strncmp(buffer, "exit",4) == 0)
-      || (strncmp(buffer, "quit",4) == 0))
+
+    //Figure out if we are trying to quit:
+    if(  (strncmp(buffer, "exit", 4) == 0)
+      || (strncmp(buffer, "quit", 4) == 0))
     {
       quit = 1;
       len = strlen(buffer) + 1;
@@ -136,7 +145,7 @@ int main(int argc, char **argv)
     }
     else if (strncmp(buffer, "game",4) == 0)
     {
-      printf("Starting math game:\n");
+      printf("Starting Tux, of the Math Command Line ;-)\n");
       playgame();
       printf("Math game finished.\n");
     }
@@ -256,7 +265,11 @@ int playgame(void)
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   char ch;
+  char* term;
   size_t bytes_read = 0;
+
+  /* Set stdin to be non-blocking: */
+  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
 
 #ifdef LAN_DEBUG
   printf("Entering playgame()\n");
@@ -276,37 +289,6 @@ int playgame(void)
    printf("Sent the game notification %s\n",buffer);
  #endif
  
-//NOTE don't think we want to just stick this SDL_Net_TCP_Recv()
-// here because it could block.  Just wait for it in our message queue
-// below. If we receive "Sorry..." then we just have play_game() return.
-//
-//   if( SDLNet_TCP_Recv(sd, buf, sizeof(buf)) > 0)
-//   {
-//    if(strncmp(buf,"Sorry",5) == 0)
-//    {
-//      printf("Sorry , the game has already been started.......=(\n");
-//      SDLNet_TCP_Close(sd);
-//      SDLNet_FreeSocketSet(set);
-//      set=NULL; //this helps us remember that this set is not allocated
-//      SDLNet_Quit();
-//      exit(5);
-//    }
-//    else if(strncmp(buf,"Success",7) == 0)
-//    {
-//     printf("You Are In game.....Waiting for other players to be ready...\n");
-//    }
-//   }
-//   else
-//   {
-//     fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
-//     exit(EXIT_FAILURE);
-//   }
-// 
-// #ifdef LAN_DEBUG
-//   printf("Received %s\n",buf);
-// #endif
-
-
 
   //Begin game loop:
   while (!end)
@@ -337,7 +319,7 @@ int playgame(void)
         if(SDLNet_SocketReady(sd))
         {
           buf[0] = '\0';
-          x = SDLNet_TCP_Recv(sd, buf, sizeof(buf));
+          x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
           if( x <= 0)
           {
             fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
@@ -357,15 +339,18 @@ int playgame(void)
           command[i] = '\0';
 
 #ifdef LAN_DEBUG
-//          printf("buf is %s\n", buf);
-//          printf("command is %s\n", command);
+          printf("buf is %s\n", buf);
+          printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
           if(strncmp(command, "SEND_QUESTION", 13) == 0)
           {
             /* function call to parse buffer into MC_FlashCard */
             if(Make_Flashcard(buf, &flash))
+            {
               have_question = 1; 
+              printf("The question is: %s\n>\n", flash.formula_string);
+            }
             else
               printf("Unable to parse buffer into FlashCard\n");
           }
@@ -382,16 +367,18 @@ int playgame(void)
     } // End of loop for checking server activity
 
 #ifdef LAN_DEBUG
-    printf(".\n");
+//    printf(".\n");
 #endif
 
     //Now we check for any user responses
-    while(have_question && !end)
+//    while(have_question && !end)
     { 
       buf[0] = '\0';
-      fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
       bytes_read = fread (buf, 1, NET_BUF_LEN, stdin);
-
+      term = strchr(buf, '\n');
+      if (term)
+        *term = '\0';
+      
 #ifdef LAN_DEBUG
 //      printf("\nbytes_read is %d\n", bytes_read);
 //      printf("buf is %s\n", buf);
@@ -418,22 +405,20 @@ int playgame(void)
           a valid int, not just '0' - should not be a big deal for
           our test program - DSB */
           ans = atoi(buf);
-          if(ans == flash.answer)
+          if(have_question && (ans == flash.answer))
           {  
             have_question = 0;
-#ifdef LAN_DEBUG
-            printf("requesting next question, buf: %s", buf);
-#endif
+            printf("%s is correct!\nRequesting next question...\n>\n", buf);
 
-           //Tell server we answered it right:
-           if(!LAN_AnsweredCorrectly(&flash))
+            //Tell server we answered it right:
+            if(!LAN_AnsweredCorrectly(&flash))
             {
               printf("Unable to communicate the same to server\n");
               exit(EXIT_FAILURE);
             }
           }
           else  //we got input, but not the correct answer:
-            printf("Sorry, incorrect. Try again!\n");
+            printf("Sorry, %s is incorrect. Try again!\n>\n", buf);
         }  //input wasn't any of our keywords
       } // Input was received 
     }  // End of while loop

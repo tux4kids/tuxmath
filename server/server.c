@@ -320,31 +320,32 @@ void update_clients(void)
 
 int check_messages(void)
 {
-  int i = 0,c=0;
+  int i = 0, c = 0;
   int actives = 0;
   int ready_found = 0;
   char buffer[NET_BUF_LEN];
 
 
-
+  //NOTE Does this belong here? Seems to have more to do wth client connections.
   if(game_in_progress==1)
   {
-    for(i=0;i<MAX_CLIENTS;i++)
+    for(i = 0; i <MAX_CLIENTS; i++)
     {
-      if(client[i].sock!=NULL)
+      if(client[i].sock != NULL)
       {
-        c=1;
+        c = 1;
         break;
       }
     }
-    if(c==0)
+    if(c == 0)
     {
       printf("All the clients have been disconnected....\n");
+      //We just need to clean up to start a new math game
       cleanup_server();
       setup_server();
-      game_in_progress=0;
+      game_in_progress = 0;
       return 0;
-    }     
+    }
   }
 
 
@@ -475,9 +476,12 @@ void game_msg_correct_answer(int i,int id)
 #endif
   }
                   
-  for(n = 0; n < num_clients && client[n].sock; n++)
+  for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
   {
-    if(!SendQuestion(flash,client[n].sock))
+#ifdef LAN_DEBUG
+    printf("About to send next question to client[%d]\n", n);
+#endif
+    if(!SendQuestion(flash, client[n].sock))
     {
       printf("Unable to send Question\n");
     }
