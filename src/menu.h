@@ -19,6 +19,11 @@
 #include "globals.h"
 #include "loaders.h"
 
+/* titlescreen & menu frame rate */
+#define MAX_FPS                    30
+/* number of "real" frames per one sprite frame */
+#define SPRITE_FRAME_DELAY         6
+
 /* these are all menu choices that are available in tuxmath.
    By using a define we can create both an enum and
    a string array without writing these names twice */

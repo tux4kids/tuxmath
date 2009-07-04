@@ -228,7 +228,7 @@ void TitleScreen(void)
 {
   Uint32 start_time = 0;
   SDL_Rect tux_anim, title_anim;
-  int i, tux_pix_skip, title_pix_skip;
+  int i, tux_pix_skip, title_pix_skip, curr_time;
 
   if (Opts_UsingSound())
   {
@@ -347,10 +347,9 @@ void TitleScreen(void)
       SDL_UpdateRect(screen, title_anim.x, title_anim.y,
           min(title_anim.w + title_pix_skip, screen->w - title_anim.x), title_anim.h);
 
-      while((SDL_GetTicks() - start_time) < 1000 / ANIM_FPS)
-      {
-        SDL_Delay(2);
-      }
+      curr_time = SDL_GetTicks();
+      if((curr_time - start_time) < 1000 / ANIM_FPS)
+        SDL_Delay(1000 / ANIM_FPS - (curr_time - start_time));
     }
   }
 
@@ -398,7 +397,7 @@ void DrawTitleScreen(void)
   SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
   SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
   SDL_BlitSurface(title, NULL, screen, &title_rect);
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
+  //SDL_UpdateRect(screen, 0, 0, 0, 0);
 }
 
 /* Render and position all titlescreen items to match current
@@ -488,6 +487,51 @@ int RenderTitleScreen(void)
 }
 
 
+/* handle titlescreen events (easter egg)
+   this function should be called from event loops
+   return 1 if events require full redraw */
+int HandleTitleScreenEvents(const SDL_Event* evt)
+{
+  return handle_easter_egg(evt);
+}
+
+/* handle all titlescreen blitting
+   this function should be called after every animation frame */
+void HandleTitleScreenAnimations()
+{
+  static int frame_counter = 0;
+  int tux_frame;
+
+  /* --- make Tux blink --- */
+  switch (frame_counter % TUX6)
+  {
+    case 0:    tux_frame = 1; break;
+    case TUX1: tux_frame = 2; break;
+    case TUX2: tux_frame = 3; break;
+    case TUX3: tux_frame = 4; break;
+    case TUX4: tux_frame = 3; break;
+    case TUX5: tux_frame = 2; break;
+    default: tux_frame = 0;
+  }
+
+  if (Tux && tux_frame)
+  {
+    /* Redraw background to keep edges anti-aliased properly: */
+    SDL_BlitSurface(current_bkg(),&tux_rect, screen, &tux_rect);
+    SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &tux_rect);
+    UpdateRect(screen, &tux_rect);
+  }
+
+  if (egg_active) { //if we need to, draw the egg cursor
+    //who knows why GetMouseState() doesn't take Sint16's...
+    SDL_GetMouseState((int*)(&cursor.x), (int*)(&cursor.y));
+    cursor.x -= egg->w / 2; //center vertically
+    SDL_BlitSurface(egg, NULL, screen, &cursor);
+    UpdateRect(screen, &cursor);
+  }
+
+  frame_counter++;
+}
 
 
 /***********************************************************/
@@ -1530,7 +1574,6 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
   int buttonheight = 0;
   int i = 0;
   int imod = 0;                 // i % n_entries_per_screen
-  int tux_frame = 0;
   int click_flag = 1;
   int use_sprite = 0;
   int warp_mouse = 0;
@@ -2082,10 +2125,9 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
           }  /* End of key switch statement */
         }  // End of case SDL_KEYDOWN in outer switch statement
       }  // End event switch statement
-      if (handle_easter_egg(&event) )
+
+      if(HandleTitleScreenEvents(&event))
         redraw = 1;
-      else
-        ; //egg_active = 0;
     }  // End SDL_PollEvent while loop
 
 
@@ -2250,36 +2292,7 @@ int choose_menu_item(const char **menu_text, sprite **menu_sprites, int n_menu_e
     old_loc = loc;
     old_loc_screen_start = loc_screen_start;
 
-
-
-    /* --- make Tux blink --- */
-    switch (frame_counter % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      /* Redraw background to keep edges anti-aliased properly: */
-      SDL_BlitSurface(current_bkg(),&tux_rect, screen, &tux_rect);
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &tux_rect);
-      SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
-      //SDL_UpdateRect(screen, 0, 0, 0, 0);
-    }
-
-    if (egg_active) { //if we need to, draw the egg cursor
-      //who knows why GetMouseState() doesn't take Sint16's...
-      SDL_GetMouseState((int*)(&cursor.x), (int*)(&cursor.y));
-      cursor.x -= egg->w / 2; //center vertically
-      SDL_BlitSurface(egg, NULL, screen, &cursor);
-      SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h);
-    }
+    HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
     frame_now = SDL_GetTicks();

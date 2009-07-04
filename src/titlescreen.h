@@ -74,10 +74,9 @@ typedef struct {
 #define FULL_CIRCLE                           140
 
 
-/* Title screen animation constants */
+/* trans_wipe() animation constants */
 #define ANIM_FRAMES                30 /* frames to be displayed */
 #define ANIM_FPS                   25 /* max fps */
-
 
 
 extern SDL_Event  event;
@@ -126,6 +125,8 @@ enum {
 void TitleScreen(void);
 int RenderTitleScreen(void);
 void DrawTitleScreen(void);
+int HandleTitleScreenEvents(const SDL_Event* evt);
+void HandleTitleScreenAnimations();
 int ChooseMission(void);  //FIXME really should be in fileops.c
 int choose_menu_item(const char **menu_text, 
                      sprite **menu_sprites, 

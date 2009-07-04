@@ -211,8 +211,8 @@ int run_menu(MenuNode* menu, bool return_choice)
   Uint32 frame_start = 0;       //For keeping frame rate constant
   Uint32 frame_now = 0;
   Uint32 frame_counter = 0;
-  int loc = 0;                  //The currently selected menu item
-  int old_loc = 1;
+  int loc = -1;                  //The currently selected menu item
+  int old_loc = -1;
   int click_flag = 1;
 
   for(;;) /* one loop body execution for one menu page */
@@ -253,7 +253,10 @@ int run_menu(MenuNode* menu, bool return_choice)
 
     for(i = 0; i < items; i++)
     {
-      SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[menu->first_entry + i]->button_rect);
+      if(loc == i)
+        SDL_BlitSurface(menu_item_selected[i], NULL, screen, &menu->submenu[menu->first_entry + i]->button_rect);
+      else
+        SDL_BlitSurface(menu_item_unselected[i], NULL, screen, &menu->submenu[menu->first_entry + i]->button_rect);
       if(menu->submenu[menu->first_entry + i]->icon)
         SDL_BlitSurface(menu->submenu[menu->first_entry + i]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + i]->icon_rect);
     }
@@ -263,7 +266,6 @@ int run_menu(MenuNode* menu, bool return_choice)
     //cursor.x = menu_button_rect[imod].x + menu_button_rect[imod].w/2;
     //cursor.y = menu_button_rect[imod].y + menu_button_rect[imod].h/2;
     SDL_WM_GrabInput(SDL_GRAB_OFF);
-    old_loc = loc = 0;
 
     /******** Main loop:                                *********/
     while (SDL_PollEvent(&event));  // clear pending events
@@ -564,6 +566,9 @@ int run_menu(MenuNode* menu, bool return_choice)
           old_loc = loc;
         }
 
+        if(HandleTitleScreenEvents(&event))
+          stop = true;
+
         switch(action)
         {
           case RESIZED:
@@ -585,12 +590,14 @@ int run_menu(MenuNode* menu, bool return_choice)
         }
       }
 
+      HandleTitleScreenAnimations();
+
       /* Wait so we keep frame rate constant: */
       frame_now = SDL_GetTicks();
       if (frame_now < frame_start)
         frame_start = frame_now;  // in case the timer wraps around
-      if (frame_now - frame_start < 33)
-        SDL_Delay(33-(frame_now-frame_start));
+      if((frame_now - frame_start) < 1000 / MAX_FPS)
+        SDL_Delay(1000 / MAX_FPS - (frame_now - frame_start));
 
       frame_counter++;
     } // End of while(!stop) loop
