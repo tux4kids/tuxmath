@@ -29,7 +29,7 @@
    a string array without writing these names twice */
 #define ACTIVITIES \
   X( RUN_ACADEMY ),\
-  X( RUN_FLEET_MISSIONS ),\
+  X( RUN_CAMPAIGN ),\
   X( RUN_ARCADE ),\
   X( RUN_CUSTOM ),\
   X( RUN_MAIN_MENU ),\

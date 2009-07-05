@@ -1,7 +1,7 @@
 <menu title="Main Menu" entries="7">
     <menu title="Play Alone" sprite="alone" entries="5">
         <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY">
-        <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_FLEET_MISSIONS">
+        <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_CAMPAIGN">
         <item title="Play Arcade Game" sprite="comet" run="RUN_ARCADE">
         <item title="Play Custom Game" sprite="tux_config" run="RUN_CUSTOM">
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
@@ -16,9 +16,10 @@
         <item title="Elimination" sprite="exclamation" run="RUN_ELIMINATION">
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
-    <menu title="Factoroids!" sprite="factoroids" entries="2">
+    <menu title="Factoroids!" sprite="factoroids" entries="3">
         <item title="Factors" sprite="factors" run="RUN_FACTORS">
         <item title="Fractions" sprite="fractions" run="RUN_FRACTIONS">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
     <item title="Help" sprite="help" run="RUN_HELP">
     <menu title="More Options" sprite="tux_config" entries="4">

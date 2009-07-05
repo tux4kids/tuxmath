@@ -361,6 +361,20 @@ void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
   SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
 }
 
+/* free every surface in the array together with the array itself */
+void FreeSurfaceArray(SDL_Surface** surfs, int length)
+{
+  int i;
+
+  if(surfs == NULL)
+    return;
+
+  for(i = 0; i < length; i++)
+    if(surfs[i] != NULL)
+      SDL_FreeSurface(surfs[i]);
+  free(surfs);
+}
+
 int inRect( SDL_Rect r, int x, int y) {
         if ((x < r.x) || (y < r.y) || (x > r.x + r.w) || (y > r.y + r.h))
                 return 0;

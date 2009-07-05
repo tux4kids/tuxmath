@@ -117,13 +117,13 @@ void setup(int argc, char * argv[])
   initialize_options();
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
-  /* load menus */
-  LoadMenus();
   /* SDL setup in own function:*/
   initialize_SDL();
   /* Read image and sound files: */
   load_data_files();
- /* Generate flipped versions of walking images */
+  /* load menus */
+  LoadMenus();
+  /* Generate flipped versions of walking images */
   generate_flipped_images();
   /* Generate blended images (e.g., igloos) */
   generate_blended_images();

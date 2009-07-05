@@ -14,6 +14,9 @@
 #include "menu.h"
 #include "SDL_extras.h"
 #include "titlescreen.h"
+#include "mathcards.h"
+#include "campaign.h"
+#include "game.h"
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
@@ -21,6 +24,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+
 
 /* create string array of activities' names */
 #define X(name) #name
@@ -31,9 +36,11 @@ char* activities[] = { ACTIVITIES };
 typedef enum {
   MENU_MAIN,
   MENU_DIFFICULTY,
+  MENU_LESSONS,
   N_OF_MENUS
 } MenuType;
 
+/* actions available while viewing the menu */
 enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP, RESIZED };
 
 MenuNode* menus[N_OF_MENUS];
@@ -41,24 +48,34 @@ MenuNode* menus[N_OF_MENUS];
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
 
+
+
 /* local functions */
 MenuNode* create_empty_node();
 char* get_attribute_name(const char* token);
 char* get_attribute_value(const char* token);
 void read_attributes(FILE* xml_file, MenuNode* node);
-MenuNode* load_menu_from_file(FILE* xml_file);
+MenuNode* load_menu_from_file(FILE* xml_file, MenuNode* parent);
 void free_menu(MenuNode* menu);
 
+void handle_activity(int act);
+int run_academy(void);
+
 int run_menu(MenuNode* menu, bool return_choice);
-void render_menu(MenuNode* menu);
+void prerender_menu(MenuNode* menu);
 SDL_Surface** render_buttons(MenuNode* menu, bool selected);
+MenuNode* create_one_level_menu(int items, char** item_names, char* title, char* trailer);
 
 
+/*
+  functions responsible for parsing menu files
+*/
 
 /* creates new MenuNode struct with all fields set to NULL (or 0) */
 MenuNode* create_empty_node()
 {
   MenuNode* new_node = malloc(sizeof(MenuNode));
+  new_node->parent = NULL;
   new_node->title = NULL;
   new_node->icon_name = NULL;
   new_node->icon = NULL;
@@ -109,11 +126,13 @@ void read_attributes(FILE* xml_file, MenuNode* node)
 
 /* recursively read and parse given xml menu file and create menu tree
    return NULL in case of problems */
-MenuNode* load_menu_from_file(FILE* xml_file)
+MenuNode* load_menu_from_file(FILE* xml_file, MenuNode* parent)
 {
   MenuNode* new_node = create_empty_node();
   char buffer[buf_size];
   int i;
+
+  new_node->parent = parent;
 
   DEBUGMSG(debug_menu_parser, "entering load_menu_from_file()\n");
   fscanf(xml_file, " < %s", buffer);
@@ -131,7 +150,7 @@ MenuNode* load_menu_from_file(FILE* xml_file)
     {
       new_node->submenu = malloc(new_node->submenu_size * sizeof(MenuNode));
       for(i = 0; i < new_node->submenu_size; i++)
-        new_node->submenu[i] = load_menu_from_file(xml_file);
+        new_node->submenu[i] = load_menu_from_file(xml_file, new_node);
     }
 
     fscanf(xml_file, " </%[^>\n]> ", buffer);
@@ -188,17 +207,86 @@ void free_menu(MenuNode* menu)
 }
 
 
+/*
+  handlers for specific game activities
+*/
+
+void handle_activity(int act)
+{
+  DEBUGMSG(debug_menu, "entering handle_activity()\n");
+  switch(act)
+  {
+    case RUN_CAMPAIGN:
+      start_campaign();
+      break;
+
+    case RUN_ACADEMY:
+      run_academy();
+      break;
+  }
+}
+
+int run_academy(void)
+{
+  int chosen_lesson = -1;
+
+  chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+  while (chosen_lesson >= 0)
+  {
+    if (Opts_GetGlobalOpt(MENU_SOUND))
+      playsound(SND_POP);
+
+    /* Re-read global settings first in case any settings were */
+    /* clobbered by other lesson or arcade games this session: */
+    read_global_config_file();
+    /* Now read the selected file and play the "mission": */
+    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+    {
+      if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
+        {audioMusicUnload();}
+
+
+      game();
+      //RenderTitleScreen();
+
+      /* If successful, display Gold Star for this lesson! */
+      if (MC_MissionAccomplished())
+      {
+        lesson_list_goldstars[chosen_lesson] = 1;
+       /* and save to disk: */
+        write_goldstars();
+      }
+
+      if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+        {audioMusicLoad("tuxi.ogg", -1);}
+    }
+    else  // Something went wrong - could not read lesson config file:
+    {
+      fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+      chosen_lesson = -1;
+    }
+    // Let the user choose another lesson; start with the screen and
+    // selection that we ended with
+    chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+  }
+  if (chosen_lesson < 0)
+    return 0;
+  else
+    return 1;
+}
 
 /* Display the menu and run the event loop.
    if return_choice = true then return chosen value instead of
-   running handle_choice()
-   this function is just a modification of choose_menu_item() */
-int run_menu(MenuNode* menu, bool return_choice)
+   running handle_activity()
+   this function is a modified copy of choose_menu_item() */
+int run_menu(MenuNode* root, bool return_choice)
 {
   SDL_Surface** menu_item_unselected = NULL;
   SDL_Surface** menu_item_selected = NULL;
   //SDL_Surface* title = NULL;
   SDL_Event event;
+  MenuNode* menu = root;
+  MenuNode* tmp_node;
 
   SDL_Rect left_arrow_rect, right_arrow_rect, stopRect, tmp_rect;
   sprite* tmp_sprite;
@@ -217,6 +305,8 @@ int run_menu(MenuNode* menu, bool return_choice)
 
   for(;;) /* one loop body execution for one menu page */
   {
+    DEBUGMSG(debug_menu, "run_menu(): drawing whole new menu page\n");
+
     DrawTitleScreen();
     /* render buttons for current menu page */
     menu_item_unselected = render_buttons(menu, false);
@@ -250,7 +340,7 @@ int run_menu(MenuNode* menu, bool return_choice)
     }
 
 
-
+    DEBUGMSG(debug_menu, "run_menu(): drawing %d buttons\n", items);
     for(i = 0; i < items; i++)
     {
       if(loc == i)
@@ -269,20 +359,24 @@ int run_menu(MenuNode* menu, bool return_choice)
 
     /******** Main loop:                                *********/
     while (SDL_PollEvent(&event));  // clear pending events
+
     stop = false;
+    DEBUGMSG(debug_menu, "run_menu(): entering menu loop\n");
     while (!stop)
     {
       frame_start = SDL_GetTicks();         /* For keeping frame rate constant.*/
 
       action = NONE;
-      while (SDL_PollEvent(&event))
+      while (!stop && SDL_PollEvent(&event))
       {
         switch (event.type)
         {
           case SDL_QUIT:
           {
+            FreeSurfaceArray(menu_item_unselected, items);
+            FreeSurfaceArray(menu_item_selected, items);
             cleanup();
-            break;
+            return -1;
           }
 
           case SDL_MOUSEMOTION:
@@ -503,7 +597,7 @@ int run_menu(MenuNode* menu, bool return_choice)
                     default:
                       break;
                   }
-                  render_menu(menu);
+                  prerender_menu(menu);
                   action = RESIZED;
                 }
                 break;
@@ -514,7 +608,7 @@ int run_menu(MenuNode* menu, bool return_choice)
               {
                 SwitchScreenMode();
                 RenderTitleScreen();
-                render_menu(menu);
+                prerender_menu(menu);
                 action = RESIZED;
                 break;
               }
@@ -547,7 +641,7 @@ int run_menu(MenuNode* menu, bool return_choice)
 
         if (old_loc != loc) {
           DEBUGMSG(debug_menu, "run_menu(): changed button focus, old=%d, new=%d\n", old_loc, loc);
-          if(old_loc >= 0)
+          if(old_loc >= 0 && old_loc < items)
           {
             tmp_rect = menu->submenu[old_loc + menu->first_entry]->button_rect;
             SDL_BlitSurface(menu_item_unselected[old_loc], NULL, screen, &tmp_rect);
@@ -555,7 +649,7 @@ int run_menu(MenuNode* menu, bool return_choice)
               SDL_BlitSurface(menu->submenu[menu->first_entry + old_loc]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + old_loc]->icon_rect);
             SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.w, tmp_rect.h);
           }
-          if(loc >= 0)
+          if(loc >= 0 && loc < items)
           {
             tmp_rect = menu->submenu[loc + menu->first_entry]->button_rect;
             SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &tmp_rect);
@@ -574,11 +668,44 @@ int run_menu(MenuNode* menu, bool return_choice)
           case RESIZED:
             stop = true;
             break;
+
+          case CLICK:
+            if(loc < 0 || loc >= items)
+            {
+              DEBUGMSG(debug_menu, "run_menu(): incorrect location for CLICK action (%d) !\n", loc);
+            }
+            else
+            {
+              tmp_node = menu->submenu[menu->first_entry + loc];
+              if(tmp_node->submenu_size == 0)
+              {
+                if(return_choice)
+                {
+                  FreeSurfaceArray(menu_item_unselected, items);
+                  FreeSurfaceArray(menu_item_selected, items);
+                  return tmp_node->activity;
+                }
+                else
+                {
+                  if(tmp_node->activity == RUN_MAIN_MENU)
+                  {
+                    /* go back to the root of this menu */
+                    menu = root;
+                  }
+                  else
+                    handle_activity(tmp_node->activity);
+                }
+              }
+              else
+                menu = tmp_node;
+              stop = true;
+            }
+            break;
         }
 
       }  // End of SDL_PollEvent while loop
 
-      if(frame_counter % 5 == 0 && loc >= 0)
+      if(!stop && frame_counter % 5 == 0 && loc >= 0 && loc < items)
       {
         tmp_sprite = menu->submenu[menu->first_entry + loc]->icon;
         if(tmp_sprite)
@@ -603,14 +730,9 @@ int run_menu(MenuNode* menu, bool return_choice)
     } // End of while(!stop) loop
 
     /* free button surfaces */
-    DEBUGMSG(debug_menu, "run_menu(): freeing button surfaces\n");
-    for(i = 0; i < items; i++)
-    {
-      SDL_FreeSurface(menu_item_unselected[i]);
-      SDL_FreeSurface(menu_item_selected[i]);
-    }
-    free(menu_item_unselected);
-    free(menu_item_selected);
+    DEBUGMSG(debug_menu, "run_menu(): freeing %d button surfaces\n", items);
+    FreeSurfaceArray(menu_item_unselected, items);
+    FreeSurfaceArray(menu_item_selected, items);
   }
 
   return -1;
@@ -663,25 +785,25 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
 
 /* recursively load sprites and calculate button rects
    to fit into current screen */
-void render_menu(MenuNode* menu)
+void prerender_menu(MenuNode* menu)
 {
   SDL_Rect menu_rect;
   SDL_Surface* temp_surf;
   MenuNode* curr_node;
-  int i, max_text_h = 0, max_text_w = 0;
+  int i, imod, max_text_h = 0, max_text_w = 0;
   int button_h, button_w;
   float gap;
   char filename[buf_size];
 
   if(NULL == menu)
   {
-    DEBUGMSG(debug_menu, "render_menu(): NULL pointer, exiting !\n");
+    DEBUGMSG(debug_menu, "prerender_menu(): NULL pointer, exiting !\n");
     return;
   }
 
   if(0 == menu->submenu_size)
   {
-    DEBUGMSG(debug_menu, "render_menu(): no submenu, exiting.\n");
+    DEBUGMSG(debug_menu, "prerender_menu(): no submenu, exiting.\n");
     return;
   }
 
@@ -693,7 +815,7 @@ void render_menu(MenuNode* menu)
   for(i = 0; i < menu->submenu_size; i++)
   {
     temp_surf = NULL;
-    temp_surf = SimpleText(menu->submenu[i]->title, DEFAULT_MENU_FONT_SIZE, &black);
+    temp_surf = SimpleText(_(menu->submenu[i]->title), DEFAULT_MENU_FONT_SIZE, &black);
     if(temp_surf)
     {
       max_text_h = max(max_text_h, temp_surf->h);
@@ -712,7 +834,8 @@ void render_menu(MenuNode* menu)
   {
     curr_node = menu->submenu[i];
     curr_node->button_rect.x = menu_rect.x;
-    curr_node->button_rect.y = menu_rect.y + i * button_h + (i + 1) * gap * button_h;
+    imod = i % menu->entries_per_screen;
+    curr_node->button_rect.y = menu_rect.y + imod * button_h + (imod + 1) * gap * button_h;
     curr_node->button_rect.w = button_w;
     curr_node->button_rect.h = button_h;
 
@@ -733,18 +856,18 @@ void render_menu(MenuNode* menu)
     if(curr_node->icon_name)
     {
       sprintf(filename, "sprites/%s", curr_node->icon_name);
-      DEBUGMSG(debug_menu, "render_menu(): loading sprite %s for item #%d.\n", filename, i);
+      DEBUGMSG(debug_menu, "prerender_menu(): loading sprite %s for item #%d.\n", filename, i);
       curr_node->icon = LoadSpriteOfBoundingBox(filename, IMG_ALPHA, button_h, button_h);
     }
     else
-      DEBUGMSG(debug_menu, "render_menu(): no sprite for item #%d.\n", i);
+      DEBUGMSG(debug_menu, "prerender_menu(): no sprite for item #%d.\n", i);
 
-    render_menu(menu->submenu[i]);
+    prerender_menu(menu->submenu[i]);
   }
 
 }
 
-/* load menu trees from disk */
+/* load menu trees from disk and prerender them */
 void LoadMenus(void)
 {
   /* main menu */
@@ -755,7 +878,8 @@ void LoadMenus(void)
   }
   else
   {
-    menus[MENU_MAIN] = load_menu_from_file(menu_file);
+    menus[MENU_MAIN] = load_menu_from_file(menu_file, NULL);
+    prerender_menu(menus[MENU_MAIN]);
     fclose(menu_file);
   }
 
@@ -767,9 +891,38 @@ void LoadMenus(void)
   }
   else
   {
-    menus[MENU_DIFFICULTY] = load_menu_from_file(menu_file);
+    menus[MENU_DIFFICULTY] = load_menu_from_file(menu_file, NULL);
+    prerender_menu(menus[MENU_DIFFICULTY]);
     fclose(menu_file);
   }
+}
+
+/* create a simple one-level menu without sprites.
+   all given strings are copied */
+MenuNode* create_one_level_menu(int items, char** item_names, char* title, char* trailer)
+{
+  MenuNode* menu = create_empty_node();
+  int i;
+
+  if(title)
+    menu->title = strdup(title);
+  menu->submenu_size = items + (trailer ? 1 : 0);
+  menu->submenu = (MenuNode**) malloc(menu->submenu_size * sizeof(MenuNode*));
+  for(i = 0; i < items; i++)
+  {
+    menu->submenu[i] = create_empty_node();
+    menu->submenu[i]->title = strdup(item_names[i]);
+    menu->submenu[i]->activity = i;
+  }
+
+  if(trailer)
+  {
+    menu->submenu[items] = create_empty_node();
+    menu->submenu[items]->title = strdup(trailer);
+    menu->submenu[items]->activity = items;
+  }
+
+  return menu;
 }
 
 /* create login menu tree, run it and set the user home directory
@@ -777,14 +930,136 @@ void LoadMenus(void)
     0 indicates that a choice has been made. */
 int RunLoginMenu(void)
 {
+  int n_login_questions = 0;
+  char **user_login_questions = NULL;
+  char *title = NULL;
+  int n_users = 0;
+  char **user_names = NULL;
+  int chosen_login = -1;
+  int level;
+  int i;
+  char *trailer_quit = "Quit";
+  char *trailer_back = "Back";
+  char *trailer = NULL;
+  MenuNode* menu;
+  SDLMod mod;
+
+  DEBUGMSG(debug_menu, "Entering RunLoginMenu()");
+  // Check for & read user_login_questions file
+  n_login_questions = read_user_login_questions(&user_login_questions);
+
+  // Check for & read user_menu_entries file
+  n_users = read_user_menu_entries(&user_names);
+
+  if (n_users == 0)
+    return 0;   // a quick exit, there's only one user
+
+  // Check for a highscores file
+  if (high_scores_found_in_user_dir())
+    set_high_score_path();
+
+  level = 0;
+
+
+  if (n_login_questions > 0)
+    title = user_login_questions[0];
+
+  menu = create_one_level_menu(n_users, user_names, title, trailer_quit);
+
+  while (n_users) {
+    // Get the user choice
+    prerender_menu(menu);
+    chosen_login = run_menu(menu, true);
+    // Determine whether there were any modifier (CTRL) keys pressed
+    mod = SDL_GetModState();
+    if (chosen_login == -1 || chosen_login == n_users) {
+      // User pressed escape or selected Quit/Back, handle by quitting
+      // or going up a level
+      if (level == 0) {
+        // We are going to quit without logging in.
+        // Clean up memory (prob. not necessary, but prevents Valgrind errors!)
+        for (i = 0; i < n_login_questions; i++)
+          free(user_login_questions[i]);
+        free(user_login_questions);
+        for (i = 0; i < n_users; i++)
+          free(user_names[i]);
+        free(user_names);
+        free_menu(menu);
+        return -1;
+      }
+      else {
+        // Go back up one level of the directory tree
+        user_data_dirname_up();
+        level--;
+      }
+    }
+    else {
+      // User chose an entry, set it up
+      user_data_dirname_down(user_names[chosen_login]);
+      level++;
+    }
+    // Check for a highscores file
+    if (high_scores_found_in_user_dir())
+      set_high_score_path();
+    // Free the entries from the previous menu
+    for (i = 0; i < n_users; i++)
+      free(user_names[i]);
+    free(user_names);
+    user_names = NULL;
+    // If the CTRL key was pressed, choose this as the identity, even
+    // if there is a lower level to the hierarchy
+    if (mod & KMOD_CTRL)
+      break;
+    // Set the title appropriately for the next menu
+    if (level < n_login_questions)
+      title = user_login_questions[level];
+    else
+      title = NULL;
+    if (level == 0)
+      trailer = trailer_quit;
+    else
+      trailer = trailer_back;
+    // Check to see if there are more choices to be made
+    n_users = read_user_menu_entries(&user_names);
+    DEBUGMSG(debug_menu, "aa");
+    free_menu(menu);
+    menu = create_one_level_menu(n_users, user_names, title, trailer);
+  }
+
+  // The user home directory is set, clean up remaining memory
+  for (i = 0; i < n_login_questions; i++)
+    free(user_login_questions[i]);
+  free(user_login_questions);
+  free_menu(menu);
+
+  // Signal success
   return 0;
 }
 
 /* run main menu. If this function ends it means that tuxmath is going to quit */
 void RunMainMenu(void)
 {
+  int i;
+  MenuNode* tmp_node;
   DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");
-  render_menu(menus[MENU_MAIN]);
+
+   /* lessons menu */
+  DEBUGMSG(debug_menu, "LoadMenus(): Generating lessons submenu. (%d lessons)\n", num_lessons);
+
+  tmp_node = create_empty_node();
+  tmp_node->submenu_size = num_lessons;
+  tmp_node->submenu = (MenuNode**) malloc(num_lessons * sizeof(MenuNode*));
+  for(i = 0; i < num_lessons; i++)
+  {
+    tmp_node->submenu[i] = create_empty_node();
+    tmp_node->submenu[i]->icon_name = lesson_list_goldstars[i] ? "goldstar" : "no_goldstar";
+    tmp_node->submenu[i]->title = (char*) malloc( (strlen(lesson_list_titles[i]) + 1) * sizeof(char) );
+    strcpy(tmp_node->submenu[i]->title, lesson_list_titles[i]);
+    tmp_node->submenu[i]->activity = i;
+  }
+  menus[MENU_LESSONS] = tmp_node;
+  prerender_menu(menus[MENU_LESSONS]);
+
   run_menu(menus[MENU_MAIN], false);
   DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
 }
@@ -796,6 +1071,7 @@ void UnloadMenus(void)
 
   DEBUGMSG(debug_menu, "entering UnloadMenus()\n");
   for(i = 0; i < N_OF_MENUS; i++)
-    free_menu(menus[i]);
+    if(menus[i] != NULL)
+      free_menu(menus[i]);
 }
 
