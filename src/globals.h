@@ -32,14 +32,9 @@ typedef enum { false, true } bool;
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))
 
-/* for conditional compilation of debugging output */
-//#define TUXMATH_DEBUG
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
 //#define LINEBREAK
-
-/* deprecated ;) */
-#define tmdprintf(...) DEBUGMSG(debug_all, __VA_ARGS__)
 
 /* debug data (declared in options.c) */
 extern int debug_status;
@@ -59,6 +54,8 @@ extern const int debug_sdl;
 extern const int debug_lessons;
 extern const int debug_highscore;
 extern const int debug_options;
+extern const int debug_convert_utf;
+extern const int debug_multiplayer;
 extern const int debug_all;
 
 /* debug macros */

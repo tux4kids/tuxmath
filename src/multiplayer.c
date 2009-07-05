@@ -32,7 +32,7 @@ void mp_set_parameter(unsigned int param, int value)
 {
   if (inprogress)
   {
-    tmdprintf("Oops, tried to set param %d in the middle of a game\n", param);
+    DEBUGMSG(debug_multiplayer, "Oops, tried to set param %d in the middle of a game\n", param);
     return;
   }
   params[param] = value;
@@ -84,7 +84,7 @@ void mp_run_multiplayer()
       
       if (activeplayers <= 1) //last man standing!
       {
-        tmdprintf("%d wins\n", currentplayer);
+        DEBUGMSG(debug_multiplayer, "%d wins\n", currentplayer);
         winners[0] = currentplayer;
         done = 1;
       }
@@ -125,8 +125,9 @@ void mp_run_multiplayer()
       }
     }
   }
-  
-  tmdprintf("Game over; showing winners\n");
+
+  DEBUGMSG(debug_multiplayer, "Game over; showing winners\n");
+
   showWinners(winners, params[PLAYERS]);
   cleanupMP();
 }
@@ -135,7 +136,7 @@ int mp_get_player_score(int playernum)
 {
   if (playernum > params[PLAYERS])
   {
-    tmdprintf("No player %d!\n", playernum);
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
   }
   return pscores[playernum];
@@ -145,7 +146,7 @@ const char* mp_get_player_name(int playernum)
 {
   if (playernum > params[PLAYERS])
   {
-    tmdprintf("No player %d!\n", playernum);
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
   }
   return pnames[playernum];
@@ -181,9 +182,8 @@ void showWinners(int* winners, int num)
   {
     snprintf(strchr(text, '\0'), sectionlength, _("Then %s\n"), pnames[winners[i]]);
   }
-  
-  tmdprintf("%s", pnames[winners[0]] );
-  tmdprintf("Win text: %s\n", text);
+
+  DEBUGMSG(debug_multiplayer, "%s Win text: %s\n", pnames[winners[0]], text);
 
   DarkenScreen(1);
 
@@ -229,7 +229,7 @@ int initMP()
     "multiplay/commando"
   };
 
-  tmdprintf("Reading in difficulty settings...\n");
+  DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
 
   success *= read_global_config_file();
 

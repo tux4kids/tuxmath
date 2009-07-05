@@ -204,9 +204,8 @@ void initialize_options_user(void)
     /* (can still proceed).         */
   }
 
-#ifdef TUXMATH_DEBUG
-  print_high_scores(stdout);
-#endif
+  DEBUGCODE(debug_setup)
+    print_high_scores(stdout);
 }
 
 
@@ -546,11 +545,11 @@ void initialize_SDL(void)
       Opts_SetSoundHWAvailable(1);
     else
       frequency = format = channels = 0; //more helpful than garbage
-    tmdprintf("Sound mixer: frequency = %d, "
-                    "format = %x, "
-                    "channels = %d, "
-                    "n_timesopened = %d\n",
-                    frequency,format,channels,n_timesopened);
+    DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
+                          "format = %x, "
+                          "channels = %d, "
+                          "n_timesopened = %d\n",
+                          frequency,format,channels,n_timesopened);
   }
 
   #endif
@@ -561,17 +560,17 @@ void initialize_SDL(void)
     if (videoInfo->hw_available)
     {
       surfaceMode = SDL_HWSURFACE;
-      tmdprintf("HW mode\n");
+      DEBUGMSG(debug_setup, "HW mode\n");
     }
     else
     {
       surfaceMode = SDL_SWSURFACE;
-      tmdprintf("SW mode\n");
+      DEBUGMSG(debug_setup, "SW mode\n");
     }
 
     // Determine the current resolution: this will be used as the
     // fullscreen resolution, if the user wants fullscreen.
-    tmdprintf("Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
+    DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
     fs_res_x = videoInfo->current_w;
     fs_res_y = videoInfo->current_h;
 

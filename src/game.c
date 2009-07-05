@@ -196,9 +196,7 @@ int game(void)
 {
   Uint32 last_time, now_time;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Entering game():\n");
-#endif
+  DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
@@ -689,11 +687,7 @@ void game_cleanup(void)
   }
 #endif
 
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "Leaving game():\n");
-#endif
-
+  DEBUGMSG(debug_game, "Leaving game():\n");
 }
 
 void game_handle_help(void)
@@ -1026,9 +1020,7 @@ void game_handle_demo(void)
       if ((rand() % 3) < 1)
         demo_answer--;  // sometimes get it wrong on purpose
 
-      #ifdef TUXMATH_DEBUG
-      printf("Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
-      #endif
+      DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
       /* handle negative answer: */
       if (demo_answer < 0)
       {
@@ -1072,9 +1064,7 @@ void game_handle_demo(void)
     else
     {
       /* "Press Return" */
-      #ifdef TUXMATH_DEBUG
-      printf("Demo mode firing with these digits: %d%d%d\n",digits[0],digits[1],digits[2]);
-      #endif
+      DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",digits[0],digits[1],digits[2]);
       doing_answer = 1;
       picked_comet = -1;
     }
@@ -1416,16 +1406,12 @@ void game_handle_comets(void)
           comets[i].alive = 0;
           if (bonus_comet_counter > 1 && comets[i].zapped) {
             bonus_comet_counter--;
-#ifdef TUXMATH_DEBUG
-            printf("\nbonus_comet_counter is now %d\n",bonus_comet_counter);
-#endif
+            DEBUGMSG(debug_game, "bonus_comet_counter is now %d\n",bonus_comet_counter);
           }
           if (comets[i].bonus && comets[i].zapped) {
             playsound(SND_EXTRA_LIFE);
             extra_life_earned = 1;
-#ifdef TUXMATH_DEBUG
-            printf("\nExtra life earned!");
-#endif
+            DEBUGMSG(debug_game, "Extra life earned!");
           }
         }
       }
@@ -1689,9 +1675,8 @@ int check_extra_life(void)
 
   if (cloud.status == EXTRA_LIFE_ON)
     return 1;
-#ifdef TUXMATH_DEBUG
-  print_status();
-#endif
+  DEBUGCODE(debug_game)
+    print_status();
   if (extra_life_earned) {
     /* Check to see if any ingloo has been hit */
     fewest_hits_left = 2;
@@ -1710,9 +1695,9 @@ int check_extra_life(void)
     cloud.y = screen->h/3;
     cloud.city = fewest_index;
     bonus_comet_counter = Opts_BonusCometInterval()+1;
-#ifdef TUXMATH_DEBUG
-    printf("\nBonus comet counter restored to %d\n",bonus_comet_counter);
-#endif
+
+    DEBUGMSG(debug_game, "Bonus comet counter restored to %d\n",bonus_comet_counter);
+
     if (cloud.city < NUM_CITIES/2)
       cloud.x = -images[IMG_CLOUD]->w/2;  /* come in from the left */
     else
@@ -1725,9 +1710,8 @@ int check_extra_life(void)
       cloud.snowflake_x[i] = - snow_width/2  + (rand() % snow_width);
       cloud.snowflake_size[i] = rand() % 3;
     }
-#ifdef TUXMATH_DEBUG
-    print_status();
-#endif
+    DEBUGCODE(debug_game)
+      print_status();
     return 1;
   } else
     return 0;
@@ -1740,12 +1724,13 @@ void game_handle_extra_life(void)
 
   if (cloud.status == EXTRA_LIFE_ON) {
 
-#ifdef TUXMATH_DEBUG
-     if (penguins[cloud.city].status == PENGUIN_WALKING_OFF) {
-       print_status();
-       pause_game();
-     }
-#endif
+    DEBUGCODE(debug_game)
+    {
+      if (penguins[cloud.city].status == PENGUIN_WALKING_OFF) {
+        print_status();
+        pause_game();
+      }
+    }
 
     // Get the cloud moving in the right direction, if not yet "parked"
     direction = 2*(cloud.city < NUM_CITIES/2) - 1;
@@ -2258,10 +2243,8 @@ int check_exit_conditions(void)
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
   if (!MC_ListQuestionsLeft() && !num_comets_alive)
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
-    printf("\nnum_comets_alive = %d", num_comets_alive);
-    #endif
+    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
+    DEBUGMSG(debug_game, "num_comets_alive = %d", num_comets_alive);
     return GAME_OVER_ERROR;
   }
 
@@ -2586,21 +2569,18 @@ int add_comet(void)
   comets[found].zapped = 0;
   /* Should it be a bonus comet? */
   comets[found].bonus = 0;
-#ifdef TUXMATH_DEBUG
-  printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
-#endif
+
+  DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
+
   if (bonus_comet_counter == 1) {
     bonus_comet_counter = 0;
     comets[found].bonus = 1;
     playsound(SND_BONUS_COMET);
-#ifdef TUXMATH_DEBUG
-    printf("\nCreated bonus comet");
-#endif
+
+    DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-  #ifdef TUXMATH_DEBUG
-  printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
-  #endif
+  DEBUGMSG(debug_game, "add_comet(): formula string is: %s", comets[found].flashcard.formula_string);
 
   /* Record the time at which this comet was created */
   comets[found].time_started = SDL_GetTicks();
@@ -3230,12 +3210,13 @@ void game_key_event(SDLKey key)
     /* Escape key - quit! */
     user_quit_received = GAME_OVER_ESCAPE;
   }
-#ifdef TUXMATH_DEBUG
-  if (key == SDLK_LEFTBRACKET) //a nice nonobvious/unused key
+  DEBUGCODE(debug_game)
   {
-    user_quit_received = GAME_OVER_CHEATER;
+    if (key == SDLK_LEFTBRACKET) //a nice nonobvious/unused key
+    {
+      user_quit_received = GAME_OVER_CHEATER;
+    }
   }
-#endif
   else if (key == SDLK_TAB
         || key == SDLK_p)
   {

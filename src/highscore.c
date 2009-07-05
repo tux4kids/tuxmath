@@ -383,9 +383,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
-#endif
+  DEBUGMSG(debug_highscore, "Enter HighScoreNameEntry()\n" );
 
 
   /* Draw background: */
@@ -479,10 +477,8 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
         }
         case SDL_KEYDOWN:
         {
-#ifdef TUXMATH_DEBUG
-          fprintf(stderr, "Before keypress, string is %S\tlength = %d\n",
-                  wchar_buf, (int)wcslen(wchar_buf));
-#endif
+          DEBUGMSG(debug_highscore, "Before keypress, string is %S\tlength = %d\n",
+                   wchar_buf, (int)wcslen(wchar_buf));
           switch (event.key.keysym.sym)
           {
             case SDLK_ESCAPE:
@@ -514,10 +510,8 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
             }
           }  /* end  'switch (event.key.keysym.sym)'  */
 
-#ifdef TUXMATH_DEBUG
-          fprintf(stderr, "After keypress, string is %S\tlength = %d\n",
-                    wchar_buf, (int)wcslen(wchar_buf));
-#endif
+          DEBUGMSG(debug_highscore, "After keypress, string is %S\tlength = %d\n",
+                   wchar_buf, (int)wcslen(wchar_buf));
             /* Now draw name, if needed: */
           if (redraw)
           {
@@ -747,10 +741,7 @@ int read_high_scores_fp(FILE* fp)
   int score_read;
   int diff_level;
 
-
-#ifdef TUXMATH_DEBUG
-  printf("\nEntering read_high_scores_fp()\n");
-#endif
+  DEBUGMSG(debug_highscore, "Entering read_high_scores_fp()\n");
 
   /* get out if file pointer invalid: */
   if(!fp)

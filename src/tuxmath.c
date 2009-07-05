@@ -46,16 +46,14 @@ int main(int argc, char * argv[])
   s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
   s4 = textdomain(PACKAGE);
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "PACKAGE = %s\n", PACKAGE);
-  fprintf(stderr, "TUXLOCALE = %s\n", TUXLOCALE);
-  fprintf(stderr, "setlocale(LC_ALL, \"\") returned: %s\n", s1);
-  fprintf(stderr, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n", s2);
-  fprintf(stderr, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n", s3);
-  fprintf(stderr, "textdomain(PACKAGE) returned: %s\n", s4);
-  fprintf(stderr, "gettext(\"Help\"): %s\n\n", gettext("Help"));
-  fprintf(stderr, "After gettext() call\n");
-#endif
+  DEBUGMSG(debug_setup, "PACKAGE = %s\n", PACKAGE);
+  DEBUGMSG(debug_setup, "TUXLOCALE = %s\n", TUXLOCALE);
+  DEBUGMSG(debug_setup, "setlocale(LC_ALL, \"\") returned: %s\n", s1);
+  DEBUGMSG(debug_setup, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n", s2);
+  DEBUGMSG(debug_setup, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n", s3);
+  DEBUGMSG(debug_setup, "textdomain(PACKAGE) returned: %s\n", s4);
+  DEBUGMSG(debug_setup, "gettext(\"Help\"): %s\n\n", gettext("Help"));
+  DEBUGMSG(debug_setup, "After gettext() call\n");
 
   setup(argc, argv);
   TitleScreen();  /* Run the game! */

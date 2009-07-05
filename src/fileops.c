@@ -294,9 +294,7 @@ int read_user_config_file(void)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, OPTIONS_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_user_config_file() full path to config file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_user_config_file() full path to config file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
@@ -331,10 +329,7 @@ int read_named_config_file(const char* fn)
     free(last_config_file_name);
   last_config_file_name = strdup(filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() filename is: = %s\n", filename);
-  #endif
-
+  DEBUGMSG(debug_fileops, "In read_named_config_file() filename is: = %s\n", filename);
 
   /* First look in current working directory:  */
   getcwd(opt_path, PATH_MAX); /* get current working directory */
@@ -345,18 +340,12 @@ int read_named_config_file(const char* fn)
   }
   strcat(opt_path, filename); /* tack on filename              */
 
-
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (cwd)\n", opt_path);
-  #endif
-
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (cwd)\n", opt_path);
 
   fp = fopen(opt_path, "r");  /* try to open file */
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -384,16 +373,12 @@ int read_named_config_file(const char* fn)
     strcat(opt_path, filename);
   }
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (abs)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (abs)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -414,16 +399,12 @@ int read_named_config_file(const char* fn)
   strcat(opt_path, "/missions/");
   strcat(opt_path, filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (missions)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (missions)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -443,16 +424,12 @@ int read_named_config_file(const char* fn)
   strcat(opt_path, "/missions/lessons/");
   strcat(opt_path, filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (missions/lessons)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (missions/lessons)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -472,16 +449,12 @@ int read_named_config_file(const char* fn)
   strcat(opt_path, "/missions/arcade/");
   strcat(opt_path, filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (missions/arcade)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (missions/arcade)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -501,16 +474,12 @@ int read_named_config_file(const char* fn)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (.tuxmath)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (.tuxmath)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -532,16 +501,12 @@ int read_named_config_file(const char* fn)
   strcat(opt_path, "/");
   strcat(opt_path, filename);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_named_config_file() checking for %s (home)\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_named_config_file() checking for %s (home)\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nFound %s\n", opt_path);
-    #endif
+    DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
     if (read_config_file(fp, USER_CONFIG_FILE))
     {
@@ -557,9 +522,7 @@ int read_named_config_file(const char* fn)
   }
 
   /* Could not find file (or read it if found) in any location: */
-  #ifdef TUXMATH_DEBUG
-  printf("\nread_named_config_file() could not find/read: %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "read_named_config_file() could not find/read: %s\n", opt_path);
   return 0;
 }
 
@@ -596,17 +559,12 @@ int parse_lesson_file_directory(void)
     return 0;
   }
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "lesson_path is: %s\n", lesson_path);
-#endif
+  DEBUGMSG(debug_fileops, "lesson_path is: %s\n", lesson_path);
 
   /* Believe we now have complete scandir() for all platforms :) */
   num_lessons = scandir(lesson_path, &lesson_list_dirents, is_lesson_file, alphasort);
 
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "num_lessons is: %d\n", num_lessons);
-#endif
+  DEBUGMSG(debug_fileops, "num_lessons is: %d\n", num_lessons);
 
   if (num_lessons < 0) {
     perror("scanning lesson directory");
@@ -642,9 +600,7 @@ int parse_lesson_file_directory(void)
     if (nchars < 0 || nchars >= NAME_BUF_SIZE)
       continue;
 
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "Found lesson file %d:\t%s\n", lessons, lesson_list_filenames[lessons]);
-#endif
+    DEBUGMSG(debug_fileops, "Found lesson file %d:\t%s\n", lessons, lesson_list_filenames[lessons]);
 
     /* load the name for the lesson from the file ... (1st line) */
     tempFile = fopen(lesson_list_filenames[lessons], "r");
@@ -740,9 +696,7 @@ int read_goldstars(void)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, GOLDSTAR_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_goldstars() full path to file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_goldstars() full path to file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
@@ -776,9 +730,7 @@ int write_goldstars(void)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, GOLDSTAR_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn write_goldstars() full path to file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In write_goldstars() full path to file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "w");
   if (fp)
@@ -808,9 +760,7 @@ int high_scores_found_in_user_dir(void)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, HIGHSCORE_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_high_scores() full path to file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_high_scores() full path to file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
@@ -856,9 +806,7 @@ int read_high_scores(void)
     strncpy(opt_path,high_scores_file_path,PATH_MAX);
   strcat(opt_path, HIGHSCORE_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn read_high_scores() full path to file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In read_high_scores() full path to file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "r");
   if (fp) /* file exists */
@@ -933,9 +881,7 @@ int append_high_score(int tableid,int score,char *player_name)
     strncpy(opt_path,high_scores_file_path,PATH_MAX);
   strcat(opt_path, HIGHSCORE_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn write_high_scores() full path to file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In write_high_scores() full path to file is: = %s\n", opt_path);
 
   fp = fopen(opt_path, "a");
   if (fp)
@@ -1062,17 +1008,13 @@ int read_config_file(FILE *fp, int file_type)
   char buf[PATH_MAX];
   char *parameter, *param_begin, *param_end, *value, *value_end;
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nEntering read_config_file()\n");
-  #endif
+  DEBUGMSG(debug_fileops, "Entering read_config_file()\n");
 
   /* get out if file pointer invalid: */
   if(!fp)
   {
-    #ifdef TUXMATH_DEBUG
-    printf("config file pointer invalid!\n");
-    printf("Leaving read_config_file()\n");
-    #endif
+    DEBUGMSG(debug_fileops, "config file pointer invalid!\n");
+    DEBUGMSG(debug_fileops, "Leaving read_config_file()\n");
 
     fprintf(stderr, "config file pointer invalid!\n");
     return 0;
@@ -1084,9 +1026,6 @@ int read_config_file(FILE *fp, int file_type)
   /* read in a line at a time: */
   while (fgets (buf, PATH_MAX, fp))
   { 
-    #ifdef TUXMATH_DEBUG
-    //printf("Beginning fgets() loop\n");
-    #endif
     /* "parameter" and "value" will contain the non-whitespace chars */
     /* before and after the '=' sign, respectively.  e.g.:           */
     /*                                                               */
@@ -1098,9 +1037,6 @@ int read_config_file(FILE *fp, int file_type)
     /* ignore comment lines */
     if ((buf[0] == ';') || (buf[0] == '#'))
     {
-      #ifdef TUXMATH_DEBUG
-      //printf("Skipping comment line\n");
-      #endif
       continue;
     }
  
@@ -1140,10 +1076,6 @@ int read_config_file(FILE *fp, int file_type)
 
     if (!value || (value == buf))
     {
-      #ifdef TUXMATH_DEBUG
-      //fprintf(stderr, "Error while reading prefs - line with no '='!\n");
-      #endif
-
       free(parameter);
       continue;
     }
@@ -1169,8 +1101,8 @@ int read_config_file(FILE *fp, int file_type)
     /* terminate string here: */
     *value_end = 0;
 
-    tmdprintf("parameter = '%s'\t, length = %zu\n", parameter, strlen(parameter));
-    tmdprintf("value = '%s'\t, length = %zu\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
+    DEBUGMSG(debug_fileops, "parameter = '%s'\t, length = %zu\n", parameter, strlen(parameter));
+    DEBUGMSG(debug_fileops, "value = '%s'\t, length = %zu\t, atoi() = %d\t, atof() = %.2f\n", value, strlen(value), atoi(value), atof(value));
     
     /* Now ready to handle each name/value pair! */
     
@@ -1413,12 +1345,11 @@ int read_config_file(FILE *fp, int file_type)
       MC_SetOpt(DIVISION_ALLOWED, 0);
   if (MC_GetOpt(MIN_TYPING_NUM) > MC_GetOpt(MAX_TYPING_NUM) )
       MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
-      
-  #ifdef TUXMATH_DEBUG
-  printf("\nAfter file read in:\n");
-  write_config_file(stdout, 0);
-  printf("Leaving read_config_file()\n");
-  #endif
+
+  DEBUGMSG(debug_fileops, "After file read in:\n");
+  DEBUGCODE(debug_fileops)
+    write_config_file(stdout, 0);
+  DEBUGMSG(debug_fileops, "Leaving read_config_file()\n");
 
   return 1;
 }
@@ -1462,9 +1393,7 @@ int write_user_config_file(void)
   get_user_data_dir_with_subdir(opt_path);
   strcat(opt_path, OPTIONS_FILENAME);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn write_user_config_file() full path to config file is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In write_user_config_file() full path to config file is: = %s\n", opt_path);
 
   /* save settings: */
   fp = fopen(opt_path, "w");
@@ -1718,14 +1647,13 @@ int write_config_file(FILE *fp, int verbose)
     "############################################################\n\n";
     
   }
-  
-  tmdprintf("\nEntering write_config_file()\n");
+  DEBUGMSG(debug_fileops, "Entering write_config_file()\n");
 
   /* get out if file pointer null */
   if(!fp)
   {
     fprintf (stderr, "write_config_file() - file pointer invalid/n");
-    tmdprintf("Leaving write_config_file()\n");
+    DEBUGMSG(debug_fileops, "Leaving write_config_file()\n");
     return 0;
   }
   
@@ -1944,9 +1872,7 @@ int write_config_file(FILE *fp, int verbose)
   /* print options pertaining to math questions from MathCards: */
 //  MC_PrintMathOptions(fp, 1);
 
-  #ifdef TUXMATH_DEBUG
-  printf("Leaving write_config_file()\n");
-  #endif
+  DEBUGMSG(debug_fileops, "Leaving write_config_file()\n");
 
   return 1;
 }
@@ -2170,17 +2096,13 @@ static int find_tuxmath_dir(void)
   /* find $HOME */
   get_user_data_dir_with_subdir(opt_path);
 
-  #ifdef TUXMATH_DEBUG
-  printf("\nIn find_tuxmath_dir() tuxmath dir is: = %s\n", opt_path);
-  #endif
+  DEBUGMSG(debug_fileops, "In find_tuxmath_dir() tuxmath dir is: = %s\n", opt_path);
 
   /* find out if directory exists - if not, create it: */
   dir_ptr = opendir(opt_path);
   if (dir_ptr)  /* don't leave DIR* open if it was already there */
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn find_tuxmath_dir() tuxmath dir opened OK\n");
-    #endif
+    DEBUGMSG(debug_fileops, "In find_tuxmath_dir() tuxmath dir opened OK\n");
 
     closedir(dir_ptr);
     return 1;
@@ -2198,17 +2120,13 @@ static int find_tuxmath_dir(void)
     fp = fopen(opt_path, "r");
     if (fp)
     {
-      #ifdef TUXMATH_DEBUG
-      printf("\nIn find_tuxmath_dir() - removing old .tuxmath file\n");
-      #endif
+      DEBUGMSG(debug_fileops, "In find_tuxmath_dir() - removing old .tuxmath file\n");
 
       fclose(fp);
       remove(opt_path);
     }
 
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn find_tuxmath_dir() - trying to create .tuxmath dir\n");
-    #endif
+    DEBUGMSG(debug_fileops, "In find_tuxmath_dir() - trying to create .tuxmath dir\n");
 
     //status = mkdir(opt_path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
@@ -2218,9 +2136,7 @@ static int find_tuxmath_dir(void)
     status = mkdir(opt_path);
 #endif
 
-    #ifdef TUXMATH_DEBUG
-    printf("\nIn find_tuxmath_dir() - mkdir returned: %d\n", status);
-    #endif
+    DEBUGMSG(debug_fileops, "In find_tuxmath_dir() - mkdir returned: %d\n", status);
 
     /* mkdir () returns 0 if successful */
     if (0 == status)

@@ -19,8 +19,9 @@
 
 
 
-/* DrawButton() creates and draws a translucent button with */
-/* rounded ends.  All colors and alpha values are supported.*/
+/* DrawButton() creates a translucent button with rounded ends
+   and draws it on the screen.
+   All colors and alpha values are supported.*/
 void DrawButton(SDL_Rect* target_rect,
                 int radius,
                 Uint8 r, Uint8 g, Uint8 b, Uint8 a)
@@ -31,6 +32,8 @@ void DrawButton(SDL_Rect* target_rect,
   SDL_FreeSurface(tmp_surf);
 }
 
+/* CreateButton() creates a translucent button with rounded ends
+   All colors and alpha values are supported.*/
 SDL_Surface* CreateButton(int w, int h, int radius,
                           Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
@@ -253,7 +256,7 @@ SDL_Surface* Flip( SDL_Surface *in, int x, int y ) {
    Currently this works only with RGBA images, but this is largely to
    make the (fast) pointer arithmetic work out; it could be easily
    generalized to other image types. */
-SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
+SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2, float gamma)
 {
   SDL_PixelFormat *fmt1, *fmt2;
   Uint8 r1, r2, g1, g2, b1, b2, a1, a2;
@@ -356,10 +359,6 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
   return ret;
 }
 
-void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
-{
-  SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
-}
 
 /* free every surface in the array together with the array itself */
 void FreeSurfaceArray(SDL_Surface** surfs, int length)
@@ -379,6 +378,11 @@ int inRect( SDL_Rect r, int x, int y) {
         if ((x < r.x) || (y < r.y) || (x > r.x + r.w) || (y > r.y + r.h))
                 return 0;
         return 1;
+}
+
+void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
+{
+  SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
 }
 
 /* Darkens the screen by a factor of 2^bits */
@@ -524,7 +528,7 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
   Uint8 r4, g4, b4, a4;
   Uint8 r, g, b, a;
 
-  tmdprintf("\nEntering zoom():\n");
+  DEBUGMSG(debug_sdl, "Entering zoom():\n");
 
   /* Create surface for zoom: */
 
@@ -545,9 +549,9 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 //    exit(1);
   }
 
-  tmdprintf("orig surface %dx%d, %d bytes per pixel\n",
+  DEBUGMSG(debug_sdl, "zoom(): orig surface %dx%d, %d bytes per pixel\n",
             src->w, src->h, src->format->BytesPerPixel);
-  tmdprintf("new surface %dx%d, %d bytes per pixel\n",
+  DEBUGMSG(debug_sdl, "zoom(): new surface %dx%d, %d bytes per pixel\n",
             s->w, s->h, s->format->BytesPerPixel);
 
   /* Now assign function pointers to correct functions based */
@@ -622,7 +626,7 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
   SDL_UnlockSurface(s);
   SDL_UnlockSurface(src);
 
-  tmdprintf("\nLeaving zoom():\n");
+  DEBUGMSG(debug_sdl, "Leaving zoom():\n");
 
   return s;
 }
@@ -670,7 +674,7 @@ int Setup_SDL_Text(void)
 {
 #ifdef HAVE_LIBSDL_PANGO
 
-  tmdprintf("Setup_SDL_Text() - using SDL_Pango\n");
+  DEBUGMSG(debug_sdl, "Setup_SDL_Text() - using SDL_Pango\n");
 
   SDLPango_Init();
   if (!Set_SDL_Pango_Font_Size(DEFAULT_MENU_FONT_SIZE))
@@ -682,7 +686,7 @@ int Setup_SDL_Text(void)
 
 #else
 /* using SDL_ttf: */
-  tmdprintf("Setup_SDL_Text() - using SDL_ttf\n");
+  DEBUGMSG(debug_sdl, "Setup_SDL_Text() - using SDL_ttf\n");
 
   if (TTF_Init() < 0)
   {
@@ -751,10 +755,8 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
     return NULL;
   }
 
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nEntering BlackOutline(): \n");
-  fprintf( stderr, "BlackOutline of \"%s\"\n", t );
-#endif
+  DEBUGMSG(debug_sdl, "Entering BlackOutline():\n");
+  DEBUGMSG(debug_sdl, "BlackOutline of \"%s\"\n", t );
 
 #ifdef HAVE_LIBSDL_PANGO
   Set_SDL_Pango_Font_Size(size);
@@ -827,9 +829,7 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
   out = SDL_DisplayFormatAlpha(bg);
   SDL_FreeSurface(bg);
 
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nLeaving BlackOutline(): \n");
-#endif
+  DEBUGMSG(debug_sdl, "\nLeaving BlackOutline(): \n");
 
   return out;
 }
@@ -963,7 +963,7 @@ static int Set_SDL_Pango_Font_Size(int size)
   {
     char buf[64];
 
-    tmdprintf("Setting font size to %d\n", size);
+    DEBUGMSG(debug_sdl, "Setting font size to %d\n", size);
 
     if(context != NULL)
       SDLPango_FreeContext(context);
@@ -1082,9 +1082,7 @@ static TTF_Font* load_font(const char* font_name, int font_size)
 
   if (f)
   {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fontfile);
-#endif
+    DEBUGMSG(debug_sdl, "LoadFont(): %s loaded successfully\n\n", fontfile);
     return f;
   }
   else
@@ -1094,9 +1092,4 @@ static TTF_Font* load_font(const char* font_name, int font_size)
   }
 }
 #endif
-
-
-
-
-
 

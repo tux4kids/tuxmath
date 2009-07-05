@@ -109,7 +109,7 @@ const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {" "},
   {N_("For more information about Free Software and the GNU GPL, visit:")},
   {"http://www.fsf.org"},
-  {NULL}
+  {" "}
 };
 
 
@@ -472,7 +472,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
           clearing = 1; //scroll to blank            
         }            
         else
-          tmdprintf("text[line]: %s\n", text[line]);
+          DEBUGMSG(debug_titlescreen, "text[line]: %s\n", text[line]);
       }
     }
 
@@ -583,8 +583,8 @@ void draw_text(char* str, SDL_Rect dest)
   if (!str || *str == '\0')
     return;
 
-  tmdprintf("Entering draw_text(%s)\n", str);
-  
+  DEBUGMSG(debug_titlescreen, "Entering draw_text(%s)\n", str);
+
   if (str[0] == '-') //highlight text
   {
     str++;
@@ -606,6 +606,6 @@ void draw_text(char* str, SDL_Rect dest)
   dest.x -= surf->w / 2; //center text
   SDL_BlitSurface(surf, NULL, screen, &dest);
   SDL_FreeSurface(surf);
-  tmdprintf("done\n");
+  DEBUGMSG(debug_titlescreen, "done\n");
 }
 #endif

@@ -7,7 +7,7 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
-	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
+	-D$(SOUND)SOUND
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
 	-I../intl -I$(top_srcdir)/intl

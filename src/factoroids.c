@@ -234,9 +234,7 @@ void factors(void)
   counter = 0;
   tux_img = IMG_TUX_CONSOLE1;
 
-  #ifdef TUXMATH_DEBUG
-     fprintf(stderr, "Entering factors():\n");
-  #endif
+  DEBUGMSG(debug_factoroids, "Entering factors():\n");
 
   FF_game = FACTOROIDS_GAME;
   
@@ -316,11 +314,7 @@ void fractions(void)
   counter = 0;
   tux_img = IMG_TUX_CONSOLE1;
 
-  
-  #ifdef TUXMATH_DEBUG
-     fprintf(stderr, "Entering factors():\n");
-  #endif
-  
+  DEBUGMSG(debug_factoroids, "Entering factors():\n");
   /*****Initalizing the Factor activiy *****/
   FF_game = FRACTIONS_GAME;
 
@@ -1230,9 +1224,6 @@ static int FF_over(int game_status)
   SDL_Rect dest_message;
   SDL_Event event;
 
-#ifdef TUXMATH_DEBUG
-  //print_exit_conditions();
-#endif
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
@@ -1286,9 +1277,7 @@ static int FF_over(int game_status)
 
     case GAME_OVER_ERROR:
     {
-#ifdef TUXMATH_DEBUG
-      printf("\ngame() exiting with error");
-#endif
+      DEBUGMSG(debug_factoroids, "game() exiting with error");
     }
     case GAME_OVER_LOST:
     case GAME_OVER_OTHER:
@@ -1713,9 +1702,7 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
 
   s1 = s2 = s3 = s4 = NULL;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "ShowMessage() - creating text\n" );
-#endif
+  DEBUGMSG(debug_factoroids, "ShowMessage() - creating text\n" );
 
   if (str1)
     s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
@@ -1727,10 +1714,7 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
   if (str4)
     s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "ShowMessage() - drawing screen\n" );
-#endif
-
+  DEBUGMSG(debug_factoroids, "ShowMessage() - drawing screen\n" );
 
   /* Draw lines of text (do after drawing Tux so text is in front): */
   if (s1)
@@ -2202,10 +2186,6 @@ static int check_exit_conditions(void)
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
  /* if (!MC_ListQuestionsLeft() && !num_comets_alive)
   {
-    #ifdef TUXMATH_DEBUG
-    printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
-    printf("\nnum_comets_alive = %d", num_comets_alive);
-    #endif 
     return GAME_OVER_ERROR;
   }
   */

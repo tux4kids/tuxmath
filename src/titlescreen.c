@@ -835,7 +835,7 @@ int run_main_menu(void)
       }
       case 6: {
         // Quit
-        tmdprintf("Exiting main menu\n");
+        DEBUGMSG(debug_titlescreen, "Exiting main menu\n");
         return 0;
       }    
     }
@@ -883,7 +883,7 @@ int run_game_menu(void)
       case 4:
         return 0;
       default:
-        tmdprintf("choose_menu_item() returned %d--returning\n", choice);
+        DEBUGMSG(debug_titlescreen, "choose_menu_item() returned %d--returning\n", choice);
         return 0;
     }
   }

@@ -64,13 +64,13 @@ int start_campaign()
       }
       else if (gameresult == GAME_OVER_ERROR)
       {
-        tmdprintf("Error!\n");
+        DEBUGMSG(debug_game, "Error!\n");
         endcampaign = 1;
       }
 #ifndef TESTING_CAMPAIGN
       else if (gameresult == GAME_OVER_ESCAPE)
       {
-        tmdprintf("hit escape\n");
+        DEBUGMSG(debug_game, "hit escape\n");
         endcampaign = 1;
       }
 #endif      
@@ -194,15 +194,15 @@ void briefPlayer(int stage)
   SDL_FillRect(screen, NULL, 0);
   //TransWipe(black, RANDOM_WIPE, 10, 20);
   //show this stage's text
-  tmdprintf("Briefing\n");
+  DEBUGMSG(debug_game, "Briefing\n");
 
   SDL_BlitSurface(icon, NULL, screen, NULL);
 
   linewrap_list(briefings[stage], wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, textarea, 1);
 
-  tmdprintf("Finished briefing\n");
-  
+  DEBUGMSG(debug_game, "Finished briefing\n");
+
   SDL_FreeSurface(loadedsprite);
   SDL_FreeSurface(icon);
 }
