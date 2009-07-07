@@ -44,16 +44,16 @@ typedef struct {
 } sprite;
 
 
-SDL_Surface* LoadImage(char* file_name, int mode);
-SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height);
-SDL_Surface* LoadImageOfBoundingBox(char* file_name, int mode, int max_width, int max_height);
+SDL_Surface* LoadImage(const char* file_name, int mode);
+SDL_Surface* LoadScaledImage(const char* file_name, int mode, int width, int height);
+SDL_Surface* LoadImageOfBoundingBox(const char* file_name, int mode, int max_width, int max_height);
 
-SDL_Surface* LoadBkgd(char* file_name, int width, int height);
-void         LoadBothBkgds(char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd);
+SDL_Surface* LoadBkgd(const char* file_name, int width, int height);
+void         LoadBothBkgds(const char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd);
 
-sprite*      LoadSprite(char* name, int mode);
-sprite*      LoadScaledSprite(char* name, int mode, int width, int height);
-sprite*      LoadSpriteOfBoundingBox(char* name, int mode, int max_width, int max_height);
+sprite*      LoadSprite(const char* name, int mode);
+sprite*      LoadScaledSprite(const char* name, int mode, int width, int height);
+sprite*      LoadSpriteOfBoundingBox(const char* name, int mode, int max_width, int max_height);
 sprite*      FlipSprite(sprite* in, int X, int Y);
 void         FreeSprite(sprite* gfx);
 void         NextFrame(sprite* s);

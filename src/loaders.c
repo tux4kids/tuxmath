@@ -33,14 +33,14 @@
 int check_file(const char* file);
 
 #ifdef HAVE_RSVG
-SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name);
-void get_svg_dimensions(char* file_name, int* width, int* height);
+SDL_Surface* load_svg(const char* file_name, int width, int height, const char* layer_name);
+void get_svg_dimensions(const char* file_name, int* width, int* height);
 #endif
 
-SDL_Surface* load_image(char* file_name, int mode, int w, int h, bool proportional);
+SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool proportional);
 void fit_in_rectangle(int* width, int* height, int max_width, int max_height);
 SDL_Surface* set_format(SDL_Surface* img, int mode);
-sprite* load_sprite(char* name, int mode, int width, int height, bool proportional);
+sprite* load_sprite(const char* name, int mode, int width, int height, bool proportional);
 
 
 
@@ -98,7 +98,7 @@ int check_file(const char* file)
    If layer = NULL then the whole image is loaded.
    Return NULL on failure.
    (partly based on TuxPaint's SVG loading function) */
-SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name)
+SDL_Surface* load_svg(const char* file_name, int width, int height, const char* layer_name)
 {
   cairo_surface_t* temp_surf;
   cairo_t* context;
@@ -195,7 +195,7 @@ SDL_Surface* load_svg(char* file_name, int width, int height, char* layer_name)
   return dest;
 }
 
-void get_svg_dimensions(char* file_name, int* width, int* height)
+void get_svg_dimensions(const char* file_name, int* width, int* height)
 {
   RsvgHandle* file_handle;
   RsvgDimensionData dimensions;
@@ -227,7 +227,7 @@ void get_svg_dimensions(char* file_name, int* width, int* height)
    The loader (load_svg() or IMG_Load()) is chosen depending on file extension,
    If an SVG file is not found try to load its PNG equivalent
    (unless IMG_NO_PNG_FALLBACK is set) */
-SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
+SDL_Surface* LoadScaledImage(const char* file_name, int mode, int width, int height)
 {
   return load_image(file_name, mode, width, height, false);
 }
@@ -235,14 +235,14 @@ SDL_Surface* LoadScaledImage(char* file_name, int mode, int width, int height)
 /* LoadImageOfBoundingBox : Same as LoadScaledImage but preserve image proportions
    and fit it into max_width x max_height rectangle.
    Returned surface is not necessarily max_width x max_height ! */
-SDL_Surface* LoadImageOfBoundingBox(char* file_name, int mode, int max_width, int max_height)
+SDL_Surface* LoadImageOfBoundingBox(const char* file_name, int mode, int max_width, int max_height)
 {
   return load_image(file_name, mode, max_width, max_height, true);
 }
 
 
 /* load_image : helper function used by LoadScaledImage and LoadImageOfBoundingBox */
-SDL_Surface* load_image(char* file_name, int mode, int w, int h, bool proportional)
+SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool proportional)
 {
   SDL_Surface* loaded_pic = NULL;
   SDL_Surface* final_pic = NULL;
@@ -392,7 +392,7 @@ SDL_Surface* set_format(SDL_Surface* img, int mode)
 }
 
 /* Load an image without scaling it */
-SDL_Surface* LoadImage(char* file_name, int mode)
+SDL_Surface* LoadImage(const char* file_name, int mode)
 {
   return LoadScaledImage(file_name, mode, -1, -1);
 }
@@ -400,7 +400,7 @@ SDL_Surface* LoadImage(char* file_name, int mode)
 
 /* LoadBkgd() : a wrapper for LoadImage() that optimizes
    the format of background image */
-SDL_Surface* LoadBkgd(char* file_name, int width, int height)
+SDL_Surface* LoadBkgd(const char* file_name, int width, int height)
 {
   SDL_Surface* orig = NULL;
   SDL_Surface* final_pic = NULL;
@@ -425,7 +425,7 @@ SDL_Surface* LoadBkgd(char* file_name, int width, int height)
 /* LoadBothBkgds() : loads two scaled images: one for the fullscreen mode
    (fs_res_x,fs_rex_y) and one for the windowed mode (win_res_x,win_rex_y)
    Now we also optimize the format for best performance */
-void LoadBothBkgds(char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
+void LoadBothBkgds(const char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
 {
   DEBUGMSG(debug_loaders, "Entering LoadBothBkgds()\n");
   *fs_bkgd = LoadBkgd(file_name, fs_res_x, fs_res_y);
@@ -433,22 +433,22 @@ void LoadBothBkgds(char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkg
 }
 
 
-sprite* LoadSprite(char* name, int mode)
+sprite* LoadSprite(const char* name, int mode)
 {
   return LoadScaledSprite(name, mode, -1, -1);
 }
 
-sprite* LoadScaledSprite(char* name, int mode, int width, int height)
+sprite* LoadScaledSprite(const char* name, int mode, int width, int height)
 {
   return load_sprite(name, mode, width, height, false);
 }
 
-sprite* LoadSpriteOfBoundingBox(char* name, int mode, int max_width, int max_height)
+sprite* LoadSpriteOfBoundingBox(const char* name, int mode, int max_width, int max_height)
 {
   return load_sprite(name, mode, max_width, max_height, true);
 }
 
-sprite* load_sprite(char* name, int mode, int width, int height, bool proportional)
+sprite* load_sprite(const char* name, int mode, int width, int height, bool proportional)
 {
   sprite *new_sprite;
   char fn[PATH_MAX];
