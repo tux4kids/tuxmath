@@ -11,12 +11,13 @@
 
 */
 
+#ifndef SERVER_H
+#define SERVER_H
+
 
 #include "SDL_net.h"
 #define NAME_SIZE 50
 
-#ifndef SERVER_H
-#define SERVER_H
 typedef struct client_type {
   int game_ready;                 //game_ready = 1 , if client has said OK to start, and 0 otherwise
   char name[NAME_SIZE];

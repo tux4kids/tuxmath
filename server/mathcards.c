@@ -185,6 +185,7 @@ extern int n;
 MC_Options* math_opts = 0;
 MC_MathQuestion* question_list = 0;
 MC_MathQuestion* wrong_quests = 0;
+MC_MathQuestion* active_quests = 0;
 MC_MathQuestion* next_wrong_quest = 0;
 int initialized = 0;
 int quest_list_length = 0;
@@ -352,7 +353,9 @@ int MC_StartGame(void)
   question_list = NULL;
   delete_list(wrong_quests);
   wrong_quests = NULL;
-
+  delete_list(active_quests);
+  active_quests = NULL;
+  
   /* clear the time list */
   if (time_per_question_list != NULL) {
     free(time_per_question_list);
@@ -442,6 +445,8 @@ int MC_StartGameUsingWrongs(void)
     question_list = wrong_quests;
     wrong_quests = 0;
     next_wrong_quest = 0;
+    delete_list(active_quests);
+    active_quests = 0;
    /* initialize counters for new game: */
     quest_list_length = list_length(question_list);
     unanswered = starting_length = quest_list_length;
@@ -503,11 +508,12 @@ int MC_NextQuestion(MC_FlashCard* fc)
   /* 'draw' - copy over the first question */
   copy_card(&question_list->card, fc);
  
-  /* 'discard' - take first question node out of list and free it */
+  /* take first question node out of list and move it into active_quests list: */
   question_list = remove_node(question_list, question_list);
-  free_node(ptr);
+//  free_node(ptr);
   quest_list_length--;
   questions_pending++;
+  append_node(active_quests, ptr);
 
   #ifdef MC_DEBUG
   printf("\nnext question is:");
@@ -518,6 +524,8 @@ int MC_NextQuestion(MC_FlashCard* fc)
 
   return 1;
 }
+
+
 
 /*  MC_AnsweredCorrectly() is how the user interface      */
 /*  tells MathCards that the question has been answered   */
@@ -541,6 +549,7 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   print_card(*fc);
   #endif
 
+  //FIXME we need to take the question out of the active_quests list
   answered_correctly++;
   questions_pending--;
 
@@ -572,6 +581,11 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   printf("\nLeaving MC_AnsweredCorrectly()\n");
   #endif
 
+  return 1;
+}
+
+int MC_AnsweredCorrectly_id(int id)
+{
   return 1;
 }
 
