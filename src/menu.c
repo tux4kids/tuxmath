@@ -44,7 +44,7 @@ typedef enum {
 MenuNode* menus[N_OF_MENUS];
 
 /* actions available while viewing the menu */
-enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP, RESIZED };
+enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP_ESC, RESIZED };
 
 /* stop button, left and right arrow positions do not
    depend on currently displayed menu */
@@ -60,7 +60,7 @@ const float next_pos[4] = {0.95, 0.95, 0.05, 0.05};
 const char* stop_path = "status/stop.png";
 const char* prev_path = "status/left.png";
 const char* next_path = "status/right.png";
-const float button_gap = 0.2, text_h_gap = 0.25, text_w_gap = 0.5;
+const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5;
 
 /* menu title rect */
 SDL_Rect title_rect;
@@ -80,7 +80,7 @@ void read_attributes(FILE* xml_file, MenuNode* node);
 MenuNode* load_menu_from_file(FILE* xml_file, MenuNode* parent);
 void free_menu(MenuNode* menu);
 
-void handle_activity(int act);
+int handle_activity(int act);
 int run_academy(void);
 
 int run_menu(MenuNode* menu, bool return_choice);
@@ -234,7 +234,9 @@ void free_menu(MenuNode* menu)
   handlers for specific game activities
 */
 
-void handle_activity(int act)
+/* return QUIT if user decided to quit the application while running an activity
+   return 0 otherwise */
+int handle_activity(int act)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
   switch(act)
@@ -244,9 +246,12 @@ void handle_activity(int act)
       break;
 
     case RUN_ACADEMY:
-      run_academy();
+      if(run_academy() == QUIT)
+        return QUIT;
       break;
   }
+
+  return 0;
 }
 
 int run_academy(void)
@@ -268,9 +273,7 @@ int run_academy(void)
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {audioMusicUnload();}
 
-
       game();
-      //RenderTitleScreen();
 
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
@@ -292,10 +295,7 @@ int run_academy(void)
     // selection that we ended with
     chosen_lesson = run_menu(menus[MENU_LESSONS], true);
   }
-  if (chosen_lesson < 0)
-    return 0;
-  else
-    return 1;
+  return chosen_lesson;
 }
 
 /* Display the menu and run the event loop.
@@ -373,8 +373,7 @@ int run_menu(MenuNode* root, bool return_choice)
           {
             FreeSurfaceArray(menu_item_unselected, items);
             FreeSurfaceArray(menu_item_selected, items);
-            cleanup();
-            return -1;
+            return QUIT;
           }
 
           case SDL_MOUSEMOTION:
@@ -419,6 +418,17 @@ int run_menu(MenuNode* root, bool return_choice)
                 }
               }
               break;  /* from case switch */
+            }
+
+            /* "stop" button */
+            else if (inRect(stop_rect, event.motion.x, event.motion.y ))
+            {
+              if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
+              {
+                playsound(SND_TOCK);
+                click_flag = 0;
+              }
+              break;
             }
 
             else  // Mouse outside of arrow rects - re-enable click sound:
@@ -471,8 +481,9 @@ int run_menu(MenuNode* root, bool return_choice)
             /* "Stop" button - go to main menu: */
             else if (inRect(stop_rect, event.button.x, event.button.y ))
             {
-              playsound(SND_TOCK);
-              action = STOP;
+              if (Opts_GetGlobalOpt(MENU_SOUND))
+                playsound(SND_TOCK);
+              action = STOP_ESC;
               break;
             }
           } /* End of case SDL_MOUSEDOWN */
@@ -485,7 +496,7 @@ int run_menu(MenuNode* root, bool return_choice)
             {
               case SDLK_ESCAPE:
               {
-                action = STOP;
+                action = STOP_ESC;
                 break;
               }
 
@@ -595,7 +606,6 @@ int run_menu(MenuNode* root, bool return_choice)
                     default:
                       break;
                   }
-                  prerender_all();
                   action = RESIZED;
                 }
                 break;
@@ -605,8 +615,6 @@ int run_menu(MenuNode* root, bool return_choice)
               case SDLK_F10:
               {
                 SwitchScreenMode();
-                RenderTitleScreen();
-                prerender_all();
                 action = RESIZED;
                 break;
               }
@@ -664,6 +672,9 @@ int run_menu(MenuNode* root, bool return_choice)
         switch(action)
         {
           case RESIZED:
+            RenderTitleScreen();
+            menu->first_entry = 0;
+            prerender_all();
             stop = true;
             break;
 
@@ -691,13 +702,36 @@ int run_menu(MenuNode* root, bool return_choice)
                     menu = root;
                   }
                   else
-                    handle_activity(tmp_node->activity);
+                  {
+                    if(handle_activity(tmp_node->activity) == QUIT)
+                    {
+                      DEBUGMSG(debug_menu, "run_menu(): handle_activity() returned QUIT message, exiting.\n");
+                      FreeSurfaceArray(menu_item_unselected, items);
+                      FreeSurfaceArray(menu_item_selected, items);
+                      return QUIT;
+                    }
+                  }
                 }
               }
               else
+              {
+                menu->first_entry = 0;
                 menu = tmp_node;
+              }
               stop = true;
             }
+            break;
+
+          case STOP_ESC:
+            if(menu->parent == NULL)
+            {
+              FreeSurfaceArray(menu_item_unselected, items);
+              FreeSurfaceArray(menu_item_selected, items);
+              return STOP;
+            }
+            else
+              menu = menu->parent;
+            stop = true;
             break;
 
           case PAGEUP:
@@ -712,6 +746,9 @@ int run_menu(MenuNode* root, bool return_choice)
         }
 
       }  // End of SDL_PollEvent while loop
+
+      if(stop)
+        break;
 
       if(!stop && frame_counter % 5 == 0 && loc >= 0 && loc < items)
       {
@@ -743,7 +780,7 @@ int run_menu(MenuNode* root, bool return_choice)
     FreeSurfaceArray(menu_item_selected, items);
   }
 
-  return -1;
+  return QUIT;
 }
 
 /* return button surfaces that are currently displayed (without sprites) */
@@ -1013,7 +1050,7 @@ int RunLoginMenu(void)
     chosen_login = run_menu(menus[MENU_LOGIN], true);
     // Determine whether there were any modifier (CTRL) keys pressed
     mod = SDL_GetModState();
-    if (chosen_login == -1 || chosen_login == n_users) {
+    if (chosen_login < 0 || chosen_login == n_users) {
       // User pressed escape or selected Quit/Back, handle by quitting
       // or going up a level
       if (level == 0) {
@@ -1094,7 +1131,7 @@ void RunMainMenu(void)
   for(i = 0; i < num_lessons; i++)
   {
     tmp_node->submenu[i] = create_empty_node();
-    tmp_node->submenu[i]->icon_name = lesson_list_goldstars[i] ? "goldstar" : "no_goldstar";
+    tmp_node->submenu[i]->icon_name = strdup(lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
     tmp_node->submenu[i]->title = (char*) malloc( (strlen(lesson_list_titles[i]) + 1) * sizeof(char) );
     strcpy(tmp_node->submenu[i]->title, lesson_list_titles[i]);
     tmp_node->submenu[i]->activity = i;
@@ -1112,8 +1149,32 @@ void UnloadMenus(void)
   int i;
 
   DEBUGMSG(debug_menu, "entering UnloadMenus()\n");
+
+  if(stop_button)
+  {
+    SDL_FreeSurface(stop_button);
+    stop_button = NULL;
+  }
+
+  if(prev_arrow)
+  {
+    SDL_FreeSurface(prev_arrow);
+    prev_arrow = NULL;
+  }
+
+  if(next_arrow)
+  {
+    SDL_FreeSurface(next_arrow);
+    next_arrow = NULL;
+  }
+
   for(i = 0; i < N_OF_MENUS; i++)
     if(menus[i] != NULL)
+    {
+      DEBUGMSG(debug_menu, "UnloadMenus(): freeing menu #%d\n", i);
       free_menu(menus[i]);
+    }
+
+  DEBUGMSG(debug_menu, "leaving UnloadMenus()\n");
 }
 

@@ -27,7 +27,11 @@
 /* these are all menu choices that are available in tuxmath.
    By using a define we can create both an enum and
    a string array without writing these names twice */
+#define QUIT -2
+#define STOP -1
+
 #define ACTIVITIES \
+  X( RUN_QUIT ),\
   X( RUN_ACADEMY ),\
   X( RUN_CAMPAIGN ),\
   X( RUN_ARCADE ),\
@@ -44,7 +48,6 @@
   X( RUN_INFO ),\
   X( RUN_CREDITS ),\
   X( RUN_HALL_OF_FAME ),\
-  X( RUN_QUIT ),\
   X( RUN_SPACE_CADET ),\
   X( RUN_SCOUT ),\
   X( RUN_RANGER ),\
