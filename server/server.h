@@ -30,7 +30,10 @@ typedef struct client_type {
 enum {
   EXIT,
   QUIT,
-  CORRECT_ANSWER
+  CORRECT_ANSWER,
+  NEXT_QUESTION,
+  TOTAL_QUESTIONS_LEFT,
+  MISSION_ACCOMPLISHED,
 };
 
 

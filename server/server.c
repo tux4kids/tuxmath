@@ -52,6 +52,8 @@ int SendMessage(int message, int ques_id,char *name, TCPsocket client_sock);
 int player_msg(int i, char* msg);
 void broadcast_msg(char* msg);
 void throttle(int loop_msec);
+void game_msg_next_question(void);
+void game_msg_total_questions_left(int i);
 
 /* "Local globals" for server.c:   */
 TCPsocket server_sock = NULL; /* Socket descriptor for server            */
@@ -447,10 +449,28 @@ int handle_client_game_msg(int i , char *buffer)
                   command,
                   &id);
 
+
+
   if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
   {
     game_msg_correct_answer(i,id);
   }                            
+
+  else if(strncmp(command, "TOTAL_QUESTIONS_LEFT",strlen("TOTAL_QUESTIONS_LEFT")) == 0) /* Send Total Questions left */
+  {
+    game_msg_total_questions_left(i);
+  }
+
+
+  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Send Total Questions left */
+  {
+    game_msg_mission_accomplished(i);
+  }
+
+  else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
+  {
+    game_msg_next_question();
+  }
 
   else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
   {
@@ -470,6 +490,26 @@ int handle_client_game_msg(int i , char *buffer)
 }
 
 
+void game_msg_total_questions_left(int i)
+{
+ int x;
+ char *ch;
+ x=MC_TotalQuestionsLeft();
+ ch=(char*)x;
+ player_msg(i,ch);
+}
+
+void game_msg_mission_accomplished(int i)
+{
+  int x;
+  char *ch;
+
+  x=MC_MissionAccomplished();
+  ch=(char*)x;
+  player_msg(i,ch);
+ 
+}
+
 void game_msg_correct_answer(int i,int id)
 {
   int n;
@@ -485,6 +525,12 @@ void game_msg_correct_answer(int i,int id)
   //Tell mathcards so lists get updated:
   MC_AnsweredCorrectly_id(id);
 
+}
+
+void game_msg_next_question(void)
+{
+
+  int n;
   if (!MC_NextQuestion(&flash))
   { 
     /* no more questions available */
@@ -512,9 +558,7 @@ void game_msg_correct_answer(int i,int id)
       printf("Unable to send Question\n");
     }
   } 
-
 }
-
 
 // Go through and test all the current connections, removing
 // any clients that fail to respond:
