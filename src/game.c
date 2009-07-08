@@ -17,7 +17,8 @@
   Revised by David Bruce, Tim Holy and others
   2005-2007
 */
-
+#define DEFAULT_PORT 4779
+#define TUXMATH_DEBUG
 /* put this first so we get <config.h> and <gettext.h> immediately: */
 #include "tuxmath.h"
 
@@ -31,6 +32,7 @@
 #endif
 #include "SDL_image.h"
 
+#include "transtruct.h"
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
@@ -149,7 +151,7 @@ static void game_handle_demo(void);
 static void game_handle_answer(void);
 static void game_countdown(void);
 static void game_handle_tux(void);
-static void game_handle_comets(void);
+static void game_handle_comets(char *,char *);
 static void game_handle_cities(void);
 static void game_handle_penguins(void);
 static void game_handle_steam(void);
@@ -173,7 +175,7 @@ static void draw_question_counter(void);
 static void draw_console_image(int i);
 
 static void reset_level(void);
-static int add_comet(void);
+static int add_comet(char *);
 static void add_score(int inc);
 static void reset_comets(void);
 
@@ -186,17 +188,47 @@ static int help_renderframe_exit(void);
 static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
+void seperate_commmand_and_buf(char *,char *);
 
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
 #endif
 
+
+void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
+{
+  int i;
+  /* Copy the command name out of the tab-delimited buffer: */
+  for (i = 0;
+  buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
+                                      i++)
+  {
+    command[i] = buf[i];
+  }
+  command[i] = '\0';
+
+//#ifdef LAN_DEBUG
+//  printf("buf is %s\n", buf);
+//  printf("command is %s\n", command);
+//#endif
+
+}
+
 /* --- MAIN GAME FUNCTION!!! --- */
 
 
 int game(void)
 {
+  /*connecting to the server*/
+  if(!setup_net("localhost",DEFAULT_PORT))
+  {
+    printf("Unable to connect to the server\n");
+    game_cleanup();
+    exit(1);
+  }        
+
+
   Uint32 last_time, now_time;
 
 #ifdef TUXMATH_DEBUG
@@ -225,12 +257,16 @@ int game(void)
     game_cleanup();
     return GAME_OVER_OTHER;
   }
-
-
+ 
+ 
 
   /* --- MAIN GAME LOOP: --- */
   do
   {
+    char buf[NET_BUF_LEN];
+ 
+    char command[NET_BUF_LEN];
+    
     /* reset or increment various things with each loop: */
     frame++;
     last_time = SDL_GetTicks();
@@ -242,21 +278,25 @@ int game(void)
       laser.alive--;
     }
 
+    check_messages(buf);
+    seperate_commmand_and_buf(command,buf);
+
     /* Most code now in smaller functions: */
     game_handle_user_events();
     game_handle_demo();
     game_handle_answer();
     game_countdown();
     game_handle_tux();
-    game_handle_comets();
+    game_handle_comets(command,buf);
     game_handle_cities();
     game_handle_penguins();
     game_handle_steam();
     game_handle_extra_life();
     game_draw();
     /* figure out if we should leave loop: */
-    game_status = check_exit_conditions();
-
+//    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
+  
+ 
 
     /* If we're in "PAUSE" mode, pause! */
     if (paused)
@@ -496,12 +536,16 @@ int game_initialize(void)
   /* to use MC_StartUsingWrongs() */
   /* NOTE MC_StartGame() will return 0 if the list length is zero due */
   /* (for example) to all math operations being deselected */
-  if (!MC_StartGame())
-  {
-    tmdprintf("\nMC_StartGame() failed!");
-    fprintf(stderr, "\nMC_StartGame() failed!");
-    return 0;
-  }
+//  if (!MC_StartGame())
+//  {
+//    tmdprintf("\nMC_StartGame() failed!");
+//    fprintf(stderr, "\nMC_StartGame() failed!");
+//    return 0;
+//  }
+
+   /*To function for the above 5 comments*/
+   say_to_server("START_GAME");
+
 
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
@@ -659,6 +703,8 @@ int game_initialize(void)
 
 void game_cleanup(void)
 {
+  
+  cleanup_client();
   /* Free background: */
   if (bkgd != NULL)
   {
@@ -874,7 +920,7 @@ int help_renderframe_exit(void)
   game_handle_user_events();
   game_handle_answer();
   game_handle_tux();
-  game_handle_comets();
+  game_handle_comets(NULL,NULL);
   game_handle_cities();
   game_handle_penguins();
   game_handle_steam();
@@ -1153,7 +1199,7 @@ void game_handle_answer(void)
   /* If there was an comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
-    MC_AnsweredCorrectly(&(comets[lowest].flashcard));
+    LAN_AnsweredCorrectly(&(comets[lowest].flashcard));
 
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
@@ -1301,7 +1347,7 @@ void game_handle_tux(void)
 
 //FIXME might be simpler to store vertical position (and speed) in terms of time
 //rather than absolute position, and determine the latter in game_draw_comets()
-void game_handle_comets(void)
+void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 {
   /* Handle comets. Since the comets also are the things that trigger
      changes in the cities, we set some flags in them, too. */
@@ -1441,10 +1487,17 @@ void game_handle_comets(void)
     {
       if ((rand() % 2) == 0 || num_comets_alive == 0)
       {
-        if (add_comet())
-        {
-          num_attackers--;
-        }
+         while(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))!=0)
+         {
+          check_messages(buf);
+          seperate_commmand_and_buf(command,buf);
+         }
+          if (add_comet(buf))
+          {
+            num_attackers--;
+          }
+        
+        
       }
     }
     else
@@ -2224,6 +2277,7 @@ int check_exit_conditions(void)
         user_quit_received != GAME_OVER_CHEATER)
     {
     	 tmdprintf("Unexpected value %d for user_quit_received\n", user_quit_received);
+          printf("I am here!!!!!!");
     	 return GAME_OVER_OTHER;
     }
     return user_quit_received;    
@@ -2240,30 +2294,47 @@ int check_exit_conditions(void)
   }
 
   /* determine if game won (i.e. all questions in mission answered correctly): */
-  if (MC_MissionAccomplished())
-  {
-    tmdprintf("Mission accomplished!\n");
-    return GAME_OVER_WON;
-  }
+//  if (MC_MissionAccomplished())
+//  {
+//    tmdprintf("Mission accomplished!\n");
+//    return GAME_OVER_WON;
+//  }
+
+    if(evaluate("MISSION_ACCOMPLISHED"))
+    {
+      tmdprintf("Mission accomplished!\n");
+      return GAME_OVER_WON;
+    } 
+  
+    printf("this is the value of mission accomplished... %d ...\n",evaluate("MISSION_ACCOMPLISHED"));
+
 
   /* Could have situation where mathcards doesn't have more questions */
   /* even though not all questions answered correctly:                */
-  if (!MC_TotalQuestionsLeft())
-  {
-    return GAME_OVER_OTHER;
-  }
+//  if (!MC_TotalQuestionsLeft())
+//  {
+//    return GAME_OVER_OTHER;
+//  }
+
+    if(!evaluate("TOTAL_QUESTIONS_LEFT"))
+    {
+     return GAME_OVER_OTHER;
+    }
 
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
-  if (!MC_ListQuestionsLeft() && !num_comets_alive)
-  {
-    #ifdef TUXMATH_DEBUG
-    printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
-    printf("\nnum_comets_alive = %d", num_comets_alive);
-    #endif
-    return GAME_OVER_ERROR;
-  }
+//  if (!MC_ListQuestionsLeft() && !num_comets_alive)
+//  {
+//    #ifdef TUXMATH_DEBUG
+//    printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
+//    printf("\nnum_comets_alive = %d", num_comets_alive);
+//    #endif
+//    return GAME_OVER_ERROR;
+//  }
+   
+   
+
 
   /* If using demo mode, see if counter has run out: */
   if (Opts_DemoMode())
@@ -2496,7 +2567,7 @@ void reset_level(void)
 
 
 /* Add a comet to the game (if there's room): */
-int add_comet(void)
+int add_comet(char buf[NET_BUF_LEN])
 {
   static int prev_city = -1;
   int i, found;
@@ -2533,26 +2604,22 @@ int add_comet(void)
 
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
-//  if(n==1)
-//    {
-     if (!MC_NextQuestion(&(comets[found].flashcard)))
-     {
-      /* no more questions available - cannot create comet.  */
-      return 0;
-     }
-/*     if(!SendQuestion(&(comets[found].flashcard)))
-     {
-      printf("Unable to send Question\n");
-     }
-    }
+//     if (!MC_NextQuestion(&(comets[found].flashcard)))
+//     {
+//      /* no more questions available - cannot create comet.  */
+//      return 0;
+//     }
 
-  if(n==0)
-   { 
-     SDL_Delay(5000);
-     if(!ReceiveQuestion(&(comets[found].flashcard)))
-     printf("unable to recv question\n");
-    }
-*/
+ /*Server replacement for the above 5 comments*/
+   say_to_server("NEXT_QUESTION");
+   printf("buf is %s\n",buf);
+   if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+   {
+     return 0;
+   }
+
+
+
   /* If we make it to here, create a new comet!                  */
 
   comets[found].answer = comets[found].flashcard.answer;

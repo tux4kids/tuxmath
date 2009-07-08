@@ -37,7 +37,7 @@
 #endif
 
 #include "SDL_image.h"
-
+#include "transtruct.h"
 #include "options.h"
 #include "tuxmath.h"
 #include "mathcards.h"

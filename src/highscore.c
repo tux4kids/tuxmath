@@ -19,7 +19,7 @@
 #include "options.h"
 #include "SDL_extras.h"
 #include "convert_utf.h"
-#include "network.h"
+
 
 
 typedef struct high_score_entry {

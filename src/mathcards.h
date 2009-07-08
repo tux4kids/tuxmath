@@ -15,14 +15,14 @@
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-#define MC_DEBUG
+#include "transtruct.h"
+//#define MC_DEBUG
 #ifdef MC_DEBUG
 #define mcdprintf(...) printf(__VA_ARGS__)
 #else
 #define mcdprintf(...) 0
 #endif
 
-#define MC_USE_NEWARC
 
 /* different classes of problems TuxMath will ask */
 typedef enum _MC_ProblemType {
@@ -151,26 +151,7 @@ typedef struct _MC_Options
   int iopts[NOPTS];
 } MC_Options;
 
-#ifndef MC_USE_NEWARC
-/* struct for individual "flashcard" */
-typedef struct MC_FlashCard {
-  int num1;
-  int num2;
-  int num3;
-  int operation;
-  int format;
-  char formula_string[MC_FORMULA_LEN];
-  char answer_string[MC_ANSWER_LEN];
-} MC_FlashCard;
-#else
-/* experimental struct for a more generalized flashcard */
-typedef struct _MC_FlashCard {
-  char* formula_string;
-  char* answer_string;
-  int answer;
-  int difficulty;
-} MC_FlashCard;
-#endif
+
 
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
@@ -225,6 +206,7 @@ int MC_NextQuestion(MC_FlashCard* q);
 /*  tells MathCards that the question has been answered   */
 /*  correctly. Returns 1 if no errors.                    */
 int MC_AnsweredCorrectly(MC_FlashCard* q);
+int MC_AnsweredCorrectly_id(int id);
 
 /*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the question has not been        */

@@ -33,6 +33,7 @@
 #include "campaign.h"
 #include "factoroids.h"
 #include "multiplayer.h"
+#include "transtruct.h"
 #include "mathcards.h"
 #include "setup.h"     //for cleanup()
 #include "network.h"
@@ -2827,14 +2828,14 @@ int Standby(const char* heading, const char* sub,char *host,char *port)
     while (SDL_PollEvent(&event)) 
     {
       if(host==NULL)
-      {l=lan_server_connect(port);
+      {//l=lan_server_connect(port);
        if(l==7)
        return 7;
        printf("###############%d##############\n",l);
        return 0;  
       }
       else
-      {l=lan_client_connect(host,port);
+      {//l=lan_client_connect(host,port);
        if(l==7)
        return 7;
        printf("##############%d#################\n",l);
