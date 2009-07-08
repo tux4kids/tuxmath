@@ -54,18 +54,20 @@ SDL_Surface *stop_button, *prev_arrow, *next_arrow;
 /*TODO: move these constants into a config file (maybe together with
   titlescreen paths and rects ? ) */
 const float menu_pos[4] = {0.4, 0.25, 0.55, 0.7};
-const float stop_pos[4] = {0.95, 0.0, 0.05, 0.05};
+const float stop_pos[4] = {0.94, 0.0, 0.06, 0.06};
 const float prev_pos[4] = {0.9, 0.95, 0.05, 0.05};
 const float next_pos[4] = {0.95, 0.95, 0.05, 0.05};
 const char* stop_path = "status/stop.png";
 const char* prev_path = "status/left.png";
 const char* next_path = "status/right.png";
 const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5;
+const int min_font_size = 8, default_font_size = 20, max_font_size = 40;
+
+/* font size used in current resolution */
+int curr_font_size;
 
 /* menu title rect */
 SDL_Rect title_rect;
-
-
 
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
@@ -73,25 +75,30 @@ const int buf_size = 128;
 
 
 /* local functions */
-MenuNode* create_empty_node();
-char* get_attribute_name(const char* token);
-char* get_attribute_value(const char* token);
-void read_attributes(FILE* xml_file, MenuNode* node);
-MenuNode* load_menu_from_file(FILE* xml_file, MenuNode* parent);
-void free_menu(MenuNode* menu);
+MenuNode*       create_empty_node();
+char*           get_attribute_name(const char* token);
+char*           get_attribute_value(const char* token);
+void            read_attributes(FILE* xml_file, MenuNode* node);
+MenuNode*       load_menu_from_file(FILE* xml_file, MenuNode* parent);
+void            free_menu(MenuNode* menu);
+MenuNode*       create_one_level_menu(int items, char** item_names, char* title, char* trailer);
 
-int handle_activity(int act);
-int run_academy(void);
+int             handle_activity(int act);
+int             run_academy(void);
 
-int run_menu(MenuNode* menu, bool return_choice);
-void prerender_menu(MenuNode* menu);
-void prerender_all();
-SDL_Surface** render_buttons(MenuNode* menu, bool selected);
-MenuNode* create_one_level_menu(int items, char** item_names, char* title, char* trailer);
+int             run_menu(MenuNode* menu, bool return_choice);
+SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
+void            prerender_menu(MenuNode* menu);
+void            set_rect(SDL_Rect* rect, const float* pos);
+char*           find_longest_text(MenuNode* menu, int* length);
+void            set_font_size();
+void            prerender_all();
+
 
 
 /*
   functions responsible for parsing menu files
+  and creating menu trees
 */
 
 /* creates new MenuNode struct with all fields set to NULL (or 0) */
@@ -229,6 +236,33 @@ void free_menu(MenuNode* menu)
   }
 }
 
+/* create a simple one-level menu without sprites.
+   all given strings are copied */
+MenuNode* create_one_level_menu(int items, char** item_names, char* title, char* trailer)
+{
+  MenuNode* menu = create_empty_node();
+  int i;
+
+  if(title)
+    menu->title = strdup(title);
+  menu->submenu_size = items + (trailer ? 1 : 0);
+  menu->submenu = (MenuNode**) malloc(menu->submenu_size * sizeof(MenuNode*));
+  for(i = 0; i < items; i++)
+  {
+    menu->submenu[i] = create_empty_node();
+    menu->submenu[i]->title = strdup(item_names[i]);
+    menu->submenu[i]->activity = i;
+  }
+
+  if(trailer)
+  {
+    menu->submenu[items] = create_empty_node();
+    menu->submenu[items]->title = strdup(trailer);
+    menu->submenu[items]->activity = items;
+  }
+
+  return menu;
+}
 
 /*
   handlers for specific game activities
@@ -306,7 +340,6 @@ int run_menu(MenuNode* root, bool return_choice)
 {
   SDL_Surface** menu_item_unselected = NULL;
   SDL_Surface** menu_item_selected = NULL;
-  //SDL_Surface* title = NULL;
   SDL_Event event;
   MenuNode* menu = root;
   MenuNode* tmp_node;
@@ -355,9 +388,9 @@ int run_menu(MenuNode* root, bool return_choice)
 
     SDL_WM_GrabInput(SDL_GRAB_OFF);
 
-    /******** Main loop:                                *********/
     while (SDL_PollEvent(&event));  // clear pending events
 
+    /******** Main loop: *********/
     stop = false;
     DEBUGMSG(debug_menu, "run_menu(): entering menu loop\n");
     while (!stop)
@@ -378,13 +411,11 @@ int run_menu(MenuNode* root, bool return_choice)
 
           case SDL_MOUSEMOTION:
           {
-            loc = -1;  // By default, don't be in any entry
-
+            loc = -1;
             for (i = 0; i < items; i++)
             {
               if (inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
               {
-                // Play sound if loc is being changed:
                 if (Opts_GetGlobalOpt(MENU_SOUND) && old_loc != i)
                   playsound(SND_TOCK);
                 loc = i;
@@ -393,49 +424,43 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Left" button - make click if button active: */
-            if (inRect(prev_rect, event.motion.x, event.motion.y))
+            if(inRect(prev_rect, event.motion.x, event.motion.y)
+               && menu->first_entry > 0 && Opts_GetGlobalOpt(MENU_SOUND))
             {
-              if (menu->first_entry > 0)
-              {
-                if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
-                {
-                  playsound(SND_TOCK);
-                  click_flag = 0;
-                }
-              }
-              break;  /* from case switch */
-            }
-
-            /* "Right" button - go to next page: */
-            else if (inRect(next_rect, event.motion.x, event.motion.y ))
-            {
-              if (menu->first_entry + items < menu->submenu_size)
-              {
-                if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
-                {
-                  playsound(SND_TOCK);
-                  click_flag = 0;
-                }
-              }
-              break;  /* from case switch */
-            }
-
-            /* "stop" button */
-            else if (inRect(stop_rect, event.motion.x, event.motion.y ))
-            {
-              if (Opts_GetGlobalOpt(MENU_SOUND) && click_flag)
+              if(click_flag)
               {
                 playsound(SND_TOCK);
                 click_flag = 0;
               }
-              break;
+            }
+
+            /* "Right" button - make click if button active: */
+            else if(inRect(next_rect, event.motion.x, event.motion.y)
+               && menu->first_entry + items < menu->submenu_size
+               && Opts_GetGlobalOpt(MENU_SOUND))
+            {
+              if(click_flag)
+              {
+                playsound(SND_TOCK);
+                click_flag = 0;
+              }
+            }
+
+            /* "stop" button */
+            else if (inRect(stop_rect, event.motion.x, event.motion.y )
+               && Opts_GetGlobalOpt(MENU_SOUND))
+            {
+              if(click_flag)
+              {
+                playsound(SND_TOCK);
+                click_flag = 0;
+              }
             }
 
             else  // Mouse outside of arrow rects - re-enable click sound:
-            {
               click_flag = 1;
-              break;  /* from case switch */
-            }
+
+            break;
           }
 
           case SDL_MOUSEBUTTONDOWN:
@@ -455,27 +480,21 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Left" button */
-            if (inRect(prev_rect, event.motion.x, event.motion.y))
+            if (inRect(prev_rect, event.motion.x, event.motion.y)
+               && menu->first_entry > 0)
             {
-              if (menu->first_entry > 0)
-              {
-                if (Opts_GetGlobalOpt(MENU_SOUND))
-                  playsound(SND_POP);
-                action = PAGEUP;
-              }
-              break;  /* from case switch */
+              if (Opts_GetGlobalOpt(MENU_SOUND))
+                playsound(SND_POP);
+              action = PAGEUP;
             }
 
             /* "Right" button - go to next page: */
-            else if (inRect(next_rect, event.motion.x, event.motion.y ))
+            else if (inRect(next_rect, event.motion.x, event.motion.y )
+               && menu->first_entry + items < menu->submenu_size)
             {
-              if (menu->first_entry + items < menu->submenu_size)
-              {
-                if (Opts_GetGlobalOpt(MENU_SOUND))
-                  playsound(SND_POP);
-                action = PAGEDOWN;
-              }
-              break;  /* from case switch */
+              if (Opts_GetGlobalOpt(MENU_SOUND))
+                playsound(SND_POP);
+              action = PAGEDOWN;
             }
 
             /* "Stop" button - go to main menu: */
@@ -484,10 +503,10 @@ int run_menu(MenuNode* root, bool return_choice)
               if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_TOCK);
               action = STOP_ESC;
-              break;
             }
-          } /* End of case SDL_MOUSEDOWN */
 
+            break;
+          } /* End of case SDL_MOUSEDOWN */
 
           case SDL_KEYDOWN:
           {
@@ -820,7 +839,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
 
     /* text */
     tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
-                            menu->submenu[menu->first_entry + i]->font_size, selected ? &yellow : &white);
+                            curr_font_size, selected ? &yellow : &white);
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &menu->submenu[menu->first_entry + i]->text_rect);
     SDL_FreeSurface(tmp_surf);
   }
@@ -853,7 +872,7 @@ void prerender_menu(MenuNode* menu)
   for(i = 0; i < menu->submenu_size; i++)
   {
     temp_surf = NULL;
-    temp_surf = SimpleText(_(menu->submenu[i]->title), DEFAULT_MENU_FONT_SIZE, &black);
+    temp_surf = SimpleText(_(menu->submenu[i]->title), curr_font_size, &black);
     if(temp_surf)
     {
       max_text_h = max(max_text_h, temp_surf->h);
@@ -885,8 +904,6 @@ void prerender_menu(MenuNode* menu)
     curr_node->text_rect.h = max_text_h;
     curr_node->text_rect.w = max_text_w;
 
-    curr_node->font_size = DEFAULT_MENU_FONT_SIZE;
-
     if(curr_node->icon)
       FreeSprite(curr_node->icon);
 
@@ -911,6 +928,75 @@ void set_rect(SDL_Rect* rect, const float* pos)
   rect->h = pos[3] * screen->h;
 }
 
+char* find_longest_text(MenuNode* menu, int* length)
+{
+  SDL_Surface* text = NULL;
+  char *ret = NULL, *temp = NULL;
+  int i;
+
+  if(menu->submenu_size == 0)
+  {
+    text = SimpleText(_(menu->title), curr_font_size, &black);
+    if(text->w > *length)
+    {
+      *length = text->w;
+      ret = menu->title;
+    }
+    SDL_FreeSurface(text);
+  }
+  else
+  {
+    for(i = 0; i < menu->submenu_size; i++)
+    {
+      temp = find_longest_text(menu->submenu[i], length);
+      if(temp)
+        ret = temp;
+    }
+  }
+  return ret;
+}
+
+/* find the longest text in all existing menus and binary search
+   for the best font size */
+void set_font_size()
+{
+  char* longest = NULL;
+  char* temp;
+  SDL_Surface* surf;
+  int length = 0, i, min_f, max_f, mid_f;
+
+  curr_font_size = default_font_size;
+
+  for(i = 0; i < N_OF_MENUS; i++)
+  {
+    if(menus[i])
+    {
+      temp = find_longest_text(menus[i], &length);
+      if(temp)
+        longest = temp;
+    }
+  }
+
+  if(!longest)
+    return;
+
+  min_f = min_font_size;
+  max_f = max_font_size;
+
+  while(min_f < max_f)
+  {
+    mid_f = (min_f + max_f) / 2;
+    surf = SimpleText(_(longest), mid_f, &black);
+    if(surf->w + (1.0 + 2.0 * text_w_gap) * (1.0 + 2.0 * text_h_gap) * surf->h < menu_rect.w)
+      min_f = mid_f + 1;
+    else
+      max_f = mid_f;
+    SDL_FreeSurface(surf);
+  }
+
+  curr_font_size = min_f;
+}
+
 /* prerender arrows, stop button and all non-NULL menus from menus[] array
    this function should be invoked after every resolution change */
 void prerender_all()
@@ -923,17 +1009,22 @@ void prerender_all()
   if(stop_button)
     SDL_FreeSurface(stop_button);
   stop_button = LoadImageOfBoundingBox(stop_path, IMG_ALPHA, stop_rect.w, stop_rect.h);
+  /* move button to the right */
   stop_rect.x = screen->w - stop_button->w;
 
   set_rect(&prev_rect, prev_pos);
   if(prev_arrow)
     SDL_FreeSurface(prev_arrow);
   prev_arrow = LoadImageOfBoundingBox(prev_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
+  /* move button to the right */
+  prev_rect.x += prev_rect.w - prev_arrow->w;
 
   set_rect(&next_rect, next_pos);
   if(next_arrow)
     SDL_FreeSurface(next_arrow);
   next_arrow = LoadImageOfBoundingBox(next_path, IMG_ALPHA, next_rect.w, next_rect.h);
+
+  set_font_size();
 
   for(i = 0; i < N_OF_MENUS; i++)
     if(menus[i])
@@ -976,33 +1067,7 @@ void LoadMenus(void)
   prerender_all();
 }
 
-/* create a simple one-level menu without sprites.
-   all given strings are copied */
-MenuNode* create_one_level_menu(int items, char** item_names, char* title, char* trailer)
-{
-  MenuNode* menu = create_empty_node();
-  int i;
 
-  if(title)
-    menu->title = strdup(title);
-  menu->submenu_size = items + (trailer ? 1 : 0);
-  menu->submenu = (MenuNode**) malloc(menu->submenu_size * sizeof(MenuNode*));
-  for(i = 0; i < items; i++)
-  {
-    menu->submenu[i] = create_empty_node();
-    menu->submenu[i]->title = strdup(item_names[i]);
-    menu->submenu[i]->activity = i;
-  }
-
-  if(trailer)
-  {
-    menu->submenu[items] = create_empty_node();
-    menu->submenu[items]->title = strdup(trailer);
-    menu->submenu[items]->activity = items;
-  }
-
-  return menu;
-}
 
 /* create login menu tree, run it and set the user home directory
    -1 indicates that the user wants to quit without logging in,
@@ -1046,6 +1111,7 @@ int RunLoginMenu(void)
 
   while (n_users) {
     // Get the user choice
+    set_font_size();
     prerender_menu(menus[MENU_LOGIN]);
     chosen_login = run_menu(menus[MENU_LOGIN], true);
     // Determine whether there were any modifier (CTRL) keys pressed
@@ -1137,6 +1203,7 @@ void RunMainMenu(void)
     tmp_node->submenu[i]->activity = i;
   }
   menus[MENU_LESSONS] = tmp_node;
+  set_font_size();
   prerender_menu(menus[MENU_LESSONS]);
 
   run_menu(menus[MENU_MAIN], false);
