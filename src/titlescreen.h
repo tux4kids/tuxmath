@@ -128,6 +128,7 @@ void DrawTitleScreen(void);
 int HandleTitleScreenEvents(const SDL_Event* evt);
 void HandleTitleScreenAnimations();
 int ChooseMission(void);  //FIXME really should be in fileops.c
+void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
 int choose_menu_item(const char **menu_text, 
                      sprite **menu_sprites, 
                      int n_menu_entries, 

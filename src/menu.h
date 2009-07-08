@@ -79,6 +79,7 @@ struct mNode {
 
   /* these fields are used only if submenu_size = 0 */
   int activity;
+  int param;
 
   /* these fields are used only if submenu_size > 0 */
   bool display_title;

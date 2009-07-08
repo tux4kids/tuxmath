@@ -8,12 +8,19 @@
 
   Author: Boleslaw Kulbabinski <bkulbabinski@gmail.com>, (C) 2009
 
+  (Functions responsible for running specific activities
+   are moved from titlescreen.c)
+
   Copyright: See COPYING file that comes with this distribution.
 */
 
 #include "menu.h"
 #include "SDL_extras.h"
 #include "titlescreen.h"
+#include "highscore.h"
+#include "factoroids.h"
+#include "credits.h"
+#include "multiplayer.h"
 #include "mathcards.h"
 #include "campaign.h"
 #include "game.h"
@@ -83,8 +90,12 @@ MenuNode*       load_menu_from_file(FILE* xml_file, MenuNode* parent);
 void            free_menu(MenuNode* menu);
 MenuNode*       create_one_level_menu(int items, char** item_names, char* title, char* trailer);
 
-int             handle_activity(int act);
+int             handle_activity(int act, int param);
 int             run_academy(void);
+int             run_arcade(int choice);
+int             run_custom_game(void);
+void            run_multiplayer(int mode, int difficulty);
+int             run_factoroids(int choice);
 
 int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
@@ -112,6 +123,7 @@ MenuNode* create_empty_node()
   new_node->submenu_size = 0;
   new_node->submenu = NULL;
   new_node->activity = 0;
+  new_node->param = 0;
   new_node->first_entry = 0;
 
   return new_node;
@@ -140,6 +152,8 @@ void read_attributes(FILE* xml_file, MenuNode* node)
       node->title = strdup(attr_val);
     else if(strcmp(attr_name, "entries") == 0)
       node->submenu_size = atoi(attr_val);
+    else if(strcmp(attr_name, "param") == 0)
+      node->param = atoi(attr_val);
     else if(strcmp(attr_name, "sprite") == 0)
       node->icon_name = strdup(attr_val);
     else if(strcmp(attr_name, "run") == 0)
@@ -270,9 +284,10 @@ MenuNode* create_one_level_menu(int items, char** item_names, char* title, char*
 
 /* return QUIT if user decided to quit the application while running an activity
    return 0 otherwise */
-int handle_activity(int act)
+int handle_activity(int act, int param)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
+
   switch(act)
   {
     case RUN_CAMPAIGN:
@@ -283,6 +298,71 @@ int handle_activity(int act)
       if(run_academy() == QUIT)
         return QUIT;
       break;
+
+    case RUN_ARCADE:
+      run_arcade(param);
+      break;
+
+    case RUN_CUSTOM:
+      run_custom_game();
+      break;
+
+    case RUN_HALL_OF_FAME:
+      DisplayHighScores(CADET_HIGH_SCORE);
+      break;
+
+    case RUN_SCORE_SWEEP:
+      run_multiplayer(0, param);
+      break;
+
+    case RUN_ELIMINATION:
+      run_multiplayer(1, param);
+      break;
+
+    case RUN_HELP:
+      Opts_SetHelpMode(1);
+      Opts_SetDemoMode(0);
+      if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
+        {audioMusicUnload();}
+      game();
+      if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+        audioMusicLoad( "tuxi.ogg", -1 );
+      Opts_SetHelpMode(0);
+      break;
+
+    case RUN_FACTORS:
+      run_factoroids(0);
+      break;
+
+    case RUN_FRACTIONS:
+      run_factoroids(1);
+      break;
+
+    case RUN_DEMO:
+      if(read_named_config_file("demo"))
+      {
+        audioMusicUnload();
+        game();
+        if (Opts_GetGlobalOpt(MENU_MUSIC))
+          audioMusicLoad( "tuxi.ogg", -1 );
+      }
+      else
+        fprintf(stderr, "\nCould not find demo config file\n");
+      break;
+
+    case RUN_INFO:
+      ShowMessage(_("TuxMath is free and open-source!"),
+                  _("You can help make it better by reporting problems,"),
+                  _("suggesting improvements, or adding code."),
+                  _("Discuss the future at tuxmath-devel@lists.sourceforge.net"));
+      break;
+
+    case RUN_CREDITS:
+      credits();
+      break;
+
+    case RUN_QUIT:
+      return QUIT;
   }
 
   return 0;
@@ -330,6 +410,143 @@ int run_academy(void)
     chosen_lesson = run_menu(menus[MENU_LESSONS], true);
   }
   return chosen_lesson;
+}
+
+int run_arcade(int choice)
+{
+  const char* arcade_config_files[5] =
+    {"arcade/space_cadet",
+     "arcade/scout",
+     "arcade/ranger",
+     "arcade/ace",
+     "arcade/commando"
+    };
+
+  const int arcade_high_score_tables[5] =
+    {CADET_HIGH_SCORE,
+     SCOUT_HIGH_SCORE,
+     RANGER_HIGH_SCORE,
+     ACE_HIGH_SCORE,
+     COMMANDO_HIGH_SCORE
+    };
+
+  int hs_table;
+
+  if (choice < NUM_MATH_COMMAND_LEVELS) {
+    // Play arcade game
+    if (read_named_config_file(arcade_config_files[choice]))
+    {
+      audioMusicUnload();
+      game();
+      RenderTitleScreen();
+      if (Opts_GetGlobalOpt(MENU_MUSIC))
+        audioMusicLoad( "tuxi.ogg", -1 );
+      /* See if player made high score list!                        */
+      read_high_scores();  /* Update, in case other users have added to it */
+      hs_table = arcade_high_score_tables[choice];
+      if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED)
+      {
+        char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+        /* Get name from player: */
+        HighScoreNameEntry(&player_name[0]);
+        insert_score(player_name, hs_table, Opts_LastScore());
+        /* Show the high scores. Note the user will see his/her */
+        /* achievement even if (in the meantime) another player */
+        /* has in fact already bumped this score off the table. */
+        DisplayHighScores(hs_table);
+        /* save to disk: */
+        /* See "On File Locking" in fileops.c */
+        append_high_score(choice,Opts_LastScore(),&player_name[0]);
+
+        DEBUGCODE(debug_titlescreen)
+          print_high_scores(stderr);
+      }
+    }
+    else {
+      fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
+    }
+  }
+  return 0;
+}
+
+int run_custom_game(void)
+{
+  const char *s1, *s2, *s3, *s4;
+  s1 = _("Edit 'options' file in your home directory");
+  s2 = _("to create customized game!");
+  s3 = _("Press a key or click your mouse to start game.");
+  s4 = _("See README.txt for more information");
+  ShowMessage(s1, s2, s3, s4);
+
+  if (read_user_config_file()) {
+    if (Opts_GetGlobalOpt(MENU_MUSIC))
+      audioMusicUnload();
+
+    game();
+    write_user_config_file();
+
+    if (Opts_GetGlobalOpt(MENU_MUSIC))
+      audioMusicLoad( "tuxi.ogg", -1 );
+  }
+
+  return 0;
+}
+
+void run_multiplayer(int mode, int difficulty)
+{
+  int nplayers = 0;
+  char npstr[HIGH_SCORE_NAME_LENGTH * 3];
+
+  while (nplayers <= 0 || nplayers > MAX_PLAYERS)
+  {
+    NameEntry(npstr, _("How many kids are playing?"),
+                     _("(Between 2 and 4 players)"));
+    nplayers = atoi(npstr);
+  }
+
+  mp_set_parameter(PLAYERS, nplayers);
+  mp_set_parameter(MODE, mode);
+  mp_set_parameter(DIFFICULTY, difficulty);
+  mp_run_multiplayer();
+}
+
+int run_factoroids(int choice)
+{
+  const int factoroids_high_score_tables[2] =
+    {FACTORS_HIGH_SCORE, FRACTIONS_HIGH_SCORE};
+  int hs_table;
+
+  audioMusicUnload();
+  if(choice == 0)
+    factors();
+  else
+    fractions();
+
+	if (Opts_GetGlobalOpt(MENU_MUSIC))
+    audioMusicLoad( "tuxi.ogg", -1 );
+
+	hs_table = factoroids_high_score_tables[choice];
+	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
+	  char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+	  /* Get name from player: */
+	  HighScoreNameEntry(&player_name[0]);
+	  insert_score(player_name, hs_table, Opts_LastScore());
+	  /* Show the high scores. Note the user will see his/her */
+	  /* achievement even if (in the meantime) another player */
+	  /* has in fact already bumped this score off the table. */
+	  DisplayHighScores(hs_table);
+	  /* save to disk: */
+	  /* See "On File Locking" in fileops.c */
+	  append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
+    DEBUGCODE(debug_titlescreen)
+	    print_high_scores(stderr);
+	}
+  else {
+	  fprintf(stderr, "\nCould not find config file\n");
+  }
+
+  return 0;
 }
 
 /* Display the menu and run the event loop.
@@ -722,7 +939,7 @@ int run_menu(MenuNode* root, bool return_choice)
                   }
                   else
                   {
-                    if(handle_activity(tmp_node->activity) == QUIT)
+                    if(handle_activity(tmp_node->activity, tmp_node->param) == QUIT)
                     {
                       DEBUGMSG(debug_menu, "run_menu(): handle_activity() returned QUIT message, exiting.\n");
                       FreeSurfaceArray(menu_item_unselected, items);

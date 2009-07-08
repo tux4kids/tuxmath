@@ -192,7 +192,6 @@ void init_blits(void);
 void update_screen(int* frame);
 void add_rect(SDL_Rect* src, SDL_Rect* dst);
 
-void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
 void RecalcMenuPositions(int*, int, menu_options*, void (*)(menu_options*),
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
                          SDL_Rect**, SDL_Rect**, SDL_Rect**,
