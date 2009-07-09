@@ -211,6 +211,7 @@ int MC_AnsweredCorrectly_id(int id);
 /*  tells MathCards that the question has not been        */
 /*  answered correctly. Returns 1 if no errors.           */
 int MC_NotAnsweredCorrectly(MC_FlashCard* q);
+int MC_NotAnsweredCorrectly_id(int id);
 
 /*  Like MC_NextQuestion(), but takes "flashcard" from    */
 /*  pile of incorrectly answered questions.               */
