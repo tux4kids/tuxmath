@@ -1487,17 +1487,13 @@ void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
     {
       if ((rand() % 2) == 0 || num_comets_alive == 0)
       {
-         while(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))!=0)
-         {
-          check_messages(buf);
-          seperate_commmand_and_buf(command,buf);
-         }
+        if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))!=0)
+        {
           if (add_comet(buf))
           {
             num_attackers--;
           }
-        
-        
+        }
       }
     }
     else
