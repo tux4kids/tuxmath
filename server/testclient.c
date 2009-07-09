@@ -214,6 +214,18 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
+
+  snprintf(buffer, NET_BUF_LEN, 
+                  "%s\n",
+                  "NEXT_QUESTION");
+  len = strlen(buffer) + 1;
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+
   return 1;
 }
                 
@@ -368,8 +380,8 @@ int playgame(void)
           command[i] = '\0';
 
 #ifdef LAN_DEBUG
-          printf("buf is %s\n", buf);
-          printf("command is %s\n", command);
+//          printf("buf is %s\n", buf);
+//          printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
           if(strncmp(command, "SEND_QUESTION", 13) == 0)
