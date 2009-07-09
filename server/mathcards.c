@@ -546,16 +546,17 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
+  if(!active_quests) // No questions currently "in play" - something is wrong:
+  {
+    fprintf(stderr, "MC_AnsweredCorrectly() - active_quests empty\n");
+    return 0;
+  }
+
   #ifdef MC_DEBUG
   printf("\nQuestion was:");
   print_card(*fc);
   #endif
 
-  if(!active_quests) // Means we didn't find matching card - something is wrong:
-  {
-    fprintf(stderr, "MC_AnsweredCorrectly() - active_quests empty\n");
-    return 0;
-  }
 
   //First take the question out of the active_quests list
   quest = active_quests;  
@@ -577,6 +578,8 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   //main question list in a random location, or delete it:
   active_quests = remove_node(active_quests, quest);
   questions_pending--;  //the length of the 'active_quests' list
+
+
   answered_correctly++;
 
   if (!math_opts->iopts[PLAY_THROUGH_LIST])
@@ -639,6 +642,8 @@ int MC_AnsweredCorrectly_id(int id)
   return MC_AnsweredCorrectly(fc);
 }
 
+
+
 /*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the player failed to answer the  */
 /*  question correctly. Returns 1 if no errors.           */
@@ -647,6 +652,8 @@ int MC_AnsweredCorrectly_id(int id)
 int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 {
   mcdprintf("\nEntering MC_NotAnsweredCorrectly()");
+
+  MC_MathQuestion* quest = NULL;
 
   if (!fc)
   {
@@ -658,44 +665,67 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
+  if(!active_quests) // No questions currently "in play" - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - active_quests empty\n");
+    return 0;
+  }
+
   #ifdef MC_DEBUG
   printf("\nQuestion was:");
   print_card(*fc);
   #endif
 
+
+  //First take the question out of the active_quests list
+  quest = active_quests;  
+  // Loop until quest is NULL or we find card with same id:
+  while(quest && (fc->question_id != quest->card.question_id))
+    quest = quest->next;
+  if(!quest) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - matching question not found!\n");
+    return 0;
+  }
+  #ifdef MC_DEBUG
+  printf("\nMatching question is:");
+  print_card(quest->card);
+  #endif
+
+  //We found a matching question, now we take it out of the 
+  //"active_quests" list and either put it back into the 
+  //main question list in a random location, or delete it:
+  active_quests = remove_node(active_quests, quest);
+  questions_pending--;  //the length of the 'active_quests' list
+
   answered_wrong++;
-  questions_pending--;
 
   /* add question to wrong_quests list: */
-
-  MC_MathQuestion* ptr1;
-  MC_MathQuestion* ptr2;
-
-  ptr1 = create_node_from_card(fc);
-
-  if (!already_in_list(wrong_quests, ptr1)) /* avoid duplicates */
+  if (!already_in_list(wrong_quests, quest)) /* avoid duplicates */
   {
     mcdprintf("\nAdding to wrong_quests list");
-    wrong_quests = append_node(wrong_quests, ptr1);
+    wrong_quests = append_node(wrong_quests, quest);
   }
   else /* avoid memory leak */
   {
-    free(ptr1);
+    free(quest);
   }
 
   /* if desired, put question back in list so student sees it again */
   if (math_opts->iopts[REPEAT_WRONGS])
   {
     int i;
+    MC_MathQuestion* quest_copy;
+    MC_MathQuestion* rand_loc;
 
     mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
 
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
     {
-      ptr1 = create_node_from_card(fc);
-      ptr2 = pick_random(quest_list_length, question_list);
-      question_list = insert_node(question_list, ptr2, ptr1);
+      quest_copy = create_node_from_card(fc);
+      rand_loc = pick_random(quest_list_length, question_list);
+      question_list = insert_node(question_list, rand_loc, quest_copy);
       quest_list_length++;
     }
     /* unanswered stays the same if a single copy recycled or */
@@ -735,6 +765,7 @@ int MC_MissionAccomplished(void)
     return 0;
   }
 }
+
 
 /*  Returns number of questions left (either in list       */
 /*  or "in play")                                          */
