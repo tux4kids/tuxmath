@@ -87,7 +87,8 @@ EXTRA_DIST = 	credits.h 	\
 	gettext.h	\
 	scandir.h	\
 	pixels.h	\
-	compiler.h	
+	compiler.h	\
+	transtruct.h
         
 
 

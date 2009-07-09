@@ -510,11 +510,11 @@ void game_msg_mission_accomplished(int i)
  
 }
 
-void game_msg_correct_answer(int i,int id)
+void game_msg_correct_answer(int i, int id)
 {
   int n;
   char buf[NET_BUF_LEN];
-
+printf("game_msg_correct_answer() called\n");
   //Announcement for server and all clients:
   snprintf(buf, NET_BUF_LEN, 
           "question id %d was answered correctly by %s\n",
@@ -853,7 +853,7 @@ int player_msg(int i, char* msg)
   return 1;
 }
 
-
+/* Send the message to all clients: */
 void broadcast_msg(char* msg)
 {
   int i = 0;
@@ -864,7 +864,9 @@ void broadcast_msg(char* msg)
 }
 
 
-
+/* Simple function that returns a minimum of 'loop_msec' */
+/* milliseconds after it returned the previous time it   */
+/* was called.                                           */
 void throttle(int loop_msec)
 {
   static Uint32 now_t, last_t; //These will be zero first time through
