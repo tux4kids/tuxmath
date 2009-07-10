@@ -429,7 +429,7 @@ int check_messages(void)
 
 void handle_client_nongame_msg(int i,char *buffer)
 {
-  if(strncmp(buffer, "START_GAME", 10) == 0)
+  if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
     start_game(i);
   }
@@ -450,8 +450,7 @@ int handle_client_game_msg(int i , char *buffer)
                   &id);
 
 
-
-  if(strncmp(command, "CORRECT_ANSWER", 14) == 0)
+  if(strncmp(command, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
   {
     game_msg_correct_answer(i,id);
   }                            
@@ -462,7 +461,7 @@ int handle_client_game_msg(int i , char *buffer)
   }
 
 
-  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Send Total Questions left */
+  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Check to see if mission is over*/
   {
     game_msg_mission_accomplished(i);
   }
@@ -472,12 +471,12 @@ int handle_client_game_msg(int i , char *buffer)
     game_msg_next_question();
   }
 
-  else if(strncmp(command, "exit",4) == 0) /* Terminate this connection */
+  else if(strncmp(command, "exit",strlen("exit")) == 0) /* Terminate this connection */
   {
     game_msg_exit(i);
   }
 
-  else if(strncmp(command, "quit",4) == 0) /* Quit the program */
+  else if(strncmp(command, "quit",strlen("quit")) == 0) /* Quit the program */
   {
     game_msg_quit(i);
     return(1);
@@ -492,22 +491,20 @@ int handle_client_game_msg(int i , char *buffer)
 
 void game_msg_total_questions_left(int i)
 {
- int x;
- char *ch;
- x=MC_TotalQuestionsLeft();
- ch=(char*)x;
+ int total_questions_left;
+ char ch[10];
+ total_questions_left=MC_TotalQuestionsLeft();
+ snprintf(ch,10,"%d",total_questions_left); 
  player_msg(i,ch);
 }
 
 void game_msg_mission_accomplished(int i)
 {
-  int x;
-  char *ch;
-
-  x=MC_MissionAccomplished();
-  ch=(char*)x;
-  player_msg(i,ch);
- 
+ int total_questions_left;
+ char ch[10];
+ total_questions_left=MC_MissionAccomplished();
+ snprintf(ch,10,"%d",total_questions_left); 
+ player_msg(i,ch);
 }
 
 void game_msg_correct_answer(int i, int id)

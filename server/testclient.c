@@ -45,7 +45,7 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int playgame(void);
 void server_pinged(void);
 
-int player_msg_recvd(char* buf);
+int player_msg_recvd(char *command,char* buf);
 int read_stdin_nonblock(char* buf, size_t max_length);
 void throttle(int loop_msec);
 
@@ -294,6 +294,34 @@ int Make_Flashcard(char* buf, MC_FlashCard* fc)
 
 return 1;
 } 
+int evaluate(char statement[20])
+{
+  int ans,x;
+  char command[NET_BUF_LEN];
+  int len;
+  char buffer[NET_BUF_LEN];
+  char buf[NET_BUF_LEN];
+
+   snprintf(buffer, NET_BUF_LEN, 
+                  "%s\n",
+                  statement);
+   len = strlen(buffer) + 1;
+   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+   {
+     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+     exit(EXIT_FAILURE);
+   }
+        x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
+          if( x <= 0)
+          {
+            fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
+            exit(EXIT_FAILURE);
+          }
+  player_msg_recvd(buf,command);
+  ans=atoi(command);
+
+  return ans;
+}
 
 int playgame(void)
 {
@@ -378,7 +406,8 @@ int playgame(void)
           }
 
           command[i] = '\0';
-
+printf("this is the value of mission accomplished... %d ...\n",evaluate("TOTAL_QUESTIONS_LEFT"));
+evaluate("TOTAL_QUESTIONS_LEFT");
 #ifdef LAN_DEBUG
 //          printf("buf is %s\n", buf);
 //          printf("command is %s\n", command);
@@ -402,7 +431,7 @@ int playgame(void)
           }
           else if(strncmp(command,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
           {
-            player_msg_recvd(buf);
+            player_msg_recvd(NULL,buf);
           }
 	  else if(strncmp(command,"PING", strlen("PING")) == 0)
           {
@@ -432,7 +461,7 @@ int playgame(void)
       }
       else if(strncmp(buf,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
       {
-        player_msg_recvd(buf);
+        player_msg_recvd(NULL,buf);
       } 
       else
       {
@@ -467,13 +496,13 @@ int playgame(void)
 
 //Goes past the title field in the tab-delimited buffer
 //and prints the rest to stdout:
-int player_msg_recvd(char* buf)
+int player_msg_recvd(char *command,char* buf)
 {
-  char* p = strchr(buf, '\t');
-  if(p)
+  command = strchr(buf, '\t');
+  if(command)
   { 
-    p++;
-    printf("%s\n", p);
+    command++;
+    printf("%s\n", command);
     return 1;
   }
   else
