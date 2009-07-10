@@ -385,6 +385,14 @@ void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
   SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
 }
 
+void SetRect(SDL_Rect* rect, const float* pos)
+{
+  rect->x = pos[0] * screen->w;
+  rect->y = pos[1] * screen->h;
+  rect->w = pos[2] * screen->w;
+  rect->h = pos[3] * screen->h;
+}
+
 /* Darkens the screen by a factor of 2^bits */
 void DarkenScreen(Uint8 bits)
 {

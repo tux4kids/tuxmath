@@ -38,6 +38,7 @@ SDL_Surface*    Blend(SDL_Surface *S1, SDL_Surface *S2, float gamma);
 
 void            FreeSurfaceArray(SDL_Surface** surfs, int length);
 int             inRect(SDL_Rect r, int x, int y);
+void            SetRect(SDL_Rect* rect, const float* pos);
 void            UpdateRect(SDL_Surface* surf, SDL_Rect* rect);
 
 void            DarkenScreen(Uint8 bits);

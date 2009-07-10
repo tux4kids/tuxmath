@@ -69,6 +69,18 @@ char **lesson_list_titles = NULL;
 char **lesson_list_filenames = NULL;
 int num_lessons = 0;
 
+/*TODO: move these constants into a config file
+  (together with menu.c constants ? ) */
+const float title_pos[4] = {0.0, 0.0, 0.3, 0.25};
+const float tux_pos[4] = {0.0, 0.6, 0.3, 0.4};
+const char* bkg_path = "title/menu_bkg.jpg";
+const char* standby_path = "status/standby.png";
+const char* title_path = "title/title1.png";
+const char* egg_path = "title/egg.png";
+const char* tux_path = "tux/bigtux";
+/* beak coordinates relative to tux rect */
+const float beak_pos[4] = {0.36, 0.21, 0.27, 0.14};
+
 
 /* --- media for menus --- */
 
@@ -236,8 +248,7 @@ void TitleScreen(void)
   }
 
   start_time = SDL_GetTicks();
-
-  logo = images[IMG_STANDBY]; /* going to be svg ? */
+  logo = LoadImage(standby_path, IMG_REGULAR);
 
   /* display the Standby screen */
   if(logo)
@@ -254,10 +265,11 @@ void TitleScreen(void)
     SDL_UpdateRect(screen, 0, 0, 0, 0);
     /* Play "harp" greeting sound lifted from Tux Paint */
     playsound(SND_HARP);
+    SDL_FreeSurface(logo);
   }
 
   /* load backgrounds */
-  LoadBothBkgds("title/menu_bkg.jpg", &fs_bkg, &win_bkg);
+  LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
   if(fs_bkg == NULL || win_bkg == NULL)
   {
     fprintf(stderr, "Backgrounds were not properly loaded, exiting");
@@ -268,7 +280,7 @@ void TitleScreen(void)
     return;
   }
 
-  TitleScreen_load_menu();
+  //TitleScreen_load_menu();
 
   /* load titlescreen images */
   if(RenderTitleScreen() == 0)
@@ -290,6 +302,7 @@ void TitleScreen(void)
     SDL_Delay(50);
   }
 
+  /* NOTE: do we need this ? */
   DEBUGCODE(debug_titlescreen)
     SDL_WM_GrabInput(SDL_GRAB_OFF); /* in case of a freeze, this traps the cursor */
   else
@@ -357,7 +370,7 @@ void TitleScreen(void)
 
   /* Red "Stop" circle in upper right corner to go back to main menu: */
   /* this is going to be part of the menu */
-  if (images[IMG_STOP])
+  /*if (images[IMG_STOP])
   {
     stopRect.w = images[IMG_STOP]->w;
     stopRect.h = images[IMG_STOP]->h;
@@ -365,7 +378,7 @@ void TitleScreen(void)
     stopRect.y = 0;
     SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
   }
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
+  SDL_UpdateRect(screen, 0, 0, 0, 0);*/
 
   /* Start playing menu music if desired: */
   if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -374,20 +387,20 @@ void TitleScreen(void)
   }
 
   /* If necessary, have the user log in */
-  if (run_login_menu() != -1) {
-  //if (RunLoginMenu() != -1) {
+  //if (run_login_menu() != -1) {
+  if (RunLoginMenu() != -1) {
     /* Finish parsing user options */
     initialize_options_user();
     /* Start the main menu */
-    run_main_menu();
-    //RunMainMenu();
+    //run_main_menu();
+    RunMainMenu();
   }
 
   /* User has selected quit, clean up */
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Freeing title screen images\n");
 
   free_titlescreen();
-  TitleScreen_unload_menu();
+  //TitleScreen_unload_menu();
 
   DEBUGMSG(debug_titlescreen, "leaving TitleScreen()\n");
 }
@@ -416,7 +429,7 @@ int RenderTitleScreen(void)
     /* we keep two backgrounds to make screen mode switch faster */
     if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
     {
-      new_bkg = LoadBkgd("title/menu_bkg.jpg", screen->w, screen->h);
+      new_bkg = LoadBkgd(bkg_path, screen->w, screen->h);
       if(new_bkg == NULL)
       {
         DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
@@ -433,14 +446,13 @@ int RenderTitleScreen(void)
     bkg_rect.x = (screen->w - bkg_rect.w) / 2;
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
 
-    /* Tux in lower left corner of the screen
-       (no more than 20% of screen width and 50% of screen height) */
-    Tux = LoadSpriteOfBoundingBox("tux/bigtux", IMG_ALPHA, (int)(0.2 * screen->w), (int)(0.5 * screen->h));
+    /* Tux in lower left corner of the screen */
+    SetRect(&tux_rect, tux_pos);
+    Tux = LoadSpriteOfBoundingBox(tux_path, IMG_ALPHA, tux_rect.w, tux_rect.h);
     if(Tux && Tux->frame[0])
     {
-      tux_rect = Tux->frame[0]->clip_rect;
-      tux_rect.x = 0;
-      tux_rect.y = screen->h - tux_rect.h;
+      tux_rect.w = Tux->frame[0]->clip_rect.w;
+      tux_rect.h = Tux->frame[0]->clip_rect.h;
     }
     else
     {
@@ -449,12 +461,12 @@ int RenderTitleScreen(void)
     }
 
     /* "Tux, of math command" title in upper right corner */
-    title = images[IMG_MENU_TITLE];
+    SetRect(&title_rect, title_pos);
+    title = LoadImageOfBoundingBox(title_path, IMG_ALPHA, title_rect.w, title_rect.h);
     if(title)
     {
-      title_rect = title->clip_rect;
-      title_rect.x = 0;
-      title_rect.y = 0;
+      title_rect.w = title->clip_rect.w;
+      title_rect.h = title->clip_rect.h;
     }
     else
     {
@@ -463,13 +475,12 @@ int RenderTitleScreen(void)
     }
 
     /* easter egg */
-    egg = LoadImage("title/egg.png", IMG_COLORKEY | IMG_NOT_REQUIRED);
+    egg = LoadImage(egg_path, IMG_COLORKEY | IMG_NOT_REQUIRED);
 
-    /* FIXME: it would be  better to read those values from file */
-    beak.x = tux_rect.x + 0.36 * tux_rect.w;
-    beak.y = tux_rect.y + 0.21 * tux_rect.h;
-    beak.w = 0.27 * tux_rect.w;
-    beak.h = 0.14 * tux_rect.h;
+    beak.x = tux_rect.x + beak_pos[0] * tux_rect.w;
+    beak.y = tux_rect.y + beak_pos[1] * tux_rect.h;
+    beak.w = beak_pos[2] * tux_rect.w;
+    beak.h = beak_pos[3] * tux_rect.h;
 
 
     /* stop button - going to be part of the menu */
@@ -588,6 +599,12 @@ void free_titlescreen(void)
   {
     SDL_FreeSurface(egg);
     egg = NULL;
+  }
+
+  if(title)
+  {
+    SDL_FreeSurface(title);
+    title = NULL;
   }
 
   if(fs_bkg)

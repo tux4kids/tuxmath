@@ -82,7 +82,7 @@ struct mNode {
   int param;
 
   /* these fields are used only if submenu_size > 0 */
-  bool display_title;
+  bool show_title;
   int entries_per_screen;
   int first_entry;
 };

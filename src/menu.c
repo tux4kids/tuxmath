@@ -60,10 +60,10 @@ SDL_Surface *stop_button, *prev_arrow, *next_arrow;
 
 /*TODO: move these constants into a config file (maybe together with
   titlescreen paths and rects ? ) */
-const float menu_pos[4] = {0.4, 0.25, 0.55, 0.7};
+const float menu_pos[4] = {0.38, 0.23, 0.55, 0.72};
 const float stop_pos[4] = {0.94, 0.0, 0.06, 0.06};
-const float prev_pos[4] = {0.9, 0.95, 0.05, 0.05};
-const float next_pos[4] = {0.95, 0.95, 0.05, 0.05};
+const float prev_pos[4] = {0.87, 0.93, 0.06, 0.06};
+const float next_pos[4] = {0.94, 0.93, 0.06, 0.06};
 const char* stop_path = "status/stop.png";
 const char* prev_path = "status/left.png";
 const char* next_path = "status/right.png";
@@ -74,7 +74,7 @@ const int min_font_size = 8, default_font_size = 20, max_font_size = 40;
 int curr_font_size;
 
 /* menu title rect */
-SDL_Rect title_rect;
+SDL_Rect menu_title_rect;
 
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
@@ -100,7 +100,6 @@ int             run_factoroids(int choice);
 int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
 void            prerender_menu(MenuNode* menu);
-void            set_rect(SDL_Rect* rect, const float* pos);
 char*           find_longest_text(MenuNode* menu, int* length);
 void            set_font_size();
 void            prerender_all();
@@ -125,6 +124,7 @@ MenuNode* create_empty_node()
   new_node->activity = 0;
   new_node->param = 0;
   new_node->first_entry = 0;
+  new_node->show_title = false;
 
   return new_node;
 }
@@ -258,7 +258,10 @@ MenuNode* create_one_level_menu(int items, char** item_names, char* title, char*
   int i;
 
   if(title)
+  {
     menu->title = strdup(title);
+    menu->show_title = true;
+  }
   menu->submenu_size = items + (trailer ? 1 : 0);
   menu->submenu = (MenuNode**) malloc(menu->submenu_size * sizeof(MenuNode*));
   for(i = 0; i < items; i++)
@@ -557,6 +560,7 @@ int run_menu(MenuNode* root, bool return_choice)
 {
   SDL_Surface** menu_item_unselected = NULL;
   SDL_Surface** menu_item_selected = NULL;
+  SDL_Surface* title_surf;
   SDL_Event event;
   MenuNode* menu = root;
   MenuNode* tmp_node;
@@ -596,11 +600,20 @@ int run_menu(MenuNode* root, bool return_choice)
       if(menu->submenu[menu->first_entry + i]->icon)
         SDL_BlitSurface(menu->submenu[menu->first_entry + i]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + i]->icon_rect);
     }
+
     SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
     if(menu->first_entry > 0)
       SDL_BlitSurface(prev_arrow, NULL, screen, &prev_rect);
     if(menu->first_entry + items < menu->submenu_size)
       SDL_BlitSurface(next_arrow, NULL, screen, &next_rect);
+    if(menu->show_title)
+    {
+      menu_title_rect = menu->submenu[0]->button_rect;
+      menu_title_rect.y = menu_rect.y - menu_title_rect.h;
+      title_surf = BlackOutline(_(menu->title), curr_font_size, &red);
+      SDL_BlitSurface(title_surf, NULL, screen, &menu_title_rect);
+      SDL_FreeSurface(title_surf);
+    }
     SDL_UpdateRect(screen, 0, 0, 0, 0);
 
     SDL_WM_GrabInput(SDL_GRAB_OFF);
@@ -718,7 +731,7 @@ int run_menu(MenuNode* root, bool return_choice)
             else if (inRect(stop_rect, event.button.x, event.button.y ))
             {
               if (Opts_GetGlobalOpt(MENU_SOUND))
-                playsound(SND_TOCK);
+                playsound(SND_POP);
               action = STOP_ESC;
             }
 
@@ -769,40 +782,37 @@ int run_menu(MenuNode* root, bool return_choice)
               }
 
               /* Go up one entry, if present: */
-              /*case SDLK_UP:
+              case SDLK_UP:
               {
                 if (Opts_GetGlobalOpt(MENU_SOUND))
                   playsound(SND_TOCK);
-                if (loc > title_offset)
-                  {loc--;}
-                else if (n_menu_entries <= n_entries_per_screen) {
-                  loc = n_menu_entries-1;  // wrap around if only 1 screen
+                if (loc > 0)
+                  loc--;
+                else if (menu->submenu_size <= menu->entries_per_screen) 
+                  loc = menu->submenu_size - 1;  // wrap around if only 1 screen
+                else if (menu->first_entry > 0)
+                {
+                  loc = menu->entries_per_screen - 1;
+                  action = PAGEUP;
                 }
-                else if (loc == -1 && loc_screen_start > 0) {
-                  loc = loc_screen_start-1;
-                  loc_screen_start -= n_entries_per_screen;
-                }
-                if (loc != old_loc)
-                  warp_mouse = 1;
                 break;
-              }*/
+              }
 
-
-              /* Go down one entry, if present: */
-              /*case SDLK_DOWN:
+              case SDLK_DOWN:
               {
                 if (Opts_GetGlobalOpt(MENU_SOUND))
                   playsound(SND_TOCK);
-                if (loc >= 0 && loc + 1 < n_menu_entries)
-                  {loc++;}
-                else if (n_menu_entries <= n_entries_per_screen)
-                  loc = title_offset;       // wrap around if only 1 screen
-                else if (loc == -1)
-                  loc = loc_screen_start;
-                if (loc != old_loc)
-                  warp_mouse = 1;
+                if (loc + 1 < min(menu->submenu_size, menu->entries_per_screen))
+                  loc++;
+                else if (menu->submenu_size <= menu->entries_per_screen) 
+                  loc = 0;  // wrap around if only 1 screen
+                else if (menu->first_entry + menu->entries_per_screen < menu->submenu_size)
+                {
+                  loc = 0;
+                  action = PAGEDOWN;
+                }
                 break;
-              }*/
+              }
 
               /* Change window size (used only to debug) */
               case SDLK_F5:
@@ -1072,6 +1082,7 @@ void prerender_menu(MenuNode* menu)
   MenuNode* curr_node;
   int i, imod, max_text_h = 0, max_text_w = 0;
   int button_h, button_w;
+  bool found_icons = false;
   char filename[buf_size];
 
   if(NULL == menu)
@@ -1088,6 +1099,8 @@ void prerender_menu(MenuNode* menu)
 
   for(i = 0; i < menu->submenu_size; i++)
   {
+    if(menu->submenu[i]->icon_name)
+      found_icons = true;
     temp_surf = NULL;
     temp_surf = SimpleText(_(menu->submenu[i]->title), curr_font_size, &black);
     if(temp_surf)
@@ -1099,7 +1112,7 @@ void prerender_menu(MenuNode* menu)
   }
 
   button_h = (1.0 + 2.0 * text_h_gap) * max_text_h;
-  button_w = max_text_w + (1.0 + 2.0 * text_w_gap) * button_h;
+  button_w = max_text_w + ( (found_icons ? 1.0 : 0.0) + 2.0 * text_w_gap) * button_h;
 
   menu->entries_per_screen = (int) ( (menu_rect.h - button_gap * button_h) /
                                    ( (1.0 + button_gap) * button_h ) );
@@ -1116,7 +1129,7 @@ void prerender_menu(MenuNode* menu)
     curr_node->icon_rect = curr_node->button_rect;
     curr_node->icon_rect.w = curr_node->icon_rect.h;
 
-    curr_node->text_rect.x = (1.0 + text_w_gap) * curr_node->icon_rect.w;
+    curr_node->text_rect.x = ( (found_icons ? 1.0 : 0.0) + text_w_gap) * curr_node->icon_rect.w;
     curr_node->text_rect.y = text_h_gap * max_text_h;
     curr_node->text_rect.h = max_text_h;
     curr_node->text_rect.w = max_text_w;
@@ -1135,14 +1148,6 @@ void prerender_menu(MenuNode* menu)
 
     prerender_menu(menu->submenu[i]);
   }
-}
-
-void set_rect(SDL_Rect* rect, const float* pos)
-{
-  rect->x = pos[0] * screen->w;
-  rect->y = pos[1] * screen->h;
-  rect->w = pos[2] * screen->w;
-  rect->h = pos[3] * screen->h;
 }
 
 char* find_longest_text(MenuNode* menu, int* length)
@@ -1220,23 +1225,23 @@ void prerender_all()
 {
   int i;
 
-  set_rect(&menu_rect, menu_pos);
+  SetRect(&menu_rect, menu_pos);
 
-  set_rect(&stop_rect, stop_pos);
+  SetRect(&stop_rect, stop_pos);
   if(stop_button)
     SDL_FreeSurface(stop_button);
   stop_button = LoadImageOfBoundingBox(stop_path, IMG_ALPHA, stop_rect.w, stop_rect.h);
   /* move button to the right */
   stop_rect.x = screen->w - stop_button->w;
 
-  set_rect(&prev_rect, prev_pos);
+  SetRect(&prev_rect, prev_pos);
   if(prev_arrow)
     SDL_FreeSurface(prev_arrow);
   prev_arrow = LoadImageOfBoundingBox(prev_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
   /* move button to the right */
   prev_rect.x += prev_rect.w - prev_arrow->w;
 
-  set_rect(&next_rect, next_pos);
+  SetRect(&next_rect, next_pos);
   if(next_arrow)
     SDL_FreeSurface(next_arrow);
   next_arrow = LoadImageOfBoundingBox(next_path, IMG_ALPHA, next_rect.w, next_rect.h);
@@ -1319,7 +1324,6 @@ int RunLoginMenu(void)
     set_high_score_path();
 
   level = 0;
-
 
   if (n_login_questions > 0)
     title = user_login_questions[0];
@@ -1420,8 +1424,9 @@ void RunMainMenu(void)
     tmp_node->submenu[i]->activity = i;
   }
   menus[MENU_LESSONS] = tmp_node;
-  set_font_size();
-  prerender_menu(menus[MENU_LESSONS]);
+  //set_font_size();
+  //prerender_menu(menus[MENU_LESSONS]);
+  prerender_all();
 
   run_menu(menus[MENU_MAIN], false);
   DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
