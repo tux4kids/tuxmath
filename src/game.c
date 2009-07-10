@@ -175,7 +175,7 @@ static void draw_question_counter(void);
 static void draw_console_image(int i);
 
 static void reset_level(void);
-static int add_comet(char *);
+static int add_comet(char *,char *);
 static void add_score(int inc);
 static void reset_comets(void);
 
@@ -280,6 +280,8 @@ int game(void)
 
     check_messages(buf);
     seperate_commmand_and_buf(command,buf);
+ 
+
 
     /* Most code now in smaller functions: */
     game_handle_user_events();
@@ -295,7 +297,7 @@ int game(void)
     game_draw();
     /* figure out if we should leave loop: */
 //    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
-  
+ 
  
 
     /* If we're in "PAUSE" mode, pause! */
@@ -329,6 +331,7 @@ int game(void)
         now_time = MS_PER_FRAME;
       SDL_Delay(now_time);
     }
+
   }
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
@@ -1487,13 +1490,11 @@ void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
     {
       if ((rand() % 2) == 0 || num_comets_alive == 0)
       {
-        if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))!=0)
-        {
-          if (add_comet(buf))
+          if (add_comet(command,buf))
           {
             num_attackers--;
           }
-        }
+        
       }
     }
     else
@@ -2563,7 +2564,7 @@ void reset_level(void)
 
 
 /* Add a comet to the game (if there's room): */
-int add_comet(char buf[NET_BUF_LEN])
+int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 {
   static int prev_city = -1;
   int i, found;
@@ -2609,11 +2610,13 @@ int add_comet(char buf[NET_BUF_LEN])
  /*Server replacement for the above 5 comments*/
    say_to_server("NEXT_QUESTION");
    printf("buf is %s\n",buf);
-   if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+   if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0) 
    {
-     return 0;
-   }
-
+     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+     {
+       return 0;
+     }
+   
 
 
   /* If we make it to here, create a new comet!                  */
@@ -2684,7 +2687,7 @@ int add_comet(char buf[NET_BUF_LEN])
 
   /* Record the time at which this comet was created */
   comets[found].time_started = SDL_GetTicks();
-
+}
   /* comet slot found and question found so return successfully: */
   return 1;
 }
