@@ -749,6 +749,38 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 
 }
 
+
+int MC_NotAnsweredCorrectly_id(int id)
+{
+  MC_MathQuestion* mq;
+  MC_FlashCard* fc;
+
+  if(!active_quests)
+  {
+    mcdprintf("MC_NotAnsweredCorrectly_id() - active_quests is empty\n");
+    return 0;
+  }
+  //Find the question with the given id, if it exists:
+    //First take the question out of the active_quests list
+  mq = active_quests;  
+  // Loop until mq is NULL or card found with matching id:
+  while(mq && (id != mq->card.question_id))
+  {
+    mcdprintf("id is %d, mq->card.question_id is %d\n", id, mq->card.question_id);
+    mq = mq->next;
+  }
+  if(!mq) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly_id() - matching question not found!\n");
+    return 0;
+  }
+  //Now just pass address of card field to MC_NotAnsweredCorrectly():
+  fc = &(mq->card);
+  return MC_NotAnsweredCorrectly(fc);
+}
+
+
+
 /* Tells user interface if all questions have been answered correctly! */
 /* Requires that at list contained at least one question to start with */
 /* and that wrongly answered questions have been recycled.             */

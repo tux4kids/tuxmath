@@ -455,21 +455,23 @@ int handle_client_game_msg(int i , char *buffer)
     game_msg_correct_answer(i,id);
   }                            
 
+  else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
+  {
+    game_msg_next_question();
+  }
+
   else if(strncmp(command, "TOTAL_QUESTIONS_LEFT",strlen("TOTAL_QUESTIONS_LEFT")) == 0) /* Send Total Questions left */
   {
     game_msg_total_questions_left(i);
   }
 
-
+  //FIXME we're not going to need this one.  "MISSION_ACCOMPLISHED" will be one of
+  //the messages the server sends to the client
   else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Check to see if mission is over*/
   {
     game_msg_mission_accomplished(i);
   }
 
-  else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
-  {
-    game_msg_next_question();
-  }
 
   else if(strncmp(command, "exit",strlen("exit")) == 0) /* Terminate this connection */
   {
@@ -489,14 +491,24 @@ int handle_client_game_msg(int i , char *buffer)
 }
 
 
+/* FIXME these are just sending integers to be sent for the client */
+/* to display to the player - printf() or however we decide to do it */
+/* in the real game. If they are supposed to be messages for the   */
+/* client _program_, they need to have their own message type to   */
+/* tell the client what to do with it.  We want it to get e.g      */
+/*	TOTAL_QUESTIONS 22                                         */
+/* rather than:                                                    */
+/*	PLAYER_MSG 22                                              */
+
 void game_msg_total_questions_left(int i)
 {
  int total_questions_left;
  char ch[10];
- total_questions_left=MC_TotalQuestionsLeft();
- snprintf(ch,10,"%d",total_questions_left); 
+ total_questions_left = MC_TotalQuestionsLeft();
+ snprintf(ch, 10, "%d",total_questions_left); 
  player_msg(i,ch);
 }
+
 
 void game_msg_mission_accomplished(int i)
 {
@@ -507,11 +519,13 @@ void game_msg_mission_accomplished(int i)
  player_msg(i,ch);
 }
 
+
+
+
 void game_msg_correct_answer(int i, int id)
 {
   int n;
   char buf[NET_BUF_LEN];
-printf("game_msg_correct_answer() called\n");
   //Announcement for server and all clients:
   snprintf(buf, NET_BUF_LEN, 
           "question id %d was answered correctly by %s\n",

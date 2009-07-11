@@ -125,7 +125,7 @@ int say_to_server(char statement[20])
 
 int check_messages(char buf[NET_BUF_LEN])
 { 
-  int x = 0,numready;
+  int x = 0, numready;
   
   //This is supposed to check to see if there is activity:
   numready = SDLNet_CheckSockets(set, 0);

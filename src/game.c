@@ -188,7 +188,7 @@ static int help_renderframe_exit(void);
 static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
-void seperate_commmand_and_buf(char *,char *);
+void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
 
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
@@ -1393,7 +1393,9 @@ void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
           comets[i].expl < COMET_EXPL_END)
       {
         /* Tell MathCards about it - question not answered correctly: */
+        /* FIXME will need LAN_NotAnsweredCorrectly() here if using network */
         MC_NotAnsweredCorrectly(&(comets[i].flashcard));
+
 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
@@ -2570,7 +2572,7 @@ void reset_level(void)
 
 
 /* Add a comet to the game (if there's room): */
-int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
+int add_comet(char command[NET_BUF_LEN], char buf[NET_BUF_LEN])
 {
   static int prev_city = -1;
   int i, found;
@@ -2613,6 +2615,16 @@ int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 //      return 0;
 //     }
 
+   /* FIXME there's no way this can work. We ask the server for another */
+   /* question, but we don't check the messages before trying to get    */
+   /* the next flash card out of the buffer. So the strncmp() is going  */
+   /* to get done on whatever was in the buffer before. If somehow there*/
+   /* was a leftover "SEND_QUESTION" in there, we will now make a       */
+   /* duplicate comet out of that question.  Otherwise (most likely)    */
+   /* we come back to here next time through the loop and ask for       */
+   /* _another_ question before we have received this one. Either way   */
+   /* it isn't what we want - DSB                                       */
+
  /*Server replacement for the above 5 comments*/
    say_to_server("NEXT_QUESTION");
    printf("buf is %s\n",buf);
@@ -2626,34 +2638,7 @@ int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 
 
      /* If we make it to here, create a new comet!*/
-
      comets[found].answer = comets[found].flashcard.answer;
-//  /* The answer may be num1, num2, or num3, depending on format. */
-//  switch (comets[found].flashcard.format)
-//  {
-//    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
-//    {
-//      comets[found].answer = comets[found].flashcard.num3;
-//      break;
-//    }
-//    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
-//    {
-//      comets[found].answer = comets[found].flashcard.num2;
-//      break;
-//    }
-//    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
-//    {
-//      comets[found].answer = comets[found].flashcard.num1;
-//      break;
-//    }
-//    default:  /* should not get to here if MathCards behaves correctly */
-//    {
-//      fprintf(stderr, "\nadd_comet() - invalid question format");
-//      return 0;
-//    }
-//  }
-  
-
      comets[found].alive = 1;
      num_comets_alive++;
 
@@ -2675,28 +2660,33 @@ int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
      comets[found].zapped = 0;
      /* Should it be a bonus comet? */
      comets[found].bonus = 0;
+
 #ifdef TUXMATH_DEBUG
      printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
 #endif
-     if (bonus_comet_counter == 1) {
+
+     if (bonus_comet_counter == 1)
+     {
        bonus_comet_counter = 0;
        comets[found].bonus = 1;
        playsound(SND_BONUS_COMET);
 #ifdef TUXMATH_DEBUG
        printf("\nCreated bonus comet");
 #endif
-       }
+     }
 
   #ifdef TUXMATH_DEBUG
-       printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
+      printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
   #endif
 
-  /* Record the time at which this comet was created */
-       comets[found].time_started = SDL_GetTicks();
+     /* Record the time at which this comet was created */
+     comets[found].time_started = SDL_GetTicks();
    }
   /* comet slot found and question found so return successfully: */
   return 1;
 }
+
+
 
 /* Draw numbers/symbols over the attacker: */
 /* This draws the numbers related to the comets */
@@ -2901,8 +2891,9 @@ int pause_game(void)
 
 
 
-/* Draw a line: */
+/* FIXME these ought to be in SDL_extras - DSB */
 
+/* Draw a line: */
 void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
 {
   int dx, dy, tmp;
