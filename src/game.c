@@ -296,7 +296,7 @@ int game(void)
     game_handle_extra_life();
     game_draw();
     /* figure out if we should leave loop: */
-//    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
+    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
  
  
 
@@ -2267,6 +2267,8 @@ void game_draw_misc(void)
 
 int check_exit_conditions(void)
 {
+  int x;
+
   if (user_quit_received)
   {
     if (user_quit_received != GAME_OVER_WINDOW_CLOSE &&
@@ -2274,7 +2276,6 @@ int check_exit_conditions(void)
         user_quit_received != GAME_OVER_CHEATER)
     {
     	 tmdprintf("Unexpected value %d for user_quit_received\n", user_quit_received);
-          printf("I am here!!!!!!");
     	 return GAME_OVER_OTHER;
     }
     return user_quit_received;    
@@ -2297,14 +2298,15 @@ int check_exit_conditions(void)
 //    return GAME_OVER_WON;
 //  }
 
-    if(evaluate("MISSION_ACCOMPLISHED"))
-    {
-      tmdprintf("Mission accomplished!\n");
-      return GAME_OVER_WON;
-    } 
-  
-    printf("this is the value of mission accomplished... %d ...\n",evaluate("MISSION_ACCOMPLISHED"));
 
+// x=evaluate("MISSION_ACCOMPLISHED");
+//     if(x)
+//    {
+//      tmdprintf("Mission accomplished!\n");
+//      return GAME_OVER_WON;
+//    } 
+  
+   
 
   /* Could have situation where mathcards doesn't have more questions */
   /* even though not all questions answered correctly:                */
@@ -2313,10 +2315,14 @@ int check_exit_conditions(void)
 //    return GAME_OVER_OTHER;
 //  }
 
-    if(!evaluate("TOTAL_QUESTIONS_LEFT"))
-    {
-     return GAME_OVER_OTHER;
-    }
+
+ //x=evaluate("TOTAL_QUESTIONS_LEFT");
+// printf("this is the value of total questions left..... %d ...\n",x);
+
+//    if(!x)
+//    {
+//     return GAME_OVER_OTHER;
+//    }
 
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
@@ -2619,9 +2625,9 @@ int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
    
 
 
-  /* If we make it to here, create a new comet!                  */
+     /* If we make it to here, create a new comet!*/
 
-  comets[found].answer = comets[found].flashcard.answer;
+     comets[found].answer = comets[found].flashcard.answer;
 //  /* The answer may be num1, num2, or num3, depending on format. */
 //  switch (comets[found].flashcard.format)
 //  {
@@ -2648,46 +2654,46 @@ int add_comet(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 //  }
   
 
-  comets[found].alive = 1;
-  num_comets_alive++;
+     comets[found].alive = 1;
+     num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
   /* (so formulas are less likely to overlap). */
-  do
-  {
-    i = rand() % NUM_CITIES;
-  }
-  while (i == prev_city);
+     do
+     {
+       i = rand() % NUM_CITIES;
+     }
+     while (i == prev_city);
 
-  prev_city = i;
+     prev_city = i;
 
-  /* Set in to attack that city: */
-  comets[found].city = i;
-  /* Start at the top, above the city in question: */
-  comets[found].x = cities[i].x;
-  comets[found].y = 0;
-  comets[found].zapped = 0;
-  /* Should it be a bonus comet? */
-  comets[found].bonus = 0;
+     /* Set in to attack that city: */
+     comets[found].city = i;
+     /* Start at the top, above the city in question: */
+     comets[found].x = cities[i].x;
+     comets[found].y = 0;
+     comets[found].zapped = 0;
+     /* Should it be a bonus comet? */
+     comets[found].bonus = 0;
 #ifdef TUXMATH_DEBUG
-  printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
+     printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
 #endif
-  if (bonus_comet_counter == 1) {
-    bonus_comet_counter = 0;
-    comets[found].bonus = 1;
-    playsound(SND_BONUS_COMET);
+     if (bonus_comet_counter == 1) {
+       bonus_comet_counter = 0;
+       comets[found].bonus = 1;
+       playsound(SND_BONUS_COMET);
 #ifdef TUXMATH_DEBUG
-    printf("\nCreated bonus comet");
+       printf("\nCreated bonus comet");
 #endif
-  }
+       }
 
   #ifdef TUXMATH_DEBUG
-  printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
+       printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
   #endif
 
   /* Record the time at which this comet was created */
-  comets[found].time_started = SDL_GetTicks();
-}
+       comets[found].time_started = SDL_GetTicks();
+   }
   /* comet slot found and question found so return successfully: */
   return 1;
 }

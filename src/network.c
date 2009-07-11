@@ -236,10 +236,11 @@ void cleanup_client(void)
 }
 
 
-
+/*This mainly is a network version of all the MathCards Functions
+  MC_* that have integer as their return value*/
 int evaluate(char statement[20])
 {
-  int ans;
+  int ans,x;
   char command[NET_BUF_LEN];
   int len;
   char buffer[NET_BUF_LEN];
@@ -255,11 +256,16 @@ int evaluate(char statement[20])
      exit(EXIT_FAILURE);
    }
   
-  check_messages(buf);
-  player_msg_recvd(buf,command);
-  ans=atoi(command);
+//   x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
+//  if( x <= 0)
+//  {
+//    fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
+//    exit(EXIT_FAILURE);
+//  }
+//  player_msg_recvd(buf,command);
+//  ans=atoi(command);
 
-  return ans;
+  return 0;
 }
 
 
