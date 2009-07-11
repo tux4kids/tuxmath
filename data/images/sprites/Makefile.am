@@ -47,6 +47,11 @@ dist_sprites_DATA = alone0.png \
   help2.png \
   help3.png \
   helpd.png \
+  help0.svg \
+  help1.svg \
+  help2.svg \
+  help3.svg \
+  helpd.svg \
   lesson0.png \
   lesson1.png \
   lesson2.png \
