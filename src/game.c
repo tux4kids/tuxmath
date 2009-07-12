@@ -110,6 +110,8 @@ static int igloo_vertical_offset;
 static int bonus_comet_counter;
 static int extra_life_earned;
 static int key_pressed;
+static int game_over_other;
+static int game_over_won;
 
 /* Feedback-related variables */
 static int city_expl_height;
@@ -530,18 +532,32 @@ int game(void)
 
 /*Examines the network messages from the buffer and calls
   appropriate function accordingly*/
+/*Do we want a well defined function for each of the condition
+  like on each message a function should be called , or is it ok like this
+  I think this is better--akash*/
 void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 {
   if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
   {
-    printf("buf is =DDDDD   %s\n",buf);
+    printf("buf is %s\n",buf);                                                  //basically here we can have any funct. as of now just printing it to stdout
   }
+
   else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
   {
     if(!Make_Flashcard(buf, &(flash)))
     {
       printf("Unable to parse buffer into flashcard..\n");
     }   
+  }
+
+  else if(strncmp(command,"GAME_OVER_OTHER",strlen("GAME_OVER_OTHER"))==0)
+  {
+    game_over_other=1;
+  }
+
+  else if(strncmp(command,"GAME_OVER_WON",strlen("GAME_OVER_WON"))==0)
+  {
+    game_over_won=1;
   }
   
 }
@@ -2348,6 +2364,8 @@ int check_exit_conditions(void)
 //      return GAME_OVER_WON;
 //    } 
   
+    if(game_over_won)
+     return GAME_OVER_WON;
    
 
   /* Could have situation where mathcards doesn't have more questions */
@@ -2357,6 +2375,9 @@ int check_exit_conditions(void)
 //    return GAME_OVER_OTHER;
 //  }
 
+    if(game_over_other)
+     return GAME_OVER_OTHER;
+    
 
  //x=evaluate("TOTAL_QUESTIONS_LEFT");
 // printf("this is the value of total questions left..... %d ...\n",x);
