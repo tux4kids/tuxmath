@@ -88,6 +88,7 @@ static int wave;
 static int score;
 static int pre_wave_score;
 static int prev_wave_comets;
+static int found;
 static int slowdown;
 static int num_attackers;
 static float speed;
@@ -149,9 +150,10 @@ static void game_handle_help(void);
 static void game_handle_user_events(void);
 static void game_handle_demo(void);
 static void game_handle_answer(void);
+static void game_handle_net_messages(char*,char*);
 static void game_countdown(void);
 static void game_handle_tux(void);
-static void game_handle_comets(char *,char *);
+static void game_handle_comets();
 static void game_handle_cities(void);
 static void game_handle_penguins(void);
 static void game_handle_steam(void);
@@ -175,7 +177,7 @@ static void draw_question_counter(void);
 static void draw_console_image(int i);
 
 static void reset_level(void);
-static int add_comet(char *,char *);
+static int add_comet(void);
 static void add_score(int inc);
 static void reset_comets(void);
 
@@ -194,6 +196,20 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
 static void print_exit_conditions(void);
 static void print_status(void);
 #endif
+MC_FlashCard flash;
+void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
+{
+  if (!src || !dest)
+    return;
+  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
+  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
+  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
+  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
+  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
+  dest->answer = src->answer;
+  dest->difficulty = src->difficulty;
+  dest->question_id = src->question_id;
+}
 
 
 void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
@@ -220,6 +236,7 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 
 int game(void)
 {
+ 
   /*connecting to the server*/
   if(!setup_net("localhost",DEFAULT_PORT))
   {
@@ -278,8 +295,12 @@ int game(void)
       laser.alive--;
     }
 
-    check_messages(buf);
-    seperate_commmand_and_buf(command,buf);
+   while(!check_messages(buf))
+   {
+     seperate_commmand_and_buf(command,buf);
+     game_handle_net_messages(buf,command);   
+   }
+    
  
 
 
@@ -289,7 +310,7 @@ int game(void)
     game_handle_answer();
     game_countdown();
     game_handle_tux();
-    game_handle_comets(command,buf);
+    game_handle_comets();
     game_handle_cities();
     game_handle_penguins();
     game_handle_steam();
@@ -504,6 +525,25 @@ int game(void)
     /* return to title() screen: */
     return game_status;
   }
+}
+
+
+/*Examines the network messages from the buffer and calls
+  appropriate function accordingly*/
+void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
+{
+  if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
+  {
+    printf("buf is =DDDDD   %s\n",buf);
+  }
+  else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
+  {
+    if(!Make_Flashcard(buf, &(flash)))
+    {
+      printf("Unable to parse buffer into flashcard..\n");
+    }   
+  }
+  
 }
 
 /* 
@@ -1350,7 +1390,7 @@ void game_handle_tux(void)
 
 //FIXME might be simpler to store vertical position (and speed) in terms of time
 //rather than absolute position, and determine the latter in game_draw_comets()
-void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
+void game_handle_comets(void)
 {
   /* Handle comets. Since the comets also are the things that trigger
      changes in the cities, we set some flags in them, too. */
@@ -1492,7 +1532,7 @@ void game_handle_comets(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
     {
       if ((rand() % 2) == 0 || num_comets_alive == 0)
       {
-          if (add_comet(command,buf))
+          if (add_comet())
           {
             num_attackers--;
           }
@@ -2269,7 +2309,7 @@ void game_draw_misc(void)
 
 int check_exit_conditions(void)
 {
-  int x;
+//  int x;
 
   if (user_quit_received)
   {
@@ -2572,10 +2612,10 @@ void reset_level(void)
 
 
 /* Add a comet to the game (if there's room): */
-int add_comet(char command[NET_BUF_LEN], char buf[NET_BUF_LEN])
+int add_comet(void)
 {
   static int prev_city = -1;
-  int i, found;
+  int i;
   float y_spacing;
   //extern int n;
 
@@ -2627,15 +2667,15 @@ int add_comet(char command[NET_BUF_LEN], char buf[NET_BUF_LEN])
 
  /*Server replacement for the above 5 comments*/
    say_to_server("NEXT_QUESTION");
-   printf("buf is %s\n",buf);
-   if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0) 
-   {
-     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
-     {
-       return 0;
-     }
-   
-
+//   printf("buf is %s\n",buf);
+//  if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0) 
+//   {
+//     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+//     {
+//       return 0;
+//     }
+    printf("Made the flashcard\n");
+    copy_card(&flash,&(comets[found].flashcard));
 
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;
@@ -2681,7 +2721,8 @@ int add_comet(char command[NET_BUF_LEN], char buf[NET_BUF_LEN])
 
      /* Record the time at which this comet was created */
      comets[found].time_started = SDL_GetTicks();
-   }
+//   }
+  printf("Success\n");
   /* comet slot found and question found so return successfully: */
   return 1;
 }

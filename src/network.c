@@ -150,6 +150,7 @@ int check_messages(char buf[NET_BUF_LEN])
         fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
         exit(EXIT_FAILURE);
       }
+      return 0;
     }
   }
   return 1;
