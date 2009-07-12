@@ -87,41 +87,17 @@ int main(int argc, char **argv)
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
-//    frame++;
-//    /* See if our existing clients are really still there. For */
-//    /* performance reasons, we don't do this on every loop:    */
-//    if(frame%1000 == 0)
-//      test_connections();
 
     /* Now we check to see if anyone is trying to connect. */
     update_clients();
     /* Check for any pending messages from clients already connected: */
     check_messages();
 
-    /*checking for two mathcards dependent exit conditions*/ 
-    if(num_clients)
-    {
-      if (!MC_TotalQuestionsLeft())
-      {
-        if(no_questions_left())
-        {
-          printf("function no_questions_left() failed \n");
-        }
-      }
-    
-      if (MC_MissionAccomplished())
-      {
-        if(mission_accomplished())
-        {
-          printf("function mission_accomplished failed \n");
-        }
-      }
-    }
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
     /* CPU from 100% to ~2% on my desktop - DSB                       */
-    throttle(1);  //min loop time 1 msec
+    Throttle(5);  //min loop time 5 msec
   }
    
   /*   -----  Free resources before exiting: -------    */
@@ -129,6 +105,7 @@ int main(int argc, char **argv)
 
   return EXIT_SUCCESS;
 }
+
 
 
 /*********************************************************************/
@@ -258,9 +235,9 @@ void cleanup_server(void)
     server_sock = NULL;
   }
 
-  
+  SDLNet_Quit();
 
- /* Clean up mathcards heap memory */
+  /* Clean up mathcards heap memory */
   MC_EndGame();
 }
 
@@ -558,36 +535,7 @@ int handle_client_game_msg(int i , char *buffer)
 }
 
 
-/* FIXME these are just sending integers to be sent for the client */
-/* to display to the player - printf() or however we decide to do it */
-/* in the real game. If they are supposed to be messages for the   */
-/* client _program_, they need to have their own message type to   */
-/* tell the client what to do with it.  We want it to get e.g      */
-/*	TOTAL_QUESTIONS 22                                         */
-/* rather than:                                                    */
-/*	PLAYER_MSG 22                                              */
 
-/*
-void game_msg_total_questions_left(int i)
-{
- int total_questions_left;
- char ch[10];
- total_questions_left = MC_TotalQuestionsLeft();
- snprintf(ch, 10, "%d",total_questions_left); 
- player_msg(i,ch);
-}
-
-
-void game_msg_mission_accomplished(int i)
-{
-
- int total_questions_left;
- char ch[10];
- total_questions_left=MC_MissionAccomplished();
- snprintf(ch,10,"%d",total_questions_left); 
- player_msg(i,ch);
-}
-*/
 
 void game_msg_correct_answer(int i, int id)
 {
@@ -638,55 +586,8 @@ void game_msg_next_question(void)
   } 
 }
 
-// Go through and test all the current connections, removing
-// any clients that fail to respond:
-void test_connections(void)
-{
-  int i = 0;
-
-  for (i = 0; i < MAX_CLIENTS; i++)
-    ping_client(i);
-}
 
 
-// This is supposed to be a way to test and see if each client
-// is really connected.
-// FIXME I think we need to put in a SDLNet_TCP_Recv() to see
-// if we get a reply, now that the client is modified to send back
-// PING_BACK.  I am worried, however, that we could have a problem
-// with intercepting messages not related to the ping testing - DSB
-
-void ping_client(int i)
-{
-  char buf[NET_BUF_LEN];
-  char msg[NET_BUF_LEN];
-  int x;
-
-  if(i < 0 || i > MAX_CLIENTS)
-  {
-    printf("ping_client() - invalid index argument\n");
-    return;
-  }
-  
-  if(client[i].sock == NULL)
-  {
-    return;
-  }
-  
-//  sprintf(msg,"%s", "PING\n");
-//  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-  snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
-  x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
-  if(x < NET_BUF_LEN)
-  {
-   printf("The client %s is disconnected\n",client[i].name);
-   remove_client(i);
-  }
-//#ifdef LAN_DEBUG
-  printf("buf is: %s\n", buf);
-  printf("SendMessage() - buf sent:::: %d bytes\n", x);
-//#endif
-}
 
 
 void game_msg_exit(int i)
@@ -900,24 +801,22 @@ int player_msg(int i, char* msg)
 #ifdef LAN_DEBUG
     printf("player_msg() - invalid index argument\n");
 #endif
-  return 0;
+    return 0;
   }
-  
-  if(!client[i].sock)
-  {
-#ifdef LAN_DEBUG
-    printf("player_msg() - client socket is NULL\n");
-#endif
-  return 0;
-  }
-  
+
   if(!msg)
   {
 #ifdef LAN_DEBUG
     printf("player_msg() - msg argument is NULL\n");
 #endif
-  return 0;
+    return 0;
   }
+  
+  if(!client[i].sock)
+  {
+    return 0;
+  }
+  
 
   //transmit:
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "PLAYER_MSG", msg);
@@ -942,32 +841,66 @@ void broadcast_msg(char* msg)
 }
 
 
-/* Simple function that returns a minimum of 'loop_msec' */
-/* milliseconds after it returned the previous time it   */
-/* was called.                                           */
-void throttle(int loop_msec)
+
+
+
+
+
+
+
+
+/* Code related to "pinging system" for pollng all clients to */
+/* see if they are still connected - we may not need this.    */
+/* (kept out of way here at bottom until we decide)           */
+
+
+
+// Go through and test all the current connections, removing
+// any clients that fail to respond:
+void test_connections(void)
 {
-  static Uint32 now_t, last_t; //These will be zero first time through
-  int wait_t;
+  int i = 0;
 
-  //Target loop time must be between 0 and 100 msec:
-  if(loop_msec < 0)
-    loop_msec = 0;
-  if(loop_msec > 100)
-    loop_msec = 100;
+  for (i = 0; i < MAX_CLIENTS; i++)
+    ping_client(i);
+}
 
-  if (now_t == 0)  //For sane behavior first time through:
-    last_t = SDL_GetTicks();
-  else
-    last_t = now_t;
-  now_t = SDL_GetTicks();
-  wait_t = (last_t + loop_msec) - now_t;
 
-  //Avoid problem if we somehow wrap past uint32 size
-  if(wait_t < 0)
-    wait_t = 0;
-  if(wait_t > loop_msec)
-    wait_t = loop_msec;
+// This is supposed to be a way to test and see if each client
+// is really connected.
+// FIXME I think we need to put in a SDLNet_TCP_Recv() to see
+// if we get a reply, now that the client is modified to send back
+// PING_BACK.  I am worried, however, that we could have a problem
+// with intercepting messages not related to the ping testing - DSB
 
-  SDL_Delay(wait_t);
+void ping_client(int i)
+{
+  char buf[NET_BUF_LEN];
+  char msg[NET_BUF_LEN];
+  int x;
+
+  if(i < 0 || i > MAX_CLIENTS)
+  {
+    printf("ping_client() - invalid index argument\n");
+    return;
+  }
+  
+  if(client[i].sock == NULL)
+  {
+    return;
+  }
+  
+//  sprintf(msg,"%s", "PING\n");
+//  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+  snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
+  x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+  if(x < NET_BUF_LEN)
+  {
+   printf("The client %s is disconnected\n",client[i].name);
+   remove_client(i);
+  }
+//#ifdef LAN_DEBUG
+  printf("buf is: %s\n", buf);
+  printf("SendMessage() - buf sent:::: %d bytes\n", x);
+//#endif
 }

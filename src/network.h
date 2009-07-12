@@ -23,7 +23,7 @@ int evaluate(char *statement);
 int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 void cleanup_client(void);
 int check_messages(char *);
-int player_msg_recvd(char* buf,char* p);
+int player_msg_recvd(char* buf);
 int Make_Flashcard(char* buf, MC_FlashCard* fc);
 void server_pinged(void);        //The ping system is not yet used and so is this function.
 #endif // NETWORK_H

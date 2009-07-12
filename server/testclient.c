@@ -27,6 +27,8 @@
 #include "transtruct.h"
 #include "mathcards.h"
 #include "testclient.h"
+#include "../src/throttle.h"
+#include "../src/network.h"
 
 /* Local (to testclient.c) "globals": */
 TCPsocket sd;           /* Server socket descriptor */
@@ -39,15 +41,10 @@ MC_FlashCard flash;    //current question
 
 /* Local function prototypes: */
 int setup_client(int argc, char **argv);
-void cleanup_client(void);
-int Make_Flashcard(char *buf, MC_FlashCard* fc);
-int LAN_AnsweredCorrectly(MC_FlashCard* fc);
-int playgame(void);
-void server_pinged(void);
 
-int player_msg_recvd(char *command,char* buf);
+int playgame(void);
+
 int read_stdin_nonblock(char* buf, size_t max_length);
-void throttle(int loop_msec);
 
 
 
@@ -70,7 +67,7 @@ int main(int argc, char **argv)
 
   /* Send messages */
   quit = 0;
-  do
+  while(!quit)
   { 
     //Get user input from command line and send it to server: 
     /*now display the options*/
@@ -106,14 +103,10 @@ int main(int argc, char **argv)
              "'quit' to end both client and server\n\n>\n");
     }
     //Limit loop to once per 10 msec so we don't eat all CPU
-    throttle(10);
-  }while(!quit);
+    Throttle(10);
+  }
  
-  SDLNet_TCP_Close(sd);
-  SDLNet_FreeSocketSet(set);
-  set=NULL; //this helps us remember that this set is not allocated
-
-  SDLNet_Quit();
+  cleanup_client();
  
   return EXIT_SUCCESS;
 }
@@ -196,132 +189,6 @@ int setup_client(int argc, char **argv)
   return 1;
 }
 
-
-
-
-int LAN_AnsweredCorrectly(MC_FlashCard* fc)
-{
-  int len;
-  char buffer[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s %d\n",
-                  "CORRECT_ANSWER",
-                  fc->question_id);
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s\n",
-                  "NEXT_QUESTION");
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-
-
-  return 1;
-}
-                
-
-void server_pinged(void)
-{ 
-  int len;
-  char buffer[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s \n",
-                  "PING_BACK");
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
- 
-#ifdef LAN_DEBUG
-//   printf("Buffer sent is %s\n",buffer);
-#endif
- 
-}
-
-
-int Make_Flashcard(char* buf, MC_FlashCard* fc)
-{
-  int i = 0, j, tab = 0, s = 0;
-  char formula[MC_FORMULA_LEN];
-  sscanf (buf,"%*s%d%d%d%s",
-              &fc->question_id,
-              &fc->difficulty,
-              &fc->answer,
-              fc->answer_string); /* can't formula_string in sscanf in here cause it includes spaces*/
- 
-  /*doing all this cause sscanf will break on encountering space in formula_string*/
-  /* NOTE changed to index notation so we keep within NET_BUF_LEN */
-  while(buf[i]!='\n' && i < NET_BUF_LEN)
-  {
-    if(buf[i]=='\t')
-      tab++; 
-    i++;
-    if(tab == 5)
-      break;
-  }
-
-  while((buf[i] != '\n') 
-    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
-  {
-    formula[s] = buf[i] ;
-    i++;
-    s++;
-  }
-  formula[s]='\0';
-  strcpy(fc->formula_string, formula); 
-
-#ifdef LAN_DEBUG
-  printf ("card is:\n");
-  printf("QUESTION_ID       :      %d\n",fc->question_id);
-  printf("FORMULA_STRING    :      %s\n",fc->formula_string);
-  printf("ANSWER STRING     :      %s\n",fc->answer_string);
-  printf("ANSWER            :      %d\n",fc->answer);
-  printf("DIFFICULTY        :      %d\n",fc->difficulty);  
-#endif
-
-return 1;
-} 
-int evaluate(char statement[20])
-{
-  int ans,x;
-  char command[NET_BUF_LEN];
-  int len;
-  char buffer[NET_BUF_LEN];
-  char buf[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s\n",
-                  statement);
-   len = strlen(buffer) + 1;
-   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-   {
-     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-     exit(EXIT_FAILURE);
-   }
-        x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
-          if( x <= 0)
-          {
-            fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
-            exit(EXIT_FAILURE);
-          }
-  player_msg_recvd(buf,command);
-  ans=atoi(command);
-
-  return ans;
-}
 
 
 int playgame(void)
@@ -407,11 +274,9 @@ int playgame(void)
           }
 
           command[i] = '\0';
-printf("this is the value of mission accomplished... %d ...\n",evaluate("TOTAL_QUESTIONS_LEFT"));
-evaluate("TOTAL_QUESTIONS_LEFT");
 #ifdef LAN_DEBUG
-//          printf("buf is %s\n", buf);
-//          printf("command is %s\n", command);
+          printf("buf is %s\n", buf);
+          printf("command is %s\n", command);
 #endif
           /* Now we process the buffer according to the command: */
           if(strncmp(command, "SEND_QUESTION", 13) == 0)
@@ -432,7 +297,7 @@ evaluate("TOTAL_QUESTIONS_LEFT");
           }
           else if(strncmp(command,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
           {
-            player_msg_recvd(NULL,buf);
+            player_msg_recvd(buf);
           }
 	  else if(strncmp(command,"PING", strlen("PING")) == 0)
           {
@@ -462,7 +327,7 @@ evaluate("TOTAL_QUESTIONS_LEFT");
       }
       else if(strncmp(buf,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
       {
-        player_msg_recvd(NULL,buf);
+        player_msg_recvd(buf);
       } 
       else
       {
@@ -487,7 +352,7 @@ evaluate("TOTAL_QUESTIONS_LEFT");
       }  //input wasn't any of our keywords
     } // Input was received 
 
-    throttle(10);  //so don't eat all CPU
+    Throttle(10);  //so don't eat all CPU
   } //End of game loop 
 #ifdef LAN_DEBUG
   printf("Leaving playgame()\n");
@@ -495,20 +360,7 @@ evaluate("TOTAL_QUESTIONS_LEFT");
 }
 
 
-//Goes past the title field in the tab-delimited buffer
-//and prints the rest to stdout:
-int player_msg_recvd(char *command,char* buf)
-{
-  command = strchr(buf, '\t');
-  if(command)
-  { 
-    command++;
-    printf("%s\n", command);
-    return 1;
-  }
-  else
-    return 0;
-}
+
 
 //Here we read up to max_length bytes from stdin into the buffer.
 //The first '\n' in the buffer, if present, is replaced with a
@@ -532,34 +384,5 @@ int read_stdin_nonblock(char* buf, size_t max_length)
     bytes_read = 0;
       
   return bytes_read;
-}
-
-
-
-void throttle(int loop_msec)
-{
-  static Uint32 now_t, last_t; //These will be zero first time through
-  int wait_t;
-
-  //Target loop time must be between 0 and 100 msec:
-  if(loop_msec < 0)
-    loop_msec = 0;
-  if(loop_msec > 100)
-    loop_msec = 100;
-
-  if (now_t == 0)  //For sane behavior first time through:
-    last_t = SDL_GetTicks();
-  else
-    last_t = now_t;
-  now_t = SDL_GetTicks();
-  wait_t = (last_t + loop_msec) - now_t;
-
-  //Avoid problem if we somehow wrap past uint32 size
-  if(wait_t < 0)
-    wait_t = 0;
-  if(wait_t > loop_msec)
-    wait_t = loop_msec;
-
-  SDL_Delay(wait_t);
 }
 

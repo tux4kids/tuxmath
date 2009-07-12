@@ -91,8 +91,13 @@ int setup_net(char *host, int port)
 
 }
 
-int player_msg_recvd(char* buf,char* p)
+/* This function prints the 'msg' part of the buffer (i.e. everything */
+/* after the first '\t') to stdout.                                   */
+int player_msg_recvd(char* buf)
 {
+  char* p;
+  if(buf == NULL)
+    return 0;
   p = strchr(buf, '\t');
   if(p)
   { 
@@ -222,18 +227,18 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 
 void cleanup_client(void)
 {
-  
-  if (set != NULL)
-  {
-    SDLNet_FreeSocketSet(set);    //releasing the memory of the client socket set
-    set = NULL;                   //this helps us remember that this set is not allocated
-  } 
-
-  if(sd != NULL)
+  if(sd)
   {
     SDLNet_TCP_Close(sd);
     sd = NULL;
   }
+
+  if(set)
+  {
+    SDLNet_FreeSocketSet(set);
+    set = NULL;
+  }
+  SDLNet_Quit();
 }
 
 
