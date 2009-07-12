@@ -53,7 +53,9 @@ int player_msg(int i, char* msg);
 void broadcast_msg(char* msg);
 void throttle(int loop_msec);
 void game_msg_next_question(void);
-void game_msg_total_questions_left(int i);
+//void game_msg_total_questions_left(int i);
+int no_questions_left(void);
+int mission_accomplished(void);
 
 /* "Local globals" for server.c:   */
 TCPsocket server_sock = NULL; /* Socket descriptor for server            */
@@ -95,6 +97,26 @@ int main(int argc, char **argv)
     update_clients();
     /* Check for any pending messages from clients already connected: */
     check_messages();
+
+    /*checking for two mathcards dependent exit conditions*/ 
+    if(num_clients)
+    {
+      if (!MC_TotalQuestionsLeft())
+      {
+        if(no_questions_left())
+        {
+          printf("function no_questions_left() failed \n");
+        }
+      }
+    
+      if (MC_MissionAccomplished())
+      {
+        if(mission_accomplished())
+        {
+          printf("function mission_accomplished failed \n");
+        }
+      }
+    }
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
@@ -113,6 +135,49 @@ int main(int argc, char **argv)
 /*  "Private" (to server.c) functions                                */
 /*********************************************************************/
 
+int no_questions_left(void)
+{
+  int x,j;
+
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "GAME_OVER_OTHER");
+
+  for(j = 0; j < num_clients; j++)
+   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+
+#ifdef LAN_DEBUG
+  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+
+  if (x == 0)
+    return 0;
+  return 1;
+}
+
+
+int mission_accomplished(void)
+{
+  int x,j;
+
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "GAME_OVER_WON");
+  for(j = 0; j < num_clients; j++)
+   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+
+#ifdef LAN_DEBUG
+  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+
+  if (x == 0)
+    return 0;
+  return 1;
+}
 
 // setup_server() - all the things needed to get server running:
 int setup_server(void)
@@ -460,17 +525,19 @@ int handle_client_game_msg(int i , char *buffer)
     game_msg_next_question();
   }
 
-  else if(strncmp(command, "TOTAL_QUESTIONS_LEFT",strlen("TOTAL_QUESTIONS_LEFT")) == 0) /* Send Total Questions left */
-  {
-    game_msg_total_questions_left(i);
-  }
+//  else if(strncmp(command, "TOTAL_QUESTIONS_LEFT",strlen("TOTAL_QUESTIONS_LEFT")) == 0) /* Send Total Questions left */
+//  {
+//    game_msg_total_questions_left(i);
+//  }
+
 
   //FIXME we're not going to need this one.  "MISSION_ACCOMPLISHED" will be one of
   //the messages the server sends to the client
-  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Check to see if mission is over*/
-  {
-    game_msg_mission_accomplished(i);
-  }
+//  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Check to see if mission is over*/
+
+//  {
+//    game_msg_mission_accomplished(i);
+//  }
 
 
   else if(strncmp(command, "exit",strlen("exit")) == 0) /* Terminate this connection */
@@ -500,6 +567,7 @@ int handle_client_game_msg(int i , char *buffer)
 /* rather than:                                                    */
 /*	PLAYER_MSG 22                                              */
 
+/*
 void game_msg_total_questions_left(int i)
 {
  int total_questions_left;
@@ -512,15 +580,14 @@ void game_msg_total_questions_left(int i)
 
 void game_msg_mission_accomplished(int i)
 {
+
  int total_questions_left;
  char ch[10];
  total_questions_left=MC_MissionAccomplished();
  snprintf(ch,10,"%d",total_questions_left); 
  player_msg(i,ch);
 }
-
-
-
+*/
 
 void game_msg_correct_answer(int i, int id)
 {

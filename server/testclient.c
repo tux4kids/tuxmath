@@ -302,7 +302,7 @@ int evaluate(char statement[20])
   char buffer[NET_BUF_LEN];
   char buf[NET_BUF_LEN];
 
-   snprintf(buffer, NET_BUF_LEN, 
+  snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
                   statement);
    len = strlen(buffer) + 1;
@@ -322,6 +322,7 @@ int evaluate(char statement[20])
 
   return ans;
 }
+
 
 int playgame(void)
 {
