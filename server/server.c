@@ -382,7 +382,7 @@ int check_messages(void)
 
 
   //NOTE Does this belong here? Seems to have more to do wth client connections.
-  if(game_in_progress==1)
+  if(game_in_progress == 1)
   {
     for(i = 0; i < MAX_CLIENTS; i++)
     {
@@ -501,21 +501,6 @@ int handle_client_game_msg(int i , char *buffer)
   {
     game_msg_next_question();
   }
-
-//  else if(strncmp(command, "TOTAL_QUESTIONS_LEFT",strlen("TOTAL_QUESTIONS_LEFT")) == 0) /* Send Total Questions left */
-//  {
-//    game_msg_total_questions_left(i);
-//  }
-
-
-  //FIXME we're not going to need this one.  "MISSION_ACCOMPLISHED" will be one of
-  //the messages the server sends to the client
-//  else if(strncmp(command, "MISSION_ACCOMPLISHED",strlen("MISSION_ACCOMPLISHED")) == 0) /* Check to see if mission is over*/
-
-//  {
-//    game_msg_mission_accomplished(i);
-//  }
-
 
   else if(strncmp(command, "exit",strlen("exit")) == 0) /* Terminate this connection */
   {
@@ -750,8 +735,8 @@ int SendQuestion(MC_FlashCard flash,TCPsocket client_sock)
 
 
 /*Function to send any messages to the client be it any warnings
-  or anything the client is made to be informed*/
-int SendMessage(int message, int ques_id,char *name,TCPsocket client_sock)         
+  or anything the client is made to be informed */
+int SendMessage(int message, int ques_id, char *name, TCPsocket client_sock)         
 {
  int x, len;
  char buf[NET_BUF_LEN];
