@@ -38,12 +38,12 @@ int len = 0;
 int sockets_used = 0;
 int quit = 0;
 MC_FlashCard flash;    //current question
+int have_question = 0;
 
 /* Local function prototypes: */
 int setup_client(int argc, char **argv);
-
 int playgame(void);
-
+int game_check_msgs(void);
 int read_stdin_nonblock(char* buf, size_t max_length);
 
 
@@ -191,6 +191,55 @@ int setup_client(int argc, char **argv)
 
 
 
+int game_check_msgs(void)
+{
+  char buf[NET_BUF_LEN];
+  int status = 1;
+  while(1)
+  {
+    buf[0] = '\0';
+    status = get_next_msg(buf);
+    if (status == -1)  //Fatal error
+    {
+      printf("Error - get_next_msg() returned -1\n");
+      return -1;
+    }
+
+    if (status == 0)  //Fatal error
+    {
+      //No messages
+      return 0;
+    }
+
+    /* Now we process the buffer according to the command: */
+    if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
+    {
+      /* function call to parse buffer and receive question */
+      if(Make_Flashcard(buf, &flash))
+      {
+        have_question = 1; 
+        printf("The question is: %s\n>\n", flash.formula_string);
+      }
+      else
+        printf("Unable to parse buffer into FlashCard\n");
+    }
+    else if(strncmp(buf, "SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
+    {
+      printf("%s\n", buf);
+    }
+    else if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
+    {
+      player_msg_recvd(buf);
+    }
+    else 
+    {
+      printf("game_check_msgs() - unrecognized message: %s\n", buf);
+    }
+  }
+
+  return 1;
+}
+
 int playgame(void)
 {
   int numready;
@@ -198,7 +247,6 @@ int playgame(void)
   int ans = 0;
   int x=0, i = 0;
   int end = 0;
-  int have_question = 0;
   int len = 0;
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
@@ -230,87 +278,11 @@ int playgame(void)
   //Begin game loop:
   while (!end)
   {
-    //First we check for any responses from server:
-    //NOTE keep looping until SDLNet_CheckSockets() detects no activity.
-    numready = 1;
-    while(numready > 0)
-    {
-     
-      char command[NET_BUF_LEN];
-      int i = 0;
 
-      //This is supposed to check to see if there is activity:
-      numready = SDLNet_CheckSockets(set, 0);
-      if(numready == -1)
-      {
-        printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("SDLNet_CheckSockets");
-      }
-      else if(numready > 0)
-      {
-#ifdef LAN_DEBUG
-//        printf("There are %d sockets with activity!\n", numready);
-#endif
-        // check all sockets with SDLNet_SocketReady and handle the active ones.
-        if(SDLNet_SocketReady(sd))
-        {
-          buf[0] = '\0';
-          x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
-          if( x <= 0)
-          {
-            fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
-            exit(EXIT_FAILURE);
-          }
-#ifdef LAN_DEBUG
-//          printf("%d bytes received\n", x);
-#endif
-          /* Copy the command name out of the tab-delimited buffer: */
-          for (i = 0;
-               buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
-               i++)
-          {
-            command[i] = buf[i];
-          }
-
-          command[i] = '\0';
-#ifdef LAN_DEBUG
-          printf("buf is %s\n", buf);
-          printf("command is %s\n", command);
-#endif
-          /* Now we process the buffer according to the command: */
-          if(strncmp(command, "SEND_QUESTION", 13) == 0)
-          {
-            /* function call to parse buffer into MC_FlashCard */
-            if(Make_Flashcard(buf, &flash))
-            {
-              have_question = 1; 
-              printf("The question is: %s\n>\n", flash.formula_string);
-            }
-            else
-              printf("Unable to parse buffer into FlashCard\n");
-          }
-          else if(strncmp(command,"SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
-          {
-            // Presumably we want to print the message to stdout
-            printf("%s\n", buf);
-          }
-          else if(strncmp(command,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
-          {
-            player_msg_recvd(buf);
-          }
-	  else if(strncmp(command,"PING", strlen("PING")) == 0)
-          {
-            server_pinged();
-          }
-        }
-      }
-    } // End of loop for checking server activity
-
-#ifdef LAN_DEBUG
-//    printf(".\n");
-#endif
-
+    //Check our network messages, bailing out for fatal errors:
+    if (game_check_msgs() == -1)
+      return -1;
+    
     //Now we check for any user responses
 
     //This function returns 1 and updates buf with input from

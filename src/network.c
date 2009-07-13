@@ -161,6 +161,69 @@ int check_messages(char buf[NET_BUF_LEN])
   return 1;
 }
 
+
+/* Here we get the next message from the server if one is available. */
+/* We return 1 if a message received, 0 if no activity, -1 on errors */
+/* or if connection is lost:                                         */
+int get_next_msg(char* buf)
+{ 
+  int x = 0, numready = 0;
+
+  /* Make sure we have place to put message: */
+  if(buf == NULL)
+  {
+    printf("get_next_msg() passed NULL buffer\n");
+    return -1;
+  }
+  
+  //Check to see if there is socket activity:
+  numready = SDLNet_CheckSockets(set, 0);
+  if(numready == -1)
+  {
+    printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    //most of the time this is a system error, where perror might help you.
+    perror("SDLNet_CheckSockets");
+    return -1;
+  }
+  else if(numready > 0)
+  {
+   // check with SDLNet_SocketReady():
+    if(SDLNet_SocketReady(sd))
+    {
+      buf[0] = '\0';
+      
+      if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) > 0)
+      {
+        //Success - message is now in buffer
+        return 1;
+      }
+      else
+      {
+        fprintf(stderr, "In get_next_msg(), SDLNet_TCP_Recv() failed!\n");
+        SDLNet_TCP_DelSocket(set, sd);
+        if(sd != NULL)
+          SDLNet_TCP_Close(sd);
+        sd = NULL;
+        return -1;
+      }
+    }
+    else
+    {
+      fprintf(stderr, "In get_next_msg(), socket set reported active but no activity found\n");
+      SDLNet_TCP_DelSocket(set, sd);
+      if(sd != NULL)
+        SDLNet_TCP_Close(sd);
+      sd = NULL;
+      return -1;
+    }
+  }
+  // No socket activity - just return 0:
+  return 0;
+}
+
+
+
+
 int Make_Flashcard(char* buf, MC_FlashCard* fc)
 {
   int i = 0,tab = 0, s = 0;

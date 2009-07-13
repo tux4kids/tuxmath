@@ -18,6 +18,7 @@
 #define NETWORK_H
 
 int setup_net(char *host, int port);
+int get_next_msg(char* buf);
 int say_to_server(char *statement);
 int evaluate(char *statement);
 int LAN_AnsweredCorrectly(MC_FlashCard* fc);
