@@ -603,8 +603,12 @@ int game_initialize(void)
 //  }
 
    /*To function for the above 5 comments*/
-   say_to_server("START_GAME");
-
+//   say_to_server("START_GAME");
+  if (!LAN_StartGame())
+  {
+    fprintf(stderr, "\nLAN_StartGame() failed!");
+    return 0;
+  }
 
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
@@ -2676,18 +2680,14 @@ int add_comet(void)
 //      return 0;
 //     }
 
-   /* FIXME there's no way this can work. We ask the server for another */
-   /* question, but we don't check the messages before trying to get    */
-   /* the next flash card out of the buffer. So the strncmp() is going  */
-   /* to get done on whatever was in the buffer before. If somehow there*/
-   /* was a leftover "SEND_QUESTION" in there, we will now make a       */
-   /* duplicate comet out of that question.  Otherwise (most likely)    */
-   /* we come back to here next time through the loop and ask for       */
-   /* _another_ question before we have received this one. Either way   */
-   /* it isn't what we want - DSB                                       */
-
- /*Server replacement for the above 5 comments*/
-   say_to_server("NEXT_QUESTION");
+   /* FIXME what we really need here is the capability within network.c to queue  */
+   /* any questions that have been received from the server in check_messages(),  */
+   /* and a function that gives us the next question in the local queue if there  */
+   /* is one. We can't assume that it will arrive from the server right at the    */
+   /* time we happen to need it to make a new comet. So I'm commenting out        */
+   /* the 'say_to_server()' call as well - DSB                                     */
+/*Server replacement for the above 5 comments*/
+//   say_to_server("NEXT_QUESTION");
 //   printf("buf is %s\n",buf);
 //  if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0) 
 //   {

@@ -17,14 +17,28 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+
+
+/* Networking setup and cleanup: */
 int setup_net(char *host, int port);
-int get_next_msg(char* buf);
-int say_to_server(char *statement);
-int evaluate(char *statement);
-int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 void cleanup_client(void);
-int check_messages(char *);
+
+/* Network replacement functions for mathcards "API": */
+/* These functions are how the client tells things to the server: */
+int LAN_StartGame(void);
+int LAN_AnsweredCorrectly(MC_FlashCard* fc);
+
+/* This is how the client receives messages from the server: */
+int LAN_NextMsg(char* buf);
+
+/* Functions to handle various messages from the server: */
 int player_msg_recvd(char* buf);
+
+
+
+/* FIXME appears this one is basically the same as LAN_NextMsg() */
+int check_messages(char *);
+/* FIXME this should be local to network.c */
 int Make_Flashcard(char* buf, MC_FlashCard* fc);
-void server_pinged(void);        //The ping system is not yet used and so is this function.
+
 #endif // NETWORK_H

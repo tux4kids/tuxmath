@@ -33,6 +33,10 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int playgame(void);
 void server_pinged(void);*/
 
+/* Local function prototypes: */
+int say_to_server(char *statement);
+int evaluate(char *statement);
+
 
 int setup_net(char *host, int port)
 {
@@ -112,13 +116,11 @@ int player_msg_recvd(char* buf)
 
 int say_to_server(char statement[20])
 {
-  int len;
   char buffer[NET_BUF_LEN];
 
    snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
                   statement);
-   len = strlen(buffer) + 1;
    if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
    {
      fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -127,6 +129,7 @@ int say_to_server(char statement[20])
   
    return 1;
 }
+
 
 int check_messages(char buf[NET_BUF_LEN])
 { 
@@ -165,9 +168,9 @@ int check_messages(char buf[NET_BUF_LEN])
 /* Here we get the next message from the server if one is available. */
 /* We return 1 if a message received, 0 if no activity, -1 on errors */
 /* or if connection is lost:                                         */
-int get_next_msg(char* buf)
+int LAN_NextMsg(char* buf)
 { 
-  int x = 0, numready = 0;
+  int numready = 0;
 
   /* Make sure we have place to put message: */
   if(buf == NULL)
@@ -268,17 +271,32 @@ return 1;
 } 
 
 
+int LAN_StartGame(void)
+{
+  char buffer[NET_BUF_LEN];
+  snprintf(buffer, NET_BUF_LEN, 
+                  "%s\n",
+                  "START_GAME");
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    return 0;
+  }
+#ifdef LAN_DEBUG
+  printf("Sent the game notification %s\n",buffer);
+#endif
+  return 1;
+}
+
 
 int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 {
-  int len;
   char buffer[NET_BUF_LEN];
 
   snprintf(buffer, NET_BUF_LEN, 
                   "%s %d\n",
                   "CORRECT_ANSWER",
                   fc->question_id);
-  len = strlen(buffer) + 1;
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -307,6 +325,8 @@ void cleanup_client(void)
 
 /*This mainly is a network version of all the MathCards Functions
   MC_* that have integer as their return value*/
+/* Looks to me like it just sends "statement".  Again, when we send a  */
+/* message, we can't assume when we are going to get a reply.          */
 int evaluate(char statement[20])
 {
   int ans,x;
@@ -339,27 +359,6 @@ int evaluate(char statement[20])
 
 
 
-/*The Ping system is not yet used */
-void server_pinged(void)
-{ 
-  int len;
-  char buffer[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s \n",
-                  "PING_BACK");
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
- 
-#ifdef LAN_DEBUG
-//   printf("Buffer sent is %s\n",buffer);
-#endif
- 
-}
 
 
 

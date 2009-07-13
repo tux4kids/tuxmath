@@ -90,7 +90,7 @@ int main(int argc, char **argv)
         exit(EXIT_FAILURE);
       }
     }
-    else if (strncmp(buffer, "game",4) == 0)
+    else if (strncmp(buffer, "game", 4) == 0)
     {
       playgame();
       printf("Math game finished.\n");
@@ -198,7 +198,7 @@ int game_check_msgs(void)
   while(1)
   {
     buf[0] = '\0';
-    status = get_next_msg(buf);
+    status = LAN_NextMsg(buf);
     if (status == -1)  //Fatal error
     {
       printf("Error - get_next_msg() returned -1\n");
