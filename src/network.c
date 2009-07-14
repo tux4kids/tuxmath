@@ -81,18 +81,7 @@ int LAN_Setup(char *host, int port)
     // perhaps you need to restart the set and make it bigger...
   }
 
-  snprintf(buffer, NET_BUF_LEN, 
-                       "%s\n",
-                       name);
- 
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
- 
   return 1;
-
 }
 
 
@@ -111,6 +100,24 @@ void LAN_Cleanup(void)
   }
   SDLNet_Quit();
 }
+
+
+
+int LAN_SetName(char* name)
+{
+  char buf[NET_BUF_LEN];
+
+  if(!name)
+    return 0;
+
+  snprintf(buf, NET_BUF_LEN, 
+                  "%s\t%s",
+                  "SET_NAME",
+                  name);
+
+  return say_to_server(buf);
+}
+
 
 /* This function prints the 'msg' part of the buffer (i.e. everything */
 /* after the first '\t') to stdout.                                   */
@@ -132,20 +139,23 @@ int player_msg_recvd(char* buf)
 
 
 
-int say_to_server(char statement[20])
+int say_to_server(char* statement)
 {
   char buffer[NET_BUF_LEN];
 
-   snprintf(buffer, NET_BUF_LEN, 
+  if(!statement)
+    return 0;
+
+  snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
                   statement);
-   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-   {
-     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-     exit(EXIT_FAILURE);
-   }
-  
-   return 1;
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    return 0;
+  }
+
+  return 1;
 }
 
 

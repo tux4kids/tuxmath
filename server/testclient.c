@@ -53,15 +53,34 @@ int main(int argc, char **argv)
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
 
-
   /* Connect to server, create socket set, get player nickname, etc: */
-  if(!setup_client(argc, argv))
+  if(!LAN_Setup(argv[1], DEFAULT_PORT))
   {
     printf("setup_client() failed - exiting.\n");
     exit(EXIT_FAILURE);
   }
 
+  /* Now we are connected - get nickname from player: */
+  {
+    char name[NAME_SIZE];
+    char* p;
 
+    printf("Please enter your name:\n>\n");
+    fgets(buffer, NAME_SIZE, stdin);
+    p = strchr(buf, '\t');
+    if(p)
+      *p = '\0';
+    strncpy(name, buffer, NAME_SIZE);
+    /* If no nickname received, use default: */
+    if(strlen(name) == 1)
+      strcpy(name, "Anonymous Coward");
+  
+//  printf("name is %s, length %d\n", name, strlen(name));
+//  printf("buffer is %s, length %d\n", buffer, strlen(buffer));
+
+    snprintf(buffer, NET_BUF_LEN, "%s", name);
+    LAN_SetName(name);
+  }
 
   printf("Welcome to the Tux Math Test Client!\n");
 
@@ -163,17 +182,6 @@ int setup_client(int argc, char **argv)
     return 0;
   }
   /* Now we are connected. Take in nickname and send to server. */
-  printf("Please enter your name:\n>\n");
-  check1 = fgets(buffer, NAME_SIZE, stdin);
-  strncpy(name, check1, NAME_SIZE);
-  /* If no nickname received, use default: */
-  if(strlen(name) == 1)
-    strcpy(name, "Anonymous Coward");
-  
-  printf("name is %s, length %d\n", name, strlen(name));
-  printf("buffer is %s, length %d\n", buffer, strlen(buffer));
-
-  snprintf(buffer, NET_BUF_LEN, "%s", name);
 
 
   if (SDLNet_TCP_Send(sd, (void*)buffer, NET_BUF_LEN) < NET_BUF_LEN)

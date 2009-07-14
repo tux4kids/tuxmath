@@ -248,6 +248,8 @@ int game(void)
     return 0;
   }        
 
+  LAN_SetName("Player_1");
+
 
   Uint32 last_time, now_time;
 

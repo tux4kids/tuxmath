@@ -43,6 +43,7 @@ int handle_client_game_msg(int i,char *buffer);
 void handle_client_nongame_msg(int i,char *buffer);
 int find_vacant_client(void);
 void remove_client(int i);
+int msg_set_name(int i, char* buf);
 void game_msg_correct_answer(int i, int id);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
@@ -469,6 +470,10 @@ void handle_client_nongame_msg(int i,char *buffer)
   {
     start_game(i);
   }
+  else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
+  {
+    msg_set_name(i, buffer);
+  }
 }
 
 
@@ -513,6 +518,27 @@ int handle_client_game_msg(int i , char *buffer)
   }
   return(0);
 }
+
+
+/* Functions for all the messages we can receive from the client: */
+
+
+int msg_set_name(int i, char* buf)
+{
+  char* p;
+  if(buf == NULL)
+    return 0;
+  p = strchr(buf, '\t');
+  if(p)
+  { 
+    p++;
+    strncpy(client[i].name, p, NAME_SIZE);
+    return 1;
+  }
+  else
+    return 0;
+}
+
 
 
 
