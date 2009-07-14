@@ -333,6 +333,23 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
     
+int LAN_NotAnsweredCorrectly(MC_FlashCard* fc)
+{
+  int len;
+  char buffer[NET_BUF_LEN];
+
+  snprintf(buffer, NET_BUF_LEN, 
+                  "%s %d\n",
+                  "WRONG_ANSWER",
+                  fc->question_id);
+  len = strlen(buffer) + 1;
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+  return 1;
+}
 
 
 
