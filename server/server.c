@@ -45,6 +45,7 @@ int find_vacant_client(void);
 void remove_client(int i);
 int msg_set_name(int i, char* buf);
 void game_msg_correct_answer(int i, int id);
+void game_msg_wrong_answer(int i, int id);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
 void start_game(int i);
@@ -54,7 +55,6 @@ int player_msg(int i, char* msg);
 void broadcast_msg(char* msg);
 void throttle(int loop_msec);
 void game_msg_next_question(void);
-//void game_msg_total_questions_left(int i);
 int no_questions_left(void);
 int mission_accomplished(void);
 
@@ -494,8 +494,37 @@ int handle_client_game_msg(int i , char *buffer)
   if(strncmp(command, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
   {
     game_msg_correct_answer(i,id);
+    if(!MC_TotalQuestionsLeft())
+    {
+      if(!no_questions_left())
+      printf(" no_questions_left() failed..\n"); 
+    }
+    if (MC_MissionAccomplished())
+    {
+      if(!mission_accomplished())
+      printf(" mission_accomplished() failed..\n");  
+    }
+
     game_msg_next_question();
   }                            
+
+  else if(strncmp(command, "WRONG_ANSWER",strlen("WRONG_ANSWER")) == 0) /* Player answered the question incorrectly , meaning comet crashed into a city or an igloo */
+  {
+    game_msg_wrong_answer(i,id);
+    if(!MC_TotalQuestionsLeft())
+    {
+      if(!no_questions_left())
+      printf(" no_questions_left() failed..\n"); 
+    }
+    if (MC_MissionAccomplished())
+    {
+      if(!mission_accomplished())
+      printf(" mission_accomplished() failed..\n");  
+    }
+
+    game_msg_next_question();
+
+  }
 
   else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
   {
@@ -520,8 +549,25 @@ int handle_client_game_msg(int i , char *buffer)
 }
 
 
+
+void game_msg_wrong_answer(int i, int id)
+{
+  int n;
+  char buf[NET_BUF_LEN];
+  //Announcement for server and all clients:
+  snprintf(buf, NET_BUF_LEN, 
+          "question id %d was answered incorrectly by %s\n",
+          id, client[i].name);             
+  printf("%s", buf);
+  broadcast_msg(buf);
 /* Functions for all the messages we can receive from the client: */
 
+
+  //Tell mathcards so lists get updated:
+  MC_NotAnsweredCorrectly_id(id);
+
+
+}
 
 int msg_set_name(int i, char* buf)
 {
@@ -538,10 +584,6 @@ int msg_set_name(int i, char* buf)
   else
     return 0;
 }
-
-
-
-
 
 void game_msg_correct_answer(int i, int id)
 {
