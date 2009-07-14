@@ -38,10 +38,9 @@ int say_to_server(char *statement);
 int evaluate(char *statement);
 
 
-int setup_net(char *host, int port)
+int LAN_Setup(char *host, int port)
 {
   IPaddress ip;           /* Server address */
-  int sockets_used;
 //  int len;
 //  char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
@@ -51,48 +50,66 @@ int setup_net(char *host, int port)
   if (SDLNet_Init() < 0)
   {
     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
+    return 0;
+  } 
  
   /* Resolve the host we are connecting to */
   if (SDLNet_ResolveHost(&ip, host, port) < 0)
   {
     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
+    return 0;
   }
  
   /* Open a connection with the IP provided (listen on the host's port) */
   if (!(sd = SDLNet_TCP_Open(&ip)))
   {
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
+    return 0;
   }
 
   /* We create a socket set so we can check for activity: */
   set = SDLNet_AllocSocketSet(1);
-  if(!set) {
+  if(!set)
+  {
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
+    return 0;
   }
 
-  sockets_used = SDLNet_TCP_AddSocket(set, sd);
-  if(sockets_used == -1) {
+  if(SDLNet_TCP_AddSocket(set, sd) == -1)
+  {
     printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
     // perhaps you need to restart the set and make it bigger...
   }
 
- snprintf(buffer, NET_BUF_LEN, 
+  snprintf(buffer, NET_BUF_LEN, 
                        "%s\n",
                        name);
  
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
-   fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-   exit(EXIT_FAILURE);
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
   }
  
   return 1;
 
+}
+
+
+void LAN_Cleanup(void)
+{
+  if(sd)
+  {
+    SDLNet_TCP_Close(sd);
+    sd = NULL;
+  }
+
+  if(set)
+  {
+    SDLNet_FreeSocketSet(set);
+    set = NULL;
+  }
+  SDLNet_Quit();
 }
 
 /* This function prints the 'msg' part of the buffer (i.e. everything */
@@ -112,6 +129,7 @@ int player_msg_recvd(char* buf)
   else
     return 0;
 }
+
 
 
 int say_to_server(char statement[20])
@@ -306,21 +324,7 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 }
     
 
-void cleanup_client(void)
-{
-  if(sd)
-  {
-    SDLNet_TCP_Close(sd);
-    sd = NULL;
-  }
 
-  if(set)
-  {
-    SDLNet_FreeSocketSet(set);
-    set = NULL;
-  }
-  SDLNet_Quit();
-}
 
 
 /*This mainly is a network version of all the MathCards Functions

@@ -20,8 +20,8 @@
 
 
 /* Networking setup and cleanup: */
-int setup_net(char *host, int port);
-void cleanup_client(void);
+int LAN_Setup(char *host, int port);
+void LAN_Cleanup(void);
 
 /* Network replacement functions for mathcards "API": */
 /* These functions are how the client tells things to the server: */
@@ -32,6 +32,7 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc);
 int LAN_NextMsg(char* buf);
 
 /* Functions to handle various messages from the server: */
+/* NOTE not sure if these belong here or in game.c/testclient.c */
 int player_msg_recvd(char* buf);
 
 

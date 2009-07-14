@@ -238,13 +238,14 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 
 int game(void)
 {
- 
+  /*FIXME this will eventually be somewhere in the program-wide Setup() */
+  /* or perhaps in titlescreen.c                                        */
   /*connecting to the server*/
-  if(!setup_net("localhost",DEFAULT_PORT))
+  if(!LAN_Setup("localhost", DEFAULT_PORT))
   {
     printf("Unable to connect to the server\n");
     game_cleanup();
-    exit(1);
+    return 0;
   }        
 
 
@@ -767,7 +768,7 @@ int game_initialize(void)
 void game_cleanup(void)
 {
   
-  cleanup_client();
+  LAN_Cleanup();
   /* Free background: */
   if (bkgd != NULL)
   {

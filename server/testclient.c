@@ -106,7 +106,7 @@ int main(int argc, char **argv)
     Throttle(10);
   }
  
-  cleanup_client();
+  LAN_Cleanup();
  
   return EXIT_SUCCESS;
 }
