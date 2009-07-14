@@ -281,6 +281,26 @@ void update_clients(void)
     return;   // Leave num_clients unchanged
   }     
 
+//If everyone is disconnected, game no longer in progress:
+  if(game_in_progress == 1)
+  {
+    int i = 0, playing = 0;
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      if(client[i].sock != NULL)
+      {
+        playing = 1;
+        printf("%d",i);
+        break;
+      }
+    }
+    if(!playing)
+    {
+      printf("All the clients have been disconnected....\n");
+      game_in_progress = 0;
+    }
+  }
+ 
   // If game already started, send our regrets:
   if(game_in_progress)
   {
@@ -363,25 +383,6 @@ void update_clients(void)
       fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
   }
 #endif
-
-  //If everyone is disconnected, game no longer in progress:
-  if(game_in_progress == 1)
-  {
-    int i = 0, playing = 0;
-    for(i = 0; i < MAX_CLIENTS; i++)
-    {
-      if(client[i].sock != NULL)
-      {
-        playing = 1;
-        break;
-      }
-    }
-    if(!playing)
-    {
-      printf("All the clients have been disconnected....\n");
-      game_in_progress = 0;
-    }
-  }
 
   return;
 }
