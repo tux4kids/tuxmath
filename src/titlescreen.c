@@ -76,7 +76,7 @@ const float tux_pos[4] = {0.0, 0.6, 0.3, 0.4};
 const char* bkg_path = "title/menu_bkg.jpg";
 const char* standby_path = "status/standby.png";
 const char* title_path = "title/title1.png";
-const char* egg_path = "title/egg.png";
+const char* egg_path = "title/egg.svg";
 const char* tux_path = "tux/bigtux";
 /* beak coordinates relative to tux rect */
 const float beak_pos[4] = {0.36, 0.21, 0.27, 0.14};
@@ -475,7 +475,11 @@ int RenderTitleScreen(void)
     }
 
     /* easter egg */
+#ifdef HAVE_RSVG
+    egg = LoadImage(egg_path, IMG_ALPHA | IMG_NOT_REQUIRED);
+#else
     egg = LoadImage(egg_path, IMG_COLORKEY | IMG_NOT_REQUIRED);
+#endif
 
     beak.x = tux_rect.x + beak_pos[0] * tux_rect.w;
     beak.y = tux_rect.y + beak_pos[1] * tux_rect.h;
@@ -2799,6 +2803,7 @@ int handle_easter_egg(const SDL_Event* evt)
       //animate
       while (tuxframe != 0)
         {
+        SDL_BlitSurface(current_bkg(), &tux_rect, screen, &tux_rect);
         SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &tux_rect);
         SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
         SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);

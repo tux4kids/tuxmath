@@ -3,7 +3,8 @@
 
 spritesdir = $(pkgdatadir)/images/sprites
 
-dist_sprites_DATA = alone0.png \
+dist_sprites_DATA = \
+  alone0.png \
   alone1.png \
   aloned.png \
   comet0.png \
@@ -18,10 +19,18 @@ dist_sprites_DATA = alone0.png \
   credits2.png \
   credits3.png \
   creditsd.png \
+  exclamation0.png \
+  exclamation0.svg \
+  exclamationd.png \
+  exclamationd.svg \
   factoroids0.png \
+  factoroids0.svg \
   factoroids1.png \
+  factoroids1.svg \
   factoroids2.png \
+  factoroids2.svg \
   factoroidsd.png \
+  factoroidsd.svg \
   factors0.png \
   factors1.png \
   factors2.png \
@@ -30,7 +39,9 @@ dist_sprites_DATA = alone0.png \
   factors5.png \
   factorsd.png \
   fleet0.png \
+  fleet0.svg \
   fleetd.png \
+  fleetd.svg \
   fractions0.png \
   fractions1.png \
   fractions2.png \
@@ -39,18 +50,22 @@ dist_sprites_DATA = alone0.png \
   fractions5.png \
   fractions6.png \
   fractionsd.png \
-  goldstard.png \
+  friends0.png \
+  friends0.svg \
+  friendsd.png \
+  friendsd.svg \
   goldstar0.png \
   goldstar1.png \
+  goldstard.png \
   help0.png \
-  help1.png \
-  help2.png \
-  help3.png \
-  helpd.png \
   help0.svg \
+  help1.png \
   help1.svg \
+  help2.png \
   help2.svg \
+  help3.png \
   help3.svg \
+  helpd.png \
   helpd.svg \
   lesson0.png \
   lesson1.png \
@@ -66,11 +81,18 @@ dist_sprites_DATA = alone0.png \
   main6.png \
   main7.png \
   maind.png \
-  quit0.png \
   no_goldstar0.png \
   no_goldstard.png \
-  friends0.png \
-  friendsd.png \
+  nums0.png \
+  nums1.png \
+  nums2.png \
+  nums3.png \
+  nums4.png \
+  nums5.png \
+  nums6.png \
+  nums7.png \
+  numsd.png \
+  quit0.png \
   quit1.png \
   quit2.png \
   quit3.png \
@@ -89,6 +111,9 @@ dist_sprites_DATA = alone0.png \
   tux_config_brown1.png \
   tux_config_brownd.png \
   tux_configd.png \
+  tux_helmet0.png \
+  tux_helmet1.png \
+  tux_helmet2.png \
   tux_helmet_black0.png \
   tux_helmet_blackd.png \
   tux_helmet_blue0.png \
@@ -98,6 +123,7 @@ dist_sprites_DATA = alone0.png \
   tux_helmet_blue4.png \
   tux_helmet_blue5.png \
   tux_helmet_blued.png \
+  tux_helmetd.png \
   tux_helmet_green0.png \
   tux_helmet_green1.png \
   tux_helmet_green2.png \
@@ -119,3 +145,4 @@ dist_sprites_DATA = alone0.png \
   tux_helmet_yellow4.png \
   tux_helmet_yellow5.png \
   tux_helmet_yellowd.png
+

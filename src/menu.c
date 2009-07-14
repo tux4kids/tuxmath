@@ -64,9 +64,9 @@ const float menu_pos[4] = {0.38, 0.23, 0.55, 0.72};
 const float stop_pos[4] = {0.94, 0.0, 0.06, 0.06};
 const float prev_pos[4] = {0.87, 0.93, 0.06, 0.06};
 const float next_pos[4] = {0.94, 0.93, 0.06, 0.06};
-const char* stop_path = "status/stop.png";
-const char* prev_path = "status/left.png";
-const char* next_path = "status/right.png";
+const char* stop_path = "status/stop.svg";
+const char* prev_path = "status/left.svg";
+const char* next_path = "status/right.svg";
 const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5;
 const int min_font_size = 8, default_font_size = 20, max_font_size = 40;
 

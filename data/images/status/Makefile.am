@@ -13,6 +13,8 @@ dist_status_DATA = demo.png \
   lednums.png \
   left_gray.png \
   left.png \
+  left_gray.svg \
+  left.svg \
   loading.png \
   nbs.png \
   numbers.png \
@@ -20,9 +22,12 @@ dist_status_DATA = demo.png \
   paused.png \
   right_gray.png \
   right.png \
+  right_gray.svg \
+  right.svg \
   score.png \
   standby.png \
   stop.png \
+  stop.svg \
   title.png \
   tux4kids.png \
   wave.png
