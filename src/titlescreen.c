@@ -886,12 +886,10 @@ int run_lan_menu(void)
     if(mode == 1)
    { NameEntry(host, _("Enter the name"),
                        _("(of the Host)"));
-    NameEntry(port, _("Enter the port number"),
+    NameEntry(port, _("Enter you name"),
                        _(""));
     
 
-   // lan_client_set_parameter(HOST, host);
-   // lan_client_set_parameter(PORT, port);
    //  if((lan_client_connect(host,port))==0)
    b=Standby(_("No Host...=("),_("Press Esc to go back"),host,port);
    if(b==7)

@@ -17,7 +17,7 @@
   Revised by David Bruce, Tim Holy and others
   2005-2007
 */
-#define DEFAULT_PORT 4779
+
 #define TUXMATH_DEBUG
 /* put this first so we get <config.h> and <gettext.h> immediately: */
 #include "tuxmath.h"
@@ -83,6 +83,7 @@ typedef struct comet_type {
 static int gameover_counter;
 static int game_status;
 static int user_quit_received;
+static int total_questions_left;
 static int paused;
 static int wave;
 static int score;
@@ -553,8 +554,10 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
     }   
   }
 
-  else if(strncmp(command,"GAME_OVER_OTHER",strlen("GAME_OVER_OTHER"))==0)
+  else if(strncmp(command,"TOTAL_QUESTIONS",strlen("TOTAL_QUESTIONS"))==0)
   {
+    sscanf(buf,"%*s %d",&total_questions_left);
+   if(!total_questions_left)
     game_over_other=1;
   }
 
@@ -986,7 +989,7 @@ int help_renderframe_exit(void)
   game_handle_user_events();
   game_handle_answer();
   game_handle_tux();
-  game_handle_comets(NULL,NULL);
+  game_handle_comets();
   game_handle_cities();
   game_handle_penguins();
   game_handle_steam();
@@ -2682,7 +2685,7 @@ int add_comet(void)
 //      /* no more questions available - cannot create comet.  */
 //      return 0;
 //     }
-
+   LAN_NextQuestion(); // Let it be for now until we think of something else
    /* FIXME what we really need here is the capability within network.c to queue  */
    /* any questions that have been received from the server in check_messages(),  */
    /* and a function that gives us the next question in the local queue if there  */
@@ -3119,7 +3122,7 @@ void draw_question_counter(void)
   SDL_BlitSurface(images[comet_img], NULL, screen, &dest);
 
   /* draw number of remaining questions: */
-  questions_left = MC_TotalQuestionsLeft();
+  questions_left = total_questions_left;
   sprintf(str, "%.4d", questions_left);
   draw_numbers(str, nums_x, 0);
 }

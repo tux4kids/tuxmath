@@ -139,23 +139,14 @@ int player_msg_recvd(char* buf)
 
 
 
-int say_to_server(char* statement)
+int LAN_NextQuestion(void)
 {
-  char buffer[NET_BUF_LEN];
+  char buf[NET_BUF_LEN];
 
-  if(!statement)
-    return 0;
-
-  snprintf(buffer, NET_BUF_LEN, 
+  snprintf(buf, NET_BUF_LEN, 
                   "%s\n",
-                  statement);
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-  return 1;
+                  "NEXT_QUESTION");
+  return say_to_server(buf);
 }
 
 
@@ -351,42 +342,27 @@ int LAN_NotAnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
 
+/*private to network.c functions*/
 
-
-
-/*This mainly is a network version of all the MathCards Functions
-  MC_* that have integer as their return value*/
-/* Looks to me like it just sends "statement".  Again, when we send a  */
-/* message, we can't assume when we are going to get a reply.          */
-int evaluate(char statement[20])
+int say_to_server(char* statement)
 {
-  int ans,x;
-  char command[NET_BUF_LEN];
-  int len;
   char buffer[NET_BUF_LEN];
-  char buf[NET_BUF_LEN];
 
-   snprintf(buffer, NET_BUF_LEN, 
+  if(!statement)
+    return 0;
+
+  snprintf(buffer, NET_BUF_LEN, 
                   "%s\n",
                   statement);
-   len = strlen(buffer) + 1;
-   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-   {
-     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-     exit(EXIT_FAILURE);
-   }
-  
-//   x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
-//  if( x <= 0)
-//  {
-//    fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
-//    exit(EXIT_FAILURE);
-//  }
-//  player_msg_recvd(buf,command);
-//  ans=atoi(command);
+  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+  {
+    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    return 0;
+  }
 
-  return 0;
+  return 1;
 }
+
 
 
 
