@@ -138,6 +138,7 @@ static SDL_Surface* current_bkgd()
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
+static MC_FlashCard flash;
 
 typedef struct {
   int x_is_blinking;
@@ -183,6 +184,7 @@ static void reset_level(void);
 static int add_comet(void);
 static void add_score(int inc);
 static void reset_comets(void);
+static void copy_card(MC_FlashCard* src, MC_FlashCard* dest);
 
 static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
@@ -199,59 +201,13 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
 static void print_exit_conditions(void);
 static void print_status(void);
 #endif
-MC_FlashCard flash;
-void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
-{
-  if (!src || !dest)
-    return;
-  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
-  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
-  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
-  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
-  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
-  dest->answer = src->answer;
-  dest->difficulty = src->difficulty;
-  dest->question_id = src->question_id;
-}
 
-
-void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
-{
-  int i;
-  /* Copy the command name out of the tab-delimited buffer: */
-  for (i = 0;
-  buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
-                                      i++)
-  {
-    command[i] = buf[i];
-  }
-  command[i] = '\0';
-
-//#ifdef LAN_DEBUG
-//  printf("buf is %s\n", buf);
-//  printf("command is %s\n", command);
-//#endif
-
-}
 
 /* --- MAIN GAME FUNCTION!!! --- */
 
 
 int game(void)
 {
-  /*FIXME this will eventually be somewhere in the program-wide Setup() */
-  /* or perhaps in titlescreen.c                                        */
-  /*connecting to the server*/
-  if(!LAN_Setup("localhost", DEFAULT_PORT))
-  {
-    printf("Unable to connect to the server\n");
-    game_cleanup();
-    return 0;
-  }        
-
-  LAN_SetName("Player_1");
-
-
   Uint32 last_time, now_time;
 
 #ifdef TUXMATH_DEBUG
@@ -300,13 +256,13 @@ int game(void)
     {
       laser.alive--;
     }
-
+#ifdef HAVE_LIBSDL_NET
    while(!check_messages(buf))
    {
      seperate_commmand_and_buf(command,buf);
      game_handle_net_messages(buf,command);   
    }
-    
+#endif    
  
 
 
@@ -601,20 +557,20 @@ int game_initialize(void)
   /* to use MC_StartUsingWrongs() */
   /* NOTE MC_StartGame() will return 0 if the list length is zero due */
   /* (for example) to all math operations being deselected */
-//  if (!MC_StartGame())
-//  {
-//    tmdprintf("\nMC_StartGame() failed!");
-//    fprintf(stderr, "\nMC_StartGame() failed!");
-//    return 0;
-//  }
-
-   /*To function for the above 5 comments*/
-//   say_to_server("START_GAME");
+#ifdef HAVE_LIBSDL_NET
   if (!LAN_StartGame())
   {
     fprintf(stderr, "\nLAN_StartGame() failed!");
     return 0;
   }
+#else
+  if (!MC_StartGame())
+  {
+    tmdprintf("\nMC_StartGame() failed!");
+    fprintf(stderr, "\nMC_StartGame() failed!");
+    return 0;
+  }
+#endif
 
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
@@ -772,8 +728,9 @@ int game_initialize(void)
 
 void game_cleanup(void)
 {
-  
+#ifdef HAVE_LIBSDL_NET  
   LAN_Cleanup();
+#endif
   /* Free background: */
   if (bkgd != NULL)
   {
@@ -1268,8 +1225,11 @@ void game_handle_answer(void)
   /* If there was an comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
+#ifdef HAVE_LIBSDL_NET
     LAN_AnsweredCorrectly(&(comets[lowest].flashcard));
-
+#else
+    MC_AnsweredCorrectly(&(comets[lowest].flashcard));
+#endif
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
     ctime = SDL_GetTicks();
@@ -1459,10 +1419,11 @@ void game_handle_comets(void)
           comets[i].expl < COMET_EXPL_END)
       {
         /* Tell MathCards about it - question not answered correctly: */
-        /* FIXME will need LAN_NotAnsweredCorrectly() here if using network */
-        //MC_NotAnsweredCorrectly(&(comets[i].flashcard));
-          LAN_NotAnsweredCorrectly(&(comets[i].flashcard));
-
+#ifdef HAVE_LIBSDL_NET
+         LAN_NotAnsweredCorrectly(&(comets[i].flashcard));
+#else 
+       MC_NotAnsweredCorrectly(&(comets[i].flashcard));
+#endif 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
         ctime = SDL_GetTicks();
@@ -2360,42 +2321,28 @@ int check_exit_conditions(void)
   }
 
   /* determine if game won (i.e. all questions in mission answered correctly): */
-//  if (MC_MissionAccomplished())
-//  {
-//    tmdprintf("Mission accomplished!\n");
-//    return GAME_OVER_WON;
-//  }
-
-
-// x=evaluate("MISSION_ACCOMPLISHED");
-//     if(x)
-//    {
-//      tmdprintf("Mission accomplished!\n");
-//      return GAME_OVER_WON;
-//    } 
-  
+#ifdef HAVE_LIBSDL_NET
     if(game_over_won)
      return GAME_OVER_WON;
-   
-
+#else
+  if (MC_MissionAccomplished())
+  {
+    tmdprintf("Mission accomplished!\n");
+    return GAME_OVER_WON;
+  }
+#endif
+  
   /* Could have situation where mathcards doesn't have more questions */
   /* even though not all questions answered correctly:                */
-//  if (!MC_TotalQuestionsLeft())
-//  {
-//    return GAME_OVER_OTHER;
-//  }
-
-    if(game_over_other)
+#ifdef HAVE_LIBSDL_NET
+  if(game_over_other)
      return GAME_OVER_OTHER;
-    
-
- //x=evaluate("TOTAL_QUESTIONS_LEFT");
-// printf("this is the value of total questions left..... %d ...\n",x);
-
-//    if(!x)
-//    {
-//     return GAME_OVER_OTHER;
-//    }
+#else  
+  if (!MC_TotalQuestionsLeft())
+  {
+    return GAME_OVER_OTHER;
+  }
+#endif
 
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
@@ -2680,30 +2627,29 @@ int add_comet(void)
 
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
-//     if (!MC_NextQuestion(&(comets[found].flashcard)))
-//     {
-//      /* no more questions available - cannot create comet.  */
-//      return 0;
-//     }
+#ifdef HAVE_LIBSDL_NET
    LAN_NextQuestion(); // Let it be for now until we think of something else
+#else
+   if (!MC_NextQuestion(&(comets[found].flashcard)))
+   {
+     /* no more questions available - cannot create comet.  */
+     return 0;
+   }
+#endif   
    /* FIXME what we really need here is the capability within network.c to queue  */
    /* any questions that have been received from the server in check_messages(),  */
    /* and a function that gives us the next question in the local queue if there  */
    /* is one. We can't assume that it will arrive from the server right at the    */
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
-/*Server replacement for the above 5 comments*/
-//   say_to_server("NEXT_QUESTION");
-//   printf("buf is %s\n",buf);
-//  if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0) 
-//   {
-//     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
-//     {
-//       return 0;
-//     }
-    printf("Made the flashcard\n");
-    copy_card(&flash,&(comets[found].flashcard));
-
+#ifdef HAVE_LIBSDL_NET
+    copy_card(&flash,&(comets[found].flashcard)); //will be replaced on set up of new system
+#else
+     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+     {
+       return 0;
+     }
+#endif
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;
      comets[found].alive = 1;
@@ -3532,6 +3478,40 @@ void reset_comets(void)
     MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
+}
+
+/* Copy the command name out of the tab-delimited buffer: */
+
+void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
+{
+  int i;
+    for (i = 0;
+  buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
+                                      i++)
+  {
+    command[i] = buf[i];
+  }
+  command[i] = '\0';
+
+//#ifdef LAN_DEBUG
+//  printf("buf is %s\n", buf);
+//  printf("command is %s\n", command);
+//#endif
+
+}
+
+void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
+{
+  if (!src || !dest)
+    return;
+  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
+  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
+  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
+  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
+  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
+  dest->answer = src->answer;
+  dest->difficulty = src->difficulty;
+  dest->question_id = src->question_id;
 }
 
 void print_status(void)

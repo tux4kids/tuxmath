@@ -43,10 +43,6 @@
 #include "convert_utf.h" // for wide char to UTF-8 conversion
 #include "SDL_extras.h"
 
-
-
-//#include "lan_client.h"
-
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
@@ -199,8 +195,6 @@ int run_options_menu(void);
 int run_lan_menu(void);
 int run_server_menu(void);
 int handle_easter_egg(const SDL_Event* evt);
-int Standby(const char* heading, const char* sub,char *host,char *port);
-
 
 /***********************************************************/
 /*                                                         */
@@ -711,6 +705,16 @@ int run_main_menu(void)
         Opts_SetDemoMode(0);
         if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
           {audioMusicUnload();}
+#ifdef HAVE_LIBSDL_NET
+ if(!LAN_Setup("localhost", DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
+
+   LAN_SetName("player A");
+#endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
@@ -884,17 +888,22 @@ int run_lan_menu(void)
     run_server_menu();
     
     if(mode == 1)
-   { NameEntry(host, _("Enter the name"),
+    { NameEntry(host, _("Enter the name"),
                        _("(of the Host)"));
-    NameEntry(port, _("Enter you name"),
+     NameEntry(port, _("Enter you name"),
                        _(""));
-    
 
-   //  if((lan_client_connect(host,port))==0)
-   b=Standby(_("No Host...=("),_("Press Esc to go back"),host,port);
-   if(b==7)
-   return 0;
-   else    
+
+    if(!LAN_Setup(host, DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
+
+   LAN_SetName(port);
+
+
    game();
    }   
 
@@ -941,11 +950,7 @@ int run_server_menu(void)
      else
      {NameEntry(port, _("Enter the PORT"),
                        _(""));
-      g=Standby(_("Waiting for other player"),_("Press Esc to go back"),NULL,port);
-      if(g==7)
-      return 0;
-      else
-   // lan_server_connect(port);
+    
        game();}
     break;
    }
@@ -1009,6 +1014,16 @@ int run_arcade_menu(void)
       if (read_named_config_file(arcade_config_files[choice]))
       {
         audioMusicUnload();
+#ifdef HAVE_LIBSDL_NET
+ if(!LAN_Setup("localhost", DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
+
+   LAN_SetName("player A");
+#endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
@@ -1069,7 +1084,16 @@ int run_custom_menu(void)
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))
       audioMusicUnload();
+#ifdef HAVE_LIBSDL_NET
+ if(!LAN_Setup("localhost", DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
 
+   LAN_SetName("player A");
+#endif
     game();
     RecalcTitlePositions();
     write_user_config_file();
@@ -1215,6 +1239,16 @@ int run_options_menu(void)
       if (read_named_config_file("demo"))
       {
         audioMusicUnload();
+#ifdef HAVE_LIBSDL_NET
+ if(!LAN_Setup("localhost", DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
+
+   LAN_SetName("player A");
+#endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
@@ -1307,7 +1341,16 @@ int run_lessons_menu(void)
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {audioMusicUnload();}
 
+#ifdef HAVE_LIBSDL_NET
+ if(!LAN_Setup("localhost", DEFAULT_PORT))
+   {
+     printf("Unable to connect to the server\n");
+     LAN_Cleanup();
+     return 0;
+   }    
 
+   LAN_SetName("player A");
+#endif
       game();
       RecalcTitlePositions();
 
@@ -2722,210 +2765,5 @@ int handle_easter_egg(const SDL_Event* evt)
     return 0;
     }
   }
-
-
-
-int Standby(const char* heading, const char* sub,char *host,char *port)
-{
-  
-  SDL_Rect loc;
-  SDL_Rect TuxRect,
-           stopRect;
-
- 
-  int finished = 0;
-  int tux_frame = 0;
-  int l;
-  Uint32 frame = 0;
-  Uint32 start = 0;
-  
-  
-  const int BG_Y = 100;
-  const int BG_WIDTH = 400;
-  const int BG_HEIGHT = 200;
-
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-
-    
-
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
-
-
-  /* Draw background: */
-  if (current_bkg())
-    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-  {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
-  }
-
-  /* Draw translucent background for text: */
-  {
-    SDL_Rect bg_rect;
-    bg_rect.x = (screen->w)/2 - BG_WIDTH/2;
-    bg_rect.y = BG_Y;
-    bg_rect.w = BG_WIDTH;
-    bg_rect.h = BG_HEIGHT;
-    DrawButton(&bg_rect, 15, REG_RGBA);
-
-    bg_rect.x += 10;
-    bg_rect.y += 10;
-    bg_rect.w -= 20;
-    bg_rect.h = 180;
-    DrawButton(&bg_rect, 10, SEL_RGBA);
-  }
-
-  /* Draw heading: */
-  {
-    SDL_Surface* s = BlackOutline(_(heading),
-                                  DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
-    {
-      loc.x = (screen->w/2) - (s->w/2);
-      loc.y = 150;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
-    }
-
-    s = BlackOutline(_(sub),
-                     DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
-    {
-      loc.x = (screen->w/2) - (s->w/2);
-      loc.y = 170;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
-    }
-  }
-
-  /* and update: */
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-
-
-  while (!finished)
-  {
-   printf("I AM HERE!!!!!!!!!!!!!!!!!!!!!!!!"); 
-   start = SDL_GetTicks();
-
-    while (SDL_PollEvent(&event)) 
-    {
-      if(host==NULL)
-      {//l=lan_server_connect(port);
-       if(l==7)
-       return 7;
-       printf("###############%d##############\n",l);
-       return 0;  
-      }
-      else
-      {//l=lan_client_connect(host,port);
-       if(l==7)
-       return 7;
-       printf("##############%d#################\n",l);
-       return 0;
-      }
-     
-
-         if(!l)
-        {
-         printf("HOORAAAAAAAAAAAY!!!!!!!!!!");
-         return 0;
-         break;
-         }
-      
-      
- 
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        {
-          cleanup();
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
-          {
-            finished = 1;
-            playsound(SND_TOCK);
-            break;
-          }
-        }
-        case SDL_KEYDOWN:
-        {
-
-          switch (event.key.keysym.sym)
-          {
-            case SDLK_ESCAPE:
-           
-            {
-              finished = 1;
-              playsound(SND_TOCK);
-              break;
-            }
-           
-            default:
-            continue;
-            /* For any other keys, if the key has a Unicode value, */
-            /* we add it to our string:                            */
-           
-           
-          }  /* end  'switch (event.key.keysym.sym)'  */
-
- 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
-
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
-    frame++;
-  } 
-}
-
-}
-
- 
-} // End of while (!finished) loop
-
-  FreeSprite(Tux);
-
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
-
-}
 
 
