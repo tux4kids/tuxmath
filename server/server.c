@@ -247,7 +247,8 @@ void update_clients(void)
     int i = 0, playing = 0;
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-      if(client[i].sock != NULL)
+      if((client[i].sock != NULL)
+       && client[i].game_ready)
       {
         playing = 1;
         printf("%d",i);
@@ -256,7 +257,7 @@ void update_clients(void)
     }
     if(!playing)
     {
-      printf("All the clients have been disconnected....\n");
+      printf("All the clients have left the game.\n");
       game_in_progress = 0;
     }
   }
@@ -439,21 +440,15 @@ int handle_client_game_msg(int i , char *buffer)
   else if(strncmp(command, "WRONG_ANSWER",strlen("WRONG_ANSWER")) == 0) /* Player answered the question incorrectly , meaning comet crashed into a city or an igloo */
   {
     game_msg_wrong_answer(i,id);
-    if(!MC_TotalQuestionsLeft())
-    {
-      if(!no_questions_left())
-      printf(" no_questions_left() failed..\n"); 
-    }
-    if (MC_MissionAccomplished())
-    {
-      if(!mission_accomplished())
-      printf(" mission_accomplished() failed..\n");  
-    }
   }
 
   else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
   {
     game_msg_next_question();
+  }
+  else if(strncmp(command, "LEAVE_GAME",strlen("LEAVE_GAME")) == 0) 
+  {
+    client[i].game_ready = 0;  /* Player quitting game but not disconnecting */
   }
 
   else if(strncmp(command, "exit",strlen("exit")) == 0) /* Terminate this connection */

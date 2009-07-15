@@ -41,7 +41,6 @@ MC_FlashCard flash;    //current question
 int have_question = 0;
 
 /* Local function prototypes: */
-int setup_client(int argc, char **argv);
 int playgame(void);
 int game_check_msgs(void);
 int read_stdin_nonblock(char* buf, size_t max_length);
@@ -74,52 +73,54 @@ int main(int argc, char **argv)
     /* If no nickname received, use default: */
     if(strlen(name) == 1)
       strcpy(name, "Anonymous Coward");
-  
-//  printf("name is %s, length %d\n", name, strlen(name));
-//  printf("buffer is %s, length %d\n", buffer, strlen(buffer));
 
     snprintf(buffer, NET_BUF_LEN, "%s", name);
     LAN_SetName(name);
   }
 
   printf("Welcome to the Tux Math Test Client!\n");
+  printf("Type:\n"
+         "'game' to start math game;\n"
+         "'exit' to end client leaving server running;\n"
+         "'quit' to end both client and server\n>\n"); 
 
-  /* Send messages */
+  
+  /* Set stdin to be non-blocking: */
+  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
+
+
+  /* FIXME we're not listening for server messages in this loop */
   quit = 0;
   while(!quit)
   { 
     //Get user input from command line and send it to server: 
     /*now display the options*/
-    printf("Type:\n"
-             "'game' to start math game;\n"
-             "'exit' to end client leaving server running;\n"
-             "'quit' to end both client and server\n>\n"); 
-    char* check;
-    check = fgets(buffer, NET_BUF_LEN, stdin);
-
-    //Figure out if we are trying to quit:
-    if(  (strncmp(buffer, "exit", 4) == 0)
-      || (strncmp(buffer, "quit", 4) == 0))
-    {
-      quit = 1;
-      len = strlen(buffer) + 1;
-      if (SDLNet_TCP_Send(sd, (void *)buffer, len) < len)
+    if(read_stdin_nonblock(buffer, NET_BUF_LEN))
+    { 
+      printf("buffer is: %s\n", buffer);
+      //Figure out if we are trying to quit:
+      if( (strncmp(buffer, "exit", 4) == 0)
+        ||(strncmp(buffer, "quit", 4) == 0))
       {
-        fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-        exit(EXIT_FAILURE);
+        quit = 1;
+        if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+        {
+          fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+          exit(EXIT_FAILURE);
+        }
       }
-    }
-    else if (strncmp(buffer, "game", 4) == 0)
-    {
-      playgame();
-      printf("Math game finished.\n");
-    }
-    else
-    {
-      printf("Command not recognized. Type:\n"
-             "'game' to start math game;\n"
-             "'exit' to end client leaving server running;\n"
-             "'quit' to end both client and server\n\n>\n");
+      else if (strncmp(buffer, "game", 4) == 0)
+      {
+        playgame();
+        printf("Math game finished.\n");
+      }
+      else
+      {
+        printf("Command not recognized. Type:\n"
+               "'game' to start math game;\n"
+               "'exit' to end client leaving server running;\n"
+               "'quit' to end both client and server\n\n>\n");
+      }
     }
     //Limit loop to once per 10 msec so we don't eat all CPU
     Throttle(10);
@@ -131,71 +132,6 @@ int main(int argc, char **argv)
 }
 
 
-/* Establish networking and identify player to server: */
-int setup_client(int argc, char **argv)
-{
-  char* check1 = NULL;
-  char name[NAME_SIZE];
-  char buffer[NET_BUF_LEN];  // for command-line input
-
-
-  /* Simple parameter checking */
-  if (argc < 2)
-  {
-    fprintf(stderr, "Usage: %s host\n", argv[0]);
-    return 0;
-  }
-
-  if (SDLNet_Init() < 0)
-  {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    return 0;
-  }
- 
-  /* Resolve the host we are connecting to */
-  if (SDLNet_ResolveHost(&ip, argv[1], DEFAULT_PORT) < 0)
-  {
-    fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-    return 0;
-  }
- 
-  /* Open a connection with the IP provided (listen on the host's port) */
-  if (!(sd = SDLNet_TCP_Open(&ip)))
-  {
-    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-  /* We create a socket set so we can check for activity: */
-  set = SDLNet_AllocSocketSet(1);
-  if(!set)
-  {
-    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-  sockets_used = SDLNet_TCP_AddSocket(set, sd);
-  if(sockets_used == -1)
-  {
-    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-    // perhaps you need to restart the set and make it bigger...
-    return 0;
-  }
-  /* Now we are connected. Take in nickname and send to server. */
-
-
-  if (SDLNet_TCP_Send(sd, (void*)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-#ifdef LAN_DEBUG
-  printf("Sent the name of the player %s\n",check1);
-#endif
-
-  return 1;
-}
 
 
 
@@ -248,6 +184,7 @@ int game_check_msgs(void)
   return 1;
 }
 
+
 int playgame(void)
 {
   int numready;
@@ -255,24 +192,16 @@ int playgame(void)
   int ans = 0;
   int x=0, i = 0;
   int end = 0;
-  int len = 0;
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   char ch;
 
-  /* Set stdin to be non-blocking: */
-  /* FIXME we might need to turn this back to blocking when we leave playgame() */
-  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
-
   printf("\nStarting Tux, of the Math Command Line ;-)\n");
   printf("Waiting for other players to be ready...\n\n");
-
-
  
   snprintf(buffer, NET_BUF_LEN, 
-                  "%s\n",
+                  "%s",
                   "START_GAME");
-  len = strlen(buffer) + 1;
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
     fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -298,17 +227,21 @@ int playgame(void)
     //If no input, it returns 0 without blocking or waiting
     if(read_stdin_nonblock(buf, NET_BUF_LEN))
     {
+      //While in game, these just quit the current math game:
       if ((strncmp(buf, "quit", 4) == 0)
         ||(strncmp(buf, "exit", 4) == 0)
         ||(strncmp(buf, "q", 1) == 0))
       {
-        quit = 1;  //So we exit loop in main()
         end = 1;   //Exit our loop in playgame()
+        //Tell server we are quitting current game:
+        //FIXME make into LAN_LeaveGame()
+        snprintf(buf, NET_BUF_LEN, "%s", "LEAVE_GAME");
+        if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
+        {
+          fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+          return -1;
+        }
       }
-      else if(strncmp(buf,"PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
-      {
-        player_msg_recvd(buf);
-      } 
       else
       {
         /*NOTE atoi() will return zero for any string that is not
