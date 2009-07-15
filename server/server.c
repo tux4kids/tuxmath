@@ -327,34 +327,13 @@ void update_clients(void)
 
   client[slot].sock = temp_sock;
 
-  /* We are receiving the client's name that was entered:       */
-  /* NOTE this will block if the client doesn't send anything,  */
-  /* making an easy target for a DOS attack - DSB               */
-  if( SDLNet_TCP_Recv(client[slot].sock, buffer, NET_BUF_LEN) > 0)
+  /* Add client socket to set: */
+  sockets_used = SDLNet_TCP_AddSocket(client_set, client[slot].sock);
+  if(sockets_used == -1) //No way this should happen
   {
-    strncpy(client[slot].name, buffer, NAME_SIZE);
-    printf(" JOINED  :::   %s\n", client[slot].name);
-    //Announcement for all clients:
-    snprintf(buffer, NET_BUF_LEN, 
-          "Player %s has connected to the server\n",
-           client[slot].name);             
-    broadcast_msg(buffer);
-
-
-    /* Add client socket to set: */
-    sockets_used = SDLNet_TCP_AddSocket(client_set, client[slot].sock);
-    if(sockets_used == -1) //No way this should happen
-    {
-      printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-      cleanup_server();
-      exit(EXIT_FAILURE);
-    }
-  }
-  else   //This means the socket didn't connect successfully
-  {
-    printf("SDLNet_TCP_Recv() failed");
-    remove_client(slot);
-    return;   // Leave num_clients unchanged
+    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+    cleanup_server();
+    exit(EXIT_FAILURE);
   }
 
   /* At this point num_clients can be updated: */
@@ -575,7 +554,9 @@ int msg_set_name(int i, char* buf)
   char* p;
   if(buf == NULL)
     return 0;
+  printf("in msg_set_name() buf is: %s\n");
   p = strchr(buf, '\t');
+  printf("p - buf is: %d\n", p - buf);
   if(p)
   { 
     p++;
