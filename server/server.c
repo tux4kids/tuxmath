@@ -57,6 +57,9 @@ void throttle(int loop_msec);
 void game_msg_next_question(void);
 int no_questions_left(void);
 int mission_accomplished(void);
+int send_counter_updates(void);
+
+
 
 /* "Local globals" for server.c:   */
 TCPsocket server_sock = NULL; /* Socket descriptor for server            */
@@ -113,49 +116,6 @@ int main(int argc, char **argv)
 /*  "Private" (to server.c) functions                                */
 /*********************************************************************/
 
-int no_questions_left(void)
-{
-  int x,j;
-
-  char buf[NET_BUF_LEN];
-  snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "GAME_OVER_OTHER");
-
-  for(j = 0; j < num_clients; j++)
-   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-
-#ifdef LAN_DEBUG
-  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-  printf("buf is: %s\n", buf);
-#endif
-
-  if (x == 0)
-    return 0;
-  return 1;
-}
-
-
-int mission_accomplished(void)
-{
-  int x,j;
-
-  char buf[NET_BUF_LEN];
-  snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "GAME_OVER_WON");
-  for(j = 0; j < num_clients; j++)
-   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-
-#ifdef LAN_DEBUG
-  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-  printf("buf is: %s\n", buf);
-#endif
-
-  if (x == 0)
-    return 0;
-  return 1;
-}
 
 // setup_server() - all the things needed to get server running:
 int setup_server(void)
@@ -474,18 +434,6 @@ int handle_client_game_msg(int i , char *buffer)
   if(strncmp(command, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
   {
     game_msg_correct_answer(i,id);
-    if(!MC_TotalQuestionsLeft())
-    {
-      if(!no_questions_left())
-      printf(" no_questions_left() failed..\n"); 
-    }
-    if (MC_MissionAccomplished())
-    {
-      if(!mission_accomplished())
-      printf(" mission_accomplished() failed..\n");  
-    }
-
-    game_msg_next_question();
   }                            
 
   else if(strncmp(command, "WRONG_ANSWER",strlen("WRONG_ANSWER")) == 0) /* Player answered the question incorrectly , meaning comet crashed into a city or an igloo */
@@ -501,9 +449,6 @@ int handle_client_game_msg(int i , char *buffer)
       if(!mission_accomplished())
       printf(" mission_accomplished() failed..\n");  
     }
-
-    game_msg_next_question();
-
   }
 
   else if(strncmp(command, "NEXT_QUESTION",strlen("NEXT_QUESTION")) == 0) /* Send Next Question */
@@ -530,33 +475,14 @@ int handle_client_game_msg(int i , char *buffer)
 
 
 
-void game_msg_wrong_answer(int i, int id)
-{
-  int n;
-  char buf[NET_BUF_LEN];
-  //Announcement for server and all clients:
-  snprintf(buf, NET_BUF_LEN, 
-          "question id %d was answered incorrectly by %s\n",
-          id, client[i].name);             
-  printf("%s", buf);
-  broadcast_msg(buf);
-/* Functions for all the messages we can receive from the client: */
-
-
-  //Tell mathcards so lists get updated:
-  MC_NotAnsweredCorrectly_id(id);
-
-
-}
-
 int msg_set_name(int i, char* buf)
 {
   char* p;
+
   if(buf == NULL)
     return 0;
-  printf("in msg_set_name() buf is: %s\n");
+
   p = strchr(buf, '\t');
-  printf("p - buf is: %d\n", p - buf);
   if(p)
   { 
     p++;
@@ -567,21 +493,67 @@ int msg_set_name(int i, char* buf)
     return 0;
 }
 
+
+
 void game_msg_correct_answer(int i, int id)
 {
   int n;
   char buf[NET_BUF_LEN];
+  //Tell mathcards so lists get updated:
+  MC_AnsweredCorrectly_id(id);
+
   //Announcement for server and all clients:
   snprintf(buf, NET_BUF_LEN, 
           "question id %d was answered correctly by %s\n",
           id, client[i].name);             
-  printf("%s", buf);
   broadcast_msg(buf);
 
-  //Tell mathcards so lists get updated:
-  MC_AnsweredCorrectly_id(id);
+  //send the next question to everyone:
+  game_msg_next_question();
 
+  if(!MC_TotalQuestionsLeft())
+  {
+    if(!no_questions_left())
+    printf(" no_questions_left() failed..\n"); 
+  }
+  if (MC_MissionAccomplished())
+  {
+    if(!mission_accomplished())
+    printf(" mission_accomplished() failed..\n");  
+  }
 }
+
+
+void game_msg_wrong_answer(int i, int id)
+{
+  int n;
+  char buf[NET_BUF_LEN];
+
+  //Tell mathcards so lists get updated:
+  MC_NotAnsweredCorrectly_id(id);
+
+  //Announcement for server and all clients:
+  snprintf(buf, NET_BUF_LEN, 
+          "question id %d was answered incorrectly by %s\n",
+          id, client[i].name);             
+  broadcast_msg(buf);
+
+  //send the next question to everyone:
+  game_msg_next_question();
+
+  if(!MC_TotalQuestionsLeft())
+  {
+    if(!no_questions_left())
+    printf(" no_questions_left() failed..\n"); 
+  }
+  if (MC_MissionAccomplished())
+  {
+    if(!mission_accomplished())
+    printf(" mission_accomplished() failed..\n");  
+  }
+}
+
+
 
 void game_msg_next_question(void)
 {
@@ -626,6 +598,8 @@ void game_msg_exit(int i)
   remove_client(i);
 }
 
+
+
 //FIXME don't think we want to allow players to shut down the server
 void game_msg_quit(int i)
 {
@@ -652,6 +626,8 @@ void start_game(int i)
   /* at client[0].                                                             */
   /* Basically , when the clients are allocated sockets , they are allocated contiguos
      locations  starting from client[0] , so I dont think this will fail anytime.*/
+  /* FIXME of course this will fail if someone disconnects before the game starts */
+
 
   /*This loop sees that the game starts only when all the players are ready */
   for(j = 0; j < num_clients; j++)
@@ -676,8 +652,7 @@ void start_game(int i)
   if(num_clients == 0)
   {
     printf("There were no players........=(\n");
-    cleanup_server();
-    exit(1);
+    return;
   }
 
 #ifdef LAN_DEBUG
@@ -689,7 +664,7 @@ void start_game(int i)
   if (!MC_StartGame())
   {
     fprintf(stderr, "\nMC_StartGame() failed!");
-    exit(1);
+    return;
   }
 
   game_in_progress = 1;
@@ -698,7 +673,7 @@ void start_game(int i)
   { 
     /* no more questions available */
     printf("MC_NextQuestion() returned NULL - no questions available\n");
-    exit(1);
+    return;
   }
   else
   {                                     
@@ -720,6 +695,89 @@ void start_game(int i)
     }
   } 
 }
+
+
+int no_questions_left(void)
+{
+  int x,j;
+
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "GAME_OVER_OTHER");
+
+  for(j = 0; j < num_clients; j++)
+   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+
+#ifdef LAN_DEBUG
+  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+
+  if (x == 0)
+    return 0;
+  return 1;
+}
+
+
+
+int mission_accomplished(void)
+{
+  int x,j;
+
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, 
+                "%s\n",
+                "GAME_OVER_WON");
+  for(j = 0; j < num_clients; j++)
+   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
+
+#ifdef LAN_DEBUG
+  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+  printf("buf is: %s\n", buf);
+#endif
+
+  if (x == 0)
+    return 0;
+  return 1;
+}
+
+
+//More centralized function to update the clients of the number of 
+//questions remaining, whether the mission has been accomplished,
+//and so forth:
+int send_counter_updates(void)
+{
+  int i, total_questions;
+
+  //If game won, tell everyone:
+  if(MC_MissionAccomplished())
+  {
+    char buf[NET_BUF_LEN];
+    snprintf(buf, NET_BUF_LEN, "%s", "GAME_OVER_WON");
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      if(client[i].sock != NULL)
+        if (SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN) 
+          printf("Warning - failed to send full buffer to client %d\n", i);
+    }
+  }
+
+  //Tell everyone how many questions left:
+  total_questions = MC_TotalQuestionsLeft();
+  {
+    char buf[NET_BUF_LEN];
+    snprintf(buf, NET_BUF_LEN, "%s\t%d", "TOTAL_QUESTIONS", total_questions);
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      if(client[i].sock != NULL)
+        if (SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN) 
+          printf("Warning - failed to send full buffer to client %d\n", i);
+    }
+  }
+}
+
+
 
 
 //Returns the index of the first vacant client, or -1 if all clients full
@@ -847,7 +905,8 @@ int player_msg(int i, char* msg)
     return 0;
   }
   
-
+  //NOTE Do we really want to remove client if we don't transmit
+  //the entire buffer?
   //transmit:
   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "PLAYER_MSG", msg);
   if(SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
@@ -860,6 +919,9 @@ int player_msg(int i, char* msg)
   return 1;
 }
 
+
+
+
 /* Send the message to all clients: */
 void broadcast_msg(char* msg)
 {
@@ -867,7 +929,7 @@ void broadcast_msg(char* msg)
   if (!msg)
     return;
   for(i = 0; i < MAX_CLIENTS; i++)
-    player_msg(i, msg);   
+    player_msg(i, msg);
 }
 
 
