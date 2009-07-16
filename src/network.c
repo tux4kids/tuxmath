@@ -41,11 +41,6 @@ int evaluate(char *statement);
 int LAN_Setup(char *host, int port)
 {
   IPaddress ip;           /* Server address */
-//  int len;
-//  char buf[NET_BUF_LEN];     // for network messages from server
-  char buffer[NET_BUF_LEN];  // for command-line input
-//  char *check1;
-  char name[NAME_SIZE]="Player 1";
 
   if (SDLNet_Init() < 0)
   {
@@ -106,15 +101,9 @@ void LAN_Cleanup(void)
 int LAN_SetName(char* name)
 {
   char buf[NET_BUF_LEN];
-
   if(!name)
     return 0;
-
-  snprintf(buf, NET_BUF_LEN, 
-                  "%s\t%s",
-                  "SET_NAME",
-                  name);
-
+  snprintf(buf, NET_BUF_LEN, "%s\t%s", "SET_NAME", name);
   return say_to_server(buf);
 }
 
@@ -293,54 +282,37 @@ return 1;
 int LAN_StartGame(void)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s\n",
-                  "START_GAME");
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    return 0;
-  }
-#ifdef LAN_DEBUG
-  printf("Sent the game notification %s\n",buffer);
-#endif
-  return 1;
+  snprintf(buffer, NET_BUF_LEN, "%s", "START_GAME");
+  return say_to_server(buffer);
 }
 
 
 int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 {
   char buffer[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s %d\n",
-                  "CORRECT_ANSWER",
-                  fc->question_id);
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-  return 1;
+  snprintf(buffer, NET_BUF_LEN, "%s %d", "CORRECT_ANSWER", fc->question_id);
+  return say_to_server(buffer);
 }
-    
+
+
 int LAN_NotAnsweredCorrectly(MC_FlashCard* fc)
 {
-  int len;
   char buffer[NET_BUF_LEN];
-
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s %d\n",
-                  "WRONG_ANSWER",
-                  fc->question_id);
-  len = strlen(buffer) + 1;
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-  return 1;
+  snprintf(buffer, NET_BUF_LEN, "%s %d\n", "WRONG_ANSWER", fc->question_id);
+  return say_to_server(buffer);
 }
+
+
+/* This tells the server we are quitting the current math game, but */
+/* not disconnecting our socket:                                    */
+int LAN_LeaveGame(void)
+{
+  char buf[NET_BUF_LEN];
+  snprintf(buf, NET_BUF_LEN, "%s", "LEAVE_GAME");
+  return say_to_server(buf);
+}
+
+
 
 /*private to network.c functions*/
 

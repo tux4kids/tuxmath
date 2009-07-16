@@ -234,13 +234,7 @@ int playgame(void)
       {
         end = 1;   //Exit our loop in playgame()
         //Tell server we are quitting current game:
-        //FIXME make into LAN_LeaveGame()
-        snprintf(buf, NET_BUF_LEN, "%s", "LEAVE_GAME");
-        if (SDLNet_TCP_Send(sd, (void *)buf, NET_BUF_LEN) < NET_BUF_LEN)
-        {
-          fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-          return -1;
-        }
+        LAN_LeaveGame();
       }
       else
       {
