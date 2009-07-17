@@ -324,7 +324,7 @@ int say_to_server(char* statement)
     return 0;
 
   snprintf(buffer, NET_BUF_LEN, 
-                  "%s\n",
+                  "%s",
                   statement);
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
