@@ -47,6 +47,11 @@ dist_sprites_DATA = alone0.png \
   help2.png \
   help3.png \
   helpd.png \
+  lan0.png \
+  lan1.png \
+  lan2.png \
+  lan3.png \
+  land.png \
   lesson0.png \
   lesson1.png \
   lesson2.png \

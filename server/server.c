@@ -508,16 +508,8 @@ void game_msg_correct_answer(int i, int id)
   //send the next question to everyone:
   game_msg_next_question();
 
-  if(!MC_TotalQuestionsLeft())
-  {
-    if(!no_questions_left())
-    printf(" no_questions_left() failed..\n"); 
-  }
-  if (MC_MissionAccomplished())
-  {
-    if(!mission_accomplished())
-    printf(" mission_accomplished() failed..\n");  
-  }
+    if(!send_counter_updates())
+    printf("the function send_counter_updates() failed..\n");
 }
 
 
@@ -538,16 +530,8 @@ void game_msg_wrong_answer(int i, int id)
   //send the next question to everyone:
   game_msg_next_question();
 
-  if(!MC_TotalQuestionsLeft())
-  {
-    if(!no_questions_left())
-    printf(" no_questions_left() failed..\n"); 
-  }
-  if (MC_MissionAccomplished())
-  {
-    if(!mission_accomplished())
-    printf(" mission_accomplished() failed..\n");  
-  }
+  if(!send_counter_updates())
+    printf("the function send_counter_updates() failed..\n");
 }
 
 
@@ -760,6 +744,7 @@ int send_counter_updates(void)
     snprintf(buf, NET_BUF_LEN, "%s\t%d", "TOTAL_QUESTIONS", total_questions);
     transmit_all(buf);
   }
+  return 1;
 }
 
 

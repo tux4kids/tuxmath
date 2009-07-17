@@ -93,6 +93,7 @@ enum {
   SPRITE_TROPHY,
   SPRITE_CREDITS,
   SPRITE_ALONE,
+  SPRITE_LAN,
   SPRITE_FRIENDS,
   SPRITE_FACTOROIDS,
   SPRITE_FACTORS,
@@ -123,6 +124,7 @@ const char* menu_sprite_files[N_SPRITES] =
   "trophy",
   "credits",
   "alone", 
+  "lan",
   "friends", 
   "factoroids",
   "factors",
@@ -664,6 +666,7 @@ int run_main_menu(void)
 
   // Set up the sprites
   sprites[0] = sprite_list[SPRITE_ALONE];
+  sprites[1] = sprite_list[SPRITE_LAN];
   sprites[2] = sprite_list[SPRITE_FRIENDS];
   sprites[3] = sprite_list[SPRITE_FACTOROIDS];
   sprites[4] = sprite_list[SPRITE_HELP];
