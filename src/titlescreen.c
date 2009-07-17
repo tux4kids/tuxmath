@@ -48,7 +48,7 @@ SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
 int numupdates = 0; // tracks how many blits to be done
 char host[1024]="NULL";
-char port[1024];
+char player_name[1024];
 
 // Colors we use:
 SDL_Color black;
@@ -884,13 +884,13 @@ int run_lan_menu(void)
     if (mode == 2 || mode == -1)
       break;
 
-    if(mode == 0)                     //chooses Host
-    run_server_menu();
+//    if(mode == 0)                     //chooses Host
+//    run_server_menu();
     
     if(mode == 1)
-    { NameEntry(host, _("Enter the name"),
+    { NameEntry(host, _("Enter the name or ip address"),
                        _("(of the Host)"));
-     NameEntry(port, _("Enter you name"),
+     NameEntry(player_name, _("Enter you name"),
                        _(""));
 
 
@@ -900,10 +900,9 @@ int run_lan_menu(void)
      LAN_Cleanup();
      return 0;
    }    
-
-   LAN_SetName(port);
-
-
+   LAN_SetName(player_name);
+   Ready(_("Click OK when Ready"));
+   Standby(_("Waiting For Other Players"),_("To Connect"));
    game();
    }   
 
@@ -913,51 +912,51 @@ int run_lan_menu(void)
 
 }
 
+/*Dont think we need this..*/
+//int run_server_menu(void)
+//{
 
-int run_server_menu(void)
-{
-
-  int difficulty = -1;
+//  int difficulty = -1;
  //  n=1;
-   int g;
+//   int g;
   //just leech settings from arcade modes
-  const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
-    {N_("Space Cadet"),
-     N_("Scout"),
-     N_("Ranger"),
-     N_("Ace"),      
-     N_("Commando"),
-     N_("Main menu")};
+//  const char* diff_menu_text[NUM_MATH_COMMAND_LEVELS + 1] =
+//    {N_("Space Cadet"),
+//     N_("Scout"),
+//     N_("Ranger"),
+//     N_("Ace"),      
+//     N_("Commando"),
+//     N_("Main menu")};
  
   
 
-   sprite* diffsprites[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
+//   sprite* diffsprites[6] = {NULL, NULL, NULL, NULL, NULL, NULL};
   
  
-  diffsprites[0] = sprite_list[SPRITE_CADET];
-  diffsprites[1] = sprite_list[SPRITE_SCOUT];
-  diffsprites[2] = sprite_list[SPRITE_RANGER];
-  diffsprites[3] = sprite_list[SPRITE_ACE];
-  diffsprites[4] = sprite_list[SPRITE_COMMANDO];
-  diffsprites[5] = sprite_list[SPRITE_MAIN];
+//  diffsprites[0] = sprite_list[SPRITE_CADET];
+//  diffsprites[1] = sprite_list[SPRITE_SCOUT];
+//  diffsprites[2] = sprite_list[SPRITE_RANGER];
+//  diffsprites[3] = sprite_list[SPRITE_ACE];
+//  diffsprites[4] = sprite_list[SPRITE_COMMANDO];
+//  diffsprites[5] = sprite_list[SPRITE_MAIN];
 
-     while (1)
-  {
+//     while (1)
+//  {
     //choose difficulty
-    difficulty = choose_menu_item(diff_menu_text,diffsprites,6,NULL,NULL);
-     if (difficulty == -1 || difficulty >= NUM_MATH_COMMAND_LEVELS)
-     { break;} //user chose main menu or hit escape
-     else
-     {NameEntry(port, _("Enter the PORT"),
-                       _(""));
+//    difficulty = choose_menu_item(diff_menu_text,diffsprites,6,NULL,NULL);
+//     if (difficulty == -1 || difficulty >= NUM_MATH_COMMAND_LEVELS)
+//     { break;} //user chose main menu or hit escape
+//     else
+//     {NameEntry(port, _("Enter the PORT"),
+//                       _(""));
     
-       game();}
-    break;
-   }
-   return 0;
+//       game();}
+//    break;
+//   }
+//   return 0;
 
 
-}
+//}
 
 
 
