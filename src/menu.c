@@ -56,7 +56,7 @@ enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP_ESC, RESIZED };
 /* stop button, left and right arrow positions do not
    depend on currently displayed menu */
 SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;
-SDL_Surface *stop_button, *prev_arrow, *next_arrow;
+SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gray;
 
 /*TODO: move these constants into a config file (maybe together with
   titlescreen paths and rects ? ) */
@@ -67,7 +67,9 @@ const float next_pos[4] = {0.94, 0.93, 0.06, 0.06};
 const char* stop_path = "status/stop.svg";
 const char* prev_path = "status/left.svg";
 const char* next_path = "status/right.svg";
-const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5;
+const char* prev_gray_path = "status/left_gray.svg";
+const char* next_gray_path = "status/right_gray.svg";
+const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5, button_radius = 0.27;
 const int min_font_size = 8, default_font_size = 20, max_font_size = 40;
 
 /* font size used in current resolution */
@@ -602,10 +604,20 @@ int run_menu(MenuNode* root, bool return_choice)
     }
 
     SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
-    if(menu->first_entry > 0)
-      SDL_BlitSurface(prev_arrow, NULL, screen, &prev_rect);
-    if(menu->first_entry + items < menu->submenu_size)
-      SDL_BlitSurface(next_arrow, NULL, screen, &next_rect);
+
+    if(menu->entries_per_screen < menu->submenu_size)
+    {
+      /* display arrows */
+      if(menu->first_entry > 0)
+        SDL_BlitSurface(prev_arrow, NULL, screen, &prev_rect);
+      else
+        SDL_BlitSurface(prev_gray, NULL, screen, &prev_rect);
+      if(menu->first_entry + items < menu->submenu_size)
+        SDL_BlitSurface(next_arrow, NULL, screen, &next_rect);
+      else
+        SDL_BlitSurface(next_gray, NULL, screen, &next_rect);
+    }
+
     if(menu->show_title)
     {
       menu_title_rect = menu->submenu[0]->button_rect;
@@ -1057,9 +1069,9 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     SDL_BlitSurface(screen, &curr_rect, menu_items[i], NULL);
     /* button */
     if(selected)
-      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, 10, SEL_RGBA);
+      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, SEL_RGBA);
     else
-      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, 10, REG_RGBA);
+      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, REG_RGBA);
 
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], NULL);
     SDL_FreeSurface(tmp_surf);
@@ -1238,6 +1250,9 @@ void prerender_all()
   if(prev_arrow)
     SDL_FreeSurface(prev_arrow);
   prev_arrow = LoadImageOfBoundingBox(prev_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
+  if(prev_gray)
+    SDL_FreeSurface(prev_gray);
+  prev_gray = LoadImageOfBoundingBox(prev_gray_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
   /* move button to the right */
   prev_rect.x += prev_rect.w - prev_arrow->w;
 
@@ -1245,6 +1260,9 @@ void prerender_all()
   if(next_arrow)
     SDL_FreeSurface(next_arrow);
   next_arrow = LoadImageOfBoundingBox(next_path, IMG_ALPHA, next_rect.w, next_rect.h);
+  if(next_gray)
+    SDL_FreeSurface(next_gray);
+  next_gray = LoadImageOfBoundingBox(next_gray_path, IMG_ALPHA, next_rect.w, next_rect.h);
 
   set_font_size();
 
@@ -1424,9 +1442,9 @@ void RunMainMenu(void)
     tmp_node->submenu[i]->activity = i;
   }
   menus[MENU_LESSONS] = tmp_node;
-  //set_font_size();
-  //prerender_menu(menus[MENU_LESSONS]);
-  prerender_all();
+  set_font_size();
+  prerender_menu(menus[MENU_LESSONS]);
+  //prerender_all();
 
   run_menu(menus[MENU_MAIN], false);
   DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
