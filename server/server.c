@@ -45,7 +45,7 @@ int check_messages(void);
 // client management utilities:
 int find_vacant_client(void);
 void remove_client(int i);
-int check_game_clients(void);
+void check_game_clients(void);
 
 // message reception:
 int handle_client_game_msg(int i,char *buffer);
@@ -259,7 +259,7 @@ void update_clients(void)
   }     
 
   //If everyone is disconnected, game no longer in progress:
-  game_in_progress = check_game_clients(); 
+  check_game_clients(); 
  
   // If game already started, send our regrets:
   if(game_in_progress)
@@ -383,7 +383,7 @@ int check_messages(void)
             handle_client_nongame_msg(i, buffer);
 
           // See if game is ended because everyone has left:
-          game_in_progress = check_game_clients(); 
+          check_game_clients(); 
         }
         else  // Socket activity but cannot receive - client invalid
         {
@@ -795,32 +795,48 @@ void remove_client(int i)
 }
 
 
-int check_game_clients(void)
+void check_game_clients(void)
 {
   int i = 0;
-  int playing = 0;
-
-  //If the game hasn't started yet, we don't do anything:
+  //If the game hasn't started yet, we only start it 
+  //if all connected clients are ready:
   if(!game_in_progress)
-    return 0;
-
-  //Otherwise we see if anyone is still ready and willing to play:
-  for(i = 0; i < MAX_CLIENTS; i++)
   {
-    if((client[i].sock != NULL)
-     && client[i].game_ready)
+    int someone_connected = 0;
+    int someone_not_ready = 0;
+    for(i = 0; i < MAX_CLIENTS; i++)
     {
-      playing = 1;
-      break;
+      if(client[i].sock != NULL)
+      { 
+        someone_connected = 1;
+        if (!client[i].game_ready)
+        {
+          someone_not_ready = 1;
+        }
+      }
+    }
+    if(someone_connected && !someone_not_ready)
+      game_in_progress = 1;
+  }
+  else
+  {//Otherwise we see if anyone is still ready and willing to play:
+    int someone_still_playing = 0;
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      if((client[i].sock != NULL)
+       && client[i].game_ready)
+      {
+        someone_still_playing = 1;
+        break;
+      }
+    }
+
+    if(!someone_still_playing)
+    {
+      printf("All the clients have left the game, setting game_in_progress = 0.\n");
+      game_in_progress = 0;
     }
   }
-
-  if(!playing)
-  {
-    printf("All the clients have left the game, setting game_in_progress = 0.\n");
-  }
-
-  return playing;
 }
 
 
@@ -908,9 +924,8 @@ int player_msg(int i, char* msg)
 
   /* Add header: */
   snprintf(buf, NET_BUF_LEN, "%s\t%s", "PLAYER_MSG", msg);
-
   //NOTE transmit() validates index and socket
-  return transmit(msg, i);
+  return transmit(buf, i);
 }
 
 /* Send a player message to all clients: */
@@ -959,7 +974,6 @@ int transmit(char* msg, int i)
     remove_client(i);
     return 0;
   }
-  printf("transmit() - sending: %s\n", buf);
   //Success:
   return 1;
 }
