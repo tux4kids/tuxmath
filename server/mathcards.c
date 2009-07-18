@@ -634,7 +634,7 @@ int MC_AnsweredCorrectly_id(int id)
   }
   if(!mq) // Means we didn't find matching card - something is wrong:
   {
-    fprintf(stderr, "MC_AnsweredCorrectly_id() - matching question not found!\n");
+    fprintf(stderr, "MC_AnsweredCorrectly_id() - matching question not found for id = %d!\n", id);
     return 0;
   }
   //Now just pass address of card field to MC_AnsweredCorrectly():

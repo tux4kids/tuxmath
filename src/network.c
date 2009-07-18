@@ -290,7 +290,7 @@ int LAN_StartGame(void)
 int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s %d", "CORRECT_ANSWER", fc->question_id);
+  snprintf(buffer, NET_BUF_LEN, "%s\t%d", "CORRECT_ANSWER", fc->question_id);
   return say_to_server(buffer);
 }
 
