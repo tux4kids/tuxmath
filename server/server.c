@@ -509,7 +509,7 @@ void check_game_clients(void)
 
 
 
-void handle_client_nongame_msg(int i,char *buffer)
+void handle_client_nongame_msg(int i, char* buffer)
 {
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
@@ -522,7 +522,7 @@ void handle_client_nongame_msg(int i,char *buffer)
 }
 
 
-int handle_client_game_msg(int i , char *buffer)
+int handle_client_game_msg(int i , char* buffer)
 {
 #ifdef LAN_DEBUG  
   printf("Buffer received from client: %s\n", buffer);
@@ -542,7 +542,7 @@ int handle_client_game_msg(int i , char *buffer)
   {
     game_msg_next_question();
   }
-  else if(strncmp(buffer, "LEAVE_GAME",strlen("LEAVE_GAME")) == 0) 
+  else if(strncmp(buffer, "LEAVE_GAME", strlen("LEAVE_GAME")) == 0) 
   {
     client[i].game_ready = 0;  /* Player quitting game but not disconnecting */
   }

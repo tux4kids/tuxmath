@@ -133,7 +133,7 @@ int LAN_NextQuestion(void)
   char buf[NET_BUF_LEN];
 
   snprintf(buf, NET_BUF_LEN, 
-                  "%s\n",
+                  "%s",
                   "NEXT_QUESTION");
   return say_to_server(buf);
 }
@@ -141,7 +141,7 @@ int LAN_NextQuestion(void)
 
 int check_messages(char buf[NET_BUF_LEN])
 { 
-  int x = 0, numready;
+  int numready;
   
   //This is supposed to check to see if there is activity:
   numready = SDLNet_CheckSockets(set, 0);
@@ -156,12 +156,11 @@ int check_messages(char buf[NET_BUF_LEN])
 #ifdef LAN_DEBUG
 //  printf("There are %d sockets with activity!\n", numready);
 #endif
-   // check all sockets with SDLNet_SocketReady and handle the active ones.
+   // check socket with SDLNet_SocketReady and handle if active:
     if(SDLNet_SocketReady(sd))
     {
       buf[0] = '\0';
-      x = SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN);
-      if( x <= 0)
+      if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) <= 0)
       {
         fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
         exit(EXIT_FAILURE);
@@ -298,7 +297,7 @@ int LAN_AnsweredCorrectly(MC_FlashCard* fc)
 int LAN_NotAnsweredCorrectly(MC_FlashCard* fc)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s %d\n", "WRONG_ANSWER", fc->question_id);
+  snprintf(buffer, NET_BUF_LEN, "%s\t%d", "WRONG_ANSWER", fc->question_id);
   return say_to_server(buffer);
 }
 

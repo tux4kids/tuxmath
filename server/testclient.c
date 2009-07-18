@@ -112,7 +112,11 @@ int main(int argc, char **argv)
       else if (strncmp(buffer, "game", 4) == 0)
       {
         playgame();
-        printf("Math game finished.\n");
+        printf("Math game finished.\n\n");
+        printf("Type:\n"
+               "'game' to start math game;\n"
+               "'exit' to end client leaving server running;\n"
+               "'quit' to end both client and server\n>\n"); 
       }
       else
       {
@@ -167,6 +171,22 @@ int game_check_msgs(void)
       else
         printf("Unable to parse buffer into FlashCard\n");
     }
+    else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
+    {
+      /* function call to parse buffer and receive question */
+      if(Make_Flashcard(buf, &flash))
+      {
+        have_question = 1; 
+        printf("The question is: %s\n>\n", flash.formula_string);
+      }
+      else
+        printf("Unable to parse buffer into FlashCard\n");
+    }
+    else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
+    {
+      //remove the question (i.e. comet in actual game) with given id
+    }
+
     else if(strncmp(buf, "SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
     {
       printf("%s\n", buf);
@@ -174,6 +194,14 @@ int game_check_msgs(void)
     else if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
     {
       player_msg_recvd(buf);
+    }
+    else if(strncmp(buf, "TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS")) == 0)
+    {
+      //update the "questions remaining" counter
+    }
+    else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
+    {
+      //means player won the game!
     }
     else 
     {
