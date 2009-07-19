@@ -57,16 +57,12 @@ dist_sprites_DATA = \
   goldstar0.png \
   goldstar1.png \
   goldstard.png \
+  help.svg \
   help0.png \
-  help0.svg \
   help1.png \
-  help1.svg \
   help2.png \
-  help2.svg \
   help3.png \
-  help3.svg \
   helpd.png \
-  helpd.svg \
   lesson0.png \
   lesson1.png \
   lesson2.png \

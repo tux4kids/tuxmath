@@ -27,20 +27,25 @@
 #include "setup.h"       // for cleanup_on_error()
 #include "SDL_extras.h"
 
-
-
-/* local functions */
-int check_file(const char* file);
-
 #ifdef HAVE_RSVG
-SDL_Surface* load_svg(const char* file_name, int width, int height, const char* layer_name);
-void get_svg_dimensions(const char* file_name, int* width, int* height);
+#include<librsvg/rsvg.h>
+#include<librsvg/rsvg-cairo.h>
 #endif
 
-SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool proportional);
-void fit_in_rectangle(int* width, int* height, int max_width, int max_height);
-SDL_Surface* set_format(SDL_Surface* img, int mode);
-sprite* load_sprite(const char* name, int mode, int width, int height, bool proportional);
+/* local functions */
+int             check_file(const char* file);
+
+#ifdef HAVE_RSVG
+SDL_Surface*    load_svg(const char* file_name, int width, int height, const char* layer_name);
+sprite*         load_svg_sprite(const char* file_name, int width, int height);
+SDL_Surface*    render_svg_from_handle(RsvgHandle* file_handle, int width, int height, const char* layer_name);
+void            get_svg_dimensions(const char* file_name, int* width, int* height);
+#endif
+
+SDL_Surface*    load_image(const char* file_name, int mode, int w, int h, bool proportional);
+void            fit_in_rectangle(int* width, int* height, int max_width, int max_height);
+SDL_Surface*    set_format(SDL_Surface* img, int mode);
+sprite*         load_sprite(const char* name, int mode, int w, int h, bool proportional);
 
 
 
@@ -61,7 +66,7 @@ int check_file(const char* file)
 
   if (!file)
   {
-    DEBUGMSG(debug_loaders, "check_file(): invalid char* argument!");
+    DEBUGMSG(debug_loaders, "check_file(): invalid char* argument!\n");
     return 0;
   }
 
@@ -90,42 +95,89 @@ int check_file(const char* file)
 
 #ifdef HAVE_RSVG
 
-#include<librsvg/rsvg.h>
-#include<librsvg/rsvg-cairo.h>
-
 /* Load a layer of SVG file and resize it to given dimensions.
    If width or height is negative no resizing is applied.
    If layer = NULL then the whole image is loaded.
+   layer_name must be preceded with a '#' symbol.
    Return NULL on failure.
    (partly based on TuxPaint's SVG loading function) */
 SDL_Surface* load_svg(const char* file_name, int width, int height, const char* layer_name)
 {
-  cairo_surface_t* temp_surf;
-  cairo_t* context;
-  RsvgHandle* file_handle;
-  RsvgDimensionData dimensions;
   SDL_Surface* dest;
-  float scale_x;
-  float scale_y;
-  Uint32 Rmask, Gmask, Bmask, Amask;
-  char* full_layer_name;
+  RsvgHandle* file_handle;
 
-  DEBUGMSG(debug_loaders, "load_svg(): looking for %s\n", file_name);
+  DEBUGMSG(debug_loaders, "load_svg(): loading %s\n", file_name);
 
   rsvg_init();
 
   file_handle = rsvg_handle_new_from_file(file_name, NULL);
-  if(file_handle == NULL)
+  if(NULL == file_handle)
   {
     DEBUGMSG(debug_loaders, "load_svg(): file %s not found\n", file_name);
     rsvg_term();
     return NULL;
   }
 
+  dest = render_svg_from_handle(file_handle, width, height, layer_name);
+
+  g_object_unref(file_handle);
+  rsvg_term();
+
+  return dest;
+}
+
+sprite* load_svg_sprite(const char* file_name, int width, int height)
+{
+  RsvgHandle* file_handle;
+  sprite* new_sprite;
+  char lay_name[20];
+  int i;
+
+  DEBUGMSG(debug_loaders, "load_svg_sprite(): loading sprite from %s\n", file_name);
+
+  rsvg_init();
+
+  file_handle = rsvg_handle_new_from_file(file_name, NULL);
+  if(NULL == file_handle)
+  {
+    DEBUGMSG(debug_loaders, "load_svg_sprite(): file %s not found\n", file_name);
+    rsvg_term();
+    return NULL;
+  }
+
+  new_sprite = malloc(sizeof(sprite));
+  new_sprite->default_img = render_svg_from_handle(file_handle, width, height, "#default");
+
+  /* get number of frames from description */
+  sscanf(rsvg_handle_get_desc(file_handle), "%d", &new_sprite->num_frames);
+  DEBUGMSG(debug_loaders, "load_svg_sprite(): loading %d frames\n", new_sprite->num_frames);
+
+  for(i = 0; i < new_sprite->num_frames; i++)
+  {
+    sprintf(lay_name, "#frame%d", i);
+    new_sprite->frame[i] = render_svg_from_handle(file_handle, width, height, lay_name);
+  }
+
+  g_object_unref(file_handle);
+  rsvg_term();
+
+  return new_sprite;
+}
+
+/* render a layer of SVG file and resize it to given dimensions.
+   If width or height is negative no resizing is applied. */
+SDL_Surface* render_svg_from_handle(RsvgHandle* file_handle, int width, int height, const char* layer_name)
+{
+  RsvgDimensionData dimensions;
+  cairo_surface_t* temp_surf;
+  cairo_t* context;
+  SDL_Surface* dest;
+  float scale_x, scale_y;
+  Uint32 Rmask, Gmask, Bmask, Amask;
+
   rsvg_handle_get_dimensions(file_handle, &dimensions);
 
-  DEBUGMSG(debug_loaders, "load_svg(): SVG is %d x %d\n", dimensions.width, dimensions.height);
-
+  /* set scale_x and scale_y */
   if(width < 0 || height < 0)
   {
     width = dimensions.width;
@@ -139,6 +191,7 @@ SDL_Surface* load_svg(const char* file_name, int width, int height, const char* 
     scale_y = (float)height / dimensions.height;
   }
 
+  /* set color masks */
   Rmask = screen->format->Rmask;
   Gmask = screen->format->Gmask;
   Bmask = screen->format->Bmask;
@@ -148,7 +201,7 @@ SDL_Surface* load_svg(const char* file_name, int width, int height, const char* 
   else
     Amask = screen->format->Amask;
 
-  DEBUGMSG(debug_loaders, "load_svg(): color masks: R=%u, G=%u, B=%u, A=%u ",
+  DEBUGMSG(debug_loaders, "render_svg_from_handle(): color masks: R=%u, G=%u, B=%u, A=%u\n",
         Rmask, Gmask, Bmask, Amask);
 
   dest = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA,
@@ -161,36 +214,19 @@ SDL_Surface* load_svg(const char* file_name, int width, int height, const char* 
   context = cairo_create(temp_surf);
   if(cairo_status(context) != CAIRO_STATUS_SUCCESS)
   {
-    DEBUGMSG(debug_loaders, "load_svg(): error rendering SVG from %s\n", file_name);
-    g_object_unref(file_handle);
+    DEBUGMSG(debug_loaders, "render_svg_from_handle(): error rendering SVG\n");
     cairo_surface_destroy(temp_surf);
-    rsvg_term();
     return NULL;
   }
 
   cairo_scale(context, scale_x, scale_y);
 
-  /* insert '#' symbol at the beginning of layername */
-  if(layer_name != NULL)
-  {
-    full_layer_name = malloc((strlen(layer_name) + 2) * sizeof(char));
-    sprintf(full_layer_name, "#%s", layer_name);
-  }
-  else
-    full_layer_name = NULL;
-
   /* render appropriate layer */
-  rsvg_handle_render_cairo_sub(file_handle, context, full_layer_name);
-
-  if(full_layer_name != NULL)
-    free(full_layer_name);
+  rsvg_handle_render_cairo_sub(file_handle, context, layer_name);
 
   SDL_UnlockSurface(dest);
-
-  g_object_unref(file_handle);
   cairo_surface_destroy(temp_surf);
   cairo_destroy(context);
-  rsvg_term();
 
   return dest;
 }
@@ -221,6 +257,11 @@ void get_svg_dimensions(const char* file_name, int* width, int* height)
 
 #endif /* HAVE_RSVG */
 
+/* Load an image without resizing it */
+SDL_Surface* LoadImage(const char* file_name, int mode)
+{
+  return LoadScaledImage(file_name, mode, -1, -1);
+}
 
 /* LoadScaledImage : Load an image and resize it to given dimensions.
    If width or height is negative no resizing is applied.
@@ -278,6 +319,11 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
       get_svg_dimensions(fn, &width, &height);
       if(width > 0 && height > 0)
         fit_in_rectangle(&width, &height, w, h);
+    }
+    else
+    {
+      width = w;
+      height = h;
     }
     loaded_pic = load_svg(fn, width, height, NULL);
 #endif
@@ -391,12 +437,6 @@ SDL_Surface* set_format(SDL_Surface* img, int mode)
   return NULL;
 }
 
-/* Load an image without scaling it */
-SDL_Surface* LoadImage(const char* file_name, int mode)
-{
-  return LoadScaledImage(file_name, mode, -1, -1);
-}
-
 
 /* LoadBkgd() : a wrapper for LoadImage() that optimizes
    the format of background image */
@@ -448,39 +488,72 @@ sprite* LoadSpriteOfBoundingBox(const char* name, int mode, int max_width, int m
   return load_sprite(name, mode, max_width, max_height, true);
 }
 
-sprite* load_sprite(const char* name, int mode, int width, int height, bool proportional)
+sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
 {
-  sprite *new_sprite;
+  sprite *new_sprite = NULL;
   char fn[PATH_MAX];
-  int x;
+  int i, width, height;
 
-  new_sprite = malloc(sizeof(sprite));
-
-  sprintf(fn, "%sd.svg", name);  // The 'd' means the default image
-  if(proportional)
-    new_sprite->default_img = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, width, height);
-  else
-    new_sprite->default_img = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
-
-  if(!new_sprite->default_img)
-    DEBUGMSG(debug_loaders, "load_sprite(): failed to load default image for %s\n", name);
-
-  for(x = 0; x < MAX_SPRITE_FRAMES; x++)
+#ifdef HAVE_RSVG
+  /* check if SVG sprite file is present */
+  sprintf(fn, "%s/images/%s.svg", DATA_PREFIX, name);
+  if(1 == check_file(fn))
   {
-    sprintf(fn, "%s%d.svg", name, x);
     if(proportional)
-        new_sprite->frame[x] = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, width, height);
-    else
-        new_sprite->frame[x] = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, width, height);
-
-    if(new_sprite->frame[x] == NULL)
     {
-      new_sprite->cur = 0;
-      new_sprite->num_frames = x;
-      break;
+      get_svg_dimensions(fn, &width, &height);
+      if(width > 0 && height > 0)
+        fit_in_rectangle(&width, &height, w, h);
     }
     else
-      DEBUGMSG(debug_loaders, "load_sprite(): loaded frame %d of %s\n", x, name);
+    {
+      width = w;
+      height = h;
+    }
+
+    new_sprite = load_svg_sprite(fn, width, height);
+
+    if(new_sprite)
+    {
+      set_format(new_sprite->default_img, mode);
+      for(i = 0; i < new_sprite->num_frames; i++)
+        set_format(new_sprite->frame[i], mode);
+      new_sprite->cur = 0;
+    }
+  }
+#endif
+
+  if(!new_sprite)
+  {
+    /* SVG sprite was not loaded, try to load it frame by frame from PNG files */
+    new_sprite = malloc(sizeof(sprite));
+
+    sprintf(fn, "%sd.png", name);  // The 'd' means the default image
+    if(proportional)
+      new_sprite->default_img = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, w, h);
+    else
+      new_sprite->default_img = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, w, h);
+
+    if(!new_sprite->default_img)
+      DEBUGMSG(debug_loaders, "load_sprite(): failed to load default image for %s\n", name);
+
+    for(i = 0; i < MAX_SPRITE_FRAMES; i++)
+    {
+      sprintf(fn, "%s%d.png", name, i);
+      if(proportional)
+        new_sprite->frame[i] = LoadImageOfBoundingBox(fn, mode | IMG_NOT_REQUIRED, w, h);
+      else
+        new_sprite->frame[i] = LoadScaledImage(fn, mode | IMG_NOT_REQUIRED, w, h);
+
+      if(new_sprite->frame[i] == NULL)
+      {
+        new_sprite->cur = 0;
+        new_sprite->num_frames = i;
+        break;
+      }
+      else
+        DEBUGMSG(debug_loaders, "load_sprite(): loaded frame %d of %s\n", i, name);
+    }
   }
 
   return new_sprite;
