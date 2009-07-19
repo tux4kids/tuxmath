@@ -19,7 +19,7 @@
 #include "options.h"
 #include "SDL_extras.h"
 #include "convert_utf.h"
-
+#include "network.h"
 
 
 typedef struct high_score_entry {
@@ -751,14 +751,13 @@ void Standby(const char* heading, const char* sub)
   SDL_Rect loc;
   SDL_Rect TuxRect,
            stopRect;
+  char buf[NET_BUF_LEN];
 
   int finished = 0;
   int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
-  const int BG_Y = 100;
-  const int BG_WIDTH = 400;
-  const int BG_HEIGHT = 200;
+
 
   sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
@@ -846,7 +845,15 @@ void Standby(const char* heading, const char* sub)
         }
       }
     }
- 
+   while(!check_messages(buf))
+   {
+     if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME"))==0)
+     {
+       finished = 1;
+       playsound(SND_TOCK);
+       break;
+     }     
+   }
     /* --- make tux blink --- */
     switch (frame % TUX6)
     {

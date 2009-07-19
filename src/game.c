@@ -557,7 +557,7 @@ int game_initialize(void)
   /* to use MC_StartUsingWrongs() */
   /* NOTE MC_StartGame() will return 0 if the list length is zero due */
   /* (for example) to all math operations being deselected */
-#ifdef HAVE_LIBSDL_NET
+/*#ifdef HAVE_LIBSDL_NET
   if (!LAN_StartGame())
   {
     fprintf(stderr, "\nLAN_StartGame() failed!");
@@ -571,7 +571,7 @@ int game_initialize(void)
     return 0;
   }
 #endif
-
+*/
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
   cities = NULL;

@@ -747,6 +747,15 @@ void start_game(int i)
     }
   }
 
+ /***********************Will be modified**************/
+  snprintf(buf, NET_BUF_LEN, 
+          "%s\n",
+          "GO_TO_GAME");          
+  for(j = 0; j < num_clients; j++)
+   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));   
+ /*****************************************************/
+
+
   /* If no players join the game (should not happen) */
   if(num_clients == 0)
   {
