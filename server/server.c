@@ -511,9 +511,17 @@ void check_game_clients(void)
 
 void handle_client_nongame_msg(int i, char* buffer)
 {
+  char buf[NET_BUF_LEN];
+  int x;
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
     start_game(i);
+    client[i].game_ready = 1;
+    snprintf(buf, NET_BUF_LEN, 
+                  "%s",
+                  "Success");
+    x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+        
   }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
   {
@@ -718,7 +726,6 @@ void start_game(int i)
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   int x,j;
-  game_in_progress = 1;  //setting the game_in_progress flag to '1'
   snprintf(buf, NET_BUF_LEN,
                 "Player %s added for next math game",
                 client[i].name);
@@ -736,17 +743,7 @@ void start_game(int i)
     if((client[j].game_ready != 1)
     && (client[j].sock != NULL))
     {
-      if (SDLNet_TCP_Recv(client[j].sock, buffer, NET_BUF_LEN) > 0)
-      {
-        if(strncmp(buffer, "START_GAME", 10) == 0)
-        {
-          client[j].game_ready = 1;
-          snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "Success");
-          x = SDLNet_TCP_Send(client[j].sock, buf, NET_BUF_LEN);
-        }
-      }
+     return;      
     }
   }
 
@@ -762,6 +759,7 @@ void start_game(int i)
 #endif
 
 
+  game_in_progress = 1;  //setting the game_in_progress flag to '1'
   //Start a new math game as far as mathcards is concerned:
   if (!MC_StartGame())
   {

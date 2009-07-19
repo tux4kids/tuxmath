@@ -905,6 +905,7 @@ int run_lan_menu(void)
    }    
    LAN_SetName(player_name);
    Ready(_("Click OK when Ready"));
+   LAN_StartGame();
    Standby(_("Waiting For Other Players"),_("To Connect"));
    game();
    }   
