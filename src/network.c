@@ -19,6 +19,8 @@
 
 #include "SDL_net.h"
 #include "transtruct.h"
+#include "network.h"
+
 //#include "testclient.h"
 
 
@@ -108,23 +110,7 @@ int LAN_SetName(char* name)
 }
 
 
-/* This function prints the 'msg' part of the buffer (i.e. everything */
-/* after the first '\t') to stdout.                                   */
-int player_msg_recvd(char* buf)
-{
-  char* p;
-  if(buf == NULL)
-    return 0;
-  p = strchr(buf, '\t');
-  if(p)
-  { 
-    p++;
-    printf("%s\n", p);
-    return 1;
-  }
-  else
-    return 0;
-}
+
 
 
 

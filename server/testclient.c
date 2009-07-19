@@ -23,7 +23,7 @@
 #include <unistd.h>
 #include <fcntl.h> 
 
-#include "SDL_net.h"
+//#include "SDL_net.h"
 #include "transtruct.h"
 #include "mathcards.h"
 #include "testclient.h"
@@ -31,21 +31,25 @@
 #include "../src/network.h"
 
 /* Local (to testclient.c) "globals": */
-TCPsocket sd;           /* Server socket descriptor */
-SDLNet_SocketSet set;
-IPaddress ip;           /* Server address */
-int len = 0;
-int sockets_used = 0;
 int quit = 0;
 MC_FlashCard flash;    //current question
 int have_question = 0;
+
+MC_FlashCard Comets[2];    //current questions
+int remaining_quests = 0;
+
 
 /* Local function prototypes: */
 int playgame(void);
 int game_check_msgs(void);
 int read_stdin_nonblock(char* buf, size_t max_length);
 
-
+/* Functions to handle messages from server: */
+int add_quest_recvd(char* buf);
+int remove_quest_recvd(char* buf);
+int player_msg_recvd(char* buf);
+int total_quests_recvd(char* buf);
+int mission_accompl_recvd(char* buf);
 
 int main(int argc, char **argv)
 {
@@ -66,7 +70,7 @@ int main(int argc, char **argv)
 
     printf("Please enter your name:\n>\n");
     fgets(buffer, NAME_SIZE, stdin);
-    p = strchr(buf, '\t');
+    p = strchr(buffer, '\n');  //get rid of newline character
     if(p)
       *p = '\0';
     strncpy(name, buffer, NAME_SIZE);
@@ -101,13 +105,14 @@ int main(int argc, char **argv)
       //Figure out if we are trying to quit:
       if( (strncmp(buffer, "exit", 4) == 0)
         ||(strncmp(buffer, "quit", 4) == 0))
+      //FIXME need a "LAN_Logout() function" so testclient doesn't need to know about SDL_Net
       {
         quit = 1;
-        if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+/*        if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
         {
           fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
           exit(EXIT_FAILURE);
-        }
+        }*/
       }
       else if (strncmp(buffer, "game", 4) == 0)
       {
@@ -213,6 +218,27 @@ int game_check_msgs(void)
 }
 
 
+/* This function prints the 'msg' part of the buffer (i.e. everything */
+/* after the first '\t') to stdout.                                   */
+int player_msg_recvd(char* buf)
+{
+  char* p;
+  if(buf == NULL)
+    return 0;
+  p = strchr(buf, '\t');
+  if(p)
+  { 
+    p++;
+    printf("%s\n", p);
+    return 1;
+  }
+  else
+    return 0;
+}
+
+
+
+
 int playgame(void)
 {
   int numready;
@@ -226,19 +252,9 @@ int playgame(void)
 
   printf("\nStarting Tux, of the Math Command Line ;-)\n");
   printf("Waiting for other players to be ready...\n\n");
- 
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s",
-                  "START_GAME");
-  if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-  {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-    exit(EXIT_FAILURE);
-  }
-#ifdef LAN_DEBUG
-  printf("Sent the game notification %s\n",buffer);
- #endif
- 
+
+  //Tell server we're ready to start:
+  LAN_StartGame(); 
 
   //Begin game loop:
   while (!end)
@@ -283,7 +299,10 @@ int playgame(void)
           }
         }
         else  //we got input, but not the correct answer:
-          printf("Sorry, %s is incorrect. Try again!\n>\n", buf);
+        {
+          printf("Sorry, %s is incorrect. Try again!\n", buf); 
+          printf("The question is: %s\n>\n", flash.formula_string);
+        }
       }  //input wasn't any of our keywords
     } // Input was received 
 

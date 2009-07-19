@@ -11,12 +11,12 @@
 */
 
 
-#include "transtruct.h"
 
 
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include "transtruct.h"
 
 
 /* Networking setup and cleanup: */
@@ -37,9 +37,6 @@ int LAN_LeaveGame(void);
 int LAN_NextMsg(char* buf);
 
 
-/* Functions to handle various messages from the server: */
-/* NOTE not sure if these belong here or in game.c/testclient.c */
-int player_msg_recvd(char* buf);
 
 
 

@@ -14,7 +14,7 @@
 #ifndef TRANSTRUCT_H
 #define TRANSTRUCT_H
 
-#define LAN_DEBUG
+//#define LAN_DEBUG
 #define NET_BUF_LEN 512
 #define DEFAULT_PORT 4779
 #define NAME_SIZE 50
