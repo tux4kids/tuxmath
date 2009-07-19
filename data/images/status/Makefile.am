@@ -29,5 +29,5 @@ dist_status_DATA = demo.png \
   stop.png \
   stop.svg \
   title.png \
-  tux4kids.png \
+  tux4kids.svg \
   wave.png
