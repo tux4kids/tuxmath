@@ -65,6 +65,7 @@ int main(int argc, char **argv)
   /* Start out with our "comets" empty: */
   erase_flashcard(&comets[0]);
   erase_flashcard(&comets[1]);
+  printf("comets[0].question_id is %d\n", comets[0].question_id);
 
   /* Connect to server, create socket set, get player nickname, etc: */
   if(!LAN_Setup(argv[1], DEFAULT_PORT))
@@ -215,6 +216,7 @@ int game_check_msgs(void)
     else if(strncmp(buf, "TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS")) == 0)
     {
       //update the "questions remaining" counter
+      total_quests_recvd(buf);
     }
     else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
     {
@@ -228,6 +230,8 @@ int game_check_msgs(void)
 
   return 1;
 }
+
+
 
 
 /* This function prints the 'msg' part of the buffer (i.e. everything */
@@ -249,6 +253,21 @@ int player_msg_recvd(char* buf)
 }
 
 
+int total_quests_recvd(char* buf)
+{
+  char* p;
+  if(buf == NULL)
+    return 0;
+  p = strchr(buf, '\t');
+  if(p)
+  { 
+    p++;
+    remaining_quests = atoi(p); 
+    return 1;
+  }
+  else
+    return 0;
+}
 
 
 
@@ -378,8 +397,8 @@ int erase_flashcard(MC_FlashCard* fc)
     return 0;
   fc->formula_string[0] = '\0';
   fc->answer_string[0] = '\0';
-  int question_id = -1;
-  int answer = 0;
-  int difficulty = 0;
+  fc->question_id = -1;
+  fc->answer = 0;
+  fc->difficulty = 0;
   return 1;
 }

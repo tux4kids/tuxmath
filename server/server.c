@@ -802,6 +802,7 @@ void start_game(int i)
     {
       printf("Unable to send Question to %s\n", client[j].name);
     }
+    send_counter_updates();
   } 
 }
 
