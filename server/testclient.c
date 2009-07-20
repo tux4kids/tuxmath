@@ -42,6 +42,9 @@ int remaining_quests = 0;
 /* Local function prototypes: */
 int playgame(void);
 int erase_flashcard(MC_FlashCard* fc);
+MC_FlashCard* find_empty_comet(void);
+MC_FlashCard* check_answer(int ans);
+
 int read_stdin_nonblock(char* buf, size_t max_length);
 
 /* Functions to handle messages from server: */
@@ -165,40 +168,35 @@ int game_check_msgs(void)
     status = LAN_NextMsg(buf);
     if (status == -1)  //Fatal error
     {
-      printf("Error - get_next_msg() returned -1\n");
+      printf("Error - LAN_NextMsg() returned -1\n");
       return -1;
     }
 
-    if (status == 0)  //Fatal error
+    if (status == 0)   //No more messages
     {
-      //No messages
-      return 0;
+      break;
     }
+#ifdef LAN_DEBUG
+    printf("Buffer from server is: %s\n", buf);
+#endif
 
     /* Now we process the buffer according to the command: */
     if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
     {
-      /* function call to parse buffer and receive question */
-      if(Make_Flashcard(buf, &flash))
-      {
-        have_question = 1; 
-        printf("The question is: %s\n>\n", flash.formula_string);
-        print_current_status();
-      }
-      else
-        printf("Unable to parse buffer into FlashCard\n");
+      add_quest_recvd(buf);
+//       /* function call to parse buffer and receive question */
+//       if(Make_Flashcard(buf, &flash))
+//       {
+//         have_question = 1; 
+//         printf("The question is: %s\n>\n", flash.formula_string);
+//         print_current_status();
+//       }
+//       else
+//         printf("Unable to parse buffer into FlashCard\n");
     }
     else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
     {
-      /* function call to parse buffer and receive question */
-      if(Make_Flashcard(buf, &flash))
-      {
-        have_question = 1; 
-        printf("The question is: %s\n>\n", flash.formula_string);
-        print_current_status();
-      }
-      else
-        printf("Unable to parse buffer into FlashCard\n");
+      add_quest_recvd(buf);
     }
     else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
     {
@@ -226,6 +224,36 @@ int game_check_msgs(void)
     {
       printf("game_check_msgs() - unrecognized message: %s\n", buf);
     }
+    // Display the questions and other info to user:
+    print_current_status();
+  }
+
+  return 1;
+}
+
+
+
+int add_quest_recvd(char* buf)
+{
+  MC_FlashCard* fc = find_empty_comet();
+  
+  printf("Entering add_quest_recvd()\n");
+  
+  if(!fc || !buf)
+  {
+    printf("NULL fc or buf\n");
+    return 0;
+  }
+  /* function call to parse buffer and receive question */
+  if(Make_Flashcard(buf, fc))
+  {
+    have_question = 1; 
+    printf("Added question_id: %d\n", fc->question_id);
+  }
+  else
+  {
+    printf("Unable to parse buffer into FlashCard\n");
+    return 0;
   }
 
   return 1;
@@ -279,6 +307,7 @@ int playgame(void)
   int numready;
   int command_type;
   int ans = 0;
+  MC_FlashCard* fc = NULL;
   int x=0, i = 0;
   int end = 0;
   char buf[NET_BUF_LEN];
@@ -298,7 +327,8 @@ int playgame(void)
     //Check our network messages, bailing out for fatal errors:
     if (game_check_msgs() == -1)
       return -1;
-    
+
+
     //Now we check for any user responses
 
     //This function returns 1 and updates buf with input from
@@ -321,22 +351,19 @@ int playgame(void)
         a valid int, not just '0' - should not be a big deal for
         our test program - DSB */
         ans = atoi(buf);
-        if(have_question && (ans == flash.answer))
+        fc = check_answer(ans);
+        if(have_question && (ans != NULL))
         {  
+          printf("%s is correct!\nAwait next question...\n>\n", buf);
           have_question = 0;
-          printf("%s is correct!\nRequesting next question...\n>\n", buf);
-
           //Tell server we answered it right:
-          if(!LAN_AnsweredCorrectly(&flash))
-          {
-            printf("Unable to communicate the same to server\n");
-            exit(EXIT_FAILURE);
-          }
+          LAN_AnsweredCorrectly(fc);
+          erase_flashcard(fc);  
         }
         else  //we got input, but not the correct answer:
         {
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
-          printf("The question is: %s\n>\n", flash.formula_string);
+//          printf("The question is: %s\n>\n", flash.formula_string);
           print_current_status();
         }
       }  //input wasn't any of our keywords
@@ -401,4 +428,37 @@ int erase_flashcard(MC_FlashCard* fc)
   fc->answer = 0;
   fc->difficulty = 0;
   return 1;
+}
+
+
+/* Return a pointer to an empty comet slot, */
+/* returning NULL if no vacancy found:      */
+
+MC_FlashCard* find_empty_comet(void)
+{
+  int i = 0;
+  for(i = 0; i < 2; i++)
+  {
+    if(comets[i].question_id == -1)
+      return &comets[i];
+  }
+  //if we don't find an empty:
+  return NULL;
+}
+
+/* Check the "comets" in order to see if the given */
+/* value matches the answer for any of the comets: */
+/* Returns a pointer to the matching comet, or     */
+/* NULL if the answer doesn't match:               */
+
+MC_FlashCard* check_answer(int ans)
+{
+  int i = 0;
+  for(i = 0; i < 2; i++)
+  {
+    if(comets[i].answer == ans)
+      return &comets[i];
+  }
+  //if we don't find a matching question:
+  return NULL;
 }
