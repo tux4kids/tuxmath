@@ -845,6 +845,10 @@ void Standby(const char* heading, const char* sub)
         }
       }
     }
+   //FIXME - so we pull all the messages out of the socket and ignore anything
+   //that isn't "GO_TO_GAME" - why are we ignoring them?  We cannot assume the
+   //server is going to send us what we expect. At a minimum, we need to 
+   //print any unrecognized messages to stderr with a warning - DSB
    while(!check_messages(buf))
    {
      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME"))==0)

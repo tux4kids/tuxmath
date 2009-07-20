@@ -35,26 +35,36 @@ int quit = 0;
 MC_FlashCard flash;    //current question
 int have_question = 0;
 
-MC_FlashCard Comets[2];    //current questions
+MC_FlashCard comets[2];    //current questions
 int remaining_quests = 0;
 
 
 /* Local function prototypes: */
 int playgame(void);
-int game_check_msgs(void);
+int erase_flashcard(MC_FlashCard* fc);
 int read_stdin_nonblock(char* buf, size_t max_length);
 
 /* Functions to handle messages from server: */
+int game_check_msgs(void);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
 int player_msg_recvd(char* buf);
 int total_quests_recvd(char* buf);
 int mission_accompl_recvd(char* buf);
 
+/* Display to player: */
+void print_current_status(void);
+
+/* Main function: ------------------------------------- */
+
 int main(int argc, char **argv)
 {
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
+
+  /* Start out with our "comets" empty: */
+  erase_flashcard(&comets[0]);
+  erase_flashcard(&comets[1]);
 
   /* Connect to server, create socket set, get player nickname, etc: */
   if(!LAN_Setup(argv[1], DEFAULT_PORT))
@@ -172,6 +182,7 @@ int game_check_msgs(void)
       {
         have_question = 1; 
         printf("The question is: %s\n>\n", flash.formula_string);
+        print_current_status();
       }
       else
         printf("Unable to parse buffer into FlashCard\n");
@@ -183,6 +194,7 @@ int game_check_msgs(void)
       {
         have_question = 1; 
         printf("The question is: %s\n>\n", flash.formula_string);
+        print_current_status();
       }
       else
         printf("Unable to parse buffer into FlashCard\n");
@@ -235,6 +247,10 @@ int player_msg_recvd(char* buf)
   else
     return 0;
 }
+
+
+
+
 
 
 
@@ -302,6 +318,7 @@ int playgame(void)
         {
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
           printf("The question is: %s\n>\n", flash.formula_string);
+          print_current_status();
         }
       }  //input wasn't any of our keywords
     } // Input was received 
@@ -340,3 +357,29 @@ int read_stdin_nonblock(char* buf, size_t max_length)
   return bytes_read;
 }
 
+/* Display the current questions and the number of remaining questions: */
+void print_current_status(void)
+{
+  printf("Remaining questions: %d\n", remaining_quests);
+  if(comets[0].question_id != -1)
+    printf("Comet Zero - question %d:\t%s\n", comets[0].question_id, comets[0].formula_string);
+  else
+    printf("Comet Zero:\tEmpty\n");
+  if(comets[1].question_id != -1)
+    printf("Comet One - question %d:\t%s\n", comets[1].question_id, comets[1].formula_string);
+  else
+    printf("Comet One:\tEmpty\n");
+}
+
+
+int erase_flashcard(MC_FlashCard* fc)
+{
+  if(!fc)
+    return 0;
+  fc->formula_string[0] = '\0';
+  fc->answer_string[0] = '\0';
+  int question_id = -1;
+  int answer = 0;
+  int difficulty = 0;
+  return 1;
+}

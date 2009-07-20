@@ -125,6 +125,7 @@ int LAN_NextQuestion(void)
 }
 
 
+/* Appears a return value of 0 means message received, 1 means no socket activity */
 int check_messages(char buf[NET_BUF_LEN])
 { 
   int numready;

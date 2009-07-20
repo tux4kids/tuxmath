@@ -259,8 +259,8 @@ int game(void)
 #ifdef HAVE_LIBSDL_NET
    while(!check_messages(buf))
    {
-     seperate_commmand_and_buf(command,buf);
-     game_handle_net_messages(buf,command);   
+     seperate_commmand_and_buf(command, buf);
+     game_handle_net_messages(buf, command);
    }
 #endif    
  
@@ -495,11 +495,15 @@ int game(void)
 /*Do we want a well defined function for each of the condition
   like on each message a function should be called , or is it ok like this
   I think this is better--akash*/
+/* As long the code for each command is really short, we can just have it here.
+   But if it starts to get long, I would have a function for each that is 
+   local to this file and located immediately below this function - DSB */
+
 void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 {
   if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
   {
-    printf("buf is %s\n",buf);                                                  //basically here we can have any funct. as of now just printing it to stdout
+    printf("buf is %s\n", buf);                                                  //basically here we can have any funct. as of now just printing it to stdout
   }
 
   else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
@@ -521,8 +525,10 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
   {
     game_over_won=1;
   }
-  
+  /* FIXME need to handle unrecognized messages, maybe just printf()
+     with a warning until they get implemented - DSB             */
 }
+
 
 /* 
 Set one to four lines of text to display at the game's start. Eventually
@@ -537,6 +543,8 @@ void game_set_start_message(const char* m1, const char* m2,
   game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 5 / 10);
   start_message_chosen = 1;
 }
+
+
 
 int game_initialize(void)
 {

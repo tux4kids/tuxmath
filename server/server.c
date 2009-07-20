@@ -977,9 +977,7 @@ int SendMessage(int message, int ques_id, char *name, TCPsocket client_sock)
 
 
 
-/* Sends a string to be displayed to player: */
-/* NOTE similar in concept to SendMessage(), but I think that */
-/* SendMessage() is too complicated -DSB                      */
+/* Sends a string for the client to display to player: */
 int player_msg(int i, char* msg)
 {
   char buf[NET_BUF_LEN];
