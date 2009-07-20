@@ -42,7 +42,7 @@ int remaining_quests = 0;
 /* Local function prototypes: */
 int playgame(void);
 int erase_flashcard(MC_FlashCard* fc);
-MC_FlashCard* find_empty_comet(void);
+MC_FlashCard* find_comet_by_id(int id);
 MC_FlashCard* check_answer(int ans);
 
 int read_stdin_nonblock(char* buf, size_t max_length);
@@ -196,13 +196,14 @@ int game_check_msgs(void)
     }
     else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
     {
-      add_quest_recvd(buf);
+      if(!add_quest_recvd(buf))
+        printf("ADD_QUESTION received but could not add question\n");
     }
     else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
     {
-      //remove the question (i.e. comet in actual game) with given id
+      if(!remove_quest_recvd(buf)) //remove the question with id in buf
+        printf("REMOVE_QUESTION received but could not remove question\n");
     }
-
     else if(strncmp(buf, "SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
     {
       printf("%s\n", buf);
@@ -235,7 +236,7 @@ int game_check_msgs(void)
 
 int add_quest_recvd(char* buf)
 {
-  MC_FlashCard* fc = find_empty_comet();
+  MC_FlashCard* fc = find_comet_by_id(-1);
   
   printf("Entering add_quest_recvd()\n");
   
@@ -259,6 +260,29 @@ int add_quest_recvd(char* buf)
   return 1;
 }
 
+
+
+int remove_quest_recvd(char* buf)
+{
+  int id = 0;
+  char* p = NULL;
+  MC_FlashCard* fc = NULL;
+
+  if(!buf)
+    return 0;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+
+  id = atoi(p);
+  fc = find_comet_by_id(id);
+  if(!fc)
+    return 0;
+
+  erase_flashcard(fc);
+  return 1;
+}
 
 
 
@@ -352,7 +376,7 @@ int playgame(void)
         our test program - DSB */
         ans = atoi(buf);
         fc = check_answer(ans);
-        if(have_question && (ans != NULL))
+        if(have_question && (fc != NULL))
         {  
           printf("%s is correct!\nAwait next question...\n>\n", buf);
           have_question = 0;
@@ -434,15 +458,15 @@ int erase_flashcard(MC_FlashCard* fc)
 /* Return a pointer to an empty comet slot, */
 /* returning NULL if no vacancy found:      */
 
-MC_FlashCard* find_empty_comet(void)
+MC_FlashCard* find_comet_by_id(int id)
 {
   int i = 0;
   for(i = 0; i < 2; i++)
   {
-    if(comets[i].question_id == -1)
+    if(comets[i].question_id == id)
       return &comets[i];
   }
-  //if we don't find an empty:
+  //if we don't find a match:
   return NULL;
 }
 
