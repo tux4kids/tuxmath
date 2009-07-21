@@ -2182,10 +2182,18 @@ void game_draw_misc(void)
   {
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
+      SDL_Surface* score;
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      SDL_Surface* score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
-      SDL_Rect loc = {screen->w - score->w, score->h * (i + 2), 0, 0};
-      SDL_BlitSurface(score, NULL, screen, &loc);
+      score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+      if(score)
+      {
+        SDL_Rect loc;
+        loc.w = screen->w - score->w;
+        loc.h = score->h * (i + 2);
+        loc.x = 0;
+        loc.y = 0;
+        SDL_BlitSurface(score, NULL, screen, &loc);
+      }
     }
   }
   
