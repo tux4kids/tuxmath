@@ -778,32 +778,44 @@ void start_game(int i)
 
   game_in_progress = 1;
 
-  if (!MC_NextQuestion(&flash))
-  { 
-    /* no more questions available */
-    printf("MC_NextQuestion() returned NULL - no questions available\n");
-    return;
-  }
-  else
-  {                                     
-#ifdef LAN_DEBUG
-    printf("WILL SEND >>\n");  
-    printf("QUESTION_ID       :      %d\n", flash.question_id);
-    printf("FORMULA_STRING    :      %s\n", flash.formula_string);
-    printf("ANSWER STRING     :      %s\n", flash.answer_string);
-    printf("ANSWER            :      %d\n",flash.answer);
-    printf("DIFFICULTY        :      %d\n",flash.difficulty);
-#endif
-  }
 
-  for(j = 0; j < num_clients; j++)
+  /* Send enough questions to fill the initial comet slots (currently 4): */
+  for(j = 0; j < TEST_COMETS; j++)
   {
-    if(!SendQuestion(flash, client[j].sock))
-    {
-      printf("Unable to send Question to %s\n", client[j].name);
+    int k = 0;
+
+    if (!MC_NextQuestion(&flash))
+    { 
+      /* no more questions available */
+      printf("MC_NextQuestion() returned NULL - no questions available\n");
+      return;
     }
-    send_counter_updates();
-  } 
+    else
+    {                                     
+#ifdef LAN_DEBUG
+      printf("WILL SEND >>\n");  
+      printf("QUESTION_ID       :      %d\n", flash.question_id);
+      printf("FORMULA_STRING    :      %s\n", flash.formula_string);
+      printf("ANSWER STRING     :      %s\n", flash.answer_string);
+      printf("ANSWER            :      %d\n",flash.answer);
+      printf("DIFFICULTY        :      %d\n",flash.difficulty);
+#endif
+    }
+
+    //Must send to all clients because client set will become discontinuous
+    //if anyone disconnects. SendQuestion() now returns harmlessly if 
+    //the sock is NULL - DSB
+    for(k = 0; k < MAX_CLIENTS; k++)
+//    for(j = 0; j < num_clients; j++)
+    {
+      if(!SendQuestion(flash, client[k].sock))
+      {
+        printf("Unable to send Question to %s\n", client[k].name);
+      }
+    } 
+  }
+  //Send all the clients the counter totals:
+  send_counter_updates();
 }
 
 
@@ -918,6 +930,10 @@ int SendQuestion(MC_FlashCard flash, TCPsocket client_sock)
   int x;
 
   char buf[NET_BUF_LEN];
+
+  if(client_sock == NULL)
+    return 0;
+
   snprintf(buf, NET_BUF_LEN, 
                 "%s\t%d\t%d\t%d\t%s\t%s\n",
                 "SEND_QUESTION",

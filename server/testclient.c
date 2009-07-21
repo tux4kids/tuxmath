@@ -32,10 +32,11 @@
 
 /* Local (to testclient.c) "globals": */
 int quit = 0;
+int game_status = GAME_NOT_STARTED;
 MC_FlashCard flash;    //current question
 int have_question = 0;
 
-MC_FlashCard comets[2];    //current questions
+MC_FlashCard comets[TEST_COMETS];    //current questions
 int remaining_quests = 0;
 
 
@@ -56,7 +57,7 @@ int total_quests_recvd(char* buf);
 int mission_accompl_recvd(char* buf);
 
 /* Display to player: */
-void print_current_status(void);
+void print_current_quests(void);
 
 /* Main function: ------------------------------------- */
 
@@ -66,9 +67,11 @@ int main(int argc, char **argv)
   char buffer[NET_BUF_LEN];  // for command-line input
 
   /* Start out with our "comets" empty: */
-  erase_flashcard(&comets[0]);
-  erase_flashcard(&comets[1]);
-  printf("comets[0].question_id is %d\n", comets[0].question_id);
+  {
+    int i;
+    for(i = 0; i < TEST_COMETS; i ++)
+      erase_flashcard(&comets[i]);
+  }
 
   /* Connect to server, create socket set, get player nickname, etc: */
   if(!LAN_Setup(argv[1], DEFAULT_PORT))
@@ -183,26 +186,25 @@ int game_check_msgs(void)
     /* Now we process the buffer according to the command: */
     if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
     {
-      add_quest_recvd(buf);
-//       /* function call to parse buffer and receive question */
-//       if(Make_Flashcard(buf, &flash))
-//       {
-//         have_question = 1; 
-//         printf("The question is: %s\n>\n", flash.formula_string);
-//         print_current_status();
-//       }
-//       else
-//         printf("Unable to parse buffer into FlashCard\n");
+      if(!add_quest_recvd(buf))
+        printf("SEND_QUESTION received but could not add question\n");
+      else
+        // If we successfully added question, show new questions to user:
+        print_current_quests();
     }
     else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
     {
       if(!add_quest_recvd(buf))
         printf("ADD_QUESTION received but could not add question\n");
+      else  
+        print_current_quests();
     }
     else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
     {
       if(!remove_quest_recvd(buf)) //remove the question with id in buf
         printf("REMOVE_QUESTION received but could not remove question\n");
+      else 
+        print_current_quests();
     }
     else if(strncmp(buf, "SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
     {
@@ -216,17 +218,16 @@ int game_check_msgs(void)
     {
       //update the "questions remaining" counter
       total_quests_recvd(buf);
+      printf("Remaining Questions: %d\n", remaining_quests);
     }
     else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
     {
-      //means player won the game!
+      game_status = GAME_OVER_WON; 
     }
     else 
     {
       printf("game_check_msgs() - unrecognized message: %s\n", buf);
     }
-    // Display the questions and other info to user:
-    print_current_status();
   }
 
   return 1;
@@ -333,7 +334,7 @@ int playgame(void)
   int ans = 0;
   MC_FlashCard* fc = NULL;
   int x=0, i = 0;
-  int end = 0;
+//  int end = 0;
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   char ch;
@@ -343,9 +344,10 @@ int playgame(void)
 
   //Tell server we're ready to start:
   LAN_StartGame(); 
+  game_status = GAME_IN_PROGRESS;
 
   //Begin game loop:
-  while (!end)
+  while (game_status == GAME_IN_PROGRESS)
   {
 
     //Check our network messages, bailing out for fatal errors:
@@ -365,7 +367,8 @@ int playgame(void)
         ||(strncmp(buf, "exit", 4) == 0)
         ||(strncmp(buf, "q", 1) == 0))
       {
-        end = 1;   //Exit our loop in playgame()
+        game_status = GAME_OVER_ESCAPE;
+//        end = 1;   //Exit our loop in playgame()
         //Tell server we are quitting current game:
         LAN_LeaveGame();
       }
@@ -388,13 +391,23 @@ int playgame(void)
         {
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
 //          printf("The question is: %s\n>\n", flash.formula_string);
-          print_current_status();
+          print_current_quests();
         }
       }  //input wasn't any of our keywords
     } // Input was received 
 
     Throttle(10);  //so don't eat all CPU
   } //End of game loop 
+
+  switch(game_status)
+  {
+    case GAME_OVER_ESCAPE:
+      printf("You quit :(\n");
+      break;
+    case GAME_OVER_WON:
+      printf("You won! :-)\n");
+  }
+
 #ifdef LAN_DEBUG
   printf("Leaving playgame()\n");
 #endif
@@ -428,17 +441,18 @@ int read_stdin_nonblock(char* buf, size_t max_length)
 }
 
 /* Display the current questions and the number of remaining questions: */
-void print_current_status(void)
+void print_current_quests(void)
 {
-  printf("Remaining questions: %d\n", remaining_quests);
-  if(comets[0].question_id != -1)
-    printf("Comet Zero - question %d:\t%s\n", comets[0].question_id, comets[0].formula_string);
-  else
-    printf("Comet Zero:\tEmpty\n");
-  if(comets[1].question_id != -1)
-    printf("Comet One - question %d:\t%s\n", comets[1].question_id, comets[1].formula_string);
-  else
-    printf("Comet One:\tEmpty\n");
+  int i;
+  printf("\n------------  Current Questions:  -----------\n");
+  for(i = 0; i < TEST_COMETS; i ++)
+  { 
+    if(comets[i].question_id != -1)
+      printf("Comet %d - question %d:\t%s\n", i, comets[i].question_id, comets[i].formula_string);
+    else
+      printf("Comet %d:\tEmpty\n", i);
+  }
+  printf("-----------------------------------------------\n");
 }
 
 
@@ -461,7 +475,7 @@ int erase_flashcard(MC_FlashCard* fc)
 MC_FlashCard* find_comet_by_id(int id)
 {
   int i = 0;
-  for(i = 0; i < 2; i++)
+  for(i = 0; i < TEST_COMETS; i++)
   {
     if(comets[i].question_id == id)
       return &comets[i];
@@ -478,9 +492,12 @@ MC_FlashCard* find_comet_by_id(int id)
 MC_FlashCard* check_answer(int ans)
 {
   int i = 0;
-  for(i = 0; i < 2; i++)
+  for(i = 0; i < TEST_COMETS; i++)
   {
-    if(comets[i].answer == ans)
+    /* Make sure we don't "match" an empty question with a zero answer: */
+    if( (comets[i].question_id != -1)
+     && (comets[i].answer == ans))
+   
       return &comets[i];
   }
   //if we don't find a matching question:
