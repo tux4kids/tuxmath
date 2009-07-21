@@ -21,9 +21,8 @@ dist_sprites_DATA = \
   credits3.png \
   creditsd.png \
   exclamation0.png \
-  exclamation0.svg \
   exclamationd.png \
-  exclamationd.svg \
+  exclamation.svg \
   factoroids0.png \
   factoroids1.png \
   factoroids2.png \
@@ -37,9 +36,8 @@ dist_sprites_DATA = \
   factors5.png \
   factorsd.png \
   fleet0.png \
-  fleet0.svg \
   fleetd.png \
-  fleetd.svg \
+  fleet.svg \
   fractions0.png \
   fractions1.png \
   fractions2.png \
@@ -70,6 +68,7 @@ dist_sprites_DATA = \
   lesson2.png \
   lesson3.png \
   lessond.png \
+  lesson.svg \
   main0.png \
   main1.png \
   main2.png \
@@ -92,6 +91,7 @@ dist_sprites_DATA = \
   nums6.png \
   nums7.png \
   numsd.png \
+  nums.svg \
   quit0.png \
   quit1.png \
   quit2.png \
@@ -106,6 +106,7 @@ dist_sprites_DATA = \
   trophy0.png \
   trophy1.png \
   trophyd.png \
+  tux_config.svg \
   tux_config0.png \
   tux_config1.png \
   tux_config_brown0.png \

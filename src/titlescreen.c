@@ -74,8 +74,8 @@ int num_lessons = 0;
 const float title_pos[4] = {0.0, 0.0, 0.3, 0.25};
 const float tux_pos[4] = {0.0, 0.6, 0.3, 0.4};
 const char* bkg_path = "title/menu_bkg.jpg";
-const char* standby_path = "status/standby.png";
-const char* title_path = "title/title1.png";
+const char* standby_path = "status/standby.svg";
+const char* title_path = "title/title1.svg";
 const char* egg_path = "title/egg.svg";
 const char* tux_path = "tux/bigtux";
 /* beak coordinates relative to tux rect */
