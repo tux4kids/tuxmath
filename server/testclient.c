@@ -34,7 +34,6 @@
 int quit = 0;
 int game_status = GAME_NOT_STARTED;
 MC_FlashCard flash;    //current question
-int have_question = 0;
 
 MC_FlashCard comets[TEST_COMETS];    //current questions
 int remaining_quests = 0;
@@ -118,7 +117,6 @@ int main(int argc, char **argv)
     /*now display the options*/
     if(read_stdin_nonblock(buffer, NET_BUF_LEN))
     { 
-      printf("buffer is: %s\n", buffer);
       //Figure out if we are trying to quit:
       if( (strncmp(buffer, "exit", 4) == 0)
         ||(strncmp(buffer, "quit", 4) == 0))
@@ -218,7 +216,6 @@ int game_check_msgs(void)
     {
       //update the "questions remaining" counter
       total_quests_recvd(buf);
-      printf("Remaining Questions: %d\n", remaining_quests);
     }
     else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
     {
@@ -238,21 +235,14 @@ int game_check_msgs(void)
 int add_quest_recvd(char* buf)
 {
   MC_FlashCard* fc = find_comet_by_id(-1);
-  
-  printf("Entering add_quest_recvd()\n");
-  
+
   if(!fc || !buf)
   {
     printf("NULL fc or buf\n");
     return 0;
   }
   /* function call to parse buffer and receive question */
-  if(Make_Flashcard(buf, fc))
-  {
-    have_question = 1; 
-    printf("Added question_id: %d\n", fc->question_id);
-  }
-  else
+  if(!Make_Flashcard(buf, fc))
   {
     printf("Unable to parse buffer into FlashCard\n");
     return 0;
@@ -334,7 +324,6 @@ int playgame(void)
   int ans = 0;
   MC_FlashCard* fc = NULL;
   int x=0, i = 0;
-//  int end = 0;
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   char ch;
@@ -379,10 +368,9 @@ int playgame(void)
         our test program - DSB */
         ans = atoi(buf);
         fc = check_answer(ans);
-        if(have_question && (fc != NULL))
+        if((fc != NULL))
         {  
           printf("%s is correct!\nAwait next question...\n>\n", buf);
-          have_question = 0;
           //Tell server we answered it right:
           LAN_AnsweredCorrectly(fc);
           erase_flashcard(fc);  
@@ -390,7 +378,6 @@ int playgame(void)
         else  //we got input, but not the correct answer:
         {
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
-//          printf("The question is: %s\n>\n", flash.formula_string);
           print_current_quests();
         }
       }  //input wasn't any of our keywords
