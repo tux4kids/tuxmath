@@ -717,6 +717,7 @@ int run_main_menu(void)
    }    
 
    LAN_SetName("player A");
+   LAN_StartGame();
 #endif
         game();
         RecalcTitlePositions();
@@ -1026,6 +1027,7 @@ int run_arcade_menu(void)
    }    
 
    LAN_SetName("player A");
+   LAN_StartGame();
 #endif
         game();
         RecalcTitlePositions();
@@ -1096,6 +1098,7 @@ int run_custom_menu(void)
    }    
 
    LAN_SetName("player A");
+   LAN_StartGame();
 #endif
     game();
     RecalcTitlePositions();
@@ -1251,6 +1254,7 @@ int run_options_menu(void)
    }    
 
    LAN_SetName("player A");
+   LAN_StartGame();
 #endif
         game();
         RecalcTitlePositions();
@@ -1353,6 +1357,7 @@ int run_lessons_menu(void)
    }    
 
    LAN_SetName("player A");
+   LAN_StartGame();
 #endif
       game();
       RecalcTitlePositions();
