@@ -7,6 +7,7 @@ dist_sprites_DATA = \
   alone0.png \
   alone1.png \
   aloned.png \
+  alone.svg \
   comet0.png \
   comet1.png \
   comet2.png \
@@ -24,13 +25,10 @@ dist_sprites_DATA = \
   exclamationd.png \
   exclamationd.svg \
   factoroids0.png \
-  factoroids0.svg \
   factoroids1.png \
-  factoroids1.svg \
   factoroids2.png \
-  factoroids2.svg \
   factoroidsd.png \
-  factoroidsd.svg \
+  factoroids.svg \
   factors0.png \
   factors1.png \
   factors2.png \
@@ -51,18 +49,22 @@ dist_sprites_DATA = \
   fractions6.png \
   fractionsd.png \
   friends0.png \
-  friends0.svg \
   friendsd.png \
-  friendsd.svg \
+  friends.svg \
   goldstar0.png \
   goldstar1.png \
   goldstard.png \
+  goldstar.svg \
   help.svg \
   help0.png \
   help1.png \
   help2.png \
   help3.png \
   helpd.png \
+  lan0.png \
+  lan1.png \
+  land.png \
+  lan.svg \
   lesson0.png \
   lesson1.png \
   lesson2.png \
@@ -77,8 +79,10 @@ dist_sprites_DATA = \
   main6.png \
   main7.png \
   maind.png \
+  main.svg \
   no_goldstar0.png \
   no_goldstard.png \
+  no_goldstar.svg \
   nums0.png \
   nums1.png \
   nums2.png \
@@ -98,6 +102,7 @@ dist_sprites_DATA = \
   quit7.png \
   quit8.png \
   quitd.png \
+  quit.svg \
   trophy0.png \
   trophy1.png \
   trophyd.png \

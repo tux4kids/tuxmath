@@ -14,9 +14,9 @@
         <item title="Play Custom Game" sprite="tux_config" run="RUN_CUSTOM">
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
-    <menu title="LAN Game" entries="3">
-        <item title="Host" run="RUN_LAN_HOST">
-        <item title="Join" run="RUN_LAN_JOIN">
+    <menu title="LAN Game" sprite="lan" entries="3">
+        <item title="Host" sprite="lan" run="RUN_LAN_HOST">
+        <item title="Join" sprite="lan" run="RUN_LAN_JOIN">
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
     <menu title="Play With Friends" sprite="friends" entries="3">
