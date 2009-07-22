@@ -138,7 +138,10 @@ static SDL_Surface* current_bkgd()
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
-static MC_FlashCard flash;
+
+MC_FlashCard comets_questions[TEST_COMETS];    //current questions
+int remaining_quests = 0;
+static int j=0;
 
 typedef struct {
   int x_is_blinking;
@@ -196,7 +199,12 @@ static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
-
+int erase_flashcard(MC_FlashCard* fc);
+int add_quest_recvd(char* buf);
+/* Display to player: */
+void print_current_quests(void);
+MC_FlashCard* find_comet_by_id(int id);
+int remove_quest_recvd(char* buf);
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
@@ -237,7 +245,13 @@ int game(void)
     return GAME_OVER_OTHER;
   }
  
- 
+  /* Start out with our "comets" empty: */
+  {
+    int i;
+    for(i = 0; i < TEST_COMETS; i ++)
+      erase_flashcard(&(comets_questions[i]));
+  }
+
 
   /* --- MAIN GAME LOOP: --- */
   do
@@ -488,8 +502,91 @@ int game(void)
     return game_status;
   }
 }
+/**********************************These functions will be moved somewhere else probably a new header file**************************************/ 
+int erase_flashcard(MC_FlashCard* fc)
+{
+  if(!fc)
+    return 0;
+  fc->formula_string[0] = '\0';
+  fc->answer_string[0] = '\0';
+  fc->question_id = -1;
+  fc->answer = 0;
+  fc->difficulty = 0;
+  return 1;
+}
+
+int add_quest_recvd(char* buf)
+{
+  MC_FlashCard* fc = find_comet_by_id(-1);
+
+  if(!fc || !buf)
+  {
+    printf("NULL fc or buf\n");
+    return 0;
+  }
+  /* function call to parse buffer and receive question */
+  if(!Make_Flashcard(buf, fc))
+  {
+    printf("Unable to parse buffer into FlashCard\n");
+    return 0;
+  }
+
+  return 1;
+}
+
+int remove_quest_recvd(char* buf)
+{
+  int id = 0;
+  char* p = NULL;
+  MC_FlashCard* fc = NULL;
+
+  if(!buf)
+    return 0;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+
+  id = atoi(p);
+  fc = find_comet_by_id(id);
+  if(!fc)
+    return 0;
+
+  erase_flashcard(fc);
+  return 1;
+}
+
+/* Display the current questions and the number of remaining questions: */
+void print_current_quests(void)
+{
+  int i;
+  printf("\n------------  Current Questions:  -----------\n");
+  for(i = 0; i < TEST_COMETS; i ++)
+  { 
+    if(comets_questions[i].question_id != -1)
+      printf("Comet %d - question %d:\t%s\n", i, comets_questions[i].question_id, comets_questions[i].formula_string);
+    else
+      printf("Comet %d:\tEmpty\n", i);
+  }
+  printf("-----------------------------------------------\n");
+}
 
 
+/* Return a pointer to an empty comet slot, */
+/* returning NULL if no vacancy found:      */
+
+MC_FlashCard* find_comet_by_id(int id)
+{
+  int i = 0;
+  for(i = 0; i < TEST_COMETS; i++)
+  {
+    if(comets_questions[i].question_id == id)
+      return &comets_questions[i];
+  }
+  //if we don't find a match:
+  return NULL;
+}
+/***************************************************************************************************************************/
 /*Examines the network messages from the buffer and calls
   appropriate function accordingly*/
 /*Do we want a well defined function for each of the condition
@@ -498,6 +595,8 @@ int game(void)
 /* As long the code for each command is really short, we can just have it here.
    But if it starts to get long, I would have a function for each that is 
    local to this file and located immediately below this function - DSB */
+
+
 
 void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 {
@@ -508,10 +607,27 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 
   else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
   {
-    if(!Make_Flashcard(buf, &(flash)))
-    {
-      printf("Unable to parse buffer into flashcard..\n");
-    }   
+       if(!add_quest_recvd(buf))
+        printf("SEND_QUESTION received but could not add question\n");
+      else
+        // If we successfully added question, show new questions to user:
+        print_current_quests();
+  }
+
+  else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
+  {
+    if(!remove_quest_recvd(buf)) //remove the question with id in buf
+      printf("REMOVE_QUESTION received but could not remove question\n");
+    else 
+      print_current_quests();
+  }
+
+  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
+  {
+    if(!add_quest_recvd(buf))
+      printf("ADD_QUESTION received but could not add question\n");
+    else  
+      print_current_quests();
   }
 
   else if(strncmp(command,"TOTAL_QUESTIONS",strlen("TOTAL_QUESTIONS"))==0)
@@ -528,7 +644,6 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
   /* FIXME need to handle unrecognized messages, maybe just printf()
      with a warning until they get implemented - DSB             */
 }
-
 
 /* 
 Set one to four lines of text to display at the game's start. Eventually
@@ -739,6 +854,8 @@ void game_cleanup(void)
 #ifdef HAVE_LIBSDL_NET  
   LAN_Cleanup();
 #endif
+  
+
   /* Free background: */
   if (bkgd != NULL)
   {
@@ -2603,7 +2720,6 @@ int add_comet(void)
   static int prev_city = -1;
   int i;
   float y_spacing;
-  //extern int n;
 
   /* Look for a free comet slot and see if all live comets are far */
   /* enough down to avoid overlap and keep formulas legible:       */
@@ -2636,7 +2752,7 @@ int add_comet(void)
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
 #ifdef HAVE_LIBSDL_NET
-   LAN_NextQuestion(); // Let it be for now until we think of something else
+//   LAN_NextQuestion(); // Let it be for now until we think of something else
 #else
    if (!MC_NextQuestion(&(comets[found].flashcard)))
    {
@@ -2651,12 +2767,15 @@ int add_comet(void)
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
 #ifdef HAVE_LIBSDL_NET
-    copy_card(&flash,&(comets[found].flashcard)); //will be replaced on set up of new system
-#else
-     if(!Make_Flashcard(buf, &(comets[found].flashcard)))
+    for (j;j<TEST_COMETS;j++)
      {
-       return 0;
+       if(comets_questions[j].question_id!=-1){
+        copy_card(&(comets_questions[j]),&(comets[found].flashcard)); //will be replaced on set up of new system
+        j++;
+        break;}
      }
+     if(j==TEST_COMETS)
+       j=0;
 #endif
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;

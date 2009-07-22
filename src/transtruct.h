@@ -23,7 +23,7 @@
 #define MC_FORMULA_LEN 40
 #define MC_ANSWER_LEN 5
 
-#define TEST_COMETS 4
+#define TEST_COMETS 10
 
 #ifndef MC_USE_NEWARC
 /* struct for individual "flashcard" */
