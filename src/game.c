@@ -138,11 +138,11 @@ static SDL_Surface* current_bkgd()
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
-
+/*****************************************************************/
 MC_FlashCard comets_questions[TEST_COMETS];    //current questions
 int remaining_quests = 0;
-static int j=0;
-
+static int comet_counter=0;
+/****************************************************************/
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -199,12 +199,16 @@ static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
+/*****************************************************/
 int erase_flashcard(MC_FlashCard* fc);
 int add_quest_recvd(char* buf);
+int erase_comet_on_screen(comet_type* comet_ques);
 /* Display to player: */
 void print_current_quests(void);
 MC_FlashCard* find_comet_by_id(int id);
 int remove_quest_recvd(char* buf);
+comet_type* finder(int id);
+/******************************************************/
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
@@ -515,6 +519,21 @@ int erase_flashcard(MC_FlashCard* fc)
   return 1;
 }
 
+int erase_comet_on_screen(comet_type* comet_ques)
+{
+  if(!comet_ques)
+    return 0;
+  comet_ques->alive=0;
+  num_comets_alive--;
+  comet_ques->flashcard.formula_string[0] = '\0';
+  comet_ques->flashcard.answer_string[0] = '\0';
+  comet_ques->flashcard.question_id = -1;
+  comet_ques->flashcard.answer = 0;
+  comet_ques->flashcard.difficulty = 0;
+  return 1;
+}
+
+
 int add_quest_recvd(char* buf)
 {
   MC_FlashCard* fc = find_comet_by_id(-1);
@@ -539,7 +558,7 @@ int remove_quest_recvd(char* buf)
   int id = 0;
   char* p = NULL;
   MC_FlashCard* fc = NULL;
-
+  comet_type* comet_screen;
   if(!buf)
     return 0;
 
@@ -549,10 +568,12 @@ int remove_quest_recvd(char* buf)
 
   id = atoi(p);
   fc = find_comet_by_id(id);
+  comet_screen=finder(id);
   if(!fc)
     return 0;
 
   erase_flashcard(fc);
+  erase_comet_on_screen(comet_screen);
   return 1;
 }
 
@@ -561,13 +582,16 @@ void print_current_quests(void)
 {
   int i;
   printf("\n------------  Current Questions:  -----------\n");
-  for(i = 0; i < TEST_COMETS; i ++)
+  for(i = 0; i < MAX_COMETS; i ++)
   { 
-    if(comets_questions[i].question_id != -1)
+    if(comets[i].alive==1)
+     printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
+
+/*    if(comets_questions[i].question_id != -1)
       printf("Comet %d - question %d:\t%s\n", i, comets_questions[i].question_id, comets_questions[i].formula_string);
     else
       printf("Comet %d:\tEmpty\n", i);
-  }
+*/}
   printf("-----------------------------------------------\n");
 }
 
@@ -586,6 +610,19 @@ MC_FlashCard* find_comet_by_id(int id)
   //if we don't find a match:
   return NULL;
 }
+
+comet_type* finder(int id)
+{
+  int i;
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (comets[i].flashcard.question_id==id)
+     {printf("the question id is id=%d\n",i);
+      return &comets[i];}
+  }
+
+  return NULL;
+}
 /***************************************************************************************************************************/
 /*Examines the network messages from the buffer and calls
   appropriate function accordingly*/
@@ -602,7 +639,7 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 {
   if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
   {
-    printf("buf is %s\n", buf);                                                  //basically here we can have any funct. as of now just printing it to stdout
+    printf("buf is %s\n", buf);                                                  
   }
 
   else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
@@ -1545,7 +1582,7 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
 #ifdef HAVE_LIBSDL_NET
-         LAN_NotAnsweredCorrectly(&(comets[i].flashcard));
+       LAN_NotAnsweredCorrectly(&(comets[i].flashcard));
 #else 
        MC_NotAnsweredCorrectly(&(comets[i].flashcard));
 #endif 
@@ -2738,7 +2775,7 @@ int add_comet(void)
     }
     else  /* non-living comet so we found a free slot: */
     {
-      found = i;
+      found = i;      
     }
   }
 
@@ -2767,19 +2804,20 @@ int add_comet(void)
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
 #ifdef HAVE_LIBSDL_NET
-    for (j;j<TEST_COMETS;j++)
+    for (comet_counter;comet_counter<TEST_COMETS;comet_counter++)
      {
-       if(comets_questions[j].question_id!=-1){
-        copy_card(&(comets_questions[j]),&(comets[found].flashcard)); //will be replaced on set up of new system
-        j++;
+       if(comets_questions[comet_counter].question_id!=-1){
+        copy_card(&(comets_questions[comet_counter]),&(comets[found].flashcard)); //will be replaced on set up of new system
+        comet_counter++;
         break;}
      }
-     if(j==TEST_COMETS)
-       j=0;
+     if(comet_counter==TEST_COMETS)
+       comet_counter=0;
 #endif
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;
      comets[found].alive = 1;
+     printf("comet[%d].alive=1\n",found);
      num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
@@ -2822,7 +2860,7 @@ int add_comet(void)
      /* Record the time at which this comet was created */
      comets[found].time_started = SDL_GetTicks();
 //   }
-  printf("Success\n");
+  print_current_quests();
   /* comet slot found and question found so return successfully: */
   return 1;
 }
