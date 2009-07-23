@@ -301,7 +301,7 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
   /* run loader depending on file extension */
 
   /* add path prefix */
-  sprintf(fn, "%s/images/%s", DATA_PREFIX, file_name);
+  snprintf(fn, PATH_MAX, "%s/images/%s", DATA_PREFIX, file_name);
   fn_len = strlen(fn);
 
   if(strcmp(fn + fn_len - 4, ".svg"))
@@ -309,8 +309,14 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
     DEBUGMSG(debug_loaders, "load_image(): %s is not an SVG, loading using IMG_Load()\n", fn);
     loaded_pic = IMG_Load(fn);
     is_svg = false;
+    if (NULL == loaded_pic)
+    {
+      is_svg = true;
+      DEBUGMSG(debug_loaders, "load_image(): Trying to load SVG equivalent of %s\n", fn);
+      sprintf(strrchr(fn, '.'), ".svg");
+    }
   }
-  else
+  if (is_svg)
   {
 #ifdef HAVE_RSVG
     DEBUGMSG(debug_loaders, "load_image(): trying to load %s as SVG.\n", fn);
