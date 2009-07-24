@@ -43,6 +43,15 @@
 //#define NOSOUND
 #include "globals.h"
 
+#define MAX_SPRITE_FRAMES   30
+
+typedef struct {
+  SDL_Surface *frame[MAX_SPRITE_FRAMES];
+  SDL_Surface *default_img;
+  int num_frames;
+  int cur;
+} sprite;
+
 /* Global data gets 'externed' here: */
 
 /* declared in setup.c */
@@ -63,6 +72,7 @@ extern SDL_Color yellow;
 
 extern SDL_Surface* screen; /* declared in setup.c; also used in game.c, options.c, fileops.c, credits.c, titlescreen.c */
 extern SDL_Surface* images[];    /* declared in setup.c, used in same files as screen */
+extern sprite* sprites[];
 extern SDL_Surface* flipped_images[];
 #define NUM_BLENDED_IGLOOS 15
 extern SDL_Surface* blended_igloos[];

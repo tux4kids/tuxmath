@@ -68,6 +68,7 @@ int fs_res_y = 0;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
+sprite* sprites[NUM_SPRITES];
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
    NUM_IMAGES. */

@@ -1878,8 +1878,8 @@ void game_draw_background(void)
 /* draw last (i.e. in front), as they can overlap          */
 void game_draw_comets(void)
 {
-
-  int i, img;
+  int i;
+  SDL_Surface* img = NULL;
   SDL_Rect dest;
   char* comet_str;
 
@@ -1891,7 +1891,7 @@ void game_draw_comets(void)
       if (comets[i].expl < COMET_EXPL_END)
       {
         /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
+        img = sprites[IMG_COMET]->frame[(frame + i) % sprites[IMG_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
@@ -1905,17 +1905,17 @@ void game_draw_comets(void)
       }
       else
       {
-        img = comets[i].expl;
+        img = images[comets[i].expl];
         comet_str = comets[i].flashcard.answer_string;
       }
 
       /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
+      dest.x = comets[i].x - (img->w / 2);
+      dest.y = comets[i].y - img->h;
+      dest.w = img->w;
+      dest.h = img->h;
 
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      SDL_BlitSurface(img, NULL, screen, &dest);
       if (comet_str != NULL)
       {
         draw_nums(comet_str, comets[i].x, comets[i].y);
@@ -1931,7 +1931,7 @@ void game_draw_comets(void)
       if (comets[i].expl < COMET_EXPL_END)
       {
         /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
+        img = sprites[IMG_BONUS_COMET]->frame[(frame + i) % sprites[IMG_BONUS_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
@@ -1945,29 +1945,25 @@ void game_draw_comets(void)
       }
       else
       {
-        img = comets[i].expl;
+        img = images[comets[i].expl + IMG_BONUS_COMETEX1 - IMG_COMETEX1];
         comet_str = comets[i].flashcard.answer_string;
       }
 
       /* Move images[] index to bonus range: */
-      img += IMG_BONUS_COMET1 - IMG_COMET1;
 
       /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
+      dest.x = comets[i].x - (img->w / 2);
+      dest.y = comets[i].y - img->h;
+      dest.w = img->w;
+      dest.h = img->h;
 
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      SDL_BlitSurface(img, NULL, screen, &dest);
       if (comet_str != NULL)
       {
         draw_nums(comet_str, comets[i].x, comets[i].y);
       }
     }
   }
-
-
-
 }
 
 void game_draw_cities(void)

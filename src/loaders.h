@@ -26,7 +26,6 @@
 #include <sys/stat.h>
 #include <dirent.h>
 
-#define MAX_SPRITE_FRAMES   30
 
 #define IMG_REGULAR         0x01
 #define IMG_COLORKEY        0x02
@@ -35,13 +34,6 @@
 
 #define IMG_NOT_REQUIRED    0x10
 #define IMG_NO_PNG_FALLBACK 0x20
-
-typedef struct {
-  SDL_Surface *frame[MAX_SPRITE_FRAMES];
-  SDL_Surface *default_img;
-  int num_frames;
-  int cur;
-} sprite;
 
 
 SDL_Surface* LoadImage(const char* file_name, int mode);

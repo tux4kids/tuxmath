@@ -22,9 +22,6 @@ int load_image_data()
   int i;
 
   static char* image_filenames[NUM_IMAGES] = {
-  "status/standby.png",
-  "title/menu_bkg.jpg",
-  "title/title1.png",
   "status/title.png",
   "status/left.png",
   "status/left_gray.png",
@@ -61,9 +58,6 @@ int load_image_data()
   "cities/csplode-red-5.png",
   "cities/cdead-red.png",
   "cities/shields.png",
-  "comets/comet1.svg",
-  "comets/comet2.svg",
-  "comets/comet3.svg",
   "comets/cometex3.png",
   "comets/cometex3.png",
   "comets/cometex2.png",
@@ -75,9 +69,6 @@ int load_image_data()
   "comets/mini_comet1.png",
   "comets/mini_comet2.png",
   "comets/mini_comet3.png",
-  "comets/bonus_comet1.png",
-  "comets/bonus_comet2.png",
-  "comets/bonus_comet3.png",
   "comets/bonus_cometex3.png",
   "comets/bonus_cometex3.png",
   "comets/bonus_cometex2.png",
@@ -162,7 +153,12 @@ int load_image_data()
   "factoroids/good.png"
   };
 
-  /* Load images: */
+  static char* sprite_filenames[NUM_IMAGES] = {
+  "comets/comet",
+  "comets/bonus_comet"
+  };
+
+  /* Load static images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
     images[i] = LoadImage(image_filenames[i], IMG_ALPHA);
@@ -178,9 +174,26 @@ int load_image_data()
     }
   }
 
+  /* Load animated graphics: */
+  for (i = 0; i < NUM_SPRITES; i++)
+  {
+    sprites[i] = LoadSprite(sprite_filenames[i], IMG_ALPHA);
+
+    if (sprites[i] == NULL)
+    {
+      fprintf(stderr,
+              "\nError: I couldn't load a graphics file:\n"
+              "%s\n"
+              "The Simple DirectMedia error that occured was:\n"
+              "%s\n\n", sprite_filenames[i], SDL_GetError());
+      return 0;
+    }
+  }
+
+
   glyph_offset = 0;
 
-#ifdef REPLACE_WAVESCORE  
+#ifdef REPLACE_WAVESCORE
   /* Replace the "WAVE" and "SCORE" with translate-able versions */
   SDL_FreeSurface(images[IMG_WAVE]);
   images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
