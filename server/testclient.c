@@ -24,13 +24,14 @@
 #include <fcntl.h> 
 
 //#include "SDL_net.h"
-#include "transtruct.h"
+#include "../src/transtruct.h"
 #include "mathcards.h"
 #include "testclient.h"
 #include "../src/throttle.h"
 #include "../src/network.h"
 
 /* Local (to testclient.c) "globals": */
+
 int quit = 0;
 int game_status = GAME_NOT_STARTED;
 MC_FlashCard flash;    //current question
@@ -72,6 +73,8 @@ int main(int argc, char **argv)
       erase_flashcard(&comets[i]);
   }
 
+
+  LAN_DetectServers();
 
   /* Connect to server, create socket set, get player nickname, etc: */
   if(!LAN_Setup(argv[1], DEFAULT_PORT))

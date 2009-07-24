@@ -20,7 +20,8 @@
 
 
 /* Networking setup and cleanup: */
-int LAN_Setup(char *host, int port);
+int LAN_DetectServers(void);
+int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 
 int LAN_SetName(char* name);

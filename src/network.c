@@ -27,11 +27,12 @@
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 IPaddress serv_ip;
+char servers[MAX_SERVERS][NAME_SIZE];
 
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
-
+int add_to_list(char* name);
 
 
 int LAN_DetectServers(void)
@@ -40,9 +41,18 @@ int LAN_DetectServers(void)
   UDPpacket* out;
   UDPpacket* in;
   IPaddress bcast_ip;
+  IPaddress* ip_ptr;
   int sent = 0;
   int done = 0;
   int seconds = 0;
+  int num_servers = 0;
+  int i = 0;
+  char* serv_name;
+
+  //zero out old server list
+  for(i = 0; i < MAX_SERVERS; i++)
+    servers[i][0] = '\0';
+
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
   if(SDL_Init(0)==-1)
   {
@@ -99,16 +109,21 @@ int LAN_DetectServers(void)
     printf("UDP packets sent to %d addresses\n", sent);
     SDL_Delay(250);  //give server chance to answer
 
-    if(SDLNet_UDP_Recv(udpsock, in))
+    while(SDLNet_UDP_Recv(udpsock, in))
     {
       if(strncmp((char*)in->data, "TUXMATH_SERVER", strlen("TUXMATH_SERVER")) == 0)
       {
-        printf("Reply received from server\n");
         done = 1;
+        ip_ptr = &(in->address);
+        serv_name = SDLNet_ResolveIP(ip_ptr);
+        printf("Reply received from server: %s\n", serv_name);
+        num_servers = add_to_list(serv_name);
       }
     }
-
+    //Make sure we always scan at least five but not more than ten seconds:
     seconds++;
+    if(seconds < 5)
+      done = 0;
     if(seconds > 10)
       done = 1;
     Throttle(1000); //repeat once per second
@@ -116,6 +131,8 @@ int LAN_DetectServers(void)
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 
+
+  return num_servers;
 }
 
 
@@ -135,9 +152,7 @@ int LAN_Setup(char *host, int port)
     return 0;
   } 
 
-  LAN_DetectServers();
-
-  /* Resolve the host we are connecting to */
+   /* Resolve the host we are connecting to */
   if (SDLNet_ResolveHost(&ip, host, port) < 0)
   {
     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
@@ -409,7 +424,33 @@ int say_to_server(char* statement)
   return 1;
 }
 
+//add name to list, checking for duplicates:
+int add_to_list(char* name)
+{
+  int i = 0;
+  int already_in = 0;
 
+  if(!name)
+    return 0;
+ 
+  //first see if it is already in list:
+  while((i < MAX_SERVERS)
+      && (servers[i][0] != '\0'))
+  {
+    if(strncmp(servers[i], name, NAME_SIZE) == 0)
+      already_in = 1;
+    i++;
+  }
+
+  //Copy it in unless it's already there, or we are out of room:
+  if(!already_in && i < MAX_SERVERS)
+  {
+    strncpy(servers[i], name, NAME_SIZE);
+    i++;
+  }
+
+  return i;  //i should be the number of items in the list
+}
 
 
 
