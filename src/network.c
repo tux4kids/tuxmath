@@ -26,30 +26,85 @@
 
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
-
-//MC_FlashCard flash;    //current question
-/*int quit = 0;
-
-int Make_Flashcard(char *buf, MC_FlashCard* fc);
-int LAN_AnsweredCorrectly(MC_FlashCard* fc);
-int playgame(void);
-void server_pinged(void);*/
+IPaddress serv_ip;
 
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
 
 
+
+int LAN_DetectServers(void)
+{
+  UDPsocket udpsock = NULL;  
+  UDPpacket* out;
+  IPaddress bcast_ip;
+  int sent = 0;
+
+  /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
+  if(SDL_Init(0)==-1)
+  {
+    printf("SDL_Init: %s\n", SDL_GetError());
+    return 0;;
+  }
+
+  /* Initialize SDL_net */
+  if (SDLNet_Init() < 0)
+  {
+    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+    exit(EXIT_FAILURE);
+  }
+
+  //NOTE we can't open a UDP socket on the same port if both client
+  //and server are running on the same machine, so for now we let
+  //it be auto-assigned:
+  udpsock = SDLNet_UDP_Open(0);
+  if(!udpsock)
+  {
+    printf("SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+    return 0;
+  }
+  
+  out = SDLNet_AllocPacket(NET_BUF_LEN); 
+  SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
+  out->address.host = bcast_ip.host;
+  out->address.port = bcast_ip.port;
+  sprintf(out->data, "TUXMATH_CLIENT");
+
+	printf("UDP Packet to be sent:\n");
+	printf("\tChan:    %d\n", out->channel);
+	printf("\tData:    %s\n", (char *)out->data);
+	printf("\tLen:     %d\n", out->len);
+	printf("\tMaxlen:  %d\n", out->maxlen);
+	printf("\tStatus:  %d\n", out->status);
+	printf("\tAddress: %x %x\n", out->address.host, out->address.port);
+
+  //Here we will need to send every few seconds until we hear back from server
+  //and get its ip address:
+  sent = SDLNet_UDP_Send(udpsock, -1, out);
+  printf("UDP packets sent to %d addresses\n", sent);
+  SDLNet_FreePacket(out); 
+}
+
+
 int LAN_Setup(char *host, int port)
 {
   IPaddress ip;           /* Server address */
+
+  if(SDL_Init(0)==-1)
+  {
+    printf("SDL_Init: %s\n", SDL_GetError());
+    return 0;;
+  }
 
   if (SDLNet_Init() < 0)
   {
     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
     return 0;
   } 
- 
+
+  LAN_DetectServers();
+
   /* Resolve the host we are connecting to */
   if (SDLNet_ResolveHost(&ip, host, port) < 0)
   {
@@ -77,6 +132,7 @@ int LAN_Setup(char *host, int port)
     printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
     // perhaps you need to restart the set and make it bigger...
   }
+
 
   return 1;
 }
@@ -320,7 +376,6 @@ int say_to_server(char* statement)
 
   return 1;
 }
-
 
 
 

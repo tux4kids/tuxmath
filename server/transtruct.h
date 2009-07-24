@@ -6,7 +6,7 @@
         that would be transferred between the server and the client
         during the multiplayer LAN game.
 
-        Author: David Bruce ,Akash Gangil and the TuxMath team, (C) 2009
+        Author: David Bruce, Akash Gangil and the TuxMath team, (C) 2009
 
         Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
 

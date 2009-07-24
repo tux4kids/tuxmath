@@ -39,6 +39,7 @@ int setup_server(void);
 void cleanup_server(void);
 
 // top level functions in main loop:
+void check_UDP(void);
 void update_clients(void);
 int check_messages(void);
 
@@ -48,8 +49,8 @@ void remove_client(int i);
 void check_game_clients(void);
 
 // message reception:
-int handle_client_game_msg(int i,char *buffer);
-void handle_client_nongame_msg(int i,char *buffer);
+int handle_client_game_msg(int i, char* buffer);
+void handle_client_nongame_msg(int i, char* buffer);
 int msg_set_name(int i, char* buf);
 void start_game(int i);
 void game_msg_correct_answer(int i, char* inbuf);
@@ -81,7 +82,8 @@ void game_msg_next_question(void);
 
 
 /*  ------------   "Local globals" for server.c: ----------  */
-TCPsocket server_sock = NULL; /* Socket descriptor for server            */
+UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection          */
+TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
 IPaddress ip;
 SDLNet_SocketSet client_set = NULL, temp_sock = NULL, temp_set = NULL;
 static client_type client[MAX_CLIENTS];
@@ -110,7 +112,8 @@ int main(int argc, char **argv)
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
-
+    /* Respond to any clients pinging us to find the server: */
+    check_UDP();
     /* Now we check to see if anyone is trying to connect. */
     update_clients();
     /* Check for any pending messages from clients already connected: */
@@ -159,6 +162,12 @@ int setup_server(void)
     return 0;
   }
 
+  if(SDL_Init(0)==-1)
+  {
+    printf("SDL_Init: %s\n", SDL_GetError());
+    return 0;;
+  }
+
       
   if (SDLNet_Init() < 0)
   {
@@ -186,7 +195,15 @@ int setup_server(void)
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     return 0;
   }
- return 1;
+
+  //Now open a UDP socket to listen for clients broadcasting to find the server:
+  udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
+  if(!udpsock)
+  {
+    printf("SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+    exit(2);
+  }
+  return 1;
 }
 
 
@@ -228,6 +245,27 @@ void cleanup_server(void)
 
 
 // ----------- Top level functions in main loop ---------------:
+
+//check_UDP() is the server side of the client-server autodetection system.
+//When a client wants to connect, it sends a UDP broadcast to the local
+//network on this port, and the server sends a response.
+void check_UDP(void)
+{
+  char buf[NET_BUF_LEN];
+  int recvd = 0;
+  UDPpacket* pkt = SDLNet_AllocPacket(NET_BUF_LEN);
+  recvd = SDLNet_UDP_Recv(udpsock, pkt);
+  if(recvd)
+  {
+	printf("UDP Packet incoming\n");
+	printf("\tChan:    %d\n", pkt->channel);
+	printf("\tData:    %s\n", (char *)pkt->data);
+	printf("\tLen:     %d\n", pkt->len);
+	printf("\tMaxlen:  %d\n", pkt->maxlen);
+	printf("\tStatus:  %d\n", pkt->status);
+	printf("\tAddress: %x %x\n", pkt->address.host, pkt->address.port);
+  }
+}
 
 
 
@@ -371,6 +409,8 @@ int check_messages(void)
     // check all sockets with SDLNet_SocketReady and handle the active ones.
     // NOTE we have to check all the slots in the set because
     // the set will become discontinuous if someone disconnects
+    // NOTE this will only pick up the first message for each socket each time
+    // check_messages() called - probably OK if we just get it next time through.
     for(i = 0; i < MAX_CLIENTS; i++)
     {
       if((client[i].sock != NULL)
@@ -407,12 +447,12 @@ int check_messages(void)
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
 
-    if(actives != ready_found )
+    if(actives > ready_found)
     {
       printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
              "but only %d detected by SDLNet_SocketReady()\n", actives, ready_found);
       //Presently, this just runs ping_client() on all the sockets:
-      test_connections();
+      //test_connections();
     }
   } 
 }
@@ -460,6 +500,9 @@ void remove_client(int i)
 // TODO this is not very sophisticated, and only supports one game at a time.
 // We may want to make this extensible to multiple simultaneous games, perhaps
 // with each game in its own thread with its own socket set and mathcards instance.
+// FIXME we need to do more than just toggle game_in_progress - should have
+// start_game() and end_game() functions that make sure mathcards is 
+// properly set up or cleaned up.
 void check_game_clients(void)
 {
   int i = 0;
@@ -487,6 +530,8 @@ void check_game_clients(void)
   }
   //If the game hasn't started yet, we only start it 
   //if all connected clients are ready:
+  //FIXME should add a timeout so the game eventually starts without
+  //those who don't answer
   else
   {
     int someone_connected = 0;
@@ -733,10 +778,8 @@ void start_game(int i)
   client[i].game_ready = 1; // Means this player is ready to start game
 
 
-  /* FIXME this relies on the server blocking on receive until it gets a    */
-  /* message from each connected client - we should get all our messages    */
-  /* in check_messages()                                                    */
   /*This loop sees that the game starts only when all the players are ready */
+  /* i.e. if someone is connected but not ready, we return.                 */
   for(j = 0; j < MAX_CLIENTS; j++)
   {
     // Only check sockets that aren't null:
@@ -779,7 +822,7 @@ void start_game(int i)
   game_in_progress = 1;
 
 
-  /* Send enough questions to fill the initial comet slots (currently 4): */
+  /* Send enough questions to fill the initial comet slots (currently 10) */
   for(j = 0; j < TEST_COMETS; j++)
   {
     int k = 0;

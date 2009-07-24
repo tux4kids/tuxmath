@@ -72,6 +72,7 @@ int main(int argc, char **argv)
       erase_flashcard(&comets[i]);
   }
 
+
   /* Connect to server, create socket set, get player nickname, etc: */
   if(!LAN_Setup(argv[1], DEFAULT_PORT))
   {
