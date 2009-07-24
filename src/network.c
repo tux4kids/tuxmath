@@ -20,7 +20,7 @@
 #include "SDL_net.h"
 #include "transtruct.h"
 #include "network.h"
-
+#include "throttle.h"
 //#include "testclient.h"
 
 
@@ -38,9 +38,11 @@ int LAN_DetectServers(void)
 {
   UDPsocket udpsock = NULL;  
   UDPpacket* out;
+  UDPpacket* in;
   IPaddress bcast_ip;
   int sent = 0;
-
+  int done = 0;
+  int seconds = 0;
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
   if(SDL_Init(0)==-1)
   {
@@ -65,11 +67,14 @@ int LAN_DetectServers(void)
     return 0;
   }
   
-  out = SDLNet_AllocPacket(NET_BUF_LEN); 
+  out = SDLNet_AllocPacket(NET_BUF_LEN);
+  in = SDLNet_AllocPacket(NET_BUF_LEN);
+
   SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
   out->address.host = bcast_ip.host;
-  out->address.port = bcast_ip.port;
   sprintf(out->data, "TUXMATH_CLIENT");
+  out->address.port = bcast_ip.port;
+  out->len = strlen("TUXMATH_CLIENT") + 1;
 
 	printf("UDP Packet to be sent:\n");
 	printf("\tChan:    %d\n", out->channel);
@@ -79,11 +84,38 @@ int LAN_DetectServers(void)
 	printf("\tStatus:  %d\n", out->status);
 	printf("\tAddress: %x %x\n", out->address.host, out->address.port);
 
-  //Here we will need to send every few seconds until we hear back from server
-  //and get its ip address:
-  sent = SDLNet_UDP_Send(udpsock, -1, out);
-  printf("UDP packets sent to %d addresses\n", sent);
+  //Here we will need to send every few sec onds until we hear back from server
+  //and get its ip address:  IPaddress bcast_ip;
+
+  while(!done)
+  {
+    sent = SDLNet_UDP_Send(udpsock, -1, out);
+    if(!sent)
+    {
+      printf("broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
+      SDLNet_ResolveHost(&bcast_ip, "localhost", DEFAULT_PORT);
+      out->address.host = bcast_ip.host;
+    }
+    printf("UDP packets sent to %d addresses\n", sent);
+    SDL_Delay(250);  //give server chance to answer
+
+    if(SDLNet_UDP_Recv(udpsock, in))
+    {
+      if(strncmp((char*)in->data, "TUXMATH_SERVER", strlen("TUXMATH_SERVER")) == 0)
+      {
+        printf("Reply received from server\n");
+        done = 1;
+      }
+    }
+
+    seconds++;
+    if(seconds > 10)
+      done = 1;
+    Throttle(1000); //repeat once per second
+  }
+
   SDLNet_FreePacket(out); 
+  SDLNet_FreePacket(in); 
 }
 
 

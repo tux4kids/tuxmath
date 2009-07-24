@@ -19,11 +19,11 @@ void Throttle(int loop_msec)
   static Uint32 now_t, last_t; //These will be zero first time through
   int wait_t;
 
-  //Target loop time must be between 0 and 100 msec:
+  //Target loop time must be between 0 and 1000 msec:
   if(loop_msec < 0)
     loop_msec = 0;
-  if(loop_msec > 100)
-    loop_msec = 100;
+  if(loop_msec > 1000)
+    loop_msec = 1000;
 
   //See if we need to wait:
   now_t = SDL_GetTicks();

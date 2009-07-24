@@ -253,17 +253,46 @@ void check_UDP(void)
 {
   char buf[NET_BUF_LEN];
   int recvd = 0;
-  UDPpacket* pkt = SDLNet_AllocPacket(NET_BUF_LEN);
-  recvd = SDLNet_UDP_Recv(udpsock, pkt);
+  UDPpacket* in = SDLNet_AllocPacket(NET_BUF_LEN);
+  recvd = SDLNet_UDP_Recv(udpsock, in);
   if(recvd)
   {
 	printf("UDP Packet incoming\n");
-	printf("\tChan:    %d\n", pkt->channel);
-	printf("\tData:    %s\n", (char *)pkt->data);
-	printf("\tLen:     %d\n", pkt->len);
-	printf("\tMaxlen:  %d\n", pkt->maxlen);
-	printf("\tStatus:  %d\n", pkt->status);
-	printf("\tAddress: %x %x\n", pkt->address.host, pkt->address.port);
+	printf("\tChan:    %d\n", in->channel);
+	printf("\tData:    %s\n", (char *)in->data);
+	printf("\tLen:     %d\n", in->len);
+	printf("\tMaxlen:  %d\n", in->maxlen);
+	printf("\tStatus:  %d\n", in->status);
+	printf("\tAddress: %x %x\n", in->address.host, in->address.port);
+  }
+
+  // See if packet contains identifying string:
+  if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
+  {
+    UDPpacket* out;
+    IPaddress bcast_ip;
+    int sent = 0;
+
+    printf("packet received from client, sending reply\n");
+
+    out = SDLNet_AllocPacket(NET_BUF_LEN); 
+    out->address.host = in->address.host;
+    out->address.port = in->address.port;
+    sprintf(out->data, "TUXMATH_SERVER");
+    out->len = strlen("TUXMATH_SERVER") + 1;
+
+	printf("UDP Packet to be sent:\n");
+	printf("\tChan:    %d\n", out->channel);
+	printf("\tData:    %s\n", (char *)out->data);
+	printf("\tLen:     %d\n", out->len);
+	printf("\tMaxlen:  %d\n", out->maxlen);
+	printf("\tStatus:  %d\n", out->status);
+	printf("\tAddress: %x %x\n", out->address.host, out->address.port);
+
+    // Send server reply:
+    sent = SDLNet_UDP_Send(udpsock, -1, out);
+    printf("UDP packets sent to %d addresses\n", sent);
+    SDLNet_FreePacket(out); 
   }
 }
 
