@@ -523,7 +523,12 @@ int erase_comet_on_screen(comet_type* comet_ques)
 {
   if(!comet_ques)
     return 0;
-  comet_ques->alive=0;
+  comet_ques->alive = 0;
+  comet_ques->expl = 0;
+  comet_ques->city = 0;
+  comet_ques->x = 0;
+  comet_ques->y = 0;
+  comet_ques->answer = 0;
   num_comets_alive--;
   comet_ques->flashcard.formula_string[0] = '\0';
   comet_ques->flashcard.answer_string[0] = '\0';
