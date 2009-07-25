@@ -918,7 +918,10 @@ int run_menu(MenuNode* root, bool return_choice)
             tmp_rect = menu->submenu[loc + menu->first_entry]->button_rect;
             SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &tmp_rect);
             if(menu->submenu[menu->first_entry + loc]->icon)
+            {
               SDL_BlitSurface(menu->submenu[menu->first_entry + loc]->icon->default_img, NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+              menu->submenu[menu->first_entry + loc]->icon->cur = 0;
+            }
             SDL_UpdateRect(screen, tmp_rect.x, tmp_rect.y, tmp_rect.w, tmp_rect.h);
           }
           old_loc = loc;
@@ -975,6 +978,7 @@ int run_menu(MenuNode* root, bool return_choice)
               {
                 menu->first_entry = 0;
                 menu = tmp_node;
+                menu->first_entry = 0;
               }
               stop = true;
             }

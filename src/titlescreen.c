@@ -169,6 +169,8 @@ void TitleScreen(void)
     /* Play "harp" greeting sound lifted from Tux Paint */
     playsound(SND_HARP);
     SDL_FreeSurface(logo);
+    /* load menus */
+    LoadMenus();
   }
 
   /* load backgrounds */

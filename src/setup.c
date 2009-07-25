@@ -122,8 +122,6 @@ void setup(int argc, char * argv[])
   initialize_SDL();
   /* Read image and sound files: */
   load_data_files();
-  /* load menus */
-  LoadMenus();
   /* Generate flipped versions of walking images */
   generate_flipped_images();
   /* Generate blended images (e.g., igloos) */
