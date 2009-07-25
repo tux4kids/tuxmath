@@ -79,11 +79,15 @@ int main(int argc, char **argv)
   }
   else if(servers_found  == 1)  //One server - connect without player intervention
   {
+    printf("Single server found - connecting automatically...");
+
     if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
     {
       printf("setup_client() failed - exiting.\n");
       exit(EXIT_FAILURE);
     }
+
+    printf("connected\n");
   } 
   else  // More than one server - will have to get player selection 
   {

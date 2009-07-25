@@ -85,9 +85,13 @@ int LAN_DetectServers(void)
 
   //Here we will need to send every few sec onds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
-
+  printf("\nAutodetecting TuxMath servers:");
+  fflush(stdout);
   while(!done)
   {
+    printf(".");
+    fflush(stdout);
+
     sent = SDLNet_UDP_Send(udpsock, -1, out);
     if(!sent)
     {
@@ -114,6 +118,9 @@ int LAN_DetectServers(void)
       done = 1;
     Throttle(1000); //repeat once per second
   }
+
+  printf("done\n\n");
+
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 

@@ -17,6 +17,7 @@
 
 #include "SDL_net.h"
 #define NAME_SIZE 50
+#define DEFAULT_SERVER_NAME "TuxMath LAN Server"
 
 typedef struct client_type {
   int game_ready;                 //game_ready = 1 , if client has said OK to start, and 0 otherwise

@@ -82,7 +82,8 @@ void game_msg_next_question(void);
 
 
 /*  ------------   "Local globals" for server.c: ----------  */
-UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection          */
+char server_name[NAME_SIZE];  /* User-visible name for server selection                     */
+UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection           */
 TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
 IPaddress ip;
 SDLNet_SocketSet client_set = NULL, temp_sock = NULL, temp_set = NULL;
@@ -147,12 +148,16 @@ int setup_server(void)
 {
   int i = 0;
 
+  // Zero out our client list:
   for(i = 0; i < MAX_CLIENTS; i++)
   {
     client[i].game_ready = 0;   /* waiting for user to OK game start */
     client[i].name[0] = '\0';   /* no nicknames yet                  */
     client[i].sock = NULL;      /* sockets start out unconnected     */
   }
+
+  /* Set name (will get this from config file in future): */
+  strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
 
   //this sets up mathcards with hard-coded defaults - no settings
   //read from config file here:
@@ -162,7 +167,7 @@ int setup_server(void)
     return 0;
   }
 
-  if(SDL_Init(0)==-1)
+  if(SDL_Init(0) == -1)
   {
     printf("SDL_Init: %s\n", SDL_GetError());
     return 0;;
@@ -262,14 +267,17 @@ void check_UDP(void)
     UDPpacket* out;
     IPaddress bcast_ip;
     int sent = 0;
-    // Send "I am here" reply so client knows where to connect socket:
-    // TODO add configurable identifying string so user can distinguish 
+    char buf[NET_BUF_LEN];
+    // Send "I am here" reply so client knows where to connect socket,
+    // with configurable identifying string so user can distinguish 
     // between multiple servers on same network (e.g. "Mrs. Adams' Class");
     out = SDLNet_AllocPacket(NET_BUF_LEN); 
+
+    snprintf(buf, NET_BUF_LEN, "%s\t%s", "TUXMATH_SERVER", server_name);
+    snprintf(out->data, NET_BUF_LEN, "%s", buf);
+    out->len = strlen(buf) + 1;
     out->address.host = in->address.host;
     out->address.port = in->address.port;
-    sprintf(out->data, "TUXMATH_SERVER");
-    out->len = strlen("TUXMATH_SERVER") + 1;
 
     sent = SDLNet_UDP_Send(udpsock, -1, out);
 
