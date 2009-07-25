@@ -11,7 +11,7 @@
             <item title="Hall Of Fame" sprite="trophy" run="RUN_HALL_OF_FAME">
             <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
         </menu>
-        <item title="Play Custom Game" sprite="tux_config" run="RUN_CUSTOM">
+        <item title="Play Custom Game" sprite="tux_config_brown" run="RUN_CUSTOM">
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
     </menu>
     <menu title="LAN Game" sprite="lan" entries="3">

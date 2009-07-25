@@ -3,6 +3,5 @@
 
 menusdir = $(pkgdatadir)/menus
 
-dist_menus_DATA = main_menu.xml \
-                  level_menu.xml
+dist_menus_DATA = main_menu.xml
 

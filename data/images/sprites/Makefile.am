@@ -109,15 +109,19 @@ dist_sprites_DATA = \
   tux_config.svg \
   tux_config0.png \
   tux_config1.png \
+  tux_configd.png \
+  tux_config_brown.svg \
   tux_config_brown0.png \
   tux_config_brown1.png \
   tux_config_brownd.png \
-  tux_configd.png \
   tux_helmet0.png \
   tux_helmet1.png \
   tux_helmet2.png \
+  tux_helmetd.png \
+  tux_helmet_black.svg \
   tux_helmet_black0.png \
   tux_helmet_blackd.png \
+  tux_helmet_blue.svg \
   tux_helmet_blue0.png \
   tux_helmet_blue1.png \
   tux_helmet_blue2.png \
@@ -125,7 +129,7 @@ dist_sprites_DATA = \
   tux_helmet_blue4.png \
   tux_helmet_blue5.png \
   tux_helmet_blued.png \
-  tux_helmetd.png \
+  tux_helmet_green.svg \
   tux_helmet_green0.png \
   tux_helmet_green1.png \
   tux_helmet_green2.png \
@@ -133,6 +137,7 @@ dist_sprites_DATA = \
   tux_helmet_green4.png \
   tux_helmet_green5.png \
   tux_helmet_greend.png \
+  tux_helmet_red.svg \
   tux_helmet_red0.png \
   tux_helmet_red1.png \
   tux_helmet_red2.png \
@@ -140,6 +145,7 @@ dist_sprites_DATA = \
   tux_helmet_red4.png \
   tux_helmet_red5.png \
   tux_helmet_redd.png \
+  tux_helmet_yellow.svg \
   tux_helmet_yellow0.png \
   tux_helmet_yellow1.png \
   tux_helmet_yellow2.png \
