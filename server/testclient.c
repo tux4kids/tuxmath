@@ -65,23 +65,40 @@ int main(int argc, char **argv)
 {
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
+  int servers_found = 0;
+  Uint32 server_ip = 0;
+  Uint16 server_port = DEFAULT_PORT;
 
-  /* Start out with our "comets" empty: */
+  //Scan local network to find running server:
+  servers_found = LAN_DetectServers();
+
+  if(servers_found < 1)
   {
-    int i;
-    for(i = 0; i < TEST_COMETS; i ++)
-      erase_flashcard(&comets[i]);
-  }
-
-
-  LAN_DetectServers();
-
-  /* Connect to server, create socket set, get player nickname, etc: */
-  if(!LAN_Setup(argv[1], DEFAULT_PORT))
-  {
-    printf("setup_client() failed - exiting.\n");
+    printf("No server could be found - exiting.\n");
     exit(EXIT_FAILURE);
   }
+  else if(servers_found  == 1)  //One server - connect without player intervention
+  {
+    if(!LAN_AutoSetup())
+    {
+      printf("setup_client() failed - exiting.\n");
+      exit(EXIT_FAILURE);
+    }
+  } 
+  else  // More than one server - will have to get player selection 
+  {
+    //Display list so player can choose
+    //   TO BE IMPLEMENTED
+
+
+    /* Connect to server, create socket set, get player nickname, etc: */
+    if(!LAN_Setup(server_ip, server_port))
+    {
+      printf("setup_client() failed - exiting.\n");
+      exit(EXIT_FAILURE);
+    }
+  }
+  
 
   /* Now we are connected - get nickname from player: */
   {
@@ -338,6 +355,13 @@ int playgame(void)
   //Tell server we're ready to start:
   LAN_StartGame(); 
   game_status = GAME_IN_PROGRESS;
+
+  /* Start out with our "comets" empty: */
+  {
+    int i;
+    for(i = 0; i < TEST_COMETS; i ++)
+      erase_flashcard(&comets[i]);
+  }
 
   //Begin game loop:
   while (game_status == GAME_IN_PROGRESS)

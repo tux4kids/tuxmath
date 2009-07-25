@@ -17,7 +17,6 @@
 #include <unistd.h>
 #include <fcntl.h> 
 
-#include "SDL_net.h"
 #include "transtruct.h"
 #include "network.h"
 #include "throttle.h"
@@ -27,13 +26,13 @@
 TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 IPaddress serv_ip;
-char servers[MAX_SERVERS][NAME_SIZE];
+ServerEntry servers[MAX_SERVERS];
 
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
-int add_to_list(char* name);
-
+int add_to_server_list(UDPpacket* pkt);
+void print_server_list(void);
 
 int LAN_DetectServers(void)
 {
@@ -41,17 +40,15 @@ int LAN_DetectServers(void)
   UDPpacket* out;
   UDPpacket* in;
   IPaddress bcast_ip;
-  IPaddress* ip_ptr;
   int sent = 0;
   int done = 0;
   int seconds = 0;
   int num_servers = 0;
   int i = 0;
-  char* serv_name;
 
   //zero out old server list
   for(i = 0; i < MAX_SERVERS; i++)
-    servers[i][0] = '\0';
+    servers[i].ip.host = 0;
 
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
   if(SDL_Init(0)==-1)
@@ -86,14 +83,6 @@ int LAN_DetectServers(void)
   out->address.port = bcast_ip.port;
   out->len = strlen("TUXMATH_CLIENT") + 1;
 
-	printf("UDP Packet to be sent:\n");
-	printf("\tChan:    %d\n", out->channel);
-	printf("\tData:    %s\n", (char *)out->data);
-	printf("\tLen:     %d\n", out->len);
-	printf("\tMaxlen:  %d\n", out->maxlen);
-	printf("\tStatus:  %d\n", out->status);
-	printf("\tAddress: %x %x\n", out->address.host, out->address.port);
-
   //Here we will need to send every few sec onds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
 
@@ -106,7 +95,6 @@ int LAN_DetectServers(void)
       SDLNet_ResolveHost(&bcast_ip, "localhost", DEFAULT_PORT);
       out->address.host = bcast_ip.host;
     }
-    printf("UDP packets sent to %d addresses\n", sent);
     SDL_Delay(250);  //give server chance to answer
 
     while(SDLNet_UDP_Recv(udpsock, in))
@@ -114,10 +102,8 @@ int LAN_DetectServers(void)
       if(strncmp((char*)in->data, "TUXMATH_SERVER", strlen("TUXMATH_SERVER")) == 0)
       {
         done = 1;
-        ip_ptr = &(in->address);
-        serv_name = SDLNet_ResolveIP(ip_ptr);
-        printf("Reply received from server: %s\n", serv_name);
-        num_servers = add_to_list(serv_name);
+        //add to list, checking for duplicates
+        num_servers = add_to_server_list(in);
       }
     }
     //Make sure we always scan at least five but not more than ten seconds:
@@ -131,9 +117,38 @@ int LAN_DetectServers(void)
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 
-
+  print_server_list();
   return num_servers;
 }
+
+//For the simple case where a single server is found and we
+//want to connect transparently to the user:
+int LAN_AutoSetup(void)
+{
+  /* Open a connection based on autodetection routine: */
+  if (!(sd = SDLNet_TCP_Open(&servers[0].ip)))
+  {
+    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
+    return 0;
+  }
+
+  /* We create a socket set so we can check for activity: */
+  set = SDLNet_AllocSocketSet(1);
+  if(!set)
+  {
+    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    return 0;
+  }
+
+  if(SDLNet_TCP_AddSocket(set, sd) == -1)
+  {
+    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+    // perhaps you need to restart the set and make it bigger...
+  }
+
+  return 1;
+}
+
 
 
 int LAN_Setup(char *host, int port)
@@ -425,19 +440,19 @@ int say_to_server(char* statement)
 }
 
 //add name to list, checking for duplicates:
-int add_to_list(char* name)
+int add_to_server_list(UDPpacket* pkt)
 {
   int i = 0;
   int already_in = 0;
 
-  if(!name)
+  if(!pkt)
     return 0;
  
   //first see if it is already in list:
   while((i < MAX_SERVERS)
-      && (servers[i][0] != '\0'))
+      && (servers[i].ip.host != 0))
   {
-    if(strncmp(servers[i], name, NAME_SIZE) == 0)
+    if(pkt->address.host == servers[i].ip.host)
       already_in = 1;
     i++;
   }
@@ -445,13 +460,25 @@ int add_to_list(char* name)
   //Copy it in unless it's already there, or we are out of room:
   if(!already_in && i < MAX_SERVERS)
   {
-    strncpy(servers[i], name, NAME_SIZE);
+    servers[i].ip.host = pkt->address.host;
+    servers[i].ip.port = pkt->address.port;
+    strncpy(servers[i].name, "TuxMath LAN Server" , NAME_SIZE);
     i++;
   }
 
   return i;  //i should be the number of items in the list
 }
 
+void print_server_list(void)
+{
+  int i = 0;
+  printf("Detected servers:\n");
+  while(i < MAX_SERVERS && servers[i].ip.host != 0)
+  {
+    printf("Host %d: %s\n", i, servers[i].name);
+    i++;
+  }
+}
 
 
 

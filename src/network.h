@@ -17,10 +17,18 @@
 #define NETWORK_H
 
 #include "transtruct.h"
+#include "SDL_net.h"
+
+
+typedef struct {
+    IPaddress ip;            /* 32-bit IPv4 host address */
+    char name[NAME_SIZE];
+}ServerEntry;
 
 
 /* Networking setup and cleanup: */
 int LAN_DetectServers(void);
+int LAN_AutoSetup(void);
 int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 
