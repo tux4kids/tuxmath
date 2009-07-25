@@ -262,15 +262,17 @@ void check_UDP(void)
     UDPpacket* out;
     IPaddress bcast_ip;
     int sent = 0;
-
+    // Send "I am here" reply so client knows where to connect socket:
+    // TODO add configurable identifying string so user can distinguish 
+    // between multiple servers on same network (e.g. "Mrs. Adams' Class");
     out = SDLNet_AllocPacket(NET_BUF_LEN); 
     out->address.host = in->address.host;
     out->address.port = in->address.port;
     sprintf(out->data, "TUXMATH_SERVER");
     out->len = strlen("TUXMATH_SERVER") + 1;
 
-    // Send server reply:
     sent = SDLNet_UDP_Send(udpsock, -1, out);
+
     SDLNet_FreePacket(out); 
   }
 }

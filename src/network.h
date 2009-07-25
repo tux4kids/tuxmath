@@ -28,7 +28,8 @@ typedef struct {
 
 /* Networking setup and cleanup: */
 int LAN_DetectServers(void);
-int LAN_AutoSetup(void);
+int LAN_AutoSetup(int i);
+char* LAN_ServerName(int i);
 int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 

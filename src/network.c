@@ -121,12 +121,24 @@ int LAN_DetectServers(void)
   return num_servers;
 }
 
-//For the simple case where a single server is found and we
-//want to connect transparently to the user:
-int LAN_AutoSetup(void)
+
+char* LAN_ServerName(int i)
+{
+  if(servers[i].ip.host != 0)
+    return servers[i].name;
+  else
+    return NULL; 
+}
+
+
+
+//For the simple case where a single server is found, i is 
+//always 0. Otherwise the player has to review the choices
+//via LAN_ServerName(i) to get the index 
+int LAN_AutoSetup(int i)
 {
   /* Open a connection based on autodetection routine: */
-  if (!(sd = SDLNet_TCP_Open(&servers[0].ip)))
+  if (!(sd = SDLNet_TCP_Open(&servers[i].ip)))
   {
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     return 0;
