@@ -95,8 +95,6 @@ SDL_Rect bkg_rect,
          cursor,
          beak;
 
-SDL_Rect stopRect;
-
 SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
   { return screen->flags & SDL_FULLSCREEN ? fs_bkg : win_bkg; }
@@ -509,24 +507,10 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
   DEBUGMSG(debug_titlescreen, "ShowMessage() - drawing screen\n" );
 
-  /* Redraw background: */
-  if (current_bkg() )
-    SDL_BlitSurface( current_bkg(), NULL, screen, &bkg_rect );
-
+  DrawTitleScreen();
   /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->num_frames) /* make sure sprite has at least one frame */
-  {
-    SDL_BlitSurface(Tux->frame[0], NULL, screen, &tux_rect);
-  }
+  if (stop_button)
+    SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
 
   /* Draw lines of text (do after drawing Tux so text is in front): */
   if (s1)
@@ -571,7 +555,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stopRect, event.button.x, event.button.y ))
+          if (inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);

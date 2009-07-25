@@ -13,6 +13,7 @@
 
 #include "tuxmath.h"
 #include "highscore.h"
+#include "menu.h"
 #include "titlescreen.h"
 #include "fileops.h"
 #include "setup.h"
@@ -38,7 +39,6 @@ void DisplayHighScores(int level)
 {
   int i = 0;
   int finished = 0;
-  int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
 
@@ -51,61 +51,20 @@ void DisplayHighScores(int level)
   char score_strings[HIGH_SCORES_SAVED][HIGH_SCORE_NAME_LENGTH + 10] = {{'\0'}};
 
   SDL_Rect score_rects[HIGH_SCORES_SAVED];
-  SDL_Rect leftRect, rightRect, stopRect, TuxRect, table_bg;
-
+  SDL_Rect table_bg;
 
   const int max_width = 300;
   int score_table_y = 100;
 
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
   const int title_font_size = 32;
   const int player_font_size = 14;
-
-
-  /* --- Set up the rects for drawing various things: ----------- */
-
-  /* Put arrow buttons in right lower corner, inset by 20 pixels */
-  /* with a 10 pixel space between:                              */
-  if (images[IMG_RIGHT])
-  {
-    rightRect.w = images[IMG_RIGHT]->w;
-    rightRect.h = images[IMG_RIGHT]->h;
-    rightRect.x = screen->w - images[IMG_RIGHT]->w - 20;
-    rightRect.y = screen->h - images[IMG_RIGHT]->h - 20;
-  }
-
-  if (images[IMG_LEFT])
-  {
-    leftRect.w = images[IMG_LEFT]->w;
-    leftRect.h = images[IMG_LEFT]->h;
-    leftRect.x = rightRect.x - 10 - images[IMG_LEFT]->w;
-    leftRect.y = screen->h - images[IMG_LEFT]->h - 20;
-  }
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-  }
-
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-   {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
-   }
-
 
   while (!finished)
   {
     start = SDL_GetTicks();
 
     /* Check for user events: */
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
       switch (event.type)
       {
@@ -116,15 +75,15 @@ void DisplayHighScores(int level)
 
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
+        {
+          if (inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
           }
 
           /* "Left" button - go to previous page: */
-          if (inRect(leftRect, event.button.x, event.button.y))
+          if (inRect(prev_rect, event.button.x, event.button.y))
           {
             if (diff_level > CADET_HIGH_SCORE)
             {
@@ -137,7 +96,7 @@ void DisplayHighScores(int level)
           }
 
           /* "Right" button - go to next page: */
-          if (inRect( rightRect, event.button.x, event.button.y ))
+          if (inRect(next_rect, event.button.x, event.button.y ))
           {
             if (diff_level < (NUM_HIGH_SCORE_LEVELS-1))
             {
@@ -164,37 +123,31 @@ void DisplayHighScores(int level)
     /* If needed, redraw: */
     if (diff_level != old_diff_level)
     {
-      /* Draw background: */
-      if (current_bkg())
-        SDL_BlitSurface( current_bkg(), NULL, screen, NULL );
-      /* FIXME maybe add image of trophy or similar pic */
-      /* Draw Tux: */
-      if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-        SDL_BlitSurface(Tux->frame[0], NULL, screen, &TuxRect);
+      DrawTitleScreen();
       /* Draw controls: */
-      if (images[IMG_STOP])
-        SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+      if (stop_button)
+        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
       /* Draw regular or grayed-out left arrow: */
       if (diff_level == CADET_HIGH_SCORE)
       {
-        if (images[IMG_LEFT_GRAY])
-          SDL_BlitSurface(images[IMG_LEFT_GRAY], NULL, screen, &leftRect);
+        if (prev_gray)
+          SDL_BlitSurface(prev_gray, NULL, screen, &prev_rect);
       }
       else
       {
-        if (images[IMG_LEFT])
-          SDL_BlitSurface(images[IMG_LEFT], NULL, screen, &leftRect);
+        if (prev_arrow)
+          SDL_BlitSurface(prev_arrow, NULL, screen, &prev_rect);
       }
       /* Draw regular or grayed-out right arrow: */
       if (diff_level == NUM_HIGH_SCORE_LEVELS - 1)
       {
-        if (images[IMG_RIGHT_GRAY])
-          SDL_BlitSurface(images[IMG_RIGHT_GRAY], NULL, screen, &rightRect);
+        if (next_gray)
+          SDL_BlitSurface(next_gray, NULL, screen, &next_rect);
       }
       else
       {
-        if (images[IMG_RIGHT])
-          SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &rightRect);
+        if (next_arrow)
+          SDL_BlitSurface(next_arrow, NULL, screen, &next_rect);
       }
 
       /* Draw background shading for table: */
@@ -282,7 +235,6 @@ void DisplayHighScores(int level)
         /* Clear out old surfaces and update: */
         if (score_surfs[i])               /* this should not happen! */
           SDL_FreeSurface(score_surfs[i]);
-        
         if (HS_Score(diff_level, i) == Opts_LastScore() && frame % 5 < 2)
           score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font_size, &yellow);
         else
@@ -291,7 +243,6 @@ void DisplayHighScores(int level)
         /* Get out if BlackOutline() fails: */
         if (!score_surfs[i])
           continue;
-         
         /* Set up entries in vertical column: */
         if (0 == i)
           score_rects[i].y = score_table_y;
@@ -312,25 +263,7 @@ void DisplayHighScores(int level)
       old_diff_level = diff_level;
     }
 
-
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
-
+    HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
     while ((SDL_GetTicks() - start) < 33)
@@ -339,8 +272,6 @@ void DisplayHighScores(int level)
     }
     frame++;
   }  // End of while (!finished) loop
-
-  FreeSprite(Tux);
 }
 
 
@@ -359,13 +290,10 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
 
   SDL_Rect loc;
   SDL_Rect redraw_rect;
-  SDL_Rect TuxRect,
-           stopRect;
 
   int redraw = 0;
   int first_draw = 1;
   int finished = 0;
-  int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
   wchar_t wchar_buf[HIGH_SCORE_NAME_LENGTH + 1] = {'\0'};
@@ -374,39 +302,15 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   const int BG_WIDTH = 400;
   const int BG_HEIGHT = 200;
 
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-
   if (!pl_name)
     return;
-    
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
 
   DEBUGMSG(debug_highscore, "Enter HighScoreNameEntry()\n" );
 
-
-  /* Draw background: */
-  if (current_bkg())
-    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-  {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
-  }
+  DrawTitleScreen();
 
   /* Draw translucent background for text: */
   {
@@ -451,12 +355,11 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 
-
   while (!finished)
   {
     start = SDL_GetTicks();
 
-    while (SDL_PollEvent(&event)) 
+    while (SDL_PollEvent(&event))
     {
       switch (event.type)
       {
@@ -467,8 +370,8 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
 
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
+        {
+          if (inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
@@ -506,7 +409,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
               {
                 wchar_buf[(int)wcslen(wchar_buf)] = event.key.keysym.unicode;
                 redraw = 1;
-              } 
+              }
             }
           }  /* end  'switch (event.key.keysym.sym)'  */
 
@@ -561,24 +464,8 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
         }
       }
     }
- 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
 
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
+    HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
     while ((SDL_GetTicks() - start) < 33)
@@ -587,8 +474,6 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
     }
     frame++;
   }  // End of while (!finished) loop
-
-  FreeSprite(Tux);
 
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
