@@ -109,6 +109,9 @@ int main(int argc, char **argv)
     cleanup_server();
     exit(EXIT_FAILURE);
   }
+
+  printf("Enter the SERVER's NAME: \n");
+  fgets(server_name,NAME_SIZE,stdin);
  
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
@@ -272,7 +275,6 @@ void check_UDP(void)
     // with configurable identifying string so user can distinguish 
     // between multiple servers on same network (e.g. "Mrs. Adams' Class");
     out = SDLNet_AllocPacket(NET_BUF_LEN); 
-
     snprintf(buf, NET_BUF_LEN, "%s\t%s", "TUXMATH_SERVER", server_name);
     snprintf(out->data, NET_BUF_LEN, "%s", buf);
     out->len = strlen(buf) + 1;
