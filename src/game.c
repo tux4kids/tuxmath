@@ -781,7 +781,7 @@ void game_handle_help(void)
 
   help_add_comet("3 * 3 = ?", "9");
   comets[0].y = 2*(screen->h)/3;   // start it low down
-  while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
+  while ((comets[0].expl == -1) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   if (quit_help)
     return;
   game_set_message(&s4,_("Notice the answer"),left_edge,comets[0].y-100);
@@ -896,7 +896,7 @@ void help_add_comet(const char* formula_str, const char* ans_str)
 //  char ansstr[MC_ANSWER_LEN];
 
   comets[0].alive = 1;
-  comets[0].expl = 0;
+  comets[0].expl = -1;
   comets[0].answer = atoi(ans_str);
   num_comets_alive = 1;
   comets[0].city = 0;
@@ -1008,7 +1008,7 @@ void game_handle_demo(void)
     picked_comet = (rand() % MAX_COMETS);
 
     if (!(comets[picked_comet].alive &&
-          comets[picked_comet].expl < COMET_EXPL_END)
+          comets[picked_comet].expl == -1)
         || comets[picked_comet].y < 80)
     {
       picked_comet = -1;
@@ -1131,7 +1131,7 @@ void game_handle_answer(void)
   {
     mcdprintf("Comparing '%s' with '%s'\n", comets[i].flashcard.answer_string, ans);
     if (comets[i].alive &&
-        comets[i].expl < COMET_EXPL_END &&
+        comets[i].expl == -1 &&
         //comets[i].answer == num &&
         0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1) &&
         comets[i].y > lowest_y)
@@ -1155,7 +1155,7 @@ void game_handle_answer(void)
 
 
     /* Destroy comet: */
-    comets[lowest].expl = COMET_EXPL_START;
+    comets[lowest].expl = 0;
     comets[lowest].zapped = 1;
     /* Fire laser: */
     laser.alive = LASER_START;
@@ -1331,7 +1331,7 @@ void game_handle_comets(void)
 
       /* Did it hit a city? */
       if (comets[i].y >= city_expl_height &&
-          comets[i].expl < COMET_EXPL_END)
+          comets[i].expl == -1)
       {
         /* Tell MathCards about it - question not answered correctly: */
         MC_NotAnsweredCorrectly(&(comets[i].flashcard));
@@ -1395,15 +1395,16 @@ void game_handle_comets(void)
         tux_anim_frame = ANIM_FRAME_START;
 
         /* Destroy comet: */
-        comets[i].expl = COMET_EXPL_START;
+        comets[i].expl = 0;
       }
 
       /* Handle comet explosion animation: */
-      if (comets[i].expl >= COMET_EXPL_END)
+      if (comets[i].expl >= 0)
       {
-        comets[i].expl--;
-        if (comets[i].expl < COMET_EXPL_END) {
+        comets[i].expl++;
+        if (comets[i].expl >= sprites[IMG_COMET_EXPL]->num_frames * 2) {
           comets[i].alive = 0;
+          comets[i].expl = -1;
           if (bonus_comet_counter > 1 && comets[i].zapped) {
             bonus_comet_counter--;
             DEBUGMSG(debug_game, "bonus_comet_counter is now %d\n",bonus_comet_counter);
@@ -1888,7 +1889,7 @@ void game_draw_comets(void)
   {
     if (comets[i].alive && !comets[i].bonus)
     {
-      if (comets[i].expl < COMET_EXPL_END)
+      if (comets[i].expl == -1)
       {
         /* Decide which image to display: */
         img = sprites[IMG_COMET]->frame[(frame + i) % sprites[IMG_COMET]->num_frames];
@@ -1905,7 +1906,8 @@ void game_draw_comets(void)
       }
       else
       {
-        img = images[comets[i].expl];
+        /* show each frame of explosion twice */
+        img = sprites[IMG_COMET_EXPL]->frame[comets[i].expl / 2];
         comet_str = comets[i].flashcard.answer_string;
       }
 
@@ -1928,7 +1930,7 @@ void game_draw_comets(void)
   {
     if (comets[i].alive && comets[i].bonus)
     {
-      if (comets[i].expl < COMET_EXPL_END)
+      if (comets[i].expl == -1)
       {
         /* Decide which image to display: */
         img = sprites[IMG_BONUS_COMET]->frame[(frame + i) % sprites[IMG_BONUS_COMET]->num_frames];
@@ -1945,7 +1947,7 @@ void game_draw_comets(void)
       }
       else
       {
-        img = images[comets[i].expl + IMG_BONUS_COMETEX1 - IMG_COMETEX1];
+        img = sprites[IMG_BONUS_COMET_EXPL]->frame[comets[i].expl / 2];
         comet_str = comets[i].flashcard.answer_string;
       }
 
@@ -3359,7 +3361,7 @@ void reset_comets(void)
   for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;
-    comets[i].expl = 0;
+    comets[i].expl = -1;
     comets[i].city = 0;
     comets[i].x = 0;
     comets[i].y = 0;

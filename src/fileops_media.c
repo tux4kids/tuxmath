@@ -58,25 +58,9 @@ int load_image_data()
   "cities/csplode-red-5.png",
   "cities/cdead-red.png",
   "cities/shields.png",
-  "comets/cometex3.png",
-  "comets/cometex3.png",
-  "comets/cometex2.png",
-  "comets/cometex2.png",
-  "comets/cometex1a.png",
-  "comets/cometex1a.png",
-  "comets/cometex1.png",
-  "comets/cometex1.png",
   "comets/mini_comet1.png",
   "comets/mini_comet2.png",
   "comets/mini_comet3.png",
-  "comets/bonus_cometex3.png",
-  "comets/bonus_cometex3.png",
-  "comets/bonus_cometex2.png",
-  "comets/bonus_cometex2.png",
-  "comets/bonus_cometex1a.png",
-  "comets/bonus_cometex1a.png",
-  "comets/bonus_cometex1.png",
-  "comets/bonus_cometex1.png",
   "status/nums.png",
   "status/lednums.png",
   "status/led_neg_sign.png",
@@ -155,7 +139,9 @@ int load_image_data()
 
   static char* sprite_filenames[NUM_IMAGES] = {
   "comets/comet",
-  "comets/bonus_comet"
+  "comets/bonus_comet",
+  "comets/cometex",
+  "comets/bonus_cometex"
   };
 
   /* Load static images: */
