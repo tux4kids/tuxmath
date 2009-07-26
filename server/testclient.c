@@ -66,6 +66,7 @@ int main(int argc, char **argv)
   char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
   int servers_found = 0;
+  int server_number=-1;
   Uint32 server_ip = 0;
   Uint16 server_port = DEFAULT_PORT;
 
@@ -91,16 +92,25 @@ int main(int argc, char **argv)
   } 
   else  // More than one server - will have to get player selection 
   {
-    //Display list so player can choose
-    //   TO BE IMPLEMENTED
+    printf("Following are the server's available\n");
+    print_server_list();
+    printf("Enter the SERVER NUMBER you would like to connect to:\n");
+    scanf("%d",&server_number);
 
-
-    /* Connect to server, create socket set, get player nickname, etc: */
-    if(!LAN_Setup(server_ip, server_port))
+    if(!LAN_AutoSetup(server_number))  //i.e.first (and only) entry in list
     {
       printf("setup_client() failed - exiting.\n");
       exit(EXIT_FAILURE);
     }
+
+    printf("connected\n");
+
+//    /* Connect to server, create socket set, get player nickname, etc: */
+//    if(!LAN_Setup(server_ip, server_port))
+//    {
+//      printf("setup_client() failed - exiting.\n");
+//      exit(EXIT_FAILURE);
+//    }
   }
   
 
