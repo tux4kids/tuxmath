@@ -481,7 +481,7 @@ int add_to_server_list(UDPpacket* pkt)
   {
     servers[i].ip.host = pkt->address.host;
     servers[i].ip.port = pkt->address.port;
-    strncpy(servers[i].name, "TuxMath LAN Server" , NAME_SIZE);
+    sscanf(pkt->data,"%*s %s\n",servers[i].name);
     i++;
   }
 
@@ -494,7 +494,7 @@ void print_server_list(void)
   printf("Detected servers:\n");
   while(i < MAX_SERVERS && servers[i].ip.host != 0)
   {
-    printf("Host %d: %s\n", i, servers[i].name);
+    printf("Host %d:Tuxmath Server's NAME-------- %s\n", i,servers[i].name);
     i++;
   }
 }
