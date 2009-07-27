@@ -494,7 +494,7 @@ void print_server_list(void)
   printf("Detected servers:\n");
   while(i < MAX_SERVERS && servers[i].ip.host != 0)
   {
-    printf("Host %d:Tuxmath Server's NAME-------- %s\n", i,servers[i].name);
+    printf("SERVER NUMBER %d: %s\n", i, servers[i].name);
     i++;
   }
 }

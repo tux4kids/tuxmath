@@ -111,7 +111,7 @@ int main(int argc, char **argv)
   }
 
   printf("Enter the SERVER's NAME: \n");
-  fgets(server_name,NAME_SIZE,stdin);
+  fgets(server_name, NAME_SIZE, stdin);
  
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
