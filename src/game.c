@@ -243,6 +243,7 @@ int game(void)
     return 0;
   }
 
+
   if (Opts_HelpMode()) {
     game_handle_help();
     game_cleanup();
@@ -675,7 +676,7 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
   else if(strncmp(command,"TOTAL_QUESTIONS",strlen("TOTAL_QUESTIONS"))==0)
   {
     sscanf(buf,"%*s %d",&total_questions_left);
-   if(!total_questions_left)
+    if(!total_questions_left)
     game_over_other=1;
   }
 

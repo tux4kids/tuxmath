@@ -870,7 +870,8 @@ int run_lan_menu(void)
 {
   int mode = -1;
   int b;
-  
+  int servers_found = 0;  
+
   const char* menu_text[3] =
     {N_("Host"),
      N_("Join"),
@@ -881,7 +882,8 @@ int run_lan_menu(void)
   modesprites[0] = sprite_list[SPRITE_SERVER];
   modesprites[1] = sprite_list[SPRITE_CLIENT];
   modesprites[2] = sprite_list[SPRITE_MAIN];
-   while (1)
+  
+  while (1)
   {
     //choose mode
     mode = choose_menu_item(menu_text,modesprites,3,NULL,NULL);
@@ -892,26 +894,45 @@ int run_lan_menu(void)
 //    run_server_menu();
     
     if(mode == 1)
-    { NameEntry(host, _("Enter the name or ip address"),
-                       _("(of the Host)"));
-     NameEntry(player_name, _("Enter you name"),
+    {
+      detecting_servers(_("Detecting Servers"),_("Please Wait"));
+
+/*      if(servers_found < 1)
+      {
+        printf("No server could be found - exiting.\n");
+        exit(EXIT_FAILURE);
+      }
+      else if(servers_found  == 1)  //One server - connect without player intervention
+      {
+        printf("Single server found - connecting automatically...");
+
+        if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
+        {
+          printf("setup_client() failed - exiting.\n");
+          exit(EXIT_FAILURE);
+        }
+
+        printf("connected\n");
+      } 
+*/
+       NameEntry(player_name, _("Enter your Name:"),
                        _(""));
 
+//      if(!LAN_Setup(host, DEFAULT_PORT))
+//      {
+//        printf("Unable to connect to the server\n");
+//        LAN_Cleanup();
+//        return 0;
+//      }    
 
-    if(!LAN_Setup(host, DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
-   LAN_SetName(player_name);
-   Ready(_("Click OK when Ready"));
-   LAN_StartGame();
-   Standby(_("Waiting For Other Players"),_("To Connect"));
-   game();
-   }   
+      LAN_SetName(player_name);
+      Ready(_("Click OK when Ready"));
+      LAN_StartGame();
+      Standby(_("Waiting For Other Players"),_("To Connect"));
+      game();
+    }   
 
-   }
+  }
 
   return 0;
 
@@ -1019,15 +1040,20 @@ int run_arcade_menu(void)
       {
         audioMusicUnload();
 #ifdef HAVE_LIBSDL_NET
- if(!LAN_Setup("localhost", DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
+detecting_servers(_("Detecting Servers"),_("Please Wait"));
+       NameEntry(player_name, _("Enter your Name:"),
+                       _(""));
+      LAN_SetName(player_name);
+      Ready(_("Click OK when Ready"));
+      LAN_StartGame();
+// if(!LAN_Setup("localhost", DEFAULT_PORT))
+//   {
+//     printf("Unable to connect to the server\n");
+//     LAN_Cleanup();
+//     return 0;
+//   }    
 
-   LAN_SetName("player A");
-   LAN_StartGame();
+//   LAN_SetName("player A");
 #endif
         game();
         RecalcTitlePositions();
