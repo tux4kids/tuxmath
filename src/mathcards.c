@@ -23,7 +23,7 @@
 #include <time.h>
 
 
-#include "transtruct.h"
+#include "../src/transtruct.h"
 #include "mathcards.h"
 
 /* extern'd constants */
@@ -170,7 +170,7 @@ const int MC_DEFAULTS[] = {
 
   0,    //COMPREHENSIVE
   100,  //AVG_LIST_LENGTH
-  1     //VARY_LIST_LENGTH
+  0     //VARY_LIST_LENGTH  FIXME what is the purpose of this?
 };
 
 
@@ -480,50 +480,50 @@ int MC_StartGameUsingWrongs(void)
 /*  node containing the question is removed from the list. */
 /*  Returns 1 if question found, 0 if list empty/invalid   */
 /*  or if argument pointer is invalid.                     */
-//int MC_NextQuestion(MC_FlashCard* fc)
-//{
-//  mcdprintf("\nEntering MC_NextQuestion()\n");
+int MC_NextQuestion(MC_FlashCard* fc)
+{
+  mcdprintf("\nEntering MC_NextQuestion()\n");
 
-  /* (so we can free the node after removed from list:) */
-//  MC_MathQuestion* ptr;
-//  ptr = question_list;
+  /* (so we can move the node into active_quests:) */
+  MC_MathQuestion* ptr;
 
-//  if (!fc )
-//  {
-//    fprintf(stderr, "\nNull MC_FlashCard* argument!\n");
-//    mcdprintf("\nLeaving MC_NextQuestion()\n");
-//    return 0;
-//  }
+  if (!fc )
+  {
+    fprintf(stderr, "\nNull MC_FlashCard* argument!\n");
+    mcdprintf("\nLeaving MC_NextQuestion()\n");
+    return 0;
+  }
 
-//  if (!question_list ||
+  if (!question_list ||
 /*      !next_question || */
-//      !list_length(question_list) )
-//  {
-//    mcdprintf("\nquestion_list invalid or empty");
-//    mcdprintf("\nLeaving MC_NextQuestion()\n");
+      !list_length(question_list) )
+  {
+    mcdprintf("\nquestion_list invalid or empty");
+    mcdprintf("\nLeaving MC_NextQuestion()\n");
 
-//    return 0;
-//  }
+    return 0;
+  }
 
   /* 'draw' - copy over the first question */
-//  copy_card(&question_list->card, fc);
+  copy_card(&question_list->card, fc);
  
   /* take first question node out of list and move it into active_quests list: */
-//  question_list = remove_node(question_list, question_list);
+  ptr = question_list;
+  question_list = remove_node(question_list, ptr);
 //  free_node(ptr);
-//  quest_list_length--;
-//  questions_pending++;
-//  append_node(active_quests, ptr);
+  quest_list_length--;
+  questions_pending++;
+  active_quests = append_node(active_quests, ptr);
 
-//  #ifdef MC_DEBUG
-//  printf("\nnext question is:");
-//  print_card(*fc);
-//  print_counters();
-//  printf("\n\nLeaving MC_NextQuestion()\n");
-//  #endif
+  #ifdef MC_DEBUG
+  printf("\nnext question is:");
+  print_card(*fc);
+  print_counters();
+  printf("\n\nLeaving MC_NextQuestion()\n");
+  #endif
 
-//  return 1;
-//}
+  return 1;
+}
 
 
 
@@ -533,6 +533,8 @@ int MC_StartGameUsingWrongs(void)
 int MC_AnsweredCorrectly(MC_FlashCard* fc)
 {
   mcdprintf("\nEntering MC_AnsweredCorrectly()");
+
+  MC_MathQuestion* quest = NULL;
 
   if (!fc)
   {
@@ -544,27 +546,51 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
+  if(!active_quests) // No questions currently "in play" - something is wrong:
+  {
+    fprintf(stderr, "MC_AnsweredCorrectly() - active_quests empty\n");
+    return 0;
+  }
+
   #ifdef MC_DEBUG
   printf("\nQuestion was:");
   print_card(*fc);
   #endif
 
-  //FIXME we need to take the question out of the active_quests list
+
+  //First take the question out of the active_quests list
+  quest = active_quests;  
+  // Loop until quest is NULL or we find card with same id:
+  while(quest && (fc->question_id != quest->card.question_id))
+    quest = quest->next;
+  if(!quest) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_AnsweredCorrectly() - matching question not found!\n");
+    return 0;
+  }
+  #ifdef MC_DEBUG
+  printf("\nMatching question is:");
+  print_card(quest->card);
+  #endif
+
+  //We found a matching question, now we take it out of the 
+  //"active_quests" list and either put it back into the 
+  //main question list in a random location, or delete it:
+  active_quests = remove_node(active_quests, quest);
+  questions_pending--;  //the length of the 'active_quests' list
+
+
   answered_correctly++;
-  questions_pending--;
 
   if (!math_opts->iopts[PLAY_THROUGH_LIST])
   /* reinsert question into question list at random location */
   {
     mcdprintf("\nReinserting question into list");
 
-    MC_MathQuestion* ptr1;
-    MC_MathQuestion* ptr2;
-    /* make new node using values from flashcard */
-    ptr1 = create_node_from_card(fc);
+    MC_MathQuestion* rand_spot;
     /* put it into list */
-    ptr2 = pick_random(quest_list_length, question_list);
-    question_list = insert_node(question_list, ptr2, ptr1);
+    rand_spot = pick_random(quest_list_length, question_list);
+    question_list = insert_node(question_list, rand_spot, quest);
     quest_list_length++;
     /* unanswered does not change - was not decremented when */
     /* question allocated!                                   */
@@ -572,6 +598,7 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   else
   {
     mcdprintf("\nNot reinserting question into list");
+    free_node(quest);
     /* not recycling questions so fewer questions remain:      */
     unanswered--;
   }
@@ -584,19 +611,49 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
   return 1;
 }
 
+
+
 int MC_AnsweredCorrectly_id(int id)
 {
-  return 1;
+  MC_MathQuestion* mq;
+  MC_FlashCard* fc;
+
+  if(!active_quests)
+  {
+    mcdprintf("MC_AnsweredCorrectly_id() - active_quests is empty\n");
+    return 0;
+  }
+  //Find the question with the given id, if it exists:
+    //First take the question out of the active_quests list
+  mq = active_quests;  
+  // Loop until mq is NULL or card found with matching id:
+  while(mq && (id != mq->card.question_id))
+  {
+    mcdprintf("id is %d, mq->card.question_id is %d\n", id, mq->card.question_id);
+    mq = mq->next;
+  }
+  if(!mq) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_AnsweredCorrectly_id() - matching question not found for id = %d!\n", id);
+    return 0;
+  }
+  //Now just pass address of card field to MC_AnsweredCorrectly():
+  fc = &(mq->card);
+  return MC_AnsweredCorrectly(fc);
 }
+
+
 
 /*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the player failed to answer the  */
 /*  question correctly. Returns 1 if no errors.           */
-/*  Note: this gets triggered only if a player's city     */
-/*  gets hit by a question, not if they "miss".           */
+/*  Note: this gets triggered only if a player's igloo/city */
+/*  gets hit by a question, not if they "miss".             */
 int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 {
   mcdprintf("\nEntering MC_NotAnsweredCorrectly()");
+
+  MC_MathQuestion* quest = NULL;
 
   if (!fc)
   {
@@ -608,44 +665,67 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
+  if(!active_quests) // No questions currently "in play" - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - active_quests empty\n");
+    return 0;
+  }
+
   #ifdef MC_DEBUG
   printf("\nQuestion was:");
   print_card(*fc);
   #endif
 
+
+  //First take the question out of the active_quests list
+  quest = active_quests;  
+  // Loop until quest is NULL or we find card with same id:
+  while(quest && (fc->question_id != quest->card.question_id))
+    quest = quest->next;
+  if(!quest) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - matching question not found!\n");
+    return 0;
+  }
+  #ifdef MC_DEBUG
+  printf("\nMatching question is:");
+  print_card(quest->card);
+  #endif
+
+  //We found a matching question, now we take it out of the 
+  //"active_quests" list and either put it back into the 
+  //main question list in a random location, or delete it:
+  active_quests = remove_node(active_quests, quest);
+  questions_pending--;  //the length of the 'active_quests' list
+
   answered_wrong++;
-  questions_pending--;
 
   /* add question to wrong_quests list: */
-
-  MC_MathQuestion* ptr1;
-  MC_MathQuestion* ptr2;
-
-  ptr1 = create_node_from_card(fc);
-
-  if (!already_in_list(wrong_quests, ptr1)) /* avoid duplicates */
+  if (!already_in_list(wrong_quests, quest)) /* avoid duplicates */
   {
     mcdprintf("\nAdding to wrong_quests list");
-    wrong_quests = append_node(wrong_quests, ptr1);
+    wrong_quests = append_node(wrong_quests, quest);
   }
   else /* avoid memory leak */
   {
-    free(ptr1);
+    free(quest);
   }
 
   /* if desired, put question back in list so student sees it again */
   if (math_opts->iopts[REPEAT_WRONGS])
   {
     int i;
+    MC_MathQuestion* quest_copy;
+    MC_MathQuestion* rand_loc;
 
     mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
 
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
     {
-      ptr1 = create_node_from_card(fc);
-      ptr2 = pick_random(quest_list_length, question_list);
-      question_list = insert_node(question_list, ptr2, ptr1);
+      quest_copy = create_node_from_card(fc);
+      rand_loc = pick_random(quest_list_length, question_list);
+      question_list = insert_node(question_list, rand_loc, quest_copy);
       quest_list_length++;
     }
     /* unanswered stays the same if a single copy recycled or */
@@ -669,6 +749,38 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 
 }
 
+
+int MC_NotAnsweredCorrectly_id(int id)
+{
+  MC_MathQuestion* mq;
+  MC_FlashCard* fc;
+
+  if(!active_quests)
+  {
+    mcdprintf("MC_NotAnsweredCorrectly_id() - active_quests is empty\n");
+    return 0;
+  }
+  //Find the question with the given id, if it exists:
+    //First take the question out of the active_quests list
+  mq = active_quests;  
+  // Loop until mq is NULL or card found with matching id:
+  while(mq && (id != mq->card.question_id))
+  {
+    mcdprintf("id is %d, mq->card.question_id is %d\n", id, mq->card.question_id);
+    mq = mq->next;
+  }
+  if(!mq) // Means we didn't find matching card - something is wrong:
+  {
+    fprintf(stderr, "MC_NotAnsweredCorrectly_id() - matching question not found!\n");
+    return 0;
+  }
+  //Now just pass address of card field to MC_NotAnsweredCorrectly():
+  fc = &(mq->card);
+  return MC_NotAnsweredCorrectly(fc);
+}
+
+
+
 /* Tells user interface if all questions have been answered correctly! */
 /* Requires that at list contained at least one question to start with */
 /* and that wrongly answered questions have been recycled.             */
@@ -685,6 +797,7 @@ int MC_MissionAccomplished(void)
     return 0;
   }
 }
+
 
 /*  Returns number of questions left (either in list       */
 /*  or "in play")                                          */
@@ -965,6 +1078,9 @@ float MC_MedianTimePerQuestion(void)
   return time_per_question_list[length_time_per_question_list/2];
 }
 
+
+
+
 /* Implementation of "private methods" - (cannot be called from outside
 of this file) */
 
@@ -1066,7 +1182,9 @@ MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard)
 
 /* this puts the node into the list AFTER the node pointed to by current */
 /* and returns a pointer to the top of the modified list  */
-MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node)
+MC_MathQuestion* insert_node(MC_MathQuestion* first,
+                             MC_MathQuestion* current,
+                             MC_MathQuestion* new_node)
 {
   /* return pointer to list unchanged if new_node doesn't exist*/
   if (!new_node)
@@ -1194,8 +1312,8 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 #ifdef MC_DEBUG
 void print_card(MC_FlashCard card)
 {
-  printf("\nprint_card():");
-  printf("question_id=%d\nformula_string = %s\nanswer_string = %s\ndifficulty = %d\n\n",
+  printf("\nprint_card():\n");
+  printf("question_id: %d\nformula_string: %s\nanswer_string: %s\ndifficulty: %d\n\n",
          card.question_id,
          card.formula_string,
          card.answer_string,
@@ -1214,6 +1332,7 @@ void print_counters(void)
   printf("\nanswered_wrong = \t%d", answered_wrong);
   printf("\nlist_length(wrong_quests) = \t%d", list_length(wrong_quests));
   printf("\nquestions_pending = \t%d", questions_pending);
+  printf("\nlist_length(active_quests) = \t%d", list_length(active_quests));
 }
 
 // /* a "copy constructor", so to speak */
@@ -1870,6 +1989,10 @@ MC_MathQuestion* generate_list(void)
   return list;
 }
 
+/* NOTE - returns 0 (i.e. "false") if *identical*, and */
+/* 1 (i.e. "true") if *different* - counterintuitive,  */
+/* but same behavior as e.g. strcmp()                  */
+
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
 {
   if (strncmp(a->formula_string, b->formula_string, MC_FORMULA_LEN) )
@@ -2114,7 +2237,6 @@ void MC_ResetFlashCard(MC_FlashCard* fc)
   strncpy(fc->answer_string, " ", MC_ANSWER_LEN);
   fc->answer = 0;
   fc->difficulty = 0;
-  fc->question_id=0;
 }
 
 int MC_FlashCardGood(const MC_FlashCard* fc)

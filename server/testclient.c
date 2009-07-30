@@ -25,7 +25,7 @@
 
 //#include "SDL_net.h"
 #include "../src/transtruct.h"
-#include "mathcards.h"
+#include "../src/mathcards.h"
 #include "testclient.h"
 #include "../src/throttle.h"
 #include "../src/network.h"
@@ -90,12 +90,9 @@ int main(int argc, char **argv)
 
     printf("connected\n");
   } 
-<<<<<<< .mine
 
-  else  // More than one server - will have to get player selection 
-=======
+
   else  // More than one server - will have to get player selection:
->>>>>>> .r1280
   {
     while(server_number < 0 || server_number >= servers_found)
     {

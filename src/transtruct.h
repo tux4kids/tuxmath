@@ -26,19 +26,7 @@
 
 #define TEST_COMETS 10
 
-#ifndef MC_USE_NEWARC
-/* struct for individual "flashcard" */
-typedef struct MC_FlashCard {
-  int num1;
-  int num2;
-  int num3;
-  int operation;
-  int format;
-  char formula_string[MC_FORMULA_LEN];
-  char answer_string[MC_ANSWER_LEN];
-} MC_FlashCard;
-#else
-/* experimental struct for a more generalized flashcard */
+
 typedef struct _MC_FlashCard {
   char formula_string[MC_FORMULA_LEN];
   char answer_string[MC_ANSWER_LEN];
@@ -46,7 +34,6 @@ typedef struct _MC_FlashCard {
   int answer;
   int difficulty;
 } MC_FlashCard;
-#endif
 
 
 #endif

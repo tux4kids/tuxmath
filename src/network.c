@@ -251,15 +251,15 @@ int LAN_SetName(char* name)
 
 
 
-int LAN_NextQuestion(void)
-{
-  char buf[NET_BUF_LEN];
-
-  snprintf(buf, NET_BUF_LEN, 
-                  "%s",
-                  "NEXT_QUESTION");
-  return say_to_server(buf);
-}
+// int LAN_NextQuestion(void)
+// {
+//   char buf[NET_BUF_LEN];
+// 
+//   snprintf(buf, NET_BUF_LEN, 
+//                   "%s",
+//                   "NEXT_QUESTION");
+//   return say_to_server(buf);
+// }
 
 
 /* Appears a return value of 0 means message received, 1 means no socket activity */

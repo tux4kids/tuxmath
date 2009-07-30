@@ -24,8 +24,8 @@
 #include <string.h>
  
 #include "server.h" 
-#include "transtruct.h"
-#include "mathcards.h"
+#include "../src/transtruct.h"
+#include "../src/mathcards.h"
 
 
 #define MAX_CLIENTS 16
@@ -52,7 +52,7 @@ void check_game_clients(void);
 int handle_client_game_msg(int i, char* buffer);
 void handle_client_nongame_msg(int i, char* buffer);
 int msg_set_name(int i, char* buf);
-void start_game(int i);
+void start_game(void);
 void game_msg_correct_answer(int i, char* inbuf);
 void game_msg_wrong_answer(int i, char* inbuf);
 void game_msg_quit(int i);
@@ -62,7 +62,7 @@ void game_msg_exit(int i);
 int send_counter_updates(void);
 int add_question(MC_FlashCard* fc);
 int remove_question(int id);
-int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
+//int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock);
 int player_msg(int i, char* msg);
 void broadcast_msg(char* msg);
@@ -70,10 +70,8 @@ int transmit(int i, char* msg);
 int transmit_all(char* msg);
 
 //Deprecated:
-void test_connections(void);
-void ping_client(int i);
-int no_questions_left(void);
-int mission_accomplished(void);
+// void test_connections(void);
+// void ping_client(int i);
 
 // not really deprecated but not done in response to 
 // client message --needs better name:
@@ -568,7 +566,7 @@ void check_game_clients(void)
       }
     }
     if(someone_connected && !someone_not_ready)
-      game_in_progress = 1;
+      start_game(); 
   }
 }
 
@@ -580,12 +578,17 @@ void handle_client_nongame_msg(int i, char* buffer)
   int x;
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
-    start_game(i);
+    snprintf(buf, NET_BUF_LEN,
+                "Player %s ready to start math game",
+                client[i].name);
+    broadcast_msg(buf);
     client[i].game_ready = 1;
-    snprintf(buf, NET_BUF_LEN, 
-                  "%s",
-                  "Success");
-    x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+    //This will call start_game() if all the other clients are ready:
+    check_game_clients();
+//    snprintf(buf, NET_BUF_LEN, 
+//                  "%s",
+//                  "Success");
+//    x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
         
   }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
@@ -734,15 +737,14 @@ void game_msg_wrong_answer(int i, char* inbuf)
 
 void game_msg_next_question(void)
 {
-
-  int n;
-  if (!MC_NextQuestion(&flash))
+  MC_FlashCard fc;
+   if (!MC_NextQuestion(&fc))
   { 
     /* no more questions available */
     printf("MC_NextQuestion() returned NULL - no questions available\n");
+    return;
   }
-  else
-  {                                     
+
 #ifdef LAN_DEBUG
     printf("WILL SEND >>\n");  
     printf("QUESTION_ID       :      %d\n", flash.question_id);
@@ -751,9 +753,11 @@ void game_msg_next_question(void)
     printf("ANSWER            :      %d\n",flash.answer);
     printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-  }
+
+
+  add_question(&fc);
                   
-  for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
+/*  for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
   {
 #ifdef LAN_DEBUG
     printf("About to send next question to client[%d]\n", n);
@@ -762,7 +766,7 @@ void game_msg_next_question(void)
     {
       printf("Unable to send Question\n");
     }
-  } 
+  } */
 }
 
 
@@ -786,18 +790,20 @@ void game_msg_quit(int i)
 }
 
 
-void start_game(int i)
+
+
+
+
+/* Now this gets called to actually start the game once all the players */
+/* have indicated that they are ready:                                  */
+void start_game(void)
 {
   char buf[NET_BUF_LEN];
   char buffer[NET_BUF_LEN];
   int x,j;
-  snprintf(buf, NET_BUF_LEN,
-                "Player %s added for next math game",
-                client[i].name);
-  broadcast_msg(buf);
-  client[i].game_ready = 1; // Means this player is ready to start game
 
 
+  /* NOTE this should no longer be ready
   /*This loop sees that the game starts only when all the players are ready */
   /* i.e. if someone is connected but not ready, we return.                 */
   for(j = 0; j < MAX_CLIENTS; j++)
@@ -806,7 +812,8 @@ void start_game(int i)
     if((client[j].game_ready != 1)
     && (client[j].sock != NULL))
     {
-     return;      
+      printf("Warning - start_game() entered when someone not ready\n");
+      return;      
     }
   }
 
@@ -845,6 +852,7 @@ void start_game(int i)
   /* Send enough questions to fill the initial comet slots (currently 10) */
   for(j = 0; j < TEST_COMETS; j++)
   {
+  
     int k = 0;
 
     if (!MC_NextQuestion(&flash))
@@ -853,8 +861,7 @@ void start_game(int i)
       printf("MC_NextQuestion() returned NULL - no questions available\n");
       return;
     }
-    else
-    {                                     
+
 #ifdef LAN_DEBUG
       printf("WILL SEND >>\n");  
       printf("QUESTION_ID       :      %d\n", flash.question_id);
@@ -863,9 +870,11 @@ void start_game(int i)
       printf("ANSWER            :      %d\n",flash.answer);
       printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
-    }
 
-    //Must send to all clients because client set will become discontinuous
+    //Now using add_question();
+    add_question(&flash);
+
+/*    //Must send to all clients because client set will become discontinuous
     //if anyone disconnects. SendQuestion() now returns harmlessly if 
     //the sock is NULL - DSB
     for(k = 0; k < MAX_CLIENTS; k++)
@@ -875,57 +884,14 @@ void start_game(int i)
       {
         printf("Unable to send Question to %s\n", client[k].name);
       }
-    } 
+    }*/ 
   }
+
   //Send all the clients the counter totals:
   send_counter_updates();
 }
 
 
-int no_questions_left(void)
-{
-  int x,j;
-
-  char buf[NET_BUF_LEN];
-  snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "GAME_OVER_OTHER");
-
-  for(j = 0; j < num_clients; j++)
-   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-
-#ifdef LAN_DEBUG
-  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-  printf("buf is: %s\n", buf);
-#endif
-
-  if (x == 0)
-    return 0;
-  return 1;
-}
-
-
-
-int mission_accomplished(void)
-{
-  int x,j;
-
-  char buf[NET_BUF_LEN];
-  snprintf(buf, NET_BUF_LEN, 
-                "%s\n",
-                "GAME_OVER_WON");
-  for(j = 0; j < num_clients; j++)
-   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));
-
-#ifdef LAN_DEBUG
-  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-  printf("buf is: %s\n", buf);
-#endif
-
-  if (x == 0)
-    return 0;
-  return 1;
-}
 
 
 //More centralized function to update the clients of the number of 
@@ -953,7 +919,7 @@ int send_counter_updates(void)
   return 1;
 }
 
-
+/* Sends a new question to all clients: */
 int add_question(MC_FlashCard* fc)
 {
   char buf[NET_BUF_LEN];
@@ -972,7 +938,7 @@ int add_question(MC_FlashCard* fc)
   return 1;
 }
 
-
+/* Tells all clients to remove a specific question: */
 int remove_question(int id)
 {
   char buf[NET_BUF_LEN];
@@ -988,34 +954,34 @@ int remove_question(int id)
 
 
 //function to send a flashcard(question) from the server to the client
-int SendQuestion(MC_FlashCard flash, TCPsocket client_sock)
-{
-  int x;
-
-  char buf[NET_BUF_LEN];
-
-  if(client_sock == NULL)
-    return 0;
-
-  snprintf(buf, NET_BUF_LEN, 
-                "%s\t%d\t%d\t%d\t%s\t%s\n",
-                "SEND_QUESTION",
-                flash.question_id,
-                flash.difficulty,
-                flash.answer,
-                flash.answer_string,
-                flash.formula_string);
-  x = SDLNet_TCP_Send(client_sock, buf, sizeof(buf));
-
-#ifdef LAN_DEBUG
-  printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-  printf("buf is: %s\n", buf);
-#endif
-
-  if (x == 0)
-    return 0;
-  return 1;
-}
+// int SendQuestion(MC_FlashCard flash, TCPsocket client_sock)
+// {
+//   int x;
+// 
+//   char buf[NET_BUF_LEN];
+// 
+//   if(client_sock == NULL)
+//     return 0;
+// 
+//   snprintf(buf, NET_BUF_LEN, 
+//                 "%s\t%d\t%d\t%d\t%s\t%s\n",
+//                 "SEND_QUESTION",
+//                 flash.question_id,
+//                 flash.difficulty,
+//                 flash.answer,
+//                 flash.answer_string,
+//                 flash.formula_string);
+//   x = SDLNet_TCP_Send(client_sock, buf, sizeof(buf));
+// 
+// #ifdef LAN_DEBUG
+//   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
+//   printf("buf is: %s\n", buf);
+// #endif
+// 
+//   if (x == 0)
+//     return 0;
+//   return 1;
+// }
 
 
 /*Function to send any messages to the client be it any warnings
@@ -1157,13 +1123,13 @@ int transmit_all(char* msg)
 
 // Go through and test all the current connections, removing
 // any clients that fail to respond:
-void test_connections(void)
-{
-  int i = 0;
-
-  for (i = 0; i < MAX_CLIENTS; i++)
-    ping_client(i);
-}
+// void test_connections(void)
+// {
+//   int i = 0;
+// 
+//   for (i = 0; i < MAX_CLIENTS; i++)
+//     ping_client(i);
+// }
 
 
 // This is supposed to be a way to test and see if each client
@@ -1173,34 +1139,34 @@ void test_connections(void)
 // PING_BACK.  I am worried, however, that we could have a problem
 // with intercepting messages not related to the ping testing - DSB
 
-void ping_client(int i)
-{
-  char buf[NET_BUF_LEN];
-  char msg[NET_BUF_LEN];
-  int x;
-
-  if(i < 0 || i > MAX_CLIENTS)
-  {
-    printf("ping_client() - invalid index argument\n");
-    return;
-  }
-  
-  if(client[i].sock == NULL)
-  {
-    return;
-  }
-  
-//  sprintf(msg,"%s", "PING\n");
-//  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-  snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
-  x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
-  if(x < NET_BUF_LEN)
-  {
-   printf("The client %s is disconnected\n",client[i].name);
-   remove_client(i);
-  }
-//#ifdef LAN_DEBUG
-  printf("buf is: %s\n", buf);
-  printf("SendMessage() - buf sent:::: %d bytes\n", x);
-//#endif
-}
+// void ping_client(int i)
+// {
+//   char buf[NET_BUF_LEN];
+//   char msg[NET_BUF_LEN];
+//   int x;
+// 
+//   if(i < 0 || i > MAX_CLIENTS)
+//   {
+//     printf("ping_client() - invalid index argument\n");
+//     return;
+//   }
+//   
+//   if(client[i].sock == NULL)
+//   {
+//     return;
+//   }
+//   
+// //  sprintf(msg,"%s", "PING\n");
+// //  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
+//   snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
+//   x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+//   if(x < NET_BUF_LEN)
+//   {
+//    printf("The client %s is disconnected\n",client[i].name);
+//    remove_client(i);
+//   }
+// //#ifdef LAN_DEBUG
+//   printf("buf is: %s\n", buf);
+//   printf("SendMessage() - buf sent:::: %d bytes\n", x);
+// //#endif
+// }
