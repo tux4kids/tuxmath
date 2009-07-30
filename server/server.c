@@ -84,7 +84,7 @@ char server_name[NAME_SIZE];  /* User-visible name for server selection         
 UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection           */
 TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
 IPaddress ip;
-SDLNet_SocketSet client_set = NULL, temp_sock = NULL, temp_set = NULL;
+SDLNet_SocketSet client_set = NULL, temp_set = NULL;
 static client_type client[MAX_CLIENTS];
 static int num_clients = 0;
 static int numready = 0;

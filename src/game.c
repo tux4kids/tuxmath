@@ -141,7 +141,7 @@ static int start_message_chosen = 0;
 /*****************************************************************/
 MC_FlashCard comets_questions[TEST_COMETS];    //current questions
 int remaining_quests = 0;
-static int comet_counter=0;
+static int comet_counter = 0;
 /****************************************************************/
 typedef struct {
   int x_is_blinking;
@@ -2810,7 +2810,7 @@ int add_comet(void)
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
 #ifdef HAVE_LIBSDL_NET
-    for (comet_counter;comet_counter<TEST_COMETS;comet_counter++)
+    for (comet_counter; comet_counter < TEST_COMETS; comet_counter++)
      {
        if(comets_questions[comet_counter].question_id!=-1){
         copy_card(&(comets_questions[comet_counter]),&(comets[found].flashcard)); //will be replaced on set up of new system
@@ -2818,7 +2818,7 @@ int add_comet(void)
         break;}
      }
      if(comet_counter==TEST_COMETS)
-       comet_counter=0;
+       comet_counter = 0;
 #endif
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;
@@ -3635,7 +3635,9 @@ void add_score(int inc)
 
 void reset_comets(void)
 {
-  int i =0;
+  int i = 0;
+  comet_counter = 0;
+
   for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;

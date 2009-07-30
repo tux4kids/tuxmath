@@ -147,6 +147,10 @@ extern const char operchars[MC_NUM_OPERS];
 //#define DEFAULT_FRACTION_TO_KEEP 1
 
 
+/* FIXME I think this array-based options system is *much* more error-prone */
+/* and confusing than the old struct with a named field for each option,    */
+/* albeit more compact. I think it would be worth the effort to change the  */
+/* code back to the old system - DSB                                        */
 typedef struct _MC_Options
 {
   int iopts[NOPTS];
