@@ -160,7 +160,7 @@ static void game_handle_answer(void);
 static void game_handle_net_messages(char*,char*);
 static void game_countdown(void);
 static void game_handle_tux(void);
-static void game_handle_comets();
+static void game_handle_comets(void);
 static void game_handle_cities(void);
 static void game_handle_penguins(void);
 static void game_handle_steam(void);
@@ -573,7 +573,7 @@ int remove_quest_recvd(char* buf)
     return 0;
 
   id = atoi(p);
-  if(id == 0)  // The question_id can never be zero, and will falsely match blank comets
+  if(id == 0)  // The question_id can never be zero, and will falsely match empty comets
     return 0;
 
   fc = find_comet_by_id(id);
@@ -1339,11 +1339,7 @@ void game_handle_answer(void)
   }
 
   doing_answer = 0;
-/*
-  num = (digits[0] * 100 +
-         digits[1] * 10 +
-         digits[2]);
-*/
+
   /* negative answer support DSB */
   
   ans[0] = '-'; //for math questions only, this is just replaced.
@@ -1352,27 +1348,7 @@ void game_handle_answer(void)
     ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
-/*
-  if (neg_answer_picked)
-  {
-    ans[0] = '-';
-    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
-    {
-      if (digits[i] == 0)
-        continue;
-      ans[++j] = digits[i] + '0';
-    }
-  }
-  else
-  {
-    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
-    {
-      if (digits[i] == 0)
-        continue;
-      ans[j++] = digits[i] + '0';
-    }
-  } 
-*/
+
 
   /*  Pick the lowest comet which has the right answer: */
   /*  FIXME: do we want it to prefer bonus comets to regular comets? */
@@ -1681,6 +1657,10 @@ void game_handle_comets(void)
     }
   }
 
+  /* FIXME for the LAN game, the adding of comets needs to take place in  */
+  /* check_messages() when new questions come in from the server.  For    */
+  /* ease of understanding, we should do it at the same place in the game */
+  /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
   if (!Opts_HelpMode() && level_start_wait == 0 &&
       (frame % 20) == 0)   /* FIXME:do we want this to vary with comet speed?*/
@@ -2815,10 +2795,12 @@ int add_comet(void)
 #ifdef HAVE_LIBSDL_NET
     for (comet_counter; comet_counter < TEST_COMETS; comet_counter++)
      {
-       if(comets_questions[comet_counter].question_id!=-1){
-        copy_card(&(comets_questions[comet_counter]),&(comets[found].flashcard)); //will be replaced on set up of new system
-        comet_counter++;
-        break;}
+       if(comets_questions[comet_counter].question_id != -1)
+       {
+         copy_card(&(comets_questions[comet_counter]), &(comets[found].flashcard)); //will be replaced on set up of new system
+         comet_counter++;
+         break;
+       }
      }
      if(comet_counter==TEST_COMETS)
        comet_counter = 0;
