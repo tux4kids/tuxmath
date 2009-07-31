@@ -573,8 +573,11 @@ int remove_quest_recvd(char* buf)
     return 0;
 
   id = atoi(p);
+  if(id == 0)  // The question_id can never be zero, and will falsely match blank comets
+    return 0;
+
   fc = find_comet_by_id(id);
-  comet_screen=finder(id);
+  comet_screen = finder(id);
   if(!fc)
     return 0;
 

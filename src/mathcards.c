@@ -2237,6 +2237,7 @@ void MC_ResetFlashCard(MC_FlashCard* fc)
   strncpy(fc->answer_string, " ", MC_ANSWER_LEN);
   fc->answer = 0;
   fc->difficulty = 0;
+  fc->question_id = -1;
 }
 
 int MC_FlashCardGood(const MC_FlashCard* fc)
