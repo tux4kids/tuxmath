@@ -108,10 +108,21 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  printf("Enter the SERVER's NAME: \n");
+  /* Get server name: */
+  /* FIXME we should save this to disc so it doesn't */
+  /* have to be entered every time.                  */
+  printf("Enter the SERVER's NAME: \n>");
+  fflush(stdout);
   fgets(server_name, NAME_SIZE, stdin);
- 
-  /*    ------------- Main server loop:  ------------------   */
+
+  /* If no nickname received, use default: */
+  if(strlen(server_name) == 1)
+     strcpy(server_name, "TuxMath Server");
+  
+  printf("Waiting for clients to connect:\n>");
+  fflush(stdout);
+
+ /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
     /* Respond to any clients pinging us to find the server: */
@@ -905,7 +916,7 @@ int send_counter_updates(void)
   if(MC_MissionAccomplished())
   {
     char buf[NET_BUF_LEN];
-    snprintf(buf, NET_BUF_LEN, "%s", "GAME_OVER_WON");
+    snprintf(buf, NET_BUF_LEN, "%s", "MISSION_ACCOMPLISHED");
     transmit_all(buf);
   }
 
@@ -1078,8 +1089,8 @@ int transmit(int i, char* msg)
     return 0;
   }
   
-  //NOTE Do we really want to remove client if we don't transmit
-  //the entire buffer? Maybe we need send_all()...
+  //NOTE SDLNet's Send() keeps sending until the requested length is
+  //sent, so it really is an error if we send less thatn NET_BUF_LEN
   snprintf(buf, NET_BUF_LEN, "%s", msg);
   if(SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
   {

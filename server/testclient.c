@@ -422,6 +422,7 @@ int playgame(void)
           //Tell server we answered it right:
           LAN_AnsweredCorrectly(fc);
           erase_flashcard(fc);  
+          print_current_quests();
         }
         else  //we got input, but not the correct answer:
         {
@@ -498,7 +499,7 @@ int erase_flashcard(MC_FlashCard* fc)
   fc->formula_string[0] = '\0';
   fc->answer_string[0] = '\0';
   fc->question_id = -1;
-  fc->answer = 0;
+  fc->answer = -9999;
   fc->difficulty = 0;
   return 1;
 }

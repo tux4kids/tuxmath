@@ -463,6 +463,7 @@ int add_to_server_list(UDPpacket* pkt)
 {
   int i = 0;
   int already_in = 0;
+  char* p = NULL;
 
   if(!pkt)
     return 0;
@@ -481,7 +482,12 @@ int add_to_server_list(UDPpacket* pkt)
   {
     servers[i].ip.host = pkt->address.host;
     servers[i].ip.port = pkt->address.port;
-    sscanf(pkt->data,"%*s %s\n",servers[i].name);
+    // not using sscanf() because server_name could contain whitespace:
+    p = strchr(pkt->data, '\t');
+    p++;
+    if(p)
+      strncpy(servers[i].name, p, NAME_SIZE);
+
     i++;
   }
 
