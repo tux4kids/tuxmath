@@ -748,25 +748,24 @@ void game_msg_wrong_answer(int i, char* inbuf)
 
 void game_msg_next_question(void)
 {
-  MC_FlashCard fc;
-   if (!MC_NextQuestion(&fc))
-  { 
-    /* no more questions available */
-    printf("MC_NextQuestion() returned NULL - no questions available\n");
-    return;
-  }
+  if (!MC_NextQuestion(&flash))
+   { 
+     /* no more questions available */
+     printf("MC_NextQuestion() returned NULL - no questions available\n");
+     return;
+   }
 
 #ifdef LAN_DEBUG
     printf("WILL SEND >>\n");  
     printf("QUESTION_ID       :      %d\n", flash.question_id);
     printf("FORMULA_STRING    :      %s\n", flash.formula_string);
     printf("ANSWER STRING     :      %s\n", flash.answer_string);
-    printf("ANSWER            :      %d\n",flash.answer);
-    printf("DIFFICULTY        :      %d\n",flash.difficulty);
+    printf("ANSWER            :      %d\n", flash.answer);
+    printf("DIFFICULTY        :      %d\n", flash.difficulty);
 #endif
 
 
-  add_question(&fc);
+  add_question(&flash);
                   
 /*  for(n = 0; n < MAX_CLIENTS && client[n].sock; n++)
   {
