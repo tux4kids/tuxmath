@@ -109,34 +109,6 @@ int main(int argc, char **argv)
     exit(EXIT_FAILURE);
   }
 
-  /* Get server name: */
-  /* We use default name after 30 sec timeout if no name entered. */
-  /* FIXME we should save this to disc so it doesn't */
-  /* have to be entered every time.                  */
-
-  server_name[0] = '\0';
-  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
-
-  printf("Enter the SERVER's NAME: \n>");
-  fflush(stdout);
-//  fgets(server_name, NAME_SIZE, stdin);
-  {
-    Uint32 timeout = SDL_GetTicks() + SERVER_NAME_TIMEOUT;
-    int name_recvd = 0;
-
-    while(!name_recvd && (SDL_GetTicks() < timeout))
-    {
-      if(read_stdin_nonblock(server_name, NAME_SIZE))
-        name_recvd = 1;
-    }
-    if(!name_recvd)
-      printf("No name entered within timeout, will use default: %s\n",
-             DEFAULT_SERVER_NAME);
-  }
-
-  /* If no nickname received, use default: */
-  if(strlen(server_name) == 0)
-     strcpy(server_name, DEFAULT_SERVER_NAME);
   
   printf("Waiting for clients to connect:\n>");
   fflush(stdout);
@@ -177,39 +149,19 @@ int main(int argc, char **argv)
 // setup_server() - all the things needed to get server running:
 int setup_server(void)
 {
-  int i = 0;
-
-  // Zero out our client list:
-  for(i = 0; i < MAX_CLIENTS; i++)
-  {
-    client[i].game_ready = 0;   /* waiting for user to OK game start */
-    client[i].name[0] = '\0';   /* no nicknames yet                  */
-    client[i].sock = NULL;      /* sockets start out unconnected     */
-  }
-
-  /* Set name (will get this from config file in future): */
-  strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
-
-  //this sets up mathcards with hard-coded defaults - no settings
-  //read from config file here:
-  if (!MC_Initialize())
-  {
-    fprintf(stderr, "Could not initialize MathCards\n");
-    return 0;
-  }
-
+  //Initialize SDL and SDL_net:
   if(SDL_Init(0) == -1)
   {
     printf("SDL_Init: %s\n", SDL_GetError());
     return 0;;
   }
-
       
   if (SDLNet_Init() < 0)
   {
     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
     return 0;
   }
+
  
   /* Resolving the host using NULL make network interface to listen */
   if (SDLNet_ResolveHost(&ip, NULL, DEFAULT_PORT) < 0)
@@ -227,18 +179,70 @@ int setup_server(void)
 
   client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
   if(!client_set)
-  {
+  { 
     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     return 0;
   }
+
+  //this sets up our mathcards "library" with hard-coded defaults - no
+  //settings read from config file here as of yet:
+  if (!MC_Initialize())
+  {
+    fprintf(stderr, "Could not initialize MathCards\n");
+    return 0;
+  }  
+
+
+  /* Get server name: */
+  /* We use default name after 30 sec timeout if no name entered. */
+  /* FIXME we should save this to disc so it doesn't */
+  /* have to be entered every time.                  */
+
+  {
+    Uint32 timeout = SDL_GetTicks() + SERVER_NAME_TIMEOUT;
+    int name_recvd = 0;
+    server_name[0] = '\0';
+    fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
+
+    printf("Enter the SERVER's NAME: \n>");
+    fflush(stdout);
+
+    while(!name_recvd && (SDL_GetTicks() < timeout))
+    {
+      if(read_stdin_nonblock(server_name, NAME_SIZE))
+        name_recvd = 1;
+    }
+    if(!name_recvd)
+      printf("No name entered within timeout, will use default: %s\n",
+             DEFAULT_SERVER_NAME);
+  
+    /* If no nickname received, use default: */
+    if(strlen(server_name) == 0)
+      strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
+  }
+
+
+  // Zero out our client list:
+  {
+    int i = 0;
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      client[i].game_ready = 0;   /* waiting for user to OK game start */
+      client[i].name[0] = '\0';   /* no nicknames yet                  */
+      client[i].sock = NULL;      /* sockets start out unconnected     */
+    }
+  }
+
 
   //Now open a UDP socket to listen for clients broadcasting to find the server:
   udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
   if(!udpsock)
   {
     printf("SDLNet_UDP_Open: %s\n", SDLNet_GetError());
-    exit(2);
+    return 0;
   }
+
+  // Indicates success:
   return 1;
 }
 
@@ -471,17 +475,24 @@ int check_messages(void)
 #endif
         if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
         {
-//#ifdef LAN_DEBUG
+#ifdef LAN_DEBUG
           printf("buffer received from client %d is: %s\n", i, buffer);
-//#endif
+#endif
+
+printf("about to send buffer: %s and i: %d, game_in_progress = %d\n",
+         buffer, i, game_in_progress);
 
           /* Here we pass the client number and the message buffer */
           /* to a suitable function for further action:                */
           if(game_in_progress)
+          {
             handle_client_game_msg(i, buffer);
+          }
           else
+          {
+printf("Calling handle_client_nongame_msg()\n");
             handle_client_nongame_msg(i, buffer);
-
+          }
           // See if game is ended because everyone has left:
           check_game_clients(); 
         }
@@ -529,7 +540,7 @@ void remove_client(int i)
 {
   printf("Removing client[%d] - name: %s\n>\n", i, client[i].name);
 
-  SDLNet_TCP_DelSocket(client_set,client[i].sock);
+  SDLNet_TCP_DelSocket(client_set, client[i].sock);
 
   if(client[i].sock != NULL)
     SDLNet_TCP_Close(client[i].sock);
@@ -606,6 +617,9 @@ void handle_client_nongame_msg(int i, char* buffer)
 {
   char buf[NET_BUF_LEN];
   int x;
+
+printf("enter handle_client_nongame_msg()\n");
+
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
     snprintf(buf, NET_BUF_LEN,
@@ -614,6 +628,7 @@ void handle_client_nongame_msg(int i, char* buffer)
     broadcast_msg(buf);
     client[i].game_ready = 1;
     //This will call start_game() if all the other clients are ready:
+printf("about to call check_game_clients()");
     check_game_clients();
 //    snprintf(buf, NET_BUF_LEN, 
 //                  "%s",
