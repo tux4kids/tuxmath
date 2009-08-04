@@ -211,6 +211,7 @@ int setup_server(void)
     {
       if(read_stdin_nonblock(server_name, NAME_SIZE))
         name_recvd = 1;
+      Throttle(10);
     }
     if(!name_recvd)
       printf("No name entered within timeout, will use default: %s\n",
@@ -475,11 +476,11 @@ int check_messages(void)
 #endif
         if (SDLNet_TCP_Recv(client[i].sock, buffer, NET_BUF_LEN) > 0)
         {
+
 #ifdef LAN_DEBUG
           printf("buffer received from client %d is: %s\n", i, buffer);
 #endif
 
-printf("about to send buffer: %s and i: %d, game_in_progress = %d\n",
          buffer, i, game_in_progress);
 
           /* Here we pass the client number and the message buffer */
@@ -490,7 +491,6 @@ printf("about to send buffer: %s and i: %d, game_in_progress = %d\n",
           }
           else
           {
-printf("Calling handle_client_nongame_msg()\n");
             handle_client_nongame_msg(i, buffer);
           }
           // See if game is ended because everyone has left:
@@ -618,8 +618,6 @@ void handle_client_nongame_msg(int i, char* buffer)
   char buf[NET_BUF_LEN];
   int x;
 
-printf("enter handle_client_nongame_msg()\n");
-
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
     snprintf(buf, NET_BUF_LEN,
@@ -628,7 +626,6 @@ printf("enter handle_client_nongame_msg()\n");
     broadcast_msg(buf);
     client[i].game_ready = 1;
     //This will call start_game() if all the other clients are ready:
-printf("about to call check_game_clients()");
     check_game_clients();
 //    snprintf(buf, NET_BUF_LEN, 
 //                  "%s",
@@ -847,7 +844,7 @@ void start_game(void)
   int x,j;
 
 
-  /* NOTE this should no longer be ready
+  /* NOTE this should no longer be needed - doing the same thing earlier    */
   /*This loop sees that the game starts only when all the players are ready */
   /* i.e. if someone is connected but not ready, we return.                 */
   for(j = 0; j < MAX_CLIENTS; j++)
@@ -861,12 +858,27 @@ void start_game(void)
     }
   }
 
+
  /***********************Will be modified**************/
+  //Tell everyone we are starting and count who's really in:
+  num_clients = 0;
   snprintf(buf, NET_BUF_LEN, 
           "%s\n",
           "GO_TO_GAME");          
-  for(j = 0; j < num_clients; j++)
-   x = SDLNet_TCP_Send(client[j].sock, buf, sizeof(buf));   
+  for(j = 0; j < MAX_CLIENTS; j++)
+  {
+    if((client[j].game_ready == 1)
+    && (client[j].sock != NULL))
+    {
+      if(SDLNet_TCP_Send(client[j].sock, buf, NET_BUF_LEN) == NET_BUF_LEN)
+        num_clients++;
+      else
+      {
+        printf("in start_game() - failed to send to client %d, removing\n", j);
+        remove_client(j);
+      }
+    }
+  }
  /*****************************************************/
 
 
@@ -915,22 +927,9 @@ void start_game(void)
       printf("DIFFICULTY        :      %d\n",flash.difficulty);
 #endif
 
-    //Now using add_question();
+    //Send to all clients with add_question();
     add_question(&flash);
-
-/*    //Must send to all clients because client set will become discontinuous
-    //if anyone disconnects. SendQuestion() now returns harmlessly if 
-    //the sock is NULL - DSB
-    for(k = 0; k < MAX_CLIENTS; k++)
-//    for(j = 0; j < num_clients; j++)
-    {
-      if(!SendQuestion(flash, client[k].sock))
-      {
-        printf("Unable to send Question to %s\n", client[k].name);
-      }
-    }*/ 
   }
-
   //Send all the clients the counter totals:
   send_counter_updates();
 }
