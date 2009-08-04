@@ -12,12 +12,14 @@
 */
 
 #ifndef SERVER_H
-#define SERVER_H
-
+#define SERVER_H == 1)
 
 #include "SDL_net.h"
+
+
 #define NAME_SIZE 50
 #define DEFAULT_SERVER_NAME "TuxMath LAN Server"
+#define SERVER_NAME_TIMEOUT 30000
 
 typedef struct client_type {
   int game_ready;                 //game_ready = 1 , if client has said OK to start, and 0 otherwise

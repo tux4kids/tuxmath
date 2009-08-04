@@ -110,13 +110,6 @@ int main(int argc, char **argv)
     }
 
     printf("connected\n");
-
-//    /* Connect to server, create socket set, get player nickname, etc: */
-//    if(!LAN_Setup(server_ip, server_port))
-//    {
-//      printf("setup_client() failed - exiting.\n");
-//      exit(EXIT_FAILURE);
-//    }
   }
   
 
@@ -150,10 +143,12 @@ int main(int argc, char **argv)
   fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
 
 
-  /* FIXME we're not listening for server messages in this loop */
   quit = 0;
   while(!quit)
   { 
+    // See if we have any messages from server:
+    game_check_msgs();
+
     //Get user input from command line and send it to server: 
     /*now display the options*/
     if(read_stdin_nonblock(buffer, NET_BUF_LEN))
@@ -161,17 +156,13 @@ int main(int argc, char **argv)
       //Figure out if we are trying to quit:
       if( (strncmp(buffer, "exit", 4) == 0)
         ||(strncmp(buffer, "quit", 4) == 0))
-      //FIXME need a "LAN_Logout() function" so testclient doesn't need to know about SDL_Net
+      
       {
         quit = 1;
-/*        if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
-        {
-          fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
-          exit(EXIT_FAILURE);
-        }*/
       }
       else if (strncmp(buffer, "game", 4) == 0)
       {
+        // Begin the actual math game
         playgame();
         printf("Math game finished.\n\n");
         printf("Type:\n"
@@ -456,6 +447,8 @@ int playgame(void)
 //The first '\n' in the buffer, if present, is replaced with a
 //null terminator.
 //returns 0 if no data ready, 1 if at least one byte read.
+//NOTE for this to work we must first set stdin to O_NONBLOCK with:
+//  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
 
 int read_stdin_nonblock(char* buf, size_t max_length)
 {

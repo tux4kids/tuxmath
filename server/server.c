@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <fcntl.h> 
  
 #include "server.h" 
 #include "../src/transtruct.h"
@@ -69,9 +70,9 @@ void broadcast_msg(char* msg);
 int transmit(int i, char* msg);
 int transmit_all(char* msg);
 
-//Deprecated:
-// void test_connections(void);
-// void ping_client(int i);
+// For non-blocking input:
+int read_stdin_nonblock(char* buf, size_t max_length);
+
 
 // not really deprecated but not done in response to 
 // client message --needs better name:
@@ -109,15 +110,33 @@ int main(int argc, char **argv)
   }
 
   /* Get server name: */
+  /* We use default name after 30 sec timeout if no name entered. */
   /* FIXME we should save this to disc so it doesn't */
   /* have to be entered every time.                  */
+
+  server_name[0] = '\0';
+  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
+
   printf("Enter the SERVER's NAME: \n>");
   fflush(stdout);
-  fgets(server_name, NAME_SIZE, stdin);
+//  fgets(server_name, NAME_SIZE, stdin);
+  {
+    Uint32 timeout = SDL_GetTicks() + SERVER_NAME_TIMEOUT;
+    int name_recvd = 0;
+
+    while(!name_recvd && (SDL_GetTicks() < timeout))
+    {
+      if(read_stdin_nonblock(server_name, NAME_SIZE))
+        name_recvd = 1;
+    }
+    if(!name_recvd)
+      printf("No name entered within timeout, will use default: %s\n",
+             DEFAULT_SERVER_NAME);
+  }
 
   /* If no nickname received, use default: */
-  if(strlen(server_name) == 1)
-     strcpy(server_name, "TuxMath Server");
+  if(strlen(server_name) == 0)
+     strcpy(server_name, DEFAULT_SERVER_NAME);
   
   printf("Waiting for clients to connect:\n>");
   fflush(stdout);
@@ -1117,66 +1136,34 @@ int transmit_all(char* msg)
 
 
 
+//Here we read up to max_length bytes from stdin into the buffer.
+//The first '\n' in the buffer, if present, is replaced with a
+//null terminator.
+//returns 0 if no data ready, 1 if at least one byte read.
+//NOTE for this to work we must first set stdin to O_NONBLOCK with:
+//  fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
+
+int read_stdin_nonblock(char* buf, size_t max_length)
+{
+  int bytes_read = 0;
+  char* term = NULL;
+  buf[0] = '\0';
+
+  bytes_read = fread (buf, 1, max_length, stdin);
+  term = strchr(buf, '\n');
+  if (term)
+    *term = '\0';
+     
+  if(bytes_read > 0)
+    bytes_read = 1;
+  else
+    bytes_read = 0;
+      
+  return bytes_read;
+}
 
 
 
 
 
 
-
-
-/* Code related to "pinging system" for pollng all clients to */
-/* see if they are still connected - we may not need this.    */
-/* (kept out of way here at bottom until we decide)           */
-
-
-
-// Go through and test all the current connections, removing
-// any clients that fail to respond:
-// void test_connections(void)
-// {
-//   int i = 0;
-// 
-//   for (i = 0; i < MAX_CLIENTS; i++)
-//     ping_client(i);
-// }
-
-
-// This is supposed to be a way to test and see if each client
-// is really connected.
-// FIXME I think we need to put in a SDLNet_TCP_Recv() to see
-// if we get a reply, now that the client is modified to send back
-// PING_BACK.  I am worried, however, that we could have a problem
-// with intercepting messages not related to the ping testing - DSB
-
-// void ping_client(int i)
-// {
-//   char buf[NET_BUF_LEN];
-//   char msg[NET_BUF_LEN];
-//   int x;
-// 
-//   if(i < 0 || i > MAX_CLIENTS)
-//   {
-//     printf("ping_client() - invalid index argument\n");
-//     return;
-//   }
-//   
-//   if(client[i].sock == NULL)
-//   {
-//     return;
-//   }
-//   
-// //  sprintf(msg,"%s", "PING\n");
-// //  snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-//   snprintf(buf, NET_BUF_LEN, "%s\n", "PING");
-//   x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
-//   if(x < NET_BUF_LEN)
-//   {
-//    printf("The client %s is disconnected\n",client[i].name);
-//    remove_client(i);
-//   }
-// //#ifdef LAN_DEBUG
-//   printf("buf is: %s\n", buf);
-//   printf("SendMessage() - buf sent:::: %d bytes\n", x);
-// //#endif
-// }
