@@ -1,6 +1,12 @@
+tuxmath (1.7.2-2) UNRELEASED; urgency=low
+
+  * Bump standards version to 3.8.2, no changes needed. 
+
+ -- Holger Levsen <holger@debian.org>  Tue, 04 Aug 2009 12:56:58 +0200
+
 tuxmath (1.7.2-1) unstable; urgency=low
 
-  * new upstream version, with several bugfixes, new translations and lots of 
+  * New upstream version, with several bugfixes, new translations and lots of 
     other improvements: a new "Campaign Mode" featuring an overall story line,
     a new game activity, "Factoroids", teaching factorization and reduction of
     fractions, a more flexible engine for generating questions and an improved 
