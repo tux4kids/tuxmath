@@ -481,8 +481,6 @@ int check_messages(void)
           printf("buffer received from client %d is: %s\n", i, buffer);
 #endif
 
-         buffer, i, game_in_progress);
-
           /* Here we pass the client number and the message buffer */
           /* to a suitable function for further action:                */
           if(game_in_progress)
