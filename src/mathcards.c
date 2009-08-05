@@ -691,26 +691,6 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   printf("\nMatching question is:");
   print_card(quest->card);
   #endif
-
-  //We found a matching question, now we take it out of the 
-  //"active_quests" list and either put it back into the 
-  //main question list in a random location, or delete it:
-  active_quests = remove_node(active_quests, quest);
-  questions_pending--;  //the length of the 'active_quests' list
-
-  answered_wrong++;
-
-  /* add question to wrong_quests list: */
-  if (!already_in_list(wrong_quests, quest)) /* avoid duplicates */
-  {
-    mcdprintf("\nAdding to wrong_quests list");
-    wrong_quests = append_node(wrong_quests, quest);
-  }
-  else /* avoid memory leak */
-  {
-    free(quest);
-  }
-
   /* if desired, put question back in list so student sees it again */
   if (math_opts->iopts[REPEAT_WRONGS])
   {
@@ -719,6 +699,11 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     MC_MathQuestion* rand_loc;
 
     mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
+
+#ifdef MC_DEBUG
+    printf("\nCard to be added is:");
+    print_card(*fc);
+#endif
 
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
@@ -735,10 +720,36 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   else
   {
     mcdprintf("\nNot repeating wrong answers\n");
-
     /* not repeating questions so list gets shorter:      */
     unanswered--;
   }
+
+  //Take the question out of the active_quests list and add it to
+  //the wrong_quests list, unless an identical question is already
+  //in the wrong_quests list:
+  active_quests = remove_node(active_quests, quest);
+  questions_pending--;  //the length of the 'active_quests' list
+  answered_wrong++;
+
+  /* add question to wrong_quests list: */
+  if (!already_in_list(wrong_quests, quest)) /* avoid duplicates */
+  {
+    mcdprintf("\nAdding to wrong_quests list");
+    wrong_quests = append_node(wrong_quests, quest);
+  }
+  else /* avoid memory leak */
+  {
+#ifdef MC_DEBUG
+    printf("\nBefore free() *fc is:");
+    print_card(*fc);
+#endif
+    free_node(quest);
+#ifdef MC_DEBUG
+    printf("\n After free() *fc is:");
+    print_card(*fc);
+#endif
+  }
+
 
   #ifdef MC_DEBUG
   print_counters();

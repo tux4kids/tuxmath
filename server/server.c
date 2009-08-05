@@ -625,11 +625,6 @@ void handle_client_nongame_msg(int i, char* buffer)
     client[i].game_ready = 1;
     //This will call start_game() if all the other clients are ready:
     check_game_clients();
-//    snprintf(buf, NET_BUF_LEN, 
-//                  "%s",
-//                  "Success");
-//    x = SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
-        
   }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
   {
