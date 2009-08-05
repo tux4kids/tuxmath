@@ -423,8 +423,7 @@ int playgame(void)
           // purposes of testing LAN_NotAnsweredCorrectly()
           while(-1 == comets[i].question_id)
             i = rand()%TEST_COMETS;
-          fc = &comets[i];
-          LAN_NotAnsweredCorrectly(fc);
+          LAN_NotAnsweredCorrectly(comets[i].question_id);
           print_current_quests();
         }
       }  //input wasn't any of our keywords

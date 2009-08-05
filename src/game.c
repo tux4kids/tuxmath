@@ -1567,9 +1567,9 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
 #ifdef HAVE_LIBSDL_NET
-       LAN_NotAnsweredCorrectly(&(comets[i].flashcard));
+       LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 #else 
-       MC_NotAnsweredCorrectly(&(comets[i].flashcard));
+       MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 #endif 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */

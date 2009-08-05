@@ -418,10 +418,10 @@ int LAN_AnsweredCorrectly(int id)
 }
 
 
-int LAN_NotAnsweredCorrectly(MC_FlashCard* fc)
+int LAN_NotAnsweredCorrectly(int id)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s\t%d", "WRONG_ANSWER", fc->question_id);
+  snprintf(buffer, NET_BUF_LEN, "%s\t%d", "WRONG_ANSWER", id);
   return say_to_server(buffer);
 }
 

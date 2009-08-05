@@ -8,12 +8,12 @@
 
 *
 *
-* Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2005
+* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2005
 *
 * Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
 *
 * Revised extensively in 2008 by Brendan Luchen, Tim Holy, and David Bruce
-*
+* Revised more in 2009 by David Bruce
 */
 
 #include <stdio.h>
@@ -217,6 +217,7 @@ static void clear_negatives(void);
 //static int validate_question(int n1, int n2, int n3);
 //static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
 static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
+static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
 static MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n);
@@ -242,7 +243,6 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
 #ifdef MC_DEBUG
 static void print_card(MC_FlashCard card);
 static void print_counters(void);
-//static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
 //static MC_FlashCard    create_card_from_node(MC_MathQuestion* node);
 #endif
 
@@ -474,7 +474,7 @@ int MC_StartGameUsingWrongs(void)
 
 
 /*  MC_NextQuestion() takes a pointer to an allocated      */
-/*  MC_MathQuestion struct and fills in the fields for     */
+/*  MC_FlashCard struct and fills in the fields for     */
 /*  use by the user interface program. It basically is     */
 /*  like taking the next flashcard from the pile. The      */
 /*  node containing the question is removed from the list. */
@@ -605,21 +605,11 @@ int MC_AnsweredCorrectly(int id)
 /*  question correctly. Returns 1 if no errors.           */
 /*  Note: this gets triggered only if a player's igloo/city */
 /*  gets hit by a question, not if they "miss".             */
-int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
+int MC_NotAnsweredCorrectly(int id)
 {
   mcdprintf("\nEntering MC_NotAnsweredCorrectly()");
 
   MC_MathQuestion* quest = NULL;
-
-  if (!fc)
-  {
-    fprintf(stderr, "\nMC_NotAnsweredCorrectly() passed invalid pointer as argument!\n");
-
-    mcdprintf("\nInvalid MC_FlashCard* argument!");
-    mcdprintf("\nLeaving MC_NotAnsweredCorrectly()\n");
-
-    return 0;
-  }
 
   if(!active_quests) // No questions currently "in play" - something is wrong:
   {
@@ -627,26 +617,22 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
-  #ifdef MC_DEBUG
-  printf("\nQuestion was:");
-  print_card(*fc);
-  #endif
-
+  mcdprintf("\nQuestion id was: %d\n", id);
 
   //First take the question out of the active_quests list
   quest = active_quests;  
   // Loop until quest is NULL or we find card with same id:
-  while(quest && (fc->question_id != quest->card.question_id))
+  while(quest && (id != quest->card.question_id))
     quest = quest->next;
   if(!quest) // Means we didn't find matching card - something is wrong:
   {
     fprintf(stderr, "MC_NotAnsweredCorrectly() - matching question not found!\n");
     return 0;
   }
-  #ifdef MC_DEBUG
-  printf("\nMatching question is:");
+
+  mcdprintf("\nMatching question is:");
   print_card(quest->card);
-  #endif
+
 
   /* if desired, put question back in list so student sees it again */
   if (math_opts->iopts[REPEAT_WRONGS])
@@ -659,13 +645,13 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
 
 #ifdef MC_DEBUG
     printf("\nCard to be added is:");
-    print_card(*fc);
+    print_card(quest->card);
 #endif
 
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
     {
-      quest_copy = create_node_from_card(fc);
+      quest_copy = create_node_copy(quest);
       rand_loc = pick_random(quest_list_length, question_list);
       question_list = insert_node(question_list, rand_loc, quest_copy);
       quest_list_length++;
@@ -699,44 +685,16 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
     free_node(quest);
   }
 
-
-  #ifdef MC_DEBUG
+#ifdef MC_DEBUG
   print_counters();
   printf("\nLeaving MC_NotAnswered_Correctly()\n");
-  #endif
+#endif
 
   return 1;
 }
 
 
-int MC_NotAnsweredCorrectly_id(int id)
-{
-  MC_MathQuestion* mq;
-  MC_FlashCard* fc;
 
-  if(!active_quests)
-  {
-    mcdprintf("MC_NotAnsweredCorrectly_id() - active_quests is empty\n");
-    return 0;
-  }
-  //Find the question with the given id, if it exists:
-    //First take the question out of the active_quests list
-  mq = active_quests;  
-  // Loop until mq is NULL or card found with matching id:
-  while(mq && (id != mq->card.question_id))
-  {
-    mcdprintf("id is %d, mq->card.question_id is %d\n", id, mq->card.question_id);
-    mq = mq->next;
-  }
-  if(!mq) // Means we didn't find matching card - something is wrong:
-  {
-    fprintf(stderr, "MC_NotAnsweredCorrectly_id() - matching question not found!\n");
-    return 0;
-  }
-  //Now just pass address of card field to MC_NotAnsweredCorrectly():
-  fc = &(mq->card);
-  return MC_NotAnsweredCorrectly(fc);
-}
 
 
 
@@ -1294,15 +1252,11 @@ void print_counters(void)
   printf("\nlist_length(active_quests) = \t%d", list_length(active_quests));
 }
 
-// /* a "copy constructor", so to speak */
-// /* FIXME should properly return newly allocated list if more than one node DSB */
-// MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
-// {
-//   MC_MathQuestion* ret = allocate_node();
-//   if (ret)
-//     copy_card(&(other->card), &(ret->card) );
-//   return ret;
-// }
+
+
+
+
+
 // 
 // /* FIXME take care of strings */
 // 
@@ -1318,6 +1272,15 @@ void print_counters(void)
 #endif
 
 
+/* a "copy constructor", so to speak */
+/* FIXME perhaps should return newly allocated list if more than one node DSB */
+MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
+{
+  MC_MathQuestion* ret = allocate_node();
+  if (ret)
+    copy_card(&(other->card), &(ret->card) );
+  return ret;
+}
 
 
 int list_length(MC_MathQuestion* list)
@@ -2194,7 +2157,7 @@ void MC_ResetFlashCard(MC_FlashCard* fc)
     return;
   strncpy(fc->formula_string, " ", MC_FORMULA_LEN);
   strncpy(fc->answer_string, " ", MC_ANSWER_LEN);
-  fc->answer = 0;
+  fc->answer = -9999;
   fc->difficulty = 0;
   fc->question_id = -1;
 }
@@ -2269,6 +2232,8 @@ static int calc_num_valid_questions(void)
   mcdprintf("calc_num_valid_questions():\t%d\n", total_questions);
   return total_questions;
 }
+
+
 
 
 //NOTE end_of_list** needs to be doubly indirect because otherwise the end does not

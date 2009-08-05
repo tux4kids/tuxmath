@@ -216,8 +216,7 @@ int MC_AnsweredCorrectly(int id);
 /*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the question has not been        */
 /*  answered correctly. Returns 1 if no errors.           */
-int MC_NotAnsweredCorrectly(MC_FlashCard* q);
-int MC_NotAnsweredCorrectly_id(int id);
+int MC_NotAnsweredCorrectly(int id);
 
 /*  Like MC_NextQuestion(), but takes "flashcard" from    */
 /*  pile of incorrectly answered questions.               */
