@@ -34,7 +34,6 @@
 
 int quit = 0;
 int game_status = GAME_NOT_STARTED;
-MC_FlashCard flash;    //current question
 
 MC_FlashCard comets[TEST_COMETS];    //current questions
 int remaining_quests = 0;
@@ -417,7 +416,15 @@ int playgame(void)
         }
         else  //we got input, but not the correct answer:
         {
+          int i = rand()%TEST_COMETS;
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
+          // Can't tell which question was the 'wrong' one, so we
+          // a non-empty one at random.  Note that this is just for 
+          // purposes of testing LAN_NotAnsweredCorrectly()
+          while(-1 == comets[i].question_id)
+            i = rand()%TEST_COMETS;
+          fc = &comets[i];
+          LAN_NotAnsweredCorrectly(fc);
           print_current_quests();
         }
       }  //input wasn't any of our keywords
