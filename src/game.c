@@ -1662,8 +1662,8 @@ void game_handle_comets(void)
   /* ease of understanding, we should do it at the same place in the game */
   /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
-  if (!Opts_HelpMode() && level_start_wait == 0)// &&
-//      (frame % 20) == 0)   /* NOTE - this interferes with LAN timing */
+  if (!Opts_HelpMode() && level_start_wait == 0) //&&
+     // (frame % 20) == 0)
   {
     /* num_attackers is how many comets are left in wave */
     if (num_attackers > 0)
@@ -2764,7 +2764,8 @@ int add_comet(void)
     }
     else  /* non-living comet so we found a free slot: */
     {
-      found = i;      
+      found = i;
+      break;
     }
   }
 
@@ -2793,18 +2794,31 @@ int add_comet(void)
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
 #ifdef HAVE_LIBSDL_NET
-    for (comet_counter; comet_counter < TEST_COMETS; comet_counter++)
+    for (i = 0; i < TEST_COMETS; i++)
      {
-       if(comets_questions[comet_counter].question_id != -1)
+       if(comets_questions[comet_counter % TEST_COMETS].question_id != -1)
        {
-         copy_card(&(comets_questions[comet_counter]), &(comets[found].flashcard)); //will be replaced on set up of new system
+         copy_card(&(comets_questions[comet_counter % TEST_COMETS]), &(comets[found].flashcard)); //will be replaced on set up of new system
          comet_counter++;
          break;
        }
      }
-     if(comet_counter==TEST_COMETS)
-       comet_counter = 0;
+     if(comet_counter > TEST_COMETS)
+       comet_counter -= TEST_COMETS;
+     if(i == TEST_COMETS)
+       return 0;
+     
 #endif
+
+     /* Make sure question is "sane" before we add it: */
+     if( (comets[found].flashcard.answer > 999)
+       ||(comets[found].flashcard.answer < -999))
+     {
+       printf("Warning, card with invalid answer encountered: %d\n",
+              comets[found].flashcard.answer);
+       return 0;
+     }
+
      /* If we make it to here, create a new comet!*/
      comets[found].answer = comets[found].flashcard.answer;
      comets[found].alive = 1;
@@ -2844,14 +2858,15 @@ int add_comet(void)
 #endif
      }
 
-  #ifdef TUXMATH_DEBUG
-      printf ("\nadd_comet(): formula string is: %s", comets[found].flashcard.formula_string);
-  #endif
+#ifdef TUXMATH_DEBUG
+      printf ("\nadd_comet(): formula string is: %s",
+              comets[found].flashcard.formula_string);
+      print_current_quests();
+#endif
 
      /* Record the time at which this comet was created */
      comets[found].time_started = SDL_GetTicks();
 //   }
-  print_current_quests();
   /* comet slot found and question found so return successfully: */
   return 1;
 }
