@@ -714,7 +714,7 @@ void game_msg_correct_answer(int i, char* inbuf)
   id = atoi(p);
 
   //Tell mathcards so lists get updated:
-  if(!MC_AnsweredCorrectly_id(id))
+  if(!MC_AnsweredCorrectly(id))
     return;
   //If we get to here, the id was successfully parsed out of inbuf
   //and the corresponding question was found.

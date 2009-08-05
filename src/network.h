@@ -38,7 +38,7 @@ int LAN_SetName(char* name);
 /* Network replacement functions for mathcards "API": */
 /* These functions are how the client tells things to the server: */
 int LAN_StartGame(void);
-int LAN_AnsweredCorrectly(MC_FlashCard* fc);
+int LAN_AnsweredCorrectly(int id);
 int LAN_NotAnsweredCorrectly(MC_FlashCard* fc);
 int LAN_LeaveGame(void);
 /* This is how the client receives messages from the server: */

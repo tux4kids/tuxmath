@@ -1373,9 +1373,9 @@ void game_handle_answer(void)
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
 #ifdef HAVE_LIBSDL_NET
-    LAN_AnsweredCorrectly(&(comets[lowest].flashcard));
+    LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
 #else
-    MC_AnsweredCorrectly(&(comets[lowest].flashcard));
+    MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
 #endif
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */

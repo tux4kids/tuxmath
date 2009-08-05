@@ -530,21 +530,11 @@ int MC_NextQuestion(MC_FlashCard* fc)
 /*  MC_AnsweredCorrectly() is how the user interface      */
 /*  tells MathCards that the question has been answered   */
 /*  correctly. Returns 1 if no errors.                    */
-int MC_AnsweredCorrectly(MC_FlashCard* fc)
+int MC_AnsweredCorrectly(int id)
 {
   mcdprintf("\nEntering MC_AnsweredCorrectly()");
 
   MC_MathQuestion* quest = NULL;
-
-  if (!fc)
-  {
-    fprintf(stderr, "\nMC_AnsweredCorrectly() passed invalid pointer as argument!\n");
-
-    mcdprintf("\nInvalid MC_FlashCard* argument!");
-    mcdprintf("\nLeaving MC_AnsweredCorrectly()\n");
-
-    return 0;
-  }
 
   if(!active_quests) // No questions currently "in play" - something is wrong:
   {
@@ -552,34 +542,29 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     return 0;
   }
 
-  #ifdef MC_DEBUG
-  printf("\nQuestion was:");
-  print_card(*fc);
-  #endif
-
+  mcdprintf("\nQuestion id was: %d\n", id);
 
   //First take the question out of the active_quests list
   quest = active_quests;  
   // Loop until quest is NULL or we find card with same id:
-  while(quest && (fc->question_id != quest->card.question_id))
+  while(quest && (id != quest->card.question_id))
     quest = quest->next;
   if(!quest) // Means we didn't find matching card - something is wrong:
   {
     fprintf(stderr, "MC_AnsweredCorrectly() - matching question not found!\n");
     return 0;
   }
-  #ifdef MC_DEBUG
+
+#ifdef MC_DEBUG
   printf("\nMatching question is:");
   print_card(quest->card);
-  #endif
+#endif
 
   //We found a matching question, now we take it out of the 
   //"active_quests" list and either put it back into the 
   //main question list in a random location, or delete it:
   active_quests = remove_node(active_quests, quest);
   questions_pending--;  //the length of the 'active_quests' list
-
-
   answered_correctly++;
 
   if (!math_opts->iopts[PLAY_THROUGH_LIST])
@@ -603,44 +588,15 @@ int MC_AnsweredCorrectly(MC_FlashCard* fc)
     unanswered--;
   }
 
-  #ifdef MC_DEBUG
+#ifdef MC_DEBUG
   print_counters();
   printf("\nLeaving MC_AnsweredCorrectly()\n");
-  #endif
+#endif
 
   return 1;
 }
 
 
-
-int MC_AnsweredCorrectly_id(int id)
-{
-  MC_MathQuestion* mq;
-  MC_FlashCard* fc;
-
-  if(!active_quests)
-  {
-    mcdprintf("MC_AnsweredCorrectly_id() - active_quests is empty\n");
-    return 0;
-  }
-  //Find the question with the given id, if it exists:
-    //First take the question out of the active_quests list
-  mq = active_quests;  
-  // Loop until mq is NULL or card found with matching id:
-  while(mq && (id != mq->card.question_id))
-  {
-    mcdprintf("id is %d, mq->card.question_id is %d\n", id, mq->card.question_id);
-    mq = mq->next;
-  }
-  if(!mq) // Means we didn't find matching card - something is wrong:
-  {
-    fprintf(stderr, "MC_AnsweredCorrectly_id() - matching question not found for id = %d!\n", id);
-    return 0;
-  }
-  //Now just pass address of card field to MC_AnsweredCorrectly():
-  fc = &(mq->card);
-  return MC_AnsweredCorrectly(fc);
-}
 
 
 
@@ -691,6 +647,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   printf("\nMatching question is:");
   print_card(quest->card);
   #endif
+
   /* if desired, put question back in list so student sees it again */
   if (math_opts->iopts[REPEAT_WRONGS])
   {
@@ -739,15 +696,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   }
   else /* avoid memory leak */
   {
-#ifdef MC_DEBUG
-    printf("\nBefore free() *fc is:");
-    print_card(*fc);
-#endif
     free_node(quest);
-#ifdef MC_DEBUG
-    printf("\n After free() *fc is:");
-    print_card(*fc);
-#endif
   }
 
 
@@ -757,7 +706,6 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* fc)
   #endif
 
   return 1;
-
 }
 
 

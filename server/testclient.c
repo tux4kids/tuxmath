@@ -410,7 +410,7 @@ int playgame(void)
         {  
           printf("%s is correct!\nAwait next question...\n>\n", buf);
           //Tell server we answered it right:
-          LAN_AnsweredCorrectly(fc);
+          LAN_AnsweredCorrectly(fc->question_id);
           erase_flashcard(fc);  
           print_current_quests();
         }
