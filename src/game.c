@@ -1567,9 +1567,9 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
 #ifdef HAVE_LIBSDL_NET
-       LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+        LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 #else 
-       MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+        MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 #endif 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
@@ -1662,18 +1662,18 @@ void game_handle_comets(void)
   /* ease of understanding, we should do it at the same place in the game */
   /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
-  if (!Opts_HelpMode() && level_start_wait == 0 &&
-      (frame % 20) == 0)   /* FIXME:do we want this to vary with comet speed?*/
+  if (!Opts_HelpMode() && level_start_wait == 0)// &&
+//      (frame % 20) == 0)   /* NOTE - this interferes with LAN timing */
   {
     /* num_attackers is how many comets are left in wave */
     if (num_attackers > 0)
     {
-      if ((rand() % 2) == 0 || num_comets_alive == 0)
+//      if ((rand() % 2) == 0 || num_comets_alive == 0)  NOTE also caused timing issue
       {
-          if (add_comet())
-          {
-            num_attackers--;
-          }
+        if (add_comet())
+        {
+          num_attackers--;
+        }
         
       }
     }
