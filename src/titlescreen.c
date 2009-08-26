@@ -894,24 +894,24 @@ int run_lan_menu(void)
     
     if(mode == 1)
     {
-      if(detecting_servers(_("Detecting Servers"),_("Please Wait")))
+      if(detecting_servers(_("Detecting Servers"), _("Please Wait")))
       {
+        NameEntry(player_name, _("Enter your Name:"), _(""));
+        LAN_SetName(player_name);
+        Ready(_("Click OK when Ready"));
+        LAN_StartGame();
+        Standby(_("Waiting For Other Players"),_("To Connect"));
 
-
-      NameEntry(player_name, _("Enter your Name:"),
-                      _(""));
-
-      LAN_SetName(player_name);
-      Ready(_("Click OK when Ready"));
-      LAN_StartGame();
-      Standby(_("Waiting For Other Players"),_("To Connect"));
-
-      Opts_SetLanMode(1);  // Tells game() we are playing over network
-      game();
-      Opts_SetLanMode(0);  // Go back to local play
+        Opts_SetLanMode(1);  // Tells game() we are playing over network
+        game();
+        Opts_SetLanMode(0);  // Go back to local play
+      }
+      else
+      {
+        ShowMessage(NULL, _("Sorry, no server could be found."), NULL, NULL);
+        break;
       }
     }   
-
   }
 
   return 0;
