@@ -869,7 +869,6 @@ int run_multiplay_menu(void)
 int run_lan_menu(void)
 {
   int mode = -1;
-  int b;
   int servers_found = 0;  
 
   const char* menu_text[3] =
@@ -886,7 +885,7 @@ int run_lan_menu(void)
   while (1)
   {
     //choose mode
-    mode = choose_menu_item(menu_text,modesprites,3,NULL,NULL);
+    mode = choose_menu_item(menu_text, modesprites, 3, NULL, NULL);
     if (mode == 2 || mode == -1)
       break;
 
@@ -895,41 +894,22 @@ int run_lan_menu(void)
     
     if(mode == 1)
     {
-      detecting_servers(_("Detecting Servers"),_("Please Wait"));
-
-/*      if(servers_found < 1)
+      if(detecting_servers(_("Detecting Servers"),_("Please Wait")))
       {
-        printf("No server could be found - exiting.\n");
-        exit(EXIT_FAILURE);
-      }
-      else if(servers_found  == 1)  //One server - connect without player intervention
-      {
-        printf("Single server found - connecting automatically...");
 
-        if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
-        {
-          printf("setup_client() failed - exiting.\n");
-          exit(EXIT_FAILURE);
-        }
 
-        printf("connected\n");
-      } 
-*/
-       NameEntry(player_name, _("Enter your Name:"),
-                       _(""));
-
-//      if(!LAN_Setup(host, DEFAULT_PORT))
-//      {
-//        printf("Unable to connect to the server\n");
-//        LAN_Cleanup();
-//        return 0;
-//      }    
+      NameEntry(player_name, _("Enter your Name:"),
+                      _(""));
 
       LAN_SetName(player_name);
       Ready(_("Click OK when Ready"));
       LAN_StartGame();
       Standby(_("Waiting For Other Players"),_("To Connect"));
+
+      Opts_SetLanMode(1);  // Tells game() we are playing over network
       game();
+      Opts_SetLanMode(0);  // Go back to local play
+      }
     }   
 
   }
@@ -1031,7 +1011,7 @@ int run_arcade_menu(void)
 
   //This function takes care of all the drawing and receives
   //user input:
-  choice = choose_menu_item(menu_text,sprites,7,NULL,NULL);
+  choice = choose_menu_item(menu_text, sprites, 7, NULL, NULL);
 
   while (choice >= 0) {
     if (choice < NUM_MATH_COMMAND_LEVELS) {
@@ -1040,12 +1020,13 @@ int run_arcade_menu(void)
       {
         audioMusicUnload();
 #ifdef HAVE_LIBSDL_NET
-detecting_servers(_("Detecting Servers"),_("Please Wait"));
-       NameEntry(player_name, _("Enter your Name:"),
+        detecting_servers(_("Detecting Servers"),_("Please Wait"));
+        NameEntry(player_name, _("Enter your Name:"),
                        _(""));
-      LAN_SetName(player_name);
-      Ready(_("Click OK when Ready"));
-      LAN_StartGame();
+        LAN_SetName(player_name);
+        Ready(_("Click OK when Ready"));
+        LAN_StartGame();
+        Opts_SetLanMode(1);
 // if(!LAN_Setup("localhost", DEFAULT_PORT))
 //   {
 //     printf("Unable to connect to the server\n");
@@ -1056,6 +1037,8 @@ detecting_servers(_("Detecting Servers"),_("Please Wait"));
 //   LAN_SetName("player A");
 #endif
         game();
+        Opts_SetLanMode(0);
+
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );

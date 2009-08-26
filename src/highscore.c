@@ -845,19 +845,21 @@ void Standby(const char* heading, const char* sub)
         }
       }
     }
-   //FIXME - so we pull all the messages out of the socket and ignore anything
-   //that isn't "GO_TO_GAME" - why are we ignoring them?  We cannot assume the
-   //server is going to send us what we expect. At a minimum, we need to 
-   //print any unrecognized messages to stderr with a warning - DSB
-   while(!check_messages(buf))
-   {
-     if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME"))==0)
-     {
-       finished = 1;
-       playsound(SND_TOCK);
-       break;
-     }     
-   }
+
+    //FIXME - so we pull all the messages out of the socket and ignore anything
+    //that isn't "GO_TO_GAME" - why are we ignoring them?  We cannot assume the
+    //server is going to send us what we expect. At a minimum, we need to 
+    //print any unrecognized messages to stderr with a warning - DSB
+    while(!check_messages(buf))
+    {
+      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME"))==0)
+      {
+        finished = 1;
+        playsound(SND_TOCK);
+        break;
+      }     
+    }
+
     /* --- make tux blink --- */
     switch (frame % TUX6)
     {
@@ -891,7 +893,8 @@ void Standby(const char* heading, const char* sub)
 
 }
 
-void detecting_servers(const char* heading, const char* sub)
+
+int detecting_servers(const char* heading, const char* sub)
 {
   
   SDL_Rect loc;
@@ -966,10 +969,37 @@ void detecting_servers(const char* heading, const char* sub)
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 
-
   while (!finished)
   {
     start = SDL_GetTicks();
+
+    //Scan local network to find running server:
+    servers_found = LAN_DetectServers();
+    if(servers_found < 1)
+    {
+      printf("No server could be found - returning.\n");
+      /* Turn off SDL Unicode lookup (because has some overhead): */
+      SDL_EnableUNICODE(SDL_DISABLE);
+      FreeSprite(Tux);
+      return 0;
+    }
+    else if(servers_found  == 1)  //One server - connect without player intervention
+    {
+      printf("Single server found - connecting automatically...");
+
+      if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
+      {
+        printf("LAN_AutoSetup() failed - returning.\n");
+        /* Turn off SDL Unicode lookup (because has some overhead): */
+        SDL_EnableUNICODE(SDL_DISABLE);
+        FreeSprite(Tux);
+        return 0;
+      }
+      finished = 1;
+      break;  //So we quit scanning as soon as we connect
+      printf("connected\n");
+    } 
+
 
     while (SDL_PollEvent(&event)) 
     {
@@ -992,26 +1022,6 @@ void detecting_servers(const char* heading, const char* sub)
         }
       }
     }
-      //Scan local network to find running server:
-      servers_found = LAN_DetectServers();
-      if(servers_found < 1)
-      {
-        printf("No server could be found - exiting.\n");
-        exit(EXIT_FAILURE);
-      }
-      else if(servers_found  == 1)  //One server - connect without player intervention
-      {
-        printf("Single server found - connecting automatically...");
-
-        if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
-        {
-          printf("setup_client() failed - exiting.\n");
-          exit(EXIT_FAILURE);
-        }
-        finished = 1;
-        break;
-        printf("connected\n");
-      } 
 
     /* --- make tux blink --- */
     switch (frame % TUX6)
@@ -1039,11 +1049,12 @@ void detecting_servers(const char* heading, const char* sub)
     frame++;
   }  // End of while (!finished) loop
 
-  FreeSprite(Tux);
 
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
+  FreeSprite(Tux);
 
+  return 1;
 }
 
 

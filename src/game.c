@@ -42,6 +42,7 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "throttle.h"
 #include "network.h"
 
 #define FPS 15                     /* 15 frames per second */
@@ -220,7 +221,9 @@ static void print_status(void);
 
 int game(void)
 {
-  Uint32 last_time, now_time;
+//  Uint32 last_time, now_time;
+  char buf[NET_BUF_LEN];
+  char command[NET_BUF_LEN];
 
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Entering game():\n");
@@ -261,13 +264,8 @@ int game(void)
   /* --- MAIN GAME LOOP: --- */
   do
   {
-    char buf[NET_BUF_LEN];
- 
-    char command[NET_BUF_LEN];
-    
     /* reset or increment various things with each loop: */
     frame++;
-    last_time = SDL_GetTicks();
     old_tux_img = tux_img;
     tux_pressing = 0;
 
@@ -321,18 +319,9 @@ int game(void)
     }
 #endif
 
+
     /* Pause (keep frame-rate event) */
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + MS_PER_FRAME)
-    {
-      //Prevent any possibility of a time wrap-around
-      // (this is a very unlikely problem unless there is an SDL bug
-      //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
-      if (now_time > MS_PER_FRAME)
-        now_time = MS_PER_FRAME;
-      SDL_Delay(now_time);
-    }
+    Throttle(MS_PER_FRAME);
 
   }
   while(GAME_IN_PROGRESS == game_status);
@@ -366,7 +355,6 @@ int game(void)
       do
       {
         frame++;
-        last_time = SDL_GetTicks();
 
         while (SDL_PollEvent(&event) > 0)
         {
@@ -380,8 +368,6 @@ int game(void)
 
         if (current_bkgd() )
           SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
-
-
 
         /* draw flashing victory message: */
         if (((frame / 2) % 4))
@@ -416,11 +402,7 @@ int game(void)
 /*        draw_console_image(tux_img);*/
 
         SDL_Flip(screen);
-
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-          SDL_Delay(last_time + MS_PER_FRAME - now_time);
+        Throttle(MS_PER_FRAME);
       }
       while (looping);
       break;
@@ -446,7 +428,6 @@ int game(void)
       do
       {
         frame++;
-        last_time = SDL_GetTicks();
 
         while (SDL_PollEvent(&event) > 0)
         {
@@ -461,10 +442,7 @@ int game(void)
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
         SDL_Flip(screen);
 
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-          SDL_Delay(last_time + MS_PER_FRAME - now_time);
+        Throttle(MS_PER_FRAME);
       }
       while (looping);
 

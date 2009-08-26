@@ -97,6 +97,7 @@ int Opts_Initialize(void)
   global_options->iopts[USE_KEYPAD] = DEFAULT_USE_KEYPAD;
   global_options->iopts[USE_IGLOOS] = DEFAULT_USE_IGLOOS;
   strncpy(game_options->current_font_name, DEFAULT_FONT_NAME, sizeof(game_options->current_font_name));
+  game_options->lan_mode = DEFAULT_LAN_MODE;
   game_options->use_bkgd = DEFAULT_USE_BKGD;
   game_options->help_mode = DEFAULT_HELP_MODE;
   game_options->demo_mode = DEFAULT_DEMO_MODE;
@@ -226,6 +227,13 @@ void Opts_SetFontName(char* font_name)
   if (font_name && font_name[0] != '\0')
   strncpy(game_options->current_font_name, font_name, sizeof(game_options->current_font_name));
 }
+
+
+void Opts_SetLanMode(int val)
+{
+  game_options->lan_mode = int_to_bool(val);
+}
+
 
 void Opts_SetUseBkgd(int val)
 {
@@ -597,6 +605,18 @@ const char* Opts_FontName(void)
   }
   return (const char*) game_options->current_font_name;
 }
+
+
+int Opts_LanMode(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_LanMode(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->lan_mode;
+}
+
 
 int Opts_UseBkgd(void)
 {
