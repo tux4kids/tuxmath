@@ -260,6 +260,7 @@ int MC_WrongListLength(void);
 int MC_NumAnsweredCorrectly(void);
 int MC_NumNotAnsweredCorrectly(void);
 float MC_MedianTimePerQuestion(void);
+void print_card(MC_FlashCard card);
 
 /********************************************
 Public functions for new mathcards architecture

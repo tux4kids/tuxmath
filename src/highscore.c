@@ -896,11 +896,12 @@ void Standby(const char* heading, const char* sub)
 
 int detecting_servers(const char* heading, const char* sub)
 {
-  
+#ifndef HAVE_LIBSDL_NET
+  return 0;
+#else
   SDL_Rect loc;
   SDL_Rect TuxRect,
            stopRect;
-  char buf[NET_BUF_LEN];
 
   int finished = 0;
   int tux_frame = 0;
@@ -967,7 +968,6 @@ int detecting_servers(const char* heading, const char* sub)
 
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
-
 
   while (!finished)
   {
@@ -1055,6 +1055,8 @@ int detecting_servers(const char* heading, const char* sub)
   FreeSprite(Tux);
 
   return 1;
+
+#endif
 }
 
 

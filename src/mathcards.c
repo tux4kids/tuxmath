@@ -241,7 +241,6 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
 
 /* these functions are dead code unless compiling with debug turned on: */
 #ifdef MC_DEBUG
-static void print_card(MC_FlashCard card);
 static void print_counters(void);
 //static MC_FlashCard    create_card_from_node(MC_MathQuestion* node);
 #endif
@@ -500,7 +499,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
   {
     mcdprintf("\nquestion_list invalid or empty");
     mcdprintf("\nLeaving MC_NextQuestion()\n");
-
+    
     return 0;
   }
 

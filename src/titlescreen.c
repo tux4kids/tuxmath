@@ -708,17 +708,17 @@ int run_main_menu(void)
         Opts_SetDemoMode(0);
         if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
           {audioMusicUnload();}
-#ifdef HAVE_LIBSDL_NET
- if(!LAN_Setup("localhost", DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
-
-   LAN_SetName("player A");
-   LAN_StartGame();
-#endif
+// #ifdef HAVE_LIBSDL_NET
+//  if(!LAN_Setup("localhost", DEFAULT_PORT))
+//    {
+//      printf("Unable to connect to the server\n");
+//      LAN_Cleanup();
+//      return 0;
+//    }    
+// 
+//    LAN_SetName("player A");
+//    LAN_StartGame();
+// #endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
@@ -1019,25 +1019,6 @@ int run_arcade_menu(void)
       if (read_named_config_file(arcade_config_files[choice]))
       {
         audioMusicUnload();
-#ifdef HAVE_LIBSDL_NET
-        detecting_servers(_("Detecting Servers"),_("Please Wait"));
-        NameEntry(player_name, _("Enter your Name:"),
-                       _(""));
-        LAN_SetName(player_name);
-        Ready(_("Click OK when Ready"));
-        LAN_StartGame();
-        Opts_SetLanMode(1);
-// if(!LAN_Setup("localhost", DEFAULT_PORT))
-//   {
-//     printf("Unable to connect to the server\n");
-//     LAN_Cleanup();
-//     return 0;
-//   }    
-
-//   LAN_SetName("player A");
-#endif
-        game();
-        Opts_SetLanMode(0);
 
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
@@ -1098,17 +1079,7 @@ int run_custom_menu(void)
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))
       audioMusicUnload();
-#ifdef HAVE_LIBSDL_NET
- if(!LAN_Setup("localhost", DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
 
-   LAN_SetName("player A");
-   LAN_StartGame();
-#endif
     game();
     RecalcTitlePositions();
     write_user_config_file();
@@ -1357,17 +1328,7 @@ int run_lessons_menu(void)
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {audioMusicUnload();}
 
-#ifdef HAVE_LIBSDL_NET
- if(!LAN_Setup("localhost", DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
-
-   LAN_SetName("player A");
-   LAN_StartGame();
-#endif
+      Opts_SetLanMode(0); 
       game();
       RecalcTitlePositions();
 

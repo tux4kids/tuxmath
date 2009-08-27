@@ -43,7 +43,13 @@
 #include "options.h"
 #include "SDL_extras.h"
 #include "throttle.h"
+
+/* Make sure we don't try to call network code if we built without */
+/* network support:                                                */
+#ifdef HAVE_LIBSDL_NET
 #include "network.h"
+#endif
+
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -175,10 +181,10 @@ static void game_draw_misc(void);
 static int check_extra_life(void);
 static int check_exit_conditions(void);
 
-static void game_set_message(game_message *,const char *,int x, int y);
+static void game_set_message(game_message*, const char* ,int x, int y);
 static void game_clear_message(game_message*);
 static void game_clear_messages(void);
-void game_write_message(const game_message *msg);
+void game_write_message(const game_message* msg);
 static void game_write_messages(void);
 static void draw_led_console(void);
 static void draw_question_counter(void);
@@ -200,16 +206,21 @@ static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
+
+
 /*****************************************************/
-int erase_flashcard(MC_FlashCard* fc);
 int add_quest_recvd(char* buf);
+int remove_quest_recvd(char* buf);
+int erase_flashcard(MC_FlashCard* fc);
 int erase_comet_on_screen(comet_type* comet_ques);
+
 /* Display to player: */
 void print_current_quests(void);
 MC_FlashCard* find_comet_by_id(int id);
-int remove_quest_recvd(char* buf);
 comet_type* finder(int id);
 /******************************************************/
+
+
 #ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
@@ -224,16 +235,16 @@ int game(void)
 //  Uint32 last_time, now_time;
   char buf[NET_BUF_LEN];
   char command[NET_BUF_LEN];
-
+#define TUXMATH_DEBUG
 #ifdef TUXMATH_DEBUG
   fprintf(stderr, "Entering game():\n");
 #endif
 
   //see if the option matches the actual screen
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
-    {
-    ;//SwitchScreenMode();
-    }
+  {
+    ;//SwitchScreenMode();  //Huh??
+  }
 
 
    /* most code moved into smaller functions (game_*()): */
@@ -273,14 +284,21 @@ int game(void)
     {
       laser.alive--;
     }
-#ifdef HAVE_LIBSDL_NET
-   while(!check_messages(buf))
+
+   /* Check for server messages if we are playing a LAN game: */
+   if(Opts_LanMode())
    {
-     seperate_commmand_and_buf(command, buf);
-     game_handle_net_messages(buf, command);
-   }
+#ifdef HAVE_LIBSDL_NET
+     while(!check_messages(buf))
+     {
+       seperate_commmand_and_buf(command, buf);
+       game_handle_net_messages(buf, command);
+     }
+#else
+     fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+     Opts_SetLanMode(0);
 #endif    
- 
+   }
 
 
     /* Most code now in smaller functions: */
@@ -564,7 +582,7 @@ int remove_quest_recvd(char* buf)
   return 1;
 }
 
-/* Display the current questions and the number of remaining questions: */
+/* Print the current questions and the number of remaining questions: */
 void print_current_quests(void)
 {
   int i;
@@ -699,26 +717,30 @@ int game_initialize(void)
   gameover_counter = -1;
   user_quit_received = 0;
 
-  /* Start MathCards backend: */
+  /* Make sure we don't try to call network code if we built without */
+  /* network support:                                                */
+#ifndef HAVE_LIBSDL_NET
+  Opts_SetLanMode(0);
+#endif
+
+  /* Start MathCards backend, unless we are getting questions from network: */
   /* FIXME may need to move this into tuxmath.c to accomodate option */
   /* to use MC_StartUsingWrongs() */
   /* NOTE MC_StartGame() will return 0 if the list length is zero due */
   /* (for example) to all math operations being deselected */
-/*#ifdef HAVE_LIBSDL_NET
-  if (!LAN_StartGame())
+  /* NOTE if we are playing a network game, MC_StartGame() has already */
+  /* been called on the server by the time we get to here:             */
+
+  if(!Opts_LanMode())
   {
-    fprintf(stderr, "\nLAN_StartGame() failed!");
-    return 0;
+    printf("Calling MC_StartGame()\n");
+    if (!MC_StartGame())
+    {
+      fprintf(stderr, "\nMC_StartGame() failed!");
+      return 0;
+    }
   }
-#else
-  if (!MC_StartGame())
-  {
-    tmdprintf("\nMC_StartGame() failed!");
-    fprintf(stderr, "\nMC_StartGame() failed!");
-    return 0;
-  }
-#endif
-*/
+
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
   cities = NULL;
@@ -1350,11 +1372,22 @@ void game_handle_answer(void)
   /* If there was an comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
+    /* Tell Mathcards or the server that we answered correctly: */
+    if(Opts_LanMode())
+    {
 #ifdef HAVE_LIBSDL_NET
-    LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+      LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
 #else
-    MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+      fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+      Opts_SetLanMode(0);
+      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
 #endif
+    }
+    else
+    {
+      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+    }
+
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
     ctime = SDL_GetTicks();
@@ -1544,11 +1577,22 @@ void game_handle_comets(void)
           comets[i].expl < COMET_EXPL_END)
       {
         /* Tell MathCards about it - question not answered correctly: */
+        if(Opts_LanMode())
+        {
 #ifdef HAVE_LIBSDL_NET
-        LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-#else 
-        MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-#endif 
+          LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#else
+          fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+          Opts_SetLanMode(0);
+          MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#endif
+        }
+        else
+        {
+          MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+        }
+
+
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
         ctime = SDL_GetTicks();
@@ -2450,29 +2494,52 @@ int check_exit_conditions(void)
   }
 
   /* determine if game won (i.e. all questions in mission answered correctly): */
+  if(Opts_LanMode())
+  {
 #ifdef HAVE_LIBSDL_NET
     if(game_over_won)
-     return GAME_OVER_WON;
+       return GAME_OVER_WON;
 #else
-  if (MC_MissionAccomplished())
-  {
-    tmdprintf("Mission accomplished!\n");
-    return GAME_OVER_WON;
-  }
+    // Should not get here!
+    if (MC_MissionAccomplished())
+    {
+      tmdprintf("Mission accomplished!\n");
+      return GAME_OVER_WON;
+    }
 #endif
+  }
+  else
+  {
+    if (MC_MissionAccomplished())
+    {
+      tmdprintf("Mission accomplished!\n");
+      return GAME_OVER_WON;
+    }
+  }
+
   
   /* Could have situation where mathcards doesn't have more questions */
   /* even though not all questions answered correctly:                */
-#ifdef HAVE_LIBSDL_NET
-  if(game_over_other)
-     return GAME_OVER_OTHER;
-#else  
-  if (!MC_TotalQuestionsLeft())
+  if(Opts_LanMode())
   {
-    return GAME_OVER_OTHER;
-  }
+#ifdef HAVE_LIBSDL_NET
+    if(game_over_other)
+       return GAME_OVER_OTHER;
+#else  
+    if(!MC_TotalQuestionsLeft())
+    {
+      return GAME_OVER_OTHER;
+    }
 #endif
-
+  }
+  else
+  {
+    if(!MC_TotalQuestionsLeft())
+    {
+      return GAME_OVER_OTHER;
+    }
+  }
+  
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
@@ -2756,21 +2823,15 @@ int add_comet(void)
 
   /* Get math question for new comet - the following function fills in */
   /* the flashcard struct that is part of the comet struct:            */
-#ifdef HAVE_LIBSDL_NET
-//   LAN_NextQuestion(); // Let it be for now until we think of something else
-#else
-   if (!MC_NextQuestion(&(comets[found].flashcard)))
-   {
-     /* no more questions available - cannot create comet.  */
-     return 0;
-   }
-#endif   
+   
    /* FIXME what we really need here is the capability within network.c to queue  */
    /* any questions that have been received from the server in check_messages(),  */
    /* and a function that gives us the next question in the local queue if there  */
    /* is one. We can't assume that it will arrive from the server right at the    */
    /* time we happen to need it to make a new comet. So I'm commenting out        */
    /* the 'say_to_server()' call as well - DSB                                     */
+  if(Opts_LanMode())
+  {
 #ifdef HAVE_LIBSDL_NET
     for (i = 0; i < TEST_COMETS; i++)
      {
@@ -2786,64 +2847,81 @@ int add_comet(void)
      if(i == TEST_COMETS)
        return 0;
      
+#else
+    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    {
+      /* no more questions available - cannot create comet.  */
+      return 0;
+    }
 #endif
+  }
+  else
+  {
+    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    {
+      /* no more questions available - cannot create comet.  */
+      return 0;
+    }
+  }
+  printf("In add_comet(), card is\n");
+  print_card(comets[found].flashcard);
 
-     /* Make sure question is "sane" before we add it: */
-     if( (comets[found].flashcard.answer > 999)
-       ||(comets[found].flashcard.answer < -999))
-     {
-       printf("Warning, card with invalid answer encountered: %d\n",
-              comets[found].flashcard.answer);
-       return 0;
-     }
+  /* Make sure question is "sane" before we add it: */
+  if( (comets[found].flashcard.answer > 999)
+    ||(comets[found].flashcard.answer < -999))
+  {
+    printf("Warning, card with invalid answer encountered: %d\n",
+           comets[found].flashcard.answer);
+    return 0;
+  }
 
-     /* If we make it to here, create a new comet!*/
-     comets[found].answer = comets[found].flashcard.answer;
-     comets[found].alive = 1;
-     printf("comet[%d].alive=1\n",found);
-     num_comets_alive++;
+  /* If we make it to here, create a new comet!*/
+  comets[found].answer = comets[found].flashcard.answer;
+  comets[found].alive = 1;
+  printf("comet[%d].alive=1\n",found);
+  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
   /* (so formulas are less likely to overlap). */
-     do
-     {
-       i = rand() % NUM_CITIES;
-     }
-     while (i == prev_city);
+  do
+  {
+    i = rand() % NUM_CITIES;
+  }
+  while (i == prev_city);
 
-     prev_city = i;
+  prev_city = i;
 
-     /* Set in to attack that city: */
-     comets[found].city = i;
-     /* Start at the top, above the city in question: */
-     comets[found].x = cities[i].x;
-     comets[found].y = 0;
-     comets[found].zapped = 0;
-     /* Should it be a bonus comet? */
-     comets[found].bonus = 0;
+  /* Set in to attack that city: */
+  comets[found].city = i;
+  /* Start at the top, above the city in question: */
+  comets[found].x = cities[i].x;
+  comets[found].y = 0;
+  comets[found].zapped = 0;
+  /* Should it be a bonus comet? */
+  comets[found].bonus = 0;
 
 #ifdef TUXMATH_DEBUG
-     printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
+  printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
 #endif
 
-     if (bonus_comet_counter == 1)
-     {
-       bonus_comet_counter = 0;
-       comets[found].bonus = 1;
-       playsound(SND_BONUS_COMET);
+  if (bonus_comet_counter == 1)
+  {
+    bonus_comet_counter = 0;
+    comets[found].bonus = 1;
+    playsound(SND_BONUS_COMET);
 #ifdef TUXMATH_DEBUG
-       printf("\nCreated bonus comet");
+    printf("\nCreated bonus comet");
 #endif
-     }
+  }
 
 #ifdef TUXMATH_DEBUG
-      printf ("\nadd_comet(): formula string is: %s",
+  printf ("\nadd_comet(): formula string is: %s",
               comets[found].flashcard.formula_string);
-      print_current_quests();
+  print_current_quests();
 #endif
 
-     /* Record the time at which this comet was created */
-     comets[found].time_started = SDL_GetTicks();
+  /* Record the time at which this comet was created */
+  comets[found].time_started = SDL_GetTicks();
 //   }
   /* comet slot found and question found so return successfully: */
   return 1;
@@ -3651,6 +3729,7 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
 
 }
 
+
 void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
 {
   if (!src || !dest)
@@ -3664,6 +3743,7 @@ void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
   dest->difficulty = src->difficulty;
   dest->question_id = src->question_id;
 }
+
 
 void print_status(void)
 {
