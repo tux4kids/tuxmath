@@ -194,12 +194,13 @@ int answered_wrong = 0;
 int questions_pending = 0;
 int unanswered = 0;
 int starting_length = 0;
+static int id = 0;
+
 //NOTE these are no longer used:
 int max_formula_size = 0; //max length in chars of a flashcard's formula
 int max_answer_size = 0; //and of its answer
 
 /* For keeping track of timing data */
-/*FIXME do we really need any of these? */
 float* time_per_question_list = NULL;
 int length_time_per_question_list = 0;
 int length_alloc_time_per_question_list = 0;
@@ -1229,10 +1230,12 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():\n");
-  printf("question_id: %d\nformula_string: %s\nanswer_string: %s\ndifficulty: %d\n\n",
+  printf("question_id: %d\nformula_string: %s\nanswer_string: %s\n"
+         "answer: %d\ndifficulty: %d\n\n",
          card.question_id,
          card.formula_string,
          card.answer_string,
+         card.answer,
          card.difficulty);
 }
 
@@ -1602,6 +1605,12 @@ the score: 0, 1, 2, and 3 respectively for addition, subtraction,
 multiplication and division.If reformat is 0, FORMAT_ANS_LAST will be used,
 otherwise a format is chosen at random.
 */
+
+/* FIXME this function has to go - it is extremely difficult to follow,
+   it is impossible to check for invalid questions, and it really 
+   cannot be maintained.
+*/
+
 MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 {
   int format = 0;
@@ -1611,7 +1620,6 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   char tempstr[MC_FORMULA_LEN];
   MC_FlashCard ret;
   MC_Operation op;
-  static int id = 0;
 
   id += 1;
   mcdprintf(".");
@@ -1689,6 +1697,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     snprintf(ret.formula_string, MC_FORMULA_LEN, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
+    mcdprintf("int answer is %d\n", ret.answer);
     ret.difficulty = op + 1;
 
   }
@@ -1775,7 +1784,11 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     strncat(ret.formula_string, " = ?", MC_FORMULA_LEN - strlen(ret.formula_string) );
     reformat_arithmetic(&ret, format );     
   }
-  ret.question_id=id;
+  ret.question_id = id;
+
+  mcdprintf("At end of generate_rand_ooo_card_of_length():\n");
+  print_card(ret);
+
   return ret;
 }
 
@@ -1907,6 +1920,19 @@ MC_MathQuestion* generate_list(void)
       end_of_list = tnode;
     }
   }
+  /* Now just put the question_id values in: */
+
+  {
+    int i = 1;
+    MC_MathQuestion* ptr = list;
+    while(ptr->next)
+    {
+      ptr->card.question_id = i;
+      ptr = ptr->next;
+      i++;
+    }
+  }
+
   return list;
 }
 
@@ -2270,6 +2296,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
 
       snprintf(tnode->card.formula_string, MC_FORMULA_LEN, "%d", i);
       snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
+      tnode->card.answer = i;
       tnode->card.difficulty = 1;
       list = insert_node(list, *end_of_list, tnode);
       *end_of_list = tnode;
@@ -2379,6 +2406,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "%d %c %d = ?", i, operchars[k], j);
             tnode->card.difficulty = k + 1;
+            tnode->card.answer = ans;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
           }
@@ -2413,6 +2441,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
             snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "? %c %d = %d", operchars[k], j, ans);
+            tnode->card.answer = ans;
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
@@ -2447,6 +2476,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", j);
             snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
                      "%d %c ? = %d", i, operchars[k], ans);
+            tnode->card.answer = ans;
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
             *end_of_list = tnode;
