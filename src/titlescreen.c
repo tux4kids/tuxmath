@@ -1019,7 +1019,8 @@ int run_arcade_menu(void)
       if (read_named_config_file(arcade_config_files[choice]))
       {
         audioMusicUnload();
-
+	Opts_SetLanMode(0);
+        game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {
           audioMusicLoad( "tuxi.ogg", -1 );

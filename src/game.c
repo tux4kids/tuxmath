@@ -2842,33 +2842,30 @@ int add_comet(void)
   }
 
 
-  /* Get math question for new comet - the following function fills in */
-  /* the flashcard struct that is part of the comet struct:            */
+  /* Get math question for new comet - if playing in LAN mode, we */
+  /* get the next question from our local queue. If not in LAN    */
+  /* mode, we get it with a direct function call to MathCards     */
    
-   /* FIXME what we really need here is the capability within network.c to queue  */
-   /* any questions that have been received from the server in check_messages(),  */
-   /* and a function that gives us the next question in the local queue if there  */
-   /* is one. We can't assume that it will arrive from the server right at the    */
-   /* time we happen to need it to make a new comet. So I'm commenting out        */
-   /* the 'say_to_server()' call as well - DSB                                     */
   if(Opts_LanMode())
   {
 #ifdef HAVE_LIBSDL_NET
     for (i = 0; i < TEST_COMETS; i++)
-     {
-       if(comets_questions[comet_counter % TEST_COMETS].question_id != -1)
-       {
-         copy_card(&(comets_questions[comet_counter % TEST_COMETS]), &(comets[found].flashcard)); //will be replaced on set up of new system
-         comet_counter++;
-         break;
-       }
-     }
-     if(comet_counter > TEST_COMETS)
-       comet_counter -= TEST_COMETS;
-     if(i == TEST_COMETS)
-       return 0;
-     
+    {
+      if(comets_questions[i].question_id != -1)
+      {
+        copy_card(&(comets_questions[i]), &(comets[found].flashcard));
+        erase_flashcard(&(comets_questions[i]));
+        break;
+      }
+    }
+
+    if(i == TEST_COMETS)
+    {
+      tmdprintf("add_comet() called but no question available in queue\n");
+      return 0;
+    } 
 #else
+    /* NOTE: Should not be able to get to here */
     if (!MC_NextQuestion(&(comets[found].flashcard)))
     {
       /* no more questions available - cannot create comet.  */
