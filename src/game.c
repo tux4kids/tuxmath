@@ -2813,28 +2813,28 @@ int add_comet(void)
   int i;
   float y_spacing;
 
-  /* Look for a free comet slot and see if all live comets are far */
-  /* enough down to avoid overlap and keep formulas legible:       */
   found = -1;
+
   y_spacing = (images[IMG_NUMS]->h) * 1.5;
 
-  for (i = 0; i < MAX_COMETS && found == -1; i++)
+  /* Return if any previous comet too high up to create another one yet: */
+  for (i = 0; i < MAX_COMETS; i++)
   {
     if (comets[i].alive)
-    {
       if (comets[i].y < y_spacing)
-      {
-        /* previous comet too high up to create another one yet: */
         return 0;
-      }
-    }
-    else  /* non-living comet so we found a free slot: */
+  }  
+    
+  /* Now look for a free comet slot: */
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (!comets[i].alive)
     {
       found = i;
       break;
     }
   }
-
+ 
   if (-1 == found)
   {
     /* free comet slot not found - no comet added: */
@@ -2974,18 +2974,13 @@ void draw_nums(const char* str, int x, int y)
   /* the following code keeps the formula at least 8 pixels inside the window: */
   if (cur_x < 8)
     cur_x = 8;
-  if (cur_x + (image_length) >=
-      (screen->w - 8))
-    cur_x = ((screen->w - 8) -
-             (image_length));
-
+  if (cur_x + (image_length) >= (screen->w - 8))
+    cur_x = ((screen->w - 8) - (image_length));
 
   /* Draw each character: */
-
   for (i = 0; i < str_length; i++)
   {
     c = -1;
-
 
     /* Determine which character to display: */
 
@@ -3046,46 +3041,38 @@ void draw_numbers(const char* str, int x, int y)
   int i, cur_x, c;
   SDL_Rect src, dest;
 
-
   cur_x = x;
-
 
   /* Draw each character: */
 
   for (i = 0; i < strlen(str); i++)
+  {
+    c = -1;
+
+    /* Determine which character to display: */
+    if (str[i] >= '0' && str[i] <= '9')
+      c = str[i] - '0';
+
+    /* Display this character! */
+    if (c != -1)
     {
-      c = -1;
+      src.x = c * (images[IMG_NUMBERS]->w / 10);
+      src.y = 0;
+      src.w = (images[IMG_NUMBERS]->w / 10);
+      src.h = images[IMG_NUMBERS]->h;
 
+      dest.x = cur_x;
+      dest.y = y;
+      dest.w = src.w;
+      dest.h = src.h;
 
-      /* Determine which character to display: */
-
-      if (str[i] >= '0' && str[i] <= '9')
-        c = str[i] - '0';
-
-
-      /* Display this character! */
-
-      if (c != -1)
-        {
-          src.x = c * (images[IMG_NUMBERS]->w / 10);
-          src.y = 0;
-          src.w = (images[IMG_NUMBERS]->w / 10);
-          src.h = images[IMG_NUMBERS]->h;
-
-          dest.x = cur_x;
-          dest.y = y;
-          dest.w = src.w;
-          dest.h = src.h;
-
-          SDL_BlitSurface(images[IMG_NUMBERS], &src,
+      SDL_BlitSurface(images[IMG_NUMBERS], &src,
                           screen, &dest);
 
-
-          /* Move the 'cursor' one character width: */
-
-          cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
-        }
+      /* Move the 'cursor' one character width: */
+      cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
     }
+  }
 }
 
 
@@ -3231,34 +3218,34 @@ void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
   /* Assuming the X/Y values are within the bounds of this surface... */
 
   if (x >= 0 && y >= 0 && x < surface->w && y < surface->h)
-    {
+  {
       /* Set the (correctly-sized) piece of data in the surface's RAM
          to the pixel value sent in: */
 
-      if (bpp == 1)
-        *p = pixel;
-      else if (bpp == 2)
-        *(Uint16 *)p = pixel;
-      else if (bpp == 3)
-        {
-          if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-            {
-              p[0] = (pixel >> 16) & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = pixel & 0xff;
-            }
-          else
-            {
-              p[0] = pixel & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = (pixel >> 16) & 0xff;
-            }
-        }
-      else if (bpp == 4)
-        {
-          *(Uint32 *)p = pixel;
-        }
+    if (bpp == 1)
+      *p = pixel;
+    else if (bpp == 2)
+      *(Uint16 *)p = pixel;
+    else if (bpp == 3)
+    {
+      if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+      {
+        p[0] = (pixel >> 16) & 0xff;
+        p[1] = (pixel >> 8) & 0xff;
+        p[2] = pixel & 0xff;
+      }
+      else
+      {
+        p[0] = pixel & 0xff;
+        p[1] = (pixel >> 8) & 0xff;
+        p[2] = (pixel >> 16) & 0xff;
+      }
     }
+    else if (bpp == 4)
+    {
+      *(Uint32 *)p = pixel;
+    }
+  }
 #else
   SDL_Rect dest;
 
