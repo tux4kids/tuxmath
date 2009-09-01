@@ -15,7 +15,7 @@
   August 26, 2001 - February 18, 2004
 
   Revised by David Bruce, Tim Holy and others
-  2005-2007
+  2005-2009
 */
 
 #define TUXMATH_DEBUG
@@ -565,13 +565,19 @@ int remove_quest_recvd(char* buf)
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
 
-  fc = find_comet_by_id(id);
   comet_screen = finder(id);
-  if(!fc)
+  fc = find_comet_by_id(id);
+  if(!comet_screen && !fc)
     return 0;
 
-  erase_flashcard(fc);
-  erase_comet_on_screen(comet_screen);
+  if(comet_screen)
+    erase_comet_on_screen(comet_screen);
+
+  //NOTE: normally the question should no longer be in the queue,
+  //so the next statement should not be needed:
+  if(fc)
+    erase_flashcard(fc);
+
   return 1;
 }
 
