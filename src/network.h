@@ -30,9 +30,9 @@ typedef struct {
 int LAN_DetectServers(void);
 int LAN_AutoSetup(int i);
 char* LAN_ServerName(int i);
+char* LAN_ConnectedServerName(void);
 int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
-
 int LAN_SetName(char* name);
 
 /* Network replacement functions for mathcards "API": */

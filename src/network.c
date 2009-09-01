@@ -27,12 +27,14 @@ TCPsocket sd;           /* Server socket descriptor */
 SDLNet_SocketSet set;
 IPaddress serv_ip;
 ServerEntry servers[MAX_SERVERS];
+static int connected_server = -1;
 
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
 int add_to_server_list(UDPpacket* pkt);
 void print_server_list(void);
+
 
 int LAN_DetectServers(void)
 {
@@ -110,17 +112,17 @@ int LAN_DetectServers(void)
         num_servers = add_to_server_list(in);
       }
     }
-    //Make sure we always scan at least five but not more than ten seconds:
-    seconds++;
-    if(seconds < 5)
-      done = 0;
-    if(seconds > 10)
-      done = 1;
+    //Make sure we always scan at least one but not more than five seconds:
     Throttle(1000); //repeat once per second
+    seconds++;
+    if(seconds < 1)
+      done = 0;
+    if(seconds > 5)
+      done = 1;
+
   }
 
   printf("done\n\n");
-
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 
@@ -131,19 +133,27 @@ int LAN_DetectServers(void)
 
 char* LAN_ServerName(int i)
 {
+  if(i < 0 || i > MAX_SERVERS)
+    return NULL;
   if(servers[i].ip.host != 0)
     return servers[i].name;
   else
     return NULL; 
 }
 
-
+char* LAN_ConnectedServerName(void)
+{
+   return servers[connected_server].name;
+}
 
 //For the simple case where a single server is found, i is 
 //always 0. Otherwise the player has to review the choices
 //via LAN_ServerName(i) to get the index 
 int LAN_AutoSetup(int i)
 {
+  if(i < 0 || i > MAX_SERVERS)
+    return 0;
+
   /* Open a connection based on autodetection routine: */
   if (!(sd = SDLNet_TCP_Open(&servers[i].ip)))
   {
@@ -165,6 +175,8 @@ int LAN_AutoSetup(int i)
     // perhaps you need to restart the set and make it bigger...
   }
 
+  // Success - record the index for future reference:
+  connected_server = i;
   return 1;
 }
 

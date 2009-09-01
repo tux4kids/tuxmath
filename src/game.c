@@ -519,11 +519,8 @@ int erase_comet_on_screen(comet_type* comet_ques)
   comet_ques->y = 0;
   comet_ques->answer = 0;
   num_comets_alive--;
-  comet_ques->flashcard.formula_string[0] = '\0';
-  comet_ques->flashcard.answer_string[0] = '\0';
-  comet_ques->flashcard.question_id = -1;
-  comet_ques->flashcard.answer = 0;
-  comet_ques->flashcard.difficulty = 0;
+  erase_flashcard(&(comet_ques->flashcard));
+
   return 1;
 }
 
@@ -571,13 +568,18 @@ int remove_quest_recvd(char* buf)
     return 0;
 
   if(comet_screen)
+  {
     erase_comet_on_screen(comet_screen);
-
+    playsound(SND_SIZZLE);
+  }
   //NOTE: normally the question should no longer be in the queue,
-  //so the next statement should not be needed:
+  //so the next statement should get executed:
   if(fc)
+  {
+    tmdprintf("Note - request to erase question still in queue: %s\n",
+              fc->formula_string);
     erase_flashcard(fc);
-
+  }
   return 1;
 }
 

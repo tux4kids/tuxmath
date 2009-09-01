@@ -917,7 +917,7 @@ int detecting_servers(const char* heading, const char* sub)
   SDL_EnableUNICODE(SDL_ENABLE);
 
 #ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
+  fprintf(stderr, "\nEnter detecting_servers()\n" );
 #endif
 
 
@@ -995,10 +995,15 @@ int detecting_servers(const char* heading, const char* sub)
         FreeSprite(Tux);
         return 0;
       }
+      
+      
       finished = 1;
       break;  //So we quit scanning as soon as we connect
       printf("connected\n");
-    } 
+    } else if (servers_found  > 1)
+    {
+      //TODO display list of servers for player to choose from:
+    }
 
 
     while (SDL_PollEvent(&event)) 

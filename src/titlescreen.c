@@ -896,7 +896,9 @@ int run_lan_menu(void)
     {
       if(detecting_servers(_("Detecting Servers"), _("Please Wait")))
       {
-        NameEntry(player_name, _("Enter your Name:"), _(""));
+        char buf[256];
+	snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
+        NameEntry(player_name, buf, _("Enter your Name:"));
         LAN_SetName(player_name);
         Ready(_("Click OK when Ready"));
         LAN_StartGame();
