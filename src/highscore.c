@@ -745,7 +745,7 @@ void Ready(const char* heading)
 }
 
 
-void Standby(const char* heading, const char* sub)
+int Standby(const char* heading, const char* sub)
 {
   
   SDL_Rect loc;
@@ -838,7 +838,7 @@ void Standby(const char* heading, const char* sub)
         { 
           if (inRect(stopRect, event.button.x, event.button.y ))
           {
-            finished = 1;
+            finished = -1;
             playsound(SND_TOCK);
             break;
           }
@@ -852,12 +852,18 @@ void Standby(const char* heading, const char* sub)
     //print any unrecognized messages to stderr with a warning - DSB
     while(!check_messages(buf))
     {
-      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME"))==0)
+      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME")) == 0)
       {
         finished = 1;
         playsound(SND_TOCK);
         break;
-      }     
+      }
+      else if(strncmp(buf, "GAME_IN_PROGRESS", strlen("GAME_IN_PROGRESS")) == 0)
+      {
+        finished = -1;
+        playsound(SND_TOCK);
+        break;
+      }
     }
 
     /* --- make tux blink --- */
@@ -891,6 +897,8 @@ void Standby(const char* heading, const char* sub)
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
 
+  /* 1 means we start game, -1 means we go back to menu */
+  return finished;
 }
 
 

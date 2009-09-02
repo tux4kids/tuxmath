@@ -281,10 +281,18 @@ int game(void)
    if(Opts_LanMode())
    {
 #ifdef HAVE_LIBSDL_NET
-     while(!check_messages(buf))
+     int status = check_messages(buf);
+     while(!status)
      {
        seperate_commmand_and_buf(command, buf);
        game_handle_net_messages(buf, command);
+       status = check_messages(buf);
+     }
+
+     if(status == -1)
+     {
+       game_cleanup();
+       return GAME_OVER_ERROR;
      }
 #else
      fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");

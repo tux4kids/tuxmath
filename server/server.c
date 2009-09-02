@@ -369,9 +369,8 @@ void update_clients(void)
   if(game_in_progress)
   {
     snprintf(buffer, NET_BUF_LEN, 
-             "%s\t%s",
-             "PLAYER_MSG",
-             "Sorry, the game has started...... =(");
+             "%s",
+             "GAME_IN_PROGRESS");
     SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
     //hang up:
     SDLNet_TCP_Close(temp_sock);

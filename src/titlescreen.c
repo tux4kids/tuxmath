@@ -708,17 +708,6 @@ int run_main_menu(void)
         Opts_SetDemoMode(0);
         if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
           {audioMusicUnload();}
-// #ifdef HAVE_LIBSDL_NET
-//  if(!LAN_Setup("localhost", DEFAULT_PORT))
-//    {
-//      printf("Unable to connect to the server\n");
-//      LAN_Cleanup();
-//      return 0;
-//    }    
-// 
-//    LAN_SetName("player A");
-//    LAN_StartGame();
-// #endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
@@ -896,17 +885,24 @@ int run_lan_menu(void)
     {
       if(detecting_servers(_("Detecting Servers"), _("Please Wait")))
       {
+        int stdby;
         char buf[256];
 	snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
         NameEntry(player_name, buf, _("Enter your Name:"));
         LAN_SetName(player_name);
         Ready(_("Click OK when Ready"));
         LAN_StartGame();
-        Standby(_("Waiting For Other Players"),_("To Connect"));
-
-        Opts_SetLanMode(1);  // Tells game() we are playing over network
-        game();
-        Opts_SetLanMode(0);  // Go back to local play
+        stdby = Standby(_("Waiting For Other Players"),_("To Connect"));
+        if (stdby == 1)
+        {
+          Opts_SetLanMode(1);  // Tells game() we are playing over network
+          game();
+          Opts_SetLanMode(0);  // Go back to local play
+        }
+        else
+        {
+          ShowMessage(NULL, _("Sorry, game already in progress."), NULL, NULL);
+        }  
       }
       else
       {
@@ -1228,17 +1224,6 @@ int run_options_menu(void)
       if (read_named_config_file("demo"))
       {
         audioMusicUnload();
-#ifdef HAVE_LIBSDL_NET
- if(!LAN_Setup("localhost", DEFAULT_PORT))
-   {
-     printf("Unable to connect to the server\n");
-     LAN_Cleanup();
-     return 0;
-   }    
-
-   LAN_SetName("player A");
-   LAN_StartGame();
-#endif
         game();
         RecalcTitlePositions();
         if (Opts_GetGlobalOpt(MENU_MUSIC)) {

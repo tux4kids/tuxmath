@@ -182,53 +182,53 @@ int LAN_AutoSetup(int i)
 
 
 
-int LAN_Setup(char *host, int port)
-{
-  IPaddress ip;           /* Server address */
-
-  if(SDL_Init(0)==-1)
-  {
-    printf("SDL_Init: %s\n", SDL_GetError());
-    return 0;;
-  }
-
-  if (SDLNet_Init() < 0)
-  {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    return 0;
-  } 
-
-   /* Resolve the host we are connecting to */
-  if (SDLNet_ResolveHost(&ip, host, port) < 0)
-  {
-    fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-    return 0;
-  }
- 
-  /* Open a connection with the IP provided (listen on the host's port) */
-  if (!(sd = SDLNet_TCP_Open(&ip)))
-  {
-    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-  /* We create a socket set so we can check for activity: */
-  set = SDLNet_AllocSocketSet(1);
-  if(!set)
-  {
-    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
-  if(SDLNet_TCP_AddSocket(set, sd) == -1)
-  {
-    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-    // perhaps you need to restart the set and make it bigger...
-  }
-
-
-  return 1;
-}
+// int LAN_Setup(char *host, int port)
+// {
+//   IPaddress ip;           /* Server address */
+// 
+//   if(SDL_Init(0)==-1)
+//   {
+//     printf("SDL_Init: %s\n", SDL_GetError());
+//     return 0;;
+//   }
+// 
+//   if (SDLNet_Init() < 0)
+//   {
+//     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+//     return 0;
+//   } 
+// 
+//    /* Resolve the host we are connecting to */
+//   if (SDLNet_ResolveHost(&ip, host, port) < 0)
+//   {
+//     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
+//     return 0;
+//   }
+//  
+//   /* Open a connection with the IP provided (listen on the host's port) */
+//   if (!(sd = SDLNet_TCP_Open(&ip)))
+//   {
+//     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
+//     return 0;
+//   }
+// 
+//   /* We create a socket set so we can check for activity: */
+//   set = SDLNet_AllocSocketSet(1);
+//   if(!set)
+//   {
+//     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+//     return 0;
+//   }
+// 
+//   if(SDLNet_TCP_AddSocket(set, sd) == -1)
+//   {
+//     printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+//     // perhaps you need to restart the set and make it bigger...
+//   }
+// 
+// 
+//   return 1;
+// }
 
 
 void LAN_Cleanup(void)
@@ -263,17 +263,6 @@ int LAN_SetName(char* name)
 
 
 
-// int LAN_NextQuestion(void)
-// {
-//   char buf[NET_BUF_LEN];
-// 
-//   snprintf(buf, NET_BUF_LEN, 
-//                   "%s",
-//                   "NEXT_QUESTION");
-//   return say_to_server(buf);
-// }
-
-
 /* Appears a return value of 0 means message received, 1 means no socket activity */
 int check_messages(char buf[NET_BUF_LEN])
 { 
@@ -298,8 +287,8 @@ int check_messages(char buf[NET_BUF_LEN])
       buf[0] = '\0';
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) <= 0)
       {
-        fprintf(stderr, "In play_game(), SDLNet_TCP_Recv() failed!\n");
-        exit(EXIT_FAILURE);
+        fprintf(stderr, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
+        return -1;
       }
       return 0;
     }
