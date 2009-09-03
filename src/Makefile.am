@@ -7,7 +7,7 @@ localedir = $(datadir)/locale
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 
 AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
-	-DVERSION=\"@NAME_VERSION@\" -D$(SOUND)SOUND
+	-D$(SOUND)SOUND
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
 	-I../intl -I$(top_srcdir)/intl
@@ -31,6 +31,7 @@ endif
 tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
+	menu.c		\
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
@@ -75,6 +76,7 @@ EXTRA_DIST = 	credits.h 	\
 	loaders.h	\
         network.h       \
 	titlescreen.h   \
+	menu.h		\
 	options.h	\
 	setup.h		\
 	mathcards.h 	\
@@ -99,7 +101,3 @@ WINDRES=@WINDRES@
 # How to make an RC file
 tuxmathrc.o: tuxmathrc.rc
 	$(WINDRES) -i $< -o $@
-
-
-
-

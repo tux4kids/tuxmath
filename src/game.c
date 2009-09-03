@@ -221,10 +221,8 @@ comet_type* finder(int id);
 /******************************************************/
 
 
-#ifdef TUXMATH_DEBUG
 static void print_exit_conditions(void);
 static void print_status(void);
-#endif
 
 
 /* --- MAIN GAME FUNCTION!!! --- */
@@ -232,11 +230,10 @@ static void print_status(void);
 
 int game(void)
 {
-//  Uint32 last_time, now_time;
   char buf[NET_BUF_LEN];
   char command[NET_BUF_LEN];
 
-  tmdprintf("Entering game():\n");
+  DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
@@ -345,9 +342,7 @@ int game(void)
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
 
-#ifdef TUXMATH_DEBUG
-  print_exit_conditions();
-#endif
+  DEBUGCODE(debug_game) print_exit_conditions();
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
@@ -427,11 +422,7 @@ int game(void)
     }
 
     case GAME_OVER_ERROR:
-    {
-#ifdef TUXMATH_DEBUG
-      printf("\ngame() exiting with error");
-#endif
-    }
+      DEBUGMSG(debug_game, "game() exiting with error:\n");
     case GAME_OVER_LOST:
     case GAME_OVER_OTHER:
     {
@@ -706,10 +697,10 @@ this should stylishly fade out over the first few moments of the game.
 void game_set_start_message(const char* m1, const char* m2, 
                             const char* m3, const char* m4)
 {
-  game_set_message(&s1, m1, -1, RES_Y * 2 / 10);
-  game_set_message(&s2, m2, screen->w / 2 - 40, RES_Y * 3 / 10);
-  game_set_message(&s3, m3, screen->w / 2 - 40, RES_Y * 4 / 10);
-  game_set_message(&s4, m4, screen->w / 2 - 40, RES_Y * 5 / 10);
+  game_set_message(&s1, m1, -1, screen->h * 2 / 10);
+  game_set_message(&s2, m2, screen->w / 2 - 40, screen->h * 3 / 10);
+  game_set_message(&s3, m3, screen->w / 2 - 40, screen->h * 4 / 10);
+  game_set_message(&s4, m4, screen->w / 2 - 40, screen->h * 5 / 10);
   start_message_chosen = 1;
 }
 
@@ -719,8 +710,8 @@ int game_initialize(void)
 {
   int i,img;
   
-  tmdprintf("Entering game_initialize()\n");
-
+  DEBUGMSG(debug_game,"Entering game_initialize()\n");
+  
   /* Clear window: */
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
@@ -745,12 +736,12 @@ int game_initialize(void)
 
   if(!Opts_LanMode())
   {
-    tmdprintf("Calling MC_StartGame()\n");
     if (!MC_StartGame())
     {
       fprintf(stderr, "\nMC_StartGame() failed!");
       return 0;
     }
+    DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
   }
 
   /* Start out with our "comets" empty: */
@@ -786,7 +777,8 @@ int game_initialize(void)
       }
     }
   }
-  
+  DEBUGMSG(debug_game,"Flashcards allocated.\n");
+   
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL)
   {
@@ -881,8 +873,9 @@ int game_initialize(void)
   if (Opts_BonusCometInterval())
   {
     bonus_comet_counter = Opts_BonusCometInterval() + 1;
-    tmdprintf("\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
+    DEBUGMSG(debug_game,"\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
   }
+
   extra_life_earned = 0;
   cloud.status = EXTRA_LIFE_OFF;
 
@@ -957,7 +950,7 @@ void game_cleanup(void)
   }
 #endif
 
-  tmdprintf("Leaving game():\n");
+  DEBUGMSG(debug_game, "Leaving game():\n");
 }
 
 
@@ -1052,7 +1045,7 @@ void game_handle_help(void)
 
   help_add_comet("3 * 3 = ?", "9");
   comets[0].y = 2*(screen->h)/3;   // start it low down
-  while (!(comets[0].expl) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
+  while ((comets[0].expl == -1) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   if (quit_help)
     return;
   game_set_message(&s4,_("Notice the answer"),left_edge,comets[0].y-100);
@@ -1180,7 +1173,7 @@ void help_add_comet(const char* formula_str, const char* ans_str)
 //  char ansstr[MC_ANSWER_LEN];
 
   comets[0].alive = 1;
-  comets[0].expl = 0;
+  comets[0].expl = -1;
   comets[0].answer = atoi(ans_str);
   num_comets_alive = 1;
   comets[0].city = 0;
@@ -1293,7 +1286,7 @@ void game_handle_demo(void)
     picked_comet = (rand() % MAX_COMETS);
 
     if (!(comets[picked_comet].alive &&
-          comets[picked_comet].expl < COMET_EXPL_END)
+          comets[picked_comet].expl == -1)
         || comets[picked_comet].y < 80)
     {
       picked_comet = -1;
@@ -1305,9 +1298,8 @@ void game_handle_demo(void)
       if ((rand() % 3) < 1)
         demo_answer--;  // sometimes get it wrong on purpose
 
-      #ifdef TUXMATH_DEBUG
-      printf("Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
-      #endif
+      DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n", picked_comet,demo_answer);
+
       /* handle negative answer: */
       if (demo_answer < 0)
       {
@@ -1351,9 +1343,8 @@ void game_handle_demo(void)
     else
     {
       /* "Press Return" */
-      #ifdef TUXMATH_DEBUG
-      printf("Demo mode firing with these digits: %d%d%d\n",digits[0],digits[1],digits[2]);
-      #endif
+      DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",
+               digits[0], digits[1], digits[2]);
       doing_answer = 1;
       picked_comet = -1;
     }
@@ -1394,9 +1385,8 @@ void game_handle_answer(void)
 
   for (i = 0; i < MAX_COMETS; i++)
   {
-    mcdprintf("Comparing '%s' with '%s'\n", comets[i].flashcard.answer_string, ans);
     if (comets[i].alive &&
-        comets[i].expl < COMET_EXPL_END &&
+        comets[i].expl == -1 &&
         //comets[i].answer == num &&
         0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1) &&
         comets[i].y > lowest_y)
@@ -1434,7 +1424,7 @@ void game_handle_answer(void)
 
 
     /* Destroy comet: */
-    comets[lowest].expl = COMET_EXPL_START;
+    comets[lowest].expl = 0;
     comets[lowest].zapped = 1;
     /* Fire laser: */
     laser.alive = LASER_START;
@@ -1597,12 +1587,12 @@ void game_handle_comets(void)
       if (comets[i].bonus)
       {
         comets[i].y += speed * Opts_BonusSpeedRatio() *
-                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
+                       city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
       }
       else /* Regular comet: */
       {
         comets[i].y += speed *
-                       city_expl_height / (RES_Y - images[IMG_CITY_BLUE]->h);
+                       city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
       }
 
       /* Does it threaten a city? */
@@ -1611,7 +1601,7 @@ void game_handle_comets(void)
 
       /* Did it hit a city? */
       if (comets[i].y >= city_expl_height &&
-          comets[i].expl < COMET_EXPL_END)
+          comets[i].expl == -1)
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
@@ -1689,27 +1679,24 @@ void game_handle_comets(void)
         tux_anim_frame = ANIM_FRAME_START;
 
         /* Destroy comet: */
-        comets[i].expl = COMET_EXPL_START;
+        comets[i].expl = 0;
       }
 
       /* Handle comet explosion animation: */
-      if (comets[i].expl >= COMET_EXPL_END)
+      if (comets[i].expl >= 0)
       {
-        comets[i].expl--;
-        if (comets[i].expl < COMET_EXPL_END) {
+        comets[i].expl++;
+        if (comets[i].expl >= sprites[IMG_COMET_EXPL]->num_frames * 2) {
           comets[i].alive = 0;
+          comets[i].expl = -1;
           if (bonus_comet_counter > 1 && comets[i].zapped) {
             bonus_comet_counter--;
-#ifdef TUXMATH_DEBUG
-            printf("\nbonus_comet_counter is now %d\n",bonus_comet_counter);
-#endif
+            DEBUGMSG(debug_game, "bonus_comet_counter is now %d\n",bonus_comet_counter);
           }
           if (comets[i].bonus && comets[i].zapped) {
             playsound(SND_EXTRA_LIFE);
             extra_life_earned = 1;
-#ifdef TUXMATH_DEBUG
-            printf("\nExtra life earned!");
-#endif
+            DEBUGMSG(debug_game, "Extra life earned!");
           }
         }
       }
@@ -1978,9 +1965,9 @@ int check_extra_life(void)
 
   if (cloud.status == EXTRA_LIFE_ON)
     return 1;
-#ifdef TUXMATH_DEBUG
-  print_status();
-#endif
+  DEBUGCODE(debug_game)
+    print_status();
+    
   if (extra_life_earned) {
     /* Check to see if any ingloo has been hit */
     fewest_hits_left = 2;
@@ -1999,9 +1986,9 @@ int check_extra_life(void)
     cloud.y = screen->h/3;
     cloud.city = fewest_index;
     bonus_comet_counter = Opts_BonusCometInterval()+1;
-#ifdef TUXMATH_DEBUG
-    printf("\nBonus comet counter restored to %d\n",bonus_comet_counter);
-#endif
+    
+    DEBUGMSG(debug_game, "Bonus comet counter restored to %d\n",bonus_comet_counter);
+
     if (cloud.city < NUM_CITIES/2)
       cloud.x = -images[IMG_CLOUD]->w/2;  /* come in from the left */
     else
@@ -2014,27 +2001,29 @@ int check_extra_life(void)
       cloud.snowflake_x[i] = - snow_width/2  + (rand() % snow_width);
       cloud.snowflake_size[i] = rand() % 3;
     }
-#ifdef TUXMATH_DEBUG
-    print_status();
-#endif
+    DEBUGCODE(debug_game)
+      print_status();
     return 1;
-  } else
+  }
+  else
     return 0;
 }
+
 
 void game_handle_extra_life(void)
 {
   // This handles the animation sequence during the rebuilding of an igloo
-  int i,igloo_top,num_below_igloo,direction;
+  int i, igloo_top, num_below_igloo, direction;
 
   if (cloud.status == EXTRA_LIFE_ON) {
 
-#ifdef TUXMATH_DEBUG
-     if (penguins[cloud.city].status == PENGUIN_WALKING_OFF) {
-       print_status();
-       pause_game();
-     }
-#endif
+    DEBUGCODE(debug_game)
+    {
+      if (penguins[cloud.city].status == PENGUIN_WALKING_OFF) {
+        print_status();
+        pause_game();
+      }
+    }
 
     // Get the cloud moving in the right direction, if not yet "parked"
     direction = 2*(cloud.city < NUM_CITIES/2) - 1;
@@ -2143,13 +2132,13 @@ void game_draw_background(void)
     fgcolor = SDL_MapRGB(screen->format, 64, 96, 64);
   if (old_wave != wave)
   {
-    tmdprintf("Wave %d\n", wave);
+    DEBUGMSG(debug_game,"Wave %d\n", wave);
     old_wave = wave;
     bgcolor = SDL_MapRGB(screen->format,
                          64,
                          64 + ((wave * 32) % 192),
                          128 - ((wave * 16) % 128) );
-    tmdprintf("Filling screen with color %d\n", bgcolor);
+    DEBUGMSG(debug_game,"Filling screen with color %d\n", bgcolor);
   }
 
   if (current_bkgd() == NULL || (current_bkgd()->w != screen->w && 
@@ -2183,7 +2172,8 @@ void game_draw_background(void)
 void game_draw_comets(void)
 {
 
-  int i, img;
+  int i;
+  SDL_Surface* img = NULL;
   SDL_Rect dest;
   char* comet_str;
 
@@ -2192,10 +2182,10 @@ void game_draw_comets(void)
   {
     if (comets[i].alive && !comets[i].bonus)
     {
-      if (comets[i].expl < COMET_EXPL_END)
+      if (comets[i].expl == -1)
       {
         /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
+        img = sprites[IMG_COMET]->frame[(frame + i) % sprites[IMG_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
@@ -2209,17 +2199,18 @@ void game_draw_comets(void)
       }
       else
       {
-        img = comets[i].expl;
+        /* show each frame of explosion twice */
+        img = sprites[IMG_COMET_EXPL]->frame[comets[i].expl / 2];
         comet_str = comets[i].flashcard.answer_string;
       }
 
       /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
+      dest.x = comets[i].x - (img->w / 2);
+      dest.y = comets[i].y - img->h;
+      dest.w = img->w;
+      dest.h = img->h;
 
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      SDL_BlitSurface(img, NULL, screen, &dest);
       if (comet_str != NULL)
       {
         draw_nums(comet_str, comets[i].x, comets[i].y);
@@ -2232,10 +2223,10 @@ void game_draw_comets(void)
   {
     if (comets[i].alive && comets[i].bonus)
     {
-      if (comets[i].expl < COMET_EXPL_END)
+      if (comets[i].expl == -1)
       {
         /* Decide which image to display: */
-        img = IMG_COMET1 + ((frame + i) % 3);
+        img = sprites[IMG_BONUS_COMET]->frame[(frame + i) % sprites[IMG_BONUS_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
@@ -2249,30 +2240,25 @@ void game_draw_comets(void)
       }
       else
       {
-        img = comets[i].expl;
+        img = sprites[IMG_BONUS_COMET_EXPL]->frame[comets[i].expl / 2];
         comet_str = comets[i].flashcard.answer_string;
       }
 
-      /* Move images[] index to bonus range: */
-      img += IMG_BONUS_COMET1 - IMG_COMET1;
-
       /* Draw it! */
-      dest.x = comets[i].x - (images[img]->w / 2);
-      dest.y = comets[i].y - images[img]->h;
-      dest.w = images[img]->w;
-      dest.h = images[img]->h;
-
-      SDL_BlitSurface(images[img], NULL, screen, &dest);
+      dest.x = comets[i].x - (img->w / 2);
+      dest.y = comets[i].y - img->h;
+      dest.w = img->w;
+      dest.h = img->h;
+      SDL_BlitSurface(img, NULL, screen, &dest);
       if (comet_str != NULL)
       {
         draw_nums(comet_str, comets[i].x, comets[i].y);
       }
     }
   }
-
-
-
 }
+
+
 
 void game_draw_cities(void)
 {
@@ -2486,10 +2472,18 @@ void game_draw_misc(void)
   {
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
+      SDL_Surface* score;
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      SDL_Surface* score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
-      SDL_Rect loc = {screen->w - score->w, score->h * (i + 2), 0, 0};
-      SDL_BlitSurface(score, NULL, screen, &loc);
+      score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+      if(score)
+      {
+        SDL_Rect loc;
+        loc.w = screen->w - score->w;
+        loc.h = score->h * (i + 2);
+        loc.x = 0;
+        loc.y = 0;
+        SDL_BlitSurface(score, NULL, screen, &loc);
+      }
     }
   }
   
@@ -2514,8 +2508,8 @@ int check_exit_conditions(void)
         user_quit_received != GAME_OVER_ESCAPE &&
         user_quit_received != GAME_OVER_CHEATER)
     {
-    	 tmdprintf("Unexpected value %d for user_quit_received\n", user_quit_received);
-    	 return GAME_OVER_OTHER;
+      fprintf(stderr, "Unexpected value %d for user_quit_received\n", user_quit_received);
+      return GAME_OVER_OTHER;
     }
     return user_quit_received;    
   }
@@ -2540,7 +2534,7 @@ int check_exit_conditions(void)
     // Should not get here!
     if (MC_MissionAccomplished())
     {
-      tmdprintf("Mission accomplished!\n");
+      DEBUGMSG(debug_game,"Mission accomplished!\n");
       return GAME_OVER_WON;
     }
 #endif
@@ -2549,7 +2543,7 @@ int check_exit_conditions(void)
   {
     if (MC_MissionAccomplished())
     {
-      tmdprintf("Mission accomplished!\n");
+      DEBUGMSG(debug_game,"Mission accomplished!\n");
       return GAME_OVER_WON;
     }
   }
@@ -2580,19 +2574,15 @@ int check_exit_conditions(void)
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
-//  if (!MC_ListQuestionsLeft() && !num_comets_alive)
-//  {
-//    #ifdef TUXMATH_DEBUG
-//    printf("\nListQuestionsLeft() = %d", MC_ListQuestionsLeft());
-//    printf("\nnum_comets_alive = %d", num_comets_alive);
-//    #endif
-//    return GAME_OVER_ERROR;
-//  }
+  if (!MC_ListQuestionsLeft() && !num_comets_alive)
+  {
+    fprintf(stderr("Error - no questions left but game not over\n");
+    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
+    DEBUGMSG(debug_game, "num_comets_alive = %d", num_comets_alive);
+    return GAME_OVER_ERROR;
+  }
    
-   
-
-
-  /* If using demo mode, see if counter has run out: */
+   /* If using demo mode, see if counter has run out: */
   if (Opts_DemoMode())
   {
     if (demo_countdown <= 0 )
@@ -2603,7 +2593,7 @@ int check_exit_conditions(void)
   return GAME_IN_PROGRESS;
 }
 
-#ifdef TUXMATH_DEBUG
+
 void print_exit_conditions(void)
 {
   printf("\ngame_status:\t");
@@ -2653,7 +2643,7 @@ void print_exit_conditions(void)
     }
   }
 }
-#endif
+
 
 /* Reset stuff for the next level! */
 void reset_level(void)
@@ -2877,7 +2867,7 @@ int add_comet(void)
 
     if(i == TEST_COMETS)
     {
-      tmdprintf("add_comet() called but no question available in queue\n");
+      DEBUGMSG("add_comet() called but no question available in queue\n");
       return 0;
     } 
 #else
@@ -2897,9 +2887,13 @@ int add_comet(void)
       return 0;
     }
   }
-  printf("In add_comet(), card is\n");
-  print_card(comets[found].flashcard);
 
+  DEBUGCODE(debug_game)
+  {
+    printf("In add_comet(), card is\n");
+    print_card(comets[found].flashcard);
+  }
+  
   /* Make sure question is "sane" before we add it: */
   if( (comets[found].flashcard.answer > 999)
     ||(comets[found].flashcard.answer < -999))
@@ -2912,7 +2906,6 @@ int add_comet(void)
   /* If we make it to here, create a new comet!*/
   comets[found].answer = comets[found].flashcard.answer;
   comets[found].alive = 1;
-  printf("comet[%d].alive=1\n",found);
   num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
@@ -2934,29 +2927,21 @@ int add_comet(void)
   /* Should it be a bonus comet? */
   comets[found].bonus = 0;
 
-#ifdef TUXMATH_DEBUG
-  printf("\nbonus_comet_counter is %d\n",bonus_comet_counter);
-#endif
+  DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
 
   if (bonus_comet_counter == 1)
   {
     bonus_comet_counter = 0;
     comets[found].bonus = 1;
     playsound(SND_BONUS_COMET);
-#ifdef TUXMATH_DEBUG
-    printf("\nCreated bonus comet");
-#endif
+    DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-#ifdef TUXMATH_DEBUG
-  printf ("\nadd_comet(): formula string is: %s",
-              comets[found].flashcard.formula_string);
-  print_current_quests();
-#endif
-
+  DEBUGMSG(debug_game, "add_comet(): formula string is: %s", comets[found].flashcard.formula_string);
+  
   /* Record the time at which this comet was created */
   comets[found].time_started = SDL_GetTicks();
-//   }
+   
   /* comet slot found and question found so return successfully: */
   return 1;
 }
@@ -3576,12 +3561,13 @@ void game_key_event(SDLKey key)
     /* Escape key - quit! */
     user_quit_received = GAME_OVER_ESCAPE;
   }
-#ifdef TUXMATH_DEBUG
-  if (key == SDLK_LEFTBRACKET) //a nice nonobvious/unused key
+  DEBUGCODE(debug_game)
   {
-    user_quit_received = GAME_OVER_CHEATER;
+    if (key == SDLK_LEFTBRACKET) //a nice nonobvious/unused key
+    {
+      user_quit_received = GAME_OVER_CHEATER;
+    }
   }
-#endif
   else if (key == SDLK_TAB
         || key == SDLK_p)
   {
@@ -3709,7 +3695,7 @@ void game_key_event(SDLKey key)
 void add_score(int inc)
 {
   score += inc;
-  tmdprintf("Score is now: %d\n", score);
+  DEBUGMSG(debug_game,"Score is now: %d\n", score);
 }
 
 
@@ -3722,13 +3708,11 @@ void reset_comets(void)
   for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;
-    comets[i].expl = 0;
+    comets[i].expl = -1;
     comets[i].city = 0;
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-//    strncpy(comets[i].flashcard.formula_string, " ", max_formula_size);
-//    strncpy(comets[i].flashcard.answer_string, " ", max_answer_size);
     MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
@@ -3746,12 +3730,6 @@ void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
     command[i] = buf[i];
   }
   command[i] = '\0';
-
-//#ifdef LAN_DEBUG
-//  printf("buf is %s\n", buf);
-//  printf("command is %s\n", command);
-//#endif
-
 }
 
 
@@ -3793,6 +3771,7 @@ void print_status(void)
   printf("\n");
 }
 
+
 void free_on_exit(void)
 {
   int i;
@@ -3810,8 +3789,8 @@ void game_recalc_positions(void)
   int i, img;
   int old_city_expl_height = city_expl_height;
 
-  tmdprintf("Recalculating positions\n");
-
+  DEBUGMSG(debug_game,"Recalculating positions\n");
+  
   if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
   else
@@ -3824,7 +3803,7 @@ void game_recalc_positions(void)
     {
       cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
                      ((images[img] -> w) / 2));
-      tmdprintf("%d,", cities[i].x);
+      DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
     else
     {
@@ -3832,7 +3811,7 @@ void game_recalc_positions(void)
                    (screen->w / (NUM_CITIES + 1) *
                    (i - NUM_CITIES / 2) +
                     images[img]->w / 2);
-      tmdprintf("%d,", cities[i].x);
+      DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
 
     penguins[i].x = cities[i].x;
@@ -3852,6 +3831,4 @@ void game_recalc_positions(void)
     //else
     //  comets[i].y = comets[i].y * RES_Y / screen->h;
   }
-
-
 }

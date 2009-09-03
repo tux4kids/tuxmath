@@ -37,7 +37,7 @@
 #endif
 
 #include "SDL_image.h"
-#include "transtruct.h"
+
 #include "options.h"
 #include "tuxmath.h"
 #include "mathcards.h"
@@ -45,6 +45,7 @@
 #include "fileops.h"
 #include "loaders.h"
 #include "game.h"
+#include "menu.h"
 #include "titlescreen.h"
 #include "highscore.h"
 #include "SDL_extras.h"
@@ -57,11 +58,17 @@
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
 
-int fs_res_x = RES_X;
-int fs_res_y = RES_Y;
+/* window size */
+int win_res_x = 640;
+int win_res_y = 480;
+
+/* full screen size (set in initialize_SDL() ) */
+int fs_res_x = 0;
+int fs_res_y = 0;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
+sprite* sprites[NUM_SPRITES];
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
    NUM_IMAGES. */
@@ -84,7 +91,6 @@ const int flipped_img[] = {
 Mix_Chunk* sounds[NUM_SOUNDS];
 Mix_Music* musics[NUM_MUSICS];
 #endif
-
 
 /* Local function prototypes: */
 void initialize_options(void);
@@ -116,7 +122,7 @@ void setup(int argc, char * argv[])
   initialize_SDL();
   /* Read image and sound files: */
   load_data_files();
- /* Generate flipped versions of walking images */
+  /* Generate flipped versions of walking images */
   generate_flipped_images();
   /* Generate blended images (e.g., igloos) */
   generate_blended_images();
@@ -197,9 +203,8 @@ void initialize_options_user(void)
     /* (can still proceed).         */
   }
 
-#ifdef TUXMATH_DEBUG
-  print_high_scores(stdout);
-#endif
+  DEBUGCODE(debug_setup)
+    print_high_scores(stdout);
 }
 
 
@@ -400,7 +405,66 @@ void handle_command_args(int argc, char* argv[])
       Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
       i++;
     }
-
+    else if (strcmp(argv[i], "--debug-all") == 0)
+    {
+      debug_status |= debug_all;
+    }
+    else if (strcmp(argv[i], "--debug-setup") == 0)
+    {
+      debug_status |= debug_setup;
+    }
+    else if (strcmp(argv[i], "--debug-fileops") == 0)
+    {
+      debug_status |= debug_fileops;
+    }
+    else if (strcmp(argv[i], "--debug-loaders") == 0)
+    {
+      debug_status |= debug_loaders;
+    }
+    else if (strcmp(argv[i], "--debug-titlescreen") == 0)
+    {
+      debug_status |= debug_titlescreen;
+    }
+    else if (strcmp(argv[i], "--debug-menu") == 0)
+    {
+      debug_status |= debug_menu;
+    }
+    else if (strcmp(argv[i], "--debug-menu-parser") == 0)
+    {
+      debug_status |= debug_menu_parser;
+    }
+    else if (strcmp(argv[i], "--debug-game") == 0)
+    {
+      debug_status |= debug_game;
+    }
+    else if (strcmp(argv[i], "--debug-factoroids") == 0)
+    {
+      debug_status |= debug_factoroids;
+    }
+    else if (strcmp(argv[i], "--debug-lan") == 0)
+    {
+      debug_status |= debug_lan;
+    }
+    else if (strcmp(argv[i], "--debug-mathcards") == 0)
+    {
+      debug_status |= debug_mathcards;
+    }
+    else if (strcmp(argv[i], "--debug-sdl") == 0)
+    {
+      debug_status |= debug_sdl;
+    }
+    else if (strcmp(argv[i], "--debug-lessons") == 0)
+    {
+      debug_status |= debug_lessons;
+    }
+    else if (strcmp(argv[i], "--debug-highscore") == 0)
+    {
+      debug_status |= debug_highscore;
+    }
+    else if (strcmp(argv[i], "--debug-options") == 0)
+    {
+      debug_status |= debug_options;
+    }
     else
     /* TODO try to match unrecognized strings to config file names */
     {
@@ -411,6 +475,7 @@ void handle_command_args(int argc, char* argv[])
     }
   }/* end of command-line args */
 
+  DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
 
   if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
   {
@@ -479,11 +544,11 @@ void initialize_SDL(void)
       Opts_SetSoundHWAvailable(1);
     else
       frequency = format = channels = 0; //more helpful than garbage
-    tmdprintf("Sound mixer: frequency = %d, "
-                    "format = %x, "
-                    "channels = %d, "
-                    "n_timesopened = %d\n",
-                    frequency,format,channels,n_timesopened);
+    DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
+                          "format = %x, "
+                          "channels = %d, "
+                          "n_timesopened = %d\n",
+                          frequency,format,channels,n_timesopened);
   }
 
   #endif
@@ -494,17 +559,17 @@ void initialize_SDL(void)
     if (videoInfo->hw_available)
     {
       surfaceMode = SDL_HWSURFACE;
-      tmdprintf("HW mode\n");
+      DEBUGMSG(debug_setup, "HW mode\n");
     }
     else
     {
       surfaceMode = SDL_SWSURFACE;
-      tmdprintf("SW mode\n");
+      DEBUGMSG(debug_setup, "SW mode\n");
     }
 
     // Determine the current resolution: this will be used as the
     // fullscreen resolution, if the user wants fullscreen.
-    tmdprintf("Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
+    DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
     fs_res_x = videoInfo->current_w;
     fs_res_y = videoInfo->current_h;
 
@@ -523,7 +588,7 @@ void initialize_SDL(void)
 
     if (!Opts_GetGlobalOpt(FULLSCREEN))
     {
-      screen = SDL_SetVideoMode(RES_X, RES_Y, PIXEL_BITS, surfaceMode);
+      screen = SDL_SetVideoMode(win_res_x, win_res_y, PIXEL_BITS, surfaceMode);
     }
 
     if (screen == NULL)
@@ -714,6 +779,7 @@ void cleanup_memory(void)
     n_timesopened--;
   }
 
+  UnloadMenus();
 
   // Finally, quit SDL
   SDL_Quit();

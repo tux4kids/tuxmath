@@ -13,7 +13,7 @@
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.com
-      
+
   August 26, 2001 - July 11, 2007
 */
 
@@ -30,12 +30,35 @@
 #include "fileops.h"
 #include "setup.h"
 #include "game.h"
+#include "globals.h"
 //#include "tuxmath.h"
 
 /* FIXME figure out what oper_override is supposed to do and make sure */
 /* this file behaves accordingly! */
 
 //int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
+
+/* global debug masks */
+int debug_status;
+
+/* bitmasks for debugging options */
+const int debug_setup          = 1 << 0;
+const int debug_fileops        = 1 << 1;
+const int debug_loaders        = 1 << 2;
+const int debug_titlescreen    = 1 << 3;
+const int debug_menu           = 1 << 4;
+const int debug_menu_parser    = 1 << 5;
+const int debug_game           = 1 << 6;
+const int debug_factoroids     = 1 << 7;
+const int debug_lan            = 1 << 8;
+const int debug_mathcards      = 1 << 9;
+const int debug_sdl            = 1 << 10;
+const int debug_lessons        = 1 << 11;
+const int debug_highscore      = 1 << 12;
+const int debug_options        = 1 << 13;
+const int debug_convert_utf    = 1 << 14;
+const int debug_multiplayer    = 1 << 15;
+const int debug_all            = ~0;
 
 /* extern'd constants */
 
@@ -59,7 +82,7 @@ const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {
   0,
   1
 };
-  
+
 
 /* file scope only now that accessor functions used: */
 static game_option_type* game_options;
@@ -96,7 +119,8 @@ int Opts_Initialize(void)
   global_options->iopts[FULLSCREEN] = DEFAULT_FULLSCREEN;
   global_options->iopts[USE_KEYPAD] = DEFAULT_USE_KEYPAD;
   global_options->iopts[USE_IGLOOS] = DEFAULT_USE_IGLOOS;
-  strncpy(game_options->current_font_name, DEFAULT_FONT_NAME, sizeof(game_options->current_font_name));
+  strncpy(game_options->current_font_name, DEFAULT_FONT_NAME,
+          sizeof(game_options->current_font_name));
   game_options->lan_mode = DEFAULT_LAN_MODE;
   game_options->use_bkgd = DEFAULT_USE_BKGD;
   game_options->help_mode = DEFAULT_HELP_MODE;
@@ -125,9 +149,8 @@ int Opts_Initialize(void)
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
-  #ifdef TUXMATH_DEBUG
-  print_game_options(stdout, 0);
-  #endif
+  DEBUGCODE(debug_options)
+    print_game_options(stdout, 0);
 
   return 1;
 }
@@ -152,7 +175,7 @@ unsigned int Opts_MapTextToIndex(const char* text)
     if (0 == strcasecmp(text, OPTION_TEXT[i]) )
       return i;
   }
-  tmdprintf("'%s' isn't a global option\n", text);
+  DEBUGMSG(debug_options, "'%s' isn't a global option\n", text);
   return -1;
 }
 
@@ -168,8 +191,7 @@ int Opts_GetGlobalOpt(unsigned int index)
 {
   if (index < NUM_GLOBAL_OPTS)
     return global_options->iopts[index];
-    
-  tmdprintf("Invalid global option index: %d\n", index);
+  DEBUGMSG(debug_options, "Invalid global option index: %d\n", index);
   return 0;
 }
 
@@ -185,7 +207,7 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
   if (index < NUM_GLOBAL_OPTS)
     global_options->iopts[index] = val;
   else
-    tmdprintf("Invalid global option index: %d\n", index);
+    DEBUGMSG(debug_options, "Invalid global option index: %d\n", index);
 }
   
 
@@ -222,18 +244,17 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
 //  global_options->iopts[FULLSCREEN] = int_to_bool(val);
 //}
 
+void Opts_SetLanMode(int val)
+{
+  game_options->lan_mode = int_to_bool(val);
+}
+ 
+
 void Opts_SetFontName(char* font_name)
 {
   if (font_name && font_name[0] != '\0')
   strncpy(game_options->current_font_name, font_name, sizeof(game_options->current_font_name));
 }
-
-
-void Opts_SetLanMode(int val)
-{
-  game_options->lan_mode = int_to_bool(val);
-}
-
 
 void Opts_SetUseBkgd(int val)
 {
@@ -596,16 +617,6 @@ void Opts_SetKeepScore(int val)
 //  return global_options->iopts[FULLSCREEN];
 //}
 
-const char* Opts_FontName(void)
-{
-  if (!game_options)
-  {
-    fprintf(stderr, "\nOpts_FontName(): game_options not valid!\n");
-    return NULL;
-  }
-  return (const char*) game_options->current_font_name;
-}
-
 
 int Opts_LanMode(void)
 {
@@ -616,7 +627,17 @@ int Opts_LanMode(void)
   }
   return game_options->lan_mode;
 }
+ 
 
+const char* Opts_FontName(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_FontName(): game_options not valid!\n");
+    return NULL;
+  }
+  return (const char*) game_options->current_font_name;
+}
 
 int Opts_UseBkgd(void)
 {

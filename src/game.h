@@ -138,7 +138,6 @@ enum {
 };
 
 int game(void);
-
 void game_set_start_message(const char*, const char*, const char*, const char*);
 /* draw_nums() is used in options.c and factoroids.c/h so need extern linkage */
 

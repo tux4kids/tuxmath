@@ -35,9 +35,7 @@ int read_goldstars_fp(FILE* fp)
   const char delimiters[] = "\t\n\r"; /* this will keep newline chars out of string */
   int i;
 
-#ifdef TUXMATH_DEBUG
-  printf("\nEntering read_goldstars_fp()\n");
-#endif
+  DEBUGMSG(debug_lessons, "Entering read_goldstars_fp()\n");
 
   /* get out if file pointer invalid: */
   if(!fp)
@@ -96,9 +94,7 @@ void write_goldstars_fp(FILE* fp)
 {
   int i = 0;
 
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEntering write_goldstars_fp()\n");
-#endif
+  DEBUGMSG(debug_lessons, "Entering write_goldstars_fp()\n");
 
   /* get out if file pointer invalid: */
   if(!fp)
@@ -112,11 +108,9 @@ void write_goldstars_fp(FILE* fp)
 
   for (i = 0; i < num_lessons; i++)
   {
-#ifdef TUXMATH_DEBUG
-    printf("i = %d\nfilename = %s\ngoldstar = %d\n",
-           i, lesson_list_filenames[i],
-           lesson_list_goldstars[i]);
-#endif
+    DEBUGMSG(debug_lessons, "i = %d\nfilename = %s\ngoldstar = %d\n",
+             i, lesson_list_filenames[i],
+             lesson_list_goldstars[i]);
 
     if(lesson_list_goldstars[i] == 1)
     {

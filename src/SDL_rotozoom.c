@@ -493,6 +493,10 @@ void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, 
     tColorRGBA *pc, *sp;
     int gap;
 
+    c00.r = c00.g = c00.b = c00.a = 0;
+    c01.r = c01.g = c01.b = c01.a = 0;
+    c10.r = c10.g = c10.b = c10.a = 0;
+    c11.r = c11.g = c11.b = c11.a = 0;
     /*
      * Variable setup 
      */

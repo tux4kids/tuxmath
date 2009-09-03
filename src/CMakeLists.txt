@@ -24,6 +24,7 @@ set(SOURCES_TUXMATH
   fileops.c
   fileops_media.c
   game.c
+  menu.c
   highscore.c
   lessons.c
   loaders.c
@@ -97,16 +98,26 @@ foreach(f ${RSVG_CFLAGS})
   set(_rsvg_cflags "${_rsvg_cflags} ${f}")
 endforeach(f)
 
+set(_cairo_cflags "")
+foreach(f ${CAIRO_CFLAGS})
+  set(_cairo_cflags "${_cairo_cflags} ${f}")
+endforeach(f)
+
 set(_rsvg_ldflags "")
 foreach(f ${RSVG_LDFLAGS})
   set(_rsvg_ldflags "${_rsvg_ldflags} ${f}")
 endforeach(f)
 
+set(_cairo_ldflags "")
+foreach(f ${CAIRO_LDFLAGS})
+  set(_cairo_ldflags "${_cairo_ldflags} ${f}")
+endforeach(f)
+
 set_target_properties (
   tuxmath
   PROPERTIES COMPILE_FLAGS
-  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\" ${_rsvg_cflags}"
-  LINK_FLAGS "${_rsvg_ldflags}"
+  "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATH_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmath\\\" ${_rsvg_cflags} ${_cairo_cflags}"
+  LINK_FLAGS "${_rsvg_ldflags} ${_cairo_ldflags}"
   )
 
 target_link_libraries (tuxmath

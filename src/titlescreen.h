@@ -1,24 +1,25 @@
-/***************************************************************************
- -  file: titlescreen.h
- -  description: header for the tuxtype-derived files in tuxmath
-                            ------------------
+/*
+  titlescreen.h
 
-    David Bruce - 2006.
-    email                : <dbruce@tampabay.rr.com>
-                           <tuxmath-devel@lists.sourceforge.net>
-***************************************************************************/
+  Splash, background and title screen items.
+  (interface)
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+  begin                : Thur May 4 2000
+  copyright            : (C) 2000 by Sam Hart
+                       : (C) 2003 by Jesse Andrews
+  email                : tuxtype-dev@tux4kids.net
 
+  Modified for use in tuxmath by David Bruce - 2006-2007.
+  email                : <dbruce@tampabay.rr.com>
+                         <tuxmath-devel@lists.sourceforge.net>
 
+  Also significantly enhanced by Tim Holy - 2007
 
+  Part of "Tux4Kids" Project
+  http://www.tux4kids.com/
+
+  Copyright: See COPYING file that comes with this distribution.
+*/
 
 #ifndef TITLESCREEN_H
 #define TITLESCREEN_H
@@ -48,47 +49,27 @@
 #include "tuxmath.h"
 #include "loaders.h"
 
-
-// Options that affect how menus are presented
-typedef struct {
-  int starting_entry;
-  int xleft, ytop, ybottom;   // left, top, and bottom borders
-  int buttonheight; // size of menu item button  (-1 if calculated)
-  int ygap;  // vertical gap between entries
-  int button_same_width; // should all buttons have the same width?
-  char *title;
-  char *trailer;
-} menu_options;
-
-
-#define MAX_LESSONS 100
-#define MAX_NUM_WORDS   500
-#define MAX_WORD_SIZE   8
+#define MAX_LESSONS                     100
+#define MAX_NUM_WORDS                   500
+#define MAX_WORD_SIZE                   8
 
 //MAX_UPDATES needed for TransWipe() and friends:
-#define MAX_UPDATES 180
+#define MAX_UPDATES                     180
+
+#define WAIT_MS                         2500
+#define FRAMES_PER_SEC                  50
+#define FULL_CIRCLE                     140
 
 
-#define WAIT_MS                               2500
-#define FRAMES_PER_SEC                        50
-#define FULL_CIRCLE                           140
-
-
-/* Title sequence constants */
-#define PRE_ANIM_FRAMES                       10
-#define PRE_FRAME_MULT                        3
-#define MENU_SEP                              20
-
-/* paths */
-
-
-
+/* trans_wipe() animation constants */
+#define ANIM_FRAMES                     30 /* frames to be displayed */
+#define ANIM_FPS                        25 /* max fps */
 
 
 extern SDL_Event  event;
 
 
-#define MUSIC_FADE_OUT_MS        80
+#define MUSIC_FADE_OUT_MS               80
 
 enum {
     WIPE_BLINDS_VERT,
@@ -100,18 +81,6 @@ enum {
 };
 // End of code from tuxtype's globals.h
 
-
-/* --- SETUP MENU OPTIONS --- */
-
-#define TITLE_MENU_ITEMS                5
-#define TITLE_MENU_DEPTH                4
-
-#define OPTIONS_SUBMENU                 4
-#define GAME_OPTIONS_SUBMENU                       3
-#define ARCADE_SUBMENU                        2
-#define ROOTMENU                        1
-
-
 /* --- timings for tux blinking --- */
 #define TUX1                            115
 #define TUX2                            118
@@ -120,30 +89,27 @@ enum {
 #define TUX5                            127
 #define TUX6                            130
 
-#define EASTER_EGG_MS  5000 //length of time to replace cursor
-#define GOBBLE_ANIM_MS 1000 //duration of the gobbling animation
+#define EASTER_EGG_MS                   5000 //length of time to replace cursor
+#define GOBBLE_ANIM_MS                  1000 //duration of the gobbling animation
 
 /********************************/
 /* "Global" Function Prototypes */
 /********************************/
 
 /*In titlescreen.c */
-void TitleScreen(void);
-int ChooseMission(void);  //FIXME really should be in fileops.c
-int choose_menu_item(const char **menu_text, 
-                     sprite **menu_sprites, 
-                     int n_menu_entries, 
-                     menu_options* custom_mo, 
-                     void (*set_custom_menu_opts)(menu_options*) );
-void set_default_menu_options(menu_options *);
-SDL_Surface* current_bkg(); //appropriate background for current video mode
-
+void          TitleScreen(void);
+int           RenderTitleScreen(void);
+void          DrawTitleScreen(void);
+int           HandleTitleScreenEvents(const SDL_Event* evt);
+void          HandleTitleScreenAnimations();
+void          ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
+SDL_Surface*  current_bkg(); //appropriate background for current video mode
 
 
 /* in audio.c  (from tuxtype): */
-void playsound(int snd);
-void audioMusicLoad(char* musicFilename, int repeatQty);
-void audioMusicUnload(void);
-void audioMusicPlay(Mix_Music* musicData, int repeatQty);
+void          playsound(int snd);
+void          audioMusicLoad(char* musicFilename, int repeatQty);
+void          audioMusicUnload(void);
+void          audioMusicPlay(Mix_Music* musicData, int repeatQty);
 
 #endif //TITLESCREEN_H

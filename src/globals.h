@@ -13,7 +13,7 @@
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.org/
-      
+
   Added March 2, 2006
 
   Copyright: See COPYING file that comes with this distribution
@@ -26,17 +26,41 @@
 #define GLOBALS_H
 
 #include "config.h"
-/* for conditional compilation of debugging output */
-//#define TUXMATH_DEBUG
+
+typedef enum { false, true } bool;
+
+#define min(a,b) (((a) < (b)) ? (a) : (b))
+#define max(a,b) (((a) > (b)) ? (a) : (b))
+
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
 //#define LINEBREAK
-/* nice inline debugging macro */
-#ifdef TUXMATH_DEBUG
-#define tmdprintf(...) printf(__VA_ARGS__)
-#else
-#define tmdprintf(...) 0
-#endif
+
+/* debug data (declared in options.c) */
+extern int debug_status;
+
+/* bitmasks for debugging options (declared in options.c) */
+extern const int debug_setup;
+extern const int debug_fileops;
+extern const int debug_loaders;
+extern const int debug_titlescreen;
+extern const int debug_menu;
+extern const int debug_menu_parser;
+extern const int debug_game;
+extern const int debug_factoroids;
+extern const int debug_lan;
+extern const int debug_mathcards;
+extern const int debug_sdl;
+extern const int debug_lessons;
+extern const int debug_highscore;
+extern const int debug_options;
+extern const int debug_convert_utf;
+extern const int debug_multiplayer;
+extern const int debug_all;
+
+/* debug macros */
+#define DEBUGCODE(mask) if((mask) & debug_status)
+#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096
@@ -103,11 +127,9 @@
 #define REG_RGBA 16,16,96,96
 #define SEL_RGBA 16,16,128,128
 
-#define RES_X        640
-#define RES_Y        480
-#define PIXEL_BITS 32        
+#define PIXEL_BITS 32
 
-enum { 
+enum {
   CADET_HIGH_SCORE,
   SCOUT_HIGH_SCORE,
   RANGER_HIGH_SCORE,
@@ -133,3 +155,4 @@ extern int* lesson_list_goldstars;
 extern int num_lessons;
 
 #endif
+>>>>>>> .merge-right.r1476

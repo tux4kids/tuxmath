@@ -12,6 +12,8 @@
         Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
 
 */
+
+
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
@@ -19,7 +21,7 @@
 
 #define MC_DEBUG
 #ifdef MC_DEBUG
-#define mcdprintf(...) printf(__VA_ARGS__)
+#define mcdprintf(...) DEBUGMSG(debug_mathcards,__VA_ARGS__)
 #else
 #define mcdprintf(...) 0
 #endif
@@ -224,7 +226,7 @@ int MC_NotAnsweredCorrectly(int id);
 int MC_NextWrongQuest(MC_FlashCard* q);
 
 /*  Returns 1 if all have been answered correctly,        */
-/* 0 otherwise.                                           */
+/*  0 otherwise.                                          */
 int MC_MissionAccomplished(void);
 
 /*  Returns number of questions left (either in list      */
@@ -281,4 +283,5 @@ int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid
 /* Reorganize formula_string and answer_string to render the same equation
    in a different format */
 void reformat_arithmetic(MC_FlashCard* card, MC_Format f);
+
 #endif

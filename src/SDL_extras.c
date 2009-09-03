@@ -19,27 +19,37 @@
 
 
 
-/* DrawButton() creates and draws a translucent button with */
-/* rounded ends.  All colors and alpha values are supported.*/
+/* DrawButton() creates a translucent button with rounded ends
+   and draws it on the screen.
+   All colors and alpha values are supported.*/
 void DrawButton(SDL_Rect* target_rect,
                 int radius,
                 Uint8 r, Uint8 g, Uint8 b, Uint8 a)
 {
-  /* NOTE - we use a 32-bit temp surface even if we have a 16-bit */
-  /* screen - it gets converted during blitting.                  */
-  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
-                                          target_rect->w,
-                                          target_rect->h,
-                                          32,
-                                          rmask, gmask, bmask, amask);
-  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
-  SDL_FillRect(tmp_surf, NULL, color);
-  RoundCorners(tmp_surf, radius);
-
+  SDL_Surface* tmp_surf = CreateButton(target_rect->w, target_rect->h,
+                                       radius, r, g, b, a);
   SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
   SDL_FreeSurface(tmp_surf);
 }
 
+/* CreateButton() creates a translucent button with rounded ends
+   All colors and alpha values are supported.*/
+SDL_Surface* CreateButton(int w, int h, int radius,
+                          Uint8 r, Uint8 g, Uint8 b, Uint8 a)
+{
+  /* NOTE - we use a 32-bit temp surface even if we have a 16-bit */
+  /* screen - it gets converted during blitting.                  */
+  SDL_Surface* tmp_surf = SDL_CreateRGBSurface(SDL_SWSURFACE|SDL_SRCALPHA,
+                                          w,
+                                          h,
+                                          32,
+                                          rmask, gmask, bmask, amask);
+
+  Uint32 color = SDL_MapRGBA(tmp_surf->format, r, g, b, a);
+  SDL_FillRect(tmp_surf, NULL, color);
+  RoundCorners(tmp_surf, radius);
+  return tmp_surf;
+}
 
 
 void RoundCorners(SDL_Surface* s, Uint16 radius)
@@ -246,7 +256,7 @@ SDL_Surface* Flip( SDL_Surface *in, int x, int y ) {
    Currently this works only with RGBA images, but this is largely to
    make the (fast) pointer arithmetic work out; it could be easily
    generalized to other image types. */
-SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
+SDL_Surface* Blend(SDL_Surface *S1, SDL_Surface *S2, float gamma)
 {
   SDL_PixelFormat *fmt1, *fmt2;
   Uint8 r1, r2, g1, g2, b1, b2, a1, a2;
@@ -349,10 +359,38 @@ SDL_Surface* Blend(SDL_Surface *S1,SDL_Surface *S2,float gamma)
   return ret;
 }
 
+
+/* free every surface in the array together with the array itself */
+void FreeSurfaceArray(SDL_Surface** surfs, int length)
+{
+  int i;
+
+  if(surfs == NULL)
+    return;
+
+  for(i = 0; i < length; i++)
+    if(surfs[i] != NULL)
+      SDL_FreeSurface(surfs[i]);
+  free(surfs);
+}
+
 int inRect( SDL_Rect r, int x, int y) {
         if ((x < r.x) || (y < r.y) || (x > r.x + r.w) || (y > r.y + r.h))
                 return 0;
         return 1;
+}
+
+void UpdateRect(SDL_Surface* surf, SDL_Rect* rect)
+{
+  SDL_UpdateRect(surf, rect->x, rect->y, rect->w, rect->h);
+}
+
+void SetRect(SDL_Rect* rect, const float* pos)
+{
+  rect->x = pos[0] * screen->w;
+  rect->y = pos[1] * screen->h;
+  rect->w = pos[2] * screen->w;
+  rect->h = pos[3] * screen->h;
 }
 
 /* Darkens the screen by a factor of 2^bits */
@@ -390,27 +428,48 @@ void DarkenScreen(Uint8 bits)
   }
 }
 
+/* change window size (works only in windowed mode) */
+void ChangeWindowSize(int new_res_x, int new_res_y)
+{
+  SDL_Surface* oldscreen = screen;
 
+  if(!(screen->flags & SDL_FULLSCREEN))
+  {
+    screen = SDL_SetVideoMode(new_res_x,
+                              new_res_y,
+                              PIXEL_BITS,
+                              SDL_SWSURFACE|SDL_HWPALETTE);
+
+    if(screen == NULL)
+    {
+      fprintf(stderr,
+              "\nError: I could not change screen mode into %d x %d.\n",
+              new_res_x, new_res_y);
+      screen = oldscreen;
+    }
+    else
+    {
+      DEBUGMSG(debug_sdl, "ChangeWindowSize(): Changed window size to %d x %d\n", screen->w, screen->h);
+      oldscreen = NULL;
+      win_res_x = screen->w;
+      win_res_y = screen->h;
+      SDL_UpdateRect(screen, 0, 0, 0, 0);
+    }
+  }
+  else
+    DEBUGMSG(debug_sdl, "ChangeWindowSize() can be run only in windowed mode !");
+}
+
+/* switch between fullscreen and windowed mode */
 void SwitchScreenMode(void)
 {
   int window = (screen->flags & SDL_FULLSCREEN);
   SDL_Surface* oldscreen = screen;
 
-  if (!window)
-  {
-    screen = SDL_SetVideoMode(fs_res_x,
-                              fs_res_y,
-                              PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE|SDL_FULLSCREEN);
-  }
-  else
-  {
-    screen = SDL_SetVideoMode(RES_X,
-                              RES_Y,
-                              PIXEL_BITS,
-                              SDL_SWSURFACE|SDL_HWPALETTE);
-
-  }
+  screen = SDL_SetVideoMode(window ? win_res_x : fs_res_x,
+                            window ? win_res_y : fs_res_y,
+                            PIXEL_BITS,
+                            screen->flags ^ SDL_FULLSCREEN);
 
   if (screen == NULL)
   {
@@ -424,11 +483,11 @@ void SwitchScreenMode(void)
   }
   else
   {
-    SDL_FreeSurface(oldscreen);
+    //success, no need to free the old video surface
+    DEBUGMSG(debug_sdl, "Switched screen mode to %s\n", window ? "windowed" : "fullscreen");
     oldscreen = NULL;
     SDL_UpdateRect(screen, 0, 0, 0, 0);
   }
-
 }
 
 /*
@@ -477,7 +536,7 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
   Uint8 r4, g4, b4, a4;
   Uint8 r, g, b, a;
 
-  tmdprintf("\nEntering zoom():\n");
+  DEBUGMSG(debug_sdl, "Entering zoom():\n");
 
   /* Create surface for zoom: */
 
@@ -498,9 +557,9 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
 //    exit(1);
   }
 
-  tmdprintf("orig surface %dx%d, %d bytes per pixel\n",
+  DEBUGMSG(debug_sdl, "zoom(): orig surface %dx%d, %d bytes per pixel\n",
             src->w, src->h, src->format->BytesPerPixel);
-  tmdprintf("new surface %dx%d, %d bytes per pixel\n",
+  DEBUGMSG(debug_sdl, "zoom(): new surface %dx%d, %d bytes per pixel\n",
             s->w, s->h, s->format->BytesPerPixel);
 
   /* Now assign function pointers to correct functions based */
@@ -575,7 +634,7 @@ SDL_Surface* zoom(SDL_Surface* src, int new_w, int new_h)
   SDL_UnlockSurface(s);
   SDL_UnlockSurface(src);
 
-  tmdprintf("\nLeaving zoom():\n");
+  DEBUGMSG(debug_sdl, "Leaving zoom():\n");
 
   return s;
 }
@@ -623,7 +682,7 @@ int Setup_SDL_Text(void)
 {
 #ifdef HAVE_LIBSDL_PANGO
 
-  tmdprintf("Setup_SDL_Text() - using SDL_Pango\n");
+  DEBUGMSG(debug_sdl, "Setup_SDL_Text() - using SDL_Pango\n");
 
   SDLPango_Init();
   if (!Set_SDL_Pango_Font_Size(DEFAULT_MENU_FONT_SIZE))
@@ -635,7 +694,7 @@ int Setup_SDL_Text(void)
 
 #else
 /* using SDL_ttf: */
-  tmdprintf("Setup_SDL_Text() - using SDL_ttf\n");
+  DEBUGMSG(debug_sdl, "Setup_SDL_Text() - using SDL_ttf\n");
 
   if (TTF_Init() < 0)
   {
@@ -704,10 +763,8 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
     return NULL;
   }
 
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nEntering BlackOutline(): \n");
-  fprintf( stderr, "BlackOutline of \"%s\"\n", t );
-#endif
+  DEBUGMSG(debug_sdl, "Entering BlackOutline():\n");
+  DEBUGMSG(debug_sdl, "BlackOutline of \"%s\"\n", t );
 
 #ifdef HAVE_LIBSDL_PANGO
   Set_SDL_Pango_Font_Size(size);
@@ -780,9 +837,7 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
   out = SDL_DisplayFormatAlpha(bg);
   SDL_FreeSurface(bg);
 
-#ifdef TUXMATH_DEBUG
-  fprintf( stderr, "\nLeaving BlackOutline(): \n");
-#endif
+  DEBUGMSG(debug_sdl, "\nLeaving BlackOutline(): \n");
 
   return out;
 }
@@ -916,7 +971,7 @@ static int Set_SDL_Pango_Font_Size(int size)
   {
     char buf[64];
 
-    tmdprintf("Setting font size to %d\n", size);
+    DEBUGMSG(debug_sdl, "Setting font size to %d\n", size);
 
     if(context != NULL)
       SDLPango_FreeContext(context);
@@ -1035,9 +1090,7 @@ static TTF_Font* load_font(const char* font_name, int font_size)
 
   if (f)
   {
-#ifdef TUXMATH_DEBUG
-    fprintf(stderr, "LoadFont(): %s loaded successfully\n\n", fontfile);
-#endif
+    DEBUGMSG(debug_sdl, "LoadFont(): %s loaded successfully\n\n", fontfile);
     return f;
   }
   else
@@ -1047,9 +1100,4 @@ static TTF_Font* load_font(const char* font_name, int font_size)
   }
 }
 #endif
-
-
-
-
-
 

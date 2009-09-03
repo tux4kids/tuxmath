@@ -32,7 +32,7 @@ void mp_set_parameter(unsigned int param, int value)
 {
   if (inprogress)
   {
-    tmdprintf("Oops, tried to set param %d in the middle of a game\n", param);
+    DEBUGMSG(debug_multiplayer, "Oops, tried to set param %d in the middle of a game\n", param);
     return;
   }
   params[param] = value;
@@ -84,7 +84,7 @@ void mp_run_multiplayer()
       
       if (activeplayers <= 1) //last man standing!
       {
-        tmdprintf("%d wins\n", currentplayer);
+        DEBUGMSG(debug_multiplayer, "%d wins\n", currentplayer);
         winners[0] = currentplayer;
         done = 1;
       }
@@ -112,20 +112,22 @@ void mp_run_multiplayer()
     //sort out winners
     for (i = 0; i < params[PLAYERS]; ++i)
     {
+      hiscore = 0;
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
-        if (pscores[currentplayer] > hiscore)
+        if (pscores[currentplayer] >= hiscore)
         {
           hiscore = pscores[currentplayer];
           currentwinner = currentplayer;
         }
       winners[i] = currentwinner;
-      pscores[currentwinner] = 0;
+      pscores[currentwinner] = -1;
       }
     }
   }
-  
-  tmdprintf("Game over; showing winners\n");
+
+  DEBUGMSG(debug_multiplayer, "Game over; showing winners\n");
+
   showWinners(winners, params[PLAYERS]);
   cleanupMP();
 }
@@ -134,7 +136,7 @@ int mp_get_player_score(int playernum)
 {
   if (playernum > params[PLAYERS])
   {
-    tmdprintf("No player %d!\n", playernum);
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
   }
   return pscores[playernum];
@@ -144,7 +146,7 @@ const char* mp_get_player_name(int playernum)
 {
   if (playernum > params[PLAYERS])
   {
-    tmdprintf("No player %d!\n", playernum);
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
   }
   return pnames[playernum];
@@ -164,18 +166,24 @@ int mp_get_parameter(unsigned int param)
 void showWinners(int* winners, int num)
 {
   int skip = 0;
+  int i = 0;
   const int boxspeed = 3;
-  char text[HIGH_SCORE_NAME_LENGTH + strlen(" wins!")];
+  int sectionlength = num * (HIGH_SCORE_NAME_LENGTH + strlen(" wins!\n"));
+  char text[sectionlength];
   SDL_Rect box = {screen->w / 2, screen->h / 2, 0, 0};
   SDL_Rect center = box;
   SDL_Event evt;
 
   const char* winnername = (winners[0] == -1 ? "Nobody" : pnames[winners[0]] );
   
-  tmdprintf("%s", pnames[winners[0]] );
-  tmdprintf("%d\n", snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),
-                    "%s wins!", winnername) );
-  tmdprintf("Win text: %s\n", text);
+  snprintf(text, HIGH_SCORE_NAME_LENGTH + strlen(" wins!"),
+                    "%s wins!\n", winnername);
+  for (i = 1; i < num; ++i)
+  {
+    snprintf(strchr(text, '\0'), sectionlength, _("Then %s\n"), pnames[winners[i]]);
+  }
+
+  DEBUGMSG(debug_multiplayer, "%s Win text: %s\n", pnames[winners[0]], text);
 
   DarkenScreen(1);
 
@@ -209,6 +217,7 @@ void showWinners(int* winners, int num)
 int initMP()
 {
   int i;
+  int success = 1;
   char nrstr[HIGH_SCORE_NAME_LENGTH * 3];
   int nplayers = params[PLAYERS];
 
@@ -220,10 +229,15 @@ int initMP()
     "multiplay/commando"
   };
 
-  tmdprintf("Reading in difficulty settings...\n");
-  if (!read_global_config_file() ||
-      !read_named_config_file("multiplay/mpoptions") ||
-      !read_named_config_file(config_files[params[DIFFICULTY]]) )
+  DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
+
+  success *= read_global_config_file();
+
+  success *= read_named_config_file("multiplay/mpoptions");
+
+  success *= read_named_config_file(config_files[params[DIFFICULTY]]);
+
+  if (!success)
   {
     printf("Couldn't read in settings for %s\n",
            config_files[params[DIFFICULTY]] );

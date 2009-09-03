@@ -392,11 +392,11 @@ int MC_StartGame(void)
   answered_wrong = 0;
   questions_pending = 0;
 
-  #ifdef MC_DEBUG
-  print_counters();
-  #endif
+  if (debug_status & debug_mathcards) {
+    print_counters();
+  }
 
-  /* make sure list now exists and has non-zero length: */
+/* make sure list now exists and has non-zero length: */
   if (question_list && quest_list_length)
   {
     mcdprintf("\nGame set up successfully");
@@ -454,11 +454,11 @@ int MC_StartGameUsingWrongs(void)
     answered_wrong = 0;
     questions_pending = 0;
 
-    #ifdef MC_DEBUG
-    print_counters();
-    print_list(stdout, question_list);
-    printf("\nLeaving MC_StartGameUsingWrongs()\n");
-    #endif
+    if (debug_status & debug_mathcards) {
+      print_counters();
+      print_list(stdout, question_list);
+      printf("\nLeaving MC_StartGameUsingWrongs()\n");
+    }
 
     return 1;
   }
@@ -515,12 +515,12 @@ int MC_NextQuestion(MC_FlashCard* fc)
   questions_pending++;
   active_quests = append_node(active_quests, ptr);
 
-  #ifdef MC_DEBUG
-  printf("\nnext question is:");
-  print_card(*fc);
-  print_counters();
-  printf("\n\nLeaving MC_NextQuestion()\n");
-  #endif
+  if (debug_status & debug_mathcards) {
+    printf("\nnext question is:");
+    print_card(*fc);
+    print_counters();
+    printf("\n\nLeaving MC_NextQuestion()\n");
+  }
 
   return 1;
 }
@@ -555,10 +555,10 @@ int MC_AnsweredCorrectly(int id)
     return 0;
   }
 
-#ifdef MC_DEBUG
-  printf("\nMatching question is:");
-  print_card(quest->card);
-#endif
+  if (debug_status & debug_mathcards) {
+    printf("\nQuestion was:");
+    print_card(*fc);
+  }
 
   //We found a matching question, now we take it out of the 
   //"active_quests" list and either put it back into the 
@@ -588,11 +588,11 @@ int MC_AnsweredCorrectly(int id)
     unanswered--;
   }
 
-#ifdef MC_DEBUG
-  print_counters();
-  printf("\nLeaving MC_AnsweredCorrectly()\n");
-#endif
-
+   if (debug_status & debug_mathcards) {
+    print_counters();
+    printf("\nLeaving MC_AnsweredCorrectly()\n");
+  }
+  
   return 1;
 }
 
@@ -643,10 +643,10 @@ int MC_NotAnsweredCorrectly(int id)
 
     mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
 
-#ifdef MC_DEBUG
-    printf("\nCard to be added is:");
-    print_card(quest->card);
-#endif
+    if (debug_status & debug_mathcards) {
+      print_counters();
+      printf("\nLeaving MC_AnsweredCorrectly()\n");
+    }
 
     /* can put in more than one copy (to drive the point home!) */
     for (i = 0; i < math_opts->iopts[COPIES_REPEATED_WRONGS]; i++)
@@ -685,10 +685,10 @@ int MC_NotAnsweredCorrectly(int id)
     free_node(quest);
   }
 
-#ifdef MC_DEBUG
-  print_counters();
-  printf("\nLeaving MC_NotAnswered_Correctly()\n");
-#endif
+  if (debug_status & debug_mathcards) {
+    print_counters();
+    printf("\nLeaving MC_NotAnswered_Correctly()\n");
+  }
 
   return 1;
 }
@@ -752,9 +752,7 @@ int MC_AddTimeToList(float t)
       newsize = 100;
     newlist = realloc(time_per_question_list, newsize*sizeof(float));
     if (newlist == NULL) {
-      #ifdef MC_DEBUG
-      printf("\nError: allocation for time_per_question_list failed\n");
-      #endif
+      DEBUGMSG(debug_mathcards,"\nError: allocation for time_per_question_list failed\n");
       return 0;
     }
     time_per_question_list = newlist;
@@ -1585,9 +1583,10 @@ MC_FlashCard generate_random_flashcard(void)
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
     mcdprintf(" of length %d", length);
     ret = generate_random_ooo_card_of_length(length, 1);
-    #ifdef MC_DEBUG
-    print_card(ret);
-    #endif
+    
+    if (debug_status & debug_mathcards) {
+      print_card(ret);
+    }
   }
   //TODO comparison problems (e.g. "6 ? 9", "<")
 
@@ -1804,9 +1803,8 @@ MC_MathQuestion* generate_list(void)
   MC_MathQuestion* end_of_list = NULL;
   MC_MathQuestion* tnode = NULL;
 
-#ifdef MC_DEBUG
-  MC_PrintMathOptions(stdout, 0);
-#endif
+  if (debug_status & debug_mathcards)
+    MC_PrintMathOptions(stdout, 0);
 
   if (!(MC_GetOpt(ARITHMETIC_ALLOWED) ||
       MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||

@@ -29,9 +29,9 @@ const char ScanDir_rcsid[] = "Hatari $Id: scandir.c,v 1.3 2007/01/16 18:42:59 th
 #include "scandir.h"
 
 /*-----------------------------------------------------------------------
- * Here come alphasort and scandir for BeOS and SunOS
+ * Here come alphasort and scandir for BeOS/Haiku and SunOS
  *-----------------------------------------------------------------------*/
-#if defined(__BEOS__) || (defined(__sun) && defined(__SVR4))
+#if defined(__BEOS__) || defined(__HAIKU__) || (defined(__sun) && defined(__SVR4))
 
 #undef DIRSIZ
 
