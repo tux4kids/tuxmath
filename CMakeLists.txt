@@ -112,9 +112,13 @@ if(PKG_CONFIG_FOUND)
   include(FindPkgConfig)
   PKG_CHECK_MODULES(RSVG librsvg-2.0)
   if(RSVG_FOUND)
-    set(HAVE_RSVG 1)  # For the config.h file
+    PKG_CHECK_MODULES(CAIRO cairo)
+    if(CAIRO_FOUND)
+      set(HAVE_RSVG 1)  # For the config.h file
+    endif(CAIRO_FOUND)
   endif(RSVG_FOUND)
 endif(PKG_CONFIG_FOUND)
+
 
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)

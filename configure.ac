@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Tux Of Math Command],[1.7.2],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
+AC_INIT([Tux Of Math Command],[1.7.3],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
 AC_CONFIG_SRCDIR([src/tuxmath.c])
 
 AC_PREREQ(2.61)
@@ -130,7 +130,7 @@ AC_CHECK_LIB([SDL_ttf],
              [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
 fi
 
-dnl Check for libRSVG. SVG support is enabled by default
+dnl Check for libRSVG and cairo. SVG support is enabled by default
 
 AC_ARG_WITH([rsvg],
             [AS_HELP_STRING([--without-rsvg],[don't use libRSVG even if available])],
@@ -141,22 +141,31 @@ if test "x$with_rsvg" = xyes; then
   RSVG_CFLAGS=""
   RSVG_LIBS=""
   PKG_CHECK_MODULES([RSVG],
-                    [librsvg-2.0 >= 2.22],
+                    [librsvg-2.0 >= 2.18],
                     ,
                     [AC_MSG_FAILURE([libRSVG test failed (--without-rsvg to disable svg support)])])
   CFLAGS="$CFLAGS $RSVG_CFLAGS"
   LIBS="$LIBS $RSVG_LIBS"
-  AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
 fi
 
 
+if test "x$with_rsvg" = xyes; then
+  CAIRO_CFLAGS=""
+  CAIRO_LIBS=""
+  PKG_CHECK_MODULES([CAIRO],
+                    [cairo >= 1.4.10],
+                    ,
+                    [AC_MSG_FAILURE([cairo test failed (--without-rsvg to disable svg support)])])
+  CFLAGS="$CFLAGS $CAIRO_CFLAGS"
+  LIBS="$LIBS $CAIRO_LIBS"
+  AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
+fi
 
 dnl Check for (somewhat) higher-level math functions - needed for SDL_extras
-AC_CHECK_LIB([m],
-             [csin],
-             ,
-             [AC_MSG_ERROR([Math library not found - functions in <math.h> may not be available.])])
-
+dnl AC_CHECK_LIB([m],
+dnl              [csin],
+dnl              ,
+dnl              [AC_MSG_ERROR([Math library not found - functions in <math.h> may not be available.])])
 
 
 
@@ -273,6 +282,7 @@ data/images/status/Makefile
 data/images/title/Makefile
 data/images/tux/Makefile
 data/images/factoroids/Makefile
+data/menus/Makefile
 data/missions/Makefile
 data/missions/arcade/Makefile
 data/missions/campaign/Makefile
