@@ -5,7 +5,8 @@ bin_PROGRAMS = tuxmathserver tuxmathtestclient
 
 tuxmathserver_SOURCES = server.c \
 	../src/mathcards.c	\
-	 ../src/throttle.c
+	 ../src/throttle.c	\
+	 ../src/options.c
 
 tuxmathtestclient_SOURCES = testclient.c \
                             ../src/throttle.c \

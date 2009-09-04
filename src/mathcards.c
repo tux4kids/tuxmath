@@ -23,8 +23,9 @@
 #include <time.h>
 
 
-#include "../src/transtruct.h"
+#include "transtruct.h"
 #include "mathcards.h"
+#include "globals.h"
 
 /* extern'd constants */
 
@@ -557,7 +558,7 @@ int MC_AnsweredCorrectly(int id)
 
   if (debug_status & debug_mathcards) {
     printf("\nQuestion was:");
-    print_card(*fc);
+    print_card(quest->card);
   }
 
   //We found a matching question, now we take it out of the 

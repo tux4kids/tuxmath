@@ -575,8 +575,9 @@ int remove_quest_recvd(char* buf)
   //so the next statement should get executed:
   if(fc)
   {
-    tmdprintf("Note - request to erase question still in queue: %s\n",
-              fc->formula_string);
+    DEBUGMSG(debug_game,
+             "Note - request to erase question still in queue: %s\n",
+             fc->formula_string);
     erase_flashcard(fc);
   }
   return 1;
@@ -1504,7 +1505,7 @@ void game_countdown(void)
   s2.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s3.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s4.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
-  tmdprintf("alpha = %d\n", s1.alpha);
+  DEBUGMSG(debug_game, "alpha = %d\n", s1.alpha);
 
   level_start_wait--;
   if (level_start_wait > LEVEL_START_WAIT_START / 4)
@@ -2576,7 +2577,7 @@ int check_exit_conditions(void)
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
   if (!MC_ListQuestionsLeft() && !num_comets_alive)
   {
-    fprintf(stderr("Error - no questions left but game not over\n");
+    fprintf(stderr, "Error - no questions left but game not over\n");
     DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
     DEBUGMSG(debug_game, "num_comets_alive = %d", num_comets_alive);
     return GAME_OVER_ERROR;
@@ -2867,7 +2868,7 @@ int add_comet(void)
 
     if(i == TEST_COMETS)
     {
-      DEBUGMSG("add_comet() called but no question available in queue\n");
+      DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
       return 0;
     } 
 #else
