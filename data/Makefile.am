@@ -3,6 +3,7 @@
 
 SUBDIRS = fonts	\
 	images	\
+	menus \
 	missions \
 	sounds
 
