@@ -3,9 +3,11 @@
 
 spritesdir = $(pkgdatadir)/images/sprites
 
-dist_sprites_DATA = alone0.png \
+dist_sprites_DATA = \
+  alone0.png \
   alone1.png \
   aloned.png \
+  alone.svg \
   comet0.png \
   comet1.png \
   comet2.png \
@@ -18,10 +20,14 @@ dist_sprites_DATA = alone0.png \
   credits2.png \
   credits3.png \
   creditsd.png \
+  exclamation0.png \
+  exclamationd.png \
+  exclamation.svg \
   factoroids0.png \
   factoroids1.png \
   factoroids2.png \
   factoroidsd.png \
+  factoroids.svg \
   factors0.png \
   factors1.png \
   factors2.png \
@@ -31,6 +37,7 @@ dist_sprites_DATA = alone0.png \
   factorsd.png \
   fleet0.png \
   fleetd.png \
+  fleet.svg \
   fractions0.png \
   fractions1.png \
   fractions2.png \
@@ -39,9 +46,14 @@ dist_sprites_DATA = alone0.png \
   fractions5.png \
   fractions6.png \
   fractionsd.png \
-  goldstard.png \
+  friends0.png \
+  friendsd.png \
+  friends.svg \
   goldstar0.png \
   goldstar1.png \
+  goldstard.png \
+  goldstar.svg \
+  help.svg \
   help0.png \
   help1.png \
   help2.png \
@@ -49,14 +61,14 @@ dist_sprites_DATA = alone0.png \
   helpd.png \
   lan0.png \
   lan1.png \
-  lan2.png \
-  lan3.png \
   land.png \
+  lan.svg \
   lesson0.png \
   lesson1.png \
   lesson2.png \
   lesson3.png \
   lessond.png \
+  lesson.svg \
   main0.png \
   main1.png \
   main2.png \
@@ -66,11 +78,21 @@ dist_sprites_DATA = alone0.png \
   main6.png \
   main7.png \
   maind.png \
-  quit0.png \
+  main.svg \
   no_goldstar0.png \
   no_goldstard.png \
-  friends0.png \
-  friendsd.png \
+  no_goldstar.svg \
+  nums0.png \
+  nums1.png \
+  nums2.png \
+  nums3.png \
+  nums4.png \
+  nums5.png \
+  nums6.png \
+  nums7.png \
+  numsd.png \
+  nums.svg \
+  quit0.png \
   quit1.png \
   quit2.png \
   quit3.png \
@@ -80,17 +102,26 @@ dist_sprites_DATA = alone0.png \
   quit7.png \
   quit8.png \
   quitd.png \
+  quit.svg \
   trophy0.png \
   trophy1.png \
   trophyd.png \
+  tux_config.svg \
   tux_config0.png \
   tux_config1.png \
+  tux_configd.png \
+  tux_config_brown.svg \
   tux_config_brown0.png \
   tux_config_brown1.png \
   tux_config_brownd.png \
-  tux_configd.png \
+  tux_helmet0.png \
+  tux_helmet1.png \
+  tux_helmet2.png \
+  tux_helmetd.png \
+  tux_helmet_black.svg \
   tux_helmet_black0.png \
   tux_helmet_blackd.png \
+  tux_helmet_blue.svg \
   tux_helmet_blue0.png \
   tux_helmet_blue1.png \
   tux_helmet_blue2.png \
@@ -98,6 +129,7 @@ dist_sprites_DATA = alone0.png \
   tux_helmet_blue4.png \
   tux_helmet_blue5.png \
   tux_helmet_blued.png \
+  tux_helmet_green.svg \
   tux_helmet_green0.png \
   tux_helmet_green1.png \
   tux_helmet_green2.png \
@@ -105,6 +137,7 @@ dist_sprites_DATA = alone0.png \
   tux_helmet_green4.png \
   tux_helmet_green5.png \
   tux_helmet_greend.png \
+  tux_helmet_red.svg \
   tux_helmet_red0.png \
   tux_helmet_red1.png \
   tux_helmet_red2.png \
@@ -112,6 +145,7 @@ dist_sprites_DATA = alone0.png \
   tux_helmet_red4.png \
   tux_helmet_red5.png \
   tux_helmet_redd.png \
+  tux_helmet_yellow.svg \
   tux_helmet_yellow0.png \
   tux_helmet_yellow1.png \
   tux_helmet_yellow2.png \
