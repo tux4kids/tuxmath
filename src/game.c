@@ -651,7 +651,7 @@ comet_type* finder(int id)
    local to this file and located immediately below this function - DSB */
 
 
-
+#ifdef HAVE_LIBSDL_NET
 void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
 {
   if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
@@ -698,7 +698,7 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
   /* FIXME need to handle unrecognized messages, maybe just printf()
      with a warning until they get implemented - DSB             */
 }
-
+#endif
 
 
 /* 

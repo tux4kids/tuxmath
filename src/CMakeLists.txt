@@ -7,6 +7,7 @@ find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
 find_package(SDL_gfx)
+find_package(SDL_net)
 
 if (NOT SDLGFX_FOUND)
   message("Adding rotozoom")
@@ -29,11 +30,13 @@ set(SOURCES_TUXMATH
   lessons.c
   loaders.c
   mathcards.c
+  network.c
   options.c
   pixels.c
   scandir.c
   SDL_extras.c
   setup.c
+  throttle.c
   titlescreen.c
   multiplayer.c
   campaign.c
@@ -125,6 +128,7 @@ target_link_libraries (tuxmath
   ${SDLIMAGE_LIBRARY}
   ${SDLTTF_LIBRARY}
   ${SDLMIXER_LIBRARY}
+  ${SDLNET_LIBRARY}
   )
 
 if (SDLPANGO_FOUND)
