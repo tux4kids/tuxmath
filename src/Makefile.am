@@ -31,6 +31,7 @@ endif
 tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
+	menu.c		\
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
@@ -40,7 +41,7 @@ tuxmath_SOURCES = tuxmath.c \
 	linewrap.c	\
 	loaders.c	\
 	audio.c 	\
-	menu.c   	\
+        network.c       \
 	mathcards.c	\
 	campaign.c	\
 	multiplayer.c	\
@@ -50,7 +51,8 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
-	pixels.c
+	pixels.c	\
+	throttle.c	
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -73,10 +75,12 @@ EXTRA_DIST = 	credits.h 	\
 	highscore.h 	\
 	linewrap.h	\
 	loaders.h	\
-	mathcards.h 	\
+        network.h       \
+	titlescreen.h   \
+	menu.h		\
 	options.h	\
 	setup.h		\
-	titlescreen.h	\
+	mathcards.h 	\
 	campaign.h	\
 	multiplayer.h	\
 	tuxmath.h	\
@@ -87,7 +91,10 @@ EXTRA_DIST = 	credits.h 	\
 	gettext.h	\
 	scandir.h	\
 	pixels.h	\
-	compiler.h
+	compiler.h	\
+	transtruct.h	\
+	throttle.h
+        
 
 
 WINDRES=@WINDRES@
@@ -95,7 +102,3 @@ WINDRES=@WINDRES@
 # How to make an RC file
 tuxmathrc.o: tuxmathrc.rc
 	$(WINDRES) -i $< -o $@
-
-
-
-

@@ -24,3 +24,4 @@ dist_comets_DATA = bonus_comet0.png \
   mini_comet1.png \
   mini_comet2.png \
   mini_comet3.png
+

@@ -75,6 +75,7 @@ extern const int debug_all;
 #define DEFAULT_MENU_SOUND 1
 #define DEFAULT_MENU_MUSIC 1
 #define DEFAULT_FULLSCREEN 1
+#define DEFAULT_LAN_MODE 0
 #define DEFAULT_USE_BKGD 1
 #define DEFAULT_HELP_MODE 0
 #define DEFAULT_DEMO_MODE 0

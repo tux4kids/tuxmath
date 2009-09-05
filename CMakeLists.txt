@@ -119,6 +119,7 @@ if(PKG_CONFIG_FOUND)
   endif(RSVG_FOUND)
 endif(PKG_CONFIG_FOUND)
 
+
 ## Run configure checks
 if (TUXMATH_BUILD_INTL)
   include(ConfigureChecksIntl)

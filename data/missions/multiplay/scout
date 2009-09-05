@@ -47,4 +47,3 @@ max_questions = 5000
 bonus_comet_interval = 10
 allow_pause = 0
 bonus_speed_ratio = 1.5
-

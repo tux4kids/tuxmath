@@ -20,6 +20,8 @@
 #include "options.h"
 #include "SDL_extras.h"
 #include "convert_utf.h"
+#include "transtruct.h"
+#include "network.h"
 
 
 typedef struct high_score_entry {
@@ -714,3 +716,471 @@ char* HS_Name(int diff_level, int place)
 
   return high_scores[diff_level][place].name;
 }
+
+
+void Ready(const char* heading)
+{
+  SDL_Rect loc;
+  SDL_Rect TuxRect,
+           stopRect,
+             okRect;
+
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+
+
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
+
+
+  /* Draw background: */
+  if (current_bkg())
+    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+ 
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+ if (images[IMG_RIGHT])
+  {
+    okRect.w = (images[IMG_RIGHT]->w)*2;
+    okRect.h = (images[IMG_RIGHT]->h)*2;
+    okRect.x = (screen->w)/2;
+    okRect.y = 240;
+    SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &okRect);
+  }
+
+
+  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
+  {
+    TuxRect.w = Tux->frame[0]->w;
+    TuxRect.h = Tux->frame[0]->h;
+    TuxRect.x = 0;
+    TuxRect.y = screen->h - Tux->frame[0]->h;
+  }
+
+
+  /* Draw heading: */
+  {
+    SDL_Surface* s = BlackOutline(_(heading),
+                                  DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 110;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            break;
+          }
+
+          if (inRect(okRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            break;
+          }
+          
+        }
+      }
+    }
+ 
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;                        
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
+    }
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+  FreeSprite(Tux);
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
+
+}
+
+
+int Standby(const char* heading, const char* sub)
+{
+  
+  SDL_Rect loc;
+  SDL_Rect TuxRect,
+           stopRect;
+  char buf[NET_BUF_LEN];
+
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+
+
+  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+
+
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
+#endif
+
+
+  /* Draw background: */
+  if (current_bkg())
+    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
+  {
+    TuxRect.w = Tux->frame[0]->w;
+    TuxRect.h = Tux->frame[0]->h;
+    TuxRect.x = 0;
+    TuxRect.y = screen->h - Tux->frame[0]->h;
+  }
+
+  /* Draw heading: */
+  {
+    SDL_Surface* s = BlackOutline(_(heading),
+                                  DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 110;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+    s = BlackOutline(_(sub),
+                     DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 140;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = -1;
+            playsound(SND_TOCK);
+            break;
+          }
+        }
+      }
+    }
+
+    //FIXME - so we pull all the messages out of the socket and ignore anything
+    //that isn't "GO_TO_GAME" - why are we ignoring them?  We cannot assume the
+    //server is going to send us what we expect. At a minimum, we need to 
+    //print any unrecognized messages to stderr with a warning - DSB
+    while(!check_messages(buf))
+    {
+      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME")) == 0)
+      {
+        finished = 1;
+        playsound(SND_TOCK);
+        break;
+      }
+      else if(strncmp(buf, "GAME_IN_PROGRESS", strlen("GAME_IN_PROGRESS")) == 0)
+      {
+        finished = -1;
+        playsound(SND_TOCK);
+        break;
+      }
+    }
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;                        
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
+    }
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+  FreeSprite(Tux);
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
+
+  /* 1 means we start game, -1 means we go back to menu */
+  return finished;
+}
+
+
+int detecting_servers(const char* heading, const char* sub)
+{
+#ifndef HAVE_LIBSDL_NET
+  return 0;
+#else
+  SDL_Rect loc;
+  SDL_Rect TuxRect,
+           stopRect;
+
+  int finished = 0;
+  int tux_frame = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+  int servers_found = 0;  
+
+
+  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+
+
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
+#ifdef TUXMATH_DEBUG
+  fprintf(stderr, "\nEnter detecting_servers()\n" );
+#endif
+
+
+  /* Draw background: */
+  if (current_bkg())
+    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
+  {
+    TuxRect.w = Tux->frame[0]->w;
+    TuxRect.h = Tux->frame[0]->h;
+    TuxRect.x = 0;
+    TuxRect.y = screen->h - Tux->frame[0]->h;
+  }
+
+  /* Draw heading: */
+  {
+    SDL_Surface* s = BlackOutline(_(heading),
+                                  DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 110;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+    s = BlackOutline(_(sub),
+                     DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 140;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+  }
+
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+
+    //Scan local network to find running server:
+    servers_found = LAN_DetectServers();
+    if(servers_found < 1)
+    {
+      printf("No server could be found - returning.\n");
+      /* Turn off SDL Unicode lookup (because has some overhead): */
+      SDL_EnableUNICODE(SDL_DISABLE);
+      FreeSprite(Tux);
+      return 0;
+    }
+    else if(servers_found  == 1)  //One server - connect without player intervention
+    {
+      printf("Single server found - connecting automatically...");
+
+      if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
+      {
+        printf("LAN_AutoSetup() failed - returning.\n");
+        /* Turn off SDL Unicode lookup (because has some overhead): */
+        SDL_EnableUNICODE(SDL_DISABLE);
+        FreeSprite(Tux);
+        return 0;
+      }
+      
+      
+      finished = 1;
+      break;  //So we quit scanning as soon as we connect
+      printf("connected\n");
+    } else if (servers_found  > 1)
+    {
+      //TODO display list of servers for player to choose from:
+    }
+
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            break;
+          }
+        }
+      }
+    }
+
+    /* --- make tux blink --- */
+    switch (frame % TUX6)
+    {
+      case 0:    tux_frame = 1; break;
+      case TUX1: tux_frame = 2; break;
+      case TUX2: tux_frame = 3; break;
+      case TUX3: tux_frame = 4; break;                        
+      case TUX4: tux_frame = 3; break;
+      case TUX5: tux_frame = 2; break;
+      default: tux_frame = 0;
+    }
+
+    if (Tux && tux_frame)
+    {
+      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
+      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
+    }
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+  }  // End of while (!finished) loop
+
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
+  FreeSprite(Tux);
+
+  return 1;
+
+#endif
+}
+

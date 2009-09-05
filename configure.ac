@@ -89,6 +89,23 @@ AC_CHECK_LIB([SDL_mixer],
              ,
              [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
 
+dnl SDL_Net is enabled by default 
+dnl unless SDL_net is disabled at configure time.
+
+AC_ARG_WITH([sdlnet],
+            [AS_HELP_STRING([--without-sdlnet],[don't use SDL_Net even if available])],
+            [with_sdlnet=no],
+            [with_sdlnet=yes])
+
+if test "x$with_sdlnet" != xno; then
+AC_CHECK_LIB([SDL_net],
+             [SDLNet_Init],
+             ,
+             [with_sdlnet=no;
+              AC_MSG_FAILURE([SDL_Net test failed (--without-sdlnet to disable LAN support)])])
+fi
+
+
 dnl SDL_Pango is enabled by default.
 dnl If SDL_Pango disabled at configure time, or if we can't find it,
 dnl we look for SDL_ttf:
@@ -143,11 +160,24 @@ if test "x$with_rsvg" = xyes; then
   AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
 fi
 
+if test "x$with_rsvg" = xyes; then
+  CAIRO_CFLAGS=""
+  CAIRO_LIBS=""
+  PKG_CHECK_MODULES([CAIRO],
+                    [cairo >= 1.4.10],
+                    ,
+                    [AC_MSG_FAILURE([cairo test failed (--without-rsvg to disable svg support)])])
+  CFLAGS="$CFLAGS $CAIRO_CFLAGS"
+  LIBS="$LIBS $CAIRO_LIBS"
+  AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
+fi
+
 dnl Check for (somewhat) higher-level math functions - needed for SDL_extras
 dnl AC_CHECK_LIB([m],
 dnl              [csin],
 dnl              ,
 dnl              [AC_MSG_ERROR([Math library not found - functions in <math.h> may not be available.])])
+
 
 
 # --------------------------------------------------------------------------------------
@@ -278,6 +308,7 @@ data/sounds/Makefile
 doc/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
+server/Makefile
 src/Makefile
 intl/Makefile
 linebreak/Makefile

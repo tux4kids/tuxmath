@@ -12,17 +12,20 @@
         Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
 
 */
+
+
 #ifndef MATHCARDS_H
 #define MATHCARDS_H
 
-//#define MC_DEBUG
-//#ifdef MC_DEBUG
-#define mcdprintf(...) DEBUGMSG(debug_mathcards,__VA_ARGS__)
-//#else
-//#define mcdprintf(...) 0
-//#endif
+#include "transtruct.h"
 
-#define MC_USE_NEWARC
+#define MC_DEBUG
+#ifdef MC_DEBUG
+#define mcdprintf(...) DEBUGMSG(debug_mathcards,__VA_ARGS__)
+#else
+#define mcdprintf(...) 0
+#endif
+
 
 /* different classes of problems TuxMath will ask */
 typedef enum _MC_ProblemType {
@@ -146,31 +149,16 @@ extern const char operchars[MC_NUM_OPERS];
 //#define DEFAULT_FRACTION_TO_KEEP 1
 
 
+/* FIXME I think this array-based options system is *much* more error-prone */
+/* and confusing than the old struct with a named field for each option,    */
+/* albeit more compact. I think it would be worth the effort to change the  */
+/* code back to the old system - DSB                                        */
 typedef struct _MC_Options
 {
   int iopts[NOPTS];
 } MC_Options;
 
-#ifndef MC_USE_NEWARC
-/* struct for individual "flashcard" */
-typedef struct MC_FlashCard {
-  int num1;
-  int num2;
-  int num3;
-  int operation;
-  int format;
-  char formula_string[MC_FORMULA_LEN];
-  char answer_string[MC_ANSWER_LEN];
-} MC_FlashCard;
-#else
-/* experimental struct for a more generalized flashcard */
-typedef struct _MC_FlashCard {
-  char* formula_string;
-  char* answer_string;
-  int answer;
-  int difficulty;
-} MC_FlashCard;
-#endif
+
 
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
@@ -224,12 +212,13 @@ int MC_NextQuestion(MC_FlashCard* q);
 /*  MC_AnsweredCorrectly() is how the user interface      */
 /*  tells MathCards that the question has been answered   */
 /*  correctly. Returns 1 if no errors.                    */
-int MC_AnsweredCorrectly(MC_FlashCard* q);
+int MC_AnsweredCorrectly(int id);
+//int MC_AnsweredCorrectly_id(int id);
 
 /*  MC_NotAnsweredCorrectly() is how the user interface    */
 /*  tells MathCards that the question has not been        */
 /*  answered correctly. Returns 1 if no errors.           */
-int MC_NotAnsweredCorrectly(MC_FlashCard* q);
+int MC_NotAnsweredCorrectly(int id);
 
 /*  Like MC_NextQuestion(), but takes "flashcard" from    */
 /*  pile of incorrectly answered questions.               */
@@ -237,7 +226,7 @@ int MC_NotAnsweredCorrectly(MC_FlashCard* q);
 int MC_NextWrongQuest(MC_FlashCard* q);
 
 /*  Returns 1 if all have been answered correctly,        */
-/* 0 otherwise.                                           */
+/*  0 otherwise.                                          */
 int MC_MissionAccomplished(void);
 
 /*  Returns number of questions left (either in list      */
@@ -273,6 +262,7 @@ int MC_WrongListLength(void);
 int MC_NumAnsweredCorrectly(void);
 int MC_NumNotAnsweredCorrectly(void);
 float MC_MedianTimePerQuestion(void);
+void print_card(MC_FlashCard card);
 
 /********************************************
 Public functions for new mathcards architecture
@@ -293,4 +283,5 @@ int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid
 /* Reorganize formula_string and answer_string to render the same equation
    in a different format */
 void reformat_arithmetic(MC_FlashCard* card, MC_Format f);
+
 #endif

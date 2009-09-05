@@ -49,6 +49,7 @@ typedef struct global_option_type {
 typedef struct game_option_type {
   /* general game options */
   char current_font_name[FONT_NAME_LENGTH];
+  int lan_mode;
   int use_bkgd;
   int help_mode;
   int demo_mode;
@@ -121,6 +122,7 @@ int  Opts_GetGlobalOpt(unsigned int index);
 void Opts_SetGlobalOpt(unsigned int index, int val);
 
 void Opts_SetFontName(char* font_name);
+void Opts_SetLanMode(int val);
 void Opts_SetUseBkgd(int val);
 void Opts_SetHelpMode(int val);
 void Opts_SetDemoMode(int val);
@@ -154,6 +156,7 @@ void Opts_SetKeepScore(int val);
 
 /* "Get" functions for tuxmath options struct: */
 const char* Opts_FontName(void);
+int Opts_LanMode(void);
 int Opts_UseBkgd(void);
 int Opts_HelpMode(void);
 int Opts_DemoMode(void);

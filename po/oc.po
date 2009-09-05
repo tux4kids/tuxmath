@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-03-06 06:12-0600\n"
+"POT-Creation-Date: 2009-09-04 21:22-0500\n"
 "PO-Revision-Date: 2008-02-25 16:55+0000\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
@@ -206,332 +206,227 @@ msgstr ""
 
 #: src/credits.c:108
 msgid ""
-"A full copy of the GPL is included with the documenation for this program."
+"A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 
 #: src/credits.c:110
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:558
+#: src/factoroids.c:552
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:559 src/factoroids.c:570
+#: src/factoroids.c:553 src/factoroids.c:564
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:560
+#: src/factoroids.c:554
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:561
+#: src/factoroids.c:555
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:569
+#: src/factoroids.c:563
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:571
+#: src/factoroids.c:565
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:572
+#: src/factoroids.c:566
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 
-#: src/game.c:717
+#: src/game.c:989
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:734
+#: src/game.c:1006
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:735
+#: src/game.c:1007
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:736
+#: src/game.c:1008
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:755
+#: src/game.c:1027
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:756
+#: src/game.c:1028
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:757
+#: src/game.c:1029
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:758
+#: src/game.c:1030
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:766
+#: src/game.c:1038
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:776
+#: src/game.c:1048
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:777
+#: src/game.c:1049
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:778
+#: src/game.c:1050
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:779
+#: src/game.c:1051
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:780
+#: src/game.c:1052
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:793
+#: src/game.c:1065
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:803
+#: src/game.c:1075
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:804
+#: src/game.c:1076
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:805
+#: src/game.c:1077
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:824
+#: src/game.c:1100
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:825
+#: src/game.c:1101
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:834
+#: src/game.c:1112
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:838
+#: src/game.c:1118
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:852
+#: src/game.c:1136
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:853
+#: src/game.c:1137
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:854
+#: src/game.c:1138
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:855
+#: src/game.c:1139
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:212 src/titlescreen.c:849
+#: src/highscore.c:167
 msgid "Hall Of Fame"
 msgstr ""
 
-#: src/highscore.c:232 src/highscore.c:253 src/titlescreen.c:785
-#: src/titlescreen.c:844
+#: src/highscore.c:187 src/highscore.c:208
 msgid "Space Cadet"
 msgstr ""
 
-#: src/highscore.c:235 src/titlescreen.c:786 src/titlescreen.c:845
+#: src/highscore.c:190
 msgid "Scout"
 msgstr ""
 
-#: src/highscore.c:238 src/titlescreen.c:787 src/titlescreen.c:846
+#: src/highscore.c:193
 msgid "Ranger"
 msgstr ""
 
-#: src/highscore.c:241 src/titlescreen.c:788 src/titlescreen.c:847
+#: src/highscore.c:196
 msgid "Ace"
 msgstr ""
 
-#: src/highscore.c:244 src/titlescreen.c:789 src/titlescreen.c:848
+#: src/highscore.c:199
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:247 src/titlescreen.c:968
+#: src/highscore.c:202
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:250 src/titlescreen.c:969
+#: src/highscore.c:205
 msgid "Fractions"
 msgstr ""
 
-#: src/highscore.c:353
+#: src/highscore.c:286
 msgid "You Are In The Hall of Fame!"
 msgstr ""
 
-#: src/highscore.c:353
+#: src/highscore.c:286
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/multiplayer.c:244
+#: src/multiplayer.c:183
+#, c-format
+msgid "Then %s\n"
+msgstr ""
+
+#: src/multiplayer.c:258
 msgid "Who is playing first?"
 msgstr ""
 
-#: src/multiplayer.c:244 src/multiplayer.c:246
+#: src/multiplayer.c:258 src/multiplayer.c:260
 msgid "Enter your name:"
 msgstr ""
 
-#: src/multiplayer.c:246
+#: src/multiplayer.c:260
 msgid "Who is playing next?"
 msgstr ""
 
-#: src/multiplayer.c:260
+#: src/multiplayer.c:274
 msgid "How many rounds will you play?"
 msgstr ""
 
-#: src/multiplayer.c:260
+#: src/multiplayer.c:274
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:487
+#: src/titlescreen.c:476
 msgid "Work In Progress!"
 msgstr ""
 
-#: src/titlescreen.c:488
+#: src/titlescreen.c:477
 msgid "This feature is not ready yet"
 msgstr ""
 
-#: src/titlescreen.c:489
+#: src/titlescreen.c:478
 msgid "Discuss the future of TuxMath at"
 msgstr ""
 
-#: src/titlescreen.c:490
+#: src/titlescreen.c:479
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#: src/titlescreen.c:647
-msgid "Play Alone"
-msgstr ""
-
-#: src/titlescreen.c:648
-msgid "Play With Friends"
-msgstr ""
-
-#: src/titlescreen.c:649
-msgid "Factoroids!"
-msgstr ""
-
-#: src/titlescreen.c:650
-msgid "Help"
-msgstr "Ajuda"
-
-#: src/titlescreen.c:651
-msgid "More Options"
-msgstr "Mai d'opcions"
-
-#: src/titlescreen.c:652
-msgid "Quit"
-msgstr "Sortir"
-
-#: src/titlescreen.c:726
-msgid "Math Command Training Academy"
-msgstr ""
-
-#: src/titlescreen.c:727
-msgid "Math Command Fleet Missions"
-msgstr ""
-
-#: src/titlescreen.c:728
-msgid "Play Arcade Game"
-msgstr ""
-
-#: src/titlescreen.c:729
-msgid "Play Custom Game"
-msgstr ""
-
-#: src/titlescreen.c:730 src/titlescreen.c:781 src/titlescreen.c:790
-#: src/titlescreen.c:850 src/titlescreen.c:970
-msgid "Main menu"
-msgstr "Menut principal"
-
-#: src/titlescreen.c:779
-msgid "Score Sweep"
-msgstr ""
-
-#: src/titlescreen.c:780
-msgid "Elimination"
-msgstr ""
-
-#: src/titlescreen.c:824
-msgid "How many kids are playing?"
-msgstr ""
-
-#: src/titlescreen.c:825
-msgid "(Between 2 and 4 players)"
-msgstr ""
-
-#: src/titlescreen.c:944
-msgid "Edit 'options' file in your home directory"
-msgstr ""
-
-#: src/titlescreen.c:945
-msgid "to create customized game!"
-msgstr ""
-
-#: src/titlescreen.c:946
-msgid "Press a key or click your mouse to start game."
-msgstr ""
-
-#: src/titlescreen.c:947
-msgid "See README.txt for more information"
-msgstr ""
-
-#: src/titlescreen.c:1062
-msgid "Demo"
-msgstr ""
-
-#: src/titlescreen.c:1063
-msgid "Project Info"
-msgstr ""
-
-#: src/titlescreen.c:1064
-msgid "Credits"
-msgstr "Mercejaments"
-
-#: src/titlescreen.c:1065
-msgid "Main Menu"
-msgstr "Menut principal"
-
-#: src/titlescreen.c:1113
-msgid "TuxMath is free and open-source!"
-msgstr ""
-
-#: src/titlescreen.c:1114
-msgid "You can help make it better by reporting problems,"
-msgstr ""
-
-#: src/titlescreen.c:1115
-msgid "suggesting improvements, or adding code."
-msgstr ""
-
-#: src/titlescreen.c:1116
-msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
-msgstr ""
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -764,3 +659,21 @@ msgstr ""
 #: data/missions/lessons/descr_lessons:58
 msgid "Division of Positives and Negatives"
 msgstr ""
+
+#~ msgid "Help"
+#~ msgstr "Ajuda"
+
+#~ msgid "More Options"
+#~ msgstr "Mai d'opcions"
+
+#~ msgid "Quit"
+#~ msgstr "Sortir"
+
+#~ msgid "Main menu"
+#~ msgstr "Menut principal"
+
+#~ msgid "Credits"
+#~ msgstr "Mercejaments"
+
+#~ msgid "Main Menu"
+#~ msgstr "Menut principal"

@@ -15,9 +15,10 @@
   August 26, 2001 - February 18, 2004
 
   Revised by David Bruce, Tim Holy and others
-  2005-2007
+  2005-2009
 */
 
+#define TUXMATH_DEBUG
 /* put this first so we get <config.h> and <gettext.h> immediately: */
 #include "tuxmath.h"
 
@@ -31,6 +32,7 @@
 #endif
 #include "SDL_image.h"
 
+#include "transtruct.h"
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
@@ -40,6 +42,14 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "throttle.h"
+
+/* Make sure we don't try to call network code if we built without */
+/* network support:                                                */
+#ifdef HAVE_LIBSDL_NET
+#include "network.h"
+#endif
+
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -80,11 +90,13 @@ typedef struct comet_type {
 static int gameover_counter;
 static int game_status;
 static int user_quit_received;
+static int total_questions_left;
 static int paused;
 static int wave;
 static int score;
 static int pre_wave_score;
 static int prev_wave_comets;
+static int found;
 static int slowdown;
 static int num_attackers;
 static float speed;
@@ -106,6 +118,8 @@ static int igloo_vertical_offset;
 static int bonus_comet_counter;
 static int extra_life_earned;
 static int key_pressed;
+static int game_over_other;
+static int game_over_won;
 
 /* Feedback-related variables */
 static int city_expl_height;
@@ -131,7 +145,11 @@ static SDL_Surface* current_bkgd()
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
-
+/*****************************************************************/
+MC_FlashCard comets_questions[TEST_COMETS];    //current questions
+int remaining_quests = 0;
+static int comet_counter = 0;
+/****************************************************************/
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -146,6 +164,7 @@ static void game_handle_help(void);
 static void game_handle_user_events(void);
 static void game_handle_demo(void);
 static void game_handle_answer(void);
+static void game_handle_net_messages(char*,char*);
 static void game_countdown(void);
 static void game_handle_tux(void);
 static void game_handle_comets(void);
@@ -162,10 +181,10 @@ static void game_draw_misc(void);
 static int check_extra_life(void);
 static int check_exit_conditions(void);
 
-static void game_set_message(game_message *,const char *,int x, int y);
+static void game_set_message(game_message*, const char* ,int x, int y);
 static void game_clear_message(game_message*);
 static void game_clear_messages(void);
-static void game_write_message(const game_message* msg);
+void game_write_message(const game_message* msg);
 static void game_write_messages(void);
 static void draw_led_console(void);
 static void draw_question_counter(void);
@@ -175,6 +194,7 @@ static void reset_level(void);
 static int add_comet(void);
 static void add_score(int inc);
 static void reset_comets(void);
+static void copy_card(MC_FlashCard* src, MC_FlashCard* dest);
 
 static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
@@ -185,24 +205,44 @@ static int help_renderframe_exit(void);
 static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
+void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
+
+
+/*****************************************************/
+#ifdef HAVE_LIBSDL_NET
+int add_quest_recvd(char* buf);
+int remove_quest_recvd(char* buf);
+#endif
+
+int erase_flashcard(MC_FlashCard* fc);
+int erase_comet_on_screen(comet_type* comet_ques);
+
+/* Display to player: */
+void print_current_quests(void);
+MC_FlashCard* find_comet_by_id(int id);
+comet_type* finder(int id);
+/******************************************************/
+
 
 static void print_exit_conditions(void);
 static void print_status(void);
+
 
 /* --- MAIN GAME FUNCTION!!! --- */
 
 
 int game(void)
 {
-  Uint32 last_time, now_time;
+  char buf[NET_BUF_LEN];
+  char command[NET_BUF_LEN];
 
   DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
-    {
-    ;//SwitchScreenMode();
-    }
+  {
+    ;//SwitchScreenMode();  //Huh??
+  }
 
 
    /* most code moved into smaller functions (game_*()): */
@@ -215,12 +255,13 @@ int game(void)
     return 0;
   }
 
+
   if (Opts_HelpMode()) {
     game_handle_help();
     game_cleanup();
     return GAME_OVER_OTHER;
   }
-
+ 
 
 
   /* --- MAIN GAME LOOP: --- */
@@ -228,7 +269,6 @@ int game(void)
   {
     /* reset or increment various things with each loop: */
     frame++;
-    last_time = SDL_GetTicks();
     old_tux_img = tux_img;
     tux_pressing = 0;
 
@@ -236,6 +276,30 @@ int game(void)
     {
       laser.alive--;
     }
+
+   /* Check for server messages if we are playing a LAN game: */
+   if(Opts_LanMode())
+   {
+#ifdef HAVE_LIBSDL_NET
+     int status = check_messages(buf);
+     while(!status)
+     {
+       seperate_commmand_and_buf(command, buf);
+       game_handle_net_messages(buf, command);
+       status = check_messages(buf);
+     }
+
+     if(status == -1)
+     {
+       game_cleanup();
+       return GAME_OVER_ERROR;
+     }
+#else
+     fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+     Opts_SetLanMode(0);
+#endif    
+   }
+
 
     /* Most code now in smaller functions: */
 
@@ -254,8 +318,9 @@ int game(void)
     // 3. Redraw:
     game_draw();
     // 4. Figure out if we should leave loop:
-    game_status = check_exit_conditions();
-
+    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
+ 
+ 
 
     /* If we're in "PAUSE" mode, pause! */
     if (paused)
@@ -276,18 +341,10 @@ int game(void)
     }
 #endif
 
+
     /* Pause (keep frame-rate event) */
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + MS_PER_FRAME)
-    {
-      //Prevent any possibility of a time wrap-around
-      // (this is a very unlikely problem unless there is an SDL bug
-      //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
-      if (now_time > MS_PER_FRAME)
-        now_time = MS_PER_FRAME;
-      SDL_Delay(now_time);
-    }
+    Throttle(MS_PER_FRAME);
+
   }
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
@@ -318,7 +375,6 @@ int game(void)
       do
       {
         frame++;
-        last_time = SDL_GetTicks();
 
         while (SDL_PollEvent(&event) > 0)
         {
@@ -332,8 +388,6 @@ int game(void)
 
         if (current_bkgd() )
           SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
-
-
 
         /* draw flashing victory message: */
         if (((frame / 2) % 4))
@@ -368,20 +422,14 @@ int game(void)
 /*        draw_console_image(tux_img);*/
 
         SDL_Flip(screen);
-
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-          SDL_Delay(last_time + MS_PER_FRAME - now_time);
+        Throttle(MS_PER_FRAME);
       }
       while (looping);
       break;
     }
 
     case GAME_OVER_ERROR:
-    {
-      printf("\ngame() exiting with error");
-    }
+      DEBUGMSG(debug_game, "game() exiting with error:\n");
     case GAME_OVER_LOST:
     case GAME_OVER_OTHER:
     {
@@ -396,7 +444,6 @@ int game(void)
       do
       {
         frame++;
-        last_time = SDL_GetTicks();
 
         while (SDL_PollEvent(&event) > 0)
         {
@@ -411,10 +458,7 @@ int game(void)
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
         SDL_Flip(screen);
 
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-          SDL_Delay(last_time + MS_PER_FRAME - now_time);
+        Throttle(MS_PER_FRAME);
       }
       while (looping);
 
@@ -457,6 +501,205 @@ int game(void)
     return game_status;
   }
 }
+/**********************************These functions will be moved somewhere else probably a new header file**************************************/ 
+int erase_flashcard(MC_FlashCard* fc)
+{
+  if(!fc)
+    return 0;
+  fc->formula_string[0] = '\0';
+  fc->answer_string[0] = '\0';
+  fc->question_id = -1;
+  fc->answer = -9999;
+  fc->difficulty = 0;
+  return 1;
+}
+
+int erase_comet_on_screen(comet_type* comet_ques)
+{
+  if(!comet_ques)
+    return 0;
+  comet_ques->alive = 0;
+  comet_ques->expl = 0;
+  comet_ques->city = 0;
+  comet_ques->x = 0;
+  comet_ques->y = 0;
+  comet_ques->answer = 0;
+  num_comets_alive--;
+  erase_flashcard(&(comet_ques->flashcard));
+
+  return 1;
+}
+
+#ifdef HAVE_LIBSDL_NET
+
+int add_quest_recvd(char* buf)
+{
+  MC_FlashCard* fc = find_comet_by_id(-1);
+  // if fc = NULL means no empty slot for question
+  if(!fc || !buf)
+  {
+    printf("NULL fc or buf\n");
+    return 0;
+  }
+  /* function call to parse buffer and receive question */
+  if(!Make_Flashcard(buf, fc))
+  {
+    printf("Unable to parse buffer into FlashCard\n");
+    return 0;
+  }
+
+  return 1;
+}
+
+
+int remove_quest_recvd(char* buf)
+{
+  int id = 0;
+  char* p = NULL;
+  MC_FlashCard* fc = NULL;
+  comet_type* comet_screen;
+  if(!buf)
+    return 0;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+
+  id = atoi(p);
+  if(id < 1)  // The question_id can never be negative or zero
+    return 0;
+
+  comet_screen = finder(id);
+  fc = find_comet_by_id(id);
+  if(!comet_screen && !fc)
+    return 0;
+
+  if(comet_screen)
+  {
+    erase_comet_on_screen(comet_screen);
+    playsound(SND_SIZZLE);
+  }
+  //NOTE: normally the question should no longer be in the queue,
+  //so the next statement should get executed:
+  if(fc)
+  {
+    DEBUGMSG(debug_game,
+             "Note - request to erase question still in queue: %s\n",
+             fc->formula_string);
+    erase_flashcard(fc);
+  }
+  return 1;
+}
+
+#endif
+
+
+/* Print the current questions and the number of remaining questions: */
+void print_current_quests(void)
+{
+  int i;
+  printf("\n------------  Current Questions:  -----------\n");
+  for(i = 0; i < MAX_COMETS; i ++)
+  { 
+    if(comets[i].alive==1)
+     printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
+
+/*    if(comets_questions[i].question_id != -1)
+      printf("Comet %d - question %d:\t%s\n", i, comets_questions[i].question_id, comets_questions[i].formula_string);
+    else
+      printf("Comet %d:\tEmpty\n", i);
+*/}
+  printf("-----------------------------------------------\n");
+}
+
+
+/* Return a pointer to an empty comet slot, */
+/* returning NULL if no vacancy found:      */
+
+MC_FlashCard* find_comet_by_id(int id)
+{
+  int i = 0;
+  for(i = 0; i < TEST_COMETS; i++)
+  {
+    if(comets_questions[i].question_id == id)
+      return &comets_questions[i];
+  }
+  //if we don't find a match:
+  return NULL;
+}
+
+comet_type* finder(int id)
+{
+  int i;
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (comets[i].flashcard.question_id==id)
+     {printf("the question id is id=%d\n",i);
+      return &comets[i];}
+  }
+
+  return NULL;
+}
+/***************************************************************************************************************************/
+/*Examines the network messages from the buffer and calls
+  appropriate function accordingly*/
+/*Do we want a well defined function for each of the condition
+  like on each message a function should be called , or is it ok like this
+  I think this is better--akash*/
+/* As long the code for each command is really short, we can just have it here.
+   But if it starts to get long, I would have a function for each that is 
+   local to this file and located immediately below this function - DSB */
+
+
+
+void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
+{
+  if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
+  {
+    printf("buf is %s\n", buf);                                                  
+  }
+
+  else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
+  {
+       if(!add_quest_recvd(buf))
+        printf("SEND_QUESTION received but could not add question\n");
+      else
+        // If we successfully added question, show new questions to user:
+        print_current_quests();
+  }
+
+  else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
+  {
+    if(!remove_quest_recvd(buf)) //remove the question with id in buf
+      printf("REMOVE_QUESTION received but could not remove question\n");
+    else 
+      print_current_quests();
+  }
+
+  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
+  {
+    if(!add_quest_recvd(buf))
+      printf("ADD_QUESTION received but could not add question\n");
+    else  
+      print_current_quests();
+  }
+
+  else if(strncmp(command,"TOTAL_QUESTIONS",strlen("TOTAL_QUESTIONS"))==0)
+  {
+    sscanf(buf,"%*s %d", &total_questions_left);
+    if(!total_questions_left)
+      game_over_other=1;
+  }
+
+  else if(strncmp(command,"GAME_OVER_WON",strlen("GAME_OVER_WON"))==0)
+  {
+    game_over_won=1;
+  }
+  /* FIXME need to handle unrecognized messages, maybe just printf()
+     with a warning until they get implemented - DSB             */
+}
+
+
 
 /* 
 Set one to four lines of text to display at the game's start. Eventually
@@ -472,12 +715,14 @@ void game_set_start_message(const char* m1, const char* m2,
   start_message_chosen = 1;
 }
 
+
+
 int game_initialize(void)
 {
   int i,img;
   
   DEBUGMSG(debug_game,"Entering game_initialize()\n");
-
+  
   /* Clear window: */
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
@@ -486,17 +731,37 @@ int game_initialize(void)
   gameover_counter = -1;
   user_quit_received = 0;
 
-  /* Start MathCards backend: */
+  /* Make sure we don't try to call network code if we built without */
+  /* network support:                                                */
+#ifndef HAVE_LIBSDL_NET
+  Opts_SetLanMode(0);
+#endif
+
+  /* Start MathCards backend, unless we are getting questions from network: */
   /* FIXME may need to move this into tuxmath.c to accomodate option */
   /* to use MC_StartUsingWrongs() */
   /* NOTE MC_StartGame() will return 0 if the list length is zero due */
   /* (for example) to all math operations being deselected */
-  if (!MC_StartGame())
+  /* NOTE if we are playing a network game, MC_StartGame() has already */
+  /* been called on the server by the time we get to here:             */
+
+  if(!Opts_LanMode())
   {
-    fprintf(stderr, "\nMC_StartGame() failed!");
-    return 0;
+    if (!MC_StartGame())
+    {
+      fprintf(stderr, "\nMC_StartGame() failed!");
+      return 0;
+    }
+    DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
   }
   DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
+
+  /* Start out with our "comets" empty: */
+  {
+    int i;
+    for(i = 0; i < TEST_COMETS; i ++)
+      erase_flashcard(&(comets_questions[i]));
+  }
 
   /* Allocate memory */
   comets = NULL;  // set in case allocation fails partway through
@@ -504,39 +769,43 @@ int game_initialize(void)
   penguins = NULL;
   steam = NULL;
   comets = (comet_type *) malloc(MAX_MAX_COMETS * sizeof(comet_type));
-  if (comets == NULL) {
+  if (comets == NULL)
+  {
     printf("Allocation of comets failed");
     return 0;
   }
-  else {
+  else 
+  {
     for (i = 0; i < MAX_MAX_COMETS; ++i)
-      {
+    {
       comets[i].flashcard = MC_AllocateFlashcard();
       if (!MC_FlashCardGood(&comets[i].flashcard) ) 
-        {
+      {
         //something's wrong
         printf("Allocation of flashcard %d failed\n", i);
         for (; i >= 0; --i) //free anything we've already gotten
           MC_FreeFlashcard(&comets[i].flashcard);
         return 0;
-        }
       }
+    }
   }
-
   DEBUGMSG(debug_game,"Flashcards allocated.\n");
-
+   
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
-  if (cities == NULL) {
+  if (cities == NULL)
+  {
     printf("Allocation of cities failed");
     return 0;
   }
   penguins = (penguin_type *) malloc(NUM_CITIES * sizeof(penguin_type));
-  if (penguins == NULL) {
+  if (penguins == NULL)
+  {
     printf("Allocation of penguins failed");
     return 0;
   }
   steam = (steam_type *) malloc(NUM_CITIES * sizeof(steam_type));
-  if (steam == NULL) {
+  if (steam == NULL)
+  {
     printf("Allocation of steam failed");
     return 0;
   }
@@ -563,6 +832,7 @@ int game_initialize(void)
   slowdown = 0;
   score = 0;
   demo_countdown = 2000;
+  total_questions_left = 0;
   level_start_wait = LEVEL_START_WAIT_START;
   neg_answer_picked = 0;
 
@@ -601,7 +871,8 @@ int game_initialize(void)
   igloo_vertical_offset = images[IMG_CITY_BLUE]->h - images[IMG_IGLOO_INTACT]->h;
 
   /* Create and position the penguins and steam */
-  for (i = 0; i < NUM_CITIES; i++) {
+  for (i = 0; i < NUM_CITIES; i++)
+  {
     penguins[i].status = PENGUIN_HAPPY;
     penguins[i].counter = 0;
     penguins[i].x = cities[i].x;
@@ -611,10 +882,12 @@ int game_initialize(void)
     steam[i].counter = 0;
   }
 
-  if (Opts_BonusCometInterval()) {
+  if (Opts_BonusCometInterval())
+  {
     bonus_comet_counter = Opts_BonusCometInterval() + 1;
-    DEBUGMSG(debug_game,"\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter)
+    DEBUGMSG(debug_game,"\nInitializing with bonus_comet_counter = %d\n",bonus_comet_counter);
   }
+
   extra_life_earned = 0;
   cloud.status = EXTRA_LIFE_OFF;
 
@@ -658,6 +931,10 @@ int game_initialize(void)
 
 void game_cleanup(void)
 {
+#ifdef HAVE_LIBSDL_NET  
+  LAN_Cleanup();
+#endif
+
   /* Free background: */
   if (bkgd != NULL)
   {
@@ -689,6 +966,7 @@ void game_cleanup(void)
 
   DEBUGMSG(debug_game, "Leaving game():\n");
 }
+
 
 void game_handle_help(void)
 {
@@ -806,39 +1084,51 @@ void game_handle_help(void)
 
   help_add_comet("56 / 8 = ?", "7");
   comets[0].y = 2*(screen->h)/3;   // start it low down
+
   while (comets[0].alive && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
   frame_start = frame;
+
   while ((frame-frame_start < 3*FPS) && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
 
   help_controls.laser_enabled = 1;
-  game_set_message(&s1,_("You can fix the igloos"),left_edge,100);
-  game_set_message(&s2,_("by stopping bonus comets."),left_edge,135);
+  game_set_message(&s1,_("You can fix the igloos"), left_edge,100);
+  game_set_message(&s2,_("by stopping bonus comets."), left_edge,135);
   help_add_comet("2 + 2 = ?", "4");
   comets[0].bonus = 1;
   frame_start = frame;
+
   while (comets[0].alive && (frame-frame_start < 50) && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
   if (comets[0].alive)
     speed = 0;
   game_set_message(&s3,_("Zap it now!"),left_edge,225);
+
   while (comets[0].alive && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
   game_set_message(&s1,_("Great job!"),left_edge,100);
   game_clear_message(&s2);
   game_clear_message(&s3);
   frame_start = frame;
+
   while ((frame-frame_start < 2*FPS) && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
   check_extra_life();
   frame_start = frame;
+
   while ((frame-frame_start < 10*FPS) && !(quit_help = help_renderframe_exit()));
+
   if (quit_help)
     return;
 
@@ -849,6 +1139,7 @@ void game_handle_help(void)
   game_set_message(&s4,_("Do it now, and then play!"),left_edge,225);
 
   help_controls.x_is_blinking = 1;
+
   while (!help_renderframe_exit());
 }
 
@@ -936,10 +1227,11 @@ void game_clear_messages()
 
 void game_write_message(const game_message *msg)
 {
-  SDL_Surface *surf;
+  SDL_Surface* surf;
   SDL_Rect rect;
 
-  if (strlen(msg->message) > 0) {
+  if (strlen(msg->message) > 0)
+  {
     surf = BlackOutline( _(msg->message), DEFAULT_HELP_FONT_SIZE, &white);
     rect.w = surf->w;
     rect.h = surf->h;
@@ -1020,7 +1312,8 @@ void game_handle_demo(void)
       if ((rand() % 3) < 1)
         demo_answer--;  // sometimes get it wrong on purpose
 
-      DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n",picked_comet,demo_answer);
+      DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n", picked_comet,demo_answer);
+
       /* handle negative answer: */
       if (demo_answer < 0)
       {
@@ -1064,7 +1357,8 @@ void game_handle_demo(void)
     else
     {
       /* "Press Return" */
-      DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",digits[0],digits[1],digits[2]);
+      DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",
+               digits[0], digits[1], digits[2]);
       doing_answer = 1;
       picked_comet = -1;
     }
@@ -1087,11 +1381,7 @@ void game_handle_answer(void)
   }
 
   doing_answer = 0;
-/*
-  num = (digits[0] * 100 +
-         digits[1] * 10 +
-         digits[2]);
-*/
+
   /* negative answer support DSB */
   
   ans[0] = '-'; //for math questions only, this is just replaced.
@@ -1100,27 +1390,7 @@ void game_handle_answer(void)
     ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
-/*
-  if (neg_answer_picked)
-  {
-    ans[0] = '-';
-    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
-    {
-      if (digits[i] == 0)
-        continue;
-      ans[++j] = digits[i] + '0';
-    }
-  }
-  else
-  {
-    for (i = j = 0; i < MC_MAX_DIGITS; ++i)
-    {
-      if (digits[i] == 0)
-        continue;
-      ans[j++] = digits[i] + '0';
-    }
-  } 
-*/
+
 
   /*  Pick the lowest comet which has the right answer: */
   /*  FIXME: do we want it to prefer bonus comets to regular comets? */
@@ -1129,7 +1399,6 @@ void game_handle_answer(void)
 
   for (i = 0; i < MAX_COMETS; i++)
   {
-    mcdprintf("Comparing '%s' with '%s'\n", comets[i].flashcard.answer_string, ans);
     if (comets[i].alive &&
         comets[i].expl == -1 &&
         //comets[i].answer == num &&
@@ -1144,7 +1413,21 @@ void game_handle_answer(void)
   /* If there was an comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
-    MC_AnsweredCorrectly(&(comets[lowest].flashcard));
+    /* Tell Mathcards or the server that we answered correctly: */
+    if(Opts_LanMode())
+    {
+#ifdef HAVE_LIBSDL_NET
+      LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+#else
+      fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+      Opts_SetLanMode(0);
+      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+#endif
+    }
+    else
+    {
+      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
+    }
 
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
@@ -1235,6 +1518,7 @@ void game_countdown(void)
   s2.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s3.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
   s4.alpha -= SDL_ALPHA_OPAQUE / LEVEL_START_WAIT_START;
+  DEBUGMSG(debug_game, "alpha = %d\n", s1.alpha);
 
   level_start_wait--;
   if (level_start_wait > LEVEL_START_WAIT_START / 4)
@@ -1334,7 +1618,21 @@ void game_handle_comets(void)
           comets[i].expl == -1)
       {
         /* Tell MathCards about it - question not answered correctly: */
-        MC_NotAnsweredCorrectly(&(comets[i].flashcard));
+        if(Opts_LanMode())
+        {
+#ifdef HAVE_LIBSDL_NET
+          LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#else
+          fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
+          Opts_SetLanMode(0);
+          MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#endif
+        }
+        else
+        {
+          MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+        }
+
 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
@@ -1419,19 +1717,24 @@ void game_handle_comets(void)
     }
   }
 
+  /* FIXME for the LAN game, the adding of comets needs to take place in  */
+  /* check_messages() when new questions come in from the server.  For    */
+  /* ease of understanding, we should do it at the same place in the game */
+  /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
-  if (!Opts_HelpMode() && level_start_wait == 0 &&
-      (frame % 20) == 0)   /* FIXME:do we want this to vary with comet speed?*/
+  if (!Opts_HelpMode() && level_start_wait == 0) //&&
+     // (frame % 20) == 0)
   {
     /* num_attackers is how many comets are left in wave */
     if (num_attackers > 0)
     {
-      if ((rand() % 2) == 0 || num_comets_alive == 0)
+//      if ((rand() % 2) == 0 || num_comets_alive == 0)  NOTE also caused timing issue
       {
         if (add_comet())
         {
           num_attackers--;
         }
+        
       }
     }
     else
@@ -1678,6 +1981,7 @@ int check_extra_life(void)
     return 1;
   DEBUGCODE(debug_game)
     print_status();
+    
   if (extra_life_earned) {
     /* Check to see if any ingloo has been hit */
     fewest_hits_left = 2;
@@ -1696,7 +2000,7 @@ int check_extra_life(void)
     cloud.y = screen->h/3;
     cloud.city = fewest_index;
     bonus_comet_counter = Opts_BonusCometInterval()+1;
-
+    
     DEBUGMSG(debug_game, "Bonus comet counter restored to %d\n",bonus_comet_counter);
 
     if (cloud.city < NUM_CITIES/2)
@@ -1714,14 +2018,16 @@ int check_extra_life(void)
     DEBUGCODE(debug_game)
       print_status();
     return 1;
-  } else
+  }
+  else
     return 0;
 }
+
 
 void game_handle_extra_life(void)
 {
   // This handles the animation sequence during the rebuilding of an igloo
-  int i,igloo_top,num_below_igloo,direction;
+  int i, igloo_top, num_below_igloo, direction;
 
   if (cloud.status == EXTRA_LIFE_ON) {
 
@@ -1840,7 +2146,7 @@ void game_draw_background(void)
     fgcolor = SDL_MapRGB(screen->format, 64, 96, 64);
   if (old_wave != wave)
   {
-    DEBUGMSG(debug_game,"Wave %d\n", wave)
+    DEBUGMSG(debug_game,"Wave %d\n", wave);
     old_wave = wave;
     bgcolor = SDL_MapRGB(screen->format,
                          64,
@@ -1879,6 +2185,7 @@ void game_draw_background(void)
 /* draw last (i.e. in front), as they can overlap          */
 void game_draw_comets(void)
 {
+
   int i;
   SDL_Surface* img = NULL;
   SDL_Rect dest;
@@ -1951,14 +2258,11 @@ void game_draw_comets(void)
         comet_str = comets[i].flashcard.answer_string;
       }
 
-      /* Move images[] index to bonus range: */
-
       /* Draw it! */
       dest.x = comets[i].x - (img->w / 2);
       dest.y = comets[i].y - img->h;
       dest.w = img->w;
       dest.h = img->h;
-
       SDL_BlitSurface(img, NULL, screen, &dest);
       if (comet_str != NULL)
       {
@@ -1967,6 +2271,8 @@ void game_draw_comets(void)
     }
   }
 }
+
+
 
 void game_draw_cities(void)
 {
@@ -2208,14 +2514,16 @@ void game_draw_misc(void)
 
 int check_exit_conditions(void)
 {
+//  int x;
+
   if (user_quit_received)
   {
     if (user_quit_received != GAME_OVER_WINDOW_CLOSE &&
         user_quit_received != GAME_OVER_ESCAPE &&
         user_quit_received != GAME_OVER_CHEATER)
     {
-    	 fprintf(stderr,"Unexpected value %d for user_quit_received\n", user_quit_received);
-    	 return GAME_OVER_OTHER;
+      fprintf(stderr, "Unexpected value %d for user_quit_received\n", user_quit_received);
+      return GAME_OVER_OTHER;
     }
     return user_quit_received;    
   }
@@ -2231,30 +2539,64 @@ int check_exit_conditions(void)
   }
 
   /* determine if game won (i.e. all questions in mission answered correctly): */
-  if (MC_MissionAccomplished())
+  if(Opts_LanMode())
   {
-    DEBUGMSG(debug_game,"Mission accomplished!\n");
-    return GAME_OVER_WON;
+#ifdef HAVE_LIBSDL_NET
+    if(game_over_won)
+       return GAME_OVER_WON;
+#else
+    // Should not get here!
+    if (MC_MissionAccomplished())
+    {
+      DEBUGMSG(debug_game,"Mission accomplished!\n");
+      return GAME_OVER_WON;
+    }
+#endif
+  }
+  else
+  {
+    if (MC_MissionAccomplished())
+    {
+      DEBUGMSG(debug_game,"Mission accomplished!\n");
+      return GAME_OVER_WON;
+    }
   }
 
+  
   /* Could have situation where mathcards doesn't have more questions */
   /* even though not all questions answered correctly:                */
-  if (!MC_TotalQuestionsLeft())
+  if(Opts_LanMode())
   {
-    return GAME_OVER_OTHER;
+#ifdef HAVE_LIBSDL_NET
+    if(game_over_other)
+       return GAME_OVER_OTHER;
+#else  
+    if(!MC_TotalQuestionsLeft())
+    {
+      return GAME_OVER_OTHER;
+    }
+#endif
   }
-
+  else
+  {
+    if(!MC_TotalQuestionsLeft())
+    {
+      return GAME_OVER_OTHER;
+    }
+  }
+  
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
   if (!MC_ListQuestionsLeft() && !num_comets_alive)
   {
+    fprintf(stderr, "Error - no questions left but game not over\n");
     DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
     DEBUGMSG(debug_game, "num_comets_alive = %d", num_comets_alive);
     return GAME_OVER_ERROR;
   }
-
-  /* If using demo mode, see if counter has run out: */
+   
+   /* If using demo mode, see if counter has run out: */
   if (Opts_DemoMode())
   {
     if (demo_countdown <= 0 )
@@ -2264,6 +2606,7 @@ int check_exit_conditions(void)
   /* if we made it to here, the game goes on! */
   return GAME_IN_PROGRESS;
 }
+
 
 void print_exit_conditions(void)
 {
@@ -2314,6 +2657,7 @@ void print_exit_conditions(void)
     }
   }
 }
+
 
 /* Reset stuff for the next level! */
 void reset_level(void)
@@ -2486,30 +2830,31 @@ void reset_level(void)
 int add_comet(void)
 {
   static int prev_city = -1;
-  int i, found;
+  int i;
   float y_spacing;
 
-  /* Look for a free comet slot and see if all live comets are far */
-  /* enough down to avoid overlap and keep formulas legible:       */
   found = -1;
+
   y_spacing = (images[IMG_NUMS]->h) * 1.5;
 
-  for (i = 0; i < MAX_COMETS && found == -1; i++)
+  /* Return if any previous comet too high up to create another one yet: */
+  for (i = 0; i < MAX_COMETS; i++)
   {
     if (comets[i].alive)
-    {
       if (comets[i].y < y_spacing)
-      {
-        /* previous comet too high up to create another one yet: */
         return 0;
-      }
-    }
-    else  /* non-living comet so we found a free slot: */
+  }  
+    
+  /* Now look for a free comet slot: */
+  for (i = 0; i < MAX_COMETS; i++)
+  {
+    if (!comets[i].alive)
     {
       found = i;
+      break;
     }
   }
-
+ 
   if (-1 == found)
   {
     /* free comet slot not found - no comet added: */
@@ -2517,43 +2862,63 @@ int add_comet(void)
   }
 
 
-  /* Get math question for new comet - the following function fills in */
-  /* the flashcard struct that is part of the comet struct:            */
-  if (!MC_NextQuestion(&(comets[found].flashcard)))
+  /* Get math question for new comet - if playing in LAN mode, we */
+  /* get the next question from our local queue. If not in LAN    */
+  /* mode, we get it with a direct function call to MathCards     */
+   
+  if(Opts_LanMode())
   {
-    /* no more questions available - cannot create comet.  */
+#ifdef HAVE_LIBSDL_NET
+    for (i = 0; i < TEST_COMETS; i++)
+    {
+      if(comets_questions[i].question_id != -1)
+      {
+        copy_card(&(comets_questions[i]), &(comets[found].flashcard));
+        erase_flashcard(&(comets_questions[i]));
+        break;
+      }
+    }
+
+    if(i == TEST_COMETS)
+    {
+      DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
+      return 0;
+    } 
+#else
+    /* NOTE: Should not be able to get to here */
+    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    {
+      /* no more questions available - cannot create comet.  */
+      return 0;
+    }
+#endif
+  }
+  else
+  {
+    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    {
+      /* no more questions available - cannot create comet.  */
+      return 0;
+    }
+  }
+
+  DEBUGCODE(debug_game)
+  {
+    printf("In add_comet(), card is\n");
+    print_card(comets[found].flashcard);
+  }
+  
+  /* Make sure question is "sane" before we add it: */
+  if( (comets[found].flashcard.answer > 999)
+    ||(comets[found].flashcard.answer < -999))
+  {
+    printf("Warning, card with invalid answer encountered: %d\n",
+           comets[found].flashcard.answer);
     return 0;
   }
 
-  /* If we make it to here, create a new comet!                  */
-
+  /* If we make it to here, create a new comet!*/
   comets[found].answer = comets[found].flashcard.answer;
-//  /* The answer may be num1, num2, or num3, depending on format. */
-//  switch (comets[found].flashcard.format)
-//  {
-//    case MC_FORMAT_ANS_LAST:  /* e.g. num1 + num2 = ? */
-//    {
-//      comets[found].answer = comets[found].flashcard.num3;
-//      break;
-//    }
-//    case MC_FORMAT_ANS_MIDDLE:  /* e.g. num1 + ? = num3 */
-//    {
-//      comets[found].answer = comets[found].flashcard.num2;
-//      break;
-//    }
-//    case MC_FORMAT_ANS_FIRST:  /* e.g. ? + num2 = num3 */
-//    {
-//      comets[found].answer = comets[found].flashcard.num1;
-//      break;
-//    }
-//    default:  /* should not get to here if MathCards behaves correctly */
-//    {
-//      fprintf(stderr, "\nadd_comet() - invalid question format");
-//      return 0;
-//    }
-//  }
-  
-
   comets[found].alive = 1;
   num_comets_alive++;
 
@@ -2578,22 +2943,24 @@ int add_comet(void)
 
   DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
 
-  if (bonus_comet_counter == 1) {
+  if (bonus_comet_counter == 1)
+  {
     bonus_comet_counter = 0;
     comets[found].bonus = 1;
     playsound(SND_BONUS_COMET);
-
     DEBUGMSG(debug_game, "Created bonus comet");
   }
 
   DEBUGMSG(debug_game, "add_comet(): formula string is: %s", comets[found].flashcard.formula_string);
-
+  
   /* Record the time at which this comet was created */
   comets[found].time_started = SDL_GetTicks();
-
+   
   /* comet slot found and question found so return successfully: */
   return 1;
 }
+
+
 
 /* Draw numbers/symbols over the attacker: */
 /* This draws the numbers related to the comets */
@@ -2619,18 +2986,13 @@ void draw_nums(const char* str, int x, int y)
   /* the following code keeps the formula at least 8 pixels inside the window: */
   if (cur_x < 8)
     cur_x = 8;
-  if (cur_x + (image_length) >=
-      (screen->w - 8))
-    cur_x = ((screen->w - 8) -
-             (image_length));
-
+  if (cur_x + (image_length) >= (screen->w - 8))
+    cur_x = ((screen->w - 8) - (image_length));
 
   /* Draw each character: */
-
   for (i = 0; i < str_length; i++)
   {
     c = -1;
-
 
     /* Determine which character to display: */
 
@@ -2691,46 +3053,38 @@ void draw_numbers(const char* str, int x, int y)
   int i, cur_x, c;
   SDL_Rect src, dest;
 
-
   cur_x = x;
-
 
   /* Draw each character: */
 
   for (i = 0; i < strlen(str); i++)
+  {
+    c = -1;
+
+    /* Determine which character to display: */
+    if (str[i] >= '0' && str[i] <= '9')
+      c = str[i] - '0';
+
+    /* Display this character! */
+    if (c != -1)
     {
-      c = -1;
+      src.x = c * (images[IMG_NUMBERS]->w / 10);
+      src.y = 0;
+      src.w = (images[IMG_NUMBERS]->w / 10);
+      src.h = images[IMG_NUMBERS]->h;
 
+      dest.x = cur_x;
+      dest.y = y;
+      dest.w = src.w;
+      dest.h = src.h;
 
-      /* Determine which character to display: */
-
-      if (str[i] >= '0' && str[i] <= '9')
-        c = str[i] - '0';
-
-
-      /* Display this character! */
-
-      if (c != -1)
-        {
-          src.x = c * (images[IMG_NUMBERS]->w / 10);
-          src.y = 0;
-          src.w = (images[IMG_NUMBERS]->w / 10);
-          src.h = images[IMG_NUMBERS]->h;
-
-          dest.x = cur_x;
-          dest.y = y;
-          dest.w = src.w;
-          dest.h = src.h;
-
-          SDL_BlitSurface(images[IMG_NUMBERS], &src,
+      SDL_BlitSurface(images[IMG_NUMBERS], &src,
                           screen, &dest);
 
-
-          /* Move the 'cursor' one character width: */
-
-          cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
-        }
+      /* Move the 'cursor' one character width: */
+      cur_x = cur_x + (images[IMG_NUMBERS]->w / 10);
     }
+  }
 }
 
 
@@ -2798,8 +3152,9 @@ int pause_game(void)
 
 
 
-/* Draw a line: */
+/* FIXME these ought to be in SDL_extras - DSB */
 
+/* Draw a line: */
 void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)
 {
   int dx, dy, tmp;
@@ -2875,34 +3230,34 @@ void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)
   /* Assuming the X/Y values are within the bounds of this surface... */
 
   if (x >= 0 && y >= 0 && x < surface->w && y < surface->h)
-    {
+  {
       /* Set the (correctly-sized) piece of data in the surface's RAM
          to the pixel value sent in: */
 
-      if (bpp == 1)
-        *p = pixel;
-      else if (bpp == 2)
-        *(Uint16 *)p = pixel;
-      else if (bpp == 3)
-        {
-          if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-            {
-              p[0] = (pixel >> 16) & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = pixel & 0xff;
-            }
-          else
-            {
-              p[0] = pixel & 0xff;
-              p[1] = (pixel >> 8) & 0xff;
-              p[2] = (pixel >> 16) & 0xff;
-            }
-        }
-      else if (bpp == 4)
-        {
-          *(Uint32 *)p = pixel;
-        }
+    if (bpp == 1)
+      *p = pixel;
+    else if (bpp == 2)
+      *(Uint16 *)p = pixel;
+    else if (bpp == 3)
+    {
+      if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+      {
+        p[0] = (pixel >> 16) & 0xff;
+        p[1] = (pixel >> 8) & 0xff;
+        p[2] = pixel & 0xff;
+      }
+      else
+      {
+        p[0] = pixel & 0xff;
+        p[1] = (pixel >> 8) & 0xff;
+        p[2] = (pixel >> 16) & 0xff;
+      }
     }
+    else if (bpp == 4)
+    {
+      *(Uint32 *)p = pixel;
+    }
+  }
 #else
   SDL_Rect dest;
 
@@ -2960,7 +3315,11 @@ void draw_question_counter(void)
   SDL_BlitSurface(images[comet_img], NULL, screen, &dest);
 
   /* draw number of remaining questions: */
-  questions_left = MC_TotalQuestionsLeft();
+  if(Opts_LanMode())
+    questions_left = total_questions_left;
+  else
+    questions_left = MC_TotalQuestionsLeft();
+
   sprintf(str, "%.4d", questions_left);
   draw_numbers(str, nums_x, 0);
 }
@@ -3350,14 +3709,16 @@ void game_key_event(SDLKey key)
 void add_score(int inc)
 {
   score += inc;
-  DEBUGMSG(debug_game,"Score is now: %d\n", score)
+  DEBUGMSG(debug_game,"Score is now: %d\n", score);
 }
 
 
 
 void reset_comets(void)
 {
-  int i =0;
+  int i = 0;
+  comet_counter = 0;
+
   for (i = 0; i < MAX_COMETS; i++)
   {
     comets[i].alive = 0;
@@ -3366,12 +3727,40 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-//    strncpy(comets[i].flashcard.formula_string, " ", max_formula_size);
-//    strncpy(comets[i].flashcard.answer_string, " ", max_answer_size);
     MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
 }
+
+/* Copy the command name out of the tab-delimited buffer: */
+
+void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
+{
+  int i;
+    for (i = 0;
+  buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
+                                      i++)
+  {
+    command[i] = buf[i];
+  }
+  command[i] = '\0';
+}
+
+
+void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
+{
+  if (!src || !dest)
+    return;
+  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
+  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
+  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
+  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
+  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
+  dest->answer = src->answer;
+  dest->difficulty = src->difficulty;
+  dest->question_id = src->question_id;
+}
+
 
 void print_status(void)
 {
@@ -3396,6 +3785,7 @@ void print_status(void)
   printf("\n");
 }
 
+
 void free_on_exit(void)
 {
   int i;
@@ -3413,8 +3803,8 @@ void game_recalc_positions(void)
   int i, img;
   int old_city_expl_height = city_expl_height;
 
-  DEBUGMSG(debug_game,"Recalculating positions\n")
-
+  DEBUGMSG(debug_game,"Recalculating positions\n");
+  
   if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
   else
@@ -3427,7 +3817,7 @@ void game_recalc_positions(void)
     {
       cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
                      ((images[img] -> w) / 2));
-      DEBUGMSG(debug_game,"%d,", cities[i].x)
+      DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
     else
     {
@@ -3455,6 +3845,4 @@ void game_recalc_positions(void)
     //else
     //  comets[i].y = comets[i].y * RES_Y / screen->h;
   }
-
-
 }

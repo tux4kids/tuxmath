@@ -1,4 +1,3 @@
-## Makefile.am for tuxmath data/images/status:
 ## Process with AutoMake:
 
 statusdir = $(pkgdatadir)/images/status
