@@ -28,6 +28,10 @@
 #include "fileops.h"
 #include "setup.h"
 
+#ifdef HAVE_LIBSDL_NET
+#include "network.h"
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -98,6 +102,7 @@ int             run_arcade(int choice);
 int             run_custom_game(void);
 void            run_multiplayer(int mode, int difficulty);
 int             run_factoroids(int choice);
+int		run_lan_join(void);
 
 int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
@@ -306,6 +311,13 @@ int handle_activity(int act, int param)
 
     case RUN_ARCADE:
       run_arcade(param);
+      break;
+
+    case RUN_LAN_HOST:
+      break;
+
+    case RUN_LAN_JOIN:
+      run_lan_join();
       break;
 
     case RUN_CUSTOM:
@@ -528,31 +540,72 @@ int run_factoroids(int choice)
   else
     fractions();
 
-	if (Opts_GetGlobalOpt(MENU_MUSIC))
+  if (Opts_GetGlobalOpt(MENU_MUSIC))
     audioMusicLoad( "tuxi.ogg", -1 );
 
-	hs_table = factoroids_high_score_tables[choice];
-	if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
-	  char player_name[HIGH_SCORE_NAME_LENGTH * 3];
-	  /* Get name from player: */
-	  HighScoreNameEntry(&player_name[0]);
-	  insert_score(player_name, hs_table, Opts_LastScore());
-	  /* Show the high scores. Note the user will see his/her */
-	  /* achievement even if (in the meantime) another player */
-	  /* has in fact already bumped this score off the table. */
-	  DisplayHighScores(hs_table);
-	  /* save to disk: */
-	  /* See "On File Locking" in fileops.c */
-	  append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
+  hs_table = factoroids_high_score_tables[choice];
+  if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
+    char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+    /* Get name from player: */
+    HighScoreNameEntry(&player_name[0]);
+    insert_score(player_name, hs_table, Opts_LastScore());
+    /* Show the high scores. Note the user will see his/her */
+    /* achievement even if (in the meantime) another player */
+    /* has in fact already bumped this score off the table. */
+    DisplayHighScores(hs_table);
+    /* save to disk: */
+    /* See "On File Locking" in fileops.c */
+    append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
     DEBUGCODE(debug_titlescreen)
-	    print_high_scores(stderr);
-	}
+    print_high_scores(stderr);
+  }
   else {
-	  fprintf(stderr, "\nCould not find config file\n");
+    fprintf(stderr, "\nCould not find config file\n");
   }
 
   return 0;
 }
+
+
+
+int run_lan_join(void)
+{
+#ifdef HAVE_LIBSDL_NET
+  if(detecting_servers(_("Detecting Servers"), _("Please Wait")))
+  {
+    int stdby;
+    char buf[256];
+    char player_name[32];
+    snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
+    NameEntry(player_name, buf, _("Enter your Name:"));
+    LAN_SetName(player_name);
+    Ready(_("Click OK when Ready"));
+    LAN_StartGame();
+    stdby = Standby(_("Waiting For Other Players"),_("To Connect"));
+    if (stdby == 1)
+    {
+      Opts_SetLanMode(1);  // Tells game() we are playing over network
+      game();
+      Opts_SetLanMode(0);  // Go back to local play
+    }
+    else
+    {
+      ShowMessage(NULL, _("Sorry, game already in progress."), NULL, NULL);
+      printf(_("Sorry, game already in progress.\n"));
+    }  
+  }
+  else
+  {
+    ShowMessage(NULL, _("Sorry, no server could be found."), NULL, NULL);
+    printf(_("Sorry, no server could be found.\n"));
+  }
+#else
+  ShowMessage(NULL, _("Sorry, this version built without network support"), NULL, NULL);
+  printf( _("Sorry, this version built without network support.\n"));
+#endif
+  return 0;
+}
+
 
 /* Display the menu and run the event loop.
    if return_choice = true then return chosen value instead of

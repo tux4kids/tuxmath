@@ -208,7 +208,7 @@ void TitleScreen(void)
   /* NOTE: do we need this ? */
   DEBUGCODE(debug_titlescreen)
     SDL_WM_GrabInput(SDL_GRAB_OFF); /* in case of a freeze, this traps the cursor */
-  else
+  else  // NOTE- the accompanying "if" is inside the DEBUGCODE macro
     SDL_WM_GrabInput(SDL_GRAB_ON);  /* User input goes to TuxMath, not window manager */
   SDL_ShowCursor(1);
 
