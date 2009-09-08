@@ -22,6 +22,7 @@
 #include "convert_utf.h"
 #include "transtruct.h"
 #include "network.h"
+#include "throttle.h"
 
 
 typedef struct high_score_entry {
@@ -314,6 +315,12 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
 
   DrawTitleScreen();
 
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (stop_button)
+  {
+    SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+  }
+
   /* Draw translucent background for text: */
   {
     SDL_Rect bg_rect;
@@ -481,7 +488,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   SDL_EnableUNICODE(SDL_DISABLE);
 
   /* Now copy name into location pointed to by arg: */ 
-  strncpy((char*)pl_name, (char*)UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
+  strncpy(pl_name, UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
 }
 
 
@@ -718,57 +725,35 @@ char* HS_Name(int diff_level, int place)
 }
 
 
-void Ready(const char* heading)
+int Ready(const char* heading)
 {
   SDL_Rect loc;
-  SDL_Rect TuxRect,
-           stopRect,
-             okRect;
-
+  SDL_Rect okRect;
   int finished = 0;
-  int tux_frame = 0;
   Uint32 frame = 0;
-  Uint32 start = 0;
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+  const int BG_Y = 100;
+  const int BG_WIDTH = 400;
+  const int BG_HEIGHT = 200;
 
+  DEBUGMSG(debug_highscore, "Enter Ready()\n" );
 
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
+  DrawTitleScreen();
 
-
-
-  /* Draw background: */
-  if (current_bkg())
-    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
- 
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
+  /* Draw translucent background for text: */
   {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+    SDL_Rect bg_rect;
+    bg_rect.x = (screen->w)/2 - BG_WIDTH/2;
+    bg_rect.y = BG_Y;
+    bg_rect.w = BG_WIDTH;
+    bg_rect.h = BG_HEIGHT;
+    DrawButton(&bg_rect, 15, REG_RGBA);
+
+    bg_rect.x += 10;
+    bg_rect.y += 10;
+    bg_rect.w -= 20;
+    bg_rect.h = 60;
+    DrawButton(&bg_rect, 10, SEL_RGBA);
   }
-
- if (images[IMG_RIGHT])
-  {
-    okRect.w = (images[IMG_RIGHT]->w)*2;
-    okRect.h = (images[IMG_RIGHT]->h)*2;
-    okRect.x = (screen->w)/2;
-    okRect.y = 240;
-    SDL_BlitSurface(images[IMG_RIGHT], NULL, screen, &okRect);
-  }
-
-
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-  {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
-  }
-
 
   /* Draw heading: */
   {
@@ -781,19 +766,30 @@ void Ready(const char* heading)
       SDL_BlitSurface(s, NULL, screen, &loc);
       SDL_FreeSurface(s);
     }
+  }
 
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (stop_button)
+  {
+    SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+  }
+
+  /* "Next_arrow" to indicate ready to proceed: */
+  if (next_arrow)
+  {
+    okRect.x = (screen->w)/2;
+    okRect.y = 240;
+    SDL_BlitSurface(next_arrow, NULL, screen, &okRect);
   }
 
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 
-
   while (!finished)
   {
-    start = SDL_GetTicks();
-
-    while (SDL_PollEvent(&event)) 
+    /* Handle user events: */
+    while (SDL_PollEvent(&event))
     {
       switch (event.type)
       {
@@ -804,104 +800,90 @@ void Ready(const char* heading)
 
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
+        {
+          if (inRect(stop_rect, event.button.x, event.button.y ))
+          {
+            finished = -1;
+            playsound(SND_TOCK);
+            break;
+          } 
+          else if (inRect(okRect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
             break;
           }
 
-          if (inRect(okRect, event.button.x, event.button.y ))
+        }
+        case SDL_KEYDOWN:
+        {
+          switch (event.key.keysym.sym)
           {
-            finished = 1;
-            playsound(SND_TOCK);
-            break;
-          }
-          
+            case SDLK_ESCAPE:
+            case SDLK_BACKSPACE:
+            {
+              finished = -2;
+              playsound(SND_TOCK);
+              break;
+            }
+            case SDLK_RETURN:
+            case SDLK_KP_ENTER:
+            case SDLK_SPACE:
+            {
+              finished = 1;
+              playsound(SND_TOCK);
+              break;
+            }
+            default:
+            {
+              //Do nothing - event. add support for toggle fullscreen, etc.
+            }
+          } 
         }
       }
     }
- 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
 
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
-
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
+    HandleTitleScreenAnimations();
+    Throttle(20);
     frame++;
   }  // End of while (!finished) loop
 
-  FreeSprite(Tux);
+  DEBUGMSG(debug_highscore, "Leave Ready()\n" );
 
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
-
+  /* 1 means we start game, -1 means we go back to menu */
+  return finished;
 }
 
 
 int Standby(const char* heading, const char* sub)
 {
-  
   SDL_Rect loc;
-  SDL_Rect TuxRect,
-           stopRect;
+  int finished = 0;
+  Uint32 frame = 0;
+  const int BG_Y = 100;
+  const int BG_WIDTH = 400;
+  const int BG_HEIGHT = 200;
+
   char buf[NET_BUF_LEN];
 
-  int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
+  DEBUGMSG(debug_highscore, "Enter Standby()\n" );
 
+  DrawTitleScreen();
 
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-
-
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEnter HighScoreNameEntry()\n" );
-#endif
-
-
-  /* Draw background: */
-  if (current_bkg())
-    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
+  /* Draw translucent background for text: */
   {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
+    SDL_Rect bg_rect;
+    bg_rect.x = (screen->w)/2 - BG_WIDTH/2;
+    bg_rect.y = BG_Y;
+    bg_rect.w = BG_WIDTH;
+    bg_rect.h = BG_HEIGHT;
+    DrawButton(&bg_rect, 15, REG_RGBA);
 
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-  {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
+    bg_rect.x += 10;
+    bg_rect.y += 10;
+    bg_rect.w -= 20;
+    bg_rect.h = 60;
+    DrawButton(&bg_rect, 10, SEL_RGBA);
   }
 
   /* Draw heading: */
@@ -927,16 +909,20 @@ int Standby(const char* heading, const char* sub)
     }
   }
 
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (stop_button)
+  {
+    SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+  }
+
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 
-
   while (!finished)
   {
-    start = SDL_GetTicks();
-
-    while (SDL_PollEvent(&event)) 
+    /* Handle user events: */
+    while (SDL_PollEvent(&event))
     {
       switch (event.type)
       {
@@ -947,24 +933,39 @@ int Standby(const char* heading, const char* sub)
 
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
-        { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
+        {
+          if (inRect(stop_rect, event.button.x, event.button.y ))
           {
-            finished = -1;
+            finished = 1;
             playsound(SND_TOCK);
             break;
           }
         }
+        case SDL_KEYDOWN:
+        {
+          switch (event.key.keysym.sym)
+          {
+            case SDLK_ESCAPE:
+            case SDLK_BACKSPACE:
+            {
+              finished = -2;
+              playsound(SND_TOCK);
+              break;
+            }
+
+            default:
+            {
+              //Do nothing - event. add support for toggle fullscreen, etc.
+            }
+          } 
+        }
       }
     }
 
-    //FIXME - so we pull all the messages out of the socket and ignore anything
-    //that isn't "GO_TO_GAME" - why are we ignoring them?  We cannot assume the
-    //server is going to send us what we expect. At a minimum, we need to 
-    //print any unrecognized messages to stderr with a warning - DSB
+    /* Handle server messages: */
     while(!check_messages(buf))
     {
-      if(strncmp(buf,"GO_TO_GAME",strlen("GO_TO_GAME")) == 0)
+      if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
       {
         finished = 1;
         playsound(SND_TOCK);
@@ -976,38 +977,19 @@ int Standby(const char* heading, const char* sub)
         playsound(SND_TOCK);
         break;
       }
+      else
+      {
+        DEBUGMSG(debug_highscore, "Unrecognized message from server: %s\n", buf);
+        continue;
+      }
     }
 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
-
-    /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
+    HandleTitleScreenAnimations();
+    Throttle(20);
     frame++;
   }  // End of while (!finished) loop
 
-  FreeSprite(Tux);
-
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
+  DEBUGMSG(debug_highscore, "Leave Standby()\n" );
 
   /* 1 means we start game, -1 means we go back to menu */
   return finished;

@@ -103,6 +103,7 @@ int             run_custom_game(void);
 void            run_multiplayer(int mode, int difficulty);
 int             run_factoroids(int choice);
 int		run_lan_join(void);
+int		run_lan_host(void);
 
 int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
@@ -314,6 +315,7 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_LAN_HOST:
+      run_lan_host();
       break;
 
     case RUN_LAN_JOIN:
@@ -563,6 +565,24 @@ int run_factoroids(int choice)
     fprintf(stderr, "\nCould not find config file\n");
   }
 
+  return 0;
+}
+
+
+/* FIXME this implementation starts the server as a separate program, which   */
+/* keeps running after tuxmath itself exits.  Do we want this?. Or should     */
+/* we run the server as a separate process with fork(), or as a separate      */
+/* thread with pthreads, realizing that each of these has portability issues? */
+int run_lan_host(void)
+{
+#ifdef HAVE_LIBSDL_NET
+  char buf[256];
+  char server_name[150];
+
+  NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
+  snprintf(buf, 256, "tuxmathserver --name \"%s\" &", server_name);
+  system(buf);
+#endif
   return 0;
 }
 

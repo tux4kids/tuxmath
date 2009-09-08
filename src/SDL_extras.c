@@ -739,27 +739,27 @@ SDL_Surface* BlackOutline(const char* t, int size, SDL_Color* c)
 #ifdef HAVE_LIBSDL_PANGO
   if (!context)
   {
-    fprintf(stderr, "BlackOutline(): invalid SDL_Pango context - returning.");
+    fprintf(stderr, "BlackOutline(): invalid SDL_Pango context - returning.\n");
     return NULL;
   }
 #else
   TTF_Font* font = get_font(size);
   if (!font)
   {
-    fprintf(stderr, "BlackOutline(): could not load needed font - returning.");
+    fprintf(stderr, "BlackOutline(): could not load needed font - returning.\n");
     return NULL;
   }
 #endif
 
   if (!t || !c)
   {
-    fprintf(stderr, "BlackOutline(): invalid ptr parameter, returning.");
+    fprintf(stderr, "BlackOutline(): invalid ptr parameter, returning.\n");
     return NULL;
   }
 
   if (t[0] == '\0')
   {
-    fprintf(stderr, "BlackOutline(): empty string, returning");
+    fprintf(stderr, "BlackOutline(): empty string, returning\n");
     return NULL;
   }
 

@@ -16,8 +16,7 @@
 * derivative works into a GPLv2+ project like TuxMath - David Bruce 
 */
 
-
-
+#include "config.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,6 +39,7 @@
 // setup and cleanup:
 int setup_server(void);
 void cleanup_server(void);
+void handle_command_args(int argc, char* argv[]);
 
 // top level functions in main loop:
 void check_UDP(void);
@@ -84,6 +84,7 @@ void game_msg_next_question(void);
 
 /*  ------------   "Local globals" for server.c: ----------  */
 char server_name[NAME_SIZE];  /* User-visible name for server selection                     */
+int need_server_name = 1;
 UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection           */
 TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
 IPaddress ip;
@@ -102,6 +103,8 @@ MC_FlashCard flash;
 int main(int argc, char **argv)
 { 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
+
+  handle_command_args(argc, argv);
 
   /*     ---------------- Setup: ---------------------------   */
   if (!setup_server())
@@ -192,14 +195,13 @@ int setup_server(void)
   {
     fprintf(stderr, "Could not initialize MathCards\n");
     return 0;
-  }  
-
+  }
 
   /* Get server name: */
   /* We use default name after 30 sec timeout if no name entered. */
   /* FIXME we should save this to disc so it doesn't */
   /* have to be entered every time.                  */
-
+  if(need_server_name)
   {
     Uint32 timeout = SDL_GetTicks() + SERVER_NAME_TIMEOUT;
     int name_recvd = 0;
@@ -285,6 +287,53 @@ void cleanup_server(void)
 }
 
 
+/* Handle any arguments passed from command line */
+void handle_command_args(int argc, char* argv[])
+{
+  int i;
+
+  for (i = 1; i < argc; i++)
+  {
+    if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
+    {
+      /* Display help message: */
+      printf("\n");
+      cleanup_server();
+      exit(0);
+    }
+    else if (strcmp(argv[i], "--copyright") == 0 ||
+             strcmp(argv[i], "-c") == 0)
+    {
+      printf(
+        "\n\"Tux, of Math Command Server\" version " VERSION ", Copyright (C) 2009,\n"
+        "David Bruce, Akash Gangil, and the Tux4Kids Project.\n"
+        "This program is free software; you can redistribute it and/or\n"
+        "modify it under the terms of the GNU General Public License\n"
+        "as published by the Free Software Foundation.  See COPYING.txt\n"
+        "\n"
+        "This program is distributed in the hope that it will be useful,\n"
+        "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+        "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+        "\n");
+
+      cleanup_server();
+      exit(0);
+    }
+    else if (strcmp(argv[i], "--usage") == 0 ||
+             strcmp(argv[i], "-u") == 0)
+    {
+      /* Display (happy) usage: */
+
+//      usage(0, argv[0]);
+    }
+    else if ((strcmp(argv[i], "--name") == 0 || strcmp(argv[i], "-n") == 0)
+           && (i + 1 < argc))
+    {
+      strncpy(server_name, argv[i + 1], NAME_SIZE);
+      need_server_name = 0;
+    }
+  }
+}
 
 
 // ----------- Top level functions in main loop ---------------:

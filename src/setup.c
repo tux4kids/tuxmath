@@ -276,7 +276,8 @@ void handle_command_args(int argc, char* argv[])
              strcmp(argv[i], "-c") == 0)
     {
       printf(
-        "\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001 Bill Kendrick\n"
+        "\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001-2009,\n"
+        "Bill Kendrick, David Bruce, Tim Holy, and the Tux4Kids Project.\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"
         "as published by the Free Software Foundation.  See COPYING.txt\n"

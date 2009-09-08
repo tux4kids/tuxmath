@@ -275,6 +275,7 @@ int check_messages(char buf[NET_BUF_LEN])
     printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
+    return -1;
   }
   else if(numready > 0)
   {

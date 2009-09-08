@@ -104,7 +104,7 @@ static int demo_countdown;
 static int tux_anim;
 static int tux_anim_frame;
 static int num_cities_alive;
-static int num_comets_alive;
+//static int num_comets_alive;
 static int tux_img;
 static int old_tux_img;
 static int frame;
@@ -164,7 +164,7 @@ static void game_handle_help(void);
 static void game_handle_user_events(void);
 static void game_handle_demo(void);
 static void game_handle_answer(void);
-static void game_handle_net_messages(char*,char*);
+static void game_handle_net_messages(char* buf);
 static void game_countdown(void);
 static void game_handle_tux(void);
 static void game_handle_comets(void);
@@ -194,6 +194,8 @@ static void reset_level(void);
 static int add_comet(void);
 static void add_score(int inc);
 static void reset_comets(void);
+static int num_comets_alive(void);
+
 static void copy_card(MC_FlashCard* src, MC_FlashCard* dest);
 
 static void game_mouse_event(SDL_Event event);
@@ -281,25 +283,36 @@ int game(void)
    if(Opts_LanMode())
    {
 #ifdef HAVE_LIBSDL_NET
-     int status = check_messages(buf);
-     while(!status)
+     int done = 0;
+     while(!done)
      {
-       seperate_commmand_and_buf(command, buf);
-       game_handle_net_messages(buf, command);
-       status = check_messages(buf);
-     }
-
-     if(status == -1)
-     {
-       game_cleanup();
-       return GAME_OVER_ERROR;
+       switch(LAN_NextMsg(buf))
+       {
+         case 1:   //Message received:
+           game_handle_net_messages(buf);
+           break;
+         case 0:   //No more messages:
+           done = 1;
+           break;
+         case -1:  //Error in networking or server:
+           game_cleanup();
+           return GAME_OVER_ERROR;
+         default:
+           {}
+       }
      }
 #else
      fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
      Opts_SetLanMode(0);
 #endif    
    }
-
+   else
+   {
+     if (add_comet())
+     {
+       num_attackers--;
+     }
+   }
 
     /* Most code now in smaller functions: */
 
@@ -348,6 +361,7 @@ int game(void)
   }
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
+
 
   DEBUGCODE(debug_game) print_exit_conditions();
 
@@ -524,7 +538,7 @@ int erase_comet_on_screen(comet_type* comet_ques)
   comet_ques->x = 0;
   comet_ques->y = 0;
   comet_ques->answer = 0;
-  num_comets_alive--;
+//  num_comets_alive--;
   erase_flashcard(&(comet_ques->flashcard));
 
   return 1;
@@ -535,18 +549,29 @@ int erase_comet_on_screen(comet_type* comet_ques)
 int add_quest_recvd(char* buf)
 {
   MC_FlashCard* fc = find_comet_by_id(-1);
+
+  DEBUGMSG(debug_game, "Enter add_quest_recvd(), buf is: %s\n", buf);
+
   // if fc = NULL means no empty slot for question
-  if(!fc || !buf)
+  if(!buf)
   {
-    printf("NULL fc or buf\n");
+    printf("NULL buf\n");
     return 0;
   }
+  if(!fc)
+  {
+    printf("NULL fc - no empty slot for question\n");
+    return 0;
+  }
+
   /* function call to parse buffer and receive question */
   if(!Make_Flashcard(buf, fc))
   {
     printf("Unable to parse buffer into FlashCard\n");
     return 0;
   }
+
+  DEBUGCODE(debug_game) print_current_quests();
 
   return 1;
 }
@@ -565,7 +590,9 @@ int remove_quest_recvd(char* buf)
   if(!p)
     return 0;
 
+  p++;
   id = atoi(p);
+  DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d\n", id);
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
 
@@ -576,6 +603,7 @@ int remove_quest_recvd(char* buf)
 
   if(comet_screen)
   {
+    DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
     erase_comet_on_screen(comet_screen);
     playsound(SND_SIZZLE);
   }
@@ -599,17 +627,21 @@ void print_current_quests(void)
 {
   int i;
   printf("\n------------  Current Questions:  -----------\n");
-  for(i = 0; i < MAX_COMETS; i ++)
+  for(i = 0; i < MAX_COMETS; i++)
   { 
-    if(comets[i].alive==1)
+    if(comets[i].alive == 1)
      printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
 
-/*    if(comets_questions[i].question_id != -1)
+  }
+  printf("--------------Test Comets-----------------\n");
+  for(i = 0; i < TEST_COMETS; i++)
+  {
+    if(comets_questions[i].question_id != -1)
       printf("Comet %d - question %d:\t%s\n", i, comets_questions[i].question_id, comets_questions[i].formula_string);
     else
       printf("Comet %d:\tEmpty\n", i);
-*/}
-  printf("-----------------------------------------------\n");
+  }
+  printf("------------------------------------------\n");
 }
 
 
@@ -628,13 +660,14 @@ MC_FlashCard* find_comet_by_id(int id)
   return NULL;
 }
 
+
 comet_type* finder(int id)
 {
   int i;
   for (i = 0; i < MAX_COMETS; i++)
   {
-    if (comets[i].flashcard.question_id==id)
-     {printf("the question id is id=%d\n",i);
+    if (comets[i].flashcard.question_id == id)
+     {printf("the question id is in slot %d\n",i);
       return &comets[i];}
   }
 
@@ -652,20 +685,22 @@ comet_type* finder(int id)
 
 
 #ifdef HAVE_LIBSDL_NET
-void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
+void game_handle_net_messages(char* buf)
 {
-  if(strncmp(command,"PLAYER_MSG",strlen("PLAYER_MSG"))==0)
+  DEBUGMSG(debug_game, "Received server message: %s\n", buf);
+
+  if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
   {
     printf("buf is %s\n", buf);                                                  
   }
 
-  else if(strncmp(command,"SEND_QUESTION",strlen("SEND_QUESTION"))==0)
+  else if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
   {
-       if(!add_quest_recvd(buf))
-        printf("SEND_QUESTION received but could not add question\n");
-      else
-        // If we successfully added question, show new questions to user:
-        print_current_quests();
+    if(!add_quest_recvd(buf))
+      printf("SEND_QUESTION received but could not add question\n");
+    else
+      // If we successfully added question, show new questions to user:
+      print_current_quests();
   }
 
   else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
@@ -684,19 +719,21 @@ void game_handle_net_messages(char buf[NET_BUF_LEN],char command[NET_BUF_LEN])
       print_current_quests();
   }
 
-  else if(strncmp(command,"TOTAL_QUESTIONS",strlen("TOTAL_QUESTIONS"))==0)
+  else if(strncmp(buf,"TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS"))==0)
   {
     sscanf(buf,"%*s %d", &total_questions_left);
     if(!total_questions_left)
       game_over_other=1;
   }
 
-  else if(strncmp(command,"GAME_OVER_WON",strlen("GAME_OVER_WON"))==0)
+  else if(strncmp(buf,"GAME_OVER_WON", strlen("GAME_OVER_WON"))==0)
   {
     game_over_won=1;
   }
-  /* FIXME need to handle unrecognized messages, maybe just printf()
-     with a warning until they get implemented - DSB             */
+  else
+  {
+    DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
+  }  
 }
 #endif
 
@@ -866,7 +903,7 @@ int game_initialize(void)
   }
 
   num_cities_alive = NUM_CITIES;
-  num_comets_alive = 0;
+//  num_comets_alive = 0;
 
   igloo_vertical_offset = images[IMG_CITY_BLUE]->h - images[IMG_IGLOO_INTACT]->h;
 
@@ -1189,7 +1226,7 @@ void help_add_comet(const char* formula_str, const char* ans_str)
   comets[0].alive = 1;
   comets[0].expl = -1;
   comets[0].answer = atoi(ans_str);
-  num_comets_alive = 1;
+//  num_comets_alive = 1;
   comets[0].city = 0;
   comets[0].x = cities[0].x;
   comets[0].y = 0;
@@ -1582,7 +1619,7 @@ void game_handle_comets(void)
   int i, this_city;
   Uint32 ctime;
 
-  num_comets_alive = 0;
+//  num_comets_alive = 0;
 
   /* Clear the threatened flag on each city */
   for (i = 0; i < NUM_CITIES; i++)
@@ -1592,7 +1629,7 @@ void game_handle_comets(void)
   {
     if (comets[i].alive)
     {
-      num_comets_alive++;
+//     num_comets_alive++;
       this_city = comets[i].city;
 
       /* Update comet position */
@@ -1728,7 +1765,7 @@ void game_handle_comets(void)
     /* num_attackers is how many comets are left in wave */
     if (num_attackers > 0)
     {
-//      if ((rand() % 2) == 0 || num_comets_alive == 0)  NOTE also caused timing issue
+//      if ((rand() % 2) == 0 || num_comets_alive() == 0)  NOTE also caused timing issue
       {
         if (add_comet())
         {
@@ -1739,7 +1776,7 @@ void game_handle_comets(void)
     }
     else
     {
-      if (num_comets_alive == 0)
+      if (num_comets_alive() == 0)
       {
         if (!check_extra_life()) {
           /* Time for the next wave! */
@@ -2584,18 +2621,25 @@ int check_exit_conditions(void)
       return GAME_OVER_OTHER;
     }
   }
-  
+
+
+  //NOTE can't use this check in LAN mode because we don't know if the server has 
+  //questions left
+ 
   /* Need to get out if no comets alive and MathCards has no questions left in list, */
   /* even though MathCards thinks there are still questions "in play".  */
   /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
-  if (!MC_ListQuestionsLeft() && !num_comets_alive)
+  if (!Opts_LanMode())
   {
-    fprintf(stderr, "Error - no questions left but game not over\n");
-    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
-    DEBUGMSG(debug_game, "num_comets_alive = %d", num_comets_alive);
-    return GAME_OVER_ERROR;
-  }
-   
+    if (!MC_ListQuestionsLeft() && !num_comets_alive())
+    {
+      fprintf(stderr, "Error - no questions left but game not over\n");
+      DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
+      DEBUGMSG(debug_game, "num_comets_alive() = %d", num_comets_alive());
+      return GAME_OVER_ERROR;
+    }
+  } 
+
    /* If using demo mode, see if counter has run out: */
   if (Opts_DemoMode())
   {
@@ -2675,7 +2719,7 @@ void reset_level(void)
   {
     comets[i].alive = 0;
   }
-  num_comets_alive = 0;
+//  num_comets_alive = 0;
 
   /* Clear LED F: */
 
@@ -2842,7 +2886,11 @@ int add_comet(void)
   {
     if (comets[i].alive)
       if (comets[i].y < y_spacing)
-        return 0;
+      {
+//        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"
+//                             " far enough down: %f\n", i, comets[i].y);
+//        return 0;
+      }
   }  
     
   /* Now look for a free comet slot: */
@@ -2858,6 +2906,8 @@ int add_comet(void)
   if (-1 == found)
   {
     /* free comet slot not found - no comet added: */
+    DEBUGMSG(debug_game, "add_comet() called but no free comet slot\n");
+    DEBUGCODE(debug_game) print_current_quests();
     return 0;
   }
 
@@ -2869,17 +2919,24 @@ int add_comet(void)
   if(Opts_LanMode())
   {
 #ifdef HAVE_LIBSDL_NET
+    int lan_quest_found = 0;
     for (i = 0; i < TEST_COMETS; i++)
     {
       if(comets_questions[i].question_id != -1)
       {
+        DEBUGMSG(debug_game, "Found question_id %d, %s\n", 
+                  comets_questions[i].question_id,
+                  comets_questions[i].formula_string);
+        lan_quest_found = 1;
         copy_card(&(comets_questions[i]), &(comets[found].flashcard));
         erase_flashcard(&(comets_questions[i]));
         break;
       }
     }
 
-    if(i == TEST_COMETS)
+    DEBUGCODE(debug_game) print_current_quests();
+
+    if(!lan_quest_found)
     {
       DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
       return 0;
@@ -2920,7 +2977,7 @@ int add_comet(void)
   /* If we make it to here, create a new comet!*/
   comets[found].answer = comets[found].flashcard.answer;
   comets[found].alive = 1;
-  num_comets_alive++;
+//  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
   /* (so formulas are less likely to overlap). */
@@ -2951,7 +3008,7 @@ int add_comet(void)
     DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-  DEBUGMSG(debug_game, "add_comet(): formula string is: %s", comets[found].flashcard.formula_string);
+  DEBUGMSG(debug_game, "add_comet(): formula string is: %s\n", comets[found].flashcard.formula_string);
   
   /* Record the time at which this comet was created */
   comets[found].time_started = SDL_GetTicks();
@@ -3845,4 +3902,14 @@ void game_recalc_positions(void)
     //else
     //  comets[i].y = comets[i].y * RES_Y / screen->h;
   }
+}
+
+static int num_comets_alive()
+{
+  int i = 0;
+  int living = 0;
+  for(i = 0; i < MAX_COMETS; i++)
+    if(comets[i].alive)
+      living++;
+  return living;
 }
