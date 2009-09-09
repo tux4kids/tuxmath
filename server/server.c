@@ -1036,40 +1036,6 @@ int remove_question(int id)
 
 
 
-
-
-
-//function to send a flashcard(question) from the server to the client
-// int SendQuestion(MC_FlashCard flash, TCPsocket client_sock)
-// {
-//   int x;
-// 
-//   char buf[NET_BUF_LEN];
-// 
-//   if(client_sock == NULL)
-//     return 0;
-// 
-//   snprintf(buf, NET_BUF_LEN, 
-//                 "%s\t%d\t%d\t%d\t%s\t%s\n",
-//                 "SEND_QUESTION",
-//                 flash.question_id,
-//                 flash.difficulty,
-//                 flash.answer,
-//                 flash.answer_string,
-//                 flash.formula_string);
-//   x = SDLNet_TCP_Send(client_sock, buf, sizeof(buf));
-// 
-// #ifdef LAN_DEBUG
-//   printf("SendQuestion() - buf sent:::: %d bytes\n", x);
-//   printf("buf is: %s\n", buf);
-// #endif
-// 
-//   if (x == 0)
-//     return 0;
-//   return 1;
-// }
-
-
 /*Function to send any messages to the client be it any warnings
   or anything the client is made to be informed */
 int SendMessage(int message, int ques_id, char *name, TCPsocket client_sock)         

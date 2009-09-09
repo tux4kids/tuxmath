@@ -42,6 +42,7 @@
 #include "titlescreen.h"
 #include "options.h"
 #include "SDL_extras.h"
+#include "pixels.h"
 #include "throttle.h"
 
 /* Make sure we don't try to call network code if we built without */
@@ -103,7 +104,6 @@ static int demo_countdown;
 static int tux_anim;
 static int tux_anim_frame;
 static int num_cities_alive;
-//static int num_comets_alive;
 static int tux_img;
 static int old_tux_img;
 static int frame;
@@ -206,8 +206,6 @@ static int help_renderframe_exit(void);
 static void game_recalc_positions(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
-void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN]);
-
 
 /*****************************************************/
 #ifdef HAVE_LIBSDL_NET
@@ -235,7 +233,6 @@ static void print_status(void);
 int game(void)
 {
   char buf[NET_BUF_LEN];
-  char command[NET_BUF_LEN];
 
   DEBUGMSG(debug_game, "Entering game():\n");
 
@@ -250,9 +247,6 @@ int game(void)
   if (!game_initialize())
   {
     fprintf(stderr, "\ngame_initialize() failed!");
-    /* return 0 so we go back to Options screen - maybe */
-    /* player simply has all operations deselected */
-//    free_on_exit();
     return 0;
   }
 
@@ -307,10 +301,9 @@ int game(void)
    }
    else
    {
-     if (add_comet())
-     {
-       num_attackers--;
-     }
+     if(num_attackers > 0)
+       if(add_comet())
+         num_attackers--;
    }
 
     /* Most code now in smaller functions: */
@@ -572,6 +565,12 @@ int add_quest_recvd(char* buf)
 
   DEBUGCODE(debug_game) print_current_quests();
 
+  /* If we have an open comet slot, put question in: */
+  
+  if(num_attackers > 0)
+    if(add_comet())
+      num_attackers--;
+
   return 1;
 }
 
@@ -582,6 +581,9 @@ int remove_quest_recvd(char* buf)
   char* p = NULL;
   MC_FlashCard* fc = NULL;
   comet_type* comet_screen;
+
+  return 0;
+
   if(!buf)
     return 0;
 
@@ -693,12 +695,11 @@ void game_handle_net_messages(char* buf)
     printf("buf is %s\n", buf);                                                  
   }
 
-  else if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
+  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
   {
     if(!add_quest_recvd(buf))
-      printf("SEND_QUESTION received but could not add question\n");
-    else
-      // If we successfully added question, show new questions to user:
+      printf("ADD_QUESTION received but could not add question\n");
+    else  
       DEBUGCODE(debug_game) print_current_quests();
   }
 
@@ -707,14 +708,6 @@ void game_handle_net_messages(char* buf)
     if(!remove_quest_recvd(buf)) //remove the question with id in buf
       printf("REMOVE_QUESTION received but could not remove question\n");
     else 
-      DEBUGCODE(debug_game) print_current_quests();
-  }
-
-  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
-  {
-    if(!add_quest_recvd(buf))
-      printf("ADD_QUESTION received but could not add question\n");
-    else  
       DEBUGCODE(debug_game) print_current_quests();
   }
 
@@ -2709,13 +2702,18 @@ void reset_level(void)
   int i;
   int next_wave_comets;
   int use_feedback;
-  float comet_avg_height,height_differential;
+  float comet_avg_height, height_differential;
 
 
   /* Clear all comets: */
 
   for (i = 0; i < MAX_COMETS; i++)
   {
+    DEBUGCODE(debug_game)
+    {
+      if(comets[i].alive)
+        printf("Warning - resetting comets but comet[%d| still alive\n", i);
+    }
     comets[i].alive = 0;
   }
 //  num_comets_alive = 0;
@@ -2887,10 +2885,9 @@ int add_comet(void)
     if (comets[i].alive)
       if (comets[i].y < y_spacing)
       {
-//        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"static int found;
-
-//                             " far enough down: %f\n", i, comets[i].y);
-//        return 0;
+        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"
+                            " far enough down: %f\n", i, comets[i].y);
+        return 0;
       }
   }  
     
@@ -2936,7 +2933,6 @@ int add_comet(void)
     {
       DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
       return 0;    DEBUGCODE(debug_game) print_current_quests();
-
     } 
 #endif
   }
@@ -2946,8 +2942,8 @@ int add_comet(void)
 
   if(Opts_LanMode())
   {
-    copy_card(&(comets_questions[i]), &(comets[com_found].flashcard));
-    erase_flashcard(&(comets_questions[i]));
+    copy_card(&(comets_questions[q_found]), &(comets[com_found].flashcard));
+    erase_flashcard(&(comets_questions[q_found]));
   }
   else // Not LAN mode - just get question with direct call:
   {
@@ -3787,20 +3783,6 @@ void reset_comets(void)
     MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
-}
-
-/* Copy the command name out of the tab-delimited buffer: */
-
-void seperate_commmand_and_buf(char command[NET_BUF_LEN],char buf[NET_BUF_LEN])
-{
-  int i;
-    for (i = 0;
-  buf[i] != '\0' && buf[i] != '\t' && i < NET_BUF_LEN;
-                                      i++)
-  {
-    command[i] = buf[i];
-  }
-  command[i] = '\0';
 }
 
 
