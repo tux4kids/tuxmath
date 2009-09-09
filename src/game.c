@@ -96,7 +96,6 @@ static int wave;
 static int score;
 static int pre_wave_score;
 static int prev_wave_comets;
-static int found;
 static int slowdown;
 static int num_attackers;
 static float speed;
@@ -700,7 +699,7 @@ void game_handle_net_messages(char* buf)
       printf("SEND_QUESTION received but could not add question\n");
     else
       // If we successfully added question, show new questions to user:
-      print_current_quests();
+      DEBUGCODE(debug_game) print_current_quests();
   }
 
   else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
@@ -708,7 +707,7 @@ void game_handle_net_messages(char* buf)
     if(!remove_quest_recvd(buf)) //remove the question with id in buf
       printf("REMOVE_QUESTION received but could not remove question\n");
     else 
-      print_current_quests();
+      DEBUGCODE(debug_game) print_current_quests();
   }
 
   else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
@@ -716,7 +715,7 @@ void game_handle_net_messages(char* buf)
     if(!add_quest_recvd(buf))
       printf("ADD_QUESTION received but could not add question\n");
     else  
-      print_current_quests();
+      DEBUGCODE(debug_game) print_current_quests();
   }
 
   else if(strncmp(buf,"TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS"))==0)
@@ -1447,7 +1446,7 @@ void game_handle_answer(void)
     }
   }
 
-  /* If there was an comet with this answer, destroy it! */
+  /* If there was a comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
     /* Tell Mathcards or the server that we answered correctly: */
@@ -2877,7 +2876,8 @@ int add_comet(void)
   int i;
   float y_spacing;
 
-  found = -1;
+  int com_found = -1;
+  int q_found = -1;  
 
   y_spacing = (images[IMG_NUMS]->h) * 1.5;
 
@@ -2887,7 +2887,8 @@ int add_comet(void)
     if (comets[i].alive)
       if (comets[i].y < y_spacing)
       {
-//        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"
+//        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"static int found;
+
 //                             " far enough down: %f\n", i, comets[i].y);
 //        return 0;
       }
@@ -2898,12 +2899,12 @@ int add_comet(void)
   {
     if (!comets[i].alive)
     {
-      found = i;
+      com_found = i;
       break;
     }
   }
  
-  if (-1 == found)
+  if (-1 == com_found)
   {
     /* free comet slot not found - no comet added: */
     DEBUGMSG(debug_game, "add_comet() called but no free comet slot\n");
@@ -2912,14 +2913,13 @@ int add_comet(void)
   }
 
 
-  /* Get math question for new comet - if playing in LAN mode, we */
-  /* get the next question from our local queue. If not in LAN    */
-  /* mode, we get it with a direct function call to MathCards     */
+  /* If playing in LAN mode, see if we have a question ready  in  */
+  /* our local queue:                                             */
    
   if(Opts_LanMode())
   {
 #ifdef HAVE_LIBSDL_NET
-    int lan_quest_found = 0;
+    DEBUGCODE(debug_game) print_current_quests();
     for (i = 0; i < TEST_COMETS; i++)
     {
       if(comets_questions[i].question_id != -1)
@@ -2927,32 +2927,31 @@ int add_comet(void)
         DEBUGMSG(debug_game, "Found question_id %d, %s\n", 
                   comets_questions[i].question_id,
                   comets_questions[i].formula_string);
-        lan_quest_found = 1;
-        copy_card(&(comets_questions[i]), &(comets[found].flashcard));
-        erase_flashcard(&(comets_questions[i]));
+        q_found = i;
         break;
       }
     }
 
-    DEBUGCODE(debug_game) print_current_quests();
-
-    if(!lan_quest_found)
+    if(q_found == -1)
     {
       DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
-      return 0;
+      return 0;    DEBUGCODE(debug_game) print_current_quests();
+
     } 
-#else
-    /* NOTE: Should not be able to get to here */
-    if (!MC_NextQuestion(&(comets[found].flashcard)))
-    {
-      /* no more questions available - cannot create comet.  */
-      return 0;
-    }
 #endif
   }
-  else
+
+  /* Now we have a vacant comet slot at com_found and (if in LAN mode) */
+  /* a question for it at q_found.  Now just copy:                     */
+
+  if(Opts_LanMode())
   {
-    if (!MC_NextQuestion(&(comets[found].flashcard)))
+    copy_card(&(comets_questions[i]), &(comets[com_found].flashcard));
+    erase_flashcard(&(comets_questions[i]));
+  }
+  else // Not LAN mode - just get question with direct call:
+  {
+    if (!MC_NextQuestion(&(comets[com_found].flashcard)))
     {
       /* no more questions available - cannot create comet.  */
       return 0;
@@ -2962,21 +2961,22 @@ int add_comet(void)
   DEBUGCODE(debug_game)
   {
     printf("In add_comet(), card is\n");
-    print_card(comets[found].flashcard);
+    print_card(comets[com_found].flashcard);
   }
   
   /* Make sure question is "sane" before we add it: */
-  if( (comets[found].flashcard.answer > 999)
-    ||(comets[found].flashcard.answer < -999))
+  if( (comets[com_found].flashcard.answer > 999)
+    ||(comets[com_found].flashcard.answer < -999))
   {
     printf("Warning, card with invalid answer encountered: %d\n",
-           comets[found].flashcard.answer);
+           comets[com_found].flashcard.answer);
+    erase_flashcard(&(comets[com_found].flashcard));
     return 0;
   }
 
   /* If we make it to here, create a new comet!*/
-  comets[found].answer = comets[found].flashcard.answer;
-  comets[found].alive = 1;
+  comets[com_found].answer = comets[com_found].flashcard.answer;
+  comets[com_found].alive = 1;
 //  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
@@ -2990,28 +2990,28 @@ int add_comet(void)
   prev_city = i;
 
   /* Set in to attack that city: */
-  comets[found].city = i;
+  comets[com_found].city = i;
   /* Start at the top, above the city in question: */
-  comets[found].x = cities[i].x;
-  comets[found].y = 0;
-  comets[found].zapped = 0;
+  comets[com_found].x = cities[i].x;
+  comets[com_found].y = 0;
+  comets[com_found].zapped = 0;
   /* Should it be a bonus comet? */
-  comets[found].bonus = 0;
+  comets[com_found].bonus = 0;
 
   DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
 
   if (bonus_comet_counter == 1)
   {
     bonus_comet_counter = 0;
-    comets[found].bonus = 1;
+    comets[com_found].bonus = 1;
     playsound(SND_BONUS_COMET);
     DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-  DEBUGMSG(debug_game, "add_comet(): formula string is: %s\n", comets[found].flashcard.formula_string);
+  DEBUGMSG(debug_game, "add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
   
   /* Record the time at which this comet was created */
-  comets[found].time_started = SDL_GetTicks();
+  comets[com_found].time_started = SDL_GetTicks();
    
   /* comet slot found and question found so return successfully: */
   return 1;
