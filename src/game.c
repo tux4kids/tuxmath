@@ -18,7 +18,6 @@
   2005-2009
 */
 
-#define TUXMATH_DEBUG
 /* put this first so we get <config.h> and <gettext.h> immediately: */
 #include "tuxmath.h"
 
@@ -213,7 +212,6 @@ int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
 #endif
 
-int erase_flashcard(MC_FlashCard* fc);
 int erase_comet_on_screen(comet_type* comet_ques);
 
 /* Display to player: */
@@ -275,13 +273,12 @@ int game(void)
    /* Check for server messages if we are playing a LAN game: */
    if(Opts_LanMode())
    {
-#ifdef HAVE_LIBSDL_NET
      int done = 0;
      while(!done)
      {
        switch(LAN_NextMsg(buf))
        {
-         case 1:   //Message received:
+         case 1:   //Message received (e.g. a new question):
            game_handle_net_messages(buf);
            break;
          case 0:   //No more messages:
@@ -294,13 +291,8 @@ int game(void)
            {}
        }
      }
-#else
-     fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
-     Opts_SetLanMode(0);
-#endif    
    }
-   else
-   {
+   else  /* Non-LAN: add comet if needed*/   {
      if(num_attackers > 0)
        if(add_comet())
          num_attackers--;
@@ -323,9 +315,7 @@ int game(void)
     // 3. Redraw:
     game_draw();
     // 4. Figure out if we should leave loop:
-    game_status = check_exit_conditions();               //would have to work on these , as they follow question linked list method
- 
- 
+    game_status = check_exit_conditions(); 
 
     /* If we're in "PAUSE" mode, pause! */
     if (paused)
@@ -508,30 +498,19 @@ int game(void)
   }
 }
 /**********************************These functions will be moved somewhere else probably a new header file**************************************/ 
-int erase_flashcard(MC_FlashCard* fc)
-{
-  if(!fc)
-    return 0;
-  fc->formula_string[0] = '\0';
-  fc->answer_string[0] = '\0';
-  fc->question_id = -1;
-  fc->answer = -9999;
-  fc->difficulty = 0;
-  return 1;
-}
 
 int erase_comet_on_screen(comet_type* comet_ques)
 {
   if(!comet_ques)
     return 0;
-  comet_ques->alive = 0;
+//  comet_ques->alive = 0;
   comet_ques->expl = 0;
-  comet_ques->city = 0;
-  comet_ques->x = 0;
-  comet_ques->y = 0;
-  comet_ques->answer = 0;
-//  num_comets_alive--;
-  erase_flashcard(&(comet_ques->flashcard));
+  comet_ques->zapped = 1;
+//  comet_ques->city = 0;
+//  comet_ques->x = 0;
+//  comet_ques->y = 0;
+//  comet_ques->answer = 0;
+//  MC_ResetFlashCard(&(comet_ques->flashcard));
 
   return 1;
 }
@@ -540,6 +519,7 @@ int erase_comet_on_screen(comet_type* comet_ques)
 
 int add_quest_recvd(char* buf)
 {
+  /* Empty slots indicated by question_id == -1 */
   MC_FlashCard* fc = find_comet_by_id(-1);
 
   DEBUGMSG(debug_game, "Enter add_quest_recvd(), buf is: %s\n", buf);
@@ -582,8 +562,9 @@ int remove_quest_recvd(char* buf)
   MC_FlashCard* fc = NULL;
   comet_type* comet_screen;
 
-  return 0;
-
+//  return 0;
+printf("\n\nEnter remove_quest_recvd() - buf is: %s\n", buf);
+print_current_quests();
   if(!buf)
     return 0;
 
@@ -593,6 +574,7 @@ int remove_quest_recvd(char* buf)
 
   p++;
   id = atoi(p);
+printf("question_id is: %d\n", id);
   DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d\n", id);
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
@@ -604,19 +586,26 @@ int remove_quest_recvd(char* buf)
 
   if(comet_screen)
   {
+printf("Found comet on screen with card:\n");
+print_card(comet_screen->flashcard);
     DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
     erase_comet_on_screen(comet_screen);
     playsound(SND_SIZZLE);
   }
   //NOTE: normally the question should no longer be in the queue,
   //so the next statement should get executed:
-  if(fc)
-  {
-    DEBUGMSG(debug_game,
-             "Note - request to erase question still in queue: %s\n",
-             fc->formula_string);
-    erase_flashcard(fc);
-  }
+//   if(fc)
+//   {
+// printf("Found matching card in queue:\n");
+// print_card(*fc);
+//     DEBUGMSG(debug_game,
+//              "Note - request to erase question still in queue: %s\n",
+//              fc->formula_string);
+//     MC_ResetFlashCard(fc);
+//   }
+print_current_quests();
+
+printf("Leaving remove_quest_recvd()\n\n");
   return 1;
 }
 
@@ -760,8 +749,10 @@ int game_initialize(void)
   gameover_counter = -1;
   user_quit_received = 0;
 
-  /* Make sure we don't try to call network code if we built without */
-  /* network support:                                                */
+  /* Make sure we don't try to call network code if we built without  */
+  /* network support:                                                 */
+  /* NOTE with this check it should be safe to assume we have SDL_net */
+  /* for the rest of this file if Opts_LanMode() == 1                 */
 #ifndef HAVE_LIBSDL_NET
   Opts_SetLanMode(0);
 #endif
@@ -780,16 +771,14 @@ int game_initialize(void)
     {
       fprintf(stderr, "\nMC_StartGame() failed!");
       return 0;
-    }
+    } 
     DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
   }
-  DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
-
-  /* Start out with our "comets" empty: */
+  else  /* Start out with our question queue empty: */
   {
     int i;
     for(i = 0; i < TEST_COMETS; i ++)
-      erase_flashcard(&(comets_questions[i]));
+      MC_ResetFlashCard(&(comets_questions[i]));
   }
 
   /* Allocate memory */
@@ -1444,19 +1433,9 @@ void game_handle_answer(void)
   {
     /* Tell Mathcards or the server that we answered correctly: */
     if(Opts_LanMode())
-    {
-#ifdef HAVE_LIBSDL_NET
       LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
-#else
-      fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
-      Opts_SetLanMode(0);
-      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
-#endif
-    }
     else
-    {
       MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
-    }
 
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
@@ -1569,13 +1548,8 @@ void game_handle_tux(void)
   /* If Tux pressed a button, pick a new (different!) stance: */
   if (tux_pressing)
   {
-
-    do
-    {
-      tux_img = IMG_TUX_CONSOLE1 + (rand() % 4);
-    }
+    do { tux_img = IMG_TUX_CONSOLE1 + (rand() % 4); }
     while (tux_img == old_tux_img);
-
     playsound(SND_CLICK);
   }
 
@@ -1648,20 +1622,9 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
-        {
-#ifdef HAVE_LIBSDL_NET
           LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-#else
-          fprintf(stderr, "Warning - LAN mode selected but SDL_net not available!\n");
-          Opts_SetLanMode(0);
-          MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-#endif
-        }
         else
-        {
           MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-        }
-
 
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
@@ -2570,17 +2533,8 @@ int check_exit_conditions(void)
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if(Opts_LanMode())
   {
-#ifdef HAVE_LIBSDL_NET
     if(game_over_won)
        return GAME_OVER_WON;
-#else
-    // Should not get here!
-    if (MC_MissionAccomplished())
-    {
-      DEBUGMSG(debug_game,"Mission accomplished!\n");
-      return GAME_OVER_WON;
-    }
-#endif
   }
   else
   {
@@ -2596,22 +2550,13 @@ int check_exit_conditions(void)
   /* even though not all questions answered correctly:                */
   if(Opts_LanMode())
   {
-#ifdef HAVE_LIBSDL_NET
     if(game_over_other)
        return GAME_OVER_OTHER;
-#else  
-    if(!MC_TotalQuestionsLeft())
-    {
-      return GAME_OVER_OTHER;
-    }
-#endif
   }
   else
   {
     if(!MC_TotalQuestionsLeft())
-    {
       return GAME_OVER_OTHER;
-    }
   }
 
 
@@ -2716,15 +2661,12 @@ void reset_level(void)
     }
     comets[i].alive = 0;
   }
-//  num_comets_alive = 0;
 
   /* Clear LED F: */
 
   for (i = 0; i < MC_MAX_DIGITS; ++i)
     digits[i] = 0;
   neg_answer_picked = 0;
-
-
 
   /* Load random background image, but ensure it's different from this one: */
   for (i = last_bkgd; i == last_bkgd; i = rand() % NUM_BKGDS);
@@ -2885,8 +2827,9 @@ int add_comet(void)
     if (comets[i].alive)
       if (comets[i].y < y_spacing)
       {
-        DEBUGMSG(debug_game, "add_comet() - returning because comet[%d] not"
-                            " far enough down: %f\n", i, comets[i].y);
+        DEBUGMSG(debug_game,
+                 "add_comet() - returning because comet[%d] not"
+                 " far enough down: %f\n", i, comets[i].y);
         return 0;
       }
   }  
@@ -2915,7 +2858,6 @@ int add_comet(void)
    
   if(Opts_LanMode())
   {
-#ifdef HAVE_LIBSDL_NET
     DEBUGCODE(debug_game) print_current_quests();
     for (i = 0; i < TEST_COMETS; i++)
     {
@@ -2934,7 +2876,6 @@ int add_comet(void)
       DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
       return 0;    DEBUGCODE(debug_game) print_current_quests();
     } 
-#endif
   }
 
   /* Now we have a vacant comet slot at com_found and (if in LAN mode) */
@@ -2943,7 +2884,7 @@ int add_comet(void)
   if(Opts_LanMode())
   {
     copy_card(&(comets_questions[q_found]), &(comets[com_found].flashcard));
-    erase_flashcard(&(comets_questions[q_found]));
+    MC_ResetFlashCard(&(comets_questions[q_found]));
   }
   else // Not LAN mode - just get question with direct call:
   {
@@ -2966,7 +2907,7 @@ int add_comet(void)
   {
     printf("Warning, card with invalid answer encountered: %d\n",
            comets[com_found].flashcard.answer);
-    erase_flashcard(&(comets[com_found].flashcard));
+    MC_ResetFlashCard(&(comets[com_found].flashcard));
     return 0;
   }
 
@@ -3170,12 +3111,10 @@ int pause_game(void)
   SDL_BlitSurface(images[IMG_PAUSED], NULL, screen, &dest);
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
-
 #ifndef NOSOUND
   if (Opts_UsingSound())
     Mix_PauseMusic();
 #endif
-
 
   do
   {
@@ -3193,7 +3132,6 @@ int pause_game(void)
     SDL_Delay(100);
   }
   while (!pause_done && !pause_quit);
-
 
 #ifndef NOSOUND
   if (Opts_UsingSound())

@@ -2179,8 +2179,8 @@ void MC_ResetFlashCard(MC_FlashCard* fc)
 {
   if (!fc || !fc->formula_string || !fc->answer_string)
     return;
-  strncpy(fc->formula_string, " ", MC_FORMULA_LEN);
-  strncpy(fc->answer_string, " ", MC_ANSWER_LEN);
+  fc->formula_string[0] = '\0';
+  fc->answer_string[0] = '\0';
   fc->answer = -9999;
   fc->difficulty = 0;
   fc->question_id = -1;
