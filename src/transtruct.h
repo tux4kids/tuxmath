@@ -24,7 +24,7 @@
 #define MC_FORMULA_LEN 40
 #define MC_ANSWER_LEN 5
 
-#define TEST_COMETS 10
+#define QUEST_QUEUE_SIZE 10
 
 
 typedef struct _MC_FlashCard {

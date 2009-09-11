@@ -64,7 +64,7 @@ typedef struct game_option_type {
   int slow_after_wrong;
   int starting_comets;
   int extra_comets_per_wave;
-  int max_comets;  
+  int max_comets;
   char next_mission[PATH_MAX];
   int save_summary;
   int use_feedback;

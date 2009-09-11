@@ -949,7 +949,7 @@ void start_game(void)
 
 
   /* Send enough questions to fill the initial comet slots (currently 10) */
-  for(j = 0; j < TEST_COMETS; j++)
+  for(j = 0; j < QUEST_QUEUE_SIZE; j++)
   {
   
     int k = 0;

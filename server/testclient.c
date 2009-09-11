@@ -35,7 +35,7 @@
 int quit = 0;
 int game_status = GAME_NOT_STARTED;
 
-MC_FlashCard comets[TEST_COMETS];    //current questions
+MC_FlashCard comets[QUEST_QUEUE_SIZE];    //current questions
 int remaining_quests = 0;
 
 
@@ -369,7 +369,7 @@ int playgame(void)
   /* Start out with our "comets" empty: */
   {
     int i;
-    for(i = 0; i < TEST_COMETS; i ++)
+    for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
       erase_flashcard(&comets[i]);
   }
 
@@ -416,13 +416,13 @@ int playgame(void)
         }
         else  //we got input, but not the correct answer:
         {
-          int i = rand()%TEST_COMETS;
+          int i = rand()%QUEST_QUEUE_SIZE;
           printf("Sorry, %s is incorrect. Try again!\n", buf); 
           // Can't tell which question was the 'wrong' one, so we
           // a non-empty one at random.  Note that this is just for 
           // purposes of testing LAN_NotAnsweredCorrectly()
           while(-1 == comets[i].question_id)
-            i = rand()%TEST_COMETS;
+            i = rand()%QUEST_QUEUE_SIZE;
           LAN_NotAnsweredCorrectly(comets[i].question_id);
           print_current_quests();
         }
@@ -480,7 +480,7 @@ void print_current_quests(void)
 {
   int i;
   printf("\n------------  Current Questions:  -----------\n");
-  for(i = 0; i < TEST_COMETS; i ++)
+  for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
   { 
     if(comets[i].question_id != -1)
       printf("Comet %d - question %d:\t%s\n", i, comets[i].question_id, comets[i].formula_string);
@@ -510,7 +510,7 @@ int erase_flashcard(MC_FlashCard* fc)
 MC_FlashCard* find_comet_by_id(int id)
 {
   int i = 0;
-  for(i = 0; i < TEST_COMETS; i++)
+  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
   {
     if(comets[i].question_id == id)
       return &comets[i];
@@ -527,7 +527,7 @@ MC_FlashCard* find_comet_by_id(int id)
 MC_FlashCard* check_answer(int ans)
 {
   int i = 0;
-  for(i = 0; i < TEST_COMETS; i++)
+  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
   {
     /* Make sure we don't "match" an empty question with a zero answer: */
     if( (comets[i].question_id != -1)
