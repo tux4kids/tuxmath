@@ -26,8 +26,8 @@
 #include <unistd.h>
 
 #include "server.h" 
-#include "../src/transtruct.h"
-#include "../src/mathcards.h"
+#include "transtruct.h"
+#include "mathcards.h"
 
 
 #define MAX_CLIENTS 16
@@ -39,12 +39,12 @@
 // setup and cleanup:
 int setup_server(void);
 void cleanup_server(void);
-void handle_command_args(int argc, char* argv[]);
+static void handle_command_args(int argc, char* argv[]);
 
 // top level functions in main loop:
 void check_UDP(void);
 void update_clients(void);
-int check_messages(void);
+static int check_messages(void);
 
 // client management utilities:
 int find_vacant_client(void);
@@ -100,7 +100,14 @@ MC_FlashCard flash;
 
 
 
-int main(int argc, char **argv)
+
+
+
+
+/* The contents of main() are wrapped into this function to allow the   */
+/* server to be run as a function in a process or thread within another */
+/* program - DSB                                                        */
+int RunServer(int argc, char **argv)
 { 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 

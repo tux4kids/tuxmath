@@ -30,14 +30,14 @@ typedef struct client_type {
   
  
 /*enum for commands coming from the client side*/
-enum {
-  EXIT,
-  QUIT,
-  CORRECT_ANSWER,
-  NOT_ANSWERED_CORRECTLY,
-  NEXT_QUESTION,
-  TOTAL_QUESTIONS_LEFT
-};
+// enum {
+//   EXIT,
+//   QUIT,
+//   CORRECT_ANSWER,
+//   NOT_ANSWERED_CORRECTLY,
+//   NEXT_QUESTION,
+//   TOTAL_QUESTIONS_LEFT
+// };
 
 
 /*enum for messages for SendMessage*/
@@ -47,4 +47,6 @@ enum {
   NO_QUESTION_LIST
 };
 
+
+int RunServer(int argc, char **argv);
 #endif

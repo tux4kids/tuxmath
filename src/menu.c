@@ -30,6 +30,7 @@
 
 #ifdef HAVE_LIBSDL_NET
 #include "network.h"
+#include "server.h"
 #endif
 
 #include <stdio.h>
@@ -591,17 +592,17 @@ int run_lan_host(void)
 int run_lan_join(void)
 {
 #ifdef HAVE_LIBSDL_NET
-  if(detecting_servers(_("Detecting Servers"), _("Please Wait")))
+  if(detecting_servers(_("Detecting servers"), _("Please wait")))
   {
     int stdby;
     char buf[256];
     char player_name[32];
     snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
-    NameEntry(player_name, buf, _("Enter your Name:"));
+    NameEntry(player_name, buf, _("Enter your name:"));
     LAN_SetName(player_name);
-    Ready(_("Click OK when Ready"));
+    Ready(_("Click when ready"));
     LAN_StartGame();
-    stdby = Standby(_("Waiting For Other Players"),_("To Connect"));
+    stdby = Standby(_("Waiting for other players"),_("to connect"));
     if (stdby == 1)
     {
       Opts_SetLanMode(1);  // Tells game() we are playing over network

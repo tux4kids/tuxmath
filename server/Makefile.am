@@ -1,16 +1,12 @@
-## Makefile.am for tuxmath server:
+## Makefile.am for tuxmath test client:
 ## Process with Automake to create Makefile.in
 
-bin_PROGRAMS = tuxmathserver tuxmathtestclient
+bin_PROGRAMS = tuxmathtestclient
 
-tuxmathserver_SOURCES = server.c \
-	../src/mathcards.c	\
-	 ../src/throttle.c	\
-	 ../src/options.c
 
 tuxmathtestclient_SOURCES = testclient.c \
                             ../src/throttle.c \
                             ../src/network.c
 
-EXTRA_DIST = server.h testclient.h
+EXTRA_DIST = testclient.h
  

@@ -19,11 +19,15 @@ LDADD = @LIBINTL@ \
 
 
 if BUILD_MINGW32
-  bin_PROGRAMS = TuxMath
+  bin_PROGRAMS = TuxMath tuxmathserver
   DATA_PREFIX=@MINGW32_PACKAGE_DATA_DIR@
 else
   TUXMATHRC =
-  bin_PROGRAMS = tuxmath tuxmathadmin generate_lesson
+  bin_PROGRAMS = tuxmath \
+                 tuxmathadmin \
+                 generate_lesson \
+                 tuxmathserver
+
   DATA_PREFIX=${pkgdatadir}
 endif
 
@@ -52,6 +56,7 @@ tuxmath_SOURCES = tuxmath.c \
 	lessons.c	\
 	scandir.c	\
 	pixels.c	\
+	server.c	\
 	throttle.c	
 
 
@@ -65,6 +70,12 @@ generate_lesson_SOURCES = generate_lesson.c	\
 		options.c	\
 		fileops.c	\
 		lessons.c
+
+tuxmathserver_SOURCES = servermain.c	\
+		server.c \
+		mathcards.c	\
+		throttle.c	\
+	.	options.c
 
 EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
@@ -92,6 +103,7 @@ EXTRA_DIST = 	credits.h 	\
 	scandir.h	\
 	pixels.h	\
 	compiler.h	\
+	server.h	\
 	transtruct.h	\
 	throttle.h
         
