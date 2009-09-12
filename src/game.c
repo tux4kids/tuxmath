@@ -163,7 +163,6 @@ static void game_handle_help(void);
 static void game_handle_user_events(void);
 static void game_handle_demo(void);
 static void game_handle_answer(void);
-static void game_handle_net_messages(char* buf);
 static void game_countdown(void);
 static void game_handle_tux(void);
 static void game_handle_comets(void);
@@ -209,17 +208,16 @@ void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
 /*****************************************************/
 #ifdef HAVE_LIBSDL_NET
+void game_handle_net_messages(void);
+void game_handle_net_msg(char* buf);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
-#endif
-
 int erase_comet_on_screen(comet_type* comet_ques);
-
-/* Display to player: */
 void print_current_quests(void);
 MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
 /******************************************************/
+#endif
 
 
 static void print_exit_conditions(void);
@@ -231,8 +229,6 @@ static void print_status(void);
 
 int game(void)
 {
-  char buf[NET_BUF_LEN];
-
   DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
@@ -271,34 +267,13 @@ int game(void)
       laser.alive--;
     }
 
-   /* Check for server messages if we are playing a LAN game: */
-   if(Opts_LanMode())
-   {
-     int done = 0;
-     while(!done)
-     {
-       switch(LAN_NextMsg(buf))
-       {
-         case 1:   //Message received (e.g. a new question):
-           game_handle_net_messages(buf);
-           break;
-         case 0:   //No more messages:
-           done = 1;
-           break;
-         case -1:  //Error in networking or server:
-           game_cleanup();
-           return GAME_OVER_ERROR;
-         default:
-           {}
-       }
-     }
-   }
-   else  /* Non-LAN: add comet if needed*/   {
-     if(num_attackers > 0)
-       if(add_comet())
-         num_attackers--;
-   }
-
+    /* Check for server messages if we are playing a LAN game: */
+#ifdef HAVE_LIBSDL_NET
+    if(Opts_LanMode())
+    {
+      game_handle_net_messages();
+    }
+#endif
     /* Most code now in smaller functions: */
 
     // 1. Check for user input
@@ -498,25 +473,84 @@ int game(void)
     return game_status;
   }
 }
-/**********************************These functions will be moved somewhere else probably a new header file**************************************/ 
 
-int erase_comet_on_screen(comet_type* comet_ques)
-{
-  if(!comet_ques)
-    return 0;
-//  comet_ques->alive = 0;
-  comet_ques->expl = 0;
-//  comet_ques->zapped = 1;
-//  comet_ques->city = 0;
-//  comet_ques->x = 0;
-//  comet_ques->y = 0;
-//  comet_ques->answer = 0;
-//  MC_ResetFlashCard(&(comet_ques->flashcard));
 
-  return 1;
-}
+
+
+
 
 #ifdef HAVE_LIBSDL_NET
+/*****************   Functions for LAN support  *****************/
+
+/*Examines the network messages from the buffer and calls
+  appropriate function accordingly*/
+
+void game_handle_net_messages(void)
+{
+  char buf[NET_BUF_LEN];
+  int done = 0;
+  while(!done)
+  {
+    switch(LAN_NextMsg(buf))
+    {
+      case 1:   //Message received (e.g. a new question):
+        game_handle_net_msg(buf);
+        break;
+      case 0:   //No more messages:
+        done = 1;
+        break;
+      case -1:  //Error in networking or server:
+        game_cleanup();
+        game_status = GAME_OVER_ERROR;
+      default:
+        {}
+    }
+  }
+}
+
+
+void game_handle_net_msg(char* buf)
+{
+  DEBUGMSG(debug_game, "Received server message: %s\n", buf);
+
+  if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
+  {
+    printf("buf is %s\n", buf);                                                  
+  }
+
+  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
+  {
+    if(!add_quest_recvd(buf))
+      printf("ADD_QUESTION received but could not add question\n");
+    else  
+      DEBUGCODE(debug_game) print_current_quests();
+  }
+
+  else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
+  {
+    if(!remove_quest_recvd(buf)) //remove the question with id in buf
+      printf("REMOVE_QUESTION received but could not remove question\n");
+    else 
+      DEBUGCODE(debug_game) print_current_quests();
+  }
+
+  else if(strncmp(buf, "TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS")) == 0)
+  {
+    sscanf(buf,"%*s %d", &total_questions_left);
+    if(!total_questions_left)
+      game_over_other = 1;
+  }
+
+  else if(strncmp(buf, "GAME_OVER_WON", strlen("GAME_OVER_WON")) == 0)
+  {
+    game_over_won = 1;
+  }
+  else
+  {
+    DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
+  }  
+}
+
 
 int add_quest_recvd(char* buf)
 {
@@ -531,6 +565,7 @@ int add_quest_recvd(char* buf)
     printf("NULL buf\n");
     return 0;
   }
+
   if(!fc)
   {
     printf("NULL fc - no empty slot for question\n");
@@ -563,9 +598,6 @@ int remove_quest_recvd(char* buf)
   MC_FlashCard* fc = NULL;
   comet_type* comet_screen;
 
-//  return 0;
-printf("\n\nEnter remove_quest_recvd() - buf is: %s\n", buf);
-print_current_quests();
   if(!buf)
     return 0;
 
@@ -575,8 +607,9 @@ print_current_quests();
 
   p++;
   id = atoi(p);
-printf("question_id is: %d\n", id);
+
   DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d\n", id);
+
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
 
@@ -587,52 +620,21 @@ printf("question_id is: %d\n", id);
 
   if(comet_screen)
   {
-printf("Found comet on screen with card:\n");
-print_card(comet_screen->flashcard);
     DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
     erase_comet_on_screen(comet_screen);
-    playsound(SND_SIZZLE);
   }
+
   //NOTE: normally the question should no longer be in the queue,
-  //so the next statement should get executed:
-//   if(fc)
-//   {
-// printf("Found matching card in queue:\n");
-// print_card(*fc);
-//     DEBUGMSG(debug_game,
-//              "Note - request to erase question still in queue: %s\n",
-//              fc->formula_string);
-//     MC_ResetFlashCard(fc);
-//   }
-print_current_quests();
-
-printf("Leaving remove_quest_recvd()\n\n");
-  return 1;
-}
-
-#endif
-
-
-/* Print the current questions and the number of remaining questions: */
-void print_current_quests(void)
-{
-  int i;
-  printf("\n------------  Current Questions:  -----------\n");
-  for(i = 0; i < Opts_MaxComets(); i++)
-  { 
-    if(comets[i].alive == 1)
-     printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
-
-  }
-  printf("--------------Test Comets-----------------\n");
-  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
+  //so the next statement should not get executed:
+  if(fc)
   {
-    if(quest_queue[i].question_id != -1)
-      printf("Comet %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
-    else
-      printf("Comet %d:\tEmpty\n", i);
+    DEBUGMSG(debug_game,
+             "Note - request to erase question still in queue: %s\n",
+             fc->formula_string);
+    MC_ResetFlashCard(fc);
   }
-  printf("------------------------------------------\n");
+
+  return 1;
 }
 
 
@@ -664,59 +666,46 @@ comet_type* search_comets_by_id(int id)
 
   return NULL;
 }
-/***************************************************************************************************************************/
-/*Examines the network messages from the buffer and calls
-  appropriate function accordingly*/
-/*Do we want a well defined function for each of the condition
-  like on each message a function should be called , or is it ok like this
-  I think this is better--akash*/
-/* As long the code for each command is really short, we can just have it here.
-   But if it starts to get long, I would have a function for each that is 
-   local to this file and located immediately below this function - DSB */
 
 
-#ifdef HAVE_LIBSDL_NET
-void game_handle_net_messages(char* buf)
+
+int erase_comet_on_screen(comet_type* comet)
 {
-  DEBUGMSG(debug_game, "Received server message: %s\n", buf);
+  if(!comet)
+    return 0;
+  //setting expl to 0 starts comet explosion animation
+  comet->expl = 0;
 
-  if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
-  {
-    printf("buf is %s\n", buf);                                                  
-  }
+  //TODO consider more elaborate sound or animation
+  playsound(SND_SIZZLE);
 
-  else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
-  {
-    if(!add_quest_recvd(buf))
-      printf("ADD_QUESTION received but could not add question\n");
-    else  
-      DEBUGCODE(debug_game) print_current_quests();
-  }
-
-  else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
-  {
-    if(!remove_quest_recvd(buf)) //remove the question with id in buf
-      printf("REMOVE_QUESTION received but could not remove question\n");
-    else 
-      DEBUGCODE(debug_game) print_current_quests();
-  }
-
-  else if(strncmp(buf,"TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS"))==0)
-  {
-    sscanf(buf,"%*s %d", &total_questions_left);
-    if(!total_questions_left)
-      game_over_other=1;
-  }
-
-  else if(strncmp(buf,"GAME_OVER_WON", strlen("GAME_OVER_WON"))==0)
-  {
-    game_over_won=1;
-  }
-  else
-  {
-    DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
-  }  
+  return 1;
 }
+
+
+/* Print the current questions and the number of remaining questions: */
+void print_current_quests(void)
+{
+  int i;
+  printf("\n------------  Current Questions:  -----------\n");
+  for(i = 0; i < Opts_MaxComets(); i++)
+  { 
+    if(comets[i].alive == 1)
+     printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
+
+  }
+  printf("--------------Test Comets-----------------\n");
+  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
+  {
+    if(quest_queue[i].question_id != -1)
+      printf("Comet %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
+    else
+      printf("Comet %d:\tEmpty\n", i);
+  }
+  printf("------------------------------------------\n");
+}
+
+
 #endif
 
 
