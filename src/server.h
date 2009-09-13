@@ -48,5 +48,19 @@ enum {
 };
 
 
+/* Ways to run the server - all accept command-line style arguments: */
+
+/* 1. Type "tuxmathserver" at command line tp rim as standalone program.              */
+
+/* 2. Using POSIX threads library (RECOMMENDED if phtreads available on your system): */
+int RunServer_pthreads(int argc, char* argv[]);
+/* 3. As a standalone program using system() - same as "tuxmathserver" at console:    */
+int RunServer_prog(int argc, char* argv[]);
+/* 4. Using old-school Unix fork() call:                                              */
+int RunServer_fork(int argc, char* argv[]);
+
+/* 2, 3, and 4 all return immediately, with the server running in a separate thread   */
+/* or process.  But if you don't mind waiting...                                      */
+/* 5. Plain "blocking" function call, leaving scheduling issues up to you:            */ 
 int RunServer(int argc, char **argv);
 #endif

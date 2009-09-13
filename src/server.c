@@ -92,10 +92,8 @@ IPaddress ip;
 SDLNet_SocketSet client_set = NULL, temp_set = NULL;
 static client_type client[MAX_CLIENTS];
 static int num_clients = 0;
-static int numready = 0;
 static int game_in_progress = 0;
 static int quit = 0;
-static int frame = 0;
 MC_FlashCard flash;
 
 
@@ -109,7 +107,7 @@ MC_FlashCard flash;
 /* allow the server to be run as a function in a process or thread     */
 /* within another program.  main() is now in a separate file,          */
 /* servermain.c, that consists solely of a call to RunServer().        */
-int RunServer(int argc, char **argv)
+int RunServer(int argc, char* argv[])
 { 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
@@ -148,6 +146,29 @@ int RunServer(int argc, char **argv)
   cleanup_server();
 
   return EXIT_SUCCESS;
+}
+
+
+int RunServer_prog(int argc, char** argv)
+{
+  char buf[256];
+  int i;
+printf("Enter RunServer_prog\n");
+  /* Construct command-line argument string from argc and argv:   */
+  /* NOTE this is not safe from buffer overflow - do              */
+  /* not use with user-supplied arguments.                        */
+  snprintf(buf, 256, "tuxmathserver ");
+  for(i = 1; i < argc; i++)
+  {
+printf("argv[%d] is: %s\n", i, argv[i]);
+    strncat(buf, argv[i], 256);
+    strncat(buf, " ", 256);
+  }
+  /* Add '&' to make it non-blocking: */
+  strncat(buf, "&", 256);
+
+printf("About to call system(%s)\n", buf);
+  return system(buf);
 }
 
 
@@ -352,7 +373,6 @@ void server_handle_command_args(int argc, char* argv[])
 //network on this port, and the server sends a response.
 void check_UDP(void)
 {
-  char buf[NET_BUF_LEN];
   int recvd = 0;
   UDPpacket* in = SDLNet_AllocPacket(NET_BUF_LEN);
   recvd = SDLNet_UDP_Recv(udpsock, in);
@@ -361,7 +381,6 @@ void check_UDP(void)
   if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
   {
     UDPpacket* out;
-    IPaddress bcast_ip;
     int sent = 0;
     char buf[NET_BUF_LEN];
     // Send "I am here" reply so client knows where to connect socket,
@@ -571,6 +590,7 @@ int server_check_messages(void)
       //test_connections();
     }
   } 
+  return 1;
 }
 
 
@@ -673,7 +693,6 @@ void check_game_clients(void)
 void handle_client_nongame_msg(int i, char* buffer)
 {
   char buf[NET_BUF_LEN];
-  int x;
 
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
@@ -892,8 +911,7 @@ void game_msg_quit(int i)
 void start_game(void)
 {
   char buf[NET_BUF_LEN];
-  char buffer[NET_BUF_LEN];
-  int x,j;
+  int j;
 
 
   /* NOTE this should no longer be needed - doing the same thing earlier    */
@@ -960,9 +978,6 @@ void start_game(void)
   /* Send enough questions to fill the initial comet slots (currently 10) */
   for(j = 0; j < QUEST_QUEUE_SIZE; j++)
   {
-  
-    int k = 0;
-
     if (!MC_NextQuestion(&flash))
     { 
       /* no more questions available */
@@ -994,7 +1009,7 @@ void start_game(void)
 //and so forth:
 int send_counter_updates(void)
 {
-  int i, total_questions;
+  int total_questions;
 
   //If game won, tell everyone:
   if(MC_MissionAccomplished())
@@ -1049,7 +1064,7 @@ int remove_question(int id)
   or anything the client is made to be informed */
 int SendMessage(int message, int ques_id, char *name, TCPsocket client_sock)         
 {
- int x, len;
+ int x;
  char buf[NET_BUF_LEN];
  char msg[100];  
 

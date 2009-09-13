@@ -579,10 +579,21 @@ int run_lan_host(void)
 #ifdef HAVE_LIBSDL_NET
   char buf[256];
   char server_name[150];
+  char* argv[3];
 
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
-  snprintf(buf, 256, "tuxmathserver --name \"%s\" &", server_name);
-  system(buf);
+printf("About to do argv assignments:\n");
+  argv[0] = "tuxmathserver";
+printf("argv[0] d0ne\n");
+  argv[1] = "--name";
+//  argv[2] = server_name;
+  snprintf(buf, 256, "\"%s\"", server_name);
+printf("snprintf done\n");
+  argv[2] = buf;
+  RunServer_prog(3, argv);
+
+//  snprintf(buf, 256, "tuxmathserver --name \"%s\" &", server_name);
+//  system(buf);
 #endif
   return 0;
 }
