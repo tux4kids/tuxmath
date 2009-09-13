@@ -16,7 +16,7 @@
 * derivative works into a GPLv2+ project like TuxMath - David Bruce 
 */
 
-#include "config.h"
+#include "globals.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -28,6 +28,7 @@
 #include "server.h" 
 #include "transtruct.h"
 #include "mathcards.h"
+#include "throttle.h"
 
 
 #define MAX_CLIENTS 16
@@ -39,12 +40,12 @@
 // setup and cleanup:
 int setup_server(void);
 void cleanup_server(void);
-static void handle_command_args(int argc, char* argv[]);
+void server_handle_command_args(int argc, char* argv[]);
 
 // top level functions in main loop:
 void check_UDP(void);
 void update_clients(void);
-static int check_messages(void);
+int server_check_messages(void);
 
 // client management utilities:
 int find_vacant_client(void);
@@ -104,14 +105,15 @@ MC_FlashCard flash;
 
 
 
-/* The contents of main() are wrapped into this function to allow the   */
-/* server to be run as a function in a process or thread within another */
-/* program - DSB                                                        */
+/* The previous contents of main() are wrapped into this function to   */
+/* allow the server to be run as a function in a process or thread     */
+/* within another program.  main() is now in a separate file,          */
+/* servermain.c, that consists solely of a call to RunServer().        */
 int RunServer(int argc, char **argv)
 { 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
-  handle_command_args(argc, argv);
+  server_handle_command_args(argc, argv);
 
   /*     ---------------- Setup: ---------------------------   */
   if (!setup_server())
@@ -133,7 +135,7 @@ int RunServer(int argc, char **argv)
     /* Now we check to see if anyone is trying to connect. */
     update_clients();
     /* Check for any pending messages from clients already connected: */
-    check_messages();
+    server_check_messages();
 
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
@@ -295,7 +297,7 @@ void cleanup_server(void)
 
 
 /* Handle any arguments passed from command line */
-void handle_command_args(int argc, char* argv[])
+void server_handle_command_args(int argc, char* argv[])
 {
   int i;
 
@@ -459,7 +461,7 @@ void update_clients(void)
   /* At this point num_clients can be updated: */
   num_clients = sockets_used;
 
-  /* Now we can communicate with the client using client[i].sock socket
+  /* Now we can communicate with the client using client[i].sock socket */
   /* serv_sock will remain opened waiting other connections */
     
 
@@ -493,7 +495,7 @@ void update_clients(void)
 // or not a math game is in progress (although we expect different messages
 // during a game from those encountered outside of a game)
 
-int check_messages(void)
+int server_check_messages(void)
 {
   int actives = 0, i = 0;
   int ready_found = 0;
