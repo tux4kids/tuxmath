@@ -50,10 +50,15 @@ enum {
 
 /* Ways to run the server - all accept command-line style arguments: */
 
-/* 1. Type "tuxmathserver" at command line tp rim as standalone program.              */
+/* 1. Type "tuxmathserver" at command line to run as standalone program.              */
 
+/* From within Tuxmath:                                                               */
+
+#ifdef HAVE_PTHREAD_H
 /* 2. Using POSIX threads library (RECOMMENDED if phtreads available on your system): */
-int RunServer_pthreads(int argc, char* argv[]);
+int RunServer_pthread(int argc, char* argv[]);
+#endif
+
 /* 3. As a standalone program using system() - same as "tuxmathserver" at console:    */
 int RunServer_prog(int argc, char* argv[]);
 /* 4. Using old-school Unix fork() call:                                              */

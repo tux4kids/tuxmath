@@ -582,18 +582,21 @@ int run_lan_host(void)
   char* argv[3];
 
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
-printf("About to do argv assignments:\n");
   argv[0] = "tuxmathserver";
-printf("argv[0] d0ne\n");
   argv[1] = "--name";
-//  argv[2] = server_name;
   snprintf(buf, 256, "\"%s\"", server_name);
-printf("snprintf done\n");
   argv[2] = buf;
-  RunServer_prog(3, argv);
 
-//  snprintf(buf, 256, "tuxmathserver --name \"%s\" &", server_name);
-//  system(buf);
+#ifdef HAVE_PTHREAD_H
+  /* If we have POSIX threads available (Linux), we launch server in a thread within */
+  /* our same process. The server will use the currently selected Mathcards settings */
+  RunServer_pthread(3, argv);
+#else
+  /* Without pthreads, we just launch standalone server, which for now will have     */
+  /* hardcoded default settings.                                                     */
+  RunServer_prog(3, argv);
+#endif
+
 #endif
   return 0;
 }

@@ -17,6 +17,10 @@
 */
 
 #include "globals.h"
+#include "server.h" 
+#include "transtruct.h"
+#include "mathcards.h"
+#include "throttle.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,14 +29,13 @@
 #include <sys/types.h>  
 #include <unistd.h>
 
-#include "server.h" 
-#include "transtruct.h"
-#include "mathcards.h"
-#include "throttle.h"
+#ifdef HAVE_PTHREAD_H
+#include <pthread.h>
+#endif
 
 
 #define MAX_CLIENTS 16
-
+#define MAX_ARGS 16
 
 
 /*  -----------  Local function prototypes:   ------------  */
@@ -41,6 +44,7 @@
 int setup_server(void);
 void cleanup_server(void);
 void server_handle_command_args(int argc, char* argv[]);
+void* run_server_local_args(void);
 
 // top level functions in main loop:
 void check_UDP(void);
@@ -95,6 +99,8 @@ static int num_clients = 0;
 static int game_in_progress = 0;
 static int quit = 0;
 MC_FlashCard flash;
+int local_argc;
+char* local_argv[MAX_ARGS];
 
 
 
@@ -149,29 +155,55 @@ int RunServer(int argc, char* argv[])
 }
 
 
-int RunServer_prog(int argc, char** argv)
+int RunServer_prog(int argc, char* argv[])
 {
   char buf[256];
   int i;
-printf("Enter RunServer_prog\n");
+
   /* Construct command-line argument string from argc and argv:   */
   /* NOTE this is not safe from buffer overflow - do              */
   /* not use with user-supplied arguments.                        */
   snprintf(buf, 256, "tuxmathserver ");
   for(i = 1; i < argc; i++)
   {
-printf("argv[%d] is: %s\n", i, argv[i]);
     strncat(buf, argv[i], 256);
     strncat(buf, " ", 256);
   }
   /* Add '&' to make it non-blocking: */
   strncat(buf, "&", 256);
 
-printf("About to call system(%s)\n", buf);
   return system(buf);
 }
 
 
+int RunServer_pthread(int argc, char* argv[])
+{
+  pthread_t server_thread;
+  int i;
+
+  /* We can only pass a single arg into the new thread, but it shares  */
+  /* the same address space, so we save argc and argv locally instead: */
+  local_argc = argc;
+  for(i = 0; i < argc && i < MAX_ARGS; i++)
+  {
+    local_argv[i] = argv[i];
+  }
+
+  if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
+  {
+    printf("Error creating thread\n");
+    return -1;
+  }
+  return 0;
+}
+
+
+void* run_server_local_args(void)
+{
+  RunServer(local_argc, local_argv);
+  pthread_exit(NULL);
+  return NULL;
+}
 
 /*********************************************************************/
 /*  "Private" (to server.c) functions                                */
