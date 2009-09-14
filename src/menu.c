@@ -570,16 +570,15 @@ int run_factoroids(int choice)
 }
 
 
-/* FIXME this implementation starts the server as a separate program, which   */
-/* keeps running after tuxmath itself exits.  Do we want this?. Or should     */
-/* we run the server as a separate process with fork(), or as a separate      */
-/* thread with pthreads, realizing that each of these has portability issues? */
+/* If pthreads available, we launch server in own thread.  Otherwise, we use  */
+/* the C system() call to launch the server as a standalone program.          */
 int run_lan_host(void)
 {
 #ifdef HAVE_LIBSDL_NET
   char buf[256];
   char server_name[150];
   char* argv[3];
+  int chosen_lesson = -1;
 
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
   argv[0] = "tuxmathserver";
@@ -587,13 +586,51 @@ int run_lan_host(void)
   snprintf(buf, 256, "\"%s\"", server_name);
   argv[2] = buf;
 
+
+  /* If we have POSIX threads available (Linux), we launch server in a thread within  */
+  /* our same process. The server will use the currently selected Mathcards settings, */
+  /* so we can let the user select the lesson for the server to use.                  */
+
 #ifdef HAVE_PTHREAD_H
-  /* If we have POSIX threads available (Linux), we launch server in a thread within */
-  /* our same process. The server will use the currently selected Mathcards settings */
+
+  ShowMessage(_("Select lesson file for server to use"), NULL, NULL, NULL);
+
+  {
+    chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+
+    while (chosen_lesson >= 0)
+    {
+      if (Opts_GetGlobalOpt(MENU_SOUND))
+        playsound(SND_POP);
+
+      /* Re-read global settings first in case any settings were */
+      /* clobbered by other lesson or arcade games this session: */
+      read_global_config_file();
+      /* Now read the selected file and play the "mission": */
+      if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+        break;
+      else    
+      {  // Something went wrong - could not read lesson config file:
+        fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+        chosen_lesson = -1;
+      }
+      // Let the user choose another lesson; start with the screen and
+      // selection that we ended with
+      chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+    }
+  }
+
+  ShowMessage(_("Server Name:"),
+              server_name,
+              _("Selected Lesson:"),
+              lesson_list_titles[chosen_lesson]);
+
   RunServer_pthread(3, argv);
+
+
+  /* Without pthreads, we just launch standalone server, which for now only     */
+  /* supports the hardcoded default settings.                                   */
 #else
-  /* Without pthreads, we just launch standalone server, which for now will have     */
-  /* hardcoded default settings.                                                     */
   RunServer_prog(3, argv);
 #endif
 

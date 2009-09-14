@@ -124,7 +124,7 @@ int RunServer(int argc, char* argv[])
   {
     fprintf(stderr, "setup_server() failed - exiting.\n");
     cleanup_server();
-    exit(EXIT_FAILURE);
+    return EXIT_FAILURE;
   }
 
   
