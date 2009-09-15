@@ -29,6 +29,7 @@
 #include "loaders.h"
 #include "SDL_extras.h"
 #include "menu.h"
+#include "throttle.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -99,6 +100,7 @@ SDL_Surface* current_bkg()
   /* This syntax makes my brain start to explode! */
   { return screen->flags & SDL_FULLSCREEN ? fs_bkg : win_bkg; }
 
+/* FIXME don't we have to scale these? */
 void set_current_bkg(SDL_Surface* new_bkg)
 {
   if(screen->flags & SDL_FULLSCREEN)
@@ -491,21 +493,22 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
   int finished = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
+
+  /* To adjust font size: */
+  float scale = screen->w / 640;
 
   s1 = s2 = s3 = s4 = NULL;
 
   DEBUGMSG(debug_titlescreen, "ShowMessage() - creating text\n" );
 
   if (str1)
-    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
+    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE * scale, &white);
   if (str2)
-    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
+    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE * scale, &white);
   if (str3)
-    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
+    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE * scale, &white);
   if (str4)
-    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
+    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE * scale, &white);
 
   DEBUGMSG(debug_titlescreen, "ShowMessage() - drawing screen\n" );
 
@@ -514,27 +517,35 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
   if (stop_button)
     SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
 
+  /* Draw shaded background for better legibility: */ 
+  loc.x = screen->w * 0.25;
+  loc.y = screen->h * 0.1;
+  loc.w = screen->w * 0.5;
+  loc.h = screen->h * 0.8;
+  DrawButton(&loc, 50, SEL_RGBA);
+
+
   /* Draw lines of text (do after drawing Tux so text is in front): */
   if (s1)
   {
-    loc.x = (screen->w / 2) - (s1->w/2); loc.y = 10;
+    loc.x = (screen->w / 2) - (s1->w/2); loc.y = screen->h * 0.2;
     SDL_BlitSurface( s1, NULL, screen, &loc);
   }
   if (s2)
   {
-    loc.x = (screen->w / 2) - (s2->w/2); loc.y = 60;
+    loc.x = (screen->w / 2) - (s2->w/2); loc.y = screen->h * 0.35;
     SDL_BlitSurface( s2, NULL, screen, &loc);
   }
   if (s3)
   {
     //loc.x = 320 - (s3->w/2); loc.y = 300;
-    loc.x = (screen->w / 2) - (s3->w/2); loc.y = 110;
+    loc.x = (screen->w / 2) - (s3->w/2); loc.y = screen->h * 0.5;
     SDL_BlitSurface( s3, NULL, screen, &loc);
   }
   if (s4)
   {
     //loc.x = 320 - (s4->w/2); loc.y = 340;
-    loc.x = (screen->w / 2) - (s4->w/2); loc.y = 200;
+    loc.x = (screen->w / 2) - (s4->w/2); loc.y = screen->h * 0.65;
     SDL_BlitSurface( s4, NULL, screen, &loc);
   }
 
@@ -543,8 +554,6 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
 
   while (!finished)
   {
-    start = SDL_GetTicks();
-
     while (SDL_PollEvent(&event))
     {
       switch (event.type)
@@ -575,11 +584,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
     HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
-    frame++;
+    Throttle(20);
   }  // End of while (!finished) loop
 
   SDL_FreeSurface(s1);
