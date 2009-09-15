@@ -103,8 +103,8 @@ int             run_arcade(int choice);
 int             run_custom_game(void);
 void            run_multiplayer(int mode, int difficulty);
 int             run_factoroids(int choice);
-int		run_lan_join(void);
-int		run_lan_host(void);
+int             run_lan_join(void);
+int             run_lan_host(void);
 
 int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
@@ -372,9 +372,9 @@ int handle_activity(int act, int param)
 
     case RUN_INFO:
       ShowMessage(_("TuxMath is free and open-source!"),
-                  _("You can help make it better by reporting problems,"),
-                  _("suggesting improvements, or adding code."),
-                  _("Discuss the future at tuxmath-devel@lists.sourceforge.net"));
+                  _("You can help make it better."),
+                  _("Suggestions, artwork, and code are all welcome!"),
+                  _("Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"));
       break;
 
     case RUN_CREDITS:
@@ -384,6 +384,8 @@ int handle_activity(int act, int param)
     case RUN_QUIT:
       return QUIT;
   }
+
+  DEBUGMSG(debug_menu, "Leaving handle_activity\n");
 
   return 0;
 }
@@ -647,18 +649,22 @@ int run_lan_join(void)
   {
     int stdby;
     char buf[256];
-    char player_name[32];
+    char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
     snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
     NameEntry(player_name, buf, _("Enter your name:"));
     LAN_SetName(player_name);
     Ready(_("Click when ready"));
     LAN_StartGame();
-    stdby = Standby(_("Waiting for other players"),_("to connect"));
+    stdby = Standby(_("Waiting for other players"), NULL);
     if (stdby == 1)
     {
+      audioMusicUnload();
       Opts_SetLanMode(1);  // Tells game() we are playing over network
       game();
       Opts_SetLanMode(0);  // Go back to local play
+      if (Opts_GetGlobalOpt(MENU_MUSIC))
+          audioMusicLoad( "tuxi.ogg", -1 );
     }
     else
     {
@@ -675,6 +681,8 @@ int run_lan_join(void)
   ShowMessage(NULL, _("Sorry, this version built without network support"), NULL, NULL);
   printf( _("Sorry, this version built without network support.\n"));
 #endif
+
+  DEBUGMSG(debug_menu, "Leaving run_lan_join()\n"); 
   return 0;
 }
 

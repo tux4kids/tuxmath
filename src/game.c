@@ -465,11 +465,13 @@ int game(void)
   {
     /* program exits: */
     cleanup();
+    DEBUGMSG(debug_game, "Leaving game() from window close\n");
     return 1;
   }
   else
   {
     /* return to title() screen: */
+    DEBUGMSG(debug_game, "Leaving game() normally\n");
     return game_status;
   }
 }
@@ -957,7 +959,7 @@ void game_cleanup(void)
   }
 #endif
 
-  DEBUGMSG(debug_game, "Leaving game():\n");
+  DEBUGMSG(debug_game, "Leaving game_cleanup():\n");
 }
 
 
