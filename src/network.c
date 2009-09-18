@@ -17,6 +17,8 @@
 #include <unistd.h>
 #include <fcntl.h> 
 
+#include "globals.h"
+#include "mathcards.h"
 #include "transtruct.h"
 #include "network.h"
 #include "throttle.h"
@@ -279,10 +281,7 @@ int check_messages(char buf[NET_BUF_LEN])
   }
   else if(numready > 0)
   {
-#ifdef LAN_DEBUG
-//  printf("There are %d sockets with activity!\n", numready);
-#endif
-   // check socket with SDLNet_SocketReady and handle if active:
+    // check socket with SDLNet_SocketReady and handle if active:
     if(SDLNet_SocketReady(sd))
     {
       buf[0] = '\0';
@@ -391,14 +390,8 @@ int Make_Flashcard(char* buf, MC_FlashCard* fc)
   formula[s]='\0';
   strcpy(fc->formula_string, formula); 
 
-#ifdef LAN_DEBUG
-  printf ("card is:\n");
-  printf("QUESTION_ID       :      %d\n",fc->question_id);
-  printf("FORMULA_STRING    :      %s\n",fc->formula_string);
-  printf("ANSWER STRING     :      %s\n",fc->answer_string);
-  printf("ANSWER            :      %d\n",fc->answer);
-  printf("DIFFICULTY        :      %d\n",fc->difficulty);  
-#endif
+  DEBUGMSG(debug_lan, "In Make_Flashcard, new card is:\n");
+  DEBUGCODE(debug_lan) print_card(*fc); 
 
 return 1;
 } 

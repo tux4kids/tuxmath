@@ -543,7 +543,7 @@ void game_handle_net_msg(char* buf)
       game_over_other = 1;
   }
 
-  else if(strncmp(buf, "GAME_OVER_WON", strlen("GAME_OVER_WON")) == 0)
+  else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
   {
     game_over_won = 1;
   }

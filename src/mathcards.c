@@ -1225,7 +1225,6 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 
 
 
-#ifdef MC_DEBUG
 void print_card(MC_FlashCard card)
 {
   printf("\nprint_card():\n");
@@ -1270,7 +1269,7 @@ void print_counters(void)
 //   copy_card(&(node->card), &fc);
 //   return fc;
 // }
-#endif
+
 
 
 /* a "copy constructor", so to speak */

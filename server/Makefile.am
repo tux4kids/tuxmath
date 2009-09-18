@@ -6,7 +6,8 @@ bin_PROGRAMS = tuxmathtestclient
 
 tuxmathtestclient_SOURCES = testclient.c \
                             ../src/throttle.c \
-                            ../src/network.c
+                            ../src/network.c  \
+                            ../src/options.c  \
+                            ../src/mathcards.c
 
 EXTRA_DIST = testclient.h
- 
