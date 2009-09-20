@@ -1,3 +1,9 @@
+2009.Sep.04 (svn.debian.org/tux4kids - revision 1546)
+        Data - click.wav removed due to minor concerns about whether it is really
+        under a free license (license not really known).
+
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Sep.04 (svn.debian.org/tux4kids - revision 1489)
         LAN project branch merged back into trunk.
 	Graphical LAN play tested and functional in branch prior to merge.

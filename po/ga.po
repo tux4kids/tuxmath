@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-19 16:59-0500\n"
+"POT-Creation-Date: 2009-09-20 14:59-0500\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,107 +238,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:982
+#: src/game.c:984
 msgid "Welcome to TuxMath!"
 msgstr "FÃ¡ilte go TuxMath!"
 
-#: src/game.c:999
+#: src/game.c:1001
 msgid "Your mission is to save your"
 msgstr "An cÃºram atÃ¡ agat nÃ¡"
 
-#: src/game.c:1000
+#: src/game.c:1002
 msgid "penguins' igloos from the"
 msgstr "Ã­oglÃºanna do phiongain a chosaint"
 
-#: src/game.c:1001
+#: src/game.c:1003
 msgid "falling comets."
 msgstr "Ã³ na rÃ©alta mhongach atÃ¡ ag titim anuas."
 
-#: src/game.c:1020
+#: src/game.c:1022
 msgid "Stop a comet by typing"
 msgstr "Stad rÃ©alt mhongach trÃ­ an"
 
-#: src/game.c:1021
+#: src/game.c:1023
 msgid "the answer to the math problem"
 msgstr "freagra don ceist mata a chlÃ³scrÃ­obh"
 
-#: src/game.c:1022
+#: src/game.c:1024
 msgid "and hitting 'space' or 'enter'."
 msgstr "agus brÃºigh 'bearna' nÃ³ 'isteach'."
 
-#: src/game.c:1023
+#: src/game.c:1025
 msgid "Try it now!"
 msgstr "Imir anois Ã©!"
 
-#: src/game.c:1031
+#: src/game.c:1033
 msgid "Good shot!"
 msgstr "Amas iontach!"
 
-#: src/game.c:1041
+#: src/game.c:1043
 msgid "If an igloo gets hit by a comet,"
 msgstr "MÃ¡ bhuaileann rÃ©alt mhongach Ã­oglÃº,"
 
-#: src/game.c:1042
+#: src/game.c:1044
 msgid "it melts. But don't worry: the"
 msgstr "leÃ¡itear Ã©. Ach nÃ¡ bÃ­ buartha:"
 
-#: src/game.c:1043
+#: src/game.c:1045
 msgid "penguin is OK!"
 msgstr "tÃ¡ an phiogain togha!"
 
-#: src/game.c:1044
+#: src/game.c:1046
 msgid "Just watch what happens:"
 msgstr "FÃ©ach cad a tharlaÃ­onn:"
 
-#: src/game.c:1045
+#: src/game.c:1047
 msgid "(Press a key to start)"
 msgstr "(BrÃºigh cnaipe chun tosÃº)"
 
-#: src/game.c:1058
+#: src/game.c:1060
 msgid "Notice the answer"
 msgstr "Tabhair faoi deara an freagra"
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "If it gets hit again, the"
 msgstr "MÃ¡ bhuailfÃ­ arÃ­s Ã©,"
 
-#: src/game.c:1069
+#: src/game.c:1071
 msgid "penguin leaves."
 msgstr "fÃ¡gann an piongain."
 
-#: src/game.c:1070
+#: src/game.c:1072
 msgid "(Press a key when ready)"
 msgstr "(BrÃºigh cnaipe ar bith nuair atÃ¡ tÃº rÃ©idh)"
 
-#: src/game.c:1093
+#: src/game.c:1095
 msgid "You can fix the igloos"
 msgstr "Is fÃ©dir na hioglÃºanna a dheisiÃº"
 
-#: src/game.c:1094
+#: src/game.c:1096
 msgid "by stopping bonus comets."
 msgstr "trÃ­ rÃ©alta mhongach breise a stadadh."
 
-#: src/game.c:1105
+#: src/game.c:1107
 msgid "Zap it now!"
 msgstr "Buail anois Ã©!"
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Great job!"
 msgstr "Maith thÃº!"
 
-#: src/game.c:1129
+#: src/game.c:1131
 msgid "Quit at any time by pressing"
 msgstr "Scoir ag am ar bith trÃ­ brÃºigh"
 
-#: src/game.c:1130
+#: src/game.c:1132
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' nÃ³ brÃºigh an 'X'"
 
-#: src/game.c:1131
+#: src/game.c:1133
 msgid "in the upper right corner."
 msgstr "sa chÃºinne uachtarach ar dheis."
 
-#: src/game.c:1132
+#: src/game.c:1134
 msgid "Do it now, and then play!"
 msgstr "DÃ©an anois Ã©, agus ansin imir!"
 
@@ -382,6 +382,121 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
+#: src/menu.c:374
+msgid "TuxMath is free and open-source!"
+msgstr "TÃ¡ TuxMath ar fÃ¡il saor in aisce agus le foinse oscailte!"
+
+#: src/menu.c:375
+#, fuzzy
+msgid "You can help make it better."
+msgstr "Is fÃ©idir leat cuidiÃº Ã© a fheabhsÃº trÃ­ fadhbanna a fhÃ³grÃº,"
+
+#: src/menu.c:376
+msgid "Suggestions, artwork, and code are all welcome!"
+msgstr ""
+
+#: src/menu.c:377
+#, fuzzy
+msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgstr "PlÃ© an todhchaÃ­ ag tuxmath-devel@lists.sourceforge.net"
+
+#: src/menu.c:498
+msgid "Edit 'options' file in your home directory"
+msgstr "Cuir in eagar an comhad 'roghanna' i do chomhadlann baile"
+
+#: src/menu.c:499
+msgid "to create customized game!"
+msgstr "chun cluiche saincheaptha a chruthÃº!"
+
+#: src/menu.c:500
+msgid "Press a key or click your mouse to start game."
+msgstr "BrÃºigh cnaipe nÃ³ brÃºigh do luchÃ³g chun an cluiche a thosÃº."
+
+#: src/menu.c:501
+msgid "See README.txt for more information"
+msgstr "FÃ©ach ar README.txt le haghaidh breis eolas"
+
+#: src/menu.c:525
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/menu.c:526
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/menu.c:585
+msgid "Enter Server Name:"
+msgstr ""
+
+#: src/menu.c:585
+msgid "(limit 50 characters)"
+msgstr ""
+
+#: src/menu.c:598
+msgid "Select lesson file for server to use"
+msgstr ""
+
+#: src/menu.c:625
+msgid "Server Name:"
+msgstr ""
+
+#: src/menu.c:627
+msgid "Selected Lesson:"
+msgstr ""
+
+#: src/menu.c:648
+msgid "Detecting servers"
+msgstr ""
+
+#: src/menu.c:648
+msgid "Please wait"
+msgstr ""
+
+#: src/menu.c:654
+#, c-format
+msgid "Connected to server: %s"
+msgstr ""
+
+#: src/menu.c:655 src/multiplayer.c:258 src/multiplayer.c:260
+msgid "Enter your name:"
+msgstr ""
+
+#: src/menu.c:657
+#, fuzzy
+msgid "Click when ready"
+msgstr "(BrÃºigh cnaipe ar bith nuair atÃ¡ tÃº rÃ©idh)"
+
+#: src/menu.c:659
+msgid "Waiting for other players"
+msgstr ""
+
+#: src/menu.c:671
+msgid "Sorry, game already in progress."
+msgstr ""
+
+#: src/menu.c:672
+#, c-format
+msgid "Sorry, game already in progress.\n"
+msgstr ""
+
+#: src/menu.c:677
+msgid "Sorry, no server could be found."
+msgstr ""
+
+#: src/menu.c:678
+#, c-format
+msgid "Sorry, no server could be found.\n"
+msgstr ""
+
+#: src/menu.c:681
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/menu.c:682
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
 #: src/multiplayer.c:183
 #, c-format
 msgid "Then %s\n"
@@ -389,10 +504,6 @@ msgstr ""
 
 #: src/multiplayer.c:258
 msgid "Who is playing first?"
-msgstr ""
-
-#: src/multiplayer.c:258 src/multiplayer.c:260
-msgid "Enter your name:"
 msgstr ""
 
 #: src/multiplayer.c:260
@@ -407,21 +518,25 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:476
+#: src/titlescreen.c:478
 msgid "Work In Progress!"
 msgstr "Obair Idir LÃ¡mha!"
 
-#: src/titlescreen.c:477
+#: src/titlescreen.c:479
 msgid "This feature is not ready yet"
 msgstr "NÃ­l an ghnÃ© seo rÃ©idh fÃ³s"
 
-#: src/titlescreen.c:478
+#: src/titlescreen.c:480
 msgid "Discuss the future of TuxMath at"
 msgstr "PlÃ© todhchaÃ­ TuzMath ag"
 
-#: src/titlescreen.c:479
+#: src/titlescreen.c:481
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/tuxmath.c:59
+msgid "Help"
+msgstr "Cabhair"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -657,8 +772,8 @@ msgstr "IolrÃº Deimhneacha agus DiÃºltacha"
 msgid "Division of Positives and Negatives"
 msgstr "Roinnt Deimhneacha agus DiÃºltacha"
 
-#~ msgid "Help"
-#~ msgstr "Cabhair"
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "feabhsaithe a mholadh, nÃ³ trÃ­ cÃ³d a chur leis."
 
 #~ msgid "More Options"
 #~ msgstr "Tuilleadh Roghanna"
@@ -678,18 +793,6 @@ msgstr "Roinnt Deimhneacha agus DiÃºltacha"
 #~ msgid "Main menu"
 #~ msgstr "An PrÃ­omh RoghchlÃ¡r"
 
-#~ msgid "Edit 'options' file in your home directory"
-#~ msgstr "Cuir in eagar an comhad 'roghanna' i do chomhadlann baile"
-
-#~ msgid "to create customized game!"
-#~ msgstr "chun cluiche saincheaptha a chruthÃº!"
-
-#~ msgid "Press a key or click your mouse to start game."
-#~ msgstr "BrÃºigh cnaipe nÃ³ brÃºigh do luchÃ³g chun an cluiche a thosÃº."
-
-#~ msgid "See README.txt for more information"
-#~ msgstr "FÃ©ach ar README.txt le haghaidh breis eolas"
-
 #~ msgid "Demo"
 #~ msgstr "TaispeÃ¡ntas"
 
@@ -701,18 +804,6 @@ msgstr "Roinnt Deimhneacha agus DiÃºltacha"
 
 #~ msgid "Main Menu"
 #~ msgstr "An PrÃ­omh RoghchlÃ¡r"
-
-#~ msgid "TuxMath is free and open-source!"
-#~ msgstr "TÃ¡ TuxMath ar fÃ¡il saor in aisce agus le foinse oscailte!"
-
-#~ msgid "You can help make it better by reporting problems,"
-#~ msgstr "Is fÃ©idir leat cuidiÃº Ã© a fheabhsÃº trÃ­ fadhbanna a fhÃ³grÃº,"
-
-#~ msgid "suggesting improvements, or adding code."
-#~ msgstr "feabhsaithe a mholadh, nÃ³ trÃ­ cÃ³d a chur leis."
-
-#~ msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
-#~ msgstr "PlÃ© an todhchaÃ­ ag tuxmath-devel@lists.sourceforge.net"
 
 #, fuzzy
 #~ msgid "the penguins' igloos. To save their homes,"

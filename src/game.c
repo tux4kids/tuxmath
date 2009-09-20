@@ -1526,7 +1526,7 @@ void game_handle_tux(void)
   {
     do { tux_img = IMG_TUX_CONSOLE1 + (rand() % 4); }
     while (tux_img == old_tux_img);
-    playsound(SND_CLICK);
+    playsound(SND_TOCK);
   }
 
   /* If Tux is being animated, show the animation: */

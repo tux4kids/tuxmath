@@ -5,6 +5,9 @@ src/credits.c
 src/factoroids.c
 src/game.c
 src/highscore.c
+src/menu.c
 src/multiplayer.c
+src/server.c
 src/titlescreen.c
+src/tuxmath.c
 data/missions/lessons/descr_lessons

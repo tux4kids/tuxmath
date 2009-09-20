@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-19 16:59-0500\n"
+"POT-Creation-Date: 2009-09-20 14:59-0500\n"
 "PO-Revision-Date: 2007-11-12 20:54+0100\n"
 "Last-Translator: JardaK <krejci@zstenis.com>\n"
 "Language-Team: czech <cs@li.org>\n"
@@ -241,107 +241,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:982
+#: src/game.c:984
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:999
+#: src/game.c:1001
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1000
+#: src/game.c:1002
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1001
+#: src/game.c:1003
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1020
+#: src/game.c:1022
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1021
+#: src/game.c:1023
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1022
+#: src/game.c:1024
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1023
+#: src/game.c:1025
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1031
+#: src/game.c:1033
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1041
+#: src/game.c:1043
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1042
+#: src/game.c:1044
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1043
+#: src/game.c:1045
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1044
+#: src/game.c:1046
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1045
+#: src/game.c:1047
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1058
+#: src/game.c:1060
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1069
+#: src/game.c:1071
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1070
+#: src/game.c:1072
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1093
+#: src/game.c:1095
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1094
+#: src/game.c:1096
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1105
+#: src/game.c:1107
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1129
+#: src/game.c:1131
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1130
+#: src/game.c:1132
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1131
+#: src/game.c:1133
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1132
+#: src/game.c:1134
 msgid "Do it now, and then play!"
 msgstr ""
 
@@ -385,6 +385,120 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
+#: src/menu.c:374
+msgid "TuxMath is free and open-source!"
+msgstr "TuxMath je svobodný software!"
+
+#: src/menu.c:375
+#, fuzzy
+msgid "You can help make it better."
+msgstr "I ty ho můžeš vylepšit, když oznámíš chyby, "
+
+#: src/menu.c:376
+msgid "Suggestions, artwork, and code are all welcome!"
+msgstr ""
+
+#: src/menu.c:377
+#, fuzzy
+msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgstr "Diskutuj o budoucnosti na tuxmath-devel@lists.sourceforge.net"
+
+#: src/menu.c:498
+msgid "Edit 'options' file in your home directory"
+msgstr "Uprav soubor «options » ve své domovské složce,"
+
+#: src/menu.c:499
+msgid "to create customized game!"
+msgstr "abys mohl vytvořit vlastní hru!"
+
+#: src/menu.c:500
+msgid "Press a key or click your mouse to start game."
+msgstr "Zmáčkni klávesu nebo klikni tlačítkem myši, abys začal hru"
+
+#: src/menu.c:501
+msgid "See README.txt for more information"
+msgstr "Pokud chceš více informací, podívej se na README.txt"
+
+#: src/menu.c:525
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/menu.c:526
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/menu.c:585
+msgid "Enter Server Name:"
+msgstr ""
+
+#: src/menu.c:585
+msgid "(limit 50 characters)"
+msgstr ""
+
+#: src/menu.c:598
+msgid "Select lesson file for server to use"
+msgstr ""
+
+#: src/menu.c:625
+msgid "Server Name:"
+msgstr ""
+
+#: src/menu.c:627
+msgid "Selected Lesson:"
+msgstr ""
+
+#: src/menu.c:648
+msgid "Detecting servers"
+msgstr ""
+
+#: src/menu.c:648
+msgid "Please wait"
+msgstr ""
+
+#: src/menu.c:654
+#, c-format
+msgid "Connected to server: %s"
+msgstr ""
+
+#: src/menu.c:655 src/multiplayer.c:258 src/multiplayer.c:260
+msgid "Enter your name:"
+msgstr ""
+
+#: src/menu.c:657
+msgid "Click when ready"
+msgstr ""
+
+#: src/menu.c:659
+msgid "Waiting for other players"
+msgstr ""
+
+#: src/menu.c:671
+msgid "Sorry, game already in progress."
+msgstr ""
+
+#: src/menu.c:672
+#, c-format
+msgid "Sorry, game already in progress.\n"
+msgstr ""
+
+#: src/menu.c:677
+msgid "Sorry, no server could be found."
+msgstr ""
+
+#: src/menu.c:678
+#, c-format
+msgid "Sorry, no server could be found.\n"
+msgstr ""
+
+#: src/menu.c:681
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/menu.c:682
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
 #: src/multiplayer.c:183
 #, c-format
 msgid "Then %s\n"
@@ -392,10 +506,6 @@ msgstr ""
 
 #: src/multiplayer.c:258
 msgid "Who is playing first?"
-msgstr ""
-
-#: src/multiplayer.c:258 src/multiplayer.c:260
-msgid "Enter your name:"
 msgstr ""
 
 #: src/multiplayer.c:260
@@ -410,21 +520,25 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:476
+#: src/titlescreen.c:478
 msgid "Work In Progress!"
 msgstr "Ve výstavbě!"
 
-#: src/titlescreen.c:477
+#: src/titlescreen.c:479
 msgid "This feature is not ready yet"
 msgstr "Tato vlastnost ještě nefunguje"
 
-#: src/titlescreen.c:478
+#: src/titlescreen.c:480
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskutuj o budoucnosti TuxMath na"
 
-#: src/titlescreen.c:479
+#: src/titlescreen.c:481
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/tuxmath.c:59
+msgid "Help"
+msgstr "Nápověda"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -660,8 +774,8 @@ msgstr "Násobení kladných a záporných čísel"
 msgid "Division of Positives and Negatives"
 msgstr "Dělení kladných a záporných čísel"
 
-#~ msgid "Help"
-#~ msgstr "Nápověda"
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "navrhneš vylepšení nebo přidáš svůj kód"
 
 #~ msgid "More Options"
 #~ msgstr "Více možností"
@@ -681,18 +795,6 @@ msgstr "Dělení kladných a záporných čísel"
 #~ msgid "Main menu"
 #~ msgstr "Hlavní menu"
 
-#~ msgid "Edit 'options' file in your home directory"
-#~ msgstr "Uprav soubor «options » ve své domovské složce,"
-
-#~ msgid "to create customized game!"
-#~ msgstr "abys mohl vytvořit vlastní hru!"
-
-#~ msgid "Press a key or click your mouse to start game."
-#~ msgstr "Zmáčkni klávesu nebo klikni tlačítkem myši, abys začal hru"
-
-#~ msgid "See README.txt for more information"
-#~ msgstr "Pokud chceš více informací, podívej se na README.txt"
-
 #~ msgid "Demo"
 #~ msgstr "Demo"
 
@@ -704,15 +806,3 @@ msgstr "Dělení kladných a záporných čísel"
 
 #~ msgid "Main Menu"
 #~ msgstr "Hlavní menu"
-
-#~ msgid "TuxMath is free and open-source!"
-#~ msgstr "TuxMath je svobodný software!"
-
-#~ msgid "You can help make it better by reporting problems,"
-#~ msgstr "I ty ho můžeš vylepšit, když oznámíš chyby, "
-
-#~ msgid "suggesting improvements, or adding code."
-#~ msgstr "navrhneš vylepšení nebo přidáš svůj kód"
-
-#~ msgid "Discuss the future at tuxmath-devel@lists.sourceforge.net"
-#~ msgstr "Diskutuj o budoucnosti na tuxmath-devel@lists.sourceforge.net"
