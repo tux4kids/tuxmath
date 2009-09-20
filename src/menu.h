@@ -15,10 +15,10 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "SDL.h"
 #include "globals.h"
 #include "loaders.h"
 
+#include "SDL.h"
 /* titlescreen & menu frame rate */
 #define MAX_FPS                    30
 /* number of "real" frames per one sprite frame */

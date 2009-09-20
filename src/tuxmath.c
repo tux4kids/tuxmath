@@ -19,13 +19,13 @@
   2006-2007
 */
 
-
-#include <stdio.h>
-#include <stdlib.h>
 /* (tuxmath.h brings in "gettext.h" and <locale.h> */
 #include "tuxmath.h"
 #include "setup.h"
 #include "titlescreen.h"
+
+#include <stdio.h>
+#include <stdlib.h>
 
 #ifdef WIN32
 #define TUXLOCALE "./locale"
@@ -40,11 +40,15 @@
 int main(int argc, char * argv[])
 {
   const char *s1, *s2, *s3, *s4;
-
+#ifdef ENABLE_NLS
+printf("ENABLE_NLS defined\n");
+#endif
   s1 = setlocale(LC_ALL, "");
   s2 = bindtextdomain(PACKAGE, TUXLOCALE);
   s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
   s4 = textdomain(PACKAGE);
+
+  setup(argc, argv);
 
   DEBUGMSG(debug_setup, "PACKAGE = %s\n", PACKAGE);
   DEBUGMSG(debug_setup, "TUXLOCALE = %s\n", TUXLOCALE);
@@ -55,7 +59,6 @@ int main(int argc, char * argv[])
   DEBUGMSG(debug_setup, "gettext(\"Help\"): %s\n\n", gettext("Help"));
   DEBUGMSG(debug_setup, "After gettext() call\n");
 
-  setup(argc, argv);
   TitleScreen();  /* Run the game! */
   cleanup();
   return 0;

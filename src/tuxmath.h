@@ -22,16 +22,7 @@
 #ifndef TUXMATH_H
 #define TUXMATH_H
 
-#include "../config.h"
-
-// Translation stuff (now works for Mac and Win too!): 
-#include "gettext.h"
-#include <locale.h>
-#define _(String) gettext (String)
-#define gettext_noop(String) String
-#define N_(String) gettext_noop (String)
-
-#include <wchar.h>
+#include "globals.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
@@ -40,8 +31,6 @@
 #include "SDL_mixer.h"
 #endif
 
-//#define NOSOUND
-#include "globals.h"
 
 #define MAX_SPRITE_FRAMES   30
 

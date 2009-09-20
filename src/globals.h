@@ -25,7 +25,17 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
+//#include "config.h"
 #include "../config.h"
+
+// Translation stuff (now works for Mac and Win too!): 
+#include "gettext.h"
+#include <locale.h>
+#define _(String) gettext (String)
+#define gettext_noop(String) String
+#define N_(String) gettext_noop (String)
+
+#include <wchar.h>
 
 typedef enum { false, true } bool;
 

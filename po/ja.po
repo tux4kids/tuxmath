@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-04 21:22-0500\n"
+"POT-Creation-Date: 2009-09-19 16:59-0500\n"
 "PO-Revision-Date: 2008-03-05 15:29+0000\n"
 "Last-Translator: CMasami <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
@@ -244,147 +244,147 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:989
+#: src/game.c:982
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1006
+#: src/game.c:999
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1007
+#: src/game.c:1000
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1008
+#: src/game.c:1001
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1027
+#: src/game.c:1020
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1028
+#: src/game.c:1021
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1029
+#: src/game.c:1022
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1030
+#: src/game.c:1023
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1038
+#: src/game.c:1031
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1048
+#: src/game.c:1041
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1049
+#: src/game.c:1042
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1050
+#: src/game.c:1043
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1051
+#: src/game.c:1044
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1052
+#: src/game.c:1045
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1065
+#: src/game.c:1058
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1075
+#: src/game.c:1068
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1076
+#: src/game.c:1069
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1077
+#: src/game.c:1070
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1100
+#: src/game.c:1093
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1101
+#: src/game.c:1094
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1112
+#: src/game.c:1105
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1118
+#: src/game.c:1111
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1136
+#: src/game.c:1129
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1137
+#: src/game.c:1130
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1138
+#: src/game.c:1131
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1139
+#: src/game.c:1132
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:167
+#: src/highscore.c:168
 msgid "Hall Of Fame"
 msgstr "殿堂入り"
 
-#: src/highscore.c:187 src/highscore.c:208
+#: src/highscore.c:188 src/highscore.c:209
 msgid "Space Cadet"
 msgstr "訓練生"
 
-#: src/highscore.c:190
+#: src/highscore.c:191
 msgid "Scout"
 msgstr "上等兵"
 
-#: src/highscore.c:193
+#: src/highscore.c:194
 msgid "Ranger"
 msgstr "特殊部隊"
 
-#: src/highscore.c:196
+#: src/highscore.c:197
 msgid "Ace"
 msgstr "超能力者"
 
-#: src/highscore.c:199
+#: src/highscore.c:200
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:202
+#: src/highscore.c:203
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:205
+#: src/highscore.c:206
 msgid "Fractions"
 msgstr ""
 
-#: src/highscore.c:286
+#: src/highscore.c:287
 msgid "You Are In The Hall of Fame!"
 msgstr ""
 
-#: src/highscore.c:286
+#: src/highscore.c:287
 msgid "Enter Your Name:"
 msgstr ""
 
