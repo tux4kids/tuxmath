@@ -26,7 +26,7 @@
 #define GLOBALS_H
 
 //#include "config.h"
-#include "../config.h"
+#include "config.h"
 
 // Translation stuff (now works for Mac and Win too!): 
 #include "gettext.h"

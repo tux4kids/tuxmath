@@ -11,8 +11,7 @@ AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
-	-I../intl -I$(top_srcdir)/intl \
-	-I$(top_srcdir) -I$(top_builddir)
+	-I../intl -I$(top_srcdir)/intl
 
 LDADD = @LIBINTL@ \
   ../linebreak/liblinebreak.a
