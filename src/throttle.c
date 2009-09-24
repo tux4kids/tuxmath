@@ -14,10 +14,13 @@
 
 #include "SDL.h"
 
+/* NOTE this is not thread-safe.  For multithread use we need to store */
+/* last_t somewhere outside the function - DSB                         */
+
 void Throttle(int loop_msec)
 {
-  static Uint32 now_t, last_t; //These will be zero first time through
-  int wait_t;
+  static Uint32 last_t; //Will be zero first time through
+  Uint32 now_t, wait_t;
 
   //Target loop time must be between 0 and 1000 msec:
   if(loop_msec < 0)
