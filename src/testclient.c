@@ -207,9 +207,8 @@ int game_check_msgs(void)
     {
       break;
     }
-#ifdef LAN_DEBUG
-    printf("Buffer from server is: %s\n", buf);
-#endif
+
+    DEBUGMSG(debug_lan, "Buffer from server is: %s\n", buf);
 
     /* Now we process the buffer according to the command: */
     if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
