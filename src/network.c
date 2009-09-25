@@ -35,7 +35,6 @@ static int connected_server = -1;
 int say_to_server(char *statement);
 int evaluate(char *statement);
 int add_to_server_list(UDPpacket* pkt);
-void print_server_list(void);
 
 
 int LAN_DetectServers(void)

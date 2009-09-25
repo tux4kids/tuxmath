@@ -12,7 +12,6 @@ SUBDIRS = data	\
 	intl	\
 	linebreak \
 	po	\
-	server	\
 	src
 
 ACLOCAL_AMFLAGS = -I m4

@@ -9,7 +9,6 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 	-D$(SOUND)SOUND
 
-
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
 	-I../intl -I$(top_srcdir)/intl
 
@@ -27,7 +26,8 @@ else
   bin_PROGRAMS = tuxmath \
                  tuxmathadmin \
                  generate_lesson \
-                 tuxmathserver
+                 tuxmathserver	\
+                 tuxmathtestclient
 
   DATA_PREFIX=${pkgdatadir}
 endif
@@ -78,6 +78,12 @@ tuxmathserver_SOURCES = servermain.c	\
 		throttle.c	\
 	.	options.c
 
+tuxmathtestclient_SOURCES = testclient.c \
+                            throttle.c \
+                            network.c  \
+                            options.c  \
+                            mathcards.c
+
 EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
 	fileops.h 	\
@@ -105,6 +111,7 @@ EXTRA_DIST = 	credits.h 	\
 	pixels.h	\
 	compiler.h	\
 	server.h	\
+	testclient.h	\
 	transtruct.h	\
 	throttle.h
         

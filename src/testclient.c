@@ -16,6 +16,13 @@
 * derivative works into a GPLv2+ project like TuxMath - David Bruce 
 */
 
+#include "globals.h"
+#include "transtruct.h"
+#include "mathcards.h"
+#include "testclient.h"
+#include "throttle.h"
+#include "network.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,11 +31,6 @@
 #include <fcntl.h> 
 
 //#include "SDL_net.h"
-#include "../src/transtruct.h"
-#include "../src/mathcards.h"
-#include "testclient.h"
-#include "../src/throttle.h"
-#include "../src/network.h"
 
 /* Local (to testclient.c) "globals": */
 
@@ -62,12 +64,9 @@ void print_current_quests(void);
 
 int main(int argc, char **argv)
 {
-  char buf[NET_BUF_LEN];     // for network messages from server
   char buffer[NET_BUF_LEN];  // for command-line input
   int servers_found = 0;
   int server_number = -1;
-  Uint32 server_ip = 0;
-  Uint16 server_port = DEFAULT_PORT;
 
   //Scan local network to find running server:
   servers_found = LAN_DetectServers();
@@ -350,14 +349,9 @@ int total_quests_recvd(char* buf)
 
 int playgame(void)
 {
-  int numready;
-  int command_type;
   int ans = 0;
   MC_FlashCard* fc = NULL;
-  int x=0, i = 0;
   char buf[NET_BUF_LEN];
-  char buffer[NET_BUF_LEN];
-  char ch;
 
   printf("\nStarting Tux, of the Math Command Line ;-)\n");
   printf("Waiting for other players to be ready...\n\n");
@@ -441,9 +435,9 @@ int playgame(void)
       printf("You won! :-)\n");
   }
 
-#ifdef LAN_DEBUG
-  printf("Leaving playgame()\n");
-#endif
+  DEBUGMSG(debug_lan, "Leaving playgame()\n");
+
+  return 1;
 }
 
 

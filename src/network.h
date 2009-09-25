@@ -31,6 +31,8 @@ int LAN_DetectServers(void);
 int LAN_AutoSetup(int i);
 char* LAN_ServerName(int i);
 char* LAN_ConnectedServerName(void);
+void print_server_list(void);
+
 //int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 int LAN_SetName(char* name);
