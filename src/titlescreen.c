@@ -493,6 +493,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
   int finished = 0;
+  Uint32 timer = 0;
 
   /* To adjust font size: */
   float scale = screen->w / 640;
@@ -584,7 +585,7 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
     HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
-    Throttle(20);
+    Throttle(20, &timer);
   }  // End of while (!finished) loop
 
   SDL_FreeSurface(s1);

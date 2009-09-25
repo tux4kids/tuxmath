@@ -731,6 +731,7 @@ int Ready(const char* heading)
   SDL_Rect okRect;
   int finished = 0;
   Uint32 frame = 0;
+  Uint32 timer = 0;
   const int BG_Y = 100;
   const int BG_WIDTH = 400;
   const int BG_HEIGHT = 200;
@@ -844,7 +845,7 @@ int Ready(const char* heading)
     }
 
     HandleTitleScreenAnimations();
-    Throttle(20);
+    Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
@@ -860,6 +861,7 @@ int Standby(const char* heading, const char* sub)
   SDL_Rect loc;
   int finished = 0;
   Uint32 frame = 0;
+  Uint32 timer = 0;
   const int BG_Y = 100;
   const int BG_WIDTH = 400;
   const int BG_HEIGHT = 200;
@@ -985,7 +987,7 @@ int Standby(const char* heading, const char* sub)
     }
 
     HandleTitleScreenAnimations();
-    Throttle(20);
+    Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
@@ -1009,6 +1011,7 @@ int detecting_servers(const char* heading, const char* sub)
   int tux_frame = 0;
   Uint32 frame = 0;
   Uint32 start = 0;
+  Uint32 timer = 0;
   int servers_found = 0;  
 
 
@@ -1149,10 +1152,7 @@ int detecting_servers(const char* heading, const char* sub)
     }
 
     /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
+    Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 

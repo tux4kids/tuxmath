@@ -229,6 +229,8 @@ static void print_status(void);
 
 int game(void)
 {
+  Uint32 timer = 0;
+
   DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
@@ -314,7 +316,7 @@ int game(void)
 
 
     /* Pause (keep frame-rate event) */
-    Throttle(MS_PER_FRAME);
+    Throttle(MS_PER_FRAME, &timer);
 
   }
   while(GAME_IN_PROGRESS == game_status);
@@ -394,7 +396,7 @@ int game(void)
 /*        draw_console_image(tux_img);*/
 
         SDL_Flip(screen);
-        Throttle(MS_PER_FRAME);
+        Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
       break;
@@ -430,7 +432,7 @@ int game(void)
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
         SDL_Flip(screen);
 
-        Throttle(MS_PER_FRAME);
+        Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
 

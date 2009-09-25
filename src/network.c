@@ -48,7 +48,7 @@ int LAN_DetectServers(void)
   int seconds = 0;
   int num_servers = 0;
   int i = 0;
-
+  Uint32 timer = 0;
   //zero out old server list
   for(i = 0; i < MAX_SERVERS; i++)
     servers[i].ip.host = 0;
@@ -114,7 +114,7 @@ int LAN_DetectServers(void)
       }
     }
     //Make sure we always scan at least one but not more than five seconds:
-    Throttle(1000); //repeat once per second
+    Throttle(1000, &timer); //repeat once per second
     seconds++;
     if(seconds < 1)
       done = 0;

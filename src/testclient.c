@@ -67,6 +67,7 @@ int main(int argc, char **argv)
   char buffer[NET_BUF_LEN];  // for command-line input
   int servers_found = 0;
   int server_number = -1;
+  Uint32 timer = 0;
 
   //Scan local network to find running server:
   servers_found = LAN_DetectServers();
@@ -177,7 +178,7 @@ int main(int argc, char **argv)
       }
     }
     //Limit loop to once per 10 msec so we don't eat all CPU
-    Throttle(10);
+    Throttle(10, &timer);
   }
  
   LAN_Cleanup();
@@ -351,6 +352,7 @@ int playgame(void)
   int ans = 0;
   MC_FlashCard* fc = NULL;
   char buf[NET_BUF_LEN];
+  Uint32 timer = 0;
 
   printf("\nStarting Tux, of the Math Command Line ;-)\n");
   printf("Waiting for other players to be ready...\n\n");
@@ -422,7 +424,7 @@ int playgame(void)
       }  //input wasn't any of our keywords
     } // Input was received 
 
-    Throttle(10);  //so don't eat all CPU
+    Throttle(10, &timer);  //so don't eat all CPU
   } //End of game loop 
 
   switch(game_status)

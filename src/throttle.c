@@ -14,13 +14,14 @@
 
 #include "SDL.h"
 
-/* NOTE this is not thread-safe.  For multithread use we need to store */
-/* last_t somewhere outside the function - DSB                         */
+/* NOTE now store the time elsewhere to make function thread-safe                          */
 
-void Throttle(int loop_msec)
+void Throttle(int loop_msec, Uint32* last_t)
 {
-  static Uint32 last_t; //Will be zero first time through
   Uint32 now_t, wait_t;
+
+  if(!last_t)
+    return;
 
   //Target loop time must be between 0 and 1000 msec:
   if(loop_msec < 0)
@@ -30,9 +31,9 @@ void Throttle(int loop_msec)
 
   //See if we need to wait:
   now_t = SDL_GetTicks();
-  if (now_t < (last_t + loop_msec))
+  if (now_t < (*last_t + loop_msec))
   {
-    wait_t = (last_t + loop_msec) - now_t;
+    wait_t = (*last_t + loop_msec) - now_t;
     //Avoid problem if we somehow wrap past uint32 size (at 49.7 days!)
     if(wait_t < 0)
       wait_t = 0;
@@ -40,5 +41,5 @@ void Throttle(int loop_msec)
       wait_t = loop_msec;
     SDL_Delay(wait_t);
   }
-  last_t = SDL_GetTicks();
+  *last_t = SDL_GetTicks();
 }

@@ -12,9 +12,13 @@
 
 #ifndef THROTTLE_H
 #define THROTTLE_H
+
+#include "SDL.h"
+
 // This simple function uses SDL_Delay() to wait to return until 'loop_msec'
 // milliseconds after it returned the last time. Per SDL docs, the granularity
 // is likely no better than 10 msec
-void Throttle(int loop_msec);
+// NOTE Uint32* last_t arg added to make function thread-safe
+void Throttle(int loop_msec, Uint32* last_t);
 
 #endif

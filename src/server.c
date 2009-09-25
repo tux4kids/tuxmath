@@ -115,6 +115,8 @@ char* local_argv[MAX_ARGS];
 /* servermain.c, that consists solely of a call to RunServer().        */
 int RunServer(int argc, char* argv[])
 { 
+  Uint32 timer = 0;
+
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
   server_handle_command_args(argc, argv);
@@ -145,7 +147,7 @@ int RunServer(int argc, char* argv[])
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
     /* CPU from 100% to ~2% on my desktop - DSB                       */
-    Throttle(5);  //min loop time 5 msec
+    Throttle(5, &timer);  //min loop time 5 msec
   }
    
   /*   -----  Free resources before exiting: -------    */
@@ -216,6 +218,8 @@ void* run_server_local_args(void)
 // setup_server() - all the things needed to get server running:
 int setup_server(void)
 {
+  Uint32 timer = 0;
+
   //Initialize SDL and SDL_net:
   if(SDL_Init(0) == -1)
   {
@@ -277,7 +281,7 @@ int setup_server(void)
     {
       if(read_stdin_nonblock(server_name, NAME_SIZE))
         name_recvd = 1;
-      Throttle(10);
+      Throttle(10, &timer);
     }
     if(!name_recvd)
       printf("No name entered within timeout, will use default: %s\n",
