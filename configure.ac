@@ -1,7 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 AC_INIT([Tux Of Math Command],[1.7.3],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
-AC_CONFIG_SRCDIR([src/tuxmath.c])
 
 AC_PREREQ(2.61)
 AC_CANONICAL_HOST
@@ -254,9 +253,8 @@ AC_SUBST(NSI_INSTALL_DIR)
 MINGW32_PACKAGE_DATA_DIR="data"
 AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
 
-NSI_DLL_DIR=~/tuxmath_dll
 AC_ARG_WITH([dll-directory],
-            AS_HELP_STRING([--with-dll-directory=path], [set the path where dll for TuxMath are [$(NSI_DLL_DIR)]]),
+            AS_HELP_STRING([--with-dll-directory=path], [provide location of DLL files needed for build  [$(NSI_DLL_DIR)]]),
             [dll_path=$withval], 
             [dll_path=no])
 
@@ -264,6 +262,8 @@ AM_CONDITIONAL(NSI_BUILD, test $dll_path = no)
 
 if test $dll_path != no; then
 NSI_DLL_DIR=$dll_path
+else
+NSI_DLL_DIR=~/tuxmath_dll
 fi
 AC_SUBST(NSI_DLL_DIR)
 

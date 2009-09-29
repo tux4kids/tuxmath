@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-20 14:59-0500\n"
-"PO-Revision-Date: 2009-09-20 14:59-0500\n"
+"POT-Creation-Date: 2009-09-28 20:31-0500\n"
+"PO-Revision-Date: 2009-09-28 20:31-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -293,107 +293,107 @@ msgstr ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 
-#: src/game.c:984
+#: src/game.c:986
 msgid "Welcome to TuxMath!"
 msgstr "Welcome to TuxMath!"
 
-#: src/game.c:1001
+#: src/game.c:1003
 msgid "Your mission is to save your"
 msgstr "Your mission is to save your"
 
-#: src/game.c:1002
+#: src/game.c:1004
 msgid "penguins' igloos from the"
 msgstr "penguins' igloos from the"
 
-#: src/game.c:1003
+#: src/game.c:1005
 msgid "falling comets."
 msgstr "falling comets."
 
-#: src/game.c:1022
+#: src/game.c:1024
 msgid "Stop a comet by typing"
 msgstr "Stop a comet by typing"
 
-#: src/game.c:1023
+#: src/game.c:1025
 msgid "the answer to the math problem"
 msgstr "the answer to the math problem"
 
-#: src/game.c:1024
+#: src/game.c:1026
 msgid "and hitting 'space' or 'enter'."
 msgstr "and hitting ‘[1mspace[0m’ or 'enter'."
 
-#: src/game.c:1025
+#: src/game.c:1027
 msgid "Try it now!"
 msgstr "Try it now!"
 
-#: src/game.c:1033
+#: src/game.c:1035
 msgid "Good shot!"
 msgstr "Good shot!"
 
-#: src/game.c:1043
+#: src/game.c:1045
 msgid "If an igloo gets hit by a comet,"
 msgstr "If an igloo gets hit by a comet,"
 
-#: src/game.c:1044
+#: src/game.c:1046
 msgid "it melts. But don't worry: the"
 msgstr "it melts. But don't worry: the"
 
-#: src/game.c:1045
+#: src/game.c:1047
 msgid "penguin is OK!"
 msgstr "penguin is OK!"
 
-#: src/game.c:1046
+#: src/game.c:1048
 msgid "Just watch what happens:"
 msgstr "Just watch what happens:"
 
-#: src/game.c:1047
+#: src/game.c:1049
 msgid "(Press a key to start)"
 msgstr "(Press a key to start)"
 
-#: src/game.c:1060
+#: src/game.c:1062
 msgid "Notice the answer"
 msgstr "Notice the answer"
 
-#: src/game.c:1070
+#: src/game.c:1072
 msgid "If it gets hit again, the"
 msgstr "If it gets hit again, the"
 
-#: src/game.c:1071
+#: src/game.c:1073
 msgid "penguin leaves."
 msgstr "penguin leaves."
 
-#: src/game.c:1072
+#: src/game.c:1074
 msgid "(Press a key when ready)"
 msgstr "(Press a key when ready)"
 
-#: src/game.c:1095
+#: src/game.c:1097
 msgid "You can fix the igloos"
 msgstr "You can fix the igloos"
 
-#: src/game.c:1096
+#: src/game.c:1098
 msgid "by stopping bonus comets."
 msgstr "by stopping bonus comets."
 
-#: src/game.c:1107
+#: src/game.c:1109
 msgid "Zap it now!"
 msgstr "Zap it now!"
 
-#: src/game.c:1113
+#: src/game.c:1115
 msgid "Great job!"
 msgstr "Great job!"
 
-#: src/game.c:1131
+#: src/game.c:1133
 msgid "Quit at any time by pressing"
 msgstr "Quit at any time by pressing"
 
-#: src/game.c:1132
+#: src/game.c:1134
 msgid "'Esc' or clicking the 'X'"
 msgstr "‘[1mEsc[0m’ or clicking the ‘[1mX[0m’"
 
-#: src/game.c:1133
+#: src/game.c:1135
 msgid "in the upper right corner."
 msgstr "in the upper right corner."
 
-#: src/game.c:1134
+#: src/game.c:1136
 msgid "Do it now, and then play!"
 msgstr "Do it now, and then play!"
 

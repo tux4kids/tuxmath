@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-20 14:59-0500\n"
+"POT-Creation-Date: 2009-09-28 20:31-0500\n"
 "PO-Revision-Date: 2009-01-17 10:32+0200\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <sh.yaron@gmail.com>\n"
@@ -247,107 +247,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:984
+#: src/game.c:986
 msgid "Welcome to TuxMath!"
 msgstr "ברוכים הבאים לטאקסמטיקה!"
 
-#: src/game.c:1001
+#: src/game.c:1003
 msgid "Your mission is to save your"
 msgstr "מטרתך היא להציל את"
 
-#: src/game.c:1002
+#: src/game.c:1004
 msgid "penguins' igloos from the"
 msgstr "הפינגווינים שלך מפני"
 
-#: src/game.c:1003
+#: src/game.c:1005
 msgid "falling comets."
 msgstr "הכוכבים הנופלים."
 
-#: src/game.c:1022
+#: src/game.c:1024
 msgid "Stop a comet by typing"
 msgstr "תוכל להדוף כוכב על ידי"
 
-#: src/game.c:1023
+#: src/game.c:1025
 msgid "the answer to the math problem"
 msgstr "הקלדת התשובה לבעיה המתמטית"
 
-#: src/game.c:1024
+#: src/game.c:1026
 msgid "and hitting 'space' or 'enter'."
 msgstr "ולחיצה על 'רווח' או 'Enter'."
 
-#: src/game.c:1025
+#: src/game.c:1027
 msgid "Try it now!"
 msgstr "נסה זאת כעת!"
 
-#: src/game.c:1033
+#: src/game.c:1035
 msgid "Good shot!"
 msgstr "פגיעה יפה!"
 
-#: src/game.c:1043
+#: src/game.c:1045
 msgid "If an igloo gets hit by a comet,"
 msgstr "אם פוגע כוכב באיגלו,"
 
-#: src/game.c:1044
+#: src/game.c:1046
 msgid "it melts. But don't worry: the"
 msgstr "האיגלו נמס. אך אל דאגה:"
 
-#: src/game.c:1045
+#: src/game.c:1047
 msgid "penguin is OK!"
 msgstr "הפינגווינים בסדר גמור!"
 
-#: src/game.c:1046
+#: src/game.c:1048
 msgid "Just watch what happens:"
 msgstr "פשוט שים לב מה קורה:"
 
-#: src/game.c:1047
+#: src/game.c:1049
 msgid "(Press a key to start)"
 msgstr "(לחץ על מקש להתחלה)"
 
-#: src/game.c:1060
+#: src/game.c:1062
 msgid "Notice the answer"
 msgstr "שים לב לתשובה"
 
-#: src/game.c:1070
+#: src/game.c:1072
 msgid "If it gets hit again, the"
 msgstr "אם האיגלו נפגע שוב,"
 
-#: src/game.c:1071
+#: src/game.c:1073
 msgid "penguin leaves."
 msgstr "הפינגווין עוזב."
 
-#: src/game.c:1072
+#: src/game.c:1074
 msgid "(Press a key when ready)"
 msgstr "(לחץ על מקש כשאתה מוכן)"
 
-#: src/game.c:1095
+#: src/game.c:1097
 msgid "You can fix the igloos"
 msgstr "תוכלו לתקן את האיגלואים"
 
-#: src/game.c:1096
+#: src/game.c:1098
 msgid "by stopping bonus comets."
 msgstr "על ידי הדיפת כוכבי בונוס."
 
-#: src/game.c:1107
+#: src/game.c:1109
 msgid "Zap it now!"
 msgstr "תירה בו כעת!"
 
-#: src/game.c:1113
+#: src/game.c:1115
 msgid "Great job!"
 msgstr "עבודה יפה!"
 
-#: src/game.c:1131
+#: src/game.c:1133
 msgid "Quit at any time by pressing"
 msgstr "תוכל לצאת בכל על על ידי"
 
-#: src/game.c:1132
+#: src/game.c:1134
 msgid "'Esc' or clicking the 'X'"
 msgstr "לחיצה על 'Esc' או על ה־'X'"
 
-#: src/game.c:1133
+#: src/game.c:1135
 msgid "in the upper right corner."
 msgstr "בפינה השמאלית העליונה."
 
-#: src/game.c:1134
+#: src/game.c:1136
 msgid "Do it now, and then play!"
 msgstr "עשה זאת כעת, שחק לאחר מכן!"
 

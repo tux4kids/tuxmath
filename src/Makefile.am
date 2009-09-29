@@ -76,7 +76,7 @@ tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
 		throttle.c	\
-	.	options.c
+		options.c
 
 tuxmathtestclient_SOURCES = testclient.c \
                             throttle.c \

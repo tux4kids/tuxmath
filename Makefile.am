@@ -23,15 +23,15 @@ EXTRA_DIST = tuxmath.spec \
 	Info.plist \
 	CMakeLists.txt
 
-datadir = @datadir@
-localedir = $(datadir)/locale
+##datadir = @datadir@
+##localedir = $(datadir)/locale
 
 
 ## These are defined in configure.ac:
-MAKENSIS=@NSIS@
-NSIS_FOUND=@NSIS_FOUND@
-NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
-NSI_DLL_DIR=@NSI_DLL_DIR@
+MAKENSIS=$(NSIS)
+##NSIS_FOUND=@NSIS_FOUND@
+##NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
+##NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
 
 
