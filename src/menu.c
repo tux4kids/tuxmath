@@ -1145,16 +1145,25 @@ int run_menu(MenuNode* root, bool return_choice)
       if(stop)
         break;
 
+/* FIXME look at this more closely - the sprites have not been displaying */
+/* except for the default frame:                                          */
+
       if(!stop && frame_counter % 5 == 0 && loc >= 0 && loc < items)
       {
         tmp_sprite = menu->submenu[menu->first_entry + loc]->icon;
         if(tmp_sprite)
         {
-          SDL_BlitSurface(menu_item_selected[loc], NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
-          SDL_BlitSurface(tmp_sprite->frame[tmp_sprite->cur], NULL, screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+          DEBUGMSG(debug_menu, "run_menu(): incrementing sprite for entry %d\n", loc);
+
+          SDL_BlitSurface(menu_item_selected[loc], NULL, screen,
+                          &menu->submenu[menu->first_entry + loc]->icon_rect);
+          SDL_BlitSurface(tmp_sprite->frame[tmp_sprite->cur], NULL, screen,
+                          &menu->submenu[menu->first_entry + loc]->icon_rect);
           UpdateRect(screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
           NextFrame(tmp_sprite);
         }
+        else
+          DEBUGMSG(debug_menu, "run_menu(): entry %d has no valid sprite\n", loc);
       }
 
       HandleTitleScreenAnimations();
@@ -1214,6 +1223,11 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     SDL_FreeSurface(tmp_surf);
 
     /* text */
+    DEBUGMSG(debug_menu, "render_buttons(): English string is: %s\n",
+             menu->submenu[menu->first_entry + i]->title);
+    DEBUGMSG(debug_menu, "render_buttons(): NLS string is: %s\n",
+             _(menu->submenu[menu->first_entry + i]->title));
+
     tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
                             curr_font_size, selected ? &yellow : &white);
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &menu->submenu[menu->first_entry + i]->text_rect);
