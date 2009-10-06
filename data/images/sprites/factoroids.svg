@@ -358,18 +358,6 @@
        id="linearGradient4298"
        xlink:href="#linearGradient3163"
        inkscape:collect="always" />
-    <svg:filter
-       inkscape:collect="always"
-       id="filter3903"
-       x="-0.053494651"
-       width="1.1069893"
-       y="-0.20492889"
-       height="1.4098577">
-      <svg:feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="9.3925743"
-         id="feGaussianBlur3905" />
-    </svg:filter>
     <svg:linearGradient
        inkscape:collect="always"
        id="linearGradient3179">
@@ -869,17 +857,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.5264507"
-     inkscape:cx="47.231298"
+     inkscape:cx="15.197369"
      inkscape:cy="48.086383"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="736"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="24" />
   <svg:metadata
      id="metadata7">
     <rdf:RDF>
@@ -1028,7 +1016,7 @@
      inkscape:groupmode="layer"
      id="frame0"
      inkscape:label="frame0"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -1168,7 +1156,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -1309,7 +1297,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"

@@ -13,7 +13,7 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="helmet.svg"
+   sodipodi:docname="tux_helmet_blue.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
   <desc>6 frames</desc>
@@ -1493,14 +1493,6 @@
        id="radialGradient3570"
        xlink:href="#linearGradient172"
        inkscape:collect="always" />
-    <svg:filter
-       id="filter3563"
-       inkscape:collect="always">
-      <svg:feGaussianBlur
-         id="feGaussianBlur3565"
-         stdDeviation="14.901949"
-         inkscape:collect="always" />
-    </svg:filter>
     <svg:linearGradient
        y2="582.63507"
        x2="371.60889"
@@ -5315,17 +5307,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.0452449"
-     inkscape:cx="99.604752"
+     inkscape:cx="28.708597"
      inkscape:cy="46.711463"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="736"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="24" />
   <svg:metadata
      id="metadata7">
     <rdf:RDF>
@@ -5468,7 +5460,7 @@
      inkscape:groupmode="layer"
      id="frame0"
      inkscape:label="frame0"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -5595,7 +5587,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -5718,7 +5710,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -5815,7 +5807,7 @@
      inkscape:groupmode="layer"
      id="frame3"
      inkscape:label="frame3"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -5938,7 +5930,7 @@
      inkscape:groupmode="layer"
      id="frame4"
      inkscape:label="frame4"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -6065,7 +6057,7 @@
      inkscape:groupmode="layer"
      id="frame5"
      inkscape:label="frame5"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"

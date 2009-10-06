@@ -803,17 +803,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4"
-     inkscape:cx="-18.541847"
+     inkscape:cx="-54.791847"
      inkscape:cy="59.869827"
      inkscape:document-units="px"
      inkscape:current-layer="frame0"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="734"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="25" />
   <svg:metadata
      id="metadata2765">
     <rdf:RDF>
@@ -866,7 +866,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none"
+     style="display:inline"
      transform="translate(-1.80016,-1.0663792)">
     <svg:path
        id="path2956"
@@ -900,7 +900,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none"
+     style="display:inline"
      transform="translate(-1.80016,-1.0663792)">
     <svg:path
        id="path2985"

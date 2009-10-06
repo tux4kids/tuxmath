@@ -1,0 +1,2250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg:svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   id="svg2"
+   sodipodi:version="0.32"
+   inkscape:version="0.46"
+   sodipodi:docname="factors.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0"
+   style="display:inline">
+  <desc>5 frames</desc>
+  <svg:defs
+     id="defs4">
+    <svg:linearGradient
+       id="linearGradient3794">
+      <svg:stop
+         id="stop3796"
+         offset="0"
+         style="stop-color:#ff8700;stop-opacity:1;" />
+      <svg:stop
+         id="stop3798"
+         offset="1"
+         style="stop-color:#000000;stop-opacity:0;" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient3333">
+      <svg:stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3335" />
+      <svg:stop
+         style="stop-color:#0033ea;stop-opacity:0;"
+         offset="1"
+         id="stop3337" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient3323">
+      <svg:stop
+         style="stop-color:#fffbff;stop-opacity:1;"
+         offset="0"
+         id="stop3325" />
+      <svg:stop
+         style="stop-color:#f3f7f9;stop-opacity:0;"
+         offset="1"
+         id="stop3327" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient3313">
+      <svg:stop
+         style="stop-color:#fdffff;stop-opacity:0.64462811;"
+         offset="0"
+         id="stop3315" />
+      <svg:stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3317" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient3303">
+      <svg:stop
+         style="stop-color:#ffffff;stop-opacity:0.51239669;"
+         offset="0"
+         id="stop3305" />
+      <svg:stop
+         style="stop-color:#ffffff;stop-opacity:0;"
+         offset="1"
+         id="stop3307" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient3291">
+      <svg:stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop3293" />
+      <svg:stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop3295" />
+    </svg:linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective10" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3303"
+       id="linearGradient3329"
+       x1="194.1282"
+       y1="357.67545"
+       x2="194.1282"
+       y2="320.93719"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-0.8349641,-0.8349603)" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3333"
+       id="linearGradient3339"
+       x1="202.06032"
+       y1="269.16965"
+       x2="205.40018"
+       y2="450.35599"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-2.8253874e-6,2.6789494e-8)" />
+    <inkscape:perspective
+       id="perspective3569"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3949"
+       x="-0.24003901"
+       width="1.480078"
+       y="-0.23996101"
+       height="1.4799221">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="9.6296895"
+         id="feGaussianBlur3951" />
+    </svg:filter>
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3953"
+       x="-0.23996103"
+       width="1.4799221"
+       y="-0.24003899"
+       height="1.480078">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="9.629686"
+         id="feGaussianBlur3955" />
+    </svg:filter>
+    <svg:clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3388">
+      <svg:rect
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;display:inline"
+         id="rect3390"
+         width="100"
+         height="100"
+         x="0"
+         y="952.36218"
+         ry="27.524401"
+         rx="27.524401" />
+    </svg:clipPath>
+    <svg:clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath2426">
+      <svg:rect
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;display:inline"
+         id="rect2428"
+         width="100"
+         height="100"
+         x="0"
+         y="952.36218"
+         ry="27.524401"
+         rx="27.524401" />
+    </svg:clipPath>
+    <svg:clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3224">
+      <svg:rect
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;display:inline"
+         id="rect3226"
+         width="100"
+         height="100"
+         x="0"
+         y="952.36218"
+         ry="27.524401"
+         rx="27.524401" />
+    </svg:clipPath>
+    <svg:clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath3228">
+      <svg:rect
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;display:inline"
+         id="rect3230"
+         width="100"
+         height="100"
+         x="0"
+         y="952.36218"
+         ry="27.524401"
+         rx="27.524401" />
+    </svg:clipPath>
+    <svg:linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="287.00504"
+       x2="-43.285713"
+       y1="287.00504"
+       x1="-100.28571"
+       id="linearGradient5159"
+       xlink:href="#linearGradient5153"
+       inkscape:collect="always" />
+    <svg:radialGradient
+       r="324.77005"
+       fy="389.94934"
+       fx="388.85651"
+       cy="389.94934"
+       cx="388.85651"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4373"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:radialGradient
+       r="324.77005"
+       fy="389.94934"
+       fx="388.85651"
+       cy="389.94934"
+       cx="388.85651"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4371"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:radialGradient
+       r="324.77005"
+       fy="389.94934"
+       fx="388.85651"
+       cy="389.94934"
+       cx="388.85651"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       gradientUnits="userSpaceOnUse"
+       id="radialGradient4361"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,163.41481,-268.86605)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4359"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.8960528,0,0,2.0441806,79.81316,-469.08976)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4357"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,327.70053,-273.15177)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4355"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.2332478,0,0,1,55.34524,22.396582)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4353"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1,0,0,1.3589371,97.14286,-393.41272)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4351"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="589.505"
+       x2="640.02832"
+       y1="589.505"
+       x1="102.82881"
+       gradientTransform="translate(170.28571,-190.57143)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4349"
+       xlink:href="#linearGradient3163"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,163.41481,-268.86605)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4308"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.8960528,0,0,2.0441806,79.81316,-469.08976)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4306"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.23231,0,0,1.2284145,327.70053,-273.15177)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4304"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1.2332478,0,0,1,55.34524,22.396582)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4302"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="487.10846"
+       x2="334.72769"
+       y1="487.10846"
+       x1="248.6358"
+       gradientTransform="matrix(1,0,0,1.3589371,97.14286,-393.41272)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4300"
+       xlink:href="#linearGradient3176"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       y2="589.505"
+       x2="640.02832"
+       y1="589.505"
+       x1="102.82881"
+       gradientTransform="translate(170.28571,-190.57143)"
+       gradientUnits="userSpaceOnUse"
+       id="linearGradient4298"
+       xlink:href="#linearGradient3163"
+       inkscape:collect="always" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       id="linearGradient3179">
+      <svg:stop
+         style="stop-color:#aaccff;stop-opacity:1;"
+         offset="0"
+         id="stop3181" />
+      <svg:stop
+         style="stop-color:#aaccff;stop-opacity:0;"
+         offset="1"
+         id="stop3183" />
+    </svg:linearGradient>
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3179"
+       id="radialGradient3191"
+       cx="375.41312"
+       cy="454.11005"
+       fx="375.41312"
+       fy="454.11005"
+       r="210.69563"
+       gradientTransform="matrix(1,0,0,0.2610401,0,335.56912)"
+       gradientUnits="userSpaceOnUse" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4948"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4946"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient4950"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="radialGradient3192"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       gradientUnits="userSpaceOnUse" />
+    <svg:linearGradient
+       id="linearGradient3176">
+      <svg:stop
+         style="stop-color:#28170b;stop-opacity:1;"
+         offset="0"
+         id="stop3178" />
+      <svg:stop
+         style="stop-color:#28170b;stop-opacity:0;"
+         offset="1"
+         id="stop3180" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       inkscape:collect="always"
+       id="linearGradient3163">
+      <svg:stop
+         style="stop-color:#a05a2c;stop-opacity:1;"
+         offset="0"
+         id="stop3165" />
+      <svg:stop
+         style="stop-color:#a05a2c;stop-opacity:0;"
+         offset="1"
+         id="stop3167" />
+    </svg:linearGradient>
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective3622" />
+    <inkscape:perspective
+       id="perspective2690"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       sodipodi:type="inkscape:persp3d" />
+    <svg:linearGradient
+       id="linearGradient5153">
+      <svg:stop
+         id="stop5155"
+         offset="0"
+         style="stop-color:#41fffb;stop-opacity:1;" />
+      <svg:stop
+         id="stop5157"
+         offset="1"
+         style="stop-color:#fffffb;stop-opacity:0;" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient5161">
+      <svg:stop
+         id="stop5163"
+         offset="0"
+         style="stop-color:#1970ec;stop-opacity:1;" />
+      <svg:stop
+         id="stop5165"
+         offset="1"
+         style="stop-color:#28170b;stop-opacity:0;" />
+    </svg:linearGradient>
+    <svg:linearGradient
+       id="linearGradient5167">
+      <svg:stop
+         id="stop5169"
+         offset="0"
+         style="stop-color:#008dff;stop-opacity:1;" />
+      <svg:stop
+         id="stop5171"
+         offset="1"
+         style="stop-color:#28170b;stop-opacity:0;" />
+    </svg:linearGradient>
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5167"
+       id="radialGradient3677"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5161"
+       id="radialGradient3679"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1982098,0,0,0.2306459,176.96591,-66.432577)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient4001"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.1493264,-10.41603,-38.169807)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4003"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.2029252,-22.0847,-68.459366)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4005"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1967432,0,0,0.1493264,-28.752782,-6.3680606)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4007"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,14.696765,-50.501232)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4009"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.3024822,0,0,0.3052501,-24.849353,-79.759946)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4011"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,-11.512164,-49.861261)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient4154"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.1493264,-10.41603,-38.169807)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4156"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.2029252,-22.0847,-68.459366)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4158"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1967432,0,0,0.1493264,-28.752782,-6.3680606)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4160"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,14.696765,-50.501232)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4162"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.3024822,0,0,0.3052501,-24.849353,-79.759946)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4164"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,-11.512164,-49.861261)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5167"
+       id="radialGradient2598"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1,0,0,1.1318382,0,-51.410222)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5161"
+       id="radialGradient2600"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1982098,0,0,0.2306459,176.96591,-66.432577)"
+       cx="388.85651"
+       cy="389.94934"
+       fx="388.85651"
+       fy="389.94934"
+       r="324.77005" />
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3347">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.95361328"
+         id="feGaussianBlur3349" />
+    </svg:filter>
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3359">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.51318359"
+         id="feGaussianBlur3361" />
+    </svg:filter>
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3377">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.6315918"
+         id="feGaussianBlur3379" />
+    </svg:filter>
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3405"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.1493264,-10.41603,-38.169807)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3407"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1595326,0,0,0.2029252,-22.0847,-68.459366)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3409"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1967432,0,0,0.1493264,-28.752782,-6.3680606)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3411"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,14.696765,-50.501232)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3413"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.3024822,0,0,0.3052501,-24.849353,-79.759946)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3415"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1965936,0,0,0.1834347,-11.512164,-49.861261)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3457"
+       x="-0.24845607"
+       width="1.4969121"
+       y="-0.079102595"
+       height="1.1582052">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.50414776"
+         id="feGaussianBlur3459" />
+    </svg:filter>
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3467"
+       x="-0.12922657"
+       width="1.2584531"
+       y="-0.11200316"
+       height="1.2240063">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="1.2931751"
+         id="feGaussianBlur3469" />
+    </svg:filter>
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3515"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,11.371082,-55.497641)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3524"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1838298,4.9623337e-2,-3.7663687e-2,0.1395253,-7.7173909,-24.86763)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3527"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-5.1182585e-2,0.1896061,14.173938,-81.20168)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3530"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.436976,-49.95708)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3579"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.2826286,7.629324e-2,-7.6991371e-2,0.2852148,20.536895,-97.692358)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3582"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,44.114702,-54.719597)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3591"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.539923,-49.531601)"
+       x1="309.47955"
+       y1="594.10278"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:filter
+       inkscape:collect="always"
+       id="filter3661"
+       x="-0.38131452"
+       width="1.762629"
+       y="-0.12140161"
+       height="1.2428032">
+      <svg:feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.77373379"
+         id="feGaussianBlur3663" />
+    </svg:filter>
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3702"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,116.45752,-47.613524)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3710"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,116.45752,-47.613524)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3718"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,116.45752,-47.613524)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3726"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,116.45752,-47.613524)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3734"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,116.45752,-47.613524)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3876"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.539923,-49.531601)"
+       x1="309.47955"
+       y1="594.10278"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3878"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,44.114702,-54.719597)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3880"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.2826286,7.629324e-2,-7.6991371e-2,0.2852148,20.536895,-97.692358)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3882"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.436976,-49.95708)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3884"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-5.1182585e-2,0.1896061,14.173938,-81.20168)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3886"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1838298,4.9623337e-2,-3.7663687e-2,0.1395253,-7.7173909,-24.86763)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3888"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,11.371082,-55.497641)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3945"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.436976,-49.95708)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3947"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-5.1182585e-2,0.1896061,14.173938,-81.20168)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3949"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1838298,4.9623337e-2,-3.7663687e-2,0.1395253,-7.7173909,-24.86763)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3951"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,11.371082,-55.497641)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient3953"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.539923,-49.531601)"
+       x1="309.47955"
+       y1="594.10278"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3955"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,44.114702,-54.719597)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient3957"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.2826286,7.629324e-2,-7.6991371e-2,0.2852148,20.536895,-97.692358)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient4014"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.436976,-49.95708)"
+       x1="102.82881"
+       y1="589.505"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4016"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-5.1182585e-2,0.1896061,14.173938,-81.20168)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4018"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1838298,4.9623337e-2,-3.7663687e-2,0.1395253,-7.7173909,-24.86763)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4020"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,11.371082,-55.497641)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3163"
+       id="linearGradient4022"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.1490616,4.0237935e-2,-3.7663687e-2,0.1395253,17.539923,-49.531601)"
+       x1="309.47955"
+       y1="594.10278"
+       x2="785.13879"
+       y2="589.505" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4024"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.18369,4.9585605e-2,-4.6266615e-2,0.1713948,44.114702,-54.719597)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+    <svg:linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3176"
+       id="linearGradient4026"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.2826286,7.629324e-2,-7.6991371e-2,0.2852148,20.536895,-97.692358)"
+       x1="248.6358"
+       y1="487.10846"
+       x2="334.72769"
+       y2="487.10846" />
+  </svg:defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     gridtolerance="10000"
+     guidetolerance="10"
+     objecttolerance="10"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="3.0035404"
+     inkscape:cx="62.06251"
+     inkscape:cy="41.575277"
+     inkscape:document-units="px"
+     inkscape:current-layer="svg2"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:window-width="1280"
+     inkscape:window-height="750"
+     inkscape:window-x="0"
+     inkscape:window-y="25" />
+  <svg:metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </svg:metadata>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="default"
+     inkscape:label="default"
+     style="display:inline">
+    <svg:g
+       transform="translate(0,-952.36218)"
+       style="display:inline"
+       id="g3232">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect3861"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="rect3855"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="rect3575"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g4134"
+       transform="matrix(0.9343643,0.2522239,-0.2522239,0.9343643,17.542005,-10.333641)">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4136"
+         d="M 43.32721,11.022977 C 37.75359,11.038937 32.9157,14.847067 30.62443,19.408586 C 28.05128,21.329337 24.12112,19.595206 21.73048,21.863137 C 19.26046,24.013597 19.46117,27.408067 18.96541,30.277466 C 17.83737,34.074026 15.80071,38.015576 17.04343,42.020626 C 17.85826,45.633996 19.87058,49.345816 18.55209,53.076366 C 16.74386,58.210466 12.47561,62.044266 8.8609998,66.076666 C 7.6151797,68.719066 9.5188398,71.601066 11.72807,73.215166 C 14.01667,74.954466 17.46105,75.624266 18.6824,78.395766 C 19.89512,80.991366 20.63272,84.193466 23.52795,85.645566 C 26.57566,87.216666 30.11084,86.167366 33.25532,85.482866 C 36.00204,84.868866 39.00127,84.750566 41.58917,85.966366 C 47.05342,88.031666 51.64869,92.203766 57.70805,92.775366 C 63.89139,93.260466 70.19298,90.654866 74.20532,86.279366 C 75.60667,83.789966 73.97865,81.074566 73.79794,78.504466 C 73.3766,75.762966 74.45931,72.724966 77.07334,71.238766 C 79.94616,69.393566 83.59872,69.525466 86.74999,68.382966 C 89.80564,67.030566 90.90225,63.819266 92.54352,61.298266 C 94.38346,58.122166 94.4656,54.363566 93.7442,50.890066 C 92.75559,46.135816 90.4912,41.737706 88.75161,37.205616 C 87.29498,33.928996 84.76631,31.050986 81.41175,29.343936 C 77.75466,27.315987 73.16645,26.261457 70.68206,22.777767 C 69.08991,20.643537 68.18723,17.900047 65.80794,16.386337 C 63.85843,15.510147 61.73914,16.426097 59.92052,17.103077 C 56.73511,17.280937 54.53543,14.748787 51.90622,13.509097 C 49.30104,12.100717 46.39764,10.915427 43.32721,11.022977 z"
+         style="fill:#000000;fill-opacity:1;display:inline" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4138"
+         d="M 40.467747,9.1199975 C 34.894127,9.1359515 30.056242,12.94409 27.764964,17.505608 C 25.191817,19.426361 21.261659,17.692229 18.871022,19.960161 C 16.400999,22.110619 16.601702,25.505082 16.10595,28.374488 C 14.977911,32.171051 12.941244,36.112594 14.183971,40.117642 C 14.9988,43.731014 17.011116,47.442831 15.692623,51.173433 C 13.884395,56.307552 9.6161479,60.141351 6.001538,64.173755 C 4.7557208,66.816109 6.6593739,69.698106 8.8686085,71.312227 C 11.157207,73.051535 14.601585,73.721344 15.822939,76.492836 C 17.035661,79.08844 17.773256,82.290532 20.668487,83.742657 C 23.716199,85.313739 27.251379,84.264459 30.395856,83.579896 C 33.142582,82.965961 36.141814,82.847663 38.729712,84.063437 C 44.193963,86.128712 48.789233,90.300823 54.848587,90.872434 C 61.031934,91.357497 67.333516,88.751983 71.345855,84.376395 C 72.747213,81.887067 71.119188,79.171589 70.938474,76.601531 C 70.517144,73.859997 71.599847,70.822009 74.213878,69.335868 C 77.086696,67.490593 80.739254,67.62252 83.890527,66.480001 C 86.946181,65.12761 88.042797,61.91634 89.684068,59.395368 C 91.524004,56.219196 91.606144,52.460644 90.884736,48.987102 C 89.896122,44.232839 87.631734,39.83473 85.892147,35.302638 C 84.435522,32.026019 81.906854,29.148011 78.552289,27.44096 C 74.895197,25.413007 70.306985,24.358476 67.822603,20.874785 C 66.230445,18.740554 65.327767,15.997067 62.948482,14.48336 C 60.998971,13.607162 58.879679,14.523113 57.06106,15.200097 C 53.875644,15.377953 51.675964,12.845805 49.046757,11.606119 C 46.441575,10.197741 43.538184,9.0124422 40.467747,9.1199975 z"
+         style="fill:#28170b" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4140"
+         d="M 40.849946,8.9571571 C 35.276325,8.9731111 30.43844,12.781249 28.147163,17.342768 C 25.574015,19.26352 21.643858,17.529388 19.25322,19.79732 C 16.783198,21.947779 16.983901,25.342241 16.488149,28.211648 C 15.36011,32.008211 13.323443,35.949754 14.56617,39.954802 C 15.380999,43.568173 17.393314,47.27999 16.074822,51.010592 C 14.266593,56.144712 9.9983466,59.97851 6.3837367,64.010914 C 5.1379195,66.653269 7.0415725,69.535265 9.2508071,71.149387 C 11.539406,72.888694 14.983783,73.558504 16.205138,76.329996 C 17.41786,78.925599 18.155454,82.127692 21.050685,83.579816 C 24.098398,85.150899 27.633578,84.101618 30.778055,83.417055 C 33.52478,82.803121 36.524012,82.684823 39.11191,83.900596 C 44.576162,85.965872 49.171431,90.137983 55.230786,90.709594 C 61.414132,91.194656 67.715715,88.589142 71.728054,84.213555 C 73.129412,81.724227 71.501386,79.008749 71.320673,76.438691 C 70.899342,73.697156 71.982045,70.659169 74.596076,69.173028 C 77.468898,67.327752 81.121461,67.459679 84.272724,66.31716 C 87.32838,64.964769 88.424991,61.753499 90.066262,59.232528 C 91.906199,56.056355 91.988343,52.297804 91.266936,48.824261 C 90.278329,44.069998 88.013939,39.671889 86.274348,35.139797 C 84.817719,31.863179 82.289048,28.985171 78.934492,27.278119 C 75.277395,25.250167 70.689184,24.195635 68.204802,20.711945 C 66.612644,18.577713 65.709965,15.834226 63.33068,14.320519 C 61.38117,13.444321 59.261878,14.360273 57.443259,15.037256 C 54.257843,15.215113 52.058163,12.682964 49.428955,11.443279 C 46.823773,10.034901 43.920382,8.8496017 40.849946,8.9571571 z"
+         style="fill:url(#linearGradient4154);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4142"
+         d="M 22.750371,21.503527 C 20.392727,21.736981 19.563727,25.139005 19.398409,27.657832 C 18.524818,29.307543 16.907325,31.26363 17.884627,33.400016 C 18.358844,35.066803 18.436673,37.546719 20.063244,38.079979 C 21.566952,37.420432 23.440086,37.409941 24.584996,39.012165 C 25.90927,39.950825 27.377874,38.166684 27.22029,36.423305 C 27.100787,35.007352 26.83926,33.274098 28.067701,32.476019 C 29.088352,31.233023 31.150268,31.005669 31.315278,28.887169 C 31.102771,26.851004 29.297217,26.057043 28.038931,25.24229 C 26.042435,24.509679 24.937667,21.463161 22.750371,21.503527 z"
+         style="fill:url(#linearGradient4156);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4144"
+         d="M 26.927933,58.109723 C 25.721862,58.718379 25.864306,60.183007 24.587611,60.823963 C 23.167507,61.709696 22.076907,63.08591 22.643993,64.518151 C 23.089078,65.941827 23.194272,67.752351 21.38147,68.666556 C 19.868255,69.480398 17.956766,70.579127 18.406491,72.188403 C 18.801212,73.624457 21.12088,74.252519 22.746581,73.558352 C 25.030218,72.875855 27.523534,71.881559 30.002047,72.669047 C 32.302484,73.239995 34.690943,74.720416 37.195471,73.886991 C 38.871014,72.198308 35.066502,71.019431 34.680846,69.421198 C 33.783084,67.537751 37.472821,66.315207 36.307434,64.429116 C 35.440009,62.821098 32.465449,62.832489 31.71971,61.142483 C 30.710542,59.698187 29.264033,58.220667 26.927933,58.109723 z"
+         style="fill:url(#linearGradient4158);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4146"
+         d="M 69.94747,30.820946 C 67.042122,31.031976 66.020535,34.107245 65.816814,36.384145 C 64.740278,37.875405 62.747027,39.643614 63.951364,41.574806 C 64.535746,43.081502 64.631657,45.323229 66.636097,45.80527 C 68.48913,45.209072 70.797414,45.199588 72.208296,46.647923 C 73.840212,47.496425 75.649989,45.883646 75.455794,44.307715 C 75.308531,43.027761 74.986248,41.460982 76.500069,40.739557 C 77.757827,39.615947 80.298746,39.410431 80.50209,37.495406 C 80.240215,35.65481 78.015214,34.937107 76.464615,34.200609 C 74.004313,33.538364 72.642896,30.784457 69.94747,30.820946 z"
+         style="fill:url(#linearGradient4160);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4148"
+         d="M 60.469147,56.007154 C 56.088155,56.741312 53.324894,61.004913 53.349112,64.968939 C 52.818265,68.310892 50.65451,71.528149 51.530336,74.985606 C 52.474284,76.119753 54.396681,75.598025 55.455706,76.642072 C 55.9991,77.23648 56.795108,76.528473 57.500611,76.770964 C 58.865165,76.827214 60.002942,77.657539 61.002584,78.382781 C 62.727677,78.539401 63.761702,76.902534 65.309049,76.489009 C 67.737515,75.301421 70.112331,73.271793 70.18568,70.529146 C 70.312802,69.983143 70.69899,69.102184 71.252554,69.091879 C 71.190336,69.40434 71.669816,69.85631 71.490639,69.25772 C 70.980579,66.881024 73.093144,64.62726 72.259603,62.288195 C 71.040854,60.648275 68.670133,61.110237 66.857233,61.198859 C 65.191323,61.164218 63.653257,59.990492 63.425486,58.424375 C 62.926581,57.274966 62.012845,55.849004 60.469147,56.007154 z M 70.415008,69.469862 C 70.413125,69.504117 70.391816,69.468157 70.415008,69.469862 z M 72.583654,75.881564 C 72.581607,75.916274 72.609176,75.847881 72.583654,75.881564 z"
+         style="fill:url(#linearGradient4162);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path4150"
+         d="M 43.04947,31.653619 C 42.086533,32.808824 43.973998,34.513301 42.492087,35.491812 C 41.174837,37.043595 38.841538,38.277585 38.886516,40.495187 C 39.722698,42.40319 40.555163,44.511843 40.014107,46.579903 C 40.630487,47.926427 42.669977,47.797766 43.378506,49.059477 C 44.46591,49.294133 44.750279,47.920066 45.562108,47.524215 C 46.587043,46.684593 47.075498,45.427281 47.137493,44.197036 C 47.912284,42.885544 49.57315,44.073988 49.690014,45.186324 C 50.419257,46.590029 52.981647,46.32171 53.169819,44.715012 C 53.846558,42.570733 52.725262,40.455793 51.485062,38.70838 C 50.65738,37.825494 51.816954,37.012268 52.501776,36.506727 C 51.974917,35.582224 50.597851,36.214781 49.914357,36.656053 C 49.168073,37.175743 48.820061,38.30727 47.870346,38.475968 C 46.723555,37.8592 46.896656,36.394346 46.361713,35.396117 C 45.843216,33.877216 44.920901,31.854015 43.04947,31.653619 z"
+         style="fill:url(#linearGradient4164);fill-opacity:1" />
+    </svg:g>
+    <svg:g
+       id="g3363"
+       transform="translate(7.8125e-3,4.3280602)">
+      <svg:text
+         id="text3355"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3357"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:text
+         id="text3351"
+         y="58.908203"
+         x="27.394531"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="58.908203"
+           x="27.394531"
+           id="tspan3353"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+    </svg:g>
+    <svg:g
+       id="g3421"
+       transform="translate(-10.607738,-0.107933)">
+      <svg:text
+         id="text3373"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3375"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:text
+         id="text3369"
+         y="62.884827"
+         x="60.974926"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#ffffff"
+           y="62.884827"
+           x="60.974926"
+           id="tspan3371"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+    </svg:g>
+  </svg:g>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="frame0"
+     inkscape:label="frame0"
+     style="display:inline">
+    <svg:g
+       transform="translate(0,-952.36218)"
+       style="display:inline"
+       id="g2578">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect2580"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="path2582"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="path2584"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3387"
+       transform="matrix(0.9343643,0.2522239,-0.2522239,0.9343643,17.542005,-10.333641)">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3389"
+         d="M 43.32721,11.022977 C 37.75359,11.038937 32.9157,14.847067 30.62443,19.408586 C 28.05128,21.329337 24.12112,19.595206 21.73048,21.863137 C 19.26046,24.013597 19.46117,27.408067 18.96541,30.277466 C 17.83737,34.074026 15.80071,38.015576 17.04343,42.020626 C 17.85826,45.633996 19.87058,49.345816 18.55209,53.076366 C 16.74386,58.210466 12.47561,62.044266 8.8609998,66.076666 C 7.6151797,68.719066 9.5188398,71.601066 11.72807,73.215166 C 14.01667,74.954466 17.46105,75.624266 18.6824,78.395766 C 19.89512,80.991366 20.63272,84.193466 23.52795,85.645566 C 26.57566,87.216666 30.11084,86.167366 33.25532,85.482866 C 36.00204,84.868866 39.00127,84.750566 41.58917,85.966366 C 47.05342,88.031666 51.64869,92.203766 57.70805,92.775366 C 63.89139,93.260466 70.19298,90.654866 74.20532,86.279366 C 75.60667,83.789966 73.97865,81.074566 73.79794,78.504466 C 73.3766,75.762966 74.45931,72.724966 77.07334,71.238766 C 79.94616,69.393566 83.59872,69.525466 86.74999,68.382966 C 89.80564,67.030566 90.90225,63.819266 92.54352,61.298266 C 94.38346,58.122166 94.4656,54.363566 93.7442,50.890066 C 92.75559,46.135816 90.4912,41.737706 88.75161,37.205616 C 87.29498,33.928996 84.76631,31.050986 81.41175,29.343936 C 77.75466,27.315987 73.16645,26.261457 70.68206,22.777767 C 69.08991,20.643537 68.18723,17.900047 65.80794,16.386337 C 63.85843,15.510147 61.73914,16.426097 59.92052,17.103077 C 56.73511,17.280937 54.53543,14.748787 51.90622,13.509097 C 49.30104,12.100717 46.39764,10.915427 43.32721,11.022977 z"
+         style="fill:#000000;fill-opacity:1;display:inline" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3391"
+         d="M 40.467747,9.1199975 C 34.894127,9.1359515 30.056242,12.94409 27.764964,17.505608 C 25.191817,19.426361 21.261659,17.692229 18.871022,19.960161 C 16.400999,22.110619 16.601702,25.505082 16.10595,28.374488 C 14.977911,32.171051 12.941244,36.112594 14.183971,40.117642 C 14.9988,43.731014 17.011116,47.442831 15.692623,51.173433 C 13.884395,56.307552 9.6161479,60.141351 6.001538,64.173755 C 4.7557208,66.816109 6.6593739,69.698106 8.8686085,71.312227 C 11.157207,73.051535 14.601585,73.721344 15.822939,76.492836 C 17.035661,79.08844 17.773256,82.290532 20.668487,83.742657 C 23.716199,85.313739 27.251379,84.264459 30.395856,83.579896 C 33.142582,82.965961 36.141814,82.847663 38.729712,84.063437 C 44.193963,86.128712 48.789233,90.300823 54.848587,90.872434 C 61.031934,91.357497 67.333516,88.751983 71.345855,84.376395 C 72.747213,81.887067 71.119188,79.171589 70.938474,76.601531 C 70.517144,73.859997 71.599847,70.822009 74.213878,69.335868 C 77.086696,67.490593 80.739254,67.62252 83.890527,66.480001 C 86.946181,65.12761 88.042797,61.91634 89.684068,59.395368 C 91.524004,56.219196 91.606144,52.460644 90.884736,48.987102 C 89.896122,44.232839 87.631734,39.83473 85.892147,35.302638 C 84.435522,32.026019 81.906854,29.148011 78.552289,27.44096 C 74.895197,25.413007 70.306985,24.358476 67.822603,20.874785 C 66.230445,18.740554 65.327767,15.997067 62.948482,14.48336 C 60.998971,13.607162 58.879679,14.523113 57.06106,15.200097 C 53.875644,15.377953 51.675964,12.845805 49.046757,11.606119 C 46.441575,10.197741 43.538184,9.0124422 40.467747,9.1199975 z"
+         style="fill:#28170b" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3393"
+         d="M 40.849946,8.9571571 C 35.276325,8.9731111 30.43844,12.781249 28.147163,17.342768 C 25.574015,19.26352 21.643858,17.529388 19.25322,19.79732 C 16.783198,21.947779 16.983901,25.342241 16.488149,28.211648 C 15.36011,32.008211 13.323443,35.949754 14.56617,39.954802 C 15.380999,43.568173 17.393314,47.27999 16.074822,51.010592 C 14.266593,56.144712 9.9983466,59.97851 6.3837367,64.010914 C 5.1379195,66.653269 7.0415725,69.535265 9.2508071,71.149387 C 11.539406,72.888694 14.983783,73.558504 16.205138,76.329996 C 17.41786,78.925599 18.155454,82.127692 21.050685,83.579816 C 24.098398,85.150899 27.633578,84.101618 30.778055,83.417055 C 33.52478,82.803121 36.524012,82.684823 39.11191,83.900596 C 44.576162,85.965872 49.171431,90.137983 55.230786,90.709594 C 61.414132,91.194656 67.715715,88.589142 71.728054,84.213555 C 73.129412,81.724227 71.501386,79.008749 71.320673,76.438691 C 70.899342,73.697156 71.982045,70.659169 74.596076,69.173028 C 77.468898,67.327752 81.121461,67.459679 84.272724,66.31716 C 87.32838,64.964769 88.424991,61.753499 90.066262,59.232528 C 91.906199,56.056355 91.988343,52.297804 91.266936,48.824261 C 90.278329,44.069998 88.013939,39.671889 86.274348,35.139797 C 84.817719,31.863179 82.289048,28.985171 78.934492,27.278119 C 75.277395,25.250167 70.689184,24.195635 68.204802,20.711945 C 66.612644,18.577713 65.709965,15.834226 63.33068,14.320519 C 61.38117,13.444321 59.261878,14.360273 57.443259,15.037256 C 54.257843,15.215113 52.058163,12.682964 49.428955,11.443279 C 46.823773,10.034901 43.920382,8.8496017 40.849946,8.9571571 z"
+         style="fill:url(#linearGradient3405);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3395"
+         d="M 22.750371,21.503527 C 20.392727,21.736981 19.563727,25.139005 19.398409,27.657832 C 18.524818,29.307543 16.907325,31.26363 17.884627,33.400016 C 18.358844,35.066803 18.436673,37.546719 20.063244,38.079979 C 21.566952,37.420432 23.440086,37.409941 24.584996,39.012165 C 25.90927,39.950825 27.377874,38.166684 27.22029,36.423305 C 27.100787,35.007352 26.83926,33.274098 28.067701,32.476019 C 29.088352,31.233023 31.150268,31.005669 31.315278,28.887169 C 31.102771,26.851004 29.297217,26.057043 28.038931,25.24229 C 26.042435,24.509679 24.937667,21.463161 22.750371,21.503527 z"
+         style="fill:url(#linearGradient3407);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3397"
+         d="M 26.927933,58.109723 C 25.721862,58.718379 25.864306,60.183007 24.587611,60.823963 C 23.167507,61.709696 22.076907,63.08591 22.643993,64.518151 C 23.089078,65.941827 23.194272,67.752351 21.38147,68.666556 C 19.868255,69.480398 17.956766,70.579127 18.406491,72.188403 C 18.801212,73.624457 21.12088,74.252519 22.746581,73.558352 C 25.030218,72.875855 27.523534,71.881559 30.002047,72.669047 C 32.302484,73.239995 34.690943,74.720416 37.195471,73.886991 C 38.871014,72.198308 35.066502,71.019431 34.680846,69.421198 C 33.783084,67.537751 37.472821,66.315207 36.307434,64.429116 C 35.440009,62.821098 32.465449,62.832489 31.71971,61.142483 C 30.710542,59.698187 29.264033,58.220667 26.927933,58.109723 z"
+         style="fill:url(#linearGradient3409);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3399"
+         d="M 69.94747,30.820946 C 67.042122,31.031976 66.020535,34.107245 65.816814,36.384145 C 64.740278,37.875405 62.747027,39.643614 63.951364,41.574806 C 64.535746,43.081502 64.631657,45.323229 66.636097,45.80527 C 68.48913,45.209072 70.797414,45.199588 72.208296,46.647923 C 73.840212,47.496425 75.649989,45.883646 75.455794,44.307715 C 75.308531,43.027761 74.986248,41.460982 76.500069,40.739557 C 77.757827,39.615947 80.298746,39.410431 80.50209,37.495406 C 80.240215,35.65481 78.015214,34.937107 76.464615,34.200609 C 74.004313,33.538364 72.642896,30.784457 69.94747,30.820946 z"
+         style="fill:url(#linearGradient3411);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3401"
+         d="M 60.469147,56.007154 C 56.088155,56.741312 53.324894,61.004913 53.349112,64.968939 C 52.818265,68.310892 50.65451,71.528149 51.530336,74.985606 C 52.474284,76.119753 54.396681,75.598025 55.455706,76.642072 C 55.9991,77.23648 56.795108,76.528473 57.500611,76.770964 C 58.865165,76.827214 60.002942,77.657539 61.002584,78.382781 C 62.727677,78.539401 63.761702,76.902534 65.309049,76.489009 C 67.737515,75.301421 70.112331,73.271793 70.18568,70.529146 C 70.312802,69.983143 70.69899,69.102184 71.252554,69.091879 C 71.190336,69.40434 71.669816,69.85631 71.490639,69.25772 C 70.980579,66.881024 73.093144,64.62726 72.259603,62.288195 C 71.040854,60.648275 68.670133,61.110237 66.857233,61.198859 C 65.191323,61.164218 63.653257,59.990492 63.425486,58.424375 C 62.926581,57.274966 62.012845,55.849004 60.469147,56.007154 z M 70.415008,69.469862 C 70.413125,69.504117 70.391816,69.468157 70.415008,69.469862 z M 72.583654,75.881564 C 72.581607,75.916274 72.609176,75.847881 72.583654,75.881564 z"
+         style="fill:url(#linearGradient3413);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3403"
+         d="M 43.04947,31.653619 C 42.086533,32.808824 43.973998,34.513301 42.492087,35.491812 C 41.174837,37.043595 38.841538,38.277585 38.886516,40.495187 C 39.722698,42.40319 40.555163,44.511843 40.014107,46.579903 C 40.630487,47.926427 42.669977,47.797766 43.378506,49.059477 C 44.46591,49.294133 44.750279,47.920066 45.562108,47.524215 C 46.587043,46.684593 47.075498,45.427281 47.137493,44.197036 C 47.912284,42.885544 49.57315,44.073988 49.690014,45.186324 C 50.419257,46.590029 52.981647,46.32171 53.169819,44.715012 C 53.846558,42.570733 52.725262,40.455793 51.485062,38.70838 C 50.65738,37.825494 51.816954,37.012268 52.501776,36.506727 C 51.974917,35.582224 50.597851,36.214781 49.914357,36.656053 C 49.168073,37.175743 48.820061,38.30727 47.870346,38.475968 C 46.723555,37.8592 46.896656,36.394346 46.361713,35.396117 C 45.843216,33.877216 44.920901,31.854015 43.04947,31.653619 z"
+         style="fill:url(#linearGradient3415);fill-opacity:1" />
+    </svg:g>
+    <svg:path
+       style="fill:#ff2900;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3467)"
+       d="M 49.05786,72.689782 L 47.73232,75.119942 L 45.74401,73.573476 L 47.06955,70.922393 L 46.40678,68.93408 L 44.19754,68.93408 L 40.66277,68.713156 C 40.66277,68.713156 39.77907,67.166691 40.88369,66.724843 C 41.98831,66.282996 42.65108,64.73653 42.65108,64.73653 L 43.7557,62.748218 L 41.98831,60.538981 L 40,62.085447 L 43.7557,58.108821 L 47.06955,56.120508 C 47.06955,56.120508 48.39509,55.236814 49.05786,56.120508 C 49.72064,57.004203 50.38341,58.108821 50.38341,58.992516 C 50.38341,59.87621 50.16248,61.864523 50.16248,61.864523 C 50.16248,61.864523 50.60433,48.830027 50.82525,47.504485 C 51.04618,46.178944 53.03449,59.213439 53.03449,59.213439 L 54.58096,64.07376 C 54.58096,64.07376 55.9065,63.852836 56.56927,62.969141 C 57.23204,62.085447 56.79019,59.655287 59.88312,58.771592 C 62.97605,57.887897 59.88312,62.30637 59.88312,62.30637 C 59.88312,62.30637 64.96437,65.841149 63.85975,66.062073 C 62.75513,66.282996 60.76682,64.957454 60.76682,64.957454 C 60.76682,64.957454 58.55758,66.724843 58.33666,67.608538 C 58.11573,68.492232 56.12742,72.247935 56.12742,72.247935 L 54.13911,67.608538 L 49.05786,72.689782 z"
+       id="path3461"
+       sodipodi:nodetypes="cccccccsccccccsscsccsscscsccc" />
+    <svg:rect
+       style="opacity:1;fill:#ff2900;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+       id="rect3449"
+       width="4.8698936"
+       height="15.296017"
+       x="49.27401"
+       y="84.703979" />
+    <svg:rect
+       style="opacity:1;fill:#ff2900;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline;filter:url(#filter3457)"
+       id="rect3451"
+       width="4.8698936"
+       height="15.296017"
+       x="49.703037"
+       y="71.585167"
+       transform="matrix(1,0,0,1.5632854,-0.4290325,-47.087196)" />
+    <svg:g
+       style="display:inline"
+       id="g3427"
+       transform="translate(7.8125e-3,4.3280602)">
+      <svg:text
+         id="text3429"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3431"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:text
+         id="text3433"
+         y="58.908203"
+         x="27.394531"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="58.908203"
+           x="27.394531"
+           id="tspan3435"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3437"
+       transform="translate(-10.607739,-0.1079335)">
+      <svg:text
+         id="text3439"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3441"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:text
+         id="text3443"
+         y="62.884827"
+         x="60.974926"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#ffffff"
+           y="62.884827"
+           x="60.974926"
+           id="tspan3445"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+    </svg:g>
+  </svg:g>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="frame1"
+     inkscape:label="frame1"
+     style="display:inline">
+    <svg:g
+       transform="translate(0,-952.36218)"
+       style="display:inline"
+       id="g2602">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect2604"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="path2606"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="path2608"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       id="g3538"
+       transform="translate(-1.3317614,1.3317617)">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3534"
+         d="M 47.317051,22.445252 C 43.329184,19.657805 44.506023,19.563192 40.448472,12.008761 C 37.484239,13.184383 34.164867,10.504521 31.285766,12.060253 C 28.360957,13.482807 27.674843,16.789329 26.456868,19.412179 C 24.392699,22.760331 21.419822,26.012317 21.57476,30.173958 C 21.420807,33.849315 22.389512,37.92899 20.159809,41.164606 C 17.097298,45.619148 12.012691,48.190259 7.5033823,51.120965 C 5.6250176,53.33199 6.7043104,56.587918 8.40474,58.707311 C 10.148862,60.967271 13.277939,62.500942 13.731651,65.474329 C 14.22261,68.276842 14.10105,71.53788 16.501134,73.679498 C 19.016628,75.974638 22.677696,75.883564 25.869767,76.041057 C 28.662196,76.163324 35.963129,77.840386 38.284541,76.165236 C 39.383603,72.140839 35.710802,70.849051 39.217818,66.185825 C 41.644133,63.04737 50.103275,61.770204 50.254106,56.98269 C 51.332098,51.330752 52.69026,44.179382 52.584963,38.917001 C 49.031387,35.316 49.164613,34.812574 46.964607,32.943492 C 44.831296,30.918886 49.835395,26.537296 47.317051,22.445252 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3490"
+         d="M 46.161046,21.809062 C 42.274772,19.092627 43.421631,19.000425 39.467449,11.638448 C 36.578731,12.78412 33.343923,10.17253 30.538169,11.688628 C 27.687872,13.074942 27.019237,16.297228 25.832291,18.853259 C 23.820708,22.116114 20.923567,25.285254 21.074558,29.340874 C 20.924527,32.922598 21.868553,36.898341 19.695654,40.051527 C 16.711162,44.392587 11.756089,46.898197 7.3616583,49.754241 C 5.5311461,51.908938 6.5829432,55.081919 8.240053,57.147319 C 9.9397433,59.349705 12.989104,60.844305 13.431258,63.741943 C 13.909709,66.47306 13.791246,69.65102 16.130186,71.738079 C 18.581596,73.974749 22.149396,73.885995 25.260146,74.039476 C 27.981436,74.158628 35.096373,75.792966 37.358645,74.160491 C 38.429708,70.238619 34.850474,68.97974 38.268146,64.435313 C 40.632649,61.376812 48.876289,60.132183 49.023277,55.466634 C 50.073806,49.958683 51.397368,42.9895 51.294754,37.861182 C 47.831708,34.351919 47.96154,33.861318 45.81758,32.039852 C 43.738617,30.066824 48.615233,25.796858 46.161046,21.809062 z"
+         style="fill:url(#linearGradient3530);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3492"
+         d="M 33.375436,14.164912 C 31.113655,13.788389 29.480995,16.758025 28.69122,19.06983 C 27.458871,20.390921 25.454171,21.810648 25.82848,24.05331 C 25.851168,25.730305 25.298394,28.06708 26.683703,28.9756 C 28.255068,28.738613 30.007903,29.20126 30.673547,30.987095 C 31.674149,32.198159 33.496363,30.901538 33.788844,29.232841 C 34.034322,27.879683 34.227129,26.194229 35.576235,25.758375 C 36.843408,24.854396 38.827333,25.162029 39.515848,23.224198 C 39.830859,21.268079 38.34407,20.070826 37.373872,18.99218 C 35.6932,17.804091 35.429349,14.678884 33.375436,14.164912 z"
+         style="fill:url(#linearGradient3527);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3494"
+         d="M 28.045843,49.422116 C 26.765416,49.686622 26.529096,51.091046 25.174534,51.36792 C 23.624236,51.837333 22.258104,52.848143 22.426724,54.32941 C 22.48351,55.771903 22.125143,57.490125 20.200741,57.887093 C 18.581576,58.265849 16.518423,58.810339 16.532733,60.427421 C 16.539339,61.868776 18.548341,63.040691 20.242424,62.802126 C 22.548315,62.740413 25.128765,62.440253 27.245976,63.801194 C 29.251416,64.914892 31.109709,66.900571 33.66006,66.75355 C 35.651554,65.598317 32.394095,63.537228 32.436864,61.946624 C 32.073078,59.960362 35.828991,59.7487 35.215812,57.692465 C 34.810902,55.971206 32.028706,55.231594 31.758174,53.464419 C 31.17953,51.860384 30.200629,50.114998 28.045843,49.422116 z"
+         style="fill:url(#linearGradient3524);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3500"
+         d="M 41.791524,34.428701 C 40.600419,35.265207 41.934089,37.333874 40.302641,37.874386 C 38.680453,38.992075 36.18906,39.556557 35.671753,41.63995 C 35.971808,43.633625 36.217781,45.813842 35.190623,47.609697 C 35.426921,49.023306 37.364999,49.417498 37.70879,50.775104 C 38.665635,51.268627 39.277912,50.056473 40.136299,49.891366 C 41.305735,49.365367 42.079254,48.313779 42.447477,47.179919 C 43.502204,46.149928 44.754303,47.679278 44.582939,48.748081 C 44.91027,50.243585 47.372152,50.639174 47.953221,49.185394 C 49.12638,47.352546 48.61212,45.093604 47.89406,43.148076 C 47.343389,42.114377 48.631968,41.647 49.399351,41.347369 C 49.140255,40.35066 47.694027,40.59437 46.944096,40.834285 C 46.115716,41.131634 45.505148,42.101116 44.575219,42.0192 C 43.659262,41.153666 44.190472,39.828619 43.942418,38.760984 C 43.841056,37.211 43.489577,35.087963 41.791524,34.428701 z"
+         style="fill:url(#linearGradient3515);fill-opacity:1" />
+    </svg:g>
+    <svg:g
+       id="g3599"
+       transform="translate(1.6647021,0.6658808)">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3595"
+         d="M 58.836358,31.818495 C 55.829235,36.925335 57.058661,34.865754 55.013388,43.846298 C 54.778354,52.956185 50.359744,61.278777 54.728638,72.494667 C 63.568381,79.786363 67.393549,74.797622 70.333942,74.042949 C 73.621247,73.008571 77.148459,74.089481 80.5223,73.807278 C 83.858152,73.297195 85.772905,70.478429 88.037088,68.469275 C 90.667484,65.878457 91.737008,62.265737 91.947889,58.718859 C 92.235344,53.863907 91.184911,49.020332 90.681527,44.184184 C 90.123589,40.635817 88.415275,37.193054 85.593319,34.666932 C 82.560802,31.751565 78.364026,29.534373 76.858345,25.517535 C 75.867512,23.03837 75.709437,20.150073 73.787658,18.065451 C 72.11717,16.709414 69.80934,17.041899 67.85763,17.221804 C 64.704426,16.562356 68.090722,18.363372 63.073184,20.612896 C 57.775997,25.461866 62.206415,25.280663 58.836358,31.818495 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccsccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3551"
+         d="M 58.881521,31.404366 C 56.000287,36.339341 57.178245,34.349073 55.218595,43.027385 C 54.993401,51.830687 50.759771,59.873191 54.945766,70.711621 C 63.415443,77.757922 67.080474,72.937073 69.897771,72.207797 C 73.047456,71.208231 76.427006,72.252763 79.659604,71.980058 C 82.855805,71.487141 84.690398,68.763237 86.859793,66.821699 C 89.380071,64.318073 90.40482,60.826936 90.606873,57.399425 C 90.882293,52.707861 89.875836,48.027292 89.393526,43.3539 C 88.858945,39.924949 87.222148,36.59805 84.51833,34.156942 C 81.612767,31.339689 77.591685,29.197115 76.149037,25.315459 C 75.199685,22.919729 75.048227,20.128635 73.206901,18.114169 C 71.606347,16.803768 69.395131,17.125064 67.525127,17.298914 C 64.503928,16.661659 67.748461,18.402064 62.940977,20.575882 C 57.865551,25.261663 62.110495,25.086559 58.881521,31.404366 z"
+         style="fill:url(#linearGradient3591);fill-opacity:1"
+         sodipodi:nodetypes="ccccccsccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3557"
+         d="M 75.227592,35.200491 C 72.459711,34.664872 70.729521,37.280625 69.964882,39.356696 C 68.582874,40.478548 66.274467,41.627954 66.912664,43.736153 C 67.078665,45.291351 66.602863,47.410132 68.354158,48.366101 C 70.235942,48.276414 72.395112,48.849757 73.348085,50.558888 C 74.658876,51.763306 76.756649,50.712852 76.972687,49.191378 C 77.157925,47.958291 77.251975,46.413061 78.848395,46.120809 C 80.307001,45.388185 82.732981,45.837039 83.405993,44.098996 C 83.625549,42.313158 81.727609,41.081363 80.464547,40.002107 C 78.332763,38.762782 77.755305,35.846248 75.227592,35.200491 z"
+         style="fill:url(#linearGradient3582);fill-opacity:1" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3559"
+         d="M 66.011748,50.682938 C 61.733134,50.263918 58.075859,53.550715 57.098666,57.260667 C 55.759741,60.249377 52.926536,62.709716 52.872823,66.161145 C 53.468756,67.458937 55.396567,67.456328 56.122749,68.698959 C 56.480553,69.39141 57.40289,68.930646 58.000925,69.335165 C 59.261728,69.731897 60.115399,70.794697 60.866505,71.724471 C 62.438867,72.305921 63.81788,71.037296 65.367967,71.041191 C 67.936577,70.544069 70.667441,69.246642 71.427736,66.702511 C 71.68423,66.224409 72.267269,65.498678 72.787099,65.628671 C 72.650154,65.904931 72.984166,66.448172 72.967728,65.843678 C 73.090605,63.494329 75.632964,61.921331 75.444101,59.525554 C 74.718972,57.685873 72.387337,57.519562 70.671076,57.14511 C 69.123246,56.69256 67.982174,55.207936 68.164365,53.687163 C 67.988115,52.48736 67.494014,50.924526 66.011748,50.682938 z M 71.909189,65.770596 C 71.89879,65.802128 71.887949,65.763153 71.909189,65.770596 z M 72.31831,72.308446 C 72.307643,72.340361 72.350653,72.283411 72.31831,72.308446 z"
+         style="fill:url(#linearGradient3579);fill-opacity:1" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3635"
+       transform="translate(-9.9921875,4.32806)">
+      <svg:text
+         id="text3637"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3639"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:text
+         id="text3641"
+         y="58.908203"
+         x="27.394531"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="58.908203"
+           x="27.394531"
+           id="tspan3643"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+    </svg:g>
+    <svg:path
+       style="fill:#ff2900;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3467)"
+       d="M 48.059039,63.034514 L 46.733499,65.464674 L 44.745189,63.918208 L 46.070729,61.267125 L 45.407959,59.278812 L 43.198719,59.278812 L 39.663949,59.057888 C 39.663949,59.057888 38.780249,57.511423 39.884869,57.069575 C 40.989489,56.627728 41.652259,55.081262 41.652259,55.081262 L 42.756879,53.09295 L 40.989489,50.883713 L 39.001179,52.430179 L 42.756879,48.453553 L 46.070729,46.46524 C 46.070729,46.46524 47.396269,45.581545 48.059039,46.46524 C 48.721819,47.348935 49.384589,48.453553 49.384589,49.337248 C 49.384589,50.220942 49.163659,52.209255 49.163659,52.209255 C 49.163659,52.209255 49.605509,39.174758 49.826429,37.849216 C 50.047359,36.523676 52.035669,49.558171 52.035669,49.558171 L 53.582139,54.418492 C 53.582139,54.418492 54.907679,54.197568 55.570449,53.313873 C 56.233219,52.430179 55.791369,50.000019 58.884299,49.116324 C 61.977229,48.232629 58.884299,52.651102 58.884299,52.651102 C 58.884299,52.651102 63.965549,56.185881 62.860929,56.406805 C 61.756309,56.627728 59.767999,55.302186 59.767999,55.302186 C 59.767999,55.302186 57.558759,57.069575 57.337839,57.95327 C 57.116909,58.836964 55.128599,62.592667 55.128599,62.592667 L 53.140289,57.95327 L 48.059039,63.034514 z"
+       id="path3655"
+       sodipodi:nodetypes="cccccccsccccccsscsccsscscsccc"
+       transform="matrix(1.2633925,0,0,1.588741,-10.272619,-38.541737)" />
+    <svg:g
+       style="display:inline"
+       id="g3645"
+       transform="translate(-0.607739,-0.107933)">
+      <svg:text
+         id="text3647"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3649"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:text
+         id="text3651"
+         y="62.884827"
+         x="60.974926"
+         style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#ffffff"
+           y="62.884827"
+           x="60.974926"
+           id="tspan3653"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+    </svg:g>
+    <svg:rect
+       style="opacity:1;fill:#ff2900;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline"
+       id="rect3657"
+       width="4.8698936"
+       height="50.587704"
+       x="49.27401"
+       y="49.412296" />
+    <svg:rect
+       style="opacity:1;fill:#ff2900;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:inline;filter:url(#filter3661)"
+       id="rect3659"
+       width="4.8698936"
+       height="15.296017"
+       x="49.703037"
+       y="71.585167"
+       transform="matrix(1,0,0,5.7424492,-0.42903,-410.1779)" />
+    <svg:g
+       id="g3698"
+       transform="matrix(8.3272479e-2,0.1240629,-7.1234808e-2,8.2971267e-2,37.191247,-11.766434)"
+       inkscape:transform-center-x="1.7691976"
+       inkscape:transform-center-y="-3.1435777"
+       style="opacity:0.8">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3667"
+         d="M 145.71391,24.622424 C 141.78701,21.877585 142.94586,21.784418 138.95033,14.34546 C 136.0314,15.503112 132.76277,12.864213 129.92767,14.396165 C 127.04757,15.796974 126.37195,19.052955 125.17259,21.635713 C 123.13997,24.932687 120.21254,28.134965 120.3651,32.232994 C 120.2135,35.852171 121.16741,39.869487 118.97178,43.055645 C 115.95608,47.442098 110.9492,49.973908 106.50882,52.859817 C 104.65916,55.037045 105.72195,58.243205 107.39639,60.330202 C 109.11386,62.555618 112.1951,64.065846 112.64189,66.993784 C 113.12533,69.753459 113.00563,72.964651 115.36903,75.073533 C 117.84607,77.333591 121.45118,77.243909 124.59446,77.398995 C 127.34421,77.519393 134.53354,79.17082 136.81946,77.521276 C 137.90174,73.558393 134.28508,72.286351 137.73848,67.694404 C 140.12771,64.603922 148.45755,63.346278 148.60607,58.631943 C 149.66759,53.066397 151.00499,46.024339 150.90131,40.842396 C 147.40204,37.296438 147.53324,36.800707 145.36686,34.960194 C 143.26615,32.966535 148.19376,28.65192 145.71391,24.622424 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3669"
+         d="M 145.18159,24.152618 C 141.29532,21.436183 142.44217,21.343981 138.48799,13.982004 C 135.59928,15.127676 132.36447,12.516086 129.55871,14.032184 C 126.70842,15.418498 126.03978,18.640784 124.85283,21.196815 C 122.84125,24.45967 119.94411,27.62881 120.0951,31.68443 C 119.94507,35.266154 120.8891,39.241897 118.7162,42.395083 C 115.73171,46.736143 110.77663,49.241753 106.3822,52.097797 C 104.55169,54.252494 105.60349,57.425475 107.2606,59.490875 C 108.96029,61.693261 112.00965,63.187861 112.4518,66.085499 C 112.93025,68.816616 112.81179,71.994576 115.15073,74.081635 C 117.60214,76.318305 121.16994,76.229551 124.28069,76.383032 C 127.00198,76.502184 134.11692,78.136522 136.37919,76.504047 C 137.45025,72.582175 133.87102,71.323296 137.28869,66.778869 C 139.65319,63.720368 147.89683,62.475739 148.04382,57.81019 C 149.09435,52.302239 150.41791,45.333056 150.3153,40.204738 C 146.85225,36.695475 146.98208,36.204874 144.83812,34.383408 C 142.75916,32.41038 147.63578,28.140414 145.18159,24.152618 z"
+         style="fill:url(#linearGradient3702);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+    </svg:g>
+    <svg:g
+       style="opacity:0.8;display:inline"
+       id="g3704"
+       transform="matrix(-9.5662187e-2,0.114274,-9.8108871e-2,2.7320451e-2,75.908459,4.2086986)"
+       inkscape:transform-center-x="-2.5942151"
+       inkscape:transform-center-y="-2.9680753">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3706"
+         d="M 145.71391,24.622424 C 141.78701,21.877585 142.94586,21.784418 138.95033,14.34546 C 136.0314,15.503112 132.76277,12.864213 129.92767,14.396165 C 127.04757,15.796974 126.37195,19.052955 125.17259,21.635713 C 123.13997,24.932687 120.21254,28.134965 120.3651,32.232994 C 120.2135,35.852171 121.16741,39.869487 118.97178,43.055645 C 115.95608,47.442098 110.9492,49.973908 106.50882,52.859817 C 104.65916,55.037045 105.72195,58.243205 107.39639,60.330202 C 109.11386,62.555618 112.1951,64.065846 112.64189,66.993784 C 113.12533,69.753459 113.00563,72.964651 115.36903,75.073533 C 117.84607,77.333591 121.45118,77.243909 124.59446,77.398995 C 127.34421,77.519393 134.53354,79.17082 136.81946,77.521276 C 137.90174,73.558393 134.28508,72.286351 137.73848,67.694404 C 140.12771,64.603922 148.45755,63.346278 148.60607,58.631943 C 149.66759,53.066397 151.00499,46.024339 150.90131,40.842396 C 147.40204,37.296438 147.53324,36.800707 145.36686,34.960194 C 143.26615,32.966535 148.19376,28.65192 145.71391,24.622424 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3708"
+         d="M 145.18159,24.152618 C 141.29532,21.436183 142.44217,21.343981 138.48799,13.982004 C 135.59928,15.127676 132.36447,12.516086 129.55871,14.032184 C 126.70842,15.418498 126.03978,18.640784 124.85283,21.196815 C 122.84125,24.45967 119.94411,27.62881 120.0951,31.68443 C 119.94507,35.266154 120.8891,39.241897 118.7162,42.395083 C 115.73171,46.736143 110.77663,49.241753 106.3822,52.097797 C 104.55169,54.252494 105.60349,57.425475 107.2606,59.490875 C 108.96029,61.693261 112.00965,63.187861 112.4518,66.085499 C 112.93025,68.816616 112.81179,71.994576 115.15073,74.081635 C 117.60214,76.318305 121.16994,76.229551 124.28069,76.383032 C 127.00198,76.502184 134.11692,78.136522 136.37919,76.504047 C 137.45025,72.582175 133.87102,71.323296 137.28869,66.778869 C 139.65319,63.720368 147.89683,62.475739 148.04382,57.81019 C 149.09435,52.302239 150.41791,45.333056 150.3153,40.204738 C 146.85225,36.695475 146.98208,36.204874 144.83812,34.383408 C 142.75916,32.41038 147.63578,28.140414 145.18159,24.152618 z"
+         style="fill:url(#linearGradient3710);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+    </svg:g>
+    <svg:g
+       id="g3712"
+       transform="matrix(0.103136,-5.6086288e-2,2.3755927e-2,8.82459e-2,49.824618,11.691195)"
+       inkscape:transform-center-x="2.6833454"
+       inkscape:transform-center-y="0.91728334"
+       style="opacity:0.8;display:inline">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3714"
+         d="M 145.71391,24.622424 C 141.78701,21.877585 142.94586,21.784418 138.95033,14.34546 C 136.0314,15.503112 132.76277,12.864213 129.92767,14.396165 C 127.04757,15.796974 126.37195,19.052955 125.17259,21.635713 C 123.13997,24.932687 120.21254,28.134965 120.3651,32.232994 C 120.2135,35.852171 121.16741,39.869487 118.97178,43.055645 C 115.95608,47.442098 110.9492,49.973908 106.50882,52.859817 C 104.65916,55.037045 105.72195,58.243205 107.39639,60.330202 C 109.11386,62.555618 112.1951,64.065846 112.64189,66.993784 C 113.12533,69.753459 113.00563,72.964651 115.36903,75.073533 C 117.84607,77.333591 121.45118,77.243909 124.59446,77.398995 C 127.34421,77.519393 134.53354,79.17082 136.81946,77.521276 C 137.90174,73.558393 134.28508,72.286351 137.73848,67.694404 C 140.12771,64.603922 148.45755,63.346278 148.60607,58.631943 C 149.66759,53.066397 151.00499,46.024339 150.90131,40.842396 C 147.40204,37.296438 147.53324,36.800707 145.36686,34.960194 C 143.26615,32.966535 148.19376,28.65192 145.71391,24.622424 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3716"
+         d="M 145.18159,24.152618 C 141.29532,21.436183 142.44217,21.343981 138.48799,13.982004 C 135.59928,15.127676 132.36447,12.516086 129.55871,14.032184 C 126.70842,15.418498 126.03978,18.640784 124.85283,21.196815 C 122.84125,24.45967 119.94411,27.62881 120.0951,31.68443 C 119.94507,35.266154 120.8891,39.241897 118.7162,42.395083 C 115.73171,46.736143 110.77663,49.241753 106.3822,52.097797 C 104.55169,54.252494 105.60349,57.425475 107.2606,59.490875 C 108.96029,61.693261 112.00965,63.187861 112.4518,66.085499 C 112.93025,68.816616 112.81179,71.994576 115.15073,74.081635 C 117.60214,76.318305 121.16994,76.229551 124.28069,76.383032 C 127.00198,76.502184 134.11692,78.136522 136.37919,76.504047 C 137.45025,72.582175 133.87102,71.323296 137.28869,66.778869 C 139.65319,63.720368 147.89683,62.475739 148.04382,57.81019 C 149.09435,52.302239 150.41791,45.333056 150.3153,40.204738 C 146.85225,36.695475 146.98208,36.204874 144.83812,34.383408 C 142.75916,32.41038 147.63578,28.140414 145.18159,24.152618 z"
+         style="fill:url(#linearGradient3718);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+    </svg:g>
+    <svg:g
+       id="g3720"
+       transform="matrix(0.1257006,-3.9359796e-2,2.8953367e-2,6.1928516e-2,32.835552,19.665383)"
+       inkscape:transform-center-x="3.2704224"
+       inkscape:transform-center-y="0.6437239"
+       style="opacity:0.8;display:inline">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3722"
+         d="M 145.71391,24.622424 C 141.78701,21.877585 142.94586,21.784418 138.95033,14.34546 C 136.0314,15.503112 132.76277,12.864213 129.92767,14.396165 C 127.04757,15.796974 126.37195,19.052955 125.17259,21.635713 C 123.13997,24.932687 120.21254,28.134965 120.3651,32.232994 C 120.2135,35.852171 121.16741,39.869487 118.97178,43.055645 C 115.95608,47.442098 110.9492,49.973908 106.50882,52.859817 C 104.65916,55.037045 105.72195,58.243205 107.39639,60.330202 C 109.11386,62.555618 112.1951,64.065846 112.64189,66.993784 C 113.12533,69.753459 113.00563,72.964651 115.36903,75.073533 C 117.84607,77.333591 121.45118,77.243909 124.59446,77.398995 C 127.34421,77.519393 134.53354,79.17082 136.81946,77.521276 C 137.90174,73.558393 134.28508,72.286351 137.73848,67.694404 C 140.12771,64.603922 148.45755,63.346278 148.60607,58.631943 C 149.66759,53.066397 151.00499,46.024339 150.90131,40.842396 C 147.40204,37.296438 147.53324,36.800707 145.36686,34.960194 C 143.26615,32.966535 148.19376,28.65192 145.71391,24.622424 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3724"
+         d="M 145.18159,24.152618 C 141.29532,21.436183 142.44217,21.343981 138.48799,13.982004 C 135.59928,15.127676 132.36447,12.516086 129.55871,14.032184 C 126.70842,15.418498 126.03978,18.640784 124.85283,21.196815 C 122.84125,24.45967 119.94411,27.62881 120.0951,31.68443 C 119.94507,35.266154 120.8891,39.241897 118.7162,42.395083 C 115.73171,46.736143 110.77663,49.241753 106.3822,52.097797 C 104.55169,54.252494 105.60349,57.425475 107.2606,59.490875 C 108.96029,61.693261 112.00965,63.187861 112.4518,66.085499 C 112.93025,68.816616 112.81179,71.994576 115.15073,74.081635 C 117.60214,76.318305 121.16994,76.229551 124.28069,76.383032 C 127.00198,76.502184 134.11692,78.136522 136.37919,76.504047 C 137.45025,72.582175 133.87102,71.323296 137.28869,66.778869 C 139.65319,63.720368 147.89683,62.475739 148.04382,57.81019 C 149.09435,52.302239 150.41791,45.333056 150.3153,40.204738 C 146.85225,36.695475 146.98208,36.204874 144.83812,34.383408 C 142.75916,32.41038 147.63578,28.140414 145.18159,24.152618 z"
+         style="fill:url(#linearGradient3726);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+    </svg:g>
+    <svg:g
+       id="g3728"
+       transform="matrix(1.7486134e-3,0.1187259,-9.0611927e-2,-8.270231e-3,59.772043,-9.2932542)"
+       inkscape:transform-center-x="-0.47212312"
+       inkscape:transform-center-y="-3.0621527"
+       style="opacity:0.8;display:inline">
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3730"
+         d="M 145.71391,24.622424 C 141.78701,21.877585 142.94586,21.784418 138.95033,14.34546 C 136.0314,15.503112 132.76277,12.864213 129.92767,14.396165 C 127.04757,15.796974 126.37195,19.052955 125.17259,21.635713 C 123.13997,24.932687 120.21254,28.134965 120.3651,32.232994 C 120.2135,35.852171 121.16741,39.869487 118.97178,43.055645 C 115.95608,47.442098 110.9492,49.973908 106.50882,52.859817 C 104.65916,55.037045 105.72195,58.243205 107.39639,60.330202 C 109.11386,62.555618 112.1951,64.065846 112.64189,66.993784 C 113.12533,69.753459 113.00563,72.964651 115.36903,75.073533 C 117.84607,77.333591 121.45118,77.243909 124.59446,77.398995 C 127.34421,77.519393 134.53354,79.17082 136.81946,77.521276 C 137.90174,73.558393 134.28508,72.286351 137.73848,67.694404 C 140.12771,64.603922 148.45755,63.346278 148.60607,58.631943 C 149.66759,53.066397 151.00499,46.024339 150.90131,40.842396 C 147.40204,37.296438 147.53324,36.800707 145.36686,34.960194 C 143.26615,32.966535 148.19376,28.65192 145.71391,24.622424 z"
+         style="fill:#000000;fill-opacity:1;display:inline"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+      <svg:path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+         id="path3732"
+         d="M 145.18159,24.152618 C 141.29532,21.436183 142.44217,21.343981 138.48799,13.982004 C 135.59928,15.127676 132.36447,12.516086 129.55871,14.032184 C 126.70842,15.418498 126.03978,18.640784 124.85283,21.196815 C 122.84125,24.45967 119.94411,27.62881 120.0951,31.68443 C 119.94507,35.266154 120.8891,39.241897 118.7162,42.395083 C 115.73171,46.736143 110.77663,49.241753 106.3822,52.097797 C 104.55169,54.252494 105.60349,57.425475 107.2606,59.490875 C 108.96029,61.693261 112.00965,63.187861 112.4518,66.085499 C 112.93025,68.816616 112.81179,71.994576 115.15073,74.081635 C 117.60214,76.318305 121.16994,76.229551 124.28069,76.383032 C 127.00198,76.502184 134.11692,78.136522 136.37919,76.504047 C 137.45025,72.582175 133.87102,71.323296 137.28869,66.778869 C 139.65319,63.720368 147.89683,62.475739 148.04382,57.81019 C 149.09435,52.302239 150.41791,45.333056 150.3153,40.204738 C 146.85225,36.695475 146.98208,36.204874 144.83812,34.383408 C 142.75916,32.41038 147.63578,28.140414 145.18159,24.152618 z"
+         style="fill:url(#linearGradient3734);fill-opacity:1"
+         sodipodi:nodetypes="ccccccccccccccccc" />
+    </svg:g>
+  </svg:g>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="frame2"
+     inkscape:label="frame2"
+     style="display:inline">
+    <svg:g
+       transform="translate(0,-952.36218)"
+       style="display:inline"
+       id="g3736">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect3738"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="path3740"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="path3742"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3766"
+       transform="translate(-20.058613,4.3280564)">
+      <svg:text
+         id="text3768"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3770"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:g
+         id="g3866">
+        <svg:g
+           transform="translate(8.660428,-2.996298)"
+           id="g3744"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 47.317051,22.445252 C 43.329184,19.657805 44.506023,19.563192 40.448472,12.008761 C 37.484239,13.184383 34.164867,10.504521 31.285766,12.060253 C 28.360957,13.482807 27.674843,16.789329 26.456868,19.412179 C 24.392699,22.760331 21.419822,26.012317 21.57476,30.173958 C 21.420807,33.849315 22.389512,37.92899 20.159809,41.164606 C 17.097298,45.619148 12.012691,48.190259 7.5033823,51.120965 C 5.6250176,53.33199 6.7043104,56.587918 8.40474,58.707311 C 10.148862,60.967271 13.277939,62.500942 13.731651,65.474329 C 14.22261,68.276842 14.10105,71.53788 16.501134,73.679498 C 19.016628,75.974638 22.677696,75.883564 25.869767,76.041057 C 28.662196,76.163324 35.963129,77.840386 38.284541,76.165236 C 39.383603,72.140839 35.710802,70.849051 39.217818,66.185825 C 41.644133,63.04737 50.103275,61.770204 50.254106,56.98269 C 51.332098,51.330752 52.69026,44.179382 52.584963,38.917001 C 49.031387,35.316 49.164613,34.812574 46.964607,32.943492 C 44.831296,30.918886 49.835395,26.537296 47.317051,22.445252 z"
+             id="path3746"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:url(#linearGradient3882);fill-opacity:1"
+             d="M 46.161046,21.809062 C 42.274772,19.092627 43.421631,19.000425 39.467449,11.638448 C 36.578731,12.78412 33.343923,10.17253 30.538169,11.688628 C 27.687872,13.074942 27.019237,16.297228 25.832291,18.853259 C 23.820708,22.116114 20.923567,25.285254 21.074558,29.340874 C 20.924527,32.922598 21.868553,36.898341 19.695654,40.051527 C 16.711162,44.392587 11.756089,46.898197 7.3616583,49.754241 C 5.5311461,51.908938 6.5829432,55.081919 8.240053,57.147319 C 9.9397433,59.349705 12.989104,60.844305 13.431258,63.741943 C 13.909709,66.47306 13.791246,69.65102 16.130186,71.738079 C 18.581596,73.974749 22.149396,73.885995 25.260146,74.039476 C 27.981436,74.158628 35.096373,75.792966 37.358645,74.160491 C 38.429708,70.238619 34.850474,68.97974 38.268146,64.435313 C 40.632649,61.376812 48.876289,60.132183 49.023277,55.466634 C 50.073806,49.958683 51.397368,42.9895 51.294754,37.861182 C 47.831708,34.351919 47.96154,33.861318 45.81758,32.039852 C 43.738617,30.066824 48.615233,25.796858 46.161046,21.809062 z"
+             id="path3748"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3884);fill-opacity:1"
+             d="M 33.375436,14.164912 C 31.113655,13.788389 29.480995,16.758025 28.69122,19.06983 C 27.458871,20.390921 25.454171,21.810648 25.82848,24.05331 C 25.851168,25.730305 25.298394,28.06708 26.683703,28.9756 C 28.255068,28.738613 30.007903,29.20126 30.673547,30.987095 C 31.674149,32.198159 33.496363,30.901538 33.788844,29.232841 C 34.034322,27.879683 34.227129,26.194229 35.576235,25.758375 C 36.843408,24.854396 38.827333,25.162029 39.515848,23.224198 C 39.830859,21.268079 38.34407,20.070826 37.373872,18.99218 C 35.6932,17.804091 35.429349,14.678884 33.375436,14.164912 z"
+             id="path3750"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3886);fill-opacity:1"
+             d="M 28.045843,49.422116 C 26.765416,49.686622 26.529096,51.091046 25.174534,51.36792 C 23.624236,51.837333 22.258104,52.848143 22.426724,54.32941 C 22.48351,55.771903 22.125143,57.490125 20.200741,57.887093 C 18.581576,58.265849 16.518423,58.810339 16.532733,60.427421 C 16.539339,61.868776 18.548341,63.040691 20.242424,62.802126 C 22.548315,62.740413 25.128765,62.440253 27.245976,63.801194 C 29.251416,64.914892 31.109709,66.900571 33.66006,66.75355 C 35.651554,65.598317 32.394095,63.537228 32.436864,61.946624 C 32.073078,59.960362 35.828991,59.7487 35.215812,57.692465 C 34.810902,55.971206 32.028706,55.231594 31.758174,53.464419 C 31.17953,51.860384 30.200629,50.114998 28.045843,49.422116 z"
+             id="path3752"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3888);fill-opacity:1"
+             d="M 41.791524,34.428701 C 40.600419,35.265207 41.934089,37.333874 40.302641,37.874386 C 38.680453,38.992075 36.18906,39.556557 35.671753,41.63995 C 35.971808,43.633625 36.217781,45.813842 35.190623,47.609697 C 35.426921,49.023306 37.364999,49.417498 37.70879,50.775104 C 38.665635,51.268627 39.277912,50.056473 40.136299,49.891366 C 41.305735,49.365367 42.079254,48.313779 42.447477,47.179919 C 43.502204,46.149928 44.754303,47.679278 44.582939,48.748081 C 44.91027,50.243585 47.372152,50.639174 47.953221,49.185394 C 49.12638,47.352546 48.61212,45.093604 47.89406,43.148076 C 47.343389,42.114377 48.631968,41.647 49.399351,41.347369 C 49.140255,40.35066 47.694027,40.59437 46.944096,40.834285 C 46.115716,41.131634 45.505148,42.101116 44.575219,42.0192 C 43.659262,41.153666 44.190472,39.828619 43.942418,38.760984 C 43.841056,37.211 43.489577,35.087963 41.791524,34.428701 z"
+             id="path3754"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="27.394531"
+           y="58.908203"
+           id="text3772"><svg:tspan
+             sodipodi:role="line"
+             id="tspan3774"
+             x="27.394531"
+             y="58.908203"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">a</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3778"
+       transform="translate(11.39226,-0.1079366)">
+      <svg:text
+         id="text3780"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3782"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:g
+         id="g3851">
+        <svg:g
+           transform="translate(2.27244,0.773814)"
+           id="g3756"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 58.836358,31.818495 C 55.829235,36.925335 57.058661,34.865754 55.013388,43.846298 C 54.778354,52.956185 50.359744,61.278777 54.728638,72.494667 C 63.568381,79.786363 67.393549,74.797622 70.333942,74.042949 C 73.621247,73.008571 77.148459,74.089481 80.5223,73.807278 C 83.858152,73.297195 85.772905,70.478429 88.037088,68.469275 C 90.667484,65.878457 91.737008,62.265737 91.947889,58.718859 C 92.235344,53.863907 91.184911,49.020332 90.681527,44.184184 C 90.123589,40.635817 88.415275,37.193054 85.593319,34.666932 C 82.560802,31.751565 78.364026,29.534373 76.858345,25.517535 C 75.867512,23.03837 75.709437,20.150073 73.787658,18.065451 C 72.11717,16.709414 69.80934,17.041899 67.85763,17.221804 C 64.704426,16.562356 68.090722,18.363372 63.073184,20.612896 C 57.775997,25.461866 62.206415,25.280663 58.836358,31.818495 z"
+             id="path3758"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:url(#linearGradient3876);fill-opacity:1"
+             d="M 58.881521,31.404366 C 56.000287,36.339341 57.178245,34.349073 55.218595,43.027385 C 54.993401,51.830687 50.759771,59.873191 54.945766,70.711621 C 63.415443,77.757922 67.080474,72.937073 69.897771,72.207797 C 73.047456,71.208231 76.427006,72.252763 79.659604,71.980058 C 82.855805,71.487141 84.690398,68.763237 86.859793,66.821699 C 89.380071,64.318073 90.40482,60.826936 90.606873,57.399425 C 90.882293,52.707861 89.875836,48.027292 89.393526,43.3539 C 88.858945,39.924949 87.222148,36.59805 84.51833,34.156942 C 81.612767,31.339689 77.591685,29.197115 76.149037,25.315459 C 75.199685,22.919729 75.048227,20.128635 73.206901,18.114169 C 71.606347,16.803768 69.395131,17.125064 67.525127,17.298914 C 64.503928,16.661659 67.748461,18.402064 62.940977,20.575882 C 57.865551,25.261663 62.110495,25.086559 58.881521,31.404366 z"
+             id="path3760"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3878);fill-opacity:1"
+             d="M 75.227592,35.200491 C 72.459711,34.664872 70.729521,37.280625 69.964882,39.356696 C 68.582874,40.478548 66.274467,41.627954 66.912664,43.736153 C 67.078665,45.291351 66.602863,47.410132 68.354158,48.366101 C 70.235942,48.276414 72.395112,48.849757 73.348085,50.558888 C 74.658876,51.763306 76.756649,50.712852 76.972687,49.191378 C 77.157925,47.958291 77.251975,46.413061 78.848395,46.120809 C 80.307001,45.388185 82.732981,45.837039 83.405993,44.098996 C 83.625549,42.313158 81.727609,41.081363 80.464547,40.002107 C 78.332763,38.762782 77.755305,35.846248 75.227592,35.200491 z"
+             id="path3762"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3880);fill-opacity:1"
+             d="M 66.011748,50.682938 C 61.733134,50.263918 58.075859,53.550715 57.098666,57.260667 C 55.759741,60.249377 52.926536,62.709716 52.872823,66.161145 C 53.468756,67.458937 55.396567,67.456328 56.122749,68.698959 C 56.480553,69.39141 57.40289,68.930646 58.000925,69.335165 C 59.261728,69.731897 60.115399,70.794697 60.866505,71.724471 C 62.438867,72.305921 63.81788,71.037296 65.367967,71.041191 C 67.936577,70.544069 70.667441,69.246642 71.427736,66.702511 C 71.68423,66.224409 72.267269,65.498678 72.787099,65.628671 C 72.650154,65.904931 72.984166,66.448172 72.967728,65.843678 C 73.090605,63.494329 75.632964,61.921331 75.444101,59.525554 C 74.718972,57.685873 72.387337,57.519562 70.671076,57.14511 C 69.123246,56.69256 67.982174,55.207936 68.164365,53.687163 C 67.988115,52.48736 67.494014,50.924526 66.011748,50.682938 z M 71.909189,65.770596 C 71.89879,65.802128 71.887949,65.763153 71.909189,65.770596 z M 72.31831,72.308446 C 72.307643,72.340361 72.350653,72.283411 72.31831,72.308446 z"
+             id="path3764"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="60.974926"
+           y="62.884827"
+           id="text3784"><svg:tspan
+             sodipodi:role="line"
+             id="tspan3786"
+             x="60.974926"
+             y="62.884827"
+             style="fill:#ffffff">b</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="frame3"
+     inkscape:label="frame3"
+     style="display:inline">
+    <svg:g
+       transform="translate(-4.8551223e-7,-952.36218)"
+       style="display:inline"
+       id="g3891">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect3893"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="path3895"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="path3897"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3899"
+       transform="translate(-32.058613,4.3280564)">
+      <svg:text
+         id="text3901"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3903"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:g
+         id="g3905">
+        <svg:g
+           transform="translate(8.660428,-2.996298)"
+           id="g3907"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 47.317051,22.445252 C 43.329184,19.657805 44.506023,19.563192 40.448472,12.008761 C 37.484239,13.184383 34.164867,10.504521 31.285766,12.060253 C 28.360957,13.482807 27.674843,16.789329 26.456868,19.412179 C 24.392699,22.760331 21.419822,26.012317 21.57476,30.173958 C 21.420807,33.849315 22.389512,37.92899 20.159809,41.164606 C 17.097298,45.619148 12.012691,48.190259 7.5033823,51.120965 C 5.6250176,53.33199 6.7043104,56.587918 8.40474,58.707311 C 10.148862,60.967271 13.277939,62.500942 13.731651,65.474329 C 14.22261,68.276842 14.10105,71.53788 16.501134,73.679498 C 19.016628,75.974638 22.677696,75.883564 25.869767,76.041057 C 28.662196,76.163324 35.963129,77.840386 38.284541,76.165236 C 39.383603,72.140839 35.710802,70.849051 39.217818,66.185825 C 41.644133,63.04737 50.103275,61.770204 50.254106,56.98269 C 51.332098,51.330752 52.69026,44.179382 52.584963,38.917001 C 49.031387,35.316 49.164613,34.812574 46.964607,32.943492 C 44.831296,30.918886 49.835395,26.537296 47.317051,22.445252 z"
+             id="path3909"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:url(#linearGradient3945);fill-opacity:1"
+             d="M 46.161046,21.809062 C 42.274772,19.092627 43.421631,19.000425 39.467449,11.638448 C 36.578731,12.78412 33.343923,10.17253 30.538169,11.688628 C 27.687872,13.074942 27.019237,16.297228 25.832291,18.853259 C 23.820708,22.116114 20.923567,25.285254 21.074558,29.340874 C 20.924527,32.922598 21.868553,36.898341 19.695654,40.051527 C 16.711162,44.392587 11.756089,46.898197 7.3616583,49.754241 C 5.5311461,51.908938 6.5829432,55.081919 8.240053,57.147319 C 9.9397433,59.349705 12.989104,60.844305 13.431258,63.741943 C 13.909709,66.47306 13.791246,69.65102 16.130186,71.738079 C 18.581596,73.974749 22.149396,73.885995 25.260146,74.039476 C 27.981436,74.158628 35.096373,75.792966 37.358645,74.160491 C 38.429708,70.238619 34.850474,68.97974 38.268146,64.435313 C 40.632649,61.376812 48.876289,60.132183 49.023277,55.466634 C 50.073806,49.958683 51.397368,42.9895 51.294754,37.861182 C 47.831708,34.351919 47.96154,33.861318 45.81758,32.039852 C 43.738617,30.066824 48.615233,25.796858 46.161046,21.809062 z"
+             id="path3911"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3947);fill-opacity:1"
+             d="M 33.375436,14.164912 C 31.113655,13.788389 29.480995,16.758025 28.69122,19.06983 C 27.458871,20.390921 25.454171,21.810648 25.82848,24.05331 C 25.851168,25.730305 25.298394,28.06708 26.683703,28.9756 C 28.255068,28.738613 30.007903,29.20126 30.673547,30.987095 C 31.674149,32.198159 33.496363,30.901538 33.788844,29.232841 C 34.034322,27.879683 34.227129,26.194229 35.576235,25.758375 C 36.843408,24.854396 38.827333,25.162029 39.515848,23.224198 C 39.830859,21.268079 38.34407,20.070826 37.373872,18.99218 C 35.6932,17.804091 35.429349,14.678884 33.375436,14.164912 z"
+             id="path3913"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3949);fill-opacity:1"
+             d="M 28.045843,49.422116 C 26.765416,49.686622 26.529096,51.091046 25.174534,51.36792 C 23.624236,51.837333 22.258104,52.848143 22.426724,54.32941 C 22.48351,55.771903 22.125143,57.490125 20.200741,57.887093 C 18.581576,58.265849 16.518423,58.810339 16.532733,60.427421 C 16.539339,61.868776 18.548341,63.040691 20.242424,62.802126 C 22.548315,62.740413 25.128765,62.440253 27.245976,63.801194 C 29.251416,64.914892 31.109709,66.900571 33.66006,66.75355 C 35.651554,65.598317 32.394095,63.537228 32.436864,61.946624 C 32.073078,59.960362 35.828991,59.7487 35.215812,57.692465 C 34.810902,55.971206 32.028706,55.231594 31.758174,53.464419 C 31.17953,51.860384 30.200629,50.114998 28.045843,49.422116 z"
+             id="path3915"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3951);fill-opacity:1"
+             d="M 41.791524,34.428701 C 40.600419,35.265207 41.934089,37.333874 40.302641,37.874386 C 38.680453,38.992075 36.18906,39.556557 35.671753,41.63995 C 35.971808,43.633625 36.217781,45.813842 35.190623,47.609697 C 35.426921,49.023306 37.364999,49.417498 37.70879,50.775104 C 38.665635,51.268627 39.277912,50.056473 40.136299,49.891366 C 41.305735,49.365367 42.079254,48.313779 42.447477,47.179919 C 43.502204,46.149928 44.754303,47.679278 44.582939,48.748081 C 44.91027,50.243585 47.372152,50.639174 47.953221,49.185394 C 49.12638,47.352546 48.61212,45.093604 47.89406,43.148076 C 47.343389,42.114377 48.631968,41.647 49.399351,41.347369 C 49.140255,40.35066 47.694027,40.59437 46.944096,40.834285 C 46.115716,41.131634 45.505148,42.101116 44.575219,42.0192 C 43.659262,41.153666 44.190472,39.828619 43.942418,38.760984 C 43.841056,37.211 43.489577,35.087963 41.791524,34.428701 z"
+             id="path3917"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="27.394531"
+           y="58.908203"
+           id="text3919"><svg:tspan
+             sodipodi:role="line"
+             id="tspan3921"
+             x="27.394531"
+             y="58.908203"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">a</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3923"
+       transform="translate(21.39226,-0.1079366)">
+      <svg:text
+         id="text3925"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3927"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:g
+         id="g3929">
+        <svg:g
+           transform="translate(2.27244,0.773814)"
+           id="g3931"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 58.836358,31.818495 C 55.829235,36.925335 57.058661,34.865754 55.013388,43.846298 C 54.778354,52.956185 50.359744,61.278777 54.728638,72.494667 C 63.568381,79.786363 67.393549,74.797622 70.333942,74.042949 C 73.621247,73.008571 77.148459,74.089481 80.5223,73.807278 C 83.858152,73.297195 85.772905,70.478429 88.037088,68.469275 C 90.667484,65.878457 91.737008,62.265737 91.947889,58.718859 C 92.235344,53.863907 91.184911,49.020332 90.681527,44.184184 C 90.123589,40.635817 88.415275,37.193054 85.593319,34.666932 C 82.560802,31.751565 78.364026,29.534373 76.858345,25.517535 C 75.867512,23.03837 75.709437,20.150073 73.787658,18.065451 C 72.11717,16.709414 69.80934,17.041899 67.85763,17.221804 C 64.704426,16.562356 68.090722,18.363372 63.073184,20.612896 C 57.775997,25.461866 62.206415,25.280663 58.836358,31.818495 z"
+             id="path3933"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:url(#linearGradient3953);fill-opacity:1"
+             d="M 58.881521,31.404366 C 56.000287,36.339341 57.178245,34.349073 55.218595,43.027385 C 54.993401,51.830687 50.759771,59.873191 54.945766,70.711621 C 63.415443,77.757922 67.080474,72.937073 69.897771,72.207797 C 73.047456,71.208231 76.427006,72.252763 79.659604,71.980058 C 82.855805,71.487141 84.690398,68.763237 86.859793,66.821699 C 89.380071,64.318073 90.40482,60.826936 90.606873,57.399425 C 90.882293,52.707861 89.875836,48.027292 89.393526,43.3539 C 88.858945,39.924949 87.222148,36.59805 84.51833,34.156942 C 81.612767,31.339689 77.591685,29.197115 76.149037,25.315459 C 75.199685,22.919729 75.048227,20.128635 73.206901,18.114169 C 71.606347,16.803768 69.395131,17.125064 67.525127,17.298914 C 64.503928,16.661659 67.748461,18.402064 62.940977,20.575882 C 57.865551,25.261663 62.110495,25.086559 58.881521,31.404366 z"
+             id="path3935"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3955);fill-opacity:1"
+             d="M 75.227592,35.200491 C 72.459711,34.664872 70.729521,37.280625 69.964882,39.356696 C 68.582874,40.478548 66.274467,41.627954 66.912664,43.736153 C 67.078665,45.291351 66.602863,47.410132 68.354158,48.366101 C 70.235942,48.276414 72.395112,48.849757 73.348085,50.558888 C 74.658876,51.763306 76.756649,50.712852 76.972687,49.191378 C 77.157925,47.958291 77.251975,46.413061 78.848395,46.120809 C 80.307001,45.388185 82.732981,45.837039 83.405993,44.098996 C 83.625549,42.313158 81.727609,41.081363 80.464547,40.002107 C 78.332763,38.762782 77.755305,35.846248 75.227592,35.200491 z"
+             id="path3937"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient3957);fill-opacity:1"
+             d="M 66.011748,50.682938 C 61.733134,50.263918 58.075859,53.550715 57.098666,57.260667 C 55.759741,60.249377 52.926536,62.709716 52.872823,66.161145 C 53.468756,67.458937 55.396567,67.456328 56.122749,68.698959 C 56.480553,69.39141 57.40289,68.930646 58.000925,69.335165 C 59.261728,69.731897 60.115399,70.794697 60.866505,71.724471 C 62.438867,72.305921 63.81788,71.037296 65.367967,71.041191 C 67.936577,70.544069 70.667441,69.246642 71.427736,66.702511 C 71.68423,66.224409 72.267269,65.498678 72.787099,65.628671 C 72.650154,65.904931 72.984166,66.448172 72.967728,65.843678 C 73.090605,63.494329 75.632964,61.921331 75.444101,59.525554 C 74.718972,57.685873 72.387337,57.519562 70.671076,57.14511 C 69.123246,56.69256 67.982174,55.207936 68.164365,53.687163 C 67.988115,52.48736 67.494014,50.924526 66.011748,50.682938 z M 71.909189,65.770596 C 71.89879,65.802128 71.887949,65.763153 71.909189,65.770596 z M 72.31831,72.308446 C 72.307643,72.340361 72.350653,72.283411 72.31831,72.308446 z"
+             id="path3939"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="60.974926"
+           y="62.884827"
+           id="text3941"><svg:tspan
+             sodipodi:role="line"
+             id="tspan3943"
+             x="60.974926"
+             y="62.884827"
+             style="fill:#ffffff">b</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+  </svg:g>
+  <svg:g
+     inkscape:groupmode="layer"
+     id="frame4"
+     inkscape:label="frame4"
+     style="display:inline">
+    <svg:g
+       transform="translate(-4.8551223e-7,-952.36218)"
+       style="display:inline"
+       id="g3960">
+      <svg:rect
+         rx="27.524401"
+         ry="27.524401"
+         y="952.36218"
+         x="0"
+         height="100"
+         width="100"
+         id="rect3962"
+         style="fill:#0033cc;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1" />
+      <svg:path
+         clip-path="url(#clipPath3228)"
+         id="path3964"
+         d="M 23.53125,948.08098 C 8.282732,948.08098 -4,960.33245 -4,975.58098 L -4,1020.5498 C -4,1030.7597 1.5042325,1039.6104 9.71875,1044.3622 C 7.362686,1040.3015 6,1035.6011 6,1030.5498 L 6,985.58098 C 6,970.33245 18.282732,958.08098 33.53125,958.08098 L 78.46875,958.08098 C 83.514556,958.08098 88.254777,959.4172 92.3125,961.76848 C 87.558171,953.56369 78.671461,948.08098 68.46875,948.08098 L 23.53125,948.08098 z"
+         style="opacity:0.9;fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3953)" />
+      <svg:path
+         clip-path="url(#clipPath3224)"
+         id="path3966"
+         d="M 90.29375,960.04958 C 92.64503,964.10728 93.98125,968.81628 93.98125,973.86208 L 93.98125,1018.831 C 93.98125,1034.0795 81.69852,1046.3622 66.45,1046.3622 L 21.5125,1046.3622 C 16.47398,1046.3622 11.75378,1044.9884 7.7,1042.6434 C 12.45622,1050.8409 21.31532,1056.3622 31.5125,1056.3622 L 76.45,1056.3622 C 91.69852,1056.3622 103.98125,1044.0795 103.98125,1028.831 L 103.98125,983.86208 C 103.98125,973.65938 98.49854,964.80388 90.29375,960.04958 z"
+         style="opacity:0.9;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:0;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:2;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter3949)" />
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3968"
+       transform="translate(-46.058613,4.3280574)">
+      <svg:text
+         id="text3970"
+         y="60.105534"
+         x="29.009325"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3359);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#000000;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono"
+           y="60.105534"
+           x="29.009325"
+           id="tspan3972"
+           sodipodi:role="line">a</svg:tspan></svg:text>
+      <svg:g
+         id="g3974">
+        <svg:g
+           transform="translate(8.660428,-2.996298)"
+           id="g3976"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 47.317051,22.445252 C 43.329184,19.657805 44.506023,19.563192 40.448472,12.008761 C 37.484239,13.184383 34.164867,10.504521 31.285766,12.060253 C 28.360957,13.482807 27.674843,16.789329 26.456868,19.412179 C 24.392699,22.760331 21.419822,26.012317 21.57476,30.173958 C 21.420807,33.849315 22.389512,37.92899 20.159809,41.164606 C 17.097298,45.619148 12.012691,48.190259 7.5033823,51.120965 C 5.6250176,53.33199 6.7043104,56.587918 8.40474,58.707311 C 10.148862,60.967271 13.277939,62.500942 13.731651,65.474329 C 14.22261,68.276842 14.10105,71.53788 16.501134,73.679498 C 19.016628,75.974638 22.677696,75.883564 25.869767,76.041057 C 28.662196,76.163324 35.963129,77.840386 38.284541,76.165236 C 39.383603,72.140839 35.710802,70.849051 39.217818,66.185825 C 41.644133,63.04737 50.103275,61.770204 50.254106,56.98269 C 51.332098,51.330752 52.69026,44.179382 52.584963,38.917001 C 49.031387,35.316 49.164613,34.812574 46.964607,32.943492 C 44.831296,30.918886 49.835395,26.537296 47.317051,22.445252 z"
+             id="path3978"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccccccccccccc"
+             style="fill:url(#linearGradient4014);fill-opacity:1"
+             d="M 46.161046,21.809062 C 42.274772,19.092627 43.421631,19.000425 39.467449,11.638448 C 36.578731,12.78412 33.343923,10.17253 30.538169,11.688628 C 27.687872,13.074942 27.019237,16.297228 25.832291,18.853259 C 23.820708,22.116114 20.923567,25.285254 21.074558,29.340874 C 20.924527,32.922598 21.868553,36.898341 19.695654,40.051527 C 16.711162,44.392587 11.756089,46.898197 7.3616583,49.754241 C 5.5311461,51.908938 6.5829432,55.081919 8.240053,57.147319 C 9.9397433,59.349705 12.989104,60.844305 13.431258,63.741943 C 13.909709,66.47306 13.791246,69.65102 16.130186,71.738079 C 18.581596,73.974749 22.149396,73.885995 25.260146,74.039476 C 27.981436,74.158628 35.096373,75.792966 37.358645,74.160491 C 38.429708,70.238619 34.850474,68.97974 38.268146,64.435313 C 40.632649,61.376812 48.876289,60.132183 49.023277,55.466634 C 50.073806,49.958683 51.397368,42.9895 51.294754,37.861182 C 47.831708,34.351919 47.96154,33.861318 45.81758,32.039852 C 43.738617,30.066824 48.615233,25.796858 46.161046,21.809062 z"
+             id="path3980"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient4016);fill-opacity:1"
+             d="M 33.375436,14.164912 C 31.113655,13.788389 29.480995,16.758025 28.69122,19.06983 C 27.458871,20.390921 25.454171,21.810648 25.82848,24.05331 C 25.851168,25.730305 25.298394,28.06708 26.683703,28.9756 C 28.255068,28.738613 30.007903,29.20126 30.673547,30.987095 C 31.674149,32.198159 33.496363,30.901538 33.788844,29.232841 C 34.034322,27.879683 34.227129,26.194229 35.576235,25.758375 C 36.843408,24.854396 38.827333,25.162029 39.515848,23.224198 C 39.830859,21.268079 38.34407,20.070826 37.373872,18.99218 C 35.6932,17.804091 35.429349,14.678884 33.375436,14.164912 z"
+             id="path3982"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient4018);fill-opacity:1"
+             d="M 28.045843,49.422116 C 26.765416,49.686622 26.529096,51.091046 25.174534,51.36792 C 23.624236,51.837333 22.258104,52.848143 22.426724,54.32941 C 22.48351,55.771903 22.125143,57.490125 20.200741,57.887093 C 18.581576,58.265849 16.518423,58.810339 16.532733,60.427421 C 16.539339,61.868776 18.548341,63.040691 20.242424,62.802126 C 22.548315,62.740413 25.128765,62.440253 27.245976,63.801194 C 29.251416,64.914892 31.109709,66.900571 33.66006,66.75355 C 35.651554,65.598317 32.394095,63.537228 32.436864,61.946624 C 32.073078,59.960362 35.828991,59.7487 35.215812,57.692465 C 34.810902,55.971206 32.028706,55.231594 31.758174,53.464419 C 31.17953,51.860384 30.200629,50.114998 28.045843,49.422116 z"
+             id="path3984"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient4020);fill-opacity:1"
+             d="M 41.791524,34.428701 C 40.600419,35.265207 41.934089,37.333874 40.302641,37.874386 C 38.680453,38.992075 36.18906,39.556557 35.671753,41.63995 C 35.971808,43.633625 36.217781,45.813842 35.190623,47.609697 C 35.426921,49.023306 37.364999,49.417498 37.70879,50.775104 C 38.665635,51.268627 39.277912,50.056473 40.136299,49.891366 C 41.305735,49.365367 42.079254,48.313779 42.447477,47.179919 C 43.502204,46.149928 44.754303,47.679278 44.582939,48.748081 C 44.91027,50.243585 47.372152,50.639174 47.953221,49.185394 C 49.12638,47.352546 48.61212,45.093604 47.89406,43.148076 C 47.343389,42.114377 48.631968,41.647 49.399351,41.347369 C 49.140255,40.35066 47.694027,40.59437 46.944096,40.834285 C 46.115716,41.131634 45.505148,42.101116 44.575219,42.0192 C 43.659262,41.153666 44.190472,39.828619 43.942418,38.760984 C 43.841056,37.211 43.489577,35.087963 41.791524,34.428701 z"
+             id="path3986"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="27.394531"
+           y="58.908203"
+           id="text3988"><svg:tspan
+             sodipodi:role="line"
+             id="tspan3990"
+             x="27.394531"
+             y="58.908203"
+             style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;font-family:DejaVu Sans Mono;-inkscape-font-specification:DejaVu Sans Mono">a</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+    <svg:g
+       style="display:inline"
+       id="g3992"
+       transform="translate(33.392258,-0.1079356)">
+      <svg:text
+         id="text3994"
+         y="64.541527"
+         x="62.137917"
+         style="font-size:40px;font-style:normal;font-weight:normal;opacity:0.9;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;filter:url(#filter3377);font-family:Bitstream Vera Sans"
+         xml:space="preserve"><svg:tspan
+           style="fill:#000000"
+           y="64.541527"
+           x="62.137917"
+           id="tspan3996"
+           sodipodi:role="line">b</svg:tspan></svg:text>
+      <svg:g
+         id="g3998">
+        <svg:g
+           transform="translate(2.27244,0.773814)"
+           id="g4000"
+           style="display:inline">
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:#000000;fill-opacity:1;display:inline"
+             d="M 58.836358,31.818495 C 55.829235,36.925335 57.058661,34.865754 55.013388,43.846298 C 54.778354,52.956185 50.359744,61.278777 54.728638,72.494667 C 63.568381,79.786363 67.393549,74.797622 70.333942,74.042949 C 73.621247,73.008571 77.148459,74.089481 80.5223,73.807278 C 83.858152,73.297195 85.772905,70.478429 88.037088,68.469275 C 90.667484,65.878457 91.737008,62.265737 91.947889,58.718859 C 92.235344,53.863907 91.184911,49.020332 90.681527,44.184184 C 90.123589,40.635817 88.415275,37.193054 85.593319,34.666932 C 82.560802,31.751565 78.364026,29.534373 76.858345,25.517535 C 75.867512,23.03837 75.709437,20.150073 73.787658,18.065451 C 72.11717,16.709414 69.80934,17.041899 67.85763,17.221804 C 64.704426,16.562356 68.090722,18.363372 63.073184,20.612896 C 57.775997,25.461866 62.206415,25.280663 58.836358,31.818495 z"
+             id="path4002"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             sodipodi:nodetypes="ccccccsccccccc"
+             style="fill:url(#linearGradient4022);fill-opacity:1"
+             d="M 58.881521,31.404366 C 56.000287,36.339341 57.178245,34.349073 55.218595,43.027385 C 54.993401,51.830687 50.759771,59.873191 54.945766,70.711621 C 63.415443,77.757922 67.080474,72.937073 69.897771,72.207797 C 73.047456,71.208231 76.427006,72.252763 79.659604,71.980058 C 82.855805,71.487141 84.690398,68.763237 86.859793,66.821699 C 89.380071,64.318073 90.40482,60.826936 90.606873,57.399425 C 90.882293,52.707861 89.875836,48.027292 89.393526,43.3539 C 88.858945,39.924949 87.222148,36.59805 84.51833,34.156942 C 81.612767,31.339689 77.591685,29.197115 76.149037,25.315459 C 75.199685,22.919729 75.048227,20.128635 73.206901,18.114169 C 71.606347,16.803768 69.395131,17.125064 67.525127,17.298914 C 64.503928,16.661659 67.748461,18.402064 62.940977,20.575882 C 57.865551,25.261663 62.110495,25.086559 58.881521,31.404366 z"
+             id="path4004"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient4024);fill-opacity:1"
+             d="M 75.227592,35.200491 C 72.459711,34.664872 70.729521,37.280625 69.964882,39.356696 C 68.582874,40.478548 66.274467,41.627954 66.912664,43.736153 C 67.078665,45.291351 66.602863,47.410132 68.354158,48.366101 C 70.235942,48.276414 72.395112,48.849757 73.348085,50.558888 C 74.658876,51.763306 76.756649,50.712852 76.972687,49.191378 C 77.157925,47.958291 77.251975,46.413061 78.848395,46.120809 C 80.307001,45.388185 82.732981,45.837039 83.405993,44.098996 C 83.625549,42.313158 81.727609,41.081363 80.464547,40.002107 C 78.332763,38.762782 77.755305,35.846248 75.227592,35.200491 z"
+             id="path4006"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+          <svg:path
+             style="fill:url(#linearGradient4026);fill-opacity:1"
+             d="M 66.011748,50.682938 C 61.733134,50.263918 58.075859,53.550715 57.098666,57.260667 C 55.759741,60.249377 52.926536,62.709716 52.872823,66.161145 C 53.468756,67.458937 55.396567,67.456328 56.122749,68.698959 C 56.480553,69.39141 57.40289,68.930646 58.000925,69.335165 C 59.261728,69.731897 60.115399,70.794697 60.866505,71.724471 C 62.438867,72.305921 63.81788,71.037296 65.367967,71.041191 C 67.936577,70.544069 70.667441,69.246642 71.427736,66.702511 C 71.68423,66.224409 72.267269,65.498678 72.787099,65.628671 C 72.650154,65.904931 72.984166,66.448172 72.967728,65.843678 C 73.090605,63.494329 75.632964,61.921331 75.444101,59.525554 C 74.718972,57.685873 72.387337,57.519562 70.671076,57.14511 C 69.123246,56.69256 67.982174,55.207936 68.164365,53.687163 C 67.988115,52.48736 67.494014,50.924526 66.011748,50.682938 z M 71.909189,65.770596 C 71.89879,65.802128 71.887949,65.763153 71.909189,65.770596 z M 72.31831,72.308446 C 72.307643,72.340361 72.350653,72.283411 72.31831,72.308446 z"
+             id="path4008"
+             inkscape:export-filename="/home/usuario/Imágenes/asteroid1.png"
+             inkscape:export-xdpi="90"
+             inkscape:export-ydpi="90" />
+        </svg:g>
+        <svg:text
+           xml:space="preserve"
+           style="font-size:40px;font-style:normal;font-weight:normal;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+           x="60.974926"
+           y="62.884827"
+           id="text4010"><svg:tspan
+             sodipodi:role="line"
+             id="tspan4012"
+             x="60.974926"
+             y="62.884827"
+             style="fill:#ffffff">b</svg:tspan></svg:text>
+      </svg:g>
+    </svg:g>
+  </svg:g>
+</svg:svg>

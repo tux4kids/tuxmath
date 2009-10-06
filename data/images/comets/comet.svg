@@ -13,7 +13,7 @@
    id="svg2760"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="comet_blue.svg"
+   sodipodi:docname="comet.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0">
   <desc>3 frames</desc>
@@ -649,17 +649,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.3696767"
-     inkscape:cx="55.202604"
+     inkscape:cx="12.17177"
      inkscape:cy="81.808532"
      inkscape:document-units="px"
      inkscape:current-layer="svg2760"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="734"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="25" />
   <svg:metadata
      id="metadata2765">
     <rdf:RDF>
@@ -719,7 +719,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none"
+     style="display:inline"
      transform="translate(-1.80016,-1.0663792)">
     <svg:g
        transform="translate(-285.43679,-209.27848)"
@@ -766,7 +766,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none"
+     style="display:inline"
      transform="translate(-1.80016,-1.0663792)">
     <svg:g
        style="display:inline"

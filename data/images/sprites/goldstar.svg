@@ -297,17 +297,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.5431926"
-     inkscape:cx="4.8370275"
+     inkscape:cx="-36.086517"
      inkscape:cy="48.694768"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="736"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="25" />
   <svg:metadata
      id="metadata7">
     <rdf:RDF>
@@ -360,7 +360,7 @@
      inkscape:groupmode="layer"
      id="frame0"
      inkscape:label="frame0"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -398,7 +398,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"

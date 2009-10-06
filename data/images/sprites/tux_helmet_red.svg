@@ -5687,17 +5687,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.4518985"
-     inkscape:cx="39.11512"
+     inkscape:cx="6.5447458"
      inkscape:cy="69.184869"
      inkscape:document-units="px"
      inkscape:current-layer="default"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="736"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="25" />
   <svg:metadata
      id="metadata7">
     <rdf:RDF>
@@ -5835,7 +5835,7 @@
      inkscape:groupmode="layer"
      id="frame0"
      inkscape:label="frame0"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -5957,7 +5957,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -6080,7 +6080,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -6177,7 +6177,7 @@
      inkscape:groupmode="layer"
      id="frame3"
      inkscape:label="frame3"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -6300,7 +6300,7 @@
      inkscape:groupmode="layer"
      id="frame4"
      inkscape:label="frame4"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"
@@ -6422,7 +6422,7 @@
      inkscape:groupmode="layer"
      id="frame5"
      inkscape:label="frame5"
-     style="display:none">
+     style="display:inline">
     <svg:g
        transform="translate(0,-952.36218)"
        style="display:inline"

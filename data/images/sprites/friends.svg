@@ -2640,17 +2640,17 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.9322071"
-     inkscape:cx="34.627617"
+     inkscape:cx="-40.416099"
      inkscape:cy="76.614513"
      inkscape:document-units="px"
      inkscape:current-layer="svg2"
      showgrid="false"
      showguides="true"
      inkscape:guide-bbox="true"
-     inkscape:window-width="1272"
-     inkscape:window-height="736"
+     inkscape:window-width="1280"
+     inkscape:window-height="726"
      inkscape:window-x="0"
-     inkscape:window-y="40" />
+     inkscape:window-y="25" />
   <svg:metadata
      id="metadata7">
     <rdf:RDF>
@@ -2973,7 +2973,7 @@
      inkscape:groupmode="layer"
      id="frame0"
      transform="translate(0,-952.36218)"
-     style="display:none">
+     style="display:inline">
     <svg:g
        id="layer9"
        inkscape:label="shadow2"

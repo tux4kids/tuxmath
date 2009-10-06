@@ -12,7 +12,7 @@
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.46"
-   sodipodi:docname="tux.svg"
+   sodipodi:docname="bigtux.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    version="1.0"
    style="display:inline">
@@ -29,8 +29,8 @@
     </rdf:RDF>
   </svg:metadata>
   <sodipodi:namedview
-     inkscape:window-height="736"
-     inkscape:window-width="1272"
+     inkscape:window-height="726"
+     inkscape:window-width="1280"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -42,10 +42,10 @@
      id="base"
      showgrid="false"
      inkscape:zoom="0.52164325"
-     inkscape:cx="194.03879"
+     inkscape:cx="-83.928959"
      inkscape:cy="347.37808"
      inkscape:window-x="0"
-     inkscape:window-y="40"
+     inkscape:window-y="25"
      inkscape:current-layer="svg2" />
   <svg:defs
      id="defs4">
@@ -2977,7 +2977,7 @@
      inkscape:groupmode="layer"
      id="frame1"
      inkscape:label="frame1"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g2766"
@@ -3111,7 +3111,7 @@
      inkscape:groupmode="layer"
      id="frame2"
      inkscape:label="frame2"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g3066"
@@ -3247,7 +3247,7 @@
      inkscape:groupmode="layer"
      id="frame3"
      inkscape:label="frame3"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g3168"
@@ -3355,7 +3355,7 @@
      inkscape:groupmode="layer"
      id="frame4"
      inkscape:label="frame4"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g3270"
@@ -3471,7 +3471,7 @@
      inkscape:groupmode="layer"
      id="frame5"
      inkscape:label="frame5"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g3340"
@@ -3583,7 +3583,7 @@
      inkscape:groupmode="layer"
      id="frame6"
      inkscape:label="frame6"
-     style="display:none">
+     style="display:inline">
     <svg:g
        style="display:inline"
        id="g3410"
