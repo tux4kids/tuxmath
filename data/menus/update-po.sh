@@ -6,4 +6,4 @@
 # NOTE this script needs to be kept in the same dir as the menu files
 
 rm -f ./menu_strings
-sed -n /title/p main_menu.xml | sed 's/^.*title=/_(/g' | sed 's/\" .*/\")/gw menu_strings'
+sed -n 's/^.*title=\("[^"]*"\).*$/_(\1)/p' main_menu.xml | sort | uniq > menu_strings
