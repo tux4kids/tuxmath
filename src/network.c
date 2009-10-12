@@ -54,7 +54,7 @@ int LAN_DetectServers(void)
     servers[i].ip.host = 0;
 
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
-  if(SDL_Init(0)==-1)
+  if(SDL_Init(0) == -1)
   {
     printf("SDL_Init: %s\n", SDL_GetError());
     return 0;;
@@ -404,10 +404,10 @@ int LAN_StartGame(void)
 }
 
 
-int LAN_AnsweredCorrectly(int id)
+int LAN_AnsweredCorrectly(int id, float t)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s\t%d", "CORRECT_ANSWER", id);
+  snprintf(buffer, NET_BUF_LEN, "%s\t%d\t%f", "CORRECT_ANSWER", id, t);
   return say_to_server(buffer);
 }
 

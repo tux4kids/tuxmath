@@ -405,7 +405,8 @@ int playgame(void)
         {  
           printf("%s is correct!\nAwait next question...\n>\n", buf);
           //Tell server we answered it right:
-          LAN_AnsweredCorrectly(fc->question_id);
+          //NOTE the '-1' means we aren't tracking times for testclient
+          LAN_AnsweredCorrectly(fc->question_id, -1);
           erase_flashcard(fc);  
           print_current_quests();
         }

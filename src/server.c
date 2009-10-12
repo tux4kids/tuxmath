@@ -799,6 +799,7 @@ void game_msg_correct_answer(int i, char* inbuf)
   char outbuf[NET_BUF_LEN];
   char* p;
   int id;
+  float t;
 
   if(!inbuf)
     return;
@@ -809,17 +810,24 @@ void game_msg_correct_answer(int i, char* inbuf)
     return; 
   p++;
   id = atoi(p);
+  //Now get time player took to answer:
+  p = strchr(inbuf, '\t');
+  if(!p)
+    return; 
+  p++;
+  t = atof(p);
+
 
   //Tell mathcards so lists get updated:
-  if(!MC_AnsweredCorrectly(id))
+  if(!MC_AnsweredCorrectly(id, t))
     return;
   //If we get to here, the id was successfully parsed out of inbuf
   //and the corresponding question was found.
 
   //Announcement for server and all clients:
   snprintf(outbuf, NET_BUF_LEN, 
-          "question id %d was answered correctly by %s\n",
-          id, client[i].name);             
+          "question id %d was answered in %f seconds by %s\n",
+          id, t, client[i].name);             
   broadcast_msg(outbuf);
   //Tell all players to remove that question:
   remove_question(id);

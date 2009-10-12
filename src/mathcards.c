@@ -512,7 +512,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
 /*  MC_AnsweredCorrectly() is how the user interface      */
 /*  tells MathCards that the question has been answered   */
 /*  correctly. Returns 1 if no errors.                    */
-int MC_AnsweredCorrectly(int id)
+int MC_AnsweredCorrectly(int id, float t)
 {
   DEBUGMSG(debug_mathcards, "\nEntering MC_AnsweredCorrectly()");
 
@@ -576,7 +576,10 @@ int MC_AnsweredCorrectly(int id)
     print_counters();
     printf("\nLeaving MC_AnsweredCorrectly()\n");
   }
-  
+
+  /* Record the time it took to answer: */ 
+  MC_AddTimeToList(t);
+
   return 1;
 }
 
@@ -724,6 +727,10 @@ int MC_AddTimeToList(float t)
 {
   int newsize = 0;
   float *newlist;
+
+  //Bail if time invalid:
+  if(t < 0)
+    return 0;
 
   /* This list will be allocated in an STL-like manner: when the       */
   /* list gets full, allocate an additional amount of storage equal    */

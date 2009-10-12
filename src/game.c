@@ -1408,18 +1408,19 @@ void game_handle_answer(void)
   /* If there was a comet with this answer, destroy it! */
   if (lowest != -1)  /* -1 means no comet had this answer */
   {
-    /* Tell Mathcards or the server that we answered correctly: */
-    if(Opts_LanMode())
-      LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id);
-    else
-      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id);
-
+    float t;
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
     ctime = SDL_GetTicks();
-    if (ctime > comets[lowest].time_started) {
-      MC_AddTimeToList((float)(ctime - comets[lowest].time_started)/1000);
-    }
+    if (ctime > comets[lowest].time_started)
+      t = ((float)(ctime - comets[lowest].time_started)/1000);
+    else
+      t = -1;   //Mathcards will ignore t == -1
+    /* Tell Mathcards or the server that we answered correctly: */
+    if(Opts_LanMode())
+      LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
+    else
+      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
 
 
     /* Destroy comet: */
