@@ -181,13 +181,12 @@ const int MC_DEFAULTS[] = {
 #define NPRIMES 9
 const int smallprimes[NPRIMES] = {2, 3, 5 ,7, 11, 13, 17, 19, 23};
 const char operchars[4] = "+-*/";
-extern int n;
 
-MC_Options* math_opts = 0;
-MC_MathQuestion* question_list = 0;
-MC_MathQuestion* wrong_quests = 0;
-MC_MathQuestion* active_quests = 0;
-MC_MathQuestion* next_wrong_quest = 0;
+MC_Options* math_opts = NULL;
+MC_MathQuestion* question_list = NULL;
+MC_MathQuestion* wrong_quests = NULL;
+MC_MathQuestion* active_quests = NULL;
+MC_MathQuestion* next_wrong_quest = NULL;
 int initialized = 0;
 int quest_list_length = 0;
 int answered_correctly = 0;
@@ -196,10 +195,6 @@ int questions_pending = 0;
 int unanswered = 0;
 int starting_length = 0;
 static int id = 0;
-
-//NOTE these are no longer used:
-int max_formula_size = 0; //max length in chars of a flashcard's formula
-int max_answer_size = 0; //and of its answer
 
 /* For keeping track of timing data */
 float* time_per_question_list = NULL;
@@ -235,7 +230,6 @@ static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
 //static int int_to_bool(int i);
 //static int sane_value(int i);
 //static int abs_value(int i);
-static int log10i(int i);
 static int floatCompare(const void *v1,const void *v2);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
@@ -365,20 +359,8 @@ int MC_StartGame(void)
     length_alloc_time_per_question_list = 0;
   }
 
-  //NOTE this is going away - complicates code too much to calculate this to
-  //save a few bytes rather than making the string size constant
-  /* determine how much space needed for strings, based on user options */
-  max_formula_size = MC_GetOpt(MAX_FORMULA_NUMS)
-                   * (log10i(MC_GLOBAL_MAX) + 4) //sign/operator/spaces
-                   + 1; //question mark for answer
-  max_answer_size = (int)(log10i(MC_GLOBAL_MAX) ) + 2; //negative sign + digit
-
-  mcdprintf("max answer, formula size: %d, %d\n",
-            max_answer_size, max_formula_size);
-
   question_list = generate_list();
-
-  next_wrong_quest = 0;
+  next_wrong_quest = NULL;
   /* initialize counters for new game: */
   quest_list_length = list_length(question_list);
   
@@ -1468,12 +1450,6 @@ int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr)
 //     return -i;
 // }
 
-int log10i(int i) //base 10 logarithm for ints
-{
-  int j;
-  for (j = 0; i > 0; i /= 10, ++j);
-  return j;
-}
 
 /* Compares two floats (needed for sorting in MC_MedianTimePerQuestion) */
 int floatCompare(const void *v1,const void *v2)
