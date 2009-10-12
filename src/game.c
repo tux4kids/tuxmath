@@ -698,13 +698,13 @@ void print_current_quests(void)
      printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
 
   }
-  printf("--------------Test Comets-----------------\n");
+  printf("--------------Question Queue-----------------\n");
   for(i = 0; i < QUEST_QUEUE_SIZE; i++)
   {
     if(quest_queue[i].question_id != -1)
-      printf("Comet %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
+      printf("quest_queue %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
     else
-      printf("Comet %d:\tEmpty\n", i);
+      printf("quest_queue %d:\tEmpty\n", i);
   }
   printf("------------------------------------------\n");
 }
