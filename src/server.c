@@ -301,6 +301,7 @@ int setup_server(void)
       client[i].game_ready = 0;   /* waiting for user to OK game start */
       client[i].name[0] = '\0';   /* no nicknames yet                  */
       client[i].sock = NULL;      /* sockets start out unconnected     */
+      client[i].score = 0;
     }
   }
 
