@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-09-28 20:31-0500\n"
+"POT-Creation-Date: 2009-10-11 20:04-0500\n"
 "PO-Revision-Date: 2008-02-25 18:43+0000\n"
 "Last-Translator: Mateusz Tybura <wujciol@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -350,35 +350,40 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:168
+#: src/highscore.c:168 data/menus/menu_strings:11
 msgid "Hall Of Fame"
 msgstr "Lista najlepszych"
 
-#: src/highscore.c:188 src/highscore.c:209
+#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:6
+#: data/menus/menu_strings:21 data/menus/menu_strings:28
 msgid "Space Cadet"
 msgstr "Kosmiczny Kadet"
 
-#: src/highscore.c:191
+#: src/highscore.c:191 data/menus/menu_strings:7 data/menus/menu_strings:22
+#: data/menus/menu_strings:29
 msgid "Scout"
 msgstr "Strzelec"
 
-#: src/highscore.c:194
+#: src/highscore.c:194 data/menus/menu_strings:8 data/menus/menu_strings:23
+#: data/menus/menu_strings:30
 msgid "Ranger"
 msgstr "Strażnik"
 
-#: src/highscore.c:197
+#: src/highscore.c:197 data/menus/menu_strings:9 data/menus/menu_strings:24
+#: data/menus/menu_strings:31
 msgid "Ace"
 msgstr "As"
 
-#: src/highscore.c:200
+#: src/highscore.c:200 data/menus/menu_strings:10 data/menus/menu_strings:25
+#: data/menus/menu_strings:32
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:203
+#: src/highscore.c:203 data/menus/menu_strings:36
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:206
+#: src/highscore.c:206 data/menus/menu_strings:37
 msgid "Fractions"
 msgstr ""
 
@@ -541,7 +546,7 @@ msgstr "Dyskusje na temat przyszłości Tuxmath na"
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/tuxmath.c:59
+#: src/tuxmath.c:59 data/menus/menu_strings:39
 msgid "Help"
 msgstr "Pomoc"
 
@@ -784,36 +789,85 @@ msgstr "Mnożenie liczb dodatnich i ujemnych"
 msgid "Division of Positives and Negatives"
 msgstr "Dzielenie liczb dodatnich i ujemnych"
 
+#: data/menus/menu_strings:1 data/menus/menu_strings:12
+#: data/menus/menu_strings:14 data/menus/menu_strings:18
+#: data/menus/menu_strings:26 data/menus/menu_strings:33
+#: data/menus/menu_strings:34 data/menus/menu_strings:38
+#: data/menus/menu_strings:44
+msgid "Main Menu"
+msgstr "Menu główne"
+
+#: data/menus/menu_strings:2
+msgid "Play Alone"
+msgstr ""
+
+#: data/menus/menu_strings:3
+msgid "Math Command Training Academy"
+msgstr "Akademia Treningowa Poleceń Math"
+
+#: data/menus/menu_strings:4
+msgid "Math Command Fleet Missions"
+msgstr ""
+
+#: data/menus/menu_strings:5
+msgid "Play Arcade Game"
+msgstr "Zagraj w grę zręcznościową"
+
+#: data/menus/menu_strings:13
+msgid "Play Custom Game"
+msgstr "Zagraj w wybraną grę"
+
+#: data/menus/menu_strings:15
+msgid "Network Game"
+msgstr ""
+
+#: data/menus/menu_strings:16
+msgid "Run Server"
+msgstr ""
+
+#: data/menus/menu_strings:17
+msgid "Join Game"
+msgstr ""
+
+#: data/menus/menu_strings:19
+msgid "Play With Friends"
+msgstr ""
+
+#: data/menus/menu_strings:20
+msgid "Score Sweep"
+msgstr ""
+
+#: data/menus/menu_strings:27
+msgid "Elimination"
+msgstr ""
+
+#: data/menus/menu_strings:35
+msgid "Factoroids!"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "More Options"
+msgstr "Więcej opcji"
+
+#: data/menus/menu_strings:41
+msgid "Demo"
+msgstr "Demonstracja"
+
+#: data/menus/menu_strings:42
+msgid "Project Info"
+msgstr "Informacja o projekcie"
+
+#: data/menus/menu_strings:43
+msgid "Credits"
+msgstr "Twórcy"
+
+#: data/menus/menu_strings:45
+msgid "Quit"
+msgstr "Wyjdź"
+
 #, fuzzy
 #~ msgid "suggesting improvements, or adding code."
 #~ msgstr "Zasugeruj ulepszenia lub dodaj kod"
 
-#~ msgid "More Options"
-#~ msgstr "Więcej opcji"
-
-#~ msgid "Quit"
-#~ msgstr "Wyjdź"
-
-#~ msgid "Math Command Training Academy"
-#~ msgstr "Akademia Treningowa Poleceń Math"
-
-#~ msgid "Play Arcade Game"
-#~ msgstr "Zagraj w grę zręcznościową"
-
-#~ msgid "Play Custom Game"
-#~ msgstr "Zagraj w wybraną grę"
-
 #~ msgid "Main menu"
-#~ msgstr "Menu główne"
-
-#~ msgid "Demo"
-#~ msgstr "Demonstracja"
-
-#~ msgid "Project Info"
-#~ msgstr "Informacja o projekcie"
-
-#~ msgid "Credits"
-#~ msgstr "Twórcy"
-
-#~ msgid "Main Menu"
 #~ msgstr "Menu główne"

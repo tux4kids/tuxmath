@@ -11,3 +11,4 @@ src/server.c
 src/titlescreen.c
 src/tuxmath.c
 data/missions/lessons/descr_lessons
+data/menus/menu_strings
