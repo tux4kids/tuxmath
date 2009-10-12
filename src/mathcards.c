@@ -249,6 +249,15 @@ static int find_divisor(int a); //return a random positive divisor of a
 static int calc_num_valid_questions(void);
 static MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion** end_of_list);
 static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
+//Determine how many points to give player based on question
+//difficulty and how fast it was answered.
+//TODO we may want to play with this a bit
+static int calc_score(int difficulty, float t);
+
+
+
+
+
 
 /*  MC_Initialize() sets up the struct containing all of  */
 /*  settings regarding math questions.  It should be      */
@@ -511,12 +520,13 @@ int MC_NextQuestion(MC_FlashCard* fc)
 
 /*  MC_AnsweredCorrectly() is how the user interface      */
 /*  tells MathCards that the question has been answered   */
-/*  correctly. Returns 1 if no errors.                    */
+/*  correctly. Returns the number of points earned.       */
 int MC_AnsweredCorrectly(int id, float t)
 {
   DEBUGMSG(debug_mathcards, "\nEntering MC_AnsweredCorrectly()");
 
   MC_MathQuestion* quest = NULL;
+  int points = 0;
 
   if(!active_quests) // No questions currently "in play" - something is wrong:
   {
@@ -537,11 +547,17 @@ int MC_AnsweredCorrectly(int id, float t)
     return 0;
   }
 
+  /* Calculate how many points the player should receive, based on */
+  /* difficulty and time required to answer it:                    */
+  points = calc_score(quest->card.difficulty, t);
+
   DEBUGCODE(debug_mathcards)
   {
     printf("\nQuestion was:");
     print_card(quest->card);
+    printf("Player recieves %d points\n", points);
   }
+
 
   //We found a matching question, now we take it out of the 
   //"active_quests" list and either put it back into the 
@@ -580,7 +596,7 @@ int MC_AnsweredCorrectly(int id, float t)
   /* Record the time it took to answer: */ 
   MC_AddTimeToList(t);
 
-  return 1;
+  return points;
 }
 
 
@@ -2528,4 +2544,11 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     snprintf(card->answer_string, MC_ANSWER_LEN, "%s", nans);
     card->answer = atoi(card->answer_string);
   }
+}
+
+static int calc_score(int difficulty, float t)
+{
+  if (t < 0 || difficulty < 1)
+    return 0;
+  return (difficulty * SCORE_COEFFICIENT)/t;
 }

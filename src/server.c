@@ -13,7 +13,8 @@
 * (http://gpwiki.org), in a tutorial covered by the GNU Free Documentation License 1.2.
 * No invariant sections were indicated, and no separate license for the example code
 * was listed. The author was also not listed. AFAICT,this scenario allows incorporation of
-* derivative works into a GPLv2+ project like TuxMath - David Bruce 
+* derivative works into a GPLv2+ project like TuxMath.  FWIW, virtually none of
+* the tutorial code is still present here - David Bruce 
 */
 
 #include "globals.h"
@@ -65,6 +66,7 @@ void game_msg_correct_answer(int i, char* inbuf);
 void game_msg_wrong_answer(int i, char* inbuf);
 void game_msg_quit(int i);
 void game_msg_exit(int i);
+int calc_score(int difficulty, float t);
 
 //message sending:
 int send_counter_updates(void);
@@ -368,6 +370,11 @@ void server_handle_command_args(int argc, char* argv[])
       cleanup_server();
       exit(0);
     }
+    else if (strcmp(argv[i], "--debug-lan") == 0)
+    {
+      debug_status |= debug_lan;
+    }
+
     else if (strcmp(argv[i], "--copyright") == 0 ||
              strcmp(argv[i], "-c") == 0)
     {
@@ -797,9 +804,10 @@ int msg_set_name(int i, char* buf)
 void game_msg_correct_answer(int i, char* inbuf)
 {
   char outbuf[NET_BUF_LEN];
-  char* p;
-  int id;
-  float t;
+  char* p = NULL;
+  int id = -1;
+  float t = -1;
+  int points = 0;
 
   if(!inbuf)
     return;
@@ -811,24 +819,31 @@ void game_msg_correct_answer(int i, char* inbuf)
   p++;
   id = atoi(p);
   //Now get time player took to answer:
-  p = strchr(inbuf, '\t');
+  p = strchr(p, '\t');
   if(!p)
-    return; 
-  p++;
-  t = atof(p);
-
+    t = -1;
+  else
+  {
+    p++;
+    t = atof(p);
+  }
 
   //Tell mathcards so lists get updated:
-  if(!MC_AnsweredCorrectly(id, t))
+  points = MC_AnsweredCorrectly(id, t);
+  if(!points)
     return;
   //If we get to here, the id was successfully parsed out of inbuf
   //and the corresponding question was found.
+  client[i].score += points;
 
   //Announcement for server and all clients:
   snprintf(outbuf, NET_BUF_LEN, 
-          "question id %d was answered in %f seconds by %s\n",
-          id, t, client[i].name);             
+          "question id %d was answered in %f seconds for %d points by %s",
+          id, t, points, client[i].name);             
   broadcast_msg(outbuf);
+
+  DEBUGMSG(debug_lan, "game_msg_correct_answer(): %s\n", outbuf);
+
   //Tell all players to remove that question:
   remove_question(id);
   //send the next question to everyone:
@@ -909,14 +924,10 @@ void game_msg_exit(int i)
 //FIXME don't think we want to allow players to shut down the server
 void game_msg_quit(int i)
 {
-  printf("Server has been shut down by %s\n",client[i].name); 
+  printf("Server has been shut down by %s\n", client[i].name); 
   cleanup_server();
   exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
 }
-
-
-
-
 
 
 /* Now this gets called to actually start the game once all the players */
@@ -1059,47 +1070,6 @@ int remove_question(int id)
   transmit_all(buf);
   return 1;
 }
-
-
-
-
-// /*Function to send any messages to the client be it any warnings
-//   or anything the client is made to be informed */
-// int SendMessage(int message, int ques_id, char *name, TCPsocket client_sock)         
-// {
-//  int x;
-//  char buf[NET_BUF_LEN];
-//  char msg[100];  
-// 
-//  /* Create appropriate message: */
-//   switch(message)
-//   {
-//     case NO_QUESTION_LIST:
-//       sprintf(msg,"%s", "Please! first setup the question list by typing <a>\n");
-//       break;
-//     case ANSWER_CORRECT:
-//       sprintf(msg,"%s %d %s %s", "Question ID:",
-//               ques_id, "was answered correctly by the client",name);
-//       break;
-//    case LIST_SET_UP:
-//       sprintf(msg,"%s", "Question list was successfully setup\n");
-//       break;
-//    default :
-//      fprintf(stderr, "SendMessage() - unrecognized message type\n");
-//      return 0;
-//   }
-//   //transmit:
-//   snprintf(buf, NET_BUF_LEN, "%s\t%s\n", "SEND_MESSAGE", msg);
-//   x = SDLNet_TCP_Send(client_sock, buf, NET_BUF_LEN);
-// 
-// #ifdef LAN_DEBUG
-//   printf("buf is: %s\n", buf);
-//   printf("SendMessage() - buf sent:::: %d bytes\n", x);
-// #endif
-// 
-//   return 1;
-// }
-
 
 
 /* Sends a string for the client to display to player: */

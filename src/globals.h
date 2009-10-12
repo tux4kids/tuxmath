@@ -124,6 +124,7 @@ extern const int debug_all;
 #define MAX_BONUS_SPEED_RATIO 3.0
 #define MIN_COMETS 1
 #define MAX_MAX_COMETS 100
+#define SCORE_COEFFICIENT 100
 
 #define DEFAULT_FONT_NAME "AndikaDesRevG.ttf"
 #define FONT_NAME_LENGTH 64
