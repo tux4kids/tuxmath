@@ -1287,83 +1287,83 @@ void game_handle_demo(void)
 
   /* Demo mode! */
   {
-  static int demo_answer = 0;
-  static int answer_digit = 0;
-  static int picked_comet=-1;
+    static int demo_answer = 0;
+    static int answer_digit = 0;
+    static int picked_comet=-1;
 
-  if (picked_comet == -1 && (rand() % 10) < 3)
-  {
-    /* Demo mode!  Randomly pick a comet to destroy: */
-    picked_comet = (rand() % Opts_MaxComets());
-
-    if (!(comets[picked_comet].alive &&
-          comets[picked_comet].expl == -1)
-        || comets[picked_comet].y < 80)
+    if (picked_comet == -1 && (rand() % 10) < 3)
     {
-      picked_comet = -1;
-    }
-    else
-    {
-      /* found a comet to blow up! */
-      demo_answer = comets[picked_comet].answer;
-      if ((rand() % 3) < 1)
-        demo_answer--;  // sometimes get it wrong on purpose
+      /* Demo mode!  Randomly pick a comet to destroy: */
+      picked_comet = (rand() % Opts_MaxComets());
 
-      DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n", picked_comet,demo_answer);
-
-      /* handle negative answer: */
-      if (demo_answer < 0)
+      if (!(comets[picked_comet].alive &&
+            comets[picked_comet].expl == -1)
+          || comets[picked_comet].y < 80)
       {
-        demo_answer = -demo_answer;
-        neg_answer_picked = 1;
+        picked_comet = -1;
       }
-      if (demo_answer >= 100)
-        answer_digit = 0;
-      else if (demo_answer >= 10)
-        answer_digit = 1;
       else
-        answer_digit = 2;
+      {
+        /* found a comet to blow up! */
+        demo_answer = comets[picked_comet].answer;
+        if ((rand() % 3) < 1)
+          demo_answer--;  // sometimes get it wrong on purpose
+
+        DEBUGMSG(debug_game, "Demo mode, comet %d attacked with answer %d\n", picked_comet,demo_answer);
+
+        /* handle negative answer: */
+        if (demo_answer < 0)
+        {
+          demo_answer = -demo_answer;
+          neg_answer_picked = 1;
+        }
+        if (demo_answer >= 100)
+          answer_digit = 0;
+        else if (demo_answer >= 10)
+          answer_digit = 1;
+        else
+          answer_digit = 2;
+      }
     }
-  }
 
-  /* Add a digit: */
-  if (picked_comet != -1 && (frame % 5) == 0 && (rand() % 10) < 8)
-  {
-    tux_pressing = 1;
-
-    if (answer_digit < 3)
+    /* Add a digit: */
+    if (picked_comet != -1 && (frame % 5) == 0 && (rand() % 10) < 8)
     {
-      digits[0] = digits[1];
-      digits[1] = digits[2];
+      tux_pressing = 1;
 
-      if (answer_digit == 0)
+      if (answer_digit < 3)
       {
-        digits[2] = demo_answer / 100;
-      }
-      else if (answer_digit == 1)
-      {
-        digits[2] = (demo_answer % 100) / 10;
-      }
-      else if (answer_digit == 2)
-      {
-        digits[2] = (demo_answer % 10);
-      }
+        digits[0] = digits[1];
+        digits[1] = digits[2];
 
-      answer_digit++;
+        if (answer_digit == 0)
+        {
+          digits[2] = demo_answer / 100;
+        }
+        else if (answer_digit == 1)
+        {
+          digits[2] = (demo_answer % 100) / 10;
+        }
+        else if (answer_digit == 2)
+        {
+          digits[2] = (demo_answer % 10);
+        }
+
+        answer_digit++;
+      }
+      else
+      {
+        /* "Press Return" */
+        DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",
+                 digits[0], digits[1], digits[2]);
+        doing_answer = 1;
+        picked_comet = -1;
+      }
     }
-    else
-    {
-      /* "Press Return" */
-      DEBUGMSG(debug_game, "Demo mode firing with these digits: %d%d%d\n",
-               digits[0], digits[1], digits[2]);
-      doing_answer = 1;
-      picked_comet = -1;
-    }
+
+    /* Count down counter: */
+    demo_countdown--;
   }
-
-  /* Count down counter: */
-  demo_countdown--;
-}
 }
 
 void game_handle_answer(void)
@@ -1705,14 +1705,14 @@ void game_handle_comets(void)
         {
           num_attackers--;
         }
-        
       }
     }
     else
     {
       if (num_comets_alive() == 0)
       {
-        if (!check_extra_life()) {
+        if (!check_extra_life())
+        {
           /* Time for the next wave! */
           wave++;
           reset_level();
@@ -2458,15 +2458,15 @@ void game_draw_misc(void)
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       SDL_Surface* score;
-      snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
+      snprintf(str, 64, "%s: %d", mp_get_player_name(i), mp_get_player_score(i));
       score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
       if(score)
       {
         SDL_Rect loc;
-        loc.w = screen->w - score->w;
-        loc.h = score->h * (i + 2);
+        loc.w = score->w;
+        loc.h = score->h;
         loc.x = 0;
-        loc.y = 0;
+        loc.y = score->h * (i + 2);
         SDL_BlitSurface(score, NULL, screen, &loc);
       }
     }
