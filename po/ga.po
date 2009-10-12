@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-10-11 20:04-0500\n"
+"POT-Creation-Date: 2009-10-12 09:25-0500\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -238,107 +238,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:986
+#: src/game.c:984
 msgid "Welcome to TuxMath!"
 msgstr "FÃ¡ilte go TuxMath!"
 
-#: src/game.c:1003
+#: src/game.c:1001
 msgid "Your mission is to save your"
 msgstr "An cÃºram atÃ¡ agat nÃ¡"
 
-#: src/game.c:1004
+#: src/game.c:1002
 msgid "penguins' igloos from the"
 msgstr "Ã­oglÃºanna do phiongain a chosaint"
 
-#: src/game.c:1005
+#: src/game.c:1003
 msgid "falling comets."
 msgstr "Ã³ na rÃ©alta mhongach atÃ¡ ag titim anuas."
 
-#: src/game.c:1024
+#: src/game.c:1022
 msgid "Stop a comet by typing"
 msgstr "Stad rÃ©alt mhongach trÃ­ an"
 
-#: src/game.c:1025
+#: src/game.c:1023
 msgid "the answer to the math problem"
 msgstr "freagra don ceist mata a chlÃ³scrÃ­obh"
 
-#: src/game.c:1026
+#: src/game.c:1024
 msgid "and hitting 'space' or 'enter'."
 msgstr "agus brÃºigh 'bearna' nÃ³ 'isteach'."
 
-#: src/game.c:1027
+#: src/game.c:1025
 msgid "Try it now!"
 msgstr "Imir anois Ã©!"
 
-#: src/game.c:1035
+#: src/game.c:1033
 msgid "Good shot!"
 msgstr "Amas iontach!"
 
-#: src/game.c:1045
+#: src/game.c:1043
 msgid "If an igloo gets hit by a comet,"
 msgstr "MÃ¡ bhuaileann rÃ©alt mhongach Ã­oglÃº,"
 
-#: src/game.c:1046
+#: src/game.c:1044
 msgid "it melts. But don't worry: the"
 msgstr "leÃ¡itear Ã©. Ach nÃ¡ bÃ­ buartha:"
 
-#: src/game.c:1047
+#: src/game.c:1045
 msgid "penguin is OK!"
 msgstr "tÃ¡ an phiogain togha!"
 
-#: src/game.c:1048
+#: src/game.c:1046
 msgid "Just watch what happens:"
 msgstr "FÃ©ach cad a tharlaÃ­onn:"
 
-#: src/game.c:1049
+#: src/game.c:1047
 msgid "(Press a key to start)"
 msgstr "(BrÃºigh cnaipe chun tosÃº)"
 
-#: src/game.c:1062
+#: src/game.c:1060
 msgid "Notice the answer"
 msgstr "Tabhair faoi deara an freagra"
 
-#: src/game.c:1072
+#: src/game.c:1070
 msgid "If it gets hit again, the"
 msgstr "MÃ¡ bhuailfÃ­ arÃ­s Ã©,"
 
-#: src/game.c:1073
+#: src/game.c:1071
 msgid "penguin leaves."
 msgstr "fÃ¡gann an piongain."
 
-#: src/game.c:1074
+#: src/game.c:1072
 msgid "(Press a key when ready)"
 msgstr "(BrÃºigh cnaipe ar bith nuair atÃ¡ tÃº rÃ©idh)"
 
-#: src/game.c:1097
+#: src/game.c:1095
 msgid "You can fix the igloos"
 msgstr "Is fÃ©dir na hioglÃºanna a dheisiÃº"
 
-#: src/game.c:1098
+#: src/game.c:1096
 msgid "by stopping bonus comets."
 msgstr "trÃ­ rÃ©alta mhongach breise a stadadh."
 
-#: src/game.c:1109
+#: src/game.c:1107
 msgid "Zap it now!"
 msgstr "Buail anois Ã©!"
 
-#: src/game.c:1115
+#: src/game.c:1113
 msgid "Great job!"
 msgstr "Maith thÃº!"
 
-#: src/game.c:1133
+#: src/game.c:1131
 msgid "Quit at any time by pressing"
 msgstr "Scoir ag am ar bith trÃ­ brÃºigh"
 
-#: src/game.c:1134
+#: src/game.c:1132
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' nÃ³ brÃºigh an 'X'"
 
-#: src/game.c:1135
+#: src/game.c:1133
 msgid "in the upper right corner."
 msgstr "sa chÃºinne uachtarach ar dheis."
 
-#: src/game.c:1136
+#: src/game.c:1134
 msgid "Do it now, and then play!"
 msgstr "DÃ©an anois Ã©, agus ansin imir!"
 

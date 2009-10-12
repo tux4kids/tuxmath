@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-10-11 20:04-0500\n"
+"POT-Creation-Date: 2009-10-12 09:25-0500\n"
 "PO-Revision-Date: 2009-02-07 18:04+0800\n"
 "Last-Translator: Xavier <XavierXavierye@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -253,107 +253,107 @@ msgid ""
 "single shot!"
 msgstr "分解它。"
 
-#: src/game.c:986
+#: src/game.c:984
 msgid "Welcome to TuxMath!"
 msgstr "欢迎来到TuxMax!"
 
-#: src/game.c:1003
+#: src/game.c:1001
 msgid "Your mission is to save your"
 msgstr "你的任务是保护你的"
 
-#: src/game.c:1004
+#: src/game.c:1002
 msgid "penguins' igloos from the"
 msgstr "企鹅的小屋"
 
-#: src/game.c:1005
+#: src/game.c:1003
 msgid "falling comets."
 msgstr "正在降落的彗星。"
 
-#: src/game.c:1024
+#: src/game.c:1022
 msgid "Stop a comet by typing"
 msgstr "要制止彗星的话，按"
 
-#: src/game.c:1025
+#: src/game.c:1023
 msgid "the answer to the math problem"
 msgstr "数学问题的答案"
 
-#: src/game.c:1026
+#: src/game.c:1024
 msgid "and hitting 'space' or 'enter'."
 msgstr "按空格或回车键"
 
-#: src/game.c:1027
+#: src/game.c:1025
 msgid "Try it now!"
 msgstr "现在就试一试吧！"
 
-#: src/game.c:1035
+#: src/game.c:1033
 msgid "Good shot!"
 msgstr "打的好！"
 
-#: src/game.c:1045
+#: src/game.c:1043
 msgid "If an igloo gets hit by a comet,"
 msgstr "如果一个小屋被彗星击中的话,"
 
-#: src/game.c:1046
+#: src/game.c:1044
 msgid "it melts. But don't worry: the"
 msgstr "如果融化的话，别担心:"
 
-#: src/game.c:1047
+#: src/game.c:1045
 msgid "penguin is OK!"
 msgstr "企鹅正常！"
 
-#: src/game.c:1048
+#: src/game.c:1046
 msgid "Just watch what happens:"
 msgstr "只要观察发生了什么:"
 
-#: src/game.c:1049
+#: src/game.c:1047
 msgid "(Press a key to start)"
 msgstr "(按任意键开始)"
 
-#: src/game.c:1062
+#: src/game.c:1060
 msgid "Notice the answer"
 msgstr "注意答案"
 
-#: src/game.c:1072
+#: src/game.c:1070
 msgid "If it gets hit again, the"
 msgstr "如果再次被击中的话，"
 
-#: src/game.c:1073
+#: src/game.c:1071
 msgid "penguin leaves."
 msgstr "企鹅离开了。"
 
-#: src/game.c:1074
+#: src/game.c:1072
 msgid "(Press a key when ready)"
 msgstr "(准备好后按任意键)"
 
-#: src/game.c:1097
+#: src/game.c:1095
 msgid "You can fix the igloos"
 msgstr "你可以修复小屋"
 
-#: src/game.c:1098
+#: src/game.c:1096
 msgid "by stopping bonus comets."
 msgstr "通过停止奖励的彗星"
 
-#: src/game.c:1109
+#: src/game.c:1107
 msgid "Zap it now!"
 msgstr "现在攻击!"
 
-#: src/game.c:1115
+#: src/game.c:1113
 msgid "Great job!"
 msgstr "干的好!"
 
-#: src/game.c:1133
+#: src/game.c:1131
 msgid "Quit at any time by pressing"
 msgstr "任何时间退出，按"
 
-#: src/game.c:1134
+#: src/game.c:1132
 msgid "'Esc' or clicking the 'X'"
 msgstr "按'Esc'键或点击'X'"
 
-#: src/game.c:1135
+#: src/game.c:1133
 msgid "in the upper right corner."
 msgstr "在右上角"
 
-#: src/game.c:1136
+#: src/game.c:1134
 msgid "Do it now, and then play!"
 msgstr "现在就做，开始吧！"
 

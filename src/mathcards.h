@@ -19,13 +19,6 @@
 
 #include "transtruct.h"
 
-#define MC_DEBUG
-#ifdef MC_DEBUG
-#define mcdprintf(...) DEBUGMSG(debug_mathcards,__VA_ARGS__)
-#else
-#define mcdprintf(...) 0
-#endif
-
 
 /* different classes of problems TuxMath will ask */
 typedef enum _MC_ProblemType {
@@ -277,6 +270,7 @@ int MC_VerifyOptionListSane(void);
 int MC_MaxFormulaSize(void); //amount of memory needed to safely hold strings
 int MC_MaxAnswerSize(void);
 MC_FlashCard MC_AllocateFlashcard();
+void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest);
 void MC_FreeFlashcard(MC_FlashCard* fc);
 void MC_ResetFlashCard(MC_FlashCard* fc); //empty flashcard of strings & values
 int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid

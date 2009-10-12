@@ -201,7 +201,7 @@ float* time_per_question_list = NULL;
 int length_time_per_question_list = 0;
 int length_alloc_time_per_question_list = 0;
 
-const MC_FlashCard DEFAULT_CARD = {0,0,0,0}; //empty card to signal error
+const MC_FlashCard DEFAULT_CARD = {{'\0'}, {'\0'}, 0, 0, 0}; //empty card to signal error
 
 /* "private" function prototypes:                        */
 /*                                                       */
@@ -213,7 +213,7 @@ static MC_MathQuestion* generate_list(void);
 static void clear_negatives(void);
 //static int validate_question(int n1, int n2, int n3);
 //static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
-static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
+//static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
 static MC_MathQuestion* create_node_copy(MC_MathQuestion* other);
 static MC_MathQuestion* insert_node(MC_MathQuestion* first, MC_MathQuestion* current, MC_MathQuestion* new_node);
 static MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node);
@@ -223,29 +223,26 @@ static MC_MathQuestion* delete_list(MC_MathQuestion* list);
 static int list_length(MC_MathQuestion* list);
 static int randomize_list(MC_MathQuestion** list);
 
-int comp_randomizer(const void *a, const void *b);
+int comp_randomizer(const void* a, const void* b);
 static MC_MathQuestion* pick_random(int length, MC_MathQuestion* list);
 static int compare_node(MC_MathQuestion* first, MC_MathQuestion* other);
 static int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr);
 //static int int_to_bool(int i);
 //static int sane_value(int i);
 //static int abs_value(int i);
-static int floatCompare(const void *v1,const void *v2);
+static int floatCompare(const void* v1,const void* v2);
 
 static void print_list(FILE* fp,MC_MathQuestion* list);
 void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length);
 
-/* these functions are dead code unless compiling with debug turned on: */
-#ifdef MC_DEBUG
 static void print_counters(void);
 //static MC_FlashCard    create_card_from_node(MC_MathQuestion* node);
-#endif
+
 
 /* Functions for new mathcards architecture */
 static void free_node(MC_MathQuestion* mq); //wrapper for free() that also frees card
 static MC_FlashCard generate_random_flashcard(void);
 static MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat);
-static void copy_card(const MC_FlashCard* src, MC_FlashCard* dest); //deep copy a flashcard
 static MC_MathQuestion* allocate_node(void); //allocate space for a node
 static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b); //test for identical cards
 static int find_divisor(int a); //return a random positive divisor of a
@@ -265,16 +262,17 @@ int MC_Initialize(void)
 {
   int i;
 
-  mcdprintf("\nEntering MC_Initialize()");
+  DEBUGMSG(debug_mathcards,"\nEntering MC_Initialize()");
   /* check flag to see if we did this already */
   if (initialized)
   {
 
-    #ifdef MC_DEBUG
-    printf("\nAlready initialized");
-    MC_PrintMathOptions(stdout, 0);
-    printf("\nLeaving MC_Initialize()\n");
-    #endif
+    DEBUGCODE(debug_mathcards)
+    {
+      printf("\nAlready initialized");
+      MC_PrintMathOptions(stdout, 0);
+      printf("\nLeaving MC_Initialize()\n");
+    }
 
     return 1;
   }
@@ -282,8 +280,8 @@ int MC_Initialize(void)
   /* bail out if no struct */
   if (!math_opts)
   {
-    mcdprintf("\nError: malloc couldn't allocate math_opts for some reason\n");
-    mcdprintf("\nLeaving MC_Initialize()\n");
+    DEBUGMSG(debug_mathcards,"\nError: malloc couldn't allocate math_opts for some reason\n");
+    DEBUGMSG(debug_mathcards,"\nLeaving MC_Initialize()\n");
 
     fprintf(stderr, "\nUnable to initialize math_options");
     return 0;
@@ -303,10 +301,11 @@ int MC_Initialize(void)
 
   initialized = 1;
 
-  #ifdef MC_DEBUG
-  MC_PrintMathOptions(stdout, 0);
-  printf("\nLeaving MC_Initialize()\n");
-  #endif
+  DEBUGCODE(debug_mathcards)
+  {
+    MC_PrintMathOptions(stdout, 0);
+    printf("\nLeaving MC_Initialize()\n");
+  }
 
   return 1;
 }
@@ -322,21 +321,21 @@ int MC_Initialize(void)
 int MC_StartGame(void)
 {
 
-  mcdprintf("\nEntering MC_StartGame()");
+  DEBUGMSG(debug_mathcards,"\nEntering MC_StartGame()");
 
   /* if math_opts not set up yet, initialize it: */
   if (!initialized)
   {
 
-    mcdprintf("\nNot initialized - calling MC_Initialize()");
+    DEBUGMSG(debug_mathcards, "\nNot initialized - calling MC_Initialize()");
 
     MC_Initialize();
   }
 
   if (!math_opts)
   {
-    mcdprintf("\nCould not initialize - bailing out");
-    mcdprintf("\nLeaving MC_StartGame()\n");
+    DEBUGMSG(debug_mathcards, "\nCould not initialize - bailing out");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
 
     return 0;
   }
@@ -382,15 +381,15 @@ int MC_StartGame(void)
 /* make sure list now exists and has non-zero length: */
   if (question_list && quest_list_length)
   {
-    mcdprintf("\nGame set up successfully");
-    mcdprintf("\nLeaving MC_StartGame()\n");
+    DEBUGMSG(debug_mathcards, "\nGame set up successfully");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
 
     return 1;
   }
   else
   {
-    mcdprintf("\nGame NOT set up successfully - no valid list");
-    mcdprintf("\nLeaving MC_StartGame()\n");
+    DEBUGMSG(debug_mathcards, "\nGame NOT set up successfully - no valid list");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
 
     return 0;
   }
@@ -406,7 +405,7 @@ int MC_StartGame(void)
 /*  valid wrong question list?                            */
 int MC_StartGameUsingWrongs(void)
 {
-  mcdprintf("\nEntering MC_StartGameUsingWrongs()");
+  DEBUGMSG(debug_mathcards, "\nEntering MC_StartGameUsingWrongs()");
 
   /* Note: if not initialized, control will pass to       */
   /* MC_StartGame() via else clause so don't need to test */
@@ -414,8 +413,8 @@ int MC_StartGameUsingWrongs(void)
   if (wrong_quests &&
       list_length(wrong_quests))
   {
-    mcdprintf("\nNon-zero length wrong_quests list found, will");
-    mcdprintf("\nuse for new game list:");
+    DEBUGMSG(debug_mathcards, "\nNon-zero length wrong_quests list found, will");
+    DEBUGMSG(debug_mathcards, "\nuse for new game list:");
 
     /* initialize lists for new game: */
     delete_list(question_list);
@@ -448,8 +447,8 @@ int MC_StartGameUsingWrongs(void)
   else /* if no wrong_quests list, go to MC_StartGame()   */
        /* to set up list based on math_opts               */
   {
-    mcdprintf("\nNo wrong questions to review - generate list from math_opts\n");
-    mcdprintf("\nLeaving MC_StartGameUsingWrongs()\n");
+    DEBUGMSG(debug_mathcards, "\nNo wrong questions to review - generate list from math_opts\n");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGameUsingWrongs()\n");
 
     return MC_StartGame();
   }
@@ -465,7 +464,7 @@ int MC_StartGameUsingWrongs(void)
 /*  or if argument pointer is invalid.                     */
 int MC_NextQuestion(MC_FlashCard* fc)
 {
-  mcdprintf("\nEntering MC_NextQuestion()\n");
+  DEBUGMSG(debug_mathcards, "\nEntering MC_NextQuestion()\n");
 
   /* (so we can move the node into active_quests:) */
   MC_MathQuestion* ptr;
@@ -473,7 +472,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
   if (!fc )
   {
     fprintf(stderr, "\nNull MC_FlashCard* argument!\n");
-    mcdprintf("\nLeaving MC_NextQuestion()\n");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_NextQuestion()\n");
     return 0;
   }
 
@@ -481,14 +480,14 @@ int MC_NextQuestion(MC_FlashCard* fc)
 /*      !next_question || */
       !list_length(question_list) )
   {
-    mcdprintf("\nquestion_list invalid or empty");
-    mcdprintf("\nLeaving MC_NextQuestion()\n");
+    DEBUGMSG(debug_mathcards, "\nquestion_list invalid or empty");
+    DEBUGMSG(debug_mathcards, "\nLeaving MC_NextQuestion()\n");
     
     return 0;
   }
 
   /* 'draw' - copy over the first question */
-  copy_card(&question_list->card, fc);
+  MC_CopyCard(&question_list->card, fc);
  
   /* take first question node out of list and move it into active_quests list: */
   ptr = question_list;
@@ -515,7 +514,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
 /*  correctly. Returns 1 if no errors.                    */
 int MC_AnsweredCorrectly(int id)
 {
-  mcdprintf("\nEntering MC_AnsweredCorrectly()");
+  DEBUGMSG(debug_mathcards, "\nEntering MC_AnsweredCorrectly()");
 
   MC_MathQuestion* quest = NULL;
 
@@ -525,7 +524,7 @@ int MC_AnsweredCorrectly(int id)
     return 0;
   }
 
-  mcdprintf("\nQuestion id was: %d\n", id);
+  DEBUGMSG(debug_mathcards, "\nQuestion id was: %d\n", id);
 
   //First take the question out of the active_quests list
   quest = active_quests;  
@@ -538,7 +537,8 @@ int MC_AnsweredCorrectly(int id)
     return 0;
   }
 
-  if (debug_status & debug_mathcards) {
+  DEBUGCODE(debug_mathcards)
+  {
     printf("\nQuestion was:");
     print_card(quest->card);
   }
@@ -553,7 +553,7 @@ int MC_AnsweredCorrectly(int id)
   if (!math_opts->iopts[PLAY_THROUGH_LIST])
   /* reinsert question into question list at random location */
   {
-    mcdprintf("\nReinserting question into list");
+    DEBUGMSG(debug_mathcards, "\nReinserting question into list");
 
     MC_MathQuestion* rand_spot;
     /* put it into list */
@@ -565,13 +565,14 @@ int MC_AnsweredCorrectly(int id)
   }
   else
   {
-    mcdprintf("\nNot reinserting question into list");
+    DEBUGMSG(debug_mathcards, "\nNot reinserting question into list");
     free_node(quest);
     /* not recycling questions so fewer questions remain:      */
     unanswered--;
   }
 
-   if (debug_status & debug_mathcards) {
+  DEBUGCODE(debug_mathcards)
+  {
     print_counters();
     printf("\nLeaving MC_AnsweredCorrectly()\n");
   }
@@ -590,7 +591,7 @@ int MC_AnsweredCorrectly(int id)
 /*  gets hit by a question, not if they "miss".             */
 int MC_NotAnsweredCorrectly(int id)
 {
-  mcdprintf("\nEntering MC_NotAnsweredCorrectly()");
+  DEBUGMSG(debug_mathcards, "\nEntering MC_NotAnsweredCorrectly()");
 
   MC_MathQuestion* quest = NULL;
 
@@ -600,7 +601,7 @@ int MC_NotAnsweredCorrectly(int id)
     return 0;
   }
 
-  mcdprintf("\nQuestion id was: %d\n", id);
+  DEBUGMSG(debug_mathcards, "\nQuestion id was: %d\n", id);
 
   //First take the question out of the active_quests list
   quest = active_quests;  
@@ -613,7 +614,7 @@ int MC_NotAnsweredCorrectly(int id)
     return 0;
   }
 
-  mcdprintf("\nMatching question is:");
+  DEBUGMSG(debug_mathcards, "\nMatching question is:");
   print_card(quest->card);
 
 
@@ -624,9 +625,10 @@ int MC_NotAnsweredCorrectly(int id)
     MC_MathQuestion* quest_copy;
     MC_MathQuestion* rand_loc;
 
-    mcdprintf("\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
+    DEBUGMSG(debug_mathcards, "\nAdding %d copies to question_list:", math_opts->iopts[COPIES_REPEATED_WRONGS]);
 
-    if (debug_status & debug_mathcards) {
+    DEBUGCODE(debug_mathcards)
+    {
       print_counters();
       printf("\nLeaving MC_AnsweredCorrectly()\n");
     }
@@ -645,7 +647,7 @@ int MC_NotAnsweredCorrectly(int id)
   }
   else
   {
-    mcdprintf("\nNot repeating wrong answers\n");
+    DEBUGMSG(debug_mathcards, "\nNot repeating wrong answers\n");
     /* not repeating questions so list gets shorter:      */
     unanswered--;
   }
@@ -660,7 +662,7 @@ int MC_NotAnsweredCorrectly(int id)
   /* add question to wrong_quests list: */
   if (!already_in_list(wrong_quests, quest)) /* avoid duplicates */
   {
-    mcdprintf("\nAdding to wrong_quests list");
+    DEBUGMSG(debug_mathcards, "\nAdding to wrong_quests list");
     wrong_quests = append_node(wrong_quests, quest);
   }
   else /* avoid memory leak */
@@ -668,7 +670,8 @@ int MC_NotAnsweredCorrectly(int id)
     free_node(quest);
   }
 
-  if (debug_status & debug_mathcards) {
+  DEBUGCODE(debug_mathcards)
+ {
     print_counters();
     printf("\nLeaving MC_NotAnswered_Correctly()\n");
   }
@@ -734,7 +737,8 @@ int MC_AddTimeToList(float t)
     if (newsize == 0)
       newsize = 100;
     newlist = realloc(time_per_question_list, newsize*sizeof(float));
-    if (newlist == NULL) {
+    if (newlist == NULL)
+    {
       DEBUGMSG(debug_mathcards,"\nError: allocation for time_per_question_list failed\n");
       return 0;
     }
@@ -888,7 +892,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
   }
 
 
-  mcdprintf("\nEntering MC_PrintMathOptions()\n");
+  DEBUGMSG(debug_mathcards, "\nEntering MC_PrintMathOptions()\n");
 
   /* bail out if no struct */
   if (!math_opts)
@@ -903,7 +907,7 @@ void MC_PrintMathOptions(FILE* fp, int verbose)
       fprintf(fp, "%s", vcomments[i]);
     fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], math_opts->iopts[i]);
     }
-  mcdprintf("\nLeaving MC_PrintMathOptions()\n");
+  DEBUGMSG(debug_mathcards, "\nLeaving MC_PrintMathOptions()\n");
 }
 
 
@@ -1016,41 +1020,14 @@ void clear_negatives(void)
 //   return 1;
 // }
 
-#if 0 //this code is probably on the way out...
-/* create a new node and return a pointer to it */
-MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f)
-{
-  MC_MathQuestion* ptr = NULL;
-
-  ptr = (MC_MathQuestion*)malloc(sizeof(MC_MathQuestion));
-
-  if (!ptr)
-  {
-    fprintf(stderr, "create_node() - malloc() failed!\n");
-    return NULL;
-  }
-
-  ptr->card = MC_AllocateFlashcard();
-  ptr->next = NULL;
-  ptr->previous = NULL;
-
-  snprintf(ptr->card.formula_string, max_formula_size, "%d %c %d = ?",
-           n1, op < MC_NUM_OPERS ? operchars[op] : '\0', n2);
-  snprintf(ptr->card.answer_string, max_formula_size, "%d", ans);
-  ptr->card.difficulty = 25 * (op + 1);
 
 
-  /* ptr should now point to a properly constructed node: */
-  return ptr;
-}
-#endif
-
-MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard)
-{
-  MC_MathQuestion* ret = allocate_node();
-  copy_card(flashcard, &(ret->card));
-  return ret;
-}
+// MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard)
+// {
+//   MC_MathQuestion* ret = allocate_node();
+//   MC_CopyCard(flashcard, &(ret->card));
+//   return ret;
+// }
 
 // /* FIXME take care of strings */
 // /* this one copies the contents, including pointers; both nodes must be allocated */
@@ -1198,11 +1175,11 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
   }
 
   int i = 0;
-  mcdprintf("Entering print_vect_list()\n");
+  DEBUGMSG(debug_mathcards, "Entering print_vect_list()\n");
   for(i = 0; i < length; i++)
     fprintf(fp, "%s\n", vect[i]->card.formula_string);
 
-  mcdprintf("Leaving print_vect_list()\n");
+  DEBUGMSG(debug_mathcards, "Leaving print_vect_list()\n");
 }
 
 
@@ -1260,7 +1237,7 @@ MC_MathQuestion* create_node_copy(MC_MathQuestion* other)
 {
   MC_MathQuestion* ret = allocate_node();
   if (ret)
-    copy_card(&(other->card), &(ret->card) );
+    MC_CopyCard(&(other->card), &(ret->card) );
   return ret;
 }
 
@@ -1473,15 +1450,15 @@ int floatCompare(const void *v1,const void *v2)
 Functions for new mathcards architecture
 ****************************************************/
 
-void copy_card(const MC_FlashCard* src, MC_FlashCard* dest)
+void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest)
 {
   if (!src || !dest)
     return;
-  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
-  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
+  DEBUGMSG(debug_mathcards, "Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
+  DEBUGMSG(debug_mathcards, "copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
   strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
   strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
-  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
+  DEBUGMSG(debug_mathcards, "Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
   dest->answer = src->answer;
   dest->difficulty = src->difficulty;
   dest->question_id = src->question_id;
@@ -1527,8 +1504,8 @@ MC_FlashCard generate_random_flashcard(void)
   static int generate_random_flashcard_id=0;
 
   generate_random_flashcard_id+=1;
-  mcdprintf("Entering generate_random_flashcard()\n");
-  mcdprintf("%d\n",generate_random_flashcard_id);
+  DEBUGMSG(debug_mathcards, "Entering generate_random_flashcard()\n");
+  DEBUGMSG(debug_mathcards, "%d\n",generate_random_flashcard_id);
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -1541,7 +1518,7 @@ MC_FlashCard generate_random_flashcard(void)
 
   if (pt == MC_PT_TYPING) //typing practice
   {
-    mcdprintf("Generating typing question\n");
+    DEBUGMSG(debug_mathcards, "Generating typing question\n");
     ret = MC_AllocateFlashcard();
     num = rand() % (MC_GetOpt(MAX_TYPING_NUM)-MC_GetOpt(MIN_TYPING_NUM) + 1)
                   + MC_GetOpt(MIN_TYPING_NUM);
@@ -1553,11 +1530,11 @@ MC_FlashCard generate_random_flashcard(void)
   }
   else //if (pt == MC_PT_ARITHMETIC)
   {
-    mcdprintf("Generating arithmetic question");
+    DEBUGMSG(debug_mathcards, "Generating arithmetic question");
     length = rand() % (MC_GetOpt(MAX_FORMULA_NUMS) -
                        MC_GetOpt(MIN_FORMULA_NUMS) + 1) //avoid div by 0
                     +  MC_GetOpt(MIN_FORMULA_NUMS);
-    mcdprintf(" of length %d", length);
+    DEBUGMSG(debug_mathcards, " of length %d", length);
     ret = generate_random_ooo_card_of_length(length, 1);
     
     if (debug_status & debug_mathcards) {
@@ -1566,7 +1543,7 @@ MC_FlashCard generate_random_flashcard(void)
   }
   //TODO comparison problems (e.g. "6 ? 9", "<")
 
-  mcdprintf("Exiting generate_random_flashcard()\n");
+  DEBUGMSG(debug_mathcards, "Exiting generate_random_flashcard()\n");
 
   return ret;
 }
@@ -1581,9 +1558,10 @@ multiplication and division.If reformat is 0, FORMAT_ANS_LAST will be used,
 otherwise a format is chosen at random.
 */
 
-/* FIXME this function has to go - it is extremely difficult to follow,
-   it is impossible to check for invalid questions, and it really 
-   cannot be maintained.
+/* FIXME we should consider rewriting this - it currently generates some
+questions with indeterminate answers (e.g. ? * 0 = 0) that seem to be 
+impossible to prevent using the current scheme with recursive string
+operations.
 */
 
 MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
@@ -1597,18 +1575,18 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   MC_Operation op;
 
   id += 1;
-  mcdprintf(".");
+  DEBUGMSG(debug_mathcards, ".");
   if (length > MAX_FORMULA_NUMS)
     return DEFAULT_CARD;
   if (length <= 2)
   {
-    mcdprintf("\n");
+    DEBUGMSG(debug_mathcards, "\n");
     ret = MC_AllocateFlashcard();
     for (op = rand() % MC_NUM_OPERS; //pick a random operation
          MC_GetOpt(op + ADDITION_ALLOWED) == 0; //make sure it's allowed
          op = rand() % MC_NUM_OPERS);
 
-    mcdprintf("Operation is %c\n", operchars[op]);
+    DEBUGMSG(debug_mathcards, "Operation is %c\n", operchars[op]);
     /*
     if (op == MC_OPER_ADD)
     {
@@ -1639,7 +1617,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     */
     if (op > MC_OPER_DIV || op < MC_OPER_ADD)
     {
-      mcdprintf("Invalid operator: value %d\n", op);
+      DEBUGMSG(debug_mathcards, "Invalid operator: value %d\n", op);
       return DEFAULT_CARD;
     }
     //choose two numbers in the proper range and get their result
@@ -1666,13 +1644,13 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     } while ( (ans < 0 && !MC_GetOpt(ALLOW_NEGATIVES)) || ans > MC_GetOpt(MAX_ANSWER) );
 
 
-    mcdprintf("Constructing answer_string\n");
+    DEBUGMSG(debug_mathcards, "Constructing answer_string\n");
     snprintf(ret.answer_string, MC_ANSWER_LEN, "%d", ans);
-    mcdprintf("Constructing formula_string\n");
+    DEBUGMSG(debug_mathcards, "Constructing formula_string\n");
     snprintf(ret.formula_string, MC_FORMULA_LEN, "%d %c %d",
              r1, operchars[op], r2);
     ret.answer = ans;
-    mcdprintf("int answer is %d\n", ret.answer);
+    DEBUGMSG(debug_mathcards, "int answer is %d\n", ret.answer);
     ret.difficulty = op + 1;
 
   }
@@ -1698,7 +1676,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
          MC_GetOpt(op + ADDITION_ALLOWED) == 0; //make sure it's allowed
          op = rand() % MC_NUM_OPERS);
     }
-    mcdprintf("Next operation is %c,",  operchars[op]);
+    DEBUGMSG(debug_mathcards, "Next operation is %c,",  operchars[op]);
 
     //pick the next operand
     if (op == MC_OPER_ADD)
@@ -1725,8 +1703,8 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
     {
       ; //invalid operator
     }
-    mcdprintf(" operand is %d\n", r1);
-    mcdprintf("Answer: %d\n", ret.answer);
+    DEBUGMSG(debug_mathcards, " operand is %d\n", r1);
+    DEBUGMSG(debug_mathcards, "Answer: %d\n", ret.answer);
 
     //next append or prepend the new number (might need optimization)
     if (op == MC_OPER_SUB || op == MC_OPER_DIV || //noncommutative, append only
@@ -1750,7 +1728,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   
   if (reformat)
   {
-    mcdprintf("Reformatting...\n");
+    DEBUGMSG(debug_mathcards, "Reformatting...\n");
     do {
       format = rand() % MC_NUM_FORMATS;
     } while (!MC_GetOpt(FORMAT_ANSWER_LAST + format) && 
@@ -1761,7 +1739,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   }
   ret.question_id = id;
 
-  mcdprintf("At end of generate_rand_ooo_card_of_length():\n");
+  DEBUGMSG(debug_mathcards, "At end of generate_rand_ooo_card_of_length():\n");
   print_card(ret);
 
   return ret;
@@ -1793,11 +1771,11 @@ MC_MathQuestion* generate_list(void)
   {
     r1 = (double)rand() / RAND_MAX / 2 + 0.5; //interval (0, 1)
     r2 = (double)rand() / RAND_MAX / 2 + 0.5; //interval (0, 1)
-    mcdprintf("Randoms chosen: %5f, %5f\n", r1, r2);
+    DEBUGMSG(debug_mathcards, "Randoms chosen: %5f, %5f\n", r1, r2);
     delta = sqrt(-2 * log(r1) ) * cos(2 * PI_VAL * r2); //standard normal dist.
     var = length / 10.0; //variance
     delta = delta * var;
-    mcdprintf("Delta of average is %5f\n", delta);
+    DEBUGMSG(debug_mathcards, "Delta of average is %5f\n", delta);
     length += delta;
     if (length < 0)
       length = 1; //just in case...
@@ -1820,8 +1798,8 @@ MC_MathQuestion* generate_list(void)
     if((cycles_needed * num_valid_questions) < length)
       cycles_needed++;
 
-    mcdprintf("In generate_list() - COMPREHENSIVE method requested\n");
-    mcdprintf("num_valid_questions = %d\t cycles_needed = %d\n",
+    DEBUGMSG(debug_mathcards, "In generate_list() - COMPREHENSIVE method requested\n");
+    DEBUGMSG(debug_mathcards, "num_valid_questions = %d\t cycles_needed = %d\n",
               num_valid_questions, cycles_needed);
 
     for (i = MC_PT_TYPING; i < MC_NUM_PTYPES; ++i)
@@ -1835,7 +1813,7 @@ MC_MathQuestion* generate_list(void)
 
     if (MC_GetOpt(RANDOMIZE) )
     {
-      mcdprintf("Randomizing list\n");
+      DEBUGMSG(debug_mathcards, "Randomizing list\n");
       randomize_list(&list);
     }
 
@@ -1846,7 +1824,7 @@ MC_MathQuestion* generate_list(void)
       // generation until we have enough questions.
       if (length > cl) //if not enough questions, pad out with randoms
       {
-        mcdprintf("Padding out list from %d to %d questions\n", cl, length);
+        DEBUGMSG(debug_mathcards, "Padding out list from %d to %d questions\n", cl, length);
         for (i = cl; i < length; ++i)
         {
           tnode = malloc(sizeof(MC_MathQuestion) );
@@ -1860,12 +1838,12 @@ MC_MathQuestion* generate_list(void)
           tnode->card = generate_random_flashcard();
           list = insert_node(list, end_of_list, tnode);
           end_of_list = tnode;
-//          mcdprintf("%d.", list_length(list) );
+//          DEBUGMSG(debug_mathcards, "%d.", list_length(list) );
         }
       }
       else if (length < cl) //if too many questions, chop off tail end of list
       {
-        mcdprintf("Cutting list to %d questions\n", length);
+        DEBUGMSG(debug_mathcards, "Cutting list to %d questions\n", length);
         end_of_list = find_node(list, length);
         delete_list(end_of_list->next);
         end_of_list->next = NULL;
@@ -1875,9 +1853,11 @@ MC_MathQuestion* generate_list(void)
 
   /* Here we are just generating random questions, one at a */
   /* time until we have enough                              */
+  /* NOTE generate_random_flashcard() has some bugs, so only */
+  /* use this method if we need multiple operand questions   */
   else 
   {
-    mcdprintf("In generate_list() - COMPREHENSIVE method NOT requested\n");
+    DEBUGMSG(debug_mathcards, "In generate_list() - COMPREHENSIVE method NOT requested\n");
 
     for (i = 0; i < length; ++i)
     {
@@ -1935,7 +1915,7 @@ MC_FlashCard MC_AllocateFlashcard(void)
 
 //NOTE strings now simply hard-coded to MC_FORMULA_LEN (= 40) and
 //MC_ANSWER_LEN (= 5) instead of tailoring them to save a few bytes - DSB
-//  mcdprintf("Allocating %d + %d bytes for flashcard\n",
+//  DEBUGMSG(debug_mathcards, "Allocating %d + %d bytes for flashcard\n",
 //            max_formula_size + 1, max_answer_size + 1);
 //  ret.formula_string = malloc( (max_formula_size + 1) * sizeof(char));
 //  ret.answer_string = malloc( (max_answer_size + 1) * sizeof(char));
@@ -1955,13 +1935,13 @@ void MC_FreeFlashcard(MC_FlashCard* fc)
   return;
 //   if (!fc)
 //     return;
-// //  mcdprintf("Freeing formula_string\n");
+// //  DEBUGMSG(debug_mathcards, "Freeing formula_string\n");
 //   if (fc->formula_string)
 //   {
 //     free(fc->formula_string);
 //     fc->formula_string = NULL;
 //   }
-// //  mcdprintf("Freeing answer_string\n");
+// //  DEBUGMSG(debug_mathcards, "Freeing answer_string\n");
 //   if (fc->answer_string)
 //   {
 //     free(fc->answer_string);
@@ -1977,7 +1957,7 @@ unsigned int MC_MapTextToIndex(const char* text)
     if (!strcasecmp(text, MC_OPTION_TEXT[i]) )
       return i;
   }
-  mcdprintf("'%s' isn't a math option\n", text);
+  DEBUGMSG(debug_mathcards, "'%s' isn't a math option\n", text);
   return NOT_VALID_OPTION;
 }
 
@@ -1987,7 +1967,7 @@ void MC_SetOpt(unsigned int index, int val)
 {
   if (index >= NOPTS)
   {
-    mcdprintf("Invalid math option index: %d\n", index);
+    DEBUGMSG(debug_mathcards, "Invalid math option index: %d\n", index);
     return;
   }
 
@@ -2119,7 +2099,7 @@ int MC_GetOpt(unsigned int index)
 {
   if (index >= NOPTS)
   {
-    mcdprintf("Invalid option index: %d\n", index);
+    DEBUGMSG(debug_mathcards, "Invalid option index: %d\n", index);
     return MC_MATH_OPTS_INVALID;
   }
   if (!math_opts)
@@ -2228,7 +2208,7 @@ static int calc_num_valid_questions(void)
   {
   }
 
-  mcdprintf("calc_num_valid_questions():\t%d\n", total_questions);
+  DEBUGMSG(debug_mathcards, "calc_num_valid_questions():\t%d\n", total_questions);
   return total_questions;
 }
 
@@ -2239,15 +2219,17 @@ static int calc_num_valid_questions(void)
 //get updated in the calling code
 //NOTE the difficulty is set as add = 1, sub = 2, mult = 3, div = 4, plus a 2 point
 //bonus if the format is a "missing number".
-MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_MathQuestion** end_of_list)
+MC_MathQuestion* add_all_valid(MC_ProblemType pt,
+                               MC_MathQuestion* list,
+                               MC_MathQuestion** end_of_list)
 {
   int i, j;
   int ans = 0, tmp;
   MC_Operation k;
   MC_MathQuestion* tnode;
 
-  mcdprintf("Entering add_all_valid(%d)\n", pt);
-  mcdprintf("List already has %d questions\n", list_length(list));
+  DEBUGMSG(debug_mathcards, "Entering add_all_valid(%d)\n", pt);
+  DEBUGMSG(debug_mathcards, "List already has %d questions\n", list_length(list));
 
   //make sure this problem type is actually allowed
   if (!MC_GetOpt(pt + TYPING_PRACTICE_ALLOWED) )
@@ -2256,10 +2238,10 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   //add all typing questions in range
   if (pt == MC_PT_TYPING)
   {
-    mcdprintf("Adding typing...\n");
+    DEBUGMSG(debug_mathcards, "Adding typing...\n");
     for (i = MC_GetOpt(MIN_TYPING_NUM); i <= MC_GetOpt(MAX_TYPING_NUM); ++i)
     {
-      mcdprintf("(%d)\n", i);
+      DEBUGMSG(debug_mathcards, "(%d)\n", i);
       tnode = allocate_node();
       if(!tnode)
       {
@@ -2280,7 +2262,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
   //add all allowed arithmetic questions
   else if (MC_PT_ARITHMETIC)
   {
-    mcdprintf("Adding arithmetic...\n");
+    DEBUGMSG(debug_mathcards, "Adding arithmetic...\n");
 
     // The k loop iterates through the four arithmetic operations:
     // k = 0 means addition
@@ -2291,12 +2273,12 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
     {
       if (!MC_GetOpt(k + ADDITION_ALLOWED) )
         continue;
-      mcdprintf("\n*%d*\n", k);
+      DEBUGMSG(debug_mathcards, "\n*%d*\n", k);
 
       // The i loop iterates through the first value in the question:
       for (i = MC_GetOpt(MIN_AUGEND + 4 * k); i <= MC_GetOpt(MAX_AUGEND + 4 * k); ++i)
       {
-        mcdprintf("\n%d:\n", i);
+        DEBUGMSG(debug_mathcards, "\n%d:\n", i);
 
         // The j loop iterates through the second value in the question:
         for (j = MC_GetOpt(MIN_ADDEND + 4 * k); j <= MC_GetOpt(MAX_ADDEND + 4 * k); ++j)
@@ -2352,7 +2334,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
               continue;
           }
 
-          mcdprintf("Generating: %d %c %d = %d\n", i, operchars[k], j, ans);
+          DEBUGMSG(debug_mathcards, "Generating: %d %c %d = %d\n", i, operchars[k], j, ans);
 
           //add each format, provided it's allowed in general and for this op
 
@@ -2460,7 +2442,7 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
           {
             j = ans;
             i = tmp;
-            mcdprintf("resetting to %d %d\n", j, i);
+            DEBUGMSG(debug_mathcards, "resetting to %d %d\n", j, i);
           }
         }
       }
@@ -2492,8 +2474,8 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt, MC_MathQuestion* list, MC_Math
       }
     }
   }
-  mcdprintf("Exiting add_all_valid()\n");  
-  mcdprintf("List now has %d questions\n\n", list_length(list));
+  DEBUGMSG(debug_mathcards, "Exiting add_all_valid()\n");  
+  DEBUGMSG(debug_mathcards, "List now has %d questions\n\n", list_length(list));
 
   return list;
 }

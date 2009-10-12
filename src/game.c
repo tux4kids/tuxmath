@@ -194,8 +194,6 @@ static void add_score(int inc);
 static void reset_comets(void);
 static int num_comets_alive(void);
 
-static void copy_card(MC_FlashCard* src, MC_FlashCard* dest);
-
 static void game_mouse_event(SDL_Event event);
 static void game_key_event(SDLKey key);
 static void free_on_exit(void);
@@ -2862,7 +2860,7 @@ int add_comet(void)
 
   if(Opts_LanMode())
   {
-    copy_card(&(quest_queue[q_found]), &(comets[com_found].flashcard));
+    MC_CopyCard(&(quest_queue[q_found]), &(comets[com_found].flashcard));
     MC_ResetFlashCard(&(quest_queue[q_found]));
   }
   else // Not LAN mode - just get question with direct call:
@@ -3700,21 +3698,6 @@ void reset_comets(void)
     MC_ResetFlashCard(&(comets[i].flashcard) );
     comets[i].bonus = 0;
   }
-}
-
-
-void copy_card(MC_FlashCard* src, MC_FlashCard* dest)
-{
-  if (!src || !dest)
-    return;
-  mcdprintf("Copying '%s' to '%s', ", src->formula_string,dest->formula_string);
-  mcdprintf("copying '%s' to '%s'\n", src->answer_string, dest->answer_string);
-  strncpy(dest->formula_string, src->formula_string, MC_FORMULA_LEN);
-  strncpy(dest->answer_string, src->answer_string, MC_ANSWER_LEN);
-  mcdprintf("Card is: '%s', '%s'\n", dest->formula_string, dest->answer_string);
-  dest->answer = src->answer;
-  dest->difficulty = src->difficulty;
-  dest->question_id = src->question_id;
 }
 
 
