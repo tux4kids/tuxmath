@@ -148,6 +148,8 @@ static int start_message_chosen = 0;
 MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
 int remaining_quests = 0;
 static int comet_counter = 0;
+static int lan_players = 0;
+//FIXME add arrays for lan player names and scores
 /****************************************************************/
 typedef struct {
   int x_is_blinking;
@@ -210,6 +212,8 @@ void game_handle_net_messages(void);
 void game_handle_net_msg(char* buf);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
+int connected_players_recvd(char* buf);
+int update_scores_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
 void print_current_quests(void);
 MC_FlashCard* search_queue_by_id(int id);
@@ -543,6 +547,16 @@ void game_handle_net_msg(char* buf)
       game_over_other = 1;
   }
 
+  else if(strncmp(buf, "CONNECTED_PLAYERS", strlen("CONNECTED_PLAYERS")) == 0)
+  {
+    connected_players_recvd(buf);
+  }
+
+  else if(strncmp(buf, "UPDATE_SCORES", strlen("UPDATE_SCORES")) == 0)
+  {
+    update_scores_recvd(buf);
+  }
+
   else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
   {
     game_over_won = 1;
@@ -639,6 +653,23 @@ int remove_quest_recvd(char* buf)
   return 1;
 }
 
+
+/* Here we have been told how many LAN players are still    */
+/* in the game. This should always be followed by a series  */
+/* of UPDATE_SCORES messages, each with the name and score  */
+/* of a player. We clear out the array to get rid of anyone */
+/* who has disconnected.                                    */
+int connected_players_recvd(char* buf)
+{
+  return 1;
+}
+
+/* Receive the name and current score of a currently-connected */
+/* LAN player.                                                 */
+int update_scores_recvd(char* buf)
+{
+  return 1;
+}
 
 /* Return a pointer to an empty comet slot, */
 /* returning NULL if no vacancy found:      */
