@@ -35,7 +35,6 @@
 #endif
 
 
-#define MAX_CLIENTS 16
 #define MAX_ARGS 16
 
 

@@ -149,8 +149,10 @@ MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
 int remaining_quests = 0;
 static int comet_counter = 0;
 static int lan_players = 0;
-//FIXME add arrays for lan player names and scores
+char lan_pnames[MAX_CLIENTS][NAME_SIZE];
+int lan_pscores[MAX_CLIENTS];
 /****************************************************************/
+
 typedef struct {
   int x_is_blinking;
   int extra_life_is_blinking;
@@ -213,7 +215,7 @@ void game_handle_net_msg(char* buf);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
 int connected_players_recvd(char* buf);
-int update_scores_recvd(char* buf);
+int update_score_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
 void print_current_quests(void);
 MC_FlashCard* search_queue_by_id(int id);
@@ -517,7 +519,7 @@ void game_handle_net_messages(void)
 
 void game_handle_net_msg(char* buf)
 {
-  DEBUGMSG(debug_game, "Received server message: %s\n", buf);
+  DEBUGMSG(debug_lan, "Received server message: %s\n", buf);
 
   if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
   {
@@ -552,9 +554,9 @@ void game_handle_net_msg(char* buf)
     connected_players_recvd(buf);
   }
 
-  else if(strncmp(buf, "UPDATE_SCORES", strlen("UPDATE_SCORES")) == 0)
+  else if(strncmp(buf, "UPDATE_SCORE", strlen("UPDATE_SCORE")) == 0)
   {
-    update_scores_recvd(buf);
+    update_score_recvd(buf);
   }
 
   else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
@@ -661,13 +663,77 @@ int remove_quest_recvd(char* buf)
 /* who has disconnected.                                    */
 int connected_players_recvd(char* buf)
 {
-  return 1;
+  int n = 0;
+  int i = 0;
+  char* p = NULL;
+
+  if(!buf)
+    return 0;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+  p++;
+  n = atoi(p);
+
+  DEBUGMSG(debug_game, "connected_players_recvd() for n = %d\n", n);
+
+  if(n < 0 || n > MAX_CLIENTS)
+  {
+    fprintf(stderr, "connected_players_recvd() - illegal value: %d\n", n);
+    return -1;
+  }
+  lan_players = n;
+
+  /* Reset array - we should be getting new values in immediately */
+  /* following messages.                                          */
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    lan_pnames[i][0] = '\0';
+    lan_pscores[i] = -1;
+  }
+  return n;
 }
 
 /* Receive the name and current score of a currently-connected */
 /* LAN player.                                                 */
-int update_scores_recvd(char* buf)
+int update_score_recvd(char* buf)
 {
+  int i = 0;
+  char* p = NULL;
+
+  if(buf == NULL)
+    return 0;
+  // get i:
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+  p++;
+  i = atoi(p);
+
+  //get name:
+  p = strchr(p, '\t');
+  if(!p)
+    return 0;
+  p++;
+  strncpy(lan_pnames[i], p, NAME_SIZE);
+  //This has most likely copied the score field as well, so replace the
+  //tab delimiter with a null:
+  {
+    char* p2 = strchr(lan_pnames[i], '\t');
+    if (p2)
+      *p2 = '\0';
+  }
+
+  //Now get score:
+  p = strchr(p, '\t');
+  if(p)
+    lan_pscores[i] = atoi(p);
+
+  DEBUGMSG(debug_lan, "update_score_recvd() - buf is: %s\n", buf);
+  DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n", 
+           i, lan_pnames[i], lan_pscores[i]);
+
   return 1;
 }
 

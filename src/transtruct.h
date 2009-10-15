@@ -18,6 +18,7 @@
 #define DEFAULT_PORT 4779
 #define NAME_SIZE 50
 #define MAX_SERVERS 50
+#define MAX_CLIENTS 16
 
 #define MC_USE_NEWARC
 #define MC_FORMULA_LEN 40
