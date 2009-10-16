@@ -997,6 +997,9 @@ void start_game(void)
 
   game_in_progress = 1;
 
+  // Zero out scores:
+  for(j = 0; j < MAX_CLIENTS; j++)
+    client[j].score = 0;
 
   /* Send enough questions to fill the initial comet slots (currently 10) */
   for(j = 0; j < QUEST_QUEUE_SIZE; j++)
@@ -1016,6 +1019,7 @@ void start_game(void)
   }
   //Send all the clients the counter totals:
   send_counter_updates();
+  send_score_updates();
 }
 
 

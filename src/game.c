@@ -658,7 +658,7 @@ int remove_quest_recvd(char* buf)
 
 /* Here we have been told how many LAN players are still    */
 /* in the game. This should always be followed by a series  */
-/* of UPDATE_SCORES messages, each with the name and score  */
+/* of UPDATE_SCORE messages, each with the name and score  */
 /* of a player. We clear out the array to get rid of anyone */
 /* who has disconnected.                                    */
 int connected_players_recvd(char* buf)
@@ -718,7 +718,7 @@ int update_score_recvd(char* buf)
   p++;
   strncpy(lan_pnames[i], p, NAME_SIZE);
   //This has most likely copied the score field as well, so replace the
-  //tab delimiter with a null:
+  //tab delimiter with a null to terminate the string:
   {
     char* p2 = strchr(lan_pnames[i], '\t');
     if (p2)
@@ -863,11 +863,19 @@ int game_initialize(void)
     } 
     DEBUGMSG(debug_mathcards | debug_game,"MC_StartGame() finished.\n")
   }
-  else  /* Start out with our question queue empty: */
+  else  
   {
+    /* Reset question queue and player name/score lists: */
     int i;
+
     for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
       MC_ResetFlashCard(&(quest_queue[i]));
+
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+      lan_pnames[i][0] = '\0';
+      lan_pscores[i] = -1;
+    }
   }
 
   /* Allocate memory */
@@ -2530,7 +2538,8 @@ void game_draw_misc(void)
   sprintf(str, "%d", wave);
   draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
 
-  if (Opts_KeepScore() )
+  /* In LAN mode, we show the server-generated score: */
+  if (Opts_KeepScore() && !Opts_LanMode())
   {
     /* Draw "score" label: */
     dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
@@ -2547,23 +2556,49 @@ void game_draw_misc(void)
                  screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
                  0);
   }
-  
-  /* Draw other players' scores */
+
+  /* Draw other players' scores (turn-based single machine multiplayer) */
   if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )
   {
+    int i;
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       SDL_Surface* score;
-      snprintf(str, 64, "%s: %d", mp_get_player_name(i), mp_get_player_score(i));
+      snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
       score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
       if(score)
       {
         SDL_Rect loc;
-        loc.w = score->w;
-        loc.h = score->h;
+        loc.w = screen->w - score->w;
+        loc.h = score->h * (i + 2);
         loc.x = 0;
-        loc.y = score->h * (i + 2);
+        loc.y = 0;
         SDL_BlitSurface(score, NULL, screen, &loc);
+      }
+    }
+  }
+
+   /* Draw other players' scores (LAN game) */
+  if (Opts_LanMode())
+  {
+    int entries = 0;
+    for (i = 0; i < MAX_CLIENTS; i++)
+    {
+      if(lan_pscores[i] >= 0)
+      {
+        SDL_Surface* score;
+        snprintf(str, 64, "%s: %d", lan_pnames[i], lan_pscores[i]);
+        score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+        if(score)
+        {
+          SDL_Rect loc;
+          loc.w = score->w;
+          loc.h = score->h;
+          loc.x = 0;
+          loc.y = score->h * (entries + 2);
+          SDL_BlitSurface(score, NULL, screen, &loc);
+          entries++;
+        }
       }
     }
   }
