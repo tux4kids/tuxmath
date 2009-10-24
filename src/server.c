@@ -115,6 +115,10 @@ char* local_argv[MAX_ARGS];
 /* allow the server to be run as a function in a process or thread     */
 /* within another program.  main() is now in a separate file,          */
 /* servermain.c, that consists solely of a call to RunServer().        */
+
+/* FIXME this isn't thread-safe - we need to return gracefully if we     */
+/* find that the server is already running, instead of calling cleanup() */
+/* and crashing the program.                                             */
 int RunServer(int argc, char* argv[])
 { 
   Uint32 timer = 0;
@@ -158,7 +162,9 @@ int RunServer(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 
-
+/* If we can't use pthreads, we use this function   */
+/* to launch the server as a separate program using */
+/* the C library system() call                      */
 int RunServer_prog(int argc, char* argv[])
 {
   char buf[256];

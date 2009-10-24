@@ -23,6 +23,7 @@
 #include "tuxmath.h"
 #include "setup.h"
 #include "titlescreen.h"
+#include "linewrap.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -33,16 +34,10 @@
 #define TUXLOCALE LOCALEDIR
 #endif
 
-//#ifdef LINEBREAK
-#include "linewrap.h"
-//#endif
-
-int main(int argc, char * argv[])
+int main(int argc, char* argv[])
 {
   const char *s1, *s2, *s3, *s4;
-#ifdef ENABLE_NLS
-printf("ENABLE_NLS defined\n");
-#endif
+
   s1 = setlocale(LC_ALL, "");
   s2 = bindtextdomain(PACKAGE, TUXLOCALE);
   s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");

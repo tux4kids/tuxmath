@@ -595,7 +595,7 @@ int run_lan_host(void)
 
 #ifdef HAVE_PTHREAD_H
 
-  ShowMessage(_("Select lesson file for server to use"), NULL, NULL, NULL);
+  ShowMessage(_("Click or press key to select server lesson file"), NULL, NULL, NULL);
 
   {
     chosen_lesson = run_menu(menus[MENU_LESSONS], true);
