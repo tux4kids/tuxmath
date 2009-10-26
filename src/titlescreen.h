@@ -102,7 +102,7 @@ int           RenderTitleScreen(void);
 void          DrawTitleScreen(void);
 int           HandleTitleScreenEvents(const SDL_Event* evt);
 void          HandleTitleScreenAnimations();
-void          ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4);
+void          ShowMessage(int font_size, const char* str1, const char* str2, const char* str3, const char* str4);
 SDL_Surface*  current_bkg(); //appropriate background for current video mode
 
 

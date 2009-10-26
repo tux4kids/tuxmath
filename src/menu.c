@@ -371,7 +371,8 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_INFO:
-      ShowMessage(_("TuxMath is free and open-source!"),
+      ShowMessage(DEFAULT_MENU_FONT_SIZE,
+                  _("TuxMath is free and open-source!"),
                   _("You can help make it better."),
                   _("Suggestions, artwork, and code are all welcome!"),
                   _("Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"));
@@ -499,7 +500,7 @@ int run_custom_game(void)
   s2 = _("to create customized game!");
   s3 = _("Press a key or click your mouse to start game.");
   s4 = _("See README.txt for more information");
-  ShowMessage(s1, s2, s3, s4);
+  ShowMessage(DEFAULT_MENU_FONT_SIZE, s1, s2, s3, s4);
 
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -585,7 +586,8 @@ int run_lan_host(void)
   /* For now, only allow one server instance: */
   if(ServerRunning())
   {
-    ShowMessage(_("The server is already running"), NULL, NULL, NULL);
+    ShowMessage(DEFAULT_MENU_FONT_SIZE, _("The server is already running"),
+                NULL, NULL, NULL);
     return 0;
   }
 
@@ -602,7 +604,9 @@ int run_lan_host(void)
 
 #ifdef HAVE_PTHREAD_H
 
-  ShowMessage(_("Click or press key to select server lesson file"), NULL, NULL, NULL);
+  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
+              _("Click or press key to select server lesson file"),
+              NULL, NULL, NULL);
 
   {
     chosen_lesson = run_menu(menus[MENU_LESSONS], true);
@@ -629,7 +633,8 @@ int run_lan_host(void)
     }
   }
 
-  ShowMessage(_("Server Name:"),
+  ShowMessage(DEFAULT_MENU_FONT_SIZE,
+              _("Server Name:"),
               server_name,
               _("Selected Lesson:"),
               lesson_list_titles[chosen_lesson]);
@@ -675,17 +680,20 @@ int run_lan_join(void)
     }
     else
     {
-      ShowMessage(NULL, _("Sorry, game already in progress."), NULL, NULL);
+      ShowMessage(DEFAULT_MENU_FONT_SIZE,
+                  NULL, _("Sorry, game already in progress."), NULL, NULL);
       printf(_("Sorry, game already in progress.\n"));
     }  
   }
   else
   {
-    ShowMessage(NULL, _("Sorry, no server could be found."), NULL, NULL);
+    ShowMessage(DEFAULT_MENU_FONT_SIZE, 
+                NULL, _("Sorry, no server could be found."), NULL, NULL);
     printf(_("Sorry, no server could be found.\n"));
   }
 #else
-  ShowMessage(NULL, _("Sorry, this version built without network support"), NULL, NULL);
+  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
+              NULL, _("Sorry, this version built without network support"), NULL, NULL);
   printf( _("Sorry, this version built without network support.\n"));
 #endif
 

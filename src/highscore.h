@@ -20,6 +20,8 @@
 void DisplayHighScores(int level);
 void HighScoreNameEntry(char* pl_name);
 void NameEntry(char* pl_name, const char* heading, const char* sub);
+/* FIXME the next three don't have anything to do with high scores */
+/* and don't really belong here:                                   */
 int Standby(const char* heading, const char* sub);
 int detecting_servers(const char* heading, const char* sub);
 int Ready(const char* heading);

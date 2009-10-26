@@ -480,15 +480,15 @@ void NotImplemented(void)
   s3 = _("Discuss the future of TuxMath at");
   s4 = N_("tuxmath-devel@lists.sourceforge.net");
 
-  ShowMessage(s1, s2, s3, s4);
+  ShowMessage(DEFAULT_MENU_FONT_SIZE, s1, s2, s3, s4);
 }
 
 
 
 
 
-/* FIXME add some background shading to improve legibility */
-void ShowMessage(const char* str1, const char* str2, const char* str3, const char* str4)
+void ShowMessage(int font_size, const char* str1, const char* str2,
+                 const char* str3, const char* str4)
 {
   SDL_Surface *s1, *s2, *s3, *s4;
   SDL_Rect loc;
@@ -503,13 +503,13 @@ void ShowMessage(const char* str1, const char* str2, const char* str3, const cha
   DEBUGMSG(debug_titlescreen, "ShowMessage() - creating text\n" );
 
   if (str1)
-    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE * scale, &white);
+    s1 = BlackOutline(str1, font_size * scale, &white);
   if (str2)
-    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE * scale, &white);
+    s2 = BlackOutline(str2, font_size * scale, &white);
   if (str3)
-    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE * scale, &white);
+    s3 = BlackOutline(str3, font_size * scale, &white);
   if (str4)
-    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE * scale, &white);
+    s4 = BlackOutline(str4, font_size * scale, &white);
 
   DEBUGMSG(debug_titlescreen, "ShowMessage() - drawing screen\n" );
 
