@@ -90,7 +90,7 @@ void game_msg_next_question(void);
 
 
 /*  ------------   "Local globals" for server.c: ----------  */
-char server_name[NAME_SIZE];  /* User-visible name for server selection                     */
+char server_name[NAME_SIZE];  /* User-visible name for server selection  */
 int need_server_name = 1;
 UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection           */
 TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
@@ -99,6 +99,7 @@ SDLNet_SocketSet client_set = NULL, temp_set = NULL;
 static client_type client[MAX_CLIENTS];
 static int num_clients = 0;
 static int game_in_progress = 0;
+static int server_running = 0;
 static int quit = 0;
 MC_FlashCard flash;
 int local_argc;
@@ -118,7 +119,8 @@ char* local_argv[MAX_ARGS];
 
 /* FIXME this isn't thread-safe - we need to return gracefully if we     */
 /* find that the server is already running, instead of calling cleanup() */
-/* and crashing the program.                                             */
+/* and crashing the program. Some of the setup and cleanup will have to  */
+/* be called from main() rather than from here.                          */
 int RunServer(int argc, char* argv[])
 { 
   Uint32 timer = 0;
@@ -135,7 +137,8 @@ int RunServer(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
-  
+  server_running = 1;
+
   printf("Waiting for clients to connect:\n>");
   fflush(stdout);
 
@@ -155,6 +158,8 @@ int RunServer(int argc, char* argv[])
     /* CPU from 100% to ~2% on my desktop - DSB                       */
     Throttle(5, &timer);  //min loop time 5 msec
   }
+
+  server_running = 0;
    
   /*   -----  Free resources before exiting: -------    */
   cleanup_server();
@@ -210,6 +215,7 @@ int RunServer_pthread(int argc, char* argv[])
 
 void* run_server_local_args(void)
 {
+
   RunServer(local_argc, local_argv);
   pthread_exit(NULL);
   return NULL;
@@ -1227,6 +1233,9 @@ int read_stdin_nonblock(char* buf, size_t max_length)
 
 
 
-
+int ServerRunning(void)
+{
+  return server_running;
+}
 
 

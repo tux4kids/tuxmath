@@ -582,6 +582,13 @@ int run_lan_host(void)
   char* argv[3];
   int chosen_lesson = -1;
 
+  /* For now, only allow one server instance: */
+  if(ServerRunning())
+  {
+    ShowMessage(_("The server is already running"), NULL, NULL, NULL);
+    return 0;
+  }
+
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
   argv[0] = "tuxmathserver";
   argv[1] = "--name";

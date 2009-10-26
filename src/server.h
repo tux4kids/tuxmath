@@ -66,4 +66,7 @@ int RunServer_fork(int argc, char* argv[]);
 /* 2, 3, and 4 all return immediately, with the server running in a separate thread or process.  But if you don't mind waiting... */
 /* 5. Plain "blocking" function call, leaving scheduling issues up to you: */
 int RunServer(int argc, char **argv);
+
+/* Find out if server is already running: */
+int ServerRunning(void);
 #endif
