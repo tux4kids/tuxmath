@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-March 12, 2009
+October 25, 2009
 
-For tuxmath-1.7.2
+For tuxmath-1.7.3
 
 Objective
 ---------
@@ -44,7 +44,8 @@ Running The Program
     documentation or help screens for details.
 
     Alternatively, simply type the command "tuxmath" at a command
-    prompt (eg, in an xterm).
+    prompt (eg, in an xterm). Many command-line options are supported,
+    e.g "tuxmath -f" for fullscreen or "tuxmath -w" to run in a window.
 
   Windows
   -------
@@ -94,12 +95,52 @@ Program Navigation
       player's home directory (see below). At some point, the options will be 
       settable from within the game.
 
+    Network Game:
+    ------------------
+      Tuxmath now provides head-to-head competition over a local area network! All
+      players see the same questions, and whoever answers first gets the points for
+      that question. The game play is cooperative, however, in that all participating
+      players help defend all the igloos. Up to 16 players can participate in a single
+      game (this can be increased extremely simply with a recompilation, if desired).
+
+      To set up network play, the tuxmath server program needs to be started. Simply go
+      to Network Game->Run Server and follow the directions. You just need to type in a
+      name to identify the server to players (such as "Tux Server").  If we are able to
+      use threads on your platform, you will also be prompted to pick the lesson file to
+      be used by the server.
+
+      Once the server is running, players can connect by going to Network Game->Join Game.
+      TuxMath should automatically detect the server if it is running on the local network.
+      The player will be asked to enter a nickname, then click an arrow to indicate that
+      he/she is ready to start.  When everyone has indicated that they are ready, the
+      game will start.
+
+      Note that while network play is functional, it needs more testing, and some aspects
+      have not yet been addressed:
+        - If the server program is running on more than one computer on the local network,
+          TuxMath will get confused and not connect.
+        - While a network game is in progress, do not play a non-network game on the same
+          computer - this will also confuse TuxMath (because TuxMath is not yet "thread-safe").
+          However, it is fine to participate in the network game from that computer.
+          Also, don't quit the program with the server while others are still playing
+          a network game!
+          This problem actually only occurs when we use threading to run the server,
+          meaning everything except Windows. On Windows, the server runs as a separate
+          program. The drawback is that you may leave the server running by accident,
+          so you have to go into Task Manager to kill it when you don't want it 
+          running anymore.
+        - It is also possible to run the server as a separate program on all platforms
+          by typing "tuxmathserver" at the command line.  This avoids any issues with
+          thread-safety, but for now the server will only use the default question list
+          settings if launched this way.
+
+
     Play With Friends:
     ------------------
       Compete with your friends by playing in a turns-based fashion! The
       math difficulty levels are the same as for the "Arcade" games. Note that
-      this involves rotating play at a single computer rather than multiplayer
-      competition over a network (although that is an idea being considered!).
+      this involves rotating play at a single computer rather than network play,
+      as described above.
 
     Factoroids!
     -----------
