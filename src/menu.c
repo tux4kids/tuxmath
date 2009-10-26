@@ -1160,9 +1160,6 @@ int run_menu(MenuNode* root, bool return_choice)
       if(stop)
         break;
 
-/* FIXME look at this more closely - the sprites have not been displaying */
-/* except for the default frame:                                          */
-
       if(!stop && frame_counter % 5 == 0 && loc >= 0 && loc < items)
       {
         tmp_sprite = menu->submenu[menu->first_entry + loc]->icon;

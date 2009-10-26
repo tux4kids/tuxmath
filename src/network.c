@@ -86,7 +86,7 @@ int LAN_DetectServers(void)
   out->address.port = bcast_ip.port;
   out->len = strlen("TUXMATH_CLIENT") + 1;
 
-  //Here we will need to send every few sec onds until we hear back from server
+  //Here we will need to send every few seconds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
   printf("\nAutodetecting TuxMath servers:");
   fflush(stdout);

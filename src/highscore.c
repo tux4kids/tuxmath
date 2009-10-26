@@ -1013,18 +1013,17 @@ int detecting_servers(const char* heading, const char* sub)
   Uint32 start = 0;
   Uint32 timer = 0;
   int servers_found = 0;  
+  sprite* Tux = NULL;
 
+  DEBUGMSG(debug_lan, "\nEnter detecting_servers()\n");
 
-  sprite* Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
-
+  /* FIXME it takes several seconds to load this sprite on a */
+  /* Dell Mini 9 netbook, probably longer on many school     */
+  /* machines.  Perhaps we should load this ahead of time... */
+  Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
-
-#ifdef TUXMATH_DEBUG
-  fprintf(stderr, "\nEnter detecting_servers()\n" );
-#endif
-
 
   /* Draw background: */
   if (current_bkg())

@@ -176,7 +176,6 @@ int load_image_data()
     }
   }
 
-
   glyph_offset = 0;
 
 #ifdef REPLACE_WAVESCORE
