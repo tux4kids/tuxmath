@@ -217,12 +217,12 @@ int remove_quest_recvd(char* buf);
 int connected_players_recvd(char* buf);
 int update_score_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
-void print_current_quests(void);
 MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
 /******************************************************/
 #endif
 
+void print_current_quests(void);
 
 static void print_exit_conditions(void);
 static void print_status(void);
@@ -781,6 +781,7 @@ int erase_comet_on_screen(comet_type* comet)
   return 1;
 }
 
+#endif
 
 /* Print the current questions and the number of remaining questions: */
 void print_current_quests(void)
@@ -805,7 +806,6 @@ void print_current_quests(void)
 }
 
 
-#endif
 
 
 /* 
