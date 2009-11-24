@@ -3928,3 +3928,4 @@ static int num_comets_alive()
       living++;
   return living;
 }
+
