@@ -15,6 +15,7 @@
 * was listed. The author was also not listed. AFAICT,this scenario allows incorporation of
 * derivative works into a GPLv2+ project like TuxMath - David Bruce 
 */
+#ifdef HAVE_LIBSDL_NET
 
 #include "globals.h"
 #include "transtruct.h"
@@ -534,3 +535,10 @@ MC_FlashCard* check_answer(int ans)
   //if we don't find a matching question:
   return NULL;
 }
+#else
+/* if no SDL_net, do nothing: */
+int main(int argc, char **argv)
+{
+  return 0;
+}
+#endif

@@ -10,6 +10,8 @@
 * Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
 */
 
+#ifdef HAVE_LIBSDL_NET
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -501,3 +503,4 @@ void print_server_list(void)
 
 
 
+#endif

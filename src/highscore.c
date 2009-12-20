@@ -858,6 +858,9 @@ int Ready(const char* heading)
 
 int Standby(const char* heading, const char* sub)
 {
+#ifndef HAVE_LIBSDL_NET
+  return 0;
+#else
   SDL_Rect loc;
   int finished = 0;
   Uint32 frame = 0;
@@ -995,7 +998,9 @@ int Standby(const char* heading, const char* sub)
 
   /* 1 means we start game, -1 means we go back to menu */
   return finished;
+#endif
 }
+
 
 
 int detecting_servers(const char* heading, const char* sub)

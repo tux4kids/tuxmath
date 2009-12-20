@@ -1523,7 +1523,11 @@ void game_handle_answer(void)
       t = -1;   //Mathcards will ignore t == -1
     /* Tell Mathcards or the server that we answered correctly: */
     if(Opts_LanMode())
+#ifdef HAVE_LIBSDL_NET
       LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
+#else
+      {}  // Needed for compiler, even though this path can't occur
+#endif      
     else
       MC_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
 
@@ -1705,7 +1709,11 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
+#ifdef HAVE_LIBSDL_NET
           LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#else
+          {}
+#endif
         else
           MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 

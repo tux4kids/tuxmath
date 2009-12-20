@@ -16,6 +16,8 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#ifdef HAVE_LIBSDL_NET
+
 #include "transtruct.h"
 #include "SDL_net.h"
 
@@ -55,5 +57,7 @@ int LAN_NextMsg(char* buf);
 int check_messages(char *);
 /* FIXME this should be local to network.c */
 int Make_Flashcard(char* buf, MC_FlashCard* fc);
+
+#endif // HAVE_LIBSDL_NET
 
 #endif // NETWORK_H

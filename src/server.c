@@ -17,6 +17,8 @@
 * the tutorial code is still present here - David Bruce 
 */
 
+#ifdef HAVE_LIBSDL_NET
+
 #include "globals.h"
 #include "server.h" 
 #include "transtruct.h"
@@ -1238,4 +1240,4 @@ int ServerRunning(void)
   return server_running;
 }
 
-
+#endif

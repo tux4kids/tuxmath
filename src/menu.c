@@ -648,6 +648,11 @@ int run_lan_host(void)
   RunServer_prog(3, argv);
 #endif
 
+/* No SDL_net, so show explanatory message: */
+#else
+  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
+              NULL, _("Sorry, this version built without network support"), NULL, NULL);
+  printf( _("Sorry, this version built without network support.\n"));
 #endif
   return 0;
 }

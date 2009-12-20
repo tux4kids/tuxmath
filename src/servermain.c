@@ -19,5 +19,9 @@
 /* server functionality is contained in server.h and server.c              */
 int main(int argc, char** argv)
 {
+#ifdef HAVE_LIBSDL_NET
   return RunServer(argc, argv);
+#else
+  return 0;
+#endif
 }

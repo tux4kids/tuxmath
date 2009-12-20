@@ -11,8 +11,9 @@
 #ifndef SERVER_H
 #define SERVER_H == 1)
 
-#include "SDL_net.h"
+#ifdef HAVE_LIBSDL_NET
 
+#include "SDL_net.h"
 
 #define NAME_SIZE 50
 #define DEFAULT_SERVER_NAME "TuxMath LAN Server"
@@ -69,4 +70,6 @@ int RunServer(int argc, char **argv);
 
 /* Find out if server is already running: */
 int ServerRunning(void);
+#endif
+
 #endif
