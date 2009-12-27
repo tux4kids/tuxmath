@@ -8,7 +8,7 @@ port tuxmath to other operating systems, as code to read and write as
 well as paths and file locations may be more OS-dependent.
 
 
-Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 Contains code originally written by Bill Kendrick (C) 2001.
 Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 */

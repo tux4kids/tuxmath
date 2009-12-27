@@ -8,7 +8,7 @@
   depending on SDL should be in here; put any SDL-related items into
   tuxmath.h.
 
-  Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+  Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 
 
   Part of "Tux4Kids" Project

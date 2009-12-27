@@ -4,7 +4,7 @@
 * Description: 
 *
 *
-* Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2007
+* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2007
 *
 * Copyright: See COPYING file that comes with this distribution
 *

@@ -20,7 +20,7 @@
 *
 * Code for loading program data from disk is now also found here.
 * 
-* Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 *
 * Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
 *

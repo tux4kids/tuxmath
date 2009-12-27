@@ -7,7 +7,7 @@
         user interface. Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
         (aka tuxmath).  If tuxmath were a C++ program, this would be a C++ class.
 
-        Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+        Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 
         Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
 

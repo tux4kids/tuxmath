@@ -5,7 +5,7 @@
   Contains global data for configuration of math questions and
   for general game options, as well as constants and defaults.
 
-  Author: David Bruce <dbruce@tampabay.rr.com>, (C) 2006
+  Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 
 
   Part of "Tux4Kids" Project

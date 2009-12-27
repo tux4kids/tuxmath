@@ -21,7 +21,7 @@
   August 26, 2001 - February 18, 2004
 
   Modified by David Bruce
-  dbruce@tampabay.rr.com
+  davidstuartbruce@gmail.com
   September 1, 2006
 */
 

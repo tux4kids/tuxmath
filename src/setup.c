@@ -11,7 +11,7 @@
   http://www.newbreedsoftware.com/
 
   Modified by David Bruce
-  dbruce@tampabay.rr.com
+  davidstuartbruce@gmail.com
 
   Part of "Tux4Kids" Project
   http://www.tux4kids.com/

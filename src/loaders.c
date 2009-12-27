@@ -9,7 +9,7 @@
   email                : tuxtype-dev@tux4kids.net
 
   Modified for use in tuxmath by David Bruce - 2006.
-  email                : <dbruce@tampabay.rr.com>
+  email                : <davidstuartbruce@gmail.com>
                          <tuxmath-devel@lists.sourceforge.net>
 
   Modified to support SVG by Boleslaw Kulbabinski - 2009

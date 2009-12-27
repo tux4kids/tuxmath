@@ -727,7 +727,7 @@ Credits
   Designed by Sam "Criswell" Hart  <criswell@geekcomix.com>
   Software by Bill Kendrick  <bill@newbreedsoftware.com>
 
-  Current maintainer/programmer David Bruce <dbruce@tampabay.rr.com>
+  Current maintainer/programmer David Bruce <davidstuartbruce@gmail.com>
 
   Please see the game's "Credits" screen for a complete list of contributors.
 
