@@ -17,12 +17,14 @@ AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Tux Of Math Command])
 
 AC_SUBST(NAME_VERSION)
 
+dnl AM_GNU_GETTXT([external]) is preferred, but we haven't gotten it to
+dnl work for win32 crossbuild.  We should work out how to do this conditionally.
 # Needed for gettext:
 AC_GNU_SOURCE
 AM_GNU_GETTEXT_VERSION([0.17])
-#AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT
-AM_GNU_GETTEXT_INTL_SUBDIR
+#AM_GNU_GETTEXT_INTL_SUBDIR
 
 
 # ----------------------------------------------------------------------
