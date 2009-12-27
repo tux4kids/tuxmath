@@ -13,6 +13,5 @@ comprehensive = 1
 allow_pause = 1
 bonus_speed_ratio = 1.8
 max_speed = 10.00
-fraction_to_keep = 0.10
 keep_score = 0
 

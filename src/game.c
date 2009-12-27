@@ -911,13 +911,13 @@ int game_initialize(void)
     return 0;
   }
 
-  
+ 
   /* Write pre-game info to game summary file: */
   if (Opts_SaveSummary())
   {
     write_pregame_summary();
   }
-  
+
   /* Prepare to start the game: */
   city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
 
@@ -2992,7 +2992,8 @@ int add_comet(void)
     if(q_found == -1)
     {
       DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
-      return 0;    DEBUGCODE(debug_game) print_current_quests();
+      DEBUGCODE(debug_game) print_current_quests();
+      return 0;
     } 
   }
 

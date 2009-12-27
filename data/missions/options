@@ -265,8 +265,6 @@ save_summary = 1
 # Default: 1                                               #
 # Parameter: copies_repeated_wrongs (integer)              #
 # Default: 1                                               #
-# Parameter: fraction_to_keep (float)                      #
-# Default: 1                                               #
 #                                                          #
 # These settings offer further control over the question   #
 # list and are generally only useful if 'play_through_list'#
@@ -282,13 +280,6 @@ save_summary = 1
 # missed question will reappear. This can be set anywhere  #
 # from 1 to 10.                                            #
 #                                                          #
-# 'fraction_to_keep' allows a list to be generated that    #
-# consists of a randomly-selected subset of the questions  #
-# fitting the criteria.  The parameter is a float that     #
-# must be greater than 0 and less than or equal to 1. For  #
-# example, a value of 0.1 means 10% of the questions       #
-# meeting the criteria will go into the list.              #
-#                                                          #
 # The defaults for these values result in a 'mission'      #
 # for Tux that is accomplished by answering all            #
 # questions correctly with at least one surviving city.    #
@@ -297,7 +288,6 @@ save_summary = 1
 question_copies = 1
 repeat_wrongs = 1
 copies_repeated_wrongs = 1
-fraction_to_keep = 1.00
 
 ############################################################
 #                                                          #

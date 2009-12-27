@@ -208,7 +208,7 @@ int RunServer_pthread(int argc, char* argv[])
     local_argv[i] = argv[i];
   }
 
-  f(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
+  if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
   {
     printf("Error creating thread\n");
     return -1;

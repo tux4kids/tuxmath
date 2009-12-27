@@ -335,9 +335,7 @@ int MC_StartGame(void)
   /* if math_opts not set up yet, initialize it: */
   if (!initialized)
   {
-
     DEBUGMSG(debug_mathcards, "\nNot initialized - calling MC_Initialize()");
-
     MC_Initialize();
   }
 
@@ -345,9 +343,9 @@ int MC_StartGame(void)
   {
     DEBUGMSG(debug_mathcards, "\nCould not initialize - bailing out");
     DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
-
     return 0;
   }
+
   /* we know math_opts exists if we make it to here */
   srand(time(NULL));
 
@@ -360,7 +358,8 @@ int MC_StartGame(void)
   active_quests = NULL;
   
   /* clear the time list */
-  if (time_per_question_list != NULL) {
+  if (time_per_question_list != NULL)
+  {
     free(time_per_question_list);
     time_per_question_list = NULL;
     length_time_per_question_list = 0;
@@ -1183,7 +1182,7 @@ void print_list(FILE* fp, MC_MathQuestion* list)
   MC_MathQuestion* ptr = list;
   while (ptr)
   {
-    fprintf(stderr, "%s\n", ptr->card.formula_string);
+    fprintf(fp, "%s\n", ptr->card.formula_string);
     ptr = ptr->next;
   }
 }

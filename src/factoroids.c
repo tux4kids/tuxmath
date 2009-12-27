@@ -397,9 +397,10 @@ static int FF_init(void)
   if(screen->h < 600 && screen->w < 800)
     zoom = 0.65;
   else
-    zoom=(float)screen->w/(float)BASE_RES_X;
+    zoom = (float)screen->w/(float)BASE_RES_X;
 
-  printf("The zoome rate is: %f\n", zoom);
+  DEBUGCODE(debug_factoroids)
+    printf("The zoom factor is: %f\n", zoom);
 
   /*************** Precalculating software rotation ***************/
 
