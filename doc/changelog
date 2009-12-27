@@ -282,7 +282,7 @@ Version 1.6.2
         Added Spanish translation (contributed by
         Angela Ruiz <angieruiz211@hotmail.com>
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Feb.23 (svn.debian.org/tux4kids - revision 435)
       code:
@@ -291,7 +291,7 @@ Version 1.6.2
         cleanup() gets called twice in that code path and we were
         getting double free() errors.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Feb.12 (svn.debian.org/tux4kids - revision 427)
       i18n:
@@ -308,7 +308,7 @@ Version 1.6.2
         Small syntax fix in game.c to correct error detected while
         building for BeOS (thanks Luc Schrivers)
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Feb.05 (svn.debian.org/tux4kids - revision 424)
       i18n:
@@ -318,7 +318,7 @@ Version 1.6.2
         Added src/game.c to po/POTFILES.in so help strings will appear in
         tuxmath.pot for translation.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Jan.30 (svn.debian.org/tux4kids - revision 418)
 Version 1.6.1
@@ -326,7 +326,7 @@ Version 1.6.1
         Updating of changelog, README.txt, INSTALL.txt to reflect recent work -
         no code changes beyond what is listed below.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Jan.26 (svn.debian.org/tux4kids - revision 410)
       Build:
@@ -343,7 +343,7 @@ Version 1.6.1
         error.h in autoconf, and implementing Tim's workaround (suggested for
         BeOS) if not found - this should also fix the BeOS issue.
  
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Jan.02 (svn.debian.org/tux4kids - revision 405)
       Code:
@@ -353,7 +353,7 @@ Version 1.6.1
         questions) has gone from over 7 sec to 0.012 sec! (on 3.2 GHz P4)
         Even on much slower machines in schools, expect this will be quick enough. 
 	
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2008.Jan.02 (svn.debian.org/tux4kids - revision 402)
       Build:
@@ -365,7 +365,7 @@ Version 1.6.1
         Better use of autoconf to detect need for replacement functions
         like this when building on various platforms.
 	
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Dec.31 (svn.debian.org/tux4kids - revision 397)
       Code:
@@ -426,11 +426,11 @@ Version 1.6.0
       libgw32c.a - most of work was building mingw environment and all
       needed libs from source with rigorous attention to documentation
       and help from autotools, mingw, and gettext mailing lists.
-      David Bruce <dbruce@tampabay.rr.com>	
+      David Bruce <davidstuartbruce@gmail.com>	
 
 2007.Dec.07 (svn.debian.org/tux4kids - revision 359)
 Version 1.5.9
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Dec.07 (svn.debian.org/tux4kids - revision 357)
   i18n:
@@ -445,7 +445,7 @@ Version 1.5.9
       to make it easier for others to set up crossbuild - intention is 
       to have entire cross-compile setup managed by svn.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Dec.03 (svn.debian.org/tux4kids - revision 353)
   Options:
@@ -478,7 +478,7 @@ Version 1.5.9
       fixed doc/Makefile.am so that files go under 
       "$(prefix)/share/doc/" rather than "$(prefix)/doc/"
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Nov.15 (svn.debian.org/tux4kids - revision 322)
 Version 1.5.8
@@ -492,7 +492,7 @@ Version 1.5.8
       without errors but the crossbuild doesn't yet include
       the .mo translation files.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Nov.15 (svn.debian.org/tux4kids - revision 320)
   Graphics:
@@ -511,7 +511,7 @@ Version 1.5.8
 
   Graphics:
       * Minor tweak of "janitor penguin" sprite files to tone down glare
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Nov.11 (svn.debian.org/tux4kids - revision 316)
 
@@ -523,7 +523,7 @@ Version 1.5.8
         files as we can get.
       * Some more removal of dead code and unused variables.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Oct.30 (svn.debian.org/tux4kids - revision 311)
 
@@ -536,7 +536,7 @@ Version 1.5.8
       * Change to using 32 bits/pixel, however all functions that need this info now
         use PIXEL_BITS #define'd in tuxmath.h - recompiling for 16 BPP only requires
         changing this def (confirmed that both settings work, at least in Linux).
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Oct.29 (svn.debian.org/tux4kids - revision 310)
 
@@ -556,7 +556,7 @@ Version 1.5.8
         users I've tested it on find the warping to be unexpected and
         confusing.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Oct.19 (svn.debian.org/tux4kids - revision 306)
 
@@ -573,7 +573,7 @@ Version 1.5.8
       * Most of sprites revised to have a more uniform and modern shiny/
       "crystal" look - remainder to be finished shortly.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Oct.19 (svn.debian.org/tux4kids - revision 303)
 
@@ -581,7 +581,7 @@ Version 1.5.8
       * Work on gettext-related stuff - hope to get i18n supported on all
         platforms (in progress)
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2007.Oct.12 (svn.debian.org/tux4kids - revision 298)
@@ -626,7 +626,7 @@ Version 1.5.8
         README_DATA_LICENSES.TXT as well as including full license text
         for the Open Font License 1.1 as "OFL.txt" under docs.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Oct.09 (svn.debian.org/tux4kids - revision 290)
   Build:
@@ -635,7 +635,7 @@ Version 1.5.8
         of Automake (hope this doesn't break things for those using
         automake 1.9.6).
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2007.Oct.09 (svn.debian.org/tux4kids - revision 289)
@@ -655,7 +655,7 @@ Version 1.5.8
         for mathcards).
       * Elimination of "evil" macros in titlescreen.h.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2007.Sep.28 (svn.debian.org/tux4kids - revision 279)
@@ -685,7 +685,7 @@ Version 1.5.8
     * Added ConvertUTF.c/.h from Unicode, Inc to support
       conversions between UTF-8 and wchar_t.
     
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Sep.18 (svn.debian.org/tux4kids - revision 260)
   Build:
@@ -694,7 +694,7 @@ Version 1.5.8
       bundled (make dist_with_fonts) or without font
       (make dist). Added Andika font to svn.
     
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Sep.08 (svn.debian.org/tux4kids - revision 233)
   Code:
@@ -703,7 +703,7 @@ Version 1.5.8
       under Windows - or at least isn't supported by
       mingw32.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Sep.07 (svn.debian.org/tux4kids - revision 231)
   Version 1.5.4
@@ -722,7 +722,7 @@ Version 1.5.8
       settings) if user config file not found, e.g.  when the
       game is run for the first time by that user.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2007.Aug.27 (svn.debian.org/tux4kids - revision 215)
@@ -745,7 +745,7 @@ Version 1.5.8
       files had been left off EXTRA_DIST list leading to incomplete
       installation with 1.5.2 tar.gz.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Aug.21 (svn.debian.org/tux4kids - revision 211)
   Version 1.5.2
@@ -756,7 +756,7 @@ Version 1.5.8
       succeeds without errors, "make uninstall" removes data and *.mo
       files properly.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2007.Aug.21 (svn.debian.org/tux4kids - revision 207)
@@ -787,7 +787,7 @@ Version 1.5.8
       files while doing the test install (a real "make install"
       works correctly, at least on my system).
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Apr.11 
   Version 1.5.1
@@ -799,14 +799,14 @@ Version 1.5.8
   Docs:
     * Updated changelog, README.txt, INSTALL.txt.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Apr.09 (svn.debian.org/tux4kids - revision 150)
   Game:
     * Fixed lesson order bug - code now explicitly sorts the
       lesson files by alphabetical order of filenames.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Apr.07 (svn.debian.org/tux4kids - revision 149)
   Game:
@@ -815,7 +815,7 @@ Version 1.5.8
     * Font rendering addressed - black_outline() now works as
       intended (perhaps appearance can be improved).
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Mar.15 (svn.debian.org/tux4kids - revision ??? & ???)
   Build:
@@ -833,7 +833,7 @@ Version 1.5.8
       visible to game player.
     * svn repository move completed.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Mar.05  (https://svn.tux4kids.net/tuxmath/ - revision 75)
   Code:
@@ -849,7 +849,7 @@ Version 1.5.8
 
       Last commit at svn.tux4kids.net before move to Alioth.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Feb.12  (https://svn.tux4kids.net/tuxmath/ - revision 74)
   Code:
@@ -858,14 +858,14 @@ Version 1.5.8
     * Added new fields to game_options (bonus_comet_interval,
       bonus_speed_ratio) with relevant support functions.
     * Further implementation and cleanup of new menus.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
   Game:
     * Implementation of bonus comets that cause an igloo to
       be rebuilt.
       Tim Holy <holy@wustl.edu>
     * Many additional lesson files.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
   Build:
     * Andika font now default, included under data/fonts.
@@ -893,7 +893,7 @@ Version 1.5.8
       New menu still "alpha" - would not suggest packaging
       for Debian yet.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2007.Jan.12 (https://svn.tux4kids.net/tuxmath/ - revision 67)
   Options:
@@ -911,7 +911,7 @@ Version 1.5.8
     * Bugfix - question_copies parameter now handled correctly
       in read_config_file().
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Dec.07 (https://svn.tux4kids.net/tuxmath/ - revision 65)
   Options:
@@ -925,7 +925,7 @@ Version 1.5.8
     * SDL_ttf now needed to build program, although the code
       that actually uses fonts is not yet active.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 61)
@@ -945,7 +945,7 @@ Version 1.5.8
       the correct parameter.
     * Minor updates to docs.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 
 2006.Oct.31 (https://svn.tux4kids.net/tuxmath/ - revision 54)
@@ -960,7 +960,7 @@ Version 1.5.8
   Code:
     * Minor bug fix to prevent the game from asking questions
       with an indeterminate answer (i.e. 0 / ? = 0).
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Oct.20
 
@@ -1017,7 +1017,7 @@ Version 1.5.8
       include the starting question list, a list of all
       missed questions, and the numbers of correct and 
       incorrect answers with percent correct.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Sep.18 (https://svn.tux4kids.net/tuxmath/ - revision 26)
   Version 0.95
@@ -1034,7 +1034,7 @@ Version 1.5.8
       Tim Holy <holy@wustl.edu>
     * Fixed bug causing crash due to SDL_FreeSurface() being
       called twice on same pointer in certain code path.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
      
 
 2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 22)
@@ -1050,7 +1050,7 @@ Version 1.5.8
       only used for debugging output, but soon tuxmath will
       save lists of questions asked and questions missed to 
       files for post-game review.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 21)
   Version 0.93
@@ -1078,7 +1078,7 @@ Version 1.5.8
       several locations including as absolute path.
   Docs:
     * Updates to changelog and TODO.txt; update to usage();
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Aug.22 (https://svn.tux4kids.net/tuxmath/ - revision 20)
   Version 0.92
@@ -1098,7 +1098,7 @@ Version 1.5.8
       caused program to crash with segmentation fault if 
       TUXMATH_DEBUG disabled (which was how it was committed).
       :^(
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Aug.11 (https://svn.tux4kids.net/tuxmath/ - revision 18)
   Version 0.9 
@@ -1129,14 +1129,14 @@ Version 1.5.8
       structs changed to more intuitive/descriptive ones.
   Docs:
     * Updates to README.txt and TODO.txt
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Jun.17 (https://svn.tux4kids.net/tuxmath/ - revision 10)
   Docs:
     * Updates to README.txt and TODO.txt.
     * Version designated as 0.8 in README.txt, tuxmath.h, and Makefile.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Jun.12 (https://svn.tux4kids.net/tuxmath/ - revision 9)
   Game:
@@ -1155,7 +1155,7 @@ Version 1.5.8
       in addition to default format (2 + 2 = ?).
     * Command-line options to select from the three question formats.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.May.16 (https://svn.tux4kids.net/tuxmath/ - revision 8)
   Code:
@@ -1181,7 +1181,7 @@ Version 1.5.8
       tested more before being packaged for a distribution.
       I would describe revision 8 as a developer or alpha release.
 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Mar.8 (https://svn.tux4kids.net/tuxmath/ - revision 7)
   Setup:
@@ -1192,19 +1192,19 @@ Version 1.5.8
     * added tuxmath.h containing the global structs math_options
       and game_options as well as defaults for all values.
       Goal is to have one place to look for all global data.
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Mar.1 (https://svn.tux4kids.net/tuxmath/ - revision 6)
   Game:
     * Added support for negative subtraction answers.
       Updated LED drawing to include negative sign.
       Updated on-screen keypad to include '+' and '-'. 
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Feb.18 (https://svn.tux4kids.net/tuxmath/ - revision 5)
   Options:
     * Added mouse support to Options screen
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2006.Feb.14 (https://svn.tux4kids.net/tuxmath/ - revision 4)
   Options:
@@ -1214,7 +1214,7 @@ Version 1.5.8
 2006.Feb.7 (https://svn.tux4kids.net/tuxmath/ - revision 3)
   Options:
     * Fixed minor deadlock bug if all operations deselected
-      David Bruce <dbruce@tampabay.rr.com>
+      David Bruce <davidstuartbruce@gmail.com>
 
 2005.Mar.7
   Interface:
