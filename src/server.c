@@ -17,9 +17,11 @@
 * the tutorial code is still present here - David Bruce 
 */
 
+/* This must come before #ifdef HAVE_LIBSDL_NET to get "config.h" */
+#include "globals.h"
+
 #ifdef HAVE_LIBSDL_NET
 
-#include "globals.h"
 #include "server.h" 
 #include "transtruct.h"
 #include "mathcards.h"
@@ -206,7 +208,7 @@ int RunServer_pthread(int argc, char* argv[])
     local_argv[i] = argv[i];
   }
 
-  if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
+  f(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
   {
     printf("Error creating thread\n");
     return -1;

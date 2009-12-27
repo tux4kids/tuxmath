@@ -16,6 +16,8 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+#include "config.h"
+
 #ifdef HAVE_LIBSDL_NET
 
 #include "transtruct.h"

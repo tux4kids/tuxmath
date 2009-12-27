@@ -948,6 +948,7 @@ int run_menu(MenuNode* root, bool return_choice)
 
               /* Go up one entry, if present: */
               case SDLK_UP:
+	      case SDLK_k:    // get them ready for vi/vim ;)
               {
                 if (Opts_GetGlobalOpt(MENU_SOUND))
                   playsound(SND_TOCK);
@@ -964,6 +965,7 @@ int run_menu(MenuNode* root, bool return_choice)
               }
 
               case SDLK_DOWN:
+	      case SDLK_j:
               {
                 if (Opts_GetGlobalOpt(MENU_SOUND))
                   playsound(SND_TOCK);

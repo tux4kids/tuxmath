@@ -8,8 +8,10 @@
 
 */
 
-#ifndef SERVER_H
-#define SERVER_H == 1)
+#ifndef TM_SERVER_H
+#define TM_SERVER_H 
+
+#include "config.h"
 
 #ifdef HAVE_LIBSDL_NET
 

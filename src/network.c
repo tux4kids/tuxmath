@@ -1,7 +1,8 @@
 /*
 *  C Implementation: network.c
 *
-*       Description: Contains all the network realted functions , for LAN-based play in Tux,of Math Command.
+*       Description: Contains all the network-related functions for
+*       LAN-based play in "Tux, of Math Command".
 *
 *
 * Author: Akash Gangil, David Bruce, and the TuxMath team, (C) 2009
@@ -9,6 +10,9 @@
 *
 * Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
 */
+
+/* Must have this first for the #ifdef HAVE_LIBSDL_NET to work */
+#include "globals.h"
 
 #ifdef HAVE_LIBSDL_NET
 
@@ -19,7 +23,6 @@
 #include <unistd.h>
 #include <fcntl.h> 
 
-#include "globals.h"
 #include "mathcards.h"
 #include "transtruct.h"
 #include "network.h"
