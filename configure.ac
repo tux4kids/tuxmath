@@ -26,6 +26,8 @@ AM_GNU_GETTEXT([external])
 AM_GNU_GETTEXT
 #AM_GNU_GETTEXT_INTL_SUBDIR
 
+dnl For libtool support to link libt4k-common:
+LT_INIT
 
 # ----------------------------------------------------------------------
 # Checks for programs.
@@ -38,7 +40,7 @@ AC_PROG_MAKE_SET
 AC_PROG_AWK
 AC_PROG_CPP
 AC_PROG_MKDIR_P
-AC_PROG_RANLIB
+#AC_PROG_RANLIB
 AC_PROG_YACC
 
 
@@ -172,6 +174,24 @@ if test "x$with_rsvg" = xyes; then
   LIBS="$LIBS $CAIRO_LIBS"
   AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
 fi
+
+
+dnl Use of libt4kcommon is disabled for now by default 
+dnl but can be enabled at configure time for testing and development.
+
+AC_ARG_WITH([libt4kcommon],
+            [AS_HELP_STRING([--with-libt4kcommon],[use libtk4common if available])],
+            [with_libt4kcommon=yes],
+            [with_libt4kcommon=no])
+
+if test "x$with_libt4kcommon" != xno; then
+AC_CHECK_LIB([t4kcommon],
+             [InitT4KCommon],
+             ,
+             [with_libt4kcommon=no;
+              AC_MSG_FAILURE([libt4kcommon test failed (--without-libt4kcommon to disable use of libt4kcommon)])])
+fi
+
 
 dnl Check for (somewhat) higher-level math functions - needed for SDL_extras
 dnl AC_CHECK_LIB([m],

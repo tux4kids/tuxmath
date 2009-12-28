@@ -523,7 +523,7 @@ void game_handle_net_msg(char* buf)
 
   if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
   {
-    printf("buf is %s\n", buf);                                                  
+    DEBUGMSG(debug_lan, "buf is %s\n", buf);                                                  
   }
 
   else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
@@ -759,10 +759,12 @@ comet_type* search_comets_by_id(int id)
   for (i = 0; i < Opts_MaxComets(); i++)
   {
     if (comets[i].flashcard.question_id == id)
-     {printf("the question id is in slot %d\n",i);
-      return &comets[i];}
+    {
+      DEBUGMSG(debug_lan, "the question id is in slot %d\n", i);
+      return &comets[i];
+    }
   }
-
+  // Didn't find it:
   return NULL;
 }
 
