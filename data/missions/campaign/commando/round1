@@ -1,5 +1,6 @@
 #commando round 1
 
+allow_negatives = 1
 max_formula_nums = 2
 min_multiplier = -20
 max_multiplier = 20
