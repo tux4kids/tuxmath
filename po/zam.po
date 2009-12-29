@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-10-12 09:25-0500\n"
+"POT-Creation-Date: 2009-12-28 23:48-0600\n"
 "PO-Revision-Date: 2009-09-23 17:52-0600\n"
 "Last-Translator: Rodrigo Perez <rodpera@yahoo.com>\n"
 "Language-Team: espanol <LL@li.org>\n"
@@ -209,141 +209,141 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:552
+#: src/factoroids.c:553
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 "FACTOROIDS: Paar liÃ­l gaÃ¡n, luÃº naa kiin loÃ³s luÃº reÃ© keÃ© naÃ¡ loÃ³ "
 "beÃ©"
 
-#: src/factoroids.c:553 src/factoroids.c:564
+#: src/factoroids.c:554 src/factoroids.c:565
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:554
+#: src/factoroids.c:555
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:555
+#: src/factoroids.c:556
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:563
+#: src/factoroids.c:564
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 "FRACCIONES: Paar liÃ­l gaÃ¡n, luÃº naa kiin loÃ³s luÃº reÃ© keÃ© naÃ¡ loÃ³ "
 "beÃ©"
 
-#: src/factoroids.c:565
+#: src/factoroids.c:566
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:566
+#: src/factoroids.c:567
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 
-#: src/game.c:984
+#: src/game.c:1091
 msgid "Welcome to TuxMath!"
 msgstr "VestaÃ¡ diiefluÃº TuxMath"
 
-#: src/game.c:1001
+#: src/game.c:1108
 msgid "Your mission is to save your"
 msgstr "NaÃ¡ kiÃ­n ruÃºl tree"
 
-#: src/game.c:1002
+#: src/game.c:1109
 msgid "penguins' igloos from the"
 msgstr "los igloos de tus pinguinos"
 
-#: src/game.c:1003
+#: src/game.c:1110
 msgid "falling comets."
 msgstr "BeÃ©l kiÃ­ de laÃ¡ "
 
-#: src/game.c:1022
+#: src/game.c:1129
 msgid "Stop a comet by typing"
 msgstr "luhus BeÃ©l kii"
 
-#: src/game.c:1023
+#: src/game.c:1130
 msgid "the answer to the math problem"
 msgstr "debes teclar la respuesta correcta al problema matematico"
 
-#: src/game.c:1024
+#: src/game.c:1131
 msgid "and hitting 'space' or 'enter'."
 msgstr "GaÃ¡s \"enter\" o \"barra espaciadora\""
 
-#: src/game.c:1025
+#: src/game.c:1132
 msgid "Try it now!"
 msgstr "taÃ¡ diif beÃ©s"
 
-#: src/game.c:1033
+#: src/game.c:1140
 msgid "Good shot!"
 msgstr "Vesta bluÃº vi lil"
 
-#: src/game.c:1043
+#: src/game.c:1150
 msgid "If an igloo gets hit by a comet,"
 msgstr "si uno de los igloos es derramado por el cometa"
 
-#: src/game.c:1044
+#: src/game.c:1151
 msgid "it melts. But don't worry: the"
 msgstr "LuÃºs ha, naÃ¡ sieÃ©b luÃº"
 
-#: src/game.c:1045
+#: src/game.c:1152
 msgid "penguin is OK!"
 msgstr "que el pinguino estara asalvo"
 
-#: src/game.c:1046
+#: src/game.c:1153
 msgid "Just watch what happens:"
 msgstr "GÃŒii koo bshaaÂŽk "
 
-#: src/game.c:1047
+#: src/game.c:1154
 msgid "(Press a key to start)"
 msgstr "GaÃ¡s kuue paar tetÃ©l "
 
-#: src/game.c:1060
+#: src/game.c:1167
 msgid "Notice the answer"
 msgstr "nota la respuesta"
 
-#: src/game.c:1070
+#: src/game.c:1177
 msgid "If it gets hit again, the"
 msgstr "si el igloo es pegado por el cometa de nuevo "
 
-#: src/game.c:1071
+#: src/game.c:1178
 msgid "penguin leaves."
 msgstr "el pinguino se va"
 
-#: src/game.c:1072
+#: src/game.c:1179
 msgid "(Press a key when ready)"
 msgstr "aprieta una tecla cuando estes listo "
 
-#: src/game.c:1095
+#: src/game.c:1202
 msgid "You can fix the igloos"
 msgstr " tu puedes areglar los igloos"
 
-#: src/game.c:1096
+#: src/game.c:1203
 msgid "by stopping bonus comets."
 msgstr " si logras parrar a los cometas de bono"
 
-#: src/game.c:1107
+#: src/game.c:1214
 msgid "Zap it now!"
 msgstr "diis ah"
 
-#: src/game.c:1113
+#: src/game.c:1220
 msgid "Great job!"
 msgstr "VaÃ¡ kaÃ¡ liÃ­l lÃ­"
 
-#: src/game.c:1131
+#: src/game.c:1238
 msgid "Quit at any time by pressing"
 msgstr "si quieres parrarel juego en cualquier momento"
 
-#: src/game.c:1132
+#: src/game.c:1239
 msgid "'Esc' or clicking the 'X'"
 msgstr "lo puedes hacer oprimiendo la tecla de ESC or la x en la pantalla"
 
-#: src/game.c:1133
+#: src/game.c:1240
 msgid "in the upper right corner."
 msgstr "en la equinq derecha"
 
-#: src/game.c:1134
+#: src/game.c:1241
 msgid "Do it now, and then play!"
 msgstr "LiÃ­y naÃ¡l, serÃ¡ kiid"
 
@@ -392,124 +392,128 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr "TaÃ¡ leel"
 
-#: src/menu.c:374
+#: src/menu.c:375
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath es gratis y es una opcion abierta"
 
-#: src/menu.c:375
+#: src/menu.c:376
 #, fuzzy
 msgid "You can help make it better."
 msgstr ""
 "puedes hacer que el programa funcione mejor si reportas problems con el "
 "programa"
 
-#: src/menu.c:376
+#: src/menu.c:377
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr ""
 
-#: src/menu.c:377
+#: src/menu.c:378
 #, fuzzy
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "discute el futuro en tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:498
+#: src/menu.c:499
 msgid "Edit 'options' file in your home directory"
 msgstr "editar opciones del archivo del directorio principal"
 
-#: src/menu.c:499
+#: src/menu.c:500
 msgid "to create customized game!"
 msgstr "para crear un juego especialmente"
 
-#: src/menu.c:500
+#: src/menu.c:501
 msgid "Press a key or click your mouse to start game."
 msgstr "aprieta un tecla y con tu mouse oprime la opcion de empesar el juego"
 
-#: src/menu.c:501
+#: src/menu.c:502
 msgid "See README.txt for more information"
 msgstr "ver README.txt para mas informacion"
 
-#: src/menu.c:525
+#: src/menu.c:526
 #, fuzzy
 msgid "How many kids are playing?"
 msgstr "Plaal kiid luÃº?"
 
-#: src/menu.c:526
+#: src/menu.c:527
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:585
+#: src/menu.c:589
+msgid "The server is already running"
+msgstr ""
+
+#: src/menu.c:594
 #, fuzzy
 msgid "Enter Server Name:"
 msgstr "TaÃ¡ leel"
 
-#: src/menu.c:585
+#: src/menu.c:594
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:598
-msgid "Select lesson file for server to use"
+#: src/menu.c:608
+msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:625
+#: src/menu.c:637
 #, fuzzy
 msgid "Server Name:"
 msgstr "TaÃ¡ leel"
 
-#: src/menu.c:627
+#: src/menu.c:639
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:648
+#: src/menu.c:654 src/menu.c:701
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/menu.c:655 src/menu.c:702
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
+#: src/menu.c:665
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:648
+#: src/menu.c:665
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:654
+#: src/menu.c:671
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:655 src/multiplayer.c:258 src/multiplayer.c:260
+#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
 msgid "Enter your name:"
 msgstr "TaÃ¡ leel"
 
-#: src/menu.c:657
+#: src/menu.c:674
 #, fuzzy
 msgid "Click when ready"
 msgstr "aprieta una tecla cuando estes listo "
 
-#: src/menu.c:659
+#: src/menu.c:676
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:671
+#: src/menu.c:689
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:672
+#: src/menu.c:690
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:677
+#: src/menu.c:696
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:678
+#: src/menu.c:697
 #, c-format
 msgid "Sorry, no server could be found.\n"
-msgstr ""
-
-#: src/menu.c:681
-msgid "Sorry, this version built without network support"
-msgstr ""
-
-#: src/menu.c:682
-#, c-format
-msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
 #: src/multiplayer.c:183
@@ -549,7 +553,7 @@ msgstr "para discutir el futuro de TuxMath puedes ir a"
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr ""
 
-#: src/tuxmath.c:59 data/menus/menu_strings:39
+#: src/tuxmath.c:54 data/menus/menu_strings:39
 msgid "Help"
 msgstr "ayda"
 
