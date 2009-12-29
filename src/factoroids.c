@@ -187,7 +187,7 @@ static int counter;
 static int xdead, ydead, isdead, countdead;
 static int roto_speed;
 
-/*************** The Factor and Faraction Activiy game Functions ***************/
+/*************** The Factor and Fraction Activity Game Functions ***************/
 
 /* Local function prototypes: */
 

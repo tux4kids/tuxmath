@@ -199,7 +199,7 @@ static void reset_comets(void);
 static int num_comets_alive(void);
 
 static void game_mouse_event(SDL_Event event);
-static void game_key_event(SDLKey key);
+static void game_key_event(SDLKey key, SDLMod mod);
 static void free_on_exit(void);
 
 static void help_add_comet(const char* formula_str, const char* ans_str);
@@ -1363,6 +1363,7 @@ void game_handle_user_events(void)
 {
   SDL_Event event;
   SDLKey key;
+  SDLMod mod;
 
   while (SDL_PollEvent(&event) > 0)
   {
@@ -1373,7 +1374,8 @@ void game_handle_user_events(void)
     else if (event.type == SDL_KEYDOWN)
     {
       key = event.key.keysym.sym;
-      game_key_event(key);
+      mod = event.key.keysym.mod;
+      game_key_event(key, mod);
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
@@ -3507,7 +3509,7 @@ void game_mouse_event(SDL_Event event)
 {
   int keypad_w, keypad_h, x, y, row, column;
   SDLKey key = SDLK_UNKNOWN;
-
+  SDLMod mod = event.key.keysym.mod;
   keypad_w = 0;
   keypad_h = 0;
 
@@ -3517,7 +3519,7 @@ void game_mouse_event(SDL_Event event)
     &&(event.button.y <= images[IMG_STOP]->h))
   {
     key = SDLK_ESCAPE;
-    game_key_event(key);
+    game_key_event(key, mod);
     return;
   }
 
@@ -3671,13 +3673,13 @@ void game_mouse_event(SDL_Event event)
     }
 
     /* now can proceed as if keyboard was used */
-    game_key_event(key);
+    game_key_event(key, mod);
   }
 }
 
 /* called by either key presses or mouse clicks on */
 /* on-screen keypad */
-void game_key_event(SDLKey key)
+void game_key_event(SDLKey key, SDLMod mod)
 {
   int i;
   key_pressed = 1;   // Signal back in cases where waiting on any key
@@ -3791,10 +3793,22 @@ void game_key_event(SDLKey key)
     neg_answer_picked = 1;
     tux_pressing = 1;
   }
-  else if ((key == SDLK_PLUS || key == SDLK_KP_PLUS)
-         && MC_GetOpt(ALLOW_NEGATIVES) )  /* do nothing unless neg answers allowed */
+  else if (     /* Effort to make logical operators clear: */
+            (
+      	      ( /* HACK this hard-codes the plus sign to the US layout: */
+	        (key == SDLK_EQUALS) && (mod & KMOD_SHIFT)
+	      ) 
+	      ||
+	      (
+	        key == SDLK_KP_PLUS
+	      )
+	    )
+            &&
+	    MC_GetOpt(ALLOW_NEGATIVES)
+          )  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer positive: */
+	  printf("SDKL_PLUS received\n");
     neg_answer_picked = 0;
     tux_pressing = 1;
   }
