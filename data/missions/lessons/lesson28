@@ -39,3 +39,4 @@ danger_level_speedup = 1
 danger_level_max = 0.90
 city_explode_handicap = 0.00
 
+keep_score = 1
