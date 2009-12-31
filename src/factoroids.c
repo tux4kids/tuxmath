@@ -1456,7 +1456,7 @@ int fast_sin(int angle)
 /*Return -1 if no laser is available*/
 int FF_add_laser(void)
 {
-  int i, k, zapIndex;
+  int i, k, zapIndex, zapScore;
   float ux, uy, s, smin,dx,dy,dx2, dy2, d2, thresh;
   int screensize;
   SDL_Surface *asteroid_image;
@@ -1492,7 +1492,10 @@ int FF_add_laser(void)
       // With this parametrization, it's easy to calculate the
       // closest approach to the asteroid center, etc.
       zapIndex = -1;  // keep track of the closest "hit" asteroid
+      zapScore = 0;
       smin = 10*screensize;
+      
+
       for (k=0; k<MAX_ASTEROIDS; k++)
       {
 	if (!asteroid[k].alive)
@@ -1514,16 +1517,30 @@ int FF_add_laser(void)
 	  {
 	    // The laser intersects the asteroid. Check to see if
 	    // the answer works
-	    if((asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0))) ||
-	       (FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number)) ||
-	       (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[k].a%num)==0) && ((asteroid[k].a%num)==0) && (num!=asteroid[k].fact_number)))
+
+	    if( (FF_game==FACTOROIDS_GAME && (asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))) ||
+		(FF_game==FRACTIONS_GAME && (asteroid[k].isprime && num==0))
+	    ) 
 	    {
 	      // It's valid, check to see if it's closest
 	      if (s < smin)
 	      {
-		// It's the closest yet examined
+		// It's the closest yet examined but has not score
 		smin = s;
 		zapIndex = k;
+		zapScore = 0;
+	      }
+	    }
+	    else if((FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number)) ||
+	       (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[k].a%num)==0) && ((asteroid[k].b%num)==0) && (num!=asteroid[k].fact_number)))
+	    {
+	      // It's valid, check to see if it's closest
+	      if (s < smin)
+	      {
+		// It's the closest yet examined and has socre
+		smin = s;
+		zapIndex = k;
+		zapScore = 1;
 	      }
 	    }
 	  }
@@ -1541,7 +1558,10 @@ int FF_add_laser(void)
 
 	if (floor((float)score/100) < floor((float)(score+num)/100))
 	  tuxship.lives++;
-	score += num;
+	if(zapScore)
+	{
+	    score += num;
+	}
       }
       return 1;
     }
@@ -2155,7 +2175,7 @@ static int check_exit_conditions(void)
   {
     return GAME_OVER_LOST;
   }
-  if(score>=10000 || wave >= 30 )
+  if(score>=10000 || wave >= 20 )
   {
     return GAME_OVER_WON;
   }
