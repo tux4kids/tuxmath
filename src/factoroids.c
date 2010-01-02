@@ -487,7 +487,7 @@ static int FF_init(void)
   shift_pressed = 0;
   shoot_pressed = 0;
 
-  score = 1;
+  score = 0;
   wave = 0;
   xdead = 0;
   ydead = 0;
@@ -2175,7 +2175,7 @@ static int check_exit_conditions(void)
   {
     return GAME_OVER_LOST;
   }
-  if(score>=10000 || wave >= 20 )
+  if(score>=49999 || wave >= 20 )
   {
     return GAME_OVER_WON;
   }
