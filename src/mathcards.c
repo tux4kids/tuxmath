@@ -1527,7 +1527,9 @@ MC_FlashCard generate_random_flashcard(void)
 
   generate_random_flashcard_id+=1;
   DEBUGMSG(debug_mathcards, "Entering generate_random_flashcard()\n");
-  DEBUGMSG(debug_mathcards, "%d\n",generate_random_flashcard_id);
+  DEBUGMSG(debug_mathcards, "ID is %d\n",generate_random_flashcard_id);
+
+  //choose a problem type
   do
     pt = rand() % MC_NUM_PTYPES;
   while ( (pt == MC_PT_TYPING && !MC_GetOpt(TYPING_PRACTICE_ALLOWED) ) ||
@@ -1757,6 +1759,7 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
              !MC_GetOpt(FORMAT_ADD_ANSWER_LAST + op * 3 + format) );
    
     strncat(ret.formula_string, " = ?", MC_FORMULA_LEN - strlen(ret.formula_string) );
+    DEBUGMSG(debug_mathcards, "Formula_string: %s\n", ret.formula_string);
     reformat_arithmetic(&ret, format );     
   }
   ret.question_id = id;
@@ -2516,14 +2519,14 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
   char* end = 0;
   char nans[MC_ANSWER_LEN];
   char nformula[MC_FORMULA_LEN + MC_ANSWER_LEN]; //gets a bit larger than usual in the meantime
-  
+ 
   {
-    //snprintf(nans, max_answer_size, "%s", card->answer_string);
-   
+    DEBUGMSG(debug_mathcards, "Starting formula: %s\n", card->formula_string);
     //insert old answer where question mark was
     for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)
       nformula[i] = card->formula_string[j];
     i += snprintf(nformula + i, MC_ANSWER_LEN - 1, "%s", card->answer_string);
+    DEBUGMSG(debug_mathcards, "interim formula: %s\n", nformula);
     snprintf(nformula + i, MC_FORMULA_LEN - i, "%s", card->formula_string + j + 1);
 
     //replace the new answer with a question mark
@@ -2536,10 +2539,12 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
     end = strchr(beg + 1, ' ');
     if (!end)
       end = "";
+    
     //we now have beg = first digit of number to replace, end = the char after
     sscanf(beg, "%s", nans);
     *beg = 0; //sequester the first half of the string
     snprintf(card->formula_string, MC_FORMULA_LEN, "%s?%s", nformula, end);
+    DEBUGMSG(debug_mathcards, "New formula: %s\n", card->formula_string);
     snprintf(card->answer_string, MC_ANSWER_LEN, "%s", nans);
     card->answer = atoi(card->answer_string);
   }
