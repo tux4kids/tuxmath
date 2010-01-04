@@ -2518,14 +2518,14 @@ void reformat_arithmetic(MC_FlashCard* card, MC_Format f)
   char* beg = 0;
   char* end = 0;
   char nans[MC_ANSWER_LEN];
-  char nformula[MC_FORMULA_LEN + MC_ANSWER_LEN]; //gets a bit larger than usual in the meantime
+  char nformula[MC_FORMULA_LEN + MC_ANSWER_LEN + 1]; //gets a bit larger than usual in the meantime
  
   {
     DEBUGMSG(debug_mathcards, "Starting formula: %s\n", card->formula_string);
     //insert old answer where question mark was
     for (i = 0, j = 0; card->formula_string[j] != '?'; ++i, ++j)
       nformula[i] = card->formula_string[j];
-    i += snprintf(nformula + i, MC_ANSWER_LEN - 1, "%s", card->answer_string);
+    i += snprintf(nformula + i, MC_ANSWER_LEN, "%s", card->answer_string);
     DEBUGMSG(debug_mathcards, "interim formula: %s\n", nformula);
     snprintf(nformula + i, MC_FORMULA_LEN - i, "%s", card->formula_string + j + 1);
 
