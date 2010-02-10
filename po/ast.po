@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2009-12-28 23:48-0600\n"
+"POT-Creation-Date: 2010-02-07 11:28-0600\n"
 "PO-Revision-Date: 2009-12-29 07:53+0100\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
 "Language-Team: Asturian <alministradors@softastur.org>\n"
@@ -378,40 +378,35 @@ msgstr "de la esquina superior drecha."
 msgid "Do it now, and then play!"
 msgstr "¡Fecho, agora a xugar!"
 
-#: src/highscore.c:168 data/menus/menu_strings:11
+#: src/highscore.c:168 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "Salón de la Fama"
 
-#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:6
-#: data/menus/menu_strings:21 data/menus/menu_strings:28
+#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "Cadete Espacial"
 
-#: src/highscore.c:191 data/menus/menu_strings:7 data/menus/menu_strings:22
-#: data/menus/menu_strings:29
+#: src/highscore.c:191 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Esplorador"
 
-#: src/highscore.c:194 data/menus/menu_strings:8 data/menus/menu_strings:23
-#: data/menus/menu_strings:30
+#: src/highscore.c:194 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Guarda"
 
-#: src/highscore.c:197 data/menus/menu_strings:9 data/menus/menu_strings:24
-#: data/menus/menu_strings:31
+#: src/highscore.c:197 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "As"
 
-#: src/highscore.c:200 data/menus/menu_strings:10 data/menus/menu_strings:25
-#: data/menus/menu_strings:32
+#: src/highscore.c:200 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "Comando"
 
-#: src/highscore.c:203 data/menus/menu_strings:36
+#: src/highscore.c:203 data/menus/menu_strings:7
 msgid "Factors"
 msgstr "Factores"
 
-#: src/highscore.c:206 data/menus/menu_strings:37
+#: src/highscore.c:206 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "Fracciones"
 
@@ -576,7 +571,7 @@ msgstr "Alderica al rodiu del futuru de TuxMath en"
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
-#: src/tuxmath.c:54 data/menus/menu_strings:39
+#: src/tuxmath.c:54 data/menus/menu_strings:10
 msgid "Help"
 msgstr "Aida"
 
@@ -812,81 +807,77 @@ msgstr "Multiplicación de Positivos y Negativos"
 msgid "Division of Positives and Negatives"
 msgstr "División de Positivos y Negativos"
 
-#: data/menus/menu_strings:1 data/menus/menu_strings:12
-#: data/menus/menu_strings:14 data/menus/menu_strings:18
-#: data/menus/menu_strings:26 data/menus/menu_strings:33
-#: data/menus/menu_strings:34 data/menus/menu_strings:38
-#: data/menus/menu_strings:44
-msgid "Main Menu"
-msgstr "Menú Principal"
-
-#: data/menus/menu_strings:2
-msgid "Play Alone"
-msgstr "Xugar solo"
-
 #: data/menus/menu_strings:3
-msgid "Math Command Training Academy"
-msgstr "Academia d'Entrenamientu de Math Command"
-
-#: data/menus/menu_strings:4
-msgid "Math Command Fleet Missions"
-msgstr "Misiones de Math Command"
-
-#: data/menus/menu_strings:5
-msgid "Play Arcade Game"
-msgstr "Xuegu Arcade"
-
-#: data/menus/menu_strings:13
-msgid "Play Custom Game"
-msgstr "Xuegu Personalizáu"
-
-#: data/menus/menu_strings:15
-msgid "Network Game"
-msgstr "Xuegu en Rede"
-
-#: data/menus/menu_strings:16
-msgid "Run Server"
-msgstr "Arrancar Sirvidor"
-
-#: data/menus/menu_strings:17
-msgid "Join Game"
-msgstr "Xunise a una partida"
-
-#: data/menus/menu_strings:19
-msgid "Play With Friends"
-msgstr "Xugar con Collacios"
-
-#: data/menus/menu_strings:20
-msgid "Score Sweep"
-msgstr "Puntuaciones"
-
-#: data/menus/menu_strings:27
-msgid "Elimination"
-msgstr "Eliminación"
-
-#: data/menus/menu_strings:35
-msgid "Factoroids!"
-msgstr "¡Factoroides!"
-
-#: data/menus/menu_strings:40
-msgid "More Options"
-msgstr "Más Opciones"
-
-#: data/menus/menu_strings:41
-msgid "Demo"
-msgstr "Demo"
-
-#: data/menus/menu_strings:42
-msgid "Project Info"
-msgstr "Información del Proyeutu"
-
-#: data/menus/menu_strings:43
 msgid "Credits"
 msgstr "Créditos"
 
-#: data/menus/menu_strings:45
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Demo"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Eliminación"
+
+#: data/menus/menu_strings:6
+msgid "Factoroids!"
+msgstr "¡Factoroides!"
+
+#: data/menus/menu_strings:11
+msgid "Join Game"
+msgstr "Xunise a una partida"
+
+#: data/menus/menu_strings:12
+msgid "Main Menu"
+msgstr "Menú Principal"
+
+#: data/menus/menu_strings:13
+msgid "Math Command Fleet Missions"
+msgstr "Misiones de Math Command"
+
+#: data/menus/menu_strings:14
+msgid "Math Command Training Academy"
+msgstr "Academia d'Entrenamientu de Math Command"
+
+#: data/menus/menu_strings:15
+msgid "More Options"
+msgstr "Más Opciones"
+
+#: data/menus/menu_strings:16
+msgid "Network Game"
+msgstr "Xuegu en Rede"
+
+#: data/menus/menu_strings:17
+msgid "Play Alone"
+msgstr "Xugar solo"
+
+#: data/menus/menu_strings:18
+msgid "Play Arcade Game"
+msgstr "Xuegu Arcade"
+
+#: data/menus/menu_strings:19
+msgid "Play Custom Game"
+msgstr "Xuegu Personalizáu"
+
+#: data/menus/menu_strings:20
+msgid "Play With Friends"
+msgstr "Xugar con Collacios"
+
+#: data/menus/menu_strings:21
+msgid "Project Info"
+msgstr "Información del Proyeutu"
+
+#: data/menus/menu_strings:22
 msgid "Quit"
 msgstr "Colar"
+
+#: data/menus/menu_strings:24
+msgid "Run Server"
+msgstr "Arrancar Sirvidor"
+
+#: data/menus/menu_strings:25
+msgid "Score Sweep"
+msgstr "Puntuaciones"
 
 #~ msgid "Select lesson file for server to use"
 #~ msgstr "Escueyi ficheru de llección pa usar nel sirvidor"
