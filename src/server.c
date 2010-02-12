@@ -194,7 +194,11 @@ int RunServer_prog(int argc, char* argv[])
   return system(buf);
 }
 
+/*
+ * This is the prefered way to run the tuxmath server,
+ */
 
+#ifdef HAVE_PTHREAD_H
 int RunServer_pthread(int argc, char* argv[])
 {
   pthread_t server_thread;
@@ -216,7 +220,6 @@ int RunServer_pthread(int argc, char* argv[])
   return 0;
 }
 
-
 void* run_server_local_args(void)
 {
 
@@ -224,6 +227,9 @@ void* run_server_local_args(void)
   pthread_exit(NULL);
   return NULL;
 }
+
+#endif
+
 
 /*********************************************************************/
 /*  "Private" (to server.c) functions                                */
@@ -290,6 +296,9 @@ int setup_server(void)
     Uint32 timeout = SDL_GetTicks() + SERVER_NAME_TIMEOUT;
     int name_recvd = 0;
     server_name[0] = '\0';
+
+    /* We can use fcntl() on Linux/Unix plaforms: */
+#ifdef HAVE_FCNTL   
     fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
 
     printf("Enter the SERVER's NAME: \n>");
@@ -308,6 +317,12 @@ int setup_server(void)
     /* If no nickname received, use default: */
     if(strlen(server_name) == 0)
       strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
+#else
+    /* HACK - until we figure out how to do nonblocking stdin
+     * in Windows, we just stick in the default name:
+     */
+      strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
+#endif
   }
 
 

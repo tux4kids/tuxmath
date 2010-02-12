@@ -10,14 +10,15 @@ export CONFIG_SHELL
 # Set PREFIX, BUILD, TARGET, and CONFIG_PATH according to your build machine:
 
 # Path to crossbuild setup:
-PREFIX=/usr/local/mingw
+#PREFIX=/usr/local/mingw
+PREFIX=/usr/local/mingw-cross-env/usr
 
 # Architecture of the build machine itself:
 BUILD=x86_64-linux
 
 # Architecture of the build machine's crossbuild setup
 # as located by PREFIX:
-TARGET=i586-pc-mingw32
+TARGET=i686-pc-mingw32
 
 # Path to configure script
 CONFIG_PATH=../configure

@@ -18,14 +18,7 @@ AC_DEFINE_UNQUOTED([PROGRAM_NAME], "$PACKAGE", [Tux Of Math Command])
 
 AC_SUBST(NAME_VERSION)
 
-dnl AM_GNU_GETTXT([external]) is preferred, but we haven't gotten it to
-dnl work for win32 crossbuild.  We should work out how to do this conditionally.
-# Needed for gettext:
 AC_GNU_SOURCE
-AM_GNU_GETTEXT_VERSION([0.17])
-AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT
-#AM_GNU_GETTEXT_INTL_SUBDIR
 
 dnl For libtool support to link libt4k-common:
 LT_INIT
@@ -77,6 +70,15 @@ if test $native_win32 = yes; then
 else
   LIBS="$LIBS $SDL_LIBS"
 fi
+
+
+dnl AM_GNU_GETTXT([external]) is preferred, but we haven't gotten it to
+dnl work for win32 crossbuild.  We should work out how to do this conditionally.
+# Needed for gettext:
+AM_GNU_GETTEXT_VERSION([0.17])
+#AM_GNU_GETTEXT([external])
+AM_GNU_GETTEXT
+AM_GNU_GETTEXT_INTL_SUBDIR
 
 
 
@@ -243,7 +245,7 @@ AC_FUNC_STAT
 AC_FUNC_STRCOLL
 AC_FUNC_STRTOD
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy floor getcwd localeconv localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale sqrt stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strrchr strstr strtoul])
+AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy fcntl floor getcwd localeconv localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale sqrt stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strrchr strstr strtoul])
 
 
 # Set the 
