@@ -9,10 +9,14 @@
 
 SUBDIRS = data	\
 	doc	\
-	intl	\
 	linebreak \
 	po	\
 	src
+
+# We bundle intl with us for now in Windows cross-build:
+if BUILD_MINGW32
+	SUBDIRS = $(SUBDIRS) intl
+endif
 
 ACLOCAL_AMFLAGS = -I m4
 

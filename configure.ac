@@ -72,15 +72,25 @@ else
 fi
 
 
-dnl AM_GNU_GETTXT([external]) is preferred, but we haven't gotten it to
-dnl work for win32 crossbuild.  We should work out how to do this conditionally.
 # Needed for gettext:
 AM_GNU_GETTEXT_VERSION([0.17])
-#AM_GNU_GETTEXT([external])
-AM_GNU_GETTEXT
-AM_GNU_GETTEXT_INTL_SUBDIR
 
+dnl NOTE - the following conditional does not work. Instead,
+dnl uncomment the appropriate line that follows.
 
+dnl AM_GNU_GETTXT([external]) is preferred, but we haven't gotten it to
+dnl work on Windows.  Attempting to do this conditionally:
+#if test $native_win32 = yes; then
+#  AM_GNU_GETTEXT
+#else
+#  AM_GNU_GETTEXT([external])
+#fi
+
+dnl Uncomment the following line for non-Windows builds:
+AM_GNU_GETTEXT([external])
+dnl Uncomment the following line when building for 
+dnl Windows to use the included intl subdirectory:
+#AM_GNU_GETTEXT
 
 dnl Check for SDL_image: 
 AC_CHECK_LIB([SDL_image], 
