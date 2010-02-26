@@ -1,5 +1,5 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.7.2
+Version 1.8.0
 
 March 12, 2009
 
@@ -23,7 +23,8 @@ by searching for "tuxmath" (btw, TuxType is available there, too). Preliminary
 developer builds will have "tuxmath_preview" in the package name instead of just
 "tuxmath", but all are available to everyone.
 
-For Windows/Macs: visit http://www.tux4kids.com, click on "Released
+For Windows/Macs: visit http://tux4kids.alioth.debian.org (note that
+http://www.tux4kids.com should also work), click on "Released
 Files," and find the most recent package for your platform.  You will
 not need the source code packages.  Save the package on your
 harddrive and double-click on the icon.
@@ -33,7 +34,8 @@ the MacPorts project (http://www.macports.org).  MacPorts is a package manager
 for over 5000 free software programs for the Mac. Both TuxMath and TuxType are
 included in MacPorts. Once MacPorts is installed (a simple
 dmg file), it is extremely easy to automatically get the latest version of TuxMath.
-
+Be aware, however, that MacPorts does require installation of Apple's XCode
+developer tools, which are free but a very big download.
 
 The remainder of this document is for people who want to compile TuxMath
 themselves on their own computers.
@@ -133,20 +135,30 @@ Requirements
     available (Linux and the MacPorts build for MacOSX). If SDL_Pango is
     available, SDL_ttf is not needed (as of v1.7.2).
 
-    SDL_Pango is not yet supported in the Windows build or the CMake MacOSX
+    As of v1.8.0, the Windows build finally provides SDL_Pango functionality.
+
+    SDL_Pango is not yet in the CMake MacOSX
     build (the ones available for download from www.tux4kids.com), so the
     program still supports SDL_ttf.  For testing purposes, TuxMath can be
     built without SDL_Pango by "./configure --without-sdlpango".
 
+    Also, starting with v1.8.0, TuxMath uses librsvg2 to support Scalable
+    Vector Graphics (SVG) images, mostly used so far in the menus.  This require    the librsvg2-dev package on Debian/Ubuntu.  v1.8.0 also requires SDL_net
+    if the new LAN multiplayer mode is desired.  As with SDL_Pango, there are
+    configure-time scripts to build without SVG (--without-rsvg) or network 
+    (--without-sdlnet) support if these features are not desired or if the
+    required libraries are unavailable.
+
     The executable Windows installer contains all needed libraries
-    (DLLs) and the Andika font - nothing else should be needed that is
+    and the Andika font - nothing else should be needed that is
     not part of Windows.  The *tar.gz source packages require the
     "*-dev" versions of SDL, SDL_image, SDL_mixer, SDL_ttf (and, optionally,
-    SDL_Pango) for building and installation.  These are easily installed
-    in most any GNU-Linux distribution.  For Debian and its derivatives 
-    (including Ubuntu) type "aptitude search SDL" to find the exact package
-    names, and install them with "sudo aptitude install".  For Fedora and
-    Red Hat derivatives, the "yum" tool works very similarly.
+    SDL_Pango, SDL_net, and librsvg2) for building and installation.
+    These are easily installed in most any GNU-Linux distribution.  For
+    Debian and its derivatives (including Ubuntu) type "aptitude search SDL"
+    to find the exact package names, and install them with "sudo aptitude
+    install".  For Fedora and Red Hat derivatives, the "yum" tool works
+    very similarly.
 
     The Andika font is also included in the "tuxmath_w_fonts-*" packages.
     You will definitely want this if building for a platform without
@@ -194,7 +206,7 @@ Requirements
         RedHat Linux on Intel-compatible computers).
 
 	For example, on (K)Ubuntu Hardy, you could say:
-           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev
+           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev libsdl-net1.2-dev librsvg2-dev
 
         This should work for nearly any Debian variant.
 
@@ -219,22 +231,23 @@ better-support Mac OS X.
 
       where you generally can find the latest tuxmath*tar.gz package.
 
-      The svn repository is located at:
+      The Git repository is located at:
 
-      � http://svn.debian.org/wsvn/tux4kids/tuxmath 
+      � http://git.debian.org/git/tux4kids/tuxmath.git 
 
       or:
 
-      � svn://svn.debian.org/tux4kids/tuxmath
+      � git://git.debian.org/git/tux4kids/tuxmath.git
 
     Compiling the Program: Automake (Linux)
     --------------------------------------
       If you are using a source tar.gz package (e.g.,
-      tuxmath_w_fonts-1.7.2-tar.gz), all you need to do is unpack the
+      tuxmath_w_fonts-1.8.0-tar.gz), all you need to do is unpack the
       archive in a convient location and do a typical configure, make,
       and install.  In other words, the tarball contains a complete
       "GNU Build System".  Note, however, that you will need the
-      "-dev" files for SDL, SDL_image, SDL_mixer, and SDL_ttf/SDL_Pango.
+      "-dev" files for SDL, SDL_image, SDL_mixer, SDL_ttf/SDL_Pango, and
+      SDL_net & librsvg2, if desired.
 
       (NOTE: -If you have built other packages from source, your
       system is virtually certain to already contain the other
@@ -256,7 +269,7 @@ better-support Mac OS X.
       for testing purposes.  If your build environment lacks SDL_Pango, TuxMath
       will be built using SDL_ttf instead.
 
-      If you use a subversion checkout, you will need to generate the
+      If you use a Git clone, you will need to generate the
       configure script.  Tuxmath uses the Gnu Autoconf/Automake tools
       for development. You will Autoconf 2.61 or later, Automake 1.10
       or later, and Gnu Gettext 0.16 or later, in addition to the libs
@@ -271,12 +284,12 @@ better-support Mac OS X.
 
       Tuxmath supports "parallel" or "vpath" builds to avoid
       cluttering the source tree with object files, so a clean way
-      would be (starting within trunk):
+      would be (starting within the top level):
 
         mkdir build
         cd build
-        autoreconf --install ../trunk
-        ../trunk/configure
+        autoreconf --install ..
+        ..configure
         make
         sudo make install
 
@@ -319,52 +332,35 @@ better-support Mac OS X.
       done this on my Debian system. Once the crossbuild environment
       is set up, the process is simple and nearly automatic.
 
-      In order to get a successful crossbuild using gettext, it was
-      necessary to set up a "pure" mingw environment, in particular
-      avoiding the use of libgw32c.  I also stopped using the
-      Debian-packaged mingw32 cross-tools and used the script directly
-      from the mingw project:
+      To package TuxMath into the executable installer, you will need the nsis
+      package, which is free software available in major distributions (e.g.
+      "sudo aptitude install nsis" for Debian).
 
-      http://downloads.sourceforge.net/mingw/x86-mingw32-build.sh-0.0-20061107-1.tar.bz2
+      Starting with v1.8.0, the Windows cross-build uses the
+      mingw-cross-env project (http://www.nongnu.org/mingw-cross-env). One
+      very great advantage is that the entire build setup can be installed
+      automatically instead of the very laborious process of downloading and 
+      building 15-20 libs by hand.
 
-      I used the above to create a crossbuild environment under
-      /usr/local/mingw.
+      Basically, go to the mingw-cross-env site listed above and follow the well-written
+      directions to get the basic setup in place.  When it is time to build all the
+      libs, either just type "make" to build the entire collection (if you don't mind
+      a long wait), or build just the libs we need with:
+    
+      $ make sdl sdl_mixer sdl_image sdl_net sdl_ttf sdl_pango librsvg
 
-      After that, I built *everything* from source needed for the
-      crossbuild, including all the SDL* libs, gettext, libiconv,
-      libjpeg, freetype, and so forth.  There were a number of
-      pitfalls along the way, and hopefully I will get this documented
-      at some point.  Suffice to say that tuxmath itself builds fine
-      in this way, once the environment is set up.  The only deficiency
-      as of this writing is that SDL_Pango is not supported.
+      (the libs these libs depend on will be automatically built)
 
-      You need to have a directory containing all of the dlls that
-      will need to be packaged into the installer.  The Makefile
-      expects them to be in NSI_DLL_DIR, which I have set to
-      ~/tuxmath_dll. On my machine, this contains:
+      If you put the cross-build setup in /usr/local/mingw-cross-env, and you are building
+      from a git clone, you can simply cd to tuxmath's buildw32 directory and use the simple
+      scripts there:
 
-        dbruce@debian:~/tuxmath_dll$ ls
-        jpeg.dll      ogg.dll        SDL_mixer.dll  vorbis.dll
-        libpng12.dll  SDL.dll        SDL_ttf.dll    vorbisfile.dll
-        libtiff.dll   SDL_image.dll  smpeg.dll      zlib1.dll
-        libiconv-2.dll
+      $ ./tmwin.sh
 
-      The svn repository has a directory with copies of all of these files:
-
-        tuxmath/people/dbruce/tuxmath_dll
-
-
-      If you have done a native (Linux) build in the same source tree, run 
-      "make distclean" to get rid of the autogenerated files.
-
-      From the trunk dir, run:
-         autoreconf --install
-         ./cross-configure.sh
-         ./cross-make.sh
-         ./cross-make.sh nsis
-
-      This should create the windows installer file
-      ("tuxmath-1.7.2-win32-installer.exe") under trunk.
+      That's all - it should build a complete NSIS executable installer in the buildw32
+      directory. The new crossbuild is statically linked, so you wind up with quite a 
+      large executable (around 25M after decompression), but no dll's need to be included.
+      Also, since SDL_Pango is supported, no fonts need to be bundled in. 
 
       Installation on Windows:
       ------------------------
