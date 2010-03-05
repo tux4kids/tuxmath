@@ -80,9 +80,9 @@ dnl ---------------------------------------------------------
 AS_IF([test "x$native_win32" = xyes],
 dnl What we do for mingw crossbuild:
 [
-	# Check for SDL, SDL_image, SDL_mixer and SDL_Pango
+	# Check for SDL, SDL_image, SDL_mixer, SDL_net, and SDL_Pango
 	[echo "Mingw crossbuild detected - using pkgconfig to check for SDL libs:"],
-	PKG_CHECK_MODULES([SDL], [sdl >= 1.2.0 SDL_image SDL_mixer SDL_Pango SDL_net])
+	PKG_CHECK_MODULES([SDL], [sdl >= 1.2.0 SDL_image SDL_mixer SDL_net SDL_Pango])
 	CFLAGS="$CFLAGS $SDL_CFLAGS" 
 	LIBS="$LIBS $SDL_LIBS"
 ],

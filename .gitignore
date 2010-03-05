@@ -23,6 +23,9 @@ config.status
 configure.lineno
 autom4te.cache/
 m4/
+depcomp
+install-sh
+missing
 *.m4
 libtool
 ltmain.sh
