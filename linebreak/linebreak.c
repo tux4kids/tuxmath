@@ -17,6 +17,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <config.h>
 
+/* Modification by David Bruce <davidstuartbruce@gmail.com>
+ * to allow compilation under mingw-cross-env:
+ */
+
+#if defined BUILD_MINGW32 && !defined ICONV_CONST
+#define ICONV_CONST const
+#endif
+
+/* End of modification --------------------------- */
+
 /* Specification.  */
 #include "linebreak.h"
 
