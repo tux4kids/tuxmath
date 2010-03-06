@@ -1,18 +1,21 @@
 # ASTURIAN TRANSLATION FOR TUX MATH.
 # This file is distributed under the same license as the tuxmath package.
 # XANDRU ARMESTO <xandru@softastur.org>, 2009.
-#
+# Xandru Armesto <xandru@softastur.org>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2010-02-07 11:28-0600\n"
-"PO-Revision-Date: 2009-12-29 07:53+0100\n"
+"PO-Revision-Date: 2010-03-06 08:41+0200\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
-"Language-Team: Asturian <alministradors@softastur.org>\n"
+"Language-Team: Asturian Team alministradores@softastur.org\n"
+"Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Virtaal 0.5.2\n"
 "X-Poedit-Language: Asturian\n"
 
 #: src/campaign.c:30
@@ -460,7 +463,7 @@ msgstr "(Ente 2 y 4 xugadores)"
 
 #: src/menu.c:589
 msgid "The server is already running"
-msgstr ""
+msgstr "El sirvidor ta tovía corriendo"
 
 #: src/menu.c:594
 msgid "Enter Server Name:"
@@ -473,6 +476,7 @@ msgstr "(50 carauteres máximo)"
 #: src/menu.c:608
 msgid "Click or press key to select server lesson file"
 msgstr ""
+"Calca o prime una tecla pa seleicionar un ficheru de lleición del sirvidor"
 
 #: src/menu.c:637
 msgid "Server Name:"
