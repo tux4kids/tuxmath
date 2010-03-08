@@ -2,9 +2,9 @@
 An educational math tutorial game starring Tux, the Linux Penguin
 -----------------------------------------------------------------
 
-October 25, 2009
+March 7, 2010
 
-For tuxmath-1.7.3
+For Tuxmath-1.8.0
 
 Objective
 ---------
@@ -61,6 +61,13 @@ Running The Program
 
 Program Navigation
 ------------------
+    Use the [UP] and [DOWN] arrow keys to select what you wish to do,
+    and then press [ENTER / RETURN / SPACEBAR].  You can also type 'J' to move
+    down or 'K' to move up, for those accustomed to certain text editors ;)
+    You can also use the mouse to click the menu item.
+
+    Pressing [ESCAPE] will quit the program.
+
   Title Screen
   ------------
     Play Alone: single player activities:
@@ -172,15 +179,6 @@ Program Navigation
       Now it just has the "Demo" mode, as well as credits and project information.
 
    
-
-    Use the [UP] and [DOWN] arrow keys to select what you wish to do,
-    and then press [ENTER / RETURN / SPACEBAR].  Or, use the mouse to click the
-    menu item.
-
-    Pressing [ESCAPE] will quit the program.
-
-
-
 
 How To Play
 -----------
@@ -630,6 +628,28 @@ Command Line Options
 
 
     The following command-line options can be sent to the program:
+    
+    NEW as of 1.8.0 - run-time debugging output.  Tuxmath now has a system to
+    activate debugging output of various subsystems.  Note that the extent to
+    which the new system is utilized varies a lot - some of these flags don't do
+    much as of yet.  The names are fairly self-explanatory and generally refer
+    to specific source code files in Tuxmath:
+	--debug-all
+	--debug-setup
+	--debug-fileops
+	--debug-loaders
+	--debug-titlescreen
+	--debug-menu
+	--debug-menu-parser
+	--debug-game
+	--debug-factoroids
+	--debug-lan
+	--debug-mathcards
+	--debug-sdl
+	--debug-lessons
+	--debug-highscore
+	--debug-options
+
      --optionfile filename - play game based on settings in the named file (see
                          below for more on tuxmath config files). Tuxmath will
                          look for a valid config file with a matching name in
@@ -727,7 +747,8 @@ Credits
   Designed by Sam "Criswell" Hart  <criswell@geekcomix.com>
   Software by Bill Kendrick  <bill@newbreedsoftware.com>
 
-  Current maintainer/programmer David Bruce <davidstuartbruce@gmail.com>
+  Current co-maintainers/lead programmers David Bruce <davidstuartbruce@gmail.com>
+  and Tim Holy <tholy@wustl.edu>
 
   Please see the game's "Credits" screen for a complete list of contributors.
 
@@ -735,7 +756,7 @@ Credits
 
 Software Used
 -------------
-  GNU C Compiler, GNU Make, GNU Autoconf, GNU Automake, GNU Gettext
+  GNU C Compiler, GNU Make, GNU Autoconf, GNU Automake, GNU Gettext, GNU Libtool
     http://www.gnu.org/
 
   SDL and associated libraries:
@@ -744,11 +765,23 @@ Software Used
   The GIMP
     http://www.gimp.org/
 
-  KDevelop
-    http://www.kdevelop.org/
+  Vim (Vi IMproved)
+    http://www.vim.org/
 
-  Subversion
-    http://subversion.tigris.org/
+  Git
+    (GET CORRECT URL)
+
+  Inkscape
+    (GET CORRECT URL)
+
+  CMake (for Mac OSX build)
+    (GET CORRECT URL)
+
+  Mingw cross-compiler port of GCC and Mingw Cross Environment
+    (for cross-compiled Windows build)
+    (GET CORRECT URL for mingw project)
+    (http://mingw-cross-env.nongnu.org
+
 
   SDL_rotozoom was copied from the SDL_gfx library and re-licensed
   (for the purposes of TuxMath only) to GPL
