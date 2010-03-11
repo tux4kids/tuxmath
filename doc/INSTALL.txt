@@ -362,6 +362,8 @@ better-support Mac OS X.
       large executable (around 25M after decompression), but no dll's need to be included.
       Also, since SDL_Pango is supported, no fonts need to be bundled in. 
 
+      NOTE: As of this writing (11 Mar 2010), there are still some bugs that keep the tuxmath crossbuild from succeeding. Once these are resolved, it will work as described above - DSB.
+
       Installation on Windows:
       ------------------------
       To install, simply execute the installer file on the Windows
