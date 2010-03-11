@@ -58,7 +58,7 @@ const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {"BRENDAN LUCHEN"},
   {"JESUS M. MAGER H."},
   {"AKASH GANGIL"},
-  {"BOLESLAW KULBINSKI"},
+  {"BOLESLAW KULBABINSKI"},
   {" "},
   {"-"N_("LEAD ARTIST")},
   {"SAM HART"},
