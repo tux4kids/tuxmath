@@ -21,7 +21,11 @@ AC_SUBST(NAME_VERSION)
 AC_GNU_SOURCE
 
 dnl For libtool support to link libt4k-common:
-LT_INIT
+dnl NOTE - currently libtool init commented out because of errors in crossbuild.
+dnl libtool not actually needed until we start to use libt4k-common.
+dnl When crossbuild issues fixed, uncomment libtool init and remove ranlib line.
+#LT_INIT
+AC_PROG_RANLIB
 
 # ----------------------------------------------------------------------
 # Checks for programs.
