@@ -170,8 +170,12 @@ const int MC_DEFAULTS[] = {
   1,    //RANDOMIZE
 
   0,    //COMPREHENSIVE
+
+  //NOTE if "comprehensive" is off, we randomly generate a set of 
+  //"avg list length" questions one by one. If "vary list length" 
+  //is on, that length is also randomized somewhat
   100,  //AVG_LIST_LENGTH
-  0     //VARY_LIST_LENGTH  FIXME what is the purpose of this?
+  0     //VARY_LIST_LENGTH  
 };
 
 
@@ -1790,7 +1794,6 @@ MC_MathQuestion* generate_list(void)
       MC_GetOpt(COMPARISON_ALLOWED) ) )
     return NULL;
 
-  //FIXME - remind me, why are we doing this??
   //randomize list length by a "bell curve" centered on average
   if (length && MC_GetOpt(VARY_LIST_LENGTH) )
   {
@@ -1987,7 +1990,6 @@ unsigned int MC_MapTextToIndex(const char* text)
 }
 
 
-//TODO more intuitive function names for access by index vs. by text
 void MC_SetOpt(unsigned int index, int val)
 {
   if (index >= NOPTS)
@@ -2115,11 +2117,6 @@ void MC_SetOpt(unsigned int index, int val)
   math_opts->iopts[index] = val;
 }
 
-void MC_SetOp(const char* param, int val)
-{
-  MC_SetOpt(MC_MapTextToIndex(param), val);
-}
-
 int MC_GetOpt(unsigned int index)
 {
   if (index >= NOPTS)
@@ -2133,11 +2130,6 @@ int MC_GetOpt(unsigned int index)
     return MC_MATH_OPTS_INVALID;
   }
   return math_opts->iopts[index];
-}
-
-int MC_GetOp(const char* param)
-{
-  return MC_GetOpt(MC_MapTextToIndex(param) );
 }
 
 int MC_VerifyOptionListSane(void)

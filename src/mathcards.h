@@ -263,10 +263,8 @@ Public functions for new mathcards architecture
 *********************************************/
 /* Return the array index of the given text, e.g. randomize->47 */
 unsigned int MC_MapTextToIndex(const char* text);
-void MC_SetOpt(unsigned int index, int val); //access directly,for internal use
-int MC_GetOpt(unsigned int index);
-void MC_SetOp(const char* param, int val); //access by text, for config reading
-int MC_GetOp(const char* param);
+void MC_SetOpt(unsigned int index, int val); //set an option
+int MC_GetOpt(unsigned int index); //get an option :)
 int MC_VerifyOptionListSane(void);
 int MC_MaxFormulaSize(void); //amount of memory needed to safely hold strings
 int MC_MaxAnswerSize(void);
