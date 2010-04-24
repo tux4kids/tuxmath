@@ -254,10 +254,26 @@ fi
 dnl We only use SDL_ttf if SDL_Pango not available: --------------------------------------
 
 if [test "x$with_sdlpango" = xno]; then
-AC_CHECK_LIB([SDL_ttf],
-             [TTF_Init],
-             ,
-             [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
+
+PKG_CHECK_EXISTS([SDL_ttf],
+	dnl Use pkg-config if possible:
+	[SDL_TTF_CFLAGS=""
+	 SDL_TTF_LIBS=""
+	 PKG_CHECK_MODULES([SDL_TTF],
+			   [SDL_ttf],
+			   ,
+			   [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
+	 CFLAGS="$CFLAGS $SDL_TTF_CFLAGS"
+	 LIBS="$LIBS $SDL_TTF_LIBS"
+	 AC_DEFINE([HAVE_LIBSDL_TTF],[1],[Define to 1 if you have the `SDL_ttf` library])
+	 ],
+	dnl Fallback if we can't use pkg-config:
+	[AC_CHECK_LIB([SDL_ttf], 
+		     [TTF_Init],
+		     ,
+		     [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])]
+	)]
+)
 fi
 
 
