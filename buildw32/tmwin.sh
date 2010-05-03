@@ -2,10 +2,21 @@
 
 # An 'all-in-one' script to build the Windows installer executable.
 
-./cross-make.sh clean
-./cross-make.sh distclean
+echo "Cleaning build directory:"
+./cross-make.sh clean>/dev/null
+./cross-make.sh distclean>/dev/null
+echo "Running autoreconf --install .."
 autoreconf --install ..
+<<<<<<< HEAD
 ./cross-configure.sh --host=i686-pc-mingw32
+=======
+echo "Running ./cross-configure.sh --host=i686-pc-mingw32"
+./cross-configure.sh --host=i686-pc-mingw32 
+echo "Running ./cross-make.sh"
+>>>>>>> mingw-cross-env
 ./cross-make.sh
+echo "Running ./cross-make.sh dist (to generate gmo files)"
+./cross-make.sh dist
+echo "Building NSIS installer file"
 ./cross-make.sh nsis
 

@@ -109,7 +109,7 @@ install-nsi-local: all
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
 	rm -rf $(NSI_TEMP_INSTALL_DIR)
 ## copy needed dll files into NSI_INSTALL_DIR:
-	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
+#	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
 
 
 install-nsi-am: install-nsi-local

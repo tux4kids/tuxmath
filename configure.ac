@@ -21,7 +21,11 @@ AC_SUBST(NAME_VERSION)
 AC_GNU_SOURCE
 
 dnl For libtool support to link libt4k-common:
-LT_INIT
+dnl NOTE - currently libtool init commented out because of errors in crossbuild.
+dnl libtool not actually needed until we start to use libt4k-common.
+dnl When crossbuild issues fixed, uncomment libtool init and remove ranlib line.
+#LT_INIT
+AC_PROG_RANLIB
 
 # ----------------------------------------------------------------------
 # Checks for programs.
@@ -37,19 +41,23 @@ AC_PROG_MKDIR_P
 AC_PROG_YACC
 
 
+# ---------------------------------------------------------------------
+# Gettext support:
+# ---------------------------------------------------------------------
+
+AM_GNU_GETTEXT_VERSION([0.17])
+
+dnl Use the following line whenever possible:
+AM_GNU_GETTEXT([external])
+dnl If external intl lib unavailable on platform, comment out the
+dnl above line and uncomment the following line to use the included
+dnl intl subdirectory. This used to be needed for the Windows cross-
+dnl build but is not longer necessary:
+#AM_GNU_GETTEXT
+
 # -----------------------------------------------------------------------
 # Checks for libraries.
 # -----------------------------------------------------------------------
-
-# Check for SDL 
-SDL_VERSION=1.2.0
-
-AM_PATH_SDL($SDL_VERSION, :,
-         AC_MSG_ERROR([SDL version $SDL_VERSION not found! http://www.libsdl.org]) 
-) 
-
-CFLAGS="$CFLAGS $SDL_CFLAGS" 
-
 
 # Check platform - see if WinMain needed:
 AC_MSG_CHECKING([for native Win32])
@@ -63,72 +71,194 @@ case "$host" in
 esac
 AC_MSG_RESULT([$native_win32])
 
+dnl FIXME - get rid of remaining win32 conditional code
 AM_CONDITIONAL(BUILD_MINGW32, test $native_win32 = yes)
 
-if test $native_win32 = yes; then
-  LIBS="$LIBS -lmingw32 -lSDLmain -lSDL"
-else
-  LIBS="$LIBS $SDL_LIBS"
-fi
+
+dnl ---------------------------------------------------------
+dnl For crossbuild with mingw-cross-env, we use pkg_config,
+dnl but for native linux build we use #AC_CHECK_LIB() because
+dnl some distros (incl. Debian) don't support pkg_config for
+dnl the SDL libraries:
+dnl ---------------------------------------------------------
 
 
-# Needed for gettext:
-AM_GNU_GETTEXT_VERSION([0.17])
+AS_IF([test "x$native_win32" = xyes],
+dnl What we do for mingw crossbuild:
+[
+	dnl Check for SDL
+	[echo "Mingw crossbuild detected - using pkgconfig to check for SDL:"],
+	PKG_CHECK_MODULES([SDL], [sdl >= 1.2.0])
+	CFLAGS="$CFLAGS $SDL_CFLAGS" 
+	LIBS="$LIBS $SDL_LIBS"
+],
 
-dnl NOTE - build using external intl lib whenever possible:
-AM_GNU_GETTEXT([external])
-dnl If build with external intl fails, comment out the above line 
-dnl and uncomment the one below to use the included intl subdirectory.
-dnl This used to be needed for the Windows crossbuild but is no longer
-dnl needed.
-#AM_GNU_GETTEXT
+[test "x$native_win32" = xno],
+dnl What we do if not doing mingw crossbuild:
+[
+	# Check for SDL:
+        [echo "Mingw crossbuild not detected - using #AC_CHECK_LIB() for SDL libs:"],
+	SDL_VERSION=1.2.0
+	AM_PATH_SDL($SDL_VERSION, :,
+		 AC_MSG_ERROR([SDL version $SDL_VERSION not found! http://www.libsdl.org]) 
+	) 
+	CFLAGS="$CFLAGS $SDL_CFLAGS" 
+	LIBS="$LIBS $SDL_LIBS"
+],
+
+dnl This message means the test variable was not set to either "yes" or "no"
+[echo Warning - mingw crossbuild status not specified]
+)
 
 
-dnl Check for SDL_image: 
-AC_CHECK_LIB([SDL_image], 
-             [IMG_Load],
-             ,
-             [AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])])
+dnl ----------------------------------------------------------------------------
+dnl End of AS_IF() conditional -------------------------------------------------
+dnl ---------------------------------------------------------------------------
 
-dnl Check for SDL_mixer:. 
-AC_CHECK_LIB([SDL_mixer], 
-             [Mix_OpenAudio], 
-             ,
-             [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
 
-dnl SDL_Net is enabled by default 
-dnl unless SDL_net is disabled at configure time.
+
+dnl ---------------------------------------------------------------------------
+dnl In the following checks we attempt to use pkg-config if available, falling
+dnl back to #AC_CHECK_LIB if #PKG_CHECK_EXISTS fails.  The idea is to get away
+dnl from relying on checks for a specific OS, and relying on feature checks
+dnl instead.
+dnl ---------------------------------------------------------------------------
+
+dnl Check for SDL_image: ------------------------------------------------------
+
+PKG_CHECK_EXISTS([SDL_image],
+	dnl Use pkg-config if possible:
+	[SDL_IMAGE_CFLAGS=""
+	 SDL_IMAGE_LIBS=""
+	 PKG_CHECK_MODULES([SDL_IMAGE],
+			   [SDL_image],
+			   ,
+			   [AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])])
+	 CFLAGS="$CFLAGS $SDL_IMAGE_CFLAGS"
+	 LIBS="$LIBS $SDL_IMAGE_LIBS"
+	 AC_DEFINE([HAVE_LIBSDL_IMAGE],[1],[Define to 1 if you have the `SDL_image` library])
+	 ],
+	dnl Fallback if we can't use pkg-config:
+	[AC_CHECK_LIB([SDL_image], 
+		     [IMG_Load],
+		     ,
+		     [AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])]
+	)]
+)
+
+
+
+dnl Check for SDL_mixer: --------------------------------------------------------
+
+PKG_CHECK_EXISTS([SDL_mixer],
+	dnl Use pkg-config if possible:
+	[SDL_MIXER_CFLAGS=""
+	 SDL_MIXER_LIBS=""
+	 PKG_CHECK_MODULES([SDL_MIXER],
+			   [SDL_mixer],
+			   ,
+			   [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
+	 CFLAGS="$CFLAGS $SDL_MIXER_CFLAGS"
+	 LIBS="$LIBS $SDL_MIXER_LIBS"
+	 AC_DEFINE([HAVE_LIBSDL_MIXER],[1],[Define to 1 if you have the `SDL_mixer` library])
+	 ],
+	dnl Fallback if we can't use pkg-config:
+	[AC_CHECK_LIB([SDL_mixer], 
+		     [Mix_OpenAudio],
+		     ,
+		     [AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])]
+	)]
+)
+
+
+dnl Check for SDL_net: --------------------------------------------------------
+
+dnl SDL_net is enabled by default.
 
 AC_ARG_WITH([sdlnet],
-            [AS_HELP_STRING([--without-sdlnet],[don't use SDL_Net even if available])],
-            [with_sdlnet=no],
-            [with_sdlnet=yes])
+	    [AS_HELP_STRING([--without-sdlnet],
+	    [Do not use SDL_net even if available])],
+	    [],
+	    [with_sdlnet=yes]
+)
 
 if test "x$with_sdlnet" != xno; then
-AC_CHECK_LIB([SDL_net],
-             [SDLNet_Init],
-             ,
-             [with_sdlnet=no;
-              AC_MSG_FAILURE([SDL_Net test failed (--without-sdlnet to disable LAN support)])])
+  dnl We will need this for socket programming on Win32
+  AC_CHECK_LIB([ws2_32],
+  	       [WSAStartup],
+	       ,
+	       [AC_MSG_NOTICE([Windows socket library ws2_32 not found - (only needed on win32)])]
+  )
+
+
+
+  PKG_CHECK_EXISTS([SDL_net],
+	dnl Use pkg-config if possible:
+	[SDL_NET_CFLAGS=""
+	 SDL_NET_LIBS=""
+	 PKG_CHECK_MODULES([SDL_NET],
+			   [SDL_net],
+			   ,
+			   [with_sdlnet=no;
+			    AC_MSG_FAILURE([SDL_net test failed (--without-sdlnet to disable)])])
+	 CFLAGS="$CFLAGS $SDL_NET_CFLAGS"
+	 LIBS="$LIBS $SDL_NET_LIBS"
+	 AC_DEFINE([HAVE_LIBSDL_NET],[1],[Define to 1 if you have the `SDL_net` library]
+	)],
+	dnl Fallback if we can't use pkg-config:
+	[AC_CHECK_LIB([SDL_net], 
+		      [SDLNet_Init],
+		      ,
+		      [with_sdlnet=no;
+		       AC_MSG_FAILURE([SDL_net test failed (--without-sdlnet to disable)])]
+	)]
+  )
 fi
 
+
+
+
+dnl Check for SDL_Pango: --------------------------------------------------------
 
 dnl SDL_Pango is enabled by default.
 dnl If SDL_Pango disabled at configure time, or if we can't find it,
 dnl we look for SDL_ttf:
 
 AC_ARG_WITH([sdlpango],
-            [AS_HELP_STRING([--without-sdlpango],[don't use SDL_Pango even if available])],
-            [with_sdlpango=no],
-            [with_sdlpango=yes])
+	    [AS_HELP_STRING([--without-sdlpango],
+	    [Do not use SDL_Pango even if available])],
+	    [],
+	    [with_sdlpango=yes]
+)
 
 if test "x$with_sdlpango" != xno; then
-AC_CHECK_LIB([SDL_Pango],
-             [SDLPango_Init],
-             ,
-             [with_sdlpango=no;
-              AC_MSG_FAILURE([SDL_Pango test failed (--without-sdlpango to disable)])])
+PKG_CHECK_EXISTS([SDL_Pango],
+	dnl Use pkg-config if possible:
+	[SDL_PANGO_CFLAGS=""
+	 SDL_PANGO_LIBS=""
+	 PKG_CHECK_MODULES([SDL_PANGO],
+			   [SDL_Pango],
+			   ,
+			   [with_sdlpango=no;
+			    AC_MSG_FAILURE([SDL_Pango test failed (--without-sdlpango to disable)])])
+	 CFLAGS="$CFLAGS $SDL_PANGO_CFLAGS"
+	 LIBS="$LIBS $SDL_PANGO_LIBS"
+	 AC_DEFINE([HAVE_LIBSDL_PANGO],[1],[Define to 1 if you have the `SDL_Pango` library])
+	],
+	dnl Fallback if we can't use pkg-config:
+	[AC_CHECK_LIB([SDL_Pango], 
+		     [SDLPango_Init],
+		     ,
+		     [with_sdlpango=no;
+		      AC_MSG_FAILURE([SDL_Pango test failed (--without-sdlpango to disable)])]
+	)]
+)
 fi
+
+
+	
+dnl FIXME need to add check for freetype if static linking is to work
+dnl We only use SDL_ttf if SDL_Pango not available: --------------------------------------
 
 if [test "x$with_sdlpango" = xno]; then
 AC_CHECK_LIB([SDL_ttf],
@@ -137,10 +267,12 @@ AC_CHECK_LIB([SDL_ttf],
              [AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])
 fi
 
-dnl Check for libRSVG and cairo. SVG support is enabled by default
+
+
+dnl Check for libRSVG and cairo. SVG support is enabled by default: --------------------
 
 AC_ARG_WITH([rsvg],
-            [AS_HELP_STRING([--without-rsvg],[don't use libRSVG even if available])],
+            [AS_HELP_STRING([--without-rsvg],[Do not use libRSVG even if available])],
             [with_rsvg=no],
             [with_rsvg=yes])
 
@@ -167,18 +299,11 @@ if test "x$with_rsvg" = xyes; then
   AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
 fi
 
-if test "x$with_rsvg" = xyes; then
-  CAIRO_CFLAGS=""
-  CAIRO_LIBS=""
-  PKG_CHECK_MODULES([CAIRO],
-                    [cairo >= 1.4.10],
-                    ,
-                    [AC_MSG_FAILURE([cairo test failed (--without-rsvg to disable svg support)])])
-  CFLAGS="$CFLAGS $CAIRO_CFLAGS"
-  LIBS="$LIBS $CAIRO_LIBS"
-  AC_DEFINE([HAVE_RSVG],[1],[Define to 1 if you have the `libRSVG` library])
-fi
-
+dnl Check for (somewhat) higher-level math functions - needed for SDL_extras
+AC_CHECK_LIB([m],
+              [csin],
+              ,
+              [AC_MSG_ERROR([Math library not found - functions in <math.h> may not be available.])])
 
 dnl Use of libt4kcommon is disabled for now by default 
 dnl but can be enabled at configure time for testing and development.
@@ -247,7 +372,7 @@ AC_FUNC_STAT
 AC_FUNC_STRCOLL
 AC_FUNC_STRTOD
 AC_FUNC_VPRINTF
-AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy fcntl floor getcwd localeconv localtime_r memmove mempcpy memset mkdir munmap nl_langinfo scandir setlocale sqrt stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strrchr strstr strtoul])
+AC_CHECK_FUNCS([__argz_count __argz_next __argz_stringify atexit basename bcopy fcntl floor getcwd localeconv localtime_r memmove mempcpy memset Mix_Init mkdir munmap nl_langinfo scandir setlocale sqrt stpcpy strcasecmp strchr strcspn strdup strncasecmp strndup strrchr strstr strtoul])
 
 
 # Set the 
