@@ -7,9 +7,13 @@ echo "Cleaning build directory:"
 ./cross-make.sh distclean>/dev/null
 echo "Running autoreconf --install .."
 autoreconf --install ..
+<<<<<<< HEAD
+./cross-configure.sh --host=i686-pc-mingw32
+=======
 echo "Running ./cross-configure.sh --host=i686-pc-mingw32"
 ./cross-configure.sh --host=i686-pc-mingw32 
 echo "Running ./cross-make.sh"
+>>>>>>> mingw-cross-env
 ./cross-make.sh
 echo "Running ./cross-make.sh dist (to generate gmo files)"
 ./cross-make.sh dist
