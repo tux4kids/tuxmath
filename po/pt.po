@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-02-07 11:28-0600\n"
+"POT-Creation-Date: 2010-05-07 17:05-0500\n"
 "PO-Revision-Date: 2009-10-14 16:04+0100\n"
 "Last-Translator: Pedro Amorim <pedro_amorim@live.com.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -167,7 +167,8 @@ msgid "TUX, OF MATH COMMAND"
 msgstr "TUX, COMANDO DA MATEMÁTICA"
 
 #: src/credits.c:36
-msgid "COPYRIGHT 2001-2009"
+#, fuzzy
+msgid "COPYRIGHT 2001-2010"
 msgstr "DIREITOS DE AUTOR 2001-2009"
 
 #: src/credits.c:38
@@ -186,39 +187,44 @@ msgstr "PROGRAMADORES LÍDERES"
 msgid "ADDITIONAL CODE"
 msgstr "CÓDIGO ADICIONAL"
 
-#: src/credits.c:61
+#: src/credits.c:63
 msgid "LEAD ARTIST"
 msgstr "ARTISTA LÍDER"
 
-#: src/credits.c:64
+#: src/credits.c:66
 msgid "ADDITIONAL ART"
 msgstr "ARTE ADICIONAL"
 
-#: src/credits.c:68
+#: src/credits.c:70
 msgid "SOUND EFFECTS"
 msgstr "EFEITOS DE SOM"
 
-#: src/credits.c:71
+#: src/credits.c:73
 msgid "MUSIC"
 msgstr "MUSICA"
 
-#: src/credits.c:81
+#: src/credits.c:83
 msgid "PACKAGERS"
 msgstr "EMPACOTADOR"
 
-#: src/credits.c:86
+#: src/credits.c:88
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr "'TUX' O PINGUIM CRIADO POR"
 
-#: src/credits.c:89
+#: src/credits.c:91
 msgid "TESTERS"
 msgstr "TESTADORES"
 
-#: src/credits.c:101
-msgid "WEBSITE"
+#: src/credits.c:103
+#, fuzzy
+msgid "USER WEBSITE"
 msgstr "WEBSITE"
 
-#: src/credits.c:104
+#: src/credits.c:106
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr ""
+
+#: src/credits.c:109
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
@@ -228,7 +234,7 @@ msgstr ""
 "Como tal, é-lhe concedido especificamente os direitos de que são geralmente "
 "negado aos usuários de software proprietário."
 
-#: src/credits.c:106
+#: src/credits.c:111
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
@@ -236,14 +242,14 @@ msgstr ""
 "Estes direitos incluem a liberdade de estudar, copiar, modificar e "
 "redistribuir o programa."
 
-#: src/credits.c:108
+#: src/credits.c:113
 #, fuzzy
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 "Uma cópia completa da GPL está incluída na documentação para este programa."
 
-#: src/credits.c:110
+#: src/credits.c:115
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Para mais informações sobre Software Livre e da GNU GPL, visite:"
 
