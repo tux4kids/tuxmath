@@ -56,9 +56,11 @@ install: build
 	# Add here commands to install the package into debian/tuxmath.
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp prefix=/usr bin_prefix=$(CURDIR)/debian/tuxmath/usr/games
 	mkdir -p $(CURDIR)/debian/tuxmath/usr/share/applications
-	cp $(CURDIR)/debian/tuxmath.desktop \
+	cp $(CURDIR)/tuxmath.desktop \
 		$(CURDIR)/debian/tuxmath/usr/share/applications/tuxmath.desktop
 	rm $(CURDIR)/debian/tmp/usr/share/tuxmath/fonts/AndikaDesRevG.ttf
+	mkdir -p $(CURDIR)/debian/tuxmath/usr/share/pixmaps/
+	mv $(CURDIR)/debian/tmp/usr/share/tuxmath/images/icons/tuxmath.svg $(CURDIR)/debian/tuxmath/usr/share/pixmaps/
 	rmdir $(CURDIR)/debian/tmp/usr/share/tuxmath/fonts
 
 # Build architecture-independent files here.

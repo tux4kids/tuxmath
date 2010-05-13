@@ -1,8 +1,16 @@
-tuxmath (1.7.2-2) UNRELEASED; urgency=low
+tuxmath (1.8.0-1) unstable; urgency=low
 
-  * Bump standards version to 3.8.2, no changes needed. 
+  * New upstream release, featuring scalable vector graphics and support
+    for multiplayer competition plus new translations to Asturian, Kurdish, 
+    Slovenian and Vietnamese.
+  * Add librsvg2-dev and libsdl-net1.2-dev to build-depends.
+  * Add ${misc:Depends} to depends.
+  * Use upstream SVG icon. (Closes: #531136)
+  * Use upstream .desktop file. (Closes: #531137)
+  * Bump standards version to 3.8.4, no changes needed.
+  * Provide source/format and set it to 1.0.
 
- -- Holger Levsen <holger@debian.org>  Tue, 04 Aug 2009 12:56:58 +0200
+ -- Holger Levsen <holger@debian.org>  Thu, 13 May 2010 10:57:27 +0200
 
 tuxmath (1.7.2-1) unstable; urgency=low
 

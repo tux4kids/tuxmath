@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=TuxMath
-Comment=Math Training Game
-Exec=tuxmath
-Icon=/usr/share/tuxmath/images/icons/icon.png
-Terminal=false
-Type=Application
-Categories=Game;KidsGame;
