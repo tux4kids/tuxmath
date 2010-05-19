@@ -1,3 +1,9 @@
+tuxmath (1.8.0-2) unstable; urgency=low
+
+  * Make debian menu use the .xpm icon. 
+
+ -- Holger Levsen <holger@debian.org>  Wed, 19 May 2010 14:07:08 +0200
+
 tuxmath (1.8.0-1) unstable; urgency=low
 
   * New upstream release, featuring scalable vector graphics and support
