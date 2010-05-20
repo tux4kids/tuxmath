@@ -6,6 +6,7 @@ find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
+find_package(SDL_Pango REQUIRED)
 find_package(SDL_gfx)
 find_package(SDL_net)
 
@@ -69,10 +70,17 @@ if (NOT BUILD_INTL)
 endif (NOT BUILD_INTL)
 check_include_file(${CMAKE_CURRENT_BINARY_DIR}/config.h HAVE_CONFIG_H)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
-if (SDLGFX_FOUND)
-   include_directories(${SDLGFX_INCLUDE_DIR})
-endif (SDLGFX_FOUND)
+include_directories(
+  ${CMAKE_CURRENT_BINARY_DIR} 
+  ${SDL_INCLUDE_DIR} 
+  ${SDLIMAGE_INCLUDE_DIR} 
+  ${SDLMIXER_INCLUDE_DIR} 
+  ${SDLTTF_INCLUDE_DIR} 
+  ${TUXMATH_EXTRA_INCLUDES} 
+  ${INTL_BINARY_DIR})
+if (SDLGFX_FOUND)  
+  include_directories(${SDLGFX_INCLUDE_DIR})
+endif(SDLGFX_FOUND)
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})

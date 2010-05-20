@@ -15,24 +15,24 @@ project(linebreak)
 
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 include(CheckFunctionExists)
+include(T4K_Sugar)
 
-# We require the iconv library to be available
-find_package(Iconv REQUIRED)
+# If not found, we use SDL_iconv instead
+find_package(Iconv)
 #message("Iconv const: ${ICONV_SECOND_ARGUMENT_IS_CONST}")
-add_definitions(-DHAVE_ICONV=1)
+set(HAVE_ICONV ${Iconv_FOUND})
+t4k_include_definition(HAVE_ICONV)
 
 # This can either be called in standalone mode, or as part of a larger
 # project.  For that reason, we need to examine whether certain settings
 # have been made before, or not.
-if (NOT CONFIGURECHECKSINTL_DONE)
-  include(ConfigureChecksIntl)
-endif ()
-if (NOT LINEBREAK_BINARY_DIR)
-  set(LINEBREAK_BINARY_DIR ${CMAKE_BINARY_DIR})
-endif ()
-if (NOT LINEBREAK_SOURCE_DIR)
-  set(LINEBREAK_SOURCE_DIR ${CMAKE_SOURCE_DIR})
-endif ()
+
+# Removed the conditional since ConfigureChecksIntl 
+# guards itself with INTL_CHECKS_DONE, is that okay? -BML
+include(ConfigureChecksIntl)
+
+t4k_gentle_set(LINEBREAK_BINARY_DIR ${CMAKE_BINARY_DIR})
+t4k_gentle_set(LINEBREAK_SOURCE_DIR ${CMAKE_SOURCE_DIR})
 
 # Generate the appropriate config.h file
 configure_file(linebreak_config.h.cmake ${LINEBREAK_BINARY_DIR}/config.h)
@@ -69,18 +69,16 @@ file(GLOB_RECURSE LINEBREAK_HEADERS ${LINEBREAK_SOURCE_DIR} *.h)
 
 file(GLOB_RECURSE LINEBREAK_SOURCES ${LINEBREAK_SOURCE_DIR} *.c)
 
-
-include_directories(${LINEBREAK_BINARY_DIR} ${LINEBREAK_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
-
-if(ICONV_FOUND)
+include_directories(
+  ${LINEBREAK_BINARY_DIR} 
+  ${LINEBREAK_SOURCE_DIR} 
+  ${CMAKE_CURRENT_BINARY_DIR})
+  
+if (ICONV_FOUND)
   include_directories(${ICONV_INCLUDE_DIR})
-endif(ICONV_FOUND)
-
-add_library(linebreak STATIC ${LINEBREAK_SOURCES} ${LINEBREAK_HEADERS})
-
-if(ICONV_FOUND)
   target_link_libraries(linebreak ${ICONV_LIBRARY})
-endif(ICONV_FOUND)
+endif (ICONV_FOUND)
+add_library(linebreak STATIC ${LINEBREAK_SOURCES} ${LINEBREAK_HEADERS})
 
 #project_source_group("${GROUP_CODE}" LINEBREAK_SOURCES LINEBREAK_HEADERS)
 
