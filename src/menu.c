@@ -75,7 +75,7 @@ const char* next_path = "status/right.svg";
 const char* prev_gray_path = "status/left_gray.svg";
 const char* next_gray_path = "status/right_gray.svg";
 const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5, button_radius = 0.27;
-const int min_font_size = 8, default_font_size = 20, max_font_size = 40;
+const int min_font_size = 8, default_font_size = 20, max_font_size = 33;
 
 /* font size used in current resolution */
 int curr_font_size;
@@ -110,6 +110,7 @@ int             run_menu(MenuNode* menu, bool return_choice);
 SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
 void            prerender_menu(MenuNode* menu);
 char*           find_longest_text(MenuNode* menu, int* length);
+void            set_menu_font_size(MenuNode* menu);
 void            set_font_size();
 void            prerender_all();
 
@@ -775,7 +776,7 @@ int run_menu(MenuNode* root, bool return_choice)
     {
       menu_title_rect = menu->submenu[0]->button_rect;
       menu_title_rect.y = menu_rect.y - menu_title_rect.h;
-      title_surf = BlackOutline(_(menu->title), curr_font_size, &red);
+      title_surf = BlackOutline(_(menu->title), menu->font_size, &red);
       SDL_BlitSurface(title_surf, NULL, screen, &menu_title_rect);
       SDL_FreeSurface(title_surf);
     }
@@ -1248,7 +1249,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
              _(menu->submenu[menu->first_entry + i]->title));
 
     tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
-                            curr_font_size, selected ? &yellow : &white);
+                            menu->font_size, selected ? &yellow : &white);
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &menu->submenu[menu->first_entry + i]->text_rect);
     SDL_FreeSurface(tmp_surf);
   }
@@ -1284,7 +1285,7 @@ void prerender_menu(MenuNode* menu)
     if(menu->submenu[i]->icon_name)
       found_icons = true;
     temp_surf = NULL;
-    temp_surf = SimpleText(_(menu->submenu[i]->title), curr_font_size, &black);
+    temp_surf = SimpleText(_(menu->submenu[i]->title), menu->font_size, &black);
     if(temp_surf)
     {
       max_text_h = max(max_text_h, temp_surf->h);
@@ -1360,29 +1361,27 @@ char* find_longest_text(MenuNode* menu, int* length)
   return ret;
 }
 
-/* find the longest text in all existing menus and binary search
-   for the best font size */
-void set_font_size()
+/* find the longest text in the specified menu and binary search for the best font size */
+void set_menu_font_size(MenuNode* menu)
 {
-  char* longest = NULL;
-  char* temp;
-  SDL_Surface* surf;
   int length = 0, i, min_f, max_f, mid_f;
+  char* longest=NULL;
+  SDL_Surface* text = NULL;
 
-  curr_font_size = default_font_size;
-
-  for(i = 0; i < N_OF_MENUS; i++)
+  for(i = 0; i < menu->submenu_size; i++)
   {
-    if(menus[i])
+    text = SimpleText(_(menu->submenu[i]->title), default_font_size, &black);
+    if(text->w > length)
     {
-      temp = find_longest_text(menus[i], &length);
-      if(temp)
-        longest = temp;
+      length = text->w;
+      longest=menu->submenu[i]->title;
     }
+    SDL_FreeSurface(text);
+
+    set_menu_font_size(menu->submenu[i]);
   }
 
-  if(!longest)
-    return;
+  if(!longest) return;
 
   min_f = min_font_size;
   max_f = max_font_size;
@@ -1390,15 +1389,30 @@ void set_font_size()
   while(min_f < max_f)
   {
     mid_f = (min_f + max_f) / 2;
-    surf = SimpleText(_(longest), mid_f, &black);
-    if(surf->w + (1.0 + 2.0 * text_w_gap) * (1.0 + 2.0 * text_h_gap) * surf->h < menu_rect.w)
+    text = SimpleText(_(longest), mid_f, &black);
+    if(text->w + (1.0 + 2.0 * text_w_gap) * (1.0 + 2.0 * text_h_gap) * text->h < menu_rect.w)
       min_f = mid_f + 1;
     else
       max_f = mid_f;
-    SDL_FreeSurface(surf);
+    SDL_FreeSurface(text);
   }
 
-  curr_font_size = min_f;
+  menu->font_size=min_f;
+}
+
+
+/* find longest texts in all existing menus separately */
+void set_font_size()
+{
+  int i;
+
+  for(i = 0; i < N_OF_MENUS; i++)
+  {
+    if(menus[i])
+    {
+      set_menu_font_size(menus[i]);
+    }
+  }
 }
 
 /* prerender arrows, stop button and all non-NULL menus from menus[] array
@@ -1520,7 +1534,7 @@ int RunLoginMenu(void)
 
   while (n_users) {
     // Get the user choice
-    set_font_size();
+    set_menu_font_size(menus[MENU_LOGIN]);
     prerender_menu(menus[MENU_LOGIN]);
     chosen_login = run_menu(menus[MENU_LOGIN], true);
     // Determine whether there were any modifier (CTRL) keys pressed
@@ -1612,7 +1626,7 @@ void RunMainMenu(void)
     tmp_node->submenu[i]->activity = i;
   }
   menus[MENU_LESSONS] = tmp_node;
-  set_font_size();
+  set_menu_font_size(menus[MENU_LESSONS]);
   prerender_menu(menus[MENU_LESSONS]);
   //prerender_all();
 
