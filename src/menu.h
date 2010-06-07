@@ -24,19 +24,23 @@
 /* number of "real" frames per one sprite frame */
 #define SPRITE_FRAME_DELAY         6
 
+#ifdef HAVE_LIBT4KCOMMON
+# include <t4kcommon.h>
+#else
+# define RUN_MAIN_MENU -3
+# define QUIT -2
+# define STOP -1
+#endif //HAVE_LIBT4KCOMMON
+
 /* these are all menu choices that are available in tuxmath.
    By using a define we can create both an enum and
    a string array without writing these names twice */
-#define QUIT -2
-#define STOP -1
-
 #define ACTIVITIES \
   X( RUN_QUIT ),\
   X( RUN_ACADEMY ),\
   X( RUN_CAMPAIGN ),\
   X( RUN_ARCADE ),\
   X( RUN_CUSTOM ),\
-  X( RUN_MAIN_MENU ),\
   X( RUN_LAN_HOST ),\
   X( RUN_LAN_JOIN ),\
   X( RUN_SCORE_SWEEP ),\
@@ -60,34 +64,6 @@
 enum { ACTIVITIES };
 #undef X
 
-struct mNode {
-  struct mNode* parent;
-
-  char* title;
-  int font_size;
-
-  char* icon_name;
-  sprite* icon;
-
-  SDL_Rect button_rect;
-  SDL_Rect icon_rect;
-  SDL_Rect text_rect;
-
-  /* submenu_size = 0 if no submenu */
-  int submenu_size;
-  struct mNode** submenu;
-
-  /* these fields are used only if submenu_size = 0 */
-  int activity;
-  int param;
-
-  /* these fields are used only if submenu_size > 0 */
-  bool show_title;
-  int entries_per_screen;
-  int first_entry;
-};
-
-typedef struct mNode MenuNode;
 
 /* used also by highscore.c */
 extern SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;

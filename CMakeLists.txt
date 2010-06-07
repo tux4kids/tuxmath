@@ -75,7 +75,7 @@ elseif (MINGW)
     set (TUXMATH_DATA_PREFIX "${CMAKE_SOURCE_DIR}/data")
   elseif (TUXMATH_BUILD_TYPE MATCHES relocatable)
     set (TUXMATH_DATA_PREFIX "./data")
-  else (TUXMATH_BUILD_TYPE MATCHES Debug) # assume installed
+  else (TUXMATH_BUILD_TYPE MATCHES Debug) # installed
     set (TUXMATH_DATA_PREFIX "$ENV{USERPROFILE}/Tux4Kids")
   endif(TUXMATH_BUILD_TYPE MATCHES Debug)
 endif (APPLE)
