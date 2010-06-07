@@ -71,6 +71,9 @@ extern SDL_Event  event;
 
 #define MUSIC_FADE_OUT_MS               80
 
+#ifdef HAVE_LIBT4KCOMMON
+# include <t4kcommon.h>
+#else
 enum {
     WIPE_BLINDS_VERT,
     WIPE_BLINDS_HORIZ,
@@ -79,6 +82,8 @@ enum {
 
     NUM_WIPES
 };
+#endif
+
 // End of code from tuxtype's globals.h
 
 /* --- timings for tux blinking --- */

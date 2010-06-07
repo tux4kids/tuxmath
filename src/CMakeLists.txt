@@ -9,12 +9,16 @@ find_package(SDL_mixer REQUIRED)
 find_package(SDL_Pango REQUIRED)
 find_package(SDL_gfx)
 find_package(SDL_net)
+find_package(Tux4Kids-common)
 
 if (NOT SDLGFX_FOUND)
   message("Adding rotozoom")
   set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
 endif (NOT SDLGFX_FOUND)
 
+if (T4KCOMMON_FOUND)
+  set(HAVE_LIBT4KCOMMON 1)
+endif(T4KCOMMON_FOUND)
 
 ## Define the source files used for each executable
 # tuxmath
@@ -150,6 +154,10 @@ if (SDLGFX_FOUND)
    ${SDLGFX_LIBRARY}
    )
 endif (SDLGFX_FOUND)
+
+if (T4KCOMMON_FOUND)
+  target_link_libraries(tuxmath ${T4KCOMMON_LIBRARY})
+endif ()
 
 if (APPLE)
   # The following seems to be needed to compile under 10.5

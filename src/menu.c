@@ -53,6 +53,33 @@ typedef enum {
   N_OF_MENUS
 } MenuType;
 
+typedef struct mNode {
+  struct mNode* parent;
+
+  char* title;
+  int font_size;
+
+  char* icon_name;
+  sprite* icon;
+
+  SDL_Rect button_rect;
+  SDL_Rect icon_rect;
+  SDL_Rect text_rect;
+
+  /* submenu_size = 0 if no submenu */
+  int submenu_size;
+  struct mNode** submenu;
+
+  /* these fields are used only if submenu_size = 0 */
+  int activity;
+  int param;
+
+  /* these fields are used only if submenu_size > 0 */
+  bool show_title;
+  int entries_per_screen;
+  int first_entry;
+} MenuNode;
+
 MenuNode* menus[N_OF_MENUS];
 
 /* actions available while viewing the menu */
@@ -168,9 +195,13 @@ void read_attributes(FILE* xml_file, MenuNode* node)
       node->icon_name = strdup(attr_val);
     else if(strcmp(attr_name, "run") == 0)
     {
-      for(i = 0; i < N_OF_ACTIVITIES; i++)
-        if(strcmp(attr_val, activities[i]) == 0)
-          node->activity = i;
+      /* special activity - needs to be handled separately */
+      if(strcmp(attr_val, "RUN_MAIN_MENU") == 0)
+        node->activity = RUN_MAIN_MENU;
+      else
+        for(i = 0; i < N_OF_ACTIVITIES; i++)
+          if(strcmp(attr_val, activities[i]) == 0)
+            node->activity = i;
     }
     else
       DEBUGMSG(debug_menu_parser, "read_attributes(): unknown attribute %s , omitting\n", attr_name);
