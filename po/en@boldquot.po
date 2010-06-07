@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-05-07 17:05-0500\n"
-"PO-Revision-Date: 2010-05-07 17:05-0500\n"
+"POT-Creation-Date: 2010-06-07 10:15-0500\n"
+"PO-Revision-Date: 2010-06-07 10:15-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -441,118 +441,118 @@ msgstr "You Are In The Hall of Fame!"
 msgid "Enter Your Name:"
 msgstr "Enter Your Name:"
 
-#: src/menu.c:375
+#: src/menu.c:376
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath is free and open-source!"
 
-#: src/menu.c:376
+#: src/menu.c:377
 msgid "You can help make it better."
 msgstr "You can help make it better."
 
-#: src/menu.c:377
+#: src/menu.c:378
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr "Suggestions, artwork, and code are all welcome!"
 
-#: src/menu.c:378
+#: src/menu.c:379
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:499
+#: src/menu.c:500
 msgid "Edit 'options' file in your home directory"
 msgstr "Edit ‘[1moptions[0m’ file in your home directory"
 
-#: src/menu.c:500
+#: src/menu.c:501
 msgid "to create customized game!"
 msgstr "to create customized game!"
 
-#: src/menu.c:501
+#: src/menu.c:502
 msgid "Press a key or click your mouse to start game."
 msgstr "Press a key or click your mouse to start game."
 
-#: src/menu.c:502
+#: src/menu.c:503
 msgid "See README.txt for more information"
 msgstr "See README.txt for more information"
 
-#: src/menu.c:526
+#: src/menu.c:527
 msgid "How many kids are playing?"
 msgstr "How many kids are playing?"
 
-#: src/menu.c:527
+#: src/menu.c:528
 msgid "(Between 2 and 4 players)"
 msgstr "(Between 2 and 4 players)"
 
-#: src/menu.c:589
+#: src/menu.c:590
 msgid "The server is already running"
 msgstr "The server is already running"
 
-#: src/menu.c:594
+#: src/menu.c:595
 msgid "Enter Server Name:"
 msgstr "Enter Server Name:"
 
-#: src/menu.c:594
+#: src/menu.c:595
 msgid "(limit 50 characters)"
 msgstr "(limit 50 characters)"
 
-#: src/menu.c:608
+#: src/menu.c:609
 msgid "Click or press key to select server lesson file"
 msgstr "Click or press key to select server lesson file"
 
-#: src/menu.c:637
+#: src/menu.c:638
 msgid "Server Name:"
 msgstr "Server Name:"
 
-#: src/menu.c:639
+#: src/menu.c:640
 msgid "Selected Lesson:"
 msgstr "Selected Lesson:"
 
-#: src/menu.c:654 src/menu.c:701
+#: src/menu.c:655 src/menu.c:702
 msgid "Sorry, this version built without network support"
 msgstr "Sorry, this version built without network support"
 
-#: src/menu.c:655 src/menu.c:702
+#: src/menu.c:656 src/menu.c:703
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Sorry, this version built without network support.\n"
 
-#: src/menu.c:665
+#: src/menu.c:666
 msgid "Detecting servers"
 msgstr "Detecting servers"
 
-#: src/menu.c:665
+#: src/menu.c:666
 msgid "Please wait"
 msgstr "Please wait"
 
-#: src/menu.c:671
+#: src/menu.c:672
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Connected to server: %s"
 
-#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
+#: src/menu.c:673 src/multiplayer.c:258 src/multiplayer.c:260
 msgid "Enter your name:"
 msgstr "Enter your name:"
 
-#: src/menu.c:674
+#: src/menu.c:675
 msgid "Click when ready"
 msgstr "Click when ready"
 
-#: src/menu.c:676
+#: src/menu.c:677
 msgid "Waiting for other players"
 msgstr "Waiting for other players"
 
-#: src/menu.c:689
+#: src/menu.c:690
 msgid "Sorry, game already in progress."
 msgstr "Sorry, game already in progress."
 
-#: src/menu.c:690
+#: src/menu.c:691
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Sorry, game already in progress.\n"
 
-#: src/menu.c:696
+#: src/menu.c:697
 msgid "Sorry, no server could be found."
 msgstr "Sorry, no server could be found."
 
-#: src/menu.c:697
+#: src/menu.c:698
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr "Sorry, no server could be found.\n"

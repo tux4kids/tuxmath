@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-05-07 17:05-0500\n"
+"POT-Creation-Date: 2010-06-07 10:15-0500\n"
 "PO-Revision-Date: 2009-04-16 18:58+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -421,123 +421,123 @@ msgstr "Du fekk ein ny rekord!"
 msgid "Enter Your Name:"
 msgstr "Skriv inn namnet ditt:"
 
-#: src/menu.c:375
+#: src/menu.c:376
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath er fri programvare!"
 
-#: src/menu.c:376
+#: src/menu.c:377
 #, fuzzy
 msgid "You can help make it better."
 msgstr "Du kan vera med på å gjera spelet betre, ved å melda frå"
 
-#: src/menu.c:377
+#: src/menu.c:378
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr ""
 
-#: src/menu.c:378
+#: src/menu.c:379
 #, fuzzy
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Diskuter framtida på tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:499
+#: src/menu.c:500
 msgid "Edit 'options' file in your home directory"
 msgstr "Rediger «options»-fila i heimemappa di"
 
-#: src/menu.c:500
+#: src/menu.c:501
 msgid "to create customized game!"
 msgstr "for å laga ditt eige spel."
 
-#: src/menu.c:501
+#: src/menu.c:502
 msgid "Press a key or click your mouse to start game."
 msgstr "Trykk ein tast eller med musa for å starta spelet."
 
-#: src/menu.c:502
+#: src/menu.c:503
 msgid "See README.txt for more information"
 msgstr "Sjå «README.txt» for meir informasjon."
 
-#: src/menu.c:526
+#: src/menu.c:527
 msgid "How many kids are playing?"
 msgstr "Kor mange spelar?"
 
-#: src/menu.c:527
+#: src/menu.c:528
 msgid "(Between 2 and 4 players)"
 msgstr "(2 til 4 spelarar)"
 
-#: src/menu.c:589
+#: src/menu.c:590
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:594
+#: src/menu.c:595
 #, fuzzy
 msgid "Enter Server Name:"
 msgstr "Skriv inn namnet ditt:"
 
-#: src/menu.c:594
+#: src/menu.c:595
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:608
+#: src/menu.c:609
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:637
+#: src/menu.c:638
 #, fuzzy
 msgid "Server Name:"
 msgstr "Skriv inn namnet ditt:"
 
-#: src/menu.c:639
+#: src/menu.c:640
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:654 src/menu.c:701
+#: src/menu.c:655 src/menu.c:702
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:655 src/menu.c:702
+#: src/menu.c:656 src/menu.c:703
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:665
+#: src/menu.c:666
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:665
+#: src/menu.c:666
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:671
+#: src/menu.c:672
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
+#: src/menu.c:673 src/multiplayer.c:258 src/multiplayer.c:260
 msgid "Enter your name:"
 msgstr "Skriv inn namnet ditt:"
 
-#: src/menu.c:674
+#: src/menu.c:675
 #, fuzzy
 msgid "Click when ready"
 msgstr "(Trykk ein tast når du er klar.)"
 
-#: src/menu.c:676
+#: src/menu.c:677
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:689
+#: src/menu.c:690
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:690
+#: src/menu.c:691
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:696
+#: src/menu.c:697
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:697
+#: src/menu.c:698
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr ""
