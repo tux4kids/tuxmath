@@ -291,13 +291,12 @@ fi
 
 
 
-dnl Use of libt4kcommon is disabled for now by default 
-dnl but can be enabled at configure time for testing and development.
+dnl Use of libt4kcommon is now enabled by default in this branch: 
 
 AC_ARG_WITH([libt4kcommon],
-            [AS_HELP_STRING([--with-libt4kcommon],[use libtk4common if available])],
-            [with_libt4kcommon=yes],
-            [with_libt4kcommon=no])
+	    [AS_HELP_STRING([--without-libt4kcommon],[do not use libtk4common even if available])],
+            [with_libt4kcommon=no],
+            [with_libt4kcommon=yes])
 
 if test "x$with_libt4kcommon" != xno; then
 AC_CHECK_LIB([t4kcommon],
