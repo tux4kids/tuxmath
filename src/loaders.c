@@ -32,6 +32,9 @@
 #include<librsvg/rsvg-cairo.h>
 #endif
 
+#include <png.h>
+#include "pixels.h"
+
 /* local functions */
 int             check_file(const char* file);
 
@@ -47,6 +50,8 @@ void            fit_in_rectangle(int* width, int* height, int max_width, int max
 SDL_Surface*    set_format(SDL_Surface* img, int mode);
 sprite*         load_sprite(const char* name, int mode, int w, int h, bool proportional);
 
+static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf);
+static void savePNG(SDL_Surface* surf,char* fn);
 
 
 /* check to see if file exists, if so return true */
@@ -499,6 +504,7 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
   sprite *new_sprite = NULL;
   char fn[PATH_MAX];
   int i, width, height;
+  char pngfn[PATH_MAX];
 
 #ifdef HAVE_RSVG
   /* check if SVG sprite file is present */
@@ -517,14 +523,49 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
       height = h;
     }
 
-    new_sprite = load_svg_sprite(fn, width, height);
+    /* check if cached PNG version exists */
+    sprintf(pngfn, "%s/images/%sd-%d-%d-cache.png", DATA_PREFIX, name, width, height);
+    if(check_file(pngfn)==1)
+    {
+      new_sprite=(sprite*)malloc(sizeof(sprite));
+      new_sprite->default_img=IMG_Load(pngfn);
+      i=0;
+      while(1)
+      {
+        sprintf(pngfn, "%s/images/%s%d-%d-%d-cache.png", DATA_PREFIX, name, i, width, height);
+        if(check_file(pngfn)==1)
+        {
+          new_sprite->frame[i]=IMG_Load(pngfn);
+          i++;
+        }
+        else break;
+      }
+      new_sprite->num_frames=i;
+    }
+    else
+    {
+      new_sprite = load_svg_sprite(fn, width, height);
+    }
 
     if(new_sprite)
     {
       set_format(new_sprite->default_img, mode);
       for(i = 0; i < new_sprite->num_frames; i++)
         set_format(new_sprite->frame[i], mode);
-      new_sprite->cur = 0;
+      new_sprite->cur = 0;   
+
+      /* cache loaded sprites in PNG files */
+      sprintf(pngfn, "%s/images/%sd-%d-%d-cache.png", DATA_PREFIX, name, width, height);
+      if(check_file(pngfn)!=1) 
+        savePNG(new_sprite->default_img,pngfn);
+      for(i=0; i<new_sprite->num_frames; i++)
+      {
+        sprintf(pngfn, "%s/images/%s%d-%d-%d-cache.png", DATA_PREFIX, name, i, width, height);
+        if(check_file(pngfn)!=1) 
+          savePNG(new_sprite->frame[i],pngfn);
+      }
+
+     
     }
   }
 #endif
@@ -653,4 +694,139 @@ Mix_Music* LoadMusic(char *datafile )
   }
   return tempMusic;
 }
+
+static void savePNG(SDL_Surface* surf,char* fn)
+{
+  FILE* fi = fopen(fn, "wb");
+  do_png_save(fi,fn,surf);
+}
+
+/* The following functions are taken from Tuxpaint with minor changes */
+
+/* Actually save the PNG data to the file stream: */
+static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf)
+{
+  png_structp png_ptr;
+  png_infop info_ptr;
+  png_text text_ptr[4];
+  unsigned char **png_rows;
+  Uint8 r, g, b, a;
+  int x, y, count;
+  Uint32(*getpixel) (SDL_Surface *, int, int) =
+    getpixels[surf->format->BytesPerPixel];
+
+
+  png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (png_ptr == NULL)
+  {
+    fclose(fi);
+    png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
+
+    fprintf(stderr, "\nError: Couldn't save the image!\n%s\n\n", fname);
+    //draw_tux_text(TUX_OOPS, strerror(errno), 0);
+  }
+  else
+  {
+    info_ptr = png_create_info_struct(png_ptr);
+    if (info_ptr == NULL)
+    {
+      fclose(fi);
+      png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
+
+      fprintf(stderr, "\nError: Couldn't save the image!\n%s\n\n", fname);
+      //draw_tux_text(TUX_OOPS, strerror(errno), 0);
+    }
+    else
+    {
+      if (setjmp(png_jmpbuf(png_ptr)))
+      {
+	fclose(fi);
+	png_destroy_write_struct(&png_ptr, (png_infopp) NULL);
+
+	fprintf(stderr, "\nError: Couldn't save the image!\n%s\n\n", fname);
+	//draw_tux_text(TUX_OOPS, strerror(errno), 0);
+
+	return 0;
+      }
+      else
+      {
+	png_init_io(png_ptr, fi);
+
+	info_ptr->width = surf->w;
+	info_ptr->height = surf->h;
+	info_ptr->bit_depth = 8;
+	info_ptr->color_type = PNG_COLOR_TYPE_RGB_ALPHA;
+	info_ptr->interlace_type = 1;
+	info_ptr->valid = 0;	/* will be updated by various png_set_FOO() functions */
+
+	png_set_sRGB_gAMA_and_cHRM(png_ptr, info_ptr,
+				   PNG_sRGB_INTENT_PERCEPTUAL);
+
+	/* Set headers */
+
+	count = 0;
+
+	/*
+	   if (title != NULL && strlen(title) > 0)
+	   {
+	   text_ptr[count].key = "Title";
+	   text_ptr[count].text = title;
+	   text_ptr[count].compression = PNG_TEXT_COMPRESSION_NONE;
+	   count++;
+	   }
+	 */
+
+	text_ptr[count].key = (png_charp) "Software";
+	text_ptr[count].text =
+	  (png_charp) "Tux Paint " /*VER_VERSION " (" VER_DATE ")"*/;
+	text_ptr[count].compression = PNG_TEXT_COMPRESSION_NONE;
+	count++;
+
+
+	png_set_text(png_ptr, info_ptr, text_ptr, count);
+
+	png_write_info(png_ptr, info_ptr);
+
+
+
+	/* Save the picture: */
+
+	png_rows = malloc(sizeof(char *) * surf->h);
+
+	for (y = 0; y < surf->h; y++)
+	{
+	  png_rows[y] = malloc(sizeof(char) * 4 * surf->w);
+
+	  for (x = 0; x < surf->w; x++)
+	  {
+	    SDL_GetRGBA(getpixel(surf, x, y), surf->format, &r, &g, &b, &a);
+
+	    png_rows[y][x * 4 + 0] = r;
+	    png_rows[y][x * 4 + 1] = g;
+	    png_rows[y][x * 4 + 2] = b;
+            png_rows[y][x * 4 + 3] = a;
+	  }
+	}
+
+	png_write_image(png_ptr, png_rows);
+
+	for (y = 0; y < surf->h; y++)
+	  free(png_rows[y]);
+
+	free(png_rows);
+
+
+	png_write_end(png_ptr, NULL);
+
+	png_destroy_write_struct(&png_ptr, &info_ptr);
+	fclose(fi);
+
+	return 1;
+      }
+    }
+  }
+
+  return 0;
+}
+
 
