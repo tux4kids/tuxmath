@@ -1,0 +1,883 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2010-06-07 10:15-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Batkhuu.I <batkhu0014@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/campaign.c:30
+msgid "Congratulations! You win!"
+msgstr "Баяр хүргье! Та яллаа!"
+
+#: src/campaign.c:48
+msgid "Round"
+msgstr "Үе"
+
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+msgid "-[Esc] to skip"
+msgstr "орхиход -[Esc] "
+
+#: src/campaign.c:116
+msgid "Mission One: Careful Cadet"
+msgstr "Даалгавар нэг: Хянуур сонсогч"
+
+#: src/campaign.c:118
+msgid "I'm so glad you've come!"
+msgstr "Чамайг ирсэнд баяртай байна!"
+
+#: src/campaign.c:120
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"Оцон шувуудад таны тусламж хэрэгтэй! Солирууд огторгуйгаас унахдаа оцон "
+"шувуудын мөсөн гэрүүдийг нурааж хайлуулдаг. Даалгаврын хариуг зөв "
+"хариулсанаар мөсөн гэрүүдийг хамгаалдаг."
+
+#: src/campaign.c:122
+msgid "Do your best!"
+msgstr "Таны хамгийн сайн ажил!"
+
+#: src/campaign.c:128
+msgid "Mission Two: Smart Scout"
+msgstr "Даалгавар хоёр: Ухаалаг тагнуул"
+
+#: src/campaign.c:130
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"Аугаа ажил! Та оцон шувуудын мөсөн гэрийг хамгаалсанаар таныг тагнуулч "
+"болгон дэвшүүлж байна."
+
+#: src/campaign.c:132
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+"Тагнуулч. Тагнуулууд нь яг одоогийн тохиолдол шиг саад бэрхшээлээс "
+"хамгаалахдаа сайн. Оцон шувууд руу амаргүй солируудыг илгээж байна."
+
+#: src/campaign.c:133
+msgid "But you can save them!"
+msgstr "Гэвч та тэднийг хамгаалж чадна!"
+
+#: src/campaign.c:139
+msgid "Mission Three: Royal Ranger"
+msgstr "Даалгавар: Аугаа хамгаалагч"
+
+#: src/campaign.c:141
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"Та дахин гүйцэтгэсэн байна! Оцон шувуудын эзэн хотоо хамгаалахад туслах "
+"хамгаалагчдын багийг таньтай нэгдүүлэхээр сонгосон байна."
+
+#: src/campaign.c:143
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"одоо солируудын шинэ төрлийн дайрлат эхэллээ. Бэрхшээлүүд нь үржих үйлдэл "
+"байна. Та эдгээрийг давахын тулд сайн чадвар гаргах хэрэгтэй. Бидний бодлоор "
+"та хийж чадна. Мөсөн гэрийн хотыг хамгаалахад туслах хамгаалагчтай нэгдэх!"
+
+#: src/campaign.c:149
+msgid "Mission Four: Imperial Ace"
+msgstr "Даалгавар дөрөв: Гайхалтай нисгэгч"
+
+#: src/campaign.c:151
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr "Та хийж чадлаа! Таньд талархал илэрхийлье."
+
+#: src/campaign.c:153
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr "Гэвч хуваах үйлдэлт жижиг гаригууд хөөрч агаар мандлаас дайрах болно!"
+
+#: src/campaign.c:154
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Одоо амрах цаггүйгээр таны тусламж хэрэгтэй байна."
+
+#: src/campaign.c:160
+msgid "Final Mission: Computing Commando"
+msgstr "Сүүлчийн даалгавар: Компьютерчин дайчин"
+
+#: src/campaign.c:162
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"Оцон шувуу огторгуйн баазаас ирэх даалгаваруудыг судалж, суралцсан байна.Та "
+"эцсийн дулаанд тэмцэлдэнэ.Тэд мөн таньд эдгээр нууцыг тайлах түлхүүрийг "
+"өгнө. Нэгдүгээрт үржих ба хуваах үйлдэл хийх, тэгээд нэмэх хасах үйлдлүүдийг "
+"хийнэ."
+
+#: src/campaign.c:163
+msgid "I hope that hint helps!"
+msgstr "Зөвлгөө тусламжуудад итгэж байна!"
+
+#: src/campaign.c:165
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Та эдгээр дайралтуудыг зогсоож чадна!"
+
+#: src/campaign.c:229
+msgid "Sorry, try again!"
+msgstr "Уучилаарай, дахин туршина уу!"
+
+#: src/campaign.c:236
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Даалгавар сайн гүйцэтгэсэнээр солирын аюулгүй байдлыг хангаж байна."
+
+#: src/credits.c:35
+msgid "TUX, OF MATH COMMAND"
+msgstr "МАТЕМАТИК ҮЙЛДЛИЙН ТАКС"
+
+#: src/credits.c:36
+#, fuzzy
+msgid "COPYRIGHT 2001-2010"
+msgstr "ЗОХИОГЧИЙН ЭРХ 2001-2009"
+
+#: src/credits.c:38
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "'TUX4KIDS' ТӨСЛИЙН ХЭСЭГ"
+
+#: src/credits.c:41
+msgid "DESIGNED BY"
+msgstr "ЭЭР ЗАГВАРЧЛАГДСАН"
+
+#: src/credits.c:44
+msgid "LEAD PROGRAMMERS"
+msgstr "ТЭРГҮҮН ПРОГРАМЧИД"
+
+#: src/credits.c:50
+msgid "ADDITIONAL CODE"
+msgstr "НЭМЭЛТ КОД"
+
+#: src/credits.c:63
+msgid "LEAD ARTIST"
+msgstr "АХЛАХ ЗУРААЧ"
+
+#: src/credits.c:66
+msgid "ADDITIONAL ART"
+msgstr "НЭМЭЛТ ЧИМЭГЛЭЛ"
+
+#: src/credits.c:70
+msgid "SOUND EFFECTS"
+msgstr "ДУУ ЧИМЭЭНИЙ НӨЛӨӨ"
+
+#: src/credits.c:73
+msgid "MUSIC"
+msgstr "ХӨГЖИМ"
+
+#: src/credits.c:83
+msgid "PACKAGERS"
+msgstr "БАГЦЛАГЧИД"
+
+#: src/credits.c:88
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "ОЦОН ШУВУУ БҮТЭЭСЭН 'ТАКС'"
+
+#: src/credits.c:91
+msgid "TESTERS"
+msgstr "ШАЛГАГЧИД"
+
+#: src/credits.c:103
+#, fuzzy
+msgid "USER WEBSITE"
+msgstr "ВЭБ ХУУДАС"
+
+#: src/credits.c:106
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr ""
+
+#: src/credits.c:109
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr "ТаксМат нь ГНУ-ийн үнэгүй програм хангамжийн лицензтэй."
+
+#: src/credits.c:111
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"Дээрх мэдэл нь суралцах, хуулбарлах, өөрчлөх мөн програмыг дахин хуваарилах "
+"эрхийг олгодог."
+
+#: src/credits.c:113
+#, fuzzy
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr ""
+"ЖПЛ-ийн бүрэн хуулбарт энэн програмд зориулсан бичиг баримтууд багтсан байна."
+
+#: src/credits.c:115
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr ""
+"ГНУ ЖПЛ-д зочилсоноор үнэгүй програм хангамжийн тухай илүү мэдээллийг авч "
+"болно."
+
+#: src/factoroids.c:553
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr "САНСАРЫН БИЕТ: Бүх жижиг гаргийг устгасанаар та хожих болно."
+
+#: src/factoroids.c:554 src/factoroids.c:565
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr ""
+"Хөлгийн урагш явах болон чиглүүлэн эргүүлэхдээ сумтай товчлууруудыг "
+"хэрэглэнэ."
+
+#: src/factoroids.c:555
+msgid "type one of its factors, and press space or return"
+msgstr "Үржүүлэгч болгох хариуг бичээд урт товчлуур товшино."
+
+#: src/factoroids.c:556
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr "Жижиг гаригууд хуваагдахгүй тоонуудтай бол устгагдана!"
+
+#: src/factoroids.c:564
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr ""
+"БУТАРХАЙ: Бутархайг хялбарчлан хуваах тоог бичиж урт болон буцах товчлуур "
+"товшиж,"
+
+#: src/factoroids.c:566
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr "бүх жижиг гаригуудыг устгаснаар та ялна."
+
+#: src/factoroids.c:567
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr "Бутархайнуудыг дахин хуваагдахгүйгээр ганц буудалтаар сөнөө!"
+
+#: src/game.c:1091
+msgid "Welcome to TuxMath!"
+msgstr "ТаксМат-д тавтай морилно уу!"
+
+#: src/game.c:1108
+msgid "Your mission is to save your"
+msgstr "Таны даалгавар оцон шувуудын"
+
+#: src/game.c:1109
+msgid "penguins' igloos from the"
+msgstr "мөсөн гэр дээр солир унахаас"
+
+#: src/game.c:1110
+msgid "falling comets."
+msgstr "хамгаалахад оршино."
+
+#: src/game.c:1129
+msgid "Stop a comet by typing"
+msgstr "Математик асуултанд зөв хариулан бичиж, ENTER  ба ESPACE товшиж,"
+
+#: src/game.c:1130
+msgid "the answer to the math problem"
+msgstr ""
+
+#: src/game.c:1131
+msgid "and hitting 'space' or 'enter'."
+msgstr "оносоноор солир устана."
+
+#: src/game.c:1132
+msgid "Try it now!"
+msgstr "Дахин хий!"
+
+#: src/game.c:1140
+msgid "Good shot!"
+msgstr "Сайн буудлаа!"
+
+#: src/game.c:1150
+msgid "If an igloo gets hit by a comet,"
+msgstr "Хэрэв солирт мөсөн гэр оногдвол хайлдаг."
+
+#: src/game.c:1151
+msgid "it melts. But don't worry: the"
+msgstr "Гэвч санаа зоволтгүй: Оцон шувуу нь зүгээр!"
+
+#: src/game.c:1152
+msgid "penguin is OK!"
+msgstr "Мөсөн гэр солирт оногдвол"
+
+#: src/game.c:1153
+msgid "Just watch what happens:"
+msgstr "яг юу тохиолдохыг үзье:"
+
+#: src/game.c:1154
+msgid "(Press a key to start)"
+msgstr "(Эхлэхдээ товчлуур товш.)"
+
+#: src/game.c:1167
+msgid "Notice the answer"
+msgstr "Зөв хариулт үзэгдэнэ."
+
+#: src/game.c:1177
+msgid "If it gets hit again, the"
+msgstr "Хэрэв мөсөн гэрийг дахин оновол"
+
+#: src/game.c:1178
+msgid "penguin leaves."
+msgstr "оцон шувууд яваад өгнө."
+
+#: src/game.c:1179
+msgid "(Press a key when ready)"
+msgstr "(Бэлэн бол ямар нэгэн товчлуур товш.)"
+
+#: src/game.c:1202
+msgid "You can fix the igloos"
+msgstr "Улаан солирийг устгасанаар"
+
+#: src/game.c:1203
+msgid "by stopping bonus comets."
+msgstr "хайлсан гэрүүдийг засварлаж болно."
+
+#: src/game.c:1214
+msgid "Zap it now!"
+msgstr "Зөв хариуг бичиж, ENTER товш!"
+
+#: src/game.c:1220
+msgid "Great job!"
+msgstr "Зөв ажиллаа!"
+
+#: src/game.c:1238
+msgid "Quit at any time by pressing"
+msgstr "ESC товчлуур эсвэл"
+
+#: src/game.c:1239
+msgid "'Esc' or clicking the 'X'"
+msgstr "баруун дээд хэсэгт байх чагтыг"
+
+#: src/game.c:1240
+msgid "in the upper right corner."
+msgstr "товшсоноор гарна."
+
+#: src/game.c:1241
+msgid "Do it now, and then play!"
+msgstr "Одоо товшин цааш нь тогло!"
+
+#: src/highscore.c:168 data/menus/menu_strings:9
+msgid "Hall Of Fame"
+msgstr "Алдрын танхим"
+
+#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
+msgid "Space Cadet"
+msgstr "Сансрын сонсогч"
+
+#: src/highscore.c:191 data/menus/menu_strings:26
+msgid "Scout"
+msgstr "Тагнуулч"
+
+#: src/highscore.c:194 data/menus/menu_strings:23
+msgid "Ranger"
+msgstr "Хамгаалагч"
+
+#: src/highscore.c:197 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "Нисгэгч"
+
+#: src/highscore.c:200 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "Дессантын цэрэг"
+
+#: src/highscore.c:203 data/menus/menu_strings:7
+msgid "Factors"
+msgstr "Үржигдхүүн болгон задлах"
+
+#: src/highscore.c:206 data/menus/menu_strings:8
+msgid "Fractions"
+msgstr "Бутархай тоонууд"
+
+#: src/highscore.c:287
+msgid "You Are In The Hall of Fame!"
+msgstr "Та алдрын танхимд байна."
+
+#: src/highscore.c:287
+msgid "Enter Your Name:"
+msgstr "Нэрээ оруулна уу:"
+
+#: src/menu.c:376
+msgid "TuxMath is free and open-source!"
+msgstr "ТаксМат нь үнэгүй нээлттэй эхтэй!"
+
+#: src/menu.c:377
+#, fuzzy
+msgid "You can help make it better."
+msgstr "Илүү сайн байхаар бэрхшээлийн асуудлыг шийдвэрлэхэд туслана,"
+
+#: src/menu.c:378
+msgid "Suggestions, artwork, and code are all welcome!"
+msgstr ""
+
+#: src/menu.c:379
+#, fuzzy
+msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgstr "хөгжүүлэгчидтэй lists.sourceforge.net-д зөвлөмжлөнө. "
+
+#: src/menu.c:500
+msgid "Edit 'options' file in your home directory"
+msgstr "Үндсэн удирдлагаар сонгогдсан тоглоом"
+
+#: src/menu.c:501
+msgid "to create customized game!"
+msgstr "үүсгэ!"
+
+#: src/menu.c:502
+msgid "Press a key or click your mouse to start game."
+msgstr "Тоглоом эхлүүлэхдээ хулгана эсвэл товчлуур товш."
+
+#: src/menu.c:503
+msgid "See README.txt for more information"
+msgstr "Зарим мэдээллийг README.txt-ээс үзнэ үү."
+
+#: src/menu.c:527
+msgid "How many kids are playing?"
+msgstr "Хэдэн хүүхэд тоглох вэ?"
+
+#: src/menu.c:528
+msgid "(Between 2 and 4 players)"
+msgstr "2 болон 4 тоглогчийн хооронд"
+
+#: src/menu.c:590
+msgid "The server is already running"
+msgstr ""
+
+#: src/menu.c:595
+#, fuzzy
+msgid "Enter Server Name:"
+msgstr "Нэрээ оруулна уу:"
+
+#: src/menu.c:595
+msgid "(limit 50 characters)"
+msgstr ""
+
+#: src/menu.c:609
+msgid "Click or press key to select server lesson file"
+msgstr ""
+
+#: src/menu.c:638
+#, fuzzy
+msgid "Server Name:"
+msgstr "Нэрээ оруулна уу:"
+
+#: src/menu.c:640
+msgid "Selected Lesson:"
+msgstr ""
+
+#: src/menu.c:655 src/menu.c:702
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/menu.c:656 src/menu.c:703
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
+#: src/menu.c:666
+msgid "Detecting servers"
+msgstr ""
+
+#: src/menu.c:666
+msgid "Please wait"
+msgstr ""
+
+#: src/menu.c:672
+#, c-format
+msgid "Connected to server: %s"
+msgstr ""
+
+#: src/menu.c:673 src/multiplayer.c:258 src/multiplayer.c:260
+msgid "Enter your name:"
+msgstr "Нэрээ оруулна уу:"
+
+#: src/menu.c:675
+#, fuzzy
+msgid "Click when ready"
+msgstr "(Бэлэн бол ямар нэгэн товчлуур товш.)"
+
+#: src/menu.c:677
+msgid "Waiting for other players"
+msgstr ""
+
+#: src/menu.c:690
+msgid "Sorry, game already in progress."
+msgstr ""
+
+#: src/menu.c:691
+#, c-format
+msgid "Sorry, game already in progress.\n"
+msgstr ""
+
+#: src/menu.c:697
+msgid "Sorry, no server could be found."
+msgstr ""
+
+#: src/menu.c:698
+#, c-format
+msgid "Sorry, no server could be found.\n"
+msgstr ""
+
+#: src/multiplayer.c:183
+#, c-format
+msgid "Then %s\n"
+msgstr ""
+
+#: src/multiplayer.c:258
+msgid "Who is playing first?"
+msgstr "Эхлээд хэн тоглох вэ?"
+
+#: src/multiplayer.c:260
+msgid "Who is playing next?"
+msgstr "Дараа нь хэн тоглох вэ?"
+
+#: src/multiplayer.c:274
+msgid "How many rounds will you play?"
+msgstr "Та хэдэн үе тоглох вэ?"
+
+#: src/multiplayer.c:274
+msgid "Enter a number"
+msgstr "Тоог оруулна уу"
+
+#: src/titlescreen.c:478
+msgid "Work In Progress!"
+msgstr "Дэвшиж ажиллах!"
+
+#: src/titlescreen.c:479
+msgid "This feature is not ready yet"
+msgstr "Үүнд арай бэлэн болоогүй байна."
+
+#: src/titlescreen.c:480
+msgid "Discuss the future of TuxMath at"
+msgstr "-д ТаксМатын ирээдүйг хэлэлцэх"
+
+#: src/titlescreen.c:481
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/tuxmath.c:54 data/menus/menu_strings:10
+msgid "Help"
+msgstr "Тусламж"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr "Тоо бичих"
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr "Нэмэх үйлдэл: 1-ээс 3 хүртэл"
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr "Нэмэх үйлдэл: 0-ээс 5 хүртэл"
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr "Нэмэх үйлдэл: 10 хүртэл"
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr "Нэмэх үйлдэл: 15 хүртэл"
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr "Нэмэх үйлдэл: 20 хүртэл"
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr "Нэмэх үйлдэл: 2 оронтой тоонуудын"
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr "Нэмэх үйлдэл: Тоонууд бөглөх"
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr "Хасах: 0-ээс 10 хүртэл"
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr "Хасах: 0-ээс 20 хүртэл"
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Хасах: 2 оронтой тоонуудын"
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr "Нэмэх ба хасах үйлдэл давтах"
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr "Үржих үйлдэл: 0-ээс 3 хүрэл"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "Хоёроор үржих"
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr "Гурваар үржих"
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr "Дөрвөөр үржих"
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr "Таваар үржих"
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr "Үржих үйлдэл: 0-ээс 5 хүртэл"
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr "Зургаагаар үржих"
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr "Долоогоор үржих"
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr "Үржих үйлдэл:  0-ээс 7 хүртэл"
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr "8-аар үржих"
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr "9-өөр үржих"
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr "10-аар үржих"
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr "Үржих үйлдэл: 0-ээс 10 хүртэл"
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr "11 ба 12-оор үржих"
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr "Үржих үйлдэл: 0-ээс 12 хүртэл"
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr "13, 14, 15-аар үржих"
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr "Үржих үйлдэл: 0-ээс 15 хүртэл"
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr "Үржих үйлдэл: Тоонууд бөглөх"
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr "Хоёроор хуваах"
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr "Гурваар хуваах"
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr "Дөрвөөр хуваах"
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr "Таваар хуваах"
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr "Хуваах үйлдэл: 1-ээс 5 хүртэл"
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr "Зургаагаар хуваах"
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr "Долоогоор хуваах"
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr "Наймаар хуваах"
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr "Есөөр хуваах"
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr "Арваар хуваах"
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr "Хуваах үйлдэл: 1-ээс 10 хүртэл"
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr "11 ба 12-оор хуваах"
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr "Хуваах үйлдэл: 1-ээс 12 хүртэл"
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr "13, 14, 15-аар хуваах"
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr "Хуваах үйлдэл: 1-ээс 15 хүртэл"
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr "Үржих ба хуваах үйлдэл эргэж үзэх"
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr "Сөрөг тоо бичих"
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr "Хасах үйлдэл: Сөрөг тоон хариултууд"
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr "Эерэг тоо дээр сөрөг тоо нэмэх"
+
+#: data/missions/lessons/descr_lessons:50
+msgid "Adding Positives to Negatives"
+msgstr "Сөрөг тоо дээр эерэг тоо нэмэх"
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Subtracting Negatives From Positives"
+msgstr "Нэмэх тооноос сөрөг тоо хасах"
+
+#: data/missions/lessons/descr_lessons:52
+msgid "Subtracting Positives From Negatives"
+msgstr "Сөрөг тооноос эерэг тоо хасах"
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Adding Negatives to Negatives"
+msgstr "Сөрөг тоо дээр сөрөг тоо нэмэх"
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Subtracting Negatives From Negatives"
+msgstr "Сөрөг тооноос сөрөг тоо хасах"
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Negative and Positive Numbers Review"
+msgstr "Сөрөг ба эерэг тоо давтах"
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Multiplication and Division of Negatives"
+msgstr "Сөрөг тоогоор үржих ба хуваах"
+
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiplication of Positives and Negatives"
+msgstr "Эерэг ба сөрөг тоогоор үржих"
+
+#: data/missions/lessons/descr_lessons:58
+msgid "Division of Positives and Negatives"
+msgstr "Эерэг ба сөрөг тоогоор хуваах"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Итгэмжлэл"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Ажиллагааг үзүүлэх"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Хасалт"
+
+#: data/menus/menu_strings:6
+msgid "Factoroids!"
+msgstr "Жижиг гаригууд"
+
+#: data/menus/menu_strings:11
+msgid "Join Game"
+msgstr ""
+
+#: data/menus/menu_strings:12
+msgid "Main Menu"
+msgstr "Үндсэн цэс"
+
+#: data/menus/menu_strings:13
+msgid "Math Command Fleet Missions"
+msgstr "Математик үйлдлүүдийн даалгавар"
+
+#: data/menus/menu_strings:14
+msgid "Math Command Training Academy"
+msgstr "Математикт суралцах хүрээлэн"
+
+#: data/menus/menu_strings:15
+msgid "More Options"
+msgstr "Зарим сонголт"
+
+#: data/menus/menu_strings:16
+msgid "Network Game"
+msgstr ""
+
+#: data/menus/menu_strings:17
+msgid "Play Alone"
+msgstr "Ганцаараа тогло"
+
+#: data/menus/menu_strings:18
+msgid "Play Arcade Game"
+msgstr "Орон зайн тоглоом"
+
+#: data/menus/menu_strings:19
+msgid "Play Custom Game"
+msgstr "Сонгох тоглоом тогло"
+
+#: data/menus/menu_strings:20
+msgid "Play With Friends"
+msgstr "Найзтайгаа тогло"
+
+#: data/menus/menu_strings:21
+msgid "Project Info"
+msgstr "Төслийн мэдээлэл"
+
+#: data/menus/menu_strings:22
+msgid "Quit"
+msgstr "Гарах"
+
+#: data/menus/menu_strings:24
+msgid "Run Server"
+msgstr ""
+
+#: data/menus/menu_strings:25
+msgid "Score Sweep"
+msgstr "Оноо алдах"
+
+#~ msgid "Main menu"
+#~ msgstr "Үндсэн цэс"
+
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "Kод нэмэх эсвэл сайжруулахаар."
