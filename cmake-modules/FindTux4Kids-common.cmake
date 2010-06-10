@@ -8,6 +8,7 @@
 # Created by Tim Holy. This was influenced by the FindSDL_ttf.cmake
 # module by Eric Wing.
 find_path(T4KCOMMON_INCLUDE_DIR t4kcommon.h
+  $ENV{T4KCOMMONDIR}
   $ENV{T4KCOMMONDIR}/include
   ~/Library/Frameworks/Tux4Kids-common.framework/Headers
   /Library/Frameworks/Tux4Kids-common.framework/Headers

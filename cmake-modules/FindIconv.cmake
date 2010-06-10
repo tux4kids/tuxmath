@@ -72,3 +72,13 @@ MARK_AS_ADVANCED(
   ICONV_LIBRARIES
   ICONV_SECOND_ARGUMENT_IS_CONST
 )
+
+
+if(T4KCOMMON_LIBRARY)
+  set(T4KCOMMON_FOUND "YES")
+else()
+  set(T4KCOMMON_FOUND "NO")
+  set(FINDSTR "NOT ")
+endif()
+
+message("Looking for iconv...${FINDSTR}found!")

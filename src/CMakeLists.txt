@@ -80,6 +80,7 @@ include_directories(
   ${SDLIMAGE_INCLUDE_DIR} 
   ${SDLMIXER_INCLUDE_DIR} 
   ${SDLTTF_INCLUDE_DIR} 
+  ${T4KCOMMON_INCLUDE_DIR}
   ${TUXMATH_EXTRA_INCLUDES} 
   ${INTL_BINARY_DIR})
 if (SDLGFX_FOUND)  
@@ -166,13 +167,16 @@ if (APPLE)
     LINK_FLAGS "-mmacosx-version-min=10.4")
 endif(APPLE)
 
+if (ICONV_FOUND)
+  set(ICONV_TEMP ${ICONV_LIBRARIES})
+  message("Linking iconv: ${ICONV_TEMP}")
+endif()
 if (TUXMATH_BUILD_INTL)
-  message("Linking iconv: ${ICONV_LIBRARIES}")
-  target_link_libraries(tuxmath ${ICONV_LIBRARIES} libintl.a)
+  target_link_libraries(tuxmath ${ICONV_TEMP} libintl.a)
 endif(TUXMATH_BUILD_INTL)
 
 if (TUXMATH_BUILD_LINEBREAK)
-  target_link_libraries(tuxmath ${ICONV_LIBRARIES} liblinebreak.a)
+  target_link_libraries(tuxmath ${ICONV_TEMP} liblinebreak.a)
 endif(TUXMATH_BUILD_LINEBREAK)
 
 set_target_properties (
