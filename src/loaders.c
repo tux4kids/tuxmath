@@ -505,6 +505,11 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
   char fn[PATH_MAX];
   int i, width, height;
   char pngfn[PATH_MAX];
+  char cache_path[PATH_MAX];
+
+  /* get caches directory */
+  get_user_data_dir_with_subdir(cache_path);
+  strcat(cache_path, "caches");
 
 #ifdef HAVE_RSVG
   /* check if SVG sprite file is present */
@@ -524,7 +529,7 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
     }
 
     /* check if cached PNG version exists */
-    sprintf(pngfn, "%s/images/%sd-%d-%d-cache.png", DATA_PREFIX, name, width, height);
+    sprintf(pngfn, "%s/%sd-%d-%d.png", cache_path, name, width, height);
     if(check_file(pngfn)==1)
     {
       new_sprite=(sprite*)malloc(sizeof(sprite));
@@ -532,7 +537,7 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
       i=0;
       while(1)
       {
-        sprintf(pngfn, "%s/images/%s%d-%d-%d-cache.png", DATA_PREFIX, name, i, width, height);
+        sprintf(pngfn, "%s/%s%d-%d-%d.png", cache_path, name, i, width, height);
         if(check_file(pngfn)==1)
         {
           new_sprite->frame[i]=IMG_Load(pngfn);
@@ -555,12 +560,12 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
       new_sprite->cur = 0;   
 
       /* cache loaded sprites in PNG files */
-      sprintf(pngfn, "%s/images/%sd-%d-%d-cache.png", DATA_PREFIX, name, width, height);
+      sprintf(pngfn, "%s/%sd-%d-%d.png", cache_path, name, width, height);
       if(check_file(pngfn)!=1) 
         savePNG(new_sprite->default_img,pngfn);
       for(i=0; i<new_sprite->num_frames; i++)
       {
-        sprintf(pngfn, "%s/images/%s%d-%d-%d-cache.png", DATA_PREFIX, name, i, width, height);
+        sprintf(pngfn, "%s/%s%d-%d-%d.png", cache_path, name, i, width, height);
         if(check_file(pngfn)!=1) 
           savePNG(new_sprite->frame[i],pngfn);
       }
@@ -697,8 +702,63 @@ Mix_Music* LoadMusic(char *datafile )
 
 static void savePNG(SDL_Surface* surf,char* fn)
 {
-  FILE* fi = fopen(fn, "wb");
-  do_png_save(fi,fn,surf);
+  FILE* fi;
+  DIR* dir_ptr;
+  int i;
+  char tempc;
+
+  /* create all preceding directories for fn if necessary */
+  i=0;
+  while(fn[i])
+  {
+    if(fn[i]=='/')
+    {
+      tempc=fn[i+1];
+      fn[i+1]=0;
+
+      /* test if the directory already exists */
+      dir_ptr = opendir(fn);
+      if (dir_ptr)
+      {
+        closedir(dir_ptr);
+      }
+      else /* create new directory */
+      {
+        int status;
+
+#ifndef BUILD_MINGW32
+        status = mkdir(fn, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+#else
+        status = mkdir(fn);
+#endif
+
+        /* mkdir () returns 0 if successful */
+        if (0 == status)
+        {
+          /* successful */
+          fprintf(stderr, "\nmkdir %s succeeded\n",fn);
+        }
+        else
+        {
+          fprintf(stderr, "\nmkdir %s failed\n",fn);
+          fn[i+1]=tempc;
+          return;
+        }
+        
+      } 
+      fn[i+1]=tempc;
+
+    } /* end of fn[i]=='/' */
+
+    i++;
+      
+  } /* end of while */
+
+  fi = fopen(fn, "wb");
+  if(fi==NULL)
+    fprintf(stderr, "\nError: Couldn't write to file %s!\n\n", fn);
+  else
+    do_png_save(fi,fn,surf);
 }
 
 /* The following functions are taken from Tuxpaint with minor changes */
