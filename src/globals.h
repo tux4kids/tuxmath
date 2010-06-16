@@ -38,7 +38,7 @@
 #include <wchar.h>
 
 #ifdef HAVE_LIBT4KCOMMON
-# include <t4kcommon.h>
+# include <t4k_common.h>
 #else
 typedef enum { false, true } bool;
 #endif

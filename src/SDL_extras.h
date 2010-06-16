@@ -27,7 +27,7 @@
 #endif
 
 #ifdef HAVE_LIBT4KCOMMON
-# include <t4kcommon.h>
+# include <t4k_common.h>
 #endif
 
 /* Non-text graphics functions: */

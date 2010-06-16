@@ -25,7 +25,7 @@
 #define SPRITE_FRAME_DELAY         6
 
 #ifdef HAVE_LIBT4KCOMMON
-# include <t4kcommon.h>
+# include <t4k_common.h>
 #else
 # define RUN_MAIN_MENU -3
 # define QUIT -2

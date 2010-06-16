@@ -2,12 +2,12 @@
 # This module defines
 #  T4KCOMMON_LIBRARY, the library to link against
 #  T4KCOMMON_FOUND, if false, do not try to link to t4kcommon
-#  T4KCOMMON_INCLUDE_DIR, where to find t4kcommon.h
+#  T4KCOMMON_INCLUDE_DIR, where to find t4k_common.h
 #   
 # Adapted from FindSDL_Pango.cmake, which was:
 # Created by Tim Holy. This was influenced by the FindSDL_ttf.cmake
 # module by Eric Wing.
-find_path(T4KCOMMON_INCLUDE_DIR t4kcommon.h
+find_path(T4KCOMMON_INCLUDE_DIR t4k_common.h
   $ENV{T4KCOMMONDIR}
   $ENV{T4KCOMMONDIR}/include
   ~/Library/Frameworks/Tux4Kids-common.framework/Headers
