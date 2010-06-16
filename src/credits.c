@@ -407,13 +407,24 @@ int credits(void)
 
 int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int speed)
 {
-  int done = 0, quit = 0, scroll = 0, clearing = 0;
+  int done = 0, quit = 0, scroll = 0, clearing = 0, line_height = 0;
   SDL_Event event;
   SDL_Rect src, dest;
   Uint32 last_time = SDL_GetTicks(), now_time;
 
   line = 0;
-    
+
+  //Figure out how tall each line needs to be:
+  {
+    SDL_Surface* s = SimpleText("A", DEFAULT_MENU_FONT_SIZE, &white);
+    if(s)
+    {	    
+      line_height = s->h;
+      SDL_FreeSurface(s);
+    }
+  }
+
+  //Now actually scroll text:
   do
   {
     /* Handle any incoming events: */
@@ -467,7 +478,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
       dest.h = 1;
       draw_text(text[line], dest);  // translation should have already occurred
 
-      if (scroll * speed >= DEFAULT_MENU_FONT_SIZE)
+      if (scroll * speed >= line_height)
       {
         scroll = 0;
         line++;
