@@ -24,13 +24,13 @@
 /* number of "real" frames per one sprite frame */
 #define SPRITE_FRAME_DELAY         6
 
-#ifdef HAVE_LIBT4KCOMMON
+#ifdef HAVE_LIBT4K_COMMON
 # include <t4k_common.h>
 #else
 # define RUN_MAIN_MENU -3
 # define QUIT -2
 # define STOP -1
-#endif //HAVE_LIBT4KCOMMON
+#endif //HAVE_LIBT4K_COMMON
 
 /* these are all menu choices that are available in tuxmath.
    By using a define we can create both an enum and

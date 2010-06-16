@@ -18,7 +18,7 @@
 #include "options.h"
 
 
-#ifndef HAVE_LIBT4KCOMMON
+#ifndef HAVE_LIBT4K_COMMON
 /* DrawButton() creates a translucent button with rounded ends
    and draws it on the screen.
    All colors and alpha values are supported.*/

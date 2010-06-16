@@ -34,7 +34,7 @@
 
 #define MAX_SPRITE_FRAMES   30
 
-#ifdef HAVE_LIBT4KCOMMON
+#ifdef HAVE_LIBT4K_COMMON
 # include <t4k_common.h>
 #else
 typedef struct {

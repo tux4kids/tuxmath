@@ -17,7 +17,7 @@ if (NOT SDLGFX_FOUND)
 endif (NOT SDLGFX_FOUND)
 
 if (T4KCOMMON_FOUND)
-  set(HAVE_LIBT4KCOMMON 1)
+  set(HAVE_LIBT4K_COMMON 1)
 endif(T4KCOMMON_FOUND)
 
 ## Define the source files used for each executable

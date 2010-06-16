@@ -5,7 +5,7 @@
 #cmakedefine ENABLE_NLS 1
 #cmakedefine SDL_Pango 1
 #cmakedefine HAVE_RSVG 1
-#cmakedefine HAVE_LIBT4KCOMMON 1
+#cmakedefine HAVE_LIBT4K_COMMON 1
 
 /* Stuff needed for linewrap */
 #cmakedefine LINEBREAK 1

@@ -26,12 +26,12 @@
 #define amask 0xff000000
 #endif
 
-#ifdef HAVE_LIBT4KCOMMON
+#ifdef HAVE_LIBT4K_COMMON
 # include <t4k_common.h>
 #endif
 
 /* Non-text graphics functions: */
-#ifndef HAVE_LIBT4KCOMMON
+#ifndef HAVE_LIBT4K_COMMON
 void            DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void            SetRect(SDL_Rect* rect, const float* pos);
 #else

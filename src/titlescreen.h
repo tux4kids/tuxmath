@@ -71,7 +71,7 @@ extern SDL_Event  event;
 
 #define MUSIC_FADE_OUT_MS               80
 
-#ifdef HAVE_LIBT4KCOMMON
+#ifdef HAVE_LIBT4K_COMMON
 # include <t4k_common.h>
 #else
 enum {
