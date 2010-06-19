@@ -26,8 +26,11 @@
 #ifdef HAVE_ERROR_H
 #include <error.h>
 #else
-#define error(status, errnum, rest...) \
-  fsync(stdout); fprintf(stderr, ## rest); exit(status)
+# ifndef HAVE_FSYNC
+#  define fsync
+# endif
+# define error(status, errnum, rest...) \
+ fsync(stdout); fprintf(stderr, ## rest); exit(status)
 #endif
 
 // The next two are for mkdir and umask
@@ -339,8 +342,6 @@ void create_homedirs(const char *path,const char *file)
   fp = fopen(file,"r");
   if (!fp)
     error(EXIT_FAILURE,errno,"Error: couldn't open:\n  %s for reading",file);
-
-  mask = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH | S_IXUSR | S_IXGRP | S_IXOTH;
   umask(0x0);  // make dirs read/write for everyone
   while (fgets (buf, PATH_MAX, fp)) {
     // Skip leading & trailing whitespace
@@ -447,7 +448,13 @@ void create_homedirs(const char *path,const char *file)
 
     // Create the directory
     if (strlen(fullpath) < PATH_MAX) {
-      if (mkdir(fullpath,mask) < 0) {
+#ifndef BUILD_MINGW32
+        mask = S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH | S_IXUSR | S_IXGRP | S_IXOTH;
+        if (mkdir(fullpath,mask) < 0) {
+#else
+        if (mkdir(fullpath) < 0) {
+#endif
+
         // There was some kind of error, figure out what happened.
         // Be a little more verbose than the standard library errors.
         if (errno == EEXIST) {

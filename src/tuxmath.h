@@ -34,12 +34,16 @@
 
 #define MAX_SPRITE_FRAMES   30
 
+#ifdef HAVE_LIBT4K_COMMON
+# include <t4k_common.h>
+#else
 typedef struct {
   SDL_Surface *frame[MAX_SPRITE_FRAMES];
   SDL_Surface *default_img;
   int num_frames;
   int cur;
 } sprite;
+#endif
 
 /* Global data gets 'externed' here: */
 

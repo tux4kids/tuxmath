@@ -18,7 +18,7 @@
 #include "options.h"
 
 
-
+#ifndef HAVE_LIBT4K_COMMON
 /* DrawButton() creates a translucent button with rounded ends
    and draws it on the screen.
    All colors and alpha values are supported.*/
@@ -31,6 +31,7 @@ void DrawButton(SDL_Rect* target_rect,
   SDL_BlitSurface(tmp_surf, NULL, screen, target_rect);
   SDL_FreeSurface(tmp_surf);
 }
+#endif
 
 /* CreateButton() creates a translucent button with rounded ends
    All colors and alpha values are supported.*/

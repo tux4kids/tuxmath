@@ -6,14 +6,19 @@ find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
 find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
+find_package(SDL_Pango REQUIRED)
 find_package(SDL_gfx)
 find_package(SDL_net)
+find_package(Tux4Kids-common)
 
 if (NOT SDLGFX_FOUND)
   message("Adding rotozoom")
   set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
 endif (NOT SDLGFX_FOUND)
 
+if (T4KCOMMON_FOUND)
+  set(HAVE_LIBT4K_COMMON 1)
+endif(T4KCOMMON_FOUND)
 
 ## Define the source files used for each executable
 # tuxmath
@@ -69,10 +74,18 @@ if (NOT BUILD_INTL)
 endif (NOT BUILD_INTL)
 check_include_file(${CMAKE_CURRENT_BINARY_DIR}/config.h HAVE_CONFIG_H)
 
-include_directories(${CMAKE_CURRENT_BINARY_DIR} ${SDL_INCLUDE_DIR} ${SDLIMAGE_INCLUDE_DIR} ${SDLMIXER_INCLUDE_DIR} ${SDLTTF_INCLUDE_DIR} ${TUXMATH_EXTRA_INCLUDES} ${INTL_BINARY_DIR})
-if (SDLGFX_FOUND)
-   include_directories(${SDLGFX_INCLUDE_DIR})
-endif (SDLGFX_FOUND)
+include_directories(
+  ${CMAKE_CURRENT_BINARY_DIR} 
+  ${SDL_INCLUDE_DIR} 
+  ${SDLIMAGE_INCLUDE_DIR} 
+  ${SDLMIXER_INCLUDE_DIR} 
+  ${SDLTTF_INCLUDE_DIR} 
+  ${T4KCOMMON_INCLUDE_DIR}
+  ${TUXMATH_EXTRA_INCLUDES} 
+  ${INTL_BINARY_DIR})
+if (SDLGFX_FOUND)  
+  include_directories(${SDLGFX_INCLUDE_DIR})
+endif(SDLGFX_FOUND)
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
@@ -143,6 +156,10 @@ if (SDLGFX_FOUND)
    )
 endif (SDLGFX_FOUND)
 
+if (T4KCOMMON_FOUND)
+  target_link_libraries(tuxmath ${T4KCOMMON_LIBRARY})
+endif ()
+
 if (APPLE)
   # The following seems to be needed to compile under 10.5
   set_target_properties(tuxmath tuxmathadmin
@@ -150,13 +167,16 @@ if (APPLE)
     LINK_FLAGS "-mmacosx-version-min=10.4")
 endif(APPLE)
 
+if (ICONV_FOUND)
+  set(ICONV_TEMP ${ICONV_LIBRARIES})
+  message("Linking iconv: ${ICONV_TEMP}")
+endif()
 if (TUXMATH_BUILD_INTL)
-  message("Linking iconv: ${ICONV_LIBRARIES}")
-  target_link_libraries(tuxmath ${ICONV_LIBRARIES} libintl.a)
+  target_link_libraries(tuxmath ${ICONV_TEMP} libintl.a)
 endif(TUXMATH_BUILD_INTL)
 
 if (TUXMATH_BUILD_LINEBREAK)
-  target_link_libraries(tuxmath ${ICONV_LIBRARIES} liblinebreak.a)
+  target_link_libraries(tuxmath ${ICONV_TEMP} liblinebreak.a)
 endif(TUXMATH_BUILD_LINEBREAK)
 
 set_target_properties (

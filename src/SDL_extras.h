@@ -14,7 +14,6 @@
 #define SDL_EXTRAS_H
 
 #include "SDL.h"
-
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
 #define rmask 0xff000000
 #define gmask 0x00ff0000
@@ -27,9 +26,17 @@
 #define amask 0xff000000
 #endif
 
+#ifdef HAVE_LIBT4K_COMMON
+# include <t4k_common.h>
+#endif
 
 /* Non-text graphics functions: */
+#ifndef HAVE_LIBT4K_COMMON
 void            DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+void            SetRect(SDL_Rect* rect, const float* pos);
+#else
+# define DrawButton T4K_DrawButton
+#endif
 SDL_Surface*    CreateButton(int w, int h, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void            RoundCorners(SDL_Surface* s, Uint16 radius);
 
@@ -38,7 +45,6 @@ SDL_Surface*    Blend(SDL_Surface *S1, SDL_Surface *S2, float gamma);
 
 void            FreeSurfaceArray(SDL_Surface** surfs, int length);
 int             inRect(SDL_Rect r, int x, int y);
-void            SetRect(SDL_Rect* rect, const float* pos);
 void            UpdateRect(SDL_Surface* surf, SDL_Rect* rect);
 
 void            DarkenScreen(Uint8 bits);

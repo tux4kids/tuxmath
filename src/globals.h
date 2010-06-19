@@ -37,7 +37,11 @@
 
 #include <wchar.h>
 
+#ifdef HAVE_LIBT4K_COMMON
+# include <t4k_common.h>
+#else
 typedef enum { false, true } bool;
+#endif
 
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))
