@@ -1,4 +1,4 @@
-# English translations for Tux Of Math Command package.
+# English translations for tuxmath package.
 # This file is put in the public domain.
 # Automatically generated, 2010.
 #
@@ -28,14 +28,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-06-07 10:15-0500\n"
-"PO-Revision-Date: 2010-06-07 10:15-0500\n"
+"POT-Creation-Date: 2010-06-19 19:09-0500\n"
+"PO-Revision-Date: 2010-06-19 19:09-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: \n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: src/campaign.c:30
