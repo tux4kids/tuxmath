@@ -1,3 +1,9 @@
+tuxmath (1.8.0-3) unstable; urgency=low
+
+  * debian/menu: move to section Applications/Education. 
+
+ -- Holger Levsen <holger@debian.org>  Mon, 21 Jun 2010 21:24:59 +0200
+
 tuxmath (1.8.0-2) unstable; urgency=low
 
   * Make debian menu use the .xpm icon. 
