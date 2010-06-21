@@ -17,15 +17,20 @@
 #include <libxml/xmlmemory.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
-#include"parse_xmlLesson.h"
 int serial_number;
  xmlChar *wave;
 
+
+void parse_fractions(xmlNode *);
+void parse_factors(xmlNode *);
 
 int parse_xmlLesson()
 {
 
 xmlNode *cur_node;
+char fn[4096];
+char *lesson_path = "schoolmode/lessonData.xml";
+  snprintf(fn, 4096, "%s/images/%s", DATA_PREFIX, lesson_path);
   //xmlChar *Num_asteroids;
 //int serial_number;
 
@@ -34,7 +39,7 @@ xmlNode *cur_node;
   // --------------------------------------------------------------------------
 
   xmlDocPtr doc;
-  doc = xmlParseFile("lessonData.xml");
+  doc = xmlParseFile(fn);
 
   if (doc == NULL) 
         printf("error: could not parse file lessonData.xml\n");

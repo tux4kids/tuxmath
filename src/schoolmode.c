@@ -251,11 +251,11 @@ while(1)
     {
       //SDL_quit_received = 1;
     //  quit = 1;
-      return 1;
+      return;
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
-      return 1;
+      return;
     }
     else if (event.type == SDL_KEYDOWN)
     {
@@ -263,7 +263,7 @@ while(1)
         //parse();
          
         //escape_received = 1;
-      return 1;
+      return;
     }
     Throttle(20, &timer);
 
