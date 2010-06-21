@@ -11,5 +11,6 @@ SUBDIRS = backgrounds \
   sprites \
   status \
   title \
-  tux
+  tux   \
+  schoolmode
 

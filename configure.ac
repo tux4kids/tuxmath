@@ -450,6 +450,7 @@ data/images/status/Makefile
 data/images/title/Makefile
 data/images/tux/Makefile
 data/images/factoroids/Makefile
+data/images/schoolmode/Makefile
 data/menus/Makefile
 data/missions/Makefile
 data/missions/arcade/Makefile

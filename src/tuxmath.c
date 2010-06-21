@@ -54,7 +54,14 @@ int main(int argc, char* argv[])
   DEBUGMSG(debug_setup, "gettext(\"Help\"): %s\n\n", gettext("Help"));
   DEBUGMSG(debug_setup, "After gettext() call\n");
 
-  TitleScreen();  /* Run the game! */
+if (argc>1)//if not used then argv[1] will segfault in normal game
+{
+if (0 == strcmp(argv[1], "--schoolmode") )
+ schoolmode();
+}
+else
+TitleScreen();  /* Run the game! */
+
   cleanup();
   return 0;
 }

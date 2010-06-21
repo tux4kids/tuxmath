@@ -323,6 +323,11 @@ void handle_command_args(int argc, char* argv[])
         fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
         usage(1, argv[0]);
       }
+    else if (0 == strcmp(argv[i], "--schoolmode"))
+       {
+         printf("Entering school mode\n");
+         i++;
+       }
       else /* try to read file named in following arg: */
       {
         if (!read_named_config_file(argv[i + 1]))

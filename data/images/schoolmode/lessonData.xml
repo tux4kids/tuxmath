@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE lessonData [
+   <!ELEMENT lessonData (factors*,fractions*)>
+
+   <!ELEMENT factors (wave_factors+)>
+   <!ELEMENT wave_factors (#PCDATA)>    
+   <!ELEMENT fractions (wave_fractions+)>
+   <!ELEMENT wave_fractions (#PCDATA)>
+]>
+
+<lessonData>
+<factors>
+<wave_factors>1</wave_factors>
+<wave_factors>3</wave_factors>
+<wave_factors>5</wave_factors>
+<wave_factors>7</wave_factors>
+</factors>
+
+<fractions>
+<wave_fractions>2</wave_fractions>
+<wave_fractions>4</wave_fractions>
+<wave_fractions>6</wave_fractions>
+<wave_fractions>8</wave_fractions>
+</fractions>
+</lessonData>

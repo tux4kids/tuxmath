@@ -55,7 +55,9 @@ tuxmath_SOURCES = tuxmath.c \
 	scandir.c	\
 	pixels.c	\
 	server.c	\
-	throttle.c	
+	throttle.c	\
+        schoolmode.c    \
+        parse_xmlLesson.c 
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -120,8 +122,9 @@ EXTRA_DIST = 	credits.h 	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
-	throttle.h
-        
+	throttle.h      \
+        schoolmode.h    \
+        parse_xmlLesson.h        
 
 
 WINDRES=@WINDRES@

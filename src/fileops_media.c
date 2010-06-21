@@ -134,7 +134,9 @@ int load_image_data()
   "factoroids/factoroids.png",
   "factoroids/factors.png",
   "factoroids/tux.png",
-  "factoroids/good.png"
+  "factoroids/good.png",
+  "schoolmode/correct.png",
+  "schoolmode/lock.png"
   };
 
   static char* sprite_filenames[NUM_IMAGES] = {
