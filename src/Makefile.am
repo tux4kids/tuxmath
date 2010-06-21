@@ -30,6 +30,7 @@ else
 endif
 
 
+tuxmath_LDFLAGS = -Wl,-rpath -Wl,/usr/local/lib 
 tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
