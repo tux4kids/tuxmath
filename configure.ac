@@ -45,15 +45,11 @@ AC_PROG_YACC
 # Gettext support:
 # ---------------------------------------------------------------------
 
-AM_GNU_GETTEXT_VERSION([0.17])
+AM_GNU_GETTEXT_VERSION([0.18.1])
 
 dnl Use the following line whenever possible:
 AM_GNU_GETTEXT([external])
-dnl If external intl lib unavailable on platform, comment out the
-dnl above line and uncomment the following line to use the included
-dnl intl subdirectory. This used to be needed for the Windows cross-
-dnl build but is not longer necessary:
-#AM_GNU_GETTEXT
+dnl Note that having a bundled intl/ directory is now deprecated 
 
 # -----------------------------------------------------------------------
 # Checks for libraries.
@@ -466,7 +462,6 @@ doc/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
-intl/Makefile
 linebreak/Makefile
 po/Makefile.in
 ])
