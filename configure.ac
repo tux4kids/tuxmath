@@ -307,19 +307,19 @@ CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
 
 
-dnl Use of libt4kcommon is now enabled by default in this branch: 
+dnl Use of libt4k_common is now enabled by default in this branch: 
 
-AC_ARG_WITH([libt4kcommon],
-	    [AS_HELP_STRING([--without-libt4kcommon],[do not use libtk4common even if available])],
-            [with_libt4kcommon=no],
-            [with_libt4kcommon=yes])
+AC_ARG_WITH([libt4k_common],
+	    [AS_HELP_STRING([--without-libt4k_common],[do not use libtk4common even if available])],
+            [with_libt4k_common=no],
+            [with_libt4k_common=yes])
 
-if test "x$with_libt4kcommon" != xno; then
-AC_CHECK_LIB([t4kcommon],
+if test "x$with_libt4k_common" != xno; then
+AC_CHECK_LIB([t4k_common],
              [InitT4KCommon],
              ,
-             [with_libt4kcommon=no;
-              AC_MSG_FAILURE([libt4kcommon test failed (--without-libt4kcommon to disable use of libt4kcommon)])])
+             [with_libt4k_common=no;
+              AC_MSG_FAILURE([libt4k_common test failed (--without-libt4k_common to disable use of libt4k_common)])])
 fi
 
 
