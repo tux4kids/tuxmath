@@ -63,10 +63,6 @@ if (NOT SDL_FOUND)
   message(FATAL_ERROR "SDL not found!")
 endif (NOT SDL_FOUND)
 
-if (NOT APPLE)
-  link_libraries (SDLmain)
-endif (NOT APPLE)
-
 ## Include files
 if (NOT BUILD_INTL)
   # Generate the config.h file

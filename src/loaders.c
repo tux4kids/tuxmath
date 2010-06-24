@@ -32,8 +32,12 @@
 #include<librsvg/rsvg-cairo.h>
 #endif
 
+#ifdef HAVE_LIBPNG
 #include <png.h>
 #include "pixels.h"
+static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf);
+static void savePNG(SDL_Surface* surf,char* fn);
+#endif
 
 /* local functions */
 int             check_file(const char* file);
@@ -50,8 +54,6 @@ void            fit_in_rectangle(int* width, int* height, int max_width, int max
 SDL_Surface*    set_format(SDL_Surface* img, int mode);
 sprite*         load_sprite(const char* name, int mode, int w, int h, bool proportional);
 
-static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf);
-static void savePNG(SDL_Surface* surf,char* fn);
 
 
 /* check to see if file exists, if so return true */
@@ -558,7 +560,8 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
       for(i = 0; i < new_sprite->num_frames; i++)
         set_format(new_sprite->frame[i], mode);
       new_sprite->cur = 0;   
-
+      
+#ifdef HAVE_LIBPNG
       /* cache loaded sprites in PNG files */
       sprintf(pngfn, "%s/%sd-%d-%d.png", cache_path, name, width, height);
       if(check_file(pngfn)!=1) 
@@ -569,7 +572,7 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
         if(check_file(pngfn)!=1) 
           savePNG(new_sprite->frame[i],pngfn);
       }
-
+#endif
      
     }
   }
@@ -700,6 +703,7 @@ Mix_Music* LoadMusic(char *datafile )
   return tempMusic;
 }
 
+#ifdef HAVE_LIBPNG
 static void savePNG(SDL_Surface* surf,char* fn)
 {
   FILE* fi;
@@ -890,3 +894,4 @@ static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf)
 }
 
 
+#endif

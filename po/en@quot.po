@@ -28,11 +28,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-06-19 19:09-0500\n"
+"POT-Creation-Date: 2010-06-19 19:38-0500\n"
 "PO-Revision-Date: 2010-06-19 19:09-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: en\n"
+"Language: en@quot\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -439,118 +439,118 @@ msgstr "You Are In The Hall of Fame!"
 msgid "Enter Your Name:"
 msgstr "Enter Your Name:"
 
-#: src/menu.c:376
+#: src/menu.c:407
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath is free and open-source!"
 
-#: src/menu.c:377
+#: src/menu.c:408
 msgid "You can help make it better."
 msgstr "You can help make it better."
 
-#: src/menu.c:378
+#: src/menu.c:409
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr "Suggestions, artwork, and code are all welcome!"
 
-#: src/menu.c:379
+#: src/menu.c:410
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:500
+#: src/menu.c:531
 msgid "Edit 'options' file in your home directory"
 msgstr "Edit ‘options’ file in your home directory"
 
-#: src/menu.c:501
+#: src/menu.c:532
 msgid "to create customized game!"
 msgstr "to create customized game!"
 
-#: src/menu.c:502
+#: src/menu.c:533
 msgid "Press a key or click your mouse to start game."
 msgstr "Press a key or click your mouse to start game."
 
-#: src/menu.c:503
+#: src/menu.c:534
 msgid "See README.txt for more information"
 msgstr "See README.txt for more information"
 
-#: src/menu.c:527
+#: src/menu.c:558
 msgid "How many kids are playing?"
 msgstr "How many kids are playing?"
 
-#: src/menu.c:528
+#: src/menu.c:559
 msgid "(Between 2 and 4 players)"
 msgstr "(Between 2 and 4 players)"
 
-#: src/menu.c:590
+#: src/menu.c:621
 msgid "The server is already running"
 msgstr "The server is already running"
 
-#: src/menu.c:595
+#: src/menu.c:626
 msgid "Enter Server Name:"
 msgstr "Enter Server Name:"
 
-#: src/menu.c:595
+#: src/menu.c:626
 msgid "(limit 50 characters)"
 msgstr "(limit 50 characters)"
 
-#: src/menu.c:609
+#: src/menu.c:640
 msgid "Click or press key to select server lesson file"
 msgstr "Click or press key to select server lesson file"
 
-#: src/menu.c:638
+#: src/menu.c:669
 msgid "Server Name:"
 msgstr "Server Name:"
 
-#: src/menu.c:640
+#: src/menu.c:671
 msgid "Selected Lesson:"
 msgstr "Selected Lesson:"
 
-#: src/menu.c:655 src/menu.c:702
+#: src/menu.c:686 src/menu.c:733
 msgid "Sorry, this version built without network support"
 msgstr "Sorry, this version built without network support"
 
-#: src/menu.c:656 src/menu.c:703
+#: src/menu.c:687 src/menu.c:734
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Sorry, this version built without network support.\n"
 
-#: src/menu.c:666
+#: src/menu.c:697
 msgid "Detecting servers"
 msgstr "Detecting servers"
 
-#: src/menu.c:666
+#: src/menu.c:697
 msgid "Please wait"
 msgstr "Please wait"
 
-#: src/menu.c:672
+#: src/menu.c:703
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Connected to server: %s"
 
-#: src/menu.c:673 src/multiplayer.c:258 src/multiplayer.c:260
+#: src/menu.c:704 src/multiplayer.c:258 src/multiplayer.c:260
 msgid "Enter your name:"
 msgstr "Enter your name:"
 
-#: src/menu.c:675
+#: src/menu.c:706
 msgid "Click when ready"
 msgstr "Click when ready"
 
-#: src/menu.c:677
+#: src/menu.c:708
 msgid "Waiting for other players"
 msgstr "Waiting for other players"
 
-#: src/menu.c:690
+#: src/menu.c:721
 msgid "Sorry, game already in progress."
 msgstr "Sorry, game already in progress."
 
-#: src/menu.c:691
+#: src/menu.c:722
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Sorry, game already in progress.\n"
 
-#: src/menu.c:697
+#: src/menu.c:728
 msgid "Sorry, no server could be found."
 msgstr "Sorry, no server could be found."
 
-#: src/menu.c:698
+#: src/menu.c:729
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr "Sorry, no server could be found.\n"
