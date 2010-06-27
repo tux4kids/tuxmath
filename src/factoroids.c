@@ -28,6 +28,8 @@
 #ifndef NOSOUND
 #include "SDL_mixer.h"
 #endif
+
+
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
 #include "SDL_extras.h"
@@ -55,6 +57,13 @@
 #define TUXSHIP_DECEL 0.8
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
+
+
+
+#ifdef SCHOOLMODE
+#include "parse_xmlLesson.h"
+int next_wave_no=0;
+#endif
 
 /********* Enumerations ***********/
 
@@ -1130,6 +1139,11 @@ static void FF_add_level(void)
   {
     tuxship.lives++;
   }
+
+  
+#ifdef SCHOOLMODE
+wave=waves_parsed[next_wave_no++];
+#endif
   
   //Limit the new asteroids
   if(NUM_ASTEROIDS<MAX_ASTEROIDS)
@@ -2219,4 +2233,14 @@ static int check_exit_conditions(void)
 
   /* if we made it to here, the game goes on! */
   return GAME_IN_PROGRESS;
+}
+
+
+void factoroids_schoolmode(int choice)
+{
+
+if (choice==0)
+ factors();
+else if(choice ==1)
+fractions();
 }

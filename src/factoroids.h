@@ -21,3 +21,7 @@ int factors(void);
 int fractions(void);
 
 #endif
+
+#ifdef SCHOOLMODE
+void factoroids_schoolmode(int);
+#endif
