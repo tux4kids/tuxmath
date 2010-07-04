@@ -632,6 +632,7 @@ int run_lan_host(void)
       // selection that we ended with
       chosen_lesson = run_menu(menus[MENU_LESSONS], true);
     }
+    if(chosen_lesson==STOP) return 0;
   }
 
   ShowMessage(DEFAULT_MENU_FONT_SIZE,
