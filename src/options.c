@@ -56,7 +56,7 @@ const int debug_sdl            = 1 << 10;
 const int debug_lessons        = 1 << 11;
 const int debug_highscore      = 1 << 12;
 const int debug_options        = 1 << 13;
-const int debug_convert_utf    = 1 << 14;
+const int debug_text_and_intl  = 1 << 14;
 const int debug_multiplayer    = 1 << 15;
 const int debug_all            = ~0;
 

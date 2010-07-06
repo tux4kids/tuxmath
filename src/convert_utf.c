@@ -47,7 +47,7 @@ int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)
     return 0;
   }
 
-  DEBUGMSG(debug_convert_utf, "ConvertFromUTF8(): UTF8_word = %s\n", UTF8_word);
+  DEBUGMSG(debug_text_and_intl, "ConvertFromUTF8(): UTF8_word = %s\n", UTF8_word);
 
   /* NOTE although we *should* be just able to pass "wchar_t" as the out_type, */
   /* iconv_open() segfaults on Windows if this is done - grrr....             */
@@ -64,7 +64,7 @@ int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)
   SDL_iconv_close(conv_descr);
   wcsncpy(wide_word, temp_wchar, max_length);
 
-  DEBUGMSG(debug_convert_utf, "ConvertToUTF8(): wide_word = %S\n", wide_word);
+  DEBUGMSG(debug_text_and_intl, "ConvertToUTF8(): wide_word = %S\n", wide_word);
 
   return wcslen(wide_word);
 }
@@ -91,7 +91,7 @@ int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)
   size_t in_length = (size_t)UTF_BUF_LENGTH;
   size_t out_length = (size_t)UTF_BUF_LENGTH;
 
-  DEBUGMSG(debug_convert_utf, "ConvertToUTF8(): wide_word = %S\n", wide_word);
+  DEBUGMSG(debug_text_and_intl, "ConvertToUTF8(): wide_word = %S\n", wide_word);
 
   if(max_length > UTF_BUF_LENGTH)
   {
@@ -116,7 +116,7 @@ int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)
   SDL_iconv_close(conv_descr);
   strncpy(UTF8_word, temp_UTF8, max_length);
 
-  DEBUGMSG(debug_convert_utf, "ConvertToUTF8(): UTF8_word = %s\n", UTF8_word);
+  DEBUGMSG(debug_text_and_intl, "ConvertToUTF8(): UTF8_word = %s\n", UTF8_word);
 
   return strlen(UTF8_word);
 }
