@@ -1,36 +1,32 @@
-/*
-  schoolmode.c
+/***************************************************************
+ *  schoolmode.c                                                *
+ *                                                              *
+ *  Description:  Display schoolmode specific menus and handle  *
+ *                changes occur as schoolmde game progresses.   *                                         *
+ *  Author:       Vikas Singh 					*
+ *                 vikassingh008@gmail.com ,2010 		*
+ *  Copyright:    GPL v3 or later                               *
+ *  							    	*
+ *  						          	*
+ *                                                          	*
+ *                                                          	*
+ *  TuxMath                                                 	*
+ *  Part of "Tux4Kids" Project                              	*
+ *  http://tux4kids.alioth.debian.org/                      	*
+ ***************************************************************/
 
-  For TuxMath
-  Contains code for implementing school mode in Tuxmath.
-
-  by Vikas Singh
-  vikassingh008@gmail.com 
-
-
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.com/
-
- 
-*/
-
-#include "menu.h"
 #include "SDL_extras.h"
 #include "titlescreen.h"
-#include "highscore.h"
 #include "factoroids.h"
 #include "credits.h"
 #include "multiplayer.h"
 #include "mathcards.h"
-#include "campaign.h"
 #include "game.h"
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
 #include "throttle.h"
-#include"compiler.h"
-//#include "schoolmode.h"
-#include"parse_xmlLesson.h"
+#include"manage_xmlLesson.h"
 #include "globals.h"
 #include "loaders.h"
 #include <stdio.h>
@@ -69,6 +65,10 @@ int total_no_menus; //defined in parse_xmlLesson.h
 int no_of_pages;        //no of menu pages to be displayed
 
 
+  const int max_width = 500;
+
+  const int title_font_size = 32;
+ 
 
 void sm_prerender_all()
 {
@@ -113,11 +113,7 @@ const char* next_gray_path = "status/right_gray.svg";
 
 
 
-
-
-
-
-int schoolmode(void)
+int schoolmode(char *xml_lesson_path)
 {
 
   tux4kids_logo = LoadImage(tux4kids_standby_path, IMG_REGULAR);
@@ -144,22 +140,18 @@ sm_prerender_all(); //write function declaration too   -- fix
 
 SDL_Delay(2000);
 
- //LoadBothBkgds(school_bkg_path, &fs_bkgd, &win_bkgd);
 
-//display_screen();
-parse_xmlLesson();
-
+manage_xmlLesson(xml_lesson_path);
 
 return 0;
 }
 
 
-void display_screen(int selected)
+int display_screen(int selected)
 {
 
 int temp,current_no;
 int i = 0;
-  Uint32 timer = 0;
 
   int finished = 0;
   Uint32 frame = 0;
@@ -173,44 +165,40 @@ int i = 0;
   
  
 
-  const int max_width = 500;
-
-  const int title_font_size = 32;
- 
-
 //decide the no of menu pages to be displayed
+no_of_pages=ceil((float)total_no_menus/MENUS_ON_SCREEN);
+/*
 if(total_no_menus % MENUS_ON_SCREEN)
   no_of_pages=(total_no_menus/MENUS_ON_SCREEN)+1;
 else
  no_of_pages=total_no_menus/MENUS_ON_SCREEN;
-  
+  */
 
 
 
   LoadBothBkgds(school_bkg_path, &fs_bkgd, &win_bkgd);
 
+//if(current_bkgd())
+  //{
+    /* FIXME not sure trans_wipe() works in Windows: */
+  //  trans_wipe(current_bkgd(), RANDOM_WIPE, 10, 20);
+    /* Make sure background gets drawn (since trans_wipe() doesn't */
+    /* seem to work reliably as of yet):                          */
+//    SDL_BlitSurface(current_bkgd(), NULL, screen, &bkgd_rect);
+ // }
+
+      /* Draw background shading for table: */
+   //   table_bg.x = (screen->w)/2 - (max_width + 20)/2 + 50; //don't draw over Tux
+    //  table_bg.y = 5;
+   //   table_bg.w = max_width + 20;
+    //  table_bg.h = screen->h - 100; //- images[IMG_RIGHT]->h;
+   //   DrawButton(&table_bg, 25, SEL_RGBA);
 
 bkgd_rect = current_bkgd()->clip_rect;
     bkgd_rect.x = (screen->w - bkgd_rect.w) / 2;
     bkgd_rect.y = (screen->h - bkgd_rect.h) / 2;
 
 
-
-if(current_bkgd())
-  {
-    /* FIXME not sure trans_wipe() works in Windows: */
-    trans_wipe(current_bkgd(), RANDOM_WIPE, 10, 20);
-    /* Make sure background gets drawn (since trans_wipe() doesn't */
-    /* seem to work reliably as of yet):                          */
-    SDL_BlitSurface(current_bkgd(), NULL, screen, &bkgd_rect);
-  }
-
-      /* Draw background shading for table: */
-      table_bg.x = (screen->w)/2 - (max_width + 20)/2 + 50; //don't draw over Tux
-      table_bg.y = 5;
-      table_bg.w = max_width + 20;
-      table_bg.h = screen->h - 100; //- images[IMG_RIGHT]->h;
-      DrawButton(&table_bg, 25, SEL_RGBA);
 
 
   while (!finished)
@@ -224,16 +212,17 @@ if(current_bkgd())
       {
         case SDL_QUIT:
         {
-          cleanup();
+           return -1;
         }
 
         case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
+        /* "Stop" button  */
         {
           if (inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
+            return -1;  // quit and cleanup done in calling function
           }
 
           /* "Left" button - go to previous page: */
@@ -274,7 +263,6 @@ if(current_bkgd())
            } 
         }
       }
-          Throttle(20, &timer);
     }
 
 
@@ -282,8 +270,8 @@ if(current_bkgd())
     if (page_no != old_page_no)
     {
 
-       
-    //  DrawTitleScreen();
+         SDL_BlitSurface(current_bkgd(), NULL, screen, &bkgd_rect);
+
       /* Draw controls: */
       if (stop_button)
         SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
@@ -311,7 +299,12 @@ if(current_bkgd())
           SDL_BlitSurface(next_arrow, NULL, screen, &next_rect);
       }
 
-
+ /* Draw background shading for table: */
+      table_bg.x = (screen->w)/2 - (max_width + 20)/2 + 50; //don't draw over Tux
+      table_bg.y = 5;
+      table_bg.w = max_width + 20;
+      table_bg.h = screen->h - 100; //- images[IMG_RIGHT]->h;
+      DrawButton(&table_bg, 25, SEL_RGBA);
 
  temp=page_no*MENUS_ON_SCREEN; //menu display begins from temp at this page
 
@@ -368,10 +361,6 @@ for(i=0;i<current_no;i++)
 }
 
 
-
-
-
-
       SDL_UpdateRect(screen, 0, 0, 0, 0);
 
       old_page_no = page_no;
@@ -387,6 +376,7 @@ for(i=0;i<current_no;i++)
     frame++;
 
   }  // End of while (!finished) loop
+return 0;
 }
 
 
@@ -442,6 +432,7 @@ void ShowMsg(char* str1, char* str2, char* str3, char* str4)
   SDL_FreeSurface(s3);
   SDL_FreeSurface(s4);
 }
+
 
 
 

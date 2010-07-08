@@ -29,6 +29,10 @@
 #include "SDL_mixer.h"
 #endif
 
+#ifdef SCHOOLMODE
+//#include "parse_xmlLesson.h"
+#include "manage_xmlLesson.h"
+#endif
 
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
@@ -58,12 +62,16 @@
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
 
-
-
 #ifdef SCHOOLMODE
-#include "parse_xmlLesson.h"
-int next_wave_no=0;
+int next_wave_no;
+int total_no_menus;  // total no of menus
+
+extern struct input_per_wave *input; //defined in manage_xmlLesson.c
+  struct result_per_wave *result; //defined in factoroids.c
+
 #endif
+
+
 
 /********* Enumerations ***********/
 
@@ -233,6 +241,9 @@ static int fast_cos(int angle);
 static int fast_sin(int angle);
 static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
+#ifdef SCHOOLMODE
+Uint32 n1, n2,n3,n4=0; //used to report time for each wave
+#endif
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -247,6 +258,7 @@ void factors(void)
 
   FF_game = FACTOROIDS_GAME;
   
+
   if (!FF_init())
   {
     fprintf(stderr, "FF_init() failed!\n");
@@ -277,12 +289,13 @@ void factors(void)
 
     game_status = check_exit_conditions();
 
+     n3=SDL_GetTicks();
     if (paused)
     {
       pause_game();
       paused = 0;
     }
-
+     n4+=SDL_GetTicks()-n3;
 
 #ifndef NOSOUND
     if (Opts_UsingSound())
@@ -522,12 +535,14 @@ static int FF_init(void)
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
+      n1=SDL_GetTicks();
       return 1;
     }
     else if (event.type == SDL_KEYDOWN)
     {
       if (event.key.keysym.sym == SDLK_ESCAPE)
         escape_received = 1;
+       n1=SDL_GetTicks();
       return 1;
     }
   }
@@ -1132,6 +1147,21 @@ static void FF_add_level(void)
 
   last_time = now_time = SDL_GetTicks();
 
+#ifdef SCHOOLMODE
+   n2=SDL_GetTicks();
+
+if(wave!=0)
+{
+result[next_wave_no-1].wave_completed=1;
+result[next_wave_no-1].wave_no=wave;
+result[next_wave_no-1].wave_time=n2-n1-n4;
+//printf("\nwave %d took time %d" ,wave,n2-n1-n4);
+}
+   n1=n2;  //more useful after wave 0 case over -- for 0 case n1 is overwritten by value after a keypress
+//n2=SDL_GetTicks();
+n4=0;
+#endif
+
   wave++;
   
   // New lives per wave!
@@ -1139,12 +1169,12 @@ static void FF_add_level(void)
   {
     tuxship.lives++;
   }
-
   
 #ifdef SCHOOLMODE
-wave=waves_parsed[next_wave_no++];
+//wave=waves_parsed[next_wave_no++];
+wave=input[next_wave_no++].wave_no;
 #endif
-  
+
   //Limit the new asteroids
   if(NUM_ASTEROIDS<MAX_ASTEROIDS)
      NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
@@ -1208,6 +1238,37 @@ wave=waves_parsed[next_wave_no++];
    }
   }
 
+#ifdef SCHOOLMODE
+if(1==wave && next_wave_no >1)
+{
+  while(i < 35)
+    {
+      i++;
+     // If wave 1 is used more than once then screen must pause a while and display some graphic like other cases   
+      rect.x=(screen->w/2)-(images[IMG_GOOD]->w/2);
+      rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
+      FF_draw();
+      SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
+      SDL_Flip(screen);
+       
+      last_time = now_time;
+      now_time = SDL_GetTicks();
+
+      if (now_time < last_time + MS_PER_FRAME)
+      {
+        now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
+        if (now_time > MS_PER_FRAME)
+ 	  now_time = MS_PER_FRAME;
+        SDL_Delay(now_time);
+      }
+    }
+
+}
+#endif
+
+#ifdef SCHOOLMODE
+if(next_wave_no!=1) 
+{
   if(wave != 1)
   {
     while(i < 35)
@@ -1231,6 +1292,33 @@ wave=waves_parsed[next_wave_no++];
       }
     }
   }
+}
+#else
+
+  if(wave != 1)
+  {
+    while(i < 35)
+    {
+      i++;
+      rect.x=(screen->w/2)-(images[IMG_GOOD]->w/2);
+      rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
+      FF_draw();
+      SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
+      SDL_Flip(screen);
+
+      last_time = now_time;
+      now_time = SDL_GetTicks();
+
+      if (now_time < last_time + MS_PER_FRAME)
+      {
+        now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
+        if (now_time > MS_PER_FRAME)
+ 	  now_time = MS_PER_FRAME;
+        SDL_Delay(now_time);
+      }
+    }
+  }
+#endif
 }
 
 static int FF_over(int game_status)
@@ -1337,6 +1425,9 @@ static int FF_over(int game_status)
 
     case GAME_OVER_ESCAPE:
     {
+      #ifdef SCHOOLMODE
+      result[next_wave_no-1].wave_completed=0;
+      #endif
       break;
     }
 
@@ -1348,7 +1439,6 @@ static int FF_over(int game_status)
   }
 
   FF_exit_free();
-
   /* Save score in case needed for high score table: */
   Opts_SetLastScore(score);
 
@@ -2193,6 +2283,12 @@ static int check_exit_conditions(void)
   {
     return GAME_OVER_WON;
   }
+#ifdef SCHOOLMODE
+if(next_wave_no>total_no_menus )
+  {
+    return GAME_OVER_WON;
+  }
+#endif
   /* determine if game lost (i.e. all cities blown up): */
   /*if (!num_cities_alive)
   {
@@ -2235,12 +2331,26 @@ static int check_exit_conditions(void)
   return GAME_IN_PROGRESS;
 }
 
-
-void factoroids_schoolmode(int choice)
+int factoroids_schoolmode(int choice,int no_of_waves)
 {
 
+//#ifdef SCHOOLMODE
+
+result = ( struct result_per_wave *) malloc(no_of_waves * sizeof(struct result_per_wave));
+  if (result == NULL)
+  {
+    printf("Allocation of result to store result values failed");
+    return 0;
+  }
+//#endif
+next_wave_no=0;
 if (choice==0)
  factors();
 else if(choice ==1)
 fractions();
+
+//free(result);
+return score;
+//write_xmlLesson(choice);
 }
+
