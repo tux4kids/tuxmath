@@ -739,6 +739,10 @@ int run_menu(MenuNode* root, bool return_choice)
 
   for(;;) /* one loop body execution for one menu page */
   {
+    /* rescale all menu items first if resolution changes */
+    RenderTitleScreen();
+    prerender_all();
+
     DEBUGMSG(debug_menu, "run_menu(): drawing whole new menu page\n");
 
     DrawTitleScreen();
@@ -1420,6 +1424,14 @@ void set_font_size()
    this function should be invoked after every resolution change */
 void prerender_all()
 {
+  static int last_res_x =0;
+  static int last_res_y =0;
+
+  if(last_res_x==screen->w&&last_res_y==screen->h) return;
+  last_res_x=screen->w;
+  last_res_y=screen->h;
+  
+
   int i;
 
   SetRect(&menu_rect, menu_pos);
