@@ -117,6 +117,8 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
           fprintf(stderr,
               "\nError: couldn't write result file: "
               "%s\n",fn);
+      else
+         printf("\nResult file saved : %s\n",fn);
 
 
 clean_up();
