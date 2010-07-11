@@ -60,7 +60,7 @@ int manage_xmlLesson(char *xml_lesson_path)
 xmlNode *cur_node;
 int i;
 char fn[PATH_MAX];
-
+char *write_directory;
 
 if(init_readwrite(xml_lesson_path)==-1)
 return 0;
@@ -101,9 +101,22 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
   }
   // --------------------------------------------------------------------------
 
-       snprintf(fn, PATH_MAX, "%s/images/schoolmode/resultData_date_time.xml", DATA_PREFIX );
+       //snprintf(fn, PATH_MAX, "%s/images/schoolmode/resultData_date_time.xml", DATA_PREFIX );
 
-       xmlSaveFormatFileEnc(fn, doc_write, "UTF-8", 1);
+#ifdef BUILD_MINGW32
+     write_directory = GetDefaultSaveDir(PROGRAM_NAME);
+#else
+     write_directory = strdup(getenv("HOME"));
+#endif
+
+      write_directory= strdup(getenv("HOME"));
+	snprintf(fn, PATH_MAX, "%s/resultData_date_time.xml",write_directory);
+
+
+      if( xmlSaveFormatFileEnc(fn, doc_write, "UTF-8", 1)==-1)
+          fprintf(stderr,
+              "\nError: couldn't write result file: "
+              "%s\n",fn);
 
 
 clean_up();

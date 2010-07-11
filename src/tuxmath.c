@@ -56,15 +56,21 @@ int main(int argc, char* argv[])
   DEBUGMSG(debug_setup, "After gettext() call\n");
 
 #ifdef SCHOOLMODE
-if (argc>1)//if not used then argv[1] will give segfault error in normal game
-{
-if (0 == strcmp(argv[1], "--schoolmode") )
- schoolmode();       /* Run the game in schoolmode ! */
-}
-else
-TitleScreen();  /* Run the game! */
+if (argc>1)//if not used then argv[1] will segfault in normal game
+ {
+   if (0 == strcmp(argv[1], "--schoolmode") )
+    {
+     if(argc >2)  
+      {  
+       schoolmode(argv[2]);
+      }   
+     else
+        fprintf(stderr, "Required an argument (XML lesson filepath)\n");
+    }
+ }
+//else
 #else
-TitleScreen();  /* Run the main game! */
+ TitleScreen();  /* Run the game! */
 #endif
 
   cleanup();
