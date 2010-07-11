@@ -15,6 +15,7 @@
  *  http://tux4kids.alioth.debian.org/                      	*
  ***************************************************************/
 
+
 #include <stdio.h>
 #include <libxml/parser.h>
 #include <libxml/tree.h>
@@ -23,16 +24,23 @@
 #include"factoroids.h"
 #include"fileops.h"
 #include"SDL_extras.h"
+#include"game.h"
+#include"options.h"
+#include"mathcards.h"
 
 //Local Function prototypes for reading
 int parse_fractions(xmlNode *);
 int parse_factors(xmlNode *);
+void parse_tuxmath_game(xmlNode *);
 //Local Function prototypes for writing
 void write_fractions();
 void write_factors();
 //initialize read and write 
 int init_readwrite(char *);
 void clean_up();
+
+void parse_options_math(char* , int );
+
 //variables
   xmlDocPtr doc_read,doc_write;
 
@@ -61,6 +69,7 @@ xmlNode *cur_node;
 int i;
 char fn[PATH_MAX];
 char *write_directory;
+
 
 if(init_readwrite(xml_lesson_path)==-1)
 return 0;
@@ -98,12 +107,23 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
        write_fractions();   
      }
 
+   else if ( cur_node->type == XML_ELEMENT_NODE  &&
+          !xmlStrcmp(cur_node->name, (const xmlChar *) "tuxmath_game" ) )
+     {  
+        if(display_screen(i)==-1)    // i highlights the next game to be played
+             break;
+        i++;          
+      //start uncluttered game by redifining the option settings to global
+      read_global_config_file();
+      parse_tuxmath_game(cur_node);
+	game();
+     }
+  
+
   }
   // --------------------------------------------------------------------------
 
-       //snprintf(fn, PATH_MAX, "%s/images/schoolmode/resultData_date_time.xml", DATA_PREFIX );
-
-#ifdef BUILD_MINGW32
+ #ifdef BUILD_MINGW32
      write_directory = GetDefaultSaveDir(PROGRAM_NAME);
 #else
      write_directory = strdup(getenv("HOME"));
@@ -193,6 +213,13 @@ int i;
 
    else if ( cur_node->type == XML_ELEMENT_NODE  &&
           !xmlStrcmp(cur_node->name, (const xmlChar *) "fractions" ) )
+     {  
+                sprintf(menu_names[i], "%s", cur_node->name); 
+                i++;
+     }
+
+   else if ( cur_node->type == XML_ELEMENT_NODE  &&
+          !xmlStrcmp(cur_node->name, (const xmlChar *) "tuxmath_game" ) )
      {  
                 sprintf(menu_names[i], "%s", cur_node->name); 
                 i++;
@@ -301,6 +328,562 @@ return i;
 }
 
 
+//parse tuxmath_game options for playing tuxmath game
+void parse_tuxmath_game(xmlNode *cur_node)
+{
+ xmlNode *child_node_one,*child_node_two;
+ xmlChar *value;
+char option_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular option value
+
+//initial settings 
+
+   MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
+ MC_SetOpt(ADDITION_ALLOWED, 0);
+MC_SetOpt(SUBTRACTION_ALLOWED, 0);
+ MC_SetOpt(MULTIPLICATION_ALLOWED, 0);
+ MC_SetOpt(DIVISION_ALLOWED, 0);
+
+/*
+parse_options_math("addition_allowed",0);
+parse_options_math("subtraction_allowed",0);
+parse_options_math("multiplication_allowed",0);
+parse_options_math("divison_allowed",0);*/
+        // For each child of tuxmath_game: 
+        for(child_node_one = cur_node->children; child_node_one != NULL; child_node_one = child_node_one->next)
+        {
+           if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"typing_practice") )
+           {
+                MC_SetOpt(TYPING_PRACTICE_ALLOWED, 1);
+
+                        for(child_node_two = child_node_one->children; child_node_two != NULL; child_node_two = child_node_two->next)
+                             {          
+                                        
+
+          			     
+                                     if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_num") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_typing_num",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_num") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_typing_num",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+                             }
+ 
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"addition") )
+           {
+		 MC_SetOpt(ADDITION_ALLOWED, 1);
+                        for(child_node_two = child_node_one->children; child_node_two != NULL; child_node_two = child_node_two->next)
+                             {
+
+                                        if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_augend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_augend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_augend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_augend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+                                    else   if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_addend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_addend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_addend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_addend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+				     
+                             }
+
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"subtraction") )
+           {
+                     MC_SetOpt(SUBTRACTION_ALLOWED, 1);
+
+                        for(child_node_two = child_node_one->children; child_node_two != NULL; child_node_two = child_node_two->next)
+                             {
+
+  
+                                     if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_minuend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_minuend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_minuend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_minuend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+                                    else   if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_subtrahend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_subtrahend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_subtrahend") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_subtrahend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+				     
+                             }
+
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"multiplication") )
+           {
+ 	                            MC_SetOpt(MULTIPLICATION_ALLOWED, 1);
+
+                       for(child_node_two = child_node_one->children; child_node_two != NULL; child_node_two = child_node_two->next)
+                             {
+
+                                       if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_multiplier") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_multiplier",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_multiplier") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_multiplier",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+                                    else   if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_multiplicand") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_subtrahend",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_multiplicand") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_multiplicand",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+				     
+                             }
+
+
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"divison") )
+           {
+		 MC_SetOpt(DIVISION_ALLOWED, 1);
+
+                       for(child_node_two = child_node_one->children; child_node_two != NULL; child_node_two = child_node_two->next)
+                             {
+
+                                      if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_divisor") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_divisor",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_divisor") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_divisor",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+                                    else   if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"min_quotient") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("min_quotient",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+
+          			     else  if ( child_node_one->type == XML_ELEMENT_NODE  &&
+                                            !xmlStrcmp(child_node_two->name, (const xmlChar *)"max_quotient") )
+                                       {
+            
+                                            value= xmlNodeGetContent(child_node_two);
+
+                                             if(value)
+                                                {
+                                                   sprintf(option_string[0], "%s", value); 
+			                           parse_options_math("max_quotient",atoi(option_string[0]));
+                                                
+                                                 } 
+                                          xmlFree(value);
+                                        }
+				     
+                             }
+
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"repeat_wrongs") )
+           {
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("repeat_wrongs",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); 
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"allow_negatives") )
+           {
+              MC_SetOpt(ALLOW_NEGATIVES, 1);
+		/*value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("allow_negatives",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); */
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"format_answer_last") )
+           {
+              MC_SetOpt(FORMAT_ANSWER_LAST, 1);
+              MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
+              MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
+     
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+				parse_options_math("format_add_answer_last",atoi(option_string[0]));
+		                parse_options_math("format_sub_answer_last",atoi(option_string[0]));
+                		parse_options_math("format_mul_answer_last",atoi(option_string[0]));
+                		parse_options_math("format_div_answer_last",atoi(option_string[0]));
+                             } 
+                
+                xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"format_answer_first") )
+           {
+              MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+              MC_SetOpt(FORMAT_ANSWER_FIRST, 1);
+              MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
+     
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+				parse_options_math("format_add_answer_first",atoi(option_string[0]));
+		                parse_options_math("format_sub_answer_first",atoi(option_string[0]));
+                		parse_options_math("format_mul_answer_first",atoi(option_string[0]));
+                		parse_options_math("format_div_answer_first",atoi(option_string[0]));
+                             } 
+                
+                xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"format_answer_middle") )
+           {
+              MC_SetOpt(FORMAT_ANSWER_LAST, 0);
+              MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
+              MC_SetOpt(FORMAT_ANSWER_MIDDLE, 1);
+     
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+				parse_options_math("format_add_answer_middle",atoi(option_string[0]));
+		                parse_options_math("format_sub_answer_middle",atoi(option_string[0]));
+                		parse_options_math("format_mul_answer_middle",atoi(option_string[0]));
+                		parse_options_math("format_div_answer_middle",atoi(option_string[0]));
+                             } 
+                
+                xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"max_answer") )
+           {
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("max_answer",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); 
+           }          
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"allow_paused") )
+           {
+                       value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value); 
+                               Opts_SetAllowPause(atoi(option_string[0]));
+                             } 
+                       xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"starting_comets") )
+           {
+                        value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value); 
+                               Opts_SetStartingComets(atoi(option_string[0]));
+                             } 
+                       xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"extra_comets_per_wave") )
+           {
+                       value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value); 
+                               Opts_SetExtraCometsPerWave(atoi(option_string[0]));
+                             } 
+                       xmlFree(value);
+           }          
+     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"max_comets") )
+           {
+                       value= xmlNodeGetContent(child_node_two);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value); 
+                               Opts_SetMaxComets(atoi(option_string[0]));
+                             } 
+                       xmlFree(value);
+           }     
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"avg_list_length") )
+           {
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("avg_list_length",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); 
+           } 
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"min_formula_nums") )
+           {
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("min_formula_nums",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); 
+           } 
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node_one->name, (const xmlChar *)"max_formula_nums") )
+           {
+		value= xmlNodeGetContent(child_node_one);
+                           if(value)
+                             {
+                               sprintf(option_string[0], "%s", value);
+                              parse_options_math("max_formula_nums",atoi(option_string[0]));
+                             } 
+
+                xmlFree(value); 
+           } 
+         
+           
+
+
+         }
+
+}
+
+
+void parse_options_math(char* name, int val)
+{
+  int index = -1;
+  
+  if ((index = MC_MapTextToIndex(name)) != -1) //is it a math opt?
+  {
+    MC_SetOpt(index, val);
+  }
+}
 
 
 //write factors
