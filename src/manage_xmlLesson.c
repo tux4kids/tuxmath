@@ -69,7 +69,14 @@ int manage_xmlLesson(char *xml_lesson_path)
 xmlNode *cur_node;
 int i;
 char fn[PATH_MAX];
+char test_file[PATH_MAX]; //this files is used to extract time and date and then deleted
 char *write_directory;
+
+//time and date related variables
+time_t filetime;
+  struct stat filestat;
+  struct tm datetime;
+  FILE* fp; 
 
 
 if(init_readwrite(xml_lesson_path)==-1)
@@ -131,9 +138,51 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
      write_directory = strdup(getenv("HOME"));
 #endif
 
+      //Decide the write directory for writing result  
       write_directory= strdup(getenv("HOME"));
-	snprintf(fn, PATH_MAX, "%s/resultData_date_time.xml",write_directory);
 
+
+
+
+/* FIXME there must be a better method way to do than this    */ 
+/*Extract date and time by writing a test file to the same directory*/
+/* where we are going to write result and extracting date and time from it */
+/*and then deleting that file. */
+/* We're going to want to write the date.  Use the filetime  */
+    /* rather than calling "time" directly, because "time"       */
+    /* returns the time according to whatever computer is        */
+    /* running tuxmath, and in a server/client mode it's likely  */
+    /* that some of the clients' clocks may be wrong. Use      */
+    /* instead the time according to the server on which the     */
+    /* accounts are stored, which can be extracted from the      */
+    /* modification time of the summary we just wrote.           */
+	
+snprintf(test_file, PATH_MAX, "%s/testfile",write_directory);
+fp=fopen(test_file,"w");
+if (fp){
+fprintf(fp, "\ntest file");
+fclose(fp);
+} 
+else {fprintf(stderr,"test file not written.\n");}
+    
+//time and date related code
+if (stat(test_file,&filestat) == 0) {
+      filetime = filestat.st_mtime;
+    } else {
+      filetime = time(NULL);
+    }
+localtime_r(&filetime,&datetime); /* generate broken-down time */
+
+remove(test_file); //got date and time so remove the file
+
+
+
+
+
+
+//write the result file
+	snprintf(fn, PATH_MAX, "%s/result%d-%d-%d__%d:%d:%d.xml",write_directory,datetime.tm_year+1900, 
+              datetime.tm_mon+1, datetime.tm_mday,datetime.tm_hour,datetime.tm_min,datetime.tm_sec);
 
       if( xmlSaveFormatFileEnc(fn, doc_write, "UTF-8", 1)==-1)
           fprintf(stderr,
@@ -989,17 +1038,6 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "tuxmath_game", NULL);
     sprintf(buff, "%d", MC_NumNotAnsweredCorrectly());
     xmlNewChild(node, NULL, BAD_CAST "questions_missed", BAD_CAST buff); 
 
-//Percentage of correctly answered questions
-  if (total_answered)
-    {  
-      sprintf(buff, "%d", ((MC_NumAnsweredCorrectly() * 100)/ total_answered) );
-    }
-  else
-    {
-      sprintf(buff, "not applicable" );
-    }
-   xmlNewChild(node, NULL, BAD_CAST "percent_correct", BAD_CAST buff); 
-     
 
 //Median time/question
     sprintf(buff, "%g", MC_MedianTimePerQuestion());
