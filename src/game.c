@@ -460,7 +460,9 @@ int game(void)
   /* Write post-game info to game summary file: */
   if (Opts_SaveSummary())
   {
+   #ifndef SCHOOLMODE
     write_postgame_summary();
+   #endif
   }
 
   /* Save score in case needed for high score table: */
@@ -917,7 +919,9 @@ int game_initialize(void)
   /* Write pre-game info to game summary file: */
   if (Opts_SaveSummary())
   {
+#ifndef SCHOOLMODE
     write_pregame_summary();
+#endif
   }
 
   /* Prepare to start the game: */

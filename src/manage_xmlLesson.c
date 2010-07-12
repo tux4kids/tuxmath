@@ -35,6 +35,7 @@ void parse_tuxmath_game(xmlNode *);
 //Local Function prototypes for writing
 void write_fractions();
 void write_factors();
+void write_tuxmath_game();
 //initialize read and write 
 int init_readwrite(char *);
 void clean_up();
@@ -117,6 +118,7 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
       read_global_config_file();
       parse_tuxmath_game(cur_node);
 	game();
+      write_tuxmath_game();
      }
   
 
@@ -952,6 +954,67 @@ xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff);
 
 }
 
+
+//write result of Tuxmath game in result file
+void write_tuxmath_game()
+{
+
+int total_answered;
+xmlNodePtr node = NULL;/* node pointers */
+
+node = xmlNewChild(root_write, NULL, BAD_CAST "tuxmath_game", NULL);
+
+
+//Number Of starting questions
+    sprintf(buff, "%d", MC_StartingListLength());
+    xmlNewChild(node, NULL, BAD_CAST "starting_num_questions", BAD_CAST buff); 
+
+
+//Number Of Distinct Questions Not Answered Correctly
+    sprintf(buff, "%d", MC_WrongListLength());
+    xmlNewChild(node, NULL, BAD_CAST "distinct_wrong_num", BAD_CAST buff); 
+
+
+//Total Number Of Questions attempted
+    total_answered = MC_NumAnsweredCorrectly() + MC_NumNotAnsweredCorrectly();
+    sprintf(buff, "%d", total_answered);
+    xmlNewChild(node, NULL, BAD_CAST "questions_attempted", BAD_CAST buff); 
+
+
+//Total Number Of Questions attempted correctly
+    sprintf(buff, "%d", MC_NumAnsweredCorrectly());
+    xmlNewChild(node, NULL, BAD_CAST "questions_correct", BAD_CAST buff); 
+
+//Total Number Of Questions missed
+    sprintf(buff, "%d", MC_NumNotAnsweredCorrectly());
+    xmlNewChild(node, NULL, BAD_CAST "questions_missed", BAD_CAST buff); 
+
+//Percentage of correctly answered questions
+  if (total_answered)
+    {  
+      sprintf(buff, "%d", ((MC_NumAnsweredCorrectly() * 100)/ total_answered) );
+    }
+  else
+    {
+      sprintf(buff, "not applicable" );
+    }
+   xmlNewChild(node, NULL, BAD_CAST "percent_correct", BAD_CAST buff); 
+     
+
+//Median time/question
+    sprintf(buff, "%g", MC_MedianTimePerQuestion());
+    xmlNewChild(node, NULL, BAD_CAST "median_time_per_ques", BAD_CAST buff); 
+
+//whether mission accomplished
+    (MC_MissionAccomplished())?sprintf(buff, "Yes"):sprintf(buff, "No");
+    xmlNewChild(node, NULL, BAD_CAST "mission_accomplished", BAD_CAST buff); 
+
+//Median time/question
+    sprintf(buff, "%d",   Opts_LastScore());
+    xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff); 
+
+
+}
 
 void clean_up()
 {
