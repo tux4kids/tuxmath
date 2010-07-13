@@ -68,7 +68,7 @@ extern const int debug_sdl;
 extern const int debug_lessons;
 extern const int debug_highscore;
 extern const int debug_options;
-extern const int debug_convert_utf;
+extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
 extern const int debug_all;
 

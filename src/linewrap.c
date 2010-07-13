@@ -26,6 +26,7 @@
 
 #include "../linebreak/linebreak.h"
 #include "linewrap.h"
+#include "globals.h"
 
 static char wrapped_lines0[MAX_LINES][MAX_LINEWIDTH];  // for internal storage
 char wrapped_lines[MAX_LINES][MAX_LINEWIDTH]; // publicly available!
@@ -95,37 +96,37 @@ void linewrap_list(const char input[MAX_LINES][MAX_LINEWIDTH],
   outputIndex = 0;
   for (inputIndex = 0; strlen(input[inputIndex]) > 0 && outputIndex < max_lines-1; inputIndex++)
   {
-    printf("inputIndex = %d, outputIndex = %d, String: %s\n",
-           inputIndex, outputIndex, input[inputIndex]);
-
+    DEBUGMSG(debug_text_and_intl,"inputIndex = %d, outputIndex = %d, String: %s\n",
+	   inputIndex, outputIndex, input[inputIndex]);
+      
     /* Handle blank strings */
     if (strcmp(input[inputIndex], " ") == 0)
-    {
-      strcpy(str_list[outputIndex++]," ");
-      printf("Blank (%d)\n",inputIndex);
-      continue;
-    }
-
+      {
+	strcpy(str_list[outputIndex++]," ");
+	DEBUGMSG(debug_text_and_intl,"Blank (%d)\n",inputIndex);
+	continue;
+      }
+    
     /* Handle real strings */
-    printf("Not blank. Translated: %s\n",gettext(input[inputIndex]));
+    DEBUGMSG(debug_text_and_intl,"Not blank. Translated: %s\n",gettext(input[inputIndex]));
     n_lines = linewrap(gettext(input[inputIndex]), wrapped_lines0, width, max_lines, max_width);
-    printf("Wrapped to %d lines.\n", n_lines);
+    DEBUGMSG(debug_text_and_intl,"Wrapped to %d lines.\n", n_lines);
 
     for (intermedIndex = 0;
          intermedIndex < n_lines && outputIndex < max_lines-1;
          intermedIndex++, outputIndex++)
     {
-      printf("intermedIndex %d, outputIndex %d, string %s\n",intermedIndex,outputIndex, wrapped_lines0[intermedIndex]);
+      DEBUGMSG(debug_text_and_intl,"intermedIndex %d, outputIndex %d, string %s\n",intermedIndex,outputIndex, wrapped_lines0[intermedIndex]);
       strncpy(str_list[outputIndex], wrapped_lines0[intermedIndex], max_width);
     }
   }
 
-  printf("All done (outputIndex = %d)\n",outputIndex);
+  DEBUGMSG(debug_text_and_intl,"All done (outputIndex = %d)\n",outputIndex);
 
   for (; outputIndex < max_lines; outputIndex++)
   {
-    //printf("  blanking %d\n", outputIndex);
+    //DEBUGMSG(debug_text_and_intl,"  blanking %d\n", outputIndex);
     str_list[outputIndex][0] = '\0';
   }
-  printf("All done.\n");
+  DEBUGMSG(debug_text_and_intl,"All done.\n");
 }

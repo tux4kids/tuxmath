@@ -223,13 +223,18 @@ void handle_command_args(int argc, char* argv[])
       /* Display help message: */
 
       printf("\nTux, of Math Command\n\n"
-        "Use the number keys on the keyboard to answer math equations.\n"
+        "Use the number keys on the keyboard to answer math equations,\n"
+	"and then hit the space bar or enter.\n"
         "If you don't answer a comet's math equation before it hits\n"
-        "one of your cities, the city's shields will be destroyed.\n"
-        "If that city is hit by another comet, it is destroyed completely.\n"
-        "When you lose all of your cities, the game ends.\n\n");
+        "one of your igloos, the igloo will be damaged.\n"
+	"If an igloo is hit twice, the penguin inside walks away.\n"
+        "When you lose all of your igloos, the game ends.\n\n");
 
-      printf("Note: all settings are now stored in a config file named 'options' in\n"
+      printf("There is also a \"factoroids\" game in which a ship\n"
+	     "destroys asteroids if you type a valid factor of the number\n"
+	     "for a particular asteroid.  Use the number keys to steer.\n\n");
+
+      printf("Note: most settings are now stored in a config file named 'options' in\n"
              "a hidden directory named './tuxmath' within the user's home directory.\n"
              "The file consists of simple name/value pairs. It is much easier\n"
              "to edit this file to set game parameters than to use the command-line\n"
@@ -265,6 +270,24 @@ void handle_command_args(int argc, char* argv[])
         "--speed S        - set initial speed of the game\n"
         "                   (S may be fractional, default is 1.0)\n"
         "--allownegatives - to allow answers to be less than zero\n"
+	"--debug-X        - prints debug information on command line\n"
+	"                   X may be one of the following:\n"
+	"                     setup: debug messages only during initialization \n"
+	"                     fileops: file operations (loading and saving data)\n"
+	"                     loaders: loading of mulitmedia (images and sounds)\n"
+	"                     titlescreen\n"
+	"                     menu: most operations dealing with menus\n"
+	"                     menu-parser: subset of operations dealing with menus\n"
+	"                     game: the comets game\n"
+	"                     factoroids: the factoroids game\n"
+	"                     lan: anything dealing with networking\n"
+	"                     mathcards: generation of math problems\n"
+	"                     sdl: the general graphical system\n"
+	"                     lessons: parsing pre-prepared lessons\n"
+	"                     highscore: loading and saving high scores\n"
+	"                     options: loading and saving options files\n"
+	"                     text-and-intl: text and internationalization\n"
+	"                     all: everything!\n"
         );
 
       printf("\n");
@@ -465,6 +488,10 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--debug-options") == 0)
     {
       debug_status |= debug_options;
+    }
+    else if (strcmp(argv[i], "--debug-text-and-intl") == 0)
+    {
+      debug_status |= debug_text_and_intl;
     }
     else
     /* TODO try to match unrecognized strings to config file names */
