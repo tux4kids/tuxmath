@@ -31,12 +31,8 @@
 #endif
 
 /* Non-text graphics functions: */
-#ifndef HAVE_LIBT4K_COMMON
 void            DrawButton(SDL_Rect* target_rect, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void            SetRect(SDL_Rect* rect, const float* pos);
-#else
-# define DrawButton T4K_DrawButton
-#endif
 SDL_Surface*    CreateButton(int w, int h, int radius, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
 void            RoundCorners(SDL_Surface* s, Uint16 radius);
 

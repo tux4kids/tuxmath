@@ -335,7 +335,7 @@ int RenderTitleScreen(void)
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
 
     /* Tux in lower left corner of the screen */
-    SetRect(&tux_rect, tux_pos);
+    T4K_SetRect(&tux_rect, tux_pos);
     Tux = LoadSpriteOfBoundingBox(tux_path, IMG_ALPHA, tux_rect.w, tux_rect.h);
     if(Tux && Tux->frame[0])
     {
@@ -349,7 +349,7 @@ int RenderTitleScreen(void)
     }
 
     /* "Tux, of math command" title in upper right corner */
-    SetRect(&title_rect, title_pos);
+    T4K_SetRect(&title_rect, title_pos);
     title = LoadImageOfBoundingBox(title_path, IMG_ALPHA, title_rect.w, title_rect.h);
     if(title)
     {
@@ -415,7 +415,7 @@ void HandleTitleScreenAnimations()
     /* Redraw background to keep edges anti-aliased properly: */
     SDL_BlitSurface(current_bkg(),&tux_rect, screen, &tux_rect);
     SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &tux_rect);
-    UpdateRect(screen, &tux_rect);
+    T4K_UpdateRect(screen, &tux_rect);
   }
 
   if (egg_active) { //if we need to, draw the egg cursor
@@ -423,7 +423,7 @@ void HandleTitleScreenAnimations()
     SDL_GetMouseState((int*)(&cursor.x), (int*)(&cursor.y));
     cursor.x -= egg->w / 2; //center vertically
     SDL_BlitSurface(egg, NULL, screen, &cursor);
-    UpdateRect(screen, &cursor);
+    T4K_UpdateRect(screen, &cursor);
   }
 
   frame_counter++;
@@ -503,13 +503,13 @@ void ShowMessage(int font_size, const char* str1, const char* str2,
   DEBUGMSG(debug_titlescreen, "ShowMessage() - creating text\n" );
 
   if (str1)
-    s1 = BlackOutline(str1, font_size * scale, &white);
+    s1 = T4K_BlackOutline(str1, font_size * scale, &white);
   if (str2)
-    s2 = BlackOutline(str2, font_size * scale, &white);
+    s2 = T4K_BlackOutline(str2, font_size * scale, &white);
   if (str3)
-    s3 = BlackOutline(str3, font_size * scale, &white);
+    s3 = T4K_BlackOutline(str3, font_size * scale, &white);
   if (str4)
-    s4 = BlackOutline(str4, font_size * scale, &white);
+    s4 = T4K_BlackOutline(str4, font_size * scale, &white);
 
   DEBUGMSG(debug_titlescreen, "ShowMessage() - drawing screen\n" );
 
@@ -523,7 +523,7 @@ void ShowMessage(int font_size, const char* str1, const char* str2,
   loc.y = screen->h * 0.1;
   loc.w = screen->w * 0.5;
   loc.h = screen->h * 0.8;
-  DrawButton(&loc, 50, SEL_RGBA);
+  T4K_DrawButton(&loc, 50, SEL_RGBA);
 
 
   /* Draw lines of text (do after drawing Tux so text is in front): */
@@ -567,7 +567,7 @@ void ShowMessage(int font_size, const char* str1, const char* str2,
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stop_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
@@ -877,7 +877,7 @@ int handle_easter_egg(const SDL_Event* evt)
     {
     eggtimer = 0;
     if (evt->type == SDL_MOUSEBUTTONDOWN &&
-          inRect(beak, evt->button.x, evt->button.y) )
+          T4K_inRect(beak, evt->button.x, evt->button.y) )
       {
       SDL_ShowCursor(SDL_DISABLE);
 

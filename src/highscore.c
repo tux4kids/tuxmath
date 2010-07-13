@@ -79,14 +79,14 @@ void DisplayHighScores(int level)
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stop_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
           }
 
           /* "Left" button - go to previous page: */
-          if (inRect(prev_rect, event.button.x, event.button.y))
+          if (T4K_inRect(prev_rect, event.button.x, event.button.y))
           {
             if (diff_level > CADET_HIGH_SCORE)
             {
@@ -99,7 +99,7 @@ void DisplayHighScores(int level)
           }
 
           /* "Right" button - go to next page: */
-          if (inRect(next_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(next_rect, event.button.x, event.button.y ))
           {
             if (diff_level < (NUM_HIGH_SCORE_LEVELS-1))
             {
@@ -158,14 +158,14 @@ void DisplayHighScores(int level)
       table_bg.y = 5;
       table_bg.w = max_width + 20;
       table_bg.h = screen->h - 10 - images[IMG_RIGHT]->h;
-      DrawButton(&table_bg, 25, SEL_RGBA);
+      T4K_DrawButton(&table_bg, 25, SEL_RGBA);
 
       /* Draw difficulty level heading: */
       {
         SDL_Surface* srfc = NULL;
         SDL_Rect text_rect, button_rect;
 
-        srfc = BlackOutline(_("Hall Of Fame"), title_font_size, &yellow);
+        srfc = T4K_BlackOutline(_("Hall Of Fame"), title_font_size, &yellow);
         if (srfc)
         {
           button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2 + 50;
@@ -175,7 +175,7 @@ void DisplayHighScores(int level)
           /* add margin to button and draw: */
           button_rect.x -= 10;
           button_rect.w += 20;
-          DrawButton(&button_rect, 15, 0, 0, 32, 192);
+          T4K_DrawButton(&button_rect, 15, 0, 0, 32, 192);
           /* Now blit text and free surface: */
           SDL_BlitSurface(srfc, NULL, screen, &text_rect);
           SDL_FreeSurface(srfc);
@@ -185,28 +185,28 @@ void DisplayHighScores(int level)
         switch (diff_level)
         {
           case CADET_HIGH_SCORE:
-            srfc = BlackOutline(_("Space Cadet"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Space Cadet"), title_font_size, &white);
             break;
           case SCOUT_HIGH_SCORE:
-            srfc = BlackOutline(_("Scout"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Scout"), title_font_size, &white);
             break;
           case RANGER_HIGH_SCORE:
-            srfc = BlackOutline(_("Ranger"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Ranger"), title_font_size, &white);
             break;
           case ACE_HIGH_SCORE:
-            srfc = BlackOutline(_("Ace"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Ace"), title_font_size, &white);
             break;
           case COMMANDO_HIGH_SCORE:
-            srfc = BlackOutline(_("Commando"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Commando"), title_font_size, &white);
             break;
           case FACTORS_HIGH_SCORE:
-            srfc = BlackOutline(_("Factors"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Factors"), title_font_size, &white);
             break;
           case FRACTIONS_HIGH_SCORE:
-            srfc = BlackOutline(_("Fractions"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Fractions"), title_font_size, &white);
             break;
           default:
-            srfc = BlackOutline(_("Space Cadet"), title_font_size, &white);
+            srfc = T4K_BlackOutline(_("Space Cadet"), title_font_size, &white);
         }
 
         if (srfc)
@@ -239,11 +239,11 @@ void DisplayHighScores(int level)
         if (score_surfs[i])               /* this should not happen! */
           SDL_FreeSurface(score_surfs[i]);
         if (HS_Score(diff_level, i) == Opts_LastScore() && frame % 5 < 2)
-          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font_size, &yellow);
+          score_surfs[i] = T4K_BlackOutline(N_(score_strings[i]), player_font_size, &yellow);
         else
-          score_surfs[i] = BlackOutline(N_(score_strings[i]), player_font_size, &white);
+          score_surfs[i] = T4K_BlackOutline(N_(score_strings[i]), player_font_size, &white);
 
-        /* Get out if BlackOutline() fails: */
+        /* Get out if T4K_BlackOutline() fails: */
         if (!score_surfs[i])
           continue;
         /* Set up entries in vertical column: */
@@ -328,18 +328,18 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
     bg_rect.y = BG_Y;
     bg_rect.w = BG_WIDTH;
     bg_rect.h = BG_HEIGHT;
-    DrawButton(&bg_rect, 15, REG_RGBA);
+    T4K_DrawButton(&bg_rect, 15, REG_RGBA);
 
     bg_rect.x += 10;
     bg_rect.y += 10;
     bg_rect.w -= 20;
     bg_rect.h = 60;
-    DrawButton(&bg_rect, 10, SEL_RGBA);
+    T4K_DrawButton(&bg_rect, 10, SEL_RGBA);
   }
 
   /* Draw heading: */
   {
-    SDL_Surface* s = BlackOutline(_(heading),
+    SDL_Surface* s = T4K_BlackOutline(_(heading),
                                   DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -349,7 +349,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
       SDL_FreeSurface(s);
     }
 
-    s = BlackOutline(_(sub),
+    s = T4K_BlackOutline(_(sub),
                      DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -380,7 +380,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stop_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
@@ -430,14 +430,14 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
             SDL_Surface* s = NULL;
             redraw = 0;
 
-            /* Convert text to UTF-8 so BlackOutline() can handle it: */
+            /* Convert text to UTF-8 so T4K_BlackOutline() can handle it: */
    //         wcstombs((char*) UTF8_buf, wchar_buf, HIGH_SCORE_NAME_LENGTH * 3);
             ConvertToUTF8(wchar_buf, UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
             /* Redraw background and shading in area where we drew text last time: */ 
             if (!first_draw)
             {
               SDL_BlitSurface(current_bkg(), &redraw_rect, screen, &redraw_rect);
-              DrawButton(&redraw_rect, 0, REG_RGBA);
+              T4K_DrawButton(&redraw_rect, 0, REG_RGBA);
               SDL_UpdateRect(screen,
                              redraw_rect.x,
                              redraw_rect.y,
@@ -445,7 +445,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
                              redraw_rect.h);
             }
 
-            s = BlackOutline(UTF8_buf, NAME_FONT_SIZE, &yellow);
+            s = T4K_BlackOutline(UTF8_buf, NAME_FONT_SIZE, &yellow);
             if (s)
             {
               /* set up loc and blit: */
@@ -747,18 +747,18 @@ int Ready(const char* heading)
     bg_rect.y = BG_Y;
     bg_rect.w = BG_WIDTH;
     bg_rect.h = BG_HEIGHT;
-    DrawButton(&bg_rect, 15, REG_RGBA);
+    T4K_DrawButton(&bg_rect, 15, REG_RGBA);
 
     bg_rect.x += 10;
     bg_rect.y += 10;
     bg_rect.w -= 20;
     bg_rect.h = 60;
-    DrawButton(&bg_rect, 10, SEL_RGBA);
+    T4K_DrawButton(&bg_rect, 10, SEL_RGBA);
   }
 
   /* Draw heading: */
   {
-    SDL_Surface* s = BlackOutline(_(heading),
+    SDL_Surface* s = T4K_BlackOutline(_(heading),
                                   DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -802,13 +802,13 @@ int Ready(const char* heading)
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stop_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = -1;
             playsound(SND_TOCK);
             break;
           } 
-          else if (inRect(okRect, event.button.x, event.button.y ))
+          else if (T4K_inRect(okRect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
@@ -882,18 +882,18 @@ int Standby(const char* heading, const char* sub)
     bg_rect.y = BG_Y;
     bg_rect.w = BG_WIDTH;
     bg_rect.h = BG_HEIGHT;
-    DrawButton(&bg_rect, 15, REG_RGBA);
+    T4K_DrawButton(&bg_rect, 15, REG_RGBA);
 
     bg_rect.x += 10;
     bg_rect.y += 10;
     bg_rect.w -= 20;
     bg_rect.h = 60;
-    DrawButton(&bg_rect, 10, SEL_RGBA);
+    T4K_DrawButton(&bg_rect, 10, SEL_RGBA);
   }
 
   /* Draw heading: */
   {
-    SDL_Surface* s = BlackOutline(_(heading),
+    SDL_Surface* s = T4K_BlackOutline(_(heading),
                                   DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -903,7 +903,7 @@ int Standby(const char* heading, const char* sub)
       SDL_FreeSurface(s);
     }
 
-    s = BlackOutline(_(sub),
+    s = T4K_BlackOutline(_(sub),
                      DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -939,7 +939,7 @@ int Standby(const char* heading, const char* sub)
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         {
-          if (inRect(stop_rect, event.button.x, event.button.y ))
+          if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);
@@ -1054,7 +1054,7 @@ int detecting_servers(const char* heading, const char* sub)
 
   /* Draw heading: */
   {
-    SDL_Surface* s = BlackOutline(_(heading),
+    SDL_Surface* s = T4K_BlackOutline(_(heading),
                                   DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -1064,7 +1064,7 @@ int detecting_servers(const char* heading, const char* sub)
       SDL_FreeSurface(s);
     }
 
-    s = BlackOutline(_(sub),
+    s = T4K_BlackOutline(_(sub),
                      DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -1127,7 +1127,7 @@ int detecting_servers(const char* heading, const char* sub)
         case SDL_MOUSEBUTTONDOWN:
         /* "Stop" button - go to main menu: */
         { 
-          if (inRect(stopRect, event.button.x, event.button.y ))
+          if (T4K_inRect(stopRect, event.button.x, event.button.y ))
           {
             finished = 1;
             playsound(SND_TOCK);

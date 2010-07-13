@@ -184,7 +184,7 @@ void briefPlayer(int stage)
 
   if (loadedsprite) //stretch the tiny sprite to 3x
   {
-    icon = zoom(loadedsprite, loadedsprite->w*3, loadedsprite->h*3);
+    icon = T4K_zoom(loadedsprite, loadedsprite->w*3, loadedsprite->h*3);
     textarea.x = icon->w;
     textarea.y = icon->h;
     textarea.w = screen->w - icon->w;
@@ -192,7 +192,7 @@ void briefPlayer(int stage)
   }
 
   SDL_FillRect(screen, NULL, 0);
-  //TransWipe(black, RANDOM_WIPE, 10, 20);
+  //T4K_TransWipe(black, RANDOM_WIPE, 10, 20);
   //show this stage's text
   DEBUGMSG(debug_game, "Briefing\n");
 

@@ -388,7 +388,7 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
       width = w;
       height = h;
     }
-    final_pic = zoom(loaded_pic, width, height);
+    final_pic = T4K_zoom(loaded_pic, width, height);
     SDL_FreeSurface(loaded_pic);
     loaded_pic = final_pic;
     final_pic = NULL;
@@ -620,11 +620,11 @@ sprite* FlipSprite(sprite* in, int X, int Y)
 
   out = malloc(sizeof(sprite));
   if (in->default_img != NULL)
-    out->default_img = Flip( in->default_img, X, Y );
+    out->default_img = T4K_Flip( in->default_img, X, Y );
   else
     out->default_img = NULL;
   for( out->num_frames=0; out->num_frames<in->num_frames; out->num_frames++ )
-    out->frame[out->num_frames] = Flip( in->frame[out->num_frames], X, Y );
+    out->frame[out->num_frames] = T4K_Flip( in->frame[out->num_frames], X, Y );
   out->cur = 0;
   return out;
 }

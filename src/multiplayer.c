@@ -185,7 +185,7 @@ void showWinners(int* winners, int num)
 
   DEBUGMSG(debug_multiplayer, "%s Win text: %s\n", pnames[winners[0]], text);
 
-  DarkenScreen(1);
+  T4K_DarkenScreen(1);
 
   while (box.h < screen->h || box.w < screen->w)
   {
@@ -211,7 +211,7 @@ void showWinners(int* winners, int num)
   SDL_FillRect(screen, NULL, 0);
   draw_text(text, center);
   SDL_Flip(screen);
-  WaitForEvent(SDL_KEYDOWNMASK | SDL_MOUSEBUTTONDOWNMASK);
+  T4K_WaitForEvent(SDL_KEYDOWNMASK | SDL_MOUSEBUTTONDOWNMASK);
 }
 
 int initMP()

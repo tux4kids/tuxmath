@@ -1726,14 +1726,14 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
   DEBUGMSG(debug_factoroids, "ShowMessage() - creating text\n" );
 
   if (str1)
-    s1 = BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
+    s1 = T4K_BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
   if (str2)
-    s2 = BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
+    s2 = T4K_BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
   if (str3)
-    s3 = BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
+    s3 = T4K_BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
   /* When we get going with i18n may need to modify following - see below: */
   if (str4)
-    s4 = BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
+    s4 = T4K_BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
 
   DEBUGMSG(debug_factoroids, "ShowMessage() - drawing screen\n" );
 

@@ -416,7 +416,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
 
   //Figure out how tall each line needs to be:
   {
-    SDL_Surface* s = SimpleText("A", DEFAULT_MENU_FONT_SIZE, &white);
+    SDL_Surface* s = T4K_SimpleText("A", DEFAULT_MENU_FONT_SIZE, &white);
     if(s)
     {	    
       line_height = s->h;
@@ -617,7 +617,7 @@ void draw_text(char* str, SDL_Rect dest)
 
   /* This func from SDL_extras draws with SDL_Pango if avail, */
   /* with SDL_ttf as fallback:                                */
-  surf =  SimpleText(str, DEFAULT_MENU_FONT_SIZE, &col);
+  surf =  T4K_SimpleText(str, DEFAULT_MENU_FONT_SIZE, &col);
 
   dest.x -= surf->w / 2; //center text
   SDL_BlitSurface(surf, NULL, screen, &dest);

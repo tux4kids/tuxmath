@@ -240,7 +240,7 @@ int game(void)
   //see if the option matches the actual screen
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
   {
-    ;//SwitchScreenMode();  //Huh??
+    ;//T4K_SwitchScreenMode();  //Huh??
   }
 
 
@@ -1334,7 +1334,7 @@ void game_write_message(const game_message *msg)
 
   if (strlen(msg->message) > 0)
   {
-    surf = BlackOutline( _(msg->message), DEFAULT_HELP_FONT_SIZE, &white);
+    surf = T4K_BlackOutline( _(msg->message), DEFAULT_HELP_FONT_SIZE, &white);
     rect.w = surf->w;
     rect.h = surf->h;
     if (msg->x < 0)
@@ -2577,7 +2577,7 @@ void game_draw_misc(void)
     {
       SDL_Surface* score;
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+      score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
       if(score)
       {
         SDL_Rect loc;
@@ -2600,7 +2600,7 @@ void game_draw_misc(void)
       {
         SDL_Surface* score;
         snprintf(str, 64, "%s: %d", lan_pnames[i], lan_pscores[i]);
-        score = BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+        score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
         if(score)
         {
           SDL_Rect loc;
@@ -3230,7 +3230,7 @@ int pause_game(void)
   dest.w = images[IMG_PAUSED]->w;
   dest.h = images[IMG_PAUSED]->h;
 
-  DarkenScreen(1);  // cut all channels by half
+  T4K_DarkenScreen(1);  // cut all channels by half
   SDL_BlitSurface(images[IMG_PAUSED], NULL, screen, &dest);
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
@@ -3728,7 +3728,7 @@ void game_key_event(SDLKey key, SDLMod mod)
   else if (key == SDLK_F10)
   {
     Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
-    SwitchScreenMode();
+    T4K_SwitchScreenMode();
     game_recalc_positions();
   }
 

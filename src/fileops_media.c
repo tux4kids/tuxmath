@@ -181,9 +181,9 @@ int load_image_data()
 #ifdef REPLACE_WAVESCORE
   /* Replace the "WAVE" and "SCORE" with translate-able versions */
   SDL_FreeSurface(images[IMG_WAVE]);
-  images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
+  images[IMG_WAVE] = T4K_SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
   SDL_FreeSurface(images[IMG_SCORE]);
-  images[IMG_SCORE] = SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
+  images[IMG_SCORE] = T4K_SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
   glyph_offset++;
 #endif
 

@@ -505,7 +505,7 @@ void initialize_SDL(void)
   }
 
   /* This sets up whichever text library we are using: */
-  if (!Setup_SDL_Text())
+  if (!T4K_Setup_SDL_Text())
   {
     fprintf( stderr, "Couldn't initialize text (SDL_ttf or SDL_Pango)\n");
     cleanup_on_error();
@@ -651,7 +651,7 @@ void generate_flipped_images(void)
     flipped_img_lookup[i] = 0;
 
   for (i = 0; i < NUM_FLIPPED_IMAGES; i++) {
-    flipped_images[i] = Flip(images[flipped_img[i]],1,0);
+    flipped_images[i] = T4K_Flip(images[flipped_img[i]],1,0);
     flipped_img_lookup[flipped_img[i]] = i;
   }
 }
@@ -660,20 +660,20 @@ void generate_flipped_images(void)
    the transitions. */
 void generate_blended_images(void)
 {
-  blended_igloos[0] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.06);
-  blended_igloos[1] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.125);
-  blended_igloos[2] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.185);
-  blended_igloos[3] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.25);
-  blended_igloos[4] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.5);
-  blended_igloos[5] = Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.75);
+  blended_igloos[0] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.06);
+  blended_igloos[1] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.125);
+  blended_igloos[2] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.185);
+  blended_igloos[3] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.25);
+  blended_igloos[4] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.5);
+  blended_igloos[5] = T4K_Blend(images[IMG_IGLOO_REBUILDING1],NULL,0.75);
   blended_igloos[6] = images[IMG_IGLOO_REBUILDING1];
-  blended_igloos[7] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.25);
-  blended_igloos[8] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.5);
-  blended_igloos[9] = Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.75);
+  blended_igloos[7] = T4K_Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.25);
+  blended_igloos[8] = T4K_Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.5);
+  blended_igloos[9] = T4K_Blend(images[IMG_IGLOO_REBUILDING2],images[IMG_IGLOO_REBUILDING1],0.75);
   blended_igloos[10] = images[IMG_IGLOO_REBUILDING2];
-  blended_igloos[11] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.25);
-  blended_igloos[12] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.5);
-  blended_igloos[13] = Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.75);
+  blended_igloos[11] = T4K_Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.25);
+  blended_igloos[12] = T4K_Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.5);
+  blended_igloos[13] = T4K_Blend(images[IMG_IGLOO_INTACT],images[IMG_IGLOO_REBUILDING2],0.75);
   blended_igloos[14] = images[IMG_IGLOO_INTACT];
 }
 
@@ -715,7 +715,7 @@ void cleanup_memory(void)
   Uint16 format;
 
   /* Free all images and sounds used by SDL: */
-  Cleanup_SDL_Text();
+  T4K_Cleanup_SDL_Text();
 
   for (i = 0; i < NUM_IMAGES; i++)
   {
@@ -780,7 +780,7 @@ void cleanup_memory(void)
     n_timesopened--;
   }
 
-  UnloadMenus();
+  T4K_UnloadMenus();
 
   // Finally, quit SDL
   SDL_Quit();
