@@ -178,7 +178,7 @@ void briefPlayer(int stage)
 
   SDL_Surface* icon = NULL;
   SDL_Rect textarea = screen->clip_rect;
-  SDL_Surface* loadedsprite = LoadImage(sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED);
+  SDL_Surface* loadedsprite = T4K_LoadImage(sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED);
 
 
 

@@ -274,7 +274,7 @@ void free_menu(MenuNode* menu)
     if(menu->icon_name != NULL)
       free(menu->icon_name);
     if(menu->icon != NULL)
-      FreeSprite(menu->icon);
+      T4K_FreeSprite(menu->icon);
 
     if(menu->submenu != NULL)
     {
@@ -812,7 +812,7 @@ int run_menu(MenuNode* root, bool return_choice)
     {
       menu_title_rect = menu->submenu[0]->button_rect;
       menu_title_rect.y = menu_rect.y - menu_title_rect.h;
-      title_surf = BlackOutline(_(menu->title), menu->font_size, &red);
+      title_surf = T4K_BlackOutline(_(menu->title), menu->font_size, &red);
       SDL_BlitSurface(title_surf, NULL, screen, &menu_title_rect);
       SDL_FreeSurface(title_surf);
     }
@@ -836,8 +836,8 @@ int run_menu(MenuNode* root, bool return_choice)
         {
           case SDL_QUIT:
           {
-            FreeSurfaceArray(menu_item_unselected, items);
-            FreeSurfaceArray(menu_item_selected, items);
+            T4K_FreeSurfaceArray(menu_item_unselected, items);
+            T4K_FreeSurfaceArray(menu_item_selected, items);
             return QUIT;
           }
 
@@ -846,7 +846,7 @@ int run_menu(MenuNode* root, bool return_choice)
             loc = -1;
             for (i = 0; i < items; i++)
             {
-              if (inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
+              if (T4K_inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
               {
                 if (Opts_GetGlobalOpt(MENU_SOUND) && old_loc != i)
                   playsound(SND_TOCK);
@@ -856,7 +856,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Left" button - make click if button active: */
-            if(inRect(prev_rect, event.motion.x, event.motion.y)
+            if(T4K_inRect(prev_rect, event.motion.x, event.motion.y)
                && menu->first_entry > 0 && Opts_GetGlobalOpt(MENU_SOUND))
             {
               if(click_flag)
@@ -867,7 +867,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Right" button - make click if button active: */
-            else if(inRect(next_rect, event.motion.x, event.motion.y)
+            else if(T4K_inRect(next_rect, event.motion.x, event.motion.y)
                && menu->first_entry + items < menu->submenu_size
                && Opts_GetGlobalOpt(MENU_SOUND))
             {
@@ -879,7 +879,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "stop" button */
-            else if (inRect(stop_rect, event.motion.x, event.motion.y )
+            else if (T4K_inRect(stop_rect, event.motion.x, event.motion.y )
                && Opts_GetGlobalOpt(MENU_SOUND))
             {
               if(click_flag)
@@ -900,7 +900,7 @@ int run_menu(MenuNode* root, bool return_choice)
             loc = -1;  // By default, don't be in any entry
             for (i = 0; i < items; i++)
             {
-              if (inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
+              if (T4K_inRect(menu->submenu[menu->first_entry + i]->button_rect, event.motion.x, event.motion.y))
               {
                 // Play sound if loc is being changed:
                 if (Opts_GetGlobalOpt(MENU_SOUND))
@@ -912,7 +912,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Left" button */
-            if (inRect(prev_rect, event.motion.x, event.motion.y)
+            if (T4K_inRect(prev_rect, event.motion.x, event.motion.y)
                && menu->first_entry > 0)
             {
               if (Opts_GetGlobalOpt(MENU_SOUND))
@@ -921,7 +921,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Right" button - go to next page: */
-            else if (inRect(next_rect, event.motion.x, event.motion.y )
+            else if (T4K_inRect(next_rect, event.motion.x, event.motion.y )
                && menu->first_entry + items < menu->submenu_size)
             {
               if (Opts_GetGlobalOpt(MENU_SOUND))
@@ -930,7 +930,7 @@ int run_menu(MenuNode* root, bool return_choice)
             }
 
             /* "Stop" button - go to main menu: */
-            else if (inRect(stop_rect, event.button.x, event.button.y ))
+            else if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
             {
               if (Opts_GetGlobalOpt(MENU_SOUND))
                 playsound(SND_POP);
@@ -1032,25 +1032,25 @@ int run_menu(MenuNode* root, bool return_choice)
                     case SDLK_F5:
                     {
                       /* decrease screen width */
-                      ChangeWindowSize(win_res_x - 50, win_res_y);
+                      T4K_ChangeWindowSize(win_res_x - 50, win_res_y);
                       break;
                     }
                     case SDLK_F6:
                     {
                       /* increase screen width */
-                      ChangeWindowSize(win_res_x + 50, win_res_y);
+                      T4K_ChangeWindowSize(win_res_x + 50, win_res_y);
                       break;
                     }
                     case SDLK_F7:
                     {
                       /* decrease screen height */
-                      ChangeWindowSize(win_res_x, win_res_y - 50);
+                      T4K_ChangeWindowSize(win_res_x, win_res_y - 50);
                       break;
                     }
                     case SDLK_F8:
                     {
                       /* increase screen height */
-                      ChangeWindowSize(win_res_x, win_res_y + 50);
+                      T4K_ChangeWindowSize(win_res_x, win_res_y + 50);
                       break;
                     }
                     default:
@@ -1064,7 +1064,7 @@ int run_menu(MenuNode* root, bool return_choice)
               /* Toggle screen mode: */
               case SDLK_F10:
               {
-                SwitchScreenMode();
+                T4K_SwitchScreenMode();
                 action = RESIZED;
                 break;
               }
@@ -1143,8 +1143,8 @@ int run_menu(MenuNode* root, bool return_choice)
               {
                 if(return_choice)
                 {
-                  FreeSurfaceArray(menu_item_unselected, items);
-                  FreeSurfaceArray(menu_item_selected, items);
+                  T4K_FreeSurfaceArray(menu_item_unselected, items);
+                  T4K_FreeSurfaceArray(menu_item_selected, items);
                   return tmp_node->activity;
                 }
                 else
@@ -1159,8 +1159,8 @@ int run_menu(MenuNode* root, bool return_choice)
                     if(handle_activity(tmp_node->activity, tmp_node->param) == QUIT)
                     {
                       DEBUGMSG(debug_menu, "run_menu(): handle_activity() returned QUIT message, exiting.\n");
-                      FreeSurfaceArray(menu_item_unselected, items);
-                      FreeSurfaceArray(menu_item_selected, items);
+                      T4K_FreeSurfaceArray(menu_item_unselected, items);
+                      T4K_FreeSurfaceArray(menu_item_selected, items);
                       return QUIT;
                     }
                   }
@@ -1179,8 +1179,8 @@ int run_menu(MenuNode* root, bool return_choice)
           case STOP_ESC:
             if(menu->parent == NULL)
             {
-              FreeSurfaceArray(menu_item_unselected, items);
-              FreeSurfaceArray(menu_item_selected, items);
+              T4K_FreeSurfaceArray(menu_item_unselected, items);
+              T4K_FreeSurfaceArray(menu_item_selected, items);
               return STOP;
             }
             else
@@ -1215,8 +1215,8 @@ int run_menu(MenuNode* root, bool return_choice)
                           &menu->submenu[menu->first_entry + loc]->icon_rect);
           SDL_BlitSurface(tmp_sprite->frame[tmp_sprite->cur], NULL, screen,
                           &menu->submenu[menu->first_entry + loc]->icon_rect);
-          UpdateRect(screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
-          NextFrame(tmp_sprite);
+          T4K_UpdateRect(screen, &menu->submenu[menu->first_entry + loc]->icon_rect);
+          T4K_NextFrame(tmp_sprite);
         }
         else
           DEBUGMSG(debug_menu, "run_menu(): entry %d has no valid sprite\n", loc);
@@ -1236,8 +1236,8 @@ int run_menu(MenuNode* root, bool return_choice)
 
     /* free button surfaces */
     DEBUGMSG(debug_menu, "run_menu(): freeing %d button surfaces\n", items);
-    FreeSurfaceArray(menu_item_unselected, items);
-    FreeSurfaceArray(menu_item_selected, items);
+    T4K_FreeSurfaceArray(menu_item_unselected, items);
+    T4K_FreeSurfaceArray(menu_item_selected, items);
   }
 
   return QUIT;
@@ -1271,9 +1271,9 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     SDL_BlitSurface(screen, &curr_rect, menu_items[i], NULL);
     /* button */
     if(selected)
-      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, SEL_RGBA);
+      tmp_surf = T4K_CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, SEL_RGBA);
     else
-      tmp_surf = CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, REG_RGBA);
+      tmp_surf = T4K_CreateButton(curr_rect.w, curr_rect.h, button_radius * curr_rect.h, REG_RGBA);
 
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], NULL);
     SDL_FreeSurface(tmp_surf);
@@ -1284,7 +1284,7 @@ SDL_Surface** render_buttons(MenuNode* menu, bool selected)
     DEBUGMSG(debug_menu, "render_buttons(): NLS string is: %s\n",
              _(menu->submenu[menu->first_entry + i]->title));
 
-    tmp_surf = BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
+    tmp_surf = T4K_BlackOutline(_(menu->submenu[menu->first_entry + i]->title),
                             menu->font_size, selected ? &yellow : &white);
     SDL_BlitSurface(tmp_surf, NULL, menu_items[i], &menu->submenu[menu->first_entry + i]->text_rect);
     SDL_FreeSurface(tmp_surf);
@@ -1321,7 +1321,7 @@ void prerender_menu(MenuNode* menu)
     if(menu->submenu[i]->icon_name)
       found_icons = true;
     temp_surf = NULL;
-    temp_surf = SimpleText(_(menu->submenu[i]->title), menu->font_size, &black);
+    temp_surf = T4K_SimpleText(_(menu->submenu[i]->title), menu->font_size, &black);
     if(temp_surf)
     {
       max_text_h = max(max_text_h, temp_surf->h);
@@ -1354,13 +1354,13 @@ void prerender_menu(MenuNode* menu)
     curr_node->text_rect.w = max_text_w;
 
     if(curr_node->icon)
-      FreeSprite(curr_node->icon);
+      T4K_FreeSprite(curr_node->icon);
 
     if(curr_node->icon_name)
     {
       sprintf(filename, "sprites/%s", curr_node->icon_name);
       DEBUGMSG(debug_menu, "prerender_menu(): loading sprite %s for item #%d.\n", filename, i);
-      curr_node->icon = LoadSpriteOfBoundingBox(filename, IMG_ALPHA, button_h, button_h);
+      curr_node->icon = T4K_LoadSpriteOfBoundingBox(filename, IMG_ALPHA, button_h, button_h);
     }
     else
       DEBUGMSG(debug_menu, "prerender_menu(): no sprite for item #%d.\n", i);
@@ -1377,7 +1377,7 @@ char* find_longest_text(MenuNode* menu, int* length)
 
   if(menu->submenu_size == 0)
   {
-    text = SimpleText(_(menu->title), curr_font_size, &black);
+    text = T4K_SimpleText(_(menu->title), curr_font_size, &black);
     if(text->w > *length)
     {
       *length = text->w;
@@ -1406,7 +1406,7 @@ void set_menu_font_size(MenuNode* menu)
 
   for(i = 0; i < menu->submenu_size; i++)
   {
-    text = SimpleText(_(menu->submenu[i]->title), default_font_size, &black);
+    text = T4K_SimpleText(_(menu->submenu[i]->title), default_font_size, &black);
     if(text->w > length)
     {
       length = text->w;
@@ -1425,7 +1425,7 @@ void set_menu_font_size(MenuNode* menu)
   while(min_f < max_f)
   {
     mid_f = (min_f + max_f) / 2;
-    text = SimpleText(_(longest), mid_f, &black);
+    text = T4K_SimpleText(_(longest), mid_f, &black);
     if(text->w + (1.0 + 2.0 * text_w_gap) * (1.0 + 2.0 * text_h_gap) * text->h < menu_rect.w)
       min_f = mid_f + 1;
     else
@@ -1465,32 +1465,32 @@ void prerender_all()
 
   int i;
 
-  SetRect(&menu_rect, menu_pos);
+  T4K_SetRect(&menu_rect, menu_pos);
 
-  SetRect(&stop_rect, stop_pos);
+  T4K_SetRect(&stop_rect, stop_pos);
   if(stop_button)
     SDL_FreeSurface(stop_button);
-  stop_button = LoadImageOfBoundingBox(stop_path, IMG_ALPHA, stop_rect.w, stop_rect.h);
+  stop_button = T4K_LoadImageOfBoundingBox(stop_path, IMG_ALPHA, stop_rect.w, stop_rect.h);
   /* move button to the right */
   stop_rect.x = screen->w - stop_button->w;
 
-  SetRect(&prev_rect, prev_pos);
+  T4K_SetRect(&prev_rect, prev_pos);
   if(prev_arrow)
     SDL_FreeSurface(prev_arrow);
-  prev_arrow = LoadImageOfBoundingBox(prev_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
+  prev_arrow = T4K_LoadImageOfBoundingBox(prev_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
   if(prev_gray)
     SDL_FreeSurface(prev_gray);
-  prev_gray = LoadImageOfBoundingBox(prev_gray_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
+  prev_gray = T4K_LoadImageOfBoundingBox(prev_gray_path, IMG_ALPHA, prev_rect.w, prev_rect.h);
   /* move button to the right */
   prev_rect.x += prev_rect.w - prev_arrow->w;
 
-  SetRect(&next_rect, next_pos);
+  T4K_SetRect(&next_rect, next_pos);
   if(next_arrow)
     SDL_FreeSurface(next_arrow);
-  next_arrow = LoadImageOfBoundingBox(next_path, IMG_ALPHA, next_rect.w, next_rect.h);
+  next_arrow = T4K_LoadImageOfBoundingBox(next_path, IMG_ALPHA, next_rect.w, next_rect.h);
   if(next_gray)
     SDL_FreeSurface(next_gray);
-  next_gray = LoadImageOfBoundingBox(next_gray_path, IMG_ALPHA, next_rect.w, next_rect.h);
+  next_gray = T4K_LoadImageOfBoundingBox(next_gray_path, IMG_ALPHA, next_rect.w, next_rect.h);
 
   set_font_size();
 

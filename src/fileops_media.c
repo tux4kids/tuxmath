@@ -147,7 +147,7 @@ int load_image_data()
   /* Load static images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
-    images[i] = LoadImage(image_filenames[i], IMG_ALPHA);
+    images[i] = T4K_LoadImage(image_filenames[i], IMG_ALPHA);
 
     if (images[i] == NULL)
     {
@@ -163,7 +163,7 @@ int load_image_data()
   /* Load animated graphics: */
   for (i = 0; i < NUM_SPRITES; i++)
   {
-    sprites[i] = LoadSprite(sprite_filenames[i], IMG_ALPHA);
+    sprites[i] = T4K_LoadSprite(sprite_filenames[i], IMG_ALPHA);
 
     if (sprites[i] == NULL)
     {

@@ -73,7 +73,6 @@ extern SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gra
 void LoadMenus(void);
 int RunLoginMenu(void);
 void RunMainMenu(void);
-void UnloadMenus(void);
 
 #endif // MENU_H
 

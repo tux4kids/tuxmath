@@ -648,6 +648,8 @@ void initialize_SDL(void)
 
 void load_data_files(void)
 {
+  /* Tell libt4k_common where TuxMath-specific data can be found */
+  T4K_AddDataPrefix(DATA_PREFIX);
   if (!load_sound_data())
   {
     fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");

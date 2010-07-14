@@ -153,7 +153,7 @@ void TitleScreen(void)
   }
 
   start_time = SDL_GetTicks();
-  logo = LoadImage(standby_path, IMG_REGULAR);
+  logo = T4K_LoadImage(standby_path, IMG_REGULAR);
 
   /* display the Standby screen */
   if(logo)
@@ -317,7 +317,7 @@ int RenderTitleScreen(void)
     /* we keep two backgrounds to make screen mode switch faster */
     if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
     {
-      new_bkg = LoadBkgd(bkg_path, screen->w, screen->h);
+      new_bkg = T4K_LoadBkgd(bkg_path, screen->w, screen->h);
       if(new_bkg == NULL)
       {
         DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
@@ -336,7 +336,7 @@ int RenderTitleScreen(void)
 
     /* Tux in lower left corner of the screen */
     T4K_SetRect(&tux_rect, tux_pos);
-    Tux = LoadSpriteOfBoundingBox(tux_path, IMG_ALPHA, tux_rect.w, tux_rect.h);
+    Tux = T4K_LoadSpriteOfBoundingBox(tux_path, IMG_ALPHA, tux_rect.w, tux_rect.h);
     if(Tux && Tux->frame[0])
     {
       tux_rect.w = Tux->frame[0]->clip_rect.w;
@@ -350,7 +350,7 @@ int RenderTitleScreen(void)
 
     /* "Tux, of math command" title in upper right corner */
     T4K_SetRect(&title_rect, title_pos);
-    title = LoadImageOfBoundingBox(title_path, IMG_ALPHA, title_rect.w, title_rect.h);
+    title = T4K_LoadImageOfBoundingBox(title_path, IMG_ALPHA, title_rect.w, title_rect.h);
     if(title)
     {
       title_rect.w = title->clip_rect.w;
@@ -364,7 +364,7 @@ int RenderTitleScreen(void)
 
     /* easter egg */
 #ifdef HAVE_RSVG
-    egg = LoadImage(egg_path, IMG_ALPHA | IMG_NOT_REQUIRED);
+    egg = T4K_LoadImage(egg_path, IMG_ALPHA | IMG_NOT_REQUIRED);
 #else
     egg = LoadImage(egg_path, IMG_COLORKEY | IMG_NOT_REQUIRED);
 #endif
@@ -441,7 +441,7 @@ void free_titlescreen(void)
 {
   DEBUGMSG(debug_titlescreen, "Entering free_titlescreen()\n");
 
-  FreeSprite(Tux);
+  T4K_FreeSprite(Tux);
   Tux = NULL;
 
   if(egg)

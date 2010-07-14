@@ -65,6 +65,20 @@ sprite*         load_sprite(const char* name, int mode, int w, int h, bool propo
 // }
 
 
+//NOTE this is now the only function in loaders.h not supplied directly by libt4k_common...
+/* LoadBothBkgds() : loads two scaled images: one for the fullscreen mode
+   (fs_res_x,fs_rex_y) and one for the windowed mode (win_res_x,win_rex_y)
+   Now we also optimize the format for best performance */
+void LoadBothBkgds(const char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
+{
+  DEBUGMSG(debug_loaders, "Entering LoadBothBkgds()\n");
+  *fs_bkgd = T4K_LoadBkgd(file_name, fs_res_x, fs_res_y);
+  *win_bkgd = T4K_LoadBkgd(file_name, win_res_x, win_res_y);
+}
+
+
+
+#ifndef HAVE_LIBT4K_COMMON
 /* Returns 1 if valid file, 2 if valid dir, 0 if neither: */
 int check_file(const char* file)
 {
@@ -475,17 +489,6 @@ SDL_Surface* LoadBkgd(const char* file_name, int width, int height)
   return final_pic;
 }
 
-/* LoadBothBkgds() : loads two scaled images: one for the fullscreen mode
-   (fs_res_x,fs_rex_y) and one for the windowed mode (win_res_x,win_rex_y)
-   Now we also optimize the format for best performance */
-void LoadBothBkgds(const char* file_name, SDL_Surface** fs_bkgd, SDL_Surface** win_bkgd)
-{
-  DEBUGMSG(debug_loaders, "Entering LoadBothBkgds()\n");
-  *fs_bkgd = LoadBkgd(file_name, fs_res_x, fs_res_y);
-  *win_bkgd = LoadBkgd(file_name, win_res_x, win_res_y);
-}
-
-
 sprite* LoadSprite(const char* name, int mode)
 {
   return LoadScaledSprite(name, mode, -1, -1);
@@ -893,5 +896,6 @@ static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf)
   return 0;
 }
 
+#endif //don't HAVE_LIBT4K_COMMON
 
 #endif

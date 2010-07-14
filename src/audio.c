@@ -50,7 +50,7 @@ void audioMusicLoad(char *musicFilename, int loops)
   }
 
   audioMusicUnload(); // make sure defaultMusic is clear
-  defaultMusic = LoadMusic(musicFilename);
+  defaultMusic = T4K_LoadMusic(musicFilename);
   Mix_PlayMusic(defaultMusic, loops);
 }
 
