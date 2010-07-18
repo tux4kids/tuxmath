@@ -68,6 +68,9 @@
 
 extern SDL_Event  event;
 
+extern bool isRendererAlive; /* defined in menu.c */
+extern pthread_t renderer_tid; /* defined in menu.c */
+
 
 #define MUSIC_FADE_OUT_MS               80
 

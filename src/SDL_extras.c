@@ -431,6 +431,9 @@ void DarkenScreen(Uint8 bits)
 /* change window size (works only in windowed mode) */
 void ChangeWindowSize(int new_res_x, int new_res_y)
 {
+  /* terminate renderer thread if it's still running */
+  KillMenuRenderer();
+
   SDL_Surface* oldscreen = screen;
 
   if(!(screen->flags & SDL_FULLSCREEN))
@@ -463,6 +466,9 @@ void ChangeWindowSize(int new_res_x, int new_res_y)
 /* switch between fullscreen and windowed mode */
 void SwitchScreenMode(void)
 {
+  /* terminate renderer thread if it's still running */
+  KillMenuRenderer();
+
   int window = (screen->flags & SDL_FULLSCREEN);
   SDL_Surface* oldscreen = screen;
 
