@@ -1025,7 +1025,7 @@ int detecting_servers(const char* heading, const char* sub)
   /* FIXME it takes several seconds to load this sprite on a */
   /* Dell Mini 9 netbook, probably longer on many school     */
   /* machines.  Perhaps we should load this ahead of time... */
-  Tux = LoadSprite("tux/bigtux", IMG_ALPHA);
+  Tux = T4K_LoadSprite("tux/bigtux", IMG_ALPHA);
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
@@ -1089,7 +1089,7 @@ int detecting_servers(const char* heading, const char* sub)
       printf("No server could be found - returning.\n");
       /* Turn off SDL Unicode lookup (because has some overhead): */
       SDL_EnableUNICODE(SDL_DISABLE);
-      FreeSprite(Tux);
+      T4K_FreeSprite(Tux);
       return 0;
     }
     else if(servers_found  == 1)  //One server - connect without player intervention
@@ -1101,7 +1101,7 @@ int detecting_servers(const char* heading, const char* sub)
         printf("LAN_AutoSetup() failed - returning.\n");
         /* Turn off SDL Unicode lookup (because has some overhead): */
         SDL_EnableUNICODE(SDL_DISABLE);
-        FreeSprite(Tux);
+        T4K_FreeSprite(Tux);
         return 0;
       }
       
@@ -1163,7 +1163,7 @@ int detecting_servers(const char* heading, const char* sub)
 
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
-  FreeSprite(Tux);
+  T4K_FreeSprite(Tux);
 
   return 1;
 
