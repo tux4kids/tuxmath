@@ -12,17 +12,17 @@ find_path(T4KCOMMON_INCLUDE_DIR t4k_common.h
   $ENV{T4KCOMMONDIR}/include
   ~/Library/Frameworks/Tux4Kids-common.framework/Headers
   /Library/Frameworks/Tux4Kids-common.framework/Headers
-  /usr/local/include/t4kcommon
-  /usr/include/t4kcommon
+  /usr/local/include/t4k_common
+  /usr/include/t4k_common
   /usr/local/include
   /usr/include
-  /sw/include/t4kcommon # Fink
+  /sw/include/t4k_common # Fink
   /sw/include
-  /opt/local/include/t4kcommon # DarwinPorts
+  /opt/local/include/t4k_common # DarwinPorts
   /opt/local/include
-  /opt/csw/include/t4kcommon # Blastwave
+  /opt/csw/include/t4k_common # Blastwave
   /opt/csw/include 
-  /opt/include/t4kcommon
+  /opt/include/t4k_common
   /opt/include
   )
 # I'm not sure if I should do a special casing for Apple. It is 
@@ -53,7 +53,7 @@ if(${T4KCOMMON_INCLUDE_DIR} MATCHES ".framework")
 
 else(${T4KCOMMON_INCLUDE_DIR} MATCHES ".framework")
   find_library(T4KCOMMON_LIBRARY 
-    NAMES Tux4Kids-common
+    NAMES t4k_common
     PATHS
     $ENV{T4KCOMMONDIR}/lib
     /usr/local/lib
@@ -72,5 +72,5 @@ else()
   set(FINDSTR "NOT ")
 endif()
 
-message("Looking for libt4kcommon...${FINDSTR}found!")
+message("Looking for libt4k_common...${FINDSTR}found!")
 
