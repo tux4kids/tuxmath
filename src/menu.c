@@ -36,6 +36,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
 
 
 
@@ -112,6 +113,12 @@ SDL_Rect menu_title_rect;
 
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
+
+/* menu renderer thread id */
+pthread_t renderer_tid=-1;
+
+/* a flag if set to false will "kill" menu renderer thread */
+bool isRendererAlive=false;
 
 
 
@@ -1458,6 +1465,15 @@ void prerender_all()
   static int last_res_x =0;
   static int last_res_y =0;
 
+  /* test whether current thread is renderer or main thread */
+  bool isRenderer=(pthread_self()==renderer_tid);
+
+  /* if main thread, wait until renderer thread finishes */
+  if(!isRenderer&&isRendererAlive) pthread_join(renderer_tid,NULL);
+
+  if(isRenderer&&!isRendererAlive) return;
+
+
   if(last_res_x==screen->w&&last_res_y==screen->h) return;
   last_res_x=screen->w;
   last_res_y=screen->h;
@@ -1494,9 +1510,19 @@ void prerender_all()
 
   set_font_size();
 
+
   for(i = 0; i < N_OF_MENUS; i++)
+  {
+    if(isRenderer&&!isRendererAlive) 
+    {
+      last_res_x=-1;
+      last_res_y=-1;
+      return;
+    }
+
     if(menus[i])
       prerender_menu(menus[i]);
+  }
 }
 
 /* load menu trees from disk and prerender them */
@@ -1711,5 +1737,34 @@ void UnloadMenus(void)
     }
 
   DEBUGMSG(debug_menu, "leaving UnloadMenus()\n");
+}
+
+void menuRendererFunc(void)
+{
+  RenderTitleScreen();
+  prerender_all();
+}
+
+void StartMenuRenderer(void)
+{
+  isRendererAlive=true;
+  if(!pthread_create(&renderer_tid, NULL,menuRendererFunc, NULL))
+  {
+  }
+  else
+  {
+    isRendererAlive=false;
+    DEBUGMSG(debug_menu, "create thread failed!\n");
+  }
+
+}
+
+void KillMenuRenderer(void)
+{
+  if(isRendererAlive)
+  {
+    isRendererAlive=false;
+    pthread_join(renderer_tid,NULL);
+  } 
 }
 

@@ -69,10 +69,13 @@ enum { ACTIVITIES };
 extern SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;
 extern SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gray;
 
+
 /* global functions */
 void LoadMenus(void);
 int RunLoginMenu(void);
 void RunMainMenu(void);
+void StartMenuRenderer(void); /* dispatch a thread to prerender title screen and menus */
+void KillMenuRenderer(void); /* kill the renderer thread, called when resolution changes */
 
 #endif // MENU_H
 
