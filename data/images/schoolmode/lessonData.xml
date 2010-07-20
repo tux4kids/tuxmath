@@ -3,21 +3,7 @@
 
 <lessonData>
 
-<tuxmath_academy>
-
-<typing_practice>
-
-<min_num>10</min_num>
-<max_num>12</max_num>
-</typing_practice>
-
-<addition>
-
-<min_augend>0</min_augend>
-<max_augend> 12</max_augend>
-<min_addend> 0</min_addend>
-<max_addend> 12</max_addend>
-</addition>
+<tuxmath_game>
 
 <subtraction>
 
@@ -28,23 +14,7 @@
 <max_subtrahend> 12</max_subtrahend>
 </subtraction>
 
-<multiplication>
-
-<min_multiplier>0</min_multiplier>
-<max_multiplier>12</max_multiplier>
-<min_multiplicand>0</min_multiplicand>
-<max_multiplicand>12</max_multiplicand>
-</multiplication>
-
-<divison>
-
-<min_divisor>0</min_divisor>
-<max_divisor>12</max_divisor>
-<min_quotient>0</min_quotient>
-<max_quotient>12</max_quotient> 
-</divison>
-
-<allow_negatives>1</allow_negatives>
+<allow_negatives>0</allow_negatives>
 <allow_paused>1</allow_paused>
 <repeat_wrongs>1</repeat_wrongs> 
 
@@ -56,19 +26,19 @@
 
 <min_formula_nums>2</min_formula_nums>
 <max_formula_nums>2</max_formula_nums>
-<avg_list_length>20</avg_list_length>
-<starting_comets>2</starting_comets>
-<extra_comets_per_wave> 2 </extra_comets_per_wave> 
-<max_comets>10</max_comets>
+<avg_list_length>40</avg_list_length>
+<starting_comets>5</starting_comets>
+<extra_comets_per_wave> 4 </extra_comets_per_wave> 
+<max_comets>30</max_comets>
 
-</tuxmath_academy>
+</tuxmath_game>
 
 
 <factors>
 <wave_factors>1</wave_factors>
 <wave_factors>1</wave_factors>
 <wave_factors>2</wave_factors>
-
+<lives>5</lives>
 </factors>
 
 <fractions>
@@ -76,13 +46,14 @@
 <wave_fractions>4</wave_fractions>
 <wave_fractions>6</wave_fractions>
 <wave_fractions>8</wave_fractions>
+<lives>5</lives>
 </fractions>
 <factors>
 <wave_factors>1</wave_factors>
 <wave_factors>3</wave_factors>
 <wave_factors>2</wave_factors>
 <wave_factors>4</wave_factors>
-
+<lives>7</lives>
 </factors>
 
 

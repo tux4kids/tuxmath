@@ -52,14 +52,9 @@ int total_no_menus,game_score,current_no_of_waves;
     char buff[256];
 
   char menu_names[MAX_MENU_ITEMS][MENU_ITEM_LENGTH] = {{'\0'}};
-char wave_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular wave no
 
-//int waves_parsed[MAX_WAVES+1]={-1};
-
- xmlChar *wave;
-
-  struct input_per_wave *input; //defined here
-extern struct result_per_wave *result; //defined in factoroids.c
+ // struct input_per_wave *input; //defined here
+//extern struct result_per_wave *result; //defined in factoroids.c
 
 //char *xml_lesson_path;
 
@@ -82,9 +77,9 @@ time_t filetime;
 if(init_readwrite(xml_lesson_path)==-1)
 return 0;
 
-input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wave));
+input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wave));
 
-  if (input == NULL)
+  if (input_factoroids.wave_input == NULL)
   {
     printf("Allocation of input to store input values failed");
     return 0;
@@ -99,7 +94,7 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
              break;
        i++;   
        current_no_of_waves=parse_factors(cur_node);
-       game_score=factoroids_schoolmode(0,current_no_of_waves);
+       factoroids_schoolmode(0,current_no_of_waves);
        write_factors();  
  
      }
@@ -111,7 +106,7 @@ input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wa
              break;
         i++;          
         current_no_of_waves=parse_fractions(cur_node);
-       game_score=factoroids_schoolmode(1,current_no_of_waves);
+       factoroids_schoolmode(1,current_no_of_waves);
        write_fractions();   
      }
 
@@ -312,7 +307,11 @@ return 0;
 int parse_factors(xmlNode *cur_node)
 {
  xmlNode *child_node;
-int i=0,serial_number=0;
+char temp_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular wave no
+ xmlChar *wave,*temp;
+
+
+int i=0;
 
        //printf("Element: %s \n", cur_node->name); 
 
@@ -322,7 +321,7 @@ int i=0,serial_number=0;
            if ( cur_node->type == XML_ELEMENT_NODE  &&
                 !xmlStrcmp(child_node->name, (const xmlChar *)"wave_factors") )
            {
-              serial_number++; 
+             // serial_number++; 
              // printf("   Child=%s\n", child_node->name);
              // printf("         Serial number=%d\n", serial_number);   
               
@@ -331,12 +330,28 @@ int i=0,serial_number=0;
               if(wave)
                {
                  //printf("         Wave: %s\n", wave);
-                 sprintf(wave_string[0], "%s", wave); 
-                 input[i++].wave_no=atoi(wave_string[0]); 
+                 sprintf(temp_string[0], "%s", wave); 
+                 input_factoroids.wave_input[i++].wave_no=atoi(temp_string[0]); 
                  //waves_parsed[i++]=atoi(wave_string[0]);
                }
               xmlFree(wave);
            }          
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node->name, (const xmlChar *)"lives") )
+           {         
+            
+              temp= xmlNodeGetContent(child_node);
+              if(temp)
+               {
+                 //printf("         Wave: %s\n", wave);
+                 sprintf(temp_string[0], "%s", wave); 
+                 input_factoroids.lives=atoi(temp_string[0]); 
+                 //waves_parsed[i++]=atoi(wave_string[0]);
+               }
+              xmlFree(temp);
+           }
+
+
          }
 return i;
 }
@@ -347,6 +362,8 @@ return i;
 int parse_fractions(xmlNode *cur_node)
 {
  xmlNode *child_node;
+char temp_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular wave no
+ xmlChar *wave,*temp;
 int i=0;
 
 
@@ -368,12 +385,27 @@ int i=0;
               if(wave)
                {
               //   printf("         Wave: %s\n", wave);
-                 sprintf(wave_string[0], "%s", wave); 
-                 input[i++].wave_no=atoi(wave_string[0]); 
+                 sprintf(temp_string[0], "%s", wave); 
+                 input_factoroids.wave_input[i++].wave_no=atoi(temp_string[0]); 
                  //waves_parsed[i++]=atoi(wave_string[0]);
                } 
               xmlFree(wave);
            }          
+
+         else if ( cur_node->type == XML_ELEMENT_NODE  &&
+                !xmlStrcmp(child_node->name, (const xmlChar *)"lives") )
+           {         
+            
+              temp= xmlNodeGetContent(child_node);
+              if(temp)
+               {
+                 //printf("         Wave: %s\n", wave);
+                 sprintf(temp_string[0], "%s", wave); 
+                 input_factoroids.lives=atoi(temp_string[0]); 
+                 //waves_parsed[i++]=atoi(wave_string[0]);
+               }
+              xmlFree(temp);
+           }
          }
 return i;
 }
@@ -949,23 +981,27 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "factors", NULL);
        { 
             node1 = xmlNewChild(node, NULL, BAD_CAST "wave_factors", NULL);
           
-            sprintf(buff, "%d", result[k].wave_completed);
+            sprintf(buff, "%d", result_factoroids.wave_result[k].wave_completed);
             xmlNewChild(node1, NULL, BAD_CAST "wave_completed", BAD_CAST buff); 
 
-         if(result[k].wave_completed)
+         if(result_factoroids.wave_result[k].wave_completed)
            {  
-            sprintf(buff, "%d", result[k].wave_no);
+            sprintf(buff, "%d", result_factoroids.wave_result[k].wave_no);
             xmlNewChild(node1, NULL, BAD_CAST "wave_no", BAD_CAST buff);
  
-            sprintf(buff, "%.2f", ((float)result[k].wave_time/1000));
+            sprintf(buff, "%.2f", ((float)result_factoroids.wave_result[k].wave_time/1000));
             xmlNewChild(node1, NULL, BAD_CAST "wave_time", BAD_CAST buff);
            }
           else
           break;  //do not write the data of waves not played 
         }
 
-   sprintf(buff, "%d", game_score);
+   sprintf(buff, "%d", result_factoroids.score);
 xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff);
+
+
+   sprintf(buff, "%d", result_factoroids.lives_remaining);
+xmlNewChild(node, NULL, BAD_CAST "lives_remaining", BAD_CAST buff);
 
 
 }
@@ -982,23 +1018,27 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "fractions", NULL);
        { 
             node1 = xmlNewChild(node, NULL, BAD_CAST "wave_fractions", NULL);
           
-            sprintf(buff, "%d", result[k].wave_completed);
+            sprintf(buff, "%d", result_factoroids.wave_result[k].wave_completed);
             xmlNewChild(node1, NULL, BAD_CAST "wave_completed", BAD_CAST buff); 
 
-         if(result[k].wave_completed)
+         if(result_factoroids.wave_result[k].wave_completed)
            {  
-            sprintf(buff, "%d", result[k].wave_no);
+            sprintf(buff, "%d", result_factoroids.wave_result[k].wave_no);
             xmlNewChild(node1, NULL, BAD_CAST "wave_no", BAD_CAST buff);
  
-            sprintf(buff, "%.2f", ((float)result[k].wave_time/1000));
+            sprintf(buff, "%.2f", ((float)result_factoroids.wave_result[k].wave_time/1000));
             xmlNewChild(node1, NULL, BAD_CAST "wave_time", BAD_CAST buff);
            }
           else
           break;  //do not write the data of waves not played 
         }
 
-   sprintf(buff, "%d", game_score);
+   sprintf(buff, "%d", result_factoroids.score);
 xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff);
+
+
+   sprintf(buff, "%d", result_factoroids.lives_remaining);
+xmlNewChild(node, NULL, BAD_CAST "lives_remaining", BAD_CAST buff);
 
 
 }
@@ -1095,8 +1135,8 @@ while (n_timesopened)
     n_timesopened--;
 }
 
-free(input);
-free(result);
+free(input_factoroids.wave_input);
+free(result_factoroids.wave_result);
  
 
   SDL_Quit();

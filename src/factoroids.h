@@ -24,5 +24,5 @@ int fractions(void);
 
 
 #ifdef SCHOOLMODE
-int factoroids_schoolmode(int,int);
+void factoroids_schoolmode(int,int);
 #endif

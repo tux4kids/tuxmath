@@ -66,8 +66,8 @@
 int next_wave_no;
 int total_no_menus;  // total no of menus
 
-extern struct input_per_wave *input; //defined in manage_xmlLesson.c
-  struct result_per_wave *result; //defined in factoroids.c
+//extern struct input_per_wave *input; //defined in manage_xmlLesson.c
+  //struct result_per_wave *result; //defined in factoroids.c
 
 #endif
 
@@ -487,7 +487,11 @@ static int FF_init(void)
   /**************Setting up the ship values! **************/
   tuxship.x = ((screen->w)/2) - 20;
   tuxship.y = ((screen->h)/2) - 20;
+#ifndef SCHOOLMODE //not defined
   tuxship.lives = TUXSHIP_LIVES;
+#else
+tuxship.lives = input_factoroids.lives;
+#endif
   tuxship.hurt = 0;
   tuxship.hurt_count = 0;
   tuxship.angle = 90;
@@ -1152,9 +1156,9 @@ static void FF_add_level(void)
 
 if(wave!=0)
 {
-result[next_wave_no-1].wave_completed=1;
-result[next_wave_no-1].wave_no=wave;
-result[next_wave_no-1].wave_time=n2-n1-n4;
+result_factoroids.wave_result[next_wave_no-1].wave_completed=1;
+result_factoroids.wave_result[next_wave_no-1].wave_no=wave;
+result_factoroids.wave_result[next_wave_no-1].wave_time=n2-n1-n4;
 //printf("\nwave %d took time %d" ,wave,n2-n1-n4);
 }
    n1=n2;  //more useful after wave 0 case over -- for 0 case n1 is overwritten by value after a keypress
@@ -1163,16 +1167,17 @@ n4=0;
 #endif
 
   wave++;
-  
+ #ifndef SCHOOLMODE   //not defined
   // New lives per wave!
   if (wave%5==0)
   {
     tuxship.lives++;
   }
-  
+#endif  
+
 #ifdef SCHOOLMODE
 //wave=waves_parsed[next_wave_no++];
-wave=input[next_wave_no++].wave_no;
+wave=input_factoroids.wave_input[next_wave_no++].wave_no;
 #endif
 
   //Limit the new asteroids
@@ -1426,7 +1431,7 @@ static int FF_over(int game_status)
     case GAME_OVER_ESCAPE:
     {
       #ifdef SCHOOLMODE
-      result[next_wave_no-1].wave_completed=0;
+      result_factoroids.wave_result[next_wave_no-1].wave_completed=0;
       #endif
       break;
     }
@@ -2331,16 +2336,16 @@ if(next_wave_no>total_no_menus )
   return GAME_IN_PROGRESS;
 }
 
-int factoroids_schoolmode(int choice,int no_of_waves)
+void factoroids_schoolmode(int choice,int no_of_waves)
 {
 
 //#ifdef SCHOOLMODE
 
-result = ( struct result_per_wave *) malloc(no_of_waves * sizeof(struct result_per_wave));
-  if (result == NULL)
+result_factoroids.wave_result = ( struct result_per_wave *) malloc(no_of_waves * sizeof(struct result_per_wave));
+  if (result_factoroids.wave_result == NULL)
   {
     printf("Allocation of result to store result values failed");
-    return 0;
+    return ;
   }
 //#endif
 next_wave_no=0;
@@ -2348,9 +2353,10 @@ if (choice==0)
  factors();
 else if(choice ==1)
 fractions();
-
+result_factoroids.score=score;
+result_factoroids.lives_remaining=tuxship.lives;
 //free(result);
-return score;
+//return score;
 //write_xmlLesson(choice);
 }
 

@@ -18,8 +18,6 @@
 #include "SDL_extras.h"
 #include "titlescreen.h"
 #include "factoroids.h"
-#include "credits.h"
-#include "multiplayer.h"
 #include "mathcards.h"
 #include "game.h"
 #include "options.h"
