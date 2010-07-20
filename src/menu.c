@@ -47,7 +47,7 @@ char* activities[] = { ACTIVITIES };
 /* we may use a few separate menu trees */
 typedef enum {
   MENU_MAIN,
-  MENU_DIFFICULTY,
+  MENU_DIFFICULTY, //(not used)
   MENU_LESSONS,
   MENU_LOGIN,
   N_OF_MENUS
@@ -554,12 +554,15 @@ void LoadMenus(void)
 {
   FILE* menu_file = NULL;
   int i;
-
+  
+  T4K_SetMenuSpritePrefix("sprites");
 
   /* main menu */
-  T4K_LoadMenu(MENU_MAIN, "/menus/main_menu.xml");
+  T4K_LoadMenu(MENU_MAIN, "main_menu.xml");
+  
+  //NOTE level_menu.xml doesn't exist, and as it's not being used I'm skipping the load for now -Cheez
   /* difficulty menu */
-  T4K_LoadMenu(MENU_DIFFICULTY, "/menus/level_menu.xml");
+//  T4K_LoadMenu(MENU_DIFFICULTY, "level_menu.xml");
   
   T4K_PrerenderAll();
 }
@@ -681,7 +684,7 @@ void RunMainMenu(void)
   DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");
 
    /* lessons menu */
-  DEBUGMSG(debug_menu, "LoadMenus(): Generating lessons submenu. (%d lessons)\n", num_lessons);
+  DEBUGMSG(debug_menu, "RunMainMenu(): Generating lessons submenu. (%d lessons)\n", num_lessons);
 
   for(i = 0; i < num_lessons; i++)
   {
@@ -708,6 +711,7 @@ void StartMenuRenderer(void)
   isRendererAlive=true;
   if(!pthread_create(&renderer_tid, NULL,menuRendererFunc, NULL))
   {
+    DEBUGMSG(debug_menu, "created rendering thread!\n");
   }
   else
   {
