@@ -41,7 +41,7 @@
 
 /* create string array of activities' names */
 #define X(name) #name
-char* activities[] = { ACTIVITIES };
+static char* activities[] = { ACTIVITIES };
 #undef X
 
 /* we may use a few separate menu trees */
@@ -140,31 +140,37 @@ int run_menu(MenuType which, bool return_choice)
 int handle_activity(int act, int param)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
-
+  fprintf(stderr, "act: %d\n", act);
   switch(act)
   {
     case RUN_CAMPAIGN:
+      DEBUGMSG(debug_menu, "activity: RUN_CAMPAIGN\n");
       start_campaign();
       break;
 
     case RUN_ACADEMY:
+      DEBUGMSG(debug_menu, "activity: RUN_ACADEMY\n");
       if(run_academy() == QUIT)
         return QUIT;
       break;
 
     case RUN_ARCADE:
+      DEBUGMSG(debug_menu, "activity: RUN_ARCADE\n");
       run_arcade(param);
       break;
 
     case RUN_LAN_HOST:
+      DEBUGMSG(debug_menu, "activity: RUN_LAN_HOST\n");
       run_lan_host();
       break;
 
     case RUN_LAN_JOIN:
+      DEBUGMSG(debug_menu, "activity: RUN_LAN_JOIN\n");
       run_lan_join();
       break;
 
     case RUN_CUSTOM:
+      DEBUGMSG(debug_menu, "activity: RUN_CUSTOM\n");
       run_custom_game();
       break;
 
@@ -239,6 +245,7 @@ int run_academy(void)
   chosen_lesson = run_menu(MENU_LESSONS, true);
   while (chosen_lesson >= 0)
   {
+    DEBUGMSG(debug_menu, "chosen_lesson: %d\n", chosen_lesson);
     if (Opts_GetGlobalOpt(MENU_SOUND))
       playsound(SND_POP);
 
@@ -450,7 +457,7 @@ int run_lan_host(void)
               NULL, NULL, NULL);
 
   {
-    chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+    chosen_lesson = run_menu(MENU_LESSONS, true);
 
     while (chosen_lesson >= 0)
     {
@@ -470,7 +477,7 @@ int run_lan_host(void)
       }
       // Let the user choose another lesson; start with the screen and
       // selection that we ended with
-      chosen_lesson = run_menu(menus[MENU_LESSONS], true);
+      chosen_lesson = run_menu(MENU_LESSONS, true);
     }
     if(chosen_lesson==STOP) return 0;
   }
@@ -556,7 +563,7 @@ void LoadMenus(void)
   int i;
   
   T4K_SetMenuSpritePrefix("sprites");
-
+  T4K_SetActivitiesList(N_OF_ACTIVITIES, activities);
   /* main menu */
   T4K_LoadMenu(MENU_MAIN, "main_menu.xml");
   
@@ -678,7 +685,7 @@ int RunLoginMenu(void)
 void RunMainMenu(void)
 {
   int i;
-  char* title = "Main Menu";
+  char* lltitle = "Lesson List"; //lesson list menu title
   char* icon_names[num_lessons];
   
   DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");
@@ -691,7 +698,7 @@ void RunMainMenu(void)
     icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
   }
 
-  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, lesson_list_goldstars, title, "Back");
+  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, lesson_list_goldstars, NULL, "Back");
 
   T4K_PrerenderMenu(MENU_LESSONS);
 
