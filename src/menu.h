@@ -93,6 +93,7 @@ typedef struct mNode MenuNode;
 extern SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;
 extern SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gray;
 
+
 /* global functions */
 void LoadMenus(void);
 int RunLoginMenu(void);

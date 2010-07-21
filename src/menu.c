@@ -1463,9 +1463,12 @@ void prerender_all()
 
   set_font_size();
 
+
   for(i = 0; i < N_OF_MENUS; i++)
+  {
     if(menus[i])
       prerender_menu(menus[i]);
+  }
 }
 
 /* load menu trees from disk and prerender them */
