@@ -48,7 +48,10 @@ int start_campaign()
       snprintf(roundmessage, 10, "%s %d", N_("Round"), j);
       game_set_start_message(roundmessage, "", "", "");
 
-      MC_PrintMathOptions(stdout, 0);
+      DEBUGCODE(debug_setup)
+      {
+        MC_PrintMathOptions(stdout, 0);
+      }
 
       //play!
       printf("Starting game...\n");
@@ -154,7 +157,7 @@ void briefPlayer(int stage)
       {N_("Now is no time for resting; the city needs your help!")},
       {""}
     },
-  //commando
+    //commando
     {
       {N_("-[Esc] to skip")},
       {N_("Final Mission: Computing Commando")},
@@ -169,30 +172,35 @@ void briefPlayer(int stage)
 
 
   char* sprites[] = {
-    "sprites/tux_helmet_yellowd.png",
-    "sprites/tux_helmet_greend.png",
-    "sprites/tux_helmet_blued.png",
-    "sprites/tux_helmet_redd.png",
-    "sprites/tux_helmet_blackd.png"
+    "sprites/tux_helmet_yellow.svg",
+    "sprites/tux_helmet_green.svg",
+    "sprites/tux_helmet_blue.svg",
+    "sprites/tux_helmet_red.svg",
+    "sprites/tux_helmet_black.svg"
   };
 
   SDL_Surface* icon = NULL;
   SDL_Rect textarea = screen->clip_rect;
-  SDL_Surface* loadedsprite = LoadImage(sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED);
+  SDL_Surface* loadedsprite = LoadScaledImage(
+    sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED, 
+    screen->h / 4, screen->h / 4
+  );
 
 
 
-  if (loadedsprite) //stretch the tiny sprite to 3x
+  if (loadedsprite) //if using an image, make sure the text doesn't hit it
   {
-    icon = zoom(loadedsprite, loadedsprite->w*3, loadedsprite->h*3);
+    icon = loadedsprite;
     textarea.x = icon->w;
     textarea.y = icon->h;
     textarea.w = screen->w - icon->w;
     textarea.h = screen->h - icon->h;
   }
 
-  SDL_FillRect(screen, NULL, 0);
-  //TransWipe(black, RANDOM_WIPE, 10, 20);
+  //background is dark blue with a black text area
+  SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 32));
+  SDL_FillRect(screen, &textarea, 0);
+  
   //show this stage's text
   DEBUGMSG(debug_game, "Briefing\n");
 
@@ -204,7 +212,8 @@ void briefPlayer(int stage)
   DEBUGMSG(debug_game, "Finished briefing\n");
 
   SDL_FreeSurface(loadedsprite);
-  SDL_FreeSurface(icon);
+  if (icon != loadedsprite)
+    SDL_FreeSurface(icon);
 }
 
 void readStageSettings(int stage)
