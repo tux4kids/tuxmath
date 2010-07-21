@@ -53,6 +53,108 @@ sprite*         load_sprite(const char* name, int mode, int w, int h, bool propo
 static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf);
 static void savePNG(SDL_Surface* surf,char* fn);
 
+/* structures related to svg info caching */
+typedef struct
+{
+   char fn[PATH_MAX];
+   int width;
+   int height;
+} svginfo;
+
+#define SVGINFO_MAX 1000
+int saveSVGInfo(char* fn,int w,int h);
+int SVGInfoIndex(char* fn);
+
+svginfo svg_info[SVGINFO_MAX]; 
+int numSVG=0;
+
+/* structures related to sdl surface caching */
+typedef struct
+{
+   char fn[PATH_MAX];
+   SDL_Surface* surf;
+} cachedSurface;
+
+#define CACHEDSURFACE_MAX 1000
+int cacheSurface(char* fn,SDL_Surface* surf);
+int getCachedSurface(char* fn);
+SDL_Surface *IMG_Load_Cache(char* fn);
+
+cachedSurface cached_surface[CACHEDSURFACE_MAX];
+int numSurfaces=0;
+
+
+/* save SVG info */
+int saveSVGInfo(char* fn,int w,int h)
+{
+  strcpy(svg_info[numSVG].fn,fn);
+  svg_info[numSVG].width=w;
+  svg_info[numSVG].height=h;
+
+  numSVG++;
+
+  return numSVG-1;
+}
+
+/* get SVG info index */
+int SVGInfoIndex(char* fn)
+{
+  int i;
+  for(i=0;i<numSVG;i++)
+  {
+    if(!strcmp(fn,svg_info[i].fn))
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+/* save sdl surface */
+int cacheSurface(char* fn,SDL_Surface* surf)
+{
+  strcpy(cached_surface[numSurfaces].fn,fn);
+  cached_surface[numSurfaces].surf=surf;
+  surf->refcount++;
+
+  numSurfaces++;
+  return numSurfaces-1;
+}
+
+/* get sdl surface index */
+int getCachedSurface(char* fn)
+{
+  int i;
+  for(i=0;i<numSurfaces;i++)
+  {
+    if(!strcmp(fn,cached_surface[i].fn))
+    {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+/* attempt to load cached sdl surface if possible, otherwise use IMG_Load and cache the returned surface */
+SDL_Surface *IMG_Load_Cache(char* fn)
+{
+  int index=getCachedSurface(fn);
+  if(index!=-1)
+  { 
+    cached_surface[index].surf->refcount++;
+    return cached_surface[index].surf;
+  }
+  else
+  {
+    SDL_Surface* temp=IMG_Load(fn);
+    if(temp==NULL) return NULL;
+    cacheSurface(fn,temp);
+    return temp;
+  }
+}
+
 
 /* check to see if file exists, if so return true */
 // int checkFile( const char *file ) {
@@ -238,6 +340,14 @@ SDL_Surface* render_svg_from_handle(RsvgHandle* file_handle, int width, int heig
 
 void get_svg_dimensions(const char* file_name, int* width, int* height)
 {
+  int index=SVGInfoIndex(file_name);
+  if(index!=-1)
+  {
+    *width=svg_info[index].width;
+    *height=svg_info[index].height;
+    return;
+  }
+
   RsvgHandle* file_handle;
   RsvgDimensionData dimensions;
 
@@ -258,6 +368,8 @@ void get_svg_dimensions(const char* file_name, int* width, int* height)
 
   g_object_unref(file_handle);
   rsvg_term();
+
+  saveSVGInfo(file_name,*width,*height);
 }
 
 #endif /* HAVE_RSVG */
@@ -312,7 +424,7 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
   if(strcmp(fn + fn_len - 4, ".svg"))
   {
     DEBUGMSG(debug_loaders, "load_image(): %s is not an SVG, loading using IMG_Load()\n", fn);
-    loaded_pic = IMG_Load(fn);
+    loaded_pic = IMG_Load_Cache(fn);
     is_svg = false;
     if (NULL == loaded_pic)
     {
@@ -355,7 +467,7 @@ SDL_Surface* load_image(const char* file_name, int mode, int w, int h, bool prop
         DEBUGMSG(debug_loaders, "load_image(): Trying to load PNG equivalent of %s\n", fn);
         strcpy(fn + fn_len - 3, "png");
 
-        loaded_pic = IMG_Load(fn);
+        loaded_pic = IMG_Load_Cache(fn);
         is_svg = false;
       }
     }
@@ -533,14 +645,14 @@ sprite* load_sprite(const char* name, int mode, int w, int h, bool proportional)
     if(check_file(pngfn)==1)
     {
       new_sprite=(sprite*)malloc(sizeof(sprite));
-      new_sprite->default_img=IMG_Load(pngfn);
+      new_sprite->default_img=IMG_Load_Cache(pngfn);
       i=0;
       while(1)
       {
         sprintf(pngfn, "%s/%s%d-%d-%d.png", cache_path, name, i, width, height);
         if(check_file(pngfn)==1)
         {
-          new_sprite->frame[i]=IMG_Load(pngfn);
+          new_sprite->frame[i]=IMG_Load_Cache(pngfn);
           i++;
         }
         else break;
