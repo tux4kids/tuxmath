@@ -99,8 +99,6 @@ void LoadMenus(void);
 int RunLoginMenu(void);
 void RunMainMenu(void);
 void UnloadMenus(void);
-void StartMenuRenderer(void); /* dispatch a thread to prerender title screen and menus */
-void KillMenuRenderer(void); /* kill the renderer thread, called when resolution changes */
 
 #endif // MENU_H
 
