@@ -93,13 +93,6 @@ bool isRendererAlive=false;
 
 
 /* local functions */
-//MenuNode*       create_empty_node();
-//char*           get_attribute_name(const char* token);
-//char*           get_attribute_value(const char* token);
-//void            read_attributes(FILE* xml_file, MenuNode* node);
-//MenuNode*       load_menu_from_file(FILE* xml_file, MenuNode* parent);
-//void            free_menu(MenuNode* menu);
-//MenuNode*       create_one_level_menu(int items, char** item_names, char* title, char* trailer);
 
 int             run_menu(MenuType which, bool return_choice);
 int             handle_activity(int act, int param);
@@ -110,14 +103,6 @@ void            run_multiplayer(int mode, int difficulty);
 int             run_factoroids(int choice);
 int             run_lan_join(void);
 int             run_lan_host(void);
-
-//int             run_menu(MenuNode* menu, bool return_choice);
-//SDL_Surface**   render_buttons(MenuNode* menu, bool selected);
-//void            prerender_menu(MenuNode* menu);
-//char*           find_longest_text(MenuNode* menu, int* length);
-//void            set_menu_font_size(MenuNode* menu);
-//void            set_font_size();
-//void            prerender_all();
 
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
