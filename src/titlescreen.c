@@ -307,14 +307,6 @@ void DrawTitleScreen(void)
    returns 1 on success, 0 on failure */
 int RenderTitleScreen(void)
 {
-  /* test whether current thread is renderer or main thread */
-  bool isRenderer=(pthread_self()==renderer_tid);
-
-  /* if main thread, wait until renderer thread finishes */
-  if(!isRenderer&&isRendererAlive) pthread_join(renderer_tid,NULL);
-
-  if(isRenderer&&!isRendererAlive) return 1;
-
   SDL_Surface* new_bkg = NULL;
 
   if(curr_res_x != screen->w || curr_res_y != screen->h)
@@ -338,13 +330,6 @@ int RenderTitleScreen(void)
       }
     }
 
-    if(isRenderer&&!isRendererAlive) 
-    {
-      curr_res_x=-1;
-      curr_res_y=-1;
-      return 1;
-    }
-
     bkg_rect = current_bkg()->clip_rect;
     bkg_rect.x = (screen->w - bkg_rect.w) / 2;
     bkg_rect.y = (screen->h - bkg_rect.h) / 2;
@@ -363,13 +348,6 @@ int RenderTitleScreen(void)
       return 0;
     }
 
-    if(isRenderer&&!isRendererAlive) 
-    {
-      curr_res_x=-1;
-      curr_res_y=-1;
-      return 1;
-    }
-
     /* "Tux, of math command" title in upper right corner */
     T4K_SetRect(&title_rect, title_pos);
     title = T4K_LoadImageOfBoundingBox(title_path, IMG_ALPHA, title_rect.w, title_rect.h);
@@ -384,18 +362,11 @@ int RenderTitleScreen(void)
       return 0;
     }
 
-    if(isRenderer&&!isRendererAlive) 
-    {
-      curr_res_x=-1;
-      curr_res_y=-1;
-      return 1;
-    }
-
     /* easter egg */
 #ifdef HAVE_RSVG
     egg = T4K_LoadImage(egg_path, IMG_ALPHA | IMG_NOT_REQUIRED);
 #else
-    egg = LoadImage(egg_path, IMG_COLORKEY | IMG_NOT_REQUIRED);
+    egg = T4K_LoadImage(egg_path, IMG_COLORKEY | IMG_NOT_REQUIRED);
 #endif
 
     beak.x = tux_rect.x + beak_pos[0] * tux_rect.w;

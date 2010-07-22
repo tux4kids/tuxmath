@@ -36,7 +36,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <pthread.h>
 
 
 
@@ -113,12 +112,6 @@ SDL_Rect menu_title_rect;
 
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
-
-/* menu renderer thread id */
-pthread_t renderer_tid=-1;
-
-/* a flag if set to false will "kill" menu renderer thread */
-bool isRendererAlive=false;
 
 
 
@@ -1737,34 +1730,5 @@ void UnloadMenus(void)
     }
 
   DEBUGMSG(debug_menu, "leaving UnloadMenus()\n");
-}
-
-void menuRendererFunc(void)
-{
-  RenderTitleScreen();
-  prerender_all();
-}
-
-void StartMenuRenderer(void)
-{
-  isRendererAlive=true;
-  if(!pthread_create(&renderer_tid, NULL,menuRendererFunc, NULL))
-  {
-  }
-  else
-  {
-    isRendererAlive=false;
-    DEBUGMSG(debug_menu, "create thread failed!\n");
-  }
-
-}
-
-void KillMenuRenderer(void)
-{
-  if(isRendererAlive)
-  {
-    isRendererAlive=false;
-    pthread_join(renderer_tid,NULL);
-  } 
 }
 

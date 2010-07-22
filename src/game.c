@@ -3730,7 +3730,6 @@ void game_key_event(SDLKey key, SDLMod mod)
     Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
     T4K_SwitchScreenMode();
     game_recalc_positions();
-    StartMenuRenderer();
   }
 
   /* Toggle music: */
