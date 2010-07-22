@@ -37,14 +37,7 @@
 
 #include <wchar.h>
 
-#ifdef HAVE_LIBT4K_COMMON
-# include <t4k_common.h>
-#else
-typedef enum { false, true } bool;
-#endif
-
-#define min(a,b) (((a) < (b)) ? (a) : (b))
-#define max(a,b) (((a) > (b)) ? (a) : (b))
+#include <t4k_common.h>
 
 /* for Tim's feedback speed control code           */
 //#define FEEDBACK_DEBUG
@@ -56,21 +49,16 @@ extern int debug_status;
 /* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;
 extern const int debug_fileops;
-extern const int debug_loaders;
 extern const int debug_titlescreen;
-extern const int debug_menu;
-extern const int debug_menu_parser;
 extern const int debug_game;
 extern const int debug_factoroids;
 extern const int debug_lan;
 extern const int debug_mathcards;
-extern const int debug_sdl;
 extern const int debug_lessons;
 extern const int debug_highscore;
 extern const int debug_options;
 extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
-extern const int debug_all;
 
 /* debug macros */
 #define DEBUGCODE(mask) if((mask) & debug_status)

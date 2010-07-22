@@ -518,6 +518,9 @@ void initialize_SDL(void)
   int frequency, channels, n_timesopened;
   Uint16 format;
 
+  /* Init common library */
+  InitT4KCommon(debug_status);
+  
   /* Init SDL Video: */
   screen = NULL;
 

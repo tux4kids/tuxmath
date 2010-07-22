@@ -71,18 +71,7 @@ extern SDL_Event  event;
 
 #define MUSIC_FADE_OUT_MS               80
 
-#ifdef HAVE_LIBT4K_COMMON
-# include <t4k_common.h>
-#else
-enum {
-    WIPE_BLINDS_VERT,
-    WIPE_BLINDS_HORIZ,
-    WIPE_BLINDS_BOX,
-    RANDOM_WIPE,
-
-    NUM_WIPES
-};
-#endif
+#include <t4k_common.h>
 
 // End of code from tuxtype's globals.h
 
