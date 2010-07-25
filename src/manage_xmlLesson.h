@@ -70,3 +70,7 @@ int lives_remaining;
 struct result_factoroids_game result_factoroids;
 
 
+//used to store whether game was completed or not 
+int *game_completed,current_game_index;
+
+

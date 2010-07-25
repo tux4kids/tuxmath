@@ -38,6 +38,10 @@
 #include "network.h"
 #endif
 
+#ifdef SCHOOLMODE
+#include "manage_xmlLesson.h"
+#endif
+
 #include "transtruct.h"
 #include "game.h"
 #include "fileops.h"
@@ -2728,6 +2732,10 @@ void print_exit_conditions(void)
 
     case GAME_OVER_WON:
     {
+      #ifdef SCHOOLMODE
+       game_completed[current_game_index]=1;
+      #endif
+    
       printf("GAME_OVER_WON\n");
       break;
     }

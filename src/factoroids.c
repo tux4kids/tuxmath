@@ -1340,6 +1340,10 @@ static int FF_over(int game_status)
   {
     case GAME_OVER_WON:
     {
+      #ifdef SCHOOLMODE
+       game_completed[current_game_index]=1;
+      #endif
+    
       int looping = 1;
 //      int frame;
       /* set up victory message: */

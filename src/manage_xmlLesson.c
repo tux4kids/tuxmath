@@ -87,6 +87,7 @@ input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * size
 
  for(i=0 , cur_node = root_read->children    ; cur_node != NULL   ;      cur_node = cur_node->next)
   {
+    current_game_index=i;
      if ( cur_node->type == XML_ELEMENT_NODE  &&
           !xmlStrcmp(cur_node->name, (const xmlChar *) "factors" ) )
      {  
@@ -275,7 +276,7 @@ int i;
 
 total_no_menus=i;
 
-
+game_completed=(int *)calloc(i,sizeof(i));
 
 //code related to writing
 
