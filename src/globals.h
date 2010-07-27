@@ -60,9 +60,9 @@ extern const int debug_options;
 extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
 
-/* debug macros */
-#define DEBUGCODE(mask) if((mask) & debug_status)
-#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
+/* debug macros (now in libt4k_comon) */
+//#define DEBUGCODE(mask) if((mask) & debug_status)
+//#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096

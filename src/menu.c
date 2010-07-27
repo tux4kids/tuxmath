@@ -53,29 +53,26 @@ typedef enum {
 } MenuType;
 
 /* actions available while viewing the menu */
-enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP_ESC, RESIZED };
+//enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP_ESC, RESIZED };
 
 /* stop button, left and right arrow positions do not
    depend on currently displayed menu */
-SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;
-SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gray;
+//SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;
+//SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gray;
 
 /*TODO: move these constants into a config file (maybe together with
   titlescreen paths and rects ? ) */
-const float menu_pos[4] = {0.38, 0.23, 0.55, 0.72};
-const float stop_pos[4] = {0.94, 0.0, 0.06, 0.06};
-const float prev_pos[4] = {0.87, 0.93, 0.06, 0.06};
-const float next_pos[4] = {0.94, 0.93, 0.06, 0.06};
-const char* stop_path = "status/stop.svg";
-const char* prev_path = "status/left.svg";
-const char* next_path = "status/right.svg";
-const char* prev_gray_path = "status/left_gray.svg";
-const char* next_gray_path = "status/right_gray.svg";
-const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5, button_radius = 0.27;
-const int min_font_size = 8, default_font_size = 20, max_font_size = 33;
-
-/* font size used in current resolution */
-int curr_font_size;
+//const float menu_pos[4] = {0.38, 0.23, 0.55, 0.72};
+//const float stop_pos[4] = {0.94, 0.0, 0.06, 0.06};
+//const float prev_pos[4] = {0.87, 0.93, 0.06, 0.06};
+//const float next_pos[4] = {0.94, 0.93, 0.06, 0.06};
+//const char* stop_path = "status/stop.svg";
+//const char* prev_path = "status/left.svg";
+//const char* next_path = "status/right.svg";
+//const char* prev_gray_path = "status/left_gray.svg";
+//const char* next_gray_path = "status/right_gray.svg";
+//const float button_gap = 0.2, text_h_gap = 0.4, text_w_gap = 0.5, button_radius = 0.27;
+//const int min_font_size = 8, default_font_size = 20, max_font_size = 33;
 
 /* menu title rect */
 SDL_Rect menu_title_rect;
@@ -118,7 +115,7 @@ int run_menu(MenuType which, bool return_choice)
 int handle_activity(int act, int param)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
-  fprintf(stderr, "act: %d\n", act);
+  DEBUGMSG(debug_menu, "act: %d\n", act);
   switch(act)
   {
     case RUN_CAMPAIGN:
@@ -548,7 +545,7 @@ void LoadMenus(void)
   //NOTE level_menu.xml doesn't exist, and as it's not being used I'm skipping the load for now -Cheez
   /* difficulty menu */
 //  T4K_LoadMenu(MENU_DIFFICULTY, "level_menu.xml");
-  
+  T4K_SetMenuFontSize(MF_BESTFIT, 0);
   T4K_PrerenderAll();
 }
 
