@@ -673,7 +673,7 @@ void RunMainMenu(void)
     icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
   }
 
-  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, lesson_list_goldstars, NULL, "Back");
+  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, trailer_back);
 
   T4K_PrerenderMenu(MENU_LESSONS);
 
