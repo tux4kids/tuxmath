@@ -43,8 +43,8 @@
 //#define FEEDBACK_DEBUG
 //#define LINEBREAK
 
-/* debug data (declared in options.c) */
-extern int debug_status;
+/* debug data (now declared in libt4k_common */
+//extern int debug_status;
 
 /* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;
