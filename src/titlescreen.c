@@ -175,12 +175,17 @@ void TitleScreen(void)
     /* Play "harp" greeting sound lifted from Tux Paint */
     playsound(SND_HARP);
     SDL_FreeSurface(logo);
+    
+    //FIXME should this be inside the if(logo) block?
     /* load menus */
     LoadMenus();
   }
 
   /* load backgrounds */
   LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
+  T4K_SetMenuSounds(NULL, sounds[SND_POP], sounds[SND_TOCK]);
+  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+  
   if(fs_bkg == NULL || win_bkg == NULL)
   {
     fprintf(stderr, "Backgrounds were not properly loaded, exiting");
@@ -212,7 +217,7 @@ void TitleScreen(void)
   }
 
   /* NOTE: do we need this ? */
-  DEBUGCODE(debug_titlescreen)
+  if (true)
     SDL_WM_GrabInput(SDL_GRAB_OFF); /* in case of a freeze, this traps the cursor */
   else  // NOTE- the accompanying "if" is inside the DEBUGCODE macro
     SDL_WM_GrabInput(SDL_GRAB_ON);  /* User input goes to TuxMath, not window manager */
@@ -283,7 +288,7 @@ void TitleScreen(void)
   /* Start playing menu music if desired: */
   if (Opts_GetGlobalOpt(MENU_MUSIC))
   {
-    audioMusicLoad("tuxi.ogg", -1);
+    T4K_AudioMusicLoad("tuxi.ogg", -1);
   }
 
   /* If necessary, have the user log in */

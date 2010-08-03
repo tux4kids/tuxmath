@@ -38,6 +38,7 @@
 #include <string.h>
 
 
+
 /* create string array of activities' names */
 #define X(name) #name
 static char* activities[] = { ACTIVITIES };
@@ -116,6 +117,9 @@ int handle_activity(int act, int param)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
   DEBUGMSG(debug_menu, "act: %d\n", act);
+  
+  T4K_OnResolutionSwitch(NULL); //in case an activity forgets to register its own resolution switch handler, prevent insanity
+  
   switch(act)
   {
     case RUN_CAMPAIGN:
@@ -165,10 +169,10 @@ int handle_activity(int act, int param)
       Opts_SetHelpMode(1);
       Opts_SetDemoMode(0);
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
-        {audioMusicUnload();}
+        {T4K_AudioMusicUnload();}
       game();
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
-        audioMusicLoad( "tuxi.ogg", -1 );
+        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       Opts_SetHelpMode(0);
       break;
 
@@ -183,10 +187,10 @@ int handle_activity(int act, int param)
     case RUN_DEMO:
       if(read_named_config_file("demo"))
       {
-        audioMusicUnload();
+        T4K_AudioMusicUnload();
         game();
         if (Opts_GetGlobalOpt(MENU_MUSIC))
-          audioMusicLoad( "tuxi.ogg", -1 );
+          T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       }
       else
         fprintf(stderr, "\nCould not find demo config file\n");
@@ -208,6 +212,12 @@ int handle_activity(int act, int param)
       return QUIT;
   }
 
+  //re-register resolution switcher
+  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+  
+  if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+    T4K_AudioMusicLoad( "tuxi.ogg", T4K_AUDIO_LOOP_FOREVER );
+
   DEBUGMSG(debug_menu, "Leaving handle_activity\n");
 
   return 0;
@@ -216,6 +226,8 @@ int handle_activity(int act, int param)
 int run_academy(void)
 {
   int chosen_lesson = -1;
+
+  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
   chosen_lesson = run_menu(MENU_LESSONS, true);
   while (chosen_lesson >= 0)
@@ -231,9 +243,11 @@ int run_academy(void)
     if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
     {
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
-        {audioMusicUnload();}
+        {T4K_AudioMusicUnload();}
 
+      T4K_OnResolutionSwitch(NULL);
       game();
+      T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
@@ -244,7 +258,7 @@ int run_academy(void)
       }
 
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
-        {audioMusicLoad("tuxi.ogg", -1);}
+        {T4K_AudioMusicLoad("tuxi.ogg", -1);}
     }
     else  // Something went wrong - could not read lesson config file:
     {
@@ -282,11 +296,11 @@ int run_arcade(int choice)
     // Play arcade game
     if (read_named_config_file(arcade_config_files[choice]))
     {
-      audioMusicUnload();
+      T4K_AudioMusicUnload();
       game();
       RenderTitleScreen();
       if (Opts_GetGlobalOpt(MENU_MUSIC))
-        audioMusicLoad( "tuxi.ogg", -1 );
+        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       /* See if player made high score list!                        */
       read_high_scores();  /* Update, in case other users have added to it */
       hs_table = arcade_high_score_tables[choice];
@@ -327,13 +341,13 @@ int run_custom_game(void)
 
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))
-      audioMusicUnload();
+      T4K_AudioMusicUnload();
 
     game();
     write_user_config_file();
 
     if (Opts_GetGlobalOpt(MENU_MUSIC))
-      audioMusicLoad( "tuxi.ogg", -1 );
+      T4K_AudioMusicLoad( "tuxi.ogg", -1 );
   }
 
   return 0;
@@ -363,14 +377,14 @@ int run_factoroids(int choice)
     {FACTORS_HIGH_SCORE, FRACTIONS_HIGH_SCORE};
   int hs_table;
 
-  audioMusicUnload();
+  T4K_AudioMusicUnload();
   if(choice == 0)
     factors();
   else
     fractions();
 
   if (Opts_GetGlobalOpt(MENU_MUSIC))
-    audioMusicLoad( "tuxi.ogg", -1 );
+    T4K_AudioMusicLoad( "tuxi.ogg", -1 );
 
   hs_table = factoroids_high_score_tables[choice];
   if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
@@ -505,7 +519,7 @@ int run_lan_join(void)
       game();
       Opts_SetLanMode(0);  // Go back to local play
       if (Opts_GetGlobalOpt(MENU_MUSIC))
-          audioMusicLoad( "tuxi.ogg", -1 );
+          T4K_AudioMusicLoad( "tuxi.ogg", -1 );
     }
     else
     {
@@ -556,6 +570,8 @@ void LoadMenus(void)
     0 indicates that a choice has been made. */
 int RunLoginMenu(void)
 {
+  const char *trailer_quit = "Quit";
+  const char *trailer_back = "Back";
   int n_login_questions = 0;
   char **user_login_questions = NULL;
   char *title = NULL;
@@ -564,8 +580,6 @@ int RunLoginMenu(void)
   int chosen_login = -1;
   int level;
   int i;
-  char *trailer_quit = "Quit";
-  char *trailer_back = "Back";
   char *trailer = NULL;
   SDLMod mod;
 
@@ -673,7 +687,7 @@ void RunMainMenu(void)
     icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
   }
 
-  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, trailer_back);
+  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");
 
   T4K_PrerenderMenu(MENU_LESSONS);
 

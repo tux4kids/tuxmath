@@ -31,50 +31,46 @@ void playsound(int snd)
 {
 #ifndef NOSOUND
   if (Opts_UsingSound())
-    Mix_PlayChannel(-1, sounds[snd], 0);
+    T4K_PlaySound(sounds[snd]);
 #endif
 }
 
-Mix_Music *defaultMusic = NULL; // holds music for audioMusicLoad/unload
+//Mix_Music *defaultMusic = NULL; // holds music for audioMusicLoad/unload
 
 
-
-/* audioMusicLoad attempts to load and play the music file 
- * Note: loops == -1 means forever
- */
-void audioMusicLoad(char *musicFilename, int loops)
-{
-  if (!Opts_UsingSound())
-  {
-    return;
-  }
-
-  audioMusicUnload(); // make sure defaultMusic is clear
-  defaultMusic = T4K_LoadMusic(musicFilename);
-  Mix_PlayMusic(defaultMusic, loops);
-}
-
-
-/* audioMusicUnload attempts to unload any music data that was
- * loaded using the audioMusicLoad function
- */
-void audioMusicUnload( void ) {
-  if (!Opts_UsingSound()) return;
-
-  if ( defaultMusic )
-    Mix_FreeMusic( defaultMusic );
-
-  defaultMusic=NULL;
-}
-
-/* audioMusicPlay attempts to play the passed music data. 
- * if a music file was loaded using the audioMusicLoad
- * it will be stopped and unloaded
- * Note: loops == -1 means forever
- */
-void audioMusicPlay( Mix_Music *musicData, int loops ) { 
-  if (!Opts_UsingSound()) return;
-
-  audioMusicUnload();        
-  Mix_PlayMusic( musicData, loops );
-}
+//
+///* audioMusicLoad attempts to load and play the music file 
+// * Note: loops == -1 means forever
+// */
+//void audioMusicLoad(char *musicFilename, int loops)
+//{
+//  if (Opts_UsingSound())
+//  {
+//    T4K_AudioMusicLoad(musicFilename, loops);
+//  }
+//}
+//
+//
+///* audioMusicUnload attempts to unload any music data that was
+// * loaded using the audioMusicLoad function
+// */
+//void audioMusicUnload( void ) {
+//  if (!Opts_UsingSound()) return;
+//
+//  if ( defaultMusic )
+//    Mix_FreeMusic( defaultMusic );
+//
+//  defaultMusic=NULL;
+//}
+//
+///* audioMusicPlay attempts to play the passed music data. 
+// * if a music file was loaded using the audioMusicLoad
+// * it will be stopped and unloaded
+// * Note: loops == -1 means forever
+// */
+//void audioMusicPlay( Mix_Music *musicData, int loops ) { 
+//  if (!Opts_UsingSound()) return;
+//
+//  audioMusicUnload();        
+//  Mix_PlayMusic( musicData, loops );
+//}

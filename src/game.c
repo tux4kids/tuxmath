@@ -88,6 +88,12 @@ typedef struct comet_type {
 
 /* Local (to game.c) 'globals': */
 
+static char* game_music_filenames[3] = {
+  "game.mod",
+  "game2.mod",
+  "game3.mod",
+};
+
 static int gameover_counter;
 static int game_status;
 static int user_quit_received;
@@ -313,7 +319,7 @@ int game(void)
     {
       if (!Mix_PlayingMusic())
       {
-            Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
       }
     }
 #endif
@@ -1367,6 +1373,9 @@ void game_handle_user_events(void)
 
   while (SDL_PollEvent(&event) > 0)
   {
+
+    T4K_HandleStdEvents(&event);
+
     if (event.type == SDL_QUIT)
     {
       user_quit_received = GAME_OVER_WINDOW_CLOSE;
@@ -3722,34 +3731,6 @@ void game_key_event(SDLKey key, SDLMod mod)
       speed /= 1.2;
     }
   }
-
-
-  /* Toggle screen mode: */
-  else if (key == SDLK_F10)
-  {
-    Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
-    T4K_SwitchScreenMode();
-    game_recalc_positions();
-  }
-
-  /* Toggle music: */
-#ifndef NOSOUND
-  else if (key == SDLK_F11)
-  {
-    if (Opts_UsingSound())
-    {
-      if (Mix_PlayingMusic())
-      {
-        Mix_HaltMusic();
-      }
-      else
-      {
-        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-      }
-    }
-  }
-#endif
-
 
   if (level_start_wait > 0 || Opts_DemoMode() || !help_controls.laser_enabled)
   {
