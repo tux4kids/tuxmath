@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-06-19 19:09-0500\n"
+"POT-Creation-Date: 2010-08-03 15:38-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -25,93 +25,93 @@ msgstr "Gratulerar! Du vann!"
 msgid "Round"
 msgstr "Omgång"
 
-#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+#: src/campaign.c:118 src/campaign.c:130 src/campaign.c:151 src/campaign.c:162
 msgid "-[Esc] to skip"
 msgstr "-[Esc] för att hoppa över"
 
-#: src/campaign.c:116
+#: src/campaign.c:119
 msgid "Mission One: Careful Cadet"
 msgstr "Uppdrag 1: Försiktig kadett"
 
-#: src/campaign.c:118
+#: src/campaign.c:121
 msgid "I'm so glad you've come!"
 msgstr "Jag är så glad att du kom!"
 
-#: src/campaign.c:120
+#: src/campaign.c:123
 msgid ""
 "The penguins need your help! Comets are falling from the sky, and are "
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
 
-#: src/campaign.c:122
+#: src/campaign.c:125
 msgid "Do your best!"
 msgstr "Gör ditt yttersta!"
 
-#: src/campaign.c:128
+#: src/campaign.c:131
 msgid "Mission Two: Smart Scout"
 msgstr "Uppdrag 2: Smart scout"
 
-#: src/campaign.c:130
+#: src/campaign.c:133
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
 
-#: src/campaign.c:132
+#: src/campaign.c:135
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
 
-#: src/campaign.c:133
+#: src/campaign.c:136
 msgid "But you can save them!"
 msgstr "Du kan rädda dem!"
 
-#: src/campaign.c:139
+#: src/campaign.c:142
 msgid "Mission Three: Royal Ranger"
 msgstr "Uppdrag 3: Kunglig jägare"
 
-#: src/campaign.c:141
+#: src/campaign.c:144
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
 
-#: src/campaign.c:143
+#: src/campaign.c:146
 msgid ""
 "...oh no! Now the Emperor himself is under attack, from new types of comets: "
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
 
-#: src/campaign.c:149
+#: src/campaign.c:152
 msgid "Mission Four: Imperial Ace"
 msgstr "Uppdrag 4: Empirisk mästare"
 
-#: src/campaign.c:151
+#: src/campaign.c:154
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
 
-#: src/campaign.c:153
+#: src/campaign.c:156
 #, fuzzy
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
 msgstr "en ny attack från Divisionslandet!"
 
-#: src/campaign.c:154
+#: src/campaign.c:157
 #, fuzzy
 msgid "Now is no time for resting; the city needs your help!"
 msgstr "Det finns ingen tid att förlora. Staden"
 
-#: src/campaign.c:160
+#: src/campaign.c:163
 msgid "Final Mission: Computing Commando"
 msgstr "Sista uppdraget: Beräknande kommandosoldat"
 
-#: src/campaign.c:162
+#: src/campaign.c:165
 msgid ""
 "Penguin scientists have learned that all these attacks are coming from a "
 "secret base, and they need you to go fight the final battle. They also give "
@@ -119,20 +119,20 @@ msgid ""
 "and subtraction."
 msgstr ""
 
-#: src/campaign.c:163
+#: src/campaign.c:166
 msgid "I hope that hint helps!"
 msgstr "Jag hoppas att tipset hjälper!"
 
-#: src/campaign.c:165
+#: src/campaign.c:168
 #, fuzzy
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr "Nu gäller det! Du kan stoppa dessa"
 
-#: src/campaign.c:229
+#: src/campaign.c:238
 msgid "Sorry, try again!"
 msgstr "Tyvärr, försök igen!"
 
-#: src/campaign.c:236
+#: src/campaign.c:245
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr "Uppdraget slutfört! Galaxen är säker!"
 
@@ -395,124 +395,124 @@ msgstr "Du kom med på poänglistan!"
 msgid "Enter Your Name:"
 msgstr "Skriv ditt namn:"
 
-#: src/menu.c:407
+#: src/menu.c:200
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath är gratis och öppen källkod!"
 
-#: src/menu.c:408
+#: src/menu.c:201
 #, fuzzy
 msgid "You can help make it better."
 msgstr "Du kan hjälpa oss att göra det bättre genom att rapportera problem,"
 
-#: src/menu.c:409
+#: src/menu.c:202
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr ""
 
-#: src/menu.c:410
+#: src/menu.c:203
 #, fuzzy
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Diskutera framtiden på tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:531
+#: src/menu.c:325
 msgid "Edit 'options' file in your home directory"
 msgstr "Redigera filen \"options\" i din hemkatalog"
 
-#: src/menu.c:532
+#: src/menu.c:326
 msgid "to create customized game!"
 msgstr "för att skapa anpassade spel!"
 
-#: src/menu.c:533
+#: src/menu.c:327
 msgid "Press a key or click your mouse to start game."
 msgstr "Tryck på en tangent eller klicka med musen för att starta spelet."
 
-#: src/menu.c:534
+#: src/menu.c:328
 msgid "See README.txt for more information"
 msgstr "Se README.txt för mer information"
 
-#: src/menu.c:558
+#: src/menu.c:352
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/menu.c:559
+#: src/menu.c:353
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:621
+#: src/menu.c:415
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:626
+#: src/menu.c:420
 #, fuzzy
 msgid "Enter Server Name:"
 msgstr "Skriv ditt namn:"
 
-#: src/menu.c:626
+#: src/menu.c:420
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:640
+#: src/menu.c:434
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:669
+#: src/menu.c:464
 #, fuzzy
 msgid "Server Name:"
 msgstr "Skriv ditt namn:"
 
-#: src/menu.c:671
+#: src/menu.c:466
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:686 src/menu.c:733
+#: src/menu.c:481 src/menu.c:528
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:687 src/menu.c:734
+#: src/menu.c:482 src/menu.c:529
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:697
+#: src/menu.c:492
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:697
+#: src/menu.c:492
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:703
+#: src/menu.c:498
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:704 src/multiplayer.c:258 src/multiplayer.c:260
+#: src/menu.c:499 src/multiplayer.c:258 src/multiplayer.c:260
 #, fuzzy
 msgid "Enter your name:"
 msgstr "Skriv ditt namn:"
 
-#: src/menu.c:706
+#: src/menu.c:501
 #, fuzzy
 msgid "Click when ready"
 msgstr "(Tryck på en tangent)"
 
-#: src/menu.c:708
+#: src/menu.c:503
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:721
+#: src/menu.c:516
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:722
+#: src/menu.c:517
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:728
+#: src/menu.c:523
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:729
+#: src/menu.c:524
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr ""
