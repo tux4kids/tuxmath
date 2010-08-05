@@ -210,7 +210,7 @@ static void free_on_exit(void);
 
 static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
-static void game_recalc_positions(void);
+static void game_recalc_positions(int xres, int yres);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
@@ -1031,6 +1031,8 @@ int game_initialize(void)
   help_controls.extra_life_is_blinking = 0;
   help_controls.laser_enabled = 1;
 
+  T4K_OnResolutionSwitch(game_recalc_positions);
+  
   DEBUGMSG(debug_game,"Exiting game_initialize()\n");
 
   return 1;
@@ -3876,7 +3878,7 @@ void free_on_exit(void)
 }
 
 /* Recalculate on-screen city & comet locations when screen dimensions change */
-void game_recalc_positions(void)
+void game_recalc_positions(int xres, int yres)
 {
   int i, img;
   int old_city_expl_height = city_expl_height;
@@ -3893,14 +3895,14 @@ void game_recalc_positions(void)
     /* Left vs. Right - makes room for Tux and the console */
     if (i < NUM_CITIES / 2)
     {
-      cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
+      cities[i].x = (((xres / (NUM_CITIES + 1)) * i) +
                      ((images[img] -> w) / 2));
       DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
     else
     {
-      cities[i].x = screen->w -
-                   (screen->w / (NUM_CITIES + 1) *
+      cities[i].x = xres -
+                   (xres / (NUM_CITIES + 1) *
                    (i - NUM_CITIES / 2) +
                     images[img]->w / 2);
       DEBUGMSG(debug_game,"%d,", cities[i].x);
@@ -3909,7 +3911,7 @@ void game_recalc_positions(void)
     penguins[i].x = cities[i].x;
   }
 
-  city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
+  city_expl_height = yres - images[IMG_CITY_BLUE]->h;
   //move comets to a location 'equivalent' to where they were
   //i.e. with the same amount of time left before impact
   for (i = 0; i < Opts_MaxComets(); ++i)
