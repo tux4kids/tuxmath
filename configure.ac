@@ -307,20 +307,40 @@ CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
 
 
-dnl Use of libt4k_common is now enabled by default in this branch: 
+dnl Use of libt4k_common is now required
+PKG_CHECK_EXISTS([t4k_common],
+      dnl Use pkg-config if possible:
+      [T4K_COMMON_CFLAGS=""
+       T4K_COMMON_LIBS=""
+       PKG_CHECK_MODULES([T4K_COMMON],
+      		   [t4k_common],
+      		   ,
+                   [with_t4kcommon=no;
+                    AC_MSG_FAILURE([libt4k_common is required: git://git.debian.org/tux4kids/t4kcommon.git])])
+       CFLAGS="$CFLAGS $T4K_COMMON_CFLAGS"
+       LIBS="$LIBS $T4K_COMMON_LIBS"
+       AC_DEFINE([HAVE_LIBT4K_COMMON],[1],[Define to 1 if you have the `SDL_net` library]
+      )],
+      dnl Fallback if we can't use pkg-config:
+      [AC_CHECK_LIB([t4k_common], 
+      	      [InitT4kCommon],
+      	      ,
+              [with_t4kcommon=no;
+               AC_MSG_FAILURE([libt4k_common is required: git://git.debian.org/tux4kids/t4kcommon.git])]
+      )]
+)
 
-AC_ARG_WITH([libt4k_common],
-	    [AS_HELP_STRING([--without-libt4k_common],[do not use libtk4common even if available])],
-            [with_libt4k_common=no],
-            [with_libt4k_common=yes])
+dnl AC_ARG_WITH([libt4k_common],
+dnl 	    [AS_HELP_STRING([--without-libt4k_common],[do not use libtk4common even if available])],
+dnl             [with_libt4k_common=no],
+dnl             [with_libt4k_common=yes])
 
-if test "x$with_libt4k_common" != xno; then
-AC_CHECK_LIB([t4k_common],
-             [InitT4KCommon],
-             ,
-             [with_libt4k_common=no;
-              AC_MSG_FAILURE([libt4k_common test failed (--without-libt4k_common to disable use of libt4k_common)])])
-fi
+dnl AC_CHECK_LIB([t4k_common],
+dnl              [InitT4KCommon],
+dnl              ,
+dnl              [with_libt4k_common=no;
+dnl               AC_MSG_FAILURE([libt4k_common test failed (--without-libt4k_common to disable use of libt4k_common)])])
+dnl fi
 
 
 dnl Check for (somewhat) higher-level math functions - needed for SDL_extras

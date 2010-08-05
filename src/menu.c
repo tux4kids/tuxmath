@@ -214,7 +214,9 @@ int handle_activity(int act, int param)
 
   //re-register resolution switcher
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
-  
+  //redraw if necessary
+  RenderTitleScreen();
+    
   if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
     T4K_AudioMusicLoad( "tuxi.ogg", T4K_AUDIO_LOOP_FOREVER );
 
@@ -514,7 +516,7 @@ int run_lan_join(void)
     stdby = Standby(_("Waiting for other players"), NULL);
     if (stdby == 1)
     {
-      audioMusicUnload();
+      T4K_AudioMusicUnload();
       Opts_SetLanMode(1);  // Tells game() we are playing over network
       game();
       Opts_SetLanMode(0);  // Go back to local play
