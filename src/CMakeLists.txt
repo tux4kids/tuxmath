@@ -20,6 +20,11 @@ if (T4KCOMMON_FOUND)
   set(HAVE_LIBT4K_COMMON 1)
 endif(T4KCOMMON_FOUND)
 
+if (SDLNET_FOUND)
+  set(HAVE_LIBSDL_NET 1)
+  list(APPEND TUXMATH_EXTRA_SRC server.c network.c)
+endif (SDLNET_FOUND)
+
 ## Define the source files used for each executable
 # tuxmath
 set(SOURCES_TUXMATH
@@ -35,7 +40,6 @@ set(SOURCES_TUXMATH
   lessons.c
   loaders.c
   mathcards.c
-  network.c
   options.c
   pixels.c
   scandir.c
@@ -76,6 +80,7 @@ include_directories(
   ${SDLIMAGE_INCLUDE_DIR} 
   ${SDLMIXER_INCLUDE_DIR} 
   ${SDLTTF_INCLUDE_DIR} 
+  ${SDLNET_INCLUDE_DIR} 
   ${T4KCOMMON_INCLUDE_DIR}
   ${TUXMATH_EXTRA_INCLUDES} 
   ${INTL_BINARY_DIR})

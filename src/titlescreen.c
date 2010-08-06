@@ -96,11 +96,15 @@ SDL_Rect bkg_rect,
          cursor,
          beak;
 
+/* This syntax is full of fluffy kittens! (note: kittens sold separately) */
 SDL_Surface* current_bkg()
-  /* This syntax makes my brain start to explode! */
-  { return screen->flags & SDL_FULLSCREEN ? fs_bkg : win_bkg; }
+{ 
+  if (T4K_GetScreen()->flags & SDL_FULLSCREEN)
+    return fs_bkg;
+  return win_bkg; 
+}
 
-/* FIXME don't we have to scale these? */
+/* FIXME this function assumes the background is properly scaled */
 void set_current_bkg(SDL_Surface* new_bkg)
 {
   if(screen->flags & SDL_FULLSCREEN)
@@ -171,12 +175,17 @@ void TitleScreen(void)
     /* Play "harp" greeting sound lifted from Tux Paint */
     playsound(SND_HARP);
     SDL_FreeSurface(logo);
+    
+    //FIXME should this be inside the if(logo) block?
     /* load menus */
     LoadMenus();
   }
 
   /* load backgrounds */
   LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
+  T4K_SetMenuSounds(NULL, sounds[SND_POP], sounds[SND_TOCK]);
+  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+  
   if(fs_bkg == NULL || win_bkg == NULL)
   {
     fprintf(stderr, "Backgrounds were not properly loaded, exiting");
@@ -208,7 +217,7 @@ void TitleScreen(void)
   }
 
   /* NOTE: do we need this ? */
-  DEBUGCODE(debug_titlescreen)
+  if (true)
     SDL_WM_GrabInput(SDL_GRAB_OFF); /* in case of a freeze, this traps the cursor */
   else  // NOTE- the accompanying "if" is inside the DEBUGCODE macro
     SDL_WM_GrabInput(SDL_GRAB_ON);  /* User input goes to TuxMath, not window manager */
@@ -222,10 +231,14 @@ void TitleScreen(void)
   if(current_bkg())
   {
     /* FIXME not sure trans_wipe() works in Windows: */
-    trans_wipe(current_bkg(), RANDOM_WIPE, 10, 20);
-    /* Make sure background gets drawn (since trans_wipe() doesn't */
-    /* seem to work reliably as of yet):                          */
-    SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
+    T4K_TransWipe(current_bkg(), RANDOM_WIPE, 5, 20);
+    
+    DEBUGCODE(debug_all)
+    {
+      /* Make sure background gets drawn (since trans_wipe() doesn't */
+      /* seem to work reliably as of yet):                          */
+      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect);
+    }
   }
 
   /* --- Pull tux & logo onscreen --- */
@@ -275,7 +288,7 @@ void TitleScreen(void)
   /* Start playing menu music if desired: */
   if (Opts_GetGlobalOpt(MENU_MUSIC))
   {
-    audioMusicLoad("tuxi.ogg", -1);
+    T4K_AudioMusicLoad("tuxi.ogg", -1);
   }
 
   /* If necessary, have the user log in */
@@ -309,15 +322,15 @@ int RenderTitleScreen(void)
 {
   SDL_Surface* new_bkg = NULL;
 
-  if(curr_res_x != screen->w || curr_res_y != screen->h)
+  if(curr_res_x != T4K_GetScreen()->w || curr_res_y != T4K_GetScreen()->h)
   {
     /* we need to rerender titlescreen items */
     DEBUGMSG(debug_titlescreen, "Re-rendering titlescreen items.\n");
 
     /* we keep two backgrounds to make screen mode switch faster */
-    if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
+    if(current_bkg()->w != T4K_GetScreen()->w || current_bkg()->h != T4K_GetScreen()->h)
     {
-      new_bkg = T4K_LoadBkgd(bkg_path, screen->w, screen->h);
+      new_bkg = T4K_LoadBkgd(bkg_path, T4K_GetScreen()->w, T4K_GetScreen()->h);
       if(new_bkg == NULL)
       {
         DEBUGMSG(debug_titlescreen, "RenderTitleScreen(): Failed to load new background.\n");
@@ -388,7 +401,19 @@ int RenderTitleScreen(void)
    return 1 if events require full redraw */
 int HandleTitleScreenEvents(const SDL_Event* evt)
 {
+  if (evt->type == SDL_KEYDOWN)
+    if (evt->key.keysym.sym == SDLK_F10)
+      HandleTitleScreenResSwitch(T4K_GetScreen()->w, T4K_GetScreen()->h);
+      
   return handle_easter_egg(evt);
+}
+
+/* handle a resolution switch. Tux et. al. may need to be resized
+  and/or repositioned
+  */
+int HandleTitleScreenResSwitch(int new_w, int new_h)
+{
+  return RenderTitleScreen();
 }
 
 /* handle all titlescreen blitting

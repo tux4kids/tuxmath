@@ -1,0 +1,867 @@
+# SOME DESCRIPTIVE TITLE.
+# This file is put in the public domain.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tuxmath.pot\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2010-06-19 19:09-0500\n"
+"PO-Revision-Date: 2010-07-23 4:00\n"
+"Last-Translator: Tryneeds-Chinese <tryneeds@gmail.com>\n"
+"Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: src/campaign.c:30
+msgid "Congratulations! You win!"
+msgstr "恭喜！您贏了！"
+
+#: src/campaign.c:48
+msgid "Round"
+msgstr "回合"
+
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+msgid "-[Esc] to skip"
+msgstr "按【Esc】略過"
+
+#: src/campaign.c:116
+msgid "Mission One: Careful Cadet"
+msgstr "任務一：謹慎的學員"
+
+#: src/campaign.c:118
+msgid "I'm so glad you've come!"
+msgstr "很高興您來了！"
+
+#: src/campaign.c:120
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"企鵝需要您的幫忙！慧星從天空中掉落，要把企鵝的冰屋融化了。為了拯救企鵝的家，"
+"我們需要您找出擊落每個慧星的密碼。"
+
+#: src/campaign.c:122
+msgid "Do your best!"
+msgstr "請盡力吧！"
+
+#: src/campaign.c:128
+msgid "Mission Two: Smart Scout"
+msgstr "任務二：聰明的童子軍"
+
+#: src/campaign.c:130
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"幹得好！您保住了企鵝的家，我們決定將您升為童子軍。童子軍最喜歡幫助別人了..."
+
+#: src/campaign.c:132
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr "...您看到發生什麼事了！惡魔來了，送來了新的、更棘手的慧星！"
+
+#: src/campaign.c:133
+msgid "But you can save them!"
+msgstr "但是您可以拯救他們！"
+
+#: src/campaign.c:139
+msgid "Mission Three: Royal Ranger"
+msgstr "任務三：皇家遊騎兵"
+
+#: src/campaign.c:141
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"您再次拯救了企鵝們！企鵝皇帝決定讓您加入他的遊騎兵團隊，協助保護這個城市。我"
+"們現在準備將您送到那兒了..."
+
+#: src/campaign.c:143
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"...噢，不！企鵝皇帝遭受新型態慧星攻擊了：這次是乘法！您需要很強的技能才能對抗"
+"這些慧星。我們相信您可以做到。加入遊騎兵團並協助保護這個城市吧！"
+
+#: src/campaign.c:149
+msgid "Mission Four: Imperial Ace"
+msgstr "任務四：帝國大將軍"
+
+#: src/campaign.c:151
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+"您成功了！企鵝皇帝要展現對您的謝意。我們會將您帶到皇上的冰屋，您將被封為帝國"
+"大將軍！"
+
+#: src/campaign.c:153
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr "但是在慶祝會的中途，從除法之地來的一場新的攻擊開始了！"
+
+#: src/campaign.c:154
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "現在沒時間休息了；這城市需要您的協助！"
+
+#: src/campaign.c:160
+msgid "Final Mission: Computing Commando"
+msgstr "最後任務：計算指揮官"
+
+#: src/campaign.c:162
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"企鵝科學家發現了所有的攻擊都從一處秘密基地而來。他們需要您的協助進行他們的最"
+"後戰役。他們也給了您一個很重要的提示：先乘除，後加減！"
+
+#: src/campaign.c:163
+msgid "I hope that hint helps!"
+msgstr "我希望這提示對您有用！"
+
+#: src/campaign.c:165
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "成功了！您讓企鵝王國不會再受到攻擊了！"
+
+#: src/campaign.c:229
+msgid "Sorry, try again!"
+msgstr "抱歉，請再試一次。"
+
+#: src/campaign.c:236
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "任務完成。這個星球安全了！"
+
+#: src/credits.c:35
+msgid "TUX, OF MATH COMMAND"
+msgstr "TUX, OF MATH COMMAND"
+
+#: src/credits.c:36
+msgid "COPYRIGHT 2001-2010"
+msgstr "COPYRIGHT 2001-2010"
+
+#: src/credits.c:38
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "Tux4Kids 專案之一"
+
+#: src/credits.c:41
+msgid "DESIGNED BY"
+msgstr "設計者："
+
+#: src/credits.c:44
+msgid "LEAD PROGRAMMERS"
+msgstr "首席設計師"
+
+#: src/credits.c:50
+msgid "ADDITIONAL CODE"
+msgstr "額外程式碼"
+
+#: src/credits.c:63
+msgid "LEAD ARTIST"
+msgstr "首席美工"
+
+#: src/credits.c:66
+msgid "ADDITIONAL ART"
+msgstr "額外美工"
+
+#: src/credits.c:70
+msgid "SOUND EFFECTS"
+msgstr "音效"
+
+#: src/credits.c:73
+msgid "MUSIC"
+msgstr "音樂"
+
+#: src/credits.c:83
+msgid "PACKAGERS"
+msgstr "套件打包"
+
+#: src/credits.c:88
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "'TUX' THE PENGUIN 建立者"
+
+#: src/credits.c:91
+msgid "TESTERS"
+msgstr "測試者"
+
+#: src/credits.c:103
+msgid "USER WEBSITE"
+msgstr "使用者網站"
+
+#: src/credits.c:106
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "Tux4kids 開發主機置於 ALIOTH:"
+
+#: src/credits.c:109
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+"TuxMath 為自由軟體，使用 GNU GPL 授權。因此，您擁有那些專制軟體拒絕給予使用者"
+"的權利。"
+
+#: src/credits.c:111
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr "包括自由學習、複製、變更與散布此程式的權利。"
+
+#: src/credits.c:113
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr "此程式的文件中包含一份完整的 GPL 授權複本。"
+
+#: src/credits.c:115
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "關於自由軟體與 GNU GPL 的詳情，請參考："
+
+#: src/factoroids.c:553
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr "因數分解：要過關，您必須擊滅所有的小行星。"
+
+#: src/factoroids.c:554 src/factoroids.c:565
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr "用方向鍵移動，瞄準小行星。"
+
+#: src/factoroids.c:555
+msgid "type one of its factors, and press space or return"
+msgstr "輸入一個它的因數，並且按空白鍵或 Enter 鍵"
+
+#: src/factoroids.c:556
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr "它就會分裂成因數的小石頭。到只剩質數時，它就會被毀滅！"
+
+#: src/factoroids.c:564
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr "分數: 要過關, 您必須擊落所有的小行星"
+
+#: src/factoroids.c:566
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr "輸入可以用於約分的數字，並且按空白鍵或 Enter 鍵"
+
+#: src/factoroids.c:567
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr "來將它分裂。最終不能簡化的分數，就把它擊落吧！"
+
+#: src/game.c:1091
+msgid "Welcome to TuxMath!"
+msgstr "歡迎進入TuxMath"
+
+#: src/game.c:1108
+msgid "Your mission is to save your"
+msgstr "您的任務是拯救"
+
+#: src/game.c:1109
+msgid "penguins' igloos from the"
+msgstr "您的企鵝小屋免"
+
+#: src/game.c:1110
+msgid "falling comets."
+msgstr "於被慧星擊中。"
+
+#: src/game.c:1129
+msgid "Stop a comet by typing"
+msgstr "阻止慧星的方法"
+
+#: src/game.c:1130
+msgid "the answer to the math problem"
+msgstr "是回答數學問題"
+
+#: src/game.c:1131
+msgid "and hitting 'space' or 'enter'."
+msgstr "並按下【空白鍵】或【Enter 鍵】。"
+
+#: src/game.c:1132
+msgid "Try it now!"
+msgstr "馬上玩玩看"
+
+#: src/game.c:1140
+msgid "Good shot!"
+msgstr "漂亮"
+
+#: src/game.c:1150
+msgid "If an igloo gets hit by a comet,"
+msgstr "如果雪屋被小行星擊中,"
+
+#: src/game.c:1151
+msgid "it melts. But don't worry: the"
+msgstr "它會融化掉！但是不用擔心:"
+
+#: src/game.c:1152
+msgid "penguin is OK!"
+msgstr "企鵝是安全的。"
+
+#: src/game.c:1153
+msgid "Just watch what happens:"
+msgstr "注意發生什麼:"
+
+#: src/game.c:1154
+msgid "(Press a key to start)"
+msgstr "(按任一按鍵開始)"
+
+#: src/game.c:1167
+msgid "Notice the answer"
+msgstr "注意答案"
+
+#: src/game.c:1177
+msgid "If it gets hit again, the"
+msgstr "如果它再被命中一次,"
+
+#: src/game.c:1178
+msgid "penguin leaves."
+msgstr "企鵝會離開。"
+
+#: src/game.c:1179
+msgid "(Press a key when ready)"
+msgstr "(準備好之後按一個按鍵)"
+
+#: src/game.c:1202
+msgid "You can fix the igloos"
+msgstr "擊中加分的慧星，"
+
+#: src/game.c:1203
+msgid "by stopping bonus comets."
+msgstr "可以把被損壞的小屋修好。"
+
+#: src/game.c:1214
+msgid "Zap it now!"
+msgstr "來吧！"
+
+#: src/game.c:1220
+msgid "Great job!"
+msgstr "了不起"
+
+#: src/game.c:1238
+msgid "Quit at any time by pressing"
+msgstr "在任何時候，皆可以按下"
+
+#: src/game.c:1239
+msgid "'Esc' or clicking the 'X'"
+msgstr "【Esc】鍵或右上角的叉叉"
+
+#: src/game.c:1240
+msgid "in the upper right corner."
+msgstr "就可以離開。"
+
+#: src/game.c:1241
+msgid "Do it now, and then play!"
+msgstr "現在就開始遊戲吧！"
+
+#: src/highscore.c:168 data/menus/menu_strings:9
+msgid "Hall Of Fame"
+msgstr "英雄榜"
+
+#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
+msgid "Space Cadet"
+msgstr "學員"
+
+#: src/highscore.c:191 data/menus/menu_strings:26
+msgid "Scout"
+msgstr "童子軍"
+
+#: src/highscore.c:194 data/menus/menu_strings:23
+msgid "Ranger"
+msgstr "遊騎兵"
+
+#: src/highscore.c:197 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "大將軍"
+
+#: src/highscore.c:200 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "指揮官"
+
+#: src/highscore.c:203 data/menus/menu_strings:7
+msgid "Factors"
+msgstr "因數"
+
+#: src/highscore.c:206 data/menus/menu_strings:8
+msgid "Fractions"
+msgstr "分數"
+
+#: src/highscore.c:287
+msgid "You Are In The Hall of Fame!"
+msgstr "您登上英雄榜了！"
+
+#: src/highscore.c:287
+msgid "Enter Your Name:"
+msgstr "請輸入您的名字："
+
+#: src/menu.c:376
+msgid "TuxMath is free and open-source!"
+msgstr "TuxMath 是免費並開放源始碼的!"
+
+#: src/menu.c:377
+msgid "You can help make it better."
+msgstr "您可以幫助它變得更好。"
+
+#: src/menu.c:378
+msgid "Suggestions, artwork, and code are all welcome!"
+msgstr "建議、美工或協助修正程式都很歡迎！"
+
+#: src/menu.c:379
+msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgstr "您可以在 tuxmath-devel@lists.sourceforge.net 討論TuxMath"
+
+#: src/menu.c:500
+msgid "Edit 'options' file in your home directory"
+msgstr "編輯您家目錄中的 'options' 檔"
+
+#: src/menu.c:501
+msgid "to create customized game!"
+msgstr "就可以建立自訂的遊戲！"
+
+#: src/menu.c:502
+msgid "Press a key or click your mouse to start game."
+msgstr "按一下按鍵或滑鼠開始遊戲."
+
+#: src/menu.c:503
+msgid "See README.txt for more information"
+msgstr "更多的訊息詳見 README.txt"
+
+#: src/menu.c:527
+msgid "How many kids are playing?"
+msgstr "多少個小孩在使用?"
+
+#: src/menu.c:528
+msgid "(Between 2 and 4 players)"
+msgstr "(2 到 4 個玩家)"
+
+#: src/menu.c:590
+msgid "The server is already running"
+msgstr "此伺服器已經在執行中"
+
+#: src/menu.c:595
+msgid "Enter Server Name:"
+msgstr "請輸入伺服器名稱："
+
+#: src/menu.c:595
+msgid "(limit 50 characters)"
+msgstr "（最多 50 字元）"
+
+#: src/menu.c:609
+msgid "Click or press key to select server lesson file"
+msgstr "點擊或按任何鍵可以選擇伺服器的課程檔"
+
+#: src/menu.c:638
+msgid "Server Name:"
+msgstr "伺服器名稱："
+
+#: src/menu.c:640
+msgid "Selected Lesson:"
+msgstr "選取的課程："
+
+#: src/menu.c:655 src/menu.c:702
+msgid "Sorry, this version built without network support"
+msgstr "抱歉，這個版本並未將網路支援編入"
+
+#: src/menu.c:656 src/menu.c:703
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr "抱歉，這個版本並未將網路支援編入。\n"
+
+#: src/menu.c:666
+msgid "Detecting servers"
+msgstr "偵測伺服器中"
+
+#: src/menu.c:666
+msgid "Please wait"
+msgstr "請稍候"
+
+#: src/menu.c:672
+#, c-format
+msgid "Connected to server: %s"
+msgstr "已連線到伺服器：%s"
+
+#: src/menu.c:673 src/multiplayer.c:258 src/multiplayer.c:260
+msgid "Enter your name:"
+msgstr "請輸入您的名字:"
+
+#: src/menu.c:675
+msgid "Click when ready"
+msgstr "(準備好之後按一個按鍵)"
+
+#: src/menu.c:677
+msgid "Waiting for other players"
+msgstr "等待其他玩家中"
+
+#: src/menu.c:690
+msgid "Sorry, game already in progress."
+msgstr "抱歉，遊戲已經在進行中。"
+
+#: src/menu.c:691
+#, c-format
+msgid "Sorry, game already in progress.\n"
+msgstr "抱歉，遊戲已經在進行中。\n"
+
+#: src/menu.c:697
+msgid "Sorry, no server could be found."
+msgstr "抱歉，找不到伺服器。"
+
+#: src/menu.c:698
+#, c-format
+msgid "Sorry, no server could be found.\n"
+msgstr "抱歉，找不到伺服器。\n"
+
+#: src/multiplayer.c:183
+#, c-format
+msgid "Then %s\n"
+msgstr "然後 %s\n"
+
+#: src/multiplayer.c:258
+msgid "Who is playing first?"
+msgstr "誰先玩?"
+
+#: src/multiplayer.c:260
+msgid "Who is playing next?"
+msgstr "下一個換誰玩？"
+
+#: src/multiplayer.c:274
+msgid "How many rounds will you play?"
+msgstr "您要玩多少回合?"
+
+#: src/multiplayer.c:274
+msgid "Enter a number"
+msgstr "輸入一個數字"
+
+#: src/titlescreen.c:478
+msgid "Work In Progress!"
+msgstr "進行中"
+
+#: src/titlescreen.c:479
+msgid "This feature is not ready yet"
+msgstr "這個功能還沒準備好"
+
+#: src/titlescreen.c:480
+msgid "Discuss the future of TuxMath at"
+msgstr "要討論 TuxMath 的發展可以到"
+
+#: src/titlescreen.c:481
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/tuxmath.c:54 data/menus/menu_strings:10
+msgid "Help"
+msgstr "求助"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr "輸入數字"
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr "加法:1 到 3"
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr "加法:0 到 5"
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr "加法:總和 10 以內"
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr "加法:總和 15 以內"
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr "加法:總和 20 以內"
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr "加法:2 位數數字"
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr "加法:遺漏的數字"
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr "減法:0 到 10"
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr "減法:0 到 20"
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr "減法:2 位數數字"
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr "加法和減法的復習"
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr "乘法:0 到 3"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "2 的倍數"
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr "3 的倍數"
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr "4 的倍數"
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr "5 的倍數"
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr "乘法:0 到 5"
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr "6 的倍數"
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr "7 的倍數"
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr "乘法:0 到 7"
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr "8 的倍數"
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr "9 的倍數"
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr "10 的倍數"
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr "乘法:0 到 10"
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr "11 和 12 的倍數"
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr "乘法:0 到 12"
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr "13,14 和 15 的倍數"
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr "乘法:0 到 15"
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr "乘法:遺漏的數字"
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr "2 的除法"
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr "3 的除法"
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr "4 的除法"
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr "5 的除法"
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr "除法:1 到 5"
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr "6 的除法"
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr "7 的除法"
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr "8 的除法"
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr "9 的除法"
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr "10 的除法"
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr "除法:1 到 10"
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr "11 和 12 的除法"
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr "除法:1 到 12"
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr "13,14 和 15 的除法"
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr "除法:1 到 15"
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr "乘法和除法的復習"
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr "輸入負數的數字"
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr "減法:負數的答案"
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr "負數加正數"
+
+#: data/missions/lessons/descr_lessons:50
+msgid "Adding Positives to Negatives"
+msgstr "正數加負數"
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Subtracting Negatives From Positives"
+msgstr "負數減正數"
+
+#: data/missions/lessons/descr_lessons:52
+msgid "Subtracting Positives From Negatives"
+msgstr "正數減負數"
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Adding Negatives to Negatives"
+msgstr "負數相加"
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Subtracting Negatives From Negatives"
+msgstr "負數相減"
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Negative and Positive Numbers Review"
+msgstr "正數和負數的復習"
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Multiplication and Division of Negatives"
+msgstr "負數的乘法和除法"
+
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiplication of Positives and Negatives"
+msgstr "正數和負數的乘法"
+
+#: data/missions/lessons/descr_lessons:58
+msgid "Division of Positives and Negatives"
+msgstr "正數和負數的除法"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "謝誌"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "展示"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "淘汰"
+
+#: data/menus/menu_strings:6
+msgid "Factoroids!"
+msgstr "因數分解！"
+
+#: data/menus/menu_strings:11
+msgid "Join Game"
+msgstr "加入遊戲"
+
+#: data/menus/menu_strings:12
+msgid "Main Menu"
+msgstr "主選單"
+
+#: data/menus/menu_strings:13
+msgid "Math Command Fleet Missions"
+msgstr "數學運算軍團"
+
+#: data/menus/menu_strings:14
+msgid "Math Command Training Academy"
+msgstr "數學運算練功坊"
+
+#: data/menus/menu_strings:15
+msgid "More Options"
+msgstr "更多的選項"
+
+#: data/menus/menu_strings:16
+msgid "Network Game"
+msgstr "網路遊戲"
+
+#: data/menus/menu_strings:17
+msgid "Play Alone"
+msgstr "單打"
+
+#: data/menus/menu_strings:18
+msgid "Play Arcade Game"
+msgstr "遊樂場"
+
+#: data/menus/menu_strings:19
+msgid "Play Custom Game"
+msgstr "自訂遊樂場"
+
+#: data/menus/menu_strings:20
+msgid "Play With Friends"
+msgstr "雙打"
+
+#: data/menus/menu_strings:21
+msgid "Project Info"
+msgstr "專案資訊"
+
+#: data/menus/menu_strings:22
+msgid "Quit"
+msgstr "離開"
+
+#: data/menus/menu_strings:24
+msgid "Run Server"
+msgstr "執行伺服器"
+
+#: data/menus/menu_strings:25
+msgid "Score Sweep"
+msgstr "重新計分"
+
+#~ msgid "Main menu"
+#~ msgstr "主選單"
+
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "建議改善，或幫忙寫程式。"

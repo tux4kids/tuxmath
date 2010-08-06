@@ -137,6 +137,12 @@ static int trig[12] = {
   0
 };
 
+static char* game_music_filenames[3] = {
+  "game.mod",
+  "game2.mod",
+  "game3.mod",
+};
+
 // ControlKeys
 static int left_pressed;
 static int right_pressed;
@@ -282,7 +288,7 @@ void factors(void)
       //...oops, wrong song! Actually, we just pick next music at random:
       if (!Mix_PlayingMusic())
       {
-        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
       }
     }
 #endif
@@ -361,7 +367,7 @@ void fractions(void)
     {
       if (!Mix_PlayingMusic())
       {
-        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
       }  
     }
 #endif
@@ -1781,6 +1787,7 @@ void game_handle_user_events(void)
 
   while (SDL_PollEvent(&event) > 0)
   {
+    T4K_HandleStdEvents(&event);
     if (event.type == SDL_QUIT)
     {
       SDL_quit_received = 1;

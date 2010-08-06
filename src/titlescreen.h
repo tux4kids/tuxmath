@@ -95,6 +95,7 @@ void          TitleScreen(void);
 int           RenderTitleScreen(void);
 void          DrawTitleScreen(void);
 int           HandleTitleScreenEvents(const SDL_Event* evt);
+int           HandleTitleScreenResSwitch(int new_w, int new_h);
 void          HandleTitleScreenAnimations();
 void          ShowMessage(int font_size, const char* str1, const char* str2, const char* str3, const char* str4);
 SDL_Surface*  current_bkg(); //appropriate background for current video mode

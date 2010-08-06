@@ -43,8 +43,8 @@
 //#define FEEDBACK_DEBUG
 //#define LINEBREAK
 
-/* debug data (declared in options.c) */
-extern int debug_status;
+/* debug data (now declared in libt4k_common */
+//extern int debug_status;
 
 /* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;
@@ -60,9 +60,9 @@ extern const int debug_options;
 extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
 
-/* debug macros */
-#define DEBUGCODE(mask) if((mask) & debug_status)
-#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
+/* debug macros (now in libt4k_comon) */
+//#define DEBUGCODE(mask) if((mask) & debug_status)
+//#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096

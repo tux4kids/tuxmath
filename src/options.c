@@ -39,26 +39,22 @@
 //int opers[NUM_OPERS], range_enabled[NUM_Q_RANGES];
 
 /* global debug masks */
-int debug_status;
+//int debug_status;
 
 /* bitmasks for debugging options */
-const int debug_setup          = 1 << 0;
-const int debug_fileops        = 1 << 1;
-const int debug_loaders        = 1 << 2;
-const int debug_titlescreen    = 1 << 3;
-const int debug_menu           = 1 << 4;
-const int debug_menu_parser    = 1 << 5;
-const int debug_game           = 1 << 6;
-const int debug_factoroids     = 1 << 7;
-const int debug_lan            = 1 << 8;
-const int debug_mathcards      = 1 << 9;
-const int debug_sdl            = 1 << 10;
-const int debug_lessons        = 1 << 11;
-const int debug_highscore      = 1 << 12;
-const int debug_options        = 1 << 13;
-const int debug_text_and_intl  = 1 << 14;
-const int debug_multiplayer    = 1 << 15;
-const int debug_all            = ~0;
+#define dstart  (1 << (START_CUSTOM_DEBUG))
+const int debug_setup          = dstart << 0;
+const int debug_fileops        = dstart << 1;
+const int debug_multiplayer    = dstart << 2;
+const int debug_titlescreen    = dstart << 3;
+const int debug_options        = dstart << 4;
+const int debug_text_and_intl  = dstart << 5;
+const int debug_game           = dstart << 6;
+const int debug_factoroids     = dstart << 7;
+const int debug_lan            = dstart << 8;
+const int debug_mathcards      = dstart << 9;
+const int debug_highscore      = dstart << 10;
+const int debug_lessons        = dstart << 11;
 
 /* extern'd constants */
 

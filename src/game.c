@@ -88,6 +88,12 @@ typedef struct comet_type {
 
 /* Local (to game.c) 'globals': */
 
+static char* game_music_filenames[3] = {
+  "game.mod",
+  "game2.mod",
+  "game3.mod",
+};
+
 static int gameover_counter;
 static int game_status;
 static int user_quit_received;
@@ -204,7 +210,7 @@ static void free_on_exit(void);
 
 static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
-static void game_recalc_positions(void);
+static void game_recalc_positions(int xres, int yres);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
@@ -313,7 +319,7 @@ int game(void)
     {
       if (!Mix_PlayingMusic())
       {
-            Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
       }
     }
 #endif
@@ -1025,6 +1031,8 @@ int game_initialize(void)
   help_controls.extra_life_is_blinking = 0;
   help_controls.laser_enabled = 1;
 
+  T4K_OnResolutionSwitch(game_recalc_positions);
+  
   DEBUGMSG(debug_game,"Exiting game_initialize()\n");
 
   return 1;
@@ -1367,6 +1375,9 @@ void game_handle_user_events(void)
 
   while (SDL_PollEvent(&event) > 0)
   {
+
+    T4K_HandleStdEvents(&event);
+
     if (event.type == SDL_QUIT)
     {
       user_quit_received = GAME_OVER_WINDOW_CLOSE;
@@ -3723,34 +3734,6 @@ void game_key_event(SDLKey key, SDLMod mod)
     }
   }
 
-
-  /* Toggle screen mode: */
-  else if (key == SDLK_F10)
-  {
-    Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
-    T4K_SwitchScreenMode();
-    game_recalc_positions();
-  }
-
-  /* Toggle music: */
-#ifndef NOSOUND
-  else if (key == SDLK_F11)
-  {
-    if (Opts_UsingSound())
-    {
-      if (Mix_PlayingMusic())
-      {
-        Mix_HaltMusic();
-      }
-      else
-      {
-        Mix_PlayMusic(musics[MUS_GAME + (rand() % 3)], 0);
-      }
-    }
-  }
-#endif
-
-
   if (level_start_wait > 0 || Opts_DemoMode() || !help_controls.laser_enabled)
   {
     /* Eat other keys until level start wait has passed,
@@ -3895,7 +3878,7 @@ void free_on_exit(void)
 }
 
 /* Recalculate on-screen city & comet locations when screen dimensions change */
-void game_recalc_positions(void)
+void game_recalc_positions(int xres, int yres)
 {
   int i, img;
   int old_city_expl_height = city_expl_height;
@@ -3912,14 +3895,14 @@ void game_recalc_positions(void)
     /* Left vs. Right - makes room for Tux and the console */
     if (i < NUM_CITIES / 2)
     {
-      cities[i].x = (((screen->w / (NUM_CITIES + 1)) * i) +
+      cities[i].x = (((xres / (NUM_CITIES + 1)) * i) +
                      ((images[img] -> w) / 2));
       DEBUGMSG(debug_game,"%d,", cities[i].x);
     }
     else
     {
-      cities[i].x = screen->w -
-                   (screen->w / (NUM_CITIES + 1) *
+      cities[i].x = xres -
+                   (xres / (NUM_CITIES + 1) *
                    (i - NUM_CITIES / 2) +
                     images[img]->w / 2);
       DEBUGMSG(debug_game,"%d,", cities[i].x);
@@ -3928,7 +3911,7 @@ void game_recalc_positions(void)
     penguins[i].x = cities[i].x;
   }
 
-  city_expl_height = screen->h - images[IMG_CITY_BLUE]->h;
+  city_expl_height = yres - images[IMG_CITY_BLUE]->h;
   //move comets to a location 'equivalent' to where they were
   //i.e. with the same amount of time left before impact
   for (i = 0; i < Opts_MaxComets(); ++i)

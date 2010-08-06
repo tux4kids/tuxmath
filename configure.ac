@@ -259,27 +259,20 @@ LIBS="$LIBS $XML2_LIBS"
 
 
 
-dnl Use of libt4k_common is now enabled by default in this branch: ----------------------------------
+dnl libt4kcommon is now required: --------------------------------------------
 
-AC_ARG_WITH([t4k_common],
-	[AS_HELP_STRING([--without-t4k_common],[do not use tk4common even if available])],
-	[with_t4k_common=no],
-	[with_t4k_common=yes])
-
-if test "x$with_t4k_common" != xno; then
 PKG_CHECK_MODULES([T4K_COMMON],
-	[libt4k_common],
+	[t4k_common],
 	[],
 	[AC_MSG_NOTICE([t4k_common not located by pkg-config, checking with AC CHECK LIB:])
 	 AC_CHECK_LIB([t4k_common],
 		[InitT4KCommon],
 		[],
-		[AC_MSG_FAILURE([t4k_common test failed (--without-t4k_common to disable use of t4k_common)])])])
+		[AC_MSG_ERROR([libt4k_common is required: git://git.debian.org/tux4kids/t4kcommon.git])])])
 
-AC_DEFINE([HAVE_T4K_COMMON],[1],[Define to 1 if you have the `t4k_common` library])
+AC_DEFINE([HAVE_LIBT4K_COMMON],[1],[Define to 1 if you have the `t4k_common` library])
 CFLAGS="$CFLAGS $T4KC_CFLAGS"
 LIBS="$LIBS $T4KC_LIBS"
-fi
 
 
 
