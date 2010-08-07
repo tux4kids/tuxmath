@@ -1127,6 +1127,7 @@ int i;
     musics[i] = NULL;
   }
 
+
 // Close the audio mixer. We have to do this at least as many times
   // as it was opened.
   n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);

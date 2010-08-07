@@ -289,14 +289,18 @@ void factors(void)
 
     game_status = check_exit_conditions();
 
+     #ifdef SCHOOLMODE   
      n3=SDL_GetTicks();
+     #endif
     if (paused)
     {
       pause_game();
       paused = 0;
     }
+     #ifdef SCHOOLMODE
      n4+=SDL_GetTicks()-n3;
-
+     #endif
+ 
 #ifndef NOSOUND
     if (Opts_UsingSound())
     {
@@ -2340,6 +2344,7 @@ if(next_wave_no>total_no_menus )
   return GAME_IN_PROGRESS;
 }
 
+#ifdef SCHOOLMODE
 void factoroids_schoolmode(int choice,int no_of_waves)
 {
 
@@ -2363,4 +2368,4 @@ result_factoroids.lives_remaining=tuxship.lives;
 //return score;
 //write_xmlLesson(choice);
 }
-
+#endif
