@@ -57,7 +57,7 @@ SDL_Surface* current_bkgd()
 
 /* Local function prototypes: */
 void ShowMsg(char*,char*,char*,char*,char*,char*);
-
+void display_wait(char *); //the lesson file searching screen
 
 int total_no_menus; //defined in parse_xmlLesson.h
 int no_of_pages;        //no of menu pages to be displayed
@@ -66,7 +66,7 @@ int no_of_pages;        //no of menu pages to be displayed
   const int max_width = 500;
 
   const int title_font_size = 32;
- 
+   char xml_lesson_path[4096];
 
 void sm_prerender_all()
 {
@@ -111,7 +111,7 @@ const char* next_gray_path = "status/right_gray.svg";
 
 
 
-int schoolmode(char *xml_lesson_path)
+int schoolmode(char * mission_path)
 {
 
   tux4kids_logo = LoadImage(tux4kids_standby_path, IMG_REGULAR);
@@ -138,11 +138,141 @@ sm_prerender_all(); //write function declaration too   -- fix
 
 SDL_Delay(2000);
 
+display_wait(mission_path);
 
 manage_xmlLesson(xml_lesson_path);
 
 return 0;
 }
+
+
+
+void display_wait(char *mission_path)
+{
+ SDL_Surface* srfc = NULL;
+  int finished = 0;
+  Uint32 frame = 0;
+  Uint32 start = 0;
+
+        SDL_Rect text_rect, button_rect;
+
+ FILE* fp;
+
+
+snprintf(xml_lesson_path, 4096, "%s/new/lessonData.xml", mission_path);
+
+
+  LoadBothBkgds(school_bkg_path, &fs_bkgd, &win_bkgd);
+
+  SDL_ShowCursor(1);    
+
+
+  while (!finished)
+  {
+    start = SDL_GetTicks();
+  while (SDL_PollEvent(&event))
+    {
+       switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+           return ;
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button  */
+        {
+          if (inRect(stop_rect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            return ;  // quit and cleanup done in calling function
+          }
+
+        
+          break;
+        }
+
+
+        case SDL_KEYDOWN:
+        {
+          if (event.key.keysym.sym == SDLK_ESCAPE)   
+           { 
+            finished = 1;
+            playsound(SND_TOCK);
+           } 
+        }
+      }
+      }
+
+         SDL_BlitSurface(current_bkgd(), NULL, screen, &bkgd_rect);
+
+ if (stop_button)
+        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+
+ srfc = BlackOutline(_("Welcome to TUX4KIDS School Mode!"), DEFAULT_MENU_FONT_SIZE+5, &white);
+        if (srfc)
+        {
+          button_rect.x = text_rect.x = (screen->w)/28;
+          button_rect.y = text_rect.y = (screen->h)/24;;
+          button_rect.w = text_rect.w = srfc->w;
+          button_rect.h = text_rect.h = srfc->h+5;
+          /* add margin to button and draw: */
+          button_rect.x -= 10;
+          button_rect.w += 20;
+          DrawButton(&button_rect, 15, 64, 232, 30, 192);
+          /* Now blit text and free surface: */
+          SDL_BlitSurface(srfc, NULL, screen, &text_rect);
+          SDL_FreeSurface(srfc);
+          srfc = NULL;
+        }
+
+ srfc = BlackOutline(_("Searching for lesson file ..."), DEFAULT_MENU_FONT_SIZE+10, &red);
+        if (srfc)
+        {
+         text_rect.x = (screen->w)/2 - srfc->w/2;
+           text_rect.y = (screen->h)/2 ;
+        text_rect.w = srfc->w;
+         text_rect.h = srfc->h;     
+
+          /* Now blit text and free surface: */
+          SDL_BlitSurface(srfc, NULL, screen, &text_rect);
+          SDL_FreeSurface(srfc);
+          srfc = NULL;
+        }
+
+
+SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+
+    /* Wait so we keep frame rate constant: */
+    while ((SDL_GetTicks() - start) < 33)
+    {
+      SDL_Delay(20);
+    }
+    frame++;
+
+     SDL_Delay(2000);  //wait for 2 seconds  
+    fp = fopen(xml_lesson_path, "r");
+    if (fp)
+     {
+      fclose(fp);
+      fp = NULL;
+       finished=1;
+
+     }
+    else
+     SDL_Delay(10000);  //wait for 10 seconds  
+  
+
+  }  // End of while (!finished) loop
+
+}
+
+
+
+
+
 
 
 int display_screen(int selected)
@@ -298,7 +428,7 @@ bkgd_rect = current_bkgd()->clip_rect;
       }
 
  /* Draw background shading for table: */
-      table_bg.x = (screen->w) - (max_width + 60) ; //don't draw over Tux
+      table_bg.x = (screen->w) - (max_width + 65) ; //don't draw over Tux
       table_bg.y = 5;
       table_bg.w = max_width +20;
       table_bg.h = screen->h - 80; //- images[IMG_RIGHT]->h;
@@ -309,7 +439,7 @@ bkgd_rect = current_bkgd()->clip_rect;
     srfc = BlackOutline(_("ALL TASKS LIST"),50 , &white);
         if (srfc)
         {
-          button_rect.x = text_rect.x = (screen->w)/2 - (srfc->w)/2 + 342;
+          button_rect.x = text_rect.x = table_bg.x + table_bg.w/7;
           button_rect.y = text_rect.y = 10;
           button_rect.w = text_rect.w = srfc->w;
           button_rect.h = text_rect.h = srfc->h+5;
@@ -349,7 +479,7 @@ for(i=0;i<current_no;i++)
     
         if (srfc)
         {
-          text_rect.x = (screen->w)/2 - (srfc->w)/2 + 342;
+          text_rect.x = table_bg.x+table_bg.w/2 - (srfc->w)/2;
           text_rect.y += text_rect.h + 10; /* go to bottom of next line */
           text_rect.w = srfc->w;
           text_rect.h = srfc->h;
@@ -533,39 +663,39 @@ void ShowMsg(char* str1, char* str2, char* str3, char* str4,char* str5,char *str
   /* Draw lines of text (do after drawing Tux so text is in front): */
   if (s1)
   {
-    loc.x = (screen->w / 4) - 30; 
+    loc.x = (screen->w / 8) - 80; 
     loc.y = (screen->h / 9) + 100;
     SDL_BlitSurface( s1, NULL, screen, &loc);
   }
   if (s2)
   {
-    loc.x = (screen->w/4) - 30; 
+    loc.x = (screen->w / 8) - 80; 
     loc.y +=   30 + s1->h ;
     SDL_BlitSurface( s2, NULL, screen, &loc);
   }
   if (s3)
   {
-    loc.x = (screen->w / 4)  - 30; 
+    loc.x = (screen->w / 8) - 80; 
     loc.y +=  30 + s2->h ;
     SDL_BlitSurface( s3, NULL, screen, &loc);
   }
   if (s4)
   {
-    loc.x = (screen->w / 4) - 30 ; 
+    loc.x = (screen->w / 8) - 80; 
     loc.y += 30 + s3->h;
     SDL_BlitSurface( s4, NULL, screen, &loc);
   }
 
 if (s5)
   {
-    loc.x = (screen->w / 4) - 30 ; 
+    loc.x = (screen->w / 8) - 80; 
     loc.y += 40 + s4->h;
     SDL_BlitSurface( s5, NULL, screen, &loc);
   }
 
 if (s6)
   {
-    loc.x = (screen->w / 4) - 30 ; 
+    loc.x =(screen->w / 2) - (s6->w)/2 ; 
     loc.y = screen->h - 50;
     SDL_BlitSurface( s6, NULL, screen, &loc);
   }

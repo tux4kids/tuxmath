@@ -543,14 +543,18 @@ tuxship.lives = input_factoroids.lives;
     }
     else if (event.type == SDL_MOUSEBUTTONDOWN)
     {
+     #ifdef SCHOOLMODE    
       n1=SDL_GetTicks();
+     #endif   
       return 1;
     }
     else if (event.type == SDL_KEYDOWN)
     {
       if (event.key.keysym.sym == SDLK_ESCAPE)
         escape_received = 1;
+       #ifdef SCHOOLMODE  
        n1=SDL_GetTicks();
+       #endif 
       return 1;
     }
   }
