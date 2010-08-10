@@ -1045,6 +1045,7 @@ xmlNewChild(node, NULL, BAD_CAST "lives_remaining", BAD_CAST buff);
 }
 
 
+
 //write result of Tuxmath game in result file
 void write_tuxmath_game()
 {

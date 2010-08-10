@@ -134,7 +134,7 @@ int schoolmode(char * mission_path)
     SDL_FreeSurface(tux4kids_logo);
   }
 
-sm_prerender_all(); //write function declaration too   -- fix
+sm_prerender_all(); //write function declaration too  -- fix
 
 SDL_Delay(2000);
 
