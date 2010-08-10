@@ -81,7 +81,7 @@ input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * size
 
   if (input_factoroids.wave_input == NULL)
   {
-    printf("Allocation of input to store input values failed");
+    printf("Allocation of input to store the input values failed");
     return 0;
   }
 
