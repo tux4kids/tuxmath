@@ -65,7 +65,7 @@ if (argc>1)//if not used then argv[1] will segfault in normal game
        schoolmode(argv[2]);
       }   
      else
-        fprintf(stderr, "Required an argument (XML lesson filepath)\n");
+        fprintf(stderr, "Required an argument (XML lesson file mission directory)\n");
     }
  }
 //else

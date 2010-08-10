@@ -109,8 +109,6 @@ const char* next_gray_path = "status/right_gray.svg";
 
 
 
-
-
 int schoolmode(char * mission_path)
 {
 
@@ -140,7 +138,7 @@ SDL_Delay(2000);
 
 display_wait(mission_path);
 
-manage_xmlLesson(xml_lesson_path);
+manage_xmlLesson(mission_path);
 
 return 0;
 }
