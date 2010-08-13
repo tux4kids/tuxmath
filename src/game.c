@@ -3728,7 +3728,7 @@ void game_key_event(SDLKey key, SDLMod mod)
   else if (key == SDLK_F10)
   {
     Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN) );
-    SwitchScreenMode();
+    SwitchScreenMode(); /* Let the program know we have changed resolution; Title screen and menus will be rescaled later accordingly*/
     game_recalc_positions();
   }
 

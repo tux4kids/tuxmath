@@ -740,6 +740,7 @@ int run_menu(MenuNode* root, bool return_choice)
   for(;;) /* one loop body execution for one menu page */
   {
     /* rescale all menu items first if resolution changes */
+    /* the next two lines will not cause performance penalty if resolution was not changed */
     RenderTitleScreen();
     prerender_all();
 
@@ -1290,7 +1291,7 @@ void prerender_menu(MenuNode* menu)
     if(menu->submenu[i]->icon_name)
       found_icons = true;
     temp_surf = NULL;
-    temp_surf = SimpleText(_(menu->submenu[i]->title), menu->font_size, &black);
+    temp_surf = SimpleText(_(menu->submenu[i]->title), menu->font_size, &black); /* calculate font size individually for each level of menus */
     if(temp_surf)
     {
       max_text_h = max(max_text_h, temp_surf->h);
@@ -1427,6 +1428,7 @@ void prerender_all()
   static int last_res_x =0;
   static int last_res_y =0;
 
+  /* verify whether it is necessary to do rescaling */
   if(last_res_x==screen->w&&last_res_y==screen->h) return;
   last_res_x=screen->w;
   last_res_y=screen->h;

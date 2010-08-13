@@ -84,7 +84,7 @@ cachedSurface cached_surface[CACHEDSURFACE_MAX];
 int numSurfaces=0;
 
 
-/* save SVG info */
+/* save SVG info into memory cache */
 int saveSVGInfo(char* fn,int w,int h)
 {
   strcpy(svg_info[numSVG].fn,fn);
@@ -96,7 +96,7 @@ int saveSVGInfo(char* fn,int w,int h)
   return numSVG-1;
 }
 
-/* get SVG info index */
+/* get SVG info index from memory cache, return -1 if not found*/
 int SVGInfoIndex(char* fn)
 {
   int i;
@@ -111,7 +111,7 @@ int SVGInfoIndex(char* fn)
   return -1;
 }
 
-/* save sdl surface */
+/* save sdl surface into memory cache*/
 int cacheSurface(char* fn,SDL_Surface* surf)
 {
   strcpy(cached_surface[numSurfaces].fn,fn);
@@ -122,7 +122,7 @@ int cacheSurface(char* fn,SDL_Surface* surf)
   return numSurfaces-1;
 }
 
-/* get sdl surface index */
+/* get sdl surface index from memory cache, return -1 if not found */
 int getCachedSurface(char* fn)
 {
   int i;
@@ -137,7 +137,7 @@ int getCachedSurface(char* fn)
   return -1;
 }
 
-/* attempt to load cached sdl surface if possible, otherwise use IMG_Load and cache the returned surface */
+/* attempt to load cached sdl surface if possible, otherwise use IMG_Load and cache the returned surface in memory*/
 SDL_Surface *IMG_Load_Cache(char* fn)
 {
   int index=getCachedSurface(fn);
@@ -976,7 +976,7 @@ static int do_png_save(FILE * fi, const char *const fname, SDL_Surface * surf)
 	    png_rows[y][x * 4 + 0] = r;
 	    png_rows[y][x * 4 + 1] = g;
 	    png_rows[y][x * 4 + 2] = b;
-            png_rows[y][x * 4 + 3] = a;
+            png_rows[y][x * 4 + 3] = a; /* added alpha channel here */
 	  }
 	}
 
