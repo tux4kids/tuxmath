@@ -20,11 +20,10 @@
 #define MENU_ITEM_LENGTH 15
 #define MAX_WAVES 20   
 
-//char * menu_names[MAX_MENU_ITEMS];
+
 extern char menu_names[MAX_MENU_ITEMS][MENU_ITEM_LENGTH];
 extern int total_no_menus;  // total no of menus
 
-//extern int waves_parsed[MAX_WAVES+1];
 
 //main function for parsing and writing
 int manage_xmlLesson(char *);

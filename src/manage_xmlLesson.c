@@ -32,47 +32,53 @@
 int parse_fractions(xmlNode *);
 int parse_factors(xmlNode *);
 void parse_tuxmath_game(xmlNode *);
+void parse_lessonID(xmlNode *);
+
+
 //Local Function prototypes for writing
 void write_fractions();
 void write_factors();
 void write_tuxmath_game();
+void write_lesson_info();
+
+void parse_options_math(char* , int );
+
 //initialize read and write 
 int init_readwrite(char *);
 void clean_up();
 
-void parse_options_math(char* , int );
 
 //variables
-  xmlDocPtr doc_read,doc_write;
-
+xmlDocPtr doc_read,doc_write;
 xmlNodePtr root_write = NULL;  /* node pointer for writing */
-    xmlDtdPtr dtd = NULL;  //writing
- xmlNode *root_read = NULL; //reading
+xmlDtdPtr dtd = NULL;  //writing
+xmlNode *root_read = NULL; //reading
+
 int total_no_menus,game_score,current_no_of_waves;  
-    char buff[256];
+char buff[256],lessonID[256];
+char menu_names[MAX_MENU_ITEMS][MENU_ITEM_LENGTH] = {{'\0'}};
 
-  char menu_names[MAX_MENU_ITEMS][MENU_ITEM_LENGTH] = {{'\0'}};
-
- // struct input_per_wave *input; //defined here
-//extern struct result_per_wave *result; //defined in factoroids.c
-
-//char *xml_lesson_path;
 char xml_lesson_path[4096],new_xml_lesson_path[4096];
+struct tm datetime;
 
+
+
+//main controlling function for parsing and writing
 
 int manage_xmlLesson(char *mission_path)
 {
+
 xmlNode *cur_node;
 int i;
 char fn[PATH_MAX];
-char test_file[PATH_MAX]; //this files is used to extract time and date and then deleted
-char *write_directory;
+char test_file[PATH_MAX]; //this file is used to extract time and date and then deleted
+
 
 //time and date related variables
 time_t filetime;
-  struct stat filestat;
-  struct tm datetime;
-  FILE* fp; 
+struct stat filestat;
+
+FILE* fp; 
 
 
 if(init_readwrite(xml_lesson_path)==-1)
@@ -80,13 +86,13 @@ return 0;
 
 input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * sizeof(struct input_per_wave));
 
-  if (input_factoroids.wave_input == NULL)
+ if (input_factoroids.wave_input == NULL)
   {
     printf("Allocation of input to store the input values failed");
     return 0;
   }
 
- for(i=0 , cur_node = root_read->children    ; cur_node != NULL   ;      cur_node = cur_node->next)
+ for(i=0 , cur_node = root_read->children    ; cur_node != NULL   ;   cur_node = cur_node->next)
   {
     current_game_index=i;
      if ( cur_node->type == XML_ELEMENT_NODE  &&
@@ -124,21 +130,19 @@ input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * size
 	game();
       write_tuxmath_game();
      }
-  
+   
 
   }
-  // --------------------------------------------------------------------------
-
- #ifdef BUILD_MINGW32
-     write_directory = GetDefaultSaveDir(PROGRAM_NAME);
-#else
-     write_directory = strdup(getenv("HOME"));
-#endif
-
-      //Decide the write directory for writing result  
-      write_directory= strdup(getenv("HOME"));
 
 
+
+// #ifdef BUILD_MINGW32
+//     write_directory = GetDefaultSaveDir(PROGRAM_NAME);
+//#else
+     //write_directory = strdup(getenv("HOME"));
+//snprintf(fn, 4096, "%s", xml_lesson_path);
+//     write_directory = strdup(getenv("HOME");  
+//#endif
 
 
 /* FIXME there must be a better method way to do than this    */ 
@@ -154,7 +158,7 @@ input_factoroids.wave_input = ( struct input_per_wave *) malloc(MAX_WAVES * size
     /* accounts are stored, which can be extracted from the      */
     /* modification time of the summary we just wrote.           */
 	
-snprintf(test_file, PATH_MAX, "%s/testfile",write_directory);
+snprintf(test_file, PATH_MAX, "%s/result/testfile",mission_path);
 fp=fopen(test_file,"w");
 if (fp){
 fprintf(fp, "\ntest file");
@@ -163,27 +167,28 @@ fclose(fp);
 else {fprintf(stderr,"test file not written.\n");}
     
 //time and date related code
-if (stat(test_file,&filestat) == 0) {
+if (stat(test_file,&filestat) == 0)
+    {
       filetime = filestat.st_mtime;
-    } else {
+    } 
+else 
+    {
       filetime = time(NULL);
     }
-localtime_r(&filetime,&datetime); /* generate broken-down time */
 
+localtime_r(&filetime,&datetime); /* generate broken-down time */
 remove(test_file); //got date and time so remove the file
 
-
-
-
-
+//write time and lessonID to result
+write_lesson_info();
 
 //write the result file
-	snprintf(fn, PATH_MAX, "%s/result%d-%d-%d__%d:%d:%d.xml",write_directory,datetime.tm_year+1900, 
+	snprintf(fn, PATH_MAX, "%s/result/result%d-%d-%d__%d:%d:%d.xml",mission_path,datetime.tm_year+1900, 
               datetime.tm_mon+1, datetime.tm_mday,datetime.tm_hour,datetime.tm_min,datetime.tm_sec);
 
       if( xmlSaveFormatFileEnc(fn, doc_write, "UTF-8", 1)==-1)
           fprintf(stderr,
-              "\nError: couldn't write result file: "
+              "\nError: result directory may not exist or couldn't write result file: "
               "%s\n",fn);
       else
          printf("\nResult file saved : %s\n",fn);
@@ -193,17 +198,17 @@ remove(test_file); //got date and time so remove the file
 snprintf(new_xml_lesson_path, 4096, "%s/old/lessonData.xml", mission_path);
 rename(xml_lesson_path,new_xml_lesson_path);
 
-
-
 clean_up();
 
 /*
 * this is to debug memory for regression tests
  */
  xmlMemoryDump();
-    return(0);
+  
+  return(0);
 
 }
+
 
 
 int init_readwrite(char *xml_lesson_path)
@@ -211,15 +216,11 @@ int init_readwrite(char *xml_lesson_path)
 
 //code related to reading
 xmlNode *cur_node;
-  char fn[4096];
-//char *lesson_path = "schoolmode/lessonData.xml";
- // snprintf(fn, 4096, "%s/images/%s", DATA_PREFIX, lesson_path);
+char fn[4096];
 
 snprintf(fn, 4096, "%s", xml_lesson_path);
 
 int i;
-  //xmlChar *Num_asteroids;
-//int serial_number;
 
   // --------------------------------------------------------------------------
   // Open XML document
@@ -262,7 +263,6 @@ int i;
      {  
             sprintf(menu_names[i], "%s", cur_node->name); 
             i++;
-               //menu_names[i]=(char *)cur_node->name;
      }
 
    else if ( cur_node->type == XML_ELEMENT_NODE  &&
@@ -278,7 +278,12 @@ int i;
                 sprintf(menu_names[i], "%s", cur_node->name); 
                 i++;
      }
-
+  else if ( cur_node->type == XML_ELEMENT_NODE  &&
+          !xmlStrcmp(cur_node->name, (const xmlChar *) "lessonID" ) )
+     {  
+       parse_lessonID(cur_node);
+     }
+  
   }
 
 total_no_menus=i;
@@ -311,15 +316,33 @@ return 0;
 
 
 
+//parse lessonID
+void parse_lessonID(xmlNode *cur_node)
+{
+ xmlChar *l_ID;
+
+   if ( cur_node->type == XML_ELEMENT_NODE  &&
+            !xmlStrcmp(cur_node->name, (const xmlChar *)"lessonID") )
+        {                    
+          l_ID= xmlNodeGetContent(cur_node);
+            if(l_ID)
+               {
+                 sprintf(lessonID ,"%s", l_ID); 
+               }
+           }               
+}
+
+
+
 //parse factors 
 int parse_factors(xmlNode *cur_node)
 {
  xmlNode *child_node;
-char temp_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular wave no
+ char temp_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular wave no
  xmlChar *wave,*temp;
 
 
-int i=0;
+ int i=0;
 
        //printf("Element: %s \n", cur_node->name); 
 
@@ -375,27 +398,18 @@ char temp_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer
 int i=0;
 
 
- //printf("Element: %s \n", cur_node->name); 
-
         // For each child of fractions: i.e. wave
         for(child_node = cur_node->children; child_node != NULL; child_node = child_node->next)
         {
            if ( cur_node->type == XML_ELEMENT_NODE  &&
                 !xmlStrcmp(child_node->name, (const xmlChar *)"wave_fractions") )
            {
-
-           //   printf("   Child=%s\n", child_node->name);
-            //  printf("         Serial number=%d\n", serial_number);   
-              
-            
+                        
               wave= xmlNodeGetContent(child_node);
-             // if(wave) printf("         Wave: %s\n", wave);
               if(wave)
                {
-              //   printf("         Wave: %s\n", wave);
                  sprintf(temp_string[0], "%s", wave); 
                  input_factoroids.wave_input[i++].wave_no=atoi(temp_string[0]); 
-                 //waves_parsed[i++]=atoi(wave_string[0]);
                } 
               xmlFree(wave);
            }          
@@ -407,10 +421,9 @@ int i=0;
               temp= xmlNodeGetContent(child_node);
               if(temp)
                {
-                 //printf("         Wave: %s\n", wave);
                  sprintf(temp_string[0], "%s", wave); 
                  input_factoroids.lives=atoi(temp_string[0]); 
-                 //waves_parsed[i++]=atoi(wave_string[0]);
+                
                }
               xmlFree(temp);
            }
@@ -424,21 +437,17 @@ void parse_tuxmath_game(xmlNode *cur_node)
 {
  xmlNode *child_node_one,*child_node_two;
  xmlChar *value;
-char option_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular option value
+ char option_string[1][5]={{'\0'}}; //used in sprintf to convert finally to integer corrresponding to a particular option value
 
 //initial settings 
 
-   MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
+ MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
  MC_SetOpt(ADDITION_ALLOWED, 0);
-MC_SetOpt(SUBTRACTION_ALLOWED, 0);
+ MC_SetOpt(SUBTRACTION_ALLOWED, 0);
  MC_SetOpt(MULTIPLICATION_ALLOWED, 0);
  MC_SetOpt(DIVISION_ALLOWED, 0);
 
-/*
-parse_options_math("addition_allowed",0);
-parse_options_math("subtraction_allowed",0);
-parse_options_math("multiplication_allowed",0);
-parse_options_math("divison_allowed",0);*/
+
         // For each child of tuxmath_game: 
         for(child_node_one = cur_node->children; child_node_one != NULL; child_node_one = child_node_one->next)
         {
@@ -792,14 +801,7 @@ parse_options_math("divison_allowed",0);*/
                 !xmlStrcmp(child_node_one->name, (const xmlChar *)"allow_negatives") )
            {
               MC_SetOpt(ALLOW_NEGATIVES, 1);
-		/*value= xmlNodeGetContent(child_node_one);
-                           if(value)
-                             {
-                               sprintf(option_string[0], "%s", value);
-                              parse_options_math("allow_negatives",atoi(option_string[0]));
-                             } 
-
-                xmlFree(value); */
+		
            }          
      
          else if ( cur_node->type == XML_ELEMENT_NODE  &&
@@ -956,12 +958,9 @@ parse_options_math("divison_allowed",0);*/
                              } 
 
                 xmlFree(value); 
-           } 
-         
-           
+           }             
 
-
-         }
+       }
 
 }
 
@@ -974,6 +973,7 @@ void parse_options_math(char* name, int val)
   {
     MC_SetOpt(index, val);
   }
+
 }
 
 
@@ -1004,15 +1004,16 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "factors", NULL);
           break;  //do not write the data of waves not played 
         }
 
-   sprintf(buff, "%d", result_factoroids.score);
+sprintf(buff, "%d", result_factoroids.score);
 xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff);
 
 
-   sprintf(buff, "%d", result_factoroids.lives_remaining);
+sprintf(buff, "%d", result_factoroids.lives_remaining);
 xmlNewChild(node, NULL, BAD_CAST "lives_remaining", BAD_CAST buff);
 
 
 }
+
 
 //write fractions
 void write_fractions()
@@ -1041,11 +1042,11 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "fractions", NULL);
           break;  //do not write the data of waves not played 
         }
 
-   sprintf(buff, "%d", result_factoroids.score);
+sprintf(buff, "%d", result_factoroids.score);
 xmlNewChild(node, NULL, BAD_CAST "score", BAD_CAST buff);
 
 
-   sprintf(buff, "%d", result_factoroids.lives_remaining);
+sprintf(buff, "%d", result_factoroids.lives_remaining);
 xmlNewChild(node, NULL, BAD_CAST "lives_remaining", BAD_CAST buff);
 
 
@@ -1103,11 +1104,54 @@ node = xmlNewChild(root_write, NULL, BAD_CAST "tuxmath_game", NULL);
 
 }
 
+
+void write_lesson_info()
+{
+ xmlNodePtr node = NULL;/* node pointers */
+
+ node = xmlNewChild(root_write, NULL, BAD_CAST "lesson_info", NULL);
+
+
+//lesson ID
+    sprintf(buff, "%s",lessonID );
+    xmlNewChild(node, NULL, BAD_CAST "lessonID", BAD_CAST buff); 
+
+
+//year
+    sprintf(buff, "%d", datetime.tm_year+1900);
+    xmlNewChild(node, NULL, BAD_CAST "year", BAD_CAST buff); 
+
+
+//month
+    sprintf(buff, "%d", datetime.tm_mon+1);
+    xmlNewChild(node, NULL, BAD_CAST "month", BAD_CAST buff); 
+
+//day
+    sprintf(buff, "%d", datetime.tm_mday);
+    xmlNewChild(node, NULL, BAD_CAST "day", BAD_CAST buff); 
+
+//hour
+    sprintf(buff, "%d", datetime.tm_hour);
+    xmlNewChild(node, NULL, BAD_CAST "hour", BAD_CAST buff); 
+
+
+//minute
+    sprintf(buff, "%d", datetime.tm_min);
+    xmlNewChild(node, NULL, BAD_CAST "minute", BAD_CAST buff); 
+
+
+//second
+    sprintf(buff, "%d", datetime.tm_sec);
+    xmlNewChild(node, NULL, BAD_CAST "second", BAD_CAST buff); 
+
+}
+
+
+
 void clean_up()
 {
 
-
-int i;
+  int i;
   int frequency,channels,n_timesopened;
   Uint16 format;
 
@@ -1137,8 +1181,9 @@ int i;
 
 
 // Close the audio mixer. We have to do this at least as many times
-  // as it was opened.
+// as it was opened.
   n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
+
 while (n_timesopened) 
 {
     Mix_CloseAudio();
@@ -1153,14 +1198,13 @@ free(result_factoroids.wave_result);
 /*free the document read*/
   xmlFreeDoc(doc_read);
     /*free the document write*/
-    xmlFreeDoc(doc_write);
+  xmlFreeDoc(doc_write);
   /*
    *Free the global variables that may
    *have been allocated by the parser.
    */
   xmlCleanupParser();
 //free(xml_lesson_path);
-
 
 }
 
