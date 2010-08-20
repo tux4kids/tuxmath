@@ -1,31 +1,36 @@
 /*
-  globals.h
+   globals.h:
+ 
+   Contains global data for configuration of math questions and for
+   general game options, as well as constants and defaults.  Nothing
+   depending on SDL should be in here; put any SDL-related items into
+   tuxmath.h.
 
-  For TuxMath
+   Copyright 2006, 2007, 2008, 2009, 2010.
+   Authors: David Bruce, Tim Holy, and others.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  Contains global data for configuration of math questions and for
-  general game options, as well as constants and defaults.  Nothing
-  depending on SDL should be in here; put any SDL-related items into
-  tuxmath.h.
+game.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
-
-  Added March 2, 2006
-
-  Copyright: See COPYING file that comes with this distribution
-  (briefly - GNU GPL v2 or later)
-*/
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-//#include "config.h"
 #include "config.h"
 
 // Translation stuff (now works for Mac and Win too!): 

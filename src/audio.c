@@ -1,24 +1,24 @@
-/***************************************************************************
- -  file: audio.c
- -  description: this file contains audio related functions
-                            -------------------
-    begin                : Jan 22, 2003
-    copyright            : Sam Hart, Jesse Andrews (C) 2003
-    email                : tuxtype-dev@tux4kids.net
+/* audio.c -  description: this file contains audio related functions
+   
+   Copyright (C) 2003, 2006, 2007, 2008, 2009, 2010.i
+   Authors: Sam Hart, Jesse Andrews, David Bruce.
+   email: <tuxmath-devel@lists.sourceforge.net>
 
-    Modified for use in tuxmath by David Bruce - 2006.
-    email                : <davidstuartbruce@gmail.com>
-                           <tuxmath-devel@lists.sourceforge.net>
-***************************************************************************/
+audio.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-/***************************************************************************
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 2 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-***************************************************************************/
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
 
 
 #include "tuxmath.h"

@@ -1,17 +1,29 @@
 /*
-C Interface: fileops.h
+   
+   fileops.h: Contains headers for code involving disk operations.
+ 
+   Copyright 2001, 2006, 2007, 2008, 2010
+   Authors: Bill Kendrick, David Bruce, Tim Holy.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-Description: File operations - together, fileops.h and fileops.c contain
-all code involving disk operations. The older header files images.h and
-sounds.h have been incorporated here. The intention is to make it easier to
-port tuxmath to other operating systems, as code to read and write as
-well as paths and file locations may be more OS-dependent.
+fileops.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
-Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
-Contains code originally written by Bill Kendrick (C) 2001.
-Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
-*/
+
 
 #ifndef FILEOPS_H
 #define FILEOPS_H
