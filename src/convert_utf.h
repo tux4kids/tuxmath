@@ -1,15 +1,27 @@
-//
-// C Interface: convert_utf
-//
-// Description: header file for simple wrapper functions to convert
-// wchar_t and utf8 strings using GNU iconv().
-//
-//
-// Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2009
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+/* convert_utf.h: header file for simple wrapper functions to convert
+   wchar_t and utf8 strings using GNU iconv().
+   
+   Copyright (C) 2009, 2010.
+   Author: David Bruce.
+   email: <tuxmath-devel@lists.sourceforge.net>
+
+convert_utf.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
+
 #ifndef CONVERT_UTF_H
 #define CONVERT_UTF_H
 

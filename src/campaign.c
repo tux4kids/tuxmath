@@ -1,9 +1,27 @@
-/*
- * campaign.c - handle TuxMath's 'Mission mode' 
- * 
- * Author: B. Luchen
- */
- 
+/* campaign.c - handle TuxMath's 'Mission mode'
+   
+   Copyright (C) 2008, 2009, 2010.
+   Authors: Brendan Luchen, David Bruce.
+   email: <tuxmath-devel@lists.sourceforge.net>
+
+campaign.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
+
+
 #include "campaign.h"
 #include "tuxmath.h"
 #include "credits.h"
@@ -181,7 +199,7 @@ void briefPlayer(int stage)
 
   SDL_Surface* icon = NULL;
   SDL_Rect textarea = screen->clip_rect;
-  SDL_Surface* loadedsprite = LoadScaledImage(
+  SDL_Surface* loadedsprite = T4K_LoadScaledImage(
     sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED, 
     screen->h / 4, screen->h / 4
   );

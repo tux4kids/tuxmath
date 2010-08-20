@@ -1,22 +1,29 @@
 /*
-  game.c
+   game.c: Contains Tux Math's main game loop!
+ 
+   Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010.
+   Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen,
+   Akash Gangil.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  For TuxMath
-  The main game loop!
+game.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
 
-  August 26, 2001 - February 18, 2004
-
-  Revised by David Bruce, Tim Holy and others
-  2005-2009
-*/
 
 /* put this first so we get <config.h> and <gettext.h> immediately: */
 #include "tuxmath.h"

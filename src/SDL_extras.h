@@ -1,14 +1,26 @@
-//
-// C Interface: SDL_extras
-//
-// Description: A few handy functions for using SDL graphics.
-//
-//
-// Author: David Bruce,,, <davidstuartbruce@gmail.com>, (C) 2007
-//
-// Copyright: See COPYING file that comes with this distribution
-// (briefly, GPL v3 or later).
-//
+/* SDL_extras.h - A few handy functions for using SDL graphics.
+   
+   Copyright (C) 2007, 2008, 2009, 2010.i
+   Authors: David Bruce, Tim Holy, Brendan Luchen.
+   email: <tuxmath-devel@lists.sourceforge.net>
+
+SDL_extras.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
+
 
 #ifndef SDL_EXTRAS_H
 #define SDL_EXTRAS_H
