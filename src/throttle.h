@@ -1,14 +1,34 @@
 /*
+   throttle.h:
 
-        throttle.h
+   A simple function that uses SDL_Delay() to keep loops from 
+   eating all available CPU.
 
-        Description: A simple function that uses SDL_Delay() to keep loops from eating all available
-                     CPU
-        Author: David Bruce and the TuxMath team, (C) 2009
+   Copyright 2009, 2010.
+   Authors: David Bruce
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-        Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
+
+   throttle.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
+
+
 
 #ifndef THROTTLE_H
 #define THROTTLE_H

@@ -1,25 +1,33 @@
 /*
-  titlescreen.h
+   titlescreen.h:
 
-  Splash, background and title screen items.
-  (interface)
+   Splash, background, and title screen items.
+   
+   Copyright 2000, 2003, 2006, 2007, 2008, 2009, 2010.
+   Authors: Sam Hart, Jesse Andrews, David Bruce, Tim Holy.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  begin                : Thur May 4 2000
-  copyright            : (C) 2000 by Sam Hart
-                       : (C) 2003 by Jesse Andrews
-  email                : tuxtype-dev@tux4kids.net
 
-  Modified for use in tuxmath by David Bruce - 2006-2007.
-  email                : <davidstuartbruce@gmail.com>
-                         <tuxmath-devel@lists.sourceforge.net>
+   titlescreen.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  Also significantly enhanced by Tim Holy - 2007
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.com/
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  Copyright: See COPYING file that comes with this distribution.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 */
+
+
+
 
 #ifndef TITLESCREEN_H
 #define TITLESCREEN_H

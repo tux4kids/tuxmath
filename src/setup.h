@@ -1,28 +1,35 @@
 /*
-  setup.h
+   setup.h:
 
-  For TuxMath
-  Contains functions to initialize the settings structs, 
-  read in command-line arguments, and to clean up on exit.
-  All code involving file I/O has been moved to fileops.h/fileops.c
-  and is called from the main setup function.
+   Contains functions to initialize the settings structs, 
+   read in command-line arguments, and to clean up on exit.
+   All code involving file I/O has been moved to fileops.h/fileops.c
+   and is called from the main setup function.
 
-  Some globals are declared in setup.c - all globals throughout tuxmath
-  are now extern'd in the same place in tuxmath.h
+   Some globals are declared in setup.c - all globals throughout tuxmath
+   are now extern'd in the same place in tuxmath.h
+ 
+   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+   Authors: Bill Kendrick, David Bruce, Tim Holy.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/
 
+   setup.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
-      
-  August 26, 2001 - February 18, 2004
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  Modified by David Bruce
-  davidstuartbruce@gmail.com
-  September 1, 2006
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 */
 
 
