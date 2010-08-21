@@ -7,6 +7,7 @@
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
 
+
 lessons.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
 Tuxmath is free software: you can redistribute it and/or modify
@@ -20,7 +21,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 
 
