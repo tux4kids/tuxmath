@@ -1,8 +1,10 @@
-/* campaign.c - handle TuxMath's 'Mission mode'
+/* 
+   campaign.c - handle TuxMath's 'Mission mode'
    
    Copyright (C) 2008, 2009, 2010.
    Authors: Brendan Luchen, David Bruce.
-   email: <tuxmath-devel@lists.sourceforge.net>
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
 campaign.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -17,7 +19,9 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+*/
 
 
 
