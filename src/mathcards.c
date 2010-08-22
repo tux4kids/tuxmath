@@ -1,20 +1,29 @@
-/*
-*  C Implementation: mathcards.c
-*
-*       Description: implementation of backend for a flashcard-type math game.
-        Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
-        (aka tuxmath).  (If tuxmath were a C++ program, this would be a C++ class).
-        MathCards could be used as the basis for similar games using a different interface.
+/* mathcards.c
+  
+   implementation of backend for a flashcard-type math game.
+   
+   Copyright 2005, 2008, 2009, 2010.
+   Authors:  David Bruce, Tim Holy, Brendan Luchen.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-*
-*
-* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2005
-*
-* Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
-*
-* Revised extensively in 2008 by Brendan Luchen, Tim Holy, and David Bruce
-* Revised more in 2009 by David Bruce
-*/
+mathcards.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
+
 
 #include <stdio.h>
 #include <stdlib.h>

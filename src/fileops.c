@@ -1,30 +1,37 @@
-/*
-*  C Implementation: fileops.c
-*
-* (Note: read_config_file() was made possible by studying the file prefs.c in gtkpod:
-*  URL: http://www.gtkpod.org/
-*  URL: http://gtkpod.sourceforge.net/
-*  Copyright (C) 2002-2005 Jorg Schuler <jcsjcs at users sourceforge net>.
-*  Licensed under GNU GPL v2.
-*  This code is a nearly complete rewrite but I would like to express my thanks.)
-*
-*
-* Description: File operations - together, fileops.h and fileops.c contain 
-* all code involving disk operations.  The intention is to make it easier to
-* port tuxmath to other operating systems, as code to read and write as 
-* well as paths and file locations may be more OS-dependent.
-*
-* This file contains functions to read and write config files.
-* The config file contains name-value pairs, one pair per line, to control
-* settings for the behavior of Tuxmath.
-*
-* Code for loading program data from disk is now also found here.
-* 
-* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
-*
-* Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL)
-*
-*/
+/* fileops.c
+  
+   All code involving disk operations is intended to be located here.
+
+  (Note: read_config_file() was made possible by studying the file prefs.c in gtkpod:
+   URL: http://www.gtkpod.org/
+   URL: http://gtkpod.sourceforge.net/
+   Copyright (C) 2002-2005 Jorg Schuler <jcsjcs at users sourceforge net>.
+   Licensed under GNU GPL v2+.
+   This code is a nearly complete rewrite but I would like to express my thanks.)
+  
+  Copyright 2006, 2007, 2008, 2009, 2010.
+  Author: David Bruce, Tim Holy, Boleslaw Kulbabinski, Brendan Luchen.
+  Project email: <tuxmath-devel@lists.sourceforge.net>
+  Project website: http://tux4kids.alioth.debian.org
+
+
+fileops.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
+
 
 #include <stdio.h>
 

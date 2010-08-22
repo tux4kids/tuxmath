@@ -1,21 +1,29 @@
-/*
-  options.c
+/* 
+   options.c
 
-  For TuxMath
-  The options screen loop.
+   The options screen loop.
+   
+   Copyright 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010.
+   Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/
+options.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  Modified extensively by David Bruce
-  davidstuartbruce@gmail.com
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.com
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  August 26, 2001 - July 11, 2007
-*/
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
 
 
 #include <stdio.h>

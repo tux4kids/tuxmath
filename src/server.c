@@ -1,21 +1,39 @@
 /*
-*  C Implementation: server.c
-*
-*       Description: Server program for LAN-based play in Tux,of Math Command.
-*
-*
-* Author: Akash Gangil, David Bruce, and the TuxMath team, (C) 2009
-* Developers list: <tuxmath-devel@lists.sourceforge.net>
-*
-* Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
-*
-* NOTE: This file was initially based on example code from The Game Programming Wiki
-* (http://gpwiki.org), in a tutorial covered by the GNU Free Documentation License 1.2.
-* No invariant sections were indicated, and no separate license for the example code
-* was listed. The author was also not listed. AFAICT,this scenario allows incorporation of
-* derivative works into a GPLv2+ project like TuxMath.  FWIW, virtually none of
-* the tutorial code is still present here - David Bruce 
+   server.c:
+
+   Server program for LAN-based play in Tux,of Math Command.
+
+   NOTE: This file was initially based on example code from The Game
+   Programming Wiki (http://gpwiki.org), in a tutorial covered by the
+   GNU Free Documentation License 1.2. No invariant sections were 
+   indicated, and no separate license for the example code was listed.
+   The author was also not listed. AFAICT,this scenario allows incorporation
+   of derivative works into a GPLv3+ project like TuxMath.  FWIW, virtually
+   none of the tutorial code is still present here - David Bruce 
+
+   Copyright 2009, 2010.
+   Authors: Akash Gangil, David Bruce
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
+
+server.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+
+
 
 /* This must come before #ifdef HAVE_LIBSDL_NET to get "config.h" */
 #include "globals.h"

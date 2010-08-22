@@ -1,25 +1,29 @@
-/*
-  loaders.c
+/* loaders.c
+   
+   functions to support loading of media files.
+   
+   Copyright 2000, 2003, 2006, 2007, 2008, 2009, 2010.
+   Authors: Sam Hart, Jesse Andrews, David Bruce, Tim Holy,
+            Boleslaw Kulbabinski, Wenyuan Guo, Brendan Luchen.
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-  Functions responsible for loading multimedia.
+loaders.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  begin                : Thu May 4 2000
-  copyright            : (C) 2000 by Sam Hart
-                       : (C) 2003 by Jesse Andrews
-  email                : tuxtype-dev@tux4kids.net
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  Modified for use in tuxmath by David Bruce - 2006.
-  email                : <davidstuartbruce@gmail.com>
-                         <tuxmath-devel@lists.sourceforge.net>
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-  Modified to support SVG by Boleslaw Kulbabinski - 2009
-  email                : <bkulbabinski@gmail.com>
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.com/
 
-  Copyright: See COPYING file that comes with this distribution.
-*/
 
 #include "loaders.h"
 #include "globals.h"

@@ -1,14 +1,30 @@
-/*
-*  C Implementation: exercise_mathcards
-*
-* Description: 
-*
-*
-* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2007
-*
-* Copyright: See COPYING file that comes with this distribution
-*
-*/
+/* exercise_mathcards.c
+  
+   A simple standalone program to test the creation of question lists by
+   the mathcards code.
+  
+  Copyright 2009, 2010.
+  Author: David Bruce.
+  Project email: <tuxmath-devel@lists.sourceforge.net>
+  Project website: http://tux4kids.alioth.debian.org
+
+
+ exercise_mathcards.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
 
 #include <stdio.h>
 #include "mathcards.h"

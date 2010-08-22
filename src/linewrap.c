@@ -1,22 +1,28 @@
-/* Internationalized line wrapping for TuxMath.
+/* linewrap.c
+  
+   convenience API for libgettextpo's linebreak routine
 
- -  file: linewrap.c
- -  description: convenience API for libgettextpo's linebreak routine
-                            ------------------
-    begin                : Feb 3 2009
-    copyright            : (C) 2009 by Timothy E. Holy
-    email                : tuxmath-devel@lists.sourceforge.net
+   Copyright 2009, 2010.
+   Author: Tim Holy
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-***************************************************************************/
+linewrap.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
 
 #include <string.h>
 #include <stdlib.h>
