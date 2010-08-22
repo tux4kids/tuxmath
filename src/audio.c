@@ -1,8 +1,9 @@
 /* audio.c -  description: this file contains audio related functions
    
-   Copyright (C) 2003, 2006, 2007, 2008, 2009, 2010.i
+   Copyright (C) 2003, 2006, 2007, 2008, 2009, 2010.
    Authors: Sam Hart, Jesse Andrews, David Bruce.
-   email: <tuxmath-devel@lists.sourceforge.net>
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
 audio.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 

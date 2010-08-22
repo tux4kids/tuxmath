@@ -1,14 +1,37 @@
-/*  
+/* SDL_rotozoom.c
+  
 
   The SDL_rotozoom sources were copied from the SDL_gfx library and
-  are relicensed, only for the purposes of TuxMath, to GPL.  Thanks to
-  Andreas Schiffler.
+  are relicensed, only for the purposes of TuxMath, to GPL.  Original
+  license was GNU Lesser Public License, Version 2 (or later).
+  Thanks to Andreas Schiffler.
 
-  SDL_rotozoom.c - rotozoomer for 32bit or 8bit surfaces
+  SDL_gfx website: http://www.ferzkopp.net/Software/SDL_gfx-2.0/
 
-  LGPL (c) A. Schiffler
+  Slight modification and relicensing for tuxmath:
+  Copyright (C) 2008, 2009, 2010.
+  Authors: David Bruce, Tim Holy, Brendan Luchen.
+  email: <tuxmath-devel@lists.sourceforge.net>
 
+
+
+SDL_rotozoom.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
+
+
 
 #ifdef WIN32
 #include <windows.h>
