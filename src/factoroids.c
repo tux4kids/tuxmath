@@ -1,22 +1,33 @@
-/************************************************************
- *  factoroids.c                                             *
- *                                                          *
- *  Description:  Code for the factor and fraction activity *
- *                                                          *
- *  Author:       Jesus M. Mager H. (fongog@gmail.com) 2008 *
- *  Copyright:    GPL v3 or later                           *
- *  							    *
- *  Also significantly enhanced by Tim Holy - 2008          *
- *                                                          *
- *  Code based on the work made by:                         *
- *               Bill Kendrick (vectoroids 1.1.0)           *
- *               and Bill Kendrick, David Bruce, Tim Holy   *
- *               and others (Tuxmath 1.6.3)                 *
- *                                                          *
- *  TuxMath                                                 *
- *  Part of "Tux4Kids" Project                              *
- *  http://tux4kids.alioth.debian.org/                      *
- ************************************************************/
+/* factoroids.c
+  
+   The main game loop for a factoring game resembling the
+   arcade classic "Asteroids".
+
+   Some code adapted from the GPL-licensed game "vectoroids"
+   by Bill Kendrick (http://www.newbreedsoftware.com).
+
+   Copyright 2001, 2002, 2008, 2009, 2010.
+   Authors: Bill Kendrick, Jesus M. Mager H., Tim Holy, David Bruce
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
+
+
+factoroids.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
+
 
 #include "tuxmath.h"
 

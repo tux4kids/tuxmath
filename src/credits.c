@@ -1,20 +1,29 @@
-/*
-  credits.c
- 
-  For TuxMath
-  Contains the text of the credits display, as well
-  as the function which displays the credits in the game window.
+/* credits.c
 
-  by Bill Kendrick
-  bill@newbreedsoftware.com
-  http://www.newbreedsoftware.com/
-
-
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.org/
+   Contains the text of the credits display, as well
+   as the function which displays the credits in the game window.
   
-  August 26, 2001 - March 7, 2005
-*/
+  Copyright 2001, 2002, 2003, 2004, 2005, 2008, 2009, 2010.
+  Authors: Bill Kendrick, David Bruce, Brendan Luchen.
+  Project email: <tuxmath-devel@lists.sourceforge.net>
+  Project website: http://tux4kids.alioth.debian.org
+
+
+credits.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+
 
 
 #include <stdio.h>
