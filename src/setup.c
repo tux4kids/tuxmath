@@ -64,12 +64,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* (These are now 'extern'd in "tuxmath.h") */
 
 /* window size */
-int win_res_x = 640;
-int win_res_y = 480;
+//int win_res_x = 640;
+//int win_res_y = 480;
 
 /* full screen size (set in initialize_SDL() ) */
-int fs_res_x = 0;
-int fs_res_y = 0;
+//int fs_res_x = 0;
+//int fs_res_y = 0;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];

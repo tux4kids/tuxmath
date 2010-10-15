@@ -68,11 +68,11 @@ typedef struct
 } svginfo;
 
 #define SVGINFO_MAX 1000
-int saveSVGInfo(char* fn,int w,int h);
+//int saveSVGInfo(char* fn,int w,int h);
 int SVGInfoIndex(char* fn);
 
 svginfo svg_info[SVGINFO_MAX]; 
-int numSVG=0;
+//int numSVG=0;
 
 /* structures related to sdl surface caching */
 typedef struct
@@ -87,79 +87,79 @@ int getCachedSurface(char* fn);
 SDL_Surface *IMG_Load_Cache(char* fn);
 
 cachedSurface cached_surface[CACHEDSURFACE_MAX];
-int numSurfaces=0;
+//int numSurfaces=0;
 
 
 /* save SVG info */
-int saveSVGInfo(char* fn,int w,int h)
-{
-  strcpy(svg_info[numSVG].fn,fn);
-  svg_info[numSVG].width=w;
-  svg_info[numSVG].height=h;
-
-  numSVG++;
-
-  return numSVG-1;
-}
+//int saveSVGInfo(char* fn,int w,int h)
+//{
+//  strcpy(svg_info[numSVG].fn,fn);
+//  svg_info[numSVG].width=w;
+//  svg_info[numSVG].height=h;
+//
+//  numSVG++;
+//
+//  return numSVG-1;
+//}
 
 /* get SVG info index */
-int SVGInfoIndex(char* fn)
-{
-  int i;
-  for(i=0;i<numSVG;i++)
-  {
-    if(!strcmp(fn,svg_info[i].fn))
-    {
-      return i;
-    }
-  }
+//int SVGInfoIndex(char* fn)
+//{
+//  int i;
+//  for(i=0;i<numSVG;i++)
+//  {
+//    if(!strcmp(fn,svg_info[i].fn))
+//    {
+//      return i;
+//    }
+//  }
+//
+//  return -1;
+//}
 
-  return -1;
-}
+///* save sdl surface */
+//int cacheSurface(char* fn,SDL_Surface* surf)
+//{
+//  strcpy(cached_surface[numSurfaces].fn,fn);
+//  cached_surface[numSurfaces].surf=surf;
+//  surf->refcount++;
+//
+//  numSurfaces++;
+//  return numSurfaces-1;
+//}
 
-/* save sdl surface */
-int cacheSurface(char* fn,SDL_Surface* surf)
-{
-  strcpy(cached_surface[numSurfaces].fn,fn);
-  cached_surface[numSurfaces].surf=surf;
-  surf->refcount++;
+///* get sdl surface index */
+//int getCachedSurface(char* fn)
+//{
+//  int i;
+//  for(i=0;i<numSurfaces;i++)
+//  {
+//    if(!strcmp(fn,cached_surface[i].fn))
+//    {
+//      return i;
+//    }
+//  }
+//
+//  return -1;
+//}
 
-  numSurfaces++;
-  return numSurfaces-1;
-}
-
-/* get sdl surface index */
-int getCachedSurface(char* fn)
-{
-  int i;
-  for(i=0;i<numSurfaces;i++)
-  {
-    if(!strcmp(fn,cached_surface[i].fn))
-    {
-      return i;
-    }
-  }
-
-  return -1;
-}
-
-/* attempt to load cached sdl surface if possible, otherwise use IMG_Load and cache the returned surface */
-SDL_Surface *IMG_Load_Cache(char* fn)
-{
-  int index=getCachedSurface(fn);
-  if(index!=-1)
-  { 
-    cached_surface[index].surf->refcount++;
-    return cached_surface[index].surf;
-  }
-  else
-  {
-    SDL_Surface* temp=IMG_Load(fn);
-    if(temp==NULL) return NULL;
-    cacheSurface(fn,temp);
-    return temp;
-  }
-}
+///* attempt to load cached sdl surface if possible, otherwise use IMG_Load and cache the returned surface */
+//SDL_Surface *IMG_Load_Cache(char* fn)
+//{
+//  int index=getCachedSurface(fn);
+//  if(index!=-1)
+//  { 
+//    cached_surface[index].surf->refcount++;
+//    return cached_surface[index].surf;
+//  }
+//  else
+//  {
+//    SDL_Surface* temp=IMG_Load(fn);
+//    if(temp==NULL) return NULL;
+//    cacheSurface(fn,temp);
+//    return temp;
+//  }
+//}
 
 
 /* check to see if file exists, if so return true */
