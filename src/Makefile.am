@@ -49,7 +49,6 @@ tuxmath_SOURCES = tuxmath.c \
 	multiplayer.c	\
 	fileops.c	\
 	convert_utf.c	\
-	SDL_extras.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
 	scandir.c	\
