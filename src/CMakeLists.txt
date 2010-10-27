@@ -38,12 +38,10 @@ set(SOURCES_TUXMATH
   menu.c
   highscore.c
   lessons.c
-  loaders.c
   mathcards.c
   options.c
   pixels.c
   scandir.c
-  SDL_extras.c
   setup.c
   throttle.c
   titlescreen.c

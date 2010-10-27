@@ -41,13 +41,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #endif
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
-#include "SDL_extras.h"
 
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
 #include "mathcards.h"
-#include "loaders.h"
 #include "titlescreen.h"
 #include "options.h"
 
@@ -457,7 +455,7 @@ static int FF_init(void)
   /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
   /* can take advantage of it - DSB                                             */
 
-  LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
+  T4K_LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
 
   if (bkgd == NULL || scaled_bkgd == NULL)
   {

@@ -33,8 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
-#include "loaders.h"
-#include "SDL_extras.h"
 #include "menu.h"
 #include "throttle.h"
 
@@ -189,7 +187,7 @@ void TitleScreen(void)
   }
 
   /* load backgrounds */
-  LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
+  T4K_LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
   T4K_SetMenuSounds(NULL, sounds[SND_POP], sounds[SND_TOCK]);
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
   

@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "fileops.h"
 #include "setup.h"
 #include "credits.h"
-#include "SDL_extras.h"
 
 
 const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {

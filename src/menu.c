@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 #include "menu.h"
-#include "SDL_extras.h"
 #include "titlescreen.h"
 #include "highscore.h"
 #include "factoroids.h"

@@ -41,7 +41,6 @@ tuxmath_SOURCES = tuxmath.c \
 	credits.c	\
 	highscore.c	\
 	linewrap.c	\
-	loaders.c	\
 	audio.c 	\
         network.c       \
 	mathcards.c	\
@@ -98,7 +97,6 @@ EXTRA_DIST = 	credits.h 	\
 	globals.h	\
 	highscore.h 	\
 	linewrap.h	\
-	loaders.h	\
         network.h       \
 	titlescreen.h   \
 	menu.h		\
@@ -109,7 +107,6 @@ EXTRA_DIST = 	credits.h 	\
 	multiplayer.h	\
 	tuxmath.h	\
 	convert_utf.h	\
-	SDL_extras.h	\
 	SDL_rotozoom.h	\
 	lessons.h	\
 	gettext.h	\

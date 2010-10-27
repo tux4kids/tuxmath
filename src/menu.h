@@ -36,7 +36,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MENU_H
 
 #include "globals.h"
-#include "loaders.h"
 
 #include "SDL.h"
 /* titlescreen & menu frame rate */

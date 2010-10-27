@@ -55,7 +55,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #include "tuxmath.h"
-#include "loaders.h"
 
 #define MAX_LESSONS                     100
 #define MAX_NUM_WORDS                   500

@@ -33,7 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "fileops.h"
 #include "setup.h"
 #include "options.h"
-#include "SDL_extras.h"
 #include "convert_utf.h"
 #include "transtruct.h"
 #include "network.h"

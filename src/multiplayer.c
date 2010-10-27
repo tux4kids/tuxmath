@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 #include "tuxmath.h"
-#include "SDL_extras.h"
 #include "multiplayer.h"
 #include "game.h"
 #include "options.h"

@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define CAMPAIGN_H
 
  
-#include "SDL_extras.h"
 #include "tuxmath.h"
 #include "linewrap.h"
 

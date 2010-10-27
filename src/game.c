@@ -49,12 +49,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
-#include "loaders.h"
 #include "mathcards.h"
 #include "multiplayer.h"
 #include "titlescreen.h"
 #include "options.h"
-#include "SDL_extras.h"
 #include "pixels.h"
 #include "throttle.h"
 
@@ -2828,7 +2826,7 @@ void reset_level(void)
 
   if (Opts_UseBkgd())
   {
-    LoadBothBkgds(fname, &scaled_bkgd, &bkgd);
+    T4K_LoadBothBkgds(fname, &scaled_bkgd, &bkgd);
     if (bkgd == NULL || scaled_bkgd == NULL)
     {
       fprintf(stderr,

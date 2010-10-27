@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TUXMATH_H
 
 #include "globals.h"
+#include "compiler.h"
 
 #include "SDL.h"
 #include "SDL_image.h"
