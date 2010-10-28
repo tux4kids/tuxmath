@@ -103,8 +103,22 @@ install-nsi-local: all
 ## Done with NSI_TEMP_INSTALL_DIR so uninstall:
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
 	rm -rf $(NSI_TEMP_INSTALL_DIR)
+
+## NOTE: we don't use any dll files now that we use mingw-cross-env
+## because the entire executable is statically linked.
 ## copy needed dll files into NSI_INSTALL_DIR:
 #	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
+
+## NOTE: However, we do need to copy non-executable data and config files
+## needed by the libraries that we have used:
+
+## Copy data files for our t4k_common library:
+	(cd $(prefix)/share/t4k_common; \
+	   tar cf - * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/data; \
+           tar xf -)
+	echo 'fontconfig files: ' $(sysconfdir)/fonts	
+
 
 
 install-nsi-am: install-nsi-local
