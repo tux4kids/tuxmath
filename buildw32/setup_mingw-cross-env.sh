@@ -11,8 +11,10 @@ echo Downloading mingw-cross-env:
 wget http://download.savannah.nongnu.org/releases/mingw-cross-env/mingw-cross-env-2.16.tar.gz
 echo Unpacking tar archive:
 tar xzf mingw-cross-env-2.16.tar.gz
+echo Removing old installation from $MINGW_DIR, if present:
+rm -rf $MINGW_DIR
 echo Moving unpacked mingw-cross-env installation to $MINGW_DIR:
-sudo mv mingw-cross-env-2.16 $MINGW_DIR
+mv mingw-cross-env-2.16 $MINGW_DIR
 echo Building libs needed by tux4kids:
 cp t4k_common.mk $MINGW_DIR/src
 cd $MINGW_DIR
