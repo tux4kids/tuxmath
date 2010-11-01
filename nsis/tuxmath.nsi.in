@@ -54,6 +54,8 @@ Section
   File /r "mingw32\doc\*.*"
   SetOutPath $INSTDIR\locale
   File /r "mingw32\locale\*.*"
+  SetOutPath $INSTDIR\fonts
+  File /r "mingw32\fonts\*.*"
 
   WriteRegStr HKLM SOFTWARE\${APP_PREFIX} \
                    "Install_Dir" \ 
