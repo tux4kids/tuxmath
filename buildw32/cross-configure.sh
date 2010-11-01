@@ -10,8 +10,8 @@ export CONFIG_SHELL
 # Set PREFIX, BUILD, TARGET, and CONFIG_PATH according to your build machine:
 
 # Path to crossbuild setup:
-#PREFIX=/usr/local/mingw
-PREFIX=/opt/mingw-cross-env/usr
+MINGW_DIR=/opt/mingw-cross-env
+PREFIX=$MINGW_DIR/usr
 
 # Architecture of the build machine itself:
 BUILD=x86_64-linux

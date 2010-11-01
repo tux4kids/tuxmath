@@ -4,7 +4,7 @@
 
 #FIXME improve this by prompting user for location where mingw-cross-env is to be installed.
 
-MINGW_DIR=/opt/mce_test
+MINGW_DIR=/opt/mingw-cross-env
 
 # Download and unpack mingw-cross-env
 echo Downloading mingw-cross-env:

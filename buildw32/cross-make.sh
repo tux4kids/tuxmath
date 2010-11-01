@@ -4,9 +4,10 @@
 # using mingw port of GCC. Obtained from http://www.libsdl.org
 # and lightly modified by David Bruce <davidstuartbruce@gmail.com>
 
+
 # Path to crossbuild setup:
-#PREFIX=/usr/local/mingw
-PREFIX=/opt/mingw-cross-env/usr
+MINGW_DIR=/opt/mingw-cross-env
+PREFIX=$MINGW_DIR/usr
 
 # Architecture of the build machine's crossbuild setup
 # as located by PREFIX:
