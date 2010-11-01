@@ -37,6 +37,8 @@ tuxmath_preview.spec
 # Ignore any untracked files under build/ or buildw32/
 build/
 buildw32/
+# ...except scripts:
+!buildw32/*.sh
 
 # Ignore backup files:
 *~
