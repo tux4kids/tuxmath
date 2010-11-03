@@ -32,7 +32,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <stdio.h>
 #include <string.h>
-#include <SDL.h>
+#include <iconv.h>
 
 #define UTF_BUF_LENGTH 1024
 
@@ -43,7 +43,7 @@ int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)
   wchar_t temp_wchar[UTF_BUF_LENGTH];
   wchar_t* wchar_start = temp_wchar;
 
-  SDL_iconv_t conv_descr;
+  iconv_t conv_descr;
   size_t bytes_converted;
   size_t in_length = (size_t)UTF_BUF_LENGTH;
   size_t out_length = (size_t)UTF_BUF_LENGTH;
@@ -60,16 +60,16 @@ int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)
   /* NOTE although we *should* be just able to pass "wchar_t" as the out_type, */
   /* iconv_open() segfaults on Windows if this is done - grrr....             */
 #ifdef WIN32
-  conv_descr = SDL_iconv_open("UTF-16LE", "UTF-8");
+  conv_descr = iconv_open("UTF-16LE", "UTF-8");
 #else
-  conv_descr = SDL_iconv_open("wchar_t", "UTF-8");
+  conv_descr = iconv_open("wchar_t", "UTF-8");
 #endif
 
   /* NOTE casts to prevent compiler warnings */
-  bytes_converted = SDL_iconv(conv_descr,
+  bytes_converted = iconv(conv_descr,
                           (char**)&UTF8_word, &in_length,
                           (char**)&wchar_start, &out_length);
-  SDL_iconv_close(conv_descr);
+  iconv_close(conv_descr);
   wcsncpy(wide_word, temp_wchar, max_length);
 
   DEBUGMSG(debug_text_and_intl, "ConvertToUTF8(): wide_word = %S\n", wide_word);
@@ -94,7 +94,7 @@ int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)
   /* into the argument UTF8_word string, but so far have had errors.    */
   char* UTF8_Start = temp_UTF8;
 
-  SDL_iconv_t conv_descr;
+  iconv_t conv_descr;
   size_t bytes_converted;
   size_t in_length = (size_t)UTF_BUF_LENGTH;
   size_t out_length = (size_t)UTF_BUF_LENGTH;
@@ -111,17 +111,17 @@ int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)
   /* NOTE although we *should* be just able to pass "wchar_t" as the in_type, */
   /* iconv_open() segfaults on Windows if this is done - grrr....             */
 #ifdef WIN32
-  conv_descr = SDL_iconv_open("UTF-8", "UTF-16LE");
+  conv_descr = iconv_open("UTF-8", "UTF-16LE");
 #else
-  conv_descr = SDL_iconv_open("UTF-8", "wchar_t");
+  conv_descr = iconv_open("UTF-8", "wchar_t");
 #endif
 
   /* NOTE casts to prevent compiler warnings. While the documentation for iconv() */
   /* says arg 2 is a "const char**", it is "char**" in the iconv.h header itself. */
-  bytes_converted = SDL_iconv(conv_descr,
+  bytes_converted = iconv(conv_descr,
                           (char**)&wide_word, &in_length,
                           (char**)&UTF8_Start, &out_length);
-  SDL_iconv_close(conv_descr);
+  iconv_close(conv_descr);
   strncpy(UTF8_word, temp_UTF8, max_length);
 
   DEBUGMSG(debug_text_and_intl, "ConvertToUTF8(): UTF8_word = %s\n", UTF8_word);
