@@ -1,4 +1,4 @@
-22 Aug 2010
+09 Nov 2010 - for Tux Math 1.9.0
 
 All of the source code in Tux Math is now uniformly licensed under the GNU
 General Public License, version 3 (or later).  This includes the "GPL2 or
@@ -13,7 +13,9 @@ If you wish to use Tux Math's previous source code in a GPL2 project, feel free
 to download our last public release prior to the license change
 (tuxmath_w_fonts-1.8.0.tar.gz) at http://tux4kids.alioth.debian.org. Unless a
 file in that archive says "GPL3 or later", I believe that the code can be
-freely re-used in GPL2 projects.
+freely re-used in GPL2 projects.  If code labeled "GPL3 or later" was written
+within the Tux4Kids project, please contact us as we very likely would agree to
+re-license it for a GPLv2 project.
 
 
 David Bruce <davidstuartbruce@gmail.com>

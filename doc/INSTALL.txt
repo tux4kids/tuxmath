@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
 Version 1.9.0
 
-October 31, 2010
+November 09, 2010
 
 For users
 ---------
@@ -16,12 +16,14 @@ Alternatively, you can use the command line to install it.  For
 example, with Debian systems you can say "apt-get install tuxmath" and
 you're done.
 
-The openSUSE Build Service now has extremely up-to-date builds of TuxMath
+The openSUSE Build Service has had up-to-date builds of TuxMath
 for most rpm-based distributions (all recent openSUSE versions, Mandriva 2008
 and 2009, Fedora 9 and 10) that can be found via http://software.opensuse.org/search
 by searching for "tuxmath" (btw, TuxType is available there, too). Preliminary
 developer builds will have "tuxmath_preview" in the package name instead of just
-"tuxmath", but all are available to everyone.
+"tuxmath", but all are available to everyone.  However, we have not yet added
+TuxMath 1.9.0 to the build service until we work out the added complexity created by
+splitting some of the code out to form the t4k_common library.
 
 For Windows/Macs: visit http://tux4kids.alioth.debian.org (note that
 http://www.tux4kids.com should also work), click on "Released
@@ -364,21 +366,23 @@ Starting with v1.8.0, the Windows cross-build uses the mingw-cross-env project
 entire build setup can be installed automatically instead of the very laborious
 process of downloading and building 15-20 libs by hand.
 
-Basically, go to the mingw-cross-env site listed above and follow the
-well-written directions to get the basic setup in place.  When it is time to
-build all the libs, either just type "make" to build the entire collection (if
-you don't mind a long wait), or build just the libs we need with:
-    
-$ make sdl sdl_mixer sdl_image sdl_net sdl_ttf sdl_pango librsvg libxml2
-
-(the libs that these libs depend on will be automatically built)
-
-Now, you need to cross-build t4k_common using mingw-cross-env.  As of this writing, t4k_common is not officially part of mingw-cross-env, so you need to add t4k_common's *.mk file into mingw-cross-env's source directory.  Then, you can just do "make t4k_common" from the main mingw-cross-env directory to build it like any other mingw-cross-env lib. E.g.:
+Basically, go to the mingw-cross-env site listed above and follow the well-written
+directions to get the basic setup in place. Now, you need to cross-build t4k_common
+using mingw-cross-env.  As of this writing, t4k_common is not officially part of
+mingw-cross-env, so you need to add t4k_common's *.mk file into mingw-cross-env's
+source directory.  Then, you can just do "make t4k_common" from the main mingw-cross-env
+directory to build it like any other mingw-cross-env lib. E.g.:
 
 cp t4k_common.mk /opt/mingw-cross-env/src
 cd /opt/mingw-cross-env
 make t4k_common
 
+This should download and build everything needed for the crossbuild, including t4k_common
+itself.  It will take some time (perhaps an hour).  There is a script in the tuxmath source
+tree under buildw32/ called "setup_mingw-cross-env.sh" that will do all of this automatically
+(tested on Debian and Ubuntu systems). Be aware that if you have an existing installation at
+/opt/mingw-cross-env, it will be clobbered.
+ 
 A copy of t4k_common.mk is provided in the tuxmath source tree until we get it added to mingw-cross-env itself.
 
 Now you should be all set to do the actual cross-build.  If you put the cross-build setup in /usr/local/mingw-cross-env, and you are building from a git clone, you can simply cd to tuxmath's buildw32 directory and use the simple scripts there:
@@ -386,10 +390,10 @@ Now you should be all set to do the actual cross-build.  If you put the cross-bu
 $ ./tmwin.sh
 
 That's all - it should build a complete NSIS executable installer in the
-buildw32 directory. The new crossbuild is statically linked, so you wind up
-with quite a large executable (around 25M after decompression), but no dll's
-need to be included.  Also, since SDL_Pango is supported, no fonts need to be
-bundled in. 
+buildw32 directory, which will be around 17 MB in size. The new crossbuild is
+statically linked, so you wind up with quite a large executable (around 25M 
+after decompression), but no dll's need to be included.  Also, since SDL_Pango
+is supported, no fonts need to be bundled in. 
 
 
 Installation on Windows:

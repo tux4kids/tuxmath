@@ -1,3 +1,16 @@
+2010.Nov.09 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 1.9.0, major changes include:
+	- Extensive code refactoring. TuxMath now uses the t4k_common library,
+	which will also be the basis of the next release of Tux Typing.
+	- New build process for win32 platform using the mingw-cross-env
+	cross-compiling environment <http://mingw-cross-env.nongnu.org>.
+	- Fully-functional Windows crossbuild with SDL_Pango, SVG support,
+	and LAN support.
+	- LAN multiplayer mode usable, but with room for enhancements.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
 2010.Mar.12 (git://git.debian.org/tux4kids/tuxmath.git)
         Tuxmath now using Git for source code management, which provides
 	superior automated documentation for changes in the form of commit
