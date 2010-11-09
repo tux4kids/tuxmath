@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-10-27 14:05-0500\n"
+"POT-Creation-Date: 2010-11-07 16:31-0600\n"
 "PO-Revision-Date: 2010-07-31 16:24+0200\n"
 "Last-Translator: Romana Trubačová <trubacova.romana@gmail.com>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -463,66 +463,66 @@ msgstr "Zadajte názov serveru:"
 msgid "(limit 50 characters)"
 msgstr "(max. 50 znakov)"
 
-#: src/menu.c:458
+#: src/menu.c:459
 msgid "Click or press key to select server lesson file"
 msgstr "Súbor lekcie zo serveru vyberieš kliknutím alebo stlačením klávesu"
 
-#: src/menu.c:488
+#: src/menu.c:489
 msgid "Server Name:"
 msgstr "Názov serveru:"
 
-#: src/menu.c:490
+#: src/menu.c:491
 msgid "Selected Lesson:"
 msgstr "Vybraná lekcia:"
 
-#: src/menu.c:505 src/menu.c:552
+#: src/menu.c:515 src/menu.c:562
 msgid "Sorry, this version built without network support"
 msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru."
 
-#: src/menu.c:506 src/menu.c:553
+#: src/menu.c:516 src/menu.c:563
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru.\n"
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Detecting servers"
 msgstr "Hľadám servery..."
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Please wait"
 msgstr "Čakaj prosím"
 
-#: src/menu.c:522
+#: src/menu.c:532
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Si pripojený ku serveru: %s"
 
-#: src/menu.c:523 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Zadaj svoje meno:"
 
-#: src/menu.c:525
+#: src/menu.c:535
 msgid "Click when ready"
 msgstr "Ak si pripravený, klikni"
 
-#: src/menu.c:527
+#: src/menu.c:537
 msgid "Waiting for other players"
 msgstr "Čakanie na ďalších hráčov"
 
-#: src/menu.c:540
+#: src/menu.c:550
 msgid "Sorry, game already in progress."
 msgstr "Ospravedlňujeme sa, hra už prebieha."
 
-#: src/menu.c:541
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Ospravedlňujeme sa, hra už prebieha.\n"
 
-#: src/menu.c:547
+#: src/menu.c:557
 msgid "Sorry, no server could be found."
 msgstr "Ospravedlňujeme sa, nenašiel sa žiadny server."
 
-#: src/menu.c:548
+#: src/menu.c:558
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr "Ospravedlňujeme sa, nenašiel sa žiadny server.\n"

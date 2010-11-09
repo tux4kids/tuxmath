@@ -78,14 +78,14 @@ int LAN_DetectServers(void)
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
   if(SDL_Init(0) == -1)
   {
-    printf("SDL_Init: %s\n", SDL_GetError());
+    DEBUGMSG(debug_lan, "SDL_Init: %s\n", SDL_GetError());
     return 0;;
   }
 
   /* Initialize SDL_net */
   if (SDLNet_Init() < 0)
   {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_Init: %s\n", SDLNet_GetError());
     exit(EXIT_FAILURE);
   }
 
@@ -95,7 +95,7 @@ int LAN_DetectServers(void)
   udpsock = SDLNet_UDP_Open(0);
   if(!udpsock)
   {
-    printf("SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
     return 0;
   }
   
@@ -110,17 +110,19 @@ int LAN_DetectServers(void)
 
   //Here we will need to send every few seconds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
-  printf("\nAutodetecting TuxMath servers:");
-  fflush(stdout);
+  DEBUGMSG(debug_lan, "\nAutodetecting TuxMath servers:");
+  fflush(stderr);
+
+
   while(!done)
   {
-    printf(".");
-    fflush(stdout);
+    DEBUGMSG(debug_lan, ".");
+    fflush(stderr);
 
     sent = SDLNet_UDP_Send(udpsock, -1, out);
     if(!sent)
     {
-      printf("broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
+      DEBUGMSG(debug_lan, "broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
       SDLNet_ResolveHost(&bcast_ip, "localhost", DEFAULT_PORT);
       out->address.host = bcast_ip.host;
     }
@@ -135,6 +137,12 @@ int LAN_DetectServers(void)
         num_servers = add_to_server_list(in);
       }
     }
+
+    DEBUGCODE(debug_lan)
+    {
+      print_server_list();
+    }
+
     //Make sure we always scan at least one but not more than five seconds:
     Throttle(1000, &timer); //repeat once per second
     seconds++;
@@ -145,7 +153,7 @@ int LAN_DetectServers(void)
 
   }
 
-  printf("done\n\n");
+  DEBUGMSG(debug_lan, "done\n\n");
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 
@@ -180,7 +188,7 @@ int LAN_AutoSetup(int i)
   /* Open a connection based on autodetection routine: */
   if (!(sd = SDLNet_TCP_Open(&servers[i].ip)))
   {
-    fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     return 0;
   }
 
@@ -188,13 +196,13 @@ int LAN_AutoSetup(int i)
   set = SDLNet_AllocSocketSet(1);
   if(!set)
   {
-    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     return 0;
   }
 
   if(SDLNet_TCP_AddSocket(set, sd) == -1)
   {
-    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
     // perhaps you need to restart the set and make it bigger...
   }
 
@@ -295,7 +303,7 @@ int check_messages(char buf[NET_BUF_LEN])
   numready = SDLNet_CheckSockets(set, 0);
   if(numready == -1)
   {
-    printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
     return -1;
@@ -308,7 +316,7 @@ int check_messages(char buf[NET_BUF_LEN])
       buf[0] = '\0';
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) <= 0)
       {
-        fprintf(stderr, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
+        DEBUGMSG(debug_lan, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
         return -1;
       }
       return 0;
@@ -328,7 +336,7 @@ int LAN_NextMsg(char* buf)
   /* Make sure we have place to put message: */
   if(buf == NULL)
   {
-    printf("get_next_msg() passed NULL buffer\n");
+    DEBUGMSG(debug_lan, "get_next_msg() passed NULL buffer\n");
     return -1;
   }
   
@@ -336,7 +344,7 @@ int LAN_NextMsg(char* buf)
   numready = SDLNet_CheckSockets(set, 0);
   if(numready == -1)
   {
-    printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
     return -1;
@@ -355,7 +363,7 @@ int LAN_NextMsg(char* buf)
       }
       else
       {
-        fprintf(stderr, "In get_next_msg(), SDLNet_TCP_Recv() failed!\n");
+        DEBUGMSG(debug_lan, "In get_next_msg(), SDLNet_TCP_Recv() failed!\n");
         SDLNet_TCP_DelSocket(set, sd);
         if(sd != NULL)
           SDLNet_TCP_Close(sd);
@@ -365,7 +373,7 @@ int LAN_NextMsg(char* buf)
     }
     else
     {
-      fprintf(stderr, "In get_next_msg(), socket set reported active but no activity found\n");
+      DEBUGMSG(debug_lan, "In get_next_msg(), socket set reported active but no activity found\n");
       SDLNet_TCP_DelSocket(set, sd);
       if(sd != NULL)
         SDLNet_TCP_Close(sd);
@@ -467,7 +475,7 @@ int say_to_server(char* statement)
                   statement);
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
-    fprintf(stderr, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
     return 0;
   }
 
@@ -513,10 +521,10 @@ int add_to_server_list(UDPpacket* pkt)
 void print_server_list(void)
 {
   int i = 0;
-  printf("Detected servers:\n");
+  fprintf(stderr, "Detected servers:\n");
   while(i < MAX_SERVERS && servers[i].ip.host != 0)
   {
-    printf("SERVER NUMBER %d: %s\n", i, servers[i].name);
+    fprintf(stderr, "SERVER NUMBER %d: %s\n", i, servers[i].name);
     i++;
   }
 }

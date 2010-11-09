@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-10-27 14:05-0500\n"
+"POT-Creation-Date: 2010-11-07 16:31-0600\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -441,67 +441,67 @@ msgstr ""
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:458
+#: src/menu.c:459
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:488
+#: src/menu.c:489
 msgid "Server Name:"
 msgstr ""
 
-#: src/menu.c:490
+#: src/menu.c:491
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:505 src/menu.c:552
+#: src/menu.c:515 src/menu.c:562
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:506 src/menu.c:553
+#: src/menu.c:516 src/menu.c:563
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:522
+#: src/menu.c:532
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:523 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr ""
 
-#: src/menu.c:525
+#: src/menu.c:535
 #, fuzzy
 msgid "Click when ready"
 msgstr "(BrÃºigh cnaipe ar bith nuair atÃ¡ tÃº rÃ©idh)"
 
-#: src/menu.c:527
+#: src/menu.c:537
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:540
+#: src/menu.c:550
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:541
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:547
+#: src/menu.c:557
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:548
+#: src/menu.c:558
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr ""

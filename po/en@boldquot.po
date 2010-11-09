@@ -29,10 +29,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: tuxmath 1.8.0\n"
+"Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-10-27 14:05-0500\n"
-"PO-Revision-Date: 2010-10-27 14:05-0500\n"
+"POT-Creation-Date: 2010-11-07 16:31-0600\n"
+"PO-Revision-Date: 2010-11-07 16:31-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -494,66 +494,66 @@ msgstr "Enter Server Name:"
 msgid "(limit 50 characters)"
 msgstr "(limit 50 characters)"
 
-#: src/menu.c:458
+#: src/menu.c:459
 msgid "Click or press key to select server lesson file"
 msgstr "Click or press key to select server lesson file"
 
-#: src/menu.c:488
+#: src/menu.c:489
 msgid "Server Name:"
 msgstr "Server Name:"
 
-#: src/menu.c:490
+#: src/menu.c:491
 msgid "Selected Lesson:"
 msgstr "Selected Lesson:"
 
-#: src/menu.c:505 src/menu.c:552
+#: src/menu.c:515 src/menu.c:562
 msgid "Sorry, this version built without network support"
 msgstr "Sorry, this version built without network support"
 
-#: src/menu.c:506 src/menu.c:553
+#: src/menu.c:516 src/menu.c:563
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Sorry, this version built without network support.\n"
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Detecting servers"
 msgstr "Detecting servers"
 
-#: src/menu.c:516
+#: src/menu.c:526
 msgid "Please wait"
 msgstr "Please wait"
 
-#: src/menu.c:522
+#: src/menu.c:532
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Connected to server: %s"
 
-#: src/menu.c:523 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Enter your name:"
 
-#: src/menu.c:525
+#: src/menu.c:535
 msgid "Click when ready"
 msgstr "Click when ready"
 
-#: src/menu.c:527
+#: src/menu.c:537
 msgid "Waiting for other players"
 msgstr "Waiting for other players"
 
-#: src/menu.c:540
+#: src/menu.c:550
 msgid "Sorry, game already in progress."
 msgstr "Sorry, game already in progress."
 
-#: src/menu.c:541
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Sorry, game already in progress.\n"
 
-#: src/menu.c:547
+#: src/menu.c:557
 msgid "Sorry, no server could be found."
 msgstr "Sorry, no server could be found."
 
-#: src/menu.c:548
+#: src/menu.c:558
 #, c-format
 msgid "Sorry, no server could be found.\n"
 msgstr "Sorry, no server could be found.\n"

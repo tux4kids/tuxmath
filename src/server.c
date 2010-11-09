@@ -66,7 +66,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int setup_server(void);
 void cleanup_server(void);
 void server_handle_command_args(int argc, char* argv[]);
-void* run_server_local_args(void);
+void* run_server_local_args(void* data);
 
 // top level functions in main loop:
 void check_UDP(void);
@@ -113,7 +113,7 @@ void game_msg_next_question(void);
 
 /*  ------------   "Local globals" for server.c: ----------  */
 char server_name[NAME_SIZE];  /* User-visible name for server selection  */
-int need_server_name = 1;
+int need_server_name = 1;     /* Always request server name */
 UDPsocket udpsock = NULL;     /* Used to listen for client's server autodetection           */
 TCPsocket server_sock = NULL; /* Socket descriptor for server to accept client TCP sockets. */
 IPaddress ip;
@@ -124,10 +124,13 @@ static int game_in_progress = 0;
 static int server_running = 0;
 static int quit = 0;
 MC_FlashCard flash;
+
+// These are to allow the server to be invoked in a thread
+// with the same syntax as used to launch it as a standalone
+// program:
 int local_argc;
 char* local_argv[MAX_ARGS];
-
-
+char local_argv_storage[MAX_ARGS][256];
 
 
 
@@ -159,12 +162,15 @@ int RunServer(int argc, char* argv[])
     return EXIT_FAILURE;
   }
 
+  DEBUGMSG(debug_lan, "In RunServer(), server_name is: %s\n", server_name);
+
   server_running = 1;
 
   printf("Waiting for clients to connect:\n>");
   fflush(stdout);
 
- /*    ------------- Main server loop:  ------------------   */
+  
+  /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
     /* Respond to any clients pinging us to find the server: */
@@ -189,6 +195,8 @@ int RunServer(int argc, char* argv[])
   return EXIT_SUCCESS;
 }
 
+
+
 /* If we can't use pthreads, we use this function   */
 /* to launch the server as a separate program using */
 /* the C library system() call                      */
@@ -209,11 +217,14 @@ int RunServer_prog(int argc, char* argv[])
   /* Add '&' to make it non-blocking: */
   strncat(buf, "&", 256);
 
+  DEBUGMSG(debug_lan, "RunServer_prog() - launching standalone " 
+		  "tuxmathserver program with \"system(%s)\"\n", buf);
+
   return system(buf);
 }
 
 /*
- * This is the prefered way to run the tuxmath server,
+ * RunServer_pthread() is the preferred way to run the tuxmath server,
  */
 
 #ifdef HAVE_PTHREAD_H
@@ -222,13 +233,29 @@ int RunServer_pthread(int argc, char* argv[])
   pthread_t server_thread;
   int i;
 
+  DEBUGMSG(debug_lan, "In RunServer_pthread():\n"
+		  "argc = %d\n"
+		  "argv[0] = %s\n"
+		  "argv[1] = %s\n"
+		  "argv[2] = %s\n",
+		  argc, argv[0], argv[1], argv[2]);
+
   /* We can only pass a single arg into the new thread, but it shares  */
   /* the same address space, so we save argc and argv locally instead: */
   local_argc = argc;
   for(i = 0; i < argc && i < MAX_ARGS; i++)
   {
-    local_argv[i] = argv[i];
+    strncpy(local_argv_storage[i], argv[i], 256);	  
+    local_argv[i] = local_argv_storage[i];
   }
+
+  DEBUGMSG(debug_lan, "In RunServer_pthread():\n"
+		  "local_argc = %d\n"
+		  "local_argv[0] = %s\n"
+		  "local_argv[1] = %s\n"
+		  "local_argv[2] = %s\n",
+		  local_argc, local_argv[0], local_argv[1], local_argv[2]);
+
 
   if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
   {
@@ -238,8 +265,14 @@ int RunServer_pthread(int argc, char* argv[])
   return 0;
 }
 
-void* run_server_local_args(void)
+void* run_server_local_args(void* data)
 {
+  DEBUGMSG(debug_lan, "In run_server_local_args():\n"
+		  "local_argc = %d\n"
+		  "local_argv[0] = %s\n"
+		  "local_argv[1] = %s\n"
+		  "local_argv[2] = %s\n",
+		  local_argc, local_argv[0], local_argv[1], local_argv[2]);
 
   RunServer(local_argc, local_argv);
   pthread_exit(NULL);
@@ -339,8 +372,12 @@ int setup_server(void)
     /* HACK - until we figure out how to do nonblocking stdin
      * in Windows, we just stick in the default name:
      */
-      strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
+    DEBUGMSG(debug_lan, "fnctl() not available, initially using default server name\n");
+    DEBUGMSG(debug_lan, "Default name is: DEFAULT_SERVER_NAME\n");
+    strncpy(server_name, DEFAULT_SERVER_NAME, NAME_SIZE);
 #endif
+      
+    DEBUGMSG(debug_lan, "server_name has been set to: %s\n", server_name);
   }
 
 
@@ -428,7 +465,7 @@ void server_handle_command_args(int argc, char* argv[])
              strcmp(argv[i], "-c") == 0)
     {
       printf(
-        "\n\"Tux, of Math Command Server\" version " VERSION ", Copyright (C) 2009,\n"
+        "\n\"Tux, of Math Command Server\" version " VERSION ", Copyright (C) 2009, 2010\n"
         "David Bruce, Akash Gangil, and the Tux4Kids Project.\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"

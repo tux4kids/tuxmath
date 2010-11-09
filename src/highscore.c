@@ -325,7 +325,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
 
-  DEBUGMSG(debug_highscore, "Enter HighScoreNameEntry()\n" );
+  DEBUGMSG(debug_highscore, "Enter NameEntry()\n" );
 
   DrawTitleScreen();
 
@@ -503,6 +503,9 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
 
   /* Now copy name into location pointed to by arg: */ 
   strncpy(pl_name, UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
+
+  DEBUGMSG(debug_highscore, "Leaving NameEntry(), final string is: %s\n",
+                   pl_name);
 }
 
 
@@ -1100,7 +1103,7 @@ int detecting_servers(const char* heading, const char* sub)
     servers_found = LAN_DetectServers();
     if(servers_found < 1)
     {
-      printf("No server could be found - returning.\n");
+      DEBUGMSG(debug_lan, "No server could be found - returning.\n");
       /* Turn off SDL Unicode lookup (because has some overhead): */
       SDL_EnableUNICODE(SDL_DISABLE);
       T4K_FreeSprite(Tux);
@@ -1108,11 +1111,11 @@ int detecting_servers(const char* heading, const char* sub)
     }
     else if(servers_found  == 1)  //One server - connect without player intervention
     {
-      printf("Single server found - connecting automatically...");
+      DEBUGMSG(debug_lan, "Single server found - connecting automatically...");
 
       if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
       {
-        printf("LAN_AutoSetup() failed - returning.\n");
+        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
         /* Turn off SDL Unicode lookup (because has some overhead): */
         SDL_EnableUNICODE(SDL_DISABLE);
         T4K_FreeSprite(Tux);
@@ -1122,7 +1125,7 @@ int detecting_servers(const char* heading, const char* sub)
       
       finished = 1;
       break;  //So we quit scanning as soon as we connect
-      printf("connected\n");
+      DEBUGMSG(debug_lan, "connected\n");
     } else if (servers_found  > 1)
     {
       //TODO display list of servers for player to choose from:

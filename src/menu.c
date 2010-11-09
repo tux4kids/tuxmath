@@ -444,7 +444,8 @@ int run_lan_host(void)
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
   argv[0] = "tuxmathserver";
   argv[1] = "--name";
-  snprintf(buf, 256, "\"%s\"", server_name);
+  //snprintf(buf, 256, "\"%s\"", server_name);
+  snprintf(buf, 256, "%s", server_name);
   argv[2] = buf;
 
 
@@ -490,12 +491,21 @@ int run_lan_host(void)
               _("Selected Lesson:"),
               lesson_list_titles[chosen_lesson]);
 
+  DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
+	   "argv[0] = %s\n"
+	   "argv[1] = %s\n"
+	   "argv[2] = %s\n", argv[0], argv[1], argv[2]);
   RunServer_pthread(3, argv);
 
 
   /* Without pthreads, we just launch standalone server, which for now only     */
   /* supports the hardcoded default settings.                                   */
 #else
+
+  DEBUGMSG(debug_lan, "About to launch RunServer_prog() with:\n"
+	   "argv[0] = %s\n"
+	   "argv[1] = %s\n"
+	   "argv[2] = %s\n", argv[0], argv[1], argv[2]);
   RunServer_prog(3, argv);
 #endif
 
