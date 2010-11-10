@@ -430,7 +430,7 @@ int run_lan_host(void)
 #ifdef HAVE_LIBSDL_NET
   char buf[256];
   char server_name[150];
-  char* argv[3];
+  char* serv_argv[3];
   int chosen_lesson = -1;
 
   /* For now, only allow one server instance: */
@@ -442,11 +442,11 @@ int run_lan_host(void)
   }
 
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
-  argv[0] = "tuxmathserver";
-  argv[1] = "--name";
+  serv_argv[0] = "tuxmathserver";
+  serv_argv[1] = "--name";
   //snprintf(buf, 256, "\"%s\"", server_name);
   snprintf(buf, 256, "%s", server_name);
-  argv[2] = buf;
+  serv_argv[2] = buf;
 
 
   /* If we have POSIX threads available (Linux), we launch server in a thread within  */
@@ -492,10 +492,10 @@ int run_lan_host(void)
               lesson_list_titles[chosen_lesson]);
 
   DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
-	   "argv[0] = %s\n"
-	   "argv[1] = %s\n"
-	   "argv[2] = %s\n", argv[0], argv[1], argv[2]);
-  RunServer_pthread(3, argv);
+	   "serv_argv[0] = %s\n"
+	   "serv_argv[1] = %s\n"
+	   "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+  RunServer_pthread(3, serv_argv);
 
 
   /* Without pthreads, we just launch standalone server, which for now only     */
@@ -503,10 +503,10 @@ int run_lan_host(void)
 #else
 
   DEBUGMSG(debug_lan, "About to launch RunServer_prog() with:\n"
-	   "argv[0] = %s\n"
-	   "argv[1] = %s\n"
-	   "argv[2] = %s\n", argv[0], argv[1], argv[2]);
-  RunServer_prog(3, argv);
+	   "serv_argv[0] = %s\n"
+	   "serv_argv[1] = %s\n"
+	   "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+  RunServer_prog(3, serv_argv);
 #endif
 
 /* No SDL_net, so show explanatory message: */
