@@ -110,6 +110,8 @@ SDL_Surface* current_bkg()
 }
 
 /* FIXME this function assumes the background is properly scaled */
+/* Also, it only sets the image for the current resolution, not  */
+/* the "other" one.                                              */
 void set_current_bkg(SDL_Surface* new_bkg)
 {
   if(screen->flags & SDL_FULLSCREEN)

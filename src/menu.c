@@ -449,7 +449,7 @@ int run_lan_host(void)
   serv_argv[2] = buf;
 
 
-  /* If we have POSIX threads available (Linux), we launch server in a thread within  */
+  /* If we have POSIX threads available, we launch server in a thread within          */
   /* our same process. The server will use the currently selected Mathcards settings, */
   /* so we can let the user select the lesson for the server to use.                  */
 
@@ -555,7 +555,7 @@ int run_lan_join(void)
   {
     ShowMessage(DEFAULT_MENU_FONT_SIZE, 
                 NULL, _("Sorry, no server could be found."), NULL, NULL);
-    printf(_("Sorry, no server could be found.\n"));
+    printf(_("Sorry, could not connect to server.\n"));
   }
 #else
   ShowMessage(DEFAULT_MENU_FONT_SIZE, 
@@ -697,7 +697,7 @@ int RunLoginMenu(void)
 void RunMainMenu(void)
 {
   int i;
-  char* lltitle = "Lesson List"; //lesson list menu title
+//  char* lltitle = "Lesson List"; //lesson list menu title
   char* icon_names[num_lessons];
   
   DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");

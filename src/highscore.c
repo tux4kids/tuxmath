@@ -1101,6 +1101,7 @@ int detecting_servers(const char* heading, const char* sub)
 
     //Scan local network to find running server:
     servers_found = LAN_DetectServers();
+
     if(servers_found < 1)
     {
       DEBUGMSG(debug_lan, "No server could be found - returning.\n");
@@ -1128,7 +1129,20 @@ int detecting_servers(const char* heading, const char* sub)
       DEBUGMSG(debug_lan, "connected\n");
     } else if (servers_found  > 1)
     {
-      //TODO display list of servers for player to choose from:
+      //TODO display list of servers for player to choose from.  For now we
+      //just show message saying only one server allowed.
+      char buf[256];
+      snprintf(buf, 256, _("TuxMath detected %d running servers."), servers_found);
+
+      ShowMessage(DEFAULT_MENU_FONT_SIZE, 
+                  buf, 
+		  _("This version only allows one server on the network."),
+		  _("Try again when only one server is running."),
+		  NULL);
+
+      SDL_EnableUNICODE(SDL_DISABLE);
+      T4K_FreeSprite(Tux);
+      return 0;
     }
 
 

@@ -1,4 +1,4 @@
-16 Apr 2007
+10 November 2010
 
 About The Images and Sounds Used In This Game
 ---------------------------------------------
@@ -7,6 +7,10 @@ The graphics and sounds used in tuxmath are all either licensed
 under terms that allow free redistribution, or are in the public
 domain, as summarized below to the best of my (David Bruce's) 
 knowledge. Licenses are GPL except as otherwise noted:
+
+During 2009 and 2010, nearly all of the png images in TuxMath were converted to SVG
+equivalents by members of the Tux4Kids project using free software tools.  The derived
+images are licensed under the same terms as the originals.
 
 data/images/backgrounds/*:
   0.jpg - 3.jpg: Created by Sam Hart or Bill Kendrick with the GIMP.

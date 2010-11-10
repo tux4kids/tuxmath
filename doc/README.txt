@@ -2,9 +2,9 @@
 the Linux Penguin
 -----------------------------------------------------------------
 
-March 12, 2010
+November 12, 2010
 
-For Tuxmath-1.8.0
+For Tuxmath-1.9.0
 
 Objective --------- 
 
@@ -147,23 +147,20 @@ Note that while network play is functional, it needs more testing, and
 some aspects have not yet been addressed:
 
 - If the server program is running on more than one computer on the
-  local network, TuxMath will get confused and not connect.
+  local network, TuxMath will get confused and not connect. A message
+  will be displayed telling you to stop all the servers except one,
+  and try again.
 
 - While a network game is in progress, do not play a non-network game
   on the same computer - this will also confuse TuxMath (because
-TuxMath is not yet "thread-safe").  However, it is fine to participate
-in the network game from that computer.  Also, don't quit the program
-with the server while others are still playing a network game!  This
-problem actually only occurs when we use threading to run the server,
-meaning everything except Windows. On Windows, the server runs as a
-separate program. The drawback is that you may leave the server
-running by accident, so you have to go into Task Manager to kill it
-when you don't want it running anymore.
+  TuxMath is not yet "thread-safe").  However, it is fine to participate
+  in the network game from that computer.  Also, don't quit the program
+  with the server while others are still playing a network game!
 
-- It is also possible to run the server as a separate program on all
+- It is also possible to run the server as a separate program on Linux
   platforms by typing "tuxmathserver" at the command line.  This
-avoids any issues with thread-safety, but for now the server will only
-use the default question list settings if launched this way.
+  avoids any issues with thread-safety, but for now the server will only
+  use the default question list settings if launched this way.
 
 
 Play With Friends:
