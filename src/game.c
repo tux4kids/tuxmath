@@ -2445,8 +2445,7 @@ void game_draw_misc(void)
   sprintf(str, "%d", wave);
   draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
 
-  /* In LAN mode, we show the server-generated score: */
-  if (Opts_KeepScore() && !Opts_LanMode())
+  if (Opts_KeepScore())
   {
     /* Draw "score" label: */
     dest.x = (screen->w - ((images[IMG_NUMBERS]->w / 10) * 7) -
@@ -2457,8 +2456,14 @@ void game_draw_misc(void)
     dest.h = images[IMG_SCORE]->h;
     SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
   
+    /* In LAN mode, we show the server-generated score: */
+    //FIXME we need to figure out which player we are
+//    if(Opts_LanMode())
+//      sprintf(str, "%.6d", lan_pscores[0]);
+//    else
+      sprintf(str, "%.6d", score);
+
     /* Draw score numbers: */
-    sprintf(str, "%.6d", score);
     draw_numbers(str,
                  screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
                  0);
@@ -2468,19 +2473,21 @@ void game_draw_misc(void)
   if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )
   {
     int i;
+    SDL_Surface* score = NULL;
+    SDL_Rect loc;
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
-      SDL_Surface* score;
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
       score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
       if(score)
       {
-        SDL_Rect loc;
         loc.w = screen->w - score->w;
         loc.h = score->h * (i + 2);
         loc.x = 0;
         loc.y = 0;
         SDL_BlitSurface(score, NULL, screen, &loc);
+	SDL_FreeSurface(score);
+	score = NULL;
       }
     }
   }
@@ -2489,22 +2496,25 @@ void game_draw_misc(void)
   if (Opts_LanMode())
   {
     int entries = 0;
+    SDL_Surface* score = NULL;
+    SDL_Rect loc;
+
     for (i = 0; i < MAX_CLIENTS; i++)
     {
       if(lan_pscores[i] >= 0)
       {
-        SDL_Surface* score;
         snprintf(str, 64, "%s: %d", lan_pnames[i], lan_pscores[i]);
         score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
         if(score)
         {
-          SDL_Rect loc;
           loc.w = score->w;
           loc.h = score->h;
           loc.x = 0;
           loc.y = score->h * (entries + 2);
           SDL_BlitSurface(score, NULL, screen, &loc);
           entries++;
+	  SDL_FreeSurface(score);
+	  score = NULL;
         }
       }
     }

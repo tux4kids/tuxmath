@@ -607,7 +607,7 @@ void update_clients(void)
 
   /* Now we can communicate with the client using client[i].sock socket */
   /* serv_sock will remain opened waiting other connections */
-    
+  /* TODO send CONNECTION_ESTABLISHED message with socket index         */  
 
   /* Get the remote address */
   DEBUGCODE(debug_lan)
