@@ -131,6 +131,7 @@ static int key_pressed;
 static int game_over_other;
 static int game_over_won;
 static int network_error;
+static int my_socket_index;
 /* Feedback-related variables */
 static int city_expl_height;
 static int comet_feedback_number;
@@ -226,6 +227,7 @@ void game_handle_net_messages(void);
 void game_handle_net_msg(char* buf);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
+int socket_index_recvd(char* buf);
 int connected_players_recvd(char* buf);
 int update_score_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
@@ -435,6 +437,11 @@ void game_handle_net_msg(char* buf)
       game_over_other = 1;
   }
 
+  else if(strncmp(buf, "SOCKET_INDEX", strlen("SOCKET_INDEX")) == 0)
+  {
+    my_socket_index = socket_index_recvd(buf);
+  }
+  
   else if(strncmp(buf, "CONNECTED_PLAYERS", strlen("CONNECTED_PLAYERS")) == 0)
   {
     connected_players_recvd(buf);
@@ -541,6 +548,29 @@ int remove_quest_recvd(char* buf)
   return 1;
 }
 
+int socket_index_recvd(char* buf)
+{
+  int index = -1;
+  char* p = NULL;
+
+  if(!buf)
+    return -1;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return -1;
+  p++;
+  index = atoi(p);
+
+  DEBUGMSG(debug_game, "socket_index_recvd(): index = %d\n", index);
+
+  if(index < 0 || index > MAX_CLIENTS)
+  {
+    fprintf(stderr, "socket_index_recvd() - illegal value: %d\n", index);
+    return -1;
+  }
+  return index; 
+}
 
 /* Here we have been told how many LAN players are still    */
 /* in the game. This should always be followed by a series  */
@@ -726,6 +756,7 @@ int game_initialize(void)
   gameover_counter = -1;
   user_quit_received = 0;
   network_error = 0;
+  my_socket_index = -1;
 
   /* Make sure we don't try to call network code if we built without  */
   /* network support:                                                 */
@@ -765,6 +796,8 @@ int game_initialize(void)
       lan_pnames[i][0] = '\0';
       lan_pscores[i] = -1;
     }
+    /* Ask server to send a message telling which socket is ours: */
+    LAN_RequestIndex();
   }
 
   /* Allocate memory */
@@ -2457,16 +2490,17 @@ void game_draw_misc(void)
     SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
   
     /* In LAN mode, we show the server-generated score: */
-    //FIXME we need to figure out which player we are
-//    if(Opts_LanMode())
-//      sprintf(str, "%.6d", lan_pscores[0]);
-//    else
+    if(Opts_LanMode())
+    { 
+      DEBUGMSG(debug_lan, "my_socket_index = %d lan_pscores[my_socket_index] = %d\n",
+		    my_socket_index, lan_pscores[my_socket_index]);
+      sprintf(str, "%.6d", lan_pscores[my_socket_index]);
+    }
+    else
       sprintf(str, "%.6d", score);
 
     /* Draw score numbers: */
-    draw_numbers(str,
-                 screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
-                 0);
+    draw_numbers(str, screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5, 0);
   }
 
   /* Draw other players' scores (turn-based single machine multiplayer) */

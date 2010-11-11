@@ -82,6 +82,7 @@ void check_game_clients(void);
 int handle_client_game_msg(int i, char* buffer);
 void handle_client_nongame_msg(int i, char* buffer);
 int msg_set_name(int i, char* buf);
+void msg_socket_index(int i, char* buf);
 void start_game(void);
 void game_msg_correct_answer(int i, char* inbuf);
 void game_msg_wrong_answer(int i, char* inbuf);
@@ -606,8 +607,10 @@ void update_clients(void)
   num_clients = sockets_used;
 
   /* Now we can communicate with the client using client[i].sock socket */
-  /* serv_sock will remain opened waiting other connections */
-  /* TODO send CONNECTION_ESTABLISHED message with socket index         */  
+  /* serv_sock will remain opened waiting other connections.            */
+  /* Send message informing client of successful connection:            */
+  msg_socket_index(slot, buffer);
+  
 
   /* Get the remote address */
   DEBUGCODE(debug_lan)
@@ -826,6 +829,10 @@ void handle_client_nongame_msg(int i, char* buffer)
   {
     msg_set_name(i, buffer);
   }
+  else if(strncmp(buffer, "REQUEST_INDEX", strlen("REQUEST_INDEX")) == 0)
+  {
+    msg_socket_index(i, buffer);
+  }                            
 }
 
 
@@ -836,6 +843,10 @@ int handle_client_game_msg(int i , char* buffer)
   if(strncmp(buffer, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
   {
     game_msg_correct_answer(i, buffer);
+  }                            
+  else if(strncmp(buffer, "REQUEST_INDEX", strlen("REQUEST_INDEX")) == 0)
+  {
+    msg_socket_index(i, buffer);
   }                            
 
   else if(strncmp(buffer, "WRONG_ANSWER",strlen("WRONG_ANSWER")) == 0) /* Player answered the question incorrectly , meaning comet crashed into a city or an igloo */
@@ -885,6 +896,12 @@ int msg_set_name(int i, char* buf)
     return 0;
 }
 
+
+void msg_socket_index(int i, char* buf)
+{  
+  snprintf(buf, NET_BUF_LEN, "%s\t%d", "SOCKET_INDEX", i);
+  SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN);
+}
 
 
 void game_msg_correct_answer(int i, char* inbuf)

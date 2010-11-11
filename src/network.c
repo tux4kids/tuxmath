@@ -434,6 +434,14 @@ int LAN_StartGame(void)
 }
 
 
+int LAN_RequestIndex(void)
+{
+  char buffer[NET_BUF_LEN];
+  snprintf(buffer, NET_BUF_LEN, "%s", "REQUEST_INDEX");
+  return say_to_server(buffer);
+}
+
+
 int LAN_AnsweredCorrectly(int id, float t)
 {
   char buffer[NET_BUF_LEN];
