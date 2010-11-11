@@ -130,7 +130,7 @@ static int extra_life_earned;
 static int key_pressed;
 static int game_over_other;
 static int game_over_won;
-
+static int network_error;
 /* Feedback-related variables */
 static int city_expl_height;
 static int comet_feedback_number;
@@ -190,6 +190,7 @@ static void game_draw_background(void);
 static void game_draw_comets(void);
 static void game_draw_cities(void);
 static void game_draw_misc(void);
+static void game_handle_game_over(int game_status);
 
 static int check_extra_life(void);
 static int check_exit_conditions(void);
@@ -337,134 +338,8 @@ int game(void)
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
 
+  game_handle_game_over(game_status);
 
-  DEBUGCODE(debug_game) print_exit_conditions();
-
-  /* TODO: need better "victory" screen with animation, special music, etc., */
-  /* as well as options to review missed questions, play again using missed  */
-  /* questions as question list, etc.                                        */
-  switch (game_status)
-  {
-    SDL_Rect dest_message;
-    SDL_Rect dest_tux;
-    SDL_Event event;
-
-    case GAME_OVER_WON:
-    {
-      int looping = 1;
-      int tux_offset = 0;
-      int tux_step = -3;
-
-      /* set up victory message: */
-      dest_message.x = (screen->w - images[IMG_GAMEOVER_WON]->w) / 2;
-      dest_message.y = (screen->h - images[IMG_GAMEOVER_WON]->h) / 2;
-      dest_message.w = images[IMG_GAMEOVER_WON]->w;
-      dest_message.h = images[IMG_GAMEOVER_WON]->h;
-
-      do
-      {
-        frame++;
-
-        while (SDL_PollEvent(&event) > 0)
-        {
-          if  (event.type == SDL_QUIT
-            || event.type == SDL_KEYDOWN
-            || event.type == SDL_MOUSEBUTTONDOWN)
-          {
-            looping = 0;
-          }
-        }
-
-        if (current_bkgd() )
-          SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
-
-        /* draw flashing victory message: */
-        if (((frame / 2) % 4))
-        {
-          SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
-        }
-
-        /* draw dancing tux: */
-        draw_console_image(IMG_CONSOLE_BASH);
-        /* walk tux back and forth */
-        tux_offset += tux_step;
-        /* select tux_egypt images according to which way tux is headed: */
-        if (tux_step < 0)
-          tux_img = IMG_TUX_EGYPT1 + ((frame / 3) % 2);
-        else
-          tux_img = IMG_TUX_EGYPT3 + ((frame / 3) % 2);
-
-        /* turn around if we go far enough: */
-        if (tux_offset >= (screen->w)/2
-         || tux_offset <= -(screen->w)/2)
-        {
-          tux_step = -tux_step;
-        }
-
-        dest_tux.x = ((screen->w - images[tux_img]->w) / 2) + tux_offset;
-        dest_tux.y = (screen->h - images[tux_img]->h);
-        dest_tux.w = images[tux_img]->w;
-        dest_tux.h = images[tux_img]->h;
-
-        SDL_BlitSurface(images[tux_img], NULL, screen, &dest_tux);
-
-/*        draw_console_image(tux_img);*/
-
-        SDL_Flip(screen);
-        Throttle(MS_PER_FRAME, &timer);
-      }
-      while (looping);
-      break;
-    }
-
-    case GAME_OVER_ERROR:
-      DEBUGMSG(debug_game, "game() exiting with error:\n");
-    case GAME_OVER_LOST:
-    case GAME_OVER_OTHER:
-    {
-      int looping = 1;
-
-      /* set up GAMEOVER message: */
-      dest_message.x = (screen->w - images[IMG_GAMEOVER]->w) / 2;
-      dest_message.y = (screen->h - images[IMG_GAMEOVER]->h) / 2;
-      dest_message.w = images[IMG_GAMEOVER]->w;
-      dest_message.h = images[IMG_GAMEOVER]->h;
-
-      do
-      {
-        frame++;
-
-        while (SDL_PollEvent(&event) > 0)
-        {
-          if  (event.type == SDL_QUIT
-            || event.type == SDL_KEYDOWN
-            || event.type == SDL_MOUSEBUTTONDOWN)
-          {
-            looping = 0;
-          }
-        }
-
-        SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
-        SDL_Flip(screen);
-
-        Throttle(MS_PER_FRAME, &timer);
-      }
-      while (looping);
-
-      break;
-    }
-
-    case GAME_OVER_ESCAPE:
-    {
-      break;
-    }
-
-    case GAME_OVER_WINDOW_CLOSE:
-    {
-      break;
-    }
-
-  }
 
   game_cleanup();
 
@@ -850,6 +725,7 @@ int game_initialize(void)
   game_status = GAME_IN_PROGRESS;
   gameover_counter = -1;
   user_quit_received = 0;
+  network_error = 0;
 
   /* Make sure we don't try to call network code if we built without  */
   /* network support:                                                 */
@@ -2508,6 +2384,9 @@ void game_draw_cities(void)
 
 
 }
+
+
+
 void game_draw_misc(void)
 {
   int i;
@@ -2642,6 +2521,8 @@ void game_draw_misc(void)
   }
 }
 
+
+
 int check_exit_conditions(void)
 {
 //  int x;
@@ -2671,8 +2552,12 @@ int check_exit_conditions(void)
   /* determine if game won (i.e. all questions in mission answered correctly): */
   if(Opts_LanMode())
   {
+    //Different victory display for LAN multiplayer game:
     if(game_over_won)
-       return GAME_OVER_WON;
+       return GAME_OVER_LAN_WON;
+    //Also report if we lost the server:
+    if(network_error)
+       return GAME_OVER_LAN_DISCONNECT;
   }
   else
   {
@@ -2776,6 +2661,134 @@ void print_exit_conditions(void)
     }
   }
 }
+
+
+void game_handle_game_over(int game_status)
+{
+  Uint32 timer = 0;
+
+  DEBUGCODE(debug_game) print_exit_conditions();
+
+  /* TODO: need better "victory" screen with animation, special music, etc., */
+  /* as well as options to review missed questions, play again using missed  */
+  /* questions as question list, etc.                                        */
+  switch (game_status)
+  {
+    SDL_Rect dest_message;
+    SDL_Rect dest_tux;
+    SDL_Event event;
+
+    case GAME_OVER_WON:
+    {
+      int looping = 1;
+      int tux_offset = 0;
+      int tux_step = -3;
+
+      /* set up victory message: */
+      dest_message.x = (screen->w - images[IMG_GAMEOVER_WON]->w) / 2;
+      dest_message.y = (screen->h - images[IMG_GAMEOVER_WON]->h) / 2;
+      dest_message.w = images[IMG_GAMEOVER_WON]->w;
+      dest_message.h = images[IMG_GAMEOVER_WON]->h;
+
+      do
+      {
+        frame++;
+
+        while (SDL_PollEvent(&event) > 0)
+        {
+          if  (event.type == SDL_QUIT
+            || event.type == SDL_KEYDOWN
+            || event.type == SDL_MOUSEBUTTONDOWN)
+          {
+            looping = 0;
+          }
+        }
+
+        if (current_bkgd() )
+          SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
+
+        /* draw flashing victory message: */
+        if (((frame / 2) % 4))
+        {
+          SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
+        }
+
+        /* draw dancing tux: */
+        draw_console_image(IMG_CONSOLE_BASH);
+        /* walk tux back and forth */
+        tux_offset += tux_step;
+        /* select tux_egypt images according to which way tux is headed: */
+        if (tux_step < 0)
+          tux_img = IMG_TUX_EGYPT1 + ((frame / 3) % 2);
+        else
+          tux_img = IMG_TUX_EGYPT3 + ((frame / 3) % 2);
+
+        /* turn around if we go far enough: */
+        if (tux_offset >= (screen->w)/2
+         || tux_offset <= -(screen->w)/2)
+        {
+          tux_step = -tux_step;
+        }
+
+        dest_tux.x = ((screen->w - images[tux_img]->w) / 2) + tux_offset;
+        dest_tux.y = (screen->h - images[tux_img]->h);
+        dest_tux.w = images[tux_img]->w;
+        dest_tux.h = images[tux_img]->h;
+
+        SDL_BlitSurface(images[tux_img], NULL, screen, &dest_tux);
+
+        /* draw_console_image(tux_img);*/
+
+        SDL_Flip(screen);
+        Throttle(MS_PER_FRAME, &timer);
+      }
+      while (looping);
+      break;
+    }
+
+    case GAME_OVER_ERROR:
+      DEBUGMSG(debug_game, "game() exiting with error:\n");
+    case GAME_OVER_LOST:
+    case GAME_OVER_OTHER:
+    {
+      int looping = 1;
+
+      /* set up GAMEOVER message: */
+      dest_message.x = (screen->w - images[IMG_GAMEOVER]->w) / 2;
+      dest_message.y = (screen->h - images[IMG_GAMEOVER]->h) / 2;
+      dest_message.w = images[IMG_GAMEOVER]->w;
+      dest_message.h = images[IMG_GAMEOVER]->h;
+
+      do
+      {
+        frame++;
+
+        while (SDL_PollEvent(&event) > 0)
+        {
+          if  (event.type == SDL_QUIT
+            || event.type == SDL_KEYDOWN
+            || event.type == SDL_MOUSEBUTTONDOWN)
+          {
+            looping = 0;
+          }
+        }
+
+        SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
+        SDL_Flip(screen);
+
+        Throttle(MS_PER_FRAME, &timer);
+      }
+      while (looping);
+
+      break;
+    }
+
+    case GAME_OVER_ESCAPE:
+    case GAME_OVER_WINDOW_CLOSE:
+      break;
+  }
+}
+
 
 
 /* Reset stuff for the next level! */
