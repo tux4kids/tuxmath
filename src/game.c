@@ -2509,10 +2509,22 @@ void game_draw_misc(void)
     int i;
     SDL_Surface* score = NULL;
     SDL_Rect loc;
+
+    //Adjust font size for resolution:
+    int win_x, win_y, full_x, full_y;
+    int fontsize = DEFAULT_MENU_FONT_SIZE;
+    float scale;
+    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+    if(Opts_GetGlobalOpt(FULLSCREEN))
+      scale = (float)full_y/(float)win_y;
+    else
+      scale = 1;
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+      score = T4K_BlackOutline(str, fontsize, &white);
       if(score)
       {
         loc.w = screen->w - score->w;
@@ -2533,12 +2545,26 @@ void game_draw_misc(void)
     SDL_Surface* score = NULL;
     SDL_Rect loc;
 
+    //Adjust font size for resolution:
+    int win_x, win_y, full_x, full_y;
+    int fontsize = DEFAULT_MENU_FONT_SIZE;
+    float scale;
+    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+    if(Opts_GetGlobalOpt(FULLSCREEN))
+      scale = (float)full_y/(float)win_y;
+    else
+      scale = 1;
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+
     for (i = 0; i < MAX_CLIENTS; i++)
     {
       if(lan_pscores[i] >= 0)
       {
         snprintf(str, 64, "%s: %d", lan_pnames[i], lan_pscores[i]);
-        score = T4K_BlackOutline(str, DEFAULT_MENU_FONT_SIZE, &white);
+	if(i == my_socket_index)
+          score = T4K_BlackOutline(str, fontsize, &yellow);
+	else
+          score = T4K_BlackOutline(str, fontsize, &white);
         if(score)
         {
           loc.w = score->w;
