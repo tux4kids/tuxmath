@@ -151,7 +151,7 @@ static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
 static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
 static SDL_Surface* current_bkgd()
-  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
+  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; } //too clever for my brain to process
 
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
@@ -252,9 +252,12 @@ int game(void)
   DEBUGMSG(debug_game, "Entering game():\n");
 
   //see if the option matches the actual screen
+  //FIXME figure out how this is happening so we don't need this workaround
   if (Opts_GetGlobalOpt(FULLSCREEN) == !(screen->flags & SDL_FULLSCREEN) )
   {
-    ;//T4K_SwitchScreenMode();  //Huh??
+    fprintf(stderr, "\nWarning: Opts_GetGlobalOpt(FULLSCREEN) does not match"
+		    " actual screen resolution! Resetting selected option.\n");
+    Opts_SetGlobalOpt(FULLSCREEN, !Opts_GetGlobalOpt(FULLSCREEN));
   }
 
 
@@ -283,17 +286,17 @@ int game(void)
     tux_pressing = 0;
 
     if (laser.alive > 0)
-    {
       laser.alive--;
-    }
 
-    /* Check for server messages if we are playing a LAN game: */
 #ifdef HAVE_LIBSDL_NET
+    /* Check for server messages if we are playing a LAN game: */
     if(Opts_LanMode())
-    {
       game_handle_net_messages();
-    }
+    /* Ask server to send our index if somehow we don't yet have it: */
+    if(my_socket_index < 0)
+      LAN_RequestIndex();
 #endif
+
     /* Most code now in smaller functions: */
 
     // 1. Check for user input
@@ -417,7 +420,7 @@ void game_handle_net_msg(char* buf)
   else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
   {
     if(!add_quest_recvd(buf))
-      printf("ADD_QUESTION received but could not add question\n");
+      fprintf(stderr, "ADD_QUESTION received but could not add question\n");
     else  
       DEBUGCODE(debug_game) print_current_quests();
   }
@@ -425,7 +428,7 @@ void game_handle_net_msg(char* buf)
   else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
   {
     if(!remove_quest_recvd(buf)) //remove the question with id in buf
-      printf("REMOVE_QUESTION received but could not remove question\n");
+      fprintf(stderr, "REMOVE_QUESTION received but could not remove question\n");
     else 
       DEBUGCODE(debug_game) print_current_quests();
   }
@@ -473,20 +476,20 @@ int add_quest_recvd(char* buf)
   // if fc = NULL means no empty slot for question
   if(!buf)
   {
-    printf("NULL buf\n");
+    fprintf(stderr, "NULL buf\n");
     return 0;
   }
 
   if(!fc)
   {
-    printf("NULL fc - no empty slot for question\n");
+    fprintf(stderr, "NULL fc - no empty slot for question\n");
     return 0;
   }
 
   /* function call to parse buffer and receive question */
   if(!Make_Flashcard(buf, fc))
   {
-    printf("Unable to parse buffer into FlashCard\n");
+    fprintf(stderr, "Unable to parse buffer into FlashCard\n");
     return 0;
   }
 
@@ -705,22 +708,22 @@ int erase_comet_on_screen(comet_type* comet)
 void print_current_quests(void)
 {
   int i;
-  printf("\n------------  Current Questions:  -----------\n");
+  fprintf(stderr, "\n------------  Current Questions:  -----------\n");
   for(i = 0; i < Opts_MaxComets(); i++)
   { 
     if(comets[i].alive == 1)
-     printf("Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
+     fprintf(stderr, "Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
 
   }
-  printf("--------------Question Queue-----------------\n");
+  fprintf(stderr, "--------------Question Queue-----------------\n");
   for(i = 0; i < QUEST_QUEUE_SIZE; i++)
   {
     if(quest_queue[i].question_id != -1)
-      printf("quest_queue %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
+      fprintf(stderr, "quest_queue %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
     else
-      printf("quest_queue %d:\tEmpty\n", i);
+      fprintf(stderr, "quest_queue %d:\tEmpty\n", i);
   }
-  printf("------------------------------------------\n");
+  fprintf(stderr, "------------------------------------------\n");
 }
 
 
@@ -798,6 +801,9 @@ int game_initialize(void)
     }
     /* Ask server to send a message telling which socket is ours: */
     LAN_RequestIndex();
+    /* Disable pausing and feedback mode: */
+    Opts_SetAllowPause(0);
+    Opts_SetUseFeedback(0);
   }
 
   /* Allocate memory */
@@ -808,28 +814,28 @@ int game_initialize(void)
   comets = (comet_type *) malloc(MAX_MAX_COMETS * sizeof(comet_type));
   if (comets == NULL)
   {
-    printf("Allocation of comets failed");
+    fprintf(stderr, "Allocation of comets failed");
     return 0;
   }
 
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL)
   {
-    printf("Allocation of cities failed");
+    fprintf(stderr, "Allocation of cities failed");
     return 0;
   }
 
   penguins = (penguin_type *) malloc(NUM_CITIES * sizeof(penguin_type));
   if (penguins == NULL)
   {
-    printf("Allocation of penguins failed");
+    fprintf(stderr, "Allocation of penguins failed");
     return 0;
   }
 
   steam = (steam_type *) malloc(NUM_CITIES * sizeof(steam_type));
   if (steam == NULL)
   {
-    printf("Allocation of steam failed");
+    fprintf(stderr, "Allocation of steam failed");
     return 0;
   }
 
@@ -1480,7 +1486,7 @@ void game_handle_answer(void)
       comet_feedback_height += comets[lowest].y/city_expl_height;
 
 #ifdef FEEDBACK_DEBUG
-      printf("Added comet feedback with height %g\n",comets[lowest].y/city_expl_height);
+      fprintf(stderr, "Added comet feedback with height %g\n",comets[lowest].y/city_expl_height);
 #endif
     }
 
@@ -1661,7 +1667,7 @@ void game_handle_comets(void)
           comet_feedback_height += 1.0 + Opts_CityExplHandicap();
 
 #ifdef FEEDBACK_DEBUG
-           printf("Added comet feedback with height %g\n",
+           fprintf(stderr, "Added comet feedback with height %g\n",
                   1.0 + Opts_CityExplHandicap());
 #endif
          }
@@ -2521,6 +2527,9 @@ void game_draw_misc(void)
       scale = 1;
     fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
 
+    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
       snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
@@ -2555,6 +2564,10 @@ void game_draw_misc(void)
     else
       scale = 1;
     fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+
+    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+
 
     for (i = 0; i < MAX_CLIENTS; i++)
     {

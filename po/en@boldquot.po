@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-09 09:21-0600\n"
-"PO-Revision-Date: 2010-11-09 09:21-0600\n"
+"POT-Creation-Date: 2010-11-12 14:35-0600\n"
+"PO-Revision-Date: 2010-11-12 14:35-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@boldquot\n"
@@ -298,107 +298,107 @@ msgstr ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 
-#: src/game.c:1104
+#: src/game.c:1019
 msgid "Welcome to TuxMath!"
 msgstr "Welcome to TuxMath!"
 
-#: src/game.c:1121
+#: src/game.c:1036
 msgid "Your mission is to save your"
 msgstr "Your mission is to save your"
 
-#: src/game.c:1122
+#: src/game.c:1037
 msgid "penguins' igloos from the"
 msgstr "penguins' igloos from the"
 
-#: src/game.c:1123
+#: src/game.c:1038
 msgid "falling comets."
 msgstr "falling comets."
 
-#: src/game.c:1142
+#: src/game.c:1057
 msgid "Stop a comet by typing"
 msgstr "Stop a comet by typing"
 
-#: src/game.c:1143
+#: src/game.c:1058
 msgid "the answer to the math problem"
 msgstr "the answer to the math problem"
 
-#: src/game.c:1144
+#: src/game.c:1059
 msgid "and hitting 'space' or 'enter'."
 msgstr "and hitting ‘[1mspace[0m’ or 'enter'."
 
-#: src/game.c:1145
+#: src/game.c:1060
 msgid "Try it now!"
 msgstr "Try it now!"
 
-#: src/game.c:1153
+#: src/game.c:1068
 msgid "Good shot!"
 msgstr "Good shot!"
 
-#: src/game.c:1163
+#: src/game.c:1078
 msgid "If an igloo gets hit by a comet,"
 msgstr "If an igloo gets hit by a comet,"
 
-#: src/game.c:1164
+#: src/game.c:1079
 msgid "it melts. But don't worry: the"
 msgstr "it melts. But don't worry: the"
 
-#: src/game.c:1165
+#: src/game.c:1080
 msgid "penguin is OK!"
 msgstr "penguin is OK!"
 
-#: src/game.c:1166
+#: src/game.c:1081
 msgid "Just watch what happens:"
 msgstr "Just watch what happens:"
 
-#: src/game.c:1167
+#: src/game.c:1082
 msgid "(Press a key to start)"
 msgstr "(Press a key to start)"
 
-#: src/game.c:1180
+#: src/game.c:1095
 msgid "Notice the answer"
 msgstr "Notice the answer"
 
-#: src/game.c:1190
+#: src/game.c:1105
 msgid "If it gets hit again, the"
 msgstr "If it gets hit again, the"
 
-#: src/game.c:1191
+#: src/game.c:1106
 msgid "penguin leaves."
 msgstr "penguin leaves."
 
-#: src/game.c:1192
+#: src/game.c:1107
 msgid "(Press a key when ready)"
 msgstr "(Press a key when ready)"
 
-#: src/game.c:1215
+#: src/game.c:1130
 msgid "You can fix the igloos"
 msgstr "You can fix the igloos"
 
-#: src/game.c:1216
+#: src/game.c:1131
 msgid "by stopping bonus comets."
 msgstr "by stopping bonus comets."
 
-#: src/game.c:1227
+#: src/game.c:1142
 msgid "Zap it now!"
 msgstr "Zap it now!"
 
-#: src/game.c:1233
+#: src/game.c:1148
 msgid "Great job!"
 msgstr "Great job!"
 
-#: src/game.c:1251
+#: src/game.c:1166
 msgid "Quit at any time by pressing"
 msgstr "Quit at any time by pressing"
 
-#: src/game.c:1252
+#: src/game.c:1167
 msgid "'Esc' or clicking the 'X'"
 msgstr "‘[1mEsc[0m’ or clicking the ‘[1mX[0m’"
 
-#: src/game.c:1253
+#: src/game.c:1168
 msgid "in the upper right corner."
 msgstr "in the upper right corner."
 
-#: src/game.c:1254
+#: src/game.c:1169
 msgid "Do it now, and then play!"
 msgstr "Do it now, and then play!"
 
@@ -441,6 +441,19 @@ msgstr "You Are In The Hall of Fame!"
 #: src/highscore.c:301
 msgid "Enter Your Name:"
 msgstr "Enter Your Name:"
+
+#: src/highscore.c:1135
+#, c-format
+msgid "TuxMath detected %d running servers."
+msgstr "TuxMath detected %d running servers."
+
+#: src/highscore.c:1139
+msgid "This version only allows one server on the network."
+msgstr "This version only allows one server on the network."
+
+#: src/highscore.c:1140
+msgid "Try again when only one server is running."
+msgstr "Try again when only one server is running."
 
 #: src/menu.c:212
 msgid "TuxMath is free and open-source!"
@@ -555,8 +568,8 @@ msgstr "Sorry, no server could be found."
 
 #: src/menu.c:558
 #, c-format
-msgid "Sorry, no server could be found.\n"
-msgstr "Sorry, no server could be found.\n"
+msgid "Sorry, could not connect to server.\n"
+msgstr "Sorry, could not connect to server.\n"
 
 #: src/multiplayer.c:203
 #, c-format
@@ -579,19 +592,19 @@ msgstr "How many rounds will you play?"
 msgid "Enter a number"
 msgstr "Enter a number"
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:510
 msgid "Work In Progress!"
 msgstr "Work In Progress!"
 
-#: src/titlescreen.c:509
+#: src/titlescreen.c:511
 msgid "This feature is not ready yet"
 msgstr "This feature is not ready yet"
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:512
 msgid "Discuss the future of TuxMath at"
 msgstr "Discuss the future of TuxMath at"
 
-#: src/titlescreen.c:511
+#: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 

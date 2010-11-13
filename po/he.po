@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-09 09:21-0600\n"
+"POT-Creation-Date: 2010-11-12 14:35-0600\n"
 "PO-Revision-Date: 2010-09-14 12:53+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Gezer (Hebrew)\n"
@@ -270,107 +270,107 @@ msgid ""
 "single shot!"
 msgstr "כדי לפצל אותו.  השמידו שברים שלא ניתן לפשט אותם עוד במכה אחת!"
 
-#: src/game.c:1104
+#: src/game.c:1019
 msgid "Welcome to TuxMath!"
 msgstr "ברוכים הבאים לטאקסמטיקה!"
 
-#: src/game.c:1121
+#: src/game.c:1036
 msgid "Your mission is to save your"
 msgstr "מטרתכם היא להציל את"
 
-#: src/game.c:1122
+#: src/game.c:1037
 msgid "penguins' igloos from the"
 msgstr "הפינגווינים שלכם מפני"
 
-#: src/game.c:1123
+#: src/game.c:1038
 msgid "falling comets."
 msgstr "הכוכבים הנופלים."
 
-#: src/game.c:1142
+#: src/game.c:1057
 msgid "Stop a comet by typing"
 msgstr "תוכלו להדוף כוכב על ידי"
 
-#: src/game.c:1143
+#: src/game.c:1058
 msgid "the answer to the math problem"
 msgstr "הקלדת התשובה לבעיה המתמטית"
 
-#: src/game.c:1144
+#: src/game.c:1059
 msgid "and hitting 'space' or 'enter'."
 msgstr "ולחיצה על 'רווח' או 'Enter'."
 
-#: src/game.c:1145
+#: src/game.c:1060
 msgid "Try it now!"
 msgstr "נסו זאת כעת!"
 
-#: src/game.c:1153
+#: src/game.c:1068
 msgid "Good shot!"
 msgstr "פגיעה יפה!"
 
-#: src/game.c:1163
+#: src/game.c:1078
 msgid "If an igloo gets hit by a comet,"
 msgstr "אם פוגע כוכב באיגלו,"
 
-#: src/game.c:1164
+#: src/game.c:1079
 msgid "it melts. But don't worry: the"
 msgstr "האיגלו נמס. אך אל דאגה:"
 
-#: src/game.c:1165
+#: src/game.c:1080
 msgid "penguin is OK!"
 msgstr "הפינגווינים בסדר גמור!"
 
-#: src/game.c:1166
+#: src/game.c:1081
 msgid "Just watch what happens:"
 msgstr "פשוט שימו לב מה קורה:"
 
-#: src/game.c:1167
+#: src/game.c:1082
 msgid "(Press a key to start)"
 msgstr "(לחצו על מקש להתחלה)"
 
-#: src/game.c:1180
+#: src/game.c:1095
 msgid "Notice the answer"
 msgstr "שימו לב לתשובה"
 
-#: src/game.c:1190
+#: src/game.c:1105
 msgid "If it gets hit again, the"
 msgstr "אם האיגלו נפגע שוב,"
 
-#: src/game.c:1191
+#: src/game.c:1106
 msgid "penguin leaves."
 msgstr "הפינגווין עוזב."
 
-#: src/game.c:1192
+#: src/game.c:1107
 msgid "(Press a key when ready)"
 msgstr "(לחצו על מקש כשאתם מוכנים)"
 
-#: src/game.c:1215
+#: src/game.c:1130
 msgid "You can fix the igloos"
 msgstr "תוכלו לתקן את האיגלואים"
 
-#: src/game.c:1216
+#: src/game.c:1131
 msgid "by stopping bonus comets."
 msgstr "על ידי הדיפת כוכבי בונוס."
 
-#: src/game.c:1227
+#: src/game.c:1142
 msgid "Zap it now!"
 msgstr "תירו בו כעת!"
 
-#: src/game.c:1233
+#: src/game.c:1148
 msgid "Great job!"
 msgstr "עבודה יפה!"
 
-#: src/game.c:1251
+#: src/game.c:1166
 msgid "Quit at any time by pressing"
 msgstr "תוכל לצאת בכל עת על ידי"
 
-#: src/game.c:1252
+#: src/game.c:1167
 msgid "'Esc' or clicking the 'X'"
 msgstr "לחיצה על 'Esc' או על ה־'X'"
 
-#: src/game.c:1253
+#: src/game.c:1168
 msgid "in the upper right corner."
 msgstr "בפינה השמאלית העליונה."
 
-#: src/game.c:1254
+#: src/game.c:1169
 msgid "Do it now, and then play!"
 msgstr "עשו זאת כעת, שחקו לאחר מכן!"
 
@@ -413,6 +413,19 @@ msgstr "הגעתם להיכל התהילה!"
 #: src/highscore.c:301
 msgid "Enter Your Name:"
 msgstr "הקלידו את שמכם:"
+
+#: src/highscore.c:1135
+#, fuzzy, c-format
+msgid "TuxMath detected %d running servers."
+msgstr "השרתים מזוהים"
+
+#: src/highscore.c:1139
+msgid "This version only allows one server on the network."
+msgstr ""
+
+#: src/highscore.c:1140
+msgid "Try again when only one server is running."
+msgstr ""
 
 #: src/menu.c:212
 msgid "TuxMath is free and open-source!"
@@ -528,8 +541,8 @@ msgstr "לא ניתן למצוא אף שרת, עמך הסליחה."
 
 #: src/menu.c:558
 #, c-format
-msgid "Sorry, no server could be found.\n"
-msgstr "לא ניתן למצוא אף שרת, עמך הסליחה.\n"
+msgid "Sorry, could not connect to server.\n"
+msgstr ""
 
 #: src/multiplayer.c:203
 #, c-format
@@ -552,19 +565,19 @@ msgstr "כמה סיבובים יהיו במשחק?"
 msgid "Enter a number"
 msgstr "הזינו מספר"
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:510
 msgid "Work In Progress!"
 msgstr "עבודה בתהליכים!"
 
-#: src/titlescreen.c:509
+#: src/titlescreen.c:511
 msgid "This feature is not ready yet"
 msgstr "תכונה זו אינה מוכנה עדיין"
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:512
 msgid "Discuss the future of TuxMath at"
 msgstr "דונו בעתידה של טאקסמתיקה בקבוצת הדיון"
 
-#: src/titlescreen.c:511
+#: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
@@ -875,6 +888,9 @@ msgstr "הפעלת שרת"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "איפוס הנקודות"
+
+#~ msgid "Sorry, no server could be found.\n"
+#~ msgstr "לא ניתן למצוא אף שרת, עמך הסליחה.\n"
 
 #~ msgid "suggesting improvements, or adding code."
 #~ msgstr "הצעת שיפורים או הוספת קוד."

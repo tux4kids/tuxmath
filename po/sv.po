@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-09 09:21-0600\n"
+"POT-Creation-Date: 2010-11-12 14:35-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
@@ -251,107 +251,107 @@ msgid ""
 msgstr ""
 "för att dela det. Förstör bråken som inte kan förenklas mer i ett enda skott!"
 
-#: src/game.c:1104
+#: src/game.c:1019
 msgid "Welcome to TuxMath!"
 msgstr "Välkommen till TuxMath!"
 
-#: src/game.c:1121
+#: src/game.c:1036
 msgid "Your mission is to save your"
 msgstr "Ditt uppdrag är att rädda dina"
 
-#: src/game.c:1122
+#: src/game.c:1037
 msgid "penguins' igloos from the"
 msgstr "pingviners igloos från"
 
-#: src/game.c:1123
+#: src/game.c:1038
 msgid "falling comets."
 msgstr "fallande kometer."
 
-#: src/game.c:1142
+#: src/game.c:1057
 msgid "Stop a comet by typing"
 msgstr "Stoppa en komet genom att"
 
-#: src/game.c:1143
+#: src/game.c:1058
 msgid "the answer to the math problem"
 msgstr "skriva in svaret på matteproblemet,"
 
-#: src/game.c:1144
+#: src/game.c:1059
 msgid "and hitting 'space' or 'enter'."
 msgstr "trycka på \"blanksteg\" eller \"Enter\"."
 
-#: src/game.c:1145
+#: src/game.c:1060
 msgid "Try it now!"
 msgstr "Prova det nu!"
 
-#: src/game.c:1153
+#: src/game.c:1068
 msgid "Good shot!"
 msgstr "Bra skjutet!"
 
-#: src/game.c:1163
+#: src/game.c:1078
 msgid "If an igloo gets hit by a comet,"
 msgstr "Om en igloo träffas av en komet,"
 
-#: src/game.c:1164
+#: src/game.c:1079
 msgid "it melts. But don't worry: the"
 msgstr "så smälter den. Men var lugn,"
 
-#: src/game.c:1165
+#: src/game.c:1080
 msgid "penguin is OK!"
 msgstr "pingvinen är OK!"
 
-#: src/game.c:1166
+#: src/game.c:1081
 msgid "Just watch what happens:"
 msgstr "Se vad som händer:"
 
-#: src/game.c:1167
+#: src/game.c:1082
 msgid "(Press a key to start)"
 msgstr "(Tryck på en tangent)"
 
-#: src/game.c:1180
+#: src/game.c:1095
 msgid "Notice the answer"
 msgstr "Observera svaret"
 
-#: src/game.c:1190
+#: src/game.c:1105
 msgid "If it gets hit again, the"
 msgstr "Om den blir träffad igen,"
 
-#: src/game.c:1191
+#: src/game.c:1106
 msgid "penguin leaves."
 msgstr "kommer pingvinen att gå."
 
-#: src/game.c:1192
+#: src/game.c:1107
 msgid "(Press a key when ready)"
 msgstr "(Tryck på en tangent)"
 
-#: src/game.c:1215
+#: src/game.c:1130
 msgid "You can fix the igloos"
 msgstr "Du kan bygga nya igloos"
 
-#: src/game.c:1216
+#: src/game.c:1131
 msgid "by stopping bonus comets."
 msgstr "genom att stoppa bonuskometer."
 
-#: src/game.c:1227
+#: src/game.c:1142
 msgid "Zap it now!"
 msgstr "Skjut den nu!"
 
-#: src/game.c:1233
+#: src/game.c:1148
 msgid "Great job!"
 msgstr "Bra jobbat!"
 
-#: src/game.c:1251
+#: src/game.c:1166
 msgid "Quit at any time by pressing"
 msgstr "Avsluta när du vill genom att"
 
-#: src/game.c:1252
+#: src/game.c:1167
 msgid "'Esc' or clicking the 'X'"
 msgstr "trycka \"Esc\" eller klicka på \"X\""
 
-#: src/game.c:1253
+#: src/game.c:1168
 msgid "in the upper right corner."
 msgstr "i övre högra hörnet."
 
-#: src/game.c:1254
+#: src/game.c:1169
 msgid "Do it now, and then play!"
 msgstr "Gör det nu och spela sedan!"
 
@@ -394,6 +394,19 @@ msgstr "Du kom med på poänglistan!"
 #: src/highscore.c:301
 msgid "Enter Your Name:"
 msgstr "Skriv ditt namn:"
+
+#: src/highscore.c:1135
+#, c-format
+msgid "TuxMath detected %d running servers."
+msgstr ""
+
+#: src/highscore.c:1139
+msgid "This version only allows one server on the network."
+msgstr ""
+
+#: src/highscore.c:1140
+msgid "Try again when only one server is running."
+msgstr ""
 
 #: src/menu.c:212
 msgid "TuxMath is free and open-source!"
@@ -514,7 +527,7 @@ msgstr ""
 
 #: src/menu.c:558
 #, c-format
-msgid "Sorry, no server could be found.\n"
+msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
 #: src/multiplayer.c:203
@@ -539,19 +552,19 @@ msgstr ""
 msgid "Enter a number"
 msgstr "Skriv ditt namn:"
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:510
 msgid "Work In Progress!"
 msgstr "Arbete pågår!"
 
-#: src/titlescreen.c:509
+#: src/titlescreen.c:511
 msgid "This feature is not ready yet"
 msgstr "Denna funktion är inte färdig ännu"
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:512
 msgid "Discuss the future of TuxMath at"
 msgstr "Diskutera framtiden för TuxMath på"
 
-#: src/titlescreen.c:511
+#: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 

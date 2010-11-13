@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-09 09:21-0600\n"
+"POT-Creation-Date: 2010-11-12 14:35-0600\n"
 "PO-Revision-Date: 2008-03-03 21:35+0000\n"
 "Last-Translator: Laudeci Oliveira <laudeci@gmail.com>\n"
 "Language-Team: Brazilian Portuguese <pt_BR@li.org>\n"
@@ -252,107 +252,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:1104
+#: src/game.c:1019
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1121
+#: src/game.c:1036
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1122
+#: src/game.c:1037
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1123
+#: src/game.c:1038
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1142
+#: src/game.c:1057
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1143
+#: src/game.c:1058
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1144
+#: src/game.c:1059
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1145
+#: src/game.c:1060
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1153
+#: src/game.c:1068
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1163
+#: src/game.c:1078
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1164
+#: src/game.c:1079
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1165
+#: src/game.c:1080
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1166
+#: src/game.c:1081
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1167
+#: src/game.c:1082
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1180
+#: src/game.c:1095
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1190
+#: src/game.c:1105
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1191
+#: src/game.c:1106
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1192
+#: src/game.c:1107
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1215
+#: src/game.c:1130
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1216
+#: src/game.c:1131
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1227
+#: src/game.c:1142
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1233
+#: src/game.c:1148
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1251
+#: src/game.c:1166
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1252
+#: src/game.c:1167
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1253
+#: src/game.c:1168
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1254
+#: src/game.c:1169
 msgid "Do it now, and then play!"
 msgstr ""
 
@@ -394,6 +394,19 @@ msgstr ""
 
 #: src/highscore.c:301
 msgid "Enter Your Name:"
+msgstr ""
+
+#: src/highscore.c:1135
+#, c-format
+msgid "TuxMath detected %d running servers."
+msgstr ""
+
+#: src/highscore.c:1139
+msgid "This version only allows one server on the network."
+msgstr ""
+
+#: src/highscore.c:1140
+msgid "Try again when only one server is running."
 msgstr ""
 
 #: src/menu.c:212
@@ -511,7 +524,7 @@ msgstr ""
 
 #: src/menu.c:558
 #, c-format
-msgid "Sorry, no server could be found.\n"
+msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
 #: src/multiplayer.c:203
@@ -535,19 +548,19 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:510
 msgid "Work In Progress!"
 msgstr "Trabalho em curso"
 
-#: src/titlescreen.c:509
+#: src/titlescreen.c:511
 msgid "This feature is not ready yet"
 msgstr "Esta função ainda não está disponível"
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:512
 msgid "Discuss the future of TuxMath at"
 msgstr "Discutir o futuro do TuxMath em"
 
-#: src/titlescreen.c:511
+#: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
