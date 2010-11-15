@@ -123,6 +123,8 @@ int Opts_Initialize(void)
   global_options->iopts[FULLSCREEN] = DEFAULT_FULLSCREEN;
   global_options->iopts[USE_KEYPAD] = DEFAULT_USE_KEYPAD;
   global_options->iopts[USE_IGLOOS] = DEFAULT_USE_IGLOOS;
+  strncpy(game_options->lesson_title, DEFAULT_LESSON_TITLE,
+          sizeof(game_options->lesson_title));
   strncpy(game_options->current_font_name, DEFAULT_FONT_NAME,
           sizeof(game_options->current_font_name));
   game_options->lan_mode = DEFAULT_LAN_MODE;
@@ -253,6 +255,11 @@ void Opts_SetLanMode(int val)
   game_options->lan_mode = int_to_bool(val);
 }
  
+void Opts_SetLessonTitle(char* title)
+{
+  if (title && title[0] != '\0')
+  strncpy(game_options->lesson_title, title, sizeof(game_options->lesson_title));
+}
 
 void Opts_SetFontName(char* font_name)
 {
@@ -632,6 +639,17 @@ int Opts_LanMode(void)
   return game_options->lan_mode;
 }
  
+
+const char* Opts_LessonTitle(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_LessonTitle(): game_options not valid!\n");
+    return NULL;
+  }
+  return (const char*) game_options->lesson_title;
+}
+
 
 const char* Opts_FontName(void)
 {

@@ -57,6 +57,7 @@ typedef struct global_option_type {
 /* gameplay but not having to do with math questions per se */
 typedef struct game_option_type {
   /* general game options */
+  char lesson_title[LESSON_TITLE_LENGTH];
   char current_font_name[FONT_NAME_LENGTH];
   int lan_mode;
   int use_bkgd;
@@ -130,7 +131,7 @@ unsigned int Opts_MapTextToIndex(const char* text);
 int  Opts_GetGlobalOpt(unsigned int index);
 void Opts_SetGlobalOpt(unsigned int index, int val);
 
-void Opts_SetFontName(char* font_name);
+void Opts_SetLessonTitle(char* title);
 void Opts_SetLanMode(int val);
 void Opts_SetUseBkgd(int val);
 void Opts_SetHelpMode(int val);
@@ -164,6 +165,7 @@ void Opts_SetLastScore(int val);
 void Opts_SetKeepScore(int val);
 
 /* "Get" functions for tuxmath options struct: */
+const char* Opts_LessonTitle(void);
 const char* Opts_FontName(void);
 int Opts_LanMode(void);
 int Opts_UseBkgd(void);

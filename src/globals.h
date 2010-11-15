@@ -123,6 +123,8 @@ extern const int debug_multiplayer;
 #define MAX_MAX_COMETS 100
 #define SCORE_COEFFICIENT 100
 
+#define LESSON_TITLE_LENGTH 256
+#define DEFAULT_LESSON_TITLE "DEFAULT LESSON TITLE"
 #define DEFAULT_FONT_NAME "AndikaDesRevG.ttf"
 #define FONT_NAME_LENGTH 64
 #define DEFAULT_MENU_FONT_SIZE 18

@@ -1030,7 +1030,19 @@ int read_config_file(FILE *fp, int file_type)
   /* make sure we start at beginning: */
   rewind(fp);
 
-  /* read in a line at a time: */
+  /* read in top line (lesson title), removing initial "# "          */ 
+  {
+    char* p;
+    fgets (buf, PATH_MAX, fp);
+    p = buf;
+    while (*p == '#'||isspace(*p))
+      ++p;
+    Opts_SetLessonTitle(p);
+  }
+
+  /* now start over at beginning: */
+  rewind(fp);
+
   while (fgets (buf, PATH_MAX, fp))
   { 
     /* "parameter" and "value" will contain the non-whitespace chars */
