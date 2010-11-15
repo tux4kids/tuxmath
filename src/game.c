@@ -91,6 +91,12 @@ typedef struct comet_type {
   Uint32 time_started;
 } comet_type;
 
+typedef struct lan_player_type {
+  char name[NAME_SIZE];
+  int score;	
+} lan_player_type;
+
+
 /* Local (to game.c) 'globals': */
 
 static char* game_music_filenames[3] = {
@@ -161,8 +167,7 @@ MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
 int remaining_quests = 0;
 static int comet_counter = 0;
 static int lan_players = 0;
-char lan_pnames[MAX_CLIENTS][NAME_SIZE];
-int lan_pscores[MAX_CLIENTS];
+lan_player_type lan_player_info[MAX_CLIENTS];
 /****************************************************************/
 
 typedef struct {
@@ -608,8 +613,9 @@ int connected_players_recvd(char* buf)
   /* following messages.                                          */
   for(i = 0; i < MAX_CLIENTS; i++)
   {
-    lan_pnames[i][0] = '\0';
-    lan_pscores[i] = -1;
+//    lan_pnames[i][0] = '\0';
+    lan_player_info[i].name[0] = '\0';
+    lan_player_info[i].score = -1;
   }
   return n;
 }
@@ -635,11 +641,11 @@ int update_score_recvd(char* buf)
   if(!p)
     return 0;
   p++;
-  strncpy(lan_pnames[i], p, NAME_SIZE);
+  strncpy(lan_player_info[i].name, p, NAME_SIZE);
   //This has most likely copied the score field as well, so replace the
   //tab delimiter with a null to terminate the string:
   {
-    char* p2 = strchr(lan_pnames[i], '\t');
+    char* p2 = strchr(lan_player_info[i].name, '\t');
     if (p2)
       *p2 = '\0';
   }
@@ -647,11 +653,11 @@ int update_score_recvd(char* buf)
   //Now get score:
   p = strchr(p, '\t');
   if(p)
-    lan_pscores[i] = atoi(p);
+    lan_player_info[i].score = atoi(p);
 
   DEBUGMSG(debug_lan, "update_score_recvd() - buf is: %s\n", buf);
   DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n", 
-           i, lan_pnames[i], lan_pscores[i]);
+           i, lan_player_info[i].name, lan_player_info[i].score);
 
   return 1;
 }
@@ -796,8 +802,9 @@ int game_initialize(void)
 
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-      lan_pnames[i][0] = '\0';
-      lan_pscores[i] = -1;
+//      lan_pnames[i][0] = '\0';
+      lan_player_info[i].name[0] = '\0';
+      lan_player_info[i].score = -1;
     }
     /* Ask server to send a message telling which socket is ours: */
     LAN_RequestIndex();
@@ -1641,6 +1648,7 @@ void game_handle_comets(void)
       /* Did it hit a city? */
       if (comets[i].y >= city_expl_height &&
           comets[i].expl == -1)
+      /* Oh no - an igloo or city has been hit!	 */     
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
@@ -1714,7 +1722,7 @@ void game_handle_comets(void)
         comets[i].expl = 0;
       }
 
-      /* Handle comet explosion animation: */
+      /* Handle animation of any comets that are "exploding": */
       if (comets[i].expl >= 0)
       {
         comets[i].expl++;
@@ -2498,9 +2506,9 @@ void game_draw_misc(void)
     /* In LAN mode, we show the server-generated score: */
     if(Opts_LanMode())
     { 
-      DEBUGMSG(debug_lan, "my_socket_index = %d lan_pscores[my_socket_index] = %d\n",
-		    my_socket_index, lan_pscores[my_socket_index]);
-      sprintf(str, "%.6d", lan_pscores[my_socket_index]);
+      DEBUGMSG(debug_lan, "my_socket_index = %d lan_player_info[my_socket_index].score = %d\n",
+		    my_socket_index, lan_player_info[my_socket_index].score);
+      sprintf(str, "%.6d", lan_player_info[my_socket_index].score);
     }
     else
       sprintf(str, "%.6d", score);
@@ -2571,9 +2579,9 @@ void game_draw_misc(void)
 
     for (i = 0; i < MAX_CLIENTS; i++)
     {
-      if(lan_pscores[i] >= 0)
+      if(lan_player_info[i].score >= 0)
       {
-        snprintf(str, 64, "%s: %d", lan_pnames[i], lan_pscores[i]);
+        snprintf(str, 64, "%s: %d", lan_player_info[i].name, lan_player_info[i].score);
 	if(i == my_socket_index)
           score = T4K_BlackOutline(str, fontsize, &yellow);
 	else
@@ -2829,6 +2837,74 @@ void game_handle_game_over(int game_status)
       break;
     }
 
+    case GAME_OVER_LAN_WON:
+    {
+      int looping = 1;
+      int i = 0;
+      int entries = 0;
+      char str[64];
+      SDL_Surface* score = NULL;
+      SDL_Rect loc;
+
+      //Adjust font size for resolution:
+      int win_x, win_y, full_x, full_y;
+      int fontsize = DEFAULT_MENU_FONT_SIZE;
+      float scale;
+      T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+      if(Opts_GetGlobalOpt(FULLSCREEN))
+        scale = (float)full_y/(float)win_y;
+      else
+        scale = 1;
+      fontsize = (int)(2 * DEFAULT_MENU_FONT_SIZE * scale);
+
+      DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+
+
+      if (current_bkgd())
+        SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
+
+      for (i = 0; i < MAX_CLIENTS; i++)
+      {
+        if(lan_player_info[i].score >= 0)
+        {
+          snprintf(str, 64, "%s: %d", lan_player_info[i].name, lan_player_info[i].score);
+	  if(i == my_socket_index)
+            score = T4K_BlackOutline(str, fontsize, &yellow);
+	  else
+            score = T4K_BlackOutline(str, fontsize, &white);
+          if(score)
+          {
+            loc.w = score->w;
+            loc.h = score->h;
+            loc.x = screen->w/2 - score->w/2;
+            loc.y = score->h * (entries + 2);
+            SDL_BlitSurface(score, NULL, screen, &loc);
+            entries++;
+            SDL_FreeSurface(score);
+	    score = NULL;
+          }
+        }
+      }
+
+      SDL_Flip(screen);
+
+      /* Loop until player clicks or presses key: */
+      while(looping)
+      {	      
+        while (SDL_PollEvent(&event) > 0)
+        {
+          if  (event.type == SDL_QUIT
+            || event.type == SDL_KEYDOWN
+            || event.type == SDL_MOUSEBUTTONDOWN)
+          {
+            looping = 0;
+          }
+        }
+        Throttle(MS_PER_FRAME, &timer);
+      }
+      break;
+    }
     case GAME_OVER_ERROR:
       DEBUGMSG(debug_game, "game() exiting with error:\n");
     case GAME_OVER_LOST:
