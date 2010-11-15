@@ -298,10 +298,10 @@ void DisplayHighScores(int level)
 /* multibyte encoding.                                                    */
 void HighScoreNameEntry(char* pl_name)
 {
-  NameEntry(pl_name, _("You Are In The Hall of Fame!"), _("Enter Your Name:"));
+  NameEntry(pl_name, _("You Are In The Hall of Fame!"), _("Enter Your Name:"), NULL);
 }
 
-void NameEntry(char* pl_name, const char* heading, const char* sub)
+void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3)
 {
   char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
 
@@ -351,27 +351,38 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
     T4K_DrawButton(&bg_rect, 10, SEL_RGBA);
   }
 
-  /* Draw heading: */
+  /* Draw headings: */
   {
-    SDL_Surface* s = T4K_BlackOutline(_(heading),
+    SDL_Surface* surf = T4K_BlackOutline(_(s1),
                                   DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
+    if (surf)
     {
-      loc.x = (screen->w/2) - (s->w/2);
+      loc.x = (screen->w/2) - (surf->w/2);
       loc.y = 110;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
+      SDL_BlitSurface(surf, NULL, screen, &loc);
+      SDL_FreeSurface(surf);
     }
 
-    s = T4K_BlackOutline(_(sub),
+    surf = T4K_BlackOutline(_(s2),
                      DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
+    if (surf)
     {
-      loc.x = (screen->w/2) - (s->w/2);
+      loc.x = (screen->w/2) - (surf->w/2);
       loc.y = 140;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
+      SDL_BlitSurface(surf, NULL, screen, &loc);
+      SDL_FreeSurface(surf);
     }
+    
+    surf = T4K_BlackOutline(_(s3),
+                     DEFAULT_MENU_FONT_SIZE, &white);
+    if (surf)
+    {
+      loc.x = (screen->w/2) - (surf->w/2);
+      loc.y = 170;
+      SDL_BlitSurface(surf, NULL, screen, &loc);
+      SDL_FreeSurface(surf);
+    }
+
   }
 
   /* and update: */
@@ -464,7 +475,7 @@ void NameEntry(char* pl_name, const char* heading, const char* sub)
             {
               /* set up loc and blit: */
               loc.x = (screen->w/2) - (s->w/2);
-              loc.y = 200;
+              loc.y = 230;
               SDL_BlitSurface(s, NULL, screen, &loc);
 
               /* Remember where we drew so we can update background next time through:  */

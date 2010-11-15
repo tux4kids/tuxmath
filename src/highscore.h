@@ -33,7 +33,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 void DisplayHighScores(int level);
 void HighScoreNameEntry(char* pl_name);
-void NameEntry(char* pl_name, const char* heading, const char* sub);
+void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3);
 /* FIXME the next three don't have anything to do with high scores */
 /* and don't really belong here:                                   */
 int Standby(const char* heading, const char* sub);

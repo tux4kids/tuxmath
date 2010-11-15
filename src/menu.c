@@ -374,7 +374,7 @@ void run_multiplayer(int mode, int difficulty)
   while (nplayers <= 0 || nplayers > MAX_PLAYERS)
   {
     NameEntry(npstr, _("How many kids are playing?"),
-                     _("(Between 2 and 4 players)"));
+                     _("(Between 2 and 4 players)"), NULL);
     nplayers = atoi(npstr);
   }
 
@@ -441,7 +441,7 @@ int run_lan_host(void)
     return 0;
   }
 
-  NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"));
+  NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"), NULL);
   serv_argv[0] = "tuxmathserver";
   serv_argv[1] = "--name";
   //snprintf(buf, 256, "\"%s\"", server_name);
@@ -527,10 +527,12 @@ int run_lan_join(void)
   {
     int stdby;
     char buf[256];
+    char buf2[256];
     char player_name[HIGH_SCORE_NAME_LENGTH * 3];
 
     snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
-    NameEntry(player_name, buf, _("Enter your name:"));
+    snprintf(buf2, 256, _("%s"), LAN_ConnectedServerLesson());
+    NameEntry(player_name, buf, buf2, _("Enter your name:"));
     LAN_SetName(player_name);
     Ready(_("Click when ready"));
     LAN_StartGame();

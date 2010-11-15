@@ -275,9 +275,9 @@ int initMP()
     if (pnames[i])
     {
       if (i == 0) //First player
-        NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"));
+        NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"), NULL);
       else //subsequent players
-        NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"));
+        NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"), NULL);
     }
     else
     {
@@ -291,7 +291,7 @@ int initMP()
   {
     while (params[ROUNDS] <= 0)
     {
-      NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"));
+      NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"), NULL);
       params[ROUNDS] = atoi(nrstr);
     }
   }

@@ -44,6 +44,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 typedef struct {
     IPaddress ip;            /* 32-bit IPv4 host address */
     char name[NAME_SIZE];
+    char lesson[LESSON_TITLE_LENGTH];
 }ServerEntry;
 
 
@@ -52,6 +53,7 @@ int LAN_DetectServers(void);
 int LAN_AutoSetup(int i);
 char* LAN_ServerName(int i);
 char* LAN_ConnectedServerName(void);
+char* LAN_ConnectedServerLesson(void);
 void print_server_list(void);
 
 //int LAN_Setup(char* host, int port);

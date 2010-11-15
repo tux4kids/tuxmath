@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_LIBSDL_NET
 
+#include "options.h" 
 #include "server.h" 
 #include "transtruct.h"
 #include "mathcards.h"
@@ -518,7 +519,8 @@ void check_UDP(void)
     // with configurable identifying string so user can distinguish 
     // between multiple servers on same network (e.g. "Mrs. Adams' Class");
     out = SDLNet_AllocPacket(NET_BUF_LEN); 
-    snprintf(buf, NET_BUF_LEN, "%s\t%s", "TUXMATH_SERVER", server_name);
+    snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
+             "TUXMATH_SERVER", server_name, Opts_LessonTitle());
     snprintf(out->data, NET_BUF_LEN, "%s", buf);
     out->len = strlen(buf) + 1;
     out->address.host = in->address.host;

@@ -177,6 +177,13 @@ char* LAN_ConnectedServerName(void)
    return servers[connected_server].name;
 }
 
+char* LAN_ConnectedServerLesson(void)
+
+{
+   return servers[connected_server].lesson;
+}
+
+
 //For the simple case where a single server is found, i is 
 //always 0. Otherwise the player has to review the choices
 //via LAN_ServerName(i) to get the index 
@@ -519,6 +526,17 @@ int add_to_server_list(UDPpacket* pkt)
     p++;
     if(p)
       strncpy(servers[i].name, p, NAME_SIZE);
+    // this may have copied the next field as well, so we
+    // find the delimiter and terminate the string there:
+    p = strchr(servers[i].name, '\t');
+    if(p)
+      *p = '\0';
+    // now we go to the second '\t' (note the use of "strrchr()"
+    // rather than "strchr()") to get the lesson name:
+    p = strrchr(pkt->data, '\t');
+    p++;
+    if(p)
+      strncpy(servers[i].lesson, p, LESSON_TITLE_LENGTH);
 
     i++;
   }
