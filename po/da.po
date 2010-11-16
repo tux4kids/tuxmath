@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-12 14:35-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2010-10-18 22:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -271,107 +271,107 @@ msgstr ""
 "for at dele den. Brøker der ikke kan forkortes, kan ødelægges med at enkelt "
 "skud!"
 
-#: src/game.c:1019
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
 
-#: src/game.c:1036
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr "Din mission er at redde dine"
 
-#: src/game.c:1037
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr "pingviners iglooer fra"
 
-#: src/game.c:1038
+#: src/game.c:1068
 msgid "falling comets."
 msgstr "de faldende kometer."
 
-#: src/game.c:1057
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr "Stop en komet ved at skrive"
 
-#: src/game.c:1058
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr "løsningen på det matematiske problem"
 
-#: src/game.c:1059
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr "og trykke Mellemrum eller Enter."
 
-#: src/game.c:1060
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr "Prøv det nu!"
 
-#: src/game.c:1068
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr "Godt skud!"
 
-#: src/game.c:1078
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr "Hvis en igloo rammes af en komet,"
 
-#: src/game.c:1079
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr "smelter den. Men tag det roligt: "
 
-#: src/game.c:1080
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr "Pingvinerne er OK!"
 
-#: src/game.c:1081
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr "Bare se hvad der sker:"
 
-#: src/game.c:1082
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr "(Tryk en tast for at starte)"
 
-#: src/game.c:1095
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr "Bemærk svaret"
 
-#: src/game.c:1105
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr "Hvis den rammes igen, må"
 
-#: src/game.c:1106
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr "pingvinerne flygte."
 
-#: src/game.c:1107
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr "(Tryk en tast når du er klar)"
 
-#: src/game.c:1130
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr "Du kan redde iglooerne"
 
-#: src/game.c:1131
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr "ved at stoppe bonus kometerne."
 
-#: src/game.c:1142
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr "Skyd den nu!"
 
-#: src/game.c:1148
+#: src/game.c:1178
 msgid "Great job!"
 msgstr "Godt arbejdet!"
 
-#: src/game.c:1166
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr "Du kan altid stoppe ved at"
 
-#: src/game.c:1167
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr "trykke 'Esc' eller klikke 'X'"
 
-#: src/game.c:1168
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr "i øverste højre hjørne."
 
-#: src/game.c:1169
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr "Gør det nu, og spil!"
 
@@ -415,16 +415,16 @@ msgstr "Du er i Hall Of Fame!"
 msgid "Enter Your Name:"
 msgstr "Skriv dit navn:"
 
-#: src/highscore.c:1135
+#: src/highscore.c:1146
 #, c-format
 msgid "TuxMath detected %d running servers."
 msgstr ""
 
-#: src/highscore.c:1139
+#: src/highscore.c:1150
 msgid "This version only allows one server on the network."
 msgstr ""
 
-#: src/highscore.c:1140
+#: src/highscore.c:1151
 msgid "Try again when only one server is running."
 msgstr ""
 
@@ -496,11 +496,11 @@ msgstr "Skriv dit navn:"
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:515 src/menu.c:562
+#: src/menu.c:515 src/menu.c:564
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:516 src/menu.c:563
+#: src/menu.c:516 src/menu.c:565
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
@@ -513,38 +513,43 @@ msgstr ""
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:532
+#: src/menu.c:533
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:534
+#, c-format
+msgid "%s"
+msgstr ""
+
+#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Skriv dit navn:"
 
-#: src/menu.c:535
+#: src/menu.c:537
 #, fuzzy
 msgid "Click when ready"
 msgstr "(Tryk en tast når du er klar)"
 
-#: src/menu.c:537
+#: src/menu.c:539
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:550
+#: src/menu.c:552
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:551
+#: src/menu.c:553
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:557
+#: src/menu.c:559
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:558
+#: src/menu.c:560
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-12 14:35-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -278,107 +278,107 @@ msgstr ""
 "para dividirlo. ¡Destruye fracciones que no se pueden simplificar más de un "
 "solo tiro!"
 
-#: src/game.c:1019
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr "¡Bienvenido a TuxMath!"
 
-#: src/game.c:1036
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr "Tu mision es salvar a"
 
-#: src/game.c:1037
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr "los iglúes de tus pingüinos"
 
-#: src/game.c:1038
+#: src/game.c:1068
 msgid "falling comets."
 msgstr "de los cometas que caen."
 
-#: src/game.c:1057
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr "Para parar el cometa"
 
-#: src/game.c:1058
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr "debes escribir la respuesta correcta al problema matemático"
 
-#: src/game.c:1059
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr "y presionar 'espacio' o 'enter'."
 
-#: src/game.c:1060
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr "¡Prueba ahora!"
 
-#: src/game.c:1068
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr "¡Buen tiro!"
 
-#: src/game.c:1078
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr "Si uno de los iglúes es atacado por un cometa,"
 
-#: src/game.c:1079
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr "se derretirá. Pero no te preocupes: "
 
-#: src/game.c:1080
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr "¡el pingüino estará a salvo!"
 
-#: src/game.c:1081
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr "Observa lo que sucede:"
 
-#: src/game.c:1082
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr "(Presiona una tecla para empezar)"
 
-#: src/game.c:1095
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr "Nota la respuesta"
 
-#: src/game.c:1105
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr "Si el iglú es atacado de nuevo,"
 
-#: src/game.c:1106
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr "el pingüino se irá."
 
-#: src/game.c:1107
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr "(Presiona una tecla cuando estés listo)"
 
-#: src/game.c:1130
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr "Tú puedes areglar los iglúes"
 
-#: src/game.c:1131
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr " si logras parar cometas de bono."
 
-#: src/game.c:1142
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr "¡Dispárale ahora!"
 
-#: src/game.c:1148
+#: src/game.c:1178
 msgid "Great job!"
 msgstr "¡Bien hecho!"
 
-#: src/game.c:1166
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr "Puedes parar el juego en cualquier momento"
 
-#: src/game.c:1167
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr "oprimiendo la tecla 'ESC' o haciendo clic en la X "
 
-#: src/game.c:1168
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr "en la esquina derecha de la pantalla."
 
-#: src/game.c:1169
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr "Hazlo ahora y luego juega"
 
@@ -422,16 +422,16 @@ msgstr "¡Estás en el Salón de la Fama!"
 msgid "Enter Your Name:"
 msgstr "Escribe tu nombre:"
 
-#: src/highscore.c:1135
+#: src/highscore.c:1146
 #, c-format
 msgid "TuxMath detected %d running servers."
 msgstr ""
 
-#: src/highscore.c:1139
+#: src/highscore.c:1150
 msgid "This version only allows one server on the network."
 msgstr ""
 
-#: src/highscore.c:1140
+#: src/highscore.c:1151
 msgid "Try again when only one server is running."
 msgstr ""
 
@@ -503,11 +503,11 @@ msgstr "Escribe tu nombre:"
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:515 src/menu.c:562
+#: src/menu.c:515 src/menu.c:564
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:516 src/menu.c:563
+#: src/menu.c:516 src/menu.c:565
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
@@ -520,38 +520,43 @@ msgstr ""
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:532
+#: src/menu.c:533
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:534
+#, c-format
+msgid "%s"
+msgstr ""
+
+#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Escribe tu nombre:"
 
-#: src/menu.c:535
+#: src/menu.c:537
 #, fuzzy
 msgid "Click when ready"
 msgstr "(Presiona una tecla cuando estés listo)"
 
-#: src/menu.c:537
+#: src/menu.c:539
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:550
+#: src/menu.c:552
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:551
+#: src/menu.c:553
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:557
+#: src/menu.c:559
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:558
+#: src/menu.c:560
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr ""

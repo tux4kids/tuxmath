@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-12 14:35-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2010-07-31 16:24+0200\n"
 "Last-Translator: Romana Trubačová <trubacova.romana@gmail.com>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -267,107 +267,107 @@ msgid ""
 msgstr ""
 "a on sa rozštiepi. Zlomky, ktoré sa už nedajú zjednodušiť, znič jednou ranou!"
 
-#: src/game.c:1019
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr "Vitaj v TuxMath!"
 
-#: src/game.c:1036
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr "Tvojou úlohou je zachrániť"
 
-#: src/game.c:1037
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr "iglu v ktorých tučniaky bývajú"
 
-#: src/game.c:1038
+#: src/game.c:1068
 msgid "falling comets."
 msgstr "pred padajúcimi kométami."
 
-#: src/game.c:1057
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr "Kométu zastavíš tak, že napíšeš"
 
-#: src/game.c:1058
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr "výsledok daného príkladu"
 
-#: src/game.c:1059
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr "a stlačíš medzerník alebo Enter."
 
-#: src/game.c:1060
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr "Skús to!"
 
-#: src/game.c:1068
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr "Skvelý zásah!"
 
-#: src/game.c:1078
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr "Ak kométa zasiahne iglu,"
 
-#: src/game.c:1079
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr "roztopí sa. Ale nemaj strach!"
 
-#: src/game.c:1080
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr "Tučniak je v poriadku."
 
-#: src/game.c:1081
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr "Pozri čo sa stane."
 
-#: src/game.c:1082
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr "(Spusti hru stlačením klávesu)"
 
-#: src/game.c:1095
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr "Všimni si výsledok"
 
-#: src/game.c:1105
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr "Ak je zasiahnuté znovu,"
 
-#: src/game.c:1106
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr "tučniak odíde."
 
-#: src/game.c:1107
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr "(Ak si pripravený, stlač kláves)"
 
-#: src/game.c:1130
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr "Iglu môžeš opraviť tak,"
 
-#: src/game.c:1131
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr "že zastavíš bonusové kométy."
 
-#: src/game.c:1142
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr "Len do nich!"
 
-#: src/game.c:1148
+#: src/game.c:1178
 msgid "Great job!"
 msgstr "Výborne!"
 
-#: src/game.c:1166
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr "Hru môžeš kedykoľvek zastaviť stlačením"
 
-#: src/game.c:1167
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr "Esc alebo kliknutím na X"
 
-#: src/game.c:1168
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr "v pravom hornom rohu."
 
-#: src/game.c:1169
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr "Vyskúšaj si to a šup do hry!"
 
@@ -411,16 +411,16 @@ msgstr "Si v Sieni slávy!"
 msgid "Enter Your Name:"
 msgstr "Sem napíš svoje meno:"
 
-#: src/highscore.c:1135
+#: src/highscore.c:1146
 #, fuzzy, c-format
 msgid "TuxMath detected %d running servers."
 msgstr "Hľadám servery..."
 
-#: src/highscore.c:1139
+#: src/highscore.c:1150
 msgid "This version only allows one server on the network."
 msgstr ""
 
-#: src/highscore.c:1140
+#: src/highscore.c:1151
 msgid "Try again when only one server is running."
 msgstr ""
 
@@ -488,11 +488,11 @@ msgstr "Názov serveru:"
 msgid "Selected Lesson:"
 msgstr "Vybraná lekcia:"
 
-#: src/menu.c:515 src/menu.c:562
+#: src/menu.c:515 src/menu.c:564
 msgid "Sorry, this version built without network support"
 msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru."
 
-#: src/menu.c:516 src/menu.c:563
+#: src/menu.c:516 src/menu.c:565
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru.\n"
@@ -505,37 +505,42 @@ msgstr "Hľadám servery..."
 msgid "Please wait"
 msgstr "Čakaj prosím"
 
-#: src/menu.c:532
+#: src/menu.c:533
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Si pripojený ku serveru: %s"
 
-#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:534
+#, c-format
+msgid "%s"
+msgstr ""
+
+#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Zadaj svoje meno:"
 
-#: src/menu.c:535
+#: src/menu.c:537
 msgid "Click when ready"
 msgstr "Ak si pripravený, klikni"
 
-#: src/menu.c:537
+#: src/menu.c:539
 msgid "Waiting for other players"
 msgstr "Čakanie na ďalších hráčov"
 
-#: src/menu.c:550
+#: src/menu.c:552
 msgid "Sorry, game already in progress."
 msgstr "Ospravedlňujeme sa, hra už prebieha."
 
-#: src/menu.c:551
+#: src/menu.c:553
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Ospravedlňujeme sa, hra už prebieha.\n"
 
-#: src/menu.c:557
+#: src/menu.c:559
 msgid "Sorry, no server could be found."
 msgstr "Ospravedlňujeme sa, nenašiel sa žiadny server."
 
-#: src/menu.c:558
+#: src/menu.c:560
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr ""

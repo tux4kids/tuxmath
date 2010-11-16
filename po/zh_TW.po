@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath.pot\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-12 14:35-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2010-07-23 4:00\n"
 "Last-Translator: Tryneeds-Chinese <tryneeds@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -256,107 +256,107 @@ msgid ""
 "single shot!"
 msgstr "來將它分裂。最終不能簡化的分數，就把它擊落吧！"
 
-#: src/game.c:1019
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr "歡迎進入TuxMath"
 
-#: src/game.c:1036
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr "您的任務是拯救"
 
-#: src/game.c:1037
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr "您的企鵝小屋免"
 
-#: src/game.c:1038
+#: src/game.c:1068
 msgid "falling comets."
 msgstr "於被慧星擊中。"
 
-#: src/game.c:1057
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr "阻止慧星的方法"
 
-#: src/game.c:1058
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr "是回答數學問題"
 
-#: src/game.c:1059
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr "並按下【空白鍵】或【Enter 鍵】。"
 
-#: src/game.c:1060
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr "馬上玩玩看"
 
-#: src/game.c:1068
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr "漂亮"
 
-#: src/game.c:1078
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr "如果雪屋被小行星擊中,"
 
-#: src/game.c:1079
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr "它會融化掉！但是不用擔心:"
 
-#: src/game.c:1080
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr "企鵝是安全的。"
 
-#: src/game.c:1081
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr "注意發生什麼:"
 
-#: src/game.c:1082
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr "(按任一按鍵開始)"
 
-#: src/game.c:1095
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr "注意答案"
 
-#: src/game.c:1105
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr "如果它再被命中一次,"
 
-#: src/game.c:1106
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr "企鵝會離開。"
 
-#: src/game.c:1107
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr "(準備好之後按一個按鍵)"
 
-#: src/game.c:1130
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr "擊中加分的慧星，"
 
-#: src/game.c:1131
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr "可以把被損壞的小屋修好。"
 
-#: src/game.c:1142
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr "來吧！"
 
-#: src/game.c:1148
+#: src/game.c:1178
 msgid "Great job!"
 msgstr "了不起"
 
-#: src/game.c:1166
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr "在任何時候，皆可以按下"
 
-#: src/game.c:1167
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr "【Esc】鍵或右上角的叉叉"
 
-#: src/game.c:1168
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr "就可以離開。"
 
-#: src/game.c:1169
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr "現在就開始遊戲吧！"
 
@@ -400,16 +400,16 @@ msgstr "您登上英雄榜了！"
 msgid "Enter Your Name:"
 msgstr "請輸入您的名字："
 
-#: src/highscore.c:1135
+#: src/highscore.c:1146
 #, fuzzy, c-format
 msgid "TuxMath detected %d running servers."
 msgstr "偵測伺服器中"
 
-#: src/highscore.c:1139
+#: src/highscore.c:1150
 msgid "This version only allows one server on the network."
 msgstr ""
 
-#: src/highscore.c:1140
+#: src/highscore.c:1151
 msgid "Try again when only one server is running."
 msgstr ""
 
@@ -477,11 +477,11 @@ msgstr "伺服器名稱："
 msgid "Selected Lesson:"
 msgstr "選取的課程："
 
-#: src/menu.c:515 src/menu.c:562
+#: src/menu.c:515 src/menu.c:564
 msgid "Sorry, this version built without network support"
 msgstr "抱歉，這個版本並未將網路支援編入"
 
-#: src/menu.c:516 src/menu.c:563
+#: src/menu.c:516 src/menu.c:565
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "抱歉，這個版本並未將網路支援編入。\n"
@@ -494,37 +494,42 @@ msgstr "偵測伺服器中"
 msgid "Please wait"
 msgstr "請稍候"
 
-#: src/menu.c:532
+#: src/menu.c:533
 #, c-format
 msgid "Connected to server: %s"
 msgstr "已連線到伺服器：%s"
 
-#: src/menu.c:533 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:534
+#, c-format
+msgid "%s"
+msgstr ""
+
+#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "請輸入您的名字:"
 
-#: src/menu.c:535
+#: src/menu.c:537
 msgid "Click when ready"
 msgstr "(準備好之後按一個按鍵)"
 
-#: src/menu.c:537
+#: src/menu.c:539
 msgid "Waiting for other players"
 msgstr "等待其他玩家中"
 
-#: src/menu.c:550
+#: src/menu.c:552
 msgid "Sorry, game already in progress."
 msgstr "抱歉，遊戲已經在進行中。"
 
-#: src/menu.c:551
+#: src/menu.c:553
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "抱歉，遊戲已經在進行中。\n"
 
-#: src/menu.c:557
+#: src/menu.c:559
 msgid "Sorry, no server could be found."
 msgstr "抱歉，找不到伺服器。"
 
-#: src/menu.c:558
+#: src/menu.c:560
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr ""

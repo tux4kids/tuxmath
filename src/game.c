@@ -282,7 +282,7 @@ int game(void)
     return GAME_OVER_OTHER;
   }
  
-
+  DEBUGMSG(debug_game, "About to enter main game loop.\n");
 
   /* --- MAIN GAME LOOP: --- */
   do
@@ -298,10 +298,12 @@ int game(void)
 #ifdef HAVE_LIBSDL_NET
     /* Check for server messages if we are playing a LAN game: */
     if(Opts_LanMode())
+    {    
       game_handle_net_messages();
-    /* Ask server to send our index if somehow we don't yet have it: */
-    if(my_socket_index < 0)
-      LAN_RequestIndex();
+      /* Ask server to send our index if somehow we don't yet have it: */
+      if(my_socket_index < 0)
+        LAN_RequestIndex();
+    }
 #endif
 
     /* Most code now in smaller functions: */
@@ -350,8 +352,8 @@ int game(void)
   while(GAME_IN_PROGRESS == game_status);
   /* END OF MAIN GAME LOOP! */
 
-  game_handle_game_over(game_status);
 
+  game_handle_game_over(game_status);
 
   game_cleanup();
 
@@ -3000,7 +3002,7 @@ void reset_level(void)
     DEBUGCODE(debug_game)
     {
       if(comets[i].alive)
-        printf("Warning - resetting comets but comet[%d| still alive\n", i);
+        printf("Warning - resetting comets but comet[%d] still alive\n", i);
     }
     comets[i].alive = 0;
   }
