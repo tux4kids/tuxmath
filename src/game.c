@@ -94,6 +94,7 @@ typedef struct comet_type {
 typedef struct lan_player_type {
   char name[NAME_SIZE];
   int score;	
+  int mine;	
 } lan_player_type;
 
 
@@ -238,6 +239,7 @@ int update_score_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
 MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
+int compare_scores(const void* p1, const void* p2);
 /******************************************************/
 #endif
 
@@ -558,6 +560,7 @@ int remove_quest_recvd(char* buf)
 
 int socket_index_recvd(char* buf)
 {
+  int i = 0;
   int index = -1;
   char* p = NULL;
 
@@ -577,6 +580,13 @@ int socket_index_recvd(char* buf)
     fprintf(stderr, "socket_index_recvd() - illegal value: %d\n", index);
     return -1;
   }
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    if(i == index)
+      lan_player_info[i].mine = 1;
+    else
+      lan_player_info[i].mine = 0;
+  }	  
   return index; 
 }
 
@@ -708,7 +718,19 @@ int erase_comet_on_screen(comet_type* comet)
   return 1;
 }
 
+/* For sorting of lan_player_info array */
+int compare_scores(const void* p1, const void* p2)
+{
+  lan_player_type* lan1 = (lan_player_type*)p1;
+  lan_player_type* lan2 = (lan_player_type*)p2;
+  return (lan1->score - lan2->score);
+}	
+
+
 #endif
+
+
+
 
 /* Print the current questions and the number of remaining questions: */
 void print_current_quests(void)
@@ -805,6 +827,7 @@ int game_initialize(void)
 //      lan_pnames[i][0] = '\0';
       lan_player_info[i].name[0] = '\0';
       lan_player_info[i].score = -1;
+      lan_player_info[i].mine = 0;
     }
     /* Ask server to send a message telling which socket is ours: */
     LAN_RequestIndex();
@@ -2582,7 +2605,7 @@ void game_draw_misc(void)
       if(lan_player_info[i].score >= 0)
       {
         snprintf(str, 64, "%s: %d", lan_player_info[i].name, lan_player_info[i].score);
-	if(i == my_socket_index)
+	if(lan_player_info[i].mine)
           score = T4K_BlackOutline(str, fontsize, &yellow);
 	else
           score = T4K_BlackOutline(str, fontsize, &white);
@@ -2841,7 +2864,9 @@ void game_handle_game_over(int game_status)
     {
       int looping = 1;
       int i = 0;
+      int rank = 1;
       int entries = 0;
+      int first = 1;
       char str[64];
       SDL_Surface* score = NULL;
       SDL_Rect loc;
@@ -2864,20 +2889,28 @@ void game_handle_game_over(int game_status)
       if (current_bkgd())
         SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
 
+      /* Sort scores: */
+      qsort((void*)lan_player_info, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
+
       for (i = 0; i < MAX_CLIENTS; i++)
       {
         if(lan_player_info[i].score >= 0)
         {
-          snprintf(str, 64, "%s: %d", lan_player_info[i].name, lan_player_info[i].score);
-	  if(i == my_socket_index)
+          snprintf(str, 64, "%d.\t%s: %d", rank, lan_player_info[i].name, lan_player_info[i].score);
+	  rank++;
+	  if(lan_player_info[i].mine)
             score = T4K_BlackOutline(str, fontsize, &yellow);
 	  else
             score = T4K_BlackOutline(str, fontsize, &white);
           if(score)
           {
+            if(first)
+            {
+              loc.x = screen->w/2 - score->w/2;
+	      first = 0;
+	    }
             loc.w = score->w;
             loc.h = score->h;
-            loc.x = screen->w/2 - score->w/2;
             loc.y = score->h * (entries + 2);
             SDL_BlitSurface(score, NULL, screen, &loc);
             entries++;
