@@ -408,8 +408,8 @@ void game_handle_net_messages(void)
         done = 1;
         break;
       case -1:  //Error in networking or server:
-        game_cleanup();
-        game_status = GAME_OVER_ERROR;
+	done = 1;
+	network_error = 1;
       default:
         {}
     }
@@ -1677,11 +1677,7 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
-#ifdef HAVE_LIBSDL_NET
           LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
-#else
-          {}
-#endif
         else
           MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 
@@ -1773,30 +1769,36 @@ void game_handle_comets(void)
   /* ease of understanding, we should do it at the same place in the game */
   /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
-  if (!Opts_HelpMode() && level_start_wait == 0) //&&
-     // (frame % 20) == 0)
+
+
+
+  /* Add more comets, if needed: --------------------------- */
+
+  /* No more comets if just displaying Help: */
+  if (Opts_HelpMode())
+    return;
+  /* Don't add comets until level starting wait over: */
+  if (level_start_wait > 0)
+    return;
+
+
+  /* num_attackers is how many comets are left in wave */
+  if (num_attackers > 0)
   {
-    /* num_attackers is how many comets are left in wave */
-    if (num_attackers > 0)
+    if (add_comet())
     {
-//      if ((rand() % 2) == 0 || num_comets_alive() == 0)  NOTE also caused timing issue
-      {
-        if (add_comet())
-        {
-          num_attackers--;
-        }
-      }
+      num_attackers--;
     }
-    else
+  }
+  else
+  {
+    if (num_comets_alive() == 0)
     {
-      if (num_comets_alive() == 0)
+      if (!check_extra_life())
       {
-        if (!check_extra_life())
-        {
-          /* Time for the next wave! */
-          wave++;
-          reset_level();
-        }
+        /* Time for the next wave! */
+        wave++;
+        reset_level();
       }
     }
   }
@@ -2022,6 +2024,7 @@ void game_handle_steam(void)
   }
 }
 
+
 int check_extra_life(void)
 {
   /* This is called at the end of a wave. Returns 1 if we're in the
@@ -2126,6 +2129,7 @@ void game_handle_extra_life(void)
   }
 }
 
+
 void game_draw(void)
 {
   SDL_Rect dest;
@@ -2187,6 +2191,7 @@ void game_draw(void)
   SDL_Flip(screen);
 }
 
+
 void game_draw_background(void)
 {
   static int old_wave = 0; //update wave immediately
@@ -2216,7 +2221,6 @@ void game_draw_background(void)
 
     SDL_FillRect(screen, &dest, bgcolor);
 
-
     dest.y = ((screen->h) / 4) * 3;
     dest.h = (screen->h) / 4;
 
@@ -2230,6 +2234,8 @@ void game_draw_background(void)
     SDL_BlitSurface(current_bkgd(), NULL, screen, &dest);
   }
 }
+
+
 
 /* Draw comets: */
 /* NOTE bonus comets split into separate pass to make them */

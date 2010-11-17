@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 08:52-0600\n"
+"POT-Creation-Date: 2010-11-16 13:03-0600\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -278,107 +278,107 @@ msgstr ""
 "para dividirlo. ¡Destruye fracciones que no se pueden simplificar más de un "
 "solo tiro!"
 
-#: src/game.c:1049
+#: src/game.c:1051
 msgid "Welcome to TuxMath!"
 msgstr "¡Bienvenido a TuxMath!"
 
-#: src/game.c:1066
+#: src/game.c:1068
 msgid "Your mission is to save your"
 msgstr "Tu mision es salvar a"
 
-#: src/game.c:1067
+#: src/game.c:1069
 msgid "penguins' igloos from the"
 msgstr "los iglúes de tus pingüinos"
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "falling comets."
 msgstr "de los cometas que caen."
 
-#: src/game.c:1087
+#: src/game.c:1089
 msgid "Stop a comet by typing"
 msgstr "Para parar el cometa"
 
-#: src/game.c:1088
+#: src/game.c:1090
 msgid "the answer to the math problem"
 msgstr "debes escribir la respuesta correcta al problema matemático"
 
-#: src/game.c:1089
+#: src/game.c:1091
 msgid "and hitting 'space' or 'enter'."
 msgstr "y presionar 'espacio' o 'enter'."
 
-#: src/game.c:1090
+#: src/game.c:1092
 msgid "Try it now!"
 msgstr "¡Prueba ahora!"
 
-#: src/game.c:1098
+#: src/game.c:1100
 msgid "Good shot!"
 msgstr "¡Buen tiro!"
 
-#: src/game.c:1108
+#: src/game.c:1110
 msgid "If an igloo gets hit by a comet,"
 msgstr "Si uno de los iglúes es atacado por un cometa,"
 
-#: src/game.c:1109
+#: src/game.c:1111
 msgid "it melts. But don't worry: the"
 msgstr "se derretirá. Pero no te preocupes: "
 
-#: src/game.c:1110
+#: src/game.c:1112
 msgid "penguin is OK!"
 msgstr "¡el pingüino estará a salvo!"
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Just watch what happens:"
 msgstr "Observa lo que sucede:"
 
-#: src/game.c:1112
+#: src/game.c:1114
 msgid "(Press a key to start)"
 msgstr "(Presiona una tecla para empezar)"
 
-#: src/game.c:1125
+#: src/game.c:1127
 msgid "Notice the answer"
 msgstr "Nota la respuesta"
 
-#: src/game.c:1135
+#: src/game.c:1137
 msgid "If it gets hit again, the"
 msgstr "Si el iglú es atacado de nuevo,"
 
-#: src/game.c:1136
+#: src/game.c:1138
 msgid "penguin leaves."
 msgstr "el pingüino se irá."
 
-#: src/game.c:1137
+#: src/game.c:1139
 msgid "(Press a key when ready)"
 msgstr "(Presiona una tecla cuando estés listo)"
 
-#: src/game.c:1160
+#: src/game.c:1162
 msgid "You can fix the igloos"
 msgstr "Tú puedes areglar los iglúes"
 
-#: src/game.c:1161
+#: src/game.c:1163
 msgid "by stopping bonus comets."
 msgstr " si logras parar cometas de bono."
 
-#: src/game.c:1172
+#: src/game.c:1174
 msgid "Zap it now!"
 msgstr "¡Dispárale ahora!"
 
-#: src/game.c:1178
+#: src/game.c:1180
 msgid "Great job!"
 msgstr "¡Bien hecho!"
 
-#: src/game.c:1196
+#: src/game.c:1198
 msgid "Quit at any time by pressing"
 msgstr "Puedes parar el juego en cualquier momento"
 
-#: src/game.c:1197
+#: src/game.c:1199
 msgid "'Esc' or clicking the 'X'"
 msgstr "oprimiendo la tecla 'ESC' o haciendo clic en la X "
 
-#: src/game.c:1198
+#: src/game.c:1200
 msgid "in the upper right corner."
 msgstr "en la esquina derecha de la pantalla."
 
-#: src/game.c:1199
+#: src/game.c:1201
 msgid "Do it now, and then play!"
 msgstr "Hazlo ahora y luego juega"
 

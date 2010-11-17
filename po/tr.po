@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 08:52-0600\n"
+"POT-Creation-Date: 2010-11-16 13:03-0600\n"
 "PO-Revision-Date: 2008-12-07 15:54+0200\n"
 "Last-Translator: Doruk Fisek <dfisek@fisek.com.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -249,107 +249,107 @@ msgid ""
 msgstr ""
 "parçalayın. Daha fazla basitleştirilemeyen kesirleri tek bir atışta yok et!"
 
-#: src/game.c:1049
+#: src/game.c:1051
 msgid "Welcome to TuxMath!"
 msgstr "TuxMath'e Hoş Geldin!"
 
-#: src/game.c:1066
+#: src/game.c:1068
 msgid "Your mission is to save your"
 msgstr "Görevin penguenlerin evlerini"
 
-#: src/game.c:1067
+#: src/game.c:1069
 msgid "penguins' igloos from the"
 msgstr "düşen kuyruklu yıldızlardan"
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "falling comets."
 msgstr "korumak."
 
-#: src/game.c:1087
+#: src/game.c:1089
 msgid "Stop a comet by typing"
 msgstr "Kuyruklu yıldızı durdurmak için"
 
-#: src/game.c:1088
+#: src/game.c:1090
 msgid "the answer to the math problem"
 msgstr "matematik probleminin yanıtını yaz"
 
-#: src/game.c:1089
+#: src/game.c:1091
 msgid "and hitting 'space' or 'enter'."
 msgstr "ve 'boşluk' ya da 'enter' tuşuna bas."
 
-#: src/game.c:1090
+#: src/game.c:1092
 msgid "Try it now!"
 msgstr "Şimdi dene!"
 
-#: src/game.c:1098
+#: src/game.c:1100
 msgid "Good shot!"
 msgstr "İyi atış!"
 
-#: src/game.c:1108
+#: src/game.c:1110
 msgid "If an igloo gets hit by a comet,"
 msgstr "Eğer bir ev kuyruklu yıldız tarafından"
 
-#: src/game.c:1109
+#: src/game.c:1111
 msgid "it melts. But don't worry: the"
 msgstr "vurulursa erir. Ama merak etme :"
 
-#: src/game.c:1110
+#: src/game.c:1112
 msgid "penguin is OK!"
 msgstr "içindeki penguene zarar gelmez!"
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Just watch what happens:"
 msgstr "Yalnız ne olduğunu izle:"
 
-#: src/game.c:1112
+#: src/game.c:1114
 msgid "(Press a key to start)"
 msgstr "(Başlamak için bir tuşa bas)"
 
-#: src/game.c:1125
+#: src/game.c:1127
 msgid "Notice the answer"
 msgstr "Yanıta dikkat et"
 
-#: src/game.c:1135
+#: src/game.c:1137
 msgid "If it gets hit again, the"
 msgstr "Eğer ev tekrar vurulursa,"
 
-#: src/game.c:1136
+#: src/game.c:1138
 msgid "penguin leaves."
 msgstr "içindeki penguen evi terk eder."
 
-#: src/game.c:1137
+#: src/game.c:1139
 msgid "(Press a key when ready)"
 msgstr "(Hazır olunca herhangi bir tuşa basın)"
 
-#: src/game.c:1160
+#: src/game.c:1162
 msgid "You can fix the igloos"
 msgstr "Ek kuyruklu yıldızları durdurarak"
 
-#: src/game.c:1161
+#: src/game.c:1163
 msgid "by stopping bonus comets."
 msgstr "evlerini tamir edebilirsin."
 
-#: src/game.c:1172
+#: src/game.c:1174
 msgid "Zap it now!"
 msgstr "Hemen vur onu!"
 
-#: src/game.c:1178
+#: src/game.c:1180
 msgid "Great job!"
 msgstr "İyi iş!"
 
-#: src/game.c:1196
+#: src/game.c:1198
 msgid "Quit at any time by pressing"
 msgstr "Her an 'Esc'e basarak ya da"
 
-#: src/game.c:1197
+#: src/game.c:1199
 msgid "'Esc' or clicking the 'X'"
 msgstr "sağ üst köşedeki 'X'e"
 
-#: src/game.c:1198
+#: src/game.c:1200
 msgid "in the upper right corner."
 msgstr "tıklayarak çıkabilirsin."
 
-#: src/game.c:1199
+#: src/game.c:1201
 msgid "Do it now, and then play!"
 msgstr "Hemen şimdi yap ve sonra oyna!"
 
