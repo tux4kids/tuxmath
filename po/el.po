@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.5.8\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 13:03-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2009-4-8 09:00+0100\n"
 "Language-Team: niknik the Greek\n"
 "Language: el\n"
@@ -244,107 +244,107 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:1051
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1068
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1069
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1070
+#: src/game.c:1068
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1089
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1090
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1091
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1092
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1100
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1110
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1111
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1112
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1113
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1114
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1127
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1137
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1138
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1139
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1162
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1163
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1174
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1180
+#: src/game.c:1178
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1198
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1199
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1200
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1201
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr ""
 

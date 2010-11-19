@@ -408,8 +408,8 @@ void game_handle_net_messages(void)
         done = 1;
         break;
       case -1:  //Error in networking or server:
-	done = 1;
-	network_error = 1;
+        game_cleanup();
+        game_status = GAME_OVER_ERROR;
       default:
         {}
     }
@@ -560,6 +560,7 @@ int remove_quest_recvd(char* buf)
   return 1;
 }
 
+
 int socket_index_recvd(char* buf)
 {
   int i = 0;
@@ -625,7 +626,6 @@ int connected_players_recvd(char* buf)
   /* following messages.                                          */
   for(i = 0; i < MAX_CLIENTS; i++)
   {
-//    lan_pnames[i][0] = '\0';
     lan_player_info[i].name[0] = '\0';
     lan_player_info[i].score = -1;
   }
@@ -664,6 +664,7 @@ int update_score_recvd(char* buf)
 
   //Now get score:
   p = strchr(p, '\t');
+  p++;
   if(p)
     lan_player_info[i].score = atoi(p);
 
@@ -887,8 +888,7 @@ int game_initialize(void)
   danger_level = Opts_DangerLevel();
 
   wave = 1;
-  num_attackers = 2;
-  prev_wave_comets = Opts_StartingComets();
+  num_attackers = prev_wave_comets = Opts_StartingComets();
   speed = Opts_Speed();
   slowdown = 0;
   score = 0;
@@ -1677,7 +1677,11 @@ void game_handle_comets(void)
       {
         /* Tell MathCards about it - question not answered correctly: */
         if(Opts_LanMode())
+#ifdef HAVE_LIBSDL_NET
           LAN_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+#else
+          {}
+#endif
         else
           MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 
@@ -1770,14 +1774,11 @@ void game_handle_comets(void)
   /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
 
-
-
-  /* Add more comets, if needed: --------------------------- */
-
-  /* No more comets if just displaying Help: */
+  /* Don't add comets if in Help mode: */
   if (Opts_HelpMode())
     return;
-  /* Don't add comets until level starting wait over: */
+
+  /* Don't add comets until done waiting at start of new wave: */
   if (level_start_wait > 0)
     return;
 
@@ -1792,14 +1793,11 @@ void game_handle_comets(void)
   }
   else
   {
-    if (num_comets_alive() == 0)
+    if (!num_comets_alive()
+     && !check_extra_life())
     {
-      if (!check_extra_life())
-      {
-        /* Time for the next wave! */
-        wave++;
-        reset_level();
-      }
+      wave++;
+      reset_level();
     }
   }
 }
@@ -2024,7 +2022,6 @@ void game_handle_steam(void)
   }
 }
 
-
 int check_extra_life(void)
 {
   /* This is called at the end of a wave. Returns 1 if we're in the
@@ -2129,7 +2126,6 @@ void game_handle_extra_life(void)
   }
 }
 
-
 void game_draw(void)
 {
   SDL_Rect dest;
@@ -2191,7 +2187,6 @@ void game_draw(void)
   SDL_Flip(screen);
 }
 
-
 void game_draw_background(void)
 {
   static int old_wave = 0; //update wave immediately
@@ -2221,6 +2216,7 @@ void game_draw_background(void)
 
     SDL_FillRect(screen, &dest, bgcolor);
 
+
     dest.y = ((screen->h) / 4) * 3;
     dest.h = (screen->h) / 4;
 
@@ -2234,8 +2230,6 @@ void game_draw_background(void)
     SDL_BlitSurface(current_bkgd(), NULL, screen, &dest);
   }
 }
-
-
 
 /* Draw comets: */
 /* NOTE bonus comets split into separate pass to make them */
@@ -2830,7 +2824,7 @@ void game_handle_game_over(int game_status)
           SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
 
         /* draw flashing victory message: */
-        if (((frame / 2) % 4))
+        if ((frame / 2) % 4)
         {
           SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
         }
@@ -2871,12 +2865,14 @@ void game_handle_game_over(int game_status)
     case GAME_OVER_LAN_WON:
     {
       int looping = 1;
+      int tux_offset = 0;
+      int tux_step = -3;
       int i = 0;
       int rank = 1;
       int entries = 0;
       int first = 1;
       char str[64];
-      SDL_Surface* score = NULL;
+      SDL_Surface* surf = NULL;
       SDL_Rect loc;
 
       //Adjust font size for resolution:
@@ -2888,51 +2884,22 @@ void game_handle_game_over(int game_status)
         scale = (float)full_y/(float)win_y;
       else
         scale = 1;
-      fontsize = (int)(2 * DEFAULT_MENU_FONT_SIZE * scale);
+      fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
 
       DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
              DEFAULT_MENU_FONT_SIZE, scale, fontsize);
 
-
-      if (current_bkgd())
-        SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
-
       /* Sort scores: */
       qsort((void*)lan_player_info, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
 
-      for (i = 0; i < MAX_CLIENTS; i++)
+
+      /* Begin display loop: */
+      do
       {
-        if(lan_player_info[i].score >= 0)
-        {
-          snprintf(str, 64, "%d.\t%s: %d", rank, lan_player_info[i].name, lan_player_info[i].score);
-	  rank++;
-	  if(lan_player_info[i].mine)
-            score = T4K_BlackOutline(str, fontsize, &yellow);
-	  else
-            score = T4K_BlackOutline(str, fontsize, &white);
-          if(score)
-          {
-            if(first)
-            {
-              loc.x = screen->w/2 - score->w/2;
-	      first = 0;
-	    }
-            loc.w = score->w;
-            loc.h = score->h;
-            loc.y = score->h * (entries + 2);
-            SDL_BlitSurface(score, NULL, screen, &loc);
-            entries++;
-            SDL_FreeSurface(score);
-	    score = NULL;
-          }
-        }
-      }
+        frame++;
+	entries = 0;
+	rank = 1;
 
-      SDL_Flip(screen);
-
-      /* Loop until player clicks or presses key: */
-      while(looping)
-      {	      
         while (SDL_PollEvent(&event) > 0)
         {
           if  (event.type == SDL_QUIT
@@ -2942,10 +2909,101 @@ void game_handle_game_over(int game_status)
             looping = 0;
           }
         }
+
+        if (current_bkgd() )
+          SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
+
+	/* Make top heading a little bigger: */
+        surf = T4K_BlackOutline(_("The Penguins Have Been Saved!"),
+			 1.2 * fontsize, &white);
+        if(surf)
+        {
+          loc.x = screen->w/2 - surf->w/2;
+          loc.y = surf->h * 2;
+          loc.w = surf->w;
+          loc.h = surf->h;
+          /* Make this blink: */
+          if ((frame / 2) % 4)
+            SDL_BlitSurface(surf, NULL, screen, &loc);
+          SDL_FreeSurface(surf);
+          surf = NULL;
+        }
+	
+	surf = T4K_BlackOutline(_("Final Scores:"), fontsize, &white);
+	if(surf)
+	{
+          loc.x = screen->w/2 - surf->w/2;
+          loc.y += surf->h;
+          loc.w = surf->w;
+          loc.h = surf->h;
+          SDL_BlitSurface(surf, NULL, screen, &loc);
+          SDL_FreeSurface(surf);
+	  surf = NULL;
+        }
+
+
+        /* draw sorted list of scores: */
+        for (i = 0; i < MAX_CLIENTS; i++)
+        {
+          if(lan_player_info[i].score >= 0)
+          {
+            snprintf(str, 64, "%d.\t%s: %d", rank, lan_player_info[i].name, lan_player_info[i].score);
+            rank++;
+            if(lan_player_info[i].mine)
+              surf = T4K_BlackOutline(str, fontsize, &yellow);
+            else
+              surf = T4K_BlackOutline(str, fontsize, &white);
+            if(surf)
+            {
+              if(first)
+              {
+                loc.x = screen->w/2 - surf->w/2;
+	        first = 0;
+              }
+              loc.w = surf->w;
+              loc.h = surf->h;
+              loc.y += surf->h;
+              SDL_BlitSurface(surf, NULL, screen, &loc);
+              entries++;
+              SDL_FreeSurface(surf);
+	      surf = NULL;
+            }
+          }
+        }
+        /* draw dancing tux: */
+        draw_console_image(IMG_CONSOLE_BASH);
+        /* walk tux back and forth */
+        tux_offset += tux_step;
+        /* select tux_egypt images according to which way tux is headed: */
+        if (tux_step < 0)
+          tux_img = IMG_TUX_EGYPT1 + ((frame / 3) % 2);
+        else
+          tux_img = IMG_TUX_EGYPT3 + ((frame / 3) % 2);
+
+        /* turn around if we go far enough: */
+        if (tux_offset >= (screen->w)/2
+         || tux_offset <= -(screen->w)/2)
+        {
+          tux_step = -tux_step;
+        }
+
+        dest_tux.x = ((screen->w - images[tux_img]->w) / 2) + tux_offset;
+        dest_tux.y = (screen->h - images[tux_img]->h);
+        dest_tux.w = images[tux_img]->w;
+        dest_tux.h = images[tux_img]->h;
+
+        SDL_BlitSurface(images[tux_img], NULL, screen, &dest_tux);
+
+        /* draw_console_image(tux_img);*/
+
+        SDL_Flip(screen);
         Throttle(MS_PER_FRAME, &timer);
       }
+      while (looping);
       break;
     }
+
+
     case GAME_OVER_ERROR:
       DEBUGMSG(debug_game, "game() exiting with error:\n");
     case GAME_OVER_LOST:
@@ -3155,7 +3213,7 @@ void reset_level(void)
   comet_feedback_height = 0;
 
   prev_wave_comets = next_wave_comets;
-  num_attackers = prev_wave_comets;
+  num_attackers = next_wave_comets;
 }
 
 

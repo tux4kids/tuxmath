@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.8.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 13:03-0600\n"
+"POT-Creation-Date: 2010-11-16 08:52-0600\n"
 "PO-Revision-Date: 2010-07-31 16:24+0200\n"
 "Last-Translator: Romana Trubačová <trubacova.romana@gmail.com>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -267,107 +267,107 @@ msgid ""
 msgstr ""
 "a on sa rozštiepi. Zlomky, ktoré sa už nedajú zjednodušiť, znič jednou ranou!"
 
-#: src/game.c:1051
+#: src/game.c:1049
 msgid "Welcome to TuxMath!"
 msgstr "Vitaj v TuxMath!"
 
-#: src/game.c:1068
+#: src/game.c:1066
 msgid "Your mission is to save your"
 msgstr "Tvojou úlohou je zachrániť"
 
-#: src/game.c:1069
+#: src/game.c:1067
 msgid "penguins' igloos from the"
 msgstr "iglu v ktorých tučniaky bývajú"
 
-#: src/game.c:1070
+#: src/game.c:1068
 msgid "falling comets."
 msgstr "pred padajúcimi kométami."
 
-#: src/game.c:1089
+#: src/game.c:1087
 msgid "Stop a comet by typing"
 msgstr "Kométu zastavíš tak, že napíšeš"
 
-#: src/game.c:1090
+#: src/game.c:1088
 msgid "the answer to the math problem"
 msgstr "výsledok daného príkladu"
 
-#: src/game.c:1091
+#: src/game.c:1089
 msgid "and hitting 'space' or 'enter'."
 msgstr "a stlačíš medzerník alebo Enter."
 
-#: src/game.c:1092
+#: src/game.c:1090
 msgid "Try it now!"
 msgstr "Skús to!"
 
-#: src/game.c:1100
+#: src/game.c:1098
 msgid "Good shot!"
 msgstr "Skvelý zásah!"
 
-#: src/game.c:1110
+#: src/game.c:1108
 msgid "If an igloo gets hit by a comet,"
 msgstr "Ak kométa zasiahne iglu,"
 
-#: src/game.c:1111
+#: src/game.c:1109
 msgid "it melts. But don't worry: the"
 msgstr "roztopí sa. Ale nemaj strach!"
 
-#: src/game.c:1112
+#: src/game.c:1110
 msgid "penguin is OK!"
 msgstr "Tučniak je v poriadku."
 
-#: src/game.c:1113
+#: src/game.c:1111
 msgid "Just watch what happens:"
 msgstr "Pozri čo sa stane."
 
-#: src/game.c:1114
+#: src/game.c:1112
 msgid "(Press a key to start)"
 msgstr "(Spusti hru stlačením klávesu)"
 
-#: src/game.c:1127
+#: src/game.c:1125
 msgid "Notice the answer"
 msgstr "Všimni si výsledok"
 
-#: src/game.c:1137
+#: src/game.c:1135
 msgid "If it gets hit again, the"
 msgstr "Ak je zasiahnuté znovu,"
 
-#: src/game.c:1138
+#: src/game.c:1136
 msgid "penguin leaves."
 msgstr "tučniak odíde."
 
-#: src/game.c:1139
+#: src/game.c:1137
 msgid "(Press a key when ready)"
 msgstr "(Ak si pripravený, stlač kláves)"
 
-#: src/game.c:1162
+#: src/game.c:1160
 msgid "You can fix the igloos"
 msgstr "Iglu môžeš opraviť tak,"
 
-#: src/game.c:1163
+#: src/game.c:1161
 msgid "by stopping bonus comets."
 msgstr "že zastavíš bonusové kométy."
 
-#: src/game.c:1174
+#: src/game.c:1172
 msgid "Zap it now!"
 msgstr "Len do nich!"
 
-#: src/game.c:1180
+#: src/game.c:1178
 msgid "Great job!"
 msgstr "Výborne!"
 
-#: src/game.c:1198
+#: src/game.c:1196
 msgid "Quit at any time by pressing"
 msgstr "Hru môžeš kedykoľvek zastaviť stlačením"
 
-#: src/game.c:1199
+#: src/game.c:1197
 msgid "'Esc' or clicking the 'X'"
 msgstr "Esc alebo kliknutím na X"
 
-#: src/game.c:1200
+#: src/game.c:1198
 msgid "in the upper right corner."
 msgstr "v pravom hornom rohu."
 
-#: src/game.c:1201
+#: src/game.c:1199
 msgid "Do it now, and then play!"
 msgstr "Vyskúšaj si to a šup do hry!"
 
