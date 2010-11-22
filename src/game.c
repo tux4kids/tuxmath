@@ -408,8 +408,8 @@ void game_handle_net_messages(void)
         done = 1;
         break;
       case -1:  //Error in networking or server:
-        game_cleanup();
-        game_status = GAME_OVER_ERROR;
+	done = 1;
+	network_error = 1;
       default:
         {}
     }
@@ -3003,6 +3003,13 @@ void game_handle_game_over(int game_status)
       break;
     }
 
+    case GAME_OVER_LAN_DISCONNECT:
+    {
+      const char* msg1 = _("Network game terminated.");
+      const char* msg2 = _("Connection with server was lost.");
+      ShowMessage(DEFAULT_MENU_FONT_SIZE, msg1, msg2, NULL, NULL);
+      break;
+    }
 
     case GAME_OVER_ERROR:
       DEBUGMSG(debug_game, "game() exiting with error:\n");
