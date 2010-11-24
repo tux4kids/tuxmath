@@ -64,6 +64,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define TUXSHIP_DECEL 0.8
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
+//the prime set keeps increasing till its size reaches this value
+#define PRIME_MAX_LIMIT 6
 
 /********* Enumerations ***********/
 
@@ -145,6 +147,9 @@ static int trig[12] = {
   117,
   0
 };
+
+static const int prime_numbers[] = {2, 3, 5, 7, 11, 13};
+static const int prime_power_limit[] = {7, 4, 3, 3, 2, 2}; //custom calibrated power limits for extra "goodness"
 
 static char* game_music_filenames[3] = {
   "game.mod",
@@ -237,6 +242,7 @@ static int AsteroidColl(int astW,int astH,int astX,int astY,
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
+static int generatenumber(int stage);
 static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 
@@ -1194,7 +1200,7 @@ static void FF_add_level(void)
 		    xvel,yvel,
 		    rand()%2,
 		    rand()%360, rand()%3,
-		    (rand()%(31+(wave*wave))), 
+		    generatenumber(wave), 
 		    0, 0,
 		    1);
    }
@@ -1464,6 +1470,16 @@ int fast_cos(int angle)
 int fast_sin(int angle)
 {
   return(- fast_cos((angle + 11) % 45));
+}
+
+/*** fact_number generator by aviraldg ***/
+
+static int generatenumber(int wave) {
+  if(wave > PRIME_MAX_LIMIT) wave = PRIME_MAX_LIMIT;
+  int n=1, i;
+  for(i=0; i<wave; i++)
+    n *= pow(prime_numbers[i], rand()%prime_power_limit[i]);
+  return n;
 }
 
 /******************* LASER FUNCTIONS *********************/
