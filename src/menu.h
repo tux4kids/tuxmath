@@ -83,6 +83,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 enum { ACTIVITIES };
 #undef X
 
+/* we may use a few separate menu trees */
+typedef enum {
+  MENU_MAIN,
+  MENU_DIFFICULTY, //(not used)
+  MENU_LESSONS,
+	MENU_SERVERSELECT, // menu for server selection when multiple servers found
+  MENU_LOGIN,
+  N_OF_MENUS
+} MenuType;
 
 /* used also by highscore.c */
 extern SDL_Rect menu_rect, stop_rect, prev_rect, next_rect;

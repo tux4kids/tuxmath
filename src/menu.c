@@ -55,15 +55,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 static char* activities[] = { ACTIVITIES };
 #undef X
 
-/* we may use a few separate menu trees */
-typedef enum {
-  MENU_MAIN,
-  MENU_DIFFICULTY, //(not used)
-  MENU_LESSONS,
-  MENU_LOGIN,
-  N_OF_MENUS
-} MenuType;
-
 /* actions available while viewing the menu */
 //enum { NONE, CLICK, PAGEUP, PAGEDOWN, STOP_ESC, RESIZED };
 
@@ -523,7 +514,7 @@ int run_lan_host(void)
 int run_lan_join(void)
 {
 #ifdef HAVE_LIBSDL_NET
-  if(detecting_servers(_("Detecting servers"), _("Please wait")))
+  if(detecting_servers(_("Detecting servers"), _("Please wait")) > 0)
   {
     int stdby;
     char buf[256];

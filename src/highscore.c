@@ -1136,24 +1136,54 @@ int detecting_servers(const char* heading, const char* sub)
       
       
       finished = 1;
-      break;  //So we quit scanning as soon as we connect
       DEBUGMSG(debug_lan, "connected\n");
-    } else if (servers_found  > 1)
+      break;  //So we quit scanning as soon as we connect
+    } else if (servers_found  > 1) //Multiple servers - ask player for choice
     {
-      //TODO display list of servers for player to choose from.  For now we
-      //just show message saying only one server allowed.
       char buf[256];
+      int server_choice;
       snprintf(buf, 256, _("TuxMath detected %d running servers."), servers_found);
 
       ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-                  buf, 
-		  _("This version only allows one server on the network."),
-		  _("Try again when only one server is running."),
-		  NULL);
+        buf,
+        _("Click to continue..."),
+        NULL, NULL);
 
-      SDL_EnableUNICODE(SDL_DISABLE);
-      T4K_FreeSprite(Tux);
-      return 0;
+			char **servernames;
+			servernames = malloc(servers_found * sizeof(char*));
+			int i;
+			for(i=0; i<servers_found; i++)
+			{
+				servernames[i] = LAN_ServerName(i);
+			}
+			T4K_CreateOneLevelMenu(
+				MENU_SERVERSELECT,
+				servers_found,
+				servernames,
+				NULL,
+				"Server Selection",
+				NULL);
+			T4K_PrerenderMenu(MENU_SERVERSELECT);
+			server_choice = T4K_RunMenu(
+        MENU_SERVERSELECT,
+        true,
+        &DrawTitleScreen,
+        &HandleTitleScreenEvents,
+        &HandleTitleScreenAnimations,
+        NULL);
+
+      if(!LAN_AutoSetup(server_choice))
+      {
+        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
+        /* Turn off SDL Unicode lookup (because has some overhead): */
+        SDL_EnableUNICODE(SDL_DISABLE);
+        T4K_FreeSprite(Tux);
+        return 0;
+      }
+
+      finished = 1;
+			DEBUGMSG(debug_lan, "connected\n");
+			break;
     }
 
 
