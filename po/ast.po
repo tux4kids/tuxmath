@@ -7,9 +7,9 @@ msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2010-11-16 08:52-0600\n"
-"PO-Revision-Date: 2010-03-06 08:41+0200\n"
+"PO-Revision-Date: 2010-11-24 20:19+0200\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
-"Language-Team: Asturian Team alministradores@softastur.org\n"
+"Language-Team: Softastur alministradores@softastur.org\n"
 "Language: ast\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
@@ -161,9 +161,8 @@ msgid "TUX, OF MATH COMMAND"
 msgstr "TUX, OF MATH COMMAND"
 
 #: src/credits.c:44
-#, fuzzy
 msgid "COPYRIGHT 2001-2010"
-msgstr "COPYRIGHT 2001-2009"
+msgstr "COPYRIGHT 2001-2010"
 
 #: src/credits.c:46
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
@@ -210,13 +209,12 @@ msgid "TESTERS"
 msgstr "PROBADORES"
 
 #: src/credits.c:111
-#, fuzzy
 msgid "USER WEBSITE"
-msgstr "PÁXINA WEB"
+msgstr "PÁXINA WEB DEL USUARIU"
 
 #: src/credits.c:114
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr ""
+msgstr "DESENDOLQUE DE TUX4KIDS AGOSPIÁU N'ALIOTH:"
 
 #: src/credits.c:117
 msgid ""
@@ -428,17 +426,17 @@ msgid "Enter Your Name:"
 msgstr "Pon el to Nome:"
 
 #: src/highscore.c:1146
-#, fuzzy, c-format
+#, c-format
 msgid "TuxMath detected %d running servers."
-msgstr "Detectando sirvidores"
+msgstr "TuxMath detectó %d sirvidor corriendo."
 
 #: src/highscore.c:1150
 msgid "This version only allows one server on the network."
-msgstr ""
+msgstr "Esta versión namás permite un sirvidor na rede."
 
 #: src/highscore.c:1151
 msgid "Try again when only one server is running."
-msgstr ""
+msgstr "Téntalo otra vuelta cuando namás un sirvidor tea corriendo."
 
 #: src/menu.c:212
 msgid "TuxMath is free and open-source!"
@@ -530,7 +528,7 @@ msgstr "Conectáu col sirvidor: %s"
 #: src/menu.c:534
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
@@ -560,7 +558,7 @@ msgstr "Siéntolo, nun pudi encontrar nengún sirvidor."
 #: src/menu.c:560
 #, c-format
 msgid "Sorry, could not connect to server.\n"
-msgstr ""
+msgstr "Nun se pudo coneutar col sirvidor.\n"
 
 #: src/multiplayer.c:203
 #, c-format
