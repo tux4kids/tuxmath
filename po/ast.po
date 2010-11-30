@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 08:52-0600\n"
+"POT-Creation-Date: 2010-11-30 13:06-0600\n"
 "PO-Revision-Date: 2010-11-24 20:19+0200\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
 "Language-Team: Softastur alministradores@softastur.org\n"
@@ -246,34 +246,34 @@ msgstr ""
 "Pa más información no tocante a Software Llibre y la llicencia GPL de GNU, "
 "visita:"
 
-#: src/factoroids.c:568
+#: src/factoroids.c:574
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDES: pa ganar tienes que destruyir tolos asteroides."
 
-#: src/factoroids.c:569 src/factoroids.c:580
+#: src/factoroids.c:575 src/factoroids.c:586
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "Usa les fleches de cursos pa xirar o avanza. Apunta a un asteroide,"
 
-#: src/factoroids.c:570
+#: src/factoroids.c:576
 msgid "type one of its factors, and press space or return"
 msgstr "escribi ún de los sos factores, y calca \"espaciu\" o \"intro\""
 
-#: src/factoroids.c:571
+#: src/factoroids.c:577
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "pa dividilu en factores. ¡Les roques con númberos primos van ser destruyíes!"
 
-#: src/factoroids.c:579
+#: src/factoroids.c:585
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FRACCIONES: pa ganar tienes que destruyir tolos asteroides"
 
-#: src/factoroids.c:581
+#: src/factoroids.c:587
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "escribi un númberu que pueda simplificar la fracción y calca \"espaciu\" o "
 "\"intro\""
 
-#: src/factoroids.c:582
+#: src/factoroids.c:588
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -281,109 +281,127 @@ msgstr ""
 "pa dividilu. ¡Destrúi les fracciones que nun puen ser más simplificaes con "
 "un disparu namás!"
 
-#: src/game.c:1049
+#: src/game.c:1051
 msgid "Welcome to TuxMath!"
 msgstr "¡Bienllegáu a TuxMath!"
 
-#: src/game.c:1066
+#: src/game.c:1068
 msgid "Your mission is to save your"
 msgstr "La to misión ye salvar los"
 
-#: src/game.c:1067
+#: src/game.c:1069
 msgid "penguins' igloos from the"
 msgstr "iglús de los pingüinos de los"
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "falling comets."
 msgstr "cometes que caen."
 
-#: src/game.c:1087
+#: src/game.c:1089
 msgid "Stop a comet by typing"
 msgstr "Para un cometa escribiendo"
 
-#: src/game.c:1088
+#: src/game.c:1090
 msgid "the answer to the math problem"
 msgstr "la rempuesta a la operación matemática"
 
-#: src/game.c:1089
+#: src/game.c:1091
 msgid "and hitting 'space' or 'enter'."
 msgstr "y calcando 'espaciu' o 'intro'."
 
-#: src/game.c:1090
+#: src/game.c:1092
 msgid "Try it now!"
 msgstr "¡Téntalo agora!"
 
-#: src/game.c:1098
+#: src/game.c:1100
 msgid "Good shot!"
 msgstr "¡Bon disparu!"
 
-#: src/game.c:1108
+#: src/game.c:1110
 msgid "If an igloo gets hit by a comet,"
 msgstr "Si un iglú ye golpeáu por un cometa,"
 
-#: src/game.c:1109
+#: src/game.c:1111
 msgid "it melts. But don't worry: the"
 msgstr "ésti queda dañáu. Pero nun t'esmolezas:"
 
-#: src/game.c:1110
+#: src/game.c:1112
 msgid "penguin is OK!"
 msgstr "¡los pingüinos van tar bien!"
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Just watch what happens:"
 msgstr "Namás mira lo que pasa:"
 
-#: src/game.c:1112
+#: src/game.c:1114
 msgid "(Press a key to start)"
 msgstr "(Calca una tecla pa entamar)"
 
-#: src/game.c:1125
+#: src/game.c:1127
 msgid "Notice the answer"
 msgstr "Observa la rempuesta"
 
-#: src/game.c:1135
+#: src/game.c:1137
 msgid "If it gets hit again, the"
 msgstr "Si lu golpeen otra vuelta,"
 
-#: src/game.c:1136
+#: src/game.c:1138
 msgid "penguin leaves."
 msgstr " el pingüín marcha."
 
-#: src/game.c:1137
+#: src/game.c:1139
 msgid "(Press a key when ready)"
 msgstr "(Calca una tecla cuando teas preparáu)"
 
-#: src/game.c:1160
+#: src/game.c:1162
 msgid "You can fix the igloos"
 msgstr "Pues iguar los iglúes"
 
-#: src/game.c:1161
+#: src/game.c:1163
 msgid "by stopping bonus comets."
 msgstr "parando los cometes con bonus."
 
-#: src/game.c:1172
+#: src/game.c:1174
 msgid "Zap it now!"
 msgstr "¡Esbórralu agora!"
 
-#: src/game.c:1178
+#: src/game.c:1180
 msgid "Great job!"
 msgstr "¡Bon trabayu!"
 
-#: src/game.c:1196
+#: src/game.c:1198
 msgid "Quit at any time by pressing"
 msgstr "Colar en cualisquier momentu calcando"
 
-#: src/game.c:1197
+#: src/game.c:1199
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' o calcando la 'X'"
 
-#: src/game.c:1198
+#: src/game.c:1200
 msgid "in the upper right corner."
 msgstr "de la esquina superior drecha."
 
-#: src/game.c:1199
+#: src/game.c:1201
 msgid "Do it now, and then play!"
 msgstr "¡Fecho, agora a xugar!"
+
+#: src/game.c:2917
+msgid "The Penguins Have Been Saved!"
+msgstr ""
+
+#: src/game.c:2932
+msgid "Final Scores:"
+msgstr ""
+
+#: src/game.c:3008
+#, fuzzy
+msgid "Network game terminated."
+msgstr "Xuegu en Rede"
+
+#: src/game.c:3009
+#, fuzzy
+msgid "Connection with server was lost."
+msgstr "Conectáu col sirvidor: %s"
 
 #: src/highscore.c:182 data/menus/menu_strings:9
 msgid "Hall Of Fame"
@@ -425,137 +443,133 @@ msgstr "¡Entrasti nel Salón de la Fama!"
 msgid "Enter Your Name:"
 msgstr "Pon el to Nome:"
 
-#: src/highscore.c:1146
+#: src/highscore.c:1145
 #, c-format
 msgid "TuxMath detected %d running servers."
 msgstr "TuxMath detectó %d sirvidor corriendo."
 
-#: src/highscore.c:1150
-msgid "This version only allows one server on the network."
-msgstr "Esta versión namás permite un sirvidor na rede."
+#: src/highscore.c:1149
+msgid "Click to continue..."
+msgstr ""
 
-#: src/highscore.c:1151
-msgid "Try again when only one server is running."
-msgstr "Téntalo otra vuelta cuando namás un sirvidor tea corriendo."
-
-#: src/menu.c:212
+#: src/menu.c:203
 msgid "TuxMath is free and open-source!"
 msgstr "¡TuxMath ye llibre y de códigu abiertu!"
 
-#: src/menu.c:213
+#: src/menu.c:204
 msgid "You can help make it better."
 msgstr "Pues ayudar a ameyoralu."
 
-#: src/menu.c:214
+#: src/menu.c:205
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr "¡Pues contribuyir con suxerencies, trabayu asrtísticu y códigu!"
 
-#: src/menu.c:215
+#: src/menu.c:206
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Alderica no que cinca a TuxMath en tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:349
+#: src/menu.c:340
 msgid "Edit 'options' file in your home directory"
 msgstr "¡Edita'l ficheru 'options' nel to direutoriu del home"
 
-#: src/menu.c:350
+#: src/menu.c:341
 msgid "to create customized game!"
 msgstr "pa crear un xuegu personalizáu!"
 
-#: src/menu.c:351
+#: src/menu.c:342
 msgid "Press a key or click your mouse to start game."
 msgstr "Calca una tecla o nel mur pa entamar el xuegu."
 
-#: src/menu.c:352
+#: src/menu.c:343
 msgid "See README.txt for more information"
 msgstr "Llei README.txt pa más información"
 
-#: src/menu.c:376
+#: src/menu.c:367
 msgid "How many kids are playing?"
 msgstr "¿Cuántos neños van xugar?"
 
-#: src/menu.c:377
+#: src/menu.c:368
 msgid "(Between 2 and 4 players)"
 msgstr "(Ente 2 y 4 xugadores)"
 
-#: src/menu.c:439
+#: src/menu.c:430
 msgid "The server is already running"
 msgstr "El sirvidor ta tovía corriendo"
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "Enter Server Name:"
 msgstr "Mete'l Nome del Sirvidor:"
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "(limit 50 characters)"
 msgstr "(50 carauteres máximo)"
 
-#: src/menu.c:459
+#: src/menu.c:450
 msgid "Click or press key to select server lesson file"
 msgstr ""
 "Calca o prime una tecla pa seleicionar un ficheru de lleición del sirvidor"
 
-#: src/menu.c:489
+#: src/menu.c:480
 msgid "Server Name:"
 msgstr "Nome del Sirvidor:"
 
-#: src/menu.c:491
+#: src/menu.c:482
 msgid "Selected Lesson:"
 msgstr "Llección Escoyida:"
 
-#: src/menu.c:515 src/menu.c:564
+#: src/menu.c:506 src/menu.c:555
 msgid "Sorry, this version built without network support"
 msgstr "Siéntolo, esta versión nun tien sofitu de rede"
 
-#: src/menu.c:516 src/menu.c:565
+#: src/menu.c:507 src/menu.c:556
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Siéntolo, esta versión nun tien sofitu de rede\n"
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Detecting servers"
 msgstr "Detectando sirvidores"
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Please wait"
 msgstr "Espera un segundu"
 
-#: src/menu.c:533
+#: src/menu.c:524
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Conectáu col sirvidor: %s"
 
-#: src/menu.c:534
+#: src/menu.c:525
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Mete'l to nome:"
 
-#: src/menu.c:537
+#: src/menu.c:528
 msgid "Click when ready"
 msgstr "Calca nel mur cuando teas preparáu"
 
-#: src/menu.c:539
+#: src/menu.c:530
 msgid "Waiting for other players"
 msgstr "Esperando por otros xugadores"
 
-#: src/menu.c:552
+#: src/menu.c:543
 msgid "Sorry, game already in progress."
 msgstr "Siéntolo, el xuegu yá ta en marcha."
 
-#: src/menu.c:553
+#: src/menu.c:544
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Siéntolo, el xuegu yá ta en marcha..\n"
 
-#: src/menu.c:559
+#: src/menu.c:550
 msgid "Sorry, no server could be found."
 msgstr "Siéntolo, nun pudi encontrar nengún sirvidor."
 
-#: src/menu.c:560
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr "Nun se pudo coneutar col sirvidor.\n"
@@ -904,6 +918,12 @@ msgstr "Arrancar Sirvidor"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Puntuaciones"
+
+#~ msgid "This version only allows one server on the network."
+#~ msgstr "Esta versión namás permite un sirvidor na rede."
+
+#~ msgid "Try again when only one server is running."
+#~ msgstr "Téntalo otra vuelta cuando namás un sirvidor tea corriendo."
 
 #~ msgid "Sorry, no server could be found.\n"
 #~ msgstr "Siéntolo, nun pudi encontrar nengún sirvidor.\n"

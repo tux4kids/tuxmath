@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-16 08:52-0600\n"
+"POT-Creation-Date: 2010-11-30 13:06-0600\n"
 "PO-Revision-Date: 2008-07-17 12:30+0000\n"
 "Last-Translator: Štefan Baebler <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -216,138 +216,154 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:568
+#: src/factoroids.c:574
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:569 src/factoroids.c:580
+#: src/factoroids.c:575 src/factoroids.c:586
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:570
+#: src/factoroids.c:576
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:571
+#: src/factoroids.c:577
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:579
+#: src/factoroids.c:585
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:581
+#: src/factoroids.c:587
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:582
+#: src/factoroids.c:588
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 
-#: src/game.c:1049
+#: src/game.c:1051
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1066
+#: src/game.c:1068
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1067
+#: src/game.c:1069
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1068
+#: src/game.c:1070
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1087
+#: src/game.c:1089
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1088
+#: src/game.c:1090
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1089
+#: src/game.c:1091
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1090
+#: src/game.c:1092
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1098
+#: src/game.c:1100
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1108
+#: src/game.c:1110
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1109
+#: src/game.c:1111
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1110
+#: src/game.c:1112
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1111
+#: src/game.c:1113
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1112
+#: src/game.c:1114
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1125
+#: src/game.c:1127
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1135
+#: src/game.c:1137
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1136
+#: src/game.c:1138
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1137
+#: src/game.c:1139
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1160
+#: src/game.c:1162
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1161
+#: src/game.c:1163
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1172
+#: src/game.c:1174
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1178
+#: src/game.c:1180
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1196
+#: src/game.c:1198
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1197
+#: src/game.c:1199
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1198
+#: src/game.c:1200
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1199
+#: src/game.c:1201
 msgid "Do it now, and then play!"
+msgstr ""
+
+#: src/game.c:2917
+msgid "The Penguins Have Been Saved!"
+msgstr ""
+
+#: src/game.c:2932
+msgid "Final Scores:"
+msgstr ""
+
+#: src/game.c:3008
+msgid "Network game terminated."
+msgstr ""
+
+#: src/game.c:3009
+msgid "Connection with server was lost."
 msgstr ""
 
 #: src/highscore.c:182 data/menus/menu_strings:9
@@ -390,138 +406,134 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/highscore.c:1146
+#: src/highscore.c:1145
 #, c-format
 msgid "TuxMath detected %d running servers."
 msgstr ""
 
-#: src/highscore.c:1150
-msgid "This version only allows one server on the network."
+#: src/highscore.c:1149
+msgid "Click to continue..."
 msgstr ""
 
-#: src/highscore.c:1151
-msgid "Try again when only one server is running."
-msgstr ""
-
-#: src/menu.c:212
+#: src/menu.c:203
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath je prost in odprtokoden!"
 
-#: src/menu.c:213
+#: src/menu.c:204
 #, fuzzy
 msgid "You can help make it better."
 msgstr "S sporočanjem težav, predlogov za izboljšave in"
 
-#: src/menu.c:214
+#: src/menu.c:205
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr ""
 
-#: src/menu.c:215
+#: src/menu.c:206
 #, fuzzy
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Pogovor o prihodnosti na tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:349
+#: src/menu.c:340
 msgid "Edit 'options' file in your home directory"
 msgstr "Za igro po meri spremenite datoteko"
 
-#: src/menu.c:350
+#: src/menu.c:341
 msgid "to create customized game!"
 msgstr "'options' v vaši domači mapi."
 
-#: src/menu.c:351
+#: src/menu.c:342
 msgid "Press a key or click your mouse to start game."
 msgstr "Za začetek igre pritisni tipko ali klikni z miško."
 
-#: src/menu.c:352
+#: src/menu.c:343
 msgid "See README.txt for more information"
 msgstr "Za več podrobnosti preberite datoteko README.txt"
 
-#: src/menu.c:376
+#: src/menu.c:367
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/menu.c:377
+#: src/menu.c:368
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:439
+#: src/menu.c:430
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "Enter Server Name:"
 msgstr ""
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:459
+#: src/menu.c:450
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:489
+#: src/menu.c:480
 msgid "Server Name:"
 msgstr ""
 
-#: src/menu.c:491
+#: src/menu.c:482
 msgid "Selected Lesson:"
 msgstr ""
 
-#: src/menu.c:515 src/menu.c:564
+#: src/menu.c:506 src/menu.c:555
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:516 src/menu.c:565
+#: src/menu.c:507 src/menu.c:556
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:533
+#: src/menu.c:524
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:534
+#: src/menu.c:525
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr ""
 
-#: src/menu.c:537
+#: src/menu.c:528
 msgid "Click when ready"
 msgstr ""
 
-#: src/menu.c:539
+#: src/menu.c:530
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:552
+#: src/menu.c:543
 msgid "Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:553
+#: src/menu.c:544
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:559
+#: src/menu.c:550
 msgid "Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:560
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr ""

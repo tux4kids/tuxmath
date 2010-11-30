@@ -5,15 +5,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-26 11:59+0200\n"
+"POT-Creation-Date: 2010-11-30 13:06-0600\n"
 "PO-Revision-Date: 2010-11-26 11:59+0200\n"
 "Last-Translator: Tabita Dolean <dtabita21@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ro_RO\n"
+"Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < 20)) ? 1 : 2;\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
@@ -41,9 +42,9 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
-"Pinguinii au nevoie de ajutorul tău! Cometele cad de pe cer, și "
-"topesc igluurile pinguinilor. Pentru a le salva casele, trebuie să găsești"
-"codul secret care va lovi fiecare cometă. "
+"Pinguinii au nevoie de ajutorul tău! Cometele cad de pe cer, și topesc "
+"igluurile pinguinilor. Pentru a le salva casele, trebuie să găseșticodul "
+"secret care va lovi fiecare cometă. "
 
 #: src/campaign.c:147
 msgid "Do your best!"
@@ -58,16 +59,17 @@ msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
-"Bună treabă! Din moment ce ați salvaț casele pinguinilor, te promovăm"
-"la gradul de cercetaș. Cercetașii sunt buni pentru a avea grijă să nu fie probleme..."
+"Bună treabă! Din moment ce ați salvaț casele pinguinilor, te promovămla "
+"gradul de cercetaș. Cercetașii sunt buni pentru a avea grijă să nu fie "
+"probleme..."
 
 #: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
-"...de exemplu ce se întâmplă chiar acum! TakeAways au venit, și trimit comete "
-"noi, mai șirete, asupra pinguinilor!"
+"...de exemplu ce se întâmplă chiar acum! TakeAways au venit, și trimit "
+"comete noi, mai șirete, asupra pinguinilor!"
 
 #: src/campaign.c:158
 msgid "But you can save them!"
@@ -82,8 +84,8 @@ msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
-"Ai făcut-o din nou! Împăratul Pinguin a ales să te alăture echipei sale"
-"de vânători care ajută la protejarea orașului. Vă trimitem acum acolo..."
+"Ai făcut-o din nou! Împăratul Pinguin a ales să te alăture echipei salede "
+"vânători care ajută la protejarea orașului. Vă trimitem acum acolo..."
 
 #: src/campaign.c:168
 msgid ""
@@ -91,9 +93,9 @@ msgid ""
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
-"...O nu! Împăratul este atacat de tipuri noi de comete: problemele se înmulțesc!"
-"Pentru a te lupta cu acestea, ai nevoie de îndemânare. Noi știm că poți face "
-"asta. Alătură-te vânătorilor și salvează orașul!"
+"...O nu! Împăratul este atacat de tipuri noi de comete: problemele se "
+"înmulțesc!Pentru a te lupta cu acestea, ai nevoie de îndemânare. Noi știm că "
+"poți face asta. Alătură-te vânătorilor și salvează orașul!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
@@ -104,8 +106,8 @@ msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
-"Ai făcut-o! Împăratul vrea să îți mulțumească personal. Te ducem "
-"la palatul lui de gheață pentru o mare onoare: vei deveni Campionul Imperial"
+"Ai făcut-o! Împăratul vrea să îți mulțumească personal. Te ducem la palatul "
+"lui de gheață pentru o mare onoare: vei deveni Campionul Imperial"
 
 #: src/campaign.c:178
 msgid ""
@@ -129,10 +131,10 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
-"Pinguinii de știință au invațat că toate atacurile vin dintr-o bază "
-"secretă și au nevoie de tine pentru a duce bătălia la capăt. Ei îți dau "
-"acest indiciu: prima dată fă înmulțirea și împărțirea, și apoi adunarea "
-"și scăderea."
+"Pinguinii de știință au invațat că toate atacurile vin dintr-o bază secretă "
+"și au nevoie de tine pentru a duce bătălia la capăt. Ei îți dau acest "
+"indiciu: prima dată fă înmulțirea și împărțirea, și apoi adunarea și "
+"scăderea."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
@@ -141,7 +143,6 @@ msgstr "Sper că indiciul te ajută!"
 #: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr "Aceasta este! Poți aceste atacuri pentru totdeauna, Comando"
-
 
 #: src/campaign.c:260
 msgid "Sorry, try again!"
@@ -226,47 +227,49 @@ msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
-"Aceste drepturi includ libertatea de a studia, copia, modifica, și redistribui"
-"acest program."
-
+"Aceste drepturi includ libertatea de a studia, copia, modifica, și "
+"redistribuiacest program."
 
 #: src/credits.c:121
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
-"O copie întregă a GPL a fost inclusă împreună cu documentația pentru acest program."
+"O copie întregă a GPL a fost inclusă împreună cu documentația pentru acest "
+"program."
 
 #: src/credits.c:123
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Pentru mai multe informații despre Software Liber și GNU GPL vizitați:"
 
-
-#: src/factoroids.c:568
+#: src/factoroids.c:574
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIZI: pentru a câștiga, trebuie să distrugi toți asteroizii."
 
-#: src/factoroids.c:569 src/factoroids.c:580
+#: src/factoroids.c:575 src/factoroids.c:586
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr "Folosește săgețile pentru a te întoarce sau a merge inainte. "
-"Țintește la un asteroid,"
+msgstr ""
+"Folosește săgețile pentru a te întoarce sau a merge inainte. Țintește la un "
+"asteroid,"
 
-#: src/factoroids.c:570
+#: src/factoroids.c:576
 msgid "type one of its factors, and press space or return"
 msgstr "scrie unul din factorii săi, și apasă spațiu sau enter"
 
-#: src/factoroids.c:571
+#: src/factoroids.c:577
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
-msgstr "pentru a-i împărți în factori primi. Pietrele cu numere prime sunt distruse!"
+msgstr ""
+"pentru a-i împărți în factori primi. Pietrele cu numere prime sunt distruse!"
 
-#: src/factoroids.c:579
+#: src/factoroids.c:585
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FRACTII: pentru a câștiga, trebuie să distrugi toți asteroizii."
 
-#: src/factoroids.c:581
+#: src/factoroids.c:587
 msgid "type a number that can simplify the fraction, and press space or return"
-msgstr "scrie un număr care poate să simplifice fracția, și apasă spațiu sau enter"
+msgstr ""
+"scrie un număr care poate să simplifice fracția, și apasă spațiu sau enter"
 
-#: src/factoroids.c:582
+#: src/factoroids.c:588
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -386,6 +389,11 @@ msgstr "Pinguinii au fost salvaţi!"
 msgid "Final Scores:"
 msgstr "Scoruri finale:"
 
+#: src/game.c:3008
+#, fuzzy
+msgid "Network game terminated."
+msgstr "Joc de rețea"
+
 #: src/game.c:3009
 msgid "Connection with server was lost."
 msgstr "Conexiunea cu serverul s-a întrerupt."
@@ -430,136 +438,134 @@ msgstr "Te aflii în Holul Faimei!"
 msgid "Enter Your Name:"
 msgstr "Introdu numele:"
 
-#: src/highscore.c:1146
+#: src/highscore.c:1145
 #, c-format
 msgid "TuxMath detected %d running servers."
 msgstr "TuxMath a detectat %d servere pornite."
 
-#: src/highscore.c:1150
-msgid "This version only allows one server on the network."
-msgstr "Această versiune permite doar un singur server în reţea."
+#: src/highscore.c:1149
+msgid "Click to continue..."
+msgstr ""
 
-#: src/highscore.c:1151
-msgid "Try again when only one server is running."
-msgstr "Încearcă din nou când doar un server este pornit."
-
-#: src/menu.c:212
+#: src/menu.c:203
 msgid "TuxMath is free and open-source!"
 msgstr "TuxMath este gratuit și sursă liberă!"
 
-#: src/menu.c:213
+#: src/menu.c:204
 msgid "You can help make it better."
 msgstr "Poți să ajuți facând-ul mai bun."
 
-#: src/menu.c:214
+#: src/menu.c:205
 msgid "Suggestions, artwork, and code are all welcome!"
 msgstr "Sugestii, opere de artă, și codul toate sunt binevenite!"
 
-#: src/menu.c:215
+#: src/menu.c:206
 msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
 msgstr "Discută TuxMath la adresa tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:349
+#: src/menu.c:340
 msgid "Edit 'options' file in your home directory"
 msgstr "Modifică fișierul 'opțiuni' în propriul director"
 
-#: src/menu.c:350
+#: src/menu.c:341
 msgid "to create customized game!"
 msgstr "pentru a crea un joc personalizat!"
 
-#: src/menu.c:351
+#: src/menu.c:342
 msgid "Press a key or click your mouse to start game."
 msgstr "Apasă o tastă sau fă clic cu mausul pentru a începe jocul."
 
-#: src/menu.c:352
+#: src/menu.c:343
 msgid "See README.txt for more information"
 msgstr "Citește README.txt pentru mai multe informații"
 
-#: src/menu.c:376
+#: src/menu.c:367
 msgid "How many kids are playing?"
 msgstr "Cați copii se joacă?"
 
-#: src/menu.c:377
+#: src/menu.c:368
 msgid "(Between 2 and 4 players)"
 msgstr "(Între 2 și 4 jucători)"
 
-#: src/menu.c:439
+#: src/menu.c:430
 msgid "The server is already running"
 msgstr "Acest server deja rulează"
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "Enter Server Name:"
 msgstr "Introdu numele serverului:"
 
-#: src/menu.c:444
+#: src/menu.c:435
 msgid "(limit 50 characters)"
 msgstr "(limita 50 caractere)"
 
-#: src/menu.c:459
+#: src/menu.c:450
 msgid "Click or press key to select server lesson file"
-msgstr "Fă clic cu mausul sau apasă o tastă pentru a selecta fișierul cu lecția serverului"
+msgstr ""
+"Fă clic cu mausul sau apasă o tastă pentru a selecta fișierul cu lecția "
+"serverului"
 
-#: src/menu.c:489
+#: src/menu.c:480
 msgid "Server Name:"
 msgstr "Numele serverului:"
 
-#: src/menu.c:491
+#: src/menu.c:482
 msgid "Selected Lesson:"
 msgstr "Lecția selectată:"
 
-#: src/menu.c:515 src/menu.c:564
+#: src/menu.c:506 src/menu.c:555
 msgid "Sorry, this version built without network support"
 msgstr "Ne pare rău, această versiune nu are suport pentru rețea"
 
-#: src/menu.c:516 src/menu.c:565
+#: src/menu.c:507 src/menu.c:556
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Ne pare rău, această versiune nu are suport pentru rețea.\n"
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Detecting servers"
 msgstr "Detectare servere"
 
-#: src/menu.c:526
+#: src/menu.c:517
 msgid "Please wait"
 msgstr "Așteptați"
 
-#: src/menu.c:533
+#: src/menu.c:524
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Conectat la server: %s"
 
-#: src/menu.c:534
+#: src/menu.c:525
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:535 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Introdu numele:"
 
-#: src/menu.c:537
+#: src/menu.c:528
 msgid "Click when ready"
 msgstr "Fă clic cand sunteți pregătit"
 
-#: src/menu.c:539
+#: src/menu.c:530
 msgid "Waiting for other players"
 msgstr "Aștept după alți jucători"
 
-#: src/menu.c:552
+#: src/menu.c:543
 msgid "Sorry, game already in progress."
 msgstr "Ne pare rău, jocul a început deja."
 
-#: src/menu.c:553
+#: src/menu.c:544
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "Ne pare rău, jocul a început deja.ân\n"
 
-#: src/menu.c:559
+#: src/menu.c:550
 msgid "Sorry, no server could be found."
 msgstr "Ne pare rău, nici un server nu a fost găsit."
 
-#: src/menu.c:560
+#: src/menu.c:551
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
@@ -908,3 +914,9 @@ msgstr "Pornește serverul"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Măturare scor"
+
+#~ msgid "This version only allows one server on the network."
+#~ msgstr "Această versiune permite doar un singur server în reţea."
+
+#~ msgid "Try again when only one server is running."
+#~ msgstr "Încearcă din nou când doar un server este pornit."
