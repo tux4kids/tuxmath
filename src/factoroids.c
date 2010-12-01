@@ -67,6 +67,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 //the prime set keeps increasing till its size reaches this value
 #define PRIME_MAX_LIMIT 6
 
+#define CTRL_NEXT SDLK_f
+#define CTRL_PREV SDLK_d
+
 /********* Enumerations ***********/
 
 enum{
@@ -150,6 +153,9 @@ static int trig[12] = {
 
 static const int prime_numbers[] = {2, 3, 5, 7, 11, 13};
 static const int prime_power_limit[] = {7, 4, 3, 3, 2, 2}; //custom calibrated power limits for extra "goodness"
+
+static const int prime_next[] = {2, 2, 3, 5, 5, 7, 7, 11, 11, 11, 11, 13, 13, 2};
+static const int prime_prev[] = {13, 13, 13, 2, 3, 3, 3, 5, 5, 7, 7, 7, 7, 11, 11};
 
 static char* game_music_filenames[3] = {
   "game.mod",
@@ -779,10 +785,11 @@ static void FF_handle_answer(void)
   
   doing_answer = 0;
   
-    /* Clear digits: */
+  /* aviraldg: removed code as part of new number selection code, to prevent resetting digits */
+    /* Clear digits: */ /*
   digits[0] = 0;
   digits[1] = 0;
-  digits[2] = 0;
+  digits[2] = 0; */
   neg_answer_picked = 0;
 
 }
@@ -1152,6 +1159,18 @@ static void FF_add_level(void)
     tuxship.lives++;
   }
   
+  // Set active number to newly added prime
+  int wave_i = wave - 1;
+  if(wave>=PRIME_MAX_LIMIT) {
+  	wave_i = PRIME_MAX_LIMIT - 1;
+  }
+  int c_prime = prime_numbers[wave_i];
+  digits[2] = c_prime % 10;
+  digits[1] = c_prime / 10;
+  fprintf(stderr, "wave_i = %d; wave = %d; c_prime = %d\n", wave_i, wave, c_prime);
+  fflush(stderr);
+  
+  
   //Limit the new asteroids
   if(NUM_ASTEROIDS<MAX_ASTEROIDS)
      NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
@@ -1479,7 +1498,7 @@ static int generatenumber(int wave) {
   int n=1, i;
   for(i=0; i<wave; i++)
     n *= pow(prime_numbers[i], rand()%prime_power_limit[i]);
-  if(n == 1 || n > 999) return generatenumber(wave);
+  if(n == 1) return generatenumber(wave);
   return n;
 }
 
@@ -1874,8 +1893,30 @@ void game_handle_user_events(void)
     	    paused = 1;
     	  }
   	}
+  	
+  	if (key == CTRL_NEXT) {
+  	  int n = prime_next[digits[1]*10 + digits[2]];
+  	  if(n <= prime_numbers[wave - 1]) {
+  	    digits[2] = n % 10;
+  	    digits[1] = n / 10;
+  	    tux_pressing = 1;
+        playsound(SND_SHIELDSDOWN);
+  	  }
+  	}
+  	
+  	if (key == CTRL_PREV) {
+  	  int n = prime_prev[digits[1]*10 + digits[2]];
+  	  if(n <= prime_numbers[wave - 1]) {
+  	    digits[2] = n % 10;
+  	    digits[1] = n / 10;
+  	    tux_pressing = 1;
+        playsound(SND_SHIELDSDOWN);
+  	  }
+  	}
+  	
   /* The rest of the keys control the numeric answer console: */
-	      
+  /* aviraldg : removed as part of new number input method */
+#if 0      
   if (key >= SDLK_0 && key <= SDLK_9)
   {
     /* [0]-[9]: Add a new digit: */
@@ -1894,6 +1935,42 @@ void game_handle_user_events(void)
     tux_pressing = 1;
     playsound(SND_SHIELDSDOWN);
   }
+#endif
+  // TODO this code only deals with the first 6 primes, we'd probably want a
+  // more generic solution
+  int _tmp = digits[0]*100 + digits[1]*10 + digits[2];
+  int digit, exec_digits = 0;
+  if(key >= SDLK_0 && key <= SDLK_9) {
+    digit = key - SDLK_0;
+    tux_pressing = 1;
+    exec_digits = 1;
+    playsound(SND_SHIELDSDOWN);
+  } else if (key >= SDLK_KP0 && key <= SDLK_KP9) {
+    digit = key - SDLK_KP0;
+    tux_pressing = 1;
+    exec_digits = 1;
+    playsound(SND_SHIELDSDOWN);
+  }
+  if(exec_digits == 1) {
+    if(digits[1] == 1 && (digit == 2 || digit == 5 || digit == 7)) {
+      digits[1] = 0;
+      digits[2] = digit;
+    } else if(digits[1] == 1 && digit == 1) {
+      digits[2] = 1;
+    } else if(digit==1) {
+      digits[1] = 1;
+      digits[2] = 0;
+    }
+    if(digit == 2 || digit == 3 || digit == 5 || digit == 7) {
+      digits[2] = digit;
+    }
+  }
+  //cancel if requested digit forms larger prime than allowed
+  if((digits[1]*10 + digits[2]) > prime_numbers[wave - 1]) {
+    digits[2] = _tmp % 10;
+    digits[1] = _tmp / 10;
+  }
+  
   /* support for negative answer input DSB */
   else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS))
         //&& MC_AllowNegatives())  /* do nothing unless neg answers allowed */
@@ -1911,6 +1988,7 @@ void game_handle_user_events(void)
     tux_pressing = 1;
     playsound(SND_SHIELDSDOWN);
   }
+  #if 0
   else if (key == SDLK_BACKSPACE ||
            key == SDLK_CLEAR ||
 	   key == SDLK_DELETE)
@@ -1922,6 +2000,7 @@ void game_handle_user_events(void)
     tux_pressing = 1;
     playsound(SND_SHIELDSDOWN);
   }
+  #endif
  	else if (key == SDLK_RETURN ||
         	   key == SDLK_KP_ENTER ||
 		   key == SDLK_SPACE)
