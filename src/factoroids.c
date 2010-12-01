@@ -1479,6 +1479,7 @@ static int generatenumber(int wave) {
   int n=1, i;
   for(i=0; i<wave; i++)
     n *= pow(prime_numbers[i], rand()%prime_power_limit[i]);
+  if(n == 1 || n > 999) return generatenumber(wave);
   return n;
 }
 
