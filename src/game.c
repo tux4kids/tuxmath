@@ -76,6 +76,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define SNOWFLAKE_SPEED 6
 #define SNOWFLAKE_SEPARATION 3
 
+#define MAX_LASER 10
+
 const int SND_IGLOO_SIZZLE = SND_SIZZLE;
 const int IMG_CITY_NONE = 0;
 
@@ -153,7 +155,7 @@ static penguin_type* penguins = NULL;
 static steam_type* steam = NULL;
 
 static cloud_type cloud;
-static laser_type laser;
+static laser_type laser[MAX_LASER];
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
 static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
@@ -291,10 +293,12 @@ int game(void)
     frame++;
     old_tux_img = tux_img;
     tux_pressing = 0;
-
-    if (laser.alive > 0)
-      laser.alive--;
-
+    int i;    
+    for(i=0;i<MAX_LASER;i++)
+    {
+      if (laser[i].alive > 0)
+        laser[i].alive--;
+    }
 #ifdef HAVE_LIBSDL_NET
     /* Check for server messages if we are playing a LAN game: */
     if(Opts_LanMode())
@@ -952,8 +956,9 @@ int game_initialize(void)
   cloud.status = EXTRA_LIFE_OFF;
 
   /* (Clear laser) */
-  laser.alive = 0;
-
+  for(i=0;i<MAX_LASER;i++)
+     laser[i].alive = 0; 
+ 
   /* Reset remaining stuff: */
 
   bkgd = scaled_bkgd = NULL;
@@ -1217,8 +1222,12 @@ int help_renderframe_exit(void)
     last_time = SDL_GetTicks(); // Initialize...
 
   tux_pressing = 0;
-  if (laser.alive > 0)
-      laser.alive--;
+  int i;
+  for(i=0;i<MAX_LASER;i++)
+  {
+    if (laser[i].alive > 0)
+        laser[i].alive--;
+  }
   game_handle_user_events();
   game_handle_answer();
   game_handle_tux();
@@ -1438,7 +1447,7 @@ void game_handle_demo(void)
 
 void game_handle_answer(void)
 {
-  int i, j, lowest, lowest_y;
+  int i, j, comets_answer[MAX_MAX_COMETS], number_of_comets;
   char ans[MC_MAX_DIGITS + 2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
 
@@ -1457,100 +1466,111 @@ void game_handle_answer(void)
     ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
-
-
-  /*  Pick the lowest comet which has the right answer: */
-  /*  FIXME: do we want it to prefer bonus comets to regular comets? */
-  lowest_y = 0;
-  lowest = -1;
-
+  number_of_comets = 0;
   for (i = 0; i < Opts_MaxComets(); i++)
   {
     if (comets[i].alive &&
         comets[i].expl == -1 &&
-        //comets[i].answer == num &&
-        0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1) &&
-        comets[i].y > lowest_y)
+        0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1)) 
     {
-      lowest = i;
-      lowest_y = comets[i].y;
+      comets_answer[number_of_comets] = i;
+      number_of_comets++;
     }
   }
 
   /* If there was a comet with this answer, destroy it! */
-  if (lowest != -1)  /* -1 means no comet had this answer */
+  if (number_of_comets != 0) 
   {
     float t;
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
-    ctime = SDL_GetTicks();
-    if (ctime > comets[lowest].time_started)
-      t = ((float)(ctime - comets[lowest].time_started)/1000);
-    else
-      t = -1;   //Mathcards will ignore t == -1
-    /* Tell Mathcards or the server that we answered correctly: */
-    if(Opts_LanMode())
-#ifdef HAVE_LIBSDL_NET
-      LAN_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
-#else
-      {}  // Needed for compiler, even though this path can't occur
-#endif      
-    else
-      MC_AnsweredCorrectly(comets[lowest].flashcard.question_id, t);
-
-
-    /* Destroy comet: */
-    comets[lowest].expl = 0;
-    comets[lowest].zapped = 1;
-    /* Fire laser: */
-    laser.alive = LASER_START;
-    laser.x1 = screen->w / 2;
-    laser.y1 = screen->h;
-    laser.x2 = comets[lowest].x;
-    laser.y2 = comets[lowest].y;
-    playsound(SND_LASER);
-    playsound(SND_SIZZLE);
-
-    /* Record data for feedback */
-    if (Opts_UseFeedback())
+    for(i=0;i<number_of_comets;i++)
     {
-      comet_feedback_number++;
-      comet_feedback_height += comets[lowest].y/city_expl_height;
+      int index_comets = comets_answer[i];
+      ctime = SDL_GetTicks();
+      if (ctime > comets[index_comets].time_started)
+        t = ((float)(ctime - comets[index_comets].time_started)/1000);
+      else
+        t = -1;   //Mathcards will ignore t == -1
+      /* Tell Mathcards or the server that we answered correctly: */
+      if(Opts_LanMode())
+#ifdef HAVE_LIBSDL_NET
+        LAN_AnsweredCorrectly(comets[index_comets].flashcard.question_id, t);
+#else
+        {}  // Needed for compiler, even though this path can't occur
+#endif      
+      else
+        MC_AnsweredCorrectly(comets[index_comets].flashcard.question_id, t);
+
+
+      /* Destroy comet: */
+      comets[index_comets].expl = 0;
+      comets[index_comets].zapped = 1;
+      /* Fire laser: */
+      laser[i].alive = LASER_START;
+      laser[i].x1 = screen->w / 2;
+      laser[i].y1 = screen->h;
+      laser[i].x2 = comets[index_comets].x;
+      laser[i].y2 = comets[index_comets].y;
+      if(number_of_comets == 1)
+      {
+        playsound(SND_LASER);
+        playsound(SND_SIZZLE);
+      }
+      else if(number_of_comets > 1 && i == number_of_comets-1)
+      {
+        playsound(SND_LASER);
+        playsound(SND_SIZZLE);
+        playsound(SND_EXTRA_LIFE);
+   
+        tux_anim = IMG_TUX_YES1;
+        tux_anim_frame = ANIM_FRAME_START; 
+      }
+
+      /* Record data for feedback */
+      if (Opts_UseFeedback())
+      {
+        comet_feedback_number++;
+        comet_feedback_height += comets[index_comets].y/city_expl_height;
 
 #ifdef FEEDBACK_DEBUG
-      fprintf(stderr, "Added comet feedback with height %g\n",comets[lowest].y/city_expl_height);
+        fprintf(stderr, "Added comet feedback with height %g\n",comets[index_comets].y/city_expl_height);
 #endif
-    }
+      }
 
-    /* Pick Tux animation: */
-    /* 50% of the time.. */
-    if ((rand() % 10) < 5)
-    {
-      /* ... pick an animation to play: */
-      if ((rand() % 10) < 5)
-        tux_anim = IMG_TUX_YES1;
-      else
-        tux_anim = IMG_TUX_YAY1;
-      tux_anim_frame = ANIM_FRAME_START;
-    }
+      /* Pick Tux animation: */
+      /* 50% of the time.. */
+      if(number_of_comets == 1)
+      {
+        if ((rand() % 10) < 5)
+        {
+          /* ... pick an animation to play: */
+          if ((rand() % 10) < 5)
+            tux_anim = IMG_TUX_YES1;
+          else
+            tux_anim = IMG_TUX_YAY1;
+          tux_anim_frame = ANIM_FRAME_START;
+        }
+      }  
 
-    /* Increment score: */
+      /* Increment score: */
 
-    /* [ add = 25, sub = 50, mul = 75, div = 100 ] */
-    /* [ the higher the better ] */
-    /* FIXME looks like it might score a bit differently based on screen mode? */
-    add_score(25 * comets[lowest].flashcard.difficulty *
-              (screen->h - comets[lowest].y + 1) /
-               screen->h);
+      /* [ add = 25, sub = 50, mul = 75, div = 100 ] */
+      /* [ the higher the better ] */
+      /* FIXME looks like it might score a bit differently based on screen mode? */
+      add_score(25 * comets[index_comets].flashcard.difficulty *
+                (screen->h - comets[index_comets].y + 1) /
+                 screen->h);
+    } 
   }
   else
   {
     /* Didn't hit anything! */
-    laser.alive = LASER_START;
-    laser.x1 = screen->w / 2;
-    laser.y1 = screen->h;
-    laser.x2 = laser.x1;
-    laser.y2 = 0;
+    laser[0].alive = LASER_START;
+    laser[0].x1 = screen->w / 2;
+    laser[0].y1 = screen->h;
+    laser[0].x2 = laser[0].x1;
+    laser[0].y2 = 0;
     playsound(SND_LASER);
     playsound(SND_BUZZ);
 
@@ -1564,6 +1584,7 @@ void game_handle_answer(void)
   for (i = 0; i < MC_MAX_DIGITS; ++i)
     digits[i] = 0;
   neg_answer_picked = 0;
+ 
 }
 
 void game_countdown(void)
@@ -2144,12 +2165,16 @@ void game_draw(void)
 
 
   /* Draw laser: */
-  if (laser.alive)
+  int i;
+  for(i=0;i<MAX_LASER;i++)
   {
-    draw_line(laser.x1, laser.y1, laser.x2, laser.y2,
-                  255 / ((LASER_START + 1) - laser.alive),
-                  192 / ((LASER_START + 1) - laser.alive),
-                  64);
+    if (laser[i].alive)
+    {
+      draw_line(laser[i].x1, laser[i].y1, laser[i].x2, laser[i].y2,
+                    255 / ((LASER_START + 1) - laser[i].alive),
+                    192 / ((LASER_START + 1) - laser[i].alive),
+                    64);
+    }
   }
 
   /* Draw numeric keypad: */
