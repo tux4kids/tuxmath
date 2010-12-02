@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-11-30 13:06-0600\n"
+"POT-Creation-Date: 2010-12-02 13:59-0600\n"
 "PO-Revision-Date: 2008-02-25 16:55+0000\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
@@ -218,153 +218,153 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:574
+#: src/factoroids.c:580
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:575 src/factoroids.c:586
+#: src/factoroids.c:581 src/factoroids.c:592
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:576
+#: src/factoroids.c:582
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:577
+#: src/factoroids.c:583
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:585
+#: src/factoroids.c:591
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:587
+#: src/factoroids.c:593
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:588
+#: src/factoroids.c:594
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 
-#: src/game.c:1051
+#: src/game.c:1056
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1068
+#: src/game.c:1073
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1069
+#: src/game.c:1074
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1070
+#: src/game.c:1075
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1089
+#: src/game.c:1094
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1090
+#: src/game.c:1095
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1091
+#: src/game.c:1096
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1092
+#: src/game.c:1097
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1100
+#: src/game.c:1105
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1110
+#: src/game.c:1115
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1111
+#: src/game.c:1116
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1112
+#: src/game.c:1117
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1113
+#: src/game.c:1118
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1114
+#: src/game.c:1119
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1127
+#: src/game.c:1132
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1137
+#: src/game.c:1142
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1138
+#: src/game.c:1143
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1139
+#: src/game.c:1144
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1162
+#: src/game.c:1167
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1163
+#: src/game.c:1168
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1174
+#: src/game.c:1179
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1180
+#: src/game.c:1185
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1198
+#: src/game.c:1203
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1199
+#: src/game.c:1204
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1200
+#: src/game.c:1205
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1201
+#: src/game.c:1206
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/game.c:2917
+#: src/game.c:2942
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2932
+#: src/game.c:2957
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:3008
+#: src/game.c:3033
 msgid "Network game terminated."
 msgstr ""
 
-#: src/game.c:3009
+#: src/game.c:3034
 msgid "Connection with server was lost."
 msgstr ""
 
