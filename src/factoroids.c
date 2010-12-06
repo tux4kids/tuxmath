@@ -70,6 +70,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define CTRL_NEXT SDLK_f
 #define CTRL_PREV SDLK_d
 
+/* definitions of level message */
+#define MAX_CHAR_MSG 256
+#define LVL_WIDTH_MSG 350
+#define LVL_HEIGHT_MSG 200
+#define LVL_OBJ_X_OFFSET 20
+#define LVL_OBJ_Y_OFFSET 20
+#define LVL_HINT_X_OFFSET 20
+#define LVL_HINT_Y_OFFSET 130
+
 /********* Enumerations ***********/
 
 enum{
@@ -241,6 +250,8 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
 static int FF_destroy_asteroid(int i, float xspeed, float yspeed);
 
 static void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4);
+static void FF_LevelMessage(void);
+static void FF_LevelObjsHints(char *label, char *contents, int x, int y);
 
 static SDL_Surface* get_asteroid_image(int size,int angle);
 static int AsteroidColl(int astW,int astH,int astX,int astY,
@@ -271,6 +282,7 @@ void factors(void)
     FF_exit_free();
     return;
   } 
+  FF_LevelMessage();
 
   while (game_status == GAME_IN_PROGRESS)
   {
@@ -409,6 +421,74 @@ void fractions(void)
   FF_over(game_status);
 }
 
+static void FF_LevelMessage(void)
+{
+  SDL_Event event;
+  SDL_Rect rect;
+  SDL_Surface *bgsurf=NULL;
+  int nwave;
+
+  char hints_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
+  {
+    _("Multiples of 2"),
+    _("Multiples of 2 and 3"),
+    _("Multiples of 2, 3 and 5"),
+    _("Multiples of 2, 3, 5 and 7"),
+    _("Multiples of 2, 3, 5, 7, and 11"),
+    _("Multiples of 2, 3, 5, 7, 11 and 13")
+  };
+
+  char objs_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
+  {
+    _("You need to destroy all \nasteroids which multiples \nof 2."),
+    _("You need to destroy all \nasteroids which multiples \nof 2 and 3."),
+    _("You need to destroy all \nasteroids which multiples \nof 2, 3 and 5."),
+    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5 and 7."),
+    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5, 7 and 11."),
+    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5, 7, 11 and 13")
+  };
+
+  rect.x = (screen->w/2)-(LVL_WIDTH_MSG/2);
+  rect.y = (screen->h/2)-(LVL_HEIGHT_MSG/2);
+
+  FF_draw();
+  bgsurf = T4K_CreateButton(LVL_WIDTH_MSG,LVL_HEIGHT_MSG,12,19,19,96,96);
+
+  if(bgsurf)
+  {
+    SDL_BlitSurface(bgsurf, NULL, screen, &rect );
+    SDL_FreeSurface(bgsurf);
+  }
+
+  nwave = (wave > PRIME_MAX_LIMIT) ? PRIME_MAX_LIMIT : wave;
+
+  FF_LevelObjsHints(_("Objectives:"), objs_str[nwave-1], rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
+  FF_LevelObjsHints(_("Hints:"), hints_str[nwave-1], rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET);
+
+  SDL_Flip(screen);
+
+  /* wait for user events */
+  while(1)
+  {
+     SDL_PollEvent(&event);
+     if (event.type == SDL_QUIT)
+     {
+        SDL_quit_received = 1;
+        quit = 1;
+        break;
+     }
+     else if (event.type == SDL_MOUSEBUTTONDOWN)
+     {
+        break;
+     }
+     else if (event.type == SDL_KEYDOWN)
+     {
+        if (event.key.keysym.sym == SDLK_ESCAPE)
+          escape_received = 1;
+        break;
+     }
+  }
+}
 
 /************ Initialize all vars... ****************/
 static int FF_init(void)
@@ -1256,6 +1336,7 @@ static void FF_add_level(void)
         SDL_Delay(now_time);
       }
     }
+    FF_LevelMessage();
   }
 }
 
@@ -1824,6 +1905,38 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
   SDL_FreeSurface(s4);
 }
 
+static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
+{
+  SDL_Surface *s1, *s2;
+  SDL_Rect loc;
+
+  s1 = NULL;
+  s2 = NULL;
+
+  s1 = T4K_BlackOutline(label, DEFAULT_MENU_FONT_SIZE, &white);
+  if(contents)
+  {
+    s2 = T4K_BlackOutline(contents, DEFAULT_MENU_FONT_SIZE, &white);
+  }
+
+  if(s1)
+  {
+    loc.x = x;
+    loc.y = y;
+    SDL_BlitSurface(s1, NULL, screen, &loc);
+  }
+  if(s2)
+  {
+     loc.x = x;
+     loc.y = s1->h + loc.y ;
+     SDL_BlitSurface(s2, NULL, screen, &loc);
+  }
+
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  SDL_FreeSurface(s1);
+  SDL_FreeSurface(s2);
+}
 
 void game_handle_user_events(void)
 {
