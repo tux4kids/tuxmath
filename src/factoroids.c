@@ -132,6 +132,7 @@ typedef struct FF_laser_type{
   int count;
   int angle;
   int m;
+  int n;
 } FF_laser_type;
 
 
@@ -170,6 +171,23 @@ static char* game_music_filenames[3] = {
   "game.mod",
   "game2.mod",
   "game3.mod",
+};
+
+static int laser_coeffs[][3] = {
+	{0, 0, 0},	// 0
+	{0, 0, 0},	// 1
+	{18, 0, 0},	// 2
+	{0, 18, 0},	// 3
+	{0, 0, 0},	// 4
+	{0, 0, 18},	// 5
+	{0, 0, 0},	// 6
+	{18, 18, 0},// 7
+	{0, 0, 0},	// 8
+	{0, 0, 0},	// 9
+	{0, 0, 0},	// 10
+	{0, 18, 18},// 11
+	{0, 0, 0},	// 12
+	{18, 0, 18}	// 13
 };
 
 // ControlKeys
@@ -908,7 +926,7 @@ static void FF_draw(void){
 	laser[i].destx=laser[i].destx+tuxship.xspeed;
 	laser[i].desty=laser[i].desty+tuxship.yspeed;
         draw_line(laser[i].x, laser[i].y, laser[i].destx, laser[i].desty,
-		  laser[i].count*18, 0, 0);
+		  laser[i].count*laser_coeffs[laser[i].n][0], laser[i].count*laser_coeffs[laser[i].n][1], laser[i].count*laser_coeffs[laser[i].n][2]);
       } else if (laser[i].count <= 0)
       {
         laser[i].alive=0;
@@ -1609,6 +1627,7 @@ int FF_add_laser(void)
       laser[i].y=tuxship.centery;
       laser[i].angle=tuxship.angle;
       laser[i].count=15;
+      laser[i].n = num;
       
       ux = cos((float)laser[i].angle * DEG_TO_RAD);
       uy = -sin((float)laser[i].angle * DEG_TO_RAD);
