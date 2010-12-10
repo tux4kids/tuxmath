@@ -79,11 +79,37 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define LVL_HINT_X_OFFSET 20
 #define LVL_HINT_Y_OFFSET 130
 
+/* definitions for cockpit buttons */
+#define BUTTONW 24
+#define BUTTONH 24 
+#define BUTTON2_X 65  
+#define BUTTON2_Y 45 
+#define BUTTON3_X 53 
+#define BUTTON3_Y 65 
+#define BUTTON5_X 30 
+#define BUTTON5_Y 77
+#define BUTTON7_X 8 
+#define BUTTON7_Y 77 
+#define BUTTON11_X 30 
+#define BUTTON11_Y 65 
+#define BUTTON13_X 45 
+#define BUTTON13_Y 45 
+#define NUMBUTTONS 6
+
 /********* Enumerations ***********/
 
 enum{
   FACTOROIDS_GAME,
   FRACTIONS_GAME
+};
+
+/* Enumerations for Button Types in Cockpit */
+enum BUTTON_TYPE
+{
+  ACTIVE,
+  SELECTED,
+  PRESSED,
+  DISABLED 
 };
 
 /********* Structures *********/
@@ -142,6 +168,15 @@ typedef struct {
   int laser_enabled;
 } help_controls_type;
 
+/* Structures for Buttons on Cockpit */
+struct ButtonType
+{
+  int img_id;
+  int x;
+  int y;
+  int prime;
+};
+
 /********* Global vars ************/
 
 /* Trig junk:  (thanks to Atari BASIC for this) */
@@ -196,6 +231,7 @@ static int right_pressed;
 static int up_pressed;
 static int shift_pressed;
 static int shoot_pressed;
+static int button_pressed;
 
 // GameControl
 static int game_status;
@@ -240,6 +276,8 @@ static int counter;
 static int xdead, ydead, isdead, countdead;
 static int roto_speed;
 
+static struct ButtonType buttons[NUMBUTTONS];
+
 /*************** The Factor and Fraction Activity Game Functions ***************/
 
 /* Local function prototypes: */
@@ -255,6 +293,11 @@ static void FF_draw(void);
 static void FF_draw_bkgr(void);
 static void FF_draw_led_console(void);
 static void draw_console_image(int i);
+
+static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y);
+static void FF_DrawButtonLayout(void);
+static void FF_ButtonInit(void);
+static int FF_CockpitTux(int prime);
 
 static SDL_Surface* current_bkgd()
   { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
@@ -288,7 +331,6 @@ void factors(void)
   
   quit = 0;
   counter = 0;
-  tux_img = IMG_TUX_CONSOLE1;
 
   DEBUGMSG(debug_factoroids, "Entering factors():\n");
 
@@ -306,20 +348,15 @@ void factors(void)
   {
     last_time = SDL_GetTicks();
     counter++; 
-    
-    if(counter%15 == 0)
-    {
-      if(tux_img<IMG_TUX_CONSOLE4)
-        tux_img++;
-      else 
-        tux_img=IMG_TUX_CONSOLE1;
-    }
 
     game_handle_user_events();
 
     FF_handle_ship();
     FF_handle_asteroids();
     FF_handle_answer();
+
+    tux_img = FF_CockpitTux(num);
+
     FF_draw();
     SDL_Flip(screen);
 
@@ -611,6 +648,7 @@ static int FF_init(void)
   up_pressed = 0;
   shift_pressed = 0;
   shoot_pressed = 0;
+  button_pressed = 0;
 
   score = 0;
   wave = 0;
@@ -1097,6 +1135,126 @@ static void FF_draw(void){
   }
 }
 
+static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y)
+{
+  SDL_Rect rect, scr;
+  rect.y = 0;
+  rect.w = BUTTONW;
+  rect.h = BUTTONH;
+  
+  scr.x = x;
+  scr.y = y; 
+   
+  if(type == ACTIVE)
+  {
+    rect.x = 0;
+    SDL_BlitSurface(images[img_id], &rect, screen, &scr);
+  }
+  else if(type == SELECTED)
+  {
+    rect.x = BUTTONW; 
+    SDL_BlitSurface(images[img_id], &rect, screen, &scr);  
+  }
+  else if(type == PRESSED)
+  {
+    rect.x = BUTTONW * 2;
+    SDL_BlitSurface(images[img_id], &rect, screen, &scr);
+  }
+  else if(type == DISABLED)
+  {
+    rect.x = BUTTONW * 3;
+    SDL_BlitSurface(images[img_id], &rect, screen, &scr);
+  }
+}
+
+static void FF_ButtonInit(void)
+{
+   
+  buttons[0].img_id = IMG_BUTTON2;
+  buttons[0].x = screen->w/2 - BUTTON2_X;
+  buttons[0].y = screen->h - BUTTON2_Y;
+  buttons[0].prime = 2;
+
+  buttons[1].img_id = IMG_BUTTON3;
+  buttons[1].x = screen->w/2 - BUTTON3_X;
+  buttons[1].y = screen->h - BUTTON3_Y;
+  buttons[1].prime = 3;
+
+  buttons[2].img_id = IMG_BUTTON5;
+  buttons[2].x = screen->w/2 - BUTTON5_X;
+  buttons[2].y = screen->h - BUTTON5_Y; 
+  buttons[2].prime = 5;
+
+  buttons[3].img_id = IMG_BUTTON7;
+  buttons[3].x = screen->w/2 + BUTTON7_X;
+  buttons[3].y = screen->h - BUTTON7_Y;
+  buttons[3].prime = 7;
+
+  buttons[4].img_id = IMG_BUTTON11;
+  buttons[4].x = screen->w/2 + BUTTON11_X;
+  buttons[4].y = screen->h - BUTTON11_Y;
+  buttons[4].prime = 11;
+
+  buttons[5].img_id = IMG_BUTTON13;
+  buttons[5].x = screen->w/2 + BUTTON13_X;
+  buttons[5].y = screen->h - BUTTON13_Y;
+  buttons[5].prime = 13;
+
+}
+
+static void FF_DrawButtonLayout(void)
+{
+  int i;
+  enum BUTTON_TYPE type;
+  
+  FF_ButtonInit();
+
+  for(i=0; i<6; i++)
+  {
+    if(i < wave)
+    {
+      if(button_pressed && num==buttons[i].prime)
+      {       
+        type=PRESSED;
+      } 
+      else if(num==buttons[i].prime)
+      { 
+        type=SELECTED;
+      }
+      else
+      {
+        type = ACTIVE;
+      }
+    }
+    else
+    {
+      type = DISABLED; 
+    }
+    FF_DrawButton(buttons[i].img_id,type,buttons[i].x,buttons[i].y);
+  }  
+}
+
+static int FF_CockpitTux( int prime )
+{
+  switch( prime )
+  {
+    case 2:
+      return IMG_TUX1;
+    case 3:
+      return IMG_TUX2;
+    case 5:
+      return IMG_TUX3;
+    case 7:
+      return IMG_TUX4;
+    case 11:
+      return IMG_TUX5;
+    case 13:
+      return IMG_TUX6;
+    default:
+      return IMG_TUX1; 
+  }
+}
+
 /*Modified from game.c*/
 void FF_draw_led_console(void)
 {
@@ -1104,60 +1262,69 @@ void FF_draw_led_console(void)
   SDL_Rect src, dest;
   int y;
 
-  /* draw new console image with "monitor" for LED numbers: */
-  draw_console_image(IMG_CONSOLE_LED);
-  /* set y to draw LED numbers into Tux's "monitor": */
-  y = (screen->h
-     - images[IMG_CONSOLE_LED]->h
-     + 4);  /* "monitor" has 4 pixel margin */
 
-  /* begin drawing so as to center display depending on whether minus */
-  /* sign needed (4 digit slots) or not (3 digit slots) DSB */
-  if (MC_GetOpt(ALLOW_NEGATIVES) )
-    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
-  else
-    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
-
-  for (i = -1; i < MC_MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
-                              /* with minimal modification of existing code DSB */
+  if(FF_game == FACTOROIDS_GAME)
   {
-    if (-1 == i)
+    draw_console_image(IMG_COCKPIT);
+    FF_DrawButtonLayout(); 
+  }
+  else
+  {
+    /* draw new console image with "monitor" for LED numbers: */
+    draw_console_image(IMG_CONSOLE_LED);
+    
+    /* set y to draw LED numbers into Tux's "monitor": */
+    y = (screen->h
+        - images[IMG_CONSOLE_LED]->h
+        + 4);  /* "monitor" has 4 pixel margin */
+
+    /* begin drawing so as to center display depending on whether minus */
+    /* sign needed (4 digit slots) or not (3 digit slots) DSB */
+    if (MC_GetOpt(ALLOW_NEGATIVES) )
+      dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
+    else
+      dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
+
+    for (i = -1; i < MC_MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
+                              /* with minimal modification of existing code DSB */
     {
-      if (MC_GetOpt(ALLOW_NEGATIVES))
+      if (-1 == i)
       {
-        if (neg_answer_picked)
-          src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
-        else
-          src.x = 0;
+        if (MC_GetOpt(ALLOW_NEGATIVES))
+        {
+          if (neg_answer_picked)
+            src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
+          else
+            src.x = 0;
+            src.y = 0;
+            src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
+            src.h = images[IMG_LED_NEG_SIGN]->h;
 
+            dest.y = y;
+            dest.w = src.w;
+            dest.h = src.h;
+
+            SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
+            /* move "cursor" */
+            dest.x += src.w;
+        }
+      }
+      else
+      {
+        src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
         src.y = 0;
-        src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
-        src.h = images[IMG_LED_NEG_SIGN]->h;
+        src.w = (images[IMG_LEDNUMS]->w) / 10;
+        src.h = images[IMG_LEDNUMS]->h;
 
+        /* dest.x already set */
         dest.y = y;
         dest.w = src.w;
         dest.h = src.h;
 
-        SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
+        SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
         /* move "cursor" */
         dest.x += src.w;
       }
-    }
-    else
-    {
-      src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
-      src.y = 0;
-      src.w = (images[IMG_LEDNUMS]->w) / 10;
-      src.h = images[IMG_LEDNUMS]->h;
-
-      /* dest.x already set */
-      dest.y = y;
-      dest.w = src.w;
-      dest.h = src.h;
-
-      SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
-      /* move "cursor" */
-      dest.x += src.w;
     }
   }
 }
@@ -2139,6 +2306,7 @@ void game_handle_user_events(void)
  	 {
 	       shoot_pressed = 1;
                doing_answer = 1;
+               button_pressed = 1;
 	       playsound(SND_LASER);
   }
 
@@ -2166,6 +2334,10 @@ void game_handle_user_events(void)
 	      // Respawn now (if applicable) 
 	      shift_pressed = 0;
 	    }
+          if ( key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE )
+          {
+             button_pressed = 0;
+          }
 	}
     }
 

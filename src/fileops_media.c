@@ -156,7 +156,20 @@ int load_image_data()
   "factoroids/factoroids.png",
   "factoroids/factors.png",
   "factoroids/tux.png",
-  "factoroids/good.png"
+  "factoroids/good.png",
+  "tux/cockpit_tux1.png",
+  "tux/cockpit_tux2.png",
+  "tux/cockpit_tux3.png",
+  "tux/cockpit_tux4.png",
+  "tux/cockpit_tux5.png",
+  "tux/cockpit_tux6.png",
+  "factoroids/button_2.png",
+  "factoroids/button_3.png",
+  "factoroids/button_5.png",
+  "factoroids/button_7.png",
+  "factoroids/button_11.png",
+  "factoroids/button_13.png",
+  "factoroids/cockpit.png"
   };
 
   static char* sprite_filenames[NUM_IMAGES] = {
