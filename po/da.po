@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-02 13:59-0600\n"
+"POT-Creation-Date: 2010-12-10 19:42-0600\n"
 "PO-Revision-Date: 2010-10-18 22:54+0200\n"
 "Last-Translator: \n"
 "Language-Team: Danish <kde-i18n-doc@kde.org>\n"
@@ -239,31 +239,110 @@ msgstr "En fuld kopi af GPL er inkluderet i dokumentationen til dette program."
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "For mere information om Gratis Software og GNU GPL, besøg:"
 
-#: src/factoroids.c:580
+#: src/factoroids.c:488 data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "Multiplum af 2"
+
+#: src/factoroids.c:489
+#, fuzzy
+msgid "Multiples of 2 and 3"
+msgstr "Multiplum af  11 og 12"
+
+#: src/factoroids.c:490
+#, fuzzy
+msgid "Multiples of 2, 3 and 5"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:491
+#, fuzzy
+msgid "Multiples of 2, 3, 5 and 7"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:492
+#, fuzzy
+msgid "Multiples of 2, 3, 5, 7, and 11"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:493
+#, fuzzy
+msgid "Multiples of 2, 3, 5, 7, 11 and 13"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:498
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2."
+msgstr ""
+
+#: src/factoroids.c:499
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2 and 3."
+msgstr ""
+
+#: src/factoroids.c:500
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3 and 5."
+msgstr ""
+
+#: src/factoroids.c:501
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5 and 7."
+msgstr ""
+
+#: src/factoroids.c:502
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5, 7 and 11."
+msgstr ""
+
+#: src/factoroids.c:503
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5, 7, 11 and 13"
+msgstr ""
+
+#: src/factoroids.c:520
+msgid "Objectives:"
+msgstr ""
+
+#: src/factoroids.c:521
+msgid "Hints:"
+msgstr ""
+
+#: src/factoroids.c:716
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDER: For at vinde skal du ødelægge alle asteroiderne."
 
-#: src/factoroids.c:581 src/factoroids.c:592
+#: src/factoroids.c:717 src/factoroids.c:728
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "Brug piletasterne for at vende eller gå frem. Sigt på en asteroide,"
 
-#: src/factoroids.c:582
+#: src/factoroids.c:718
 msgid "type one of its factors, and press space or return"
 msgstr "skriv en af dens faktorer, og tryk mellemrum eller Enter"
 
-#: src/factoroids.c:583
+#: src/factoroids.c:719
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "for at dele den i den s faktorer. Klipper med promtal bliver ødelagt!"
 
-#: src/factoroids.c:591
+#: src/factoroids.c:727
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "BRØKER: for at vinde må du ødelægge alle asteroiderne"
 
-#: src/factoroids.c:593
+#: src/factoroids.c:729
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "skriv et tal der kan forkorte brøken, og tryk Mellemrum eller Enter"
 
-#: src/factoroids.c:594
+#: src/factoroids.c:730
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -658,10 +737,6 @@ msgstr "Plus og Minus Prøve"
 #: data/missions/lessons/descr_lessons:13
 msgid "Multiplication: 0 to 3"
 msgstr "Gange: 0 til 3"
-
-#: data/missions/lessons/descr_lessons:14
-msgid "Multiples of 2"
-msgstr "Multiplum af 2"
 
 #: data/missions/lessons/descr_lessons:15
 msgid "Multiples of 3"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-02 13:59-0600\n"
+"POT-Creation-Date: 2010-12-10 19:42-0600\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -157,11 +157,11 @@ msgstr "Misión cumplida. ¡La galaxia está a salvo!"
 
 #: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
-msgstr "TUX, DE MATH COMMAND"
+msgstr "TUX, DE COMMANDO MATHEMATICAS"
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2010"
-msgstr ""
+msgstr "DERECHOS DE AUTHOR 2001-2010"
 
 #: src/credits.c:46
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
@@ -197,7 +197,7 @@ msgstr "MÚSICA"
 
 #: src/credits.c:91
 msgid "PACKAGERS"
-msgstr ""
+msgstr "EMBALADORES"
 
 #: src/credits.c:96
 msgid "'TUX' THE PENGUIN CREATED BY"
@@ -214,7 +214,7 @@ msgstr "SITIO WEB"
 
 #: src/credits.c:114
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr ""
+msgstr "EL DESARROLLO TUX4KIDS ACOGIDO EN ALIOTH"
 
 #: src/credits.c:117
 msgid ""
@@ -244,33 +244,112 @@ msgstr "Se incluye una copia de la GPL en la documentación de este programa."
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Para mayor información sobre el Software Libre y la GPL GNU, visite:"
 
-#: src/factoroids.c:580
+#: src/factoroids.c:488 data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "Múltipos de 2"
+
+#: src/factoroids.c:489
+#, fuzzy
+msgid "Multiples of 2 and 3"
+msgstr "Múltipos de 11 y 12"
+
+#: src/factoroids.c:490
+#, fuzzy
+msgid "Multiples of 2, 3 and 5"
+msgstr "Múltipos de 13, 14, 15"
+
+#: src/factoroids.c:491
+#, fuzzy
+msgid "Multiples of 2, 3, 5 and 7"
+msgstr "Múltipos de 13, 14, 15"
+
+#: src/factoroids.c:492
+#, fuzzy
+msgid "Multiples of 2, 3, 5, 7, and 11"
+msgstr "Múltipos de 13, 14, 15"
+
+#: src/factoroids.c:493
+#, fuzzy
+msgid "Multiples of 2, 3, 5, 7, 11 and 13"
+msgstr "Múltipos de 13, 14, 15"
+
+#: src/factoroids.c:498
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2."
+msgstr ""
+
+#: src/factoroids.c:499
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2 and 3."
+msgstr ""
+
+#: src/factoroids.c:500
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3 and 5."
+msgstr ""
+
+#: src/factoroids.c:501
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5 and 7."
+msgstr ""
+
+#: src/factoroids.c:502
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5, 7 and 11."
+msgstr ""
+
+#: src/factoroids.c:503
+msgid ""
+"You need to destroy all \n"
+"asteroids which multiples \n"
+"of 2, 3, 5, 7, 11 and 13"
+msgstr ""
+
+#: src/factoroids.c:520
+msgid "Objectives:"
+msgstr ""
+
+#: src/factoroids.c:521
+msgid "Hints:"
+msgstr ""
+
+#: src/factoroids.c:716
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDES: para ganar, tendrás que destruir todos los asteroides."
 
-#: src/factoroids.c:581 src/factoroids.c:592
+#: src/factoroids.c:717 src/factoroids.c:728
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "Usa las teclas de flecha para avanzar o girar. Apunta a un asteroide,"
 
-#: src/factoroids.c:582
+#: src/factoroids.c:718
 msgid "type one of its factors, and press space or return"
 msgstr "escribe uno de sus factores y presiona espacio o retorno"
 
-#: src/factoroids.c:583
+#: src/factoroids.c:719
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "para dividirlo en sus factores. ¡Las rocas con números primos se destruyen!"
 
-#: src/factoroids.c:591
+#: src/factoroids.c:727
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FRACCIONES: para ganar, tendrás que destruir todos los asteroides."
 
-#: src/factoroids.c:593
+#: src/factoroids.c:729
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "escribe un número que simplifique la fracción y presiona espacio o retorno"
 
-#: src/factoroids.c:594
+#: src/factoroids.c:730
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -384,19 +463,19 @@ msgstr "Hazlo ahora y luego juega"
 
 #: src/game.c:2942
 msgid "The Penguins Have Been Saved!"
-msgstr ""
+msgstr "Los Penguinos Han Sido Salvados"
 
 #: src/game.c:2957
 msgid "Final Scores:"
-msgstr ""
+msgstr "Cuenta Final"
 
 #: src/game.c:3033
 msgid "Network game terminated."
-msgstr ""
+msgstr "El juego de la red a sido terminado"
 
 #: src/game.c:3034
 msgid "Connection with server was lost."
-msgstr ""
+msgstr "La conexion con el servidor fue perdida "
 
 #: src/highscore.c:182 data/menus/menu_strings:9
 msgid "Hall Of Fame"
@@ -441,7 +520,7 @@ msgstr "Escribe tu nombre:"
 #: src/highscore.c:1145
 #, c-format
 msgid "TuxMath detected %d running servers."
-msgstr ""
+msgstr "TuxMath detecto %d servidores corrienetes"
 
 #: src/highscore.c:1149
 msgid "Click to continue..."
@@ -458,7 +537,7 @@ msgstr "Puedes hacer que el programa funcione mejor reportando problemas,"
 
 #: src/menu.c:205
 msgid "Suggestions, artwork, and code are all welcome!"
-msgstr ""
+msgstr "Las sugerencias, trabajo artistico, u codigo son todas bienvenidos"
 
 #: src/menu.c:206
 #, fuzzy
@@ -491,7 +570,7 @@ msgstr "(Entre 2 y 4 jugadores)"
 
 #: src/menu.c:430
 msgid "The server is already running"
-msgstr ""
+msgstr "El servidor ya esta corriendo"
 
 #: src/menu.c:435
 #, fuzzy
@@ -500,11 +579,13 @@ msgstr "Escribe tu nombre:"
 
 #: src/menu.c:435
 msgid "(limit 50 characters)"
-msgstr ""
+msgstr "(limite 50 caracteristicos)"
 
 #: src/menu.c:450
 msgid "Click or press key to select server lesson file"
 msgstr ""
+"Persione la tecla o aja clic para selectas el archivo de lecion en el "
+"servidor"
 
 #: src/menu.c:480
 #, fuzzy
@@ -513,34 +594,34 @@ msgstr "Escribe tu nombre:"
 
 #: src/menu.c:482
 msgid "Selected Lesson:"
-msgstr ""
+msgstr "Seleccione leccion"
 
 #: src/menu.c:506 src/menu.c:555
 msgid "Sorry, this version built without network support"
-msgstr ""
+msgstr "Perdon, esta version construyo sin apoyo de red"
 
 #: src/menu.c:507 src/menu.c:556
 #, c-format
 msgid "Sorry, this version built without network support.\n"
-msgstr ""
+msgstr "Perdon, esta version constuyo sin apoyo de red.\n"
 
 #: src/menu.c:517
 msgid "Detecting servers"
-msgstr ""
+msgstr "Detectando servidores"
 
 #: src/menu.c:517
 msgid "Please wait"
-msgstr ""
+msgstr "Espere por favor"
 
 #: src/menu.c:524
 #, c-format
 msgid "Connected to server: %s"
-msgstr ""
+msgstr "Conectado al servidor: %s"
 
 #: src/menu.c:525
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
@@ -553,30 +634,30 @@ msgstr "(Presiona una tecla cuando estés listo)"
 
 #: src/menu.c:530
 msgid "Waiting for other players"
-msgstr ""
+msgstr "Esperando a los otros jugadores"
 
 #: src/menu.c:543
 msgid "Sorry, game already in progress."
-msgstr ""
+msgstr "Perdon, el juego ya esta en progreso"
 
 #: src/menu.c:544
 #, c-format
 msgid "Sorry, game already in progress.\n"
-msgstr ""
+msgstr "Perdon, el juego ya esta en progreso.\n"
 
 #: src/menu.c:550
 msgid "Sorry, no server could be found."
-msgstr ""
+msgstr "Perdon, el servidor no fue encontrado"
 
 #: src/menu.c:551
 #, c-format
 msgid "Sorry, could not connect to server.\n"
-msgstr ""
+msgstr "Perdon, no pudo conectar al servidor. \n"
 
 #: src/multiplayer.c:203
 #, c-format
 msgid "Then %s\n"
-msgstr ""
+msgstr "Entonces %s\n"
 
 #: src/multiplayer.c:278
 msgid "Who is playing first?"
@@ -608,7 +689,7 @@ msgstr "Para discutir el futuro de TuxMath puedes ir a"
 
 #: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr ""
+msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #: src/tuxmath.c:61 data/menus/menu_strings:10
 msgid "Help"
@@ -665,10 +746,6 @@ msgstr "Repaso de suma y resta"
 #: data/missions/lessons/descr_lessons:13
 msgid "Multiplication: 0 to 3"
 msgstr "Multiplicación: 0 a 3"
-
-#: data/missions/lessons/descr_lessons:14
-msgid "Multiples of 2"
-msgstr "Múltipos de 2"
 
 #: data/missions/lessons/descr_lessons:15
 msgid "Multiples of 3"
@@ -864,7 +941,7 @@ msgstr "¡Factoroides!"
 
 #: data/menus/menu_strings:11
 msgid "Join Game"
-msgstr ""
+msgstr "Unir al Juego"
 
 #: data/menus/menu_strings:12
 msgid "Main Menu"
@@ -884,7 +961,7 @@ msgstr "Más opciones"
 
 #: data/menus/menu_strings:16
 msgid "Network Game"
-msgstr ""
+msgstr "Juego de red"
 
 #: data/menus/menu_strings:17
 msgid "Play Alone"
@@ -912,11 +989,17 @@ msgstr "Terminar"
 
 #: data/menus/menu_strings:24
 msgid "Run Server"
-msgstr ""
+msgstr "Servidor conrriendo"
 
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Limpiar puntuación"
+
+#~ msgid "This version only allows one server on the network."
+#~ msgstr "Esta version solo permite un servidor en la red"
+
+#~ msgid "Try again when only one server is running."
+#~ msgstr "Trate otra vez cuando solo un servidor este corriendo"
 
 #~ msgid "Main menu"
 #~ msgstr "Menú principal"
