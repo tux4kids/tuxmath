@@ -20,7 +20,17 @@ EXTRA_DIST = tuxmath.spec \
 	config.rpath \
 	m4/ChangeLog \
 	Info.plist \
-	CMakeLists.txt
+	CMakeLists.txt \
+        cmake-modules/ConfigureChecks.cmake \
+        cmake-modules/ConfigureChecksIntl.cmake \
+        cmake-modules/FindIconv.cmake \
+        cmake-modules/FindMSGFMT.cmake \
+        cmake-modules/FindSDL_gfx.cmake \
+        cmake-modules/FindSDL_Pango.cmake \
+        cmake-modules/FindTux4Kids-common.cmake \
+        cmake-modules/T4K_Sugar.cmake \
+        po/CMakeLists.txt \
+	config.h.cmake
 
 ##datadir = @datadir@
 ##localedir = $(datadir)/locale

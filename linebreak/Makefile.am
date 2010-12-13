@@ -23,5 +23,7 @@ EXTRA_DIST = lbrkprop.h \
   unitypes.h \
   uniwidth.h \
   xsize.h \
-  uniwidth/cjk.h
+  uniwidth/cjk.h \
+  CMakeLists.txt \
+  linebreak_config.h.cmake
 

@@ -116,7 +116,8 @@ EXTRA_DIST = 	credits.h 	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
-	throttle.h
+	throttle.h      \
+        CMakeLists.txt
         
 
 
