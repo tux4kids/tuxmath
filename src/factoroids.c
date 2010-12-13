@@ -320,7 +320,8 @@ static int AsteroidColl(int astW,int astH,int astX,int astY,
 static int is_prime(int num);
 static int fast_cos(int angle);
 static int fast_sin(int angle);
-static int generatenumber(int stage);
+static int generatenumber(int wave);
+static int validate_number(int num, int wave);
 static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 
@@ -1478,7 +1479,6 @@ static void FF_add_level(void)
       if (speed2 != 0 && speed2 < max_speed*max_speed)
 	ok = 1;
     }
-   //int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)
    if(FF_game == FACTOROIDS_GAME){
      FF_add_asteroid(x,y,
 		    xvel,yvel,
@@ -1764,12 +1764,43 @@ static int generatenumber(int wave) {
   int n=1, i;
   for(i=0; i<wave; i++)
     n *= pow(prime_numbers[i], rand()%prime_power_limit[i]);
-  if(n == 1) return generatenumber(wave);
-  return n;
+  /* If we somehow got a bogus number, try again: */
+  if(validate_number(n, wave))
+    return n;
+  else
+  {
+    if (n > 1)  /* 1 can be generated without bugs and is innocuous */
+      DEBUGMSG(debug_factoroids, "generatenumber() - wrn - invalid number: %d\n", n);
+    return generatenumber(wave);
+  }
 }
 
-/******************* LASER FUNCTIONS *********************/
+/*** For some reason, we have sometimes seen rocks with numbers */
+/*** that are not multiples of the desired primes.  Here we     */
+/*** factor those primes out and see what's left.               */
+/*** Returns 0 (false) if number is invalid.    DSB             */
+static int validate_number(int num, int wave)
+{
+  int i = 0;
+  if(num < 2)
+    return 0;
+  if(wave > PRIME_MAX_LIMIT)
+    wave = PRIME_MAX_LIMIT;
+  for(i = 0; i < wave; i++)
+  {
+    while(num % prime_numbers[i] == 0)
+      num /= prime_numbers[i];	    
+  }
 
+  /* If we aren't left with 1, the number is invalid: */
+  if(num == 1)
+    return 1;
+  else
+    return 0;
+}
+
+
+/******************* LASER FUNCTIONS *********************/
 /*Return -1 if no laser is available*/
 int FF_add_laser(void)
 {
@@ -1910,11 +1941,15 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       
       if(FF_game==FACTOROIDS_GAME){
 
+         if(!validate_number(fact_number, wave))
+	 {		 
+           fprintf(stderr, "Invalid asteroid number: %d\n", fact_number);
+           return -1;
+         }
+  	 //while(!asteroid[i].fact_number)
+	 //  asteroid[i].fact_number=rand()%80;
+
          asteroid[i].fact_number=fact_number;
-
-  	 while(!asteroid[i].fact_number)
-	   asteroid[i].fact_number=rand()%80;
-
          asteroid[i].isprime=is_prime(asteroid[i].fact_number);
 
       }else if(FF_game==FRACTIONS_GAME){
@@ -1980,8 +2015,6 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
       if(num!=0){
 
 
-//static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int
-//                           angle_speed, int fact_number, int a, int b, int new_wave
 
         if(FF_game==FACTOROIDS_GAME){
           FF_add_asteroid(asteroid[i].rx,

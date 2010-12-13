@@ -1,0 +1,862 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+ADMINVERSION	tuxmathadmin.c	70;"	d	file:
+ANIM_FRAME_START	game.c	64;"	d	file:
+AsteroidColl	factoroids.c	/^int AsteroidColl(int astW,int astH,int astX,int astY,$/;"	f
+BASE_RES_X	factoroids.c	54;"	d	file:
+CITY_EXPL_START	game.c	63;"	d	file:
+CTRL_NEXT	factoroids.c	70;"	d	file:
+CTRL_PREV	factoroids.c	71;"	d	file:
+ColorRGBA_type	factoroids.c	/^} ColorRGBA_type;$/;"	t	typeref:struct:colorRGBA_type	file:
+ConvertFromUTF8	convert_utf.c	/^int ConvertFromUTF8(wchar_t* wide_word, const char* UTF8_word, int max_length)$/;"	f
+ConvertToUTF8	convert_utf.c	/^int ConvertToUTF8(const wchar_t* wide_word, char* UTF8_word, int max_length)$/;"	f
+DATADIR	scandir.c	174;"	d	file:
+DEFAULT_CARD	mathcards.c	/^const MC_FlashCard DEFAULT_CARD = {{'\\0'}, {'\\0'}, 0, 0, 0}; \/\/empty card to signal error$/;"	v
+DEFAULT_GLOBAL_OPTS	options.c	/^const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {$/;"	v
+DEG_PER_ROTATION	factoroids.c	61;"	d	file:
+DEG_TO_RAD	factoroids.c	65;"	d	file:
+DIRSIZ	scandir.c	59;"	d	file:
+DIRSIZ	scandir.c	61;"	d	file:
+DisplayHighScores	highscore.c	/^void DisplayHighScores(int level)$/;"	f
+DrawTitleScreen	titlescreen.c	/^void DrawTitleScreen(void)$/;"	f
+EVAPORATING_COUNTER_START	game.c	73;"	d	file:
+FACTOROIDS_GAME	factoroids.c	/^  FACTOROIDS_GAME,$/;"	e	enum:__anon1	file:
+FF_ShowMessage	factoroids.c	/^void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)$/;"	f
+FF_add_asteroid	factoroids.c	/^static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_number, int a, int b, int new_wave)$/;"	f	file:
+FF_add_laser	factoroids.c	/^int FF_add_laser(void)$/;"	f
+FF_add_level	factoroids.c	/^static void FF_add_level(void)$/;"	f	file:
+FF_destroy_asteroid	factoroids.c	/^int FF_destroy_asteroid(int i, float xspeed, float yspeed)$/;"	f
+FF_draw	factoroids.c	/^static void FF_draw(void){$/;"	f	file:
+FF_draw_bkgr	factoroids.c	/^static void FF_draw_bkgr(void)$/;"	f	file:
+FF_draw_led_console	factoroids.c	/^void FF_draw_led_console(void)$/;"	f
+FF_exit_free	factoroids.c	/^static void FF_exit_free()$/;"	f	file:
+FF_game	factoroids.c	/^static int FF_game;$/;"	v	file:
+FF_handle_answer	factoroids.c	/^static void FF_handle_answer(void)$/;"	f	file:
+FF_handle_asteroids	factoroids.c	/^static void FF_handle_asteroids(void){$/;"	f	file:
+FF_handle_ship	factoroids.c	/^static void FF_handle_ship(void)$/;"	f	file:
+FF_init	factoroids.c	/^static int FF_init(void)$/;"	f	file:
+FF_intro	factoroids.c	/^static void FF_intro(void)$/;"	f	file:
+FF_laser_type	factoroids.c	/^typedef struct FF_laser_type{$/;"	s	file:
+FF_laser_type	factoroids.c	/^} FF_laser_type;$/;"	t	typeref:struct:FF_laser_type	file:
+FF_over	factoroids.c	/^static int FF_over(int game_status)$/;"	f	file:
+FLAPPING_INTERVAL	game.c	69;"	d	file:
+FLAPPING_START	game.c	68;"	d	file:
+FPS	factoroids.c	52;"	d	file:
+FPS	game.c	60;"	d	file:
+FRACTIONS_GAME	factoroids.c	/^  FRACTIONS_GAME$/;"	e	enum:__anon1	file:
+GAMEOVER_COUNTER_START	game.c	65;"	d	file:
+GOLDSTAR_FILENAME	fileops.c	198;"	d	file:
+GOLDSTAR_FILENAME	fileops.c	207;"	d	file:
+GOLDSTAR_FILENAME	tuxmathadmin.c	61;"	d	file:
+GOLDSTAR_FILENAME	tuxmathadmin.c	65;"	d	file:
+GetDefaultSaveDir	fileops.c	/^char *GetDefaultSaveDir(const char *suffix)$/;"	f
+HIGHSCORE_FILENAME	fileops.c	197;"	d	file:
+HIGHSCORE_FILENAME	fileops.c	206;"	d	file:
+HIGHSCORE_FILENAME	tuxmathadmin.c	60;"	d	file:
+HIGHSCORE_FILENAME	tuxmathadmin.c	64;"	d	file:
+HS_Name	highscore.c	/^char* HS_Name(int diff_level, int place)$/;"	f
+HS_Score	highscore.c	/^int HS_Score(int diff_level, int place)$/;"	f
+HandleTitleScreenAnimations	titlescreen.c	/^void HandleTitleScreenAnimations()$/;"	f
+HandleTitleScreenEvents	titlescreen.c	/^int HandleTitleScreenEvents(const SDL_Event* evt)$/;"	f
+HandleTitleScreenResSwitch	titlescreen.c	/^int HandleTitleScreenResSwitch(int new_w, int new_h)$/;"	f
+HighScoreNameEntry	highscore.c	/^void HighScoreNameEntry(char* pl_name)$/;"	f
+IGLOO_SWITCH_START	game.c	71;"	d	file:
+IMG_CITY_NONE	game.c	/^const int IMG_CITY_NONE = 0;$/;"	v
+IMG_asteroids1	factoroids.c	/^static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];$/;"	v	file:
+IMG_asteroids2	factoroids.c	/^static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];$/;"	v	file:
+IMG_tuxship	factoroids.c	/^static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];$/;"	v	file:
+LAN_AnsweredCorrectly	network.c	/^int LAN_AnsweredCorrectly(int id, float t)$/;"	f
+LAN_AutoSetup	network.c	/^int LAN_AutoSetup(int i)$/;"	f
+LAN_Cleanup	network.c	/^void LAN_Cleanup(void)$/;"	f
+LAN_ConnectedServerLesson	network.c	/^char* LAN_ConnectedServerLesson(void)$/;"	f
+LAN_ConnectedServerName	network.c	/^char* LAN_ConnectedServerName(void)$/;"	f
+LAN_DetectServers	network.c	/^int LAN_DetectServers(void)$/;"	f
+LAN_LeaveGame	network.c	/^int LAN_LeaveGame(void)$/;"	f
+LAN_NextMsg	network.c	/^int LAN_NextMsg(char* buf)$/;"	f
+LAN_NotAnsweredCorrectly	network.c	/^int LAN_NotAnsweredCorrectly(int id)$/;"	f
+LAN_RequestIndex	network.c	/^int LAN_RequestIndex(void)$/;"	f
+LAN_ServerName	network.c	/^char* LAN_ServerName(int i)$/;"	f
+LAN_SetName	network.c	/^int LAN_SetName(char* name)$/;"	f
+LAN_StartGame	network.c	/^int LAN_StartGame(void)$/;"	f
+LASER_START	game.c	67;"	d	file:
+LEVEL_START_WAIT_START	game.c	66;"	d	file:
+LoadMenus	menu.c	/^void LoadMenus(void)$/;"	f
+MAX	SDL_rotozoom.c	45;"	d	file:
+MAX	factoroids.c	66;"	d	file:
+MAX_ARGS	server.c	61;"	d	file:
+MAX_ASTEROIDS	factoroids.c	57;"	d	file:
+MAX_LASER	factoroids.c	56;"	d	file:
+MAX_LASER	game.c	79;"	d	file:
+MAX_USERS	tuxmathadmin.c	69;"	d	file:
+MC_AddTimeToList	mathcards.c	/^int MC_AddTimeToList(float t)$/;"	f
+MC_AllocateFlashcard	mathcards.c	/^MC_FlashCard MC_AllocateFlashcard(void)$/;"	f
+MC_AnsweredCorrectly	mathcards.c	/^int MC_AnsweredCorrectly(int id, float t)$/;"	f
+MC_CopyCard	mathcards.c	/^void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest)$/;"	f
+MC_DEFAULTS	mathcards.c	/^const int MC_DEFAULTS[] = {$/;"	v
+MC_EndGame	mathcards.c	/^void MC_EndGame(void)$/;"	f
+MC_FlashCardGood	mathcards.c	/^int MC_FlashCardGood(const MC_FlashCard* fc)$/;"	f
+MC_FreeFlashcard	mathcards.c	/^void MC_FreeFlashcard(MC_FlashCard* fc)$/;"	f
+MC_GetOpt	mathcards.c	/^int MC_GetOpt(unsigned int index)$/;"	f
+MC_Initialize	mathcards.c	/^int MC_Initialize(void)$/;"	f
+MC_ListQuestionsLeft	mathcards.c	/^int MC_ListQuestionsLeft(void)$/;"	f
+MC_MapTextToIndex	mathcards.c	/^unsigned int MC_MapTextToIndex(const char* text)$/;"	f
+MC_MaxAnswerSize	mathcards.c	/^int MC_MaxAnswerSize(void)$/;"	f
+MC_MaxFormulaSize	mathcards.c	/^int MC_MaxFormulaSize(void)$/;"	f
+MC_MedianTimePerQuestion	mathcards.c	/^float MC_MedianTimePerQuestion(void)$/;"	f
+MC_MissionAccomplished	mathcards.c	/^int MC_MissionAccomplished(void)$/;"	f
+MC_NextQuestion	mathcards.c	/^int MC_NextQuestion(MC_FlashCard* fc)$/;"	f
+MC_NotAnsweredCorrectly	mathcards.c	/^int MC_NotAnsweredCorrectly(int id)$/;"	f
+MC_NumAnsweredCorrectly	mathcards.c	/^int MC_NumAnsweredCorrectly(void)$/;"	f
+MC_NumNotAnsweredCorrectly	mathcards.c	/^int MC_NumNotAnsweredCorrectly(void)$/;"	f
+MC_OPTION_TEXT	mathcards.c	/^const char* const MC_OPTION_TEXT[NOPTS+1] = {$/;"	v
+MC_PrintMathOptions	mathcards.c	/^void MC_PrintMathOptions(FILE* fp, int verbose)$/;"	f
+MC_PrintQuestionList	mathcards.c	/^int MC_PrintQuestionList(FILE* fp)$/;"	f
+MC_PrintWrongList	mathcards.c	/^int MC_PrintWrongList(FILE* fp)$/;"	f
+MC_ResetFlashCard	mathcards.c	/^void MC_ResetFlashCard(MC_FlashCard* fc)$/;"	f
+MC_SetOpt	mathcards.c	/^void MC_SetOpt(unsigned int index, int val)$/;"	f
+MC_StartGame	mathcards.c	/^int MC_StartGame(void)$/;"	f
+MC_StartGameUsingWrongs	mathcards.c	/^int MC_StartGameUsingWrongs(void)$/;"	f
+MC_StartingListLength	mathcards.c	/^int MC_StartingListLength(void)$/;"	f
+MC_TotalQuestionsLeft	mathcards.c	/^int MC_TotalQuestionsLeft(void)$/;"	f
+MC_VerifyOptionListSane	mathcards.c	/^int MC_VerifyOptionListSane(void)$/;"	f
+MC_WrongListLength	mathcards.c	/^int MC_WrongListLength(void)$/;"	f
+MS_PER_FRAME	factoroids.c	53;"	d	file:
+MS_PER_FRAME	game.c	61;"	d	file:
+Make_Flashcard	network.c	/^int Make_Flashcard(char* buf, MC_FlashCard* fc)$/;"	f
+NPRIMES	mathcards.c	194;"	d	file:
+NUM_ASTEROIDS	factoroids.c	/^static int NUM_ASTEROIDS;$/;"	v	file:
+NUM_FLIPPED_IMAGES	setup.c	78;"	d	file:
+NUM_OF_ROTO_IMGS	factoroids.c	62;"	d	file:
+NUM_SPRITES	factoroids.c	59;"	d	file:
+NUM_TUXSHIPS	factoroids.c	58;"	d	file:
+NameEntry	highscore.c	/^void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3)$/;"	f
+NotImplemented	titlescreen.c	/^void NotImplemented(void)$/;"	f
+OPTIONS_FILENAME	fileops.c	196;"	d	file:
+OPTIONS_FILENAME	fileops.c	205;"	d	file:
+OPTIONS_SUBDIR	fileops.c	195;"	d	file:
+OPTIONS_SUBDIR	fileops.c	204;"	d	file:
+OPTION_TEXT	options.c	/^const char* const OPTION_TEXT[NUM_GLOBAL_OPTS+1] = {$/;"	v
+Opts_AllowPause	options.c	/^int Opts_AllowPause(void)$/;"	f
+Opts_AllowSpeedup	options.c	/^int Opts_AllowSpeedup(void)$/;"	f
+Opts_BonusCometInterval	options.c	/^int Opts_BonusCometInterval(void)$/;"	f
+Opts_BonusSpeedRatio	options.c	/^float Opts_BonusSpeedRatio(void)$/;"	f
+Opts_CityExplHandicap	options.c	/^float Opts_CityExplHandicap(void)$/;"	f
+Opts_Cleanup	options.c	/^void Opts_Cleanup(void)$/;"	f
+Opts_DangerLevel	options.c	/^float Opts_DangerLevel(void)$/;"	f
+Opts_DangerLevelMax	options.c	/^float Opts_DangerLevelMax(void)$/;"	f
+Opts_DangerLevelSpeedup	options.c	/^float Opts_DangerLevelSpeedup(void)$/;"	f
+Opts_DemoMode	options.c	/^int Opts_DemoMode(void)$/;"	f
+Opts_ExtraCometsPerWave	options.c	/^int Opts_ExtraCometsPerWave(void)$/;"	f
+Opts_FontName	options.c	/^const char* Opts_FontName(void)$/;"	f
+Opts_GetGlobalOp	options.c	/^int Opts_GetGlobalOp(const char* text)$/;"	f
+Opts_GetGlobalOpt	options.c	/^int Opts_GetGlobalOpt(unsigned int index)$/;"	f
+Opts_HelpMode	options.c	/^int Opts_HelpMode(void)$/;"	f
+Opts_Initialize	options.c	/^int Opts_Initialize(void)$/;"	f
+Opts_KeepScore	options.c	/^int Opts_KeepScore(void)$/;"	f
+Opts_LanMode	options.c	/^int Opts_LanMode(void)$/;"	f
+Opts_LastScore	options.c	/^int Opts_LastScore(void)$/;"	f
+Opts_LessonTitle	options.c	/^const char* Opts_LessonTitle(void)$/;"	f
+Opts_MapTextToIndex	options.c	/^unsigned int Opts_MapTextToIndex(const char* text)$/;"	f
+Opts_MaxComets	options.c	/^int Opts_MaxComets(void)$/;"	f
+Opts_MaxSpeed	options.c	/^float Opts_MaxSpeed(void)$/;"	f
+Opts_NextMission	options.c	/^char* Opts_NextMission(void)$/;"	f
+Opts_OperOverride	options.c	/^int Opts_OperOverride(void)$/;"	f
+Opts_SaveSummary	options.c	/^int Opts_SaveSummary(void)$/;"	f
+Opts_SetAllowPause	options.c	/^void Opts_SetAllowPause(int val)$/;"	f
+Opts_SetAllowSpeedup	options.c	/^void Opts_SetAllowSpeedup(int val)$/;"	f
+Opts_SetBonusCometInterval	options.c	/^void Opts_SetBonusCometInterval(int val)$/;"	f
+Opts_SetBonusSpeedRatio	options.c	/^void Opts_SetBonusSpeedRatio(float val)$/;"	f
+Opts_SetCityExplHandicap	options.c	/^void Opts_SetCityExplHandicap(float val)$/;"	f
+Opts_SetDangerLevel	options.c	/^void Opts_SetDangerLevel(float val)$/;"	f
+Opts_SetDangerLevelMax	options.c	/^void Opts_SetDangerLevelMax(float val)$/;"	f
+Opts_SetDangerLevelSpeedup	options.c	/^void Opts_SetDangerLevelSpeedup(float val)$/;"	f
+Opts_SetDemoMode	options.c	/^void Opts_SetDemoMode(int val)$/;"	f
+Opts_SetExtraCometsPerWave	options.c	/^void Opts_SetExtraCometsPerWave(int val)$/;"	f
+Opts_SetFontName	options.c	/^void Opts_SetFontName(char* font_name)$/;"	f
+Opts_SetGlobalOp	options.c	/^void Opts_SetGlobalOp(const char* text, int val)$/;"	f
+Opts_SetGlobalOpt	options.c	/^void Opts_SetGlobalOpt(unsigned int index, int val)$/;"	f
+Opts_SetHelpMode	options.c	/^void Opts_SetHelpMode(int val)$/;"	f
+Opts_SetKeepScore	options.c	/^void Opts_SetKeepScore(int val)$/;"	f
+Opts_SetLanMode	options.c	/^void Opts_SetLanMode(int val)$/;"	f
+Opts_SetLastScore	options.c	/^void Opts_SetLastScore(int val)$/;"	f
+Opts_SetLessonTitle	options.c	/^void Opts_SetLessonTitle(char* title)$/;"	f
+Opts_SetMaxComets	options.c	/^void Opts_SetMaxComets(int val)$/;"	f
+Opts_SetMaxSpeed	options.c	/^void Opts_SetMaxSpeed(float val)$/;"	f
+Opts_SetNextMission	options.c	/^void Opts_SetNextMission(char* str)$/;"	f
+Opts_SetOperOverride	options.c	/^void Opts_SetOperOverride(int val)$/;"	f
+Opts_SetSaveSummary	options.c	/^void Opts_SetSaveSummary(int val)$/;"	f
+Opts_SetSlowAfterWrong	options.c	/^void Opts_SetSlowAfterWrong(int val)$/;"	f
+Opts_SetSoundHWAvailable	options.c	/^void Opts_SetSoundHWAvailable(int val)$/;"	f
+Opts_SetSpeed	options.c	/^void Opts_SetSpeed(float val)$/;"	f
+Opts_SetSpeedupFactor	options.c	/^void Opts_SetSpeedupFactor(float val)$/;"	f
+Opts_SetStartingComets	options.c	/^void Opts_SetStartingComets(int val)$/;"	f
+Opts_SetUseBkgd	options.c	/^void Opts_SetUseBkgd(int val)$/;"	f
+Opts_SetUseFeedback	options.c	/^void Opts_SetUseFeedback(int val)$/;"	f
+Opts_SlowAfterWrong	options.c	/^int Opts_SlowAfterWrong(void)$/;"	f
+Opts_SoundHWAvailable	options.c	/^int Opts_SoundHWAvailable(void)$/;"	f
+Opts_Speed	options.c	/^float Opts_Speed(void)$/;"	f
+Opts_SpeedupFactor	options.c	/^float Opts_SpeedupFactor(void)$/;"	f
+Opts_StartingComets	options.c	/^int Opts_StartingComets(void)$/;"	f
+Opts_UseBkgd	options.c	/^int Opts_UseBkgd(void)$/;"	f
+Opts_UseFeedback	options.c	/^int Opts_UseFeedback(void)$/;"	f
+Opts_UsingSound	options.c	/^int Opts_UsingSound(void)$/;"	f
+PATH_MAX	tuxmathadmin.c	68;"	d	file:
+PENGUIN_WALK_SPEED	game.c	75;"	d	file:
+PI_VAL	mathcards.c	193;"	d	file:
+PRIME_MAX_LIMIT	factoroids.c	68;"	d	file:
+ReadRegistry	fileops.c	/^static HRESULT ReadRegistry(const char *key, const char *option, char *value, int size)$/;"	f	file:
+Ready	highscore.c	/^int Ready(const char* heading)$/;"	f
+RenderTitleScreen	titlescreen.c	/^int RenderTitleScreen(void)$/;"	f
+RunLoginMenu	menu.c	/^int RunLoginMenu(void)$/;"	f
+RunMainMenu	menu.c	/^void RunMainMenu(void)$/;"	f
+RunServer	server.c	/^int RunServer(int argc, char* argv[])$/;"	f
+RunServer_prog	server.c	/^int RunServer_prog(int argc, char* argv[])$/;"	f
+RunServer_pthread	server.c	/^int RunServer_pthread(int argc, char* argv[])$/;"	f
+SDL_quit_received	factoroids.c	/^static int SDL_quit_received;$/;"	v	file:
+SND_IGLOO_SIZZLE	game.c	/^const int SND_IGLOO_SIZZLE = SND_SIZZLE;$/;"	v
+SNOWFLAKE_SEPARATION	game.c	77;"	d	file:
+SNOWFLAKE_SPEED	game.c	76;"	d	file:
+STANDING_COUNTER_START	game.c	72;"	d	file:
+STEAM_START	game.c	70;"	d	file:
+SUMMARY_EXTENSION	fileops.c	68;"	d	file:
+SUMMARY_EXTENSION	fileops.c	70;"	d	file:
+ScanDir_rcsid	scandir.c	/^const char ScanDir_rcsid[] = "Hatari $Id: scandir.c,v 1.3 2007\/01\/16 18:42:59 thothy Exp $";$/;"	v
+ServerRunning	server.c	/^int ServerRunning(void)$/;"	f
+ShowMessage	titlescreen.c	/^void ShowMessage(int font_size, const char* str1, const char* str2,$/;"	f
+Standby	highscore.c	/^int Standby(const char* heading, const char* sub)$/;"	f
+TUXLOCALE	tuxmath.c	39;"	d	file:
+TUXLOCALE	tuxmath.c	41;"	d	file:
+TUXSHIP_DECEL	factoroids.c	64;"	d	file:
+TUXSHIP_LIVES	factoroids.c	60;"	d	file:
+Throttle	throttle.c	/^void Throttle(int loop_msec, Uint32* last_t)$/;"	f
+TitleScreen	titlescreen.c	/^void TitleScreen(void)$/;"	f
+Tux	titlescreen.c	/^sprite* Tux = NULL;$/;"	v
+USER_LOGIN_QUESTIONS_FILENAME	fileops.c	200;"	d	file:
+USER_LOGIN_QUESTIONS_FILENAME	fileops.c	209;"	d	file:
+USER_MENU_ENTRIES_FILENAME	fileops.c	199;"	d	file:
+USER_MENU_ENTRIES_FILENAME	fileops.c	208;"	d	file:
+USER_MENU_ENTRIES_FILENAME	tuxmathadmin.c	59;"	d	file:
+USER_MENU_ENTRIES_FILENAME	tuxmathadmin.c	63;"	d	file:
+UTF_BUF_LENGTH	convert_utf.c	37;"	d	file:
+VALUE_LIMIT	SDL_rotozoom.c	1126;"	d	file:
+VALUE_LIMIT	SDL_rotozoom.c	830;"	d	file:
+X	menu.c	54;"	d	file:
+X	menu.c	56;"	d	file:
+a	factoroids.c	/^  Uint8 a;$/;"	m	struct:colorRGBA_type	file:
+a	factoroids.c	/^  int a, b; \/*  a \/ b *\/$/;"	m	struct:asteroid_type	file:
+active_quests	mathcards.c	/^MC_MathQuestion* active_quests = NULL;$/;"	v
+activities	menu.c	/^static char* activities[] = { ACTIVITIES };$/;"	v	file:
+add_all_valid	mathcards.c	/^MC_MathQuestion* add_all_valid(MC_ProblemType pt,$/;"	f
+add_comet	game.c	/^int add_comet(void)$/;"	f
+add_quest_recvd	game.c	/^int add_quest_recvd(char* buf)$/;"	f
+add_quest_recvd	testclient.c	/^int add_quest_recvd(char* buf)$/;"	f
+add_question	server.c	/^int add_question(MC_FlashCard* fc)$/;"	f
+add_rect	titlescreen.c	/^void add_rect(SDL_Rect* src, SDL_Rect* dst) {$/;"	f
+add_score	game.c	/^void add_score(int inc)$/;"	f
+add_subdir	fileops.c	/^static int add_subdir = 1;$/;"	v	file:
+add_to_server_list	network.c	/^int add_to_server_list(UDPpacket* pkt)$/;"	f
+alive	factoroids.c	/^  int alive, size;$/;"	m	struct:asteroid_type	file:
+alive	factoroids.c	/^  int alive;$/;"	m	struct:FF_laser_type	file:
+alive	game.c	/^  int alive;$/;"	m	struct:comet_type	file:
+allocate_node	mathcards.c	/^MC_MathQuestion* allocate_node()$/;"	f
+alphasort	scandir.c	/^int alphasort(const void *d1, const void *d2)$/;"	f
+already_in_list	mathcards.c	/^int already_in_list(MC_MathQuestion* list, MC_MathQuestion* ptr)$/;"	f
+angle	factoroids.c	/^  int angle, angle_speed;$/;"	m	struct:asteroid_type	file:
+angle	factoroids.c	/^  int angle;$/;"	m	struct:FF_laser_type	file:
+angle	factoroids.c	/^  int angle;$/;"	m	struct:tuxship_type	file:
+angle_speed	factoroids.c	/^  int angle, angle_speed;$/;"	m	struct:asteroid_type	file:
+answer	game.c	/^  int answer;$/;"	m	struct:comet_type	file:
+answered_correctly	mathcards.c	/^int answered_correctly = 0;$/;"	v
+answered_wrong	mathcards.c	/^int answered_wrong = 0;$/;"	v
+append_high_score	fileops.c	/^int append_high_score(int tableid,int score,char *player_name)$/;"	f
+append_node	mathcards.c	/^MC_MathQuestion* append_node(MC_MathQuestion* list, MC_MathQuestion* new_node)$/;"	f
+asteroid	factoroids.c	/^static asteroid_type* asteroid = NULL;$/;"	v	file:
+asteroid_type	factoroids.c	/^typedef struct asteroid_type {$/;"	s	file:
+asteroid_type	factoroids.c	/^} asteroid_type;$/;"	t	typeref:struct:asteroid_type	file:
+b	factoroids.c	/^  Uint8 b;$/;"	m	struct:colorRGBA_type	file:
+b	factoroids.c	/^  int a, b; \/*  a \/ b *\/$/;"	m	struct:asteroid_type	file:
+b	factoroids.c	/^  int r, g, b;$/;"	m	struct:FF_laser_type	file:
+beak	titlescreen.c	/^         beak;$/;"	v
+beak_pos	titlescreen.c	/^const float beak_pos[4]  = {0.36, 0.21, 0.27, 0.14};$/;"	v
+bkg_path	titlescreen.c	/^const char* bkg_path     = "title\/menu_bkg.jpg";$/;"	v
+bkg_rect	titlescreen.c	/^SDL_Rect bkg_rect,$/;"	v
+bkgd	factoroids.c	/^static SDL_Surface* bkgd = NULL; \/\/640x480 background (windowed)$/;"	v	file:
+bkgd	game.c	/^static SDL_Surface* bkgd = NULL; \/\/640x480 background (windowed)$/;"	v	file:
+black	titlescreen.c	/^SDL_Color black;$/;"	v
+blended_igloos	setup.c	/^SDL_Surface* blended_igloos[NUM_BLENDED_IGLOOS];$/;"	v
+blit	titlescreen.c	/^struct blit {$/;"	s	file:
+blits	titlescreen.c	/^} blits[MAX_UPDATES];$/;"	v	typeref:struct:blit
+bonus	game.c	/^  int bonus;$/;"	m	struct:comet_type	file:
+bonus_comet_counter	game.c	/^static int bonus_comet_counter;$/;"	v	file:
+briefPlayer	campaign.c	/^void briefPlayer(int stage)$/;"	f
+broadcast_msg	server.c	/^void broadcast_msg(char* msg)$/;"	f
+buf_size	menu.c	/^const int buf_size = 128;$/;"	v
+calc_num_valid_questions	mathcards.c	/^static int calc_num_valid_questions(void)$/;"	f	file:
+calc_score	mathcards.c	/^static int calc_score(int difficulty, float t)$/;"	f	file:
+centerx	factoroids.c	/^  int centerx, centery;$/;"	m	struct:asteroid_type	file:
+centerx	factoroids.c	/^  int centerx, centery;$/;"	m	struct:tuxship_type	file:
+centery	factoroids.c	/^  int centerx, centery;$/;"	m	struct:asteroid_type	file:
+centery	factoroids.c	/^  int centerx, centery;$/;"	m	struct:tuxship_type	file:
+chars	credits.c	/^char chars[39][5][5] = {$/;"	v
+check_UDP	server.c	/^void check_UDP(void)$/;"	f
+check_answer	testclient.c	/^MC_FlashCard* check_answer(int ans)$/;"	f
+check_exit_conditions	factoroids.c	/^static int check_exit_conditions(void)$/;"	f	file:
+check_exit_conditions	game.c	/^int check_exit_conditions(void)$/;"	f
+check_extra_life	game.c	/^int check_extra_life(void)$/;"	f
+check_game_clients	server.c	/^void check_game_clients(void)$/;"	f
+check_messages	network.c	/^int check_messages(char buf[NET_BUF_LEN])$/;"	f
+check_score_place	highscore.c	/^int check_score_place(int diff_level, int new_score)$/;"	f
+cities	game.c	/^static city_type* cities = NULL;$/;"	v	file:
+city	game.c	/^  int city;$/;"	m	struct:comet_type	file:
+city_expl_height	game.c	/^static int city_expl_height;$/;"	v	file:
+cleanup	setup.c	/^void cleanup(void)$/;"	f
+cleanupMP	multiplayer.c	/^void cleanupMP()$/;"	f
+cleanup_memory	setup.c	/^void cleanup_memory(void)$/;"	f
+cleanup_on_error	setup.c	/^void cleanup_on_error(void)$/;"	f
+cleanup_server	server.c	/^void cleanup_server(void)$/;"	f
+clear_file	tuxmathadmin.c	/^void clear_file(const char *path,const char *filename,const char *invoke_name)$/;"	f
+clear_goldstars	tuxmathadmin.c	/^void clear_goldstars(const char *path)$/;"	f
+clear_highscores	tuxmathadmin.c	/^void clear_highscores(const char *path)$/;"	f
+clear_logs	tuxmathadmin.c	/^void clear_logs(const char *path)$/;"	f
+clear_negatives	mathcards.c	/^void clear_negatives(void)$/;"	f
+client	server.c	/^static client_type client[MAX_CLIENTS];$/;"	v	file:
+client_set	server.c	/^SDLNet_SocketSet client_set = NULL, temp_set = NULL;$/;"	v
+cloud	game.c	/^static cloud_type cloud;$/;"	v	file:
+colorRGBA_type	factoroids.c	/^typedef struct colorRGBA_type {$/;"	s	file:
+comet_counter	game.c	/^static int comet_counter = 0;$/;"	v	file:
+comet_feedback_height	game.c	/^static float comet_feedback_height;$/;"	v	file:
+comet_feedback_number	game.c	/^static int comet_feedback_number;$/;"	v	file:
+comet_type	game.c	/^typedef struct comet_type {$/;"	s	file:
+comet_type	game.c	/^} comet_type;$/;"	t	typeref:struct:comet_type	file:
+comets	game.c	/^static comet_type* comets = NULL;$/;"	v	file:
+comets	testclient.c	/^MC_FlashCard comets[QUEST_QUEUE_SIZE];    \/\/current questions$/;"	v
+comp_randomizer	mathcards.c	/^int comp_randomizer (const void* a, const void* b)$/;"	f
+compare_card	mathcards.c	/^static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)$/;"	f	file:
+compare_node	mathcards.c	/^int compare_node(MC_MathQuestion* first, MC_MathQuestion* other)$/;"	f
+compare_scores	game.c	/^int compare_scores(const void* p1, const void* p2)$/;"	f
+config_highscores	tuxmathadmin.c	/^void config_highscores(const char *path,int level)$/;"	f
+connected_players_recvd	game.c	/^int connected_players_recvd(char* buf)$/;"	f
+connected_server	network.c	/^static int connected_server = -1;$/;"	v	file:
+consolidate_logs	tuxmathadmin.c	/^void consolidate_logs(const char *path)$/;"	f
+count	factoroids.c	/^  int count;$/;"	m	struct:FF_laser_type	file:
+count	factoroids.c	/^  int count;$/;"	m	struct:asteroid_type	file:
+count	factoroids.c	/^  int count;$/;"	m	struct:tuxship_type	file:
+countdead	factoroids.c	/^static int xdead, ydead, isdead, countdead;$/;"	v	file:
+counter	factoroids.c	/^static int counter;$/;"	v	file:
+create_homedirs	tuxmathadmin.c	/^void create_homedirs(const char *path,const char *file)$/;"	f
+create_node_copy	mathcards.c	/^MC_MathQuestion* create_node_copy(MC_MathQuestion* other)$/;"	f
+credit_text	credits.c	/^const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {$/;"	v
+credits	credits.c	/^int credits(void)$/;"	f
+curr_res_x	titlescreen.c	/^int curr_res_x = -1;$/;"	v
+curr_res_y	titlescreen.c	/^int curr_res_y = -1;$/;"	v
+current_bkg	titlescreen.c	/^SDL_Surface* current_bkg()$/;"	f
+current_bkgd	factoroids.c	/^static SDL_Surface* current_bkgd()$/;"	f	file:
+current_bkgd	game.c	/^static SDL_Surface* current_bkgd()$/;"	f	file:
+cursor	titlescreen.c	/^         cursor,$/;"	v
+danger_level	game.c	/^static float danger_level;$/;"	v	file:
+dark_blue	titlescreen.c	/^SDL_Color dark_blue;$/;"	v
+debug_factoroids	options.c	/^const int debug_factoroids     = dstart << 7;$/;"	v
+debug_fileops	options.c	/^const int debug_fileops        = dstart << 1;$/;"	v
+debug_game	options.c	/^const int debug_game           = dstart << 6;$/;"	v
+debug_highscore	options.c	/^const int debug_highscore      = dstart << 10;$/;"	v
+debug_lan	options.c	/^const int debug_lan            = dstart << 8;$/;"	v
+debug_lessons	options.c	/^const int debug_lessons        = dstart << 11;$/;"	v
+debug_mathcards	options.c	/^const int debug_mathcards      = dstart << 9;$/;"	v
+debug_multiplayer	options.c	/^const int debug_multiplayer    = dstart << 2;$/;"	v
+debug_options	options.c	/^const int debug_options        = dstart << 4;$/;"	v
+debug_setup	options.c	/^const int debug_setup          = dstart << 0;$/;"	v
+debug_text_and_intl	options.c	/^const int debug_text_and_intl  = dstart << 5;$/;"	v
+debug_titlescreen	options.c	/^const int debug_titlescreen    = dstart << 3;$/;"	v
+delete_list	mathcards.c	/^MC_MathQuestion* delete_list(MC_MathQuestion* list)$/;"	f
+demo_countdown	game.c	/^static int demo_countdown;$/;"	v	file:
+destx	factoroids.c	/^  int destx,desty;$/;"	m	struct:FF_laser_type	file:
+desty	factoroids.c	/^  int destx,desty;$/;"	m	struct:FF_laser_type	file:
+detecting_servers	highscore.c	/^int detecting_servers(const char* heading, const char* sub)$/;"	f
+digits	factoroids.c	/^static int digits[3];$/;"	v	file:
+digits	game.c	/^static int digits[MC_MAX_DIGITS];$/;"	v	file:
+directory	tuxmathadmin.c	/^char *directory[MAX_USERS];$/;"	v
+directory_crawl	tuxmathadmin.c	/^int directory_crawl(const char *path)$/;"	f
+directory_level	tuxmathadmin.c	/^int directory_level[MAX_USERS];$/;"	v
+dirfd	scandir.c	66;"	d	file:
+dirfd	scandir.c	70;"	d	file:
+dirname_up	fileops.c	/^static void dirname_up(char *dirname)$/;"	f	file:
+display_help	tuxmathadmin.c	/^void display_help(void)$/;"	f
+doing_answer	factoroids.c	/^static int doing_answer;$/;"	v	file:
+doing_answer	game.c	/^static int doing_answer;$/;"	v	file:
+draw_console_image	factoroids.c	/^void draw_console_image(int i)$/;"	f
+draw_console_image	game.c	/^void draw_console_image(int i)$/;"	f
+draw_led_console	game.c	/^void draw_led_console(void)$/;"	f
+draw_line	game.c	/^void draw_line(int x1, int y1, int x2, int y2, int red, int grn, int blu)$/;"	f
+draw_numbers	game.c	/^void draw_numbers(const char* str, int x, int y)$/;"	f
+draw_nums	game.c	/^void draw_nums(const char* str, int x, int y)$/;"	f
+draw_question_counter	game.c	/^void draw_question_counter(void)$/;"	f
+draw_text	credits.c	/^void draw_text(char* str, SDL_Rect dest)$/;"	f
+dstart	options.c	53;"	d	file:
+dstrect	titlescreen.c	/^    SDL_Rect *dstrect;$/;"	m	struct:blit	file:
+dstupdate	titlescreen.c	/^SDL_Rect dstupdate[MAX_UPDATES];$/;"	v
+eatwhite	tuxmathadmin.c	/^char* eatwhite(char *buf)$/;"	f
+egg	titlescreen.c	/^SDL_Surface* egg = NULL;$/;"	v
+egg_active	titlescreen.c	/^int egg_active = 0; \/\/are we currently using the egg cursor?$/;"	v
+egg_path	titlescreen.c	/^const char* egg_path     = "title\/egg.svg";$/;"	v
+erase_comet_on_screen	game.c	/^int erase_comet_on_screen(comet_type* comet)$/;"	f
+erase_flashcard	testclient.c	/^int erase_flashcard(MC_FlashCard* fc)$/;"	f
+error	tuxmathadmin.c	43;"	d	file:
+escape_received	factoroids.c	/^static int escape_received;$/;"	v	file:
+event	titlescreen.c	/^SDL_Event event;$/;"	v
+expl	game.c	/^  int expl;$/;"	m	struct:comet_type	file:
+extra_life_earned	game.c	/^static int extra_life_earned;$/;"	v	file:
+extra_life_is_blinking	factoroids.c	/^  int extra_life_is_blinking;$/;"	m	struct:__anon2	file:
+extra_life_is_blinking	game.c	/^  int extra_life_is_blinking;$/;"	m	struct:__anon3	file:
+extract_variable	tuxmathadmin.c	/^int extract_variable(FILE *fp, const char *varname, char** value)$/;"	f
+fact_number	factoroids.c	/^  int fact_number;$/;"	m	struct:asteroid_type	file:
+factors	factoroids.c	/^void factors(void)$/;"	f
+fast_cos	factoroids.c	/^int fast_cos(int angle)$/;"	f
+fast_sin	factoroids.c	/^int fast_sin(int angle)$/;"	f
+filename_comp	lessons.c	/^static int filename_comp(const char* s1, const char* s2)$/;"	f	file:
+find_comet_by_id	testclient.c	/^MC_FlashCard* find_comet_by_id(int id)$/;"	f
+find_divisor	mathcards.c	/^int find_divisor(int a)$/;"	f
+find_node	mathcards.c	/^MC_MathQuestion* find_node(MC_MathQuestion* list, int num)$/;"	f
+find_tuxmath_dir	fileops.c	/^static int find_tuxmath_dir(void)$/;"	f	file:
+find_vacant_client	server.c	/^int find_vacant_client(void)$/;"	f
+flash	server.c	/^MC_FlashCard flash;$/;"	v
+flashcard	game.c	/^  MC_FlashCard flashcard;$/;"	m	struct:comet_type	file:
+flipped_images	setup.c	/^SDL_Surface* flipped_images[NUM_FLIPPED_IMAGES];$/;"	v
+flipped_img	setup.c	/^const int flipped_img[] = {$/;"	v
+flipped_img_lookup	setup.c	/^int flipped_img_lookup[NUM_IMAGES];$/;"	v
+floatCompare	mathcards.c	/^int floatCompare(const void *v1,const void *v2)$/;"	f
+fractions	factoroids.c	/^void fractions(void)$/;"	f
+frame	game.c	/^static int frame;$/;"	v	file:
+free_directories	tuxmathadmin.c	/^void free_directories(int n)$/;"	f
+free_node	mathcards.c	/^void free_node(MC_MathQuestion* mq) \/\/no, not that freenode.$/;"	f
+free_on_exit	game.c	/^void free_on_exit(void)$/;"	f
+free_titlescreen	titlescreen.c	/^void free_titlescreen(void)$/;"	f
+fs_bkg	titlescreen.c	/^SDL_Surface* fs_bkg = NULL;$/;"	v
+fsync	tuxmathadmin.c	41;"	d	file:
+g	factoroids.c	/^  Uint8 g;$/;"	m	struct:colorRGBA_type	file:
+g	factoroids.c	/^  int r, g, b;$/;"	m	struct:FF_laser_type	file:
+game	game.c	/^int game(void)$/;"	f
+game_check_msgs	testclient.c	/^int game_check_msgs(void)$/;"	f
+game_cleanup	game.c	/^void game_cleanup(void)$/;"	f
+game_clear_message	game.c	/^void game_clear_message(game_message *msg)$/;"	f
+game_clear_messages	game.c	/^void game_clear_messages()$/;"	f
+game_countdown	game.c	/^void game_countdown(void)$/;"	f
+game_draw	game.c	/^void game_draw(void)$/;"	f
+game_draw_background	game.c	/^void game_draw_background(void)$/;"	f
+game_draw_cities	game.c	/^void game_draw_cities(void)$/;"	f
+game_draw_comets	game.c	/^void game_draw_comets(void)$/;"	f
+game_draw_misc	game.c	/^void game_draw_misc(void)$/;"	f
+game_handle_answer	game.c	/^void game_handle_answer(void)$/;"	f
+game_handle_cities	game.c	/^void game_handle_cities(void)$/;"	f
+game_handle_comets	game.c	/^void game_handle_comets(void)$/;"	f
+game_handle_demo	game.c	/^void game_handle_demo(void)$/;"	f
+game_handle_extra_life	game.c	/^void game_handle_extra_life(void)$/;"	f
+game_handle_game_over	game.c	/^void game_handle_game_over(int game_status)$/;"	f
+game_handle_help	game.c	/^void game_handle_help(void)$/;"	f
+game_handle_net_messages	game.c	/^void game_handle_net_messages(void)$/;"	f
+game_handle_net_msg	game.c	/^void game_handle_net_msg(char* buf)$/;"	f
+game_handle_penguins	game.c	/^void game_handle_penguins(void)$/;"	f
+game_handle_steam	game.c	/^void game_handle_steam(void)$/;"	f
+game_handle_tux	game.c	/^void game_handle_tux(void)$/;"	f
+game_handle_user_events	factoroids.c	/^void game_handle_user_events(void)$/;"	f
+game_handle_user_events	game.c	/^void game_handle_user_events(void)$/;"	f
+game_in_progress	server.c	/^static int game_in_progress = 0;$/;"	v	file:
+game_initialize	game.c	/^int game_initialize(void)$/;"	f
+game_key_event	game.c	/^void game_key_event(SDLKey key, SDLMod mod)$/;"	f
+game_mouse_event	factoroids.c	/^static int game_mouse_event(SDL_Event event)$/;"	f	file:
+game_mouse_event	game.c	/^void game_mouse_event(SDL_Event event)$/;"	f
+game_msg_correct_answer	server.c	/^void game_msg_correct_answer(int i, char* inbuf)$/;"	f
+game_msg_exit	server.c	/^void game_msg_exit(int i)$/;"	f
+game_msg_next_question	server.c	/^void game_msg_next_question(void)$/;"	f
+game_msg_quit	server.c	/^void game_msg_quit(int i)$/;"	f
+game_msg_wrong_answer	server.c	/^void game_msg_wrong_answer(int i, char* inbuf)$/;"	f
+game_music_filenames	factoroids.c	/^static char* game_music_filenames[3] = {$/;"	v	file:
+game_music_filenames	game.c	/^static char* game_music_filenames[3] = {$/;"	v	file:
+game_options	options.c	/^static game_option_type* game_options;$/;"	v	file:
+game_over_other	game.c	/^static int game_over_other;$/;"	v	file:
+game_over_won	game.c	/^static int game_over_won;$/;"	v	file:
+game_recalc_positions	game.c	/^void game_recalc_positions(int xres, int yres)$/;"	f
+game_set_message	game.c	/^void game_set_message(game_message *msg,const char *txt,int x,int y)$/;"	f
+game_set_start_message	game.c	/^void game_set_start_message(const char* m1, const char* m2, $/;"	f
+game_status	factoroids.c	/^static int game_status;$/;"	v	file:
+game_status	game.c	/^static int game_status;$/;"	v	file:
+game_status	testclient.c	/^int game_status = GAME_NOT_STARTED;$/;"	v
+game_write_message	game.c	/^void game_write_message(const game_message *msg)$/;"	f
+game_write_messages	game.c	/^void game_write_messages(void)$/;"	f
+gameover_counter	game.c	/^static int gameover_counter;$/;"	v	file:
+generate_blended_images	setup.c	/^void generate_blended_images(void)$/;"	f
+generate_flipped_images	setup.c	/^void generate_flipped_images(void)$/;"	f
+generate_list	mathcards.c	/^MC_MathQuestion* generate_list(void)$/;"	f
+generate_random_flashcard	mathcards.c	/^MC_FlashCard generate_random_flashcard(void)$/;"	f
+generate_random_ooo_card_of_length	mathcards.c	/^MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)$/;"	f
+generatenumber	factoroids.c	/^static int generatenumber(int wave) {$/;"	f	file:
+get_asteroid_image	factoroids.c	/^static SDL_Surface* get_asteroid_image(int size,int angle)$/;"	f	file:
+get_file_name	fileops.c	/^static char* get_file_name(char *fullpath)$/;"	f	file:
+get_home	fileops.c	203;"	d	file:
+get_user_data_dir	fileops.c	/^char *get_user_data_dir ()$/;"	f
+get_user_data_dir_with_subdir	fileops.c	/^void get_user_data_dir_with_subdir(char *opt_path)$/;"	f
+get_user_name	fileops.c	/^static char* get_user_name(void)$/;"	f	file:
+getpixel16	pixels.c	/^Uint32 getpixel16(SDL_Surface * surface, int x, int y)$/;"	f
+getpixel24	pixels.c	/^Uint32 getpixel24(SDL_Surface * surface, int x, int y)$/;"	f
+getpixel32	pixels.c	/^Uint32 getpixel32(SDL_Surface * surface, int x, int y)$/;"	f
+getpixel8	pixels.c	/^Uint32 getpixel8(SDL_Surface * surface, int x, int y)$/;"	f
+getpixels	pixels.c	/^Uint32(*getpixels[])(SDL_Surface *, int, int) =$/;"	v
+global_options	options.c	/^static global_option_type* global_options;$/;"	v	file:
+glyph_offset	fileops_media.c	/^int glyph_offset;$/;"	v
+gray	titlescreen.c	/^SDL_Color gray;$/;"	v
+handle_activity	menu.c	/^int handle_activity(int act, int param)$/;"	f
+handle_client_game_msg	server.c	/^int handle_client_game_msg(int i , char* buffer)$/;"	f
+handle_client_nongame_msg	server.c	/^void handle_client_nongame_msg(int i, char* buffer)$/;"	f
+handle_command_args	setup.c	/^void handle_command_args(int argc, char* argv[])$/;"	f
+handle_easter_egg	titlescreen.c	/^int handle_easter_egg(const SDL_Event* evt)$/;"	f
+help_add_comet	game.c	/^void help_add_comet(const char* formula_str, const char* ans_str)$/;"	f
+help_controls	game.c	/^static help_controls_type help_controls;$/;"	v	file:
+help_controls_type	factoroids.c	/^} help_controls_type;$/;"	t	typeref:struct:__anon2	file:
+help_controls_type	game.c	/^} help_controls_type;$/;"	t	typeref:struct:__anon3	file:
+help_renderframe_exit	game.c	/^int help_renderframe_exit(void)$/;"	f
+high_score_entry	highscore.c	/^typedef struct high_score_entry {$/;"	s	file:
+high_score_entry	highscore.c	/^} high_score_entry;$/;"	t	typeref:struct:high_score_entry	file:
+high_scores	highscore.c	/^high_score_entry high_scores[NUM_HIGH_SCORE_LEVELS][HIGH_SCORES_SAVED];$/;"	v
+high_scores_file_path	fileops.c	/^static char* high_scores_file_path = NULL;$/;"	v	file:
+high_scores_found_in_user_dir	fileops.c	/^int high_scores_found_in_user_dir(void)$/;"	f
+hurt	factoroids.c	/^  int hurt, hurt_count;$/;"	m	struct:tuxship_type	file:
+hurt_count	factoroids.c	/^  int hurt, hurt_count;$/;"	m	struct:tuxship_type	file:
+id	mathcards.c	/^static int id = 0;$/;"	v	file:
+igloo_vertical_offset	game.c	/^static int igloo_vertical_offset;$/;"	v	file:
+images	setup.c	/^SDL_Surface* images[NUM_IMAGES];$/;"	v
+initMP	multiplayer.c	/^int initMP()$/;"	f
+init_blits	titlescreen.c	/^void init_blits(void) {$/;"	f
+initialize_SDL	setup.c	/^void initialize_SDL(void)$/;"	f
+initialize_options	setup.c	/^void initialize_options(void)$/;"	f
+initialize_options_user	setup.c	/^void initialize_options_user(void)$/;"	f
+initialize_scores	generate_lesson.c	/^void initialize_scores(void)$/;"	f
+initialize_scores	highscore.c	/^void initialize_scores(void)$/;"	f
+initialized	mathcards.c	/^int initialized = 0;$/;"	v
+inprogress	multiplayer.c	/^int inprogress = 0;$/;"	v
+insert_node	mathcards.c	/^MC_MathQuestion* insert_node(MC_MathQuestion* first,$/;"	f
+insert_score	highscore.c	/^int insert_score(char* playername, int diff_level, int new_score)$/;"	f
+int_to_bool	options.c	/^int int_to_bool(int i)$/;"	f
+ip	server.c	/^IPaddress ip;$/;"	v
+is_lesson_file	fileops.c	/^static int is_lesson_file(const struct dirent *lfdirent)$/;"	f	file:
+is_prime	factoroids.c	/^int is_prime(int num)$/;"	f
+is_simplified	factoroids.c	/^int is_simplified(int a, int b)$/;"	f
+isdead	factoroids.c	/^static int xdead, ydead, isdead, countdead;$/;"	v	file:
+isprime	factoroids.c	/^  int isprime;$/;"	m	struct:asteroid_type	file:
+key_pressed	game.c	/^static int key_pressed;$/;"	v	file:
+lan_player_info	game.c	/^lan_player_type lan_player_info[MAX_CLIENTS];$/;"	v
+lan_player_type	game.c	/^typedef struct lan_player_type {$/;"	s	file:
+lan_player_type	game.c	/^} lan_player_type;$/;"	t	typeref:struct:lan_player_type	file:
+lan_players	game.c	/^static int lan_players = 0;$/;"	v	file:
+laser	factoroids.c	/^static FF_laser_type laser[MAX_LASER];$/;"	v	file:
+laser	game.c	/^static laser_type laser[MAX_LASER];$/;"	v	file:
+laser_enabled	factoroids.c	/^  int laser_enabled;$/;"	m	struct:__anon2	file:
+laser_enabled	game.c	/^  int laser_enabled;$/;"	m	struct:__anon3	file:
+last_bkgd	game.c	/^static int last_bkgd;$/;"	v	file:
+last_config_file_name	fileops.c	/^static char* last_config_file_name = NULL;$/;"	v	file:
+left_pressed	factoroids.c	/^static int left_pressed;$/;"	v	file:
+length_alloc_time_per_question_list	mathcards.c	/^int length_alloc_time_per_question_list = 0;$/;"	v
+length_time_per_question_list	mathcards.c	/^int length_time_per_question_list = 0;$/;"	v
+lesson_list_filenames	generate_lesson.c	/^char **lesson_list_filenames = NULL;$/;"	v
+lesson_list_filenames	titlescreen.c	/^char **lesson_list_filenames = NULL;$/;"	v
+lesson_list_goldstars	lessons.c	/^int* lesson_list_goldstars = NULL;$/;"	v
+lesson_list_titles	generate_lesson.c	/^char **lesson_list_titles = NULL;$/;"	v
+lesson_list_titles	titlescreen.c	/^char **lesson_list_titles = NULL;$/;"	v
+level_start_wait	factoroids.c	/^static int level_start_wait;$/;"	v	file:
+level_start_wait	game.c	/^static int level_start_wait;$/;"	v	file:
+line	credits.c	/^int line;$/;"	v
+linewrap	linewrap.c	/^int linewrap(const char *input, char str_list[MAX_LINES][MAX_LINEWIDTH],$/;"	f
+linewrap_list	linewrap.c	/^void linewrap_list(const char input[MAX_LINES][MAX_LINEWIDTH],$/;"	f
+list_length	mathcards.c	/^int list_length(MC_MathQuestion* list)$/;"	f
+lives	factoroids.c	/^  int lives, size;$/;"	m	struct:tuxship_type	file:
+load_data_files	setup.c	/^void load_data_files(void)$/;"	f
+load_image_data	fileops_media.c	/^int load_image_data()$/;"	f
+load_sound_data	fileops_media.c	/^int load_sound_data(void)$/;"	f
+local_argc	server.c	/^int local_argc;$/;"	v
+local_argv	server.c	/^char* local_argv[MAX_ARGS];$/;"	v
+local_argv_storage	server.c	/^char local_argv_storage[MAX_ARGS][256];$/;"	v
+localtime_r	fileops.c	104;"	d	file:
+logo	titlescreen.c	/^SDL_Surface* logo = NULL;$/;"	v
+logo_rect	titlescreen.c	/^         logo_rect,$/;"	v
+m	factoroids.c	/^  int m;$/;"	m	struct:FF_laser_type	file:
+main	exercise_mathcards.c	/^int main()$/;"	f
+main	generate_lesson.c	/^int main(int argc,char *argv[])$/;"	f
+main	servermain.c	/^int main(int argc, char** argv)$/;"	f
+main	testclient.c	/^int main(int argc, char **argv)$/;"	f
+main	tuxmath.c	/^int main(int argc, char* argv[])$/;"	f
+main	tuxmathadmin.c	/^int main(int argc, char *argv[])$/;"	f
+math_opts	mathcards.c	/^MC_Options* math_opts = NULL;$/;"	v
+menu_title_rect	menu.c	/^SDL_Rect menu_title_rect;$/;"	v
+mine	game.c	/^  int mine;	$/;"	m	struct:lan_player_type	file:
+modwrap	factoroids.c	/^static int modwrap(int x,int w)$/;"	f	file:
+mp_get_parameter	multiplayer.c	/^int mp_get_parameter(unsigned int param)$/;"	f
+mp_get_player_name	multiplayer.c	/^const char* mp_get_player_name(int playernum)$/;"	f
+mp_get_player_score	multiplayer.c	/^int mp_get_player_score(int playernum)$/;"	f
+mp_run_multiplayer	multiplayer.c	/^void mp_run_multiplayer()$/;"	f
+mp_set_parameter	multiplayer.c	/^void mp_set_parameter(unsigned int param, int value)$/;"	f
+msg_set_name	server.c	/^int msg_set_name(int i, char* buf)$/;"	f
+msg_socket_index	server.c	/^void msg_socket_index(int i, char* buf)$/;"	f
+music	audio.c	/^Mix_Music *music;$/;"	v
+musics	setup.c	/^Mix_Music* musics[NUM_MUSICS];$/;"	v
+my_socket_index	game.c	/^static int my_socket_index;$/;"	v	file:
+name	game.c	/^  char name[NAME_SIZE];$/;"	m	struct:lan_player_type	file:
+name	highscore.c	/^  char name[HIGH_SCORE_NAME_LENGTH];$/;"	m	struct:high_score_entry	file:
+need_server_name	server.c	/^int need_server_name = 1;     \/* Always request server name *\/$/;"	v
+neg_answer_picked	factoroids.c	/^static int neg_answer_picked;$/;"	v	file:
+neg_answer_picked	game.c	/^static int neg_answer_picked;$/;"	v	file:
+network_error	game.c	/^static int network_error;$/;"	v	file:
+next_wrong_quest	mathcards.c	/^MC_MathQuestion* next_wrong_quest = NULL;$/;"	v
+num	factoroids.c	/^static int num;$/;"	v	file:
+num_attackers	game.c	/^static int num_attackers;$/;"	v	file:
+num_cities_alive	game.c	/^static int num_cities_alive;$/;"	v	file:
+num_clients	server.c	/^static int num_clients = 0;$/;"	v	file:
+num_comets_alive	game.c	/^static int num_comets_alive()$/;"	f	file:
+num_lessons	generate_lesson.c	/^int num_lessons = 0;$/;"	v
+num_lessons	titlescreen.c	/^int num_lessons = 0;$/;"	v
+numupdates	titlescreen.c	/^int numupdates = 0; \/\/ tracks how many blits to be done$/;"	v
+old_tux_img	game.c	/^static int old_tux_img;$/;"	v	file:
+operchars	mathcards.c	/^const char operchars[4] = "+-*\/";$/;"	v
+params	multiplayer.c	/^int params[NUM_PARAMS] = {0, 0, 0, 0};$/;"	v
+parse_lesson_file_directory	fileops.c	/^int parse_lesson_file_directory(void)$/;"	f
+parse_option	fileops.c	/^static int parse_option(const char* name, int val, int file_type)$/;"	f	file:
+pause_game	game.c	/^int pause_game(void)$/;"	f
+paused	factoroids.c	/^static int paused;$/;"	v	file:
+paused	game.c	/^static int paused;$/;"	v	file:
+penguins	game.c	/^static penguin_type* penguins = NULL;$/;"	v	file:
+pick_random	mathcards.c	/^MC_MathQuestion* pick_random(int length, MC_MathQuestion* list)$/;"	f
+player_msg	server.c	/^int player_msg(int i, char* msg)$/;"	f
+player_msg_recvd	testclient.c	/^int player_msg_recvd(char* buf)$/;"	f
+playgame	testclient.c	/^int playgame(void)$/;"	f
+playsound	audio.c	/^void playsound(int snd)$/;"	f
+pnames	multiplayer.c	/^char* pnames[MAX_PLAYERS];$/;"	v
+pre_wave_score	game.c	/^static int pre_wave_score;$/;"	v	file:
+prev_wave_comets	game.c	/^static int prev_wave_comets;$/;"	v	file:
+prime_next	factoroids.c	/^static const int prime_next[] = {2, 2, 3, 5, 5, 7, 7, 11, 11, 11, 11, 13, 13, 2};$/;"	v	file:
+prime_numbers	factoroids.c	/^static const int prime_numbers[] = {2, 3, 5, 7, 11, 13};$/;"	v	file:
+prime_power_limit	factoroids.c	/^static const int prime_power_limit[] = {7, 4, 3, 3, 2, 2}; \/\/custom calibrated power limits for extra "goodness"$/;"	v	file:
+prime_prev	factoroids.c	/^static const int prime_prev[] = {13, 13, 13, 2, 3, 3, 3, 5, 5, 7, 7, 7, 7, 11, 11};$/;"	v	file:
+print_card	mathcards.c	/^void print_card(MC_FlashCard card)$/;"	f
+print_counters	mathcards.c	/^void print_counters(void)$/;"	f
+print_current_quests	game.c	/^void print_current_quests(void)$/;"	f
+print_current_quests	testclient.c	/^void print_current_quests(void)$/;"	f
+print_exit_conditions	game.c	/^void print_exit_conditions(void)$/;"	f
+print_game_options	options.c	/^void print_game_options(FILE* fp, int verbose)$/;"	f
+print_high_scores	highscore.c	/^void print_high_scores(FILE* fp)$/;"	f
+print_list	mathcards.c	/^void print_list(FILE* fp, MC_MathQuestion* list)$/;"	f
+print_server_list	network.c	/^void print_server_list(void)$/;"	f
+print_status	game.c	/^void print_status(void)$/;"	f
+print_vect_list	mathcards.c	/^void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)$/;"	f
+pscores	multiplayer.c	/^int pscores[MAX_PLAYERS];$/;"	v
+putpixel	game.c	/^void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel)$/;"	f
+putpixel16	pixels.c	/^void putpixel16(SDL_Surface * surface, int x, int y, Uint32 pixel)$/;"	f
+putpixel24	pixels.c	/^void putpixel24(SDL_Surface * surface, int x, int y, Uint32 pixel)$/;"	f
+putpixel32	pixels.c	/^void putpixel32(SDL_Surface * surface, int x, int y, Uint32 pixel)$/;"	f
+putpixel8	pixels.c	/^void putpixel8(SDL_Surface * surface, int x, int y, Uint32 pixel)$/;"	f
+putpixels	pixels.c	/^void (*putpixels[]) (SDL_Surface *, int, int, Uint32) =$/;"	v
+quest_list_length	mathcards.c	/^int quest_list_length = 0;$/;"	v
+quest_queue	game.c	/^MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    \/\/current questions$/;"	v
+question_list	mathcards.c	/^MC_MathQuestion* question_list = NULL;$/;"	v
+questions_pending	mathcards.c	/^int questions_pending = 0;$/;"	v
+quit	factoroids.c	/^static int quit;$/;"	v	file:
+quit	server.c	/^static int quit = 0;$/;"	v	file:
+quit	testclient.c	/^int quit = 0;$/;"	v
+r	factoroids.c	/^  Uint8 r;$/;"	m	struct:colorRGBA_type	file:
+r	factoroids.c	/^  int r, g, b;$/;"	m	struct:FF_laser_type	file:
+radius	factoroids.c	/^  int radius;$/;"	m	struct:asteroid_type	file:
+radius	factoroids.c	/^  int radius;$/;"	m	struct:tuxship_type	file:
+randomize_list	mathcards.c	/^static int randomize_list(MC_MathQuestion** old_list)$/;"	f	file:
+readRoundSettings	campaign.c	/^void readRoundSettings(int stage, int round)$/;"	f
+readStageSettings	campaign.c	/^void readStageSettings(int stage)$/;"	f
+read_config_file	fileops.c	/^int read_config_file(FILE *fp, int file_type)$/;"	f
+read_global_config_file	fileops.c	/^int read_global_config_file(void)$/;"	f
+read_goldstars	fileops.c	/^int read_goldstars(void)$/;"	f
+read_goldstars_fp	lessons.c	/^int read_goldstars_fp(FILE* fp)$/;"	f
+read_high_scores	fileops.c	/^int read_high_scores(void)$/;"	f
+read_high_scores_fp	generate_lesson.c	/^int read_high_scores_fp(FILE* fp)$/;"	f
+read_high_scores_fp	highscore.c	/^int read_high_scores_fp(FILE* fp)$/;"	f
+read_lines_from_file	fileops.c	/^static int read_lines_from_file(FILE *fp,char ***lines)$/;"	f	file:
+read_named_config_file	fileops.c	/^int read_named_config_file(const char* fn)$/;"	f
+read_stdin_nonblock	server.c	/^int read_stdin_nonblock(char* buf, size_t max_length)$/;"	f
+read_stdin_nonblock	testclient.c	/^int read_stdin_nonblock(char* buf, size_t max_length)$/;"	f
+read_user_config_file	fileops.c	/^int read_user_config_file(void)$/;"	f
+read_user_login_questions	fileops.c	/^int read_user_login_questions(char ***user_login_questions)$/;"	f
+read_user_menu_entries	fileops.c	/^int read_user_menu_entries(char ***user_names)$/;"	f
+red	titlescreen.c	/^SDL_Color red;$/;"	v
+reformat_arithmetic	mathcards.c	/^void reformat_arithmetic(MC_FlashCard* card, MC_Format f)$/;"	f
+remaining_quests	game.c	/^int remaining_quests = 0;$/;"	v
+remaining_quests	testclient.c	/^int remaining_quests = 0;$/;"	v
+remove_client	server.c	/^void remove_client(int i)$/;"	f
+remove_node	mathcards.c	/^MC_MathQuestion* remove_node(MC_MathQuestion* first, MC_MathQuestion* n)$/;"	f
+remove_quest_recvd	game.c	/^int remove_quest_recvd(char* buf)$/;"	f
+remove_quest_recvd	testclient.c	/^int remove_quest_recvd(char* buf)$/;"	f
+remove_question	server.c	/^int remove_question(int id)$/;"	f
+remove_slash	fileops.c	/^static char *remove_slash(char *path)$/;"	f	file:
+reset_comets	game.c	/^void reset_comets(void)$/;"	f
+reset_level	game.c	/^void reset_level(void)$/;"	f
+right_pressed	factoroids.c	/^static int right_pressed;$/;"	v	file:
+rotateSurface90Degrees	SDL_rotozoom.c	/^SDL_Surface* rotateSurface90Degrees(SDL_Surface* pSurf, int numClockwiseTurns) $/;"	f
+roto_speed	factoroids.c	/^static int roto_speed;$/;"	v	file:
+rotozoomSurface	SDL_rotozoom.c	/^SDL_Surface *rotozoomSurface(SDL_Surface * src, double angle, double zoom, int smooth)$/;"	f
+rotozoomSurfaceSize	SDL_rotozoom.c	/^void rotozoomSurfaceSize(int width, int height, double angle, double zoom, int *dstwidth, int *dstheight)$/;"	f
+rotozoomSurfaceSizeTrig	SDL_rotozoom.c	/^void rotozoomSurfaceSizeTrig(int width, int height, double angle, double zoomx, double zoomy, int *dstwidth, int *dstheight, $/;"	f
+rotozoomSurfaceSizeXY	SDL_rotozoom.c	/^void rotozoomSurfaceSizeXY(int width, int height, double angle, double zoomx, double zoomy, int *dstwidth, int *dstheight)$/;"	f
+rotozoomSurfaceXY	SDL_rotozoom.c	/^SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, double zoomy, int smooth)$/;"	f
+run_academy	menu.c	/^int run_academy(void)$/;"	f
+run_arcade	menu.c	/^int run_arcade(int choice)$/;"	f
+run_custom_game	menu.c	/^int run_custom_game(void)$/;"	f
+run_factoroids	menu.c	/^int run_factoroids(int choice)$/;"	f
+run_lan_host	menu.c	/^int run_lan_host(void)$/;"	f
+run_lan_join	menu.c	/^int run_lan_join(void)$/;"	f
+run_menu	menu.c	/^int run_menu(MenuType which, bool return_choice)$/;"	f
+run_multiplayer	menu.c	/^void run_multiplayer(int mode, int difficulty)$/;"	f
+run_server_local_args	server.c	/^void* run_server_local_args(void* data)$/;"	f
+rx	factoroids.c	/^  int rx, ry;$/;"	m	struct:asteroid_type	file:
+rx	factoroids.c	/^  int rx, ry;$/;"	m	struct:tuxship_type	file:
+ry	factoroids.c	/^  int rx, ry;$/;"	m	struct:asteroid_type	file:
+ry	factoroids.c	/^  int rx, ry;$/;"	m	struct:tuxship_type	file:
+s1	game.c	/^static game_message s1, s2, s3, s4, s5;$/;"	v	file:
+s2	game.c	/^static game_message s1, s2, s3, s4, s5;$/;"	v	file:
+s3	game.c	/^static game_message s1, s2, s3, s4, s5;$/;"	v	file:
+s4	game.c	/^static game_message s1, s2, s3, s4, s5;$/;"	v	file:
+s5	game.c	/^static game_message s1, s2, s3, s4, s5;$/;"	v	file:
+say_to_server	network.c	/^int say_to_server(char* statement)$/;"	f
+scaled_bkgd	factoroids.c	/^static SDL_Surface* scaled_bkgd = NULL; \/\/native resolution (fullscreen)$/;"	v	file:
+scaled_bkgd	game.c	/^static SDL_Surface* scaled_bkgd = NULL; \/\/native resolution (fullscreen)$/;"	v	file:
+scandir	scandir.c	/^int scandir(const char *dirname, struct dirent ***namelist, int (*sdfilter)(struct dirent *), int (*dcomp)(const void *, const void *))$/;"	f
+score	factoroids.c	/^static int score;$/;"	v	file:
+score	game.c	/^  int score;	$/;"	m	struct:lan_player_type	file:
+score	game.c	/^static int score;$/;"	v	file:
+score	highscore.c	/^  int score;$/;"	m	struct:high_score_entry	file:
+screen	setup.c	/^SDL_Surface* screen;$/;"	v
+scroll_text	credits.c	/^int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int speed)$/;"	f
+sd	network.c	/^TCPsocket sd;           \/* Server socket descriptor *\/$/;"	v
+search_comets_by_id	game.c	/^comet_type* search_comets_by_id(int id)$/;"	f
+search_queue_by_id	game.c	/^MC_FlashCard* search_queue_by_id(int id)$/;"	f
+send_counter_updates	server.c	/^int send_counter_updates(void)$/;"	f
+send_score_updates	server.c	/^int send_score_updates(void)$/;"	f
+serv_ip	network.c	/^IPaddress serv_ip;$/;"	v
+server_check_messages	server.c	/^int server_check_messages(void)$/;"	f
+server_handle_command_args	server.c	/^void server_handle_command_args(int argc, char* argv[])$/;"	f
+server_name	server.c	/^char server_name[NAME_SIZE];  \/* User-visible name for server selection  *\/$/;"	v
+server_running	server.c	/^static int server_running = 0;$/;"	v	file:
+server_sock	server.c	/^TCPsocket server_sock = NULL; \/* Socket descriptor for server to accept client TCP sockets. *\/$/;"	v
+servers	network.c	/^ServerEntry servers[MAX_SERVERS];$/;"	v
+set	network.c	/^SDLNet_SocketSet set;$/;"	v
+set_current_bkg	titlescreen.c	/^void set_current_bkg(SDL_Surface* new_bkg)$/;"	f
+set_high_score_path	fileops.c	/^void set_high_score_path(void)$/;"	f
+set_user_data_dir	fileops.c	/^void set_user_data_dir(const char *dirname)$/;"	f
+seticon	setup.c	/^void seticon(void)$/;"	f
+setup	setup.c	/^void setup(int argc, char * argv[])$/;"	f
+setup_server	server.c	/^int setup_server(void)$/;"	f
+shift_pressed	factoroids.c	/^static int shift_pressed;$/;"	v	file:
+shoot_pressed	factoroids.c	/^static int shoot_pressed;$/;"	v	file:
+showGameOver	campaign.c	/^void showGameOver()$/;"	f
+showGameWon	campaign.c	/^void showGameWon()$/;"	f
+showWinners	multiplayer.c	/^void showWinners(int* winners, int num)$/;"	f
+shrinkSurface	SDL_rotozoom.c	/^SDL_Surface *shrinkSurface(SDL_Surface * src, int factorx, int factory)$/;"	f
+shrinkSurfaceRGBA	SDL_rotozoom.c	/^int shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)$/;"	f
+shrinkSurfaceY	SDL_rotozoom.c	/^int shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)$/;"	f
+size	factoroids.c	/^  int alive, size;$/;"	m	struct:asteroid_type	file:
+size	factoroids.c	/^  int lives, size;$/;"	m	struct:tuxship_type	file:
+slowdown	game.c	/^static int slowdown;$/;"	v	file:
+smallprimes	mathcards.c	/^const int smallprimes[NPRIMES] = {2, 3, 5 ,7, 11, 13, 17, 19, 23};$/;"	v
+socket_index_recvd	game.c	/^int socket_index_recvd(char* buf)$/;"	f
+sounds	setup.c	/^Mix_Chunk* sounds[NUM_SOUNDS];$/;"	v
+speed	game.c	/^static float speed;$/;"	v	file:
+sprites	setup.c	/^sprite* sprites[NUM_SPRITES];$/;"	v
+src	titlescreen.c	/^    SDL_Surface *src;$/;"	m	struct:blit	file:
+srcrect	titlescreen.c	/^    SDL_Rect *srcrect;$/;"	m	struct:blit	file:
+srcupdate	titlescreen.c	/^SDL_Rect srcupdate[MAX_UPDATES];$/;"	v
+stagenames	campaign.c	/^char* stagenames[NUM_STAGES] = {"cadet", "scout", "ranger", "ace", "commando"};$/;"	v
+standby_path	titlescreen.c	/^const char* standby_path = "status\/standby.svg";$/;"	v
+start_campaign	campaign.c	/^int start_campaign()$/;"	f
+start_game	server.c	/^void start_game(void)$/;"	f
+start_message_chosen	game.c	/^static int start_message_chosen = 0;$/;"	v	file:
+starting_length	mathcards.c	/^int starting_length = 0;$/;"	v
+steam	game.c	/^static steam_type* steam = NULL;$/;"	v	file:
+str_to_bool	fileops.c	/^static int str_to_bool(const char* val)$/;"	f	file:
+summary_filenames	fileops.c	/^static char* summary_filenames[NUM_SUMMARIES] = {$/;"	v	file:
+temp_set	server.c	/^SDLNet_SocketSet client_set = NULL, temp_set = NULL;$/;"	v
+time_per_question_list	mathcards.c	/^float* time_per_question_list = NULL;$/;"	v
+time_started	game.c	/^  Uint32 time_started;$/;"	m	struct:comet_type	file:
+title	titlescreen.c	/^SDL_Surface* title = NULL;$/;"	v
+title_path	titlescreen.c	/^const char* title_path   = "title\/title1.svg";$/;"	v
+title_pos	titlescreen.c	/^const float title_pos[4] = {0.0, 0.0, 0.3, 0.25};$/;"	v
+title_rect	titlescreen.c	/^         title_rect,$/;"	v
+total_questions_left	game.c	/^static int total_questions_left;$/;"	v	file:
+total_quests_recvd	testclient.c	/^int total_quests_recvd(char* buf)$/;"	f
+trans_wipe	titlescreen.c	/^void trans_wipe(SDL_Surface* newbkg, int type, int var1, int var2)$/;"	f
+transformSurfaceRGBA	SDL_rotozoom.c	/^void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy, int smooth)$/;"	f
+transformSurfaceY	SDL_rotozoom.c	/^void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos)$/;"	f
+transmit	server.c	/^int transmit(int i, char* msg)$/;"	f
+transmit_all	server.c	/^int transmit_all(char* msg)$/;"	f
+trig	factoroids.c	/^static int trig[12] = {$/;"	v	file:
+tux_anim	game.c	/^static int tux_anim;$/;"	v	file:
+tux_anim_frame	game.c	/^static int tux_anim_frame;$/;"	v	file:
+tux_img	factoroids.c	/^static int tux_img;$/;"	v	file:
+tux_img	game.c	/^static int tux_img;$/;"	v	file:
+tux_path	titlescreen.c	/^const char* tux_path     = "tux\/bigtux";$/;"	v
+tux_pos	titlescreen.c	/^const float tux_pos[4]   = {0.0, 0.6, 0.3, 0.4};$/;"	v
+tux_pressing	factoroids.c	/^static int tux_pressing;$/;"	v	file:
+tux_pressing	game.c	/^static int tux_pressing;$/;"	v	file:
+tux_rect	titlescreen.c	/^         tux_rect,$/;"	v
+tuxship	factoroids.c	/^static tuxship_type tuxship;$/;"	v	file:
+tuxship_type	factoroids.c	/^typedef struct tuxship_type {$/;"	s	file:
+tuxship_type	factoroids.c	/^} tuxship_type;$/;"	t	typeref:struct:tuxship_type	file:
+type	titlescreen.c	/^    unsigned char type;$/;"	m	struct:blit	file:
+udpsock	server.c	/^UDPsocket udpsock = NULL;     \/* Used to listen for client's server autodetection           *\/$/;"	v
+unanswered	mathcards.c	/^int unanswered = 0;$/;"	v
+unconfig_highscores	tuxmathadmin.c	/^void unconfig_highscores(const char *path)$/;"	f
+up_pressed	factoroids.c	/^static int up_pressed;$/;"	v	file:
+update_clients	server.c	/^void update_clients(void)$/;"	f
+update_score_recvd	game.c	/^int update_score_recvd(char* buf)$/;"	f
+update_screen	titlescreen.c	/^void update_screen(int *frame) {$/;"	f
+usage	setup.c	/^void usage(int err, char * cmd)$/;"	f
+usage	tuxmathadmin.c	/^void usage(int err, char * cmd)$/;"	f
+user_data_dir	fileops.c	/^static char* user_data_dir = NULL;$/;"	v	file:
+user_data_dirname_down	fileops.c	/^void user_data_dirname_down(char *subdir)$/;"	f
+user_data_dirname_up	fileops.c	/^void user_data_dirname_up(void)$/;"	f
+user_quit_received	game.c	/^static int user_quit_received;$/;"	v	file:
+wave	factoroids.c	/^static int wave;$/;"	v	file:
+wave	game.c	/^static int wave;$/;"	v	file:
+white	titlescreen.c	/^SDL_Color white;$/;"	v
+win_bkg	titlescreen.c	/^SDL_Surface* win_bkg = NULL;$/;"	v
+wrapped_lines	linewrap.c	/^char wrapped_lines[MAX_LINES][MAX_LINEWIDTH]; \/\/ publicly available!$/;"	v
+wrapped_lines0	linewrap.c	/^static char wrapped_lines0[MAX_LINES][MAX_LINEWIDTH];  \/\/ for internal storage$/;"	v	file:
+write_config_file	fileops.c	/^int write_config_file(FILE *fp, int verbose)$/;"	f
+write_goldstars	fileops.c	/^int write_goldstars(void)$/;"	f
+write_goldstars_fp	lessons.c	/^void write_goldstars_fp(FILE* fp)$/;"	f
+write_postgame_summary	fileops.c	/^int write_postgame_summary(void)$/;"	f
+write_pregame_summary	fileops.c	/^int write_pregame_summary(void)$/;"	f
+write_user_config_file	fileops.c	/^int write_user_config_file(void)$/;"	f
+wrong_quests	mathcards.c	/^MC_MathQuestion* wrong_quests = NULL;$/;"	v
+x	factoroids.c	/^  int x, y;$/;"	m	struct:FF_laser_type	file:
+x	factoroids.c	/^  int x, y;$/;"	m	struct:asteroid_type	file:
+x	factoroids.c	/^  int x, y;$/;"	m	struct:tuxship_type	file:
+x	game.c	/^  float x, y;$/;"	m	struct:comet_type	file:
+x1	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+x2	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+x3	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+x_is_blinking	factoroids.c	/^  int x_is_blinking;$/;"	m	struct:__anon2	file:
+x_is_blinking	game.c	/^  int x_is_blinking;$/;"	m	struct:__anon3	file:
+xdead	factoroids.c	/^static int xdead, ydead, isdead, countdead;$/;"	v	file:
+xspeed	factoroids.c	/^  int xspeed, yspeed;$/;"	m	struct:asteroid_type	file:
+xspeed	factoroids.c	/^  int xspeed, yspeed;$/;"	m	struct:tuxship_type	file:
+y	factoroids.c	/^  int x, y;$/;"	m	struct:FF_laser_type	file:
+y	factoroids.c	/^  int x, y;$/;"	m	struct:asteroid_type	file:
+y	factoroids.c	/^  int x, y;$/;"	m	struct:tuxship_type	file:
+y	game.c	/^  float x, y;$/;"	m	struct:comet_type	file:
+y1	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+y2	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+y3	factoroids.c	/^  int x1,y1,x2,y2,x3,y3;$/;"	m	struct:tuxship_type	file:
+ydead	factoroids.c	/^static int xdead, ydead, isdead, countdead;$/;"	v	file:
+yellow	titlescreen.c	/^SDL_Color yellow;$/;"	v
+yspeed	factoroids.c	/^  int xspeed, yspeed;$/;"	m	struct:asteroid_type	file:
+yspeed	factoroids.c	/^  int xspeed, yspeed;$/;"	m	struct:tuxship_type	file:
+zapped	game.c	/^  int zapped;$/;"	m	struct:comet_type	file:
+zoomSurface	SDL_rotozoom.c	/^SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smooth)$/;"	f
+zoomSurfaceRGBA	SDL_rotozoom.c	/^int zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, int smooth)$/;"	f
+zoomSurfaceSize	SDL_rotozoom.c	/^void zoomSurfaceSize(int width, int height, double zoomx, double zoomy, int *dstwidth, int *dstheight)$/;"	f
+zoomSurfaceY	SDL_rotozoom.c	/^int zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)$/;"	f
