@@ -1432,10 +1432,7 @@ static void FF_add_level(void)
   }
   int c_prime = prime_numbers[wave_i];
   digits[2] = c_prime % 10;
-  digits[1] = c_prime / 10;
-  fprintf(stderr, "wave_i = %d; wave = %d; c_prime = %d\n", wave_i, wave, c_prime);
-  fflush(stderr);
-  
+  digits[1] = c_prime / 10;  
   
   //Limit the new asteroids
   if(NUM_ASTEROIDS<MAX_ASTEROIDS)
