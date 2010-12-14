@@ -96,6 +96,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define BUTTON13_Y 45 
 #define NUMBUTTONS 6
 
+//a value (float) indicating the sensitivity of the mouse
+//0 = disable mouse; 0.1 high ... 1 low, 2 lower, so on
+#define MOUSE_SENSITIVITY 0.5
+
 /********* Enumerations ***********/
 
 enum{
@@ -226,6 +230,7 @@ static int laser_coeffs[][3] = {
 };
 
 // ControlKeys
+static int mouseroto;
 static int left_pressed;
 static int right_pressed;
 static int up_pressed;
@@ -324,6 +329,7 @@ static int generatenumber(int wave);
 static int validate_number(int num, int wave);
 static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
+static int game_mouseroto(SDL_Event event) {return event.motion.xrel;}
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -792,6 +798,15 @@ static void FF_handle_ship(void)
                +fast_cos(DEG_PER_ROTATION*roto_speed)) * tuxship.centery;
 
   }
+  
+/**************** Mouse Rotation ************************/
+  tuxship.angle = (tuxship.angle + DEG_PER_ROTATION * -mouseroto) % 360;
+  tuxship.angle += tuxship.angle < 0 ? 360 : 0;
+
+  tuxship.x1= fast_cos(DEG_PER_ROTATION*roto_speed) * tuxship.centerx
+             -fast_sin(DEG_PER_ROTATION*roto_speed) * tuxship.centery;
+  tuxship.y1= fast_sin(DEG_PER_ROTATION*roto_speed * tuxship.centerx
+             +fast_cos(DEG_PER_ROTATION*roto_speed)) * tuxship.centery;
 
 /**************** Move, and increse speed ***************/
 
@@ -2158,6 +2173,7 @@ void game_handle_user_events(void)
 {
   SDL_Event event;
   SDLKey key;
+  int roto = 0; //rotation flag
 
   while (SDL_PollEvent(&event) > 0)
   {
@@ -2175,6 +2191,11 @@ void game_handle_user_events(void)
       // -- aviraldg 14/12/10
       event.key.keysym.sym = key;
       event.type = SDL_KEYDOWN;
+    }
+    if(event.type == SDL_MOUSEMOTION) {
+      //handle mouse rotation
+      roto = 1;
+      mouseroto = game_mouseroto(event) / MOUSE_SENSITIVITY;
     }
     if (event.type == SDL_KEYDOWN ||
 	event.type == SDL_KEYUP)
@@ -2432,7 +2453,7 @@ void game_handle_user_events(void)
 #endif
 
     }
-  
+  if(roto == 0) mouseroto = 0;
 }
 
 static int game_mouse_event(SDL_Event event)
@@ -2442,6 +2463,8 @@ static int game_mouse_event(SDL_Event event)
 
   keypad_w = 0;
   keypad_h = 0;
+  
+  if(event.button.button == SDL_BUTTON_RIGHT) return SDLK_UP;
   
   /* Check to see if user clicked exit button: */
   /* The exit button is in the upper right corner of the screen: */
