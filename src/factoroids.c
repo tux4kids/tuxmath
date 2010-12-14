@@ -937,11 +937,6 @@ static void FF_handle_answer(void)
   
   doing_answer = 0;
   
-  /* aviraldg: removed code as part of new number selection code, to prevent resetting digits */
-    /* Clear digits: */ /*
-  digits[0] = 0;
-  digits[1] = 0;
-  digits[2] = 0; */
   neg_answer_picked = 0;
 
 }
@@ -2278,29 +2273,6 @@ void game_handle_user_events(void)
         playsound(SND_SHIELDSDOWN);
   	  }
   	}
-  	
-  /* The rest of the keys control the numeric answer console: */
-  /* aviraldg : removed as part of new number input method */
-#if 0      
-  if (key >= SDLK_0 && key <= SDLK_9)
-  {
-    /* [0]-[9]: Add a new digit: */
-    digits[0] = digits[1];
-    digits[1] = digits[2];
-    digits[2] = key - SDLK_0;
-    tux_pressing = 1;
-    playsound(SND_SHIELDSDOWN);
-  }
-  else if (key >= SDLK_KP0 && key <= SDLK_KP9)
-  {
-    /* Keypad [0]-[9]: Add a new digit: */
-    digits[0] = digits[1];
-    digits[1] = digits[2];
-    digits[2] = key - SDLK_KP0;
-    tux_pressing = 1;
-    playsound(SND_SHIELDSDOWN);
-  }
-#endif
   // TODO this code only deals with the first 6 primes, we'd probably want a
   // more generic solution
   int _tmp = digits[0]*100 + digits[1]*10 + digits[2];
@@ -2353,19 +2325,6 @@ void game_handle_user_events(void)
     tux_pressing = 1;
     playsound(SND_SHIELDSDOWN);
   }
-  #if 0
-  else if (key == SDLK_BACKSPACE ||
-           key == SDLK_CLEAR ||
-	   key == SDLK_DELETE)
-  {
-    /* [BKSP]: Clear digits! */
-    digits[0] = 0;
-    digits[1] = 0;
-    digits[2] = 0;
-    tux_pressing = 1;
-    playsound(SND_SHIELDSDOWN);
-  }
-  #endif
  	else if (key == SDLK_RETURN ||
         	   key == SDLK_KP_ENTER ||
 		   key == SDLK_SPACE)
