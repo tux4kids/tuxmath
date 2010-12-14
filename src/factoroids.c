@@ -2178,7 +2178,7 @@ void game_handle_user_events(void)
       SDL_quit_received = 1;
       quit = 1;
     }
-    if (event.type == SDL_MOUSEBUTTONDOWN)
+    if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
     {
       key = game_mouse_event(event);
       //the code transforms a mouse event into a keyboard event,
