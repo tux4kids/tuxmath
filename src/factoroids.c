@@ -2170,6 +2170,11 @@ void game_handle_user_events(void)
     if (event.type == SDL_MOUSEBUTTONDOWN)
     {
       key = game_mouse_event(event);
+      //the code transforms a mouse event into a keyboard event,
+      //so the same modification should be made with the event structure
+      // -- aviraldg 14/12/10
+      event.key.keysym.sym = key;
+      event.type = SDL_KEYDOWN;
     }
     if (event.type == SDL_KEYDOWN ||
 	event.type == SDL_KEYUP)
@@ -2437,7 +2442,7 @@ static int game_mouse_event(SDL_Event event)
 
   keypad_w = 0;
   keypad_h = 0;
-
+  
   /* Check to see if user clicked exit button: */
   /* The exit button is in the upper right corner of the screen: */
   if ((event.button.x >= (screen->w - images[IMG_STOP]->w))
@@ -2448,14 +2453,14 @@ static int game_mouse_event(SDL_Event event)
     escape_received = 1;
     quit = 1;
     return -1;
-  } 
-
+  }
+  
   /* get out unless we really are using keypad */
   if ( level_start_wait 
     || Opts_DemoMode()
     || !Opts_GetGlobalOpt(USE_KEYPAD))
-  {
-    return -1;
+  {  
+    return SDLK_RETURN;
   }
 
 
@@ -2498,9 +2503,9 @@ static int game_mouse_event(SDL_Event event)
         (screen->h / 2) - (keypad_h / 2) &&
         event.button.y <=
         (screen->h / 2) + (keypad_h / 2))))
-  /* click outside of keypad - do nothing */
+  /* click outside of keypad - fire laser instead */
   {
-    return -1;
+    return SDLK_RETURN;;
   }
   
   else /* click was within keypad */ 
