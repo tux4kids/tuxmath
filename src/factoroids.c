@@ -2256,6 +2256,11 @@ void game_handle_user_events(void)
   	    digits[1] = n / 10;
   	    tux_pressing = 1;
         playsound(SND_SHIELDSDOWN);
+  	  } else {
+  	    digits[2] = 2;
+  	    digits[1] = 0;
+  	    tux_pressing = 1;
+        playsound(SND_SHIELDSDOWN);
   	  }
   	}
   	
@@ -2264,6 +2269,11 @@ void game_handle_user_events(void)
   	  if(n <= prime_numbers[wave - 1]) {
   	    digits[2] = n % 10;
   	    digits[1] = n / 10;
+  	    tux_pressing = 1;
+        playsound(SND_SHIELDSDOWN);
+  	  } else {
+  	    digits[2] = prime_numbers[wave - 1] % 10;
+  	    digits[1] = prime_numbers[wave - 1] / 10;
   	    tux_pressing = 1;
         playsound(SND_SHIELDSDOWN);
   	  }
