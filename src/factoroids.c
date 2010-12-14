@@ -2184,8 +2184,9 @@ void game_handle_user_events(void)
       //the code transforms a mouse event into a keyboard event,
       //so the same modification should be made with the event structure
       // -- aviraldg 14/12/10
+      int state = event.button.state;
       event.key.keysym.sym = key;
-      event.type = SDL_KEYDOWN;
+      event.type = state == SDL_PRESSED ? SDL_KEYDOWN : SDL_KEYUP;
     }
     if(event.type == SDL_MOUSEMOTION) {
       //handle mouse rotation
