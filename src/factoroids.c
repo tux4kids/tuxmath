@@ -2465,6 +2465,8 @@ static int game_mouse_event(SDL_Event event)
   keypad_h = 0;
   
   if(event.button.button == SDL_BUTTON_RIGHT) return SDLK_UP;
+  else if(event.button.button == SDL_BUTTON_WHEELUP) return CTRL_NEXT;
+  else if(event.button.button == SDL_BUTTON_WHEELDOWN) return CTRL_PREV;
   
   /* Check to see if user clicked exit button: */
   /* The exit button is in the upper right corner of the screen: */
