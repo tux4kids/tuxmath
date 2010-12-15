@@ -2335,6 +2335,7 @@ void game_handle_user_events(void)
   
   /* activate bonus/powerup */
   if((key == SDLK_LSHIFT || key == SDLK_RSHIFT) && bonus_time == -1) {
+    playsound(SND_HARP);
     bonus_time = SDL_GetTicks() + 10000; //10sec bonus
   }
   /* support for negative answer input DSB */
