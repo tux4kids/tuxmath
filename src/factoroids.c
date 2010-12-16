@@ -100,6 +100,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 //0 = disable mouse; 0.1 high ... 1 low, 2 lower, so on
 #define MOUSE_SENSITIVITY 0.5
 
+//a special value indicating that a bonus hasn't been used yet
+#define BONUS_NOTUSED -1
+
 /********* Enumerations ***********/
 
 enum{
@@ -181,6 +184,12 @@ struct ButtonType
   int prime;
 };
 
+/********* Enums ******************/
+
+typedef enum _TuxBonus {
+  TB_CLOAKING, TB_SIZE
+} TuxBonus;
+
 /********* Global vars ************/
 
 /* Trig junk:  (thanks to Atari BASIC for this) */
@@ -199,6 +208,9 @@ static int trig[12] = {
   117,
   0
 };
+
+static int bonuses[TB_SIZE] = {0};
+static int bonus_time = BONUS_NOTUSED;
 
 static const int prime_numbers[] = {2, 3, 5, 7, 11, 13};
 static const int prime_power_limit[] = {7, 4, 3, 3, 2, 2}; //custom calibrated power limits for extra "goodness"
@@ -245,6 +257,7 @@ static int escape_received;
 
 //SDL_Surfaces:
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
+static SDL_Surface* IMG_tuxship_cloaked[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
@@ -357,6 +370,7 @@ void factors(void)
     counter++; 
 
     game_handle_user_events();
+    if(SDL_GetTicks() > bonus_time && bonus_time != -1) {bonus_time = 0;}
 
     FF_handle_ship();
     FF_handle_asteroids();
@@ -577,6 +591,7 @@ static int FF_init(void)
   {
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
     IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i * DEG_PER_ROTATION, zoom, 1);
+    IMG_tuxship_cloaked[i] = rotozoomSurface(images[IMG_SHIP_CLOAKED], i * DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
@@ -897,7 +912,8 @@ static void FF_handle_asteroids(void){
 
               /*************** Collisions! ****************/
 
-              if(AsteroidColl(surf->w, surf->h, asteroid[i].x, asteroid[i].y, tuxship.centerx, tuxship.centery))
+              if(AsteroidColl(surf->w, surf->h, asteroid[i].x, asteroid[i].y, tuxship.centerx, tuxship.centery) &&
+                              !(bonuses[TB_CLOAKING]==1 && bonus_time > 0))
 	      {
 		if(!tuxship.hurt)
 		{
@@ -990,7 +1006,9 @@ static void FF_draw(void){
      dest.w = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w;
      dest.h = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h;
 	
-     SDL_BlitSurface(IMG_tuxship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
+	
+     SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
   }
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
@@ -1434,6 +1452,12 @@ static void FF_add_level(void)
   {
     tuxship.lives++;
   }
+  
+  // Clear all bonuses obtained in a wave
+  memset(&bonuses, 0, sizeof(bonuses));
+  bonus_time = BONUS_NOTUSED; // Reset the timer for the bonus
+  // And now reward a new bonus
+  bonuses[rand()%TB_SIZE] = 1;
   
   // Set active number to newly added prime
   int wave_i = wave - 1;
@@ -2309,6 +2333,11 @@ void game_handle_user_events(void)
     digits[1] = _tmp / 10;
   }
   
+  /* activate bonus/powerup */
+  if((key == SDLK_LSHIFT || key == SDLK_RSHIFT) && bonus_time == -1) {
+    playsound(SND_HARP);
+    bonus_time = SDL_GetTicks() + 10000; //10sec bonus
+  }
   /* support for negative answer input DSB */
   else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS))
         //&& MC_AllowNegatives())  /* do nothing unless neg answers allowed */

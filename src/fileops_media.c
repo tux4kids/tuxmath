@@ -153,6 +153,7 @@ int load_image_data()
   "factoroids/asteroid2.png",
   "factoroids/asteroid3.png",
   "factoroids/ship01.png",
+  "factoroids/ship-cloaked.png",
   "factoroids/factoroids.png",
   "factoroids/factors.png",
   "factoroids/tux.png",
