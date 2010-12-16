@@ -8,13 +8,14 @@
 # Mateusz Owczarek
 # Mr G.
 # wojtusm
+# Sygi
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-13 09:42-0600\n"
-"PO-Revision-Date: 2008-02-25 18:43+0000\n"
-"Last-Translator: Mateusz Tybura <wujciol@gmail.com>\n"
+"POT-Creation-Date: 2010-12-15 21:10-0600\n"
+"PO-Revision-Date: 2010-12-15 20:37+0100\n"
+"Last-Translator: Jakub Sygnowski <sygnowski@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
@@ -25,23 +26,23 @@ msgstr ""
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
-msgstr ""
+msgstr "Gratulacje! Wygrałeś!"
 
 #: src/campaign.c:70
 msgid "Round"
-msgstr ""
+msgstr "Runda"
 
 #: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
-msgstr ""
+msgstr "Aby pominąć wciśnij [Escape]"
 
 #: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
-msgstr ""
+msgstr "Misja pierwsza: Ostrożny Kadet"
 
 #: src/campaign.c:143
 msgid "I'm so glad you've come!"
-msgstr ""
+msgstr "Bardzo się cieszę, że wpadłeś!"
 
 #: src/campaign.c:145
 msgid ""
@@ -49,40 +50,49 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
+"Pingwiny potrzebują twojej pomocy! Z nieba spadają komety, które stapiają "
+"igla pingwinów. Aby ocalić ich domy, musisz odkryć tajny kod, który zniszczy "
+"każdą z komet."
 
 #: src/campaign.c:147
 msgid "Do your best!"
-msgstr ""
+msgstr "Postaraj się!"
 
 #: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
-msgstr ""
+msgstr "Misja druga: Sprytny Zwiadowca"
 
 #: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
+"Świetnie! Dzięki temu, że ocaliłeś domy pingwinów, awansowałeś na Zwiadowcę. "
+"Zwiadowcy są dobrzy w szukaniu kłopotów..."
 
 #: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
+"... tak, jak teraz! Przybyli źli kosmici, który wysyłają nowe, sprytniejsze "
+"komety przeciwko pingwinom!"
 
 #: src/campaign.c:158
 msgid "But you can save them!"
-msgstr ""
+msgstr "Ale ty możesz je ocalić!"
 
 #: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
-msgstr ""
+msgstr "Misja trzecia: Królewski Strażnik"
 
 #: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
+"Znowu ci się udało! Pingwin Cesarz wybrał cię, abyś dołączył do jego drużyny "
+"Strażników, która chroni miasto. Wysyłamy cię tam..."
 
 #: src/campaign.c:168
 msgid ""
@@ -90,30 +100,35 @@ msgid ""
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
+"... o nie! Teraz sam Cesarz jest atakowany, za pomocą nowego rodzaju komet: "
+"problemy się mnożą! Aby walczyć z nimi, potrzebujesz wielkich umiejętności! "
+"Myślimy, że możesz dać radę. Dołącz do Strażników i pomóż uratować miasto!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
-msgstr ""
+msgstr "Misja czwarta: Cesarski As"
 
 #: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
+"Udało się! Cesarz chce ci osobiście podziękować. Zabiera cię do lodowego "
+"pałacu: zostaniesz Asem Cesarskim"
 
 #: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
-msgstr ""
+msgstr "Ale w samym środku ceremonii, zaczyna się nowy atak z kraju Dzielenia!"
 
 #: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
-msgstr ""
+msgstr "Nie ma teraz czasu na odpoczynek; miasto potrzebuje twojej pomocy!"
 
 #: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
-msgstr ""
+msgstr "Ostateczna misja: Komandos Obliczeniowy"
 
 #: src/campaign.c:187
 msgid ""
@@ -122,22 +137,25 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
+"Pingińscy naukowcy odkryli, że wszystkie te ataki pochodzą z sekretnej basy "
+"i potrzebują cię, abyś wyruszył na ostateczną bitwę. Dają ci też wskazówkę: "
+"najpierw zrób mnożenie i dzielenie, a później dodawanie i odejmowanie."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
-msgstr ""
+msgstr "Mam nadzieję, że ta wskazówka pomoże!"
 
 #: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
-msgstr ""
+msgstr "To jest to! Możesz powstrzymać te ataki raz na zawsze, Komandosie!"
 
 #: src/campaign.c:260
 msgid "Sorry, try again!"
-msgstr ""
+msgstr "Niestety, spróbuj ponownie!"
 
 #: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr ""
+msgstr "Misja zakończona. Galaktyka jest już bezpieczna!"
 
 #: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
@@ -145,310 +163,346 @@ msgstr ""
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2010"
-msgstr ""
+msgstr "PRAWA AUTORSKIE 2001-2010"
 
 #: src/credits.c:46
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
-msgstr ""
+msgstr "CZĘŚĆ PROJEKTU \"TUX4KIDS\""
 
 #: src/credits.c:49
 msgid "DESIGNED BY"
-msgstr ""
+msgstr "ZAPROJEKTOWANY PRZEZ"
 
 #: src/credits.c:52
 msgid "LEAD PROGRAMMERS"
-msgstr ""
+msgstr "GŁÓWNI PROGRAMIŚCI"
 
 #: src/credits.c:58
 msgid "ADDITIONAL CODE"
-msgstr ""
+msgstr "DODATKOWY KOD"
 
 #: src/credits.c:71
 msgid "LEAD ARTIST"
-msgstr ""
+msgstr "GŁÓWNY ARTYSTA"
 
 #: src/credits.c:74
 msgid "ADDITIONAL ART"
-msgstr ""
+msgstr "DODATKOWI ARTYŚCI"
 
 #: src/credits.c:78
 msgid "SOUND EFFECTS"
-msgstr ""
+msgstr "EFEKTY DŹWIĘKOWE"
 
 #: src/credits.c:81
 msgid "MUSIC"
-msgstr ""
+msgstr "MUZYKA"
 
 #: src/credits.c:91
+#, fuzzy
 msgid "PACKAGERS"
-msgstr ""
+msgstr "PAKUJĄCY"
 
 #: src/credits.c:96
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr ""
+msgstr "\"TUX\" - PINGWIN STWORZONY PRZEZ"
 
 #: src/credits.c:99
 msgid "TESTERS"
-msgstr ""
+msgstr "TESTERZY"
 
 #: src/credits.c:111
 msgid "USER WEBSITE"
-msgstr ""
+msgstr "STRONA UŻYTKOWNIKA"
 
 #: src/credits.c:114
+#, fuzzy
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr ""
+msgstr "ROZWÓJ TUX4KIDS KORZYSTA Z SERWERA ALIOTH:"
 
 #: src/credits.c:117
+#, fuzzy
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
+"TuxMath jest Darmowym Oprogramowaniem rozpowszechnianym na warunkach "
+"licencji GNU General Public License (GPL). Udziela ona pewnych praw, które "
+"są zwykle niezapewniane użytkownikom własnościowego oprogramowania."
 
 #: src/credits.c:119
+#, fuzzy
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
+"Prawa te to m.in. wolność do badania, kopiowania, zmieniania i ponownego "
+"udostępniania programu."
 
 #: src/credits.c:121
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
+"Pełna wersja licencji GPL jest dołączona do dokumentacji tego programu."
 
 #: src/credits.c:123
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
+"W celu uzyskania  więcej informacji o Darmowym Oprogramowaniu i GNU GPL, "
+"odwiedź:"
 
-#: src/factoroids.c:488 data/missions/lessons/descr_lessons:14
+#: src/factoroids.c:495 data/missions/lessons/descr_lessons:14
 msgid "Multiples of 2"
 msgstr "Wielokrotności liczby 2"
 
-#: src/factoroids.c:489
+#: src/factoroids.c:496
 #, fuzzy
 msgid "Multiples of 2 and 3"
 msgstr "Wielokrotności liczb 11 i 12"
 
-#: src/factoroids.c:490
+#: src/factoroids.c:497
 #, fuzzy
 msgid "Multiples of 2, 3 and 5"
 msgstr "Wielokrotności liczb 13,14 i 15"
 
-#: src/factoroids.c:491
+#: src/factoroids.c:498
 #, fuzzy
 msgid "Multiples of 2, 3, 5 and 7"
 msgstr "Wielokrotności liczb 13,14 i 15"
 
-#: src/factoroids.c:492
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Multiples of 2, 3, 5, 7, and 11"
 msgstr "Wielokrotności liczb 13,14 i 15"
 
-#: src/factoroids.c:493
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Multiples of 2, 3, 5, 7, 11 and 13"
 msgstr "Wielokrotności liczb 13,14 i 15"
 
-#: src/factoroids.c:498
+#: src/factoroids.c:505
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2."
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2."
 
-#: src/factoroids.c:499
+#: src/factoroids.c:506
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2 and 3."
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2 i 3."
 
-#: src/factoroids.c:500
+#: src/factoroids.c:507
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2, 3 and 5."
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2, 3 i 5."
 
-#: src/factoroids.c:501
+#: src/factoroids.c:508
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2, 3, 5 and 7."
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2,3,5 i 7."
 
-#: src/factoroids.c:502
+#: src/factoroids.c:509
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2, 3, 5, 7 and 11."
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2, 3, 5, 7 i 11."
 
-#: src/factoroids.c:503
+#: src/factoroids.c:510
 msgid ""
 "You need to destroy all \n"
 "asteroids which multiples \n"
 "of 2, 3, 5, 7, 11 and 13"
 msgstr ""
+"Musisz zniszczyć wszystkie \n"
+"asteroidy, które są wielokrotnościami \n"
+"2, 3, 5, 7, 11 i 13."
 
-#: src/factoroids.c:520
+#: src/factoroids.c:527
 msgid "Objectives:"
-msgstr ""
+msgstr "Cele:"
 
-#: src/factoroids.c:521
+#: src/factoroids.c:528
 msgid "Hints:"
-msgstr ""
+msgstr "Wskazówki:"
 
-#: src/factoroids.c:716
+#: src/factoroids.c:723
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
+"DZIELNIKOWE METEORYTY: aby wygrać, musisz zniszczyć wszystkie asteroidy."
 
-#: src/factoroids.c:717 src/factoroids.c:728
+#: src/factoroids.c:724 src/factoroids.c:735
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr ""
+msgstr "Użyj strzałek, aby obrócić się lub iść do przodu. Celuj w asteroidę,"
 
-#: src/factoroids.c:718
+#: src/factoroids.c:725
 msgid "type one of its factors, and press space or return"
-msgstr ""
+msgstr "wpisz jeden z jej dzielników, i wciśnij spację lub enter"
 
-#: src/factoroids.c:719
+#: src/factoroids.c:726
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
+"aby podzielić ją na jej dzielniki. Kamienie z liczbami pierwszymi ulegają "
+"zniszczeniu!"
 
-#: src/factoroids.c:727
+#: src/factoroids.c:734
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr ""
+msgstr "UŁAMKI: aby wygrać, musisz zniszczyć wszystkie asteroidy"
 
-#: src/factoroids.c:729
+#: src/factoroids.c:736
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
+"wpisz liczbę, przez którą można skrócić ułamek i naciśnij spację lub enter"
 
-#: src/factoroids.c:730
+#: src/factoroids.c:737
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
+"Aby ją podzielić. Zniszcz ułamki, których nie można już skrócić za pomocą "
+"jednego strzału!"
 
 #: src/game.c:1056
 msgid "Welcome to TuxMath!"
-msgstr ""
+msgstr "Witamy w TuxMath!"
 
 #: src/game.c:1073
 msgid "Your mission is to save your"
-msgstr ""
+msgstr "Twoją misją jest ocalić"
 
 #: src/game.c:1074
 msgid "penguins' igloos from the"
-msgstr ""
+msgstr "igla pingwinów od"
 
 #: src/game.c:1075
 msgid "falling comets."
-msgstr ""
+msgstr "spadających komet."
 
 #: src/game.c:1094
 msgid "Stop a comet by typing"
-msgstr ""
+msgstr "Zatrzymaj kometę wpisując"
 
 #: src/game.c:1095
 msgid "the answer to the math problem"
-msgstr ""
+msgstr "odpowiedź równiania matematycznego"
 
 #: src/game.c:1096
 msgid "and hitting 'space' or 'enter'."
-msgstr ""
+msgstr "i wciśnij 'spację' lub 'enter'."
 
 #: src/game.c:1097
 msgid "Try it now!"
-msgstr ""
+msgstr "Spróbuj zrobić to teraz!"
 
 #: src/game.c:1105
 msgid "Good shot!"
-msgstr ""
+msgstr "Dobry strzał!"
 
 #: src/game.c:1115
 msgid "If an igloo gets hit by a comet,"
-msgstr ""
+msgstr "Jeśli igloo zostanie trafione przez kometę,"
 
 #: src/game.c:1116
 msgid "it melts. But don't worry: the"
-msgstr ""
+msgstr "topi się. Ale nie martw się:"
 
 #: src/game.c:1117
 msgid "penguin is OK!"
-msgstr ""
+msgstr "pingwinowi nic się nie stanie!"
 
 #: src/game.c:1118
 msgid "Just watch what happens:"
-msgstr ""
+msgstr "Zobacz, co się stanie:"
 
 #: src/game.c:1119
 msgid "(Press a key to start)"
-msgstr ""
+msgstr "(Wciśnij dowolny klawisz, aby rozpocząć)"
 
 #: src/game.c:1132
 msgid "Notice the answer"
-msgstr ""
+msgstr "Spójrz na odpowiedź"
 
 #: src/game.c:1142
 msgid "If it gets hit again, the"
-msgstr ""
+msgstr "Jeśli igloo zostanie znowu trafione,"
 
 #: src/game.c:1143
 msgid "penguin leaves."
-msgstr ""
+msgstr "pingwin z niego wychodzi."
 
 #: src/game.c:1144
 msgid "(Press a key when ready)"
-msgstr ""
+msgstr "(Wciśnij klawisz, kiedy będziesz gotowy)"
 
 #: src/game.c:1167
 msgid "You can fix the igloos"
-msgstr ""
+msgstr "Możesz naprawić igloo"
 
 #: src/game.c:1168
 msgid "by stopping bonus comets."
-msgstr ""
+msgstr "dzięki zatrzymywaniu bonusowych komet."
 
 #: src/game.c:1179
 msgid "Zap it now!"
-msgstr ""
+msgstr "Zniszcz jedną teraz!"
 
 #: src/game.c:1185
 msgid "Great job!"
-msgstr ""
+msgstr "Świetnie!"
 
 #: src/game.c:1203
 msgid "Quit at any time by pressing"
-msgstr ""
+msgstr "Wyjdź w dowolnej chwili"
 
 #: src/game.c:1204
 msgid "'Esc' or clicking the 'X'"
-msgstr ""
+msgstr "naciskając 'Esc' lub klikając na 'X'"
 
 #: src/game.c:1205
 msgid "in the upper right corner."
-msgstr ""
+msgstr "w prawym górnym rogu."
 
 #: src/game.c:1206
 msgid "Do it now, and then play!"
-msgstr ""
+msgstr "Zrób to teraz, a potem zagraj!"
 
 #: src/game.c:2942
 msgid "The Penguins Have Been Saved!"
-msgstr ""
+msgstr "Pingwiny zostały ocalone!"
 
 #: src/game.c:2957
 msgid "Final Scores:"
-msgstr ""
+msgstr "Wyniki końcowe:"
 
 #: src/game.c:3033
 msgid "Network game terminated."
-msgstr ""
+msgstr "Gra sieciowa została przerwana."
 
 #: src/game.c:3034
 msgid "Connection with server was lost."
-msgstr ""
+msgstr "Utracono połączenie z serwerem."
 
 #: src/highscore.c:182 data/menus/menu_strings:9
 msgid "Hall Of Fame"
@@ -472,32 +526,32 @@ msgstr "As"
 
 #: src/highscore.c:214 data/menus/menu_strings:2
 msgid "Commando"
-msgstr ""
+msgstr "Komandos"
 
 #: src/highscore.c:217 data/menus/menu_strings:7
 msgid "Factors"
-msgstr ""
+msgstr "Dzielniki"
 
 #: src/highscore.c:220 data/menus/menu_strings:8
 msgid "Fractions"
-msgstr ""
+msgstr "Ułamki"
 
 #: src/highscore.c:301
 msgid "You Are In The Hall of Fame!"
-msgstr ""
+msgstr "Jesteś na liście najlepszych!"
 
 #: src/highscore.c:301
 msgid "Enter Your Name:"
-msgstr ""
+msgstr "Wpisz swoje imię:"
 
 #: src/highscore.c:1145
 #, c-format
 msgid "TuxMath detected %d running servers."
-msgstr ""
+msgstr "TuxMath wykrył %d działających serwerów."
 
 #: src/highscore.c:1149
 msgid "Click to continue..."
-msgstr ""
+msgstr "Kliknij, aby kontynuować..."
 
 #: src/menu.c:203
 msgid "TuxMath is free and open-source!"
@@ -509,8 +563,9 @@ msgid "You can help make it better."
 msgstr "Możesz pomóc uczynić go lepszym zgłaszając błędy."
 
 #: src/menu.c:205
+#, fuzzy
 msgid "Suggestions, artwork, and code are all welcome!"
-msgstr ""
+msgstr "Wszelkie sugestie, projekty graficzne, kody źródłowe są mile widziane!"
 
 #: src/menu.c:206
 #, fuzzy
@@ -522,8 +577,9 @@ msgid "Edit 'options' file in your home directory"
 msgstr "Edytuj pik 'options' w swoim katalogu domowym"
 
 #: src/menu.c:341
+#, fuzzy
 msgid "to create customized game!"
-msgstr ""
+msgstr "aby utworzyć własną grę!"
 
 #: src/menu.c:342
 msgid "Press a key or click your mouse to start game."
@@ -535,92 +591,92 @@ msgstr "Przeczytaj README.txt, żeby uzyskać więcej informacji"
 
 #: src/menu.c:367
 msgid "How many kids are playing?"
-msgstr ""
+msgstr "Ile osób będzie grać?"
 
 #: src/menu.c:368
 msgid "(Between 2 and 4 players)"
-msgstr ""
+msgstr "(Pomiędzy 2 a 4 graczy)"
 
 #: src/menu.c:430
 msgid "The server is already running"
-msgstr ""
+msgstr "Serwer już działa."
 
 #: src/menu.c:435
 msgid "Enter Server Name:"
-msgstr ""
+msgstr "Wpisz nazwę serwera:"
 
 #: src/menu.c:435
 msgid "(limit 50 characters)"
-msgstr ""
+msgstr "(co najwyżej 50 znaków)"
 
 #: src/menu.c:450
 msgid "Click or press key to select server lesson file"
-msgstr ""
+msgstr "Kliknij lub wciśnij przycisk aby wybrać lekcję z serwera"
 
 #: src/menu.c:480
 msgid "Server Name:"
-msgstr ""
+msgstr "Nazwa serwera:"
 
 #: src/menu.c:482
 msgid "Selected Lesson:"
-msgstr ""
+msgstr "Wybrana lekcja:"
 
 #: src/menu.c:506 src/menu.c:555
 msgid "Sorry, this version built without network support"
-msgstr ""
+msgstr "Niestety, ta wersja nie wspiera gry w sieci"
 
 #: src/menu.c:507 src/menu.c:556
 #, c-format
 msgid "Sorry, this version built without network support.\n"
-msgstr ""
+msgstr "Niestety, ta wersja nie wspiera gry w sieci. \n"
 
 #: src/menu.c:517
 msgid "Detecting servers"
-msgstr ""
+msgstr "Wykrywanie serwerów"
 
 #: src/menu.c:517
 msgid "Please wait"
-msgstr ""
+msgstr "Proszę czekać"
 
 #: src/menu.c:524
 #, c-format
 msgid "Connected to server: %s"
-msgstr ""
+msgstr "Połączono z serwerem: %s"
 
 #: src/menu.c:525
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
-msgstr ""
+msgstr "Wpisz swoje imię"
 
 #: src/menu.c:528
 msgid "Click when ready"
-msgstr ""
+msgstr "Kliknij, kiedy będziesz gotowy"
 
 #: src/menu.c:530
 msgid "Waiting for other players"
-msgstr ""
+msgstr "Oczekiwanie na pozostałych graczy"
 
 #: src/menu.c:543
 msgid "Sorry, game already in progress."
-msgstr ""
+msgstr "Niestety, gra już trwa."
 
 #: src/menu.c:544
 #, c-format
 msgid "Sorry, game already in progress.\n"
-msgstr ""
+msgstr "Niestety, gra już trwa. \n"
 
 #: src/menu.c:550
 msgid "Sorry, no server could be found."
-msgstr ""
+msgstr "Niestety, nie można znaleźć żadnego serwera."
 
 #: src/menu.c:551
 #, c-format
 msgid "Sorry, could not connect to server.\n"
-msgstr ""
+msgstr "Niestety, nie można podłączyć się do serwera.\n"
 
 #: src/multiplayer.c:203
 #, c-format
@@ -629,19 +685,19 @@ msgstr ""
 
 #: src/multiplayer.c:278
 msgid "Who is playing first?"
-msgstr ""
+msgstr "Kto gra pierwszy?"
 
 #: src/multiplayer.c:280
 msgid "Who is playing next?"
-msgstr ""
+msgstr "Kto jest następny?"
 
 #: src/multiplayer.c:294
 msgid "How many rounds will you play?"
-msgstr ""
+msgstr "Ile rund będziecie grać?"
 
 #: src/multiplayer.c:294
 msgid "Enter a number"
-msgstr ""
+msgstr "Wpisz liczbę"
 
 #: src/titlescreen.c:510
 msgid "Work In Progress!"
@@ -908,15 +964,16 @@ msgstr "Demonstracja"
 
 #: data/menus/menu_strings:5
 msgid "Elimination"
-msgstr ""
+msgstr "Eliminacje"
 
 #: data/menus/menu_strings:6
+#, fuzzy
 msgid "Factoroids!"
-msgstr ""
+msgstr "Dzielnikowe meteoryty!"
 
 #: data/menus/menu_strings:11
 msgid "Join Game"
-msgstr ""
+msgstr "Dołącz do gry"
 
 #: data/menus/menu_strings:12
 msgid "Main Menu"
@@ -936,11 +993,11 @@ msgstr "Więcej opcji"
 
 #: data/menus/menu_strings:16
 msgid "Network Game"
-msgstr ""
+msgstr "Gra w sieci"
 
 #: data/menus/menu_strings:17
 msgid "Play Alone"
-msgstr ""
+msgstr "Graj samemu"
 
 #: data/menus/menu_strings:18
 msgid "Play Arcade Game"
@@ -952,7 +1009,7 @@ msgstr "Zagraj w wybraną grę"
 
 #: data/menus/menu_strings:20
 msgid "Play With Friends"
-msgstr ""
+msgstr "Zagraj z przyjaciółmi"
 
 #: data/menus/menu_strings:21
 msgid "Project Info"
@@ -964,11 +1021,12 @@ msgstr "Wyjdź"
 
 #: data/menus/menu_strings:24
 msgid "Run Server"
-msgstr ""
+msgstr "Uruchom serwer"
 
 #: data/menus/menu_strings:25
+#, fuzzy
 msgid "Score Sweep"
-msgstr ""
+msgstr "Zamiana wyników"
 
 #, fuzzy
 #~ msgid "suggesting improvements, or adding code."

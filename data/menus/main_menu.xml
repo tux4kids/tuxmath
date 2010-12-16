@@ -1,6 +1,6 @@
 <menu title="Main Menu" entries="7">
     <menu title="Play Alone" sprite="alone" entries="5">
-        <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY">
+        <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY" desc="Earn Gold Stars as you build your math skills with each mission">
         <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_CAMPAIGN">
         <menu title="Play Arcade Game" sprite="comet" entries="7">
             <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_ARCADE" param="0">
