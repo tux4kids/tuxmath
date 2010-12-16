@@ -920,7 +920,7 @@ static void FF_handle_asteroids(void){
 		  xdead=asteroid[i].centerx;
 		  ydead=asteroid[i].centery;
 		  
-		  if(bonuses[TB_FORCEFIELD] == 0 && bonus_time > 0) {   
+		  if(!(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0)) {   
   		  tuxship.lives--;
 	  	  tuxship.hurt=1;
 	  	  tuxship.hurt_count=50;
