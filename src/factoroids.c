@@ -187,7 +187,7 @@ struct ButtonType
 /********* Enums ******************/
 
 typedef enum _TuxBonus {
-  TB_CLOAKING, TB_SIZE
+  TB_CLOAKING, TB_FORCEFIELD, TB_SIZE
 } TuxBonus;
 
 /********* Global vars ************/
@@ -919,10 +919,12 @@ static void FF_handle_asteroids(void){
 		{
 		  xdead=asteroid[i].centerx;
 		  ydead=asteroid[i].centery;
-		     
-		  tuxship.lives--;
-		  tuxship.hurt=1;
-		  tuxship.hurt_count=50;
+		  
+		  if(bonuses[TB_FORCEFIELD] == 0 & bonus_time > 0) {   
+  		  tuxship.lives--;
+	  	  tuxship.hurt=1;
+	  	  tuxship.hurt_count=50;
+	  	}
 		  FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
 		  playsound(SND_EXPLOSION);
 			 
@@ -1009,7 +1011,13 @@ static void FF_draw(void){
 	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
 	
      SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+  
+    if(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0) {
+      SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
+      SDL_BlitSurface(images[IMG_FORCEFIELD], NULL, screen, &tmp);
+    }
   }
+  
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
