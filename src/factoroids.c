@@ -644,6 +644,8 @@ static int FF_init(void)
     printf("Allocation of asteroids failed");
     return 0;
   }
+  
+  memset(asteroid, 0, MAX_ASTEROIDS * sizeof(asteroid_type));
 
   NUM_ASTEROIDS = 4;
 
@@ -1080,6 +1082,17 @@ static void FF_draw(void){
   /*************** Draw Steam ***************/
   for(i=0; i<MAX_ASTEROIDS; i++)
   {
+    if(asteroid[i].isdead) {
+       dest.x = asteroid[i].xdead;
+       dest.y = asteroid[i].ydead;
+       SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
+       draw_line(asteroid[i].x, asteroid[i].y, tuxship.x, tuxship.y,
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
+    }    
+
+  
     if(asteroid[i].isdead) {
       dest.x = asteroid[i].xdead;
       dest.y = asteroid[i].ydead;
