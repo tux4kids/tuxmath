@@ -1669,7 +1669,14 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
       if (op == MC_OPER_SUB)
         ans = r1 - r2;
       if (op == MC_OPER_MULT)
+      {
+        if(r2 == 0)
+          r2 = 1;
+        if(r1 == 0)
+          r1 = 1;
+        
         ans = r1 * r2;
+      }
       if (op == MC_OPER_DIV)  
       {
         if (r2 == 0)
