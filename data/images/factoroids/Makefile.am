@@ -28,5 +28,6 @@ dist_comets_DATA = asteroid1.png \
 		 factors.png	 \
 		 tux.png	 \
 		 good.png \
-		 ship-cloaked.png
+		 ship-cloaked.png \
+		 forcefield.png
 

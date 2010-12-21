@@ -1,5 +1,5 @@
 /* fileops_media.c
-  
+  ±±±±
   Load media files from disk.
 
   Copyright 2006, 2007, 2008, 2009, 2010.
@@ -170,7 +170,8 @@ int load_image_data()
   "factoroids/button_7.png",
   "factoroids/button_11.png",
   "factoroids/button_13.png",
-  "factoroids/cockpit.png"
+  "factoroids/cockpit.png",
+  "factoroids/forcefield.png"
   };
 
   static char* sprite_filenames[NUM_IMAGES] = {

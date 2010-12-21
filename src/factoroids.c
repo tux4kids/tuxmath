@@ -140,6 +140,7 @@ typedef struct asteroid_type {
   int isprime;
   int a, b; /*  a / b */
   int count;
+  int xdead, ydead, isdead, countdead;
 } asteroid_type;
 
 
@@ -187,7 +188,7 @@ struct ButtonType
 /********* Enums ******************/
 
 typedef enum _TuxBonus {
-  TB_CLOAKING, TB_SIZE
+  TB_CLOAKING, TB_FORCEFIELD, TB_POWERBOMB, TB_SIZE
 } TuxBonus;
 
 /********* Global vars ************/
@@ -291,7 +292,6 @@ static FF_laser_type laser[MAX_LASER];
 
 static int NUM_ASTEROIDS;
 static int counter;
-static int xdead, ydead, isdead, countdead;
 static int roto_speed;
 
 static struct ButtonType buttons[NUMBUTTONS];
@@ -343,6 +343,7 @@ static int validate_number(int num, int wave);
 static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 static int game_mouseroto(SDL_Event event) {return event.motion.xrel;}
+static void _tb_PowerBomb(int n);
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -643,6 +644,8 @@ static int FF_init(void)
     printf("Allocation of asteroids failed");
     return 0;
   }
+  
+  memset(asteroid, 0, MAX_ASTEROIDS * sizeof(asteroid_type));
 
   NUM_ASTEROIDS = 4;
 
@@ -674,10 +677,6 @@ static int FF_init(void)
 
   score = 0;
   wave = 0;
-  xdead = 0;
-  ydead = 0;
-  isdead = 0;
-  countdead = 0;
   escape_received = 0;
   game_status = GAME_IN_PROGRESS;
 
@@ -917,12 +916,14 @@ static void FF_handle_asteroids(void){
 	      {
 		if(!tuxship.hurt)
 		{
-		  xdead=asteroid[i].centerx;
-		  ydead=asteroid[i].centery;
-		     
-		  tuxship.lives--;
-		  tuxship.hurt=1;
-		  tuxship.hurt_count=50;
+		  asteroid[i].xdead=asteroid[i].centerx;
+		  asteroid[i].ydead=asteroid[i].centery;
+		  
+		  if(!(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0)) {   
+  		  tuxship.lives--;
+	  	  tuxship.hurt=1;
+	  	  tuxship.hurt_count=50;
+	  	}
 		  FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
 		  playsound(SND_EXPLOSION);
 			 
@@ -1009,7 +1010,13 @@ static void FF_draw(void){
 	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
 	
      SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+  
+    if(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0) {
+      SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
+      SDL_BlitSurface(images[IMG_FORCEFIELD], NULL, screen, &tmp);
+    }
   }
+  
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
@@ -1073,17 +1080,29 @@ static void FF_draw(void){
     }
   }
   /*************** Draw Steam ***************/
-  
-  if(isdead)
+  for(i=0; i<MAX_ASTEROIDS; i++)
   {
-    dest.x = xdead;
-    dest.y = ydead;
-    SDL_BlitSurface(images[IMG_STEAM1+countdead], NULL, screen, &dest);
-    countdead++;
-    if(countdead > 5)
-    {
-      isdead = 0;
-      countdead = 0;
+    if(asteroid[i].isdead) {
+       dest.x = asteroid[i].xdead;
+       dest.y = asteroid[i].ydead;
+       SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
+       draw_line(asteroid[i].x, asteroid[i].y, tuxship.x, tuxship.y,
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
+		  (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
+    }    
+
+  
+    if(asteroid[i].isdead) {
+      dest.x = asteroid[i].xdead;
+      dest.y = asteroid[i].ydead;
+      SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
+      asteroid[i].countdead++;
+      if(asteroid[i].countdead > 5)
+      {
+        asteroid[i].isdead = 0;
+        asteroid[i].countdead = 0;
+      }
     }
   }
 
@@ -1830,6 +1849,22 @@ static int validate_number(int num, int wave)
     return 0;
 }
 
+//implementation of the powerbomb powerup
+void _tb_PowerBomb (int num) {
+  int i;
+  
+  for(i=0; i<MAX_ASTEROIDS; i++) {
+    if(asteroid[i].alive == 1) {
+      if((FF_game==FACTOROIDS_GAME && (asteroid[i].isprime && ((num==asteroid[i].fact_number)||(num==0)))) ||
+		     (FF_game==FRACTIONS_GAME && (asteroid[i].isprime && num==0))) {
+		    FF_destroy_asteroid(i, 0, 0);
+		  } else if((FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[i].fact_number%num)==0) && (num!=asteroid[i].fact_number)) ||
+	              (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[i].a%num)==0) && ((asteroid[i].b%num)==0) && (num!=asteroid[i].fact_number))) {
+        FF_destroy_asteroid(i, 0, 0);
+      }    
+    }
+  }
+}
 
 /******************* LASER FUNCTIONS *********************/
 /*Return -1 if no laser is available*/
@@ -1930,7 +1965,7 @@ int FF_add_laser(void)
       // Handle the destruction, score, and extra lives
       if (zapIndex >= 0)  // did we zap one?
       {
-	isdead = 1;
+	asteroid[zapIndex].isdead = 1;
 	laser[i].destx = laser[i].x + (int)(ux * smin);
 	laser[i].desty = laser[i].y + (int)(uy * smin);
 	FF_destroy_asteroid(zapIndex,2*ux,2*uy);
@@ -1969,6 +2004,10 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].x=(asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
       asteroid[i].yspeed=yspeed;
       asteroid[i].xspeed=xspeed;
+      asteroid[i].xdead = 0;
+      asteroid[i].ydead = 0;
+      asteroid[i].isdead = 0;
+      asteroid[i].countdead = 0;
       
       if(FF_game==FACTOROIDS_GAME){
 
@@ -2038,9 +2077,9 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
 int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 {
   if(asteroid[i].alive==1){
-    isdead=1;
-    xdead=asteroid[i].x;
-    ydead=asteroid[i].y;
+    asteroid[i].isdead=1;
+    asteroid[i].xdead=asteroid[i].x;
+    asteroid[i].ydead=asteroid[i].y;
      if(asteroid[i].size>0){
       /* Break the rock into two smaller ones! */
       if(num!=0){
@@ -2337,6 +2376,11 @@ void game_handle_user_events(void)
   if((key == SDLK_LSHIFT || key == SDLK_RSHIFT) && bonus_time == -1) {
     playsound(SND_HARP);
     bonus_time = SDL_GetTicks() + 10000; //10sec bonus
+    
+    //special handling for the powerbomb, since it happens "at once"
+    if(bonuses[TB_POWERBOMB] == 1) {
+      _tb_PowerBomb(digits[1]*10 + digits[2]);
+    }
   }
   /* support for negative answer input DSB */
   else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS))
