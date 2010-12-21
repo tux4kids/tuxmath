@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
+   id="svg2"
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="Missile5.svg">
+  <metadata
+     id="metadata59">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="640"
+     inkscape:window-height="480"
+     id="namedview57"
+     showgrid="false"
+     inkscape:zoom="0.51171875"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg2" />
+  <desc
+     id="desc4">Created with Raven (http://www.aviary.com)</desc>
+  <defs
+     id="defs6">
+    <linearGradient
+       id="linearGradient2"
+       x1="-95.19951619870876"
+       x2="594.3004838012912"
+       y1="-277.3483377525307"
+       y2="-277.3483377525307"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9668809858902943,-0.2552276613610144,0.2552276613610144,0.9668809858902943,0,0)">
+      <stop
+         offset="0"
+         style="stop-color:#b8b8b8;stop-opacity:1"
+         id="stop9" />
+      <stop
+         offset="0.35294117647058826"
+         style="stop-color:#696969;stop-opacity:1"
+         id="stop11" />
+      <stop
+         offset="1"
+         style="stop-color:#404040;stop-opacity:1"
+         id="stop13" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient7"
+       x1="-346.6"
+       x2="938.9"
+       y1="-492.15"
+       y2="-492.15"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9641427886627301,-0.2653840294170961,0.2653840294170961,0.9641427886627301,0,0)">
+      <stop
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:1"
+         id="stop16" />
+      <stop
+         offset="0.42745098039215684"
+         style="stop-color:#a7a7a7;stop-opacity:1"
+         id="stop18" />
+      <stop
+         offset="0.8117647058823529"
+         style="stop-color:#000000;stop-opacity:1"
+         id="stop20" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient8"
+       x1="-95.19951619870876"
+       x2="594.3004838012912"
+       y1="-277.3483377525307"
+       y2="-277.3483377525307"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.9668809858902943,-0.2552276613610144,0.2552276613610144,0.9668809858902943,0,0)">
+      <stop
+         offset="0"
+         style="stop-color:#b8b8b8;stop-opacity:1"
+         id="stop23" />
+      <stop
+         offset="0.35294117647058826"
+         style="stop-color:#696969;stop-opacity:1"
+         id="stop25" />
+      <stop
+         offset="1"
+         style="stop-color:#404040;stop-opacity:1"
+         id="stop27" />
+    </linearGradient>
+  </defs>
+  <g
+     id="Layer_A707B256-16C8-E0D2-C83A-FC9B2259AD13"
+     opacity="1">
+    <path
+       d="M126.3104896639614 49.82666339977604L372.79047793862105 49.82666339977604L370.2047974951418 84.9766610951626L128.70224407417976 84.9766610951626L126.3104896639614 49.82666339977604z"
+       id="ShapeObject_6CBC69FA-7252-81BE-E665-FCA25DDCD2D0"
+       stroke="#333333"
+       stroke-opacity="1"
+       stroke-width="2"
+       stroke-linejoin="miter"
+       stroke-miterlimit="4"
+       style="fill:url(#linearGradient2);color-interpolation:rgb"
+       transform="matrix(0.9758314490318298,1.4440593555661656e-16,1.2285582919169106e-16,1.0229142904281616,11.25,-32)"
+       opacity="1" />
+    <g
+       id="Layer_8E3C7FD9-8FA4-83DD-E0BF-FCA559847BC0"
+       opacity="1" />
+    <g
+       id="Layer_D71D95F3-115B-176F-8BEC-FCD26FFA969C"
+       opacity="1" />
+    <g
+       id="Layer_27D4AA04-6538-137D-ED3E-FC9AECB6614A"
+       opacity="1">
+      <g
+         id="Layer_183AC257-EEFD-AC94-B1BE-FCDB3DC91E69"
+         opacity="1">
+        <path
+           d="M34 106L146 106L146 272L37.77503451196458 272.97509546635837L34 106z"
+           id="EGGNode_1292728542854"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(-1.3076573610305786,0.6443066000938416,-0.08445165306329727,1.2587642669677734,498.75,-127.5)"
+           opacity="1" />
+        <path
+           d="M34 106L146 106L146 272L39.072011057041564 272.4303941540057L34 106z"
+           id="ShapeObject_F0CBE965-98FF-81CA-B316-FCC5AD4094FB"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(1.3076573610305786,0.6443066000938416,0.08445165306329727,1.2587642669677734,10.5,-126.5)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="EGGNode_1292728542839"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(1,0,0,1,3,42)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="EGGNode_1292728542834"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(1,0,0,1,1,17)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="ShapeObject_FDAE5B64-F7A7-FD85-537D-FCD00DEAD48E"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(1,0,0,1,-1,-9)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="EGGNode_1292728542874"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(-1,0,0,1,506,42)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="EGGNode_1292728542870"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(-1,0,0,1,508,17)"
+           opacity="1" />
+        <path
+           d="M67 64M67 64L139 100"
+           id="EGGNode_1292728542866"
+           stroke="#2840b8"
+           stroke-opacity="1"
+           stroke-width="2"
+           stroke-linejoin="miter"
+           stroke-miterlimit="4"
+           style="fill:#5a69b3;fill-opacity:1"
+           transform="matrix(-1,0,0,1,510,-9)"
+           opacity="1" />
+      </g>
+      <path
+         d="M187.99999999999994 350.4358765172544L187.99999999999997 350.4358765172544C352.2249282433748 350.8589691293135 352.2249282433748 350.8589691293135 405.74985648674954 -26.71793825862713C188.00000000000003 -26.717938258627214 188.00000000000003 -26.717938258627214 -29.74985648674948 -26.7179382586273C24.625071756625267 347.7589691293135 24.625071756625267 347.7589691293135 187.99999999999994 350.4358765172544z"
+         id="EGGNode_1292728542858"
+         stroke="#333333"
+         stroke-opacity="1"
+         stroke-width="2"
+         stroke-linejoin="miter"
+         stroke-miterlimit="4"
+         style="fill:url(#linearGradient7);color-interpolation:rgb"
+         transform="matrix(0.5538042187690735,-8.179601957010216e-17,1.4992786245377555e-16,1.2483195066452026,150.75,51.75)"
+         opacity="1" />
+      <path
+         d="M126.3104896639614 49.82666339977604L372.79047793862105 49.82666339977604L370.2047974951418 84.9766610951626L128.70224407417976 84.9766610951626L126.3104896639614 49.82666339977604z"
+         id="EGGNode_1292728542862"
+         stroke="#333333"
+         stroke-opacity="1"
+         stroke-width="2"
+         stroke-linejoin="miter"
+         stroke-miterlimit="4"
+         style="fill:url(#linearGradient8);color-interpolation:rgb"
+         transform="matrix(0.9758314490318298,1.4440593555661656e-16,1.2285582919169106e-16,1.0229142904281616,11.25,-32)"
+         opacity="1" />
+    </g>
+  </g>
+  <g
+     id="TextObject_9EEEE24C-C4F5-D393-F9B0-FCA88A7DFDDC"
+     transform="matrix(2.3334644,0,0,2.3334644,173,91)"
+     style="opacity:0.4;fill:#000080">
+    <g
+       line-height="120"
+       text-decoration="none"
+       font-style="normal"
+       font-weight="normal"
+       font-size="120"
+       id="g46"
+       style="font-size:120px;font-style:normal;font-weight:normal;text-decoration:none;line-height:120;fill:#000080;font-family:Marker Felt">
+      <text
+         x="0"
+         y="120"
+         id="text48"
+         style="fill:#000080">
+        <tspan
+           line-height="120"
+           text-decoration="none"
+           font-weight="normal"
+           font-size="120"
+           id="tspan50"
+           style="font-size:120px;font-weight:normal;text-decoration:none;line-height:120;fill:#000080;font-family:Marker Felt">5</tspan>
+      </text>
+    </g>
+  </g>
+  <path
+     d="M164 20L198 20L195 55L167 55L164 20z"
+     id="ShapeObject_01A4FBA1-6B3D-7099-A62D-FCB6AA65A635"
+     stroke="none"
+     style="fill:#292929;fill-opacity:1"
+     transform="matrix(1,0,0,1,1,0)"
+     opacity="1" />
+  <path
+     d="M164 20L198 20L195 55L167 55L164 20z"
+     id="EGGNode_1292728542809"
+     stroke="none"
+     style="fill:#292929;fill-opacity:1"
+     transform="matrix(1,0,0,1,60,0)"
+     opacity="1" />
+  <path
+     d="M164 20L198 20L195 55L167 55L164 20z"
+     id="EGGNode_1292728542814"
+     stroke="none"
+     style="fill:#292929;fill-opacity:1"
+     transform="matrix(1,0,0,1,120,0)"
+     opacity="1" />
+  <path
+     d="M164 20L198 20L195 55L167 55L164 20z"
+     id="EGGNode_1292728542819"
+     stroke="none"
+     style="fill:#292929;fill-opacity:1"
+     transform="matrix(0.9411764740943909,0,0,1,189.6,0)"
+     opacity="1" />
+  <path
+     d="M189 20L198 20L195 55L191 55L189 20z"
+     id="EGGNode_1292728542824"
+     stroke="none"
+     style="fill:#292929;fill-opacity:1"
+     transform="matrix(1,0,0,1,-56,0)"
+     opacity="1" />
+</svg>
