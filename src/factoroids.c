@@ -155,6 +155,7 @@ typedef struct tuxship_type {
   int angle;
   int hurt, hurt_count;
   int count;
+  bool thrust;
 } tuxship_type;
 
 
@@ -259,6 +260,8 @@ static int escape_received;
 //SDL_Surfaces:
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_tuxship_cloaked[NUM_OF_ROTO_IMGS];
+static SDL_Surface* IMG_tuxship_thrust[NUM_OF_ROTO_IMGS];
+static SDL_Surface* IMG_tuxship_thrust_cloaked[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
@@ -593,6 +596,8 @@ static int FF_init(void)
     //rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
     IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i * DEG_PER_ROTATION, zoom, 1);
     IMG_tuxship_cloaked[i] = rotozoomSurface(images[IMG_SHIP_CLOAKED], i * DEG_PER_ROTATION, zoom, 1);
+    IMG_tuxship_thrust[i] = rotozoomSurface(images[IMG_SHIP_THRUST], i * DEG_PER_ROTATION, zoom, 1);
+    IMG_tuxship_thrust_cloaked[i] = rotozoomSurface(images[IMG_SHIP_THRUST_CLOAKED], i * DEG_PER_ROTATION, zoom, 1);
 
     if (IMG_tuxship[i] == NULL)
     {
@@ -659,6 +664,7 @@ static int FF_init(void)
   tuxship.xspeed = 0;
   tuxship.yspeed = 0;
   tuxship.radius = (images[IMG_SHIP01]->h)/2;
+  tuxship.thrust = 0;
 
   tuxship.x1 = images[IMG_SHIP01]->w-(images[IMG_SHIP01]->w/8);
   tuxship.y1 = images[IMG_SHIP01]->h/2;
@@ -829,6 +835,11 @@ static void FF_handle_ship(void)
   {
      tuxship.xspeed = tuxship.xspeed + ((fast_cos(tuxship.angle >> 3) * 3) >> 10);
      tuxship.yspeed = tuxship.yspeed - ((fast_sin(tuxship.angle >> 3) * 3) >> 10);
+
+     //Google Code-In 2010 Task: Add sound for ship's thrust
+     //Sound taken from http://www.freesound.org 20/12/2010
+     playsound(SND_ENGINE);
+     tuxship.thrust = 1;
   }
   else
   {
@@ -836,6 +847,7 @@ static void FF_handle_ship(void)
     {
        tuxship.xspeed = tuxship.xspeed * TUXSHIP_DECEL; 
        tuxship.yspeed = tuxship.yspeed * TUXSHIP_DECEL;
+       tuxship.thrust = 0;
     }
   }
 
@@ -1006,10 +1018,19 @@ static void FF_draw(void){
      dest.y = (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));
      dest.w = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w;
      dest.h = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h;
+
+	//Change the image based on if the rocket is thrusting
+	//Google code in task
 	
+	if(!tuxship.thrust) {
 	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
+     	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+	} else {
+	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_thrust_cloaked : IMG_tuxship_thrust;
+     	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+	}
 	
-     SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
+
   
     if(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0) {
       SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
@@ -2620,7 +2641,7 @@ static int game_mouse_event(SDL_Event event)
       return -1;
     }
 
-    /* simple but tedious - I am sure this could be done more elegantly */
+    /* simple but tedious - I am sure this could be fdone more elegantly */
 
     if (0 == row)
     {

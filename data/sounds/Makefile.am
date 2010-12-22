@@ -6,6 +6,7 @@ soundsdir = $(pkgdatadir)/sounds
 dist_sounds_DATA = alarm.wav \
   buzz.wav \
   cheer.wav \
+  engine.wav \
   explosion.wav \
   game2.mod \
   game3.mod \

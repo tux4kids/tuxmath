@@ -171,7 +171,9 @@ int load_image_data()
   "factoroids/button_11.png",
   "factoroids/button_13.png",
   "factoroids/cockpit.png",
-  "factoroids/forcefield.png"
+  "factoroids/forcefield.png",
+  "factoroids/ship_thrust.png",
+  "factoroids/ship_thrust_cloaked.png"
   };
 
   static char* sprite_filenames[NUM_IMAGES] = {
@@ -248,7 +250,8 @@ int load_sound_data(void)
   DATA_PREFIX "/sounds/explosion.wav",
   DATA_PREFIX "/sounds/sizzling.wav",
   DATA_PREFIX "/sounds/towerclock.wav",
-  DATA_PREFIX "/sounds/cheer.wav"
+  DATA_PREFIX "/sounds/cheer.wav",
+  DATA_PREFIX "/sounds/explosion.wav"
   };
 
   static char* music_filenames[NUM_MUSICS] = {
