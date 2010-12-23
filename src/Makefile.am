@@ -9,9 +9,9 @@ DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 	-D$(SOUND)SOUND
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
-	-I../intl -I$(top_srcdir)/intl
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
+#NOTE we can remove the following starting with t4k_common 0.0.4
 LDADD = @LIBINTL@ \
   ../linebreak/liblinebreak.a
 
