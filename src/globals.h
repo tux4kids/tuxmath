@@ -40,6 +40,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)
 
+#ifdef WIN32
+#define TUXLOCALE "./locale"
+#else
+#define TUXLOCALE LOCALEDIR
+#endif
+
 #include <wchar.h>
 
 #include <t4k_common.h>

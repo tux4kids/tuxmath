@@ -61,13 +61,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
 
-/* window size */
-//int win_res_x = 640;
-//int win_res_y = 480;
-
-/* full screen size (set in initialize_SDL() ) */
-//int fs_res_x = 0;
-//int fs_res_y = 0;
 
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
@@ -95,8 +88,21 @@ Mix_Chunk* sounds[NUM_SOUNDS];
 Mix_Music* musics[NUM_MUSICS];
 #endif
 
+/* Keep return values from locale setup: */
+typedef struct locale_info {
+  char setlocale_ret[64];
+  char bindtextdomain_ret[64];
+  char bind_textdomain_codeset_ret[64];
+  char textdomain_ret[64];
+} locale_info;
+
+locale_info tuxmath_locale;
+
 /* Local function prototypes: */
+void initialize_locale(const char* desired_loc);
+void print_locale_info(FILE* fp);
 void initialize_options(void);
+void handle_debug_args(int argc, char* argv[]);
 void handle_command_args(int argc, char* argv[]);
 void initialize_SDL(void);
 void load_data_files(void);
@@ -114,8 +120,13 @@ void cleanup_memory(void);
 /* --- Set-up function - now in four easier-to-digest courses! --- */
 /* --- Er - make that six courses! --- */
 /* --- Six is right out. Seven is much better. --- */
+/* --- OK, now we have eight. --- */
 void setup(int argc, char * argv[])
 {
+  /* Read debugging args from command line */
+  handle_debug_args(argc, argv);
+  /* initialize locale from system settings: */
+  initialize_locale("");	
   /* initialize settings and read in config files: */
   /* Note this now only does the global settings   */
   initialize_options();
@@ -137,6 +148,50 @@ void setup(int argc, char * argv[])
 }
 
 
+
+void initialize_locale(const char* desired_loc)
+{
+    const char *s1, *s2, *s3, *s4;
+    if(!desired_loc)
+    {
+        fprintf(stderr, "initialize_locale() - null desired_loc arg. \n");  
+        return;
+    }  
+
+    s1 = setlocale(LC_ALL, desired_loc);
+    s2 = bindtextdomain(PACKAGE, TUXLOCALE);
+    s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
+    s4 = textdomain(PACKAGE);
+  
+    strncpy(tuxmath_locale.setlocale_ret, s1, 64);
+    strncpy(tuxmath_locale.bindtextdomain_ret, s2, 64);
+    strncpy(tuxmath_locale.bind_textdomain_codeset_ret, s3, 64);
+    strncpy(tuxmath_locale.textdomain_ret, s4, 64);
+
+    DEBUGCODE(debug_setup) print_locale_info(stderr);
+}
+
+
+void print_locale_info(FILE* fp)
+{
+    if(!fp)
+    {
+        fprintf(stderr, "print_locale_info() - null FILE* arg. \n");  
+        return;
+    }  
+
+    fprintf(fp, "PACKAGE = %s\n", PACKAGE);
+    fprintf(fp, "TUXLOCALE = %s\n", TUXLOCALE);
+    fprintf(fp, "setlocale(LC_ALL, \"\") returned: %s\n",
+	    tuxmath_locale.setlocale_ret);
+    fprintf(fp, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n",
+            tuxmath_locale.bindtextdomain_ret);
+    fprintf(fp, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n",
+            tuxmath_locale.bind_textdomain_codeset_ret);
+    fprintf(fp, "textdomain(PACKAGE) returned: %s\n",
+            tuxmath_locale.textdomain_ret);
+    fprintf(fp, "gettext(\"Help\"): %s\n\n", gettext("Help"));
+}
 
 
 /* Set up mathcards with default values for math question options, */
@@ -212,8 +267,87 @@ void initialize_options_user(void)
 
 
 
+/* Handle debugging arguments passed from command line */
+/* NOTE - moved into separate, earlier pass so we can  */
+/* get output for earlier setup events - DSB           */
+void handle_debug_args(int argc, char* argv[])
+{
+  int i;
 
-/* Handle any arguments passed from command line */
+  for (i = 1; i < argc; i++)
+  {
+    if (strcmp(argv[i], "--debug-all") == 0)
+    {
+      debug_status |= debug_all;
+    }
+    else if (strcmp(argv[i], "--debug-setup") == 0)
+    {
+      debug_status |= debug_setup;
+    }
+    else if (strcmp(argv[i], "--debug-fileops") == 0)
+    {
+      debug_status |= debug_fileops;
+    }
+    else if (strcmp(argv[i], "--debug-loaders") == 0)
+    {
+      debug_status |= debug_loaders;
+    }
+    else if (strcmp(argv[i], "--debug-titlescreen") == 0)
+    {
+      debug_status |= debug_titlescreen;
+    }
+    else if (strcmp(argv[i], "--debug-menu") == 0)
+    {
+      debug_status |= debug_menu;
+    }
+    else if (strcmp(argv[i], "--debug-menu-parser") == 0)
+    {
+      debug_status |= debug_menu_parser;
+    }
+    else if (strcmp(argv[i], "--debug-game") == 0)
+    {
+      debug_status |= debug_game;
+    }
+    else if (strcmp(argv[i], "--debug-factoroids") == 0)
+    {
+      debug_status |= debug_factoroids;
+    }
+    else if (strcmp(argv[i], "--debug-lan") == 0)
+    {
+      debug_status |= debug_lan;
+    }
+    else if (strcmp(argv[i], "--debug-mathcards") == 0)
+    {
+      debug_status |= debug_mathcards;
+    }
+    else if (strcmp(argv[i], "--debug-sdl") == 0)
+    {
+      debug_status |= debug_sdl;
+    }
+    else if (strcmp(argv[i], "--debug-lessons") == 0)
+    {
+      debug_status |= debug_lessons;
+    }
+    else if (strcmp(argv[i], "--debug-highscore") == 0)
+    {
+      debug_status |= debug_highscore;
+    }
+    else if (strcmp(argv[i], "--debug-options") == 0)
+    {
+      debug_status |= debug_options;
+    }
+    else if (strcmp(argv[i], "--debug-text-and-intl") == 0)
+    {
+      debug_status |= debug_text_and_intl;
+    }
+  }/* end of command-line args */
+
+  DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
+}
+
+
+/* Handle any arguments passed from command line, except */
+/* for debug flags which we already have dealt with.     */
 void handle_command_args(int argc, char* argv[])
 {
   DIR *dirp;
@@ -432,81 +566,14 @@ void handle_command_args(int argc, char* argv[])
       Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
       i++;
     }
-    else if (strcmp(argv[i], "--debug-all") == 0)
+    else /* Warn for unknown option, except debug flags */
+	 /* that we deal with separately:               */
     {
-      debug_status |= debug_all;
-    }
-    else if (strcmp(argv[i], "--debug-setup") == 0)
-    {
-      debug_status |= debug_setup;
-    }
-    else if (strcmp(argv[i], "--debug-fileops") == 0)
-    {
-      debug_status |= debug_fileops;
-    }
-    else if (strcmp(argv[i], "--debug-loaders") == 0)
-    {
-      debug_status |= debug_loaders;
-    }
-    else if (strcmp(argv[i], "--debug-titlescreen") == 0)
-    {
-      debug_status |= debug_titlescreen;
-    }
-    else if (strcmp(argv[i], "--debug-menu") == 0)
-    {
-      debug_status |= debug_menu;
-    }
-    else if (strcmp(argv[i], "--debug-menu-parser") == 0)
-    {
-      debug_status |= debug_menu_parser;
-    }
-    else if (strcmp(argv[i], "--debug-game") == 0)
-    {
-      debug_status |= debug_game;
-    }
-    else if (strcmp(argv[i], "--debug-factoroids") == 0)
-    {
-      debug_status |= debug_factoroids;
-    }
-    else if (strcmp(argv[i], "--debug-lan") == 0)
-    {
-      debug_status |= debug_lan;
-    }
-    else if (strcmp(argv[i], "--debug-mathcards") == 0)
-    {
-      debug_status |= debug_mathcards;
-    }
-    else if (strcmp(argv[i], "--debug-sdl") == 0)
-    {
-      debug_status |= debug_sdl;
-    }
-    else if (strcmp(argv[i], "--debug-lessons") == 0)
-    {
-      debug_status |= debug_lessons;
-    }
-    else if (strcmp(argv[i], "--debug-highscore") == 0)
-    {
-      debug_status |= debug_highscore;
-    }
-    else if (strcmp(argv[i], "--debug-options") == 0)
-    {
-      debug_status |= debug_options;
-    }
-    else if (strcmp(argv[i], "--debug-text-and-intl") == 0)
-    {
-      debug_status |= debug_text_and_intl;
-    }
-    else
-    /* TODO try to match unrecognized strings to config file names */
-    {
-      /* Display 'made' usage: */
-
-      fprintf(stderr, "Unknown option: %s\n", argv[i]);
-      usage(1, argv[0]);
+      if(strncmp(argv[i], "--debug", strlen("--debug")) != 0)	    
+        fprintf(stderr, "Unknown option: %s\n", argv[i]);
     }
   }/* end of command-line args */
 
-  DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
 
   if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
   {
@@ -514,6 +581,7 @@ void handle_command_args(int argc, char* argv[])
     Opts_SetGlobalOpt(USE_KEYPAD, 0);
   }
 }
+
 
 void initialize_SDL(void)
 {
