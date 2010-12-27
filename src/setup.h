@@ -41,5 +41,6 @@ void setup(int argc, char * argv[]);
 void cleanup(void);
 void cleanup_on_error(void);
 extern void initialize_options_user(void);
-
+/* for debugging gettext behavior */
+void print_locale_info(FILE* fp);
 #endif

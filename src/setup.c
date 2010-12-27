@@ -100,7 +100,6 @@ locale_info tuxmath_locale;
 
 /* Local function prototypes: */
 void initialize_locale(const char* desired_loc);
-void print_locale_info(FILE* fp);
 void initialize_options(void);
 void handle_debug_args(int argc, char* argv[]);
 void handle_command_args(int argc, char* argv[]);
