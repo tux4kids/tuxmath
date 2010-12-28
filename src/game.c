@@ -1215,11 +1215,7 @@ void game_handle_help(void)
 // 0, but returns 1 if the user chooses to exit help.
 int help_renderframe_exit(void)
 {
-  static Uint32 last_time = 0;
-  static Uint32 now_time;
-
-  if (last_time == 0)
-    last_time = SDL_GetTicks(); // Initialize...
+  Uint32 timer = 0;
 
   tux_pressing = 0;
   int i;
@@ -1241,11 +1237,7 @@ int help_renderframe_exit(void)
 
   // Delay to keep frame rate constant. Do this in a way
   // that won't cause a freeze if the timer wraps around.
-  now_time = SDL_GetTicks();
-  if (now_time >= last_time && now_time < last_time + MS_PER_FRAME)
-    SDL_Delay((last_time+MS_PER_FRAME) - now_time);
-  last_time = now_time;
-
+  Throttle(MS_PER_FRAME, &timer);
   frame++;
 
   return (game_status != GAME_IN_PROGRESS);

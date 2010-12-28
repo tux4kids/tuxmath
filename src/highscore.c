@@ -57,7 +57,7 @@ void DisplayHighScores(int level)
   int i = 0;
   int finished = 0;
   Uint32 frame = 0;
-  Uint32 start = 0;
+  Uint32 timer = 0;
 
   int diff_level = level;
   int old_diff_level = -1; //So table gets refreshed first time through
@@ -78,8 +78,6 @@ void DisplayHighScores(int level)
 
   while (!finished)
   {
-    start = SDL_GetTicks();
-
     /* Check for user events: */
     while (SDL_PollEvent(&event))
     {
@@ -283,10 +281,7 @@ void DisplayHighScores(int level)
     HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
-    while ((SDL_GetTicks() - start) < 33)
-    {
-      SDL_Delay(20);
-    }
+    Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 }

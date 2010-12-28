@@ -48,6 +48,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "mathcards.h"
 #include "titlescreen.h"
 #include "options.h"
+#include "throttle.h"
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -351,7 +352,7 @@ static void _tb_PowerBomb(int n);
 /************** factors(): The factor main function ********************/
 void factors(void)
 {
-  Uint32 last_time, now_time; 
+  Uint32 timer = 0;
   
   quit = 0;
   counter = 0;
@@ -370,7 +371,6 @@ void factors(void)
 
   while (game_status == GAME_IN_PROGRESS)
   {
-    last_time = SDL_GetTicks();
     counter++; 
 
     game_handle_user_events();
@@ -406,18 +406,8 @@ void factors(void)
     }
 #endif
 
-      /* Pause (keep frame-rate event) */
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + MS_PER_FRAME)
-    {
-      //Prevent any possibility of a time wrap-around
-      // (this is a very unlikely problem unless there is an SDL bug
-      //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time+MS_PER_FRAME) - now_time;  // this holds the delay
-      if (now_time > MS_PER_FRAME)
-	now_time = MS_PER_FRAME;
-      SDL_Delay(now_time);
-    }
+    /* Pause (keep frame-rate event) */
+    Throttle(MS_PER_FRAME, &timer);
   }
   FF_over(game_status);
 }
@@ -426,9 +416,7 @@ void factors(void)
 /************** fractions(): The fractions main function ********************/
 void fractions(void)
 {
-
-  Uint32 last_time, now_time; 
-  
+  Uint32 timer = 0; 
   quit = 0;
   counter = 0;
   tux_img = IMG_TUX_CONSOLE1;
@@ -447,7 +435,6 @@ void fractions(void)
   /************ Main Loop **************/
   while (game_status == GAME_IN_PROGRESS)
   {
-    last_time = SDL_GetTicks();
     counter++;
       
     if(counter%15 == 0)
@@ -486,17 +473,7 @@ void fractions(void)
 #endif
 
     /* Pause (keep frame-rate event) */
-    now_time = SDL_GetTicks();
-    if (now_time < last_time + MS_PER_FRAME)
-    {
-        //Prevent any possibility of a time wrap-around
-        // (this is a very unlikely problem unless there is an SDL bug
-        //  or you leave tuxmath running for 49 days...)
-      now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
-      if (now_time > MS_PER_FRAME)
-        now_time = MS_PER_FRAME;
-      SDL_Delay(now_time);
-    }
+    Throttle(MS_PER_FRAME, &timer);
   }
   FF_over(game_status);
 }
@@ -1480,10 +1457,8 @@ static void FF_add_level(void)
   int width;
   int safety_radius2, speed2;
   int max_speed;
-  Uint32 now_time, last_time;
+  Uint32 timer = 0;
   SDL_Rect rect;
-
-  last_time = now_time = SDL_GetTicks();
 
   wave++;
   
@@ -1580,17 +1555,7 @@ static void FF_add_level(void)
       FF_draw();
       SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
       SDL_Flip(screen);
-
-      last_time = now_time;
-      now_time = SDL_GetTicks();
-
-      if (now_time < last_time + MS_PER_FRAME)
-      {
-        now_time = (last_time + MS_PER_FRAME) - now_time;  // this holds the delay
-        if (now_time > MS_PER_FRAME)
- 	  now_time = MS_PER_FRAME;
-        SDL_Delay(now_time);
-      }
+      Throttle(MS_PER_FRAME, &timer);
     }
     FF_LevelMessage();
   }
