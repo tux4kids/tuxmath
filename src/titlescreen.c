@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fileops.h"
 #include "setup.h"
 #include "menu.h"
+#include "linewrap.h"
 #include "throttle.h"
 
 /* --- Data Structure for Dirty Blitting --- */
@@ -74,6 +75,8 @@ const char* tux_path     = "tux/bigtux";
 /* beak coordinates relative to tux rect */
 const float beak_pos[4]  = {0.36, 0.21, 0.27, 0.14};
 
+/* How long we show startup logo while files load, etc.: */
+const int logo_msec = 2000;
 
 SDL_Event event;
 
@@ -163,30 +166,32 @@ void TitleScreen(void)
     Opts_SetGlobalOpt(MENU_MUSIC, 1);
   }
 
+  /* We show the logo until two seconds from this time */
   start_time = SDL_GetTicks();
-  logo = T4K_LoadImage(standby_path, IMG_REGULAR);
 
   /* display the Standby screen */
+  SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+
+  logo = T4K_LoadImage(standby_path, IMG_REGULAR);
   if(logo)
   {
     /* Center horizontally and vertically */
     logo_rect.x = (screen->w - logo->w) / 2;
     logo_rect.y = (screen->h - logo->h) / 2;
-
     logo_rect.w = logo->w;
     logo_rect.h = logo->h;
 
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
     SDL_BlitSurface(logo, NULL, screen, &logo_rect);
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
-    /* Play "harp" greeting sound lifted from Tux Paint */
-    playsound(SND_HARP);
     SDL_FreeSurface(logo);
-    
-    //FIXME should this be inside the if(logo) block?
-    /* load menus */
-    LoadMenus();
   }
+
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  /* Play "harp" greeting sound lifted from Tux Paint */
+  playsound(SND_HARP);
+    
+  /* load menus */
+  LoadMenus();
 
   /* load backgrounds */
   T4K_LoadBothBkgds(bkg_path, &fs_bkg, &win_bkg);
@@ -211,7 +216,7 @@ void TitleScreen(void)
   }
 
   /* --- wait  --- */
-  while ((SDL_GetTicks() - start_time) < 2000)
+  while ((SDL_GetTicks() - start_time) < logo_msec)
   {
     /* Check to see if user pressed escape */
     if (SDL_PollEvent(&event)
@@ -251,6 +256,7 @@ void TitleScreen(void)
   /* --- Pull tux & logo onscreen --- */
   if(title && Tux && Tux->frame[0])
   {
+    Uint32 timer = 0;
     /* final tux & title positioins are already calculated,
        start outside the screen */
     tux_anim = tux_rect;
@@ -261,8 +267,6 @@ void TitleScreen(void)
 
     for(i = 0; i < ANIM_FRAMES; i++)
     {
-      start_time = SDL_GetTicks();
-
       /* Draw the entire background, over a black screen if necessary */
       if(current_bkg()->w != screen->w || current_bkg()->h != screen->h)
         SDL_FillRect(screen, &screen->clip_rect, 0);
@@ -284,9 +288,7 @@ void TitleScreen(void)
       SDL_UpdateRect(screen, title_anim.x, title_anim.y,
           min(title_anim.w + title_pix_skip, screen->w - title_anim.x), title_anim.h);
 
-      curr_time = SDL_GetTicks();
-      if((curr_time - start_time) < 1000 / ANIM_FPS)
-        SDL_Delay(1000 / ANIM_FPS - (curr_time - start_time));
+      Throttle(1000/ANIM_FPS, &timer);
     }
   }
 
@@ -531,6 +533,7 @@ void ShowMessageWrap( int font_size, const char* str )
   int inprogress = 1;
   int page = 0; 
   int maxline;
+  Uint32 timer = 0;
  
   if(screen->flags & SDL_FULLSCREEN)
     nline = linewrap( str, strings, 70, MAX_LINES, MAX_LINEWIDTH );
@@ -697,8 +700,12 @@ void ShowMessageWrap( int font_size, const char* str )
             }
           } 
         }
+	/* Don't eat all CPU: */
+        Throttle(20, &timer);
       }
+      Throttle(20, &timer);
     }
+    Throttle(20, &timer);
   }
 }
 
@@ -1058,7 +1065,7 @@ void add_rect(SDL_Rect* src, SDL_Rect* dst) {
 }
 
 int handle_easter_egg(const SDL_Event* evt)
-  {
+{
   static int eggtimer = 0;
   int tuxframe;
 
@@ -1073,44 +1080,43 @@ int handle_easter_egg(const SDL_Event* evt)
 
   tuxframe = Tux->num_frames;
 
-
   if (egg_active) //are we using the egg cursor?
-    {
+  {
 
-    if (eggtimer < SDL_GetTicks() ) //time's up
+      if (eggtimer < SDL_GetTicks() ) //time's up
       {
-      SDL_ShowCursor(SDL_ENABLE);
-      //SDL_FillRect(screen, &cursor, 0);
-      SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect); //cover egg up once more
-      SDL_WarpMouse(cursor.x, cursor.y);
-      SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h); //egg->x, egg->y, egg->w, egg->h);
-      egg_active = 0;
+        SDL_ShowCursor(SDL_ENABLE);
+        //SDL_FillRect(screen, &cursor, 0);
+        SDL_BlitSurface(current_bkg(), NULL, screen, &bkg_rect); //cover egg up once more
+        SDL_WarpMouse(cursor.x, cursor.y);
+        SDL_UpdateRect(screen, cursor.x, cursor.y, cursor.w, cursor.h); //egg->x, egg->y, egg->w, egg->h);
+        egg_active = 0;
       }
-    return 1;
-    }
+      return 1;
+  }
   else //if not, see if the user clicked Tux's beak
-    {
-    eggtimer = 0;
-    if (evt->type == SDL_MOUSEBUTTONDOWN &&
+  {
+      eggtimer = 0;
+      if (evt->type == SDL_MOUSEBUTTONDOWN &&
           T4K_inRect(beak, evt->button.x, evt->button.y) )
       {
-      SDL_ShowCursor(SDL_DISABLE);
+        SDL_ShowCursor(SDL_DISABLE);
 
-      //animate
-      while (tuxframe != 0)
+        //animate
+        while (tuxframe != 0)
         {
-        SDL_BlitSurface(current_bkg(), &tux_rect, screen, &tux_rect);
-        SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &tux_rect);
-        SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
-        SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);
+          SDL_BlitSurface(current_bkg(), &tux_rect, screen, &tux_rect);
+          SDL_BlitSurface(Tux->frame[--tuxframe], NULL, screen, &tux_rect);
+          SDL_UpdateRect(screen, tux_rect.x, tux_rect.y, tux_rect.w, tux_rect.h);
+          SDL_Delay(GOBBLE_ANIM_MS / Tux->num_frames);
         }
 
-      eggtimer = SDL_GetTicks() + EASTER_EGG_MS;
-      egg_active = 1;
-      SDL_WarpMouse(tux_rect.x + tux_rect.w / 2, tux_rect.y + tux_rect.h - egg->h);
+        eggtimer = SDL_GetTicks() + EASTER_EGG_MS;
+        egg_active = 1;
+        SDL_WarpMouse(tux_rect.x + tux_rect.w / 2, tux_rect.y + tux_rect.h - egg->h);
 
       }
 
-    return 0;
-    }
+      return 0;
   }
+}
