@@ -56,6 +56,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "tuxmath.h"
 
+#include "linewrap.h"
+
 #define MAX_LESSONS                     100
 #define MAX_NUM_WORDS                   500
 #define MAX_WORD_SIZE                   8
@@ -105,6 +107,7 @@ int           HandleTitleScreenEvents(const SDL_Event* evt);
 int           HandleTitleScreenResSwitch(int new_w, int new_h);
 void          HandleTitleScreenAnimations();
 void          ShowMessage(int font_size, const char* str1, const char* str2, const char* str3, const char* str4);
+void          ShowMessageWrap( int font_size, const char* str );
 SDL_Surface*  current_bkg(); //appropriate background for current video mode
 
 

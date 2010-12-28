@@ -173,7 +173,8 @@ int load_image_data()
   "factoroids/cockpit.png",
   "factoroids/forcefield.png",
   "factoroids/ship_thrust.png",
-  "factoroids/ship_thrust_cloaked.png"
+  "factoroids/ship_thrust_cloaked.png",
+  "status/arrows.png"
   };
 
   static char* sprite_filenames[NUM_IMAGES] = {

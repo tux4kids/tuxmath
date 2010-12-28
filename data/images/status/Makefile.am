@@ -2,7 +2,8 @@
 
 statusdir = $(pkgdatadir)/images/status
 
-dist_status_DATA = demo.png \
+dist_status_DATA = arrows.png \ 
+  demo.png \
   demo-small.png \
   gameover.png \
   gameover_won.png \

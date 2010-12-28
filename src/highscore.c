@@ -1142,13 +1142,8 @@ int detecting_servers(const char* heading, const char* sub)
     {
       char buf[256];
       int server_choice;
-      snprintf(buf, 256, _("TuxMath detected %d running servers."), servers_found);
-
-      ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-        buf,
-        _("Click to continue..."),
-        NULL, NULL);
-
+      snprintf(buf, 256, _("TuxMath detected %d running servers.\nClick to continue..."), servers_found);
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,buf); 
 			char **servernames;
 			servernames = malloc(servers_found * sizeof(char*));
 			int i;

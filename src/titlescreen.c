@@ -505,19 +505,202 @@ void free_titlescreen(void)
 
 void NotImplemented(void)
 {
-  const char *s1, *s2, *s3, *s4;
-
-  s1 = _("Work In Progress!");
-  s2 = _("This feature is not ready yet");
-  s3 = _("Discuss the future of TuxMath at");
-  s4 = N_("tuxmath-devel@lists.sourceforge.net");
-
-  ShowMessage(DEFAULT_MENU_FONT_SIZE, s1, s2, s3, s4);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Work In Progress!\n")
+                                         _("This feature is not ready yet\n ")
+                                         _("Discuss the future of TuxMath at\n ")
+                                         N_("tuxmath-devel@lists.sourceforge.net"));
 }
 
+void ShowMessageWrap( int font_size, const char* str )
+{
+  SDL_Surface *s1 = NULL;
+  SDL_Surface *arrow;
 
+  SDL_Rect loc;
+  SDL_Rect srcleft,srcright;
+  SDL_Rect rleft,rright;
+  SDL_Rect rtext;
 
+  SDL_Event event;
 
+  char strings[MAX_LINES][MAX_LINEWIDTH];
+
+  int i;
+  int nline; 
+  int finished = 0;
+  int inprogress = 1;
+  int page = 0; 
+  int maxline;
+ 
+  if(screen->flags & SDL_FULLSCREEN)
+    nline = linewrap( str, strings, 70, MAX_LINES, MAX_LINEWIDTH );
+  else
+    nline = linewrap( str, strings, 35, MAX_LINES, MAX_LINEWIDTH );
+ 
+  while(inprogress)
+  {
+    loc.x = screen->w * 0.25;
+    loc.y = screen->h * 0.1;
+    loc.w = screen->w * 0.5;
+    loc.h = screen->h * 0.8;
+
+    finished = 0;
+
+    /* calculate the max number of line */
+    maxline = loc.h / font_size * 0.4;
+
+    DrawTitleScreen();
+
+    if (stop_button)
+    {
+      SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+    }
+    T4K_DrawButton( &loc, 50, SEL_RGBA );
+
+    /* more than one page */
+    if(nline > maxline)
+    {
+      arrow = images[IMG_ARROWS];
+
+      rleft.x = loc.x + (loc.w/2-50); 
+      rleft.y = loc.y + loc.h;
+ 
+      rright.x = rleft.x + 50;
+      rright.y = rleft.y; 
+
+      /* init rect for left button */
+      srcleft.y = 0;
+      srcleft.w = 40;
+      srcleft.h = 40;
+
+      /* init rect for right button */
+      srcright.y = 0;
+      srcright.w = 40;
+      srcright.h = 40;
+ 
+      /* first page */
+      if(page == 0)
+      {
+        srcleft.x = 0;
+      }
+      else
+      {
+        srcleft.x = 40;
+      }
+
+      /* last page */
+      if(page*maxline+maxline>nline)
+      {
+        srcright.x = 80;
+      }
+      else
+      {
+        srcright.x = 120;
+      }
+
+      /* page arrows */
+      SDL_BlitSurface(arrow, &srcleft, screen, &rleft);
+      SDL_BlitSurface(arrow, &srcright, screen, &rright);
+    }
+
+    rtext.x = loc.x + 10;
+    rtext.y = loc.y;    
+    for(i=page*maxline; i<nline && i-page*maxline<maxline; i++)
+    {
+      s1 = T4K_BlackOutline(strings[i], font_size, &white);
+
+      rtext.y = rtext.y + (s1->h+15);  
+      SDL_BlitSurface( s1, NULL, screen, &rtext ); 
+
+      if( s1 )
+      {
+        SDL_FreeSurface( s1 );
+        s1 = NULL;
+      }
+    }
+
+    SDL_UpdateRect( screen, 0, 0, 0, 0 );
+
+    while(!finished)
+    {
+      while(SDL_PollEvent(&event))
+      {
+        switch(event.type)
+        {
+          case SDL_QUIT:
+          {
+            cleanup();
+          }
+          case SDL_MOUSEBUTTONDOWN:
+          {
+            /* close button pressed */
+            if(T4K_inRect(stop_rect, event.button.x, event.button.y ))
+            {
+              finished = 1;
+              inprogress = 0;
+              playsound(SND_TOCK);
+              break;
+            }
+           
+            /* left arrow button pressed */
+            if(T4K_inRect(rleft, event.button.x, event.button.y))
+            {
+              DEBUGMSG(debug_titlescreen, "You clicked the left arrow.\n" );
+              if(page>0)
+                page--;
+              finished = 1;
+            }
+            /* right arrow button pressed */
+            else if(T4K_inRect(rright, event.button.x, event.button.y))
+            {
+              DEBUGMSG(debug_titlescreen, "You clicked the right arrow.\n" );
+              if(page*maxline+maxline<nline)
+                page++; 
+              finished = 1;
+            }
+            else
+            {
+              DEBUGMSG(debug_titlescreen, "You clicked the outside.\n" );
+              finished = 1;
+              inprogress = 0;  
+            }
+          }
+          case SDL_KEYDOWN:
+          {
+            switch( event.key.keysym.sym )
+            { 
+              case SDLK_LEFT:
+              {
+                if(page>0)
+                  page--;
+                finished = 1;
+                break;
+              }
+              case SDLK_RIGHT:
+              {
+                if(page*maxline+maxline<nline)
+                  page++; 
+                finished = 1;
+                break;
+              }
+              case SDLK_q:
+              {
+                finished = 1;
+                inprogress = 0;
+              }
+              default:
+              {
+                finished = 1;
+                inprogress = 0; 
+                playsound(SND_TOCK);
+              }
+            }
+          } 
+        }
+      }
+    }
+  }
+}
 
 void ShowMessage(int font_size, const char* str1, const char* str2,
                  const char* str3, const char* str4)

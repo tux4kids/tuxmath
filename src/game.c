@@ -3030,9 +3030,8 @@ void game_handle_game_over(int game_status)
 
     case GAME_OVER_LAN_DISCONNECT:
     {
-      const char* msg1 = _("Network game terminated.");
-      const char* msg2 = _("Connection with server was lost.");
-      ShowMessage(DEFAULT_MENU_FONT_SIZE, msg1, msg2, NULL, NULL);
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, 
+                      _("Network game terminated.\n Connection with server was lost.")); 
       break;
     }
 

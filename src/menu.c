@@ -199,11 +199,10 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_INFO:
-      ShowMessage(DEFAULT_MENU_FONT_SIZE,
-                  _("TuxMath is free and open-source!"),
-                  _("You can help make it better."),
-                  _("Suggestions, artwork, and code are all welcome!"),
-                  _("Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"));
+        ShowMessageWrap( DEFAULT_MENU_FONT_SIZE,_("Tuxmath is free and open-source!\n")
+                                                _("You can help make it better.\n")
+                                                _("Suggestions, artwork, and code are all welcome!\n")
+                                                _("Discuss TuxMath at tuxmath-devel@list.sourceforge.net"));
       break;
 
     case RUN_CREDITS:
@@ -336,12 +335,9 @@ int run_arcade(int choice)
 
 int run_custom_game(void)
 {
-  const char *s1, *s2, *s3, *s4;
-  s1 = _("Edit 'options' file in your home directory");
-  s2 = _("to create customized game!");
-  s3 = _("Press a key or click your mouse to start game.");
-  s4 = _("See README.txt for more information");
-  ShowMessage(DEFAULT_MENU_FONT_SIZE, s1, s2, s3, s4);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Edit 'options' file in you home directory to create customized game!\n")
+                                         _("Press a key or click your mouse to start game.\n")
+                                         _("See README.txt for more information.\n"));
 
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -419,6 +415,7 @@ int run_factoroids(int choice)
 int run_lan_host(void)
 {
 #ifdef HAVE_LIBSDL_NET
+  char msg[256];
   char buf[256];
   char server_name[150];
   char* serv_argv[3];
@@ -427,8 +424,7 @@ int run_lan_host(void)
   /* For now, only allow one server instance: */
   if(ServerRunning())
   {
-    ShowMessage(DEFAULT_MENU_FONT_SIZE, _("The server is already running"),
-                NULL, NULL, NULL);
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
     return 0;
   }
 
@@ -446,9 +442,7 @@ int run_lan_host(void)
 
 #ifdef HAVE_PTHREAD_H
 
-  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-              _("Click or press key to select server lesson file"),
-              NULL, NULL, NULL);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Click or press key to select server lesson file"));
 
   {
     chosen_lesson = run_menu(MENU_LESSONS, true);
@@ -475,12 +469,8 @@ int run_lan_host(void)
     }
     if(chosen_lesson==STOP) return 0;
   }
-
-  ShowMessage(DEFAULT_MENU_FONT_SIZE,
-              _("Server Name:"),
-              server_name,
-              _("Selected Lesson:"),
-              lesson_list_titles[chosen_lesson]);
+  sprintf(msg, _("Server Name:\n%s\nSelected Lesson:\n%s"), server_name, lesson_list_titles[chosen_lesson]);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
 
   DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
 	   "serv_argv[0] = %s\n"
@@ -502,8 +492,7 @@ int run_lan_host(void)
 
 /* No SDL_net, so show explanatory message: */
 #else
-  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-              NULL, _("Sorry, this version built without network support"), NULL, NULL);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
   printf( _("Sorry, this version built without network support.\n"));
 #endif
   return 0;
@@ -539,20 +528,17 @@ int run_lan_join(void)
     }
     else
     {
-      ShowMessage(DEFAULT_MENU_FONT_SIZE,
-                  NULL, _("Sorry, game already in progress."), NULL, NULL);
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, game already in progress."));
       printf(_("Sorry, game already in progress.\n"));
     }  
   }
   else
   {
-    ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-                NULL, _("Sorry, no server could be found."), NULL, NULL);
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("\nSorry, no server could be found."));
     printf(_("Sorry, could not connect to server.\n"));
   }
 #else
-  ShowMessage(DEFAULT_MENU_FONT_SIZE, 
-              NULL, _("Sorry, this version built without network support"), NULL, NULL);
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built without network support"));
   printf( _("Sorry, this version built without network support.\n"));
 #endif
 
