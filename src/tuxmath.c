@@ -30,7 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "tuxmath.h"
 #include "setup.h"
 #include "titlescreen.h"
-#include "linewrap.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,23 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int main(int argc, char* argv[])
 {
-//  const char *s1, *s2, *s3, *s4;
-
-//  s1 = setlocale(LC_ALL, "");
-//  s2 = bindtextdomain(PACKAGE, TUXLOCALE);
-//  s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
-//  s4 = textdomain(PACKAGE);
-
   setup(argc, argv);
-
-//  DEBUGMSG(debug_setup, "PACKAGE = %s\n", PACKAGE);
-//  DEBUGMSG(debug_setup, "TUXLOCALE = %s\n", TUXLOCALE);
-//  DEBUGMSG(debug_setup, "setlocale(LC_ALL, \"\") returned: %s\n", s1);
-//  DEBUGMSG(debug_setup, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n", s2);
-//  DEBUGMSG(debug_setup, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n", s3);
-//  DEBUGMSG(debug_setup, "textdomain(PACKAGE) returned: %s\n", s4);
-//  DEBUGMSG(debug_setup, "gettext(\"Help\"): %s\n\n", gettext("Help"));
-
   TitleScreen();  /* Run the game! */
   cleanup();
   return 0;

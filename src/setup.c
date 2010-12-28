@@ -32,8 +32,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include <string.h>
 
-/* FIXME maybe unistd.h not needed, even less sure about portability */
-//#include <unistd.h>
 
 #include "SDL.h"
 
@@ -54,9 +52,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "highscore.h"
 
 
-//#ifdef LINEBREAK
-#include "linewrap.h"
-//#endif
 
 /* Global data used in setup.c:              */
 /* (These are now 'extern'd in "tuxmath.h") */
