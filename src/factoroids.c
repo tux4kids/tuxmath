@@ -484,25 +484,27 @@ static void FF_LevelMessage(void)
   SDL_Rect rect;
   SDL_Surface *bgsurf=NULL;
   int nwave;
-
-  char hints_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
-  {
-    _("Multiples of 2"),
-    _("Multiples of 2 and 3"),
-    _("Multiples of 2, 3 and 5"),
-    _("Multiples of 2, 3, 5 and 7"),
-    _("Multiples of 2, 3, 5, 7, and 11"),
-    _("Multiples of 2, 3, 5, 7, 11 and 13")
-  };
+  Uint32 timer =0;
+  int waiting = 1;
 
   char objs_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
   {
-    _("You need to destroy all \nasteroids which multiples \nof 2."),
-    _("You need to destroy all \nasteroids which multiples \nof 2 and 3."),
-    _("You need to destroy all \nasteroids which multiples \nof 2, 3 and 5."),
-    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5 and 7."),
-    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5, 7 and 11."),
-    _("You need to destroy all \nasteroids which multiples \nof 2, 3, 5, 7, 11 and 13")
+    _("Powers of 2"),
+    _("Products of 2 and 3"),
+    _("Products of 2, 3 and 5"),
+    _("Products of 2, 3, 5 and 7"),
+    _("Products of 2, 3, 5, 7, and 11"),
+    _("Products of 2, 3, 5, 7, 11 and 13")
+  };
+
+  char hints_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
+  {
+    _("All multiples of 2 end in 2, 4, 6, 8, or 0"),
+    _("The digits of a multiple of 3 add up to a multiple of 3"),
+    _("All multiples of 5 end in 0 or 5"),
+    _("Sorry - there is no simple rule to identify multiples of 7."),
+    _("Under 100, multiples of 11 have equal digits, such as 55 or 88."),
+    _("Sorry - there is no simple rule to identify multiples of 13."),
   };
 
   rect.x = (screen->w/2)-(LVL_WIDTH_MSG/2);
@@ -525,31 +527,39 @@ static void FF_LevelMessage(void)
   SDL_Flip(screen);
 
   /* wait for user events */
-  while(1)
-  {
-     SDL_PollEvent(&event);
-     if (event.type == SDL_QUIT)
-     {
-        SDL_quit_received = 1;
-        quit = 1;
-        break;
-     }
-     else if (event.type == SDL_MOUSEBUTTONDOWN)
-     {
-        break;
-     }
-     else if (event.type == SDL_KEYDOWN)
-     {
-        if (event.key.keysym.sym == SDLK_ESCAPE)
-          escape_received = 1;
-        break;
-     }
+  while(waiting)
+  {	  
+      while(SDL_PollEvent(&event))
+      {	     
+          if (event.type == SDL_QUIT)
+          {
+              SDL_quit_received = 1;
+	      quit = 1;
+	      waiting = 0;
+	      break;
+	  }
+	  else if (event.type == SDL_MOUSEBUTTONDOWN)
+	  {
+	      waiting = 0;  
+	      break;
+	  }
+	  else if (event.type == SDL_KEYDOWN)
+	  {
+	      if (event.key.keysym.sym == SDLK_ESCAPE)
+	          escape_received = 1;
+	      waiting = 0;
+	      break;
+	  }
+	  /* keep from eating all CPU: */
+	  Throttle(MS_PER_FRAME, &timer);
+      }
   }
 }
 
 /************ Initialize all vars... ****************/
 static int FF_init(void)
 {
+  Uint32 timer = 0;
   int i;
   float zoom;
 
@@ -687,6 +697,7 @@ static int FF_init(void)
       if (event.key.keysym.sym == SDLK_ESCAPE)
         escape_received = 1;
       return 1;
+      Throttle(MS_PER_FRAME, &timer);
     }
   }
 }
@@ -1563,7 +1574,7 @@ static void FF_add_level(void)
 
 static int FF_over(int game_status)
 {
-  Uint32 last_time, now_time; 
+  Uint32 timer = 0; 
   SDL_Rect dest_message;
   SDL_Event event;
 
@@ -1571,6 +1582,9 @@ static int FF_over(int game_status)
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
   /* questions as question list, etc.                                        */
+  /* TODO: also, some of these cases just redraw the background on every     */
+  /* frame with nothing else - just copy-and-pasted code without much        */
+  /* further attention.                                                      */
   switch (game_status)
   {
     case GAME_OVER_WON:
@@ -1586,7 +1600,6 @@ static int FF_over(int game_status)
       do
       {
         //frame++;
-        last_time = SDL_GetTicks();
 
         /* draw flashing victory message: */
         //if (((frame / 2) % 4))
@@ -1607,12 +1620,9 @@ static int FF_over(int game_status)
             looping = 0;
 	    break;
           }
+	  Throttle(MS_PER_FRAME, &timer);
         }
-
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+	Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
       break;
@@ -1636,8 +1646,6 @@ static int FF_over(int game_status)
       do
       {
         //frame++;
-        last_time = SDL_GetTicks();
-
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
         SDL_Flip(screen);
 
@@ -1651,12 +1659,9 @@ static int FF_over(int game_status)
             looping = 0;
 	    break;
           }
+	  Throttle(MS_PER_FRAME, &timer);
         }
-
-        now_time = SDL_GetTicks();
-
-        if (now_time < last_time + MS_PER_FRAME)
-	  SDL_Delay(last_time + MS_PER_FRAME - now_time);
+	Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
 
