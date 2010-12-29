@@ -199,10 +199,10 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_INFO:
-        ShowMessageWrap( DEFAULT_MENU_FONT_SIZE,_("Tuxmath is free and open-source!\n")
-                                                _("You can help make it better.\n")
-                                                _("Suggestions, artwork, and code are all welcome!\n")
-                                                _("Discuss TuxMath at tuxmath-devel@list.sourceforge.net"));
+        ShowMessageWrap( DEFAULT_MENU_FONT_SIZE, _("Tuxmath is free and open-source!\n"
+                                               "You can help make it better.\n"
+                                                "Suggestions, artwork, and code are all welcome!\n"
+                                                "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"));
       break;
 
     case RUN_CREDITS:
@@ -335,9 +335,9 @@ int run_arcade(int choice)
 
 int run_custom_game(void)
 {
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Edit 'options' file in you home directory to create customized game!\n")
-                                         _("Press a key or click your mouse to start game.\n")
-                                         _("See README.txt for more information.\n"));
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Edit 'options' file in you home directory to create customized game!\n"
+                                         "Press a key or click your mouse to start game.\n"
+                                         "See README.txt for more information.\n"));
 
   if (read_user_config_file()) {
     if (Opts_GetGlobalOpt(MENU_MUSIC))

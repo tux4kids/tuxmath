@@ -507,10 +507,10 @@ void free_titlescreen(void)
 
 void NotImplemented(void)
 {
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Work In Progress!\n")
-                                         _("This feature is not ready yet\n ")
-                                         _("Discuss the future of TuxMath at\n ")
-                                         N_("tuxmath-devel@lists.sourceforge.net"));
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Work In Progress!\n"
+                                         "This feature is not ready yet\n"
+                                         "Discuss the future of TuxMath at\n"
+                                         "tuxmath-devel@lists.sourceforge.net"));
 }
 
 void ShowMessageWrap( int font_size, const char* str )
