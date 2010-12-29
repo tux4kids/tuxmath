@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-15 21:10-0600\n"
+"POT-Creation-Date: 2010-12-29 07:10-0600\n"
 "PO-Revision-Date: 2008-07-17 12:30+0000\n"
 "Last-Translator: Štefan Baebler <Unknown>\n"
 "Language-Team: Slovenian <sl@li.org>\n"
@@ -216,110 +216,94 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:495 data/missions/lessons/descr_lessons:14
-msgid "Multiples of 2"
-msgstr "Večkratniki števila 2"
+#: src/factoroids.c:492
+msgid "Powers of 2"
+msgstr ""
+
+#: src/factoroids.c:493
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "Večkratniki števil 11 in 12"
+
+#: src/factoroids.c:494
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "Večkratniki števil 13, 14 in 15"
+
+#: src/factoroids.c:495
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Večkratniki števil 13, 14 in 15"
 
 #: src/factoroids.c:496
 #, fuzzy
-msgid "Multiples of 2 and 3"
-msgstr "Večkratniki števil 11 in 12"
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Večkratniki števil 13, 14 in 15"
 
 #: src/factoroids.c:497
 #, fuzzy
-msgid "Multiples of 2, 3 and 5"
+msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "Večkratniki števil 13, 14 in 15"
 
-#: src/factoroids.c:498
+#: src/factoroids.c:502
 #, fuzzy
-msgid "Multiples of 2, 3, 5 and 7"
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "Večkratniki števil 13, 14 in 15"
 
-#: src/factoroids.c:499
-#, fuzzy
-msgid "Multiples of 2, 3, 5, 7, and 11"
-msgstr "Večkratniki števil 13, 14 in 15"
+#: src/factoroids.c:503
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
 
-#: src/factoroids.c:500
+#: src/factoroids.c:504
 #, fuzzy
-msgid "Multiples of 2, 3, 5, 7, 11 and 13"
+msgid "All multiples of 5 end in 0 or 5"
 msgstr "Večkratniki števil 13, 14 in 15"
 
 #: src/factoroids.c:505
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2."
+msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
 #: src/factoroids.c:506
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2 and 3."
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
 #: src/factoroids.c:507
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3 and 5."
+msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:508
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5 and 7."
-msgstr ""
-
-#: src/factoroids.c:509
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5, 7 and 11."
-msgstr ""
-
-#: src/factoroids.c:510
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5, 7, 11 and 13"
-msgstr ""
-
-#: src/factoroids.c:527
+#: src/factoroids.c:524
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:528
+#: src/factoroids.c:525
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:723
+#: src/factoroids.c:731
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:724 src/factoroids.c:735
+#: src/factoroids.c:732 src/factoroids.c:743
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:725
+#: src/factoroids.c:733
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:726
+#: src/factoroids.c:734
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:734
+#: src/factoroids.c:742
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:736
+#: src/factoroids.c:744
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:737
+#: src/factoroids.c:745
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -429,192 +413,201 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/game.c:2942
+#: src/game.c:2934
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2957
+#: src/game.c:2949
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:3033
-msgid "Network game terminated."
+#: src/game.c:3026
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
 msgstr ""
 
-#: src/game.c:3034
-msgid "Connection with server was lost."
-msgstr ""
-
-#: src/highscore.c:182 data/menus/menu_strings:9
+#: src/highscore.c:180 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr ""
 
-#: src/highscore.c:202 src/highscore.c:223 data/menus/menu_strings:27
+#: src/highscore.c:200 src/highscore.c:221 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr ""
 
-#: src/highscore.c:205 data/menus/menu_strings:26
+#: src/highscore.c:203 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Tabornik"
 
-#: src/highscore.c:208 data/menus/menu_strings:23
+#: src/highscore.c:206 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Čuvaj"
 
-#: src/highscore.c:211 data/menus/menu_strings:1
+#: src/highscore.c:209 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "As"
 
-#: src/highscore.c:214 data/menus/menu_strings:2
+#: src/highscore.c:212 data/menus/menu_strings:2
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:217 data/menus/menu_strings:7
+#: src/highscore.c:215 data/menus/menu_strings:7
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:220 data/menus/menu_strings:8
+#: src/highscore.c:218 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr ""
 
-#: src/highscore.c:301
+#: src/highscore.c:296
 msgid "You Are In The Hall of Fame!"
 msgstr ""
 
-#: src/highscore.c:301
+#: src/highscore.c:296
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/highscore.c:1145
+#: src/highscore.c:1140
 #, c-format
-msgid "TuxMath detected %d running servers."
+msgid ""
+"TuxMath detected %d running servers.\n"
+"Click to continue..."
 msgstr ""
 
-#: src/highscore.c:1149
-msgid "Click to continue..."
-msgstr ""
-
-#: src/menu.c:203
-msgid "TuxMath is free and open-source!"
+#: src/menu.c:202
+#, fuzzy
+msgid "Tuxmath is free and open-source!\n"
 msgstr "TuxMath je prost in odprtokoden!"
 
-#: src/menu.c:204
+#: src/menu.c:203
 #, fuzzy
-msgid "You can help make it better."
+msgid "You can help make it better.\n"
 msgstr "S sporočanjem težav, predlogov za izboljšave in"
 
-#: src/menu.c:205
-msgid "Suggestions, artwork, and code are all welcome!"
+#: src/menu.c:204
+msgid "Suggestions, artwork, and code are all welcome!\n"
 msgstr ""
 
-#: src/menu.c:206
+#: src/menu.c:205
 #, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr "Pogovor o prihodnosti na tuxmath-devel@lists.sourceforge.net"
 
-#: src/menu.c:340
-msgid "Edit 'options' file in your home directory"
+#: src/menu.c:338
+#, fuzzy
+msgid "Edit 'options' file in you home directory to create customized game!\n"
 msgstr "Za igro po meri spremenite datoteko"
 
-#: src/menu.c:341
-msgid "to create customized game!"
-msgstr "'options' v vaši domači mapi."
-
-#: src/menu.c:342
-msgid "Press a key or click your mouse to start game."
+#: src/menu.c:339
+#, fuzzy
+msgid "Press a key or click your mouse to start game.\n"
 msgstr "Za začetek igre pritisni tipko ali klikni z miško."
 
-#: src/menu.c:343
-msgid "See README.txt for more information"
+#: src/menu.c:340
+#, fuzzy
+msgid "See README.txt for more information.\n"
 msgstr "Za več podrobnosti preberite datoteko README.txt"
 
-#: src/menu.c:367
+#: src/menu.c:363
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/menu.c:368
+#: src/menu.c:364
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:430
+#: src/menu.c:427
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:435
+#: src/menu.c:431
 msgid "Enter Server Name:"
 msgstr ""
 
-#: src/menu.c:435
+#: src/menu.c:431
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:450
+#: src/menu.c:445
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:480
-msgid "Server Name:"
+#: src/menu.c:472
+#, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
 msgstr ""
 
-#: src/menu.c:482
-msgid "Selected Lesson:"
+#: src/menu.c:495
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
 msgstr ""
 
-#: src/menu.c:506 src/menu.c:555
-msgid "Sorry, this version built without network support"
-msgstr ""
-
-#: src/menu.c:507 src/menu.c:556
+#: src/menu.c:496 src/menu.c:542
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:517
+#: src/menu.c:506
 msgid "Detecting servers"
 msgstr ""
 
-#: src/menu.c:517
+#: src/menu.c:506
 msgid "Please wait"
 msgstr ""
 
-#: src/menu.c:524
+#: src/menu.c:513
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:525
+#: src/menu.c:514
 #, c-format
 msgid "%s"
 msgstr ""
 
-#: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:515 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr ""
 
-#: src/menu.c:528
+#: src/menu.c:517
 msgid "Click when ready"
 msgstr ""
 
-#: src/menu.c:530
+#: src/menu.c:519
 msgid "Waiting for other players"
 msgstr ""
 
-#: src/menu.c:543
-msgid "Sorry, game already in progress."
+#: src/menu.c:531
+msgid ""
+"\n"
+"Sorry, game already in progress."
 msgstr ""
 
-#: src/menu.c:544
+#: src/menu.c:532
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr ""
 
-#: src/menu.c:550
-msgid "Sorry, no server could be found."
+#: src/menu.c:537
+msgid ""
+"\n"
+"Sorry, no server could be found."
 msgstr ""
 
-#: src/menu.c:551
+#: src/menu.c:538
 #, c-format
 msgid "Sorry, could not connect to server.\n"
+msgstr ""
+
+#: src/menu.c:541
+msgid ""
+"\n"
+"Sorry, this version built without network support"
 msgstr ""
 
 #: src/multiplayer.c:203
@@ -639,24 +632,27 @@ msgid "Enter a number"
 msgstr ""
 
 #: src/titlescreen.c:510
-msgid "Work In Progress!"
+#, fuzzy
+msgid "Work In Progress!\n"
 msgstr "Delo še poteka!"
 
 #: src/titlescreen.c:511
-msgid "This feature is not ready yet"
+#, fuzzy
+msgid ""
+"This feature is not ready yet\n"
+" "
 msgstr "Ta možnost še ni pripravljena"
 
 #: src/titlescreen.c:512
-msgid "Discuss the future of TuxMath at"
+#, fuzzy
+msgid ""
+"Discuss the future of TuxMath at\n"
+" "
 msgstr "Pogovor o prihodnsti programa TuxMath na"
 
 #: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#: src/tuxmath.c:61 data/menus/menu_strings:10
-msgid "Help"
-msgstr "Pomoč"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -709,6 +705,10 @@ msgstr "Pregled seštevanja in odštevanja"
 #: data/missions/lessons/descr_lessons:13
 msgid "Multiplication: 0 to 3"
 msgstr "Množenje: 0 do 3"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "Večkratniki števila 2"
 
 #: data/missions/lessons/descr_lessons:15
 msgid "Multiples of 3"
@@ -904,6 +904,10 @@ msgstr ""
 msgid "Factoroids!"
 msgstr ""
 
+#: data/menus/menu_strings:10
+msgid "Help"
+msgstr "Pomoč"
+
 #: data/menus/menu_strings:11
 msgid "Join Game"
 msgstr ""
@@ -959,6 +963,9 @@ msgstr ""
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr ""
+
+#~ msgid "to create customized game!"
+#~ msgstr "'options' v vaši domači mapi."
 
 #~ msgid "Main menu"
 #~ msgstr "Glavni meni"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-15 21:10-0600\n"
+"POT-Creation-Date: 2010-12-29 07:10-0600\n"
 "PO-Revision-Date: 2010-12-11 20:26+0530\n"
 "Last-Translator: Gautam <gautam.2011@gmail.com>\n"
 "Language-Team: Gautam Gupta <admin@gaut.am>\n"
@@ -237,123 +237,94 @@ msgstr "जी.पी.एल. की एक पूरी प्रति इस 
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "फ्री सॉफ्टवेयर और जी.एन.यु. जी.पी.एल. के बारे में अधिक जानकारी के लिए इधर जाएँ:"
 
-#: src/factoroids.c:495 data/missions/lessons/descr_lessons:14
-msgid "Multiples of 2"
-msgstr "२ के गुणक"
+#: src/factoroids.c:492
+msgid "Powers of 2"
+msgstr ""
 
-#: src/factoroids.c:496
-msgid "Multiples of 2 and 3"
+#: src/factoroids.c:493
+#, fuzzy
+msgid "Products of 2 and 3"
 msgstr "२ और ३ के गुणक"
 
-#: src/factoroids.c:497
-msgid "Multiples of 2, 3 and 5"
+#: src/factoroids.c:494
+#, fuzzy
+msgid "Products of 2, 3 and 5"
 msgstr "२, ३ और ५ के गुणक"
 
-#: src/factoroids.c:498
-msgid "Multiples of 2, 3, 5 and 7"
+#: src/factoroids.c:495
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
 msgstr "२, ३, ५ और ७ के गुणक"
 
-#: src/factoroids.c:499
-msgid "Multiples of 2, 3, 5, 7, and 11"
+#: src/factoroids.c:496
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "२, ३, ५, ७ और ११ के गुणक"
 
-#: src/factoroids.c:500
-msgid "Multiples of 2, 3, 5, 7, 11 and 13"
+#: src/factoroids.c:497
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "२, ३, ५, ७, ११ और १३ के गुणक"
 
-#: src/factoroids.c:505
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2."
+#: src/factoroids.c:502
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "२, ३, ५, ७ और ११ के गुणक"
+
+#: src/factoroids.c:503
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
-"जो भी धूमकेतु \n"
-"२ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
+
+#: src/factoroids.c:504
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "२, ३ और ५ के गुणक"
+
+#: src/factoroids.c:505
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
 
 #: src/factoroids.c:506
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2 and 3."
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
-"जो भी धूमकेतु \n"
-"२ और ३ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
 
 #: src/factoroids.c:507
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3 and 5."
+msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
-"जो भी धूमकेतु \n"
-"२, ३ और ५ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
 
-#: src/factoroids.c:508
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5 and 7."
-msgstr ""
-"जो भी धूमकेतु \n"
-"२, ३, ५ और ७ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
-
-#: src/factoroids.c:509
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5, 7 and 11."
-msgstr ""
-"जो भी धूमकेतु \n"
-"२, ३, ५, ७ और ११ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
-
-#: src/factoroids.c:510
-msgid ""
-"You need to destroy all \n"
-"asteroids which multiples \n"
-"of 2, 3, 5, 7, 11 and 13"
-msgstr ""
-"जो भी धूमकेतु \n"
-"२, ३, ५, ७, ११ और और १३ के \n"
-"गुणक हैं, आपको उन्हें तभा करना है|"
-
-#: src/factoroids.c:527
+#: src/factoroids.c:524
 msgid "Objectives:"
 msgstr "उद्देश्य:"
 
-#: src/factoroids.c:528
+#: src/factoroids.c:525
 msgid "Hints:"
 msgstr "सुराग:"
 
-#: src/factoroids.c:723
+#: src/factoroids.c:731
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "फैक्टोरोइड्स: जीतने के लिए, आपको सभी धूमकेतु को नष्ट करने की जरूरत है|"
 
-#: src/factoroids.c:724 src/factoroids.c:735
+#: src/factoroids.c:732 src/factoroids.c:743
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "आगे जाने या घूमने के लिए तीर कुंजियाँ का उपयोग करें| एक धूमकेतु पर लक्ष्य लगाएं,"
 
-#: src/factoroids.c:725
+#: src/factoroids.c:733
 msgid "type one of its factors, and press space or return"
 msgstr "इसके कारकों में से कोई भी एक प्रकार टाइप करें, और फिर स्पेस या रिटर्न प्रेस करें|"
 
-#: src/factoroids.c:726
+#: src/factoroids.c:734
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "कारकों में विभाजित करने के लिए| प्रधान संख्या वाली चट्टानें नष्ट हो रही हैं!"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:742
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "फ्रैकशंस: जीतने के लिए, आपको सभी धूमकेतु को नष्ट करने की जरूरत है|"
 
-#: src/factoroids.c:736
+#: src/factoroids.c:744
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "एक नंबर टाइप करें जो फ्रैकशन को सरल कर सकता है, और फिर स्पेस या रिटर्न दबाएँ|"
 
-#: src/factoroids.c:737
+#: src/factoroids.c:745
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -463,191 +434,208 @@ msgstr "ऊपरी दाएँ कोने में|"
 msgid "Do it now, and then play!"
 msgstr "अभी करो, और तब खेलो!"
 
-#: src/game.c:2942
+#: src/game.c:2934
 msgid "The Penguins Have Been Saved!"
 msgstr "पेंगुइन बचा लिए गए हैं!"
 
-#: src/game.c:2957
+#: src/game.c:2949
 msgid "Final Scores:"
 msgstr "अंतिम स्कोर:"
 
-#: src/game.c:3033
-msgid "Network game terminated."
-msgstr "नेटवर्क खेल समाप्त हुई|"
-
-#: src/game.c:3034
-msgid "Connection with server was lost."
+#: src/game.c:3026
+#, fuzzy
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
 msgstr "सर्वर से कनेक्शन खो गया है|"
 
-#: src/highscore.c:182 data/menus/menu_strings:9
+#: src/highscore.c:180 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "प्रसिद्धि के हॉल"
 
-#: src/highscore.c:202 src/highscore.c:223 data/menus/menu_strings:27
+#: src/highscore.c:200 src/highscore.c:221 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "स्पेस कैडेट"
 
-#: src/highscore.c:205 data/menus/menu_strings:26
+#: src/highscore.c:203 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "स्काउट"
 
-#: src/highscore.c:208 data/menus/menu_strings:23
+#: src/highscore.c:206 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "रेंजर"
 
-#: src/highscore.c:211 data/menus/menu_strings:1
+#: src/highscore.c:209 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "ऐस"
 
-#: src/highscore.c:214 data/menus/menu_strings:2
+#: src/highscore.c:212 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "कमांडो"
 
-#: src/highscore.c:217 data/menus/menu_strings:7
+#: src/highscore.c:215 data/menus/menu_strings:7
 msgid "Factors"
 msgstr "फैक्टर्स"
 
-#: src/highscore.c:220 data/menus/menu_strings:8
+#: src/highscore.c:218 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "फ्रैकशंस"
 
-#: src/highscore.c:301
+#: src/highscore.c:296
 msgid "You Are In The Hall of Fame!"
 msgstr "आप प्रसिद्धि के हॉल में हैं!"
 
-#: src/highscore.c:301
+#: src/highscore.c:296
 msgid "Enter Your Name:"
 msgstr "अपना नाम लिखें:"
 
-#: src/highscore.c:1145
-#, c-format
-msgid "TuxMath detected %d running servers."
+#: src/highscore.c:1140
+#, fuzzy, c-format
+msgid ""
+"TuxMath detected %d running servers.\n"
+"Click to continue..."
 msgstr "टक्सगणित को %d चलते हुए सर्वरों का पता चला|"
 
-#: src/highscore.c:1149
-msgid "Click to continue..."
-msgstr "आगे बढ़ने के लिए क्लिक करें..."
-
-#: src/menu.c:203
-msgid "TuxMath is free and open-source!"
+#: src/menu.c:202
+#, fuzzy
+msgid "Tuxmath is free and open-source!\n"
 msgstr "टक्सगणित फ्री और खुला स्रोत है!"
 
-#: src/menu.c:204
-msgid "You can help make it better."
+#: src/menu.c:203
+#, fuzzy
+msgid "You can help make it better.\n"
 msgstr "आप इसको बेहेतर बनाने में मदद कर सकते हैं|"
 
-#: src/menu.c:205
-msgid "Suggestions, artwork, and code are all welcome!"
+#: src/menu.c:204
+#, fuzzy
+msgid "Suggestions, artwork, and code are all welcome!\n"
 msgstr "सुझाव, कलाकृति, और कोड - सभी स्वागत है!"
 
-#: src/menu.c:206
-msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+#: src/menu.c:205
+#, fuzzy
+msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net पर टक्सगणित कि चर्चा करें"
 
-#: src/menu.c:340
-msgid "Edit 'options' file in your home directory"
+#: src/menu.c:338
+#, fuzzy
+msgid "Edit 'options' file in you home directory to create customized game!\n"
 msgstr "अपने घर निर्देशिका में 'विकल्प' फाइल को संपादित करें"
 
-#: src/menu.c:341
-msgid "to create customized game!"
-msgstr "खेल के लिए अनुकूलित बनाने के लिए!"
-
-#: src/menu.c:342
-msgid "Press a key or click your mouse to start game."
+#: src/menu.c:339
+#, fuzzy
+msgid "Press a key or click your mouse to start game.\n"
 msgstr "खेल शुरू करने के लिए एक कुंजी दबाएँ या क्लिक करें|"
 
-#: src/menu.c:343
-msgid "See README.txt for more information"
+#: src/menu.c:340
+#, fuzzy
+msgid "See README.txt for more information.\n"
 msgstr "अधिक जानकारी के लिए README.txt देखें"
 
-#: src/menu.c:367
+#: src/menu.c:363
 msgid "How many kids are playing?"
 msgstr "कितने बचे खेल रहे हैं?"
 
-#: src/menu.c:368
+#: src/menu.c:364
 msgid "(Between 2 and 4 players)"
 msgstr "(२ और ४ खिलाडिओं के अंतर्ग्रत)"
 
-#: src/menu.c:430
+#: src/menu.c:427
 msgid "The server is already running"
 msgstr "सर्वर पहले से ही चल रहा है"
 
-#: src/menu.c:435
+#: src/menu.c:431
 msgid "Enter Server Name:"
 msgstr "सर्वर का नाम लिखिए:"
 
-#: src/menu.c:435
+#: src/menu.c:431
 msgid "(limit 50 characters)"
 msgstr "(50 अक्षरों कि सीमा)"
 
-#: src/menu.c:450
+#: src/menu.c:445
 msgid "Click or press key to select server lesson file"
 msgstr "सर्वर पाठ फ़ाइल का चयन करने के लिए क्लिक या कुंजी दबाएँ"
 
-#: src/menu.c:480
-msgid "Server Name:"
-msgstr "सर्वर का नाम:"
-
-#: src/menu.c:482
-msgid "Selected Lesson:"
+#: src/menu.c:472
+#, fuzzy, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
 msgstr "चयनित पाठ:"
 
-#: src/menu.c:506 src/menu.c:555
-msgid "Sorry, this version built without network support"
-msgstr "क्षमा करें, लेकिन यह संस्करण बिना नेटवर्क समर्थन के बनाया गया था"
+#: src/menu.c:495
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
+msgstr "क्षमा करें, लेकिन यह संस्करण बिना नेटवर्क समर्थन के बनाया गया था|\n"
 
-#: src/menu.c:507 src/menu.c:556
+#: src/menu.c:496 src/menu.c:542
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "क्षमा करें, लेकिन यह संस्करण बिना नेटवर्क समर्थन के बनाया गया था|\n"
 
-#: src/menu.c:517
+#: src/menu.c:506
 msgid "Detecting servers"
 msgstr "सर्वरों का पता लगाया जा रहा है"
 
-#: src/menu.c:517
+#: src/menu.c:506
 msgid "Please wait"
 msgstr "कृपया रुकें"
 
-#: src/menu.c:524
+#: src/menu.c:513
 #, c-format
 msgid "Connected to server: %s"
 msgstr "इस सर्वर से कनेक्टेड हैं: %s"
 
-#: src/menu.c:525
+#: src/menu.c:514
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:526 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:515 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "अपने नाम लिखें:"
 
-#: src/menu.c:528
+#: src/menu.c:517
 msgid "Click when ready"
 msgstr "जब तैयार, तब क्लिक करें"
 
-#: src/menu.c:530
+#: src/menu.c:519
 msgid "Waiting for other players"
 msgstr "दूसरे खिलाडिओं के लिए रुके हुए हैं"
 
-#: src/menu.c:543
-msgid "Sorry, game already in progress."
+#: src/menu.c:531
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, game already in progress."
 msgstr "क्षमा करें, लेकिन खेल अभी चालू है|"
 
-#: src/menu.c:544
+#: src/menu.c:532
 #, c-format
 msgid "Sorry, game already in progress.\n"
 msgstr "क्षमा करें, लेकिन खेल अभी चालू है|\n"
 
-#: src/menu.c:550
-msgid "Sorry, no server could be found."
+#: src/menu.c:537
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, no server could be found."
 msgstr "क्षमा करें, लेकिन कोई सर्वर नहीं मिला|"
 
-#: src/menu.c:551
+#: src/menu.c:538
 #, c-format
 msgid "Sorry, could not connect to server.\n"
 msgstr "क्षमा करें, लेकिन कोई सर्वर नहीं मिला|\n"
+
+#: src/menu.c:541
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, this version built without network support"
+msgstr "क्षमा करें, लेकिन यह संस्करण बिना नेटवर्क समर्थन के बनाया गया था"
 
 #: src/multiplayer.c:203
 #, c-format
@@ -671,24 +659,27 @@ msgid "Enter a number"
 msgstr "एक नंबर दर्ज करें"
 
 #: src/titlescreen.c:510
-msgid "Work In Progress!"
+#, fuzzy
+msgid "Work In Progress!\n"
 msgstr "कार्य प्रगति पर है!"
 
 #: src/titlescreen.c:511
-msgid "This feature is not ready yet"
+#, fuzzy
+msgid ""
+"This feature is not ready yet\n"
+" "
 msgstr "यह सुविधा अभी तैयार नहीं है"
 
 #: src/titlescreen.c:512
-msgid "Discuss the future of TuxMath at"
+#, fuzzy
+msgid ""
+"Discuss the future of TuxMath at\n"
+" "
 msgstr "टक्सगणित के भविष्य पर चर्चा यहाँ करें "
 
 #: src/titlescreen.c:513
 msgid "tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#: src/tuxmath.c:61 data/menus/menu_strings:10
-msgid "Help"
-msgstr "सहायेता"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -741,6 +732,10 @@ msgstr "जुड़ाव और घटाव की समीक्षा"
 #: data/missions/lessons/descr_lessons:13
 msgid "Multiplication: 0 to 3"
 msgstr "गुणन: ० से ३"
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr "२ के गुणक"
 
 #: data/missions/lessons/descr_lessons:15
 msgid "Multiples of 3"
@@ -934,6 +929,10 @@ msgstr "उन्मूल"
 msgid "Factoroids!"
 msgstr "फैकटोरोइड्स!"
 
+#: data/menus/menu_strings:10
+msgid "Help"
+msgstr "सहायेता"
+
 #: data/menus/menu_strings:11
 msgid "Join Game"
 msgstr "खेल में शामिल हों"
@@ -989,3 +988,69 @@ msgstr "सर्वर को रन करें"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "स्कोर स्वीप"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2."
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2 and 3."
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२ और ३ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2, 3 and 5."
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२, ३ और ५ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2, 3, 5 and 7."
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२, ३, ५ और ७ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2, 3, 5, 7 and 11."
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२, ३, ५, ७ और ११ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid ""
+#~ "You need to destroy all \n"
+#~ "asteroids which multiples \n"
+#~ "of 2, 3, 5, 7, 11 and 13"
+#~ msgstr ""
+#~ "जो भी धूमकेतु \n"
+#~ "२, ३, ५, ७, ११ और और १३ के \n"
+#~ "गुणक हैं, आपको उन्हें तभा करना है|"
+
+#~ msgid "Network game terminated."
+#~ msgstr "नेटवर्क खेल समाप्त हुई|"
+
+#~ msgid "Click to continue..."
+#~ msgstr "आगे बढ़ने के लिए क्लिक करें..."
+
+#~ msgid "to create customized game!"
+#~ msgstr "खेल के लिए अनुकूलित बनाने के लिए!"
+
+#~ msgid "Server Name:"
+#~ msgstr "सर्वर का नाम:"
