@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
 "PO-Revision-Date: 2008-02-25 16:55+0000\n"
 "Last-Translator: Yannig MARCHEGAY (Kokoyaya) <yannig@marchegay.org>\n"
 "Language-Team: Occitan (post 1500) <oc@li.org>\n"
@@ -281,31 +281,31 @@ msgstr ""
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -477,32 +477,18 @@ msgid ""
 msgstr ""
 
 #: src/menu.c:202
-msgid "Tuxmath is free and open-source!\n"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
-
-#: src/menu.c:203
-msgid "You can help make it better.\n"
-msgstr ""
-
-#: src/menu.c:204
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr ""
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #: src/menu.c:338
-msgid "Edit 'options' file in you home directory to create customized game!\n"
-msgstr ""
-
-#: src/menu.c:339
-msgid "Press a key or click your mouse to start game.\n"
-msgstr ""
-
-#: src/menu.c:340
-msgid "See README.txt for more information.\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr ""
 
 #: src/menu.c:363
@@ -629,23 +615,12 @@ msgid "Enter a number"
 msgstr ""
 
 #: src/titlescreen.c:510
-msgid "Work In Progress!\n"
-msgstr ""
-
-#: src/titlescreen.c:511
+#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr ""
-
-#: src/titlescreen.c:512
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr ""
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
 msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
@@ -955,6 +930,9 @@ msgstr ""
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr ""
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid "Main menu"
 #~ msgstr "Menut principal"

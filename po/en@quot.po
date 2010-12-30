@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
-"PO-Revision-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
+"PO-Revision-Date: 2010-12-30 16:40-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -318,32 +318,32 @@ msgstr "Objectives:"
 msgid "Hints:"
 msgstr "Hints:"
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDS: to win, you need destroy all the asteroids."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr "type one of its factors, and press space or return"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "to split it into its factors.  Rocks with prime numbers are destroyed!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FRACTIONS: to win, you need destroy all the asteroids"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "type a number that can simplify the fraction, and press space or return"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -521,32 +521,26 @@ msgstr ""
 "Click to continue..."
 
 #: src/menu.c:202
-msgid "Tuxmath is free and open-source!\n"
-msgstr "Tuxmath is free and open-source!\n"
-
-#: src/menu.c:203
-msgid "You can help make it better.\n"
-msgstr "You can help make it better.\n"
-
-#: src/menu.c:204
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "Suggestions, artwork, and code are all welcome!\n"
-
-#: src/menu.c:205
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:338
-msgid "Edit 'options' file in you home directory to create customized game!\n"
-msgstr "Edit ‘options’ file in you home directory to create customized game!\n"
-
-#: src/menu.c:339
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "Press a key or click your mouse to start game.\n"
-
-#: src/menu.c:340
-msgid "See README.txt for more information.\n"
-msgstr "See README.txt for more information.\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr ""
+"Edit ‘options’ file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -684,28 +678,16 @@ msgid "Enter a number"
 msgstr "Enter a number"
 
 #: src/titlescreen.c:510
-msgid "Work In Progress!\n"
-msgstr "Work In Progress!\n"
-
-#: src/titlescreen.c:511
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
 msgstr ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-
-#: src/titlescreen.c:512
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr ""
-"Discuss the future of TuxMath at\n"
-" "
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"

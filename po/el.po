@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
 "PO-Revision-Date: 2010-12-29 01:51-0500\n"
 "Last-Translator: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
 "Language-Team: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
@@ -312,39 +312,39 @@ msgstr "Στόχοι:"
 msgid "Hints:"
 msgstr "Συμβουλές:"
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 "FACTOROIDS: να κερδίσει, θα πρέπει να καταστρέψεις όλους τους αστεροειδείς."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Χρησιμοποιήσε τα βελάκια για να γυρίσεις ή να πάς προς τα εμπρός. Στόχευσε "
 "έναν αστεροειδή,"
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr "γράψε ένα είδος παράγοντες και πάτησε space ή enter"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "για να τους διαχωρίσεις σε παράγοντες . Καταστρέφονται βράχοι με πρώτους "
 "αριθμούς!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 "ΚΛΑΣΜΑΤΑ: να κερδίσεις, θα πρέπει να καταστρέψεις όλους τους αστεροειδείς"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "πληκτρολογήσε έναν αριθμό που μπορεί να απλοποιήσει το κλάσμα και πάτησε "
 "space ή enter"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -519,39 +519,20 @@ msgid ""
 msgstr "Το TuxMath αναγνώρισε %d ενεργούς διακομιστές"
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "Το TuxMath είναι Ελέυθερο Λογισμικό/Λογισμικό Ανοικτού Κώδικα"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "Μπορείς να βοηθήσεις για να γίνει καλύτερο."
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "Προτάσεις, γραφικά και κώδικας είναι όλα ευκπρόσδεκτα!"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "Συζητήστε για το TuxMath στο tuxmath-devel@lists.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "Επεξεργάσου το αρχείο επιλογών στον κύριο κατάλογο"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "Πάτησε ένα πλήκτρο ή κάνε κλικ με το ποντίκι για να ξεκινήσεις"
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "Δες το README.txt για περισσότερες πληροφορίες"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -684,26 +665,12 @@ msgstr "Γράψε έναν αριθμό"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "Έργο Υπό Κατασκευή!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "Αυτο το στοιχείο δεν είναι έτοιμο ακόμα"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "Συζητήστε για το μέλλον του TuxMath στο"
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Συζητήστε για το TuxMath στο tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -1012,6 +979,45 @@ msgstr "Εκίνηση διακομιστή"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Απαλοιφή Βαθμολογίας"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "Το TuxMath είναι Ελέυθερο Λογισμικό/Λογισμικό Ανοικτού Κώδικα"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Μπορείς να βοηθήσεις για να γίνει καλύτερο."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Προτάσεις, γραφικά και κώδικας είναι όλα ευκπρόσδεκτα!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Πάτησε ένα πλήκτρο ή κάνε κλικ με το ποντίκι για να ξεκινήσεις"
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Δες το README.txt για περισσότερες πληροφορίες"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Έργο Υπό Κατασκευή!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Αυτο το στοιχείο δεν είναι έτοιμο ακόμα"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Συζητήστε για το μέλλον του TuxMath στο"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid ""
 #~ "You need to destroy all \n"

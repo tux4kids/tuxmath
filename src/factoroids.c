@@ -550,9 +550,9 @@ static void FF_LevelMessage(void)
 	      waiting = 0;
 	      break;
 	  }
-	  /* keep from eating all CPU: */
-	  Throttle(MS_PER_FRAME, &timer);
       }
+      /* keep from eating all CPU: */
+      Throttle(MS_PER_FRAME, &timer);
   }
 }
 
@@ -697,8 +697,9 @@ static int FF_init(void)
       if (event.key.keysym.sym == SDLK_ESCAPE)
         escape_received = 1;
       return 1;
-      Throttle(MS_PER_FRAME, &timer);
     }
+    /* Don't eat all available CPU: */
+    Throttle(MS_PER_FRAME, &timer);
   }
 }
 

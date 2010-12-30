@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
 "PO-Revision-Date: 2010-09-14 12:53+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Gezer (Hebrew)\n"
@@ -303,31 +303,31 @@ msgstr ""
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "גורמואידים: כדי לנצח עליך להשמיד את כל האסטרואידים."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "השתמשו במקשי החצים כדי לפנות או להתקדם קדימה.  כוונו על אסטרואידים."
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr "הקלידו את אחד הגורמים ולחצו על רווח או Enter"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "כדי לפרק לגורמים.  סלעים עם מספרים ראשוניים יושמדו!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "שברים: כדי לנצח עליך להשמיד את כל האסטרואידים"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "הקלידו מספר שיכול לפשט את השבר ולחצו על רווח או Enter"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -500,40 +500,20 @@ msgid ""
 msgstr "השרתים מזוהים"
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "טאקסמטיקה הנה חופשית ובעלת קוד פתוח!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "תוכל לעזור לנו לשפר אותה."
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "הצעות, יצירות אומנות וקוד יתקבלו בברכה!"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
-"דונו בעתידה של טאקסמטיקה ברשימת הדיוור tuxmath-devel@lists.sourceforge.net"
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "ערכו את קובץ האפשרויות ('options') בתיקיית הבית שלכם"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "לחצו על מקש במקלדת או בעכבר כדי להתחיל במשחק."
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "עיינו בקובץ README.TXT למידע נוסף"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -664,26 +644,13 @@ msgstr "הזינו מספר"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "עבודה בתהליכים!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "תכונה זו אינה מוכנה עדיין"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "דונו בעתידה של טאקסמתיקה בקבוצת הדיון"
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"דונו בעתידה של טאקסמטיקה ברשימת הדיוור tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -992,6 +959,45 @@ msgstr "הפעלת שרת"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "איפוס הנקודות"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "טאקסמטיקה הנה חופשית ובעלת קוד פתוח!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "תוכל לעזור לנו לשפר אותה."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "הצעות, יצירות אומנות וקוד יתקבלו בברכה!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "לחצו על מקש במקלדת או בעכבר כדי להתחיל במשחק."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "עיינו בקובץ README.TXT למידע נוסף"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "עבודה בתהליכים!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "תכונה זו אינה מוכנה עדיין"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "דונו בעתידה של טאקסמתיקה בקבוצת הדיון"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #, fuzzy
 #~ msgid "Network game terminated."

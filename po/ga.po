@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
 "PO-Revision-Date: 2008-07-13 23:16-0000\n"
 "Last-Translator: SeanÃ¡n Ã CoistÃ­n <seananoc@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -276,31 +276,31 @@ msgstr ""
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -472,38 +472,20 @@ msgid ""
 msgstr ""
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "TÃ¡ TuxMath ar fÃ¡il saor in aisce agus le foinse oscailte!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "Is fÃ©idir leat cuidiÃº Ã© a fheabhsÃº trÃ­ fadhbanna a fhÃ³grÃº,"
-
-#: src/menu.c:204
-msgid "Suggestions, artwork, and code are all welcome!\n"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "PlÃ© an todhchaÃ­ ag tuxmath-devel@lists.sourceforge.net"
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "Cuir in eagar an comhad 'roghanna' i do chomhadlann baile"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "BrÃºigh cnaipe nÃ³ brÃºigh do luchÃ³g chun an cluiche a thosÃº."
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "FÃ©ach ar README.txt le haghaidh breis eolas"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -631,26 +613,12 @@ msgstr ""
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "Obair Idir LÃ¡mha!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "NÃ­l an ghnÃ© seo rÃ©idh fÃ³s"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "PlÃ© todhchaÃ­ TuzMath ag"
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "PlÃ© an todhchaÃ­ ag tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -961,6 +929,41 @@ msgstr ""
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TÃ¡ TuxMath ar fÃ¡il saor in aisce agus le foinse oscailte!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Is fÃ©idir leat cuidiÃº Ã© a fheabhsÃº trÃ­ fadhbanna a fhÃ³grÃº,"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "BrÃºigh cnaipe nÃ³ brÃºigh do luchÃ³g chun an cluiche a thosÃº."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "FÃ©ach ar README.txt le haghaidh breis eolas"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Obair Idir LÃ¡mha!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "NÃ­l an ghnÃ© seo rÃ©idh fÃ³s"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "PlÃ© todhchaÃ­ TuzMath ag"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid "to create customized game!"
 #~ msgstr "chun cluiche saincheaptha a chruthÃº!"

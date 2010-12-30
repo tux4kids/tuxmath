@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2010-12-30 16:40-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Evgeni <evgenizero@gmail.com>\n"
 "Language-Team: \n"
@@ -301,33 +301,33 @@ msgstr ""
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:732
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "ФАКТОРОИДИ: за да победиш, трябва да унищожиш всички астероиди."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:733 src/factoroids.c:744
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Използвай стрелките, за да завиваш или за да отидеш напред. Прицели се в "
 "астероид, "
 
-#: src/factoroids.c:733
+#: src/factoroids.c:734
 msgid "type one of its factors, and press space or return"
 msgstr "напиши един от неговите делители и натисни спейс или назад"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:735
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ",за да го разделиш на множители. Скалите с прости числа са унищожени!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:743
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "ДРОБИ: за да спечелиш, трябва да унищожиш всички астероиди"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:745
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "напиши число, което може да опрости дробта, и натисни спейс или назад"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:746
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -502,39 +502,20 @@ msgid ""
 msgstr "TuxMath откри %d стартирани сървъра."
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "TuxMath е безплатна и със свободен код!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "Можеш да помогнеш да стане по-добра."
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "Предложения, рисунки и код са добре дошли!"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "Дискутирайте TuxMath на tuxmath-devel@lists.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "Промени 'options' файла в твоята home директория"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "Натисни клавиш или кликни на мишката, за да започнш игра."
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "Виж README.txt за повече информация"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -665,26 +646,12 @@ msgstr "Напиши число"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "Работа в Прогрес!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "Тази опция все още не е готова"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "Дискутирайте бъдещето на TuxMath на"
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Дискутирайте TuxMath на tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -993,6 +960,45 @@ msgstr "Стартирай сървър"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Нулиране на Резултатите"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath е безплатна и със свободен код!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Можеш да помогнеш да стане по-добра."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Предложения, рисунки и код са добре дошли!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Натисни клавиш или кликни на мишката, за да започнш игра."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Виж README.txt за повече информация"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Работа в Прогрес!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Тази опция все още не е готова"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Дискутирайте бъдещето на TuxMath на"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid "Network game terminated."
 #~ msgstr "Мрежовата игра е прекратена."
