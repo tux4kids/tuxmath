@@ -489,22 +489,22 @@ static void FF_LevelMessage(void)
 
   char objs_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
   {
-    _("Powers of 2"),
-    _("Products of 2 and 3"),
-    _("Products of 2, 3 and 5"),
-    _("Products of 2, 3, 5 and 7"),
-    _("Products of 2, 3, 5, 7, and 11"),
-    _("Products of 2, 3, 5, 7, 11 and 13")
+    N_("Powers of 2"),
+    N_("Products of 2 and 3"),
+    N_("Products of 2, 3 and 5"),
+    N_("Products of 2, 3, 5 and 7"),
+    N_("Products of 2, 3, 5, 7, and 11"),
+    N_("Products of 2, 3, 5, 7, 11 and 13")
   };
 
   char hints_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
   {
-    _("All multiples of 2 end in 2, 4, 6, 8, or 0"),
-    _("The digits of a multiple of 3 add up to a multiple of 3"),
-    _("All multiples of 5 end in 0 or 5"),
-    _("Sorry - there is no simple rule to identify multiples of 7."),
-    _("Under 100, multiples of 11 have equal digits, such as 55 or 88."),
-    _("Sorry - there is no simple rule to identify multiples of 13."),
+    N_("All multiples of 2 end in 2, 4, 6, 8, or 0"),
+    N_("The digits of a multiple of 3 add up to a multiple of 3"),
+    N_("All multiples of 5 end in 0 or 5"),
+    N_("Sorry - there is no simple rule to identify multiples of 7."),
+    N_("Under 100, multiples of 11 have equal digits, such as 55 or 88."),
+    N_("Sorry - there is no simple rule to identify multiples of 13."),
   };
 
   rect.x = (screen->w/2)-(LVL_WIDTH_MSG/2);
@@ -521,8 +521,8 @@ static void FF_LevelMessage(void)
 
   nwave = (wave > PRIME_MAX_LIMIT) ? PRIME_MAX_LIMIT : wave;
 
-  FF_LevelObjsHints(_("Objectives:"), objs_str[nwave-1], rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
-  FF_LevelObjsHints(_("Hints:"), hints_str[nwave-1], rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET);
+  FF_LevelObjsHints(_("Objectives:"), _(objs_str[nwave-1]), rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
+  FF_LevelObjsHints(_("Hints:"), _(hints_str[nwave-1]), rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET);
 
   SDL_Flip(screen);
 
@@ -551,8 +551,8 @@ static void FF_LevelMessage(void)
 	      break;
 	  }
 	  /* keep from eating all CPU: */
-	  Throttle(MS_PER_FRAME, &timer);
       }
+      Throttle(MS_PER_FRAME, &timer);
   }
 }
 
@@ -697,9 +697,9 @@ static int FF_init(void)
       if (event.key.keysym.sym == SDLK_ESCAPE)
         escape_received = 1;
       return 1;
-      Throttle(MS_PER_FRAME, &timer);
     }
   }
+  Throttle(MS_PER_FRAME, &timer);
 }
 
 
