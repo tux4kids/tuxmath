@@ -565,7 +565,14 @@ static int FF_init(void)
 
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
-  
+
+  /* Settings to let us track mouse movement even beyond edge of window
+   * for control of ship rotation.  Note that SDL reportedly supports
+   * this only on "Windows and Unix-alikes", i.e. maybe not OS-X
+   */
+  SDL_ShowCursor(0);
+  SDL_WM_GrabInput(SDL_GRAB_ON);
+
   FF_intro();
   
   if(screen->h < 600 && screen->w < 800)
@@ -1739,6 +1746,11 @@ static void FF_exit_free()
     SDL_FreeSurface(scaled_bkgd);
     scaled_bkgd = NULL;
   }
+  
+  /* Resume "normal" settings when we leave:
+   */
+  SDL_ShowCursor(1);
+  SDL_WM_GrabInput(SDL_GRAB_OFF);
 }
 
 /******************* Math Funcs ***********************/
