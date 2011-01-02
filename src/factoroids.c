@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define DEG_PER_ROTATION 2
 #define NUM_OF_ROTO_IMGS 360/DEG_PER_ROTATION
 /* TUXSHIP_DECEL controls "friction" - 1 means ship glides infinitely, 0 stops it instantly */
-#define TUXSHIP_DECEL 0.8
+#define TUXSHIP_DECEL 0.95
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
 //the prime set keeps increasing till its size reaches this value
@@ -556,13 +556,8 @@ static void FF_LevelMessage(void)
 	      waiting = 0;
 	      break;
 	  }
-<<<<<<< HEAD
-	  /* keep from eating all CPU: */
-      }
-=======
       }
       /* keep from eating all CPU: */
->>>>>>> 040b4fd33c0c9003758f7e0949d087f2fecd7e52
       Throttle(MS_PER_FRAME, &timer);
   }
 }
@@ -2556,43 +2551,6 @@ static int check_exit_conditions(void)
   {
     return GAME_OVER_WON;
   }
-  /* determine if game lost (i.e. all cities blown up): */
-  /*if (!num_cities_alive)
-  {
-    if (gameover_counter < 0)
-      gameover_counter = GAMEOVER_COUNTER_START;
-    gameover_counter--;
-    if (gameover_counter == 0)
-      return GAME_OVER_LOST;
-  }*/
-  
-  /* determine if game won (i.e. all questions in mission answered correctly): */
-  /*if (MC_MissionAccomplished())
-  {
-    return GAME_OVER_WON;
-  }*/
-
-  /* Could have situation where mathcards doesn't have more questions */
-  /* even though not all questions answered correctly:                */
-  /*if (!MC_TotalQuestionsLeft())
-  {
-    return GAME_OVER_OTHER;
-  }*/
-
-  /* Need to get out if no comets alive and MathCards has no questions left in list, */
-  /* even though MathCards thinks there are still questions "in play".  */
-  /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
- /* if (!MC_ListQuestionsLeft() && !num_comets_alive)
-  {
-    return GAME_OVER_ERROR;
-  }
-  */
-  /* If using demo mode, see if counter has run out: */ 
-  /*if (Opts_DemoMode())
-  {
-    if (demo_countdown <= 0 )
-      return GAME_OVER_OTHER;
-  }*/
 
   /* if we made it to here, the game goes on! */
   return GAME_IN_PROGRESS;
