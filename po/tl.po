@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2011-01-01 20:59-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -253,100 +253,100 @@ msgstr ""
 "Para sa karagdagang ipormasyon tungkol sa libreng Software at ang GNU GPL , "
 "bisitahin ang:"
 
-#: src/factoroids.c:492
+#: src/factoroids.c:498
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:493
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "Nahahati ng 11 at 12"
 
-#: src/factoroids.c:494
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:495
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:496
+#: src/factoroids.c:502
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:497
+#: src/factoroids.c:503
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:503
+#: src/factoroids.c:509
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:504
+#: src/factoroids.c:510
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "Nahahati ng 13, 14 at 15"
 
-#: src/factoroids.c:505
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:506
+#: src/factoroids.c:512
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:507
+#: src/factoroids.c:513
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:524
+#: src/factoroids.c:530
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:525
+#: src/factoroids.c:531
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:741
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDS: para manalo, kailangan mo pasabugin ang lahat ng asteroid."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:742 src/factoroids.c:753
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Gamitin ang mga tunod sa iyong tipahan para lumiko o umabante. Itutok mo sa "
 "asteroid,"
 
-#: src/factoroids.c:733
+#: src/factoroids.c:743
 msgid "type one of its factors, and press space or return"
 msgstr "magbigay ka ng isa sa mga factors, at pindutin ang space or return"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:744
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "para mapaghiwalay iyon sa kanilang factors. Yung mga bato na may prime "
 "numbers ay sumabog na!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:752
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "para manalo, kailangan mo pasabugin ang lahat ng asteroids"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:754
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "magbigay ka ng numero na kayang paliitin ang fraction, at pindutin ang space "
 "o return"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:755
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -521,39 +521,20 @@ msgid ""
 msgstr "Natuklasan ng TuxMath %d ang mga gumaganang servers."
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "Ang TuxMath ay libre at open-source!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "Pede kang makatulong na gawin itong mas maayos."
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "Mungkahi, sining, at kodido ay malugod naming tinatanggap!"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "Pag-usapan ang Tuxmath sa tuxmath-devel@lists.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "Baguhin ang 'options' file sa iyong home directory"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "Pumindot ng key o pindutin ang iyong mouse para magsimula ang laro."
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "Tignan ang README.txt para sa karagdagang impormasyon"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -684,26 +665,12 @@ msgstr "Maglagay ng number"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "Kasalukuyang Ginagawa!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "Itong tampok ay hindi pa handa"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "Pag-usapan ang hinaharap ng TuxMath sa"
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Pag-usapan ang Tuxmath sa tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -1012,6 +979,45 @@ msgstr "Paganahin ang Server"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Alisin ang mga Iskor"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "Ang TuxMath ay libre at open-source!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Pede kang makatulong na gawin itong mas maayos."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Mungkahi, sining, at kodido ay malugod naming tinatanggap!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Pumindot ng key o pindutin ang iyong mouse para magsimula ang laro."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Tignan ang README.txt para sa karagdagang impormasyon"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Kasalukuyang Ginagawa!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Itong tampok ay hindi pa handa"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Pag-usapan ang hinaharap ng TuxMath sa"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #, fuzzy
 #~ msgid "Network game terminated."

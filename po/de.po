@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: de\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2011-01-01 20:59-0600\n"
 "PO-Revision-Date: 2010-11-24 10:01+0100\n"
 "Last-Translator: Markus Hinkelmann <markus@mhinkelmann.de>\n"
 "Language-Team: \n"
@@ -244,100 +244,100 @@ msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 "Für mehr Informationen über Freie Software und die GNU GPL besuchen Sie:"
 
-#: src/factoroids.c:492
+#: src/factoroids.c:498
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:493
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "Vielfache von 11 und 12"
 
-#: src/factoroids.c:494
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:495
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:496
+#: src/factoroids.c:502
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:497
+#: src/factoroids.c:503
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:503
+#: src/factoroids.c:509
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:504
+#: src/factoroids.c:510
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "Vielfache von 13, 14 und 15"
 
-#: src/factoroids.c:505
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:506
+#: src/factoroids.c:512
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:507
+#: src/factoroids.c:513
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:524
+#: src/factoroids.c:530
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:525
+#: src/factoroids.c:531
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:731
+#: src/factoroids.c:741
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDS: Um zu gewinnen, mußt du alle Asteroiden zerstören."
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:742 src/factoroids.c:753
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Benutze die Pfeiltasten um dich zu drehen oder vorwärts zu fliegen. Ziele "
 "auf die Asteroiden,"
 
-#: src/factoroids.c:733
+#: src/factoroids.c:743
 msgid "type one of its factors, and press space or return"
 msgstr "gib einen Teiler der Zahl ein und drücke die Leertaste oder Eingabe"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:744
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "um ihn in seine Teile zu zersplittern. Asteroiden mit Primzahlen sind "
 "zerstört! "
 
-#: src/factoroids.c:742
+#: src/factoroids.c:752
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FACTIONS: Um zu gewinnen, mußt du alle Asteroiden zerstören."
 
-#: src/factoroids.c:744
+#: src/factoroids.c:754
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "Tippe eine Zahl ein um den Bruch zu kürzen, dann drücke die Leertaste oder "
 "Eingabe"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:755
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -512,40 +512,20 @@ msgid ""
 msgstr "TuxMath hat %d Server gefunden."
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "TuxMath ist frei und OpenSource!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "Du kannst bei der Verbesserung helfen."
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "Vorschläge, Bilder und Quelltext werden gern angenommen"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
-"Diskutiere die Zukunft von TuxMath auf tuxmath-devel@lists.sourceforge.net"
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "Editiere die 'options' Datei in deinem Benutzerverzeichnis"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "Drücke eine Taste oder klicke mit der Maus um ein Spiel zu starten"
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "Lies die README.txt für weitere Informationen"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -679,26 +659,13 @@ msgstr "Gib die Anzahl ein"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "In Arbeit!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "Dieser Bereich ist noch nicht fertig."
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "Diskutiere über die Zukunft von TuxMath auf "
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"Diskutiere die Zukunft von TuxMath auf tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -1007,6 +974,45 @@ msgstr "Starte den Server"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "Punktestand löschen"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath ist frei und OpenSource!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Du kannst bei der Verbesserung helfen."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Vorschläge, Bilder und Quelltext werden gern angenommen"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Drücke eine Taste oder klicke mit der Maus um ein Spiel zu starten"
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Lies die README.txt für weitere Informationen"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "In Arbeit!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Dieser Bereich ist noch nicht fertig."
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Diskutiere über die Zukunft von TuxMath auf "
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid "Network game terminated."
 #~ msgstr "Das Netzwerkspiel wurde beendet."

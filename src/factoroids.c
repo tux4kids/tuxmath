@@ -371,6 +371,12 @@ void factors(void)
 
   while (game_status == GAME_IN_PROGRESS)
   {
+    /* Reset mouse position to center for each frame so we
+     * don't run into the edge:
+     */  
+    /* We might need to reinstate this for OS-X - DSB */
+    //SDL_WarpMouse(screen->w/2, screen->h/2);	  
+
     counter++; 
 
     game_handle_user_events();
@@ -550,8 +556,13 @@ static void FF_LevelMessage(void)
 	      waiting = 0;
 	      break;
 	  }
+<<<<<<< HEAD
 	  /* keep from eating all CPU: */
       }
+=======
+      }
+      /* keep from eating all CPU: */
+>>>>>>> 040b4fd33c0c9003758f7e0949d087f2fecd7e52
       Throttle(MS_PER_FRAME, &timer);
   }
 }
@@ -562,6 +573,9 @@ static int FF_init(void)
   Uint32 timer = 0;
   int i;
   float zoom;
+
+  SDL_ShowCursor(0);
+  SDL_WM_GrabInput(SDL_GRAB_ON);
 
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
@@ -708,6 +722,8 @@ static int FF_init(void)
         escape_received = 1;
       return 1;
     }
+    /* Don't eat all available CPU: */
+    Throttle(MS_PER_FRAME, &timer);
   }
   Throttle(MS_PER_FRAME, &timer);
 }
@@ -1595,6 +1611,11 @@ static int FF_over(int game_status)
   /* TODO: also, some of these cases just redraw the background on every     */
   /* frame with nothing else - just copy-and-pasted code without much        */
   /* further attention.                                                      */
+
+  /* Turn mouse cursor back on before we go back to menus: */
+  SDL_ShowCursor(1);
+  SDL_WM_GrabInput(SDL_GRAB_OFF);
+
   switch (game_status)
   {
     case GAME_OVER_WON:

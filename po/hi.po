@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-29 07:10-0600\n"
+"POT-Creation-Date: 2011-01-01 20:59-0600\n"
 "PO-Revision-Date: 2010-12-11 20:26+0530\n"
 "Last-Translator: Gautam <gautam.2011@gmail.com>\n"
 "Language-Team: Gautam Gupta <admin@gaut.am>\n"
@@ -237,94 +237,94 @@ msgstr "जी.पी.एल. की एक पूरी प्रति इस 
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "फ्री सॉफ्टवेयर और जी.एन.यु. जी.पी.एल. के बारे में अधिक जानकारी के लिए इधर जाएँ:"
 
-#: src/factoroids.c:492
+#: src/factoroids.c:498
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:493
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "२ और ३ के गुणक"
 
-#: src/factoroids.c:494
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "२, ३ और ५ के गुणक"
 
-#: src/factoroids.c:495
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "२, ३, ५ और ७ के गुणक"
 
-#: src/factoroids.c:496
+#: src/factoroids.c:502
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "२, ३, ५, ७ और ११ के गुणक"
 
-#: src/factoroids.c:497
+#: src/factoroids.c:503
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "२, ३, ५, ७, ११ और १३ के गुणक"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "२, ३, ५, ७ और ११ के गुणक"
 
-#: src/factoroids.c:503
+#: src/factoroids.c:509
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:504
+#: src/factoroids.c:510
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "२, ३ और ५ के गुणक"
 
-#: src/factoroids.c:505
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:506
+#: src/factoroids.c:512
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:507
+#: src/factoroids.c:513
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:524
+#: src/factoroids.c:530
 msgid "Objectives:"
 msgstr "उद्देश्य:"
 
-#: src/factoroids.c:525
+#: src/factoroids.c:531
 msgid "Hints:"
 msgstr "सुराग:"
 
-#: src/factoroids.c:731
+#: src/factoroids.c:741
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "फैक्टोरोइड्स: जीतने के लिए, आपको सभी धूमकेतु को नष्ट करने की जरूरत है|"
 
-#: src/factoroids.c:732 src/factoroids.c:743
+#: src/factoroids.c:742 src/factoroids.c:753
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "आगे जाने या घूमने के लिए तीर कुंजियाँ का उपयोग करें| एक धूमकेतु पर लक्ष्य लगाएं,"
 
-#: src/factoroids.c:733
+#: src/factoroids.c:743
 msgid "type one of its factors, and press space or return"
 msgstr "इसके कारकों में से कोई भी एक प्रकार टाइप करें, और फिर स्पेस या रिटर्न प्रेस करें|"
 
-#: src/factoroids.c:734
+#: src/factoroids.c:744
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "कारकों में विभाजित करने के लिए| प्रधान संख्या वाली चट्टानें नष्ट हो रही हैं!"
 
-#: src/factoroids.c:742
+#: src/factoroids.c:752
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "फ्रैकशंस: जीतने के लिए, आपको सभी धूमकेतु को नष्ट करने की जरूरत है|"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:754
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "एक नंबर टाइप करें जो फ्रैकशन को सरल कर सकता है, और फिर स्पेस या रिटर्न दबाएँ|"
 
-#: src/factoroids.c:745
+#: src/factoroids.c:755
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -497,39 +497,20 @@ msgid ""
 msgstr "टक्सगणित को %d चलते हुए सर्वरों का पता चला|"
 
 #: src/menu.c:202
-#, fuzzy
-msgid "Tuxmath is free and open-source!\n"
-msgstr "टक्सगणित फ्री और खुला स्रोत है!"
-
-#: src/menu.c:203
-#, fuzzy
-msgid "You can help make it better.\n"
-msgstr "आप इसको बेहेतर बनाने में मदद कर सकते हैं|"
-
-#: src/menu.c:204
-#, fuzzy
-msgid "Suggestions, artwork, and code are all welcome!\n"
-msgstr "सुझाव, कलाकृति, और कोड - सभी स्वागत है!"
-
-#: src/menu.c:205
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net पर टक्सगणित कि चर्चा करें"
+msgid ""
+"Tuxmath is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
 
 #: src/menu.c:338
 #, fuzzy
-msgid "Edit 'options' file in you home directory to create customized game!\n"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "अपने घर निर्देशिका में 'विकल्प' फाइल को संपादित करें"
-
-#: src/menu.c:339
-#, fuzzy
-msgid "Press a key or click your mouse to start game.\n"
-msgstr "खेल शुरू करने के लिए एक कुंजी दबाएँ या क्लिक करें|"
-
-#: src/menu.c:340
-#, fuzzy
-msgid "See README.txt for more information.\n"
-msgstr "अधिक जानकारी के लिए README.txt देखें"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
@@ -660,26 +641,12 @@ msgstr "एक नंबर दर्ज करें"
 
 #: src/titlescreen.c:510
 #, fuzzy
-msgid "Work In Progress!\n"
-msgstr "कार्य प्रगति पर है!"
-
-#: src/titlescreen.c:511
-#, fuzzy
 msgid ""
+"Work In Progress!\n"
 "This feature is not ready yet\n"
-" "
-msgstr "यह सुविधा अभी तैयार नहीं है"
-
-#: src/titlescreen.c:512
-#, fuzzy
-msgid ""
 "Discuss the future of TuxMath at\n"
-" "
-msgstr "टक्सगणित के भविष्य पर चर्चा यहाँ करें "
-
-#: src/titlescreen.c:513
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net पर टक्सगणित कि चर्चा करें"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -988,6 +955,45 @@ msgstr "सर्वर को रन करें"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr "स्कोर स्वीप"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "टक्सगणित फ्री और खुला स्रोत है!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "आप इसको बेहेतर बनाने में मदद कर सकते हैं|"
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "सुझाव, कलाकृति, और कोड - सभी स्वागत है!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "खेल शुरू करने के लिए एक कुंजी दबाएँ या क्लिक करें|"
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "अधिक जानकारी के लिए README.txt देखें"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "कार्य प्रगति पर है!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "यह सुविधा अभी तैयार नहीं है"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "टक्सगणित के भविष्य पर चर्चा यहाँ करें "
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #~ msgid ""
 #~ "You need to destroy all \n"
