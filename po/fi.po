@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-12-30 16:40-0600\n"
+"POT-Creation-Date: 2011-01-01 20:59-0600\n"
 "PO-Revision-Date: 2008-03-22 06:59+0000\n"
 "Last-Translator: Miika Metsälä <Unknown>\n"
 "Language-Team: Finnish <fi@li.org>\n"
@@ -218,94 +218,94 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:492
+#: src/factoroids.c:498
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:493
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "Kertominen luvuilla 11 ja 12"
 
-#: src/factoroids.c:494
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:495
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:496
+#: src/factoroids.c:502
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:497
+#: src/factoroids.c:503
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:503
+#: src/factoroids.c:509
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:504
+#: src/factoroids.c:510
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "Kertominen luvuilla 13, 14 ja 15"
 
-#: src/factoroids.c:505
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:506
+#: src/factoroids.c:512
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:507
+#: src/factoroids.c:513
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:524
+#: src/factoroids.c:530
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:525
+#: src/factoroids.c:531
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:732
+#: src/factoroids.c:741
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:733 src/factoroids.c:744
+#: src/factoroids.c:742 src/factoroids.c:753
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:734
+#: src/factoroids.c:743
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:735
+#: src/factoroids.c:744
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:743
+#: src/factoroids.c:752
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:745
+#: src/factoroids.c:754
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:746
+#: src/factoroids.c:755
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
