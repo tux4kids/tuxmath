@@ -75,6 +75,13 @@ int RunServer(int argc, char **argv);
 
 /* Find out if server is already running: */
 int ServerRunning(void);
+/* Find out if game is already in progress: */
+int SrvrGameInProgress(void);
+/* Stop Server */
+void StopServer(void);
+/* Stop currently running game: */
+void StopSrvrGame(void);
+
 #endif
 
 #endif

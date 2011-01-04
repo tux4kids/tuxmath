@@ -73,7 +73,7 @@ void* run_server_local_args(void* data);
 void check_UDP(void);
 void update_clients(void);
 int server_check_messages(void);
-
+void server_check_stdin(void);
 // client management utilities:
 int find_vacant_client(void);
 void remove_client(int i);
@@ -125,6 +125,7 @@ static int num_clients = 0;
 static int game_in_progress = 0;
 static int server_running = 0;
 static int quit = 0;
+static int ignore_stdin = 0;
 MC_FlashCard flash;
 
 // These are to allow the server to be invoked in a thread
@@ -151,6 +152,7 @@ char local_argv_storage[MAX_ARGS][256];
 int RunServer(int argc, char* argv[])
 { 
   Uint32 timer = 0;
+  ignore_stdin = 0;
 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
@@ -181,7 +183,8 @@ int RunServer(int argc, char* argv[])
     update_clients();
     /* Check for any pending messages from clients already connected: */
     server_check_messages();
-
+    /* Check for command line input, if appropriate: */
+    server_check_stdin();
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
@@ -250,13 +253,22 @@ int RunServer_pthread(int argc, char* argv[])
     strncpy(local_argv_storage[i], argv[i], 256);	  
     local_argv[i] = local_argv_storage[i];
   }
+  /* We need to tell the server not to poll stdin: */
+  if(argc < MAX_ARGS)
+  {
+    strncpy(local_argv_storage[argc], "--ignore-stdin", 256);	  
+    local_argv[argc] = local_argv_storage[argc];
+    local_argc++;
+  }
+  else fprintf(stderr, "In RunServer_pthread() - warning - could not append '--ignore-stdin'\n");
 
   DEBUGMSG(debug_lan, "In RunServer_pthread():\n"
 		  "local_argc = %d\n"
 		  "local_argv[0] = %s\n"
 		  "local_argv[1] = %s\n"
-		  "local_argv[2] = %s\n",
-		  local_argc, local_argv[0], local_argv[1], local_argv[2]);
+		  "local_argv[2] = %s\n"
+		  "local_argv[3] = %s\n",
+		  local_argc, local_argv[0], local_argv[1], local_argv[2], local_argv[3]);
 
 
   if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
@@ -269,12 +281,13 @@ int RunServer_pthread(int argc, char* argv[])
 
 void* run_server_local_args(void* data)
 {
-  DEBUGMSG(debug_lan, "In run_server_local_args():\n"
+  DEBUGMSG(debug_lan, "In RunServer_pthread():\n"
 		  "local_argc = %d\n"
 		  "local_argv[0] = %s\n"
 		  "local_argv[1] = %s\n"
-		  "local_argv[2] = %s\n",
-		  local_argc, local_argv[0], local_argv[1], local_argv[2]);
+		  "local_argv[2] = %s\n"
+		  "local_argv[3] = %s\n",
+		  local_argc, local_argv[0], local_argv[1], local_argv[2], local_argv[3]);
 
   RunServer(local_argc, local_argv);
   pthread_exit(NULL);
@@ -282,6 +295,39 @@ void* run_server_local_args(void* data)
 }
 
 #endif
+
+
+/* Find out if server is already running: */
+int ServerRunning(void)
+{
+  return server_running;
+}
+
+
+/* Find out if game is already in progress: */
+int SrvrGameInProgress(void)
+{
+  return game_in_progress;
+}
+
+/* FIXME make these more civilized - notify players, clean up game
+ * properly, and so forth.
+ */
+
+/* Stop Server */
+void StopServer(void)
+{
+  quit = 1;
+}
+
+
+/* Stop currently running game: */
+void StopSrvrGame(void)
+{
+  game_in_progress = 0;
+}
+
+
 
 
 /*********************************************************************/
@@ -297,20 +343,6 @@ int setup_server(void)
 {
   Uint32 timer = 0;
 
-  //Initialize SDL and SDL_net:
-  if(SDL_Init(0) == -1)
-  {
-    printf("SDL_Init: %s\n", SDL_GetError());
-    return 0;;
-  }
-      
-  if (SDLNet_Init() < 0)
-  {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    return 0;
-  }
-
- 
   /* Resolving the host using NULL make network interface to listen */
   if (SDLNet_ResolveHost(&ip, NULL, DEFAULT_PORT) < 0)
   {
@@ -437,7 +469,6 @@ void cleanup_server(void)
     server_sock = NULL;
   }
 
-  SDLNet_Quit();
 
   /* Clean up mathcards heap memory */
   MC_EndGame();
@@ -462,6 +493,10 @@ void server_handle_command_args(int argc, char* argv[])
     {
       debug_status |= debug_lan;
     }
+    else if (strcmp(argv[i], "--ignore-stdin") == 0)
+    {
+      ignore_stdin = 1;
+    }
 
     else if (strcmp(argv[i], "--copyright") == 0 ||
              strcmp(argv[i], "-c") == 0)
@@ -485,7 +520,7 @@ void server_handle_command_args(int argc, char* argv[])
              strcmp(argv[i], "-u") == 0)
     {
       /* Display (happy) usage: */
-
+// TODO write usage() for server
 //      usage(0, argv[0]);
     }
     else if ((strcmp(argv[i], "--name") == 0 || strcmp(argv[i], "-n") == 0)
@@ -716,7 +751,33 @@ int server_check_messages(void)
   return 1;
 }
 
-
+  
+void server_check_stdin(void)
+{
+    char buffer[NET_BUF_LEN];
+    /* Get out if we are ignoring stdin, e.g. thread in tuxmath gui program: */
+    if(ignore_stdin)
+      return;
+    /* Otherwise handle any new messages from command line: */
+    if(read_stdin_nonblock(buffer, NET_BUF_LEN))
+    { 
+      if( (strncmp(buffer, "exit", 4) == 0) // shut down server thread or prog
+        ||(strncmp(buffer, "quit", 4) == 0))
+      
+      {
+        //FIXME notify clients that we are shutting down
+        quit = 1;
+      }
+      else if (strncmp(buffer, "endgame", 4) == 0) // stop game leaving server running
+      {
+        // TO BE IMPLEMENTED
+      }
+      else
+      {
+        printf("Command not recognized.\n");
+      }
+    }
+}
 
 
 // client management utilities:
@@ -1317,6 +1378,7 @@ int transmit_all(char* msg)
 
 int read_stdin_nonblock(char* buf, size_t max_length)
 {
+#ifdef HAVE_FCNTL
   int bytes_read = 0;
   char* term = NULL;
   buf[0] = '\0';
@@ -1332,13 +1394,12 @@ int read_stdin_nonblock(char* buf, size_t max_length)
     bytes_read = 0;
       
   return bytes_read;
+#else
+  return 0;
+#endif
 }
 
 
 
-int ServerRunning(void)
-{
-  return server_running;
-}
 
 #endif

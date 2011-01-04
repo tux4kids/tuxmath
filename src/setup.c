@@ -26,13 +26,19 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Project includes: -----------------*/
+#include "globals.h"
+#include "tuxmath.h"
+#include "options.h"
+#include "mathcards.h"
+#include "setup.h"
+#include "fileops.h"
+#include "game.h"
+#include "menu.h"
+#include "titlescreen.h"
+#include "highscore.h"
 
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
-
+/* SDL includes: -----------------*/
 #include "SDL.h"
 
 #ifndef NOSOUND
@@ -41,15 +47,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "SDL_image.h"
 
-#include "options.h"
-#include "tuxmath.h"
-#include "mathcards.h"
-#include "setup.h"
-#include "fileops.h"
-#include "game.h"
-#include "menu.h"
-#include "titlescreen.h"
-#include "highscore.h"
+#ifdef HAVE_LIBSDL_NET
+#include "SDL_net.h"
+#endif
+
+/* C library includes: -----------------*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+
 
 
 
@@ -611,7 +618,7 @@ void initialize_SDL(void)
 
 
 
-  #ifndef NOSOUND
+#ifndef NOSOUND
   /* Init SDL Audio: */
   Opts_SetSoundHWAvailable(0);  // By default no sound HW
   if (Opts_GetGlobalOpt(USE_SOUND))
@@ -647,7 +654,7 @@ void initialize_SDL(void)
                           frequency,format,channels,n_timesopened);
   }
 
-  #endif
+#endif
   {
     const SDL_VideoInfo *videoInfo;
     Uint32 surfaceMode;
@@ -700,6 +707,16 @@ void initialize_SDL(void)
     seticon();
 
     SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
+
+
+#ifdef HAVE_LIBSDL_NET
+    /* init networking: */
+    if (SDLNet_Init() < 0)
+    {
+      fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+      return 0;
+    }
+#endif
   }
 
   /* --- Define the colors we use --- */
@@ -878,6 +895,11 @@ void cleanup_memory(void)
   }
 
   T4K_UnloadMenus();
+
+#ifdef HAVE_LIBSDL_NET
+  /* Quit networking if appropriate: */
+  SDLNet_Quit();
+#endif
 
   // Finally, quit SDL
   SDL_Quit();

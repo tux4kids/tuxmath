@@ -32,10 +32,31 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* This function has to be in its own file that is not linked into tuxmath */
 /* itself because there can only be one main() in a program.  All of the   */
 /* server functionality is contained in server.h and server.c              */
+/* We do have to initialize and cleanup SDL and SDL_net here rather than
+ * in RunServer(), so we don't crash tuxmath by cleaning up SDL if the
+ * server is running in a thread.
+ */
 int main(int argc, char** argv)
 {
+  int ret;
 #ifdef HAVE_LIBSDL_NET
-  return RunServer(argc, argv);
+  //Initialize SDL and SDL_net:
+  if(SDL_Init(0) == -1)
+  {
+    printf("SDL_Init: %s\n", SDL_GetError());
+    return 0;;
+  }
+  if (SDLNet_Init() < 0)
+  {
+    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+    return 0;
+  }
+
+  /* Run actual program: */
+  ret = RunServer(argc, argv);
+  /* cleanup */
+  SDLNet_Quit();
+  return ret;
 #else
   return 0;
 #endif
