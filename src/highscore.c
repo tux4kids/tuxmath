@@ -1137,30 +1137,24 @@ int detecting_servers(const char* heading, const char* sub)
     {
       char buf[256];
       int server_choice;
+      char** servernames;
+      int i;
+
       snprintf(buf, 256, _("TuxMath detected %d running servers.\nClick to continue..."), servers_found);
+
       ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,buf); 
-			char **servernames;
-			servernames = malloc(servers_found * sizeof(char*));
-			int i;
-			for(i=0; i<servers_found; i++)
-			{
-				servernames[i] = LAN_ServerName(i);
-			}
-			T4K_CreateOneLevelMenu(
-				MENU_SERVERSELECT,
-				servers_found,
-				servernames,
-				NULL,
-				"Server Selection",
-				NULL);
-			T4K_PrerenderMenu(MENU_SERVERSELECT);
-			server_choice = T4K_RunMenu(
-        MENU_SERVERSELECT,
-        true,
-        &DrawTitleScreen,
-        &HandleTitleScreenEvents,
-        &HandleTitleScreenAnimations,
-        NULL);
+      servernames = malloc(servers_found * sizeof(char*));
+
+      for(i = 0; i < servers_found; i++)
+      {
+        servernames[i] = LAN_ServerName(i);
+      }
+
+      T4K_CreateOneLevelMenu(MENU_SERVERSELECT, servers_found, servernames,
+			     NULL, "Server Selection", NULL);
+      T4K_PrerenderMenu(MENU_SERVERSELECT);
+      server_choice = T4K_RunMenu(MENU_SERVERSELECT, true, &DrawTitleScreen,
+                                  &HandleTitleScreenEvents, &HandleTitleScreenAnimations, NULL);
 
       if(!LAN_AutoSetup(server_choice))
       {
@@ -1172,8 +1166,8 @@ int detecting_servers(const char* heading, const char* sub)
       }
 
       finished = 1;
-			DEBUGMSG(debug_lan, "connected\n");
-			break;
+      DEBUGMSG(debug_lan, "connected\n");
+      break;
     }
 
 
