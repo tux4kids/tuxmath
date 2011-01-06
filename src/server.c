@@ -738,7 +738,17 @@ int find_vacant_client(void)
 
 void remove_client(int i)
 {
+  int j;
+  char buf[256];
+  
   printf("Removing client[%d] - name: %s\n>\n", i, client[i].name);
+  sprintf(buf, "PLAYER_LEFT\t%d", i);
+  
+  for(j=0; j<MAX_CLIENTS; j++) {
+    if(j != i && client[j].sock) {
+      SDLNet_TCP_Send(client[j].sock, buf, strlen(buf) + 1);
+    }
+  }
 
   SDLNet_TCP_DelSocket(client_set, client[i].sock);
 

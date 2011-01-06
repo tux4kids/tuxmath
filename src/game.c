@@ -171,6 +171,10 @@ int remaining_quests = 0;
 static int comet_counter = 0;
 static int lan_players = 0;
 lan_player_type lan_player_info[MAX_CLIENTS];
+/* TODO It would be better to "queue" up these messages. */
+SDL_Surface *player_left_surf = NULL;
+int player_left_time = 0;
+SDL_Rect player_left_pos = {0};
 /****************************************************************/
 
 typedef struct {
@@ -472,6 +476,29 @@ void game_handle_net_msg(char* buf)
   {
     game_over_won = 1;
   }
+  
+  else if(strncmp(buf, "PLAYER_LEFT", strlen("PLAYER_LEFT")) == 0) {
+    char _tmpbuf[512];
+    int i = atoi(buf + strlen("PLAYER_LEFT\t"));
+    snprintf(_tmpbuf, sizeof(_tmpbuf), "%s has left the game.", lan_player_info[i].name);
+    lan_player_info[i].name[0] = '\0';
+    lan_player_info[i].score = -1;
+    //Adjust font size for resolution:
+    int win_x, win_y, full_x, full_y;
+    int fontsize = DEFAULT_MENU_FONT_SIZE;
+    float scale;
+    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+    if(Opts_GetGlobalOpt(FULLSCREEN))
+      scale = (float)full_y/(float)win_y;
+    else
+      scale = 1;
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+    SDL_FreeSurface(player_left_surf);
+    player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
+    player_left_time = SDL_GetTicks();
+    player_left_pos.y = T4K_GetScreen()->h - player_left_surf->h;
+  }
+  
   else
   {
     DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
@@ -2199,6 +2226,10 @@ void game_draw(void)
 
   /* Draw any messages on the screen (used for the help mode) */
   game_write_messages();
+
+  /* Display message indicating that a player left */
+  if(player_left_surf != NULL && (SDL_GetTicks() - player_left_time) < 2000)
+    SDL_BlitSurface(player_left_surf, NULL, T4K_GetScreen(), &player_left_pos);
 
   /* Swap buffers: */
   SDL_Flip(screen);
