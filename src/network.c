@@ -326,6 +326,7 @@ int check_messages(char buf[NET_BUF_LEN])
         DEBUGMSG(debug_lan, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
         return -1;
       }
+      DEBUGMSG(debug_lan, "In check_messages(), received buf: %s\n", buf);
       return 0;
     }
   }

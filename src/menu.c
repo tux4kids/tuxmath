@@ -504,6 +504,7 @@ int run_lan_join(void)
 {
 #ifdef HAVE_LIBSDL_NET
   if(detecting_servers(_("Detecting servers"), _("Please wait")) > 0)
+  /* Means we are connected to server but not yet in game */
   {
     int stdby;
     char buf[256];
@@ -512,10 +513,10 @@ int run_lan_join(void)
 
     snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
     snprintf(buf2, 256, _("%s"), LAN_ConnectedServerLesson());
-    NameEntry(player_name, buf, buf2, _("Enter your name:"));
-    LAN_SetName(player_name);
-    Ready(_("Click when ready"));
-    LAN_StartGame();
+    NameEntry(player_name, buf, buf2, _("Enter your name:")); //get nickname from user
+    LAN_SetName(player_name); //tell server nickname
+    Ready(_("Click when ready")); //wait until player indicates ready to start
+    LAN_StartGame();  //tell server we are ready to start
     stdby = Standby(_("Waiting for other players"), NULL);
     if (stdby == 1)
     {
@@ -528,21 +529,21 @@ int run_lan_join(void)
     }
     else
     {
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, game already in progress."));
-      printf(_("Sorry, game already in progress.\n"));
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress."));
+      DEBUGMSG(debug_menu|debug_lan, _("Sorry, game already in progress.\n"));
     }  
   }
-  else
+  else  /* Could not connect: */
   {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("\nSorry, no server could be found."));
-    printf(_("Sorry, could not connect to server.\n"));
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, no server could be found."));
+    DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
   }
 #else
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built without network support"));
-  printf( _("Sorry, this version built without network support.\n"));
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
+  DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
 #endif
 
-  DEBUGMSG(debug_menu, "Leaving run_lan_join()\n"); 
+  DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n"); 
   return 0;
 }
 

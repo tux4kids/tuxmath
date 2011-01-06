@@ -296,6 +296,7 @@ void HighScoreNameEntry(char* pl_name)
   NameEntry(pl_name, _("You Are In The Hall of Fame!"), _("Enter Your Name:"), NULL);
 }
 
+/* Get pl_name from user; other strings are text displayed by dialog: */
 void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3)
 {
   char UTF8_buf[HIGH_SCORE_NAME_LENGTH * 3] = {'\0'};
@@ -894,7 +895,7 @@ int Standby(const char* heading, const char* sub)
 
   char buf[NET_BUF_LEN];
 
-  DEBUGMSG(debug_highscore, "Enter Standby()\n" );
+  DEBUGMSG(debug_lan, "Enter Standby()\n" );
 
   DrawTitleScreen();
 
@@ -1007,17 +1008,18 @@ int Standby(const char* heading, const char* sub)
       }
       else
       {
-        DEBUGMSG(debug_highscore, "Unrecognized message from server: %s\n", buf);
+        DEBUGMSG(debug_lan, "Unrecognized message from server: %s\n", buf);
         continue;
       }
     }
+    DEBUGMSG(debug_lan, "In Standby(), after check_messages(): finished = %d\tbuf = %s\n", finished, buf);
 
     HandleTitleScreenAnimations();
     Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
-  DEBUGMSG(debug_highscore, "Leave Standby()\n" );
+  DEBUGMSG(debug_lan, "Leave Standby()\n" );
 
   /* 1 means we start game, -1 means we go back to menu */
   return finished;
