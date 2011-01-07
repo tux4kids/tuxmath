@@ -615,11 +615,11 @@ void ShowMessageWrap( int font_size, const char* str )
     {
       s1 = T4K_BlackOutline(strings[i], font_size, &white);
 
-      rtext.y = rtext.y + (s1->h+15);  
-      SDL_BlitSurface( s1, NULL, screen, &rtext ); 
-
       if( s1 )
       {
+        rtext.y += (s1->h+15);  
+        SDL_BlitSurface( s1, NULL, screen, &rtext );
+        
         SDL_FreeSurface( s1 );
         s1 = NULL;
       }
