@@ -1206,15 +1206,15 @@ void start_game(void)
 void end_game(void)
 {
   int i = 0;
+  char buf[NET_BUF_LEN];
+  
   DEBUGMSG(debug_lan, "Enter end_game()\n");
 
+  snprintf(buf, NET_BUF_LEN, "%s", "GAME_HALTED");
+  transmit_all(buf);
+  
   for(i = 0; i < MAX_CLIENTS; i++)
-  {
-    if(client[i].sock != NULL)
-    { 
       client[i].game_ready = 0;
-    }
-  }
 
   game_in_progress = 0;
   MC_EndGame();

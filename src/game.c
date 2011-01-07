@@ -140,6 +140,7 @@ static int key_pressed;
 static int game_over_other;
 static int game_over_won;
 static int network_error;
+static int game_halted_by_server; 
 static int my_socket_index;
 /* Feedback-related variables */
 static int city_expl_height;
@@ -242,6 +243,8 @@ int remove_quest_recvd(char* buf);
 int socket_index_recvd(char* buf);
 int connected_players_recvd(char* buf);
 int update_score_recvd(char* buf);
+int player_left_recvd(char* buf);
+int game_halted_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
 MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
@@ -477,28 +480,16 @@ void game_handle_net_msg(char* buf)
     game_over_won = 1;
   }
   
-  else if(strncmp(buf, "PLAYER_LEFT", strlen("PLAYER_LEFT")) == 0) {
-    char _tmpbuf[512];
-    int i = atoi(buf + strlen("PLAYER_LEFT\t"));
-    snprintf(_tmpbuf, sizeof(_tmpbuf), "%s has left the game.", lan_player_info[i].name);
-    lan_player_info[i].name[0] = '\0';
-    lan_player_info[i].score = -1;
-    //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-    SDL_FreeSurface(player_left_surf);
-    player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
-    player_left_time = SDL_GetTicks();
-    player_left_pos.y = T4K_GetScreen()->h - player_left_surf->h;
+  else if(strncmp(buf, "PLAYER_LEFT", strlen("PLAYER_LEFT")) == 0)
+  {
+    player_left_recvd(buf);
   }
   
+  else if(strncmp(buf, "GAME_HALTED", strlen("GAME_HALTED")) == 0)
+  {
+    game_halted_recvd(buf);
+  }
+
   else
   {
     DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
@@ -706,6 +697,42 @@ int update_score_recvd(char* buf)
   return 1;
 }
 
+
+
+int player_left_recvd(char* buf)
+{
+    char _tmpbuf[512];
+    int i;
+    if(!buf)
+      return 0;
+    i = atoi(buf + strlen("PLAYER_LEFT\t"));
+    snprintf(_tmpbuf, sizeof(_tmpbuf), "%s has left the game.", lan_player_info[i].name);
+    lan_player_info[i].name[0] = '\0';
+    lan_player_info[i].score = -1;
+    //Adjust font size for resolution:
+    int win_x, win_y, full_x, full_y;
+    int fontsize = DEFAULT_MENU_FONT_SIZE;
+    float scale;
+    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+    if(Opts_GetGlobalOpt(FULLSCREEN))
+      scale = (float)full_y/(float)win_y;
+    else
+      scale = 1;
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+    SDL_FreeSurface(player_left_surf);
+    player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
+    player_left_time = SDL_GetTicks();
+    player_left_pos.y = T4K_GetScreen()->h - player_left_surf->h;
+    return 1;
+}
+
+
+int game_halted_recvd(char* buf)
+{
+    game_halted_by_server = 1;
+    return 1;
+}
+
 /* Return a pointer to an empty comet slot, */
 /* returning NULL if no vacancy found:      */
 
@@ -821,6 +848,7 @@ int game_initialize(void)
   gameover_counter = -1;
   user_quit_received = 0;
   network_error = 0;
+  game_halted_by_server = 0;
   my_socket_index = -1;
 
   /* Make sure we don't try to call network code if we built without  */
@@ -2722,6 +2750,9 @@ int check_exit_conditions(void)
     //Also report if we lost the server:
     if(network_error)
        return GAME_OVER_LAN_DISCONNECT;
+    //Also report if the server aborted the game:
+    if(game_halted_by_server)
+       return GAME_OVER_LAN_HALTED;
   }
   else
   {
@@ -3050,6 +3081,14 @@ void game_handle_game_over(int game_status)
       while (looping);
       break;
     }
+    
+    case GAME_OVER_LAN_HALTED:
+    {
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, 
+                      _("Network game terminated by server.\n The server is still running.")); 
+      break;
+    }
+
 
     case GAME_OVER_LAN_DISCONNECT:
     {
