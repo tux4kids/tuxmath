@@ -513,6 +513,9 @@ void NotImplemented(void)
                                          "tuxmath-devel@lists.sourceforge.net"));
 }
 
+/* FIXME this function segfaults if passed a string with
+ * a leading '\n'
+ */
 void ShowMessageWrap( int font_size, const char* str )
 {
   SDL_Surface *s1 = NULL;
