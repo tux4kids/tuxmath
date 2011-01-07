@@ -85,6 +85,7 @@ void handle_client_nongame_msg(int i, char* buffer);
 int msg_set_name(int i, char* buf);
 void msg_socket_index(int i, char* buf);
 void start_game(void);
+void end_game(void);
 void game_msg_correct_answer(int i, char* inbuf);
 void game_msg_wrong_answer(int i, char* inbuf);
 void game_msg_quit(int i);
@@ -324,7 +325,8 @@ void StopServer(void)
 /* Stop currently running game: */
 void StopSrvrGame(void)
 {
-  game_in_progress = 0;
+  end_game();
+  //TODO send notifications to players
 }
 
 
@@ -768,9 +770,9 @@ void server_check_stdin(void)
         //FIXME notify clients that we are shutting down
         quit = 1;
       }
-      else if (strncmp(buffer, "endgame", 4) == 0) // stop game leaving server running
+      else if (strncmp(buffer, "endgame", 7) == 0) // stop game leaving server running
       {
-        // TO BE IMPLEMENTED
+        end_game();
       }
       else
       {
@@ -888,6 +890,8 @@ void handle_client_nongame_msg(int i, char* buffer)
 {
   char buf[NET_BUF_LEN];
 
+  DEBUGMSG(debug_lan, "nongame_msg received from client: %s\n", buffer);
+
   if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
   {
     snprintf(buf, NET_BUF_LEN,
@@ -911,7 +915,7 @@ void handle_client_nongame_msg(int i, char* buffer)
 
 int handle_client_game_msg(int i , char* buffer)
 {
-  DEBUGMSG(debug_lan, "Buffer received from client: %s\n", buffer);
+  DEBUGMSG(debug_lan, "game_msg received from client: %s\n", buffer);
 
   if(strncmp(buffer, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
   {
@@ -1198,6 +1202,23 @@ void start_game(void)
   send_score_updates();
 }
 
+/* Shut down game in progress: */
+void end_game(void)
+{
+  int i = 0;
+  DEBUGMSG(debug_lan, "Enter end_game()\n");
+
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    if(client[i].sock != NULL)
+    { 
+      client[i].game_ready = 0;
+    }
+  }
+
+  game_in_progress = 0;
+  MC_EndGame();
+}
 
 
 //More centralized function to update the clients of the number of 
