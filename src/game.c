@@ -3463,6 +3463,7 @@ int add_comet(void)
 /* This draws the numbers related to the comets */
 void draw_nums(const char* str, int x, int y)
 {
+#if 0
   int i, j, cur_x, c;
   int str_length, char_width, image_length;
 
@@ -3541,6 +3542,16 @@ void draw_nums(const char* str, int x, int y)
       cur_x = cur_x + (char_width * 0.5);
     }
   }
+#endif
+  static SDL_Surface *surf = NULL;
+  SDL_FreeSurface(surf);
+  surf = T4K_BlackOutline(str, 32, &white);
+  int w = T4K_GetScreen()->w;
+  int h = T4K_GetScreen()->h;
+  if(surf->w + x > w)
+    x = (surf->w + x - w)
+  SDL_Rect pos = {x, y};
+  SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
 }
 
 
