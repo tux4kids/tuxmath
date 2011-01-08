@@ -3545,11 +3545,25 @@ void draw_nums(const char* str, int x, int y)
 #endif
   static SDL_Surface *surf = NULL;
   SDL_FreeSurface(surf);
-  surf = T4K_BlackOutline(str, 32, &white);
+  //Adjust font size for resolution:
+  int win_x, win_y, full_x, full_y;
+  int fontsize = DEFAULT_MENU_FONT_SIZE;
+  float scale;
+  T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+  if(Opts_GetGlobalOpt(FULLSCREEN))
+    scale = (float)full_y/(float)win_y;
+  else
+    scale = 1;
+  fontsize = (int)(32 * scale);
+  surf = T4K_BlackOutline(str, fontsize, &white);
   int w = T4K_GetScreen()->w;
   int h = T4K_GetScreen()->h;
+  x -= surf->w/2;
   if(surf->w + x > w)
-    x = (surf->w + x - w)
+    x -= (surf->w + x - w);
+  
+  if(x < 0)
+    x += -x;
   SDL_Rect pos = {x, y};
   SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
 }
