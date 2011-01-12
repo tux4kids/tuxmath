@@ -110,63 +110,6 @@ AC_DEFINE([HAVE_LIBSDL_MIXER],[1],[Define to 1 if you have the 'SDL_mixer' libra
 CFLAGS="$CFLAGS $SDL_MIXER_CFLAGS"
 LIBS="$LIBS $SDL_MIXER_LIBS"
 
-
-
-dnl Check for SDL_Pango: --------------------------------------------------------
-
-dnl SDL_Pango is enabled by default.
-dnl If SDL_Pango disabled at configure time, or if we can't find it,
-dnl we look for SDL_ttf:
-
-AC_ARG_WITH([sdlpango],
-	[AS_HELP_STRING([--without-sdlpango],
-	[Do not use SDL_Pango even if available])],
-	[],
-	[with_sdlpango=yes])
-
-
-if test "x$with_sdlpango" != xno; then
-
-PKG_CHECK_MODULES([SDL_PANGO],
-	[SDL_Pango],
-	[],
-	[AC_MSG_NOTICE([SDL_Pango not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_Pango],
-		[SDLPango_Init],
-		[],
-		[AC_MSG_FAILURE([SDL_Pango test failed (--without-sdlpango to disable)])])])
-
-AC_DEFINE([HAVE_LIBSDL_PANGO],[1],[Define to 1 if you have the `SDL_Pango` library])
-CFLAGS="$CFLAGS $SDL_PANGO_CFLAGS"
-LIBS="$LIBS $SDL_PANGO_LIBS"
-
-fi
-
-
-
-dnl We only use SDL_ttf if SDL_Pango disabled: --------------------------------------
-
-if [test "x$with_sdlpango" = xno]; then
-dnl Add freetype link "by hand" until mingw-cross-env takes care
-dnl of this automatically
-LIBS="-lfreetype $LIBS"
-
-PKG_CHECK_MODULES([SDL_ttf],
-	[SDL_ttf],
-	[],
-	[AC_MSG_NOTICE([SDL_ttf not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_ttf],
-		[TTF_Init],
-		[],
-		[AC_MSG_ERROR([SDL_ttf not found! http://www.libsdl.org/projects/SDL_ttf])])])
-
-AC_DEFINE([HAVE_LIBSDL_TTF],[1],[Define to 1 if you have the `SDL_ttf` library])
-CFLAGS="$CFLAGS $SDL_TTF_CFLAGS"
-LIBS="$LIBS $SDL_TTF_LIBS"
-fi
-
-
-
 dnl Check for libRSVG and cairo. SVG support is enabled by default ----------------------
 
 AC_ARG_WITH([rsvg],
