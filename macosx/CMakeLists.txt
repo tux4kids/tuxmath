@@ -9,7 +9,6 @@ if (APPLE)
   copyFramework(${SDL_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
   copyFramework(${SDLMIXER_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
   copyFramework(${SDLIMAGE_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
-  copyFramework(${SDLTTF_INCLUDE_DIR} ${FRAMEWORK_DEST_DIR})
 
   # Internationalization library
   if (TUXMATH_BUILD_INTL)

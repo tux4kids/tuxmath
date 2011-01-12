@@ -4,9 +4,7 @@
 ## Libraries
 find_package(SDL REQUIRED)
 find_package(SDL_image REQUIRED)
-find_package(SDL_ttf REQUIRED)
 find_package(SDL_mixer REQUIRED)
-find_package(SDL_Pango REQUIRED)
 find_package(SDL_gfx)
 find_package(SDL_net)
 find_package(Tux4Kids-common)
@@ -77,7 +75,6 @@ include_directories(
   ${SDL_INCLUDE_DIR} 
   ${SDLIMAGE_INCLUDE_DIR} 
   ${SDLMIXER_INCLUDE_DIR} 
-  ${SDLTTF_INCLUDE_DIR} 
   ${SDLNET_INCLUDE_DIR} 
   ${T4KCOMMON_INCLUDE_DIR}
   ${TUXMATH_EXTRA_INCLUDES} 
@@ -138,16 +135,9 @@ set_target_properties (
 target_link_libraries (tuxmath
   ${SDL_LIBRARY}
   ${SDLIMAGE_LIBRARY}
-  ${SDLTTF_LIBRARY}
   ${SDLMIXER_LIBRARY}
   ${SDLNET_LIBRARY}
   )
-
-if (SDLPANGO_FOUND)
-  target_link_libraries (tuxmath
-    ${SDLPANGO_LIBRARY}
-    )
-endif (SDLPANGO_FOUND)
 
 if (SDLGFX_FOUND)
    target_link_libraries (tuxmath
