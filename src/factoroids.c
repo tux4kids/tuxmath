@@ -2558,7 +2558,7 @@ static int check_exit_conditions(void)
   {
     return GAME_OVER_LOST;
   }
-  if(score>=19999 || wave >= 20 )
+  if(wave > 6 )
   {
     return GAME_OVER_WON;
   }
