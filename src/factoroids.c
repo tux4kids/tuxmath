@@ -193,6 +193,10 @@ typedef enum _TuxBonus {
   TB_CLOAKING, TB_FORCEFIELD, TB_POWERBOMB, TB_SIZE
 } TuxBonus;
 
+int bonus_img_ids[] = {
+  IMG_BONUS_CLOAKING, IMG_BONUS_FORCEFIELD, IMG_BONUS_POWERBOMB
+};
+
 /********* Global vars ************/
 
 /* Trig junk:  (thanks to Atari BASIC for this) */
@@ -212,7 +216,7 @@ static int trig[12] = {
   0
 };
 
-static int bonuses[TB_SIZE] = {0};
+static int bonus = -1;
 static int bonus_time = BONUS_NOTUSED;
 
 static const int prime_numbers[] = {2, 3, 5, 7, 11, 13};
@@ -923,14 +927,14 @@ static void FF_handle_asteroids(void){
               /*************** Collisions! ****************/
 
               if(AsteroidColl(surf->w, surf->h, asteroid[i].x, asteroid[i].y, tuxship.centerx, tuxship.centery) &&
-                              !(bonuses[TB_CLOAKING]==1 && bonus_time > 0))
+                              !(bonus == TB_CLOAKING && bonus_time > 0))
 	      {
 		if(!tuxship.hurt)
 		{
 		  asteroid[i].xdead=asteroid[i].centerx;
 		  asteroid[i].ydead=asteroid[i].centery;
 		  
-		  if(!(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0)) {   
+		  if(!(bonus == TB_FORCEFIELD && bonus_time > 0)) {   
   		  tuxship.lives--;
 	  	  tuxship.hurt=1;
 	  	  tuxship.hurt_count=50;
@@ -1022,16 +1026,16 @@ static void FF_draw(void){
 	//Google code in task
 	
 	if(!tuxship.thrust) {
-	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
+	   SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
      	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
 	} else {
-	   SDL_Surface **_IMG_ship = bonuses[TB_CLOAKING]==1 && bonus_time>0 ? IMG_tuxship_thrust_cloaked : IMG_tuxship_thrust;
+	   SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_thrust_cloaked : IMG_tuxship_thrust;
      	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
 	}
 	
 
   
-    if(bonuses[TB_FORCEFIELD] == 1 && bonus_time > 0) {
+    if(bonus == TB_FORCEFIELD && bonus_time > 0) {
       SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
       SDL_BlitSurface(images[IMG_FORCEFIELD], NULL, screen, &tmp);
     }
@@ -1106,7 +1110,7 @@ static void FF_draw(void){
       dest.x = asteroid[i].xdead;
       dest.y = asteroid[i].ydead;
       SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
-      if(bonuses[TB_POWERBOMB] == 1 && bonus_time > 0)
+      if(bonus == TB_POWERBOMB && bonus_time > 0)
 	draw_line(asteroid[i].x, asteroid[i].y, tuxship.x, tuxship.y,
 		 (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
 	         (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
@@ -1201,6 +1205,20 @@ static void FF_draw(void){
       sprintf(str, "%d", tuxship.lives);
       draw_numbers(str, 10, (screen->h) - 30); 
     }
+  }
+  
+  /*** Draw Bonus Indicator ***/
+  static int blink = 0;
+  if(bonus_time == 0)
+    blink = 0;
+  else if(bonus_time - SDL_GetTicks() > 3000)
+    blink = 5;
+  else
+    blink = (blink + 1) % 10;
+  if(bonus != -1 && blink>4) {
+    SDL_Surface *indicator = images[bonus_img_ids[bonus]];
+    SDL_Rect pos = {screen->w - indicator->w, screen->h - indicator->h};
+    SDL_BlitSurface(indicator, NULL, screen, &pos);
   }
 }
 
@@ -1492,10 +1510,9 @@ static void FF_add_level(void)
   }
   
   // Clear all bonuses obtained in a wave
-  memset(&bonuses, 0, sizeof(bonuses));
   bonus_time = BONUS_NOTUSED; // Reset the timer for the bonus
   // And now reward a new bonus
-  bonuses[rand()%TB_SIZE] = 1;
+  bonus = rand()%TB_SIZE;
   
   // Set active number to newly added prime
   int wave_i = wave - 1;
@@ -2411,8 +2428,9 @@ void game_handle_user_events(void)
     bonus_time = SDL_GetTicks() + 10000; //10sec bonus
     
     //special handling for the powerbomb, since it happens "at once"
-    if(bonuses[TB_POWERBOMB] == 1) {
+    if(bonus == TB_POWERBOMB) {
       _tb_PowerBomb(digits[1]*10 + digits[2]);
+      bonus_time = 0;
     }
   }
   /* support for negative answer input DSB */

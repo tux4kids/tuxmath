@@ -31,5 +31,8 @@ dist_comets_DATA = asteroid1.png \
 		 ship-cloaked.png \
 		 forcefield.png	\
 		 ship_thrust.png	\
-		 ship_thrust_cloaked.png
+		 ship_thrust_cloaked.png	\
+		 powerbomb.png	\
+		 shield.png	\
+		 stealth.png
 
