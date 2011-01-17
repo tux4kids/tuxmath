@@ -34,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 // Translation stuff (now works for Mac and Win too!): 
 #include "config.h"
 #include "gettext.h"
+#include <locale.h>
 #define _(String) gettext (String)
 #define gettext_noop(String) String
 #define N_(String) gettext_noop (String)

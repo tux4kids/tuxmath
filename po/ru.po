@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-01 20:59-0600\n"
+"POT-Creation-Date: 2011-01-17 06:21-0600\n"
 "PO-Revision-Date: 2010-12-06 04:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -240,97 +240,97 @@ msgstr ""
 "Для получения дополнительной информации о свободном программном обеспечении "
 "и GNU GPL, посетите:"
 
-#: src/factoroids.c:498
+#: src/factoroids.c:497
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:499
+#: src/factoroids.c:498
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "Умножение на 11 и 12"
 
-#: src/factoroids.c:500
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:501
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:503
+#: src/factoroids.c:502
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:508
+#: src/factoroids.c:507
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:509
+#: src/factoroids.c:508
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:510
+#: src/factoroids.c:509
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "Умножение на 13, 14 и 15"
 
-#: src/factoroids.c:511
+#: src/factoroids.c:510
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:512
+#: src/factoroids.c:511
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:513
+#: src/factoroids.c:512
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:530
+#: src/factoroids.c:529
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:531
+#: src/factoroids.c:530
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:741
+#: src/factoroids.c:746
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:742 src/factoroids.c:753
+#: src/factoroids.c:747 src/factoroids.c:758
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Используйте кнопки со стрелками, чтобы поворачивать или двигаться вперед. "
 "Нацельтесь на астероид,"
 
-#: src/factoroids.c:743
+#: src/factoroids.c:748
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:744
+#: src/factoroids.c:749
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:752
+#: src/factoroids.c:757
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "ДРОБИ: чтобы выиграть, вам необходимо уничтожить все астероиды"
 
-#: src/factoroids.c:754
+#: src/factoroids.c:759
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "введите число, которое может упростить дробь, и нажмите пробел или ввод"
 
-#: src/factoroids.c:755
+#: src/factoroids.c:760
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
@@ -338,119 +338,126 @@ msgstr ""
 "чтобы разбить её. Уничтожьте дроби, которые не могут быть упрощены одним "
 "ударом!"
 
-#: src/game.c:1056
+#: src/game.c:1111
 msgid "Welcome to TuxMath!"
 msgstr "Добро пожаловать в TuxMath!"
 
-#: src/game.c:1073
+#: src/game.c:1128
 msgid "Your mission is to save your"
 msgstr "Ваша миссия - спасти"
 
-#: src/game.c:1074
+#: src/game.c:1129
 msgid "penguins' igloos from the"
 msgstr "иглу пингвинов от"
 
-#: src/game.c:1075
+#: src/game.c:1130
 msgid "falling comets."
 msgstr "падающих комет."
 
-#: src/game.c:1094
+#: src/game.c:1149
 msgid "Stop a comet by typing"
 msgstr "Остановите комету, введя"
 
-#: src/game.c:1095
+#: src/game.c:1150
 msgid "the answer to the math problem"
 msgstr "ответ на математическую задачу"
 
-#: src/game.c:1096
+#: src/game.c:1151
 msgid "and hitting 'space' or 'enter'."
 msgstr "и нажав пробел или ввод."
 
-#: src/game.c:1097
+#: src/game.c:1152
 msgid "Try it now!"
 msgstr "Попробуйте это сейчас!"
 
-#: src/game.c:1105
+#: src/game.c:1160
 msgid "Good shot!"
 msgstr "Отличный выстрел!"
 
-#: src/game.c:1115
+#: src/game.c:1170
 msgid "If an igloo gets hit by a comet,"
 msgstr "Если комета попадает в иглу,"
 
-#: src/game.c:1116
+#: src/game.c:1171
 msgid "it melts. But don't worry: the"
 msgstr "оно тает. Но не волнуйтесь:"
 
-#: src/game.c:1117
+#: src/game.c:1172
 msgid "penguin is OK!"
 msgstr "пингвин в порядке!"
 
-#: src/game.c:1118
+#: src/game.c:1173
 msgid "Just watch what happens:"
 msgstr "Просто посмотрите, что происходит:"
 
-#: src/game.c:1119
+#: src/game.c:1174
 msgid "(Press a key to start)"
 msgstr "(Нажмите любую клавишу для начала)"
 
-#: src/game.c:1132
+#: src/game.c:1187
 msgid "Notice the answer"
 msgstr "Обратите внимание на ответ"
 
-#: src/game.c:1142
+#: src/game.c:1197
 msgid "If it gets hit again, the"
 msgstr "Если комета попадает снова,"
 
-#: src/game.c:1143
+#: src/game.c:1198
 msgid "penguin leaves."
 msgstr "пингвин уходит."
 
-#: src/game.c:1144
+#: src/game.c:1199
 msgid "(Press a key when ready)"
 msgstr "(Нажмите любую клавишу, когда будете готовы)"
 
-#: src/game.c:1167
+#: src/game.c:1222
 msgid "You can fix the igloos"
 msgstr "Вы можете ремонтировать иглу,"
 
-#: src/game.c:1168
+#: src/game.c:1223
 msgid "by stopping bonus comets."
 msgstr "останавливая бонусные кометы."
 
-#: src/game.c:1179
+#: src/game.c:1234
 msgid "Zap it now!"
 msgstr "Разбейте её сейчас же!"
 
-#: src/game.c:1185
+#: src/game.c:1240
 msgid "Great job!"
 msgstr "Отличная работа!"
 
-#: src/game.c:1203
+#: src/game.c:1258
 msgid "Quit at any time by pressing"
 msgstr "Вы можете выйти в любое время, нажав"
 
-#: src/game.c:1204
+#: src/game.c:1259
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc', или кликнув 'X'"
 
-#: src/game.c:1205
+#: src/game.c:1260
 msgid "in the upper right corner."
 msgstr "в правом верхнем углу."
 
-#: src/game.c:1206
+#: src/game.c:1261
 msgid "Do it now, and then play!"
 msgstr "Сделайте это сейчас и играйте!"
 
-#: src/game.c:2934
+#: src/game.c:2996
 msgid "The Penguins Have Been Saved!"
 msgstr "Пингвины были спасены!"
 
-#: src/game.c:2949
+#: src/game.c:3011
 msgid "Final Scores:"
 msgstr "Финальные результаты:"
 
-#: src/game.c:3026
+#: src/game.c:3088
+#, fuzzy
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr "Соединение с сервером было потеряно."
+
+#: src/game.c:3096
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
@@ -497,7 +504,7 @@ msgstr "Вы в зале славы!"
 msgid "Enter Your Name:"
 msgstr "Введите ваше имя:"
 
-#: src/highscore.c:1140
+#: src/highscore.c:1145
 #, fuzzy, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -560,7 +567,7 @@ msgid ""
 "Sorry, this version built withour network support."
 msgstr "Извините, эта версия собрана без поддержки сети.\n"
 
-#: src/menu.c:496 src/menu.c:542
+#: src/menu.c:496 src/menu.c:543
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Извините, эта версия собрана без поддержки сети.\n"
@@ -573,57 +580,49 @@ msgstr "Обнаружение серверов"
 msgid "Please wait"
 msgstr "Пожалуйста, подождите"
 
-#: src/menu.c:513
+#: src/menu.c:514
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:514
+#: src/menu.c:515
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:515 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:516 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Введите вше имя:"
 
-#: src/menu.c:517
+#: src/menu.c:518
 msgid "Click when ready"
 msgstr "Кликните, когда будете готовы"
 
-#: src/menu.c:519
+#: src/menu.c:520
 msgid "Waiting for other players"
 msgstr "Ожидание других игроков"
 
-#: src/menu.c:531
+#: src/menu.c:532
 #, fuzzy
-msgid ""
-"\n"
-"Sorry, game already in progress."
+msgid "Sorry, game already in progress."
 msgstr "Извините, игра уже идёт."
 
-#: src/menu.c:532
-#, c-format
+#: src/menu.c:533
 msgid "Sorry, game already in progress.\n"
 msgstr "Извините, игра уже идёт.\n"
 
-#: src/menu.c:537
+#: src/menu.c:538
 #, fuzzy
-msgid ""
-"\n"
-"Sorry, no server could be found."
+msgid "Sorry, no server could be found."
 msgstr "Извините, сервер не может быть найден."
 
-#: src/menu.c:538
-#, c-format
+#: src/menu.c:539
 msgid "Sorry, could not connect to server.\n"
 msgstr "Извините, не удаётся подключиться к серверу.\n"
 
-#: src/menu.c:541
+#: src/menu.c:542
 #, fuzzy
-msgid ""
-"\n"
-"Sorry, this version built without network support"
+msgid "Sorry, this version built without network support"
 msgstr "Извините, эта версия собрана без поддержки сети"
 
 #: src/multiplayer.c:203
@@ -963,6 +962,11 @@ msgstr "Запустить сервер"
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
 msgstr ""
+
+#: data/menus/menu_strings:28
+#, fuzzy
+msgid "Stop Server"
+msgstr "Запустить сервер"
 
 #, fuzzy
 #~ msgid "Tuxmath is free and open-source!\n"

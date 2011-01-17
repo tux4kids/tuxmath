@@ -714,7 +714,7 @@ void initialize_SDL(void)
     if (SDLNet_Init() < 0)
     {
       fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-      return 0;
+      return;
     }
 #endif
   }
