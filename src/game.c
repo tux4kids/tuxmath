@@ -86,6 +86,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define SMARTBOMB_ICON_X screen->w - SMARTBOMB_ICON_W 
 #define SMARTBOMB_ICON_Y screen->h - SMARTBOMB_ICON_H 
 
+#define BASE_COMET_FONTSIZE 24
+#define SCALE_EXPONENT 0.7
+
 static int powerup_comet_running = 0;
 static int smartbomb_alive = 0;
 typedef enum {
@@ -113,6 +116,7 @@ typedef struct comet_type {
   MC_FlashCard flashcard;
   Uint32 time_started;
 } comet_type;
+
 typedef struct powerup_comet_type {
   comet_type comet;
   PowerUp_Direction direction;
@@ -260,6 +264,7 @@ static void free_on_exit(void);
 static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
 static void game_recalc_positions(int xres, int yres);
+static float get_scale(void);
 
 int powerup_initialize(void);
 PowerUp_Type powerup_gettype(void);
@@ -347,6 +352,8 @@ int powerup_initialize(void)
 
   powerup_comet_running = 0;
   smartbomb_alive = 0;
+
+  return 1;
 }
 
 PowerUp_Type powerup_gettype(void)
@@ -3852,31 +3859,56 @@ void draw_nums(const char* str, int x, int y)
     }
   }
 #endif
-  static SDL_Surface *surf = NULL;
-  SDL_FreeSurface(surf);
-  //Adjust font size for resolution:
-  int win_x, win_y, full_x, full_y;
-  int fontsize = DEFAULT_MENU_FONT_SIZE;
-  float scale;
-  T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-  if(Opts_GetGlobalOpt(FULLSCREEN))
-    scale = (float)full_y/(float)win_y;
-  else
-    scale = 1;
-  fontsize = (int)(32 * scale);
+  SDL_Surface *surf = NULL;
+  /* Adjust font size for resolution - note that it doesn't have to be as 
+   * proportionately large on larger screens, hence the pow() step:
+   */
+  //int win_x, win_y, full_x, full_y;
+  //int fontsize = DEFAULT_MENU_FONT_SIZE;
+  //float scale;
+  //T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
+  //if(Opts_GetGlobalOpt(FULLSCREEN))
+  //  scale = pow(((float)full_y/(float)win_y), SCALE_EXPONENT);
+  //else
+  //  scale = 1;
+
+  int fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
+  //fontsize = (int)(32 * scale);
   surf = T4K_BlackOutline(str, fontsize, &white);
-  int w = T4K_GetScreen()->w;
-  int h = T4K_GetScreen()->h;
-  x -= surf->w/2;
-  if(surf->w + x > w)
-    x -= (surf->w + x - w);
-  
-  if(x < 0)
-    x += -x;
-  SDL_Rect pos = {x, y};
-  SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
+  if(surf)
+  {
+    int w = T4K_GetScreen()->w;
+    x -= surf->w/2;
+    // Keep formula at least 8 pixels inside screen:
+    if(surf->w + x > (w - 8))
+      x -= (surf->w + x - (w - 8));
+    if(x < 8)
+      x = 8;
+    //Draw numbers over comet:
+    y -= surf->h;
+
+    SDL_Rect pos = {x, y};
+    SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
+    SDL_FreeSurface(surf);
+  }
 }
 
+
+float get_scale(void)
+{
+  /* Adjust font size for resolution - note that it doesn't have to be as 
+   * proportionately large on larger screens, hence the pow() step.
+   * The degree to which the font enlarges with larger screen size can be
+   * tweaked by adjusting SCALE_EXPONENT.
+   */
+  int win_w, win_h, full_w, full_h;
+  
+  T4K_GetResolutions(&win_w, &win_h, &full_w, &full_h);   
+  if(T4K_GetScreen()->h == full_h)
+    return  pow(((float)full_h/(float)win_h), SCALE_EXPONENT);
+  else
+    return  1;
+}
 
 /* Draw status numbers: */
 void draw_numbers(const char* str, int x, int y)
@@ -3917,7 +3949,6 @@ void draw_numbers(const char* str, int x, int y)
     }
   }
 }
-
 
 /* Pause loop: */
 

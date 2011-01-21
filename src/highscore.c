@@ -453,7 +453,7 @@ void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3)
 
             /* Convert text to UTF-8 so T4K_BlackOutline() can handle it: */
    //         wcstombs((char*) UTF8_buf, wchar_buf, HIGH_SCORE_NAME_LENGTH * 3);
-            ConvertToUTF8(wchar_buf, UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
+            T4K_ConvertToUTF8(wchar_buf, UTF8_buf, HIGH_SCORE_NAME_LENGTH * 3);
             /* Redraw background and shading in area where we drew text last time: */ 
             if (!first_draw)
             {
