@@ -184,7 +184,10 @@ int load_image_data()
   "comets/comet",
   "comets/bonus_comet",
   "comets/cometex",
-  "comets/bonus_cometex"
+  "comets/bonus_cometex",
+  "comets/left_powerup_comet",
+  "comets/right_powerup_comet",
+  "comets/powerup_cometex",
   };
 
   /* Load static images: */

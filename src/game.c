@@ -78,6 +78,27 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define MAX_LASER 10
 
+#define POWERUP_Y_POS 100
+#define MS_POWERUP_SPEED 1000 
+
+#define SMARTBOMB_ICON_W 40 
+#define SMARTBOMB_ICON_H 47 
+#define SMARTBOMB_ICON_X screen->w - SMARTBOMB_ICON_W 
+#define SMARTBOMB_ICON_Y screen->h - SMARTBOMB_ICON_H 
+
+static int powerup_comet_running = 0;
+static int smartbomb_alive = 0;
+typedef enum {
+  SMARTBOMB,
+  NPOWERUP 
+} PowerUp_Type;
+
+typedef enum {
+  POWERUP_DIR_LEFT,
+  POWERUP_DIR_RIGHT,
+  POWERUP_DIR_UNKNOWN
+} PowerUp_Direction; 
+
 const int SND_IGLOO_SIZZLE = SND_SIZZLE;
 const int IMG_CITY_NONE = 0;
 
@@ -92,6 +113,12 @@ typedef struct comet_type {
   MC_FlashCard flashcard;
   Uint32 time_started;
 } comet_type;
+typedef struct powerup_comet_type {
+  comet_type comet;
+  PowerUp_Direction direction;
+  PowerUp_Type type;
+  int inc_speed;
+} powerup_comet_type;
 
 typedef struct lan_player_type {
   char name[NAME_SIZE];
@@ -151,6 +178,8 @@ static float danger_level;
 static int digits[MC_MAX_DIGITS];
 
 static comet_type* comets = NULL;
+static powerup_comet_type* powerup_comet = NULL;
+
 static city_type* cities = NULL;
 static penguin_type* penguins = NULL;
 static steam_type* steam = NULL;
@@ -232,6 +261,14 @@ static void help_add_comet(const char* formula_str, const char* ans_str);
 static int help_renderframe_exit(void);
 static void game_recalc_positions(int xres, int yres);
 
+int powerup_initialize(void);
+PowerUp_Type powerup_gettype(void);
+int powerup_add_comet(void);
+void game_handle_powerup(void);
+void game_draw_powerup(void);
+void draw_smartbomb(void);
+void smartbomb_activate(void);
+
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 
 /*****************************************************/
@@ -257,6 +294,232 @@ void print_current_quests(void);
 static void print_exit_conditions(void);
 static void print_status(void);
 
+void smartbomb_activate(void)
+{
+  int i;
+
+  if(!smartbomb_alive)
+    return;
+
+  for(i=0; i<Opts_MaxComets(); i++)
+  {
+    comets[i].expl = 0;
+    comets[i].zapped = 1; 
+
+    add_score(25 * comets[i].flashcard.difficulty *
+              (screen->h - comets[i].y + 1) /
+               screen->h);
+  }
+}
+
+
+void draw_smartbomb(void)
+{
+  SDL_Surface *img;
+  SDL_Rect rect;
+
+  if(!smartbomb_alive)
+    return;
+
+  img = images[IMG_TUX_LITTLE];
+  rect.x = SMARTBOMB_ICON_X;//screen->w - img->w;  
+  rect.y = SMARTBOMB_ICON_Y;//screen->h - img->h; 
+  rect.w = img->w;
+  rect.h = img->h;
+
+  SDL_BlitSurface(img, NULL, screen, &rect);
+}
+
+int powerup_initialize(void)
+{
+  if(powerup_comet == NULL)
+    return 0;
+
+  powerup_comet->comet.alive = 0;
+  powerup_comet->comet.expl = -1;
+  powerup_comet->comet.x = 0;
+  powerup_comet->comet.y = 0;
+  powerup_comet->comet.zapped = 0;
+  powerup_comet->comet.answer = 0;
+  powerup_comet->inc_speed = 0;
+  powerup_comet->direction = POWERUP_DIR_UNKNOWN;
+  MC_ResetFlashCard(&(powerup_comet->comet.flashcard));
+
+  powerup_comet_running = 0;
+  smartbomb_alive = 0;
+}
+
+PowerUp_Type powerup_gettype(void)
+{
+   return rand()%NPOWERUP;
+}
+
+int powerup_add_comet(void)
+{
+  PowerUp_Type puType;
+
+  if(smartbomb_alive)
+    return 0;
+
+  if(powerup_comet == NULL)
+    return 0;
+
+  if(powerup_comet_running)
+    return 0;
+
+  /* add only one powerup */
+  powerup_comet_running = 1;
+
+  /* get the type of the powerup */
+  /* currently only smart bombs */
+  puType = powerup_gettype();
+  powerup_comet->type = puType;
+  DEBUGMSG( debug_game, "Power-Up Type: %d\n", puType );
+
+  /* create the flashcard */
+  if(!MC_NextQuestion(&(powerup_comet->comet.flashcard)))
+    return 0;
+
+  /* Make sure question is "sane" before we add it: */
+  if((powerup_comet->comet.flashcard.answer > 999) || 
+     (powerup_comet->comet.flashcard.answer < -999))
+  {
+    printf("Warning, card with invalid answer encountered: %d\n",
+           powerup_comet->comet.flashcard.answer);
+    MC_ResetFlashCard(&(powerup_comet->comet.flashcard));
+    return 0;
+  }
+
+  /* Now make the powerup comet alive */
+  powerup_comet->comet.answer = powerup_comet->comet.flashcard.answer;
+  powerup_comet->comet.alive = 1;
+
+  /* Set the direction */
+  /* Only two direction, left or right */
+  powerup_comet->direction = rand()%2;
+
+  /* Set the initial coordinates */
+  powerup_comet->comet.y = POWERUP_Y_POS;
+  if(powerup_comet->direction == POWERUP_DIR_LEFT)
+  {
+    powerup_comet->comet.x = screen->w; 
+    powerup_comet->inc_speed = -(MS_POWERUP_SPEED / MS_PER_FRAME);
+  }
+  else
+  {
+    powerup_comet->comet.x = 0; 
+    powerup_comet->inc_speed = MS_POWERUP_SPEED / MS_PER_FRAME;
+  }
+
+  powerup_comet->comet.time_started = SDL_GetTicks();
+
+  return 1;
+}
+
+void game_handle_powerup(void)
+{
+  if(powerup_comet == NULL)
+    return;
+
+  if(!powerup_comet->comet.alive)
+    return;
+
+  powerup_comet->comet.x += powerup_comet->inc_speed; 
+
+  if(powerup_comet->comet.expl >= 0)
+  {
+    powerup_comet->comet.expl++;
+    if(powerup_comet->comet.expl >= sprites[IMG_COMET_EXPL]->num_frames * 2)
+    {
+      powerup_comet->comet.alive = 0;
+      powerup_comet->comet.expl = -1;
+      if(powerup_comet->comet.zapped)
+      {
+        switch(powerup_comet->type)
+        {
+          case SMARTBOMB:
+            smartbomb_alive = 1;
+            powerup_comet_running = 0;
+            break;
+        }
+      }
+    } 
+  }
+  else
+  {
+    switch(powerup_comet->direction)
+    {
+      case POWERUP_DIR_LEFT:
+        if(powerup_comet->comet.x <= 0)
+        {
+          powerup_comet->comet.alive = 0;
+          powerup_comet_running = 0;
+        }
+        break;
+
+      case POWERUP_DIR_RIGHT:
+        if(powerup_comet->comet.x >= screen->w)
+        {
+          powerup_comet->comet.alive = 0; 
+          powerup_comet_running = 0;
+        }
+        break;
+     }
+  }
+}
+
+void game_draw_powerup(void)
+{
+  SDL_Surface *img = NULL;
+  SDL_Rect dest;
+  char* powerup_str;
+  int imgid;
+
+  if(powerup_comet == NULL)
+    return;
+
+  if(!powerup_comet->comet.alive)
+    return;
+
+  if(powerup_comet->comet.expl == -1)
+  {
+    if(powerup_comet->direction == POWERUP_DIR_LEFT)
+      imgid = IMG_LEFT_POWERUP_COMET;
+    else
+      imgid = IMG_RIGHT_POWERUP_COMET;
+
+    img = sprites[imgid]->frame[frame % sprites[imgid]->num_frames];
+
+    if(powerup_comet->comet.x >= img->w/2 && 
+       powerup_comet->comet.x <= screen->w - img->w/2)
+    {
+       powerup_str = powerup_comet->comet.flashcard.formula_string;
+    }
+    else
+    {
+      powerup_str = NULL;
+    }
+  }
+  else
+  {
+    /* show each frame of explosion twice */
+    img = sprites[IMG_POWERUP_COMET_EXPL]->frame[powerup_comet->comet.expl / 2];
+    powerup_str = powerup_comet->comet.flashcard.answer_string;
+  }
+
+  /* Draw it! */
+  dest.x = powerup_comet->comet.x - (img->w / 2);
+  dest.y = powerup_comet->comet.y - img->h;
+  dest.w = img->w;
+  dest.h = img->h;
+
+  SDL_BlitSurface(img, NULL, screen, &dest);
+  if (powerup_str != NULL)
+  {
+    //DEBUGMSG( debug_game, "X:%.0f Y:%.0f\n",powerup_comet->comet.x, powerup_comet->comet.y);
+    draw_nums(powerup_str, powerup_comet->comet.x, powerup_comet->comet.y);
+  }
+}
 
 /* --- MAIN GAME FUNCTION!!! --- */
 
@@ -266,6 +529,8 @@ int game(void)
   Uint32 timer = 0;
 
   DEBUGMSG(debug_game, "Entering game():\n");
+
+  srand(time(0));
 
   //see if the option matches the actual screen
   //FIXME figure out how this is happening so we don't need this workaround
@@ -327,6 +592,7 @@ int game(void)
     game_countdown();
     game_handle_tux();
     game_handle_comets();
+    game_handle_powerup();
     game_handle_cities();
     game_handle_penguins();
     game_handle_steam();
@@ -910,6 +1176,14 @@ int game_initialize(void)
     return 0;
   }
 
+  /* create only one powerup comet */
+  powerup_comet = (powerup_comet_type *) malloc(sizeof(powerup_comet_type));
+  if(powerup_comet == NULL)
+  {
+    fprintf(stderr, "Allocation of powerup comet failed");
+    return 0;
+  }
+
   cities = (city_type *) malloc(NUM_CITIES * sizeof(city_type));
   if (cities == NULL)
   {
@@ -1020,6 +1294,7 @@ int game_initialize(void)
   last_bkgd = -1;
   reset_level();
   reset_comets();
+  powerup_initialize();
 
   frame = 0;
   paused = 0;
@@ -1497,6 +1772,7 @@ void game_handle_answer(void)
   int i, j, comets_answer[MAX_MAX_COMETS], number_of_comets;
   char ans[MC_MAX_DIGITS + 2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
+  int powerup_ans = 0;
 
   if (!doing_answer)
   {
@@ -1525,8 +1801,15 @@ void game_handle_answer(void)
     }
   }
 
+  /* powerup comet */
+  if( powerup_comet->comet.alive && 
+      strncmp(powerup_comet->comet.flashcard.answer_string, ans, MC_MAX_DIGITS+1) == 0)
+  {
+     powerup_ans = 1;
+  }
+
   /* If there was a comet with this answer, destroy it! */
-  if (number_of_comets != 0) 
+  if (number_of_comets != 0 || powerup_ans) 
   {
     float t;
     /* Store the time the question was present on screen (do this */
@@ -1609,6 +1892,18 @@ void game_handle_answer(void)
                 (screen->h - comets[index_comets].y + 1) /
                  screen->h);
     } 
+
+    if(powerup_ans)
+    {
+      powerup_comet->comet.expl = 0;
+      powerup_comet->comet.zapped = 1;
+      powerup_comet_running = 0;
+      laser[i].alive = LASER_START;
+      laser[i].x1 = screen->w / 2;
+      laser[i].y1 = screen->h;
+      laser[i].x2 = powerup_comet->comet.x;
+      laser[i].y2 = powerup_comet->comet.y;
+    }
   }
   else
   {
@@ -2210,7 +2505,12 @@ void game_draw(void)
   /* Draw normal comets first, then bonus comets */
   game_draw_comets();
 
+  /* Draw powerup comet */
+  game_draw_powerup();
 
+  /* Draw smart bomb icon */
+  draw_smartbomb();
+  
   /* Draw laser: */
   int i;
   for(i=0;i<MAX_LASER;i++)
@@ -3452,6 +3752,15 @@ int add_comet(void)
   
   /* Record the time at which this comet was created */
   comets[com_found].time_started = SDL_GetTicks();
+  int t=-1;   
+  if(!powerup_comet_running)
+  {
+    t = rand()%10;
+    if( t < 1 )
+    {
+      powerup_add_comet();
+    } 
+  }
    
   /* comet slot found and question found so return successfully: */
   return 1;
@@ -3928,6 +4237,16 @@ void game_mouse_event(SDL_Event event)
     return;
   }
 
+  if(event.button.x >= SMARTBOMB_ICON_X && event.button.x <= SMARTBOMB_ICON_X+SMARTBOMB_ICON_W &&
+     event.button.y >= SMARTBOMB_ICON_Y && event.button.y <= SMARTBOMB_ICON_Y+SMARTBOMB_ICON_H)
+  {
+     if(smartbomb_alive)
+     {
+       smartbomb_activate();
+       smartbomb_alive = 0;
+     }
+  }
+
   /* get out unless we really are using keypad */
   if ( level_start_wait
     || Opts_DemoMode()
@@ -4205,6 +4524,14 @@ void game_key_event(SDLKey key, SDLMod mod)
     /* [ENTER]: Accept digits! */
     doing_answer = 1;
   }
+  else if(key == SDLK_b)
+  {
+    if(smartbomb_alive)
+    {
+      smartbomb_activate();
+      smartbomb_alive = 0;
+    }
+  }
 }
 
 /* Increment score: */
@@ -4269,6 +4596,12 @@ void free_on_exit(void)
   free(cities);
   free(penguins);
   free(steam);
+  MC_FreeFlashcard(&(powerup_comet->comet.flashcard));
+  if(powerup_comet)
+  {
+    free(powerup_comet);
+    powerup_comet = NULL;
+  }
 }
 
 /* Recalculate on-screen city & comet locations when screen dimensions change */

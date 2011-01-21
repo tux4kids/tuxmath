@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Project includes: -----------------*/
-#include "globals.h"
+#include <locale.h>
 #include "tuxmath.h"
 #include "options.h"
 #include "mathcards.h"
