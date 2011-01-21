@@ -2430,7 +2430,8 @@ void game_handle_user_events(void)
     //special handling for the powerbomb, since it happens "at once"
     if(bonus == TB_POWERBOMB) {
       _tb_PowerBomb(digits[1]*10 + digits[2]);
-      bonus_time = 0;
+      bonus_time = SDL_GetTicks() + 1000;
+      /* FIXME ugly hack to allow multiple lasers to display */
     }
   }
   /* support for negative answer input DSB */

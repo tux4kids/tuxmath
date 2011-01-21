@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Project includes: -----------------*/
-#include "globals.h"
+#include <locale.h>
 #include "tuxmath.h"
 #include "options.h"
 #include "mathcards.h"
@@ -714,7 +714,7 @@ void initialize_SDL(void)
     if (SDLNet_Init() < 0)
     {
       fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-      return 0;
+      return;
     }
 #endif
   }

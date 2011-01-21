@@ -1,13 +1,13 @@
 # translation of TuxMath to Slovak
 # This file is put in the public domain.
-# Romana Trubačová <trubacova.romana@gmail.com>, 2010
+# Romana TrubaÄovÃ¡ <trubacova.romana@gmail.com>, 2010
 msgid ""
 msgstr ""
-"Project-Id-Version: tuxmath 1.8.0\n"
+"Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-01 20:59-0600\n"
-"PO-Revision-Date: 2010-07-31 16:24+0200\n"
-"Last-Translator: Romana Trubačová <trubacova.romana@gmail.com>\n"
+"POT-Creation-Date: 2011-01-17 06:21-0600\n"
+"PO-Revision-Date: 2011-01-14 18:34+0200\n"
+"Last-Translator: Administrator <>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
-msgstr "Blahoželáme, vyhral si!"
+msgstr "BlahoÅ¾elÃ¡me, vyhral si!"
 
 #: src/campaign.c:70
 msgid "Round"
@@ -26,15 +26,15 @@ msgstr "Kolo"
 
 #: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
-msgstr "Preskočiť stlačením [Esc]"
+msgstr "PreskoÄiÅ¥ stlaÄenÃ­m [Esc]"
 
 #: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
-msgstr "Misia 1: Starostlivý nováčik"
+msgstr "Misia 1: StarostlivÃ½ novÃ¡Äik"
 
 #: src/campaign.c:143
 msgid "I'm so glad you've come!"
-msgstr "Sme radi, že si tu!"
+msgstr "Sme radi, Å¾e si tu!"
 
 #: src/campaign.c:145
 msgid ""
@@ -42,48 +42,48 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
-"Tučniaci potrebujú tvoju pomoc! Padajúce kométy roztápajú ich iglu! "
-"Zachrániš ich tak, že nájdeš tajný kód, ktorý kométu zničí."
+"TuÄniaci potrebujÃº tvoju pomoc! PadajÃºce komÃ©ty roztÃ¡pajÃº ich iglu! "
+"ZachrÃ¡niÅ¡ ich tak, Å¾e nÃ¡jdeÅ¡ tajnÃ½ kÃ³d, ktorÃ½ komÃ©tu zniÄÃ­."
 
 #: src/campaign.c:147
 msgid "Do your best!"
-msgstr "Daj do toho všetko!"
+msgstr "Daj do toho vÅ¡etko!"
 
 #: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
-msgstr "Misia 2: Šikovný skaut"
+msgstr "Misia 2: Å ikovnÃ½ skaut"
 
 #: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
-"Výborne! Keďže si zachránili domčeky tučniakov, povyšujeme ťa na skauta. "
-"Skauti ľahko spozorujú problémy..."
+"VÃ½borne! KeÄÅ¾e si zachrÃ¡nili domÄeky tuÄniakov, povyÅ¡ujeme Å¥a na "
+"skauta. Skauti Ä¾ahko spozorujÃº problÃ©my..."
 
 #: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
-"...ako napríklad teraz! Nepriatelia sú tu a útočia na tučniakov novými, "
-"nebezpečnejšími kométami."
+"...ako naprÃ­klad teraz! Nepriatelia sÃº tu a ÃºtoÄia na tuÄniakov novÃ½mi, "
+"nebezpeÄnejÅ¡Ã­mi komÃ©tami."
 
 #: src/campaign.c:158
 msgid "But you can save them!"
-msgstr "Ale ty im môžeš pomôcť!"
+msgstr "Ale ty im mÃ´Å¾eÅ¡ pomÃ´cÅ¥!"
 
 #: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
-msgstr "Misia 3: Cisársky strážca"
+msgstr "Misia 3: CisÃ¡rsky strÃ¡Å¾ca"
 
 #: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
-"Opäť si to dokázal! Vládca tučniakov si ťa zvolil za člena tímu strážcov "
-"chrániacich mesto.     Už si na ceste..."
+"OpÃ¤Å¥ si to dokÃ¡zal! VlÃ¡dca tuÄniakov si Å¥a zvolil za Älena tÃ­mu strÃ"
+"¡Å¾cov chrÃ¡niacich mesto.     UÅ¾ si na ceste..."
 
 #: src/campaign.c:168
 msgid ""
@@ -91,35 +91,36 @@ msgid ""
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
-"...To nie! Sám vládca sa stal obeťou útoku nového typu komét! Tie problémy "
-"sa len množia! Aby si tieto kométy porazil, potrebuješ veľkú zručnosť. "
-"Veríme, že to dokážeš. Pridaj sa k strážcom a pomôž zachrániť mesto!"
+"...To nie! SÃ¡m vlÃ¡dca sa stal obeÅ¥ou Ãºtoku novÃ©ho typu komÃ©t! Tie "
+"problÃ©my sa len mnoÅ¾ia! Aby si tieto komÃ©ty porazil, potrebujeÅ¡ veÄ¾kÃº "
+"zruÄnosÅ¥. VerÃ­me, Å¾e to dokÃ¡Å¾eÅ¡. Pridaj sa k strÃ¡Å¾com a pomÃ´Å¾ zachrÃ"
+"¡niÅ¥ mesto!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
-msgstr "Misia 4: Tajná zbraň ríše"
+msgstr "Misia 4: TajnÃ¡ zbraÅˆ rÃ­Å¡e"
 
 #: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
-"Dokázal si to! Vládca ti chce osobne poďakovať. Si na ceste do ľadového "
-"paláca, kde sa ti dostane obrovskej pocty: staneš sa tajnou zbraňou ríše!"
+"DokÃ¡zal si to! VlÃ¡dca ti chce osobne poÄakovaÅ¥. Si na ceste do Ä¾adovÃ©ho "
+"palÃ¡ca, kde sa ti dostane obrovskej pocty: staneÅ¡ sa tajnou zbraÅˆou rÃ­Å¡e!"
 
 #: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
-msgstr "No rovno uprostred ceremónie Divízia zaútočí znovu!"
+msgstr "No rovno uprostred ceremÃ³nie DivÃ­zia zaÃºtoÄÃ­ znovu!"
 
 #: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
-msgstr "Teraz nie je čas na oddych - mesto potrebuje tvoju pomoc!"
+msgstr "Teraz nie je Äas na oddych - mesto potrebuje tvoju pomoc!"
 
 #: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
-msgstr "Posledná misia: Nepriestrelný matematik"
+msgstr "PoslednÃ¡ misia: NepriestrelnÃ½ matematik"
 
 #: src/campaign.c:187
 msgid ""
@@ -128,29 +129,31 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
-"Vedci v krajine tučniakov zistili, že všetky útoky vychádzajú z tajnej "
-"základne. Potrebujú ťa, aby si pre nich vybojoval poslednú bitku. Majú však "
-"pre teba malú pomôcku: najprv násob a deľ, potom sčítavaj a odčítavaj."
+"Vedci v krajine tuÄniakov zistili, Å¾e vÅ¡etky Ãºtoky vychÃ¡dzajÃº z tajnej "
+"zÃ¡kladne. PotrebujÃº Å¥a, aby si pre nich vybojoval poslednÃº bitku. MajÃº "
+"vÅ¡ak pre teba malÃº pomÃ´cku: najprv nÃ¡sob a deÄ¾, potom sÄÃ­tavaj a odÄÃ­"
+"tavaj."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
-msgstr "Verím, že ti táto rada pomôže!"
+msgstr "VerÃ­m, Å¾e ti tÃ¡to rada pomÃ´Å¾e!"
 
 #: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
-msgstr "Do toho! Teraz máš šancu zastaviť tieto útoky už navždy, Matematik!"
+msgstr ""
+"Do toho! Teraz mÃ¡Å¡ Å¡ancu zastaviÅ¥ tieto Ãºtoky uÅ¾ navÅ¾dy, Matematik!"
 
 #: src/campaign.c:260
 msgid "Sorry, try again!"
-msgstr "Škoda, skús to znovu!"
+msgstr "Å koda, skÃºs to znovu!"
 
 #: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr "Misia splnená. Galaxia je zasa v bezpečí!"
+msgstr "Misia splnenÃ¡. Galaxia je zasa v bezpeÄÃ­!"
 
 #: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
-msgstr "TUX, VLÁDCA ČÍSEL"
+msgstr "TUX, VLÃDCA ÄŒÃSEL"
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2010"
@@ -158,7 +161,7 @@ msgstr "COPYRIGHT 2001-2010"
 
 #: src/credits.c:46
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
-msgstr "SÚČASŤ PROJEKTU 'TUX4KIDS'"
+msgstr "SÃšÄŒASÅ¤ PROJEKTU 'TUX4KIDS'"
 
 #: src/credits.c:49
 msgid "DESIGNED BY"
@@ -166,23 +169,23 @@ msgstr "NADIZAJNOVAL"
 
 #: src/credits.c:52
 msgid "LEAD PROGRAMMERS"
-msgstr "HLAVNÍ PROGRAMÁTORI"
+msgstr "HLAVNÃ PROGRAMÃTORI"
 
 #: src/credits.c:58
 msgid "ADDITIONAL CODE"
-msgstr "DOPLNKOVÝ KÓD"
+msgstr "DOPLNKOVÃ KÃ“D"
 
 #: src/credits.c:71
 msgid "LEAD ARTIST"
-msgstr "HLAVNÁ UMELECKÁ ZLOŽKA"
+msgstr "HLAVNÃ UMELECKÃ ZLOÅ½KA"
 
 #: src/credits.c:74
 msgid "ADDITIONAL ART"
-msgstr "DOPLŇUJÚCA UMELECKÁ ZLOŽKA"
+msgstr "DOPLÅ‡UJÃšCA UMELECKÃ ZLOÅ½KA"
 
 #: src/credits.c:78
 msgid "SOUND EFFECTS"
-msgstr "ZVUKOVÉ EFEKTY"
+msgstr "ZVUKOVÃ‰ EFEKTY"
 
 #: src/credits.c:81
 msgid "MUSIC"
@@ -190,11 +193,11 @@ msgstr "HUDBA"
 
 #: src/credits.c:91
 msgid "PACKAGERS"
-msgstr "TVORBA BALÍKOV"
+msgstr "TVORBA BALÃKOV"
 
 #: src/credits.c:96
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr "AUTOROM TUČNIAKA TUXA JE "
+msgstr "AUTOROM TUÄŒNIAKA TUXA JE "
 
 #: src/credits.c:99
 msgid "TESTERS"
@@ -202,11 +205,11 @@ msgstr "TESTERI"
 
 #: src/credits.c:111
 msgid "USER WEBSITE"
-msgstr "POUŽÍVATEĽSKÁ WEBSTRÁNKA"
+msgstr "POUÅ½ÃVATEÄ½SKÃ WEBSTRÃNKA"
 
 #: src/credits.c:114
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr "VÝVOJ TUX4KIDS JE HOSŤOVANÝ NA ALIOTH:"
+msgstr "VÃVOJ TUX4KIDS JE HOSÅ¤OVANÃ NA ALIOTH:"
 
 #: src/credits.c:117
 msgid ""
@@ -214,248 +217,260 @@ msgid ""
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
-"Tuxmath je slobodný softvér pod licenciou GNU GPL. Vďaka nej máte práva, "
-"ktoré pri proprietárnom softvéri nikdy nezískate."
+"Tuxmath je slobodnÃ½ softvÃ©r pod licenciou GNU GPL. VÄaka nej mÃ¡te prÃ¡va, "
+"ktorÃ© pri proprietÃ¡rnom softvÃ©ri nikdy nezÃ­skate."
 
 #: src/credits.c:119
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
-"Tieto práva zahŕňajú voľné štúdium, kopírovanie, úpravu a redistribúciu "
-"programu."
+"Tieto prÃ¡va zahÅ•ÅˆajÃº voÄ¾nÃ© Å¡tÃºdium, kopÃ­rovanie, Ãºpravu a "
+"redistribÃºciu programu."
 
 #: src/credits.c:121
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
-msgstr "Plnú verziu GPL nájdete v dokumentácii k programu."
+msgstr "PlnÃº verziu GPL nÃ¡jdete v dokumentÃ¡cii k programu."
 
 #: src/credits.c:123
 msgid "For more information about Free Software and the GNU GPL, visit:"
-msgstr "Viac informácií o slobodnom softvéri a GNU GPL nájdete na:"
+msgstr "Viac informÃ¡ciÃ­ o slobodnom softvÃ©ri a GNU GPL nÃ¡jdete na:"
+
+#: src/factoroids.c:497
+msgid "Powers of 2"
+msgstr "Mocniny 2"
 
 #: src/factoroids.c:498
-msgid "Powers of 2"
-msgstr ""
+msgid "Products of 2 and 3"
+msgstr "NÃ¡sobky 2 a 3"
 
 #: src/factoroids.c:499
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "Násobky 11 a 12"
+msgid "Products of 2, 3 and 5"
+msgstr "NÃ¡sobky 2, 3 a 5"
 
 #: src/factoroids.c:500
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "Násobky 13,14 a15"
+msgid "Products of 2, 3, 5 and 7"
+msgstr "NÃ¡sobky 2, 3, 5 a 7"
 
 #: src/factoroids.c:501
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Násobky 13,14 a15"
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "NÃ¡sobky 2, 3, 5, 7 a 11"
 
 #: src/factoroids.c:502
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Násobky 13,14 a15"
-
-#: src/factoroids.c:503
-#, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Násobky 13,14 a15"
+msgstr "NÃ¡sobky 2, 3, 5, 7, 11 a 13"
+
+#: src/factoroids.c:507
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "VÅ¡etky nÃ¡sobky 2 konÄia ÄÃ­slicou 2, 4, 6, 8 alebo 0"
 
 #: src/factoroids.c:508
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Násobky 13,14 a15"
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr "SÃºÄet ÄÃ­slic nÃ¡sobku ÄÃ­sla 3 je deliteÄ¾nÃ½ ÄÃ­slom 3"
 
 #: src/factoroids.c:509
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "VÅ¡etky nÃ¡sobky 5 konÄia ÄÃ­slicou 0 alebo 5"
 
 #: src/factoroids.c:510
-#, fuzzy
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Násobky 13,14 a15"
-
-#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
+"Ä½utujeme - jednoduchÃ© pravidlo na urÄenie deliteÄ¾nosti ÄÃ­slom 7 "
+"neexistuje."
 
-#: src/factoroids.c:512
+#: src/factoroids.c:511
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
+"NÃ¡sobky 11, menÅ¡ie ako 100, majÃº rovnakÃ© ÄÃ­slice, ako naprÃ­klad 55 alebo "
+"88."
 
-#: src/factoroids.c:513
+#: src/factoroids.c:512
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
+"Ä½utujeme - jednoduchÃ© pravidlo na urÄenie deliteÄ¾nosti ÄÃ­slom 13 "
+"neexistuje."
+
+#: src/factoroids.c:529
+msgid "Objectives:"
+msgstr "Ciele:"
 
 #: src/factoroids.c:530
-msgid "Objectives:"
-msgstr ""
-
-#: src/factoroids.c:531
+#, fuzzy
 msgid "Hints:"
-msgstr ""
+msgstr "Rady:"
 
-#: src/factoroids.c:741
+#: src/factoroids.c:746
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
-msgstr "FAKTOROIDY: aby si zvíťazil, musíš zničiť všetky asteroidy."
+msgstr "FAKTOROIDY: aby si zvÃ­Å¥azil, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy."
 
-#: src/factoroids.c:742 src/factoroids.c:753
+#: src/factoroids.c:747 src/factoroids.c:758
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
-"Pomocou šípok sa môžeš otáčať a postupovať dopredu. Zamier na asteroid,"
+"Pomocou Å¡Ã­pok sa mÃ´Å¾eÅ¡ otÃ¡ÄaÅ¥ a postupovaÅ¥ dopredu. Zamier na "
+"asteroid,"
 
-#: src/factoroids.c:743
+#: src/factoroids.c:748
 msgid "type one of its factors, and press space or return"
-msgstr "napíš jeden z jeho deliteľov a stlač medzerník alebo Enter"
+msgstr "napÃ­Å¡ jeden z jeho deliteÄ¾ov a stlaÄ medzernÃ­k alebo Enter"
 
-#: src/factoroids.c:744
+#: src/factoroids.c:749
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
-msgstr "...rozštiepi na delitele.    Kamene s prvočíslami zmiznú!"
+msgstr "...rozÅ¡tiepi na delitele.    Kamene s prvoÄÃ­slami zmiznÃº!"
 
-#: src/factoroids.c:752
+#: src/factoroids.c:757
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr "ZLOMKY: ak chceš vyhrať, musíš zničiť všetky asteroidy"
+msgstr "ZLOMKY: ak chceÅ¡ vyhraÅ¥, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy"
 
-#: src/factoroids.c:754
+#: src/factoroids.c:759
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
-"napíš číslo, ktoré môže zlomok zjednodušiť, stlač medzerník alebo Enter"
+"napÃ­Å¡ ÄÃ­slo, ktorÃ© mÃ´Å¾e zlomok zjednoduÅ¡iÅ¥, stlaÄ medzernÃ­k alebo Enter"
 
-#: src/factoroids.c:755
+#: src/factoroids.c:760
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
-"a on sa rozštiepi. Zlomky, ktoré sa už nedajú zjednodušiť, znič jednou ranou!"
+"a on sa rozÅ¡tiepi. Zlomky, ktorÃ© sa uÅ¾ nedajÃº zjednoduÅ¡iÅ¥, zniÄ jednou "
+"ranou!"
 
-#: src/game.c:1056
+#: src/game.c:1111
 msgid "Welcome to TuxMath!"
 msgstr "Vitaj v TuxMath!"
 
-#: src/game.c:1073
+#: src/game.c:1128
 msgid "Your mission is to save your"
-msgstr "Tvojou úlohou je zachrániť"
+msgstr "Tvojou Ãºlohou je zachrÃ¡niÅ¥"
 
-#: src/game.c:1074
+#: src/game.c:1129
 msgid "penguins' igloos from the"
-msgstr "iglu v ktorých tučniaky bývajú"
+msgstr "iglu v ktorÃ½ch tuÄniaky bÃ½vajÃº"
 
-#: src/game.c:1075
+#: src/game.c:1130
 msgid "falling comets."
-msgstr "pred padajúcimi kométami."
+msgstr "pred padajÃºcimi komÃ©tami."
 
-#: src/game.c:1094
+#: src/game.c:1149
 msgid "Stop a comet by typing"
-msgstr "Kométu zastavíš tak, že napíšeš"
+msgstr "KomÃ©tu zastavÃ­Å¡ tak, Å¾e napÃ­Å¡eÅ¡"
 
-#: src/game.c:1095
+#: src/game.c:1150
 msgid "the answer to the math problem"
-msgstr "výsledok daného príkladu"
+msgstr "vÃ½sledok danÃ©ho prÃ­kladu"
 
-#: src/game.c:1096
+#: src/game.c:1151
 msgid "and hitting 'space' or 'enter'."
-msgstr "a stlačíš medzerník alebo Enter."
+msgstr "a stlaÄÃ­Å¡ medzernÃ­k alebo Enter."
 
-#: src/game.c:1097
+#: src/game.c:1152
 msgid "Try it now!"
-msgstr "Skús to!"
+msgstr "SkÃºs to!"
 
-#: src/game.c:1105
+#: src/game.c:1160
 msgid "Good shot!"
-msgstr "Skvelý zásah!"
+msgstr "SkvelÃ½ zÃ¡sah!"
 
-#: src/game.c:1115
+#: src/game.c:1170
 msgid "If an igloo gets hit by a comet,"
-msgstr "Ak kométa zasiahne iglu,"
+msgstr "Ak komÃ©ta zasiahne iglu,"
 
-#: src/game.c:1116
+#: src/game.c:1171
 msgid "it melts. But don't worry: the"
-msgstr "roztopí sa. Ale nemaj strach!"
+msgstr "roztopÃ­ sa. Ale nemaj strach!"
 
-#: src/game.c:1117
+#: src/game.c:1172
 msgid "penguin is OK!"
-msgstr "Tučniak je v poriadku."
+msgstr "TuÄniak je v poriadku."
 
-#: src/game.c:1118
+#: src/game.c:1173
 msgid "Just watch what happens:"
-msgstr "Pozri čo sa stane."
+msgstr "Pozri Äo sa stane."
 
-#: src/game.c:1119
+#: src/game.c:1174
 msgid "(Press a key to start)"
-msgstr "(Spusti hru stlačením klávesu)"
+msgstr "(Spusti hru stlaÄenÃ­m klÃ¡vesu)"
 
-#: src/game.c:1132
+#: src/game.c:1187
 msgid "Notice the answer"
-msgstr "Všimni si výsledok"
+msgstr "VÅ¡imni si vÃ½sledok"
 
-#: src/game.c:1142
+#: src/game.c:1197
 msgid "If it gets hit again, the"
-msgstr "Ak je zasiahnuté znovu,"
+msgstr "Ak je zasiahnutÃ© znovu,"
 
-#: src/game.c:1143
+#: src/game.c:1198
 msgid "penguin leaves."
-msgstr "tučniak odíde."
+msgstr "tuÄniak odÃ­de."
 
-#: src/game.c:1144
+#: src/game.c:1199
 msgid "(Press a key when ready)"
-msgstr "(Ak si pripravený, stlač kláves)"
+msgstr "(Ak si pripravenÃ½, stlaÄ klÃ¡ves)"
 
-#: src/game.c:1167
+#: src/game.c:1222
 msgid "You can fix the igloos"
-msgstr "Iglu môžeš opraviť tak,"
+msgstr "Iglu mÃ´Å¾eÅ¡ opraviÅ¥ tak,"
 
-#: src/game.c:1168
+#: src/game.c:1223
 msgid "by stopping bonus comets."
-msgstr "že zastavíš bonusové kométy."
+msgstr "Å¾e zastavÃ­Å¡ bonusovÃ© komÃ©ty."
 
-#: src/game.c:1179
+#: src/game.c:1234
 msgid "Zap it now!"
 msgstr "Len do nich!"
 
-#: src/game.c:1185
+#: src/game.c:1240
 msgid "Great job!"
-msgstr "Výborne!"
+msgstr "VÃ½borne!"
 
-#: src/game.c:1203
+#: src/game.c:1258
 msgid "Quit at any time by pressing"
-msgstr "Hru môžeš kedykoľvek zastaviť stlačením"
+msgstr "Hru mÃ´Å¾eÅ¡ kedykoÄ¾vek zastaviÅ¥ stlaÄenÃ­m"
 
-#: src/game.c:1204
+#: src/game.c:1259
 msgid "'Esc' or clicking the 'X'"
-msgstr "Esc alebo kliknutím na X"
+msgstr "Esc alebo kliknutÃ­m na X"
 
-#: src/game.c:1205
+#: src/game.c:1260
 msgid "in the upper right corner."
 msgstr "v pravom hornom rohu."
 
-#: src/game.c:1206
+#: src/game.c:1261
 msgid "Do it now, and then play!"
-msgstr "Vyskúšaj si to a šup do hry!"
+msgstr "VyskÃºÅ¡aj si to a Å¡up do hry!"
 
-#: src/game.c:2934
+#: src/game.c:2996
 msgid "The Penguins Have Been Saved!"
-msgstr ""
+msgstr "TuÄniaci boli zachrÃ¡nenÃ­!"
 
-#: src/game.c:2949
+#: src/game.c:3011
 msgid "Final Scores:"
-msgstr ""
+msgstr "VÃ½slednÃ© skÃ³re:"
 
-#: src/game.c:3026
+#: src/game.c:3088
 #, fuzzy
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr ""
+"SieÅ¥ovÃ¡ hra skonÄila.\n"
+"  Spojenie so serverom bolo preruÅ¡enÃ©."
+
+#: src/game.c:3096
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
-msgstr "Si pripojený ku serveru: %s"
+msgstr ""
+"SieÅ¥ovÃ¡ hra skonÄila.\n"
+"  Spojenie so serverom bolo preruÅ¡enÃ©."
 
 #: src/highscore.c:180 data/menus/menu_strings:9
 msgid "Hall Of Fame"
-msgstr "Sieň slávy"
+msgstr "SieÅˆ slÃ¡vy"
 
 #: src/highscore.c:200 src/highscore.c:221 data/menus/menu_strings:27
 msgid "Space Cadet"
-msgstr "Vesmírny nováčik"
+msgstr "VesmÃ­rny novÃ¡Äik"
 
 #: src/highscore.c:203 data/menus/menu_strings:26
 msgid "Scout"
@@ -463,15 +478,15 @@ msgstr "Skaut"
 
 #: src/highscore.c:206 data/menus/menu_strings:23
 msgid "Ranger"
-msgstr "Strážca"
+msgstr "StrÃ¡Å¾ca"
 
 #: src/highscore.c:209 data/menus/menu_strings:1
 msgid "Ace"
-msgstr "Tajná zbraň"
+msgstr "TajnÃ¡ zbraÅˆ"
 
 #: src/highscore.c:212 data/menus/menu_strings:2
 msgid "Commando"
-msgstr "Nepriestrelný bojovník"
+msgstr "NepriestrelnÃ½ bojovnÃ­k"
 
 #: src/highscore.c:215 data/menus/menu_strings:7
 msgid "Factors"
@@ -483,18 +498,20 @@ msgstr "Zlomky"
 
 #: src/highscore.c:296
 msgid "You Are In The Hall of Fame!"
-msgstr "Si v Sieni slávy!"
+msgstr "Si v Sieni slÃ¡vy!"
 
 #: src/highscore.c:296
 msgid "Enter Your Name:"
-msgstr "Sem napíš svoje meno:"
+msgstr "Sem napÃ­Å¡ svoje meno:"
 
-#: src/highscore.c:1140
+#: src/highscore.c:1145
 #, fuzzy, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
 "Click to continue..."
-msgstr "Hľadám servery..."
+msgstr ""
+"TuxMath naÅ¡iel %d beÅ¾iacich serverov.\n"
+"Klikni pre pokraÄovanie..."
 
 #: src/menu.c:202
 msgid ""
@@ -503,30 +520,38 @@ msgid ""
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
+"TuxMath je slobodnÃ½ a otvorenÃ½ softvÃ©r!\n"
+"MÃ´Å¾e pomÃ´cÅ¥ pri jeho zlepÅ¡ovanÃ­!\n"
+"NÃ¡vrhy, grafika a kÃ³d sÃº vÃ­tanÃ©!\n"
+"Diskusia o TuxMath prebieha na \n"
+"tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:338
-#, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
 "Press a key or click your mouse to start game.\n"
 "See README.txt for more information.\n"
-msgstr "Uprav súbor '.tuxmath/options' vo svojom domovskom adresári "
+msgstr ""
+"UpravenÃ­m sÃºboru 'options' vo svojom domovskom adresÃ¡ri si vytvorÃ­Å"
+"¡ vlastnÃº hru!\n"
+"Hru spustÃ­Å¡ stlaÄenÃ­m klÃ¡vesu alebo kliknutÃ­m myÅ¡ou.\n"
+"Viac informÃ¡ciÃ­ nÃ¡jdeÅ¡ v sÃºbore README.txt\n"
 
 #: src/menu.c:363
 msgid "How many kids are playing?"
-msgstr "Koľkí hráte?"
+msgstr "KoÄ¾kÃ­ hrÃ¡te?"
 
 #: src/menu.c:364
 msgid "(Between 2 and 4 players)"
-msgstr "(Medzi 2 a 4 hráčmi)"
+msgstr "(Medzi 2 a 4 hrÃ¡Ämi)"
 
 #: src/menu.c:427
 msgid "The server is already running"
-msgstr "Tento server sa už používa"
+msgstr "Tento server sa uÅ¾ pouÅ¾Ã­va"
 
 #: src/menu.c:431
 msgid "Enter Server Name:"
-msgstr "Zadajte názov serveru:"
+msgstr "Zadajte nÃ¡zov serveru:"
 
 #: src/menu.c:431
 msgid "(limit 50 characters)"
@@ -534,239 +559,245 @@ msgstr "(max. 50 znakov)"
 
 #: src/menu.c:445
 msgid "Click or press key to select server lesson file"
-msgstr "Súbor lekcie zo serveru vyberieš kliknutím alebo stlačením klávesu"
+msgstr "SÃºbor lekcie zo serveru vyberieÅ¡ kliknutÃ­m alebo stlaÄenÃ­m klÃ¡vesu"
 
 #: src/menu.c:472
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Server Name:\n"
 "%s\n"
 "Selected Lesson:\n"
 "%s"
-msgstr "Vybraná lekcia:"
+msgstr ""
+"NÃ¡zov servera:\n"
+"%s\n"
+"VybranÃ¡ lekcia:\n"
+"%s"
 
 #: src/menu.c:495
-#, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
-msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru.\n"
+msgstr ""
+"\n"
+"OspravedlÅˆujeme sa, tÃ¡to verzia nepodporuje sieÅ¥ovÃº hru."
 
-#: src/menu.c:496 src/menu.c:542
+#: src/menu.c:496 src/menu.c:543
 #, c-format
 msgid "Sorry, this version built without network support.\n"
-msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru.\n"
+msgstr "OspravedlÅˆujeme sa, tÃ¡to verzia nepodporuje sieÅ¥ovÃº hru.\n"
 
 #: src/menu.c:506
 msgid "Detecting servers"
-msgstr "Hľadám servery..."
+msgstr "HÄ¾adÃ¡m servery..."
 
 #: src/menu.c:506
 msgid "Please wait"
-msgstr "Čakaj prosím"
-
-#: src/menu.c:513
-#, c-format
-msgid "Connected to server: %s"
-msgstr "Si pripojený ku serveru: %s"
+msgstr "ÄŒakaj prosÃ­m"
 
 #: src/menu.c:514
 #, c-format
-msgid "%s"
-msgstr ""
+msgid "Connected to server: %s"
+msgstr "Si pripojenÃ½ ku serveru: %s"
 
-#: src/menu.c:515 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:515
+#, c-format
+msgid "%s"
+msgstr "%s"
+
+#: src/menu.c:516 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Zadaj svoje meno:"
 
-#: src/menu.c:517
+#: src/menu.c:518
 msgid "Click when ready"
-msgstr "Ak si pripravený, klikni"
+msgstr "Ak si pripravenÃ½, klikni"
 
-#: src/menu.c:519
+#: src/menu.c:520
 msgid "Waiting for other players"
-msgstr "Čakanie na ďalších hráčov"
-
-#: src/menu.c:531
-#, fuzzy
-msgid ""
-"\n"
-"Sorry, game already in progress."
-msgstr "Ospravedlňujeme sa, hra už prebieha."
+msgstr "ÄŒakanie na ÄalÅ¡Ã­ch hrÃ¡Äov"
 
 #: src/menu.c:532
-#, c-format
-msgid "Sorry, game already in progress.\n"
-msgstr "Ospravedlňujeme sa, hra už prebieha.\n"
-
-#: src/menu.c:537
 #, fuzzy
-msgid ""
+msgid "Sorry, game already in progress."
+msgstr ""
 "\n"
-"Sorry, no server could be found."
-msgstr "Ospravedlňujeme sa, nenašiel sa žiadny server."
+"OspravedlÅˆujeme sa, hra uÅ¾ prebieha."
+
+#: src/menu.c:533
+msgid "Sorry, game already in progress.\n"
+msgstr "OspravedlÅˆujeme sa, hra uÅ¾ prebieha.\n"
 
 #: src/menu.c:538
-#, c-format
-msgid "Sorry, could not connect to server.\n"
-msgstr ""
-
-#: src/menu.c:541
 #, fuzzy
-msgid ""
+msgid "Sorry, no server could be found."
+msgstr ""
 "\n"
-"Sorry, this version built without network support"
-msgstr "Ospravedlňujeme sa, táto verzia nepodporuje sieťovú hru."
+"OspravedlÅˆujeme sa, nenaÅ¡iel sa Å¾iadny server."
+
+#: src/menu.c:539
+msgid "Sorry, could not connect to server.\n"
+msgstr "OspravedlÅˆujeme sa, pripÃ¡janie na server zlyhalo.\n"
+
+#: src/menu.c:542
+#, fuzzy
+msgid "Sorry, this version built without network support"
+msgstr ""
+"\n"
+"OspravedlÅˆujeme sa, tÃ¡to verzia nepodporuje sieÅ¥ovÃº hru."
 
 #: src/multiplayer.c:203
 #, c-format
 msgid "Then %s\n"
-msgstr "Ďalej %s\n"
+msgstr "ÄŽalej %s\n"
 
 #: src/multiplayer.c:278
 msgid "Who is playing first?"
-msgstr "Kto začína?"
+msgstr "Kto zaÄÃ­na?"
 
 #: src/multiplayer.c:280
 msgid "Who is playing next?"
-msgstr "Kto ide po ňom?"
+msgstr "Kto ide po Åˆom?"
 
 #: src/multiplayer.c:294
 msgid "How many rounds will you play?"
-msgstr "Koľko kôl chcete hrať?"
+msgstr "KoÄ¾ko kÃ´l chcete hraÅ¥?"
 
 #: src/multiplayer.c:294
 msgid "Enter a number"
-msgstr "Zadaj číslo"
+msgstr "Zadaj ÄÃ­slo"
 
 #: src/titlescreen.c:510
-#, fuzzy
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"
 "Discuss the future of TuxMath at\n"
 "tuxmath-devel@lists.sourceforge.net"
-msgstr "Napíšte nám svoj názor na tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"Program je vo vÃ½voji!\n"
+"TÃ¡to vlastnosÅ¥ eÅ¡te nie je hotovÃ¡!\n"
+"O budÃºcnosti TuxMath mÃ´Å¾ete diskutovaÅ¥ na tuxmath-devel@lists."
+"sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
-msgstr "Písanie čísel"
+msgstr "PÃ­sanie ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:2
 msgid "Addition: 1 to 3"
-msgstr "Sčítanie: Od 1 do 3"
+msgstr "SÄÃ­tanie: Od 1 do 3"
 
 #: data/missions/lessons/descr_lessons:3
 msgid "Addition: 0 to 5"
-msgstr "Odčítanie: Od 0 do 5"
+msgstr "OdÄÃ­tanie: Od 0 do 5"
 
 #: data/missions/lessons/descr_lessons:4
 msgid "Addition: Sums to 10"
-msgstr "Sčítanie: Súčty do 10"
+msgstr "SÄÃ­tanie: SÃºÄty do 10"
 
 #: data/missions/lessons/descr_lessons:5
 msgid "Addition: Sums to 15"
-msgstr "Sčítanie: Súčty do 15"
+msgstr "SÄÃ­tanie: SÃºÄty do 15"
 
 #: data/missions/lessons/descr_lessons:6
 msgid "Addition: Sums to 20"
-msgstr "Sčítanie: Súčty do 20"
+msgstr "SÄÃ­tanie: SÃºÄty do 20"
 
 #: data/missions/lessons/descr_lessons:7
 msgid "Addition: Two Digit Numbers"
-msgstr "Sčítanie: Dvojciferné čísla"
+msgstr "SÄÃ­tanie: DvojcifernÃ© ÄÃ­sla"
 
 #: data/missions/lessons/descr_lessons:8
 msgid "Addition: Missing Numbers"
-msgstr "Sčítanie: Chýbajúce čísla"
+msgstr "SÄÃ­tanie: ChÃ½bajÃºce ÄÃ­sla"
 
 #: data/missions/lessons/descr_lessons:9
 msgid "Subtraction: 0 to 10"
-msgstr "Odčítanie: Od 0 do 10"
+msgstr "OdÄÃ­tanie: Od 0 do 10"
 
 #: data/missions/lessons/descr_lessons:10
 msgid "Subtraction: 0 to 20"
-msgstr "Odčítanie: Od 0 do 20"
+msgstr "OdÄÃ­tanie: Od 0 do 20"
 
 #: data/missions/lessons/descr_lessons:11
 msgid "Subtraction: Two Digit Numbers"
-msgstr "Odčítanie: Dvojciferné čísla"
+msgstr "OdÄÃ­tanie: DvojcifernÃ© ÄÃ­sla"
 
 #: data/missions/lessons/descr_lessons:12
 msgid "Addition and Subtraction Review"
-msgstr "Sčítanie a odčítanie: Opakovanie"
+msgstr "SÄÃ­tanie a odÄÃ­tanie: Opakovanie"
 
 #: data/missions/lessons/descr_lessons:13
 msgid "Multiplication: 0 to 3"
-msgstr "Násobenie: Od 0 do 3"
+msgstr "NÃ¡sobenie: Od 0 do 3"
 
 #: data/missions/lessons/descr_lessons:14
 msgid "Multiples of 2"
-msgstr "Násobky 2"
+msgstr "NÃ¡sobky 2"
 
 #: data/missions/lessons/descr_lessons:15
 msgid "Multiples of 3"
-msgstr "Násobky 3"
+msgstr "NÃ¡sobky 3"
 
 #: data/missions/lessons/descr_lessons:16
 msgid "Multiples of 4"
-msgstr "Násobky 4"
+msgstr "NÃ¡sobky 4"
 
 #: data/missions/lessons/descr_lessons:17
 msgid "Multiples of 5"
-msgstr "Násobky 5"
+msgstr "NÃ¡sobky 5"
 
 #: data/missions/lessons/descr_lessons:18
 msgid "Multiplication: 0 to 5"
-msgstr "Násobenie: Od 0 do 5"
+msgstr "NÃ¡sobenie: Od 0 do 5"
 
 #: data/missions/lessons/descr_lessons:19
 msgid "Multiples of 6"
-msgstr "Násobky 6"
+msgstr "NÃ¡sobky 6"
 
 #: data/missions/lessons/descr_lessons:20
 msgid "Multiples of 7"
-msgstr "Násobky 7"
+msgstr "NÃ¡sobky 7"
 
 #: data/missions/lessons/descr_lessons:21
 msgid "Multiplication: 0 to 7"
-msgstr "Násobenie: Od 0 do 7"
+msgstr "NÃ¡sobenie: Od 0 do 7"
 
 #: data/missions/lessons/descr_lessons:22
 msgid "Multiples of 8"
-msgstr "Násobky 8"
+msgstr "NÃ¡sobky 8"
 
 #: data/missions/lessons/descr_lessons:23
 msgid "Multiples of 9"
-msgstr "Násobky 9"
+msgstr "NÃ¡sobky 9"
 
 #: data/missions/lessons/descr_lessons:24
 msgid "Multiples of 10"
-msgstr "Násobky 10"
+msgstr "NÃ¡sobky 10"
 
 #: data/missions/lessons/descr_lessons:25
 msgid "Multiplication: 0 to 10"
-msgstr "Násobenie: Od 0 do 10"
+msgstr "NÃ¡sobenie: Od 0 do 10"
 
 #: data/missions/lessons/descr_lessons:26
 msgid "Multiples of 11 and 12"
-msgstr "Násobky 11 a 12"
+msgstr "NÃ¡sobky 11 a 12"
 
 #: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 12"
-msgstr "Násobenie: Od 0 do 12"
+msgstr "NÃ¡sobenie: Od 0 do 12"
 
 #: data/missions/lessons/descr_lessons:28
 msgid "Multiples of 13, 14, and 15"
-msgstr "Násobky 13,14 a15"
+msgstr "NÃ¡sobky 13,14 a15"
 
 #: data/missions/lessons/descr_lessons:29
 msgid "Multiplication: 0 to 15"
-msgstr "Násobenie: Od 0 do 15"
+msgstr "NÃ¡sobenie: Od 0 do 15"
 
 #: data/missions/lessons/descr_lessons:30
 msgid "Multiplication: Missing Numbers"
-msgstr "Násobenie: Chýbajúce čísla"
+msgstr "NÃ¡sobenie: ChÃ½bajÃºce ÄÃ­sla"
 
 #: data/missions/lessons/descr_lessons:31
 msgid "Division by 2"
@@ -818,7 +849,7 @@ msgstr "Delenie 11 a 12"
 
 #: data/missions/lessons/descr_lessons:43
 msgid "Division: 1 to 12"
-msgstr "Delenie: 1 až 12"
+msgstr "Delenie: 1 aÅ¾ 12"
 
 #: data/missions/lessons/descr_lessons:44
 msgid "Division by 13, 14, and 15"
@@ -830,59 +861,59 @@ msgstr "Delenie: Od 1 do 15"
 
 #: data/missions/lessons/descr_lessons:46
 msgid "Multiplication and Division Review"
-msgstr "Násobenie a delenie: Opakovanie"
+msgstr "NÃ¡sobenie a delenie: Opakovanie"
 
 #: data/missions/lessons/descr_lessons:47
 msgid "Typing Negative Numbers"
-msgstr "Písanie záporných čísel"
+msgstr "PÃ­sanie zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:48
 msgid "Subtraction: Negative Answers"
-msgstr "Odčítanie: Záporné výsledky"
+msgstr "OdÄÃ­tanie: ZÃ¡pornÃ© vÃ½sledky"
 
 #: data/missions/lessons/descr_lessons:49
 msgid "Adding Negatives to Positives"
-msgstr "Sčítanie kladných a záporných čísel"
+msgstr "SÄÃ­tanie kladnÃ½ch a zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:50
 msgid "Adding Positives to Negatives"
-msgstr "Sčítanie záporných a kladných čísel"
+msgstr "SÄÃ­tanie zÃ¡pornÃ½ch a kladnÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:51
 msgid "Subtracting Negatives From Positives"
-msgstr "Odčítanie záporných čísel od kladných"
+msgstr "OdÄÃ­tanie zÃ¡pornÃ½ch ÄÃ­sel od kladnÃ½ch"
 
 #: data/missions/lessons/descr_lessons:52
 msgid "Subtracting Positives From Negatives"
-msgstr "Odčítanie kladných čísel od záporných"
+msgstr "OdÄÃ­tanie kladnÃ½ch ÄÃ­sel od zÃ¡pornÃ½ch"
 
 #: data/missions/lessons/descr_lessons:53
 msgid "Adding Negatives to Negatives"
-msgstr "Sčítanie záporných čísel"
+msgstr "SÄÃ­tanie zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:54
 msgid "Subtracting Negatives From Negatives"
-msgstr "Odčítanie záporných čísel od záporných"
+msgstr "OdÄÃ­tanie zÃ¡pornÃ½ch ÄÃ­sel od zÃ¡pornÃ½ch"
 
 #: data/missions/lessons/descr_lessons:55
 msgid "Negative and Positive Numbers Review"
-msgstr "Kladné a záporné čísla: Opakovanie"
+msgstr "KladnÃ© a zÃ¡pornÃ© ÄÃ­sla: Opakovanie"
 
 #: data/missions/lessons/descr_lessons:56
 msgid "Multiplication and Division of Negatives"
-msgstr "Násobenie a delenie záporných čísel"
+msgstr "NÃ¡sobenie a delenie zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:57
 msgid "Multiplication of Positives and Negatives"
-msgstr "Násobenie kladných a záporných čísel"
+msgstr "NÃ¡sobenie kladnÃ½ch a zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/missions/lessons/descr_lessons:58
 msgid "Division of Positives and Negatives"
-msgstr "Delenie kladných a záporných čísel"
+msgstr "Delenie kladnÃ½ch a zÃ¡pornÃ½ch ÄÃ­sel"
 
 #: data/menus/menu_strings:3
 msgid "Credits"
-msgstr "Poďakovanie"
+msgstr "PoÄakovanie"
 
 #: data/menus/menu_strings:4
 msgid "Demo"
@@ -890,7 +921,7 @@ msgstr "Demo"
 
 #: data/menus/menu_strings:5
 msgid "Elimination"
-msgstr "Eliminácia"
+msgstr "EliminÃ¡cia"
 
 #: data/menus/menu_strings:6
 msgid "Factoroids!"
@@ -902,47 +933,47 @@ msgstr "Pomoc"
 
 #: data/menus/menu_strings:11
 msgid "Join Game"
-msgstr "Pridať sa k hre"
+msgstr "PridaÅ¥ sa k hre"
 
 #: data/menus/menu_strings:12
 msgid "Main Menu"
-msgstr "Hlavné menu"
+msgstr "HlavnÃ© menu"
 
 #: data/menus/menu_strings:13
 msgid "Math Command Fleet Missions"
-msgstr "Misie letky matematického komanda"
+msgstr "Misie letky matematickÃ©ho komanda"
 
 #: data/menus/menu_strings:14
 msgid "Math Command Training Academy"
-msgstr "Výcviková akadémia matematického komanda"
+msgstr "VÃ½cvikovÃ¡ akadÃ©mia matematickÃ©ho komanda"
 
 #: data/menus/menu_strings:15
 msgid "More Options"
-msgstr "Ďalšie nastavenia"
+msgstr "ÄŽalÅ¡ie nastavenia"
 
 #: data/menus/menu_strings:16
 msgid "Network Game"
-msgstr "Sieťová hra"
+msgstr "SieÅ¥ovÃ¡ hra"
 
 #: data/menus/menu_strings:17
 msgid "Play Alone"
-msgstr "Jeden hráč"
+msgstr "Jeden hrÃ¡Ä"
 
 #: data/menus/menu_strings:18
 msgid "Play Arcade Game"
-msgstr "Hrať"
+msgstr "HraÅ¥"
 
 #: data/menus/menu_strings:19
 msgid "Play Custom Game"
-msgstr "Vytvoriť vlastnú hru"
+msgstr "VytvoriÅ¥ vlastnÃº hru"
 
 #: data/menus/menu_strings:20
 msgid "Play With Friends"
-msgstr "Hrať s priateľmi"
+msgstr "HraÅ¥ s priateÄ¾mi"
 
 #: data/menus/menu_strings:21
 msgid "Project Info"
-msgstr "Informácie o projekte"
+msgstr "InformÃ¡cie o projekte"
 
 #: data/menus/menu_strings:22
 msgid "Quit"
@@ -950,31 +981,37 @@ msgstr "Koniec"
 
 #: data/menus/menu_strings:24
 msgid "Run Server"
-msgstr "Spustiť server"
+msgstr "SpustiÅ¥ server"
 
 #: data/menus/menu_strings:25
 msgid "Score Sweep"
-msgstr "Najlepšie skóre"
+msgstr "NajlepÅ¡ie skÃ³re"
+
+#: data/menus/menu_strings:28
+#, fuzzy
+msgid "Stop Server"
+msgstr "SpustiÅ¥ server"
 
 #, fuzzy
 #~ msgid "Tuxmath is free and open-source!\n"
-#~ msgstr "TuxMath je slobodný a otvorený softvér!"
+#~ msgstr "TuxMath je slobodnÃ½ a otvorenÃ½ softvÃ©r!"
 
 #, fuzzy
 #~ msgid "You can help make it better.\n"
-#~ msgstr "Aj vďaka tebe môže byť lepší."
+#~ msgstr "Aj vÄaka tebe mÃ´Å¾e byÅ¥ lepÅ¡Ã­."
 
 #, fuzzy
 #~ msgid "Suggestions, artwork, and code are all welcome!\n"
-#~ msgstr "Radi privítame všetky návrhy, umelecké aj programátorské príspevky!"
+#~ msgstr ""
+#~ "Radi privÃ­tame vÅ¡etky nÃ¡vrhy, umeleckÃ© aj programÃ¡torskÃ© prÃ­spevky!"
 
 #, fuzzy
 #~ msgid "Press a key or click your mouse to start game.\n"
-#~ msgstr "Začni hru stlačením klávesu alebo kliknutím myšou."
+#~ msgstr "ZaÄni hru stlaÄenÃ­m klÃ¡vesu alebo kliknutÃ­m myÅ¡ou."
 
 #, fuzzy
 #~ msgid "See README.txt for more information.\n"
-#~ msgstr "Ďalšie informácie nájdeš v súbore README.txt."
+#~ msgstr "ÄŽalÅ¡ie informÃ¡cie nÃ¡jdeÅ¡ v sÃºbore README.txt."
 
 #, fuzzy
 #~ msgid "Work In Progress!\n"
@@ -984,26 +1021,26 @@ msgstr "Najlepšie skóre"
 #~ msgid ""
 #~ "This feature is not ready yet\n"
 #~ " "
-#~ msgstr "Tento prvok zatiaľ nefunguje"
+#~ msgstr "Tento prvok zatiaÄ¾ nefunguje"
 
 #, fuzzy
 #~ msgid ""
 #~ "Discuss the future of TuxMath at\n"
 #~ " "
-#~ msgstr "Vyjadri svoj názor na budúcnosť TuxMath na"
+#~ msgstr "Vyjadri svoj nÃ¡zor na budÃºcnosÅ¥ TuxMath na"
 
 #~ msgid "tuxmath-devel@lists.sourceforge.net"
 #~ msgstr "tuxmath-devel@lists.sourceforge.net"
 
 #, fuzzy
 #~ msgid "Network game terminated."
-#~ msgstr "Sieťová hra"
+#~ msgstr "SieÅ¥ovÃ¡ hra"
 
 #~ msgid "to create customized game!"
-#~ msgstr "a vytvor si hru podľa vlastných predstáv!"
+#~ msgstr "a vytvor si hru podÄ¾a vlastnÃ½ch predstÃ¡v!"
 
 #~ msgid "Server Name:"
-#~ msgstr "Názov serveru:"
+#~ msgstr "NÃ¡zov serveru:"
 
 #~ msgid "Sorry, no server could be found.\n"
-#~ msgstr "Ospravedlňujeme sa, nenašiel sa žiadny server.\n"
+#~ msgstr "OspravedlÅˆujeme sa, nenaÅ¡iel sa Å¾iadny server.\n"

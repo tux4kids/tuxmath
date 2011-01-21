@@ -78,7 +78,9 @@ include_directories(
   ${SDLNET_INCLUDE_DIR} 
   ${T4KCOMMON_INCLUDE_DIR}
   ${TUXMATH_EXTRA_INCLUDES} 
-  ${INTL_BINARY_DIR})
+  ${INTL_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/src
+  )
 if (SDLGFX_FOUND)  
   include_directories(${SDLGFX_INCLUDE_DIR})
 endif(SDLGFX_FOUND)

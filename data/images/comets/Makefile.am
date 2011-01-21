@@ -23,5 +23,8 @@ dist_comets_DATA = bonus_comet0.png \
   cometex.svg \
   mini_comet1.png \
   mini_comet2.png \
-  mini_comet3.png
+  mini_comet3.png \
+  left_powerup_comet.svg \
+  powerup_cometex.svg \
+  right_powerup_comet.svg
 
