@@ -6,13 +6,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-17 06:21-0600\n"
+"POT-Creation-Date: 2011-01-23 16:50-0600\n"
 "PO-Revision-Date: 2008-02-11 21:56+0100\n"
 "Last-Translator: Miklos Merenyi <mermik@freemail.hu>\n"
 "Language-Team: LANGUAGE <HU@li.org>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: src/campaign.c:52
@@ -306,126 +306,131 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:1111
+#: src/game.c:982
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/game.c:1385
 msgid "Welcome to TuxMath!"
 msgstr "Üdvözöllek a TuxMath-ban!"
 
-#: src/game.c:1128
+#: src/game.c:1402
 msgid "Your mission is to save your"
 msgstr "Küldetésed a pingvinek"
 
-#: src/game.c:1129
+#: src/game.c:1403
 msgid "penguins' igloos from the"
 msgstr "jégkunyhóinak megvédése"
 
-#: src/game.c:1130
+#: src/game.c:1404
 msgid "falling comets."
 msgstr "az aláhulló meteoritoktól."
 
-#: src/game.c:1149
+#: src/game.c:1423
 msgid "Stop a comet by typing"
 msgstr "Gépeld be a matematikai feladat "
 
-#: src/game.c:1150
+#: src/game.c:1424
 msgid "the answer to the math problem"
 msgstr "eredményét, és üss Enter-t"
 
-#: src/game.c:1151
+#: src/game.c:1425
 msgid "and hitting 'space' or 'enter'."
 msgstr "a meteor megállításához!"
 
-#: src/game.c:1152
+#: src/game.c:1426
 msgid "Try it now!"
 msgstr "Próbáld meg most!"
 
-#: src/game.c:1160
+#: src/game.c:1434
 msgid "Good shot!"
 msgstr "Szép lövés!"
 
-#: src/game.c:1170
+#: src/game.c:1444
 msgid "If an igloo gets hit by a comet,"
 msgstr "Ha egy jégkunyhót eltalál"
 
-#: src/game.c:1171
+#: src/game.c:1445
 #, fuzzy
 msgid "it melts. But don't worry: the"
 msgstr "egy meteor, megolvad, de a"
 
-#: src/game.c:1172
+#: src/game.c:1446
 msgid "penguin is OK!"
 msgstr "pingvinnek még nem lesz baja!"
 
-#: src/game.c:1173
+#: src/game.c:1447
 msgid "Just watch what happens:"
 msgstr "Nézd, mi történik:"
 
-#: src/game.c:1174
+#: src/game.c:1448
 msgid "(Press a key to start)"
 msgstr "(Nyomj meg egy gombot!)"
 
-#: src/game.c:1187
+#: src/game.c:1461
 msgid "Notice the answer"
 msgstr "Látod a választ?"
 
-#: src/game.c:1197
+#: src/game.c:1471
 msgid "If it gets hit again, the"
 msgstr "A második találat után"
 
-#: src/game.c:1198
+#: src/game.c:1472
 msgid "penguin leaves."
 msgstr "a pingvin elmenekül."
 
-#: src/game.c:1199
+#: src/game.c:1473
 msgid "(Press a key when ready)"
 msgstr "(Nyomj meg egy gombot!)"
 
-#: src/game.c:1222
+#: src/game.c:1496
 msgid "You can fix the igloos"
 msgstr "A jégkunyhókat a bónusz meteorok"
 
-#: src/game.c:1223
+#: src/game.c:1497
 msgid "by stopping bonus comets."
 msgstr "szétlövésével javíthatod meg."
 
-#: src/game.c:1234
+#: src/game.c:1508
 msgid "Zap it now!"
 msgstr "Adj neki!"
 
-#: src/game.c:1240
+#: src/game.c:1514
 msgid "Great job!"
 msgstr "Szép munka!"
 
-#: src/game.c:1258
+#: src/game.c:1532
 msgid "Quit at any time by pressing"
 msgstr "Akármikor kiléphetsz az 'ESC'"
 
-#: src/game.c:1259
+#: src/game.c:1533
 msgid "'Esc' or clicking the 'X'"
 msgstr "gomb megnyomásával, vagy "
 
-#: src/game.c:1260
+#: src/game.c:1534
 msgid "in the upper right corner."
 msgstr "az 'X'-re való kattintással."
 
-#: src/game.c:1261
+#: src/game.c:1535
 msgid "Do it now, and then play!"
 msgstr "Lépj ki, és kezdd a játékot!"
 
-#: src/game.c:2996
+#: src/game.c:3260
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:3011
+#: src/game.c:3275
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:3088
+#: src/game.c:3352
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:3096
+#: src/game.c:3360
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -476,6 +481,66 @@ msgstr ""
 msgid ""
 "TuxMath detected %d running servers.\n"
 "Click to continue..."
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d + %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "%d ÷ ? = %d"
 msgstr ""
 
 #: src/menu.c:202
