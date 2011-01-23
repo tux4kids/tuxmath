@@ -975,23 +975,15 @@ int update_score_recvd(char* buf)
 int player_left_recvd(char* buf)
 {
     char _tmpbuf[512];
-    int i;
+    int i, fontsize;
     if(!buf)
       return 0;
     i = atoi(buf + strlen("PLAYER_LEFT\t"));
-    snprintf(_tmpbuf, sizeof(_tmpbuf), "%s has left the game.", lan_player_info[i].name);
+    snprintf(_tmpbuf, sizeof(_tmpbuf), _("%s has left the game."), lan_player_info[i].name);
     lan_player_info[i].name[0] = '\0';
     lan_player_info[i].score = -1;
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
     SDL_FreeSurface(player_left_surf);
     player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
     player_left_time = SDL_GetTicks();
@@ -2928,23 +2920,12 @@ void game_draw_misc(void)
   /* Draw other players' scores (turn-based single machine multiplayer) */
   if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )
   {
-    int i;
+    int i, fontsize;
     SDL_Surface* score = NULL;
     SDL_Rect loc;
 
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
 
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
@@ -2967,23 +2948,12 @@ void game_draw_misc(void)
   if (Opts_LanMode())
   {
     int entries = 0;
+    int fontsize;
     SDL_Surface* score = NULL;
     SDL_Rect loc;
 
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
-
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
 
     for (i = 0; i < MAX_CLIENTS; i++)
     {
@@ -3262,22 +3232,9 @@ void game_handle_game_over(int game_status)
       SDL_Rect loc;
 
       //Adjust font size for resolution:
-      int win_x, win_y, full_x, full_y;
-      int fontsize = DEFAULT_MENU_FONT_SIZE;
-      float scale;
-      T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-      if(Opts_GetGlobalOpt(FULLSCREEN))
-        scale = (float)full_y/(float)win_y;
-      else
-        scale = 1;
-      fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-      DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
-
+      int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
       /* Sort scores: */
       qsort((void*)lan_player_info, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
-
 
       /* Begin display loop: */
       do
@@ -3779,102 +3736,9 @@ int add_comet(void)
 /* This draws the numbers related to the comets */
 void draw_nums(const char* str, int x, int y)
 {
-#if 0
-  int i, j, cur_x, c;
-  int str_length, char_width, image_length;
-
-  SDL_Rect src, dest;
-
-  /* avoid some recalculation and repeated function calls: */
-  str_length = strlen(str);
-  /* IMG_NUMS now consists of 10 digit graphics, NUM_OPERS (i.e. 4) */
-  /* operation symbols, and the '=' and '?' symbols, all side by side. */
-  /* char_width is the width of a single symbol.                     */
-  char_width = (images[IMG_NUMS]->w / (16));
-  /* Calculate image_length, taking into account that the string will */
-  /* usually have four empty spaces that are only half as wide:       */
-  image_length = str_length * char_width - (char_width * 0.5 * 4);
-  /* Center around the shape */
-  cur_x = x - (image_length) / 2;
-
-  /* the following code keeps the formula at least 8 pixels inside the window: */
-  if (cur_x < 8)
-    cur_x = 8;
-  if (cur_x + (image_length) >= (screen->w - 8))
-    cur_x = ((screen->w - 8) - (image_length));
-
-  /* Draw each character: */
-  for (i = 0; i < str_length; i++)
-  {
-    c = -1;
-
-    /* Determine which character to display: */
-
-    if (str[i] >= '0' && str[i] <= '9')
-    {
-      c = str[i] - '0';
-    }
-    else if ('=' == str[i])
-    {
-      c = 14;  /* determined by layout of nums.png image */
-    }
-    else if ('?' == str[i])
-    {
-      c = 15;  /* determined by layout of nums.png image */
-    }
-    else  /* [ THIS COULD CAUSE SLOWNESS... ] */
-    {
-      for (j = 0; j < 4; j++)
-      {
-        if (str[i] == operchars[j])
-        {
-          c = 10 + j;
-        }
-      }
-    }
-
-    /* Display this character! */
-    if (c != -1)
-    {
-      src.x = c * char_width;
-      src.y = 0;
-      src.w = char_width;
-      src.h = images[IMG_NUMS]->h;
-
-      dest.x = cur_x;
-      dest.y = y - images[IMG_NUMS]->h;
-      dest.w = src.w;
-      dest.h = src.h;
-
-      SDL_BlitSurface(images[IMG_NUMS], &src,
-                          screen, &dest);
-      /* Move the 'cursor' one character width: */
-      cur_x = cur_x + char_width;
-    }
-    /* If char is a blank, no drawing to do but still move the cursor: */
-    /* NOTE: making spaces only half as wide seems to look better.     */
-    if (' ' == str[i])
-    {
-      cur_x = cur_x + (char_width * 0.5);
-    }
-  }
-#endif
-  SDL_Surface *surf = NULL;
-  /* Adjust font size for resolution - note that it doesn't have to be as 
-   * proportionately large on larger screens, hence the pow() step:
-   */
-  //int win_x, win_y, full_x, full_y;
-  //int fontsize = DEFAULT_MENU_FONT_SIZE;
-  //float scale;
-  //T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-  //if(Opts_GetGlobalOpt(FULLSCREEN))
-  //  scale = pow(((float)full_y/(float)win_y), SCALE_EXPONENT);
-  //else
-  //  scale = 1;
-
   int fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
-  //fontsize = (int)(32 * scale);
-  surf = T4K_BlackOutline(str, fontsize, &white);
+  SDL_Surface* surf = T4K_BlackOutline(str, fontsize, &white);
+
   if(surf)
   {
     int w = T4K_GetScreen()->w;
@@ -3909,6 +3773,7 @@ float get_scale(void)
   else
     return  1;
 }
+
 
 /* Draw status numbers: */
 void draw_numbers(const char* str, int x, int y)

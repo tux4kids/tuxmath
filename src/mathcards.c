@@ -23,18 +23,20 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
+#include "globals.h"
+#include "transtruct.h"
+#include "mathcards.h"
+#include "convert_utf.h"
 
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 #include <math.h>
 #include <time.h>
 
 
-#include "transtruct.h"
-#include "mathcards.h"
-#include "globals.h"
 
 /* extern'd constants */
 
@@ -193,7 +195,7 @@ const int MC_DEFAULTS[] = {
 #define PI_VAL 3.1415927
 #define NPRIMES 9
 const int smallprimes[NPRIMES] = {2, 3, 5 ,7, 11, 13, 17, 19, 23};
-const char operchars[4] = "+-*/";
+const char operchars[4] = "+-x/";
 
 MC_Options* math_opts = NULL;
 MC_MathQuestion* question_list = NULL;
@@ -266,6 +268,9 @@ static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
 //difficulty and how fast it was answered.
 //TODO we may want to play with this a bit
 static int calc_score(int difficulty, float t);
+
+//Create formula_string in i18n-friendly fashion:
+static int create_formula_str(char* form_str, int n1, int n2, int op, int format);
 
 
 
@@ -2392,8 +2397,9 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt,
             }
 
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", ans);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "%d %c %d = ?", i, operchars[k], j);
+            //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+            //         "%d %c %d = ?", i, operchars[k], j);
+	    create_formula_str(tnode->card.formula_string, i, j, k, MC_FORMAT_ANS_LAST);
             tnode->card.difficulty = k + 1;
             tnode->card.answer = ans;
             list = insert_node(list, *end_of_list, tnode);
@@ -2428,8 +2434,9 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt,
             }
 
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "? %c %d = %d", operchars[k], j, ans);
+	    create_formula_str(tnode->card.formula_string, j, ans, k, MC_FORMAT_ANS_FIRST);
+            //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+            //         "? %c %d = %d", operchars[k], j, ans);
             tnode->card.answer = ans;
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
@@ -2463,8 +2470,9 @@ MC_MathQuestion* add_all_valid(MC_ProblemType pt,
             }
 
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", j);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "%d %c ? = %d", i, operchars[k], ans);
+	    create_formula_str(tnode->card.formula_string, i, ans, k, MC_FORMAT_ANS_MIDDLE);
+            //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+            //         "%d %c ? = %d", i, operchars[k], ans);
             tnode->card.answer = ans;
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
@@ -2564,3 +2572,27 @@ static int calc_score(int difficulty, float t)
     return 0;
   return (difficulty * SCORE_COEFFICIENT)/t;
 }
+
+static int create_formula_str(char* formula_str, int n1, int n2, int op, int format)
+{
+  const char format_strings[MC_NUM_OPERS][MC_NUM_FORMATS][32] = {
+	  {N_("%d + %d = ?"), N_("? + %d = %d"), N_("%d + ? = %d")},
+	  {N_("%d - %d = ?"), N_("? - %d = %d"), N_("%d - ? = %d")},
+	  {N_("%d x %d = ?"), N_("? x %d = %d"), N_("%d x ? = %d")},
+          {N_("%d ÷ %d = ?"), N_("? ÷ %d = %d"), N_("%d ÷ ? = %d")}
+  };
+	  
+  if(!formula_str)
+    return 0;
+
+  snprintf(formula_str, MC_FORMULA_LEN,
+           _(format_strings[op][format]),
+	   n1, n2);
+
+  DEBUGMSG(debug_mathcards, "n1 = %d\tn2 = %d\top = %d\tformat = "
+		            "%dformat_strings[op][format] = %s\tformula: %s\n",
+           n1, n2, op, format, format_strings[op][format], formula_str);
+
+  return 1;
+}
+
