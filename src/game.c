@@ -200,7 +200,7 @@ static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
 /*****************************************************************/
-MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
+//MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
 int remaining_quests = 0;
 static int comet_counter = 0;
 static int lan_players = 0;
@@ -280,7 +280,7 @@ void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 #ifdef HAVE_LIBSDL_NET
 void game_handle_net_messages(void);
 void game_handle_net_msg(char* buf);
-int lan_add_comet(void);
+int lan_add_comet(MC_FlashCard* fc);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
 int socket_index_recvd(char* buf);
@@ -289,7 +289,7 @@ int update_score_recvd(char* buf);
 int player_left_recvd(char* buf);
 int game_halted_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
-MC_FlashCard* search_queue_by_id(int id);
+//MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
 int compare_scores(const void* p1, const void* p2);
 #endif
@@ -491,8 +491,8 @@ int game_initialize(void)
     /* Reset question queue and player name/score lists: */
     int i;
 
-    for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
-      MC_ResetFlashCard(&(quest_queue[i]));
+    //for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
+      //MC_ResetFlashCard(&(quest_queue[i]));
 
     for(i = 0; i < MAX_CLIENTS; i++)
     {
@@ -2326,8 +2326,8 @@ void game_draw_misc(void)
       scale = 1;
     fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
 
-    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+    //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+    //         DEFAULT_MENU_FONT_SIZE, scale, fontsize);
 
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
@@ -2364,8 +2364,8 @@ void game_draw_misc(void)
       scale = 1;
     fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
 
-    DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+    //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+    //         DEFAULT_MENU_FONT_SIZE, scale, fontsize);
 
 
     for (i = 0; i < MAX_CLIENTS; i++)
@@ -2655,8 +2655,8 @@ void game_handle_game_over(int game_status)
         scale = 1;
       fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
 
-      DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-             DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+      //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
+      //       DEFAULT_MENU_FONT_SIZE, scale, fontsize);
 
       /* Sort scores: */
       qsort((void*)lan_player_info, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
@@ -3009,7 +3009,6 @@ int add_comet(void)
   float y_spacing;
 
   int com_found = -1;
-  int q_found = -1;  
 
   y_spacing = (images[IMG_NUMS]->h) * 1.5;
 
@@ -3044,48 +3043,10 @@ int add_comet(void)
     return 0;
   }
 
-
-  /* If playing in LAN mode, see if we have a question ready  in  */
-  /* our local queue:                                             */
-   
-  if(Opts_LanMode())
+  if (!MC_NextQuestion(&(comets[com_found].flashcard)))
   {
-    DEBUGCODE(debug_game) print_current_quests();
-    for (i = 0; i < QUEST_QUEUE_SIZE; i++)
-    {
-      if(quest_queue[i].question_id != -1)
-      {
-        DEBUGMSG(debug_game, "Found question_id %d, %s\n", 
-                  quest_queue[i].question_id,
-                  quest_queue[i].formula_string);
-        q_found = i;
-        break;
-      }
-    }
-
-    if(q_found == -1)
-    {
-      DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
-      DEBUGCODE(debug_game) print_current_quests();
-      return 0;
-    } 
-  }
-
-  /* Now we have a vacant comet slot at com_found and (if in LAN mode) */
-  /* a question for it at q_found.  Now just copy:                     */
-
-  if(Opts_LanMode())
-  {
-    MC_CopyCard(&(quest_queue[q_found]), &(comets[com_found].flashcard));
-    MC_ResetFlashCard(&(quest_queue[q_found]));
-  }
-  else // Not LAN mode - just get question with direct call:
-  {
-    if (!MC_NextQuestion(&(comets[com_found].flashcard)))
-    {
-      /* no more questions available - cannot create comet.  */
-      return 0;
-    }
+    /* no more questions available - cannot create comet.  */
+    return 0;
   }
 
   DEBUGCODE(debug_game)
@@ -3142,6 +3103,7 @@ int add_comet(void)
   
   /* Record the time at which this comet was created */
   comets[com_found].time_started = SDL_GetTicks();
+
   int t=-1;   
   if(!powerup_comet_running)
   {
@@ -4430,36 +4392,26 @@ void game_handle_net_msg(char* buf)
 
 int add_quest_recvd(char* buf)
 {
-  /* Empty slots indicated by question_id == -1 */
-  MC_FlashCard* fc = search_queue_by_id(-1);
+  MC_FlashCard  fc;
 
   DEBUGMSG(debug_game, "Enter add_quest_recvd(), buf is: %s\n", buf);
 
-  // if fc = NULL means no empty slot for question
   if(!buf)
   {
     fprintf(stderr, "NULL buf\n");
     return 0;
   }
 
-  if(!fc)
-  {
-    fprintf(stderr, "NULL fc - no empty slot for question\n");
-    return 0;
-  }
-
   /* function call to parse buffer and receive question */
-  if(!Make_Flashcard(buf, fc))
+  if(!Make_Flashcard(buf, &fc))
   {
     fprintf(stderr, "Unable to parse buffer into FlashCard\n");
     return 0;
   }
 
-  DEBUGCODE(debug_game) print_current_quests();
-
   /* If we have an open comet slot, put question in: */
   
-  if(lan_add_comet())
+  if(lan_add_comet(&fc))
     if(num_attackers > 0)
       num_attackers--;
 
@@ -4470,26 +4422,11 @@ int add_quest_recvd(char* buf)
 /* Add a comet to a lan game: Note that in the lan game, the comets are added
  * immediately when a new question comes in.  It is up to the server to time
  * them appropriately - DSB.  */
-int lan_add_comet(void)
+int lan_add_comet(MC_FlashCard* fc)
 { 
-  static int prev_city = -1; int i; float y_spacing;
+  static int prev_city = -1; int i;
   int com_found = -1;
-  int q_found = -1;  
 
-  y_spacing = (images[IMG_NUMS]->h) * 1.5;
-
-  /* Return if any previous comet too high up to create another one yet: */
-  for (i = 0; i < Opts_MaxComets(); i++)
-  {
-    if (comets[i].alive)
-      if (comets[i].y < y_spacing)
-      {
-        DEBUGMSG(debug_game,
-                 "add_comet() - returning because comet[%d] not"
-                 " far enough down: %f\n", i, comets[i].y);
-        return 0;
-      }
-  }  
     
   /* Now look for a free comet slot: */
   for (i = 0; i < Opts_MaxComets(); i++)
@@ -4504,58 +4441,21 @@ int lan_add_comet(void)
   if (-1 == com_found)
   {
     /* free comet slot not found - no comet added: */
-    DEBUGMSG(debug_game, "add_comet() called but no free comet slot\n");
+    DEBUGMSG(debug_game, "lan_add_comet() called but no free comet slot\n");
     DEBUGCODE(debug_game) print_current_quests();
     return 0;
   }
 
 
-  /* If playing in LAN mode, see if we have a question ready  in  */
-  /* our local queue:                                             */
-   
-  if(Opts_LanMode())
-  {
-    DEBUGCODE(debug_game) print_current_quests();
-    for (i = 0; i < QUEST_QUEUE_SIZE; i++)
-    {
-      if(quest_queue[i].question_id != -1)
-      {
-        DEBUGMSG(debug_game, "Found question_id %d, %s\n", 
-                  quest_queue[i].question_id,
-                  quest_queue[i].formula_string);
-        q_found = i;
-        break;
-      }
-    }
-
-    if(q_found == -1)
-    {
-      DEBUGMSG(debug_game, "add_comet() called but no question available in queue\n");
-      DEBUGCODE(debug_game) print_current_quests();
-      return 0;
-    } 
-  }
 
   /* Now we have a vacant comet slot at com_found and (if in LAN mode) */
   /* a question for it at q_found.  Now just copy:                     */
 
-  if(Opts_LanMode())
-  {
-    MC_CopyCard(&(quest_queue[q_found]), &(comets[com_found].flashcard));
-    MC_ResetFlashCard(&(quest_queue[q_found]));
-  }
-  else // Not LAN mode - just get question with direct call:
-  {
-    if (!MC_NextQuestion(&(comets[com_found].flashcard)))
-    {
-      /* no more questions available - cannot create comet.  */
-      return 0;
-    }
-  }
+  MC_CopyCard(fc, &(comets[com_found].flashcard));
 
   DEBUGCODE(debug_game)
   {
-    printf("In add_comet(), card is\n");
+    printf("In lan_add_comet(), card is\n");
     print_card(comets[com_found].flashcard);
   }
   
@@ -4603,28 +4503,31 @@ int lan_add_comet(void)
     DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-  DEBUGMSG(debug_game, "add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
+  DEBUGMSG(debug_game, "lan_add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
   
   /* Record the time at which this comet was created */
   comets[com_found].time_started = SDL_GetTicks();
-  int t=-1;   
-  if(!powerup_comet_running)
-  {
-    t = rand()%10;
-    if( t < 1 )
-    {
-      powerup_add_comet();
-    } 
-  }
+  /* No powerup comets in lan game for now: */
+  //int t=-1;   
+  //if(!powerup_comet_running)
+  //{
+  //  t = rand()%10;
+  //  if( t < 1 )
+  //  {
+  //    powerup_add_comet();
+  //  } 
+  //}
    
   /* comet slot found and question found so return successfully: */
   return 1;
 }
+
+
 int remove_quest_recvd(char* buf)
 {
   int id = 0;
   char* p = NULL;
-  MC_FlashCard* fc = NULL;
+//  MC_FlashCard* fc = NULL;
   comet_type* comet_screen;
 
   if(!buf)
@@ -4643,8 +4546,8 @@ int remove_quest_recvd(char* buf)
     return 0;
 
   comet_screen = search_comets_by_id(id);
-  fc = search_queue_by_id(id);
-  if(!comet_screen && !fc)
+  //fc = search_queue_by_id(id);
+  if(!comet_screen)// && !fc)
     return 0;
 
   if(comet_screen)
@@ -4655,13 +4558,13 @@ int remove_quest_recvd(char* buf)
 
   //NOTE: normally the question should no longer be in the queue,
   //so the next statement should not get executed:
-  if(fc)
-  {
-    DEBUGMSG(debug_game,
-             "Note - request to erase question still in queue: %s\n",
-             fc->formula_string);
-    MC_ResetFlashCard(fc);
-  }
+  //if(fc)
+  //{
+  //  DEBUGMSG(debug_game,
+  //           "Note - request to erase question still in queue: %s\n",
+  //           fc->formula_string);
+  //  MC_ResetFlashCard(fc);
+  //}
 
   return 1;
 }
@@ -4820,17 +4723,17 @@ int game_halted_recvd(char* buf)
 /* Return a pointer to an empty comet slot, */
 /* returning NULL if no vacancy found:      */
 
-MC_FlashCard* search_queue_by_id(int id)
-{
-  int i = 0;
-  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
-  {
-    if(quest_queue[i].question_id == id)
-      return &quest_queue[i];
-  }
-  //if we don't find a match:
-  return NULL;
-}
+//MC_FlashCard* search_queue_by_id(int id)
+//{
+//  int i = 0;
+//  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
+//  {
+//    if(quest_queue[i].question_id == id)
+//      return &quest_queue[i];
+//  }
+//  //if we don't find a match:
+//  return NULL;
+//}
 
 
 comet_type* search_comets_by_id(int id)
@@ -4885,13 +4788,13 @@ void print_current_quests(void)
      fprintf(stderr, "Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
 
   }
-  fprintf(stderr, "--------------Question Queue-----------------\n");
-  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
-  {
-    if(quest_queue[i].question_id != -1)
-      fprintf(stderr, "quest_queue %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
-    else
-      fprintf(stderr, "quest_queue %d:\tEmpty\n", i);
-  }
+  //fprintf(stderr, "--------------Question Queue-----------------\n");
+  //for(i = 0; i < QUEST_QUEUE_SIZE; i++)
+  //{
+  //  if(quest_queue[i].question_id != -1)
+  //    fprintf(stderr, "quest_queue %d - question %d:\t%s\n", i, quest_queue[i].question_id, quest_queue[i].formula_string);
+  //  else
+  //    fprintf(stderr, "quest_queue %d:\tEmpty\n", i);
+  //}
   fprintf(stderr, "------------------------------------------\n");
 }

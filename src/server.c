@@ -57,8 +57,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <pthread.h>
 #endif
 
-
 #define MAX_ARGS 16
+#define SRV_QUEST_INTERVAL 500
+
+typedef struct srv_game_type {
+  char lesson_name[NAME_SIZE];
+  int wave;
+  int active_quests;        //Number of questions currently "in play"
+  int max_quests_on_screen;
+  int quests_in_wave;
+  int rem_in_wave;          //Number still to be issued in wave
+}srv_game_type;
+
+
 
 
 /*  -----------  Local function prototypes:   ------------  */
@@ -73,6 +84,7 @@ void* run_server_local_args(void* data);
 void check_UDP(void);
 void update_clients(void);
 int server_check_messages(void);
+void server_update_game(void);
 void server_check_stdin(void);
 // client management utilities:
 int find_vacant_client(void);
@@ -128,6 +140,7 @@ static int server_running = 0;
 static int quit = 0;
 static int ignore_stdin = 0;
 MC_FlashCard flash;
+srv_game_type srv_game;
 
 // These are to allow the server to be invoked in a thread
 // with the same syntax as used to launch it as a standalone
@@ -146,10 +159,6 @@ char local_argv_storage[MAX_ARGS][256];
 /* within another program.  main() is now in a separate file,          */
 /* servermain.c, that consists solely of a call to RunServer().        */
 
-/* FIXME this isn't thread-safe - we need to return gracefully if we     */
-/* find that the server is already running, instead of calling cleanup() */
-/* and crashing the program. Some of the setup and cleanup will have to  */
-/* be called from main() rather than from here.                          */
 int RunServer(int argc, char* argv[])
 { 
   Uint32 timer = 0;
@@ -184,6 +193,8 @@ int RunServer(int argc, char* argv[])
     update_clients();
     /* Check for any pending messages from clients already connected: */
     server_check_messages();
+    /* Handle any game updates not driven by received messages:  */
+    server_update_game();
     /* Check for command line input, if appropriate: */
     server_check_stdin();
     /* Limit frame rate to keep from eating all CPU: */
@@ -339,6 +350,12 @@ void StopSrvrGame(void)
 
 /*  ----- Setup and Cleanup:  ------------------- */
 
+/* NOTE: these functions no longer include initialization or quitting of 
+ * SDL or SDL_net.  These things needed to be handled within tuxmath
+ * itself (for the pthread-based server) or within servermain.c, for the
+ * standalone program.  We want to be able to shut down the pthread-based
+ * server without crashing the rest of tuxmath - DSB
+ */
 
 // setup_server() - all the things needed to get server running:
 int setup_server(void)
@@ -565,7 +582,7 @@ void check_UDP(void)
 
     sent = SDLNet_UDP_Send(udpsock, -1, out);
 
-    SDLNet_FreePacket(out); 
+    SDLNet_FreePacket(out);
   }
 }
 
@@ -1015,7 +1032,8 @@ void game_msg_correct_answer(int i, char* inbuf)
   //If we get to here, the id was successfully parsed out of inbuf
   //and the corresponding question was found.
   client[i].score += points;
-
+  srv_game.active_quests--;
+  
   //Announcement for server and all clients:
   snprintf(outbuf, NET_BUF_LEN, 
           "question id %d was answered in %f seconds for %d points by %s",
@@ -1026,8 +1044,6 @@ void game_msg_correct_answer(int i, char* inbuf)
 
   //Tell all players to remove that question:
   remove_question(id);
-  //send the next question to everyone:
-  game_msg_next_question();
   //and update the game counters:
   send_counter_updates();
   //and the scores:
@@ -1057,6 +1073,9 @@ void game_msg_wrong_answer(int i, char* inbuf)
   //If we get to here, the id was successfully parsed out of inbuf
   //and the corresponding question was found.
 
+  //One less comet in play:
+  srv_game.active_quests--;
+  
   //Announcement for server and all clients:
   snprintf(outbuf, NET_BUF_LEN, 
           "question id %d was missed by %s\n",
@@ -1064,8 +1083,6 @@ void game_msg_wrong_answer(int i, char* inbuf)
   broadcast_msg(outbuf);
   //Tell all players to remove that question:
   remove_question(id);
-  //send the next question to everyone:
-  game_msg_next_question();
   //and update the game counters:
   send_counter_updates();
 }
@@ -1175,32 +1192,79 @@ void start_game(void)
     return;
   }
 
+  /* Initialize game data that isn't handled by mathcards: */
+  srv_game.wave = 1;
+  srv_game.active_quests = 0;
+  srv_game.max_quests_on_screen = Opts_StartingComets();
+  srv_game.quests_in_wave = srv_game.rem_in_wave = Opts_StartingComets() * 2;
+  
   game_in_progress = 1;
 
   // Zero out scores:
   for(j = 0; j < MAX_CLIENTS; j++)
     client[j].score = 0;
 
+  // Initialize game data:
+
+  /* FIXME the queue is going away - need to time these so they don't
+   * all go out simultaneously.
+   */
   /* Send enough questions to fill the initial comet slots (currently 10) */
-  for(j = 0; j < QUEST_QUEUE_SIZE; j++)
-  {
-    if (!MC_NextQuestion(&flash))
-    { 
-      /* no more questions available */
-      printf("MC_NextQuestion() returned NULL - no questions available\n");
-      return;
-    }
+  //for(j = 0; j < QUEST_QUEUE_SIZE; j++)
+  //{
+  //  if (!MC_NextQuestion(&flash))
+  //  { 
+  //    /* no more questions available */
+  //    printf("MC_NextQuestion() returned NULL - no questions available\n");
+  //    return;
+  //  }
 
-    DEBUGMSG(debug_lan, "In start_game(), about to send:\n");
-    DEBUGCODE(debug_lan) print_card(flash); 
+  //  DEBUGMSG(debug_lan, "In start_game(), about to send:\n");
+  //  DEBUGCODE(debug_lan) print_card(flash); 
 
-    //Send to all clients with add_question();
-    add_question(&flash);
-  }
+  //  //Send to all clients with add_question();
+  //  add_question(&flash);
+  //}
+
   //Send all the clients the counter totals:
   send_counter_updates();
   send_score_updates();
 }
+
+/* Update anything that isn't a response to a client message, such
+ * as timer-based events:
+ */
+void server_update_game(void)
+{
+  static Uint32 last_time, now_time;
+  now_time = SDL_GetTicks();
+  
+  /* Send another question if there is room and enough time has elapsed: */
+  if(now_time - last_time > SRV_QUEST_INTERVAL)
+  {	  
+    if((srv_game.active_quests < srv_game.max_quests_on_screen)
+    && (srv_game.rem_in_wave > 0))
+    {
+      game_msg_next_question();
+      srv_game.active_quests++;
+      srv_game.rem_in_wave--;
+      last_time = now_time;
+    }
+  }
+
+  /* Go on to next wave when appropriate: */
+  if(  srv_game.rem_in_wave == 0
+    && srv_game.active_quests == 0)
+  {
+    srv_game.wave++;
+    srv_game.max_quests_on_screen += Opts_ExtraCometsPerWave(); 
+    if(srv_game.max_quests_on_screen > Opts_MaxComets()) 
+       srv_game.max_quests_on_screen = Opts_MaxComets(); 
+    srv_game.rem_in_wave = srv_game.max_quests_on_screen * 2;
+    send_counter_updates(); 
+  }
+}
+
 
 /* Shut down game in progress: */
 void end_game(void)
@@ -1241,6 +1305,13 @@ int send_counter_updates(void)
   {
     char buf[NET_BUF_LEN];
     snprintf(buf, NET_BUF_LEN, "%s\t%d", "TOTAL_QUESTIONS", total_questions);
+    transmit_all(buf);
+  }
+
+  //Tell everyone what wave we are on:
+  {
+    char buf[NET_BUF_LEN];
+    snprintf(buf, NET_BUF_LEN, "%s\t%d", "WAVE", srv_game.wave);
     transmit_all(buf);
   }
   return 1;
