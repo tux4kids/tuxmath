@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nn\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-17 06:21-0600\n"
+"POT-Creation-Date: 2011-01-23 16:50-0600\n"
 "PO-Revision-Date: 2009-04-16 18:58+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -341,125 +341,130 @@ msgstr ""
 "eller «Mellomrom» for å dela han. Øydelegg brøkar som ikkje kan forenklast "
 "med eit enkeltskot."
 
-#: src/game.c:1111
+#: src/game.c:982
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/game.c:1385
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
 
-#: src/game.c:1128
+#: src/game.c:1402
 msgid "Your mission is to save your"
 msgstr "Oppdraget ditt er å redda"
 
-#: src/game.c:1129
+#: src/game.c:1403
 msgid "penguins' igloos from the"
 msgstr "igloane til pingvinane frå"
 
-#: src/game.c:1130
+#: src/game.c:1404
 msgid "falling comets."
 msgstr "kometar frå verdsrommet."
 
-#: src/game.c:1149
+#: src/game.c:1423
 msgid "Stop a comet by typing"
 msgstr "Du kan stoppa ein komet ved"
 
-#: src/game.c:1150
+#: src/game.c:1424
 msgid "the answer to the math problem"
 msgstr "å skriva inn svaret, og så"
 
-#: src/game.c:1151
+#: src/game.c:1425
 msgid "and hitting 'space' or 'enter'."
 msgstr "«Mellomrom» eller «Enter»."
 
-#: src/game.c:1152
+#: src/game.c:1426
 msgid "Try it now!"
 msgstr "Prøv det no!"
 
-#: src/game.c:1160
+#: src/game.c:1434
 msgid "Good shot!"
 msgstr "Bra skot!"
 
-#: src/game.c:1170
+#: src/game.c:1444
 msgid "If an igloo gets hit by a comet,"
 msgstr "Viss ein iglo vert treft av ein"
 
-#: src/game.c:1171
+#: src/game.c:1445
 msgid "it melts. But don't worry: the"
 msgstr "komet, smeltar han. Men ta det"
 
-#: src/game.c:1172
+#: src/game.c:1446
 msgid "penguin is OK!"
 msgstr "med ro: pingvinen klarer seg!"
 
-#: src/game.c:1173
+#: src/game.c:1447
 msgid "Just watch what happens:"
 msgstr "Berre sjå kva som skjer."
 
-#: src/game.c:1174
+#: src/game.c:1448
 msgid "(Press a key to start)"
 msgstr "(Trykk ein tast for å sjå.)"
 
-#: src/game.c:1187
+#: src/game.c:1461
 msgid "Notice the answer"
 msgstr "Legg merke til rett svar."
 
-#: src/game.c:1197
+#: src/game.c:1471
 msgid "If it gets hit again, the"
 msgstr "Viss igloen vert treft på nytt,"
 
-#: src/game.c:1198
+#: src/game.c:1472
 msgid "penguin leaves."
 msgstr "vandrar pingvinen vekk."
 
-#: src/game.c:1199
+#: src/game.c:1473
 msgid "(Press a key when ready)"
 msgstr "(Trykk ein tast når du er klar.)"
 
-#: src/game.c:1222
+#: src/game.c:1496
 msgid "You can fix the igloos"
 msgstr "Du kan byggja opp att igloane"
 
-#: src/game.c:1223
+#: src/game.c:1497
 msgid "by stopping bonus comets."
 msgstr "ved å stoppa bonuskometar."
 
-#: src/game.c:1234
+#: src/game.c:1508
 msgid "Zap it now!"
 msgstr "Skyt kometen no!"
 
-#: src/game.c:1240
+#: src/game.c:1514
 msgid "Great job!"
 msgstr "Kjempebra!"
 
-#: src/game.c:1258
+#: src/game.c:1532
 msgid "Quit at any time by pressing"
 msgstr "Du kan når som helst gje deg,"
 
-#: src/game.c:1259
+#: src/game.c:1533
 msgid "'Esc' or clicking the 'X'"
 msgstr "ved å trykkja «Escape» eller"
 
-#: src/game.c:1260
+#: src/game.c:1534
 msgid "in the upper right corner."
 msgstr "klikka på X-en oppe til høgre."
 
-#: src/game.c:1261
+#: src/game.c:1535
 msgid "Do it now, and then play!"
 msgstr "Prøv det no, og start spelet!"
 
-#: src/game.c:2996
+#: src/game.c:3260
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:3011
+#: src/game.c:3275
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:3088
+#: src/game.c:3352
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:3096
+#: src/game.c:3360
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -510,6 +515,66 @@ msgstr "Skriv inn namnet ditt:"
 msgid ""
 "TuxMath detected %d running servers.\n"
 "Click to continue..."
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d + %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2593
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2594
+#, c-format
+msgid "%d ÷ ? = %d"
 msgstr ""
 
 #: src/menu.c:202
