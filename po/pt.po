@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-23 16:50-0600\n"
+"POT-Creation-Date: 2011-01-26 13:00-0600\n"
 "PO-Revision-Date: 2009-10-14 16:04+0100\n"
 "Last-Translator: Pedro Amorim <pedro_amorim@live.com.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -356,130 +356,125 @@ msgstr ""
 "para o dividir.  Destrói fracções que não podem ser mais simplificadas com "
 "um único tiro!"
 
-#: src/game.c:982
-#, c-format
-msgid "%s has left the game."
-msgstr ""
-
-#: src/game.c:1385
+#: src/game.c:756
 msgid "Welcome to TuxMath!"
 msgstr "Bem-vindo ao TuxMath!"
 
-#: src/game.c:1402
+#: src/game.c:773
 msgid "Your mission is to save your"
 msgstr "A tua missão é salvar os"
 
-#: src/game.c:1403
+#: src/game.c:774
 msgid "penguins' igloos from the"
 msgstr "iglos dos pinguins da"
 
-#: src/game.c:1404
+#: src/game.c:775
 msgid "falling comets."
 msgstr "queda dos cometas."
 
-#: src/game.c:1423
+#: src/game.c:794
 msgid "Stop a comet by typing"
 msgstr "Pára um cometa"
 
-#: src/game.c:1424
+#: src/game.c:795
 msgid "the answer to the math problem"
 msgstr "respondendo ao problema matemático"
 
-#: src/game.c:1425
+#: src/game.c:796
 msgid "and hitting 'space' or 'enter'."
 msgstr "e carrega na tecla 'espaço' ou 'enter'."
 
-#: src/game.c:1426
+#: src/game.c:797
 msgid "Try it now!"
 msgstr "Tenta agora!"
 
-#: src/game.c:1434
+#: src/game.c:805
 msgid "Good shot!"
 msgstr "Bom tiro!"
 
-#: src/game.c:1444
+#: src/game.c:815
 msgid "If an igloo gets hit by a comet,"
 msgstr "Se um iglo for atingido por um cometa,"
 
-#: src/game.c:1445
+#: src/game.c:816
 msgid "it melts. But don't worry: the"
 msgstr "ele derrete-se. Mas não te preocupes: o"
 
-#: src/game.c:1446
+#: src/game.c:817
 msgid "penguin is OK!"
 msgstr "pinguim está bem!"
 
-#: src/game.c:1447
+#: src/game.c:818
 msgid "Just watch what happens:"
 msgstr "Basta veres o que acontece"
 
-#: src/game.c:1448
+#: src/game.c:819
 msgid "(Press a key to start)"
 msgstr "(Carrega numa tecla para começar)"
 
-#: src/game.c:1461
+#: src/game.c:832
 msgid "Notice the answer"
 msgstr "Observa a resposta"
 
-#: src/game.c:1471
+#: src/game.c:842
 msgid "If it gets hit again, the"
 msgstr "Se for atingindo outra vez, o"
 
-#: src/game.c:1472
+#: src/game.c:843
 msgid "penguin leaves."
 msgstr "pinguim vai embora."
 
-#: src/game.c:1473
+#: src/game.c:844
 msgid "(Press a key when ready)"
 msgstr "(carrega numa tecla quando estiveres preparado)"
 
-#: src/game.c:1496
+#: src/game.c:867
 msgid "You can fix the igloos"
 msgstr "Tu podes reparar os iglos"
 
-#: src/game.c:1497
+#: src/game.c:868
 msgid "by stopping bonus comets."
 msgstr "parando os cometas bónus."
 
-#: src/game.c:1508
+#: src/game.c:879
 msgid "Zap it now!"
 msgstr "Destrói-o agora!"
 
-#: src/game.c:1514
+#: src/game.c:885
 msgid "Great job!"
 msgstr "Bom trabalho!"
 
-#: src/game.c:1532
+#: src/game.c:903
 msgid "Quit at any time by pressing"
 msgstr "Sai a qualquer momento carregando em"
 
-#: src/game.c:1533
+#: src/game.c:904
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' ou 'X'"
 
-#: src/game.c:1534
+#: src/game.c:905
 msgid "in the upper right corner."
 msgstr "que está no canto superior direito."
 
-#: src/game.c:1535
+#: src/game.c:906
 msgid "Do it now, and then play!"
 msgstr "Faz isso agora e, depois joga!"
 
-#: src/game.c:3260
+#: src/game.c:2686
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:3275
+#: src/game.c:2701
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:3352
+#: src/game.c:2778
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:3360
+#: src/game.c:2786
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."

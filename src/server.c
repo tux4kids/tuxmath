@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #define MAX_ARGS 16
-#define SRV_QUEST_INTERVAL 500
+#define SRV_QUEST_INTERVAL 1000
 
 typedef struct srv_game_type {
   char lesson_name[NAME_SIZE];
@@ -1040,7 +1040,13 @@ void game_msg_correct_answer(int i, char* inbuf)
           id, t, points, client[i].name);             
   broadcast_msg(outbuf);
 
-  DEBUGMSG(debug_lan, "game_msg_correct_answer(): %s\n", outbuf);
+  DEBUGMSG(debug_lan, "\ngame_msg_correct_answer(): %s\n", outbuf);
+  printf("After correct answer, wave %d\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.wave, srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
 
   //Tell all players to remove that question:
   remove_question(id);
@@ -1076,6 +1082,13 @@ void game_msg_wrong_answer(int i, char* inbuf)
   //One less comet in play:
   srv_game.active_quests--;
   
+  //DEBUGMSG(debug_lan, "\nAfter wrong answer: wave %d\n"
+   printf("\nAfter wrong answer: wave %d\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.wave, srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
   //Announcement for server and all clients:
   snprintf(outbuf, NET_BUF_LEN, 
           "question id %d was missed by %s\n",
@@ -1106,6 +1119,16 @@ void game_msg_next_question(void)
 
   /* Send it to all the clients: */ 
   add_question(&flash);
+  /* Adjust counters accordingly: */
+  srv_game.active_quests++;
+  srv_game.rem_in_wave--;
+  
+  printf("In game_msg_next_question(), after quest added, wave %d\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.wave, srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
 }
 
 
@@ -1237,6 +1260,11 @@ void start_game(void)
 void server_update_game(void)
 {
   static Uint32 last_time, now_time;
+  
+  /* Do nothing unless game started: */
+  if(!game_in_progress)
+    return;
+  
   now_time = SDL_GetTicks();
   
   /* Send another question if there is room and enough time has elapsed: */
@@ -1245,23 +1273,36 @@ void server_update_game(void)
     if((srv_game.active_quests < srv_game.max_quests_on_screen)
     && (srv_game.rem_in_wave > 0))
     {
+    printf("/nAbout to add next question:\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
       game_msg_next_question();
-      srv_game.active_quests++;
-      srv_game.rem_in_wave--;
       last_time = now_time;
     }
   }
 
   /* Go on to next wave when appropriate: */
-  if(  srv_game.rem_in_wave == 0
-    && srv_game.active_quests == 0)
+  if(  srv_game.rem_in_wave <= 0
+    && srv_game.active_quests <= 0)
   {
     srv_game.wave++;
+    srv_game.active_quests = 0; 
     srv_game.max_quests_on_screen += Opts_ExtraCometsPerWave(); 
     if(srv_game.max_quests_on_screen > Opts_MaxComets()) 
        srv_game.max_quests_on_screen = Opts_MaxComets(); 
     srv_game.rem_in_wave = srv_game.max_quests_on_screen * 2;
     send_counter_updates(); 
+    //DEBUGMSG(debug_lan, "/nAdvance to wave %d\n"
+    printf("/nAdvance to wave %d\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.wave, srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
+
   }
 }
 

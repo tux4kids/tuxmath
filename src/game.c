@@ -286,6 +286,7 @@ int remove_quest_recvd(char* buf);
 int socket_index_recvd(char* buf);
 int connected_players_recvd(char* buf);
 int update_score_recvd(char* buf);
+int wave_recvd(char* buf);
 int player_left_recvd(char* buf);
 int game_halted_recvd(char* buf);
 int erase_comet_on_screen(comet_type* comet_ques);
@@ -1519,10 +1520,6 @@ void game_handle_comets(void)
     }
   }
 
-  /* FIXME for the LAN game, the adding of comets needs to take place in  */
-  /* check_messages() when new questions come in from the server.  For    */
-  /* ease of understanding, we should do it at the same place in the game */
-  /* loop for the non-LAN (i.e. local MC_*() functions) game - DSB        */
   /* add more comets if needed: */
 
   /* Don't add comets if in Help mode: */
@@ -1534,27 +1531,31 @@ void game_handle_comets(void)
     return;
 
 
-  /* num_attackers is how many comets are left in wave */
-  if (num_attackers <= 0)  /* Go on to next wave */
-  {
-    if (!num_comets_alive()
-     && !check_extra_life())
-    {
-      wave++;
-      reset_level();
-    }
-  }
-  else /* Get next question if not playing LAN game.  In LAN game, questions
-	  are added as soon as they are received from server. */
-  {
+
+  /* In LAN mode, the server keeps track of when to add comets
+   * and when to go on to the next level.
+   */
     if(!Opts_LanMode())
+  {
+    /* num_attackers is how many comets are left in wave */
+    if (num_attackers <= 0)  /* Go on to next wave */
+    {
+      if (!num_comets_alive()
+       && !check_extra_life())
+      {
+        wave++;
+        reset_level();
+      }
+    }
+    else /* Get next question:  */
+    {
       if (add_comet())
       {
         num_attackers--;
       }
+    }
   }
 }
-
 
 
 void game_handle_cities(void)
@@ -2297,8 +2298,8 @@ void game_draw_misc(void)
     /* In LAN mode, we show the server-generated score: */
     if(Opts_LanMode())
     { 
-      DEBUGMSG(debug_lan, "my_socket_index = %d lan_player_info[my_socket_index].score = %d\n",
-		    my_socket_index, lan_player_info[my_socket_index].score);
+      //DEBUGMSG(debug_lan, "my_socket_index = %d lan_player_info[my_socket_index].score = %d\n",
+      //		    my_socket_index, lan_player_info[my_socket_index].score);
       sprintf(str, "%.6d", lan_player_info[my_socket_index].score);
     }
     else
@@ -2843,18 +2844,23 @@ void reset_level(void)
 
 
   /* Clear all comets: */
+  /* NOTE - we should not need to reset them to not alive, as the wave is supposed to be over.
+   * In LAN game, we can clobber the first comet in the new wave if the messages come out of order,
+   * so we just warn here instead of resetting "alive" to 0 - DSB
+   * We initialize all the fields at the start of the game independent of this function anyway.
+   */
 
   for (i = 0; i < Opts_MaxComets(); i++)
   {
-    DEBUGCODE(debug_game)
+    //DEBUGCODE(debug_game)
     {
       if(comets[i].alive)
-        printf("Warning - resetting comets but comet[%d] still alive\n", i);
+        printf("Warning - changing wave but comet[%d] still alive (could be OK in LAN mode)\n", i);
     }
-    comets[i].alive = 0;
+    //comets[i].alive = 0;
   }
 
-  /* Clear LED F: */
+  /* Clear LED: */
 
   for (i = 0; i < MC_MAX_DIGITS; ++i)
     digits[i] = 0;
@@ -3933,7 +3939,7 @@ void reset_comets(void)
     comets[i].x = 0;
     comets[i].y = 0;
     comets[i].answer = 0;
-    MC_ResetFlashCard(&(comets[i].flashcard) );
+    MC_ResetFlashCard(&(comets[i].flashcard));
     comets[i].bonus = 0;
   }
 }
@@ -4368,6 +4374,11 @@ void game_handle_net_msg(char* buf)
     update_score_recvd(buf);
   }
 
+  else if(strncmp(buf, "WAVE", strlen("WAVE")) == 0)
+  {
+    wave_recvd(buf);
+  }
+
   else if(strncmp(buf, "MISSION_ACCOMPLISHED", strlen("MISSION_ACCOMPLISHED")) == 0)
   {
     game_over_won = 1;
@@ -4412,8 +4423,13 @@ int add_quest_recvd(char* buf)
   /* If we have an open comet slot, put question in: */
   
   if(lan_add_comet(&fc))
+  {
     if(num_attackers > 0)
       num_attackers--;
+  }
+  else
+    fprintf(stderr, "add_quest_recvd() - was unable to add question from server\n");
+
 
   return 1;
 }
@@ -4424,16 +4440,35 @@ int add_quest_recvd(char* buf)
  * them appropriately - DSB.  */
 int lan_add_comet(MC_FlashCard* fc)
 { 
-  static int prev_city = -1; int i;
+  static int prev_city = -1; 
+  int i;
   int com_found = -1;
 
     
-  /* Now look for a free comet slot: */
+  DEBUGCODE(debug_game)
+  {
+    printf("Entering lan_add_comet(), card is\n");
+    print_card(*fc);
+    printf("Existing questions are:\n");
+    print_current_quests();
+  }
+  
+  /* Make sure question is "sane" before we add it: */
+  if(fc->answer > 999 || fc->answer < -999)
+  {
+    printf("Warning, card with invalid answer encountered: %d\n",
+           fc->answer);
+    return 0;
+  }
+  
+
+  /* Look for a free comet slot: */
   for (i = 0; i < Opts_MaxComets(); i++)
   {
     if (!comets[i].alive)
     {
       com_found = i;
+      DEBUGMSG(debug_game, "lan_add_comet(): free comet slot found = %d\n", i);
       break;
     }
   }
@@ -4448,29 +4483,11 @@ int lan_add_comet(MC_FlashCard* fc)
 
 
 
-  /* Now we have a vacant comet slot at com_found and (if in LAN mode) */
-  /* a question for it at q_found.  Now just copy:                     */
-
-  MC_CopyCard(fc, &(comets[com_found].flashcard));
-
-  DEBUGCODE(debug_game)
-  {
-    printf("In lan_add_comet(), card is\n");
-    print_card(comets[com_found].flashcard);
-  }
-  
-  /* Make sure question is "sane" before we add it: */
-  if( (comets[com_found].flashcard.answer > 999)
-    ||(comets[com_found].flashcard.answer < -999))
-  {
-    printf("Warning, card with invalid answer encountered: %d\n",
-           comets[com_found].flashcard.answer);
-    MC_ResetFlashCard(&(comets[com_found].flashcard));
-    return 0;
-  }
-
+  /* Now we have a vacant comet slot at com_found and  */
+  /* a valid question for it.                          */
   /* If we make it to here, create a new comet!*/
-  comets[com_found].answer = comets[com_found].flashcard.answer;
+  MC_CopyCard(fc, &(comets[com_found].flashcard));
+  comets[com_found].answer = fc->answer;
   comets[com_found].alive = 1;
 //  num_comets_alive++;
 
@@ -4493,20 +4510,23 @@ int lan_add_comet(MC_FlashCard* fc)
   /* Should it be a bonus comet? */
   comets[com_found].bonus = 0;
 
-  DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
+  /* Record the time at which this comet was created */
+  comets[com_found].time_started = SDL_GetTicks();
+  
+  DEBUGMSG(debug_game, "lan_add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
+  
+  /* No bonus comets in lan game for now: */
+  //DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
 
   if (bonus_comet_counter == 1)
   {
     bonus_comet_counter = 0;
-    comets[com_found].bonus = 1;
-    playsound(SND_BONUS_COMET);
-    DEBUGMSG(debug_game, "Created bonus comet");
+//    comets[com_found].bonus = 1;
+//    playsound(SND_BONUS_COMET);
+//    DEBUGMSG(debug_game, "Created bonus comet");
   }
 
-  DEBUGMSG(debug_game, "lan_add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
   
-  /* Record the time at which this comet was created */
-  comets[com_found].time_started = SDL_GetTicks();
   /* No powerup comets in lan game for now: */
   //int t=-1;   
   //if(!powerup_comet_running)
@@ -4518,6 +4538,12 @@ int lan_add_comet(MC_FlashCard* fc)
   //  } 
   //}
    
+  DEBUGCODE(debug_game)
+  {
+    printf("Leaving lan_add_comet(), questions are:\n");
+    print_current_quests();
+  }
+  
   /* comet slot found and question found so return successfully: */
   return 1;
 }
@@ -4684,6 +4710,31 @@ int update_score_recvd(char* buf)
   return 1;
 }
 
+/* Receive notification of the current wave */
+int wave_recvd(char* buf)
+{
+  int updated_wave = 0;
+  char* p = NULL;
+
+  if(buf == NULL)
+    return 0;
+  // get updated_wave:
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+  p++;
+  updated_wave  = atoi(p);
+
+  DEBUGMSG(debug_lan, "wave_score_recvd() - buf is: %s\n", buf);
+  DEBUGMSG(debug_lan, "updated_wave is: %d\n", updated_wave);
+
+  if(updated_wave != wave)
+  {
+    reset_level();
+  }
+  wave = updated_wave;
+  return 1;
+}
 
 
 int player_left_recvd(char* buf)

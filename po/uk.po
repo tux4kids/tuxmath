@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-23 16:50-0600\n"
+"POT-Creation-Date: 2011-01-26 13:00-0600\n"
 "PO-Revision-Date: 2010-12-30 19:07-0100\n"
 "Last-Translator: Seva Deribas seva@deribas.info\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -356,130 +356,125 @@ msgstr ""
 "щоб розбити його. Знищ фракції, які не можуть бути спрощені з одного "
 "пострілу!"
 
-#: src/game.c:982
-#, c-format
-msgid "%s has left the game."
-msgstr ""
-
-#: src/game.c:1385
+#: src/game.c:756
 msgid "Welcome to TuxMath!"
 msgstr "Ласкаво просимо до TuxMath!"
 
-#: src/game.c:1402
+#: src/game.c:773
 msgid "Your mission is to save your"
 msgstr "Ваша місія полягає в збереженні"
 
-#: src/game.c:1403
+#: src/game.c:774
 msgid "penguins' igloos from the"
 msgstr "ігол пінгвінів від "
 
-#: src/game.c:1404
+#: src/game.c:775
 msgid "falling comets."
 msgstr "падающих комет."
 
-#: src/game.c:1423
+#: src/game.c:794
 msgid "Stop a comet by typing"
 msgstr "Ви можете зупинити комету, ввівши"
 
-#: src/game.c:1424
+#: src/game.c:795
 msgid "the answer to the math problem"
 msgstr "рішення на математичну задачу"
 
-#: src/game.c:1425
+#: src/game.c:796
 msgid "and hitting 'space' or 'enter'."
 msgstr "та натиснувши \"пробіл\" або \"enter\"."
 
-#: src/game.c:1426
+#: src/game.c:797
 msgid "Try it now!"
 msgstr "Спробуйте це зараз!"
 
-#: src/game.c:1434
+#: src/game.c:805
 msgid "Good shot!"
 msgstr "Хороший постріл!"
 
-#: src/game.c:1444
+#: src/game.c:815
 msgid "If an igloo gets hit by a comet,"
 msgstr "Якщо комета потрапить в іглу,"
 
-#: src/game.c:1445
+#: src/game.c:816
 msgid "it melts. But don't worry: the"
 msgstr "вона зтане. Але не турбуйтеся:"
 
-#: src/game.c:1446
+#: src/game.c:817
 msgid "penguin is OK!"
 msgstr "пінгвін є в безпеці!"
 
-#: src/game.c:1447
+#: src/game.c:818
 msgid "Just watch what happens:"
 msgstr "Подивіться, що відбувається:"
 
-#: src/game.c:1448
+#: src/game.c:819
 msgid "(Press a key to start)"
 msgstr "(Натисніть будь-яку клавішу щоб начати)"
 
-#: src/game.c:1461
+#: src/game.c:832
 msgid "Notice the answer"
 msgstr "Зверніть увагу на рішення"
 
-#: src/game.c:1471
+#: src/game.c:842
 msgid "If it gets hit again, the"
 msgstr "Якщо вона знову потрапить під комету,"
 
-#: src/game.c:1472
+#: src/game.c:843
 msgid "penguin leaves."
 msgstr "пінгвін уйде."
 
-#: src/game.c:1473
+#: src/game.c:844
 msgid "(Press a key when ready)"
 msgstr "(Натисніть будь-яку клавішу, коли будете готові)"
 
-#: src/game.c:1496
+#: src/game.c:867
 msgid "You can fix the igloos"
 msgstr "Ви можете починити іглу"
 
-#: src/game.c:1497
+#: src/game.c:868
 msgid "by stopping bonus comets."
 msgstr "зупинивши бонусну комету."
 
-#: src/game.c:1508
+#: src/game.c:879
 msgid "Zap it now!"
 msgstr "Знищ ее зараз!"
 
-#: src/game.c:1514
+#: src/game.c:885
 msgid "Great job!"
 msgstr "Відмінна робота!"
 
-#: src/game.c:1532
+#: src/game.c:903
 msgid "Quit at any time by pressing"
 msgstr "Ви можете вийти в будь-який момент, натиснувши"
 
-#: src/game.c:1533
+#: src/game.c:904
 msgid "'Esc' or clicking the 'X'"
 msgstr "\"Esc\" або натиснувши \"X\"."
 
-#: src/game.c:1534
+#: src/game.c:905
 msgid "in the upper right corner."
 msgstr "у верхньому правому кутку."
 
-#: src/game.c:1535
+#: src/game.c:906
 msgid "Do it now, and then play!"
 msgstr "Зробіть це зараз, а потім грайте!"
 
-#: src/game.c:3260
+#: src/game.c:2686
 msgid "The Penguins Have Been Saved!"
 msgstr "Пінгвіни були врятовані!"
 
-#: src/game.c:3275
+#: src/game.c:2701
 msgid "Final Scores:"
 msgstr "Кінцеві результати:"
 
-#: src/game.c:3352
+#: src/game.c:2778
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:3360
+#: src/game.c:2786
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
