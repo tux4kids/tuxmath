@@ -2904,7 +2904,19 @@ void reset_level(void)
 
   pre_wave_score = score;
 
-  /* Set number of attackers for this wave: */
+  /* Set speed and number of comets for this wave.
+   * Note that in LAN mode, the number of comets is handled by the 
+   * server, and feedback/slowdown are disallowed, so we just set
+   * the speed and get out.
+   *  */
+
+  if (Opts_LanMode())
+  {
+    speed *= DEFAULT_SPEEDUP_FACTOR;
+    return;
+  }
+
+  /* Rest of function ONLY for non-LAN mode: ----------------- */
 
   /* On first wave or if slowdown flagged due to wrong answer: */
   if (wave == 1 || slowdown)

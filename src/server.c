@@ -1041,7 +1041,7 @@ void game_msg_correct_answer(int i, char* inbuf)
   broadcast_msg(outbuf);
 
   DEBUGMSG(debug_lan, "\ngame_msg_correct_answer(): %s\n", outbuf);
-  printf("After correct answer, wave %d\n"
+  DEBUGMSG(debug_lan, "After correct answer, wave %d\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",
@@ -1082,8 +1082,7 @@ void game_msg_wrong_answer(int i, char* inbuf)
   //One less comet in play:
   srv_game.active_quests--;
   
-  //DEBUGMSG(debug_lan, "\nAfter wrong answer: wave %d\n"
-   printf("\nAfter wrong answer: wave %d\n"
+  DEBUGMSG(debug_lan, "\nAfter wrong answer: wave %d\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",
@@ -1110,7 +1109,7 @@ void game_msg_next_question(void)
   if (!MC_NextQuestion(&flash))
   { 
     /* no more questions available */
-    printf("MC_NextQuestion() returned NULL - no questions available\n");
+    DEBUGMSG(debug_lan, "MC_NextQuestion() returned NULL - no questions available\n");
     return;
   }
 
@@ -1123,7 +1122,7 @@ void game_msg_next_question(void)
   srv_game.active_quests++;
   srv_game.rem_in_wave--;
   
-  printf("In game_msg_next_question(), after quest added, wave %d\n"
+  DEBUGMSG(debug_lan, "In game_msg_next_question(), after quest added, wave %d\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",
@@ -1273,7 +1272,7 @@ void server_update_game(void)
     if((srv_game.active_quests < srv_game.max_quests_on_screen)
     && (srv_game.rem_in_wave > 0))
     {
-    printf("/nAbout to add next question:\n"
+      DEBUGMSG(debug_lan, "/nAbout to add next question:\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",
@@ -1295,8 +1294,7 @@ void server_update_game(void)
        srv_game.max_quests_on_screen = Opts_MaxComets(); 
     srv_game.rem_in_wave = srv_game.max_quests_on_screen * 2;
     send_counter_updates(); 
-    //DEBUGMSG(debug_lan, "/nAdvance to wave %d\n"
-    printf("/nAdvance to wave %d\n"
+    DEBUGMSG(debug_lan, "/nAdvance to wave %d\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",
