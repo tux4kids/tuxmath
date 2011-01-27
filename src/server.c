@@ -58,7 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 #define MAX_ARGS 16
-#define SRV_QUEST_INTERVAL 1000
+#define SRV_QUEST_INTERVAL 2000
 
 typedef struct srv_game_type {
   char lesson_name[NAME_SIZE];
@@ -1258,7 +1258,7 @@ void start_game(void)
  */
 void server_update_game(void)
 {
-  static Uint32 last_time, now_time;
+  static Uint32 last_time, now_time, wait_time;
   
   /* Do nothing unless game started: */
   if(!game_in_progress)
@@ -1266,18 +1266,24 @@ void server_update_game(void)
   
   now_time = SDL_GetTicks();
   
+  /* Wait time is shorter in higher waves because the comets move faster: */
+  wait_time = SRV_QUEST_INTERVAL/pow(DEFAULT_SPEEDUP_FACTOR, srv_game.wave);
+
   /* Send another question if there is room and enough time has elapsed: */
-  if(now_time - last_time > SRV_QUEST_INTERVAL)
+  if(now_time - last_time > wait_time)
   {	  
     if((srv_game.active_quests < srv_game.max_quests_on_screen)
     && (srv_game.rem_in_wave > 0))
     {
-      DEBUGMSG(debug_lan, "/nAbout to add next question:\n"
+      DEBUGMSG(debug_lan, "\nAbout to add next question:\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
-		    "srv_game.active_quests = %d\n\n",
+		    "srv_game.active_quests = %d\n"
+		    "last_time = %d\n"
+		    "now_time = %d\n\n",
                     srv_game.max_quests_on_screen,
-		    srv_game.rem_in_wave, srv_game.active_quests);   
+		    srv_game.rem_in_wave, srv_game.active_quests,
+		    last_time, now_time);   
       game_msg_next_question();
       last_time = now_time;
     }
