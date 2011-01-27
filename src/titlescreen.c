@@ -609,15 +609,17 @@ void ShowMessageWrap( int font_size, const char* str )
       SDL_BlitSurface(arrow, &srcright, screen, &rright);
     }
 
-    rtext.x = loc.x + 10;
+    //rtext.x = loc.x + 10;
     rtext.y = loc.y;    
-    for(i=page*maxline; i<nline && i-page*maxline<maxline; i++)
+    for(i = page * maxline; i < nline && i - page * maxline < maxline; i++)
     {
       s1 = T4K_BlackOutline(strings[i], font_size, &white);
 
       if( s1 )
       {
-        rtext.y += (s1->h+15);  
+        /* Center text horizontally: */
+	rtext.x = loc.x + loc.w/2 - s1->w/2;
+	rtext.y += (s1->h+15);  
         SDL_BlitSurface( s1, NULL, screen, &rtext );
         
         SDL_FreeSurface( s1 );
