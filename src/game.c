@@ -458,6 +458,8 @@ int game_initialize(void)
   game_status = GAME_IN_PROGRESS;
   gameover_counter = -1;
   user_quit_received = 0;
+  game_over_won = 0;
+  game_over_other = 0;
   network_error = 0;
   game_halted_by_server = 0;
   my_socket_index = -1;
