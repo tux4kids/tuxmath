@@ -334,18 +334,6 @@ int MC_Initialize(void)
     printf("\nLeaving MC_Initialize()\n");
   }
 
-  {
-    char buf[32];
-    strcpy(buf, "%d / %d = ?");
-    printf("Before conversion, buf is: %sn", buf);
-    buf[3] = 246;
-    printf("After conversion, buf is: %sn", buf);
-  }
-
-
-
-
-
   return 1;
 }
 

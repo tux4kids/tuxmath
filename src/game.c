@@ -2510,7 +2510,6 @@ void print_exit_conditions(void)
       printf("GAME_IN_PROGRESS\n");
       break;
     }
-
     case GAME_OVER_WON:
     {
       printf("GAME_OVER_WON\n");
@@ -2535,6 +2534,21 @@ void print_exit_conditions(void)
     case GAME_OVER_WINDOW_CLOSE:
     {
       printf("GAME_OVER_WINDOW_CLOSE\n");
+      break;
+    }
+    case GAME_OVER_LAN_HALTED:
+    {
+      printf("GAME_OVER_LAN_HALTED\n");
+      break;
+    }
+    case GAME_OVER_LAN_DISCONNECT:
+    {
+      printf("GAME_OVER_LAN_DISCONNECT\n");
+      break;
+    }
+    case GAME_OVER_LAN_WON:
+    {
+      printf("GAME_OVER_LAN_WON\n");
       break;
     }
     case GAME_OVER_ERROR:
