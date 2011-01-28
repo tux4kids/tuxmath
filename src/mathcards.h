@@ -224,9 +224,8 @@ int MC_NextQuestion(MC_FlashCard* q);
 /*  correctly, and how long the student took to answer.   */
 /*  Returns 1 if no errors.                               */
 int MC_AnsweredCorrectly(int id, float t);
-//int MC_AnsweredCorrectly_id(int id);
 
-/*  MC_NotAnsweredCorrectly() is how the user interface    */
+/*  MC_NotAnsweredCorrectly() is how the user interface   */
 /*  tells MathCards that the question has not been        */
 /*  answered correctly. Returns 1 if no errors.           */
 int MC_NotAnsweredCorrectly(int id);

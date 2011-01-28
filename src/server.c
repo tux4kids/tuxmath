@@ -49,6 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <fcntl.h> 
 #include <sys/types.h>  
 #include <unistd.h>
@@ -1301,6 +1302,19 @@ void server_update_game(void)
     srv_game.rem_in_wave = srv_game.max_quests_on_screen * 2;
     send_counter_updates(); 
     DEBUGMSG(debug_lan, "/nAdvance to wave %d\n"
+		    "srv_game.max_quests_on_screen = %d\n"
+		    "srv_game.rem_in_wave = %d\n"
+		    "srv_game.active_quests = %d\n\n",
+                    srv_game.wave, srv_game.max_quests_on_screen,
+		    srv_game.rem_in_wave, srv_game.active_quests);   
+
+  }
+
+  /* Find out from mathcards if we're done: */
+  if(MC_TotalQuestionsLeft() == 0)
+  {
+    game_in_progress = 0;
+    DEBUGMSG(debug_lan, "/nGame over:\nwave = %d\n"
 		    "srv_game.max_quests_on_screen = %d\n"
 		    "srv_game.rem_in_wave = %d\n"
 		    "srv_game.active_quests = %d\n\n",

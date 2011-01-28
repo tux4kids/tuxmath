@@ -271,6 +271,10 @@ int LAN_AutoSetup(int i)
 
 void LAN_Cleanup(void)
 {
+  //Empty the queue of any leftover messages:
+  char buf[256];
+  while(LAN_NextMsg(buf)) {} //do nothing with the messages
+
   if(sd)
   {
     SDLNet_TCP_Close(sd);

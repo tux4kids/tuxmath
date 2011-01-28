@@ -2553,7 +2553,11 @@ void game_handle_game_over(int game_status)
 {
   Uint32 timer = 0;
 
-  DEBUGCODE(debug_game) print_exit_conditions();
+  DEBUGCODE(debug_game)
+  {	 
+    printf("Entering game_handle_game_over() - game status = %d\n", game_status);
+    print_exit_conditions();
+  }
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
