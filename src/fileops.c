@@ -104,20 +104,10 @@ static char* get_file_name(char *fullpath);
 #endif
 
 
-/*************************************************************************
-Using Autoconf's "config.h", we include our portability replacements
-for scandir() and alphasort() if necessary:
-*************************************************************************/
-
-#ifndef HAVE_SCANDIR
-#include "scandir.h"
-#endif /* end of scandir() replacements */
 
 /* fix HOME on windows */
 #ifdef BUILD_MINGW32
 #include <windows.h>
-
-
 
 
 
