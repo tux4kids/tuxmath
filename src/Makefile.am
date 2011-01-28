@@ -50,7 +50,6 @@ tuxmath_SOURCES = tuxmath.c \
 	convert_utf.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
-	scandir.c	\
 	pixels.c	\
 	server.c	\
 	throttle.c	
@@ -113,7 +112,6 @@ EXTRA_DIST = 	credits.h 	\
 	SDL_rotozoom.h	\
 	lessons.h	\
 	gettext.h	\
-	scandir.h	\
 	pixels.h	\
 	compiler.h	\
 	server.h	\

@@ -33,10 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
-#include <stdio.h>
-
-//#include "config.h"
-
 /* Tuxmath includes: */
 #include "globals.h"
 #include "fileops.h"
@@ -45,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "highscore.h"
 #include "lessons.h"
-#include "scandir.h"
+
 
 /* OS includes - NOTE: these may not be very portable */
 #include <dirent.h>  /* for opendir() */
