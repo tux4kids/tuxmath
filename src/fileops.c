@@ -33,10 +33,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
-#include <stdio.h>
-
-//#include "config.h"
-
 /* Tuxmath includes: */
 #include "globals.h"
 #include "fileops.h"
@@ -45,7 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "highscore.h"
 #include "lessons.h"
-#include "scandir.h"
+
 
 /* OS includes - NOTE: these may not be very portable */
 #include <dirent.h>  /* for opendir() */
@@ -108,20 +104,10 @@ static char* get_file_name(char *fullpath);
 #endif
 
 
-/*************************************************************************
-Using Autoconf's "config.h", we include our portability replacements
-for scandir() and alphasort() if necessary:
-*************************************************************************/
-
-#ifndef HAVE_SCANDIR
-#include "scandir.h"
-#endif /* end of scandir() replacements */
 
 /* fix HOME on windows */
 #ifdef BUILD_MINGW32
 #include <windows.h>
-
-
 
 
 

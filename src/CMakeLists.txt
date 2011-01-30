@@ -39,7 +39,6 @@ set(SOURCES_TUXMATH
   mathcards.c
   options.c
   pixels.c
-  scandir.c
   setup.c
   throttle.c
   titlescreen.c
