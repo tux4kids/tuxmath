@@ -27,7 +27,6 @@ endif (SDLNET_FOUND)
 # tuxmath
 set(SOURCES_TUXMATH
   audio.c
-  convert_utf.c
   credits.c
   factoroids.c
   fileops.c

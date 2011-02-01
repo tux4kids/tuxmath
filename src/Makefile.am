@@ -47,7 +47,6 @@ tuxmath_SOURCES = tuxmath.c \
 	campaign.c	\
 	multiplayer.c	\
 	fileops.c	\
-	convert_utf.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
 	pixels.c	\
@@ -70,7 +69,6 @@ generate_lesson_SOURCES = generate_lesson.c	\
 		mathcards.c	\
 		options.c	\
 		fileops.c	\
-		convert_utf.c	\
 		lessons.c
 generate_lesson_LDADD =
 
@@ -78,7 +76,6 @@ generate_lesson_LDADD =
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
-		convert_utf.c	\
 		throttle.c	\
 		options.c
 tuxmathserver_LDADD = @LIBINTL@
@@ -86,7 +83,6 @@ tuxmathserver_LDADD = @LIBINTL@
 tuxmathtestclient_SOURCES = testclient.c \
                             throttle.c \
                             network.c  \
-		            convert_utf.c	\
                             options.c  \
                             mathcards.c
 tuxmathtestclient_LDADD =
@@ -108,7 +104,6 @@ EXTRA_DIST = 	credits.h 	\
 	campaign.h	\
 	multiplayer.h	\
 	tuxmath.h	\
-	convert_utf.h	\
 	SDL_rotozoom.h	\
 	lessons.h	\
 	gettext.h	\
