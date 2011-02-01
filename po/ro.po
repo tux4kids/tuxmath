@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-28 13:25-0600\n"
+"POT-Creation-Date: 2011-01-31 18:32-0600\n"
 "PO-Revision-Date: 2010-11-26 11:59+0200\n"
 "Last-Translator: Tabita Dolean <dtabita21@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -466,109 +466,109 @@ msgid ""
 " Connection with server was lost."
 msgstr "Conexiunea cu serverul s-a întrerupt."
 
-#: src/highscore.c:180 data/menus/menu_strings:9
+#: src/highscore.c:179 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "Holul Faimei"
 
-#: src/highscore.c:200 src/highscore.c:221 data/menus/menu_strings:27
+#: src/highscore.c:199 src/highscore.c:220 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "Cadetul Spațiului"
 
-#: src/highscore.c:203 data/menus/menu_strings:26
+#: src/highscore.c:202 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Cercetător"
 
-#: src/highscore.c:206 data/menus/menu_strings:23
+#: src/highscore.c:205 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Vânător"
 
-#: src/highscore.c:209 data/menus/menu_strings:1
+#: src/highscore.c:208 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "Campion"
 
-#: src/highscore.c:212 data/menus/menu_strings:2
+#: src/highscore.c:211 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "Comando"
 
-#: src/highscore.c:215 data/menus/menu_strings:7
+#: src/highscore.c:214 data/menus/menu_strings:7
 msgid "Factors"
 msgstr "Factori Primi"
 
-#: src/highscore.c:218 data/menus/menu_strings:8
+#: src/highscore.c:217 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "Fracții"
 
-#: src/highscore.c:296
+#: src/highscore.c:295
 msgid "You Are In The Hall of Fame!"
 msgstr "Te aflii în Holul Faimei!"
 
-#: src/highscore.c:296
+#: src/highscore.c:295
 msgid "Enter Your Name:"
 msgstr "Introdu numele:"
 
-#: src/highscore.c:1145
+#: src/highscore.c:1144
 #, fuzzy, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
 "Click to continue..."
 msgstr "TuxMath a detectat %d servere pornite."
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2578
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2578
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2578
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2579
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2579
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2579
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2580
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2580
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2580
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2582
+#: src/mathcards.c:2581
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2582
+#: src/mathcards.c:2581
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2582
+#: src/mathcards.c:2581
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""

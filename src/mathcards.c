@@ -26,7 +26,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "globals.h"
 #include "transtruct.h"
 #include "mathcards.h"
-#include "convert_utf.h"
 
 
 #include <stdio.h>

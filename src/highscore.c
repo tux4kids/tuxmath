@@ -24,7 +24,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
-#include <string.h>
 
 #include "tuxmath.h"
 #include "highscore.h"
@@ -33,11 +32,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "fileops.h"
 #include "setup.h"
 #include "options.h"
-#include "convert_utf.h"
 #include "transtruct.h"
 #include "network.h"
 #include "throttle.h"
 
+#include <string.h>
 
 typedef struct high_score_entry {
   int score;
