@@ -676,7 +676,8 @@ int game_initialize(void)
 void game_cleanup(void)
 {
 #ifdef HAVE_LIBSDL_NET  
-  LAN_Cleanup();
+  if (Opts_LanMode() )
+    LAN_Cleanup();
 #endif
 
   /* Free background: */
