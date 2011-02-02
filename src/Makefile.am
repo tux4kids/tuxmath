@@ -11,8 +11,6 @@ AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
-#NOTE we can remove the following starting with t4k_common 0.0.4
-LDADD = @LIBINTL@ 
 
 if BUILD_MINGW32
   bin_PROGRAMS = TuxMath tuxmathserver
@@ -60,27 +58,22 @@ TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 # global LDADD flag.
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
-tuxmathadmin_LDADD = @LIBINTL@
 
 generate_lesson_SOURCES = generate_lesson.c	\
 		mathcards.c	\
 		options.c	\
 		fileops.c	\
 		lessons.c
-generate_lesson_LDADD =
-
 
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
 		options.c
-tuxmathserver_LDADD = @LIBINTL@
 
 tuxmathtestclient_SOURCES = testclient.c \
                             network.c  \
                             options.c  \
                             mathcards.c
-tuxmathtestclient_LDADD =
 
 EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
