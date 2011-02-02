@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fileops.h"
 #include "setup.h"
 #include "menu.h"
-#include "throttle.h"
 
 /* --- Data Structure for Dirty Blitting --- */
 SDL_Rect srcupdate[MAX_UPDATES];
@@ -287,7 +286,7 @@ void TitleScreen(void)
       SDL_UpdateRect(screen, title_anim.x, title_anim.y,
           min(title_anim.w + title_pix_skip, screen->w - title_anim.x), title_anim.h);
 
-      Throttle(1000/ANIM_FPS, &timer);
+      T4K_Throttle(1000/ANIM_FPS, &timer);
     }
   }
 
@@ -705,11 +704,11 @@ void ShowMessageWrap( int font_size, const char* str )
           } 
         }
 	/* Don't eat all CPU: */
-        Throttle(20, &timer);
+        T4K_Throttle(20, &timer);
       }
-      Throttle(20, &timer);
+      T4K_Throttle(20, &timer);
     }
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
   }
 }
 
@@ -811,7 +810,7 @@ void ShowMessage(int font_size, const char* str1, const char* str2,
     HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
   }  // End of while (!finished) loop
 
   SDL_FreeSurface(s1);

@@ -44,7 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "server.h" 
 #include "transtruct.h"
 #include "mathcards.h"
-#include "throttle.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -202,7 +201,7 @@ int RunServer(int argc, char* argv[])
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
     /* CPU from 100% to ~2% on my desktop - DSB                       */
-    Throttle(5, &timer);  //min loop time 5 msec
+    T4K_Throttle(5, &timer);  //min loop time 5 msec
   }
 
   server_running = 0;
@@ -413,7 +412,7 @@ int setup_server(void)
     {
       if(read_stdin_nonblock(server_name, NAME_SIZE))
         name_recvd = 1;
-      Throttle(10, &timer);
+      T4K_Throttle(10, &timer);
     }
     if(!name_recvd)
       printf("No name entered within timeout, will use default: %s\n",

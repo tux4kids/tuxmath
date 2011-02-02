@@ -39,7 +39,6 @@ set(SOURCES_TUXMATH
   options.c
   pixels.c
   setup.c
-  throttle.c
   titlescreen.c
   multiplayer.c
   campaign.c

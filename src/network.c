@@ -43,8 +43,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "mathcards.h"
 #include "transtruct.h"
 #include "network.h"
-#include "throttle.h"
-//#include "testclient.h"
 
 
 TCPsocket sd;           /* Server socket descriptor */
@@ -144,7 +142,7 @@ int LAN_DetectServers(void)
     }
 
     //Make sure we always scan at least one but not more than five seconds:
-    Throttle(1000, &timer); //repeat once per second
+    T4K_Throttle(1000, &timer); //repeat once per second
     seconds++;
     if(seconds < 1)
       done = 0;

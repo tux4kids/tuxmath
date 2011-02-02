@@ -48,8 +48,7 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	pixels.c	\
-	server.c	\
-	throttle.c	
+	server.c
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -74,12 +73,10 @@ generate_lesson_LDADD =
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
-		throttle.c	\
 		options.c
 tuxmathserver_LDADD = @LIBINTL@
 
 tuxmathtestclient_SOURCES = testclient.c \
-                            throttle.c \
                             network.c  \
                             options.c  \
                             mathcards.c
@@ -109,7 +106,6 @@ EXTRA_DIST = 	credits.h 	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
-	throttle.h      \
         CMakeLists.txt
         
 

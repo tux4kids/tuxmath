@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "transtruct.h"
 #include "network.h"
-#include "throttle.h"
 
 #include <string.h>
 
@@ -280,7 +279,7 @@ void DisplayHighScores(int level)
     HandleTitleScreenAnimations();
 
     /* Wait so we keep frame rate constant: */
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 }
@@ -868,7 +867,7 @@ int Ready(const char* heading)
     }
 
     HandleTitleScreenAnimations();
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
@@ -1014,7 +1013,7 @@ int Standby(const char* heading, const char* sub)
     DEBUGMSG(debug_lan, "In Standby(), after check_messages(): finished = %d\tbuf = %s\n", finished, buf);
 
     HandleTitleScreenAnimations();
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
@@ -1213,7 +1212,7 @@ int detecting_servers(const char* heading, const char* sub)
     }
 
     /* Wait so we keep frame rate constant: */
-    Throttle(20, &timer);
+    T4K_Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 

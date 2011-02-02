@@ -48,7 +48,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "mathcards.h"
 #include "titlescreen.h"
 #include "options.h"
-#include "throttle.h"
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -411,7 +410,7 @@ void factors(void)
 #endif
 
     /* Pause (keep frame-rate event) */
-    Throttle(MS_PER_FRAME, &timer);
+    T4K_Throttle(MS_PER_FRAME, &timer);
   }
   FF_over(game_status);
 }
@@ -477,7 +476,7 @@ void fractions(void)
 #endif
 
     /* Pause (keep frame-rate event) */
-    Throttle(MS_PER_FRAME, &timer);
+    T4K_Throttle(MS_PER_FRAME, &timer);
   }
   FF_over(game_status);
 }
@@ -556,7 +555,7 @@ static void FF_LevelMessage(void)
 	  }
       }
       /* keep from eating all CPU: */
-      Throttle(MS_PER_FRAME, &timer);
+      T4K_Throttle(MS_PER_FRAME, &timer);
   }
 }
 
@@ -711,9 +710,9 @@ static int FF_init(void)
       return 1;
     }
     /* Don't eat all available CPU: */
-    Throttle(MS_PER_FRAME, &timer);
+    T4K_Throttle(MS_PER_FRAME, &timer);
   }
-  Throttle(MS_PER_FRAME, &timer);
+  T4K_Throttle(MS_PER_FRAME, &timer);
 }
 
 
@@ -1594,7 +1593,7 @@ static void FF_add_level(void)
       FF_draw();
       SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
       SDL_Flip(screen);
-      Throttle(MS_PER_FRAME, &timer);
+      T4K_Throttle(MS_PER_FRAME, &timer);
     }
     FF_LevelMessage();
   }
@@ -1653,9 +1652,9 @@ static int FF_over(int game_status)
             looping = 0;
 	    break;
           }
-	  Throttle(MS_PER_FRAME, &timer);
+	  T4K_Throttle(MS_PER_FRAME, &timer);
         }
-	Throttle(MS_PER_FRAME, &timer);
+	T4K_Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
       break;
@@ -1692,9 +1691,9 @@ static int FF_over(int game_status)
             looping = 0;
 	    break;
           }
-	  Throttle(MS_PER_FRAME, &timer);
+	  T4K_Throttle(MS_PER_FRAME, &timer);
         }
-	Throttle(MS_PER_FRAME, &timer);
+	T4K_Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
 

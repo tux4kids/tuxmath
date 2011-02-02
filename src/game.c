@@ -54,7 +54,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "titlescreen.h"
 #include "options.h"
 #include "pixels.h"
-#include "throttle.h"
 
 
 #define FPS 15                     /* 15 frames per second */
@@ -407,7 +406,7 @@ int game(void)
 
 
     /* Pause (keep frame-rate event) */
-    Throttle(MS_PER_FRAME, &timer);
+    T4K_Throttle(MS_PER_FRAME, &timer);
 
   }
   while(GAME_IN_PROGRESS == game_status);
@@ -941,7 +940,7 @@ int help_renderframe_exit(void)
 
   // Delay to keep frame rate constant. Do this in a way
   // that won't cause a freeze if the timer wraps around.
-  Throttle(MS_PER_FRAME, &timer);
+  T4K_Throttle(MS_PER_FRAME, &timer);
   frame++;
 
   return (game_status != GAME_IN_PROGRESS);
@@ -2647,7 +2646,7 @@ void game_handle_game_over(int game_status)
         /* draw_console_image(tux_img);*/
 
         SDL_Flip(screen);
-        Throttle(MS_PER_FRAME, &timer);
+        T4K_Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
       break;
@@ -2788,7 +2787,7 @@ void game_handle_game_over(int game_status)
         /* draw_console_image(tux_img);*/
 
         SDL_Flip(screen);
-        Throttle(MS_PER_FRAME, &timer);
+        T4K_Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
       break;
@@ -2839,7 +2838,7 @@ void game_handle_game_over(int game_status)
         SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
         SDL_Flip(screen);
 
-        Throttle(MS_PER_FRAME, &timer);
+        T4K_Throttle(MS_PER_FRAME, &timer);
       }
       while (looping);
 
