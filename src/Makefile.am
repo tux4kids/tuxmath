@@ -45,7 +45,6 @@ tuxmath_SOURCES = tuxmath.c \
 	fileops.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
-	pixels.c	\
 	server.c
 
 
@@ -94,7 +93,6 @@ EXTRA_DIST = 	credits.h 	\
 	SDL_rotozoom.h	\
 	lessons.h	\
 	gettext.h	\
-	pixels.h	\
 	compiler.h	\
 	server.h	\
 	testclient.h	\

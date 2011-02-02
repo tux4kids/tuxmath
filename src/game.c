@@ -53,7 +53,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "multiplayer.h"
 #include "titlescreen.h"
 #include "options.h"
-#include "pixels.h"
 
 
 #define FPS 15                     /* 15 frames per second */

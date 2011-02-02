@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-01 18:45-0600\n"
+"POT-Creation-Date: 2011-02-02 09:30-0600\n"
 "PO-Revision-Date: 2010-12-11 20:26+0530\n"
 "Last-Translator: Gautam <gautam.2011@gmail.com>\n"
 "Language-Team: Gautam Gupta <admin@gaut.am>\n"
@@ -174,43 +174,43 @@ msgstr "सीसा प्रोग्रामर"
 msgid "ADDITIONAL CODE"
 msgstr "अतिरिक्त कोड"
 
-#: src/credits.c:71
+#: src/credits.c:74
 msgid "LEAD ARTIST"
 msgstr "सीसा कलाकार"
 
-#: src/credits.c:74
+#: src/credits.c:77
 msgid "ADDITIONAL ART"
 msgstr "अतिरिक्त कला"
 
-#: src/credits.c:78
+#: src/credits.c:83
 msgid "SOUND EFFECTS"
 msgstr "ध्वनि प्रभाव"
 
-#: src/credits.c:81
+#: src/credits.c:86
 msgid "MUSIC"
 msgstr "संगीत"
 
-#: src/credits.c:91
+#: src/credits.c:96
 msgid "PACKAGERS"
 msgstr "पैकेजर्स"
 
-#: src/credits.c:96
+#: src/credits.c:101
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr "'टक्स' पेंगुइन इन्होने बनाई है -"
 
-#: src/credits.c:99
+#: src/credits.c:104
 msgid "TESTERS"
 msgstr "परीक्षक"
 
-#: src/credits.c:111
+#: src/credits.c:116
 msgid "USER WEBSITE"
 msgstr "उपयोगकर्ता वेबसाइट"
 
-#: src/credits.c:114
+#: src/credits.c:119
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
 msgstr "टक्स४किड्स विकास का मेजबान अलिओथ है:"
 
-#: src/credits.c:117
+#: src/credits.c:122
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
@@ -220,7 +220,7 @@ msgstr ""
 "प्राप्त है| आपको विशेष रूप से कई अधिकार हैं जो आमतौर पर मालिकाना सॉफ्टवेयर के "
 "उपयोगकर्ताओं को नहीं दी जातीं हैं|"
 
-#: src/credits.c:119
+#: src/credits.c:124
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
@@ -228,12 +228,12 @@ msgstr ""
 "इन अधिकारों में सॉफ्टवेर का अध्ययन करना, प्रतिलिपि, संशोधन स्वतंत्रता, और दोबारा वितरण "
 "करना शामिल हैं|"
 
-#: src/credits.c:121
+#: src/credits.c:126
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr "जी.पी.एल. की एक पूरी प्रति इस सॉफ्टवेर के प्रलेखन के साथ शामिल है|"
 
-#: src/credits.c:123
+#: src/credits.c:128
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "फ्री सॉफ्टवेयर और जी.एन.यु. जी.पी.एल. के बारे में अधिक जानकारी के लिए इधर जाएँ:"
 
@@ -330,126 +330,126 @@ msgid ""
 "single shot!"
 msgstr "विभाजित करने के लिए| उन फ्रैकशनों को नष्ट करें जो एक ही शॉट में सरल नहीं हो सकतीं|"
 
-#: src/game.c:759
+#: src/game.c:758
 msgid "Welcome to TuxMath!"
 msgstr "टक्सगणित में आपका स्वागत है!"
 
-#: src/game.c:776
+#: src/game.c:775
 msgid "Your mission is to save your"
 msgstr "आपका मिशन इसके बचाने के लिए है -"
 
-#: src/game.c:777
+#: src/game.c:776
 msgid "penguins' igloos from the"
 msgstr "पेंगुइनों के इग्लू यहाँ से -"
 
-#: src/game.c:778
+#: src/game.c:777
 msgid "falling comets."
 msgstr "गिरते हुए धूमकेतु|"
 
-#: src/game.c:797
+#: src/game.c:796
 msgid "Stop a comet by typing"
 msgstr "धूमकेतु को रोकने के लिए ये टाइप करें -"
 
-#: src/game.c:798
+#: src/game.c:797
 msgid "the answer to the math problem"
 msgstr "गणित समस्या कर उत्तर"
 
-#: src/game.c:799
+#: src/game.c:798
 msgid "and hitting 'space' or 'enter'."
 msgstr "और 'स्पेस' या 'एंटर' दबाएँ|"
 
-#: src/game.c:800
+#: src/game.c:799
 msgid "Try it now!"
 msgstr "अब कोशिश करो!"
 
-#: src/game.c:808
+#: src/game.c:807
 msgid "Good shot!"
 msgstr "अच्छा निशाना!"
 
-#: src/game.c:818
+#: src/game.c:817
 msgid "If an igloo gets hit by a comet,"
 msgstr "अगर कोई धूमकेतु किसी इग्लू को लग जाता है,"
 
-#: src/game.c:819
+#: src/game.c:818
 msgid "it melts. But don't worry: the"
 msgstr "तो वेह पिघल जाता है| लेकिन घबराइए मत:"
 
-#: src/game.c:820
+#: src/game.c:819
 msgid "penguin is OK!"
 msgstr "पेंगुइन ठीक है!"
 
-#: src/game.c:821
+#: src/game.c:820
 msgid "Just watch what happens:"
 msgstr "बस देखिये क्या होता है:"
 
-#: src/game.c:822
+#: src/game.c:821
 msgid "(Press a key to start)"
 msgstr "(शुरू करने के लिए कोई भी कुंजी दबाएँ)"
 
-#: src/game.c:835
+#: src/game.c:834
 msgid "Notice the answer"
 msgstr "उत्तर पर ध्यान दीजिए:"
 
-#: src/game.c:845
+#: src/game.c:844
 msgid "If it gets hit again, the"
 msgstr "अगर वेह फ़िरसे लगता है,"
 
-#: src/game.c:846
+#: src/game.c:845
 msgid "penguin leaves."
 msgstr "तो पेंगुइन उसे छोडकर चले जाता है|"
 
-#: src/game.c:847
+#: src/game.c:846
 msgid "(Press a key when ready)"
 msgstr "(जब तैयार हों, तब कोई भी कुंजी दबाएँ)"
 
-#: src/game.c:870
+#: src/game.c:869
 msgid "You can fix the igloos"
 msgstr "आप इग्लू को ठीक कर सकते "
 
-#: src/game.c:871
+#: src/game.c:870
 msgid "by stopping bonus comets."
 msgstr "बोनस धूमकेतु को रोक कर|"
 
-#: src/game.c:882
+#: src/game.c:881
 msgid "Zap it now!"
 msgstr "अप जैप करो!"
 
-#: src/game.c:888
+#: src/game.c:887
 msgid "Great job!"
 msgstr "अच्छा काम!"
 
-#: src/game.c:906
+#: src/game.c:905
 msgid "Quit at any time by pressing"
 msgstr "यह दबा कर किसी भी समय छोडें"
 
-#: src/game.c:907
+#: src/game.c:906
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' या 'X' को क्लिक करें"
 
-#: src/game.c:908
+#: src/game.c:907
 msgid "in the upper right corner."
 msgstr "ऊपरी दाएँ कोने में|"
 
-#: src/game.c:909
+#: src/game.c:908
 msgid "Do it now, and then play!"
 msgstr "अभी करो, और तब खेलो!"
 
-#: src/game.c:2707
+#: src/game.c:2706
 msgid "The Penguins Have Been Saved!"
 msgstr "पेंगुइन बचा लिए गए हैं!"
 
-#: src/game.c:2722
+#: src/game.c:2721
 msgid "Final Scores:"
 msgstr "अंतिम स्कोर:"
 
-#: src/game.c:2799
+#: src/game.c:2798
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "सर्वर से कनेक्शन खो गया है|"
 
-#: src/game.c:2807
+#: src/game.c:2806
 #, fuzzy
 msgid ""
 "Network game terminated.\n"

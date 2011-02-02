@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-01 18:45-0600\n"
+"POT-Creation-Date: 2011-02-02 09:30-0600\n"
 "PO-Revision-Date: 2010-12-15 20:37+0100\n"
 "Last-Translator: Jakub Sygnowski <sygnowski@gmail.com>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -181,45 +181,45 @@ msgstr "GŁÓWNI PROGRAMIŚCI"
 msgid "ADDITIONAL CODE"
 msgstr "DODATKOWY KOD"
 
-#: src/credits.c:71
+#: src/credits.c:74
 msgid "LEAD ARTIST"
 msgstr "GŁÓWNY ARTYSTA"
 
-#: src/credits.c:74
+#: src/credits.c:77
 msgid "ADDITIONAL ART"
 msgstr "DODATKOWI ARTYŚCI"
 
-#: src/credits.c:78
+#: src/credits.c:83
 msgid "SOUND EFFECTS"
 msgstr "EFEKTY DŹWIĘKOWE"
 
-#: src/credits.c:81
+#: src/credits.c:86
 msgid "MUSIC"
 msgstr "MUZYKA"
 
-#: src/credits.c:91
+#: src/credits.c:96
 #, fuzzy
 msgid "PACKAGERS"
 msgstr "PAKUJĄCY"
 
-#: src/credits.c:96
+#: src/credits.c:101
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr "\"TUX\" - PINGWIN STWORZONY PRZEZ"
 
-#: src/credits.c:99
+#: src/credits.c:104
 msgid "TESTERS"
 msgstr "TESTERZY"
 
-#: src/credits.c:111
+#: src/credits.c:116
 msgid "USER WEBSITE"
 msgstr "STRONA UŻYTKOWNIKA"
 
-#: src/credits.c:114
+#: src/credits.c:119
 #, fuzzy
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
 msgstr "ROZWÓJ TUX4KIDS KORZYSTA Z SERWERA ALIOTH:"
 
-#: src/credits.c:117
+#: src/credits.c:122
 #, fuzzy
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
@@ -230,7 +230,7 @@ msgstr ""
 "licencji GNU General Public License (GPL). Udziela ona pewnych praw, które "
 "są zwykle niezapewniane użytkownikom własnościowego oprogramowania."
 
-#: src/credits.c:119
+#: src/credits.c:124
 #, fuzzy
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
@@ -239,13 +239,13 @@ msgstr ""
 "Prawa te to m.in. wolność do badania, kopiowania, zmieniania i ponownego "
 "udostępniania programu."
 
-#: src/credits.c:121
+#: src/credits.c:126
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 "Pełna wersja licencji GPL jest dołączona do dokumentacji tego programu."
 
-#: src/credits.c:123
+#: src/credits.c:128
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 "W celu uzyskania  więcej informacji o Darmowym Oprogramowaniu i GNU GPL, "
@@ -350,126 +350,126 @@ msgstr ""
 "Aby ją podzielić. Zniszcz ułamki, których nie można już skrócić za pomocą "
 "jednego strzału!"
 
-#: src/game.c:759
+#: src/game.c:758
 msgid "Welcome to TuxMath!"
 msgstr "Witamy w TuxMath!"
 
-#: src/game.c:776
+#: src/game.c:775
 msgid "Your mission is to save your"
 msgstr "Twoją misją jest ocalić"
 
-#: src/game.c:777
+#: src/game.c:776
 msgid "penguins' igloos from the"
 msgstr "igla pingwinów od"
 
-#: src/game.c:778
+#: src/game.c:777
 msgid "falling comets."
 msgstr "spadających komet."
 
-#: src/game.c:797
+#: src/game.c:796
 msgid "Stop a comet by typing"
 msgstr "Zatrzymaj kometę wpisując"
 
-#: src/game.c:798
+#: src/game.c:797
 msgid "the answer to the math problem"
 msgstr "odpowiedź równiania matematycznego"
 
-#: src/game.c:799
+#: src/game.c:798
 msgid "and hitting 'space' or 'enter'."
 msgstr "i wciśnij 'spację' lub 'enter'."
 
-#: src/game.c:800
+#: src/game.c:799
 msgid "Try it now!"
 msgstr "Spróbuj zrobić to teraz!"
 
-#: src/game.c:808
+#: src/game.c:807
 msgid "Good shot!"
 msgstr "Dobry strzał!"
 
-#: src/game.c:818
+#: src/game.c:817
 msgid "If an igloo gets hit by a comet,"
 msgstr "Jeśli igloo zostanie trafione przez kometę,"
 
-#: src/game.c:819
+#: src/game.c:818
 msgid "it melts. But don't worry: the"
 msgstr "topi się. Ale nie martw się:"
 
-#: src/game.c:820
+#: src/game.c:819
 msgid "penguin is OK!"
 msgstr "pingwinowi nic się nie stanie!"
 
-#: src/game.c:821
+#: src/game.c:820
 msgid "Just watch what happens:"
 msgstr "Zobacz, co się stanie:"
 
-#: src/game.c:822
+#: src/game.c:821
 msgid "(Press a key to start)"
 msgstr "(Wciśnij dowolny klawisz, aby rozpocząć)"
 
-#: src/game.c:835
+#: src/game.c:834
 msgid "Notice the answer"
 msgstr "Spójrz na odpowiedź"
 
-#: src/game.c:845
+#: src/game.c:844
 msgid "If it gets hit again, the"
 msgstr "Jeśli igloo zostanie znowu trafione,"
 
-#: src/game.c:846
+#: src/game.c:845
 msgid "penguin leaves."
 msgstr "pingwin z niego wychodzi."
 
-#: src/game.c:847
+#: src/game.c:846
 msgid "(Press a key when ready)"
 msgstr "(Wciśnij klawisz, kiedy będziesz gotowy)"
 
-#: src/game.c:870
+#: src/game.c:869
 msgid "You can fix the igloos"
 msgstr "Możesz naprawić igloo"
 
-#: src/game.c:871
+#: src/game.c:870
 msgid "by stopping bonus comets."
 msgstr "dzięki zatrzymywaniu bonusowych komet."
 
-#: src/game.c:882
+#: src/game.c:881
 msgid "Zap it now!"
 msgstr "Zniszcz jedną teraz!"
 
-#: src/game.c:888
+#: src/game.c:887
 msgid "Great job!"
 msgstr "Świetnie!"
 
-#: src/game.c:906
+#: src/game.c:905
 msgid "Quit at any time by pressing"
 msgstr "Wyjdź w dowolnej chwili"
 
-#: src/game.c:907
+#: src/game.c:906
 msgid "'Esc' or clicking the 'X'"
 msgstr "naciskając 'Esc' lub klikając na 'X'"
 
-#: src/game.c:908
+#: src/game.c:907
 msgid "in the upper right corner."
 msgstr "w prawym górnym rogu."
 
-#: src/game.c:909
+#: src/game.c:908
 msgid "Do it now, and then play!"
 msgstr "Zrób to teraz, a potem zagraj!"
 
-#: src/game.c:2707
+#: src/game.c:2706
 msgid "The Penguins Have Been Saved!"
 msgstr "Pingwiny zostały ocalone!"
 
-#: src/game.c:2722
+#: src/game.c:2721
 msgid "Final Scores:"
 msgstr "Wyniki końcowe:"
 
-#: src/game.c:2799
+#: src/game.c:2798
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Utracono połączenie z serwerem."
 
-#: src/game.c:2807
+#: src/game.c:2806
 #, fuzzy
 msgid ""
 "Network game terminated.\n"

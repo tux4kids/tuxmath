@@ -37,7 +37,6 @@ set(SOURCES_TUXMATH
   lessons.c
   mathcards.c
   options.c
-  pixels.c
   setup.c
   titlescreen.c
   multiplayer.c
