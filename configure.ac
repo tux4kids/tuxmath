@@ -365,7 +365,6 @@ doc/Makefile
 nsis/tuxmath.nsi
 nsis/tuxmath_with_conf.nsi
 src/Makefile
-linebreak/Makefile
 po/Makefile.in
 ])
 

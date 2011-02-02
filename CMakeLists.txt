@@ -111,9 +111,6 @@ if (ENABLE_NLS)
   set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
 endif (ENABLE_NLS)
 
-# Line wrapping
-set(TUXMATH_BUILD_LINEBREAK true)
-set(LINEBREAK true)
 
 ## Don't think we need SDL_gfx anymore:
 ##FIND_PACKAGE(SDL_gfx REQUIRED)
@@ -148,13 +145,6 @@ if (TUXMATH_BUILD_INTL)
   set(PREFIX ${CMAKE_BINARY_DIR})
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
-if (TUXMATH_BUILD_LINEBREAK)
-  set(LINEBREAK_BINARY_DIR ${CMAKE_BINARY_DIR}/linebreak)
-  set(LINEBREAK_SOURCE_DIR ${CMAKE_SOURCE_DIR}/linebreak)
-  set(TOP_SRC_DIR ${CMAKE_BINARY_DIR})
-  set(PREFIX ${CMAKE_BINARY_DIR})
-  add_subdirectory(linebreak)
-endif (TUXMATH_BUILD_LINEBREAK)
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(doc)

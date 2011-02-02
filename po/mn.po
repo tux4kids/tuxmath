@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-31 18:32-0600\n"
+"POT-Creation-Date: 2011-02-01 17:59-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Batkhuu.I <batkhu0014@gmail.com>\n"
 "Language-Team: \n"
@@ -233,222 +233,222 @@ msgstr ""
 "ГНУ ЖПЛ-д зочилсоноор үнэгүй програм хангамжийн тухай илүү мэдээллийг авч "
 "болно."
 
-#: src/factoroids.c:497
+#: src/factoroids.c:496
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:498
+#: src/factoroids.c:497
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "11 ба 12-оор үржих"
 
-#: src/factoroids.c:499
+#: src/factoroids.c:498
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:500
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:501
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:507
+#: src/factoroids.c:506
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:508
+#: src/factoroids.c:507
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:509
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:510
+#: src/factoroids.c:509
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:511
+#: src/factoroids.c:510
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:512
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:529
+#: src/factoroids.c:528
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:530
+#: src/factoroids.c:529
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:746
+#: src/factoroids.c:745
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "САНСАРЫН БИЕТ: Бүх жижиг гаргийг устгасанаар та хожих болно."
 
-#: src/factoroids.c:747 src/factoroids.c:758
+#: src/factoroids.c:746 src/factoroids.c:757
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Хөлгийн урагш явах болон чиглүүлэн эргүүлэхдээ сумтай товчлууруудыг "
 "хэрэглэнэ."
 
-#: src/factoroids.c:748
+#: src/factoroids.c:747
 msgid "type one of its factors, and press space or return"
 msgstr "Үржүүлэгч болгох хариуг бичээд урт товчлуур товшино."
 
-#: src/factoroids.c:749
+#: src/factoroids.c:748
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "Жижиг гаригууд хуваагдахгүй тоонуудтай бол устгагдана!"
 
-#: src/factoroids.c:757
+#: src/factoroids.c:756
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 "БУТАРХАЙ: Бутархайг хялбарчлан хуваах тоог бичиж урт болон буцах товчлуур "
 "товшиж,"
 
-#: src/factoroids.c:759
+#: src/factoroids.c:758
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "бүх жижиг гаригуудыг устгаснаар та ялна."
 
-#: src/factoroids.c:760
+#: src/factoroids.c:759
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr "Бутархайнуудыг дахин хуваагдахгүйгээр ганц буудалтаар сөнөө!"
 
-#: src/game.c:759
+#: src/game.c:760
 msgid "Welcome to TuxMath!"
 msgstr "ТаксМат-д тавтай морилно уу!"
 
-#: src/game.c:776
+#: src/game.c:777
 msgid "Your mission is to save your"
 msgstr "Таны даалгавар оцон шувуудын"
 
-#: src/game.c:777
+#: src/game.c:778
 msgid "penguins' igloos from the"
 msgstr "мөсөн гэр дээр солир унахаас"
 
-#: src/game.c:778
+#: src/game.c:779
 msgid "falling comets."
 msgstr "хамгаалахад оршино."
 
-#: src/game.c:797
+#: src/game.c:798
 msgid "Stop a comet by typing"
 msgstr "Математик асуултанд зөв хариулан бичиж, ENTER  ба ESPACE товшиж,"
 
-#: src/game.c:798
+#: src/game.c:799
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:799
+#: src/game.c:800
 msgid "and hitting 'space' or 'enter'."
 msgstr "оносоноор солир устана."
 
-#: src/game.c:800
+#: src/game.c:801
 msgid "Try it now!"
 msgstr "Дахин хий!"
 
-#: src/game.c:808
+#: src/game.c:809
 msgid "Good shot!"
 msgstr "Сайн буудлаа!"
 
-#: src/game.c:818
+#: src/game.c:819
 msgid "If an igloo gets hit by a comet,"
 msgstr "Хэрэв солирт мөсөн гэр оногдвол хайлдаг."
 
-#: src/game.c:819
+#: src/game.c:820
 msgid "it melts. But don't worry: the"
 msgstr "Гэвч санаа зоволтгүй: Оцон шувуу нь зүгээр!"
 
-#: src/game.c:820
+#: src/game.c:821
 msgid "penguin is OK!"
 msgstr "Мөсөн гэр солирт оногдвол"
 
-#: src/game.c:821
+#: src/game.c:822
 msgid "Just watch what happens:"
 msgstr "яг юу тохиолдохыг үзье:"
 
-#: src/game.c:822
+#: src/game.c:823
 msgid "(Press a key to start)"
 msgstr "(Эхлэхдээ товчлуур товш.)"
 
-#: src/game.c:835
+#: src/game.c:836
 msgid "Notice the answer"
 msgstr "Зөв хариулт үзэгдэнэ."
 
-#: src/game.c:845
+#: src/game.c:846
 msgid "If it gets hit again, the"
 msgstr "Хэрэв мөсөн гэрийг дахин оновол"
 
-#: src/game.c:846
+#: src/game.c:847
 msgid "penguin leaves."
 msgstr "оцон шувууд яваад өгнө."
 
-#: src/game.c:847
+#: src/game.c:848
 msgid "(Press a key when ready)"
 msgstr "(Бэлэн бол ямар нэгэн товчлуур товш.)"
 
-#: src/game.c:870
+#: src/game.c:871
 msgid "You can fix the igloos"
 msgstr "Улаан солирийг устгасанаар"
 
-#: src/game.c:871
+#: src/game.c:872
 msgid "by stopping bonus comets."
 msgstr "хайлсан гэрүүдийг засварлаж болно."
 
-#: src/game.c:882
+#: src/game.c:883
 msgid "Zap it now!"
 msgstr "Зөв хариуг бичиж, ENTER товш!"
 
-#: src/game.c:888
+#: src/game.c:889
 msgid "Great job!"
 msgstr "Зөв ажиллаа!"
 
-#: src/game.c:906
+#: src/game.c:907
 msgid "Quit at any time by pressing"
 msgstr "ESC товчлуур эсвэл"
 
-#: src/game.c:907
+#: src/game.c:908
 msgid "'Esc' or clicking the 'X'"
 msgstr "баруун дээд хэсэгт байх чагтыг"
 
-#: src/game.c:908
+#: src/game.c:909
 msgid "in the upper right corner."
 msgstr "товшсоноор гарна."
 
-#: src/game.c:909
+#: src/game.c:910
 msgid "Do it now, and then play!"
 msgstr "Одоо товшин цааш нь тогло!"
 
-#: src/game.c:2707
+#: src/game.c:2708
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2722
+#: src/game.c:2723
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2799
+#: src/game.c:2800
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2807
+#: src/game.c:2808
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -501,62 +501,62 @@ msgid ""
 "Click to continue..."
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
@@ -694,7 +694,7 @@ msgstr "Та хэдэн үе тоглох вэ?"
 msgid "Enter a number"
 msgstr "Тоог оруулна уу"
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:509
 #, fuzzy
 msgid ""
 "Work In Progress!\n"

@@ -291,7 +291,6 @@ static int mouse_reset;
 static int neg_answer_picked;
 static int tux_pressing;
 static int doing_answer;
-static int level_start_wait;
 static int tux_img;
 //static int FF_level;
 

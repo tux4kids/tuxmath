@@ -228,7 +228,7 @@ void briefPlayer(int stage)
 
   SDL_BlitSurface(icon, NULL, screen, NULL);
 
-  linewrap_list(briefings[stage], wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  T4K_LineWrapList(briefings[stage], wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, textarea, 1);
 
   DEBUGMSG(debug_game, "Finished briefing\n");
@@ -258,13 +258,13 @@ void readRoundSettings(int stage, int round)
 void showGameOver()
 {
   const char text[2][MAX_LINEWIDTH] = {N_("Sorry, try again!"), ""};
-  linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  T4K_LineWrapList(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, screen->clip_rect, 3);
 }
 
 void showGameWon()
 {
   const char text[2][MAX_LINEWIDTH] = {N_("Mission accomplished. The galaxy is safe!"), ""};
-  linewrap_list(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+  T4K_LineWrapList(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   scroll_text(wrapped_lines, screen->clip_rect, 3);
 }

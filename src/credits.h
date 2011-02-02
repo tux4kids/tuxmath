@@ -30,8 +30,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #ifndef CREDITS_H
 #define CREDITS_H
 
-//needed for MAX_LINES and MAX_LINEWIDTH
-#include "linewrap.h"
 
 int credits(void);
 int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int speed);

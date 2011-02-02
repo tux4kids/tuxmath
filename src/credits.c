@@ -405,7 +405,7 @@ int credits(void)
   subscreen.h = screen->h - images[IMG_TITLE]->h;
 
   /*convert the text array to one wrapped at 40 columns: */
-  linewrap_list(credit_text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
+T4K_LineWrapList(credit_text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
   quit = scroll_text(wrapped_lines, subscreen, 2);
   
   /* Return the chosen command: */

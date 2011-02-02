@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-01-31 18:32-0600\n"
+"POT-Creation-Date: 2011-02-01 17:59-0600\n"
 "PO-Revision-Date: 2009-02-07 18:04+0800\n"
 "Last-Translator: Xavier <XavierXavierye@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -228,218 +228,218 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:497
+#: src/factoroids.c:496
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:498
+#: src/factoroids.c:497
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "11和12的倍数"
 
-#: src/factoroids.c:499
+#: src/factoroids.c:498
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:500
+#: src/factoroids.c:499
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:501
+#: src/factoroids.c:500
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:502
+#: src/factoroids.c:501
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:507
+#: src/factoroids.c:506
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:508
+#: src/factoroids.c:507
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:509
+#: src/factoroids.c:508
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "13，14和15的倍数"
 
-#: src/factoroids.c:510
+#: src/factoroids.c:509
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:511
+#: src/factoroids.c:510
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:512
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:529
+#: src/factoroids.c:528
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:530
+#: src/factoroids.c:529
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:746
+#: src/factoroids.c:745
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "因数分解游戏：要赢的话，你得击毁所有的小行星。"
 
-#: src/factoroids.c:747 src/factoroids.c:758
+#: src/factoroids.c:746 src/factoroids.c:757
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "用键盘上的方向键转动或前进。瞄准一个小行星，"
 
-#: src/factoroids.c:748
+#: src/factoroids.c:747
 msgid "type one of its factors, and press space or return"
 msgstr "输入其中一个的系数，然后按空格或回车"
 
-#: src/factoroids.c:749
+#: src/factoroids.c:748
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "分解成系数。带有质数的岩石会被摧毁"
 
-#: src/factoroids.c:757
+#: src/factoroids.c:756
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "分数:要赢的话，你得消灭所有的小行星"
 
-#: src/factoroids.c:759
+#: src/factoroids.c:758
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "输入可以简化分数的数，然后按空格或回车键"
 
-#: src/factoroids.c:760
+#: src/factoroids.c:759
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr "分解它。"
 
-#: src/game.c:759
+#: src/game.c:760
 msgid "Welcome to TuxMath!"
 msgstr "欢迎来到TuxMax!"
 
-#: src/game.c:776
+#: src/game.c:777
 msgid "Your mission is to save your"
 msgstr "你的任务是保护你的"
 
-#: src/game.c:777
+#: src/game.c:778
 msgid "penguins' igloos from the"
 msgstr "企鹅的小屋"
 
-#: src/game.c:778
+#: src/game.c:779
 msgid "falling comets."
 msgstr "正在降落的彗星。"
 
-#: src/game.c:797
+#: src/game.c:798
 msgid "Stop a comet by typing"
 msgstr "要制止彗星的话，按"
 
-#: src/game.c:798
+#: src/game.c:799
 msgid "the answer to the math problem"
 msgstr "数学问题的答案"
 
-#: src/game.c:799
+#: src/game.c:800
 msgid "and hitting 'space' or 'enter'."
 msgstr "按空格或回车键"
 
-#: src/game.c:800
+#: src/game.c:801
 msgid "Try it now!"
 msgstr "现在就试一试吧！"
 
-#: src/game.c:808
+#: src/game.c:809
 msgid "Good shot!"
 msgstr "打的好！"
 
-#: src/game.c:818
+#: src/game.c:819
 msgid "If an igloo gets hit by a comet,"
 msgstr "如果一个小屋被彗星击中的话,"
 
-#: src/game.c:819
+#: src/game.c:820
 msgid "it melts. But don't worry: the"
 msgstr "如果融化的话，别担心:"
 
-#: src/game.c:820
+#: src/game.c:821
 msgid "penguin is OK!"
 msgstr "企鹅正常！"
 
-#: src/game.c:821
+#: src/game.c:822
 msgid "Just watch what happens:"
 msgstr "只要观察发生了什么:"
 
-#: src/game.c:822
+#: src/game.c:823
 msgid "(Press a key to start)"
 msgstr "(按任意键开始)"
 
-#: src/game.c:835
+#: src/game.c:836
 msgid "Notice the answer"
 msgstr "注意答案"
 
-#: src/game.c:845
+#: src/game.c:846
 msgid "If it gets hit again, the"
 msgstr "如果再次被击中的话，"
 
-#: src/game.c:846
+#: src/game.c:847
 msgid "penguin leaves."
 msgstr "企鹅离开了。"
 
-#: src/game.c:847
+#: src/game.c:848
 msgid "(Press a key when ready)"
 msgstr "(准备好后按任意键)"
 
-#: src/game.c:870
+#: src/game.c:871
 msgid "You can fix the igloos"
 msgstr "你可以修复小屋"
 
-#: src/game.c:871
+#: src/game.c:872
 msgid "by stopping bonus comets."
 msgstr "通过停止奖励的彗星"
 
-#: src/game.c:882
+#: src/game.c:883
 msgid "Zap it now!"
 msgstr "现在攻击!"
 
-#: src/game.c:888
+#: src/game.c:889
 msgid "Great job!"
 msgstr "干的好!"
 
-#: src/game.c:906
+#: src/game.c:907
 msgid "Quit at any time by pressing"
 msgstr "任何时间退出，按"
 
-#: src/game.c:907
+#: src/game.c:908
 msgid "'Esc' or clicking the 'X'"
 msgstr "按'Esc'键或点击'X'"
 
-#: src/game.c:908
+#: src/game.c:909
 msgid "in the upper right corner."
 msgstr "在右上角"
 
-#: src/game.c:909
+#: src/game.c:910
 msgid "Do it now, and then play!"
 msgstr "现在就做，开始吧！"
 
-#: src/game.c:2707
+#: src/game.c:2708
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2722
+#: src/game.c:2723
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2799
+#: src/game.c:2800
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2807
+#: src/game.c:2808
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -492,62 +492,62 @@ msgid ""
 "Click to continue..."
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2578
+#: src/mathcards.c:2564
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2579
+#: src/mathcards.c:2565
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2580
+#: src/mathcards.c:2566
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2581
+#: src/mathcards.c:2567
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
@@ -685,7 +685,7 @@ msgstr "参加游戏的小朋友数量？"
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:510
+#: src/titlescreen.c:509
 #, fuzzy
 msgid ""
 "Work In Progress!\n"

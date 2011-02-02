@@ -56,7 +56,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "tuxmath.h"
 
-#include "linewrap.h"
 
 #define MAX_LESSONS                     100
 #define MAX_NUM_WORDS                   500

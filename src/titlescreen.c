@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "fileops.h"
 #include "setup.h"
 #include "menu.h"
-#include "linewrap.h"
 #include "throttle.h"
 
 /* --- Data Structure for Dirty Blitting --- */
@@ -158,7 +157,7 @@ void TitleScreen(void)
 {
   Uint32 start_time = 0;
   SDL_Rect tux_anim, title_anim;
-  int i, tux_pix_skip, title_pix_skip, curr_time;
+  int i, tux_pix_skip, title_pix_skip;
 
   if (Opts_UsingSound())
   {
@@ -539,9 +538,9 @@ void ShowMessageWrap( int font_size, const char* str )
   Uint32 timer = 0;
  
   if(screen->flags & SDL_FULLSCREEN)
-    nline = linewrap( str, strings, 70, MAX_LINES, MAX_LINEWIDTH );
+    nline = T4K_LineWrap( str, strings, 70, MAX_LINES, MAX_LINEWIDTH );
   else
-    nline = linewrap( str, strings, 35, MAX_LINES, MAX_LINEWIDTH );
+    nline = T4K_LineWrap( str, strings, 35, MAX_LINES, MAX_LINEWIDTH );
  
   while(inprogress)
   {

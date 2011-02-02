@@ -1959,22 +1959,8 @@ static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
 /* allocate space for an MC_Flashcard */
 MC_FlashCard MC_AllocateFlashcard(void)
 {
-  MC_FlashCard ret;
-
-//NOTE strings now simply hard-coded to MC_FORMULA_LEN (= 40) and
-//MC_ANSWER_LEN (= 5) instead of tailoring them to save a few bytes - DSB
-//  DEBUGMSG(debug_mathcards, "Allocating %d + %d bytes for flashcard\n",
-//            max_formula_size + 1, max_answer_size + 1);
-//  ret.formula_string = malloc( (max_formula_size + 1) * sizeof(char));
-//  ret.answer_string = malloc( (max_answer_size + 1) * sizeof(char));
-//   if (!ret.formula_string || !ret.answer_string)
-//     {
-//     free(ret.formula_string);
-//     free(ret.answer_string);
-//     printf("Couldn't allocate space for a new flashcard!\n");
-//     ret = DEFAULT_CARD;
-//     }
-  return ret;
+  MC_FlashCard* ret = (MC_FlashCard*)malloc(sizeof(MC_FlashCard));
+  return *ret;
 }
 
 //Now a no-op - MC_FlashCard no longer has dynamically allocated strings

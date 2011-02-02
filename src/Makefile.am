@@ -12,8 +12,7 @@ AM_CFLAGS=-Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 
 #NOTE we can remove the following starting with t4k_common 0.0.4
-LDADD = @LIBINTL@ \
-  ../linebreak/liblinebreak.a
+LDADD = @LIBINTL@ 
 
 if BUILD_MINGW32
   bin_PROGRAMS = TuxMath tuxmathserver
@@ -40,7 +39,6 @@ tuxmath_SOURCES = tuxmath.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
-	linewrap.c	\
 	audio.c 	\
         network.c       \
 	mathcards.c	\
@@ -94,7 +92,6 @@ EXTRA_DIST = 	credits.h 	\
 	menu.h		\
 	globals.h	\
 	highscore.h 	\
-	linewrap.h	\
         network.h       \
 	titlescreen.h   \
 	menu.h		\

@@ -25,8 +25,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
  
 #include "tuxmath.h"
-#include "linewrap.h"
-
 
 //#define TESTING_CAMPAIGN //allow ESC to skip missions instead of exiting
 

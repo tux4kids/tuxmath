@@ -551,9 +551,6 @@ int run_lan_join(void)
 /* load menu trees from disk and prerender them */
 void LoadMenus(void)
 {
-  FILE* menu_file = NULL;
-  int i;
-  
   T4K_SetMenuSpritePrefix("sprites");
   T4K_SetActivitiesList(N_OF_ACTIVITIES, activities);
   /* main menu */
