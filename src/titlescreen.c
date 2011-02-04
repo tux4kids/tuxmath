@@ -47,6 +47,7 @@ SDL_Color dark_blue;
 SDL_Color red;
 SDL_Color white;
 SDL_Color yellow;
+SDL_Color bright_green;
 
 // Type needed for trans_wipe():
 struct blit {

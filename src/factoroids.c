@@ -1088,16 +1088,16 @@ static void FF_draw(void){
      if(FF_game==FACTOROIDS_GAME)
      {   
        sprintf(str, "%.1d", asteroid[i].fact_number);
-       draw_nums(str, xnum, ynum);
+       draw_nums(str, xnum, ynum, &white);
      }
      else if (FF_game==FRACTIONS_GAME)
      {
        sprintf(str, "%d", asteroid[i].a);
-       draw_nums(str, xnum, ynum); 
+       draw_nums(str, xnum, ynum, &white); 
        draw_line(xnum, ynum + 4, xnum + 30, ynum + 4,
 		 255, 255, 255);
        sprintf(str, "%d", asteroid[i].b);
-       draw_nums(str, xnum, ynum + 35);
+       draw_nums(str, xnum, ynum + 35, &white);
      }
     }
   }
