@@ -826,7 +826,7 @@ void game_handle_help(void)
     return;
   game_clear_message(&s5);
 
-  help_add_comet("3 * 3 = ?", "9");
+  help_add_comet("3 x 3 = ?", "9");
   comets[0].y = 2*(screen->h)/3;   // start it low down
   while ((comets[0].expl == -1) && !(quit_help = help_renderframe_exit()));  // wait 3 secs
   if (quit_help)
@@ -851,7 +851,7 @@ void game_handle_help(void)
     return;
   game_clear_message(&s3);
 
-  help_add_comet("56 / 8 = ?", "7");
+  help_add_comet("56 ÷ 8 = ?", "7");
   comets[0].y = 2*(screen->h)/3;   // start it low down
 
   while (comets[0].alive && !(quit_help = help_renderframe_exit()));
@@ -901,6 +901,25 @@ void game_handle_help(void)
   if (quit_help)
     return;
 
+  /* Demo of "superbonus" powerup comet: */
+  help_controls.laser_enabled = 1;
+  game_set_message(&s1,_("Fast-moving powerup comets"), left_edge,100);
+  game_set_message(&s2,_("earn you a secret weapon:"), left_edge,135);
+  powerup_add_comet();
+  frame_start = frame;
+
+  while (powerup_comet->comet.alive && (frame - frame_start < 10) && !(quit_help = help_renderframe_exit()));
+
+  if (quit_help)
+    return;
+  if (powerup_comet->comet.alive)
+    powerup_comet->inc_speed = 0;
+  game_set_message(&s3,_("Zap it now!"),left_edge,225);
+
+  while (powerup_comet->comet.alive && !(quit_help = help_renderframe_exit()));
+
+  if (quit_help)
+    return;
 
   game_set_message(&s1,_("Quit at any time by pressing"),left_edge,100);
   game_set_message(&s2,_("'Esc' or clicking the 'X'"),left_edge,135);
@@ -917,7 +936,10 @@ void game_handle_help(void)
 // 0, but returns 1 if the user chooses to exit help.
 int help_renderframe_exit(void)
 {
-  Uint32 timer = 0;
+  /* Need to have this static and not explicitly assigned for 
+   * T4K_Throttle() to work:
+   */
+  static Uint32 timer;
 
   tux_pressing = 0;
   int i;
@@ -930,6 +952,7 @@ int help_renderframe_exit(void)
   game_handle_answer();
   game_handle_tux();
   game_handle_comets();
+  game_handle_powerup();
   game_handle_cities();
   game_handle_penguins();
   game_handle_steam();

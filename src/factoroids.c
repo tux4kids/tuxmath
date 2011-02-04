@@ -2224,17 +2224,43 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
 
 static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
 {
-  SDL_Surface *s1, *s2;
+  SDL_Surface *s1 = NULL, *s2 = NULL;
   SDL_Rect loc;
+  char wrapped_label[256];
+  char wrapped_contents[256];
+  int char_width;
+  int pixel_width = LVL_WIDTH_MSG; 
+  int fontsize =  DEFAULT_MENU_FONT_SIZE;
 
-  s1 = NULL;
-  s2 = NULL;
+  if(label == NULL || contents == NULL)
+    return;
 
-  s1 = T4K_BlackOutline(label, DEFAULT_MENU_FONT_SIZE, &white);
-  if(contents)
+  //NOTE - below code being added to t4k_common as
+  //"int T4K_CharsForWidth(int fontsize, int pixel_width)"
+  //Replace this code block with function call when
+  //t4k_common-0.1.1 released.
+  //char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, LVL_WIDTH_MSG);
+{
+  char buf[256];
+  int i = 0;
+  int done = 0;
+  SDL_Surface* s;
+  for(i = 0; i < 255 && !done; i++)
   {
-    s2 = T4K_BlackOutline(contents, DEFAULT_MENU_FONT_SIZE, &white);
+    buf[i] = 'x';
+    buf[i + 1] = '\0';
+    s = T4K_SimpleText(buf, fontsize, &white);
+    if(s && s->w > pixel_width)  //means string of (i++) 'x' exceeds width
+      done = 1;
+    SDL_FreeSurface(s);
   }
+  char_width = i;
+}
+  T4K_LineWrapInsBreaks(label, wrapped_label, char_width, 64, 64);
+  T4K_LineWrapInsBreaks(contents, wrapped_contents, char_width, 64, 64);
+
+  s1 = T4K_BlackOutline(wrapped_label, DEFAULT_MENU_FONT_SIZE, &white);
+  s2 = T4K_BlackOutline(wrapped_contents, DEFAULT_MENU_FONT_SIZE, &white);
 
   if(s1)
   {
