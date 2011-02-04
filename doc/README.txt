@@ -236,7 +236,7 @@ The comet that has the number you entered as its answer will be shot
 down by Tux!
 
 Note: Sometimes more than one comet will have the same answer.  In
-this case, the lowest comet will be destroyed.
+this case, all the comets having the answer will get destroyed. 
 
 Note: After typing [ENTER / RETURN], the "LED"-style display will
 automatically reset to "000" for you, so you can answer the next
