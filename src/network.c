@@ -65,7 +65,7 @@ int LAN_DetectServers(void)
   IPaddress bcast_ip;
   int sent = 0;
   int done = 0;
-  int seconds = 0;
+  int attempts = 0;
   int num_servers = 0;
   int i = 0;
   Uint32 timer = 0;
@@ -124,7 +124,7 @@ int LAN_DetectServers(void)
       SDLNet_ResolveHost(&bcast_ip, "localhost", DEFAULT_PORT);
       out->address.host = bcast_ip.host;
     }
-    SDL_Delay(250);  //give server chance to answer
+    SDL_Delay(50);  //give server chance to answer
 
     while(SDLNet_UDP_Recv(udpsock, in))
     {
@@ -141,14 +141,13 @@ int LAN_DetectServers(void)
       print_server_list();
     }
 
-    //Make sure we always scan at least one but not more than five seconds:
-    T4K_Throttle(1000, &timer); //repeat once per second
-    seconds++;
-    if(seconds < 1)
+    //Make sure we always scan at least 0.5 but not more than 2 seconds:
+    T4K_Throttle(100, &timer); //repeat 10x per second
+    attempts++;
+    if(attempts < 5)
       done = 0;
-    if(seconds > 5)
+    if(attempts > 20)
       done = 1;
-
   }
 
   DEBUGMSG(debug_lan, "done\n\n");

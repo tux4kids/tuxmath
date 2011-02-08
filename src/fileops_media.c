@@ -180,7 +180,7 @@ int load_image_data()
   "status/arrows.png"
   };
 
-  static char* sprite_filenames[NUM_IMAGES] = {
+  static char* sprite_filenames[NUM_SPRITES] = {
   "comets/comet",
   "comets/bonus_comet",
   "comets/cometex",
@@ -188,6 +188,7 @@ int load_image_data()
   "comets/left_powerup_comet",
   "comets/right_powerup_comet",
   "comets/powerup_cometex",
+  "tux/bigtux"
   };
 
   /* Load static images: */

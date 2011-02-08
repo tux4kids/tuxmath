@@ -1032,23 +1032,14 @@ int detecting_servers(const char* heading, const char* sub)
   return 0;
 #else
   SDL_Rect loc;
-  SDL_Rect TuxRect,
-           stopRect;
+  SDL_Rect stopRect;
 
   int finished = 0;
-  int tux_frame = 0;
-  Uint32 frame = 0;
-  Uint32 start = 0;
   Uint32 timer = 0;
   int servers_found = 0;  
-  sprite* Tux = NULL;
 
   DEBUGMSG(debug_lan, "\nEnter detecting_servers()\n");
 
-  /* FIXME it takes several seconds to load this sprite on a */
-  /* Dell Mini 9 netbook, probably longer on many school     */
-  /* machines.  Perhaps we should load this ahead of time... */
-  Tux = T4K_LoadSprite("tux/bigtux", IMG_ALPHA);
 
   /* We need to get Unicode vals from SDL keysyms */
   SDL_EnableUNICODE(SDL_ENABLE);
@@ -1067,13 +1058,6 @@ int detecting_servers(const char* heading, const char* sub)
     SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
   }
 
-  if (Tux && Tux->frame[0]) /* make sure sprite has at least one frame */
-  {
-    TuxRect.w = Tux->frame[0]->w;
-    TuxRect.h = Tux->frame[0]->h;
-    TuxRect.x = 0;
-    TuxRect.y = screen->h - Tux->frame[0]->h;
-  }
 
   /* Draw heading: */
   {
@@ -1097,13 +1081,14 @@ int detecting_servers(const char* heading, const char* sub)
       SDL_FreeSurface(s);
     }
   }
-
+  
+  /* Draw Tux: */
+  HandleTitleScreenAnimations();
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
   while (!finished)
   {
-    start = SDL_GetTicks();
 
     //Scan local network to find running server:
     servers_found = LAN_DetectServers();
@@ -1113,7 +1098,6 @@ int detecting_servers(const char* heading, const char* sub)
       DEBUGMSG(debug_lan, "No server could be found - returning.\n");
       /* Turn off SDL Unicode lookup (because has some overhead): */
       SDL_EnableUNICODE(SDL_DISABLE);
-      T4K_FreeSprite(Tux);
       return 0;
     }
     else if(servers_found  == 1)  //One server - connect without player intervention
@@ -1125,7 +1109,6 @@ int detecting_servers(const char* heading, const char* sub)
         DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
         /* Turn off SDL Unicode lookup (because has some overhead): */
         SDL_EnableUNICODE(SDL_DISABLE);
-        T4K_FreeSprite(Tux);
         return 0;
       }
       
@@ -1161,7 +1144,6 @@ int detecting_servers(const char* heading, const char* sub)
         DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
         /* Turn off SDL Unicode lookup (because has some overhead): */
         SDL_EnableUNICODE(SDL_DISABLE);
-        T4K_FreeSprite(Tux);
         return 0;
       }
 
@@ -1193,33 +1175,17 @@ int detecting_servers(const char* heading, const char* sub)
       }
     }
 
-    /* --- make tux blink --- */
-    switch (frame % TUX6)
-    {
-      case 0:    tux_frame = 1; break;
-      case TUX1: tux_frame = 2; break;
-      case TUX2: tux_frame = 3; break;
-      case TUX3: tux_frame = 4; break;                        
-      case TUX4: tux_frame = 3; break;
-      case TUX5: tux_frame = 2; break;
-      default: tux_frame = 0;
-    }
-
-    if (Tux && tux_frame)
-    {
-      SDL_BlitSurface(Tux->frame[tux_frame - 1], NULL, screen, &TuxRect);
-      SDL_UpdateRect(screen, TuxRect.x, TuxRect.y, TuxRect.w, TuxRect.h);
-    }
-
+    /* Draw Tux: */
+    HandleTitleScreenAnimations();
+    /* and update: */
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
     /* Wait so we keep frame rate constant: */
     T4K_Throttle(20, &timer);
-    frame++;
   }  // End of while (!finished) loop
 
 
   /* Turn off SDL Unicode lookup (because has some overhead): */
   SDL_EnableUNICODE(SDL_DISABLE);
-  T4K_FreeSprite(Tux);
 
   return 1;
 
