@@ -1082,8 +1082,8 @@ int detecting_servers(const char* heading, const char* sub)
     }
   }
   
-  /* Draw Tux: */
-  HandleTitleScreenAnimations();
+  /* Draw Tux (use "reset" flavor so Tux gets drawn immediately): */
+  HandleTitleScreenAnimations_Reset(true);
   /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 

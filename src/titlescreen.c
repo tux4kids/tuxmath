@@ -426,10 +426,18 @@ int HandleTitleScreenResSwitch(int new_w, int new_h)
 
 /* handle all titlescreen blitting
    this function should be called after every animation frame */
-void HandleTitleScreenAnimations()
+/* NOTE we now allow the animation to optionally be started
+ * at the beginning.  The "old" is now a wrapper for this. */
+void HandleTitleScreenAnimations_Reset(bool reset)
 {
-  static int frame_counter = 0;
+  static int frame_counter;
   int tux_frame;
+
+  /* If 'reset' is true, we start the animation over so Tux
+   * gets redrawn immediately:
+   */
+  if(reset)
+    frame_counter = 0;
 
   /* --- make Tux blink --- */
   switch (frame_counter % TUX6)
@@ -462,6 +470,11 @@ void HandleTitleScreenAnimations()
   frame_counter++;
 }
 
+
+void HandleTitleScreenAnimations(void)
+{
+  HandleTitleScreenAnimations_Reset(false);
+}
 
 /***********************************************************/
 /*                                                         */
