@@ -1,5 +1,5 @@
 /* factoroids.c
-  
+
    The main game loop for a factoring game resembling the
    arcade classic "Asteroids".
 
@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
-#define BASE_RES_X 1280 
+#define BASE_RES_X 1280
 
 #define MAX_LASER 5
 #define MAX_ASTEROIDS 50
@@ -61,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define DEG_PER_ROTATION 2
 #define NUM_OF_ROTO_IMGS 360/DEG_PER_ROTATION
 /* TUXSHIP_DECEL controls "friction" - 1 means ship glides infinitely, 0 stops it instantly */
-#define TUXSHIP_DECEL 0.95 
+#define TUXSHIP_DECEL 0.95
 #define DEG_TO_RAD 0.0174532925
 #define MAX(a,b)           (((a) > (b)) ? (a) : (b))
 //the prime set keeps increasing till its size reaches this value
@@ -81,19 +81,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* definitions for cockpit buttons */
 #define BUTTONW 24
-#define BUTTONH 24 
-#define BUTTON2_X 65  
-#define BUTTON2_Y 45 
-#define BUTTON3_X 53 
-#define BUTTON3_Y 65 
-#define BUTTON5_X 30 
+#define BUTTONH 24
+#define BUTTON2_X 65
+#define BUTTON2_Y 45
+#define BUTTON3_X 53
+#define BUTTON3_Y 65
+#define BUTTON5_X 30
 #define BUTTON5_Y 77
-#define BUTTON7_X 8 
-#define BUTTON7_Y 77 
-#define BUTTON11_X 30 
-#define BUTTON11_Y 65 
-#define BUTTON13_X 45 
-#define BUTTON13_Y 45 
+#define BUTTON7_X 8
+#define BUTTON7_Y 77
+#define BUTTON11_X 30
+#define BUTTON11_Y 65
+#define BUTTON13_X 45
+#define BUTTON13_Y 45
 #define NUMBUTTONS 6
 
 //a value (float) indicating the sensitivity of the mouse
@@ -116,7 +116,7 @@ enum BUTTON_TYPE
   ACTIVE,
   SELECTED,
   PRESSED,
-  DISABLED 
+  DISABLED
 };
 
 /********* Structures *********/
@@ -356,25 +356,25 @@ static void _tb_PowerBomb(int n);
 void factors(void)
 {
   Uint32 timer = 0;
-  
+
   quit = 0;
   counter = 0;
 
   DEBUGMSG(debug_factoroids, "Entering factors():\n");
 
   FF_game = FACTOROIDS_GAME;
-  
+
   if (!FF_init())
   {
     fprintf(stderr, "FF_init() failed!\n");
     FF_exit_free();
     return;
-  } 
+  }
   FF_LevelMessage();
 
   while (game_status == GAME_IN_PROGRESS)
   {
-    counter++; 
+    counter++;
 
     game_handle_user_events();
     if(SDL_GetTicks() > bonus_time && bonus_time != -1) {bonus_time = 0;}
@@ -419,7 +419,7 @@ void factors(void)
 /************** fractions(): The fractions main function ********************/
 void fractions(void)
 {
-  Uint32 timer = 0; 
+  Uint32 timer = 0;
   quit = 0;
   counter = 0;
   tux_img = IMG_TUX_CONSOLE1;
@@ -433,18 +433,18 @@ void fractions(void)
     fprintf(stderr, "FF_init() failed!\n");
     FF_exit_free();
     return;
-  } 
+  }
 
   /************ Main Loop **************/
   while (game_status == GAME_IN_PROGRESS)
   {
     counter++;
-      
+
     if(counter%15 == 0)
-    {    
+    {
       if(tux_img < IMG_TUX_CONSOLE4)
         tux_img++;
-      else 
+      else
         tux_img = IMG_TUX_CONSOLE1;
     }
 
@@ -471,7 +471,7 @@ void fractions(void)
       if (!Mix_PlayingMusic())
       {
         T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
-      }  
+      }
     }
 #endif
 
@@ -531,9 +531,9 @@ static void FF_LevelMessage(void)
 
   /* wait for user events */
   while(waiting)
-  {	  
+  {
       while(SDL_PollEvent(&event))
-      {	     
+      {
           if (event.type == SDL_QUIT)
           {
               SDL_quit_received = 1;
@@ -543,7 +543,7 @@ static void FF_LevelMessage(void)
 	  }
 	  else if (event.type == SDL_MOUSEBUTTONDOWN)
 	  {
-	      waiting = 0;  
+	      waiting = 0;
 	      break;
 	  }
 	  else if (event.type == SDL_KEYDOWN)
@@ -570,7 +570,7 @@ static int FF_init(void)
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
   SDL_Flip(screen);
   SDL_ShowCursor(0);
-  
+
   /* Settings to let us track mouse movement even beyond edge of screen
    * for control of ship rotation.  Note that SDL reportedly supports
    * this only on "Windows and Unix-alikes", i.e. maybe not OS-X
@@ -578,7 +578,7 @@ static int FF_init(void)
   SDL_WM_GrabInput(SDL_GRAB_ON);
 
   FF_intro();
-  
+
   if(screen->h < 600 && screen->w < 800)
     zoom = 0.65;
   else
@@ -638,16 +638,16 @@ static int FF_init(void)
   }
 
 
-  // Allocate memory 
+  // Allocate memory
   asteroid = NULL;  // set in case allocation fails partway through
   asteroid = (asteroid_type *) malloc(MAX_ASTEROIDS * sizeof(asteroid_type));
-  
+
   if (asteroid == NULL)
   {
     printf("Allocation of asteroids failed");
     return 0;
   }
-  
+
   memset(asteroid, 0, MAX_ASTEROIDS * sizeof(asteroid_type));
 
   NUM_ASTEROIDS = 4;
@@ -730,7 +730,7 @@ static void FF_intro(void)
     zoom = 0.65;
   else
     zoom=(float)screen->w/(float)BASE_RES_X;
-  
+
   IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS], 0, zoom, 1);
   IMG_fractions = rotozoomSurface(images[IMG_FACTORS], 0, zoom, 1);
 
@@ -764,17 +764,17 @@ static void FF_intro(void)
 
 static void FF_handle_ship(void)
 {
-//FIXME - am I missing something -- doesn't this just reduce to 
+//FIXME - am I missing something -- doesn't this just reduce to
 //"tuxship.centerx = tuxship.x" and likewise for y???
 /****************** Ship center... ******************/
 
-  tuxship.centerx = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2) + 
+  tuxship.centerx = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2) +
         (tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
-  tuxship.centery = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2) + 
-        (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));  
+  tuxship.centery = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2) +
+        (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));
 
 /******************* Ship live *********************/
-  
+
   if(tuxship.hurt)
   {
     tuxship.hurt_count--;
@@ -819,7 +819,7 @@ static void FF_handle_ship(void)
                +fast_cos(DEG_PER_ROTATION*roto_speed)) * tuxship.centery;
 
   }
-  
+
 /**************** Mouse Rotation ************************/
   tuxship.angle = (tuxship.angle + DEG_PER_ROTATION * -mouseroto) % 360;
   tuxship.angle += tuxship.angle < 0 ? 360 : 0;
@@ -831,7 +831,7 @@ static void FF_handle_ship(void)
 
 /**************** Move, and increse speed ***************/
 
-      
+
   if (up_pressed && (tuxship.lives > 0))
   {
      tuxship.xspeed = tuxship.xspeed + ((fast_cos(tuxship.angle >> 3) * 3) >> 10);
@@ -846,7 +846,7 @@ static void FF_handle_ship(void)
   {
     if ((counter % 2) == 0)
     {
-       tuxship.xspeed = tuxship.xspeed * TUXSHIP_DECEL; 
+       tuxship.xspeed = tuxship.xspeed * TUXSHIP_DECEL;
        tuxship.yspeed = tuxship.yspeed * TUXSHIP_DECEL;
        tuxship.thrust = 0;
     }
@@ -856,18 +856,18 @@ static void FF_handle_ship(void)
   tuxship.y = tuxship.y + tuxship.yspeed;
 
 /*************** Wrap ship around edges of screen ****************/
-  
+
   if(tuxship.x >= (screen->w))
     tuxship.x = tuxship.x - (screen->w);
   else if (tuxship.x < -60)
     tuxship.x = tuxship.x + (screen->w);
-      
+
   if(tuxship.y >= (screen->h))
     tuxship.y = tuxship.y - (screen->h);
   else if (tuxship.y < -60)
 	tuxship.y = tuxship.y + (screen->h);
 
-/**************** Shoot ***************/   
+/**************** Shoot ***************/
   if(shoot_pressed)
   {
     FF_add_laser();
@@ -886,18 +886,18 @@ static void FF_handle_asteroids(void){
 
 	      found=1;
 
-	      /*************** Rotate asteroid ****************/ 
-	      
+	      /*************** Rotate asteroid ****************/
+
 	      asteroid[i].angle = (asteroid[i].angle + asteroid[i].angle_speed);
 
-	      // Wrap rotation angle... 
-	      
+	      // Wrap rotation angle...
+
 	      if (asteroid[i].angle < 0)
 		asteroid[i].angle = asteroid[i].angle + 360;
 	      else if (asteroid[i].angle >= 360)
 		asteroid[i].angle = asteroid[i].angle - 360;
 
-             /**************Move the astroids ****************/ 
+             /**************Move the astroids ****************/
 	      surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
 
 	      asteroid[i].rx = asteroid[i].rx + asteroid[i].xspeed;
@@ -905,14 +905,14 @@ static void FF_handle_asteroids(void){
 
 	      asteroid[i].x  = (asteroid[i].rx - (surf->w/2));
 	      asteroid[i].y  = (asteroid[i].ry - (surf->h/2));
- 	      
-	      // Wrap asteroid around edges of screen: 
-	      
+
+	      // Wrap asteroid around edges of screen:
+
 	      if (asteroid[i].x >= (screen->w))
 		asteroid[i].rx = asteroid[i].rx - (screen->w);
 	      else if (asteroid[i].x < 0)
 		asteroid[i].rx = asteroid[i].rx + (screen->w);
-	      
+
 	      if (asteroid[i].y >= (screen->h))
 		asteroid[i].ry = asteroid[i].ry - (screen->h);
 	      else if (asteroid[i].ry < 0)
@@ -931,15 +931,15 @@ static void FF_handle_asteroids(void){
 		{
 		  asteroid[i].xdead=asteroid[i].centerx;
 		  asteroid[i].ydead=asteroid[i].centery;
-		  
-		  if(!(bonus == TB_FORCEFIELD && bonus_time > 0)) {   
+
+		  if(!(bonus == TB_FORCEFIELD && bonus_time > 0)) {
   		  tuxship.lives--;
 	  	  tuxship.hurt=1;
 	  	  tuxship.hurt_count=50;
 	  	}
 		  FF_destroy_asteroid(i, tuxship.xspeed, tuxship.yspeed);
 		  playsound(SND_EXPLOSION);
-			 
+
 		}
 	      }
         }
@@ -950,7 +950,7 @@ static void FF_handle_asteroids(void){
 
 static void FF_handle_answer(void)
 {
-  
+
   num = (digits[0] * 100 +
          digits[1] * 10 +
          digits[2]);
@@ -958,15 +958,15 @@ static void FF_handle_answer(void)
   if (neg_answer_picked)
   {
     num = -num;
-  }	
+  }
 
   if (!doing_answer)
   {
     return;
   }
-  
+
   doing_answer = 0;
-  
+
   neg_answer_picked = 0;
 
 }
@@ -986,10 +986,10 @@ static void FF_draw(void){
   char str[64];
   SDL_Surface* surf;
   SDL_Rect dest;
-  
+
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
 
-  /************ Draw Background ***************/ 
+  /************ Draw Background ***************/
 
   FF_draw_bkgr();
 
@@ -1012,7 +1012,7 @@ static void FF_draw(void){
       }
     }
   }
-  /*************** Draw Ship ******************/ 
+  /*************** Draw Ship ******************/
 
   if(!tuxship.hurt || (tuxship.hurt && tuxship.hurt_count%2==0)){
      dest.x = (tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
@@ -1022,7 +1022,7 @@ static void FF_draw(void){
 
 	//Change the image based on if the rocket is thrusting
 	//Google code in task
-	
+
 	if(!tuxship.thrust) {
 	   SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
      	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
@@ -1030,24 +1030,24 @@ static void FF_draw(void){
 	   SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_thrust_cloaked : IMG_tuxship_thrust;
      	   SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
 	}
-	
 
-  
+
+
     if(bonus == TB_FORCEFIELD && bonus_time > 0) {
       SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
       SDL_BlitSurface(images[IMG_FORCEFIELD], NULL, screen, &tmp);
     }
   }
-  
+
   /************* Draw Asteroids ***************/
   for(i=0; i<MAX_ASTEROIDS; i++){
     if(asteroid[i].alive>0){
-     
+
      xnum=0;
      ynum=0;
 
      dest.x = asteroid[i].x;
-     dest.y = asteroid[i].y; 
+     dest.y = asteroid[i].y;
 
      surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
 
@@ -1086,14 +1086,14 @@ static void FF_draw(void){
 
      //Draw Numbers
      if(FF_game==FACTOROIDS_GAME)
-     {   
+     {
        sprintf(str, "%.1d", asteroid[i].fact_number);
        draw_nums(str, xnum, ynum, &white);
      }
      else if (FF_game==FRACTIONS_GAME)
      {
        sprintf(str, "%d", asteroid[i].a);
-       draw_nums(str, xnum, ynum, &white); 
+       draw_nums(str, xnum, ynum, &white);
        draw_line(xnum, ynum + 4, xnum + 30, ynum + 4,
 		 255, 255, 255);
        sprintf(str, "%d", asteroid[i].b);
@@ -1113,9 +1113,9 @@ static void FF_draw(void){
 		 (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
 	         (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
 		 (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
-    }    
+    }
 
-  
+
     if(asteroid[i].isdead) {
       dest.x = asteroid[i].xdead;
       dest.y = asteroid[i].ydead;
@@ -1155,7 +1155,7 @@ static void FF_draw(void){
   dest.h = images[IMG_SCORE]->h;
 
   SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
-        
+
   sprintf(str, "%.6d", score);
   draw_numbers(str,
                screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
@@ -1167,18 +1167,18 @@ static void FF_draw(void){
   dest.y = 0;
   dest.w = images[IMG_STOP]->w;
   dest.h = images[IMG_STOP]->h;
-    
+
   SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
  // }
 
   /************* Draw pre answer ************/
 
-   
+
   if(screen->w < 800 && screen->h < 600)
   {
     sprintf(str, "%.3d", num);
     draw_numbers(str, ((screen->w)/2) - 50, (screen->h) - 30);
-  } 
+  }
   else
   {
     FF_draw_led_console();
@@ -1201,10 +1201,10 @@ static void FF_draw(void){
       dest.y = screen->h - (images[IMG_TUX_LITTLE]->h);
       SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
       sprintf(str, "%d", tuxship.lives);
-      draw_numbers(str, 10, (screen->h) - 30); 
+      draw_numbers(str, 10, (screen->h) - 30);
     }
   }
-  
+
   /*** Draw Bonus Indicator ***/
   static int blink = 0;
   if(bonus_time == 0)
@@ -1226,10 +1226,10 @@ static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y)
   rect.y = 0;
   rect.w = BUTTONW;
   rect.h = BUTTONH;
-  
+
   scr.x = x;
-  scr.y = y; 
-   
+  scr.y = y;
+
   if(type == ACTIVE)
   {
     rect.x = 0;
@@ -1237,8 +1237,8 @@ static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y)
   }
   else if(type == SELECTED)
   {
-    rect.x = BUTTONW; 
-    SDL_BlitSurface(images[img_id], &rect, screen, &scr);  
+    rect.x = BUTTONW;
+    SDL_BlitSurface(images[img_id], &rect, screen, &scr);
   }
   else if(type == PRESSED)
   {
@@ -1254,7 +1254,7 @@ static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y)
 
 static void FF_ButtonInit(void)
 {
-   
+
   buttons[0].img_id = IMG_BUTTON2;
   buttons[0].x = screen->w/2 - BUTTON2_X;
   buttons[0].y = screen->h - BUTTON2_Y;
@@ -1267,7 +1267,7 @@ static void FF_ButtonInit(void)
 
   buttons[2].img_id = IMG_BUTTON5;
   buttons[2].x = screen->w/2 - BUTTON5_X;
-  buttons[2].y = screen->h - BUTTON5_Y; 
+  buttons[2].y = screen->h - BUTTON5_Y;
   buttons[2].prime = 5;
 
   buttons[3].img_id = IMG_BUTTON7;
@@ -1291,7 +1291,7 @@ static void FF_DrawButtonLayout(void)
 {
   int i;
   enum BUTTON_TYPE type;
-  
+
   FF_ButtonInit();
 
   for(i=0; i<6; i++)
@@ -1299,11 +1299,11 @@ static void FF_DrawButtonLayout(void)
     if(i < wave)
     {
       if(button_pressed && num==buttons[i].prime)
-      {       
+      {
         type=PRESSED;
-      } 
+      }
       else if(num==buttons[i].prime)
-      { 
+      {
         type=SELECTED;
       }
       else
@@ -1313,10 +1313,10 @@ static void FF_DrawButtonLayout(void)
     }
     else
     {
-      type = DISABLED; 
+      type = DISABLED;
     }
     FF_DrawButton(buttons[i].img_id,type,buttons[i].x,buttons[i].y);
-  }  
+  }
 }
 
 static int FF_CockpitTux( int prime )
@@ -1336,7 +1336,7 @@ static int FF_CockpitTux( int prime )
     case 13:
       return IMG_TUX6;
     default:
-      return IMG_TUX1; 
+      return IMG_TUX1;
   }
 }
 
@@ -1351,13 +1351,13 @@ void FF_draw_led_console(void)
   if(FF_game == FACTOROIDS_GAME)
   {
     draw_console_image(IMG_COCKPIT);
-    FF_DrawButtonLayout(); 
+    FF_DrawButtonLayout();
   }
   else
   {
     /* draw new console image with "monitor" for LED numbers: */
     draw_console_image(IMG_CONSOLE_LED);
-    
+
     /* set y to draw LED numbers into Tux's "monitor": */
     y = (screen->h
         - images[IMG_CONSOLE_LED]->h
@@ -1449,7 +1449,7 @@ int AsteroidColl(int astW,int astH,int astX,int astY,
 
   x1=astX+astWq*3;
   y1=astY;
-  
+
   x2=astX+astWq*6;
   y2=astY+astH;
 
@@ -1458,7 +1458,7 @@ int AsteroidColl(int astW,int astH,int astX,int astY,
 
   x1=astX;
   y1=astY+astHq*3;
-  
+
   x2=astW;
   y2=astY+astHq*6;
 
@@ -1467,7 +1467,7 @@ int AsteroidColl(int astW,int astH,int astX,int astY,
 
   x1=astX+astWq;
   y1=astY+astHq;
-  
+
   x2=astX+astWq*7;
   y2=astY+astHq*7;
 
@@ -1500,18 +1500,18 @@ static void FF_add_level(void)
   SDL_Rect rect;
 
   wave++;
-  
+
   // New lives per wave!
   if (wave%5==0)
   {
     tuxship.lives++;
   }
-  
+
   // Clear all bonuses obtained in a wave
   bonus_time = BONUS_NOTUSED; // Reset the timer for the bonus
   // And now reward a new bonus
   bonus = rand()%TB_SIZE;
-  
+
   // Set active number to newly added prime
   int wave_i = wave - 1;
   if(wave>=PRIME_MAX_LIMIT) {
@@ -1519,14 +1519,14 @@ static void FF_add_level(void)
   }
   int c_prime = prime_numbers[wave_i];
   digits[2] = c_prime % 10;
-  digits[1] = c_prime / 10;  
-  
+  digits[1] = c_prime / 10;
+
   //Limit the new asteroids
   if(NUM_ASTEROIDS<MAX_ASTEROIDS)
      NUM_ASTEROIDS=NUM_ASTEROIDS+wave;
   else
      NUM_ASTEROIDS=MAX_ASTEROIDS;
-  
+
   width = screen->w;
   if (screen->h < width)
     width = screen->h;
@@ -1534,7 +1534,7 @@ static void FF_add_level(void)
   // Define the "safety radius" as one third of the screen width
   safety_radius2 = width/3;
   safety_radius2 = safety_radius2*safety_radius2; // the square distance
-  
+
   // Define the max speed in terms of the screen width
   max_speed = width/100;
   if (max_speed == 0)
@@ -1568,16 +1568,16 @@ static void FF_add_level(void)
 		    xvel,yvel,
 		    rand()%2,
 		    rand()%360, rand()%3,
-		    generatenumber(wave), 
+		    generatenumber(wave),
 		    0, 0,
 		    1);
    }
    else if(FF_game==FRACTIONS_GAME){
      FF_add_asteroid(x,y,
 		     xvel,yvel,
-                     rand()%2, 
+                     rand()%2,
 		     rand()%360, rand()%3,
-                     0, 
+                     0,
 		     (rand()%(31+(wave*2))), (rand()%(80+(wave*wave))),
 		     1);
    }
@@ -1601,7 +1601,7 @@ static void FF_add_level(void)
 
 static int FF_over(int game_status)
 {
-  Uint32 timer = 0; 
+  Uint32 timer = 0;
   SDL_Rect dest_message;
   SDL_Event event;
 
@@ -1771,7 +1771,7 @@ static void FF_exit_free()
     SDL_FreeSurface(scaled_bkgd);
     scaled_bkgd = NULL;
   }
-  
+
   /* Resume "normal" settings when we leave:
    */
   SDL_ShowCursor(1);
@@ -1790,15 +1790,15 @@ int is_prime(int num)
 
     for(i = 2; i < num; i++)
     {
-      if(num%i == 0) return 0; 
+      if(num%i == 0) return 0;
     }
   }
   else if (num < 0)
   {
     for(i = 2; i > num; i--)
     {
-      if(num%i == 0) return 0; 
-    } 
+      if(num%i == 0) return 0;
+    }
   }
   return 1;
 }
@@ -1816,7 +1816,7 @@ int is_simplified(int a, int b)
 int fast_cos(int angle)
 {
   angle = (angle % 45);
-  
+
   if (angle < 12)
     return(trig[angle]);
   else if (angle < 23)
@@ -1867,7 +1867,7 @@ static int validate_number(int num, int wave)
   for(i = 0; i < wave; i++)
   {
     while(num % prime_numbers[i] == 0)
-      num /= prime_numbers[i];	    
+      num /= prime_numbers[i];
   }
 
   /* If we aren't left with 1, the number is invalid: */
@@ -1880,7 +1880,7 @@ static int validate_number(int num, int wave)
 //implementation of the powerbomb powerup
 void _tb_PowerBomb (int num) {
   int i;
-  
+
   for(i=0; i<MAX_ASTEROIDS; i++) {
     if(asteroid[i].alive == 1) {
       if((FF_game==FACTOROIDS_GAME && (asteroid[i].isprime && ((num==asteroid[i].fact_number)||(num==0)))) ||
@@ -1889,7 +1889,7 @@ void _tb_PowerBomb (int num) {
 		  } else if((FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[i].fact_number%num)==0) && (num!=asteroid[i].fact_number)) ||
 	              (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[i].a%num)==0) && ((asteroid[i].b%num)==0) && (num!=asteroid[i].fact_number))) {
         FF_destroy_asteroid(i, 0, 0);
-      }    
+      }
     }
   }
 }
@@ -1920,12 +1920,12 @@ int FF_add_laser(void)
       laser[i].angle=tuxship.angle;
       laser[i].count=15;
       laser[i].n = num;
-      
+
       ux = cos((float)laser[i].angle * DEG_TO_RAD);
       uy = -sin((float)laser[i].angle * DEG_TO_RAD);
       laser[i].destx = laser[i].x + (int)(ux * screensize);
       laser[i].desty = laser[i].y + (int)(uy * screensize);
-      
+
       // Check to see if it hits asteroids---we only check when it
       // just starts firing, "drift" later doesn't count!
       // We describe the laser path as p = p0 + s*u, where
@@ -1937,7 +1937,7 @@ int FF_add_laser(void)
       zapIndex = -1;  // keep track of the closest "hit" asteroid
       zapScore = 0;
       smin = 10*screensize;
-      
+
 
       for (k=0; k<MAX_ASTEROIDS; k++)
       {
@@ -1963,7 +1963,7 @@ int FF_add_laser(void)
 
 	    if( (FF_game==FACTOROIDS_GAME && (asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))) ||
 		(FF_game==FRACTIONS_GAME && (asteroid[k].isprime && num==0))
-	    ) 
+	    )
 	    {
 	      // It's valid, check to see if it's closest
 	      if (s < smin)
@@ -1989,7 +1989,7 @@ int FF_add_laser(void)
 	  }
 	}
       }
-      
+
       // Handle the destruction, score, and extra lives
       if (zapIndex >= 0)  // did we zap one?
       {
@@ -2036,11 +2036,11 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       asteroid[i].ydead = 0;
       asteroid[i].isdead = 0;
       asteroid[i].countdead = 0;
-      
+
       if(FF_game==FACTOROIDS_GAME){
 
          if(!validate_number(fact_number, wave))
-	 {		 
+	 {
            fprintf(stderr, "Invalid asteroid number: %d\n", fact_number);
            return -1;
          }
@@ -2064,12 +2064,12 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
       }
 
       if(new_wave){
-         if(tuxship.x-50<asteroid[i].x+80 && 
-            tuxship.x+50>asteroid[i].x && 
-            tuxship.y-50<asteroid[i].y+80 && 
+         if(tuxship.x-50<asteroid[i].x+80 &&
+            tuxship.x+50>asteroid[i].x &&
+            tuxship.y-50<asteroid[i].y+80 &&
             tuxship.y+50>asteroid[i].y &&
             tuxship.lives>0 &&
-            asteroid[i].alive){ 
+            asteroid[i].alive){
 	       asteroid[i].rx=asteroid[i].rx+300;
 	       asteroid[i].ry=asteroid[i].ry+300;
 	    }
@@ -2090,7 +2090,7 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
         asteroid[i].centery=(images[IMG_ASTEROID2]->h/2)+asteroid[i].y;
         asteroid[i].radius=(images[IMG_ASTEROID1]->h/2);
       }
-       
+
       while (asteroid[i].xspeed==0)
       {
         asteroid[i].xspeed = ((rand() % 3) - 1)*2;
@@ -2123,7 +2123,7 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 	  	          rand()%360, rand()%3, (int)(asteroid[i].fact_number/num),
 		          0, 0,
                           0);
-      
+
           FF_add_asteroid(asteroid[i].rx,
 	  	          asteroid[i].ry,
 	  	          asteroid[i].xspeed + (xspeed + yspeed)/2,
@@ -2142,7 +2142,7 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 	  	          rand()%360, rand()%3, 0,
 		          (int)(asteroid[i].a/num), (int)(asteroid[i].b/num),
                           0);
-      
+
           FF_add_asteroid(asteroid[i].rx,
 	  	          asteroid[i].ry,
 	  	          (asteroid[i].xspeed + xspeed),
@@ -2150,14 +2150,14 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 	  	          0,
 	  	          rand()%360, rand()%3, 0,
                           (int)(asteroid[i].b/num), (int)(asteroid[i].a/num),
-                          0); 
+                          0);
 	}
-      } 
+      }
     }
 
     /* Destroy the old asteroid */
 
-    asteroid[i].alive=0;		  
+    asteroid[i].alive=0;
     return 1;
   }
   return 0;
@@ -2189,25 +2189,25 @@ void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
   /* Draw lines of text (do after drawing Tux so text is in front): */
   if (s1)
   {
-    loc.x = (screen->w / 2) - (s1->w/2); 
+    loc.x = (screen->w / 2) - (s1->w/2);
     loc.y = (screen->h / 2) + 10;
     SDL_BlitSurface( s1, NULL, screen, &loc);
   }
   if (s2)
   {
-    loc.x = (screen->w / 2) - (s2->w/2); 
+    loc.x = (screen->w / 2) - (s2->w/2);
     loc.y = (screen->h / 2) + 80;
     SDL_BlitSurface( s2, NULL, screen, &loc);
   }
   if (s3)
   {
-    loc.x = (screen->w / 2) - (s3->w/2); 
+    loc.x = (screen->w / 2) - (s3->w/2);
     loc.y = (screen->h / 2) + 130;
     SDL_BlitSurface( s3, NULL, screen, &loc);
   }
   if (s4)
   {
-    loc.x = (screen->w / 2) - (s4->w/2); 
+    loc.x = (screen->w / 2) - (s4->w/2);
     loc.y = (screen->h / 2) + 180;
     SDL_BlitSurface( s4, NULL, screen, &loc);
   }
@@ -2229,7 +2229,7 @@ static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
   char wrapped_label[256];
   char wrapped_contents[256];
   int char_width;
-  int pixel_width = LVL_WIDTH_MSG; 
+  int pixel_width = LVL_WIDTH_MSG;
   int fontsize =  DEFAULT_MENU_FONT_SIZE;
 
   if(label == NULL || contents == NULL)
@@ -2317,7 +2317,7 @@ void game_handle_user_events(void)
       {
         mouse_reset = 1;
         SDL_WarpMouse(screen->w/2, screen->h/2);
-        continue;	
+        continue;
       }
       //If this was an event generated by our reset-to-center,
       //ignore it:
@@ -2325,7 +2325,7 @@ void game_handle_user_events(void)
       {
         mouse_reset = 0;
         continue;
-      }	
+      }
       //otherwise, valid event - handle mouse rotation
       roto = 1;
       mouseroto = game_mouseroto(event) / MOUSE_SENSITIVITY;
@@ -2334,42 +2334,42 @@ void game_handle_user_events(void)
 	event.type == SDL_KEYUP)
     {
       key = event.key.keysym.sym;
-      
+
       if (event.type == SDL_KEYDOWN)
 	{
 	  if (key == SDLK_ESCAPE)
 	  {
-            // Return to menu! 
+            // Return to menu!
             escape_received = 1;
 
 	  }
-	  
-	  // Key press... 
-	 
+
+	  // Key press...
+
 	  if (key == SDLK_RIGHT)
 	    {
-	      // Rotate CW 
-	      
+	      // Rotate CW
+
  	      left_pressed = 0;
 	      right_pressed = 1;
 	    }
 	  else if (key == SDLK_LEFT)
 	    {
-	      // Rotate CCW 
-	      
+	      // Rotate CCW
+
 	      left_pressed = 1;
 	      right_pressed = 0;
 	    }
 	  else if (key == SDLK_UP)
 	    {
-	      // Thrust! 
-	      
+	      // Thrust!
+
 	      up_pressed = 1;
 	    }
-	  
+
 	  if (key == SDLK_LSHIFT || key == SDLK_RSHIFT)
 	    {
-	      // Respawn now (if applicable) 
+	      // Respawn now (if applicable)
 	      shift_pressed = 1;
 	    }
 
@@ -2381,7 +2381,7 @@ void game_handle_user_events(void)
     	    paused = 1;
     	  }
   	}
-  	
+
   	if (key == CTRL_NEXT) {
   	  int n = prime_next[digits[1]*10 + digits[2]];
   	  if(n <= prime_numbers[wave - 1]) {
@@ -2396,7 +2396,7 @@ void game_handle_user_events(void)
         playsound(SND_SHIELDSDOWN);
   	  }
   	}
-  	
+
   	if (key == CTRL_PREV) {
   	  int n = prime_prev[digits[1]*10 + digits[2]];
   	  if(n <= prime_numbers[wave - 1]) {
@@ -2445,12 +2445,12 @@ void game_handle_user_events(void)
     digits[2] = _tmp % 10;
     digits[1] = _tmp / 10;
   }
-  
+
   /* activate bonus/powerup */
   if((key == SDLK_LSHIFT || key == SDLK_RSHIFT) && bonus_time == -1) {
     playsound(SND_HARP);
     bonus_time = SDL_GetTicks() + 10000; //10sec bonus
-    
+
     //special handling for the powerbomb, since it happens "at once"
     if(bonus == TB_POWERBOMB) {
       _tb_PowerBomb(digits[1]*10 + digits[2]);
@@ -2489,8 +2489,8 @@ void game_handle_user_events(void)
 	  }
       else if (event.type == SDL_KEYUP)
 	{
-	  // Key release... 
-	  
+	  // Key release...
+
 	  if (key == SDLK_RIGHT)
 	    {
 	      right_pressed = 0;
@@ -2506,7 +2506,7 @@ void game_handle_user_events(void)
 	  if (key == SDLK_LSHIFT ||
 	      key == SDLK_RSHIFT)
 	    {
-	      // Respawn now (if applicable) 
+	      // Respawn now (if applicable)
 	      shift_pressed = 0;
 	    }
           if ( key == SDLK_RETURN || key == SDLK_KP_ENTER || key == SDLK_SPACE )
@@ -2527,7 +2527,7 @@ void game_handle_user_events(void)
 	      else if (event.jbutton.button == JOY_A)
 		{
 		  // Thrust:
-		  
+
 		  up_pressed = 1;
 		}
 	      else
@@ -2539,8 +2539,8 @@ void game_handle_user_events(void)
 	    {
 	      if (event.jbutton.button == JOY_A)
 		{
-		  // Stop thrust: 
-		  
+		  // Stop thrust:
+
 		  up_pressed = 0;
 		}
 	      else if (event.jbutton.button != JOY_B)
@@ -2579,10 +2579,11 @@ void game_handle_user_events(void)
 static int game_mouse_event(SDL_Event event)
 {
   if(event.button.button == SDL_BUTTON_LEFT) return  SDLK_RETURN;
+  else if(event.button.button == SDL_BUTTON_MIDDLE) return SDLK_LSHIFT;
   else if(event.button.button == SDL_BUTTON_RIGHT) return SDLK_UP;
   else if(event.button.button == SDL_BUTTON_WHEELUP) return CTRL_NEXT;
   else if(event.button.button == SDL_BUTTON_WHEELDOWN) return CTRL_PREV;
-  else return SDLK_UNKNOWN; 
+  else return SDLK_UNKNOWN;
 }
 
 
