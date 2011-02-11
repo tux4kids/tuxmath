@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-02 09:30-0600\n"
+"POT-Creation-Date: 2011-02-09 18:46-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -434,7 +434,7 @@ msgstr "Kaya mong ayusin ang mga yelong bahay"
 msgid "by stopping bonus comets."
 msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
 
-#: src/game.c:881
+#: src/game.c:881 src/game.c:917
 msgid "Zap it now!"
 msgstr "Barilin mo na!"
 
@@ -442,38 +442,47 @@ msgstr "Barilin mo na!"
 msgid "Great job!"
 msgstr "Ang galing mo!"
 
-#: src/game.c:905
+#: src/game.c:906
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
+
+#: src/game.c:907
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:924
 msgid "Quit at any time by pressing"
 msgstr "Pede kang umalis sa kahit anung oras sa pagpindot ng"
 
-#: src/game.c:906
+#: src/game.c:925
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' o pagpindot ng 'X'"
 
-#: src/game.c:907
+#: src/game.c:926
 msgid "in the upper right corner."
 msgstr "sa kanang itaas na sulok."
 
-#: src/game.c:908
+#: src/game.c:927
 msgid "Do it now, and then play!"
 msgstr "Gawin mo na ngayon, at maglaro!"
 
-#: src/game.c:2706
+#: src/game.c:2729
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2721
+#: src/game.c:2744
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2798
+#: src/game.c:2821
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Nakakonekta na sa server: %s"
 
-#: src/game.c:2806
+#: src/game.c:2829
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
@@ -520,7 +529,7 @@ msgstr "Ikaw Ay Nasa Lugar ng mga Katanyagan!"
 msgid "Enter Your Name:"
 msgstr "Ibigay ang iyong Pangalan:"
 
-#: src/highscore.c:1143
+#: src/highscore.c:1126
 #, fuzzy, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -722,7 +731,7 @@ msgstr "Ilang round ang inyong lalaruin?"
 msgid "Enter a number"
 msgstr "Maglagay ng number"
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:522
 #, fuzzy
 msgid ""
 "Work In Progress!\n"

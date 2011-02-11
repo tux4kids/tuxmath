@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-02 09:30-0600\n"
+"POT-Creation-Date: 2011-02-09 18:46-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -380,7 +380,7 @@ msgstr ""
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:881
+#: src/game.c:881 src/game.c:917
 msgid "Zap it now!"
 msgstr ""
 
@@ -388,37 +388,45 @@ msgstr ""
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:905
-msgid "Quit at any time by pressing"
-msgstr ""
-
 #: src/game.c:906
-msgid "'Esc' or clicking the 'X'"
+msgid "Fast-moving powerup comets"
 msgstr ""
 
 #: src/game.c:907
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:924
+msgid "Quit at any time by pressing"
+msgstr ""
+
+#: src/game.c:925
+msgid "'Esc' or clicking the 'X'"
+msgstr ""
+
+#: src/game.c:926
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:908
+#: src/game.c:927
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/game.c:2706
+#: src/game.c:2729
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2721
+#: src/game.c:2744
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2798
+#: src/game.c:2821
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2806
+#: src/game.c:2829
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -464,7 +472,7 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/highscore.c:1143
+#: src/highscore.c:1126
 #, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -661,7 +669,7 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:522
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"

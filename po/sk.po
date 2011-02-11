@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-02 09:30-0600\n"
+"POT-Creation-Date: 2011-02-09 18:46-0600\n"
 "PO-Revision-Date: 2011-01-14 18:34+0200\n"
 "Last-Translator: Administrator <>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -415,7 +415,7 @@ msgstr "Iglu mÃ´Å¾eÅ¡ opraviÅ¥ tak,"
 msgid "by stopping bonus comets."
 msgstr "Å¾e zastavÃ­Å¡ bonusovÃ© komÃ©ty."
 
-#: src/game.c:881
+#: src/game.c:881 src/game.c:917
 msgid "Zap it now!"
 msgstr "Len do nich!"
 
@@ -423,31 +423,40 @@ msgstr "Len do nich!"
 msgid "Great job!"
 msgstr "VÃ½borne!"
 
-#: src/game.c:905
+#: src/game.c:906
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "Å¾e zastavÃ­Å¡ bonusovÃ© komÃ©ty."
+
+#: src/game.c:907
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:924
 msgid "Quit at any time by pressing"
 msgstr "Hru mÃ´Å¾eÅ¡ kedykoÄ¾vek zastaviÅ¥ stlaÄenÃ­m"
 
-#: src/game.c:906
+#: src/game.c:925
 msgid "'Esc' or clicking the 'X'"
 msgstr "Esc alebo kliknutÃ­m na X"
 
-#: src/game.c:907
+#: src/game.c:926
 msgid "in the upper right corner."
 msgstr "v pravom hornom rohu."
 
-#: src/game.c:908
+#: src/game.c:927
 msgid "Do it now, and then play!"
 msgstr "VyskÃºÅ¡aj si to a Å¡up do hry!"
 
-#: src/game.c:2706
+#: src/game.c:2729
 msgid "The Penguins Have Been Saved!"
 msgstr "TuÄniaci boli zachrÃ¡nenÃ­!"
 
-#: src/game.c:2721
+#: src/game.c:2744
 msgid "Final Scores:"
 msgstr "VÃ½slednÃ© skÃ³re:"
 
-#: src/game.c:2798
+#: src/game.c:2821
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
@@ -456,7 +465,7 @@ msgstr ""
 "SieÅ¥ovÃ¡ hra skonÄila.\n"
 "  Spojenie so serverom bolo preruÅ¡enÃ©."
 
-#: src/game.c:2806
+#: src/game.c:2829
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -504,7 +513,7 @@ msgstr "Si v Sieni slÃ¡vy!"
 msgid "Enter Your Name:"
 msgstr "Sem napÃ­Å¡ svoje meno:"
 
-#: src/highscore.c:1143
+#: src/highscore.c:1126
 #, fuzzy, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -727,7 +736,7 @@ msgstr "KoÄ¾ko kÃ´l chcete hraÅ¥?"
 msgid "Enter a number"
 msgstr "Zadaj ÄÃ­slo"
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:522
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"

@@ -61,6 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   X( RUN_ARCADE ),\
   X( RUN_CUSTOM ),\
   X( RUN_LAN_HOST ),\
+  X( STOP_LAN_HOST ),\
   X( RUN_LAN_JOIN ),\
   X( RUN_SCORE_SWEEP ),\
   X( RUN_ELIMINATION ),\
@@ -88,7 +89,7 @@ typedef enum {
   MENU_MAIN,
   MENU_DIFFICULTY, //(not used)
   MENU_LESSONS,
-	MENU_SERVERSELECT, // menu for server selection when multiple servers found
+  MENU_SERVERSELECT, // menu for server selection when multiple servers found
   MENU_LOGIN,
   N_OF_MENUS
 } MenuType;

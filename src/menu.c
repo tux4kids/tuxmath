@@ -96,6 +96,7 @@ void            run_multiplayer(int mode, int difficulty);
 int             run_factoroids(int choice);
 int             run_lan_join(void);
 int             run_lan_host(void);
+int             stop_lan_host(void);
 
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
@@ -145,6 +146,11 @@ int handle_activity(int act, int param)
       run_lan_host();
       break;
 
+    case STOP_LAN_HOST:
+      DEBUGMSG(debug_menu, "activity: STOP_LAN_HOST\n");
+      stop_lan_host();
+      break;
+  
     case RUN_LAN_JOIN:
       DEBUGMSG(debug_menu, "activity: RUN_LAN_JOIN\n");
       run_lan_join();
@@ -333,6 +339,7 @@ int run_arcade(int choice)
   return 0;
 }
 
+
 int run_custom_game(void)
 {
   ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Edit 'options' file in you home directory to create customized game!\n"
@@ -353,6 +360,8 @@ int run_custom_game(void)
   return 0;
 }
 
+ 
+
 void run_multiplayer(int mode, int difficulty)
 {
   int nplayers = 0;
@@ -370,6 +379,8 @@ void run_multiplayer(int mode, int difficulty)
   mp_set_parameter(DIFFICULTY, difficulty);
   mp_run_multiplayer();
 }
+
+  
 
 int run_factoroids(int choice)
 {
@@ -498,6 +509,25 @@ int run_lan_host(void)
   return 0;
 }
 
+int stop_lan_host(void)
+{
+  DEBUGMSG(debug_lan|debug_menu, "Entering stop_lan_join()\n");
+  if(!ServerRunning())
+  {
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
+    return 0; 
+  }
+
+  if(SrvrGameInProgress())
+  {
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
+    return 0;
+  }
+  StopServer();
+  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server has been stopped."));
+
+  return 0;
+}
 
 
 int run_lan_join(void)

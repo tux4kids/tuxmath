@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-02 09:30-0600\n"
+"POT-Creation-Date: 2011-02-09 18:46-0600\n"
 "PO-Revision-Date: 2009-02-07 18:04+0800\n"
 "Last-Translator: Xavier <XavierXavierye@gmail.com>\n"
 "Language-Team: Simplified Chinese <zh_CN@li.org>\n"
@@ -401,7 +401,7 @@ msgstr "你可以修复小屋"
 msgid "by stopping bonus comets."
 msgstr "通过停止奖励的彗星"
 
-#: src/game.c:881
+#: src/game.c:881 src/game.c:917
 msgid "Zap it now!"
 msgstr "现在攻击!"
 
@@ -409,37 +409,46 @@ msgstr "现在攻击!"
 msgid "Great job!"
 msgstr "干的好!"
 
-#: src/game.c:905
+#: src/game.c:906
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "通过停止奖励的彗星"
+
+#: src/game.c:907
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:924
 msgid "Quit at any time by pressing"
 msgstr "任何时间退出，按"
 
-#: src/game.c:906
+#: src/game.c:925
 msgid "'Esc' or clicking the 'X'"
 msgstr "按'Esc'键或点击'X'"
 
-#: src/game.c:907
+#: src/game.c:926
 msgid "in the upper right corner."
 msgstr "在右上角"
 
-#: src/game.c:908
+#: src/game.c:927
 msgid "Do it now, and then play!"
 msgstr "现在就做，开始吧！"
 
-#: src/game.c:2706
+#: src/game.c:2729
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2721
+#: src/game.c:2744
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2798
+#: src/game.c:2821
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2806
+#: src/game.c:2829
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -485,7 +494,7 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/highscore.c:1143
+#: src/highscore.c:1126
 #, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -685,7 +694,7 @@ msgstr "参加游戏的小朋友数量？"
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:522
 #, fuzzy
 msgid ""
 "Work In Progress!\n"

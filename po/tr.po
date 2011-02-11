@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-02 09:30-0600\n"
+"POT-Creation-Date: 2011-02-09 18:46-0600\n"
 "PO-Revision-Date: 2008-12-07 15:54+0200\n"
 "Last-Translator: Doruk Fisek <dfisek@fisek.com.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -392,7 +392,7 @@ msgstr "Ek kuyruklu yıldızları durdurarak"
 msgid "by stopping bonus comets."
 msgstr "evlerini tamir edebilirsin."
 
-#: src/game.c:881
+#: src/game.c:881 src/game.c:917
 msgid "Zap it now!"
 msgstr "Hemen vur onu!"
 
@@ -400,37 +400,46 @@ msgstr "Hemen vur onu!"
 msgid "Great job!"
 msgstr "İyi iş!"
 
-#: src/game.c:905
+#: src/game.c:906
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "evlerini tamir edebilirsin."
+
+#: src/game.c:907
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:924
 msgid "Quit at any time by pressing"
 msgstr "Her an 'Esc'e basarak ya da"
 
-#: src/game.c:906
+#: src/game.c:925
 msgid "'Esc' or clicking the 'X'"
 msgstr "sağ üst köşedeki 'X'e"
 
-#: src/game.c:907
+#: src/game.c:926
 msgid "in the upper right corner."
 msgstr "tıklayarak çıkabilirsin."
 
-#: src/game.c:908
+#: src/game.c:927
 msgid "Do it now, and then play!"
 msgstr "Hemen şimdi yap ve sonra oyna!"
 
-#: src/game.c:2706
+#: src/game.c:2729
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2721
+#: src/game.c:2744
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2798
+#: src/game.c:2821
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2806
+#: src/game.c:2829
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -476,7 +485,7 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/highscore.c:1143
+#: src/highscore.c:1126
 #, c-format
 msgid ""
 "TuxMath detected %d running servers.\n"
@@ -675,7 +684,7 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:508
+#: src/titlescreen.c:522
 #, fuzzy
 msgid ""
 "Work In Progress!\n"
