@@ -1,0 +1,4 @@
+1. This is just a simple prototype of my idea.
+2. First start server and then client
+3. To stop a client pass "quit" to server(without double quotes)  and to stop server pass exit.
+ Note :- Make sure that last active  client should stop server else we will not able to deinitialize thread andthreby blocking ports. 
