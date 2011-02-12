@@ -89,8 +89,8 @@ const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {
 
 
 /* file scope only now that accessor functions used: */
-static game_option_type* game_options;
-static global_option_type* global_options;
+static game_option_type* game_options = NULL;
+static global_option_type* global_options = NULL;
 
 /*local function prototypes: */
 static int int_to_bool(int i);
@@ -104,11 +104,18 @@ static int int_to_bool(int i);
 int Opts_Initialize(void)
 {
   int i;
-  
-  game_options = malloc(sizeof(game_option_type));
-  global_options = malloc(sizeof(global_option_type));
-  /* bail out if no struct */
+
+  /* Only allocate game_options if not already done: */
+  if(!game_options)
+    game_options = (game_option_type*)malloc(sizeof(game_option_type));
+  /* bail out if somehow malloc failed: */
   if (!game_options)
+    return 0;
+
+  /* Same routine for global options: */
+  if(!global_options)
+    global_options = (global_option_type*)malloc(sizeof(global_option_type));
+  if(!global_options)
     return 0;
 
   /* set global program options */
@@ -179,7 +186,9 @@ unsigned int Opts_MapTextToIndex(const char* text)
   for (i = 0; i < NUM_GLOBAL_OPTS; ++i)
   {
     if (0 == strcasecmp(text, OPTION_TEXT[i]) )
+    {
       return i;
+    }
   }
   DEBUGMSG(debug_options, "'%s' isn't a global option\n", text);
   return -1;
@@ -211,7 +220,9 @@ void Opts_SetGlobalOp(const char* text, int val)
 void Opts_SetGlobalOpt(unsigned int index, int val)
 {
   if (index < NUM_GLOBAL_OPTS)
+  {
     global_options->iopts[index] = val;
+  }
   else
     DEBUGMSG(debug_options, "Invalid global option index: %d\n", index);
 }

@@ -235,7 +235,6 @@ int handle_activity(int act, int param)
 int run_academy(void)
 {
   int chosen_lesson = -1;
-
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
   chosen_lesson = run_menu(MENU_LESSONS, true);
