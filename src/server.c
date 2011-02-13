@@ -488,7 +488,11 @@ void cleanup_server(void)
     server_sock = NULL;
   }
 
-
+  if(udpsock != NULL)
+  {
+    SDLNet_UDP_Close(udpsock);
+    udpsock = NULL;
+  }
   /* Clean up mathcards heap memory */
   MC_EndGame();
 }
@@ -563,26 +567,30 @@ void check_UDP(void)
   UDPpacket* in = SDLNet_AllocPacket(NET_BUF_LEN);
   recvd = SDLNet_UDP_Recv(udpsock, in);
 
-  // See if packet contains identifying string:
-  if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
-  {
-    UDPpacket* out;
-    int sent = 0;
-    char buf[NET_BUF_LEN];
-    // Send "I am here" reply so client knows where to connect socket,
-    // with configurable identifying string so user can distinguish 
-    // between multiple servers on same network (e.g. "Mrs. Adams' Class");
-    out = SDLNet_AllocPacket(NET_BUF_LEN); 
-    snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
-             "TUXMATH_SERVER", server_name, Opts_LessonTitle());
-    snprintf(out->data, NET_BUF_LEN, "%s", buf);
-    out->len = strlen(buf) + 1;
-    out->address.host = in->address.host;
-    out->address.port = in->address.port;
+  if(recvd > 0)
+  {	
+    DEBUGMSG(debug_lan, "check_UDP() received packet: %s\n", (char*)in->data);  
+    // See if packet contains identifying string:
+    if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
+    {
+      UDPpacket* out;
+      int sent = 0;
+      char buf[NET_BUF_LEN];
+      // Send "I am here" reply so client knows where to connect socket,
+      // with configurable identifying string so user can distinguish 
+      // between multiple servers on same network (e.g. "Mrs. Adams' Class");
+      out = SDLNet_AllocPacket(NET_BUF_LEN); 
+      snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
+               "TUXMATH_SERVER", server_name, Opts_LessonTitle());
+      snprintf(out->data, NET_BUF_LEN, "%s", buf);
+      out->len = strlen(buf) + 1;
+      out->address.host = in->address.host;
+      out->address.port = in->address.port;
 
-    sent = SDLNet_UDP_Send(udpsock, -1, out);
+      sent = SDLNet_UDP_Send(udpsock, -1, out);
 
-    SDLNet_FreePacket(out);
+      SDLNet_FreePacket(out);
+    }
   }
 }
 
