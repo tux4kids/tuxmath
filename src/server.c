@@ -338,6 +338,7 @@ int SrvrGameInProgress(void)
 /* Stop Server */
 void StopServer(void)
 {
+  StopSrvrGame();
   quit = 1;
 }
 
@@ -781,6 +782,7 @@ int server_check_messages(void)
         }
       }
     }  // end of for() loop - all client sockets checked
+    check_game_clients();
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
 
@@ -900,6 +902,7 @@ void check_game_clients(void)
     {
       printf("All the clients have left the game, setting game_in_progress = 0.\n");
       game_in_progress = 0;
+      end_game();
     }
   }
   //If the game hasn't started yet, we only start it 
