@@ -318,10 +318,43 @@ void* run_server_local_args(void* data)
 #endif
 
 
-/* Find out if server is already running: */
-int ServerRunning(void)
+/* Find out if server is already running within this program: */
+int OurServerRunning(void)
 {
   return server_running;
+}
+
+/* Find out if desired port is available: */
+/* NOTE - the purpose of this function is to check first if the server
+ * is likely to start successfully, so we don't confusingly accept the
+ * server name and desired lesson, only to have the server startup fail - DSB */
+int PortAvailable(Uint16 port)
+{
+  IPaddress tmp_ip;
+  TCPsocket tmp_sock = NULL;
+  int available = 0;
+
+  if (SDLNet_ResolveHost(&tmp_ip, NULL, port) < 0)
+  {
+    fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
+    return 0;
+  }
+ 
+  /* Try to open a socket on our machine with desired port,
+   * record whether we succeed, and close the socket again
+   * so we can connect for real.
+   */
+  tmp_sock = SDLNet_TCP_Open(&tmp_ip);
+
+  if (!tmp_sock)
+    available = 0;
+  else
+  {
+    available = 1;
+    SDLNet_TCP_Close(tmp_sock);
+  }
+
+  return available;
 }
 
 

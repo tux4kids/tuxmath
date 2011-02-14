@@ -432,12 +432,23 @@ int run_lan_host(void)
   int chosen_lesson = -1;
 
   /* For now, only allow one server instance: */
-  if(ServerRunning())
+  if(OurServerRunning())
   {
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
     return 0;
   }
 
+  /* We still have possibility that a server is running on this machine as a standalone
+   * program or within another tuxmath instance, in which case we still can't start our
+   * server because the port is already taken:
+   */
+
+  if(!PortAvailable(DEFAULT_PORT))
+  {
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
+    return 0;
+  }
+  
   NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"), NULL);
   serv_argv[0] = "tuxmathserver";
   serv_argv[1] = "--name";
@@ -511,7 +522,7 @@ int run_lan_host(void)
 int stop_lan_host(void)
 {
   DEBUGMSG(debug_lan|debug_menu, "Entering stop_lan_join()\n");
-  if(!ServerRunning())
+  if(!OurServerRunning())
   {
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
     return 0; 

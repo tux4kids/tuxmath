@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "mathcards.h"
 #include "transtruct.h"
 #include "network.h"
+#include "server.h"
 
 
 TCPsocket sd;           /* Server socket descriptor */

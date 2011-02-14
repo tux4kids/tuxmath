@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define NAME_SIZE 50
 #define DEFAULT_SERVER_NAME "TuxMath LAN Server"
 #define SERVER_NAME_TIMEOUT 30000
+#define DEFAULT_PORT 4779
 
 typedef struct client_type {
   int game_ready;   //game_ready = 1 means client has said OK to start
@@ -73,8 +74,11 @@ int RunServer_fork(int argc, char* argv[]);
 /* 5. Plain "blocking" function call, leaving scheduling issues up to you: */
 int RunServer(int argc, char **argv);
 
-/* Find out if server is already running: */
-int ServerRunning(void);
+/* Find out if server is already running within this program: */
+int OurServerRunning(void);
+/* Find out if another program (perhaps another tuxmath server program)
+ * is using the desired port: */
+int PortAvailable(Uint16 port);
 /* Find out if game is already in progress: */
 int SrvrGameInProgress(void);
 /* Stop Server */

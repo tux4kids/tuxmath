@@ -34,7 +34,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TRANSTRUCT_H
 
 #define NET_BUF_LEN 512
-#define DEFAULT_PORT 4779
 #define NAME_SIZE 50
 #define MAX_SERVERS 50
 #define MAX_CLIENTS 16
