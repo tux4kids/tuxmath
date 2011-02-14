@@ -318,6 +318,7 @@ int read_named_config_file(const char* fn)
   /* Make compiler happy: */
   const char* filename = (const char*)fn;
 
+ 
   if (last_config_file_name != NULL)
     free(last_config_file_name);
   last_config_file_name = strdup(filename);
@@ -1012,6 +1013,12 @@ int read_config_file(FILE *fp, int file_type)
     fprintf(stderr, "config file pointer invalid!\n");
     return 0;
   }
+
+  /* Make sure options systems are initialized. Note that these init functions
+   * have checks to do this safely even if they have previously been initialized.
+   */
+  Opts_Initialize();
+  MC_Initialize();
 
   /* make sure we start at beginning: */
   rewind(fp);

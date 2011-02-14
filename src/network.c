@@ -108,14 +108,13 @@ int LAN_DetectServers(void)
 
   //Here we will need to send every few seconds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
-  DEBUGMSG(debug_lan, "\nAutodetecting TuxMath servers:");
-  fflush(stderr);
+  DEBUGMSG(debug_lan, "\nAutodetecting TuxMath servers:\n");
+  DEBUGMSG(debug_lan, "out->address.host = %d\tout->address.port = %d\n", out->address.host, out->address.port);
 
 
   while(!done)
   {
-    DEBUGMSG(debug_lan, ".");
-    fflush(stderr);
+    DEBUGMSG(debug_lan, "Sending message: %s\n", (char*)out->data);
 
     sent = SDLNet_UDP_Send(udpsock, -1, out);
     if(!sent)
@@ -154,6 +153,7 @@ int LAN_DetectServers(void)
 
   SDLNet_FreePacket(out); 
   SDLNet_FreePacket(in); 
+  SDLNet_UDP_Close(udpsock); 
   print_server_list();
   return num_servers;
 }

@@ -163,6 +163,7 @@ int RunServer(int argc, char* argv[])
 { 
   Uint32 timer = 0;
   ignore_stdin = 0;
+  int frame = 0;
 
   printf("Started tuxmathserver, waiting for client to connect:\n>\n");
 
@@ -179,6 +180,7 @@ int RunServer(int argc, char* argv[])
   DEBUGMSG(debug_lan, "In RunServer(), server_name is: %s\n", server_name);
 
   server_running = 1;
+  quit = 0;
 
   printf("Waiting for clients to connect:\n>");
   fflush(stdout);
@@ -187,6 +189,12 @@ int RunServer(int argc, char* argv[])
   /*    ------------- Main server loop:  ------------------   */
   while (!quit)
   {
+    DEBUGCODE(debug_lan)
+    {
+      if(frame % 1000 == 0)
+        fprintf(stderr, "server running\n");
+    }
+
     /* Respond to any clients pinging us to find the server: */
     check_UDP();
     /* Now we check to see if anyone is trying to connect. */
@@ -202,6 +210,7 @@ int RunServer(int argc, char* argv[])
     /* affecting performance, but even throttling to 1 msec/loop cuts */
     /* CPU from 100% to ~2% on my desktop - DSB                       */
     T4K_Throttle(5, &timer);  //min loop time 5 msec
+    frame++;
   }
 
   server_running = 0;
@@ -329,6 +338,7 @@ int SrvrGameInProgress(void)
 /* Stop Server */
 void StopServer(void)
 {
+  StopSrvrGame();
   quit = 1;
 }
 
@@ -488,7 +498,11 @@ void cleanup_server(void)
     server_sock = NULL;
   }
 
-
+  if(udpsock != NULL)
+  {
+    SDLNet_UDP_Close(udpsock);
+    udpsock = NULL;
+  }
   /* Clean up mathcards heap memory */
   MC_EndGame();
 }
@@ -560,30 +574,42 @@ void server_handle_command_args(int argc, char* argv[])
 void check_UDP(void)
 {
   int recvd = 0;
-  UDPpacket* in = SDLNet_AllocPacket(NET_BUF_LEN);
+  UDPpacket* in = NULL;
+
+  if(udpsock == NULL)
+  {
+    fprintf(stderr, "warning - check_UDP() called but udpsock == NULL\n");
+    return;
+  }
+
+  in = SDLNet_AllocPacket(NET_BUF_LEN);
   recvd = SDLNet_UDP_Recv(udpsock, in);
 
-  // See if packet contains identifying string:
-  if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
-  {
-    UDPpacket* out;
-    int sent = 0;
-    char buf[NET_BUF_LEN];
-    // Send "I am here" reply so client knows where to connect socket,
-    // with configurable identifying string so user can distinguish 
-    // between multiple servers on same network (e.g. "Mrs. Adams' Class");
-    out = SDLNet_AllocPacket(NET_BUF_LEN); 
-    snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
-             "TUXMATH_SERVER", server_name, Opts_LessonTitle());
-    snprintf(out->data, NET_BUF_LEN, "%s", buf);
-    out->len = strlen(buf) + 1;
-    out->address.host = in->address.host;
-    out->address.port = in->address.port;
-
-    sent = SDLNet_UDP_Send(udpsock, -1, out);
-
-    SDLNet_FreePacket(out);
+  if(recvd > 0)
+  {	
+    DEBUGMSG(debug_lan, "check_UDP() received packet: %s\n", (char*)in->data);  
+    // See if packet contains identifying string:
+    if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
+    {
+      UDPpacket* out;
+      int sent = 0;
+      char buf[NET_BUF_LEN];
+      // Send "I am here" reply so client knows where to connect socket,
+      // with configurable identifying string so user can distinguish 
+      // between multiple servers on same network (e.g. "Mrs. Adams' Class");
+      out = SDLNet_AllocPacket(NET_BUF_LEN); 
+      snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
+               "TUXMATH_SERVER", server_name, Opts_LessonTitle());
+      snprintf(out->data, NET_BUF_LEN, "%s", buf);
+      out->len = strlen(buf) + 1;
+      out->address.host = in->address.host;
+      out->address.port = in->address.port;
+      sent = SDLNet_UDP_Send(udpsock, -1, out);
+      SDLNet_FreePacket(out);
+    }
   }
+
+  SDLNet_FreePacket(in);
 }
 
 
@@ -756,6 +782,7 @@ int server_check_messages(void)
         }
       }
     }  // end of for() loop - all client sockets checked
+    check_game_clients();
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
 
@@ -875,6 +902,7 @@ void check_game_clients(void)
     {
       printf("All the clients have left the game, setting game_in_progress = 0.\n");
       game_in_progress = 0;
+      end_game();
     }
   }
   //If the game hasn't started yet, we only start it 

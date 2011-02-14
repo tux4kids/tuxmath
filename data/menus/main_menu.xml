@@ -14,7 +14,7 @@
         <item title="Play Custom Game" sprite="tux_config_brown" run="RUN_CUSTOM" desc="Customize the game you play" />
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <menu title="Network Game" sprite="lan" entries="3" desc="Play a game with your friends over LAN">
+    <menu title="Network Game" sprite="lan" entries="4" desc="Play a game with your friends over LAN">
         <item title="Run Server" sprite="lan" run="RUN_LAN_HOST" desc="Host a server for your friends to join on" />
         <!-- TODO Uncomment the next line as soon as the StopServer crash is fixed. -->
         <item title="Stop Server" sprite="lan" run="STOP_LAN_HOST" desc="Stop a server you've hosted" />

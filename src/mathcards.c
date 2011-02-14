@@ -302,8 +302,11 @@ int MC_Initialize(void)
 
     return 1;
   }
-  math_opts = malloc(sizeof(MC_Options));
-  /* bail out if no struct */
+
+  /* Only allocate if we didn't do this before: */
+  if(!math_opts)
+    math_opts = (MC_Options*)malloc(sizeof(MC_Options));
+  /* bail out if malloc somehow fails: */
   if (!math_opts)
   {
     DEBUGMSG(debug_mathcards,"\nError: malloc couldn't allocate math_opts for some reason\n");
@@ -522,7 +525,7 @@ int MC_NextQuestion(MC_FlashCard* fc)
   questions_pending++;
   active_quests = append_node(active_quests, ptr);
 
-  if (debug_status & debug_mathcards) {
+  DEBUGCODE (debug_mathcards) {
     printf("\nnext question is:");
     print_card(*fc);
     print_counters();
@@ -650,7 +653,7 @@ int MC_NotAnsweredCorrectly(int id)
   }
 
   DEBUGMSG(debug_mathcards, "\nMatching question is:");
-  print_card(quest->card);
+  
 
 
   /* if desired, put question back in list so student sees it again */
@@ -1578,7 +1581,7 @@ MC_FlashCard generate_random_flashcard(void)
     DEBUGMSG(debug_mathcards, " of length %d", length);
     ret = generate_random_ooo_card_of_length(length, 1);
     
-    if (debug_status & debug_mathcards) {
+    DEBUGCODE (debug_mathcards) {
       print_card(ret);
     }
   }
@@ -1788,8 +1791,11 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   }
   ret.question_id = id;
 
-  DEBUGMSG(debug_mathcards, "At end of generate_rand_ooo_card_of_length():\n");
-  print_card(ret);
+  DEBUGCODE(debug_mathcards)
+  {
+    fprintf(stderr, "At end of generate_rand_ooo_card_of_length():\n");
+    print_card(ret);
+  }
 
   return ret;
 }
@@ -1989,7 +1995,9 @@ unsigned int MC_MapTextToIndex(const char* text)
   for (i = 0; i < NOPTS; ++i)
   {
     if (!strcasecmp(text, MC_OPTION_TEXT[i]) )
+    {
       return i;
+    }
   }
   DEBUGMSG(debug_mathcards, "'%s' isn't a math option\n", text);
   return NOT_VALID_OPTION;
@@ -2001,6 +2009,12 @@ void MC_SetOpt(unsigned int index, int val)
   if (index >= NOPTS)
   {
     DEBUGMSG(debug_mathcards, "Invalid math option index: %d\n", index);
+    return;
+  }
+
+  if (!math_opts)
+  {
+    fprintf(stderr, "math_opts is NULL, returning.\n");
     return;
   }
 
