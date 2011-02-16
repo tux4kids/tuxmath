@@ -50,7 +50,6 @@ int  intialize_thread()  // return 1 on success else 0.
 			printf("\n Not able to open connection");
 			return 1;
 		}
-		printf("\n Able to open new port\n");
 			pthread_mutex_unlock(&mutex_variable);
 			push_thread(new_thread); // pushing newly created thread into stack
 		}				
@@ -69,7 +68,7 @@ int activate_thread()
 		return 0;
 	}
 	else
-	{	printf("\n switching");//TODO
+	{
 		temp_thread=thread_header;
 		thread_header=thread_header->next;
 	}

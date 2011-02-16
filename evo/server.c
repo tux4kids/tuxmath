@@ -23,7 +23,6 @@ void * handle(void * data)
 		{
 			sem_wait(&(temp_thread->binary_sem));
 		}
-		printf("\n Activating thread");
 		// here thread start receiving data from client	
 		while(quit1)
 		{
@@ -50,7 +49,6 @@ void * handle(void * data)
 						}
 					}
 				}
-				printf("\nClosing client socket");
 				SDLNet_TCP_Close(client_socket);
 			}
 		}
@@ -58,7 +56,6 @@ void * handle(void * data)
 		temp_thread->status=0;
 		push_thread(temp_thread);
 	}// here it ends 
-	printf("\n Terminating thread"); //TODO 
 }
 int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uint16 port,const char *host)
 {
@@ -67,7 +64,6 @@ int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uin
 		printf("\nUnable to initialize ipaddress for server");
 		return 0;
 	}
-	printf("\n I am listening on port %d",port);
 	if(!(*server_socket=SDLNet_TCP_Open(host_ipaddress)))
 	{	
 		printf("\nUnable to initialize server socket:%s",SDLNet_GetError());
@@ -85,8 +81,6 @@ void * main_thread(void * data)
 		printf("\n Therer is some error while initializing thread");
 		return 0;
 	 }
-	printf("\n Value of active ports is:%d",active_ports);
-
 	// first server receive request from client to connect and open master server socket. To be created only once.-permanent 
 	if(common_connect_server(&host_ipaddress,&server_socket,2000,(const char *)NULL)==0)
 		return (void *)1;
@@ -113,7 +107,6 @@ void * main_thread(void * data)
 					SDLNet_TCP_Close(client_socket);
 					// opening port so that server can accept content from client in different thread;
 					pthread_mutex_unlock(&mutex_variable);
-					printf("\n Activating thread");
 					activate_thread();
 				}
 		}
