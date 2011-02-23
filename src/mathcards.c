@@ -1930,6 +1930,8 @@ MC_MathQuestion* generate_list(void)
   }
   /* Now just put the question_id values in: */
 
+  // Avoid segfault if the list is null
+  if (list != NULL)
   {
     int i = 1;
     MC_MathQuestion* ptr = list;
