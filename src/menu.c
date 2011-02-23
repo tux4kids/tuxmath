@@ -536,28 +536,38 @@ int stop_lan_host(void)
   StopServer();
   ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server has been stopped."));
 
-  return 0;
+  return 1;
 }
 
 
 int run_lan_join(void)
 {
 #ifdef HAVE_LIBSDL_NET
-  if(detecting_servers(_("Detecting servers"), _("Please wait")) > 0)
-  /* Means we are connected to server but not yet in game */
+  /* autodetect servers, allowing player to choose if > 1 found: */
+  int connected = ConnectToServer(_("Detecting servers"), _("Please wait"));
+
+  if(connected)
+  /* Connected to server but not yet in game */
   {
     int stdby;
     char buf[256];
     char buf2[256];
     char player_name[HIGH_SCORE_NAME_LENGTH * 3];
 
+    /* Display server name and current lesson, ask player for LAN nickname: */
     snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
     snprintf(buf2, 256, _("%s"), LAN_ConnectedServerLesson());
     NameEntry(player_name, buf, buf2, _("Enter your name:")); //get nickname from user
-    LAN_SetName(player_name); //tell server nickname
-    Ready(_("Click when ready")); //wait until player indicates ready to start
+    /* If sock lost during name entry, handle it correctly: */
+    if(!LAN_SetName(player_name)) //tell server nickname
+    {
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server lost"));
+      return 0;
+    }
+
+    ClickWhenReady(_("Click when ready")); //wait until player indicates ready to start
     LAN_StartGame();  //tell server we are ready to start
-    stdby = Standby(_("Waiting for other players"), NULL);
+    stdby = WaitForOthers(_("Waiting for other players"), NULL);
     if (stdby == 1)
     {
       T4K_AudioMusicUnload();
@@ -569,22 +579,25 @@ int run_lan_join(void)
     }
     else
     {
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress."));
-      DEBUGMSG(debug_menu|debug_lan, _("Sorry, game already in progress.\n"));
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not join game."));
+      DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not join game.\n"));
+      return 0;
     }  
   }
   else  /* Could not connect: */
   {
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, no server could be found."));
     DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
+    return 0;
   }
 #else
   ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
   DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
+  return 0;
 #endif
 
   DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n"); 
-  return 0;
+  return 1;
 }
 
 

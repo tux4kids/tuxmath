@@ -36,9 +36,9 @@ void HighScoreNameEntry(char* pl_name);
 void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3);
 /* FIXME the next three don't have anything to do with high scores */
 /* and don't really belong here:                                   */
-int Standby(const char* heading, const char* sub);
-int detecting_servers(const char* heading, const char* sub);
-int Ready(const char* heading);
+int WaitForOthers(const char* heading, const char* sub);
+int ConnectToServer(const char* heading, const char* sub);
+int ClickWhenReady(const char* heading);
 
 int check_score_place(int diff_level, int new_score);
 int insert_score(char* playername, int diff_level, int new_score);

@@ -731,7 +731,7 @@ char* HS_Name(int diff_level, int place)
   if (diff_level < 0
    || diff_level >= NUM_HIGH_SCORE_LEVELS)
   {
-    fprintf(stderr, "In HS_Score(), diff_level invalid!\n");
+    fprintf(stderr, "In HS_Name(), diff_level invalid!\n");
     return NULL;
   }
 
@@ -739,7 +739,7 @@ char* HS_Name(int diff_level, int place)
   if (place < 0
    || place >= HIGH_SCORES_SAVED)
   {
-    fprintf(stderr, "In HS_Score(), place invalid!\n");
+    fprintf(stderr, "In HS_Name(), place invalid!\n");
     return NULL;
   }
 
@@ -747,7 +747,7 @@ char* HS_Name(int diff_level, int place)
 }
 
 
-int Ready(const char* heading)
+int ClickWhenReady(const char* heading)
 {
   SDL_Rect loc;
   SDL_Rect okRect;
@@ -758,7 +758,7 @@ int Ready(const char* heading)
   const int BG_WIDTH = 400;
   const int BG_HEIGHT = 200;
 
-  DEBUGMSG(debug_highscore, "Enter Ready()\n" );
+  DEBUGMSG(debug_highscore, "Enter ClickWhenReady()\n" );
 
   DrawTitleScreen();
 
@@ -871,20 +871,21 @@ int Ready(const char* heading)
     frame++;
   }  // End of while (!finished) loop
 
-  DEBUGMSG(debug_highscore, "Leave Ready()\n" );
+  DEBUGMSG(debug_highscore, "Leave ClickWhenReady()\n" );
 
   /* 1 means we start game, -1 means we go back to menu */
   return finished;
 }
 
 
-int Standby(const char* heading, const char* sub)
+int WaitForOthers(const char* heading, const char* sub)
 {
 #ifndef HAVE_LIBSDL_NET
   return 0;
 #else
   SDL_Rect loc;
   int finished = 0;
+  int net_done = 0;
   Uint32 frame = 0;
   Uint32 timer = 0;
   const int BG_Y = 100;
@@ -893,7 +894,7 @@ int Standby(const char* heading, const char* sub)
 
   char buf[NET_BUF_LEN];
 
-  DEBUGMSG(debug_lan, "Enter Standby()\n" );
+  DEBUGMSG(debug_lan, "Enter WaitForOthers()\n" );
 
   DrawTitleScreen();
 
@@ -989,8 +990,10 @@ int Standby(const char* heading, const char* sub)
       }
     }
 
-    /* Handle server messages: */
-    while(!check_messages(buf))
+    /* Handle server messages (need to make sure we enter loop even
+     * if first message is error):
+     */
+    for(net_done = 0; !net_done; net_done = check_messages(buf))
     {
       if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
       {
@@ -1004,20 +1007,30 @@ int Standby(const char* heading, const char* sub)
         playsound(SND_TOCK);
         break;
       }
+      else if(strncmp(buf, "NETWORK_ERROR", strlen("NETWORK_ERROR")) == 0)
+      {
+	printf("NETWORK_ERROR msg received!\n");
+        finished = -1;
+        playsound(SND_TOCK);
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+        break;
+      }
       else
       {
         DEBUGMSG(debug_lan, "Unrecognized message from server: %s\n", buf);
         continue;
       }
     }
-    DEBUGMSG(debug_lan, "In Standby(), after check_messages(): finished = %d\tbuf = %s\n", finished, buf);
+    DEBUGMSG(debug_lan, "In WaitForOthers(), after check_messages():"
+		        " finished = %d\tbuf = %s\tstrlen(buf) = %d\n",
+		       	finished, buf, strlen(buf));
 
     HandleTitleScreenAnimations();
     T4K_Throttle(20, &timer);
     frame++;
   }  // End of while (!finished) loop
 
-  DEBUGMSG(debug_lan, "Leave Standby()\n" );
+  DEBUGMSG(debug_lan, "Leave WaitForOthers()\n" );
 
   /* 1 means we start game, -1 means we go back to menu */
   return finished;
@@ -1026,7 +1039,7 @@ int Standby(const char* heading, const char* sub)
 
 
 
-int detecting_servers(const char* heading, const char* sub)
+int ConnectToServer(const char* heading, const char* sub)
 {
 #ifndef HAVE_LIBSDL_NET
   return 0;

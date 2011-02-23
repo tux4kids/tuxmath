@@ -326,6 +326,7 @@ int check_messages(char buf[NET_BUF_LEN])
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) <= 0)
       {
         DEBUGMSG(debug_lan, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
+	strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
         return -1;
       }
       DEBUGMSG(debug_lan, "In check_messages(), received buf: %s\n", buf);
