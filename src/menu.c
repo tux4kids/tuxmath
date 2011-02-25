@@ -542,6 +542,7 @@ int stop_lan_host(void)
 
 int run_lan_join(void)
 {
+  DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n"); 
 #ifdef HAVE_LIBSDL_NET
   /* autodetect servers, allowing player to choose if > 1 found: */
   int connected = ConnectToServer(_("Detecting servers"), _("Please wait"));

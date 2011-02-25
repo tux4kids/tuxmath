@@ -266,12 +266,18 @@ int LAN_AutoSetup(int i)
 //   return 1;
 // }
 
-
+/* NOTE - now we call SDLNet_Quit() in cleanup for overall program
+ * so we don't clobber the server if it is still running in a thread
+ * when a LAN game finishes.
+ */
 void LAN_Cleanup(void)
 {
-  //Empty the queue of any leftover messages:
   char buf[256];
-  while(LAN_NextMsg(buf)) {} //do nothing with the messages
+  
+  DEBUGMSG(debug_lan|debug_game, "Enter LAN_cleanup():\n");
+
+  //Empty the queue of any leftover messages:
+//  while(LAN_NextMsg(buf)) {} //do nothing with the messages
 
   if(sd)
   {
@@ -284,7 +290,8 @@ void LAN_Cleanup(void)
     SDLNet_FreeSocketSet(set);
     set = NULL;
   }
-  SDLNet_Quit();
+
+  DEBUGMSG(debug_lan|debug_game, "Leave LAN_cleanup():\n");
 }
 
 
@@ -344,10 +351,13 @@ int LAN_NextMsg(char* buf)
 { 
   int numready = 0;
 
+  DEBUGMSG(debug_lan, "Enter LAN_NextMsg():\n");
+
   /* Make sure we have place to put message: */
   if(buf == NULL)
   {
     DEBUGMSG(debug_lan, "get_next_msg() passed NULL buffer\n");
+    DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return -1;
   }
   
@@ -358,6 +368,7 @@ int LAN_NextMsg(char* buf)
     DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
+    DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return -1;
   }
   else if(numready > 0)
@@ -370,6 +381,7 @@ int LAN_NextMsg(char* buf)
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) > 0)
       {
         //Success - message is now in buffer
+        DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
         return 1;
       }
       else
@@ -379,6 +391,7 @@ int LAN_NextMsg(char* buf)
         if(sd != NULL)
           SDLNet_TCP_Close(sd);
         sd = NULL;
+        DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
         return -1;
       }
     }
@@ -389,10 +402,12 @@ int LAN_NextMsg(char* buf)
       if(sd != NULL)
         SDLNet_TCP_Close(sd);
       sd = NULL;
+      DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
       return -1;
     }
   }
   // No socket activity - just return 0:
+  DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
   return 0;
 }
 

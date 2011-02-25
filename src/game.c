@@ -673,10 +673,27 @@ int game_initialize(void)
 
 void game_cleanup(void)
 {
+  DEBUGMSG(debug_game, "Enter game_cleanup():\n");
+
+  /* Stop music: */
+#ifndef NOSOUND
+  if (Opts_UsingSound())
+  {
+    if (Mix_PlayingMusic())
+    {
+      Mix_HaltMusic();
+    }
+  }
+#endif
+
+  DEBUGMSG(debug_game, "game_cleanup(): after stopping music\n");
+
 #ifdef HAVE_LIBSDL_NET  
   if (Opts_LanMode() )
     LAN_Cleanup();
 #endif
+
+  DEBUGMSG(debug_game, "game_cleanup(): after LAN_Cleanup\n");
 
   /* Free background: */
   if (bkgd != NULL)
@@ -690,22 +707,13 @@ void game_cleanup(void)
     scaled_bkgd = NULL;
   }
   
+  DEBUGMSG(debug_game, "game_cleanup(): after freeing backgrounds\n");
+
   /* clear start message */
   start_message_chosen = 0;
   
   /* Free dynamically-allocated items */
   free_on_exit();
-
-  /* Stop music: */
-#ifndef NOSOUND
-  if (Opts_UsingSound())
-  {
-    if (Mix_PlayingMusic())
-    {
-      Mix_HaltMusic();
-    }
-  }
-#endif
 
   DEBUGMSG(debug_game, "Leaving game_cleanup():\n");
 }
@@ -3936,6 +3944,9 @@ void print_status(void)
 void free_on_exit(void)
 {
   int i;
+
+  DEBUGMSG(debug_game,"Enter free_on_exit\n");
+
   for (i = 0; i < MAX_MAX_COMETS; ++i)
     MC_FreeFlashcard(&(comets[i].flashcard));
   free(comets);
@@ -3948,6 +3959,8 @@ void free_on_exit(void)
     free(powerup_comet);
     powerup_comet = NULL;
   }
+
+  DEBUGMSG(debug_game,"Leave free_on_exit\n");
 }
 
 /* Recalculate on-screen city & comet locations when screen dimensions change */

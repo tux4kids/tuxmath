@@ -658,7 +658,6 @@ void update_clients(void)
   int sockets_used = 0;
   char buffer[NET_BUF_LEN];
 
-
   /* See if we have a pending connection: */
   temp_sock = SDLNet_TCP_Accept(server_sock);
   if (!temp_sock)  /* No one waiting to join - do nothing */
@@ -761,7 +760,6 @@ int server_check_messages(void)
   int actives = 0, i = 0;
   int ready_found = 0;
   char buffer[NET_BUF_LEN];
-
 
   /* Check the client socket set for activity: */
   actives = SDLNet_CheckSockets(client_set, 0);
@@ -1332,8 +1330,10 @@ void server_update_game(void)
   
   /* Do nothing unless game started: */
   if(!game_in_progress)
+  {
     return;
-  
+  }
+
   now_time = SDL_GetTicks();
   
   /* Wait time is shorter in higher waves because the comets move faster: */
@@ -1416,6 +1416,7 @@ void end_game(void)
 
   game_in_progress = 0;
   MC_EndGame();
+  DEBUGMSG(debug_lan, "Leave end_game()\n");
 }
 
 

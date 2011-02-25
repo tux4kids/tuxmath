@@ -796,6 +796,8 @@ int MC_AddTimeToList(float t)
 /* Frees heap memory used in program:                   */
 void MC_EndGame(void)
 {
+  DEBUGMSG(debug_mathcards, "Enter MC_EndGame()\n");
+  
   delete_list(question_list);
   question_list = 0;
   delete_list(wrong_quests);
@@ -813,6 +815,8 @@ void MC_EndGame(void)
   length_time_per_question_list = 0;
 
   initialized = 0;
+
+  DEBUGMSG(debug_mathcards, "Leave MC_EndGame()\n");
 }
 
 
