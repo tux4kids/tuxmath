@@ -2086,6 +2086,7 @@ int write_postgame_summary(void)
     } else
       success = 0;
   }
+
   return success;
 }
 

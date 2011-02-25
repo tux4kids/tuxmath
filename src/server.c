@@ -933,7 +933,16 @@ void check_game_clients(void)
 
     if(!someone_still_playing)
     {
-      printf("All the clients have left the game, setting game_in_progress = 0.\n");
+      DEBUGMSG(debug_lan, "All the clients have left the game, setting game_in_progress = 0.\n");
+      
+      /* Now make sure all clients are closed: */ 
+      for(i = 0; i < MAX_CLIENTS; i++)
+      {
+        SDLNet_TCP_Close(client[i].sock);
+        client[i].sock = NULL;
+        client[i].game_ready = 0;
+      }
+     
       game_in_progress = 0;
       end_game();
     }
@@ -1393,11 +1402,17 @@ void end_game(void)
   
   DEBUGMSG(debug_lan, "Enter end_game()\n");
 
+  /* Broadcast notice to anyone who is left: */
   snprintf(buf, NET_BUF_LEN, "%s", "GAME_HALTED");
   transmit_all(buf);
   
+  /* Now make sure all clients are closed: */ 
   for(i = 0; i < MAX_CLIENTS; i++)
-      client[i].game_ready = 0;
+  {
+    SDLNet_TCP_Close(client[i].sock);
+    client[i].sock = NULL;
+    client[i].game_ready = 0;
+  }
 
   game_in_progress = 0;
   MC_EndGame();
