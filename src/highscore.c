@@ -993,7 +993,7 @@ int WaitForOthers(const char* heading, const char* sub)
     /* Handle server messages (need to make sure we enter loop even
      * if first message is error):
      */
-    for(more_msgs = 1; more_msgs <= 0; more_msgs = LAN_NextMsg(buf))
+    for(more_msgs = 1; more_msgs > 0; more_msgs = LAN_NextMsg(buf))
     {
       if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
       {
@@ -1021,9 +1021,9 @@ int WaitForOthers(const char* heading, const char* sub)
         continue;
       }
     }
-    DEBUGMSG(debug_lan, "In WaitForOthers(), after check_messages():"
-		        " finished = %d\tbuf = %s\tstrlen(buf) = %d\n",
-		       	finished, buf, strlen(buf));
+    DEBUGMSG(debug_lan, "In WaitForOthers(), after LAN_NextMsg():"
+		        " finished = %d\tmore_msgs = %d\tbuf = %s\tstrlen(buf) = %d\n",
+		       	finished, more_msgs, buf, strlen(buf));
 
     HandleTitleScreenAnimations();
     T4K_Throttle(20, &timer);
