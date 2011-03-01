@@ -73,9 +73,6 @@ int LAN_NextMsg(char* buf);
 //int LAN_NextQuestion(void);
 
 
-
-/* FIXME appears this one is basically the same as LAN_NextMsg() */
-int check_messages(char *);
 /* FIXME this should be local to network.c */
 int Make_Flashcard(char* buf, MC_FlashCard* fc);
 

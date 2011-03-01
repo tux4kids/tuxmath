@@ -885,7 +885,7 @@ int WaitForOthers(const char* heading, const char* sub)
 #else
   SDL_Rect loc;
   int finished = 0;
-  int net_done = 0;
+  int more_msgs = 1;
   Uint32 frame = 0;
   Uint32 timer = 0;
   const int BG_Y = 100;
@@ -993,7 +993,7 @@ int WaitForOthers(const char* heading, const char* sub)
     /* Handle server messages (need to make sure we enter loop even
      * if first message is error):
      */
-    for(net_done = 0; !net_done; net_done = check_messages(buf))
+    for(more_msgs = 1; more_msgs <= 0; more_msgs = LAN_NextMsg(buf))
     {
       if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
       {

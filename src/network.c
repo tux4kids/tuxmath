@@ -218,54 +218,6 @@ int LAN_AutoSetup(int i)
 
 
 
-// int LAN_Setup(char *host, int port)
-// {
-//   IPaddress ip;           /* Server address */
-// 
-//   if(SDL_Init(0)==-1)
-//   {
-//     printf("SDL_Init: %s\n", SDL_GetError());
-//     return 0;;
-//   }
-// 
-//   if (SDLNet_Init() < 0)
-//   {
-//     fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-//     return 0;
-//   } 
-// 
-//    /* Resolve the host we are connecting to */
-//   if (SDLNet_ResolveHost(&ip, host, port) < 0)
-//   {
-//     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-//     return 0;
-//   }
-//  
-//   /* Open a connection with the IP provided (listen on the host's port) */
-//   if (!(sd = SDLNet_TCP_Open(&ip)))
-//   {
-//     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-//     return 0;
-//   }
-// 
-//   /* We create a socket set so we can check for activity: */
-//   set = SDLNet_AllocSocketSet(1);
-//   if(!set)
-//   {
-//     printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
-//     return 0;
-//   }
-// 
-//   if(SDLNet_TCP_AddSocket(set, sd) == -1)
-//   {
-//     printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
-//     // perhaps you need to restart the set and make it bigger...
-//   }
-// 
-// 
-//   return 1;
-// }
-
 /* NOTE - now we call SDLNet_Quit() in cleanup for overall program
  * so we don't clobber the server if it is still running in a thread
  * when a LAN game finishes.
@@ -307,43 +259,6 @@ int LAN_SetName(char* name)
 
 
 
-
-
-
-/* Appears a return value of 0 means message received, 1 means no socket activity */
-int check_messages(char buf[NET_BUF_LEN])
-{ 
-  int numready;
-  
-  //This is supposed to check to see if there is activity:
-  numready = SDLNet_CheckSockets(set, 0);
-  if(numready == -1)
-  {
-    DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-    //most of the time this is a system error, where perror might help you.
-    perror("SDLNet_CheckSockets");
-    return -1;
-  }
-  else if(numready > 0)
-  {
-    // check socket with SDLNet_SocketReady and handle if active:
-    if(SDLNet_SocketReady(sd))
-    {
-      buf[0] = '\0';
-      if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) <= 0)
-      {
-        DEBUGMSG(debug_lan, "In check_messages(), SDLNet_TCP_Recv() failed!\n");
-	strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
-        return -1;
-      }
-      DEBUGMSG(debug_lan, "In check_messages(), received buf: %s\n", buf);
-      return 0;
-    }
-  }
-  return 1;
-}
-
-
 /* Here we get the next message from the server if one is available. */
 /* We return 1 if a message received, 0 if no activity, -1 on errors */
 /* or if connection is lost:                                         */
@@ -368,6 +283,7 @@ int LAN_NextMsg(char* buf)
     DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
+    strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
     DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return -1;
   }
@@ -391,6 +307,7 @@ int LAN_NextMsg(char* buf)
         if(sd != NULL)
           SDLNet_TCP_Close(sd);
         sd = NULL;
+        strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
         DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
         return -1;
       }
@@ -402,6 +319,7 @@ int LAN_NextMsg(char* buf)
       if(sd != NULL)
         SDLNet_TCP_Close(sd);
       sd = NULL;
+      strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
       DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
       return -1;
     }
