@@ -602,6 +602,8 @@ void server_handle_command_args(int argc, char* argv[])
 //check_UDP() is the server side of the client-server autodetection system.
 //When a client wants to connect, it sends a UDP broadcast to the local
 //network on this port, and the server sends a response.
+//The client will then try to open a TCP socket at the server's ip address,
+//which will be picked up in update_clients() below.
 void check_UDP(void)
 {
   int recvd = 0;
@@ -811,7 +813,7 @@ int server_check_messages(void)
         }
       }
     }  // end of for() loop - all client sockets checked
-    check_game_clients();
+    check_game_clients(); //APPARENTLY checking one more time "just in case"???
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
 
