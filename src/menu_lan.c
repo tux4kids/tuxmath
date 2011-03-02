@@ -32,12 +32,187 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "titlescreen.h"
 #include "fileops.h"
 #include "setup.h"
-#include "options.h"
-#include "transtruct.h"
 #include "network.h"
 #include "menu_lan.h"
 
-#include <string.h>
+
+/* Keep information on other connected players for on-screen display: */
+typedef struct lan_player_type {
+  char name[NAME_SIZE];
+  bool mine;	
+  bool ready;	
+  int score;	
+} lan_player_type;
+
+lan_player_type lan_player_info[MAX_CLIENTS];
+
+
+int ConnectToServer(const char* heading, const char* sub)
+{
+#ifndef HAVE_LIBSDL_NET
+  return 0;
+#else
+  SDL_Rect loc;
+  SDL_Rect stopRect;
+
+  int finished = 0;
+  Uint32 timer = 0;
+  int servers_found = 0;  
+
+  DEBUGMSG(debug_lan, "\nEnter detecting_servers()\n");
+
+
+  /* We need to get Unicode vals from SDL keysyms */
+  SDL_EnableUNICODE(SDL_ENABLE);
+
+  /* Draw background: */
+  if (current_bkg())
+    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+
+  /* Red "Stop" circle in upper right corner to go back to main menu: */
+  if (images[IMG_STOP])
+  {
+    stopRect.w = images[IMG_STOP]->w;
+    stopRect.h = images[IMG_STOP]->h;
+    stopRect.x = screen->w - images[IMG_STOP]->w;
+    stopRect.y = 0;
+    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+  }
+
+
+  /* Draw heading: */
+  {
+    SDL_Surface* s = T4K_BlackOutline(_(heading),
+                                  DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 110;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+
+    s = T4K_BlackOutline(_(sub),
+                     DEFAULT_MENU_FONT_SIZE, &white);
+    if (s)
+    {
+      loc.x = (screen->w/2) - (s->w/2);
+      loc.y = 140;
+      SDL_BlitSurface(s, NULL, screen, &loc);
+      SDL_FreeSurface(s);
+    }
+  }
+  
+  /* Draw Tux (use "reset" flavor so Tux gets drawn immediately): */
+  HandleTitleScreenAnimations_Reset(true);
+  /* and update: */
+  SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+  while (!finished)
+  {
+
+    //Scan local network to find running server:
+    servers_found = LAN_DetectServers();
+
+    if(servers_found < 1)
+    {
+      DEBUGMSG(debug_lan, "No server could be found - returning.\n");
+      /* Turn off SDL Unicode lookup (because has some overhead): */
+      SDL_EnableUNICODE(SDL_DISABLE);
+      return 0;
+    }
+    else if(servers_found  == 1)  //One server - connect without player intervention
+    {
+      DEBUGMSG(debug_lan, "Single server found - connecting automatically...");
+
+      if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
+      {
+        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
+        /* Turn off SDL Unicode lookup (because has some overhead): */
+        SDL_EnableUNICODE(SDL_DISABLE);
+        return 0;
+      }
+      
+      
+      finished = 1;
+      DEBUGMSG(debug_lan, "connected\n");
+      break;  //So we quit scanning as soon as we connect
+    } else if (servers_found  > 1) //Multiple servers - ask player for choice
+    {
+      char buf[256];
+      int server_choice;
+      char** servernames;
+      int i;
+
+      snprintf(buf, 256, _("TuxMath detected %d running servers.\nClick to continue..."), servers_found);
+
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,buf); 
+      servernames = malloc(servers_found * sizeof(char*));
+
+      for(i = 0; i < servers_found; i++)
+      {
+        servernames[i] = LAN_ServerName(i);
+      }
+
+      T4K_CreateOneLevelMenu(MENU_SERVERSELECT, servers_found, servernames,
+			     NULL, "Server Selection", NULL);
+      T4K_PrerenderMenu(MENU_SERVERSELECT);
+      server_choice = T4K_RunMenu(MENU_SERVERSELECT, true, &DrawTitleScreen,
+                                  &HandleTitleScreenEvents, &HandleTitleScreenAnimations, NULL);
+
+      if(!LAN_AutoSetup(server_choice))
+      {
+        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
+        /* Turn off SDL Unicode lookup (because has some overhead): */
+        SDL_EnableUNICODE(SDL_DISABLE);
+        return 0;
+      }
+
+      finished = 1;
+      DEBUGMSG(debug_lan, "connected\n");
+      break;
+    }
+
+
+    while (SDL_PollEvent(&event)) 
+    {
+      switch (event.type)
+      {
+        case SDL_QUIT:
+        {
+          cleanup();
+        }
+
+        case SDL_MOUSEBUTTONDOWN:
+        /* "Stop" button - go to main menu: */
+        { 
+          if (T4K_inRect(stopRect, event.button.x, event.button.y ))
+          {
+            finished = 1;
+            playsound(SND_TOCK);
+            break;
+          }
+        }
+      }
+    }
+
+    /* Draw Tux: */
+    HandleTitleScreenAnimations();
+    /* and update: */
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    /* Wait so we keep frame rate constant: */
+    T4K_Throttle(20, &timer);
+  }  // End of while (!finished) loop
+
+
+  /* Turn off SDL Unicode lookup (because has some overhead): */
+  SDL_EnableUNICODE(SDL_DISABLE);
+
+  return 1;
+
+#endif
+}
+
 
 
 int ClickWhenReady(const char* heading)
@@ -332,169 +507,4 @@ int WaitForOthers(const char* heading, const char* sub)
 
 
 
-int ConnectToServer(const char* heading, const char* sub)
-{
-#ifndef HAVE_LIBSDL_NET
-  return 0;
-#else
-  SDL_Rect loc;
-  SDL_Rect stopRect;
-
-  int finished = 0;
-  Uint32 timer = 0;
-  int servers_found = 0;  
-
-  DEBUGMSG(debug_lan, "\nEnter detecting_servers()\n");
-
-
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
-
-  /* Draw background: */
-  if (current_bkg())
-    SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
-
-  /* Red "Stop" circle in upper right corner to go back to main menu: */
-  if (images[IMG_STOP])
-  {
-    stopRect.w = images[IMG_STOP]->w;
-    stopRect.h = images[IMG_STOP]->h;
-    stopRect.x = screen->w - images[IMG_STOP]->w;
-    stopRect.y = 0;
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
-  }
-
-
-  /* Draw heading: */
-  {
-    SDL_Surface* s = T4K_BlackOutline(_(heading),
-                                  DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
-    {
-      loc.x = (screen->w/2) - (s->w/2);
-      loc.y = 110;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
-    }
-
-    s = T4K_BlackOutline(_(sub),
-                     DEFAULT_MENU_FONT_SIZE, &white);
-    if (s)
-    {
-      loc.x = (screen->w/2) - (s->w/2);
-      loc.y = 140;
-      SDL_BlitSurface(s, NULL, screen, &loc);
-      SDL_FreeSurface(s);
-    }
-  }
-  
-  /* Draw Tux (use "reset" flavor so Tux gets drawn immediately): */
-  HandleTitleScreenAnimations_Reset(true);
-  /* and update: */
-  SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-  while (!finished)
-  {
-
-    //Scan local network to find running server:
-    servers_found = LAN_DetectServers();
-
-    if(servers_found < 1)
-    {
-      DEBUGMSG(debug_lan, "No server could be found - returning.\n");
-      /* Turn off SDL Unicode lookup (because has some overhead): */
-      SDL_EnableUNICODE(SDL_DISABLE);
-      return 0;
-    }
-    else if(servers_found  == 1)  //One server - connect without player intervention
-    {
-      DEBUGMSG(debug_lan, "Single server found - connecting automatically...");
-
-      if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
-      {
-        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
-        /* Turn off SDL Unicode lookup (because has some overhead): */
-        SDL_EnableUNICODE(SDL_DISABLE);
-        return 0;
-      }
-      
-      
-      finished = 1;
-      DEBUGMSG(debug_lan, "connected\n");
-      break;  //So we quit scanning as soon as we connect
-    } else if (servers_found  > 1) //Multiple servers - ask player for choice
-    {
-      char buf[256];
-      int server_choice;
-      char** servernames;
-      int i;
-
-      snprintf(buf, 256, _("TuxMath detected %d running servers.\nClick to continue..."), servers_found);
-
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,buf); 
-      servernames = malloc(servers_found * sizeof(char*));
-
-      for(i = 0; i < servers_found; i++)
-      {
-        servernames[i] = LAN_ServerName(i);
-      }
-
-      T4K_CreateOneLevelMenu(MENU_SERVERSELECT, servers_found, servernames,
-			     NULL, "Server Selection", NULL);
-      T4K_PrerenderMenu(MENU_SERVERSELECT);
-      server_choice = T4K_RunMenu(MENU_SERVERSELECT, true, &DrawTitleScreen,
-                                  &HandleTitleScreenEvents, &HandleTitleScreenAnimations, NULL);
-
-      if(!LAN_AutoSetup(server_choice))
-      {
-        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
-        /* Turn off SDL Unicode lookup (because has some overhead): */
-        SDL_EnableUNICODE(SDL_DISABLE);
-        return 0;
-      }
-
-      finished = 1;
-      DEBUGMSG(debug_lan, "connected\n");
-      break;
-    }
-
-
-    while (SDL_PollEvent(&event)) 
-    {
-      switch (event.type)
-      {
-        case SDL_QUIT:
-        {
-          cleanup();
-        }
-
-        case SDL_MOUSEBUTTONDOWN:
-        /* "Stop" button - go to main menu: */
-        { 
-          if (T4K_inRect(stopRect, event.button.x, event.button.y ))
-          {
-            finished = 1;
-            playsound(SND_TOCK);
-            break;
-          }
-        }
-      }
-    }
-
-    /* Draw Tux: */
-    HandleTitleScreenAnimations();
-    /* and update: */
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
-    /* Wait so we keep frame rate constant: */
-    T4K_Throttle(20, &timer);
-  }  // End of while (!finished) loop
-
-
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
-
-  return 1;
-
-#endif
-}
 

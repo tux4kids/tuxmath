@@ -27,13 +27,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "tuxmath.h"
 #include "highscore.h"
-#include "menu.h"
 #include "titlescreen.h"
 #include "fileops.h"
 #include "setup.h"
 #include "options.h"
-#include "transtruct.h"
-#include "network.h"
 
 #include <string.h>
 
