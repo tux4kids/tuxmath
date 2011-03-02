@@ -40,6 +40,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "setup.h"
 
 #ifdef HAVE_LIBSDL_NET
+#include "menu_lan.h"
 #include "network.h"
 #include "server.h"
 #endif
