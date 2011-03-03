@@ -276,9 +276,7 @@ void game_handle_net_msg(char* buf);
 int lan_add_comet(MC_FlashCard* fc);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
-int socket_index_recvd(char* buf);
 int connected_players_recvd(char* buf);
-int update_score_recvd(char* buf);
 int wave_recvd(char* buf);
 int player_left_recvd(char* buf);
 int game_halted_recvd(char* buf);
@@ -354,7 +352,7 @@ int game(void)
     {    
       game_handle_net_messages();
       /* Ask server to send our index if somehow we don't yet have it: */
-      if(my_socket_index < 0)
+      if(LAN_MyIndex() < 0)
         LAN_RequestIndex();
     }
 #endif
@@ -455,7 +453,6 @@ int game_initialize(void)
   game_over_other = 0;
   network_error = 0;
   game_halted_by_server = 0;
-  my_socket_index = -1;
 
   /* Make sure we don't try to call network code if we built without  */
   /* network support:                                                 */
@@ -485,18 +482,17 @@ int game_initialize(void)
   else  
   {
     /* Reset question queue and player name/score lists: */
-    int i;
+    //int i;
 
     //for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
       //MC_ResetFlashCard(&(quest_queue[i]));
 
-    for(i = 0; i < MAX_CLIENTS; i++)
-    {
-//      lan_pnames[i][0] = '\0';
-      lan_player_info[i].name[0] = '\0';
-      lan_player_info[i].score = -1;
-      lan_player_info[i].mine = 0;
-    }
+  //  for(i = 0; i < MAX_CLIENTS; i++)
+ //   {
+  //    lan_player_info[i].name[0] = '\0';
+   //   lan_player_info[i].score = -1;
+ //     lan_player_info[i].mine = 0;
+ //   }
     /* Ask server to send a message telling which socket is ours: */
     LAN_RequestIndex();
     /* Disable pausing and feedback mode: */
@@ -2325,9 +2321,7 @@ void game_draw_misc(void)
     /* In LAN mode, we show the server-generated score: */
     if(Opts_LanMode())
     { 
-      //DEBUGMSG(debug_lan, "my_socket_index = %d lan_player_info[my_socket_index].score = %d\n",
-      //		    my_socket_index, lan_player_info[my_socket_index].score);
-      sprintf(str, "%.6d", lan_player_info[my_socket_index].score);
+      sprintf(str, "%.6d", LAN_PlayerScore(LAN_MyIndex()));
     }
     else
       sprintf(str, "%.6d", score);
@@ -2398,10 +2392,10 @@ void game_draw_misc(void)
 
     for (i = 0; i < MAX_CLIENTS; i++)
     {
-      if(lan_player_info[i].score >= 0)
+      if(LAN_PlayerConnected(i))
       {
-        snprintf(str, 64, "%s: %d", lan_player_info[i].name, lan_player_info[i].score);
-	if(lan_player_info[i].mine)
+        snprintf(str, 64, "%s: %d",  LAN_PlayerName(i),  LAN_PlayerScore(i));
+	if(LAN_PlayerMine(i))
           score = T4K_BlackOutline(str, fontsize, &yellow);
 	else
           score = T4K_BlackOutline(str, fontsize, &white);
@@ -2690,6 +2684,9 @@ void game_handle_game_over(int game_status)
       SDL_Surface* surf = NULL;
       SDL_Rect loc;
 
+      //For sorted list of scores:
+      lan_player_type sorted_scores[MAX_CLIENTS];
+
       //Adjust font size for resolution:
       int win_x, win_y, full_x, full_y;
       int fontsize = DEFAULT_MENU_FONT_SIZE;
@@ -2705,7 +2702,14 @@ void game_handle_game_over(int game_status)
       //       DEFAULT_MENU_FONT_SIZE, scale, fontsize);
 
       /* Sort scores: */
-      qsort((void*)lan_player_info, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
+      for(i = 0; i < MAX_CLIENTS; i++)
+      {
+        strncpy(sorted_scores[i].name, LAN_PlayerName(i), NAME_SIZE);
+	sorted_scores[i].mine = LAN_PlayerMine(i);
+	sorted_scores[i].score = LAN_PlayerScore(i);
+	sorted_scores[i].connected = LAN_PlayerConnected(i);
+      }	      
+      qsort((void*)sorted_scores, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
 
 
       /* Begin display loop: */
@@ -2760,11 +2764,11 @@ void game_handle_game_over(int game_status)
         /* draw sorted list of scores: */
         for (i = 0; i < MAX_CLIENTS; i++)
         {
-          if(lan_player_info[i].score >= 0)
+          if(sorted_scores[i].connected)
           {
-            snprintf(str, 64, "%d.\t%s: %d", rank, lan_player_info[i].name, lan_player_info[i].score);
+            snprintf(str, 64, "%d.\t%s: %d", rank, sorted_scores[i].name, sorted_scores[i].score);
             rank++;
-            if(lan_player_info[i].mine)
+            if(sorted_scores[i].mine)
               surf = T4K_BlackOutline(str, fontsize, &yellow);
             else
               surf = T4K_BlackOutline(str, fontsize, &white);
@@ -4331,19 +4335,9 @@ void game_handle_net_msg(char* buf)
       game_over_other = 1;
   }
 
-  else if(strncmp(buf, "SOCKET_INDEX", strlen("SOCKET_INDEX")) == 0)
-  {
-    my_socket_index = socket_index_recvd(buf);
-  }
-  
   else if(strncmp(buf, "CONNECTED_PLAYERS", strlen("CONNECTED_PLAYERS")) == 0)
   {
     connected_players_recvd(buf);
-  }
-
-  else if(strncmp(buf, "UPDATE_SCORE", strlen("UPDATE_SCORE")) == 0)
-  {
-    update_score_recvd(buf);
   }
 
   else if(strncmp(buf, "WAVE", strlen("WAVE")) == 0)
@@ -4366,6 +4360,11 @@ void game_handle_net_msg(char* buf)
     game_halted_recvd(buf);
   }
 
+  else if(strncmp(buf, "LAN_INTERCEPTED", strlen("LAN_INTERCEPTED")) == 0)
+  {
+    /* Message handled within network.c - do nothing here */
+  }
+
   else
   {
     DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
@@ -4386,7 +4385,7 @@ int add_quest_recvd(char* buf)
   }
 
   /* function call to parse buffer and receive question */
-  if(!Make_Flashcard(buf, &fc))
+  if(!MC_MakeFlashcard(buf, &fc))
   {
     fprintf(stderr, "Unable to parse buffer into FlashCard\n");
     return 0;
@@ -4568,43 +4567,12 @@ int remove_quest_recvd(char* buf)
 }
 
 
-int socket_index_recvd(char* buf)
-{
-  int i = 0;
-  int index = -1;
-  char* p = NULL;
 
-  if(!buf)
-    return -1;
-
-  p = strchr(buf, '\t');
-  if(!p)
-    return -1;
-  p++;
-  index = atoi(p);
-
-  DEBUGMSG(debug_game, "socket_index_recvd(): index = %d\n", index);
-
-  if(index < 0 || index > MAX_CLIENTS)
-  {
-    fprintf(stderr, "socket_index_recvd() - illegal value: %d\n", index);
-    return -1;
-  }
-  for(i = 0; i < MAX_CLIENTS; i++)
-  {
-    if(i == index)
-      lan_player_info[i].mine = 1;
-    else
-      lan_player_info[i].mine = 0;
-  }	  
-  return index; 
-}
-
-/* Here we have been told how many LAN players are still    */
-/* in the game. This should always be followed by a series  */
-/* of UPDATE_SCORE messages, each with the name and score  */
-/* of a player. We clear out the array to get rid of anyone */
-/* who has disconnected.                                    */
+/* Here we have been told how many LAN players are still         */
+/* in the game. This should always be followed by a series       */
+/* of UPDATE_PLAYER_INFO messages, each with the name and score  */
+/* of a player. We clear out the array to get rid of anyone      */
+/* who has disconnected.                                         */
 int connected_players_recvd(char* buf)
 {
   int n = 0;
@@ -4639,48 +4607,6 @@ int connected_players_recvd(char* buf)
   return n;
 }
 
-/* Receive the name and current score of a currently-connected */
-/* LAN player.                                                 */
-int update_score_recvd(char* buf)
-{
-  int i = 0;
-  char* p = NULL;
-
-  if(buf == NULL)
-    return 0;
-  // get i:
-  p = strchr(buf, '\t');
-  if(!p)
-    return 0;
-  p++;
-  i = atoi(p);
-
-  //get name:
-  p = strchr(p, '\t');
-  if(!p)
-    return 0;
-  p++;
-  strncpy(lan_player_info[i].name, p, NAME_SIZE);
-  //This has most likely copied the score field as well, so replace the
-  //tab delimiter with a null to terminate the string:
-  {
-    char* p2 = strchr(lan_player_info[i].name, '\t');
-    if (p2)
-      *p2 = '\0';
-  }
-
-  //Now get score:
-  p = strchr(p, '\t');
-  p++;
-  if(p)
-    lan_player_info[i].score = atoi(p);
-
-  DEBUGMSG(debug_lan, "update_score_recvd() - buf is: %s\n", buf);
-  DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n", 
-           i, lan_player_info[i].name, lan_player_info[i].score);
-
-  return 1;
-}
 
 /* Receive notification of the current wave */
 int wave_recvd(char* buf)
@@ -4789,12 +4715,12 @@ int erase_comet_on_screen(comet_type* comet)
   return 1;
 }
 
-/* For sorting of lan_player_info array */
+/* For sorting of sorted_scores array */
 int compare_scores(const void* p1, const void* p2)
 {
   lan_player_type* lan1 = (lan_player_type*)p1;
   lan_player_type* lan2 = (lan_player_type*)p2;
-  return (lan1->score - lan2->score);
+  return (lan2->score - lan1->score);
 }	
 
 #endif  //HAVE_LIBSDL_NET

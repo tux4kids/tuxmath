@@ -49,6 +49,7 @@ typedef struct {
 
 /* Keep information on other connected players for on-screen display: */
 typedef struct lan_player_type {
+  bool connected;
   char name[NAME_SIZE];
   bool mine;	
   bool ready;	
@@ -66,22 +67,27 @@ void print_server_list(void);
 //int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 int LAN_SetName(char* name);
+int LAN_SetReady(void);
 int LAN_RequestIndex(void);
 /* Network replacement functions for mathcards "API": */
 /* These functions are how the client tells things to the server: */
-int LAN_PlayerReady(void);
+int LAN_SetReady(void);
 int LAN_AnsweredCorrectly(int id, float t);
 int LAN_NotAnsweredCorrectly(int id);
 int LAN_LeaveGame(void);
+/* These functions return info about currently connected players */
+int LAN_NumPlayers(void);
+char* LAN_PlayerName(int i);
+bool LAN_PlayerMine(int i);
+bool LAN_PlayerReady(int i);
+bool LAN_PlayerConnected(int i);
+int LAN_PlayerScore(int i);
+int LAN_MyIndex(void);
 /* This is how the client receives messages from the server: */
 int LAN_NextMsg(char* buf);
 
-/* NOTE probably won't have this in multiplayer - new quests determined by server */
-//int LAN_NextQuestion(void);
 
 
-/* FIXME this should be local to network.c */
-int Make_Flashcard(char* buf, MC_FlashCard* fc);
 
 #endif // HAVE_LIBSDL_NET
 

@@ -1028,6 +1028,42 @@ float MC_MedianTimePerQuestion(void)
 
 
 
+int MC_MakeFlashcard(char* buf, MC_FlashCard* fc)
+{
+  int i = 0,tab = 0, s = 0;
+  char formula[MC_FORMULA_LEN];
+  sscanf (buf,"%*s%d%d%d%s",
+              &fc->question_id,
+              &fc->difficulty,
+              &fc->answer,
+              fc->answer_string); /* can't formula_string in sscanf in here cause it includes spaces*/
+ 
+  /*doing all this cause sscanf will break on encountering space in formula_string*/
+  /* NOTE changed to index notation so we keep within NET_BUF_LEN */
+  while(buf[i]!='\n' && i < NET_BUF_LEN)
+  {
+    if(buf[i]=='\t')
+      tab++; 
+    i++;
+    if(tab == 5)
+      break;
+  }
+
+  while((buf[i] != '\n') 
+    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
+  {
+    formula[s] = buf[i] ;
+    i++;
+    s++;
+  }
+  formula[s]='\0';
+  strcpy(fc->formula_string, formula); 
+
+  DEBUGMSG(debug_lan, "In Make_Flashcard, new card is:\n");
+  DEBUGCODE(debug_lan) print_card(*fc); 
+
+return 1;
+} 
 
 /* Implementation of "private methods" - (cannot be called from outside
 of this file) */

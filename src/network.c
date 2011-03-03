@@ -51,12 +51,18 @@ SDLNet_SocketSet set;
 IPaddress serv_ip;
 ServerEntry servers[MAX_SERVERS];
 static int connected_server = -1;
+static int my_index = -1;
+
+/* Keep track of other connected players: */
+lan_player_type lan_player_info[MAX_CLIENTS];
 
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
 int add_to_server_list(UDPpacket* pkt);
-
+void intercept(char* buf);
+int socket_index_recvd(char* buf);
+int parse_player_info_msg(char* buf);
 
 int LAN_DetectServers(void)
 {
@@ -73,6 +79,16 @@ int LAN_DetectServers(void)
   //zero out old server list
   for(i = 0; i < MAX_SERVERS; i++)
     servers[i].ip.host = 0;
+
+  /* Init player info array for peer clients: */
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+      lan_player_info[i].connected = 0;
+      lan_player_info[i].name[0] = '\0';
+      lan_player_info[i].score = -1;
+      lan_player_info[i].mine = 0;
+      lan_player_info[i].ready = 0;
+  }
 
   /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
   if(SDL_Init(0) == -1)
@@ -97,7 +113,7 @@ int LAN_DetectServers(void)
     DEBUGMSG(debug_lan, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
     return 0;
   }
-  
+ 
   out = SDLNet_AllocPacket(NET_BUF_LEN);
   in = SDLNet_AllocPacket(NET_BUF_LEN);
 
@@ -210,6 +226,7 @@ int LAN_AutoSetup(int i)
     DEBUGMSG(debug_lan, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
     // perhaps you need to restart the set and make it bigger...
   }
+  
 
   // Success - record the index for future reference:
   connected_server = i;
@@ -224,8 +241,6 @@ int LAN_AutoSetup(int i)
  */
 void LAN_Cleanup(void)
 {
-  char buf[256];
-  
   DEBUGMSG(debug_lan|debug_game, "Enter LAN_cleanup():\n");
 
   //Empty the queue of any leftover messages:
@@ -261,7 +276,9 @@ int LAN_SetName(char* name)
 
 /* Here we get the next message from the server if one is available. */
 /* We return 1 if a message received, 0 if no activity, -1 on errors */
-/* or if connection is lost:                                         */
+/* or if connection is lost.  Also, some messages are handled within */
+/* the network.c system instead of being passed to the rest of the   */
+/* program.                                                          */
 int LAN_NextMsg(char* buf)
 { 
   int numready = 0;
@@ -297,6 +314,10 @@ int LAN_NextMsg(char* buf)
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) > 0)
       {
         //Success - message is now in buffer
+	//We take care of some housekeeping messages internally
+	//(e.g. player info) to hide complexity from rest of program;
+	//In this case, buf gets replaced with "LAN_INTERCEPTED"
+	intercept(buf);
         DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
         return 1;
       }
@@ -330,47 +351,7 @@ int LAN_NextMsg(char* buf)
 }
 
 
-
-
-int Make_Flashcard(char* buf, MC_FlashCard* fc)
-{
-  int i = 0,tab = 0, s = 0;
-  char formula[MC_FORMULA_LEN];
-  sscanf (buf,"%*s%d%d%d%s",
-              &fc->question_id,
-              &fc->difficulty,
-              &fc->answer,
-              fc->answer_string); /* can't formula_string in sscanf in here cause it includes spaces*/
- 
-  /*doing all this cause sscanf will break on encountering space in formula_string*/
-  /* NOTE changed to index notation so we keep within NET_BUF_LEN */
-  while(buf[i]!='\n' && i < NET_BUF_LEN)
-  {
-    if(buf[i]=='\t')
-      tab++; 
-    i++;
-    if(tab == 5)
-      break;
-  }
-
-  while((buf[i] != '\n') 
-    && (s < MC_FORMULA_LEN - 1)) //Must leave room for terminating null
-  {
-    formula[s] = buf[i] ;
-    i++;
-    s++;
-  }
-  formula[s]='\0';
-  strcpy(fc->formula_string, formula); 
-
-  DEBUGMSG(debug_lan, "In Make_Flashcard, new card is:\n");
-  DEBUGCODE(debug_lan) print_card(*fc); 
-
-return 1;
-} 
-
-
-int LAN_PlayerReady(void)
+int LAN_SetReady(void)
 {
   char buffer[NET_BUF_LEN];
   snprintf(buffer, NET_BUF_LEN, "%s", "PLAYER_READY");
@@ -411,6 +392,76 @@ int LAN_LeaveGame(void)
   return say_to_server(buf);
 }
 
+/* -------------------------------------------------------------------------   */
+/* Functions to tell rest of TuxMath about status of other connected players:  */
+
+int LAN_NumPlayers(void)
+{
+  int num = 0;
+  int i = 0;
+  for(i = 0; i < MAX_CLIENTS; i++)
+    if(lan_player_info[i].connected)
+      num++;
+  return num;
+}
+
+char* LAN_PlayerName(int i)
+{
+  if(i < 0 || i >= MAX_CLIENTS)
+  {
+    fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerName()\n", i);
+    return NULL;
+  }  
+
+  return lan_player_info[i].name;
+}
+
+bool LAN_PlayerMine(int i)
+{
+  if(i < 0 || i >= MAX_CLIENTS)
+  {
+    fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerMine()\n", i);
+    return false;
+  }  
+  return lan_player_info[i].mine;
+}
+
+bool LAN_PlayerReady(int i)
+{
+  if(i < 0 || i >= MAX_CLIENTS)
+  {
+    fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerReady()\n", i);
+    return false;
+  }  
+  return lan_player_info[i].ready;
+}
+
+bool LAN_PlayerConnected(int i)
+{
+  if(i < 0 || i >= MAX_CLIENTS)
+  {
+    fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerConnected()\n", i);
+    return false;
+  }  
+  return lan_player_info[i].connected;
+}
+
+int LAN_PlayerScore(int i)
+{
+  if(i < 0 || i >= MAX_CLIENTS)
+  {
+    fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerScore()\n", i);
+    return NULL;
+  }  
+  return lan_player_info[i].score;
+}
+
+int LAN_MyIndex(void)
+{
+  return my_index;
+}
+
+
 
 
 /*private to network.c functions*/
@@ -422,9 +473,7 @@ int say_to_server(char* statement)
   if(!statement)
     return 0;
 
-  snprintf(buffer, NET_BUF_LEN, 
-                  "%s",
-                  statement);
+  snprintf(buffer, NET_BUF_LEN, "%s", statement);
   if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
   {
     DEBUGMSG(debug_lan, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
@@ -492,6 +541,108 @@ void print_server_list(void)
   }
 }
 
+/* Some of the server messages are handled within network.c, such
+ * as those which maintain the state of the list of connected clients.
+ * We handle those here before passing 'buf' to the game itself.
+ */
+void intercept(char* buf)
+{
+  if(!buf)
+    return;
+
+  if(strncmp(buf, "SOCKET_INDEX", strlen("SOCKET_INDEX")) == 0)
+  {
+    my_index = socket_index_recvd(buf);
+    snprintf(buf, NET_BUF_LEN, "%s", "LAN_INTERCEPTED");
+  }
+  else if(strncmp(buf, "UPDATE_PLAYER_INFO", strlen("UPDATE_PLAYER_INFO")) == 0)
+  {
+    parse_player_info_msg(buf);
+    snprintf(buf, NET_BUF_LEN, "%s", "LAN_INTERCEPTED");
+  }
+  /* Otherwise we leave 'buf' unchanged to be handled elsewhere */
+}
 
 
+int socket_index_recvd(char* buf)
+{
+  int i = 0;
+  int index = -1;
+  char* p = NULL;
+
+  if(!buf)
+    return -1;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return -1;
+  p++;
+  index = atoi(p);
+
+  DEBUGMSG(debug_lan, "socket_index_recvd(): index = %d\n", index);
+
+  if(index < 0 || index > MAX_CLIENTS)
+  {
+    fprintf(stderr, "socket_index_recvd() - illegal value: %d\n", index);
+    return -1;
+  }
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    if(i == index)
+      lan_player_info[i].mine = 1;
+    else
+      lan_player_info[i].mine = 0;
+  }	  
+  return index; 
+}
+
+
+int parse_player_info_msg(char* buf)
+{
+  int i = 0;
+  char* p = NULL;
+
+  if(buf == NULL)
+    return 0;
+  // get i:
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+  p++;
+  i = atoi(p);
+  lan_player_info[i].connected = 1;
+
+  // get ready:
+  p = strchr(p, '\t');
+  if(!p)
+    return 0;
+  p++;
+  lan_player_info[i].ready = atoi(p);
+  
+  //get name:
+  p = strchr(p, '\t');
+  if(!p)
+    return 0;
+  p++;
+  strncpy(lan_player_info[i].name, p, NAME_SIZE);
+  //This has most likely copied the score field as well, so replace the
+  //tab delimiter with a null to terminate the string:
+  {
+    char* p2 = strchr(lan_player_info[i].name, '\t');
+    if (p2)
+      *p2 = '\0';
+  }
+
+  //Now get score:
+  p = strchr(p, '\t');
+  p++;
+  if(p)
+    lan_player_info[i].score = atoi(p);
+
+  DEBUGMSG(debug_lan, "update_score_recvd() - buf is: %s\n", buf);
+  DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n", 
+           i, lan_player_info[i].name, lan_player_info[i].score);
+
+  return 1;
+}
 #endif

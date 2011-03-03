@@ -108,7 +108,7 @@ int calc_score(int difficulty, float t);
 int add_question(MC_FlashCard* fc);
 int remove_question(int id);
 int send_counter_updates(void);
-int send_score_updates(void);
+int send_player_updates(void);
 //int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock);
 int player_msg(int i, char* msg);
@@ -1123,7 +1123,7 @@ void game_msg_correct_answer(int i, char* inbuf)
   //and update the game counters:
   send_counter_updates();
   //and the scores:
-  send_score_updates();
+  send_player_updates();
 }
 
 
@@ -1320,7 +1320,7 @@ void start_game(void)
 
   //Send all the clients the counter totals:
   send_counter_updates();
-  send_score_updates();
+  send_player_updates();
 }
 
 /* Update anything that isn't a response to a client message, such
@@ -1455,7 +1455,7 @@ int send_counter_updates(void)
 }
 
 
-int send_score_updates(void)
+int send_player_updates(void)
 {
   int i = 0;
 
@@ -1479,8 +1479,9 @@ int send_score_updates(void)
     && (client[i].sock != NULL))
     {
       char buf[NET_BUF_LEN];
-      snprintf(buf, NET_BUF_LEN, "%s\t%d\t%s\t%d", "UPDATE_SCORE",
+      snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d\t%s\t%d", "UPDATE_PLAYER_INFO",
                i,
+               client[i].game_ready,
                client[i].name,
                client[i].score);
       transmit_all(buf);
