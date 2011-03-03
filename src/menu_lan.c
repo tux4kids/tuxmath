@@ -36,14 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "menu_lan.h"
 
 
-/* Keep information on other connected players for on-screen display: */
-typedef struct lan_player_type {
-  char name[NAME_SIZE];
-  bool mine;	
-  bool ready;	
-  int score;	
-} lan_player_type;
-
+/* lan_player_type now defined in network.h */
 lan_player_type lan_player_info[MAX_CLIENTS];
 
 

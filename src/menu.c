@@ -568,7 +568,7 @@ int run_lan_join(void)
     }
 
     ClickWhenReady(_("Click when ready")); //wait until player indicates ready to start
-    LAN_StartGame();  //tell server we are ready to start
+    LAN_PlayerReady();  //tell server we are ready to start
     stdby = WaitForOthers(_("Waiting for other players"), NULL);
     if (stdby == 1)
     {

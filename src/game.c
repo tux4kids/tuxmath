@@ -122,12 +122,6 @@ typedef struct powerup_comet_type {
   int inc_speed;
 } powerup_comet_type;
 
-typedef struct lan_player_type {
-  char name[NAME_SIZE];
-  int score;	
-  int mine;	
-} lan_player_type;
-
 
 /* Local (to game.c) 'globals': */
 
@@ -202,6 +196,7 @@ static int start_message_chosen = 0;
 int remaining_quests = 0;
 static int comet_counter = 0;
 static int lan_players = 0;
+/* (lan_player_type now defined in network.h) */
 lan_player_type lan_player_info[MAX_CLIENTS];
 /* TODO It would be better to "queue" up these messages. */
 SDL_Surface *player_left_surf = NULL;

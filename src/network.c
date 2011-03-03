@@ -370,10 +370,10 @@ return 1;
 } 
 
 
-int LAN_StartGame(void)
+int LAN_PlayerReady(void)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s", "START_GAME");
+  snprintf(buffer, NET_BUF_LEN, "%s", "PLAYER_READY");
   return say_to_server(buffer);
 }
 

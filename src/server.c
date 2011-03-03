@@ -979,7 +979,7 @@ void handle_client_nongame_msg(int i, char* buffer)
 
   DEBUGMSG(debug_lan, "nongame_msg received from client: %s\n", buffer);
 
-  if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
+  if(strncmp(buffer, "PLAYER_READY", strlen("PLAYER_READY")) == 0)
   {
     snprintf(buf, NET_BUF_LEN,
                 "Player %s ready to start math game",

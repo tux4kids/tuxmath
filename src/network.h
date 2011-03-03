@@ -47,6 +47,13 @@ typedef struct {
     char lesson[LESSON_TITLE_LENGTH];
 }ServerEntry;
 
+/* Keep information on other connected players for on-screen display: */
+typedef struct lan_player_type {
+  char name[NAME_SIZE];
+  bool mine;	
+  bool ready;	
+  int score;	
+} lan_player_type;
 
 /* Networking setup and cleanup: */
 int LAN_DetectServers(void);
@@ -62,7 +69,7 @@ int LAN_SetName(char* name);
 int LAN_RequestIndex(void);
 /* Network replacement functions for mathcards "API": */
 /* These functions are how the client tells things to the server: */
-int LAN_StartGame(void);
+int LAN_PlayerReady(void);
 int LAN_AnsweredCorrectly(int id, float t);
 int LAN_NotAnsweredCorrectly(int id);
 int LAN_LeaveGame(void);
