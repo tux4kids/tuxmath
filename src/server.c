@@ -504,7 +504,7 @@ int setup_server(void)
 
 
 
-//Free resources, closing sockets, call MC_EndGame(), and so forth:
+//Free resources, closing sockets, and so forth:
 void cleanup_server(void)
 {
   int i;
@@ -536,8 +536,6 @@ void cleanup_server(void)
     SDLNet_UDP_Close(udpsock);
     udpsock = NULL;
   }
-  /* Clean up mathcards heap memory */
-  MC_EndGame();
 }
 
 
@@ -1417,7 +1415,9 @@ void end_game(void)
   }
 
   game_in_progress = 0;
-  MC_EndGame();
+  //  NOTE: we only want to call MC_EndGame() when the program exits,
+  //  not when an individual math game ends.
+//  MC_EndGame();
   DEBUGMSG(debug_lan, "Leave end_game()\n");
 }
 
