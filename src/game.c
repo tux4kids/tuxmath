@@ -164,7 +164,6 @@ static int game_over_other;
 static int game_over_won;
 static int network_error;
 static int game_halted_by_server; 
-static int my_socket_index;
 /* Feedback-related variables */
 static int city_expl_height;
 static int comet_feedback_number;
@@ -199,7 +198,7 @@ static int lan_players = 0;
 /* (lan_player_type now defined in network.h) */
 lan_player_type lan_player_info[MAX_CLIENTS];
 /* TODO It would be better to "queue" up these messages. */
-SDL_Surface *player_left_surf = NULL;
+SDL_Surface* player_left_surf = NULL;
 int player_left_time = 0;
 SDL_Rect player_left_pos = {0};
 /****************************************************************/
@@ -4638,24 +4637,16 @@ int wave_recvd(char* buf)
 int player_left_recvd(char* buf)
 {
     char _tmpbuf[512];
-    int i;
+    char* name;
+    int fontsize;
     if(!buf)
       return 0;
-    i = atoi(buf + strlen("PLAYER_LEFT\t"));
-    snprintf(_tmpbuf, sizeof(_tmpbuf), "%s has left the game.", lan_player_info[i].name);
-    lan_player_info[i].name[0] = '\0';
-    lan_player_info[i].score = -1;
+    name = buf + strlen("PLAYER_LEFT\t");
+    snprintf(_tmpbuf, sizeof(_tmpbuf), _("%s has left the game."), name);
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-    SDL_FreeSurface(player_left_surf);
+    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
+    if(player_left_surf)
+      SDL_FreeSurface(player_left_surf);
     player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
     player_left_time = SDL_GetTicks();
     player_left_pos.y = T4K_GetScreen()->h - player_left_surf->h;

@@ -63,6 +63,7 @@ int add_to_server_list(UDPpacket* pkt);
 void intercept(char* buf);
 int socket_index_recvd(char* buf);
 int parse_player_info_msg(char* buf);
+int lan_player_left_recvd(char* buf);
 
 int LAN_DetectServers(void)
 {
@@ -560,6 +561,10 @@ void intercept(char* buf)
     parse_player_info_msg(buf);
     snprintf(buf, NET_BUF_LEN, "%s", "LAN_INTERCEPTED");
   }
+  else if(strncmp(buf, "PLAYER_LEFT", strlen("PLAYER_LEFT")) == 0)
+  {
+    lan_player_left_recvd(buf); //for this one buf is modified but sent
+  }
   /* Otherwise we leave 'buf' unchanged to be handled elsewhere */
 }
 
@@ -645,4 +650,24 @@ int parse_player_info_msg(char* buf)
 
   return 1;
 }
+
+
+
+int lan_player_left_recvd(char* buf)
+{
+    char _tmpbuf[512];
+    int i;
+    if(!buf)
+      return 0;
+    i = atoi(buf + strlen("PLAYER_LEFT\t"));
+    //rewrite buf to contain name itself for "downstream" rather than index,
+    //because we are about to clobber name in lan_player_info[]
+    snprintf(buf, NET_BUF_LEN, "%s\t%s", "PLAYER_LEFT", LAN_PlayerName(i));
+    lan_player_info[i].name[0] = '\0';
+    lan_player_info[i].score = -1;
+    lan_player_info[i].ready = false;
+    return 1;
+}
+
+
 #endif
