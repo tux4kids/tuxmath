@@ -181,26 +181,20 @@ static steam_type* steam = NULL;
 
 static cloud_type cloud;
 static laser_type laser[MAX_LASER];
-static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
-static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
-static SDL_Surface* current_bkgd()
-  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; } //too clever for my brain to process
+static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
+static SDL_Surface* scaled_bkgd = NULL; //fullscreen resolution (from OS)
+
 
 static game_message s1, s2, s3, s4, s5;
 static int start_message_chosen = 0;
 
 /*****************************************************************/
-//MC_FlashCard quest_queue[QUEST_QUEUE_SIZE];    //current questions
-int remaining_quests = 0;
-static int comet_counter = 0;
-static int lan_players = 0;
-/* (lan_player_type now defined in network.h) */
-lan_player_type lan_player_info[MAX_CLIENTS];
-/* TODO It would be better to "queue" up these messages. */
+#ifdef HAVE_LIBSDL_NET
 SDL_Surface* player_left_surf = NULL;
 int player_left_time = 0;
 SDL_Rect player_left_pos = {0};
+#endif
 /****************************************************************/
 
 typedef struct {
@@ -230,6 +224,9 @@ static void game_draw_comets(void);
 static void game_draw_cities(void);
 static void game_draw_misc(void);
 static void game_handle_game_over(int game_status);
+
+static SDL_Surface* current_bkgd()
+  { return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; } //too clever for my brain to process
 
 static int check_extra_life(void);
 static int check_exit_conditions(void);
@@ -275,7 +272,6 @@ void game_handle_net_msg(char* buf);
 int lan_add_comet(MC_FlashCard* fc);
 int add_quest_recvd(char* buf);
 int remove_quest_recvd(char* buf);
-int connected_players_recvd(char* buf);
 int wave_recvd(char* buf);
 int player_left_recvd(char* buf);
 int game_halted_recvd(char* buf);
@@ -681,22 +677,33 @@ void game_cleanup(void)
 #ifdef HAVE_LIBSDL_NET  
   if (Opts_LanMode() )
     LAN_Cleanup();
+
+  if(player_left_surf)
+  {
+    SDL_FreeSurface(player_left_surf);
+    player_left_surf = NULL;
+  }
 #endif
 
   DEBUGMSG(debug_game, "game_cleanup(): after LAN_Cleanup\n");
 
   /* Free background: */
-  if (bkgd != NULL)
+  if (bkgd)
   {
     SDL_FreeSurface(bkgd);
     bkgd = NULL;
   }
-  if (scaled_bkgd != NULL)
+  if (scaled_bkgd)
   {
     SDL_FreeSurface(scaled_bkgd);
     scaled_bkgd = NULL;
   }
-  
+  if(player_left_surf)
+  {
+    SDL_FreeSurface(player_left_surf);
+    player_left_surf = NULL;
+  }
+
   DEBUGMSG(debug_game, "game_cleanup(): after freeing backgrounds\n");
 
   /* clear start message */
@@ -1019,18 +1026,20 @@ void game_write_message(const game_message *msg)
   if (strlen(msg->message) > 0)
   {
     surf = T4K_BlackOutline( _(msg->message), DEFAULT_HELP_FONT_SIZE, &white);
-    rect.w = surf->w;
-    rect.h = surf->h;
-    if (msg->x < 0)
-      rect.x = (screen->w/2) - (rect.w/2);   // centered
-    else
-      rect.x = msg->x;              // left justified
-    rect.y = msg->y;
-    //FIXME alpha blending doesn't seem to work properly
-    SDL_SetAlpha(surf, SDL_SRCALPHA, msg->alpha);
-    SDL_BlitSurface(surf, NULL, screen, &rect);
-    SDL_FreeSurface(surf);
-    //SDL_UpdateRect(screen, rect.x, rect.y, rect.w, rect.h);
+    if(surf)
+    {
+      rect.w = surf->w;
+      rect.h = surf->h;
+      if (msg->x < 0)
+        rect.x = (screen->w/2) - (rect.w/2);   // centered
+      else
+        rect.x = msg->x;              // left justified
+      rect.y = msg->y;
+      //FIXME alpha blending doesn't seem to work properly
+      SDL_SetAlpha(surf, SDL_SRCALPHA, msg->alpha);
+      SDL_BlitSurface(surf, NULL, screen, &rect);
+      SDL_FreeSurface(surf);
+    }
   }
 }
 
@@ -1968,9 +1977,11 @@ void game_draw(void)
   /* Draw any messages on the screen (used for the help mode) */
   game_write_messages();
 
+#ifdef HAVE_LIBSDL_NET
   /* Display message indicating that a player left */
   if(player_left_surf != NULL && (SDL_GetTicks() - player_left_time) < 2000)
     SDL_BlitSurface(player_left_surf, NULL, T4K_GetScreen(), &player_left_pos);
+#endif
 
   /* Swap buffers: */
   SDL_Flip(screen);
@@ -2337,18 +2348,7 @@ void game_draw_misc(void)
     SDL_Rect loc;
 
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-    //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-    //         DEFAULT_MENU_FONT_SIZE, scale, fontsize);
+    int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
 
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
@@ -2373,21 +2373,9 @@ void game_draw_misc(void)
     int entries = 0;
     SDL_Surface* score = NULL;
     SDL_Rect loc;
-
+    
     //Adjust font size for resolution:
-    int win_x, win_y, full_x, full_y;
-    int fontsize = DEFAULT_MENU_FONT_SIZE;
-    float scale;
-    T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-    if(Opts_GetGlobalOpt(FULLSCREEN))
-      scale = (float)full_y/(float)win_y;
-    else
-      scale = 1;
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-    //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-    //         DEFAULT_MENU_FONT_SIZE, scale, fontsize);
-
+    int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
 
     for (i = 0; i < MAX_CLIENTS; i++)
     {
@@ -2683,23 +2671,12 @@ void game_handle_game_over(int game_status)
       SDL_Surface* surf = NULL;
       SDL_Rect loc;
 
+      //Adjust font size for resolution:
+      int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
+
+
       //For sorted list of scores:
       lan_player_type sorted_scores[MAX_CLIENTS];
-
-      //Adjust font size for resolution:
-      int win_x, win_y, full_x, full_y;
-      int fontsize = DEFAULT_MENU_FONT_SIZE;
-      float scale;
-      T4K_GetResolutions(&win_x, &win_y, &full_x, &full_y);   
-      if(Opts_GetGlobalOpt(FULLSCREEN))
-        scale = (float)full_y/(float)win_y;
-      else
-        scale = 1;
-      fontsize = (int)(DEFAULT_MENU_FONT_SIZE * scale);
-
-      //DEBUGMSG(debug_lan, "Default font size: %d\tscale: %f\tfinal font size: %d\n",
-      //       DEFAULT_MENU_FONT_SIZE, scale, fontsize);
-
       /* Sort scores: */
       for(i = 0; i < MAX_CLIENTS; i++)
       {
@@ -3899,7 +3876,6 @@ void add_score(int inc)
 void reset_comets(void)
 {
   int i = 0;
-  comet_counter = 0;
 
   for (i = 0; i < Opts_MaxComets(); i++)
   {
@@ -4046,19 +4022,21 @@ void smartbomb_activate(void)
 
 void draw_smartbomb(void)
 {
-  SDL_Surface *img;
+  SDL_Surface* img;
   SDL_Rect rect;
 
   if(!smartbomb_alive)
     return;
-
+  //FIXME use real smartbomb image here
   img = images[IMG_TUX_LITTLE];
-  rect.x = SMARTBOMB_ICON_X;//screen->w - img->w;  
-  rect.y = SMARTBOMB_ICON_Y;//screen->h - img->h; 
-  rect.w = img->w;
-  rect.h = img->h;
-
-  SDL_BlitSurface(img, NULL, screen, &rect);
+  if(img)
+  {
+    rect.x = SMARTBOMB_ICON_X;//screen->w - img->w;  
+    rect.y = SMARTBOMB_ICON_Y;//screen->h - img->h; 
+    rect.w = img->w;
+    rect.h = img->h;
+    SDL_BlitSurface(img, NULL, screen, &rect);
+  }
 }
 
 int powerup_initialize(void)
@@ -4220,7 +4198,7 @@ void game_handle_powerup(void)
 
 void game_draw_powerup(void)
 {
-  SDL_Surface *img = NULL;
+  SDL_Surface* img = NULL;
   SDL_Rect dest;
   char* powerup_str;
   int imgid;
@@ -4238,6 +4216,8 @@ void game_draw_powerup(void)
       imgid = IMG_RIGHT_POWERUP_COMET;
 
     img = sprites[imgid]->frame[frame % sprites[imgid]->num_frames];
+    if(!img)
+      return;
 
     if(powerup_comet->comet.x >= img->w/2 && 
        powerup_comet->comet.x <= screen->w - img->w/2)
@@ -4257,7 +4237,7 @@ void game_draw_powerup(void)
   }
 
   /* Draw it! */
-  dest.x = powerup_comet->comet.x - (img->w / 2);
+  dest.x = powerup_comet->comet.x - (img->w/2);
   dest.y = powerup_comet->comet.y - img->h;
   dest.w = img->w;
   dest.h = img->h;
@@ -4332,11 +4312,6 @@ void game_handle_net_msg(char* buf)
     sscanf(buf,"%*s %d", &total_questions_left);
     if(!total_questions_left)
       game_over_other = 1;
-  }
-
-  else if(strncmp(buf, "CONNECTED_PLAYERS", strlen("CONNECTED_PLAYERS")) == 0)
-  {
-    connected_players_recvd(buf);
   }
 
   else if(strncmp(buf, "WAVE", strlen("WAVE")) == 0)
@@ -4567,44 +4542,6 @@ int remove_quest_recvd(char* buf)
 
 
 
-/* Here we have been told how many LAN players are still         */
-/* in the game. This should always be followed by a series       */
-/* of UPDATE_PLAYER_INFO messages, each with the name and score  */
-/* of a player. We clear out the array to get rid of anyone      */
-/* who has disconnected.                                         */
-int connected_players_recvd(char* buf)
-{
-  int n = 0;
-  int i = 0;
-  char* p = NULL;
-
-  if(!buf)
-    return 0;
-
-  p = strchr(buf, '\t');
-  if(!p)
-    return 0;
-  p++;
-  n = atoi(p);
-
-  DEBUGMSG(debug_game, "connected_players_recvd() for n = %d\n", n);
-
-  if(n < 0 || n > MAX_CLIENTS)
-  {
-    fprintf(stderr, "connected_players_recvd() - illegal value: %d\n", n);
-    return -1;
-  }
-  lan_players = n;
-
-  /* Reset array - we should be getting new values in immediately */
-  /* following messages.                                          */
-  for(i = 0; i < MAX_CLIENTS; i++)
-  {
-    lan_player_info[i].name[0] = '\0';
-    lan_player_info[i].score = -1;
-  }
-  return n;
-}
 
 
 /* Receive notification of the current wave */
@@ -4638,13 +4575,14 @@ int player_left_recvd(char* buf)
 {
     char _tmpbuf[512];
     char* name;
-    int fontsize;
+    //Adjust font size for resolution:
+    int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
+
     if(!buf)
       return 0;
+
     name = buf + strlen("PLAYER_LEFT\t");
     snprintf(_tmpbuf, sizeof(_tmpbuf), _("%s has left the game."), name);
-    //Adjust font size for resolution:
-    fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
     if(player_left_surf)
       SDL_FreeSurface(player_left_surf);
     player_left_surf = T4K_BlackOutline( _tmpbuf, fontsize, &white);
@@ -4659,21 +4597,6 @@ int game_halted_recvd(char* buf)
     game_halted_by_server = 1;
     return 1;
 }
-
-/* Return a pointer to an empty comet slot, */
-/* returning NULL if no vacancy found:      */
-
-//MC_FlashCard* search_queue_by_id(int id)
-//{
-//  int i = 0;
-//  for(i = 0; i < QUEST_QUEUE_SIZE; i++)
-//  {
-//    if(quest_queue[i].question_id == id)
-//      return &quest_queue[i];
-//  }
-//  //if we don't find a match:
-//  return NULL;
-//}
 
 
 comet_type* search_comets_by_id(int id)

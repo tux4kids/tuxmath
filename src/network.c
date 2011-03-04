@@ -62,6 +62,7 @@ int evaluate(char *statement);
 int add_to_server_list(UDPpacket* pkt);
 void intercept(char* buf);
 int socket_index_recvd(char* buf);
+int connected_players_recvd(char* buf);
 int parse_player_info_msg(char* buf);
 int lan_player_left_recvd(char* buf);
 
@@ -509,7 +510,7 @@ int add_to_server_list(UDPpacket* pkt)
     servers[i].ip.host = pkt->address.host;
     servers[i].ip.port = pkt->address.port;
     // not using sscanf() because server_name could contain whitespace:
-    p = strchr(pkt->data, '\t');
+    p = strchr((const char*)pkt->data, '\t');
     p++;
     if(p)
       strncpy(servers[i].name, p, NAME_SIZE);
@@ -520,7 +521,7 @@ int add_to_server_list(UDPpacket* pkt)
       *p = '\0';
     // now we go to the second '\t' (note the use of "strrchr()"
     // rather than "strchr()") to get the lesson name:
-    p = strrchr(pkt->data, '\t');
+    p = strrchr((const char*)pkt->data, '\t');
     p++;
     if(p)
       strncpy(servers[i].lesson, p, LESSON_TITLE_LENGTH);
@@ -554,6 +555,11 @@ void intercept(char* buf)
   if(strncmp(buf, "SOCKET_INDEX", strlen("SOCKET_INDEX")) == 0)
   {
     my_index = socket_index_recvd(buf);
+    snprintf(buf, NET_BUF_LEN, "%s", "LAN_INTERCEPTED");
+  }
+  else if(strncmp(buf, "CONNECTED_PLAYERS", strlen("CONNECTED_PLAYERS")) == 0)
+  {
+    connected_players_recvd(buf);
     snprintf(buf, NET_BUF_LEN, "%s", "LAN_INTERCEPTED");
   }
   else if(strncmp(buf, "UPDATE_PLAYER_INFO", strlen("UPDATE_PLAYER_INFO")) == 0)
@@ -655,7 +661,6 @@ int parse_player_info_msg(char* buf)
 
 int lan_player_left_recvd(char* buf)
 {
-    char _tmpbuf[512];
     int i;
     if(!buf)
       return 0;
@@ -666,8 +671,50 @@ int lan_player_left_recvd(char* buf)
     lan_player_info[i].name[0] = '\0';
     lan_player_info[i].score = -1;
     lan_player_info[i].ready = false;
+    lan_player_info[i].connected = false;
     return 1;
 }
 
 
+/* Here we have been told how many LAN players are still         */
+/* in the game. This should always be followed by a series       */
+/* of UPDATE_PLAYER_INFO messages, each with the name and score  */
+/* of a player. We clear out the array to get rid of anyone      */
+/* who has disconnected.                                         */
+/* FIXME do we really need this message anymore? - DSB
+ */
+int connected_players_recvd(char* buf)
+{
+  int n = 0;
+  int i = 0;
+  char* p = NULL;
+
+  if(!buf)
+    return 0;
+
+  p = strchr(buf, '\t');
+  if(!p)
+    return 0;
+  p++;
+  n = atoi(p);
+
+  DEBUGMSG(debug_lan, "connected_players_recvd() for n = %d\n", n);
+
+  if(n < 0 || n > MAX_CLIENTS)
+  {
+    fprintf(stderr, "connected_players_recvd() - illegal value: %d\n", n);
+    return -1;
+  }
+
+  /* Reset array - we should be getting new values in immediately */
+  /* following messages.                                          */
+  for(i = 0; i < MAX_CLIENTS; i++)
+  {
+    lan_player_info[i].name[0] = '\0';
+    lan_player_info[i].score = -1;
+    lan_player_info[i].connected = false;
+    lan_player_info[i].ready = false;
+  }
+  return n;
+}
 #endif
