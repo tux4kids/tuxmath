@@ -353,10 +353,13 @@ int LAN_NextMsg(char* buf)
 }
 
 
-int LAN_SetReady(void)
+int LAN_SetReady(bool ready)
 {
   char buffer[NET_BUF_LEN];
-  snprintf(buffer, NET_BUF_LEN, "%s", "PLAYER_READY");
+  if(ready)
+      snprintf(buffer, NET_BUF_LEN, "%s", "PLAYER_READY");
+  else
+      snprintf(buffer, NET_BUF_LEN, "%s", "PLAYER_NOT_READY");
   return say_to_server(buffer);
 }
 

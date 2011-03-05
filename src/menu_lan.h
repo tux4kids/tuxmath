@@ -31,5 +31,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 int WaitForOthers(const char* heading, const char* sub);
 int ConnectToServer(const char* heading, const char* sub);
 int ClickWhenReady(const char* heading);
+int Pregame(void);
 
 #endif

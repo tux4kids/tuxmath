@@ -64,14 +64,12 @@ char* LAN_ConnectedServerName(void);
 char* LAN_ConnectedServerLesson(void);
 void print_server_list(void);
 
-//int LAN_Setup(char* host, int port);
 void LAN_Cleanup(void);
 int LAN_SetName(char* name);
-int LAN_SetReady(void);
+int LAN_SetReady(bool ready);
 int LAN_RequestIndex(void);
 /* Network replacement functions for mathcards "API": */
 /* These functions are how the client tells things to the server: */
-int LAN_SetReady(void);
 int LAN_AnsweredCorrectly(int id, float t);
 int LAN_NotAnsweredCorrectly(int id);
 int LAN_LeaveGame(void);

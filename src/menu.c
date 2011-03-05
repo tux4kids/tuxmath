@@ -566,10 +566,7 @@ int run_lan_join(void)
       ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server lost"));
       return 0;
     }
-
-    ClickWhenReady(_("Click when ready")); //wait until player indicates ready to start
-    LAN_SetReady();  //tell server we are ready to start
-    stdby = WaitForOthers(_("Waiting for other players"), NULL);
+    stdby = Pregame();
     if (stdby == 1)
     {
       T4K_AudioMusicUnload();

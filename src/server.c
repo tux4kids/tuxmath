@@ -987,6 +987,15 @@ void handle_client_nongame_msg(int i, char* buffer)
     //This will call start_game() if all the other clients are ready:
     check_game_clients();
   }
+  else if(strncmp(buffer, "PLAYER_NOT_READY", strlen("PLAYER_NOT_READY")) == 0)
+  {
+    snprintf(buf, NET_BUF_LEN,
+                "Player %s not ready to start math game",
+                client[i].name);
+    broadcast_msg(buf);
+    client[i].game_ready = 0;
+    check_game_clients();
+  }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
   {
     msg_set_name(i, buffer);

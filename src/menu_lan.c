@@ -47,16 +47,14 @@ int ConnectToServer(const char* heading, const char* sub)
 #else
   SDL_Rect loc;
   SDL_Rect stopRect;
+  SDL_Event event;
 
   int finished = 0;
   Uint32 timer = 0;
   int servers_found = 0;  
 
-  DEBUGMSG(debug_lan, "\nEnter detecting_servers()\n");
+  DEBUGMSG(debug_lan, "\n Enter ConnectToServer()\n");
 
-
-  /* We need to get Unicode vals from SDL keysyms */
-  SDL_EnableUNICODE(SDL_ENABLE);
 
   /* Draw background: */
   if (current_bkg())
@@ -75,8 +73,7 @@ int ConnectToServer(const char* heading, const char* sub)
 
   /* Draw heading: */
   {
-    SDL_Surface* s = T4K_BlackOutline(_(heading),
-                                  DEFAULT_MENU_FONT_SIZE, &white);
+    SDL_Surface* s = T4K_BlackOutline(_(heading), DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
       loc.x = (screen->w/2) - (s->w/2);
@@ -110,8 +107,6 @@ int ConnectToServer(const char* heading, const char* sub)
     if(servers_found < 1)
     {
       DEBUGMSG(debug_lan, "No server could be found - returning.\n");
-      /* Turn off SDL Unicode lookup (because has some overhead): */
-      SDL_EnableUNICODE(SDL_DISABLE);
       return 0;
     }
     else if(servers_found  == 1)  //One server - connect without player intervention
@@ -121,8 +116,6 @@ int ConnectToServer(const char* heading, const char* sub)
       if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
       {
         DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
-        /* Turn off SDL Unicode lookup (because has some overhead): */
-        SDL_EnableUNICODE(SDL_DISABLE);
         return 0;
       }
       
@@ -155,9 +148,6 @@ int ConnectToServer(const char* heading, const char* sub)
 
       if(!LAN_AutoSetup(server_choice))
       {
-        DEBUGMSG(debug_lan, "LAN_AutoSetup() failed - returning.\n");
-        /* Turn off SDL Unicode lookup (because has some overhead): */
-        SDL_EnableUNICODE(SDL_DISABLE);
         return 0;
       }
 
@@ -198,8 +188,6 @@ int ConnectToServer(const char* heading, const char* sub)
   }  // End of while (!finished) loop
 
 
-  /* Turn off SDL Unicode lookup (because has some overhead): */
-  SDL_EnableUNICODE(SDL_DISABLE);
 
   return 1;
 
@@ -293,6 +281,7 @@ int ClickWhenReady(const char* heading)
           } 
           else if (T4K_inRect(okRect, event.button.x, event.button.y ))
           {
+            LAN_SetReady(true);  //tell server we are ready to start
             finished = 1;
             playsound(SND_TOCK);
             break;
@@ -314,6 +303,7 @@ int ClickWhenReady(const char* heading)
             case SDLK_KP_ENTER:
             case SDLK_SPACE:
             {
+              LAN_SetReady(true);  //tell server we are ready to start
               finished = 1;
               playsound(SND_TOCK);
               break;
@@ -498,6 +488,147 @@ int WaitForOthers(const char* heading, const char* sub)
 #endif
 }
 
+/* Pregame() displays the currently connected players and whether they
+ * have indicated that they are ready to start, waiting until all are ready.
+ * Returns 1 when all connected players are ready, -1 on errors or if player
+ * decides not to play.
+ */
 
+int Pregame(void)
+{
+    int finished = 0;
+    Uint32 timer = 0;
+    const int loop_msec = 20;
+    SDL_Event event;
+    SDL_Rect title_rect, ok_rect;  //NOTE stop_rect is a global from t4k_common.h (good idea???)
+    int more_msgs;
+    bool ready = false;
+    char buf[NET_BUF_LEN];
+
+    //Set up locations:
+    ok_rect.x = (screen->w)/2; ok_rect.y = 240;
+    //Make sure we have needed surfaces:
+    if(!stop_button || !next_arrow)
+      return -1;
+
+    while(!finished)
+    {
+        //Draw
+        DrawTitleScreen();
+        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+        SDL_BlitSurface(next_arrow, NULL, screen, &ok_rect);
+	HandleTitleScreenAnimations();
+	//Draw headings:
+	{
+	    SDL_Surface* s = NULL;
+	    if(ready)
+                s = T4K_BlackOutline(_("Waiting for other players"), DEFAULT_MENU_FONT_SIZE, &white);
+	    else
+                s = T4K_BlackOutline(_("Click OK when ready"), DEFAULT_MENU_FONT_SIZE, &white);
+	    if(s)
+	    {
+	        title_rect.x = screen->w/2 - s->w/2;
+		title_rect.y = screen->h/5;
+                SDL_BlitSurface(s, NULL, screen, &title_rect);
+		SDL_FreeSurface(s);
+	    }
+
+	}
+	//Draw status of other players:
+        SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+	//Check SDL events:
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                {
+                    cleanup();
+                }
+
+                case SDL_MOUSEBUTTONDOWN:
+                /* "Stop" button - go to main menu: */
+                {
+                    if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
+                    {
+                        finished = -1;
+                        playsound(SND_TOCK);
+                        break;
+                    } 
+                    else if (T4K_inRect(ok_rect, event.button.x, event.button.y ))
+                    {
+			ready = true;
+                        LAN_SetReady(true);  //tell server we are ready to start
+                        playsound(SND_TOCK);
+                        break;
+                    }
+
+                }
+                case SDL_KEYDOWN:
+                {
+                    switch (event.key.keysym.sym)
+                    {
+                        case SDLK_ESCAPE:
+                        case SDLK_BACKSPACE:
+                        {
+                            finished = -1;
+                            playsound(SND_TOCK);
+                            break;
+                        }
+                        case SDLK_RETURN:
+                        case SDLK_KP_ENTER:
+                        case SDLK_SPACE:
+                        {
+			    ready = true;
+                            LAN_SetReady(true);  //tell server we are ready to start
+                            playsound(SND_TOCK);
+                            break;
+                        }
+                        default:
+                        {
+                          //Do nothing - event. add support for toggle fullscreen, etc.
+                        }
+                    } 
+                }
+            }
+        }  // End while(SDL_PollEvent(&event))
+
+
+	//Check network events:
+        for(more_msgs = 1; more_msgs > 0; more_msgs = LAN_NextMsg(buf))
+        {
+	    if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
+            {
+                finished = 1;
+                playsound(SND_TOCK);
+                break;
+            }
+            else if(strncmp(buf, "GAME_IN_PROGRESS", strlen("GAME_IN_PROGRESS")) == 0)
+            {
+                finished = -1;
+                playsound(SND_TOCK);
+                ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
+                break;
+            }
+            else if(strncmp(buf, "NETWORK_ERROR", strlen("NETWORK_ERROR")) == 0)
+            {
+                printf("NETWORK_ERROR msg received!\n");
+                finished = -1;
+                playsound(SND_TOCK);
+                ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+                break;
+            }
+            else
+            {
+                DEBUGMSG(debug_lan, "Unrecognized message from server: %s\n", buf);
+                continue;
+            }
+        }  // End checking network messages
+	//Don't eat CPU:
+	T4K_Throttle(loop_msec, &timer);
+    }  // End while(!finished)
+    return finished;
+}
 
 
