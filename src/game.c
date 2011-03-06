@@ -3575,15 +3575,17 @@ void game_mouse_event(SDL_Event event)
 
   /* Check to see if user clicked exit button: */
   /* The exit button is in the upper right corner of the screen: */
-  if ((event.button.x >= (screen->w - images[IMG_STOP]->w))
-    &&(event.button.y <= images[IMG_STOP]->h))
+  if(event.button.button == SDL_BUTTON_LEFT &&
+    (event.button.x >= (screen->w - images[IMG_STOP]->w)) &&
+    (event.button.y <= images[IMG_STOP]->h))
   {
     key = SDLK_ESCAPE;
     game_key_event(key, mod);
     return;
   }
 
-  if(event.button.x >= SMARTBOMB_ICON_X && event.button.x <= SMARTBOMB_ICON_X+SMARTBOMB_ICON_W &&
+  if(event.button.button == SDL_BUTTON_LEFT &&
+     event.button.x >= SMARTBOMB_ICON_X && event.button.x <= SMARTBOMB_ICON_X+SMARTBOMB_ICON_W &&
      event.button.y >= SMARTBOMB_ICON_Y && event.button.y <= SMARTBOMB_ICON_Y+SMARTBOMB_ICON_H)
   {
      if(smartbomb_alive)
