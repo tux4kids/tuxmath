@@ -39,6 +39,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /* lan_player_type now defined in network.h */
 lan_player_type lan_player_info[MAX_CLIENTS];
 
+/* Local function prototypes: ------------------- */
+void draw_player_table(void);
+
 
 int ConnectToServer(const char* heading, const char* sub)
 {
@@ -91,6 +94,7 @@ int ConnectToServer(const char* heading, const char* sub)
       SDL_BlitSurface(s, NULL, screen, &loc);
       SDL_FreeSurface(s);
     }
+    s = NULL;
   }
   
   /* Draw Tux (use "reset" flavor so Tux gets drawn immediately): */
@@ -506,7 +510,7 @@ int Pregame(void)
     char buf[NET_BUF_LEN];
 
     //Set up locations:
-    ok_rect.x = (screen->w)/2; ok_rect.y = 240;
+    ok_rect.x = (screen->w)/2; ok_rect.y = 10;
     //Make sure we have needed surfaces:
     if(!stop_button || !next_arrow)
       return -1;
@@ -532,9 +536,10 @@ int Pregame(void)
                 SDL_BlitSurface(s, NULL, screen, &title_rect);
 		SDL_FreeSurface(s);
 	    }
-
 	}
 	//Draw status of other players:
+	draw_player_table();
+
         SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 	//Check SDL events:
@@ -631,4 +636,91 @@ int Pregame(void)
     return finished;
 }
 
+void draw_player_table(void)
+{
+    int i = 0;
+    char* txt;
+    char buf[256];
+    SDL_Surface* surf = NULL;
+    SDL_Rect loc;
+    SDL_Color* col;
+    const int name_x = screen->w * 0.25;
+    const int ready_x = screen->w * 0.7;
+    //Draw server name and lesson:
+    txt = LAN_ConnectedServerName();
+    if(txt)
+    {
+        snprintf(buf, 256, _("Server Name: %s"), txt);
+        surf = T4K_BlackOutline(buf, DEFAULT_MENU_FONT_SIZE, &white);
+    }
+    if(surf)
+    {
+        loc.x = name_x;
+	loc.y = screen->h * 0.3;
+        SDL_BlitSurface(surf, NULL, screen, &loc);
+        SDL_FreeSurface(surf);
+	surf = NULL;
+    }
 
+    txt = LAN_ConnectedServerLesson();
+    if(txt)
+    {
+        snprintf(buf, 256, _("Lesson: %s"), txt);
+        surf = T4K_BlackOutline(buf, DEFAULT_MENU_FONT_SIZE, &white);
+    }
+    if(surf)
+    {
+        loc.x = name_x;
+	loc.y = screen->h * 0.3 + surf->h;
+        SDL_BlitSurface(surf, NULL, screen, &loc);
+        SDL_FreeSurface(surf);
+	surf = NULL;
+    }
+
+    //Now draw connected players and ready status:
+    for(i = 0; i < MAX_CLIENTS; i++)
+    {
+        if(i == LAN_MyIndex())
+	    col = &yellow;
+	else
+            col = &white;
+
+        if(LAN_PlayerConnected(i))
+	{
+            DEBUGMSG(debug_lan, "Socket %d is connected\n", i);
+
+            surf = T4K_BlackOutline(LAN_PlayerName(i), DEFAULT_MENU_FONT_SIZE, col);
+	    if(surf)
+	    {
+	        loc.x = name_x;
+	        loc.y += surf->h;
+                SDL_BlitSurface(surf, NULL, screen, &loc);
+                SDL_FreeSurface(surf);
+	        surf = NULL;
+            }
+	    if(LAN_PlayerReady(i))
+	    {
+	        col = &bright_green;
+		txt = _("Ready");
+	    }
+	    else
+	    {
+	        col = &red;
+		txt = _("Not Ready");
+	    }
+            surf = T4K_BlackOutline(txt, DEFAULT_MENU_FONT_SIZE, col);
+	    if(surf)
+	    {
+	        loc.x = ready_x;
+                SDL_BlitSurface(surf, NULL, screen, &loc);
+                SDL_FreeSurface(surf);
+	        surf = NULL;
+            }
+	}
+	else
+            DEBUGMSG(debug_lan, "Socket %d is not connected\n", i);
+    }
+
+
+
+}

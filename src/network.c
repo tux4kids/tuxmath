@@ -522,6 +522,10 @@ int add_to_server_list(UDPpacket* pkt)
     p = strchr(servers[i].name, '\t');
     if(p)
       *p = '\0';
+    // we also don't want a newline char at the end:
+    p = strchr(servers[i].name, '\n');
+    if(p)
+      *p = '\0';
     // now we go to the second '\t' (note the use of "strrchr()"
     // rather than "strchr()") to get the lesson name:
     p = strrchr((const char*)pkt->data, '\t');

@@ -483,7 +483,7 @@ int setup_server(void)
     for(i = 0; i < MAX_CLIENTS; i++)
     {
       client[i].game_ready = 0;   /* waiting for user to OK game start */
-      client[i].name[0] = '\0';   /* no nicknames yet                  */
+      client[i].name[0] = _("Await player name");   /* no nicknames yet                  */
       client[i].sock = NULL;      /* sockets start out unconnected     */
       client[i].score = 0;
     }
@@ -722,10 +722,11 @@ void update_clients(void)
 
   /* Now we can communicate with the client using client[i].sock socket */
   /* serv_sock will remain opened waiting other connections.            */
+
   /* Send message informing client of successful connection:            */
   msg_socket_index(slot, buffer);
-  
-
+  /* Now tell rest of clients that another has joined: */
+  send_player_updates();
   /* Get the remote address */
   DEBUGCODE(debug_lan)
   {
@@ -979,21 +980,17 @@ void handle_client_nongame_msg(int i, char* buffer)
 
   if(strncmp(buffer, "PLAYER_READY", strlen("PLAYER_READY")) == 0)
   {
-    snprintf(buf, NET_BUF_LEN,
-                "Player %s ready to start math game",
-                client[i].name);
-    broadcast_msg(buf);
     client[i].game_ready = 1;
+    //Inform other clients:
+    send_player_updates();
     //This will call start_game() if all the other clients are ready:
     check_game_clients();
   }
   else if(strncmp(buffer, "PLAYER_NOT_READY", strlen("PLAYER_NOT_READY")) == 0)
   {
-    snprintf(buf, NET_BUF_LEN,
-                "Player %s not ready to start math game",
-                client[i].name);
-    broadcast_msg(buf);
     client[i].game_ready = 0;
+    //Inform other clients:
+    send_player_updates();
     check_game_clients();
   }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
@@ -1061,6 +1058,7 @@ int msg_set_name(int i, char* buf)
   { 
     p++;
     strncpy(client[i].name, p, NAME_SIZE);
+    send_player_updates();
     return 1;
   }
   else
@@ -1484,8 +1482,7 @@ int send_player_updates(void)
   /* Now send out all the names and scores: */
   for(i = 0; i < MAX_CLIENTS; i++)
   {
-    if((client[i].game_ready == 1)
-    && (client[i].sock != NULL))
+    if(client[i].sock != NULL)
     {
       char buf[NET_BUF_LEN];
       snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d\t%s\t%d", "UPDATE_PLAYER_INFO",
