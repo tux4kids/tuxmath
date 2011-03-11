@@ -28,13 +28,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include "server.h"
+#include "mathcards.h"
 
 /* This function has to be in its own file that is not linked into tuxmath */
 /* itself because there can only be one main() in a program.  All of the   */
 /* server functionality is contained in server.h and server.c              */
 /* We do have to initialize and cleanup SDL and SDL_net here rather than
  * in RunServer(), so we don't crash tuxmath by cleaning up SDL if the
- * server is running in a thread.
+ * server is running in a thread. Similar considerations apply to MC_EndGame().
  */
 int main(int argc, char** argv)
 {
@@ -56,6 +57,8 @@ int main(int argc, char** argv)
   ret = RunServer(argc, argv);
   /* cleanup */
   SDLNet_Quit();
+  SDL_Quit();
+  MC_EndGame();
   return ret;
 #else
   return 0;

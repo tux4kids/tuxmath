@@ -285,6 +285,7 @@ int MC_VerifyOptionListSane(void);
 int MC_MaxFormulaSize(void); //amount of memory needed to safely hold strings
 int MC_MaxAnswerSize(void);
 MC_FlashCard MC_AllocateFlashcard();
+int MC_MakeFlashcard(char* buf, MC_FlashCard* fc);
 void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest);
 void MC_FreeFlashcard(MC_FlashCard* fc);
 void MC_ResetFlashCard(MC_FlashCard* fc); //empty flashcard of strings & values

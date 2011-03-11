@@ -108,7 +108,7 @@ int calc_score(int difficulty, float t);
 int add_question(MC_FlashCard* fc);
 int remove_question(int id);
 int send_counter_updates(void);
-int send_score_updates(void);
+int send_player_updates(void);
 //int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock);
 int player_msg(int i, char* msg);
@@ -483,7 +483,7 @@ int setup_server(void)
     for(i = 0; i < MAX_CLIENTS; i++)
     {
       client[i].game_ready = 0;   /* waiting for user to OK game start */
-      client[i].name[0] = '\0';   /* no nicknames yet                  */
+      client[i].name[0] = _("Await player name");   /* no nicknames yet                  */
       client[i].sock = NULL;      /* sockets start out unconnected     */
       client[i].score = 0;
     }
@@ -504,7 +504,7 @@ int setup_server(void)
 
 
 
-//Free resources, closing sockets, call MC_EndGame(), and so forth:
+//Free resources, closing sockets, and so forth:
 void cleanup_server(void)
 {
   int i;
@@ -536,8 +536,6 @@ void cleanup_server(void)
     SDLNet_UDP_Close(udpsock);
     udpsock = NULL;
   }
-  /* Clean up mathcards heap memory */
-  MC_EndGame();
 }
 
 
@@ -604,6 +602,8 @@ void server_handle_command_args(int argc, char* argv[])
 //check_UDP() is the server side of the client-server autodetection system.
 //When a client wants to connect, it sends a UDP broadcast to the local
 //network on this port, and the server sends a response.
+//The client will then try to open a TCP socket at the server's ip address,
+//which will be picked up in update_clients() below.
 void check_UDP(void)
 {
   int recvd = 0;
@@ -657,7 +657,6 @@ void update_clients(void)
   int slot = 0;
   int sockets_used = 0;
   char buffer[NET_BUF_LEN];
-
 
   /* See if we have a pending connection: */
   temp_sock = SDLNet_TCP_Accept(server_sock);
@@ -723,10 +722,11 @@ void update_clients(void)
 
   /* Now we can communicate with the client using client[i].sock socket */
   /* serv_sock will remain opened waiting other connections.            */
+
   /* Send message informing client of successful connection:            */
   msg_socket_index(slot, buffer);
-  
-
+  /* Now tell rest of clients that another has joined: */
+  send_player_updates();
   /* Get the remote address */
   DEBUGCODE(debug_lan)
   {
@@ -761,7 +761,6 @@ int server_check_messages(void)
   int actives = 0, i = 0;
   int ready_found = 0;
   char buffer[NET_BUF_LEN];
-
 
   /* Check the client socket set for activity: */
   actives = SDLNet_CheckSockets(client_set, 0);
@@ -815,7 +814,7 @@ int server_check_messages(void)
         }
       }
     }  // end of for() loop - all client sockets checked
-    check_game_clients();
+    check_game_clients(); //APPARENTLY checking one more time "just in case"???
     // Make sure all the active sockets reported by SDLNet_CheckSockets()
     // are accounted for:
 
@@ -933,7 +932,16 @@ void check_game_clients(void)
 
     if(!someone_still_playing)
     {
-      printf("All the clients have left the game, setting game_in_progress = 0.\n");
+      DEBUGMSG(debug_lan, "All the clients have left the game, setting game_in_progress = 0.\n");
+      
+      /* Now make sure all clients are closed: */ 
+      for(i = 0; i < MAX_CLIENTS; i++)
+      {
+        SDLNet_TCP_Close(client[i].sock);
+        client[i].sock = NULL;
+        client[i].game_ready = 0;
+      }
+     
       game_in_progress = 0;
       end_game();
     }
@@ -970,14 +978,19 @@ void handle_client_nongame_msg(int i, char* buffer)
 
   DEBUGMSG(debug_lan, "nongame_msg received from client: %s\n", buffer);
 
-  if(strncmp(buffer, "START_GAME", strlen("START_GAME")) == 0)
+  if(strncmp(buffer, "PLAYER_READY", strlen("PLAYER_READY")) == 0)
   {
-    snprintf(buf, NET_BUF_LEN,
-                "Player %s ready to start math game",
-                client[i].name);
-    broadcast_msg(buf);
     client[i].game_ready = 1;
+    //Inform other clients:
+    send_player_updates();
     //This will call start_game() if all the other clients are ready:
+    check_game_clients();
+  }
+  else if(strncmp(buffer, "PLAYER_NOT_READY", strlen("PLAYER_NOT_READY")) == 0)
+  {
+    client[i].game_ready = 0;
+    //Inform other clients:
+    send_player_updates();
     check_game_clients();
   }
   else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
@@ -1045,6 +1058,7 @@ int msg_set_name(int i, char* buf)
   { 
     p++;
     strncpy(client[i].name, p, NAME_SIZE);
+    send_player_updates();
     return 1;
   }
   else
@@ -1114,7 +1128,7 @@ void game_msg_correct_answer(int i, char* inbuf)
   //and update the game counters:
   send_counter_updates();
   //and the scores:
-  send_score_updates();
+  send_player_updates();
 }
 
 
@@ -1311,7 +1325,7 @@ void start_game(void)
 
   //Send all the clients the counter totals:
   send_counter_updates();
-  send_score_updates();
+  send_player_updates();
 }
 
 /* Update anything that isn't a response to a client message, such
@@ -1323,8 +1337,10 @@ void server_update_game(void)
   
   /* Do nothing unless game started: */
   if(!game_in_progress)
+  {
     return;
-  
+  }
+
   now_time = SDL_GetTicks();
   
   /* Wait time is shorter in higher waves because the comets move faster: */
@@ -1393,14 +1409,23 @@ void end_game(void)
   
   DEBUGMSG(debug_lan, "Enter end_game()\n");
 
+  /* Broadcast notice to anyone who is left: */
   snprintf(buf, NET_BUF_LEN, "%s", "GAME_HALTED");
   transmit_all(buf);
   
+  /* Now make sure all clients are closed: */ 
   for(i = 0; i < MAX_CLIENTS; i++)
-      client[i].game_ready = 0;
+  {
+    SDLNet_TCP_Close(client[i].sock);
+    client[i].sock = NULL;
+    client[i].game_ready = 0;
+  }
 
   game_in_progress = 0;
-  MC_EndGame();
+  //  NOTE: we only want to call MC_EndGame() when the program exits,
+  //  not when an individual math game ends.
+//  MC_EndGame();
+  DEBUGMSG(debug_lan, "Leave end_game()\n");
 }
 
 
@@ -1437,7 +1462,7 @@ int send_counter_updates(void)
 }
 
 
-int send_score_updates(void)
+int send_player_updates(void)
 {
   int i = 0;
 
@@ -1457,12 +1482,12 @@ int send_score_updates(void)
   /* Now send out all the names and scores: */
   for(i = 0; i < MAX_CLIENTS; i++)
   {
-    if((client[i].game_ready == 1)
-    && (client[i].sock != NULL))
+    if(client[i].sock != NULL)
     {
       char buf[NET_BUF_LEN];
-      snprintf(buf, NET_BUF_LEN, "%s\t%d\t%s\t%d", "UPDATE_SCORE",
+      snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d\t%s\t%d", "UPDATE_PLAYER_INFO",
                i,
+               client[i].game_ready,
                client[i].name,
                client[i].score);
       transmit_all(buf);

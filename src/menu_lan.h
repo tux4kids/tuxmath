@@ -1,12 +1,12 @@
 /*
-   highscore.h: Contains headers for Tux Math's high score table.
+   menu_lan.h: Contains headers for Tux Math's LAN selection code.
  
-   Copyright 2007, 2008, 2009, 2010.
+   Copyright 2007, 2008, 2009, 2010, 2011.
    Authors: David Bruce, Tim Holy.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
 
-highscore.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+menu_lan.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
 Tuxmath is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -23,25 +23,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
-
-#ifndef HIGHSCORE_H
-#define HIGHSCORE_H
-
+#ifndef MENU_LAN_H
+#define MENU_LAN_H
 
 #include "globals.h"
 
+int WaitForOthers(const char* heading, const char* sub);
+int ConnectToServer(const char* heading, const char* sub);
+int ClickWhenReady(const char* heading);
+int Pregame(void);
 
-void DisplayHighScores(int level);
-void HighScoreNameEntry(char* pl_name);
-void NameEntry(char* pl_name, const char* s1, const char* s2, const char* s3);
-
-int check_score_place(int diff_level, int new_score);
-int insert_score(char* playername, int diff_level, int new_score);
-void initialize_scores(void);
-void print_high_scores(FILE* fp);
-int read_high_scores_fp(FILE* fp);
-/* Note: for writing, use append_high_score in fileops.c */
-
-int HS_Score(int diff_level, int place);
-char* HS_Name(int diff_level, int place);
 #endif

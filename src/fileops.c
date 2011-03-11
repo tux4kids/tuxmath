@@ -1025,12 +1025,16 @@ int read_config_file(FILE *fp, int file_type)
 
   /* read in top line (lesson title), removing initial "# "          */ 
   {
-    char* p;
+    char* p1, *p2;
     fgets (buf, PATH_MAX, fp);
-    p = buf;
-    while (*p == '#'||isspace(*p))
-      ++p;
-    Opts_SetLessonTitle(p);
+    p1 = buf;
+    while (*p1 == '#'||isspace(*p1))
+      ++p1;
+    // we also don't want a newline char at the end:
+    p2 = strchr(buf, '\n');
+    if(p2)
+      *p2 = '\0';
+    Opts_SetLessonTitle(p1);
   }
 
   /* now start over at beginning: */
@@ -2086,6 +2090,7 @@ int write_postgame_summary(void)
     } else
       success = 0;
   }
+
   return success;
 }
 

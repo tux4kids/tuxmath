@@ -31,6 +31,7 @@ tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
 	menu.c		\
+	menu_lan.c	\
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
@@ -51,10 +52,6 @@ tuxmath_SOURCES = tuxmath.c \
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
-
-# NOTE - the "extra" programs built here don't need the same linking,
-# so they have their own prog_LDADD statements to override the
-# global LDADD flag.
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
 
