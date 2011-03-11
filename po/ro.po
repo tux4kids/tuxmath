@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-09 18:46-0600\n"
+"POT-Creation-Date: 2011-03-11 13:53-0600\n"
 "PO-Revision-Date: 2010-11-26 11:59+0200\n"
 "Last-Translator: Tabita Dolean <dtabita21@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -340,249 +340,247 @@ msgstr ""
 "pentru a-l înjumătăți. Distruge fracțiile care nu mai pot fi simplificate "
 "dintr-o singură lovitură!"
 
-#: src/game.c:758
+#: src/game.c:763
 msgid "Welcome to TuxMath!"
 msgstr "Bine ai venit la TuxMath!"
 
-#: src/game.c:775
+#: src/game.c:780
 msgid "Your mission is to save your"
 msgstr "Misiunea ta este să salvezi "
 
-#: src/game.c:776
+#: src/game.c:781
 msgid "penguins' igloos from the"
 msgstr "igluurile pinguinilor de"
 
-#: src/game.c:777
+#: src/game.c:782
 msgid "falling comets."
 msgstr "cometele care cad."
 
-#: src/game.c:796
+#: src/game.c:801
 msgid "Stop a comet by typing"
 msgstr "Oprește o cometă scriind"
 
-#: src/game.c:797
+#: src/game.c:802
 msgid "the answer to the math problem"
 msgstr "răspunsul la problema de matematică"
 
-#: src/game.c:798
+#: src/game.c:803
 msgid "and hitting 'space' or 'enter'."
 msgstr "și apăsând 'spțiu' sau 'enter'."
 
-#: src/game.c:799
+#: src/game.c:804
 msgid "Try it now!"
 msgstr "Încearcă acum!"
 
-#: src/game.c:807
+#: src/game.c:812
 msgid "Good shot!"
 msgstr "Bună lovitură!"
 
-#: src/game.c:817
+#: src/game.c:822
 msgid "If an igloo gets hit by a comet,"
 msgstr "Dacă un iglu este lovit de o cometă,"
 
-#: src/game.c:818
+#: src/game.c:823
 msgid "it melts. But don't worry: the"
 msgstr "se topește. Dar nu te îngrijora: "
 
-#: src/game.c:819
+#: src/game.c:824
 msgid "penguin is OK!"
 msgstr "pinguinul este OK!"
 
-#: src/game.c:820
+#: src/game.c:825
 msgid "Just watch what happens:"
 msgstr "Doar privește ce se întâmplă:"
 
-#: src/game.c:821
+#: src/game.c:826
 msgid "(Press a key to start)"
 msgstr "(Apasă o tastă pentru a începe)"
 
-#: src/game.c:834
+#: src/game.c:839
 msgid "Notice the answer"
 msgstr "Observă răspunsul"
 
-#: src/game.c:844
+#: src/game.c:849
 msgid "If it gets hit again, the"
 msgstr "Dacă primește o lovitură din nou,"
 
-#: src/game.c:845
+#: src/game.c:850
 msgid "penguin leaves."
 msgstr "pinguinul pleacă."
 
-#: src/game.c:846
+#: src/game.c:851
 msgid "(Press a key when ready)"
 msgstr "(Apasă o tastă când ești pregătit)"
 
-#: src/game.c:869
+#: src/game.c:874
 msgid "You can fix the igloos"
 msgstr "Poți să repari igluurile"
 
-#: src/game.c:870
+#: src/game.c:875
 msgid "by stopping bonus comets."
 msgstr "oprind cometele bonus."
 
-#: src/game.c:881 src/game.c:917
+#: src/game.c:886 src/game.c:922
 msgid "Zap it now!"
 msgstr "Lovește-l acum!"
 
-#: src/game.c:887
+#: src/game.c:892
 msgid "Great job!"
 msgstr "Bună treabă!"
 
-#: src/game.c:906
+#: src/game.c:911
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "oprind cometele bonus."
 
-#: src/game.c:907
+#: src/game.c:912
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:924
+#: src/game.c:929
 msgid "Quit at any time by pressing"
 msgstr "Ieși oricând apăsând tasta"
 
-#: src/game.c:925
+#: src/game.c:930
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' sau apăsând 'X'"
 
-#: src/game.c:926
+#: src/game.c:931
 msgid "in the upper right corner."
 msgstr "în colțul din stânga sus."
 
-#: src/game.c:927
+#: src/game.c:932
 msgid "Do it now, and then play!"
 msgstr "Fă-o acum, apoi joacă-te!"
 
-#: src/game.c:2729
+#: src/game.c:2712
 msgid "The Penguins Have Been Saved!"
 msgstr "Pinguinii au fost salvaţi!"
 
-#: src/game.c:2744
+#: src/game.c:2727
 msgid "Final Scores:"
 msgstr "Scoruri finale:"
 
-#: src/game.c:2821
+#: src/game.c:2804
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Conexiunea cu serverul s-a întrerupt."
 
-#: src/game.c:2829
+#: src/game.c:2812
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Conexiunea cu serverul s-a întrerupt."
 
-#: src/highscore.c:178 data/menus/menu_strings:9
+#: src/game.c:4585
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "Holul Faimei"
 
-#: src/highscore.c:198 src/highscore.c:219 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "Cadetul Spațiului"
 
-#: src/highscore.c:201 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Cercetător"
 
-#: src/highscore.c:204 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Vânător"
 
-#: src/highscore.c:207 data/menus/menu_strings:1
+#: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "Campion"
 
-#: src/highscore.c:210 data/menus/menu_strings:2
+#: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "Comando"
 
-#: src/highscore.c:213 data/menus/menu_strings:7
+#: src/highscore.c:210 data/menus/menu_strings:7
 msgid "Factors"
 msgstr "Factori Primi"
 
-#: src/highscore.c:216 data/menus/menu_strings:8
+#: src/highscore.c:213 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "Fracții"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
 msgstr "Te aflii în Holul Faimei!"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "Enter Your Name:"
 msgstr "Introdu numele:"
 
-#: src/highscore.c:1126
-#, fuzzy, c-format
-msgid ""
-"TuxMath detected %d running servers.\n"
-"Click to continue..."
-msgstr "TuxMath a detectat %d servere pornite."
-
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
 
-#: src/menu.c:202
+#: src/menu.c:209
 msgid ""
 "Tuxmath is free and open-source!\n"
 "You can help make it better.\n"
@@ -590,7 +588,7 @@ msgid ""
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
 
-#: src/menu.c:338
+#: src/menu.c:345
 #, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
@@ -598,33 +596,39 @@ msgid ""
 "See README.txt for more information.\n"
 msgstr "Modifică fișierul 'opțiuni' în propriul director"
 
-#: src/menu.c:363
+#: src/menu.c:372
 msgid "How many kids are playing?"
 msgstr "Cați copii se joacă?"
 
-#: src/menu.c:364
+#: src/menu.c:373
 msgid "(Between 2 and 4 players)"
 msgstr "(Între 2 și 4 jucători)"
 
-#: src/menu.c:427
+#: src/menu.c:438
 msgid "The server is already running"
 msgstr "Acest server deja rulează"
 
-#: src/menu.c:431
+#: src/menu.c:449
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:453
 msgid "Enter Server Name:"
 msgstr "Introdu numele serverului:"
 
-#: src/menu.c:431
+#: src/menu.c:453
 msgid "(limit 50 characters)"
 msgstr "(limita 50 caractere)"
 
-#: src/menu.c:445
+#: src/menu.c:467
 msgid "Click or press key to select server lesson file"
 msgstr ""
 "Fă clic cu mausul sau apasă o tastă pentru a selecta fișierul cu lecția "
 "serverului"
 
-#: src/menu.c:472
+#: src/menu.c:494
 #, fuzzy, c-format
 msgid ""
 "Server Name:\n"
@@ -633,67 +637,78 @@ msgid ""
 "%s"
 msgstr "Lecția selectată:"
 
-#: src/menu.c:495
+#: src/menu.c:517
 #, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
 msgstr "Ne pare rău, această versiune nu are suport pentru rețea.\n"
 
-#: src/menu.c:496 src/menu.c:543
+#: src/menu.c:518 src/menu.c:594
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Ne pare rău, această versiune nu are suport pentru rețea.\n"
 
-#: src/menu.c:506
+#: src/menu.c:528
+#, fuzzy
+msgid "The server is not running."
+msgstr "Acest server deja rulează"
+
+#: src/menu.c:534
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:538
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:549
 msgid "Detecting servers"
 msgstr "Detectare servere"
 
-#: src/menu.c:506
+#: src/menu.c:549
 msgid "Please wait"
 msgstr "Așteptați"
 
-#: src/menu.c:514
+#: src/menu.c:560
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Conectat la server: %s"
 
-#: src/menu.c:515
+#: src/menu.c:561
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:516 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:562 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Introdu numele:"
 
-#: src/menu.c:518
-msgid "Click when ready"
-msgstr "Fă clic cand sunteți pregătit"
-
-#: src/menu.c:520
-msgid "Waiting for other players"
-msgstr "Aștept după alți jucători"
-
-#: src/menu.c:532
+#: src/menu.c:566
 #, fuzzy
-msgid "Sorry, game already in progress."
-msgstr "Ne pare rău, jocul a început deja."
+msgid "Connection with server lost"
+msgstr "Conectat la server: %s"
 
-#: src/menu.c:533
-msgid "Sorry, game already in progress.\n"
-msgstr "Ne pare rău, jocul a început deja.ân\n"
+#: src/menu.c:581
+#, fuzzy
+msgid "Sorry, could not join game."
+msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
 
-#: src/menu.c:538
+#: src/menu.c:582
+#, fuzzy
+msgid "Sorry, could not join game.\n"
+msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
+
+#: src/menu.c:588
 #, fuzzy
 msgid "Sorry, no server could be found."
 msgstr "Ne pare rău, nici un server nu a fost găsit."
 
-#: src/menu.c:539
+#: src/menu.c:589
 msgid "Sorry, could not connect to server.\n"
 msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
 
-#: src/menu.c:542
+#: src/menu.c:593
 #, fuzzy
 msgid "Sorry, this version built without network support"
 msgstr "Ne pare rău, această versiune nu are suport pentru rețea"
@@ -718,6 +733,10 @@ msgstr "Câte runde te vei juca?"
 #: src/multiplayer.c:294
 msgid "Enter a number"
 msgstr "Introdu un număr"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
 
 #: src/titlescreen.c:522
 #, fuzzy
@@ -1040,6 +1059,133 @@ msgstr "Măturare scor"
 #, fuzzy
 msgid "Stop Server"
 msgstr "Pornește serverul"
+
+#: data/menus/menu_strings:29
+msgid "Complete missions for the Math Command Fleet."
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:34
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:35
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Fă ce poți mai bine!"
+
+#: data/menus/menu_strings:36
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:38
+#, fuzzy
+msgid "High Scores"
+msgstr "Scoruri finale:"
+
+#: data/menus/menu_strings:39
+msgid "Host a server for your friends to join on"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Join on a server hosted by your friends"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game of Factoroids with fractions"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play a game of factoroids with whole numbers"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Play a game with your friends over LAN"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Play a hotseat game with your friends"
+msgstr ""
+
+#: data/menus/menu_strings:46
+#, fuzzy
+msgid "Play an arcade style game."
+msgstr "Joacă joc arcade"
+
+#: data/menus/menu_strings:47
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:49
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:50
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:52
+#, fuzzy
+msgid "See the project info"
+msgstr "Informații proiect"
+
+#: data/menus/menu_strings:53
+msgid "Stop a server you've hosted"
+msgstr ""
+
+#: data/menus/menu_strings:54
+msgid "The person with the highest score wins"
+msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "TuxMath a detectat %d servere pornite."
+
+#~ msgid "Click when ready"
+#~ msgstr "Fă clic cand sunteți pregătit"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "Aștept după alți jucători"
+
+#, fuzzy
+#~ msgid "Sorry, game already in progress."
+#~ msgstr "Ne pare rău, jocul a început deja."
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "Ne pare rău, jocul a început deja.ân\n"
 
 #, fuzzy
 #~ msgid "Tuxmath is free and open-source!\n"

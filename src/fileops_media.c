@@ -50,6 +50,8 @@ int load_image_data()
   "status/right.png",
   "status/right_gray.png",
   "status/tux4kids.png",
+  "status/check.png",
+  "status/uncheck.png",
   "status/nbs.png",
   "cities/city-blue.png",
   "cities/csplode-blue-1.png",

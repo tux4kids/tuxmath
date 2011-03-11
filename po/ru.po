@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-09 18:46-0600\n"
+"POT-Creation-Date: 2011-03-11 13:53-0600\n"
 "PO-Revision-Date: 2010-12-06 04:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -338,249 +338,247 @@ msgstr ""
 "чтобы разбить её. Уничтожьте дроби, которые не могут быть упрощены одним "
 "ударом!"
 
-#: src/game.c:758
+#: src/game.c:763
 msgid "Welcome to TuxMath!"
 msgstr "Добро пожаловать в TuxMath!"
 
-#: src/game.c:775
+#: src/game.c:780
 msgid "Your mission is to save your"
 msgstr "Ваша миссия - спасти"
 
-#: src/game.c:776
+#: src/game.c:781
 msgid "penguins' igloos from the"
 msgstr "иглу пингвинов от"
 
-#: src/game.c:777
+#: src/game.c:782
 msgid "falling comets."
 msgstr "падающих комет."
 
-#: src/game.c:796
+#: src/game.c:801
 msgid "Stop a comet by typing"
 msgstr "Остановите комету, введя"
 
-#: src/game.c:797
+#: src/game.c:802
 msgid "the answer to the math problem"
 msgstr "ответ на математическую задачу"
 
-#: src/game.c:798
+#: src/game.c:803
 msgid "and hitting 'space' or 'enter'."
 msgstr "и нажав пробел или ввод."
 
-#: src/game.c:799
+#: src/game.c:804
 msgid "Try it now!"
 msgstr "Попробуйте это сейчас!"
 
-#: src/game.c:807
+#: src/game.c:812
 msgid "Good shot!"
 msgstr "Отличный выстрел!"
 
-#: src/game.c:817
+#: src/game.c:822
 msgid "If an igloo gets hit by a comet,"
 msgstr "Если комета попадает в иглу,"
 
-#: src/game.c:818
+#: src/game.c:823
 msgid "it melts. But don't worry: the"
 msgstr "оно тает. Но не волнуйтесь:"
 
-#: src/game.c:819
+#: src/game.c:824
 msgid "penguin is OK!"
 msgstr "пингвин в порядке!"
 
-#: src/game.c:820
+#: src/game.c:825
 msgid "Just watch what happens:"
 msgstr "Просто посмотрите, что происходит:"
 
-#: src/game.c:821
+#: src/game.c:826
 msgid "(Press a key to start)"
 msgstr "(Нажмите любую клавишу для начала)"
 
-#: src/game.c:834
+#: src/game.c:839
 msgid "Notice the answer"
 msgstr "Обратите внимание на ответ"
 
-#: src/game.c:844
+#: src/game.c:849
 msgid "If it gets hit again, the"
 msgstr "Если комета попадает снова,"
 
-#: src/game.c:845
+#: src/game.c:850
 msgid "penguin leaves."
 msgstr "пингвин уходит."
 
-#: src/game.c:846
+#: src/game.c:851
 msgid "(Press a key when ready)"
 msgstr "(Нажмите любую клавишу, когда будете готовы)"
 
-#: src/game.c:869
+#: src/game.c:874
 msgid "You can fix the igloos"
 msgstr "Вы можете ремонтировать иглу,"
 
-#: src/game.c:870
+#: src/game.c:875
 msgid "by stopping bonus comets."
 msgstr "останавливая бонусные кометы."
 
-#: src/game.c:881 src/game.c:917
+#: src/game.c:886 src/game.c:922
 msgid "Zap it now!"
 msgstr "Разбейте её сейчас же!"
 
-#: src/game.c:887
+#: src/game.c:892
 msgid "Great job!"
 msgstr "Отличная работа!"
 
-#: src/game.c:906
+#: src/game.c:911
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "останавливая бонусные кометы."
 
-#: src/game.c:907
+#: src/game.c:912
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:924
+#: src/game.c:929
 msgid "Quit at any time by pressing"
 msgstr "Вы можете выйти в любое время, нажав"
 
-#: src/game.c:925
+#: src/game.c:930
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc', или кликнув 'X'"
 
-#: src/game.c:926
+#: src/game.c:931
 msgid "in the upper right corner."
 msgstr "в правом верхнем углу."
 
-#: src/game.c:927
+#: src/game.c:932
 msgid "Do it now, and then play!"
 msgstr "Сделайте это сейчас и играйте!"
 
-#: src/game.c:2729
+#: src/game.c:2712
 msgid "The Penguins Have Been Saved!"
 msgstr "Пингвины были спасены!"
 
-#: src/game.c:2744
+#: src/game.c:2727
 msgid "Final Scores:"
 msgstr "Финальные результаты:"
 
-#: src/game.c:2821
+#: src/game.c:2804
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Соединение с сервером было потеряно."
 
-#: src/game.c:2829
+#: src/game.c:2812
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Соединение с сервером было потеряно."
 
-#: src/highscore.c:178 data/menus/menu_strings:9
+#: src/game.c:4585
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "Зал славы"
 
-#: src/highscore.c:198 src/highscore.c:219 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "Космический курсант"
 
-#: src/highscore.c:201 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Разведчик"
 
-#: src/highscore.c:204 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Рейнджер"
 
-#: src/highscore.c:207 data/menus/menu_strings:1
+#: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "Ас"
 
-#: src/highscore.c:210 data/menus/menu_strings:2
+#: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "Коммандо"
 
-#: src/highscore.c:213 data/menus/menu_strings:7
+#: src/highscore.c:210 data/menus/menu_strings:7
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:216 data/menus/menu_strings:8
+#: src/highscore.c:213 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "Дроби"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
 msgstr "Вы в зале славы!"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "Enter Your Name:"
 msgstr "Введите ваше имя:"
 
-#: src/highscore.c:1126
-#, fuzzy, c-format
-msgid ""
-"TuxMath detected %d running servers.\n"
-"Click to continue..."
-msgstr "TuxMath обнаружил %d работающих серверов."
-
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
 
-#: src/menu.c:202
+#: src/menu.c:209
 msgid ""
 "Tuxmath is free and open-source!\n"
 "You can help make it better.\n"
@@ -588,7 +586,7 @@ msgid ""
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
 
-#: src/menu.c:338
+#: src/menu.c:345
 #, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
@@ -596,31 +594,37 @@ msgid ""
 "See README.txt for more information.\n"
 msgstr "Редактировать файл параметров в вашей домашней директории"
 
-#: src/menu.c:363
+#: src/menu.c:372
 msgid "How many kids are playing?"
 msgstr "Сколько детей играет?"
 
-#: src/menu.c:364
+#: src/menu.c:373
 msgid "(Between 2 and 4 players)"
 msgstr "(Между двумя и четырьмя игроками)"
 
-#: src/menu.c:427
+#: src/menu.c:438
 msgid "The server is already running"
 msgstr "Сервер уже работает"
 
-#: src/menu.c:431
+#: src/menu.c:449
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:453
 msgid "Enter Server Name:"
 msgstr "Введите имя сервера:"
 
-#: src/menu.c:431
+#: src/menu.c:453
 msgid "(limit 50 characters)"
 msgstr "(не более 50 символов)"
 
-#: src/menu.c:445
+#: src/menu.c:467
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:472
+#: src/menu.c:494
 #, fuzzy, c-format
 msgid ""
 "Server Name:\n"
@@ -629,67 +633,78 @@ msgid ""
 "%s"
 msgstr "Выбранный урок:"
 
-#: src/menu.c:495
+#: src/menu.c:517
 #, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
 msgstr "Извините, эта версия собрана без поддержки сети.\n"
 
-#: src/menu.c:496 src/menu.c:543
+#: src/menu.c:518 src/menu.c:594
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Извините, эта версия собрана без поддержки сети.\n"
 
-#: src/menu.c:506
+#: src/menu.c:528
+#, fuzzy
+msgid "The server is not running."
+msgstr "Сервер уже работает"
+
+#: src/menu.c:534
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:538
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:549
 msgid "Detecting servers"
 msgstr "Обнаружение серверов"
 
-#: src/menu.c:506
+#: src/menu.c:549
 msgid "Please wait"
 msgstr "Пожалуйста, подождите"
 
-#: src/menu.c:514
+#: src/menu.c:560
 #, c-format
 msgid "Connected to server: %s"
 msgstr ""
 
-#: src/menu.c:515
+#: src/menu.c:561
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:516 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:562 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Введите вше имя:"
 
-#: src/menu.c:518
-msgid "Click when ready"
-msgstr "Кликните, когда будете готовы"
-
-#: src/menu.c:520
-msgid "Waiting for other players"
-msgstr "Ожидание других игроков"
-
-#: src/menu.c:532
+#: src/menu.c:566
 #, fuzzy
-msgid "Sorry, game already in progress."
-msgstr "Извините, игра уже идёт."
+msgid "Connection with server lost"
+msgstr "Соединение с сервером было потеряно."
 
-#: src/menu.c:533
-msgid "Sorry, game already in progress.\n"
-msgstr "Извините, игра уже идёт.\n"
+#: src/menu.c:581
+#, fuzzy
+msgid "Sorry, could not join game."
+msgstr "Извините, не удаётся подключиться к серверу.\n"
 
-#: src/menu.c:538
+#: src/menu.c:582
+#, fuzzy
+msgid "Sorry, could not join game.\n"
+msgstr "Извините, не удаётся подключиться к серверу.\n"
+
+#: src/menu.c:588
 #, fuzzy
 msgid "Sorry, no server could be found."
 msgstr "Извините, сервер не может быть найден."
 
-#: src/menu.c:539
+#: src/menu.c:589
 msgid "Sorry, could not connect to server.\n"
 msgstr "Извините, не удаётся подключиться к серверу.\n"
 
-#: src/menu.c:542
+#: src/menu.c:593
 #, fuzzy
 msgid "Sorry, this version built without network support"
 msgstr "Извините, эта версия собрана без поддержки сети"
@@ -714,6 +729,10 @@ msgstr "Сколько раундов вы будете играть?"
 #: src/multiplayer.c:294
 msgid "Enter a number"
 msgstr "Введите число"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
 
 #: src/titlescreen.c:522
 #, fuzzy
@@ -1036,6 +1055,133 @@ msgstr ""
 #, fuzzy
 msgid "Stop Server"
 msgstr "Запустить сервер"
+
+#: data/menus/menu_strings:29
+msgid "Complete missions for the Math Command Fleet."
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:34
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:35
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Сделайте всё возможное!"
+
+#: data/menus/menu_strings:36
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:38
+#, fuzzy
+msgid "High Scores"
+msgstr "Финальные результаты:"
+
+#: data/menus/menu_strings:39
+msgid "Host a server for your friends to join on"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Join on a server hosted by your friends"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game of Factoroids with fractions"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play a game of factoroids with whole numbers"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Play a game with your friends over LAN"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Play a hotseat game with your friends"
+msgstr ""
+
+#: data/menus/menu_strings:46
+#, fuzzy
+msgid "Play an arcade style game."
+msgstr "Играть в аркадную игру"
+
+#: data/menus/menu_strings:47
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:49
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:50
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:52
+#, fuzzy
+msgid "See the project info"
+msgstr "Информация о проекте"
+
+#: data/menus/menu_strings:53
+msgid "Stop a server you've hosted"
+msgstr ""
+
+#: data/menus/menu_strings:54
+msgid "The person with the highest score wins"
+msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "TuxMath обнаружил %d работающих серверов."
+
+#~ msgid "Click when ready"
+#~ msgstr "Кликните, когда будете готовы"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "Ожидание других игроков"
+
+#, fuzzy
+#~ msgid "Sorry, game already in progress."
+#~ msgstr "Извините, игра уже идёт."
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "Извините, игра уже идёт.\n"
 
 #, fuzzy
 #~ msgid "Tuxmath is free and open-source!\n"

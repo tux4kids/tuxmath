@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-02-09 18:46-0600\n"
+"POT-Creation-Date: 2011-03-11 13:53-0600\n"
 "PO-Revision-Date: 2010-12-29 01:51-0500\n"
 "Last-Translator: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
 "Language-Team: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
@@ -352,249 +352,247 @@ msgstr ""
 "για να το χωρίσεις. Κατάστρεψε τα κλάσματα που δεν μπορούν να απλοποιηθούν "
 "περαιτέρω σε μία μόνο βολή!"
 
-#: src/game.c:758
+#: src/game.c:763
 msgid "Welcome to TuxMath!"
 msgstr "Καλωσόρισες στο TuxMath!"
 
-#: src/game.c:775
+#: src/game.c:780
 msgid "Your mission is to save your"
 msgstr "Η αποστολή είναι να σώσεις"
 
-#: src/game.c:776
+#: src/game.c:781
 msgid "penguins' igloos from the"
 msgstr "τα ιγλού των πιγκουίνων από"
 
-#: src/game.c:777
+#: src/game.c:782
 msgid "falling comets."
 msgstr "τους κομήτες που πέφτουν."
 
-#: src/game.c:796
+#: src/game.c:801
 msgid "Stop a comet by typing"
 msgstr "Σταμάτα τον κομήτη γράφοντας"
 
-#: src/game.c:797
+#: src/game.c:802
 msgid "the answer to the math problem"
 msgstr "την απάντηση στο μαθηματικό πρόβλημα"
 
-#: src/game.c:798
+#: src/game.c:803
 msgid "and hitting 'space' or 'enter'."
 msgstr "και πατώντας το 'space' ή το 'enter'."
 
-#: src/game.c:799
+#: src/game.c:804
 msgid "Try it now!"
 msgstr "Δοκίμασε το τώρα!"
 
-#: src/game.c:807
+#: src/game.c:812
 msgid "Good shot!"
 msgstr "Καλή βολή!"
 
-#: src/game.c:817
+#: src/game.c:822
 msgid "If an igloo gets hit by a comet,"
 msgstr "εαν ένα ιγκλού χτυπήσει από έναν κομήτη,"
 
-#: src/game.c:818
+#: src/game.c:823
 msgid "it melts. But don't worry: the"
 msgstr "θα λίωσει. Αλλά μην ανυσηχείς: Ο"
 
-#: src/game.c:819
+#: src/game.c:824
 msgid "penguin is OK!"
 msgstr "πιγκουίνος είναι μια χαρά!"
 
-#: src/game.c:820
+#: src/game.c:825
 msgid "Just watch what happens:"
 msgstr "Απλά πρόσεξε τι συμβαίνει:"
 
-#: src/game.c:821
+#: src/game.c:826
 msgid "(Press a key to start)"
 msgstr "(Πάτησε ένα πλήκτρο για να ξεκινήσεις)"
 
-#: src/game.c:834
+#: src/game.c:839
 msgid "Notice the answer"
 msgstr "Πρόσεχε στην απάντηση"
 
-#: src/game.c:844
+#: src/game.c:849
 msgid "If it gets hit again, the"
 msgstr "Εάν χτυπηθεί ξανά, ο "
 
-#: src/game.c:845
+#: src/game.c:850
 msgid "penguin leaves."
 msgstr "πιγκουίνος θα φύγει"
 
-#: src/game.c:846
+#: src/game.c:851
 msgid "(Press a key when ready)"
 msgstr "(Πάτησε ένα πλήκτρο όταν είσαι έτοιμος)"
 
-#: src/game.c:869
+#: src/game.c:874
 msgid "You can fix the igloos"
 msgstr "Μπορείς να επισκευάσεις τα ιγκλού"
 
-#: src/game.c:870
+#: src/game.c:875
 msgid "by stopping bonus comets."
 msgstr "σταματώντας τους bonus κομήτες."
 
-#: src/game.c:881 src/game.c:917
+#: src/game.c:886 src/game.c:922
 msgid "Zap it now!"
 msgstr "Κατάστρεψε τον τώρα!"
 
-#: src/game.c:887
+#: src/game.c:892
 msgid "Great job!"
 msgstr "Καλή δουλειά!"
 
-#: src/game.c:906
+#: src/game.c:911
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "σταματώντας τους bonus κομήτες."
 
-#: src/game.c:907
+#: src/game.c:912
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:924
+#: src/game.c:929
 msgid "Quit at any time by pressing"
 msgstr "Μπορείς να φύγεις οποιαδήποτε στιγμή πατώντας"
 
-#: src/game.c:925
+#: src/game.c:930
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' ή κάνοντας κλικ στο 'X'"
 
-#: src/game.c:926
+#: src/game.c:931
 msgid "in the upper right corner."
 msgstr "στην πάνω δεξιά γωνία."
 
-#: src/game.c:927
+#: src/game.c:932
 msgid "Do it now, and then play!"
 msgstr "Κάνε το τώρα και μετά παίξε!"
 
-#: src/game.c:2729
+#: src/game.c:2712
 msgid "The Penguins Have Been Saved!"
 msgstr "Οι πιγκουίνοι σώθηκαν!"
 
-#: src/game.c:2744
+#: src/game.c:2727
 msgid "Final Scores:"
 msgstr "Τελική Βαθμολογία:"
 
-#: src/game.c:2821
+#: src/game.c:2804
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Η σύνδεση με το διακομιστή χάθηκε."
 
-#: src/game.c:2829
+#: src/game.c:2812
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Η σύνδεση με το διακομιστή χάθηκε."
 
-#: src/highscore.c:178 data/menus/menu_strings:9
+#: src/game.c:4585
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:9
 msgid "Hall Of Fame"
 msgstr "Πίνακας Βαθμολογίας"
 
-#: src/highscore.c:198 src/highscore.c:219 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:27
 msgid "Space Cadet"
 msgstr "Στρατιώτης του Διαστήματος"
 
-#: src/highscore.c:201 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:26
 msgid "Scout"
 msgstr "Ανιχνευτής"
 
-#: src/highscore.c:204 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:23
 msgid "Ranger"
 msgstr "Διασώστης"
 
-#: src/highscore.c:207 data/menus/menu_strings:1
+#: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "Άσσος"
 
-#: src/highscore.c:210 data/menus/menu_strings:2
+#: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
 msgstr "Καταδρομέας"
 
-#: src/highscore.c:213 data/menus/menu_strings:7
+#: src/highscore.c:210 data/menus/menu_strings:7
 msgid "Factors"
 msgstr "Παράγοντες"
 
-#: src/highscore.c:216 data/menus/menu_strings:8
+#: src/highscore.c:213 data/menus/menu_strings:8
 msgid "Fractions"
 msgstr "Κλάσματα"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
 msgstr "Είσε στην λίστα με τους καλύτερους παίκτες!"
 
-#: src/highscore.c:294
+#: src/highscore.c:291
 msgid "Enter Your Name:"
 msgstr "Γράψε το όνομα σου:"
 
-#: src/highscore.c:1126
-#, fuzzy, c-format
-msgid ""
-"TuxMath detected %d running servers.\n"
-"Click to continue..."
-msgstr "Το TuxMath αναγνώρισε %d ενεργούς διακομιστές"
-
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2564
+#: src/mathcards.c:2620
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2565
+#: src/mathcards.c:2621
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2566
+#: src/mathcards.c:2622
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2567
+#: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
 
-#: src/menu.c:202
+#: src/menu.c:209
 msgid ""
 "Tuxmath is free and open-source!\n"
 "You can help make it better.\n"
@@ -602,7 +600,7 @@ msgid ""
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
 
-#: src/menu.c:338
+#: src/menu.c:345
 #, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
@@ -610,33 +608,39 @@ msgid ""
 "See README.txt for more information.\n"
 msgstr "Επεξεργάσου το αρχείο επιλογών στον κύριο κατάλογο"
 
-#: src/menu.c:363
+#: src/menu.c:372
 msgid "How many kids are playing?"
 msgstr "Πόσα παιδιά θέλουν να παίξουν ;"
 
-#: src/menu.c:364
+#: src/menu.c:373
 msgid "(Between 2 and 4 players)"
 msgstr "(από 2 έως 4 παίκτες)"
 
-#: src/menu.c:427
+#: src/menu.c:438
 msgid "The server is already running"
 msgstr "Ο διακομιστής είναι ήδη ενεργός"
 
-#: src/menu.c:431
+#: src/menu.c:449
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:453
 msgid "Enter Server Name:"
 msgstr "Δώσε όνομα για τον διακομιστή:"
 
-#: src/menu.c:431
+#: src/menu.c:453
 msgid "(limit 50 characters)"
 msgstr "(όριο 50 χαρακτήρων)"
 
-#: src/menu.c:445
+#: src/menu.c:467
 msgid "Click or press key to select server lesson file"
 msgstr ""
 "Κάνε κλικ ή πάτα ένα πλήκτρο για να επιλέξεις το διακομιστή με τα αρχεία του "
 "μαθήματος."
 
-#: src/menu.c:472
+#: src/menu.c:494
 #, fuzzy, c-format
 msgid ""
 "Server Name:\n"
@@ -645,67 +649,78 @@ msgid ""
 "%s"
 msgstr "Επιλεγόμενο Μάθημα:"
 
-#: src/menu.c:495
+#: src/menu.c:517
 #, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
 msgstr "Λυπούμαστε, αυτη η έκδοση δεν έχει δυνατότητα δικτύωσης.\n"
 
-#: src/menu.c:496 src/menu.c:543
+#: src/menu.c:518 src/menu.c:594
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "Λυπούμαστε, αυτη η έκδοση δεν έχει δυνατότητα δικτύωσης.\n"
 
-#: src/menu.c:506
+#: src/menu.c:528
+#, fuzzy
+msgid "The server is not running."
+msgstr "Ο διακομιστής είναι ήδη ενεργός"
+
+#: src/menu.c:534
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:538
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:549
 msgid "Detecting servers"
 msgstr "Έυρεση διακομιστών"
 
-#: src/menu.c:506
+#: src/menu.c:549
 msgid "Please wait"
 msgstr "Παρακαλώ περίμενε"
 
-#: src/menu.c:514
+#: src/menu.c:560
 #, c-format
 msgid "Connected to server: %s"
 msgstr "Σύνδεση στο διακομιστή: %s"
 
-#: src/menu.c:515
+#: src/menu.c:561
 #, c-format
 msgid "%s"
 msgstr "%s"
 
-#: src/menu.c:516 src/multiplayer.c:278 src/multiplayer.c:280
+#: src/menu.c:562 src/multiplayer.c:278 src/multiplayer.c:280
 msgid "Enter your name:"
 msgstr "Γράψε το όνομα σου:"
 
-#: src/menu.c:518
-msgid "Click when ready"
-msgstr "Κάνε κλικ όταν είσαι έτοιμος"
-
-#: src/menu.c:520
-msgid "Waiting for other players"
-msgstr "Αναμονή για τους υπόλοιπους παίκτες"
-
-#: src/menu.c:532
+#: src/menu.c:566
 #, fuzzy
-msgid "Sorry, game already in progress."
-msgstr "Λυπούμαστε, το παιχνίδι ήδη εξελίσσεται."
+msgid "Connection with server lost"
+msgstr "Σύνδεση στο διακομιστή: %s"
 
-#: src/menu.c:533
-msgid "Sorry, game already in progress.\n"
-msgstr "Λυπούμαστε, το παιχνίδι ήδη εξελίσσεται.\n"
+#: src/menu.c:581
+#, fuzzy
+msgid "Sorry, could not join game."
+msgstr "Λυπούμαστε, δεν είναι δυνατή η σύνδεση με το διακομιστή.\n"
 
-#: src/menu.c:538
+#: src/menu.c:582
+#, fuzzy
+msgid "Sorry, could not join game.\n"
+msgstr "Λυπούμαστε, δεν είναι δυνατή η σύνδεση με το διακομιστή.\n"
+
+#: src/menu.c:588
 #, fuzzy
 msgid "Sorry, no server could be found."
 msgstr "Λυπούμαστε, δεν βρέθηκε κάποιος διακομιστής"
 
-#: src/menu.c:539
+#: src/menu.c:589
 msgid "Sorry, could not connect to server.\n"
 msgstr "Λυπούμαστε, δεν είναι δυνατή η σύνδεση με το διακομιστή.\n"
 
-#: src/menu.c:542
+#: src/menu.c:593
 #, fuzzy
 msgid "Sorry, this version built without network support"
 msgstr "Λυπούμαστε, αυτη η έκδοση δεν έχει δυνατότητα δικτύωσης"
@@ -730,6 +745,10 @@ msgstr "Πόσους γύρους θα παίξετε ;"
 #: src/multiplayer.c:294
 msgid "Enter a number"
 msgstr "Γράψε έναν αριθμό"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
 
 #: src/titlescreen.c:522
 #, fuzzy
@@ -1052,6 +1071,133 @@ msgstr "Απαλοιφή Βαθμολογίας"
 #, fuzzy
 msgid "Stop Server"
 msgstr "Εκίνηση διακομιστή"
+
+#: data/menus/menu_strings:29
+msgid "Complete missions for the Math Command Fleet."
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:34
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:35
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Βάλε τα δυνατά σου!"
+
+#: data/menus/menu_strings:36
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:38
+#, fuzzy
+msgid "High Scores"
+msgstr "Τελική Βαθμολογία:"
+
+#: data/menus/menu_strings:39
+msgid "Host a server for your friends to join on"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Join on a server hosted by your friends"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game of Factoroids with fractions"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play a game of factoroids with whole numbers"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Play a game with your friends over LAN"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Play a hotseat game with your friends"
+msgstr ""
+
+#: data/menus/menu_strings:46
+#, fuzzy
+msgid "Play an arcade style game."
+msgstr "Παίξε το κλασσικό παιχνίδι"
+
+#: data/menus/menu_strings:47
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:49
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:50
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:52
+#, fuzzy
+msgid "See the project info"
+msgstr "Πληροφορίες Έργου"
+
+#: data/menus/menu_strings:53
+msgid "Stop a server you've hosted"
+msgstr ""
+
+#: data/menus/menu_strings:54
+msgid "The person with the highest score wins"
+msgstr ""
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "Το TuxMath αναγνώρισε %d ενεργούς διακομιστές"
+
+#~ msgid "Click when ready"
+#~ msgstr "Κάνε κλικ όταν είσαι έτοιμος"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "Αναμονή για τους υπόλοιπους παίκτες"
+
+#, fuzzy
+#~ msgid "Sorry, game already in progress."
+#~ msgstr "Λυπούμαστε, το παιχνίδι ήδη εξελίσσεται."
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "Λυπούμαστε, το παιχνίδι ήδη εξελίσσεται.\n"
 
 #, fuzzy
 #~ msgid "Tuxmath is free and open-source!\n"

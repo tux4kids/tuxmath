@@ -76,6 +76,7 @@ EXTRA_DIST = 	credits.h 	\
 	fileops.h 	\
 	game.h		\
 	menu.h		\
+	menu_lan.h	\
 	globals.h	\
 	highscore.h 	\
         network.h       \

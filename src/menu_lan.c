@@ -192,7 +192,6 @@ int ConnectToServer(const char* heading, const char* sub)
   }  // End of while (!finished) loop
 
 
-
   return 1;
 
 #endif
@@ -504,35 +503,47 @@ int Pregame(void)
     Uint32 timer = 0;
     const int loop_msec = 20;
     SDL_Event event;
-    SDL_Rect title_rect, ok_rect;  //NOTE stop_rect is a global from t4k_common.h (good idea???)
+    SDL_Rect title_rect, ready_rect;  //NOTE stop_rect is a global from t4k_common.h (good idea???)
+    SDL_Surface* play_surf = NULL;
+    SDL_Surface* pause_surf = NULL;
     int more_msgs;
     bool ready = false;
     char buf[NET_BUF_LEN];
 
-    //Set up locations:
-    ok_rect.x = (screen->w)/2; ok_rect.y = 10;
+    //set up locations:
+    ready_rect.x = screen->w * 0.45;		ready_rect.y = screen->h * 0.2;
+    ready_rect.w = ready_rect.h = screen->w * 0.1;  
+    //set up surfaces for remaining buttons:
+    play_surf = T4K_LoadImageOfBoundingBox("status/player_play.svg", IMG_ALPHA,ready_rect.w, ready_rect.h);
+    pause_surf = T4K_LoadImageOfBoundingBox("status/player_pause.svg", IMG_ALPHA, ready_rect.w, ready_rect.h);
+
     //Make sure we have needed surfaces:
-    if(!stop_button || !next_arrow)
+    if(!stop_button || !play_surf || !pause_surf)
       return -1;
+
 
     while(!finished)
     {
         //Draw
         DrawTitleScreen();
-        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
-        SDL_BlitSurface(next_arrow, NULL, screen, &ok_rect);
 	HandleTitleScreenAnimations();
+        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+	//
+	if(ready)
+            SDL_BlitSurface(pause_surf, NULL, screen, &ready_rect);
+	else
+            SDL_BlitSurface(play_surf, NULL, screen, &ready_rect);
 	//Draw headings:
 	{
 	    SDL_Surface* s = NULL;
 	    if(ready)
-                s = T4K_BlackOutline(_("Waiting for other players"), DEFAULT_MENU_FONT_SIZE, &white);
+                s = T4K_BlackOutline(_("Waiting for other players - click \"Pause\" if not ready"), DEFAULT_MENU_FONT_SIZE, &white);
 	    else
-                s = T4K_BlackOutline(_("Click OK when ready"), DEFAULT_MENU_FONT_SIZE, &white);
+                s = T4K_BlackOutline(_("Click \"Play\" when ready"), DEFAULT_MENU_FONT_SIZE, &white);
 	    if(s)
 	    {
 	        title_rect.x = screen->w/2 - s->w/2;
-		title_rect.y = screen->h/5;
+		title_rect.y = screen->h * 0.1;
                 SDL_BlitSurface(s, NULL, screen, &title_rect);
 		SDL_FreeSurface(s);
 	    }
@@ -561,10 +572,11 @@ int Pregame(void)
                         playsound(SND_TOCK);
                         break;
                     } 
-                    else if (T4K_inRect(ok_rect, event.button.x, event.button.y ))
+                    else if (T4K_inRect(ready_rect, event.button.x, event.button.y ))
                     {
-			ready = true;
-                        LAN_SetReady(true);  //tell server we are ready to start
+		        //Player clicked play/pause, toggle "ready" flag:	    
+			ready = !ready;
+                        LAN_SetReady(ready);  //tell server we are ready to start
                         playsound(SND_TOCK);
                         break;
                     }
@@ -575,7 +587,6 @@ int Pregame(void)
                     switch (event.key.keysym.sym)
                     {
                         case SDLK_ESCAPE:
-                        case SDLK_BACKSPACE:
                         {
                             finished = -1;
                             playsound(SND_TOCK);
@@ -587,6 +598,13 @@ int Pregame(void)
                         {
 			    ready = true;
                             LAN_SetReady(true);  //tell server we are ready to start
+                            playsound(SND_TOCK);
+                            break;
+                        }
+                        case SDLK_BACKSPACE:
+                        {
+		            ready = false;
+                            LAN_SetReady(false);  //tell server we are NOT ready to start
                             playsound(SND_TOCK);
                             break;
                         }
@@ -633,6 +651,10 @@ int Pregame(void)
 	//Don't eat CPU:
 	T4K_Throttle(loop_msec, &timer);
     }  // End while(!finished)
+    
+    SDL_FreeSurface(play_surf);    //we know these can't be NULL from check above
+    SDL_FreeSurface(pause_surf);
+
     return finished;
 }
 
@@ -656,7 +678,7 @@ void draw_player_table(void)
     if(surf)
     {
         loc.x = name_x;
-	loc.y = screen->h * 0.3;
+	loc.y = screen->h * 0.4;
         SDL_BlitSurface(surf, NULL, screen, &loc);
         SDL_FreeSurface(surf);
 	surf = NULL;
@@ -671,7 +693,7 @@ void draw_player_table(void)
     if(surf)
     {
         loc.x = name_x;
-	loc.y = screen->h * 0.3 + surf->h;
+	loc.y = screen->h * 0.4 + surf->h;
         SDL_BlitSurface(surf, NULL, screen, &loc);
         SDL_FreeSurface(surf);
 	surf = NULL;
@@ -720,7 +742,4 @@ void draw_player_table(void)
 	else
             DEBUGMSG(debug_lan, "Socket %d is not connected\n", i);
     }
-
-
-
 }

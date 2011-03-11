@@ -3,6 +3,7 @@
 statusdir = $(pkgdatadir)/images/status
 
 dist_status_DATA = arrows.png \
+  player_play.svg \
   demo.png \
   demo-small.png \
   gameover.png \
@@ -31,4 +32,5 @@ dist_status_DATA = arrows.png \
   title.png \
   tux4kids.png \
   tux4kids.svg \
+  player_pause.svg \
   wave.png
