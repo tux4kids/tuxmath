@@ -148,7 +148,7 @@ int ConnectToServer(const char* heading, const char* sub)
 			     NULL, "Server Selection", NULL);
       T4K_PrerenderMenu(MENU_SERVERSELECT);
       server_choice = T4K_RunMenu(MENU_SERVERSELECT, true, &DrawTitleScreen,
-                                  &HandleTitleScreenEvents, &HandleTitleScreenAnimations, NULL);
+                                &HandleTitleScreenEvents, &HandleTitleScreenAnimations, NULL);
 
       if(!LAN_AutoSetup(server_choice))
       {
@@ -499,6 +499,7 @@ int WaitForOthers(const char* heading, const char* sub)
 
 int Pregame(void)
 {
+    int widest = 0;
     int finished = 0;
     Uint32 timer = 0;
     const int loop_msec = 20;
@@ -506,48 +507,72 @@ int Pregame(void)
     SDL_Rect title_rect, ready_rect;  //NOTE stop_rect is a global from t4k_common.h (good idea???)
     SDL_Surface* play_surf = NULL;
     SDL_Surface* pause_surf = NULL;
+    SDL_Surface* ready_title = NULL;
+    SDL_Surface* notready_title = NULL;
+    SDL_Surface* ready_subtitle = NULL;
+    SDL_Surface* notready_subtitle = NULL;
+    SDL_Surface* s = NULL;
     int more_msgs;
     bool ready = false;
     char buf[NET_BUF_LEN];
 
     //set up locations:
-    ready_rect.x = screen->w * 0.45;		ready_rect.y = screen->h * 0.2;
+    ready_rect.x = screen->w * 0.45;		ready_rect.y = screen->h * 0.15;
     ready_rect.w = ready_rect.h = screen->w * 0.1;  
     //set up surfaces for remaining buttons:
     play_surf = T4K_LoadImageOfBoundingBox("status/player_play.svg", IMG_ALPHA,ready_rect.w, ready_rect.h);
     pause_surf = T4K_LoadImageOfBoundingBox("status/player_pause.svg", IMG_ALPHA, ready_rect.w, ready_rect.h);
+    //set up surfaces for titles:
+    ready_title = T4K_BlackOutline(_("Waiting for other players"), DEFAULT_MENU_FONT_SIZE, &white);
+    notready_title = T4K_BlackOutline(_("Waiting until you are ready"), DEFAULT_MENU_FONT_SIZE, &white);
+    ready_subtitle = T4K_BlackOutline(_("Click \"Pause\" if not ready"), DEFAULT_MENU_FONT_SIZE, &white);
+    notready_subtitle = T4K_BlackOutline(_("Click \"Play\" when ready"), DEFAULT_MENU_FONT_SIZE, &white);
 
     //Make sure we have needed surfaces:
-    if(!stop_button || !play_surf || !pause_surf)
+    if(!stop_button || !play_surf || !pause_surf || !ready_title
+    || !notready_title || !ready_subtitle || !notready_subtitle)
       return -1;
 
+    //Figure out which heading is widest (for shaded box)
+    if(widest < ready_title->w) widest = ready_title->w;
+    if(widest < notready_title->w) widest = notready_title->w;
+    if(widest < ready_subtitle->w) widest = ready_subtitle->w;
+    if(widest < notready_subtitle->w) widest = notready_subtitle->w;
+    widest += 10; //add margin
 
     while(!finished)
     {
-        //Draw
+        //Draw -------------------------------
         DrawTitleScreen();
 	HandleTitleScreenAnimations();
         SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
-	//
+	//Draw "play" or "pause" button:
 	if(ready)
             SDL_BlitSurface(pause_surf, NULL, screen, &ready_rect);
 	else
             SDL_BlitSurface(play_surf, NULL, screen, &ready_rect);
+	//Draw shaded background for headings:
+	title_rect.x = screen->w/2 - widest/2;
+	title_rect.y = 0;
+	title_rect.w = widest;
+	title_rect.h = screen->h * 0.4;
+	T4K_DrawButton(&title_rect, 20, REG_RGBA);
 	//Draw headings:
-	{
-	    SDL_Surface* s = NULL;
-	    if(ready)
-                s = T4K_BlackOutline(_("Waiting for other players - click \"Pause\" if not ready"), DEFAULT_MENU_FONT_SIZE, &white);
-	    else
-                s = T4K_BlackOutline(_("Click \"Play\" when ready"), DEFAULT_MENU_FONT_SIZE, &white);
-	    if(s)
-	    {
-	        title_rect.x = screen->w/2 - s->w/2;
-		title_rect.y = screen->h * 0.1;
-                SDL_BlitSurface(s, NULL, screen, &title_rect);
-		SDL_FreeSurface(s);
-	    }
-	}
+	if(ready)
+            s = ready_title;
+	else
+            s = notready_title;
+	title_rect.x = screen->w/2 - s->w/2;
+        title_rect.y = screen->h * 0.05;
+        SDL_BlitSurface(s, NULL, screen, &title_rect);
+	    
+	if(ready)
+            s = ready_subtitle;
+	else
+            s = notready_subtitle;
+	title_rect.x = screen->w/2 - s->w/2;
+	title_rect.y = screen->h * 0.3;
+        SDL_BlitSurface(s, NULL, screen, &title_rect);
 	//Draw status of other players:
 	draw_player_table();
 
@@ -654,6 +679,10 @@ int Pregame(void)
     
     SDL_FreeSurface(play_surf);    //we know these can't be NULL from check above
     SDL_FreeSurface(pause_surf);
+    SDL_FreeSurface(ready_title);
+    SDL_FreeSurface(notready_title);
+    SDL_FreeSurface(ready_subtitle);
+    SDL_FreeSurface(notready_subtitle);
 
     return finished;
 }
@@ -668,6 +697,19 @@ void draw_player_table(void)
     SDL_Color* col;
     const int name_x = screen->w * 0.25;
     const int ready_x = screen->w * 0.7;
+    
+    //Draw shaded rectangle for player table
+    {
+      int nr_width = T4K_SimpleText(_("Not Ready"), DEFAULT_MENU_FONT_SIZE, &white)->w;
+      int text_h = T4K_SimpleText(_("Not Ready"), DEFAULT_MENU_FONT_SIZE, &white)->h;
+      SDL_Rect shaded_loc;
+      shaded_loc.x = name_x - 10;
+      shaded_loc.y = screen->h * 0.45;
+      shaded_loc.w = (ready_x + nr_width) - name_x + 20;
+      shaded_loc.h = ((2 + LAN_NumPlayers()) * text_h) + 20;
+      T4K_DrawButton(&shaded_loc, 20, REG_RGBA);
+    }
+   
     //Draw server name and lesson:
     txt = LAN_ConnectedServerName();
     if(txt)
@@ -678,7 +720,7 @@ void draw_player_table(void)
     if(surf)
     {
         loc.x = name_x;
-	loc.y = screen->h * 0.4;
+	loc.y = screen->h * 0.45;
         SDL_BlitSurface(surf, NULL, screen, &loc);
         SDL_FreeSurface(surf);
 	surf = NULL;
@@ -693,7 +735,7 @@ void draw_player_table(void)
     if(surf)
     {
         loc.x = name_x;
-	loc.y = screen->h * 0.4 + surf->h;
+	loc.y += surf->h;
         SDL_BlitSurface(surf, NULL, screen, &loc);
         SDL_FreeSurface(surf);
 	surf = NULL;
