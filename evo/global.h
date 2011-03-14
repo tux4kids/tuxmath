@@ -7,11 +7,9 @@
 #include<semaphore.h>
 #include<unistd.h>
 #include<pthread.h>
-#define MAX 1
-#define global_port 2001
 IPaddress host_ipaddress; // will hold server ip address
 
-void * handle(void* data);
+void * slave_server(void* data);
 
 // structure which contain information for a particular thread 
 struct socket 
@@ -20,6 +18,11 @@ struct socket
 	TCPsocket server_socket;
 	Uint16 port;
 };
+struct server_info   // information of server. Used to transmit available/active  server information to client  
+{
+char info[100];
+Uint16 port;
+}; 
 struct threadID
 {
 	int reference;   // to be used as a reference in thread pool 
@@ -28,7 +31,8 @@ struct threadID
 	sem_t binary_sem; // used as binary semphore
 	struct socket client;
 	struct threadID *next;
-};
+	//struct server_info info;   // store information of a server contained in server pool
+}; 
 struct threadID * thread_header; // header use for pointing to standby/inactive threads
 pthread_mutex_t mutex_variable;
 

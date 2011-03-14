@@ -1,5 +1,7 @@
 #include"global.h"
-int active_ports=0; //Keep count on number of ports that are active active 
+extern int global_port;		//from server_handle.c
+extern int max_slave_server;	//freom server_handle.c
+static int standby_ports=0; //Keep count on number of ports that are active active 
 /*=========================================================================================
 	Function responsible for handling threads
   =========================================================================================*/
@@ -19,41 +21,36 @@ void push_thread(struct threadID * temp_thread)
 		thread_header=temp_thread;
 	}
 	temp_thread->status=0;                                // to make thread stop running till it get call
-	++active_ports;
+	++standby_ports;
 	pthread_mutex_unlock(&mutex_variable);
 }
 
 //function responsible for creation of thread- to be called once 
-int  intialize_thread()  // return 1 on success else 0. 
+int  start_new_thread(Uint16 temp_port)  // return 1 on success else 0. 
 {
 	int i;
 	struct threadID *new_thread=NULL;
-	pthread_mutex_lock(&mutex_variable);
-	for(i=0;i<MAX;i++)
+	new_thread=malloc(sizeof(struct threadID));// allocating space to new node
+	if(new_thread==NULL)
 	{
-		new_thread=malloc(sizeof(struct threadID));// allocating space to new node
-		if(new_thread==NULL)
-		{
-			printf("\nMemory overflow");
-			pthread_mutex_unlock(&mutex_variable);
-			return 0;
-		}
-		else
-		{	
-			new_thread->client.port=2001+i;  // allocating port number to newly created thread 
-			if(sem_init(&(new_thread->binary_sem),0,0)==0)
-			new_thread->status=0;   
-			pthread_create(&(new_thread->ID),NULL,handle,new_thread);
-			// opening port for accepting connections
+		printf("\nMemory overflow");
+		return 0;
+	}
+	else
+	{	
+		new_thread->client.port=temp_port;  // allocating port number to newly created thread 
+		if(sem_init(&(new_thread->binary_sem),0,0)==0)
+		new_thread->status=0;   
+		pthread_create(&(new_thread->ID),NULL,slave_server,new_thread);
+		// opening port for accepting connections
 		if(common_connect_server(&host_ipaddress,&new_thread->client.server_socket,new_thread->client.port,(const char *)NULL)==0)
 		{
 			printf("\n Not able to open connection");
 			return 1;
 		}
-			pthread_mutex_unlock(&mutex_variable);
+		printf("\n Able to open new port\n");
 			push_thread(new_thread); // pushing newly created thread into stack
-		}				
-	}
+	}				
 	return 1;
 }
 
@@ -68,14 +65,13 @@ int activate_thread()
 		return 0;
 	}
 	else
-	{
+	{	printf("\n switching");//TODO
 		temp_thread=thread_header;
 		thread_header=thread_header->next;
 	}
-	active_ports--;
+	standby_ports++;
 	pthread_mutex_unlock(&mutex_variable);	
 	printf("\n Unlocking");
-	sem_post(&(temp_thread->binary_sem));
 	sem_post(&(temp_thread->binary_sem));
 }
 void cleanup_thread()
@@ -95,3 +91,8 @@ void cleanup_thread()
 		printf("\n Great every thing is cleaned");
 	
 }
+int get_active_threads()
+{
+return (max_slave_server-standby_ports);
+}
+

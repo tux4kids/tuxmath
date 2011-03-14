@@ -49,7 +49,6 @@ int main(int argc, char **argv)
 	// Inorder to avoid race condition 
 	if((*temp_port)!=0)
 	{
-		sleep(1);
 		//switching port for connecting to server
 		if( SDLNet_ResolveHost(&server_ipaddress,argv[1],*temp_port)!=0)
 		{
