@@ -223,7 +223,7 @@ int ConnectToServer(void)
 int Pregame(void)
 {
     int widest = 0;
-    int finished = 0;
+    int status = PREGAME_WAITING;
     Uint32 timer = 0;
     const int loop_msec = 20;
     SDL_Event event;
@@ -254,7 +254,7 @@ int Pregame(void)
     //Make sure we have needed surfaces:
     if(!stop_button || !play_surf || !pause_surf || !ready_title
     || !notready_title || !ready_subtitle || !notready_subtitle)
-      return -1;
+      return PREGAME_OVER_ERROR;
 
     //Figure out which heading is widest (for shaded box)
     if(widest < ready_title->w) widest = ready_title->w;
@@ -263,7 +263,7 @@ int Pregame(void)
     if(widest < notready_subtitle->w) widest = notready_subtitle->w;
     widest += 10; //add margin
 
-    while(!finished)
+    while(status == PREGAME_WAITING)
     {
         //Draw -------------------------------
         DrawTitleScreen();
@@ -316,7 +316,7 @@ int Pregame(void)
                 {
                     if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
                     {
-                        finished = -3;
+                        status = PREGAME_OVER_ESCAPE;
                         playsound(SND_TOCK);
                         break;
                     } 
@@ -336,7 +336,7 @@ int Pregame(void)
                     {
                         case SDLK_ESCAPE:
                         {
-                            finished = -3;
+                            status =  PREGAME_OVER_ESCAPE;
                             playsound(SND_TOCK);
                             break;
                         }
@@ -372,18 +372,18 @@ int Pregame(void)
 	    if(strncmp(buf,"GO_TO_GAME", strlen("GO_TO_GAME")) == 0)
             {
 	        //TODO display "countdown" before game starts
-                finished = 1;
+                status = PREGAME_OVER_START_GAME;
                 break;
             }
             else if(strncmp(buf, "GAME_IN_PROGRESS", strlen("GAME_IN_PROGRESS")) == 0)
             {
-                finished = -1;
+                status = PREGAME_GAME_IN_PROGRESS;
                 break;
             }
             else if(strncmp(buf, "NETWORK_ERROR", strlen("NETWORK_ERROR")) == 0)
             {
                 printf("NETWORK_ERROR msg received!\n");
-                finished = -2;
+                status = PREGAME_OVER_LAN_DISCONNECT;
                 break;
             }
             else
@@ -394,7 +394,7 @@ int Pregame(void)
         }  // End checking network messages
 	//Don't eat CPU:
 	T4K_Throttle(loop_msec, &timer);
-    }  // End while(!finished)
+    }  // End while(status = PREGAME_WAITING)
     
     SDL_FreeSurface(play_surf);    //we know these can't be NULL from check above
     SDL_FreeSurface(pause_surf);
@@ -403,7 +403,7 @@ int Pregame(void)
     SDL_FreeSurface(ready_subtitle);
     SDL_FreeSurface(notready_subtitle);
 
-    return finished;
+    return status;
 }
 
 void draw_player_table(void)

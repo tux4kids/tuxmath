@@ -28,6 +28,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "globals.h"
 
+enum {
+  PREGAME_WAITING,
+  PREGAME_GAME_IN_PROGRESS,
+  PREGAME_OVER_START_GAME,
+  PREGAME_OVER_ESCAPE,
+  PREGAME_OVER_WINDOW_CLOSE,
+  PREGAME_OVER_LAN_DISCONNECT,
+  PREGAME_OVER_ERROR,
+};
+
 int ConnectToServer(void);
 int Pregame(void);
 

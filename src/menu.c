@@ -561,7 +561,7 @@ int run_lan_join(void)
   pregame_status = Pregame();
   switch(pregame_status)
   {	  
-    case 1: //Means LAN game is starting.
+    case PREGAME_OVER_START_GAME:
       playsound(SND_TOCK);
       T4K_AudioMusicUnload();
       Opts_SetLanMode(1);  // Tells game() we are playing over network
@@ -571,17 +571,20 @@ int run_lan_join(void)
         T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       break;
 
-    case -1: //Means game in progress
+    case PREGAME_GAME_IN_PROGRESS:
       playsound(SND_TOCK);
       ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
+      LAN_Cleanup();
       break;
 
-    case -2: //Means disconnection or network error
+    case PREGAME_OVER_LAN_DISCONNECT: 
       playsound(SND_TOCK);
       ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+      LAN_Cleanup();
       break;
 
-    case -3: //Means player backed out - no message needed
+    case PREGAME_OVER_ESCAPE: 
+      LAN_Cleanup();
       return 0;
 
     default:
