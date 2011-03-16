@@ -43,7 +43,7 @@ lan_player_type lan_player_info[MAX_CLIENTS];
 void draw_player_table(void);
 
 
-int ConnectToServer(const char* heading, const char* sub)
+int ConnectToServer(void)
 {
 #ifndef HAVE_LIBSDL_NET
   return 0;
@@ -57,7 +57,6 @@ int ConnectToServer(const char* heading, const char* sub)
   int servers_found = 0;  
 
   DEBUGMSG(debug_lan, "\n Enter ConnectToServer()\n");
-
 
   /* Draw background: */
   if (current_bkg())
@@ -76,7 +75,7 @@ int ConnectToServer(const char* heading, const char* sub)
 
   /* Draw heading: */
   {
-    SDL_Surface* s = T4K_BlackOutline(_(heading), DEFAULT_MENU_FONT_SIZE, &white);
+    SDL_Surface* s = T4K_BlackOutline(_("Detecting servers"), DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
       loc.x = (screen->w/2) - (s->w/2);
@@ -85,7 +84,7 @@ int ConnectToServer(const char* heading, const char* sub)
       SDL_FreeSurface(s);
     }
 
-    s = T4K_BlackOutline(_(sub),
+    s = T4K_BlackOutline(_("Please wait"),
                      DEFAULT_MENU_FONT_SIZE, &white);
     if (s)
     {
@@ -190,6 +189,24 @@ int ConnectToServer(const char* heading, const char* sub)
     /* Wait so we keep frame rate constant: */
     T4K_Throttle(20, &timer);
   }  // End of while (!finished) loop
+
+  //Now connected - get player nickname:
+  {
+    char buf[256];
+    char buf2[256];
+    char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+
+    /* Display server name and current lesson, ask player for LAN nickname: */
+    snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
+    snprintf(buf2, 256, _("%s"), LAN_ConnectedServerLesson());
+    NameEntry(player_name, buf, buf2, _("Enter your name:")); //get nickname from user
+    /* If sock lost during name entry, handle it correctly: */
+    if(!LAN_SetName(player_name)) //tell server nickname
+    {
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server lost"));
+      return 0;
+    }
+  }
 
   return 1;
 
@@ -299,7 +316,7 @@ int Pregame(void)
                 {
                     if (T4K_inRect(stop_rect, event.button.x, event.button.y ))
                     {
-                        finished = -1;
+                        finished = -3;
                         playsound(SND_TOCK);
                         break;
                     } 
@@ -319,7 +336,7 @@ int Pregame(void)
                     {
                         case SDLK_ESCAPE:
                         {
-                            finished = -1;
+                            finished = -3;
                             playsound(SND_TOCK);
                             break;
                         }
@@ -356,22 +373,17 @@ int Pregame(void)
             {
 	        //TODO display "countdown" before game starts
                 finished = 1;
-                playsound(SND_TOCK);
                 break;
             }
             else if(strncmp(buf, "GAME_IN_PROGRESS", strlen("GAME_IN_PROGRESS")) == 0)
             {
                 finished = -1;
-                playsound(SND_TOCK);
-                ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
                 break;
             }
             else if(strncmp(buf, "NETWORK_ERROR", strlen("NETWORK_ERROR")) == 0)
             {
                 printf("NETWORK_ERROR msg received!\n");
-                finished = -1;
-                playsound(SND_TOCK);
-                ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+                finished = -2;
                 break;
             }
             else

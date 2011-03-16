@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include "globals.h"
 
-int ClickWhenReady(const char* heading);
+int ConnectToServer(void);
 int Pregame(void);
 
 #endif

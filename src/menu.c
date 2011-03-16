@@ -544,51 +544,50 @@ int stop_lan_host(void)
 int run_lan_join(void)
 {
   DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n"); 
+
 #ifdef HAVE_LIBSDL_NET
+  int pregame_status;
+
   /* autodetect servers, allowing player to choose if > 1 found: */
-  int connected = ConnectToServer(_("Detecting servers"), _("Please wait"));
-
-  if(connected)
-  /* Connected to server but not yet in game */
+  if(!ConnectToServer())
+  /* Could not connect: */
   {
-    int stdby;
-    char buf[256];
-    char buf2[256];
-    char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not connect to server."));
+    DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
+    return 0;
+  }
 
-    /* Display server name and current lesson, ask player for LAN nickname: */
-    snprintf(buf, 256, _("Connected to server: %s"), LAN_ConnectedServerName());
-    snprintf(buf2, 256, _("%s"), LAN_ConnectedServerLesson());
-    NameEntry(player_name, buf, buf2, _("Enter your name:")); //get nickname from user
-    /* If sock lost during name entry, handle it correctly: */
-    if(!LAN_SetName(player_name)) //tell server nickname
-    {
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server lost"));
-      return 0;
-    }
-    stdby = Pregame();
-    if (stdby == 1)
-    {
+  /* Connected to server but not yet in game */
+  pregame_status = Pregame();
+  switch(pregame_status)
+  {	  
+    case 1: //Means LAN game is starting.
+      playsound(SND_TOCK);
       T4K_AudioMusicUnload();
       Opts_SetLanMode(1);  // Tells game() we are playing over network
       game();
       Opts_SetLanMode(0);  // Go back to local play
       if (Opts_GetGlobalOpt(MENU_MUSIC))
-          T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-    }
-    else
-    {
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not join game."));
-      DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not join game.\n"));
+        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+      break;
+
+    case -1: //Means game in progress
+      playsound(SND_TOCK);
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
+      break;
+
+    case -2: //Means disconnection or network error
+      playsound(SND_TOCK);
+      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+      break;
+
+    case -3: //Means player backed out - no message needed
       return 0;
-    }  
-  }
-  else  /* Could not connect: */
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, no server could be found."));
-    DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
-    return 0;
-  }
+
+    default:
+      { /* do nothing */ }
+
+  }  
 #else
   ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
   DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
