@@ -69,7 +69,7 @@ int activate_thread()
 		temp_thread=thread_header;
 		thread_header=thread_header->next;
 	}
-	standby_ports++;
+	standby_ports--;
 	pthread_mutex_unlock(&mutex_variable);	
 	printf("\n Unlocking");
 	sem_post(&(temp_thread->binary_sem));

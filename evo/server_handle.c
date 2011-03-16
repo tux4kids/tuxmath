@@ -28,6 +28,7 @@ void * slave_server(void * data)
 	int *temp=(int *) data;
 	char buffer[512];
 	TCPsocket client_socket;
+	int check_connection;
 	while(1)   // to make sure thread doesn't terminate
 	{
 		if(temp_thread->status==0)
@@ -46,7 +47,7 @@ void * slave_server(void * data)
 				{
 					if(temp_thread->client.client_ipaddress=SDLNet_TCP_GetPeerAddress(client_socket))
 						printf("\n Listening from client:%x",SDLNet_Read32(&temp_thread->client.client_ipaddress->host));
-					if(SDLNet_TCP_Recv(client_socket,buffer,512))
+					if(check_connection=SDLNet_TCP_Recv(client_socket,buffer,512)>0)
 					{
 						printf("\nClient send:%s",buffer);
 						if(!strcmp(buffer,"exit"))
@@ -59,6 +60,11 @@ void * slave_server(void * data)
 							quit1=0;
 							quit=0;
 						}
+					}
+					else
+					{
+						printf("\n Client Disconnected");
+						quit1=0;
 					}
 				}
 				printf("\nClosing client socket");
