@@ -33,7 +33,7 @@ struct threadID
 	struct threadID *next;
 	//struct server_info info;   // store information of a server contained in server pool
 }; 
-struct threadID * thread_header; // header use for pointing to standby/inactive threads
-pthread_mutex_t mutex_variable;
+extern struct threadID * thread_header; // header use for pointing to standby/inactive threads
+extern pthread_mutex_t mutex_variable;
 
 #endif 

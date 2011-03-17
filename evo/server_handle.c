@@ -1,6 +1,10 @@
 #include"server_handle.h"
 #define PAUSE 3
 #include<time.h>
+struct threadID * thread_header;  // from global.h
+pthread_mutex_t mutex_variable;  // from global.h
+int global_port;// from server_handle.h
+int max_slave_server; // from server_handle.h
 int quit=1; //for quiting lobby_server
 int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uint16 port,const char *host)
 {

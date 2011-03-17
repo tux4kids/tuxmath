@@ -2,8 +2,8 @@
 #define SERVER_HANDLE_H
 #include"global.h"
 #include"thread_handle.h"
-int global_port;
-int max_slave_server;
+extern int global_port;
+extern int max_slave_server;
 int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uint16 port,const char *host);
 void * slave_server(void * data);
 void * lobby_server(void * data);

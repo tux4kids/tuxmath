@@ -1,7 +1,9 @@
 #include"global.h"
-extern int global_port;		//from server_handle.c
-extern int max_slave_server;	//freom server_handle.c
+#include"server_handle.h"
+int max_slave_server;	//from server_handle.c
 static int standby_ports=0; //Keep count on number of ports that are active active 
+struct threadID * thread_header;  // from global.h
+pthread_mutex_t mutex_variable;  //from global.h
 /*=========================================================================================
 	Function responsible for handling threads
   =========================================================================================*/
