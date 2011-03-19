@@ -3855,7 +3855,7 @@ void game_key_event(SDLKey key, SDLMod mod)
     /* [ENTER]: Accept digits! */
     doing_answer = 1;
   }
-  else if(key == SDLK_b)
+  else if(key == SDLK_LSHIFT || key == SDLK_RSHIFT)
   {
     if(smartbomb_alive)
     {
