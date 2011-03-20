@@ -21,7 +21,6 @@ dist_comets_DATA = asteroid1.png \
 		 asteroid3.png   \
 		 star2.png	 \
 		 galaxy1.png  	 \
-		 ship01.png 	 \
 		 ship.png	 \
 		 star3.png	 \
 		 factoroids.png  \
@@ -30,8 +29,8 @@ dist_comets_DATA = asteroid1.png \
 		 good.png \
 		 ship-cloaked.png \
 		 forcefield.png	\
-		 ship_thrust.png	\
-		 ship_thrust_cloaked.png	\
+		 ship-thrust.png	\
+		 ship-thrust-cloaked.png	\
 		 powerbomb.png	\
 		 shield.png	\
 		 stealth.png

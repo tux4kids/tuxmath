@@ -152,7 +152,7 @@ int load_image_data()
   "factoroids/asteroid1.png",
   "factoroids/asteroid2.png",
   "factoroids/asteroid3.png",
-  "factoroids/ship01.png",
+  "factoroids/ship.png",
   "factoroids/ship-cloaked.png",
   "factoroids/powerbomb.png",
   "factoroids/shield.png",
@@ -175,8 +175,8 @@ int load_image_data()
   "factoroids/button_13.png",
   "factoroids/cockpit.png",
   "factoroids/forcefield.png",
-  "factoroids/ship_thrust.png",
-  "factoroids/ship_thrust_cloaked.png",
+  "factoroids/ship-thrust.png",
+  "factoroids/ship-thrust-cloaked.png",
   "status/arrows.png"
   };
 
