@@ -48,10 +48,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <wchar.h>
 
 #include <t4k_common.h>
-
-/* for Tim's feedback speed control code           */
-//#define FEEDBACK_DEBUG
-//#define LINEBREAK
+/* Conditional includes of t4k_common replacement functions
+ * if not supplied by platform:
+ */
+#ifndef HAVE_ALPHASORT
+#include <t4k_alphasort.h>
+#endif
+#ifndef HAVE_SCANDIR
+#include <t4k_scandir.h>
+#endif
 
 /* debug data (now declared in libt4k_common */
 //extern int debug_status;
