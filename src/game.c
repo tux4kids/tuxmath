@@ -1924,18 +1924,18 @@ void game_draw(void)
   /* Draw cities/igloos and (if applicable) penguins: */
   game_draw_cities();
 
+  /* Draw smart bomb icon */
+  draw_smartbomb();
+
   /* Draw normal comets first, then bonus comets */
   game_draw_comets();
 
   /* Draw powerup comet */
   game_draw_powerup();
 
-  /* Draw smart bomb icon */
-  draw_smartbomb();
-  
   /* Draw laser: */
   int i;
-  for(i=0;i<MAX_LASER;i++)
+  for(i = 0; i < MAX_LASER; i++)
   {
     if (laser[i].alive)
     {
@@ -4026,18 +4026,26 @@ void draw_smartbomb(void)
 {
   SDL_Surface* img;
   SDL_Rect rect;
-
+  char* txt = "[Shift]";
+  int fontsize = 18;
   if(!smartbomb_alive)
     return;
-  //FIXME use real smartbomb image here
-  img = images[IMG_TUX_LITTLE];
+  img = images[IMG_BONUS_POWERBOMB];
   if(img)
   {
-    rect.x = SMARTBOMB_ICON_X;//screen->w - img->w;  
-    rect.y = SMARTBOMB_ICON_Y;//screen->h - img->h; 
+    rect.x = screen->w - img->w;  
+    rect.y = (screen->h * 0.7) - img->h; 
     rect.w = img->w;
     rect.h = img->h;
     SDL_BlitSurface(img, NULL, screen, &rect);
+  }
+ 
+  img = T4K_BlackOutline(txt, fontsize, &white);
+  if(img)
+  {
+    rect.y += rect.h;
+    SDL_BlitSurface(img, NULL, screen, &rect);
+    SDL_FreeSurface(img);
   }
 }
 
