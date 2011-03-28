@@ -1307,6 +1307,16 @@ int read_config_file(FILE *fp, int file_type)
       Opts_SetMaxComets(atoi(value));
     }
     
+    else if(0 == strcasecmp(parameter, "use_powerup_comets"))
+    {
+      Opts_SetUsePowerupComets(atoi(value));
+    }
+
+    else if(0 == strcasecmp(parameter, "powerup_freq"))
+    {
+      Opts_SetPowerupFreq(atoi(value));
+    }
+
     else if (0 == strcasecmp(parameter, "keep_score"))
     {
       Opts_SetKeepScore(atoi(value) );
@@ -1748,6 +1758,19 @@ int write_config_file(FILE *fp, int verbose)
     fprintf (fp, "\n# Maximum number of comets. Default is 10.\n");
   }
   fprintf(fp, "max_comets = %d\n", Opts_MaxComets());
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# Whether to enable \"Smart Bomb\" powerup comets.  Default is 1 (yes)\n");
+  }
+  fprintf(fp, "use_powerup_comets = %d\n", Opts_UsePowerupComets());
+
+  if(verbose)
+  {
+    fprintf (fp, "\n# How often \"Smart Bomb\" comets appear.  Default is 100\n");
+    fprintf (fp, "(meaning 1 special comet for every 100 ordinary comets\n");
+  }
+  fprintf(fp, " powerup_freq= %d\n", Opts_PowerupFreq());
 
   if(verbose)
   {

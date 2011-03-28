@@ -3155,16 +3155,16 @@ int add_comet(void)
   /* Record the time at which this comet was created */
   comets[com_found].time_started = SDL_GetTicks();
 
-  int t=-1;   
-  if(!powerup_comet_running)
+  /* If enabled, add powerup comet occasionally:
+   */
+  if(Opts_UsePowerupComets() && !powerup_comet_running)
   {
-    t = rand()%10;
+    int t = rand()%Opts_PowerupFreq();
     if( t < 1 )
     {
       powerup_add_comet();
     } 
   }
-   
   /* comet slot found and question found so return successfully: */
   return 1;
 }
