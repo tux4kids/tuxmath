@@ -153,6 +153,7 @@ static int frame;
 static int neg_answer_picked;
 static int tux_pressing;
 static int doing_answer;
+static int smartbomb_firing;
 static int level_start_wait;
 static int last_bkgd;
 static int igloo_vertical_offset;
@@ -560,6 +561,7 @@ int game_initialize(void)
   total_questions_left = 0;
   level_start_wait = LEVEL_START_WAIT_START;
   neg_answer_picked = 0;
+  smartbomb_firing = 0;
 
   /* (Create and position cities) */
 
@@ -1192,20 +1194,26 @@ void game_handle_answer(void)
   ans[j] = '\0';
   
   number_of_comets = 0;
+
+  /* Register the indices of comets with correct answers in the comets_answer[]
+   * array.  If smartbomb_firing, all answers are automatically correct here
+   */
   for (i = 0; i < Opts_MaxComets(); i++)
   {
     if (comets[i].alive &&
         comets[i].expl == -1 &&
-        0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS+1)) 
+        (smartbomb_firing || 0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS + 1))) 
     {
       comets_answer[number_of_comets] = i;
       number_of_comets++;
     }
   }
 
+  smartbomb_firing = 0;
+
   /* powerup comet */
   if( powerup_comet->comet.alive && 
-      strncmp(powerup_comet->comet.flashcard.answer_string, ans, MC_MAX_DIGITS+1) == 0)
+      strncmp(powerup_comet->comet.flashcard.answer_string, ans, MC_MAX_DIGITS + 1) == 0)
   {
      powerup_ans = 1;
   }
@@ -4005,20 +4013,11 @@ static int num_comets_alive()
 
 void smartbomb_activate(void)
 {
-  int i;
-
   if(!smartbomb_alive)
     return;
-
-  for(i=0; i<Opts_MaxComets(); i++)
-  {
-    comets[i].expl = 0;
-    comets[i].zapped = 1; 
-
-    add_score(25 * comets[i].flashcard.difficulty *
-              (screen->h - comets[i].y + 1) /
-               screen->h);
-  }
+  smartbomb_firing = 1;
+  doing_answer = 1;
+  playsound(SND_EXPLOSION);
 }
 
 
