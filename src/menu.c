@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 
-
+#include "globals.h"
 #include "menu.h"
 #include "titlescreen.h"
 #include "highscore.h"
@@ -102,6 +102,12 @@ int             stop_lan_host(void);
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
 {    
+  DEBUGCODE(debug_setup)
+  {	
+    fprintf(stderr, "From run_menu():\n");
+    print_locale_info(stderr);
+  }
+
   return T4K_RunMenu(
     which,
     return_choice,

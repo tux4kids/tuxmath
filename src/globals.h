@@ -48,10 +48,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <wchar.h>
 
 #include <t4k_common.h>
-
-/* for Tim's feedback speed control code           */
-//#define FEEDBACK_DEBUG
-//#define LINEBREAK
+/* Conditional includes of t4k_common replacement functions
+ * if not supplied by platform:
+ */
+#ifndef HAVE_ALPHASORT
+#include <t4k_alphasort.h>
+#endif
+#ifndef HAVE_SCANDIR
+#include <t4k_scandir.h>
+#endif
 
 /* debug data (now declared in libt4k_common */
 //extern int debug_status;
@@ -104,6 +109,8 @@ extern const int debug_multiplayer;
 #define DEFAULT_STARTING_COMETS 2
 #define DEFAULT_EXTRA_COMETS_PER_WAVE 2
 #define DEFAULT_MAX_COMETS 10
+#define DEFAULT_USE_POWERUP_COMETS 1
+#define DEFAULT_POWERUP_FREQ 10
 #define DEFAULT_SAVE_SUMMARY 1        
 #define DEFAULT_SOUND_HW_AVAILABLE 1
 #define DEFAULT_USE_IGLOOS 1

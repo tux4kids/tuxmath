@@ -1,13 +1,13 @@
 # ASTURIAN TRANSLATION FOR TUX MATH.
 # This file is distributed under the same license as the tuxmath package.
 # XANDRU ARMESTO <xandru@softastur.org>, 2009.
-# Xandru Armesto <xandru@softastur.org>, 2010.
+# Xandru Armesto <xandru@softastur.org>, 2010, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-03-11 13:53-0600\n"
-"PO-Revision-Date: 2010-11-24 20:19+0200\n"
+"PO-Revision-Date: 2011-03-30 21:11+0200\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
 "Language-Team: Softastur alministradores@softastur.org\n"
 "Language: ast\n"
@@ -248,66 +248,64 @@ msgstr ""
 
 #: src/factoroids.c:495
 msgid "Powers of 2"
-msgstr ""
+msgstr "Potencies de 2"
 
 #: src/factoroids.c:496
-#, fuzzy
 msgid "Products of 2 and 3"
-msgstr "Múltiplos de 11 y 12"
+msgstr "Productos de 2 y 3"
 
 #: src/factoroids.c:497
-#, fuzzy
 msgid "Products of 2, 3 and 5"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Productos de 2, 3 y 5"
 
 #: src/factoroids.c:498
-#, fuzzy
 msgid "Products of 2, 3, 5 and 7"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Productos de 2, 3, 5 y 7"
 
 #: src/factoroids.c:499
-#, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Productos de 2, 3, 5, 7 y 11"
 
 #: src/factoroids.c:500
-#, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Productos de 2, 3, 5, 7, 11 y 13"
 
 #: src/factoroids.c:505
-#, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Tolos múltiplos de 2 finen en 2, 4, 6, 8 o 0"
 
 #: src/factoroids.c:506
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
+msgstr "Al sumar los díxitos d'un múltiplu de 3 sal 3 o un múltiplu de 3"
 
 #: src/factoroids.c:507
-#, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
-msgstr "Múltiplos de 13, 14 y 15"
+msgstr "Tolos múltiplos de 5 finen en 0 o 5"
 
 #: src/factoroids.c:508
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
+"Siéntolo muncho pero nun hai una regla cenciella pa identificar múltiplos de "
+"7."
 
 #: src/factoroids.c:509
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
+"Perbaxo de 100, los múltiplos de 11 tinen díxitos iguales, como 55 o 88."
 
 #: src/factoroids.c:510
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
+"Siéntolo muncho pero nun hai una regla cenciella pa identificar múltiplos de "
+"13."
 
 #: src/factoroids.c:527
 msgid "Objectives:"
-msgstr ""
+msgstr "Oxetivos:"
 
 #: src/factoroids.c:528
 msgid "Hints:"
-msgstr ""
+msgstr "Pistes:"
 
 #: src/factoroids.c:744
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
@@ -433,13 +431,12 @@ msgid "Great job!"
 msgstr "¡Bon trabayu!"
 
 #: src/game.c:911
-#, fuzzy
 msgid "Fast-moving powerup comets"
-msgstr "parando los cometes con bonus."
+msgstr "Colos cometes rápidos recargaos"
 
 #: src/game.c:912
 msgid "earn you a secret weapon:"
-msgstr ""
+msgstr "ganes un arma secreta:"
 
 #: src/game.c:929
 msgid "Quit at any time by pressing"
@@ -459,30 +456,32 @@ msgstr "¡Fecho, agora a xugar!"
 
 #: src/game.c:2712
 msgid "The Penguins Have Been Saved!"
-msgstr ""
+msgstr "¡Salvasti a los pingüinos!"
 
 #: src/game.c:2727
 msgid "Final Scores:"
-msgstr ""
+msgstr "Puntuaciones Finales:"
 
 #: src/game.c:2804
-#, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
-msgstr "Conectáu col sirvidor: %s"
+msgstr ""
+"Xuegu en rede termináu pol sirvidor.\n"
+"El sirvidor ta tovía corriendo."
 
 #: src/game.c:2812
-#, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
-msgstr "Conectáu col sirvidor: %s"
+msgstr ""
+"Xuegu en rede termináu.\n"
+"Perdióse la conexón col sirvidor."
 
 #: src/game.c:4585
 #, c-format
 msgid "%s has left the game."
-msgstr ""
+msgstr "%s dexó'l xuegu."
 
 #: src/highscore.c:175 data/menus/menu_strings:9
 msgid "Hall Of Fame"
@@ -527,62 +526,62 @@ msgstr "Pon el to Nome:"
 #: src/mathcards.c:2620
 #, c-format
 msgid "%d + %d = ?"
-msgstr ""
+msgstr "%d + %d = ?"
 
 #: src/mathcards.c:2620
 #, c-format
 msgid "? + %d = %d"
-msgstr ""
+msgstr "? + %d = %d"
 
 #: src/mathcards.c:2620
 #, c-format
 msgid "%d + ? = %d"
-msgstr ""
+msgstr "%d + ? = %d"
 
 #: src/mathcards.c:2621
 #, c-format
 msgid "%d - %d = ?"
-msgstr ""
+msgstr "%d - %d = ?"
 
 #: src/mathcards.c:2621
 #, c-format
 msgid "? - %d = %d"
-msgstr ""
+msgstr "? - %d = %d"
 
 #: src/mathcards.c:2621
 #, c-format
 msgid "%d - ? = %d"
-msgstr ""
+msgstr "%d - ? = %d"
 
 #: src/mathcards.c:2622
 #, c-format
 msgid "%d x %d = ?"
-msgstr ""
+msgstr "%d x %d = ?"
 
 #: src/mathcards.c:2622
 #, c-format
 msgid "? x %d = %d"
-msgstr ""
+msgstr "? x %d = %d"
 
 #: src/mathcards.c:2622
 #, c-format
 msgid "%d x ? = %d"
-msgstr ""
+msgstr "%d x ? = %d"
 
 #: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ %d = ?"
-msgstr ""
+msgstr "%d ÷ %d = ?"
 
 #: src/mathcards.c:2623
 #, c-format
 msgid "? ÷ %d = %d"
-msgstr ""
+msgstr "? ÷ %d = %d"
 
 #: src/mathcards.c:2623
 #, c-format
 msgid "%d ÷ ? = %d"
-msgstr ""
+msgstr "%d ÷ ? = %d"
 
 #: src/menu.c:209
 msgid ""
@@ -591,14 +590,21 @@ msgid ""
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
+"¡Tuxmath ye software llibre y de códigu abiertu!\n"
+"Pues ayudar a ameyoralu.\n"
+"¡Agradécense suxerencies, gráficos y códigu!\n"
+"Llista de corréu de TuxMath en tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:345
-#, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
 "Press a key or click your mouse to start game.\n"
 "See README.txt for more information.\n"
-msgstr "¡Edita'l ficheru 'options' nel to direutoriu del home"
+msgstr ""
+"¡Edita'l ficheru 'options' nel direutoriu del home pa crear un xuegu "
+"personalizáu!\n"
+"¡Calca una tecla o col mur p'aniciar un xuegu.\n"
+"Llei README.txt pa más información."
 
 #: src/menu.c:372
 msgid "How many kids are playing?"
@@ -617,6 +623,8 @@ msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
+"El puertu ta siendo usáu por otru programa d'esti ordenador, probablemente "
+"otru sirvidor de TuxMath"
 
 #: src/menu.c:453
 msgid "Enter Server Name:"
@@ -632,20 +640,25 @@ msgstr ""
 "Calca o prime una tecla pa seleicionar un ficheru de lleición del sirvidor"
 
 #: src/menu.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Server Name:\n"
 "%s\n"
 "Selected Lesson:\n"
 "%s"
-msgstr "Llección Escoyida:"
+msgstr ""
+"Nome del Sirvidor:\n"
+"%s\n"
+"Lleición Seleicionada:\n"
+"%s\n"
 
 #: src/menu.c:517
-#, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
-msgstr "Siéntolo, esta versión nun tien sofitu de rede\n"
+msgstr ""
+"\n"
+"Esta versión nun tien sofitu de rede."
 
 #: src/menu.c:518 src/menu.c:594
 #, c-format
@@ -653,17 +666,16 @@ msgid "Sorry, this version built without network support.\n"
 msgstr "Siéntolo, esta versión nun tien sofitu de rede\n"
 
 #: src/menu.c:528
-#, fuzzy
 msgid "The server is not running."
-msgstr "El sirvidor ta tovía corriendo"
+msgstr "El sirvidor nun ta corriendo."
 
 #: src/menu.c:534
 msgid "Cannot stop server until current game finishes."
-msgstr ""
+msgstr "Nun se pue parar el sirvidor hasta que'l xuegu actual fine."
 
 #: src/menu.c:538
 msgid "The server has been stopped."
-msgstr ""
+msgstr "El sirvidor aparó."
 
 #: src/menu.c:549
 msgid "Detecting servers"
@@ -688,33 +700,28 @@ msgid "Enter your name:"
 msgstr "Mete'l to nome:"
 
 #: src/menu.c:566
-#, fuzzy
 msgid "Connection with server lost"
-msgstr "Conectáu col sirvidor: %s"
+msgstr "Perdióse la conexón col sirvidor"
 
 #: src/menu.c:581
-#, fuzzy
 msgid "Sorry, could not join game."
-msgstr "Nun se pudo coneutar col sirvidor.\n"
+msgstr "Nun se pudo entrar al xuegu."
 
 #: src/menu.c:582
-#, fuzzy
 msgid "Sorry, could not join game.\n"
-msgstr "Nun se pudo coneutar col sirvidor.\n"
+msgstr "Nun se pudo entrar al xuegu.\n"
 
 #: src/menu.c:588
-#, fuzzy
 msgid "Sorry, no server could be found."
-msgstr "Siéntolo, nun pudi encontrar nengún sirvidor."
+msgstr "Nun se pudo atopar nengún sirvidor."
 
 #: src/menu.c:589
 msgid "Sorry, could not connect to server.\n"
 msgstr "Nun se pudo coneutar col sirvidor.\n"
 
 #: src/menu.c:593
-#, fuzzy
 msgid "Sorry, this version built without network support"
-msgstr "Siéntolo, esta versión nun tien sofitu de rede"
+msgstr "Esta versión nun tien sofitu de rede"
 
 #: src/multiplayer.c:203
 #, c-format
@@ -739,16 +746,19 @@ msgstr "Mete un númberu"
 
 #: src/server.c:486
 msgid "Await player name"
-msgstr ""
+msgstr "Aguardando pol nome del xugador"
 
 #: src/titlescreen.c:522
-#, fuzzy
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"
 "Discuss the future of TuxMath at\n"
 "tuxmath-devel@lists.sourceforge.net"
-msgstr "Alderica no que cinca a TuxMath en tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"¡Trabayando nesta estaya!\n"
+"Esta meyora entá nun ta disponible\n"
+"Alderica no que cinca a TuxMath en\n"
+"tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1
 msgid "Number Typing"
@@ -1028,7 +1038,7 @@ msgstr "Xuegu en Rede"
 
 #: data/menus/menu_strings:17
 msgid "Play Alone"
-msgstr "Xugar solo"
+msgstr "Xugar Solu"
 
 #: data/menus/menu_strings:18
 msgid "Play Arcade Game"
@@ -1059,116 +1069,114 @@ msgid "Score Sweep"
 msgstr "Puntuaciones"
 
 #: data/menus/menu_strings:28
-#, fuzzy
 msgid "Stop Server"
-msgstr "Arrancar Sirvidor"
+msgstr "Parar Sirvidor"
 
 #: data/menus/menu_strings:29
 msgid "Complete missions for the Math Command Fleet."
-msgstr ""
+msgstr "Completa misiones pa la Flota Math Command."
 
 #: data/menus/menu_strings:30
 msgid "Customize the game you play"
-msgstr ""
+msgstr "Personaliza'l to xuegu"
 
 #: data/menus/menu_strings:31
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
+"Gana Estrelles Doraes mientres trabayes les habilidaes matemátiques con cada "
+"misión"
 
 #: data/menus/menu_strings:32
 msgid "Easier"
-msgstr ""
+msgstr "Más fácil"
 
 #: data/menus/menu_strings:33
 msgid "Easiest"
-msgstr ""
+msgstr "La más fácil"
 
 #: data/menus/menu_strings:34
 msgid "Easy"
-msgstr ""
+msgstr "Fácil"
 
 #: data/menus/menu_strings:35
-#, fuzzy
 msgid "Exit to your desktop"
-msgstr "¡Failo lo meyor que puedas!"
+msgstr "Colar al escritoriu"
 
 #: data/menus/menu_strings:36
 msgid "Factorize numbers with your laser beam!"
-msgstr ""
+msgstr "¡Descompón en factores col rayu láser!"
 
 #: data/menus/menu_strings:37
 msgid "Hard"
-msgstr ""
+msgstr "Difícil"
 
 #: data/menus/menu_strings:38
 msgid "High Scores"
-msgstr ""
+msgstr "Meyores Puntuaciones"
 
 #: data/menus/menu_strings:39
 msgid "Host a server for your friends to join on"
-msgstr ""
+msgstr "Agospia un sirvidor pa que los collacios puean coneutase"
 
 #: data/menus/menu_strings:40
 msgid "Join on a server hosted by your friends"
-msgstr ""
+msgstr "Entra nun sirvidor agospiáu por un collaciu"
 
 #: data/menus/menu_strings:41
 msgid "Moderate"
-msgstr ""
+msgstr "Moderáu"
 
 #: data/menus/menu_strings:42
 msgid "Play a game of Factoroids with fractions"
-msgstr ""
+msgstr "Xuega a Factoroides con fracciones"
 
 #: data/menus/menu_strings:43
 msgid "Play a game of factoroids with whole numbers"
-msgstr ""
+msgstr "Xuega a factoroides con tolos númberos"
 
 #: data/menus/menu_strings:44
 msgid "Play a game with your friends over LAN"
-msgstr ""
+msgstr "Xuega colos collacios nuna Rede d'Área Llocal (LAN)."
 
 #: data/menus/menu_strings:45
 msgid "Play a hotseat game with your friends"
-msgstr ""
+msgstr "Xuega por turnos colos collacios"
 
 #: data/menus/menu_strings:46
-#, fuzzy
 msgid "Play an arcade style game."
-msgstr "Xuegu Arcade"
+msgstr "Xuegu tipu Arcade."
 
 #: data/menus/menu_strings:47
 msgid "Players with the lowest scores are eliminated every round"
-msgstr ""
+msgstr "Elimínase en cada ronda al xugador cola peor puntuación"
 
 #: data/menus/menu_strings:48
 msgid "Return to the main menu"
-msgstr ""
+msgstr "Tornar al menú principal"
 
 #: data/menus/menu_strings:49
 msgid "Run a demo of the game"
-msgstr ""
+msgstr "Ver una demo del xuegu"
 
 #: data/menus/menu_strings:50
 msgid "See how to play the game"
-msgstr ""
+msgstr "Aprender como xugar"
 
 #: data/menus/menu_strings:51
 msgid "See the credits for the game"
-msgstr ""
+msgstr "Ver los créitos del xuegu"
 
 #: data/menus/menu_strings:52
-#, fuzzy
 msgid "See the project info"
-msgstr "Información del Proyeutu"
+msgstr "Ver la información del proyeutu"
 
 #: data/menus/menu_strings:53
 msgid "Stop a server you've hosted"
-msgstr ""
+msgstr "Parar un sirvidor que tas agospiando"
 
 #: data/menus/menu_strings:54
 msgid "The person with the highest score wins"
-msgstr ""
+msgstr "El xugador cola mayor puntuación gana"
 
 #, fuzzy
 #~ msgid ""
