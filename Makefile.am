@@ -122,6 +122,14 @@ install-nsi-local: all
 	    mv $$file $$file".txt"; \
 	done)
 
+	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/data/missions; \
+	FILES=`find . -type f`; \	
+	for file in $$FILES; do \
+	    echo "Processing "$$file; \
+	    todos -p $$file; \
+	    mv $$file $$file".txt"; \
+	done)
+
 ## NOTE: we don't use any dll files now that we use mingw-cross-env
 ## because the entire executable is statically linked.
 ## copy needed dll files into NSI_INSTALL_DIR:
