@@ -1,7 +1,7 @@
 INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
-Version 1.9.0
+Version 2.0.0
 
-November 09, 2010
+April 11, 2011
 
 For users
 ---------
@@ -22,7 +22,7 @@ and 2009, Fedora 9 and 10) that can be found via http://software.opensuse.org/se
 by searching for "tuxmath" (btw, TuxType is available there, too). Preliminary
 developer builds will have "tuxmath_preview" in the package name instead of just
 "tuxmath", but all are available to everyone.  However, we have not yet added
-TuxMath 1.9.0 to the build service until we work out the added complexity created by
+TuxMath 2.0.0 to the build service until we work out the added complexity created by
 splitting some of the code out to form the t4k_common library.
 
 For Windows/Macs: visit http://tux4kids.alioth.debian.org (note that
@@ -78,8 +78,11 @@ demanding, but nothing compared to a modern 3D game.  As a test, I have started
 10 instances of TuxMath on a mid-range 2009 desktop machine with no visible
 slowing.
 
-Slower machines will, however, haved a noticeable delay at program startup
-related to scaling of all the SVG images introduced in version 1.8.0.
+When TuxMath is started for the first time after installation, there will be
+a delay of a few to many seconds (depending on machine speed) while the images
+are scaled to the correct size for the OS's fullscreen resolution.  This only
+occurs the first time through, as the scaled images are cached to disk for 
+rapid access on subsequent runs.
 
 
 Video Display
@@ -121,15 +124,21 @@ accessed using the pointer (ie, a mouse, trackball, touch-screen monitor,
 touchpad, etc.).  (See "README.txt" or the game's "--usage" display).
 
 
-Required Libraries
-------------------
-(NEW) - For some time, Tux Math and Tux Typing have informally shared a lot of code.  As of Tux Math 1.9.0, the common code has been factored out into a real library, t4k_common.  To build Tux Math, t4k_common must first be built and installed.  It can built very easily either with CMake ("cmake; make; sudo make install") or Autotools ("./configure; make; sudo make install") - see the documentation for tk4_common for further information. In the near future, t4k_common should be provided by your distribution's package manager.
+Required Libraries ------------------ 
 
-Tux Math uses the Simple DirectMedia Layer library (libSDL) to
-display graphics, receive keyboard and mouse input, and play sounds.  (It was
-designed around libSDL version 1.2.5, but later 1.2.x versions should work.
-libSDL 1.3 will require source code adaptations in future versions of TuxMath
-when it is finally released).
+(NEW) - For some time, Tux Math and Tux Typing have informally shared a lot of
+code.  As of Tux Math 1.9.0, the common code has been factored out into a real
+library, t4k_common.  To build Tux Math, t4k_common must first be built and
+installed.  It can built very easily either with CMake ("cmake; make; sudo make
+install") or Autotools ("./configure; make; sudo make install") - see the
+documentation for tk4_common for further information. In the near future,
+t4k_common should be provided by your distribution's package manager.
+
+Tux Math uses the Simple DirectMedia Layer library (libSDL) to display
+graphics, receive keyboard and mouse input, and play sounds.  (It was designed
+around libSDL version 1.2.5, but later 1.2.x versions should work.  libSDL 1.3
+will require source code adaptations in future versions of TuxMath when it is
+finally released).
 
 It uses the SDL helper library "SDL_image" to load the game's graphics data, as
 they are in PNG (Portable Network Graphic) format.
@@ -157,11 +166,11 @@ purposes, TuxMath can be built without SDL_Pango by "./configure
 --without-sdlpango".
 
 Also, starting with v1.8.0, TuxMath uses librsvg2 to support Scalable Vector
-Graphics (SVG) images, mostly used so far in the menus.  This require    the
+Graphics (SVG) images, mostly used so far in the menus. This require the
 librsvg2-dev package on Debian/Ubuntu.
 
 TuxMath v1.8.0 also requires SDL_net if the new LAN multiplayer mode is
-desired.  As with SDL_Pango, there are configure-time scripts to build without
+desired.  As with SDL_Pango, there are configure-time options to build without
 SVG (--without-rsvg) or network (--without-sdlnet) support if these features
 are not desired or if the required libraries are unavailable.
 
@@ -180,7 +189,7 @@ SDL_Pango, both the packages with and without fonts should work fine - the
 fonts will just take up a bit of space on your hard drive.
     
 Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and libiconv are all
-free, Open Source libraries, released under the GNU Lesser General Public
+Free, Open Source libraries, released under the GNU Lesser General Public
 License (LGPL).
 
 Getting SDL
@@ -203,7 +212,6 @@ Specifically, the download pages for each are here:
 	SDL_mixer:  http://www.libsdl.org/projects/SDL_mixer/
 	SDL_ttf:    http://www.libsdl.org/projects/SDL_ttf/
 	SDL_Pango:  http://sourceforge.net/projects/sdlpango/
-	SDL_gfx:    http://www.ferzkopp.net/Software/SDL_gfx-2.0/
 
 
 Using SDL Packages
@@ -265,12 +273,15 @@ The Git repository is located at:
 Compiling the Program: Automake (Linux)
 --------------------------------------
 
-If you are using a source tar.gz package (e.g., tuxmath_w_fonts-1.8.0-tar.gz),
+If you are using a source tar.gz package (e.g., tuxmath_w_fonts-2.0.0-tar.gz),
 all you need to do is unpack the archive in a convient location and do a
 typical configure, make, and install.  In other words, the tarball contains a
 complete "GNU Build System".  Note, however, that you will need the "-dev"
 files for SDL, SDL_image, SDL_mixer, SDL_ttf/SDL_Pango, and SDL_net & librsvg2,
 if desired.
+
+Note that you must install t4k_common before trying to build tuxmath.  t4k_common
+has the same library dependencies as tuxmath proper.
 
 (NOTE: -If you have built other packages from source, your system is virtually
 certain to already contain the other standard libs used at compile or run time.
@@ -278,10 +289,10 @@ If you haven't built anything before, you might need to install some other
 packages.  Notably, on Ubuntu the needed tools are included in a package called
 "build-essential").
 
-For example:
+For example (assuming you have already built and installed t4k_common):
  
-tar -xzf tuxmath_w_fonts-1.8.0-tar.gz
-cd tuxmath_w_fonts-1.8.0
+tar -xzf tuxmath_w_fonts-2.0.0-tar.gz
+cd tuxmath_w_fonts-2.0.0
 ./configure
 make
 make install.  (you might need "su" or "sudo" for this)
@@ -343,12 +354,12 @@ From the top-level tuxmath directory, do the following:
 By default, the CMake build includes support for SDL_Pango, if the
 library & its header can be found.
 
-On Mac OS X, this builds a static "intl" library (for internationalization
-support) and creates a .dmg file. Building requires the full gettext
-infrastructure; see below under "Mac OS X" for more details.
-
-(NOTE: the CMake build has not been tested for 1.8.0 and likely will have some
-problems related to new library dependencies).
+(NOTE: as of this writing, the CMake build is not quite as "smart" as the
+automake build.  It doesn't directly test for pthreads, and may drag in some
+dependencies that aren't really needed.  If it works for you, fine, but
+remember that the autotools build is the officially recommended approach.
+Fixing the minor issues with the CMake build is left as an exercise to the
+reader, who is then encouraged to submit said patch ;-)
 
 Windows 
 -------
@@ -383,9 +394,13 @@ tree under buildw32/ called "setup_mingw-cross-env.sh" that will do all of this 
 (tested on Debian and Ubuntu systems). Be aware that if you have an existing installation at
 /opt/mingw-cross-env, it will be clobbered.
  
-A copy of t4k_common.mk is provided in the tuxmath source tree until we get it added to mingw-cross-env itself.
+A copy of t4k_common.mk is provided in the tuxmath source tree until we get it
+added to mingw-cross-env itself.
 
-Now you should be all set to do the actual cross-build.  If you put the cross-build setup in /usr/local/mingw-cross-env, and you are building from a git clone, you can simply cd to tuxmath's buildw32 directory and use the simple scripts there:
+Now you should be all set to do the actual cross-build.  If you put the
+cross-build setup in /usr/local/mingw-cross-env, and you are building from a
+git clone, you can simply cd to tuxmath's buildw32 directory and use the simple
+scripts there:
 
 $ ./tmwin.sh
 
@@ -410,6 +425,10 @@ ordinary user privileges, even if installed by the administrator.
 
 Mac OS X:
 ----------------------------------
+
+(NOTE - The CMake build has NOT been tested on OS-X recently.  It almost
+certainly will require some modifications.  Hopefully I will get time to work
+on this sometime soon - DSB).
 
 There are several options for compiling on OS X.  If you just want to do a
 local build, using macports (http://www.macports.org/) is perhaps the easiest

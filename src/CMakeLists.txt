@@ -33,6 +33,7 @@ set(SOURCES_TUXMATH
   fileops_media.c
   game.c
   menu.c
+  menu_lan.c
   highscore.c
   lessons.c
   mathcards.c

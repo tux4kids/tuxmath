@@ -150,6 +150,8 @@ int Opts_Initialize(void)
   game_options->starting_comets = DEFAULT_STARTING_COMETS;
   game_options->extra_comets_per_wave = DEFAULT_EXTRA_COMETS_PER_WAVE;
   game_options->max_comets = DEFAULT_MAX_COMETS;
+  game_options->use_powerup_comets = DEFAULT_USE_POWERUP_COMETS;
+  game_options->powerup_freq = DEFAULT_POWERUP_FREQ;
   game_options->save_summary = DEFAULT_SAVE_SUMMARY;
   game_options->sound_hw_available = DEFAULT_SOUND_HW_AVAILABLE;
   game_options->use_feedback = DEFAULT_USE_FEEDBACK;
@@ -481,6 +483,16 @@ void Opts_SetMaxComets(int val)
             MAX_MAX_COMETS);
   }
   game_options->max_comets = val;
+}
+
+void Opts_SetUsePowerupComets(int val)
+{
+  game_options->use_powerup_comets = int_to_bool(val);
+}
+
+void Opts_SetPowerupFreq(int val)
+{
+  game_options->powerup_freq = val;
 }
 
 
@@ -857,15 +869,34 @@ int Opts_MaxComets(void)
   return game_options->max_comets;
 }
 
-/* FIXME maybe not good idea to have a malloc() in a function like this: */
-char* Opts_NextMission(void)
+int Opts_UsePowerupComets(void)
 {
-  char* str;
-  int length;
-  length = strlen(game_options->next_mission);
-  str = malloc((length * sizeof(char)) + 1);
-  strcpy(str, game_options->next_mission);
-  return str;
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_UsePowerupComets(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->use_powerup_comets;
+}
+
+int Opts_PowerupFreq(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_PowerupFreq(): game_options not valid!\n");
+    return GAME_OPTS_INVALID;
+  }
+  return game_options->powerup_freq;
+}
+
+const char* Opts_NextMission(void)
+{
+  if (!game_options)
+  {
+    fprintf(stderr, "\nOpts_NextMission(): game_options not valid!\n");
+    return NULL;
+  }
+  return (const char*) game_options->next_mission;
 }
 
 

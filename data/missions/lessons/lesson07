@@ -34,6 +34,7 @@ use_feedback = 1
 starting_comets = 2
 extra_comets_per_wave = 2
 max_comets = 10
+use_powerup_comets = 0
 speed = 1.00
 max_speed = 20.00
 danger_level = 0.35

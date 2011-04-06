@@ -27,7 +27,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 /* Project includes: -----------------*/
-#include <locale.h>
 #include "tuxmath.h"
 #include "options.h"
 #include "mathcards.h"
@@ -52,6 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #endif
 
 /* C library includes: -----------------*/
+#include <locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -192,6 +192,8 @@ void print_locale_info(FILE* fp)
     fprintf(fp, "textdomain(PACKAGE) returned: %s\n",
             tuxmath_locale.textdomain_ret);
     fprintf(fp, "gettext(\"Help\"): %s\n\n", gettext("Help"));
+    fprintf(fp, "_(\"Help\"): %s\n\n", _("Help"));
+    fprintf(fp, "dgettext(\"tuxmath\", \"Help\"): %s\n", dgettext("tuxmath", "Help"));
 }
 
 

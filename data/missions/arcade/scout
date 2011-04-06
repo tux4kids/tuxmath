@@ -1,5 +1,4 @@
 # arcade_scout lesson file
-
 play_through_list = 0
 allow_speedup = 1
 use_feedback = 0
@@ -40,6 +39,8 @@ max_answer = 20
 starting_comets = 2
 extra_comets_per_wave = 2
 max_comets = 10
+use_powerup_comets = 1
+powerup_freq = 50
 speed = 1.00
 max_speed = 40.00
 speedup_factor = 1.15

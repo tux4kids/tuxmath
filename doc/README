@@ -2,9 +2,9 @@
 the Linux Penguin
 -----------------------------------------------------------------
 
-November 12, 2010
+Aprill 11, 2011
 
-For Tuxmath-1.9.0
+For Tuxmath-2.0.0
 
 Objective --------- 
 
@@ -73,7 +73,8 @@ then press [ENTER / RETURN / SPACEBAR].  You can also type 'J' to move
 down or 'K' to move up, for those accustomed to certain text editors
 ;). You can also use the mouse to click the menu item.
 
-Pressing [ESCAPE] will quit the program.
+Pressing [ESCAPE] will "go back" one level in the menus, or quit the program if
+pressed at the top level.
 
 Title Screen
 ------------
@@ -122,34 +123,28 @@ will be settable from within the game.
 Network Game:
 ------------------
 
-Tuxmath now provides head-to-head competition over a local area
-network! All players see the same questions, and whoever answers first
-gets the points for that question. The game play is cooperative,
-however, in that all participating players help defend all the igloos.
-Up to 16 players can participate in a single game (this can be
-increased extremely simply with a recompilation, if desired).
+Tuxmath now provides head-to-head competition over a local area network! All
+players see the same questions, and whoever answers first gets the points for
+that question. The game play is cooperative, however, in that all participating
+players help defend all the igloos.  Up to 16 players can participate in a
+single game (this can be increased extremely simply with a recompilation, if
+desired).
 
-To set up network play, the tuxmath server program needs to be
-started. Simply go to Network Game->Run Server and follow the
-directions. You just need to type in a name to identify the server to
-players (such as "Tux Server").  If we are able to use threads on your
-platform, you will also be prompted to pick the lesson file to be used
-by the server.
+To set up network play, the tuxmath server program needs to be started. Simply
+go to Network Game->Run Server and follow the directions. You just need to type
+in a name to identify the server to players (such as "Tux Server").  If we are
+able to use threads on your platform, you will also be prompted to pick the
+lesson file to be used by the server.
 
-Once the server is running, players can connect by going to Network
-Game->Join Game.  TuxMath should automatically detect the server if it
-is running on the local network.  The player will be asked to enter a
-nickname, then click an arrow to indicate that he/she is ready to
-start.  When everyone has indicated that they are ready, the game will
-start.
+Once the server is running, players can connect by going to Network Game->Join
+Game.  TuxMath should automatically detect the server if it is running on the
+local network.  The player will be asked to enter a nickname, then click an
+arrow to indicate that he/she is ready to start.  A list of currently connected
+players is displayed during this process. When all players have indicated that
+they are ready, the game will start.
 
-Note that while network play is functional, it needs more testing, and
-some aspects have not yet been addressed:
-
-- If the server program is running on more than one computer on the
-  local network, TuxMath will get confused and not connect. A message
-  will be displayed telling you to stop all the servers except one,
-  and try again.
+Note that while network play is functional, it needs more testing, and some
+aspects have not yet been addressed:
 
 - While a network game is in progress, do not play a non-network game
   on the same computer - this will also confuse TuxMath (because
@@ -166,30 +161,44 @@ some aspects have not yet been addressed:
 Play With Friends:
 ------------------
 
-Compete with your friends by playing in a turns-based fashion! The
-math difficulty levels are the same as for the "Arcade" games. Note
-that this involves rotating play at a single computer rather than
-network play, as described above.
+Compete with your friends by playing in a turns-based fashion! The math
+difficulty levels are the same as for the "Arcade" games. Note that this
+involves rotating play at a single computer rather than network play, as
+described above.
 
 Factoroids!
 -----------
 
-TuxMath now includes an entire new video game! Factoroids combines
-math drill in factoring and fraction simplification, with video skill
-in shooting the floating asteroids before they smash the ship. The
-ship is maneuvered with the arrow keys in the traditional fashion:
+As of version 2.0.0, the Factoroids game has been extensively revised to make
+it much more fun (and less cumbersome) to play, and hopefully more educational
+as well.  Now, Tux's ship is equipped with a set of six "Prime Number Guns",
+for the numbers 2, 3, 5, 7, 11, and 13.
 
-        R arrow - rotate clockwise
-        L arrow - rotate counterclockwise
-        Up arrow - thrust
-        Enter or Space - shoot
+In the first wave, Tux only has the 2 Gun, and all of the asteroids are powers
+of 2.  For the second wave, the 3 Gun is added, so the targets are powers of 2,
+powers of 3, or their multiples.  Another Prime Gun is added with each wave.
 
-Factors: to shoot a rock, first type in one of its factors, then fire.
-Prime numbers can simply be blasted without entering any number.
+Factoroids now supports mouse control of Tux's ship:
+    - lateral mouse movement rotates ship.
+    - left mouse button: fire
+    - right mouse button: thrust
+    - scroll up/down: change Prime Number Gun
 
-Fractions: type in a number that can simplify the fraction (i.e. a
-common factor of the numerator and denominator).  For example, 7/70
-could be simplified by shooting it with the number 7.
+As before, the ship can also be steered with the arrow keys.  The weapon can be
+cycled in either direction with the [D] and [F] keys, and fired with [Space].
+
+Factoroids now has three different powerups:
+    - Shields: allows ship to smash through rocks like a battering ram for ten
+      seconds
+    - Stealth: allows ship to pass through rocks unharmed
+    - Smart Bomb: simultaneously zaps all rocks with the currently selected
+      Prime Number Gun.
+
+One powerup is awarded at the successful completion of each wave.  It can be
+activated by pressing [Shift].  You can have only one powerup at a time -
+unused powerups are lost.
+
+
 
 Help: this offers a short tutorial to teach game play for the main comet game.
 ----
@@ -303,6 +312,16 @@ in place of the bonus progress bar, and one of the igloos/cities will
 be rebuilt after the current wave.
 
 
+Earning "Smart Bomb" Powerup
+----------------------------
+
+In the "Arcade" games, there will occasionally be special yellow comets
+that fly rapidly across the screen in a horizontal direction.  You have
+to be quick to shoot them (and they are admittedly a little hard to
+read), but they earn you a powerful weapon that can zap all the comets
+on the screen.  The "smart bombs" can only be used once (until another
+one is earned), so use them wisely.
+
 Ending The Game
 ---------------
 
@@ -334,15 +353,18 @@ Shortcut Keys
 
 The following shortcuts are supported during game play:
 
-      'F10':        switches between windowed and full-screen display mode.
-      'P' or 'Tab': pauses the game, if allowed. The included "Math Command
+      [F10]:        switches between windowed and full-screen display mode.
+      [P] or [Tab]: pauses the game, if allowed. The included "Math Command
                     Training Academy" lessons allow pausing, while the "Arcade"
                     games do not.
-      Up Arrow:     increase speed by 20%, if allowed.
-      Down Arrow:   decrease speed by 20%, if allowed.  Speed changes
+      [Up Arrow]:   increase speed by 20%, if allowed.
+      [Down Arrow]  decrease speed by 20%, if allowed.  Speed changes
                     are allowed when pausing is enabled.
-      'Esc':        leave current game and display the menu.
-
+      [Esc]:        leave current game and display the menu.
+      [Shift]:      (Arcade game only) - activate "Smart Bomb" to zap 
+                    everything on the screen.  This can only be used once,
+                    until you earn another one by zapping another yellow
+                    "powerup" comet.
 
 
 Setting Game Options
