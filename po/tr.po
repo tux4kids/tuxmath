@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-03-11 13:53-0600\n"
+"POT-Creation-Date: 2011-04-06 06:00-0500\n"
 "PO-Revision-Date: 2008-12-07 15:54+0200\n"
 "Last-Translator: Doruk Fisek <dfisek@fisek.com.tr>\n"
 "Language-Team: Turkish <gnu-tr-u12a@lists.sourceforge.net>\n"
@@ -160,60 +160,60 @@ msgid "ADDITIONAL CODE"
 msgstr ""
 
 #: src/credits.c:74
-msgid "LEAD ARTIST"
+msgid "LEAD ARTISTS"
 msgstr ""
 
-#: src/credits.c:77
+#: src/credits.c:78
 msgid "ADDITIONAL ART"
 msgstr ""
 
-#: src/credits.c:83
+#: src/credits.c:84
 msgid "SOUND EFFECTS"
 msgstr ""
 
-#: src/credits.c:86
+#: src/credits.c:87
 msgid "MUSIC"
 msgstr ""
 
-#: src/credits.c:96
+#: src/credits.c:97
 msgid "PACKAGERS"
 msgstr ""
 
-#: src/credits.c:101
+#: src/credits.c:102
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr ""
 
-#: src/credits.c:104
+#: src/credits.c:105
 msgid "TESTERS"
 msgstr ""
 
-#: src/credits.c:116
+#: src/credits.c:117
 msgid "USER WEBSITE"
 msgstr ""
 
-#: src/credits.c:119
+#: src/credits.c:120
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
 msgstr ""
 
-#: src/credits.c:122
+#: src/credits.c:123
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
 
-#: src/credits.c:124
+#: src/credits.c:125
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
 
-#: src/credits.c:126
+#: src/credits.c:127
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 
-#: src/credits.c:128
+#: src/credits.c:129
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
@@ -445,7 +445,7 @@ msgid ""
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4585
+#: src/game.c:4587
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -611,7 +611,7 @@ msgid ""
 "Sorry, this version built withour network support."
 msgstr ""
 
-#: src/menu.c:518 src/menu.c:594
+#: src/menu.c:518 src/menu.c:596
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
@@ -628,49 +628,23 @@ msgstr ""
 msgid "The server has been stopped."
 msgstr ""
 
-#: src/menu.c:549
-msgid "Detecting servers"
+#: src/menu.c:555
+msgid "Sorry, could not connect to server."
 msgstr ""
 
-#: src/menu.c:549
-msgid "Please wait"
-msgstr ""
-
-#: src/menu.c:560
-#, c-format
-msgid "Connected to server: %s"
-msgstr ""
-
-#: src/menu.c:561
-#, c-format
-msgid "%s"
-msgstr ""
-
-#: src/menu.c:562 src/multiplayer.c:278 src/multiplayer.c:280
-msgid "Enter your name:"
-msgstr ""
-
-#: src/menu.c:566
-msgid "Connection with server lost"
-msgstr ""
-
-#: src/menu.c:581
-msgid "Sorry, could not join game."
-msgstr ""
-
-#: src/menu.c:582
-msgid "Sorry, could not join game.\n"
-msgstr ""
-
-#: src/menu.c:588
-msgid "Sorry, no server could be found."
-msgstr ""
-
-#: src/menu.c:589
+#: src/menu.c:556
 msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
-#: src/menu.c:593
+#: src/menu.c:576
+msgid "Sorry, game already in progress"
+msgstr ""
+
+#: src/menu.c:582
+msgid "Connection with server was lost"
+msgstr ""
+
+#: src/menu.c:595
 msgid "Sorry, this version built without network support"
 msgstr ""
 
@@ -681,6 +655,10 @@ msgstr ""
 
 #: src/multiplayer.c:278
 msgid "Who is playing first?"
+msgstr ""
+
+#: src/multiplayer.c:278 src/multiplayer.c:280
+msgid "Enter your name:"
 msgstr ""
 
 #: src/multiplayer.c:280
@@ -710,237 +688,292 @@ msgstr ""
 "tuxmath-devel@lists.sourceforge.net e-posta listesinde TuxMath'in geleceğini "
 "tartışabilirsin"
 
-#: data/missions/lessons/descr_lessons:1
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
 msgid "Number Typing"
 msgstr "Sayı Yazmak"
 
-#: data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
 msgid "Addition: 1 to 3"
 msgstr "Toplama: 1'den 3'e"
 
-#: data/missions/lessons/descr_lessons:3
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
 msgid "Addition: 0 to 5"
 msgstr "Toplama: 0'dan 5'e"
 
-#: data/missions/lessons/descr_lessons:4
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
 msgid "Addition: Sums to 10"
 msgstr "Toplama: Toplamı 10"
 
-#: data/missions/lessons/descr_lessons:5
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
 msgid "Addition: Sums to 15"
 msgstr "Toplama: Toplamı 15"
 
-#: data/missions/lessons/descr_lessons:6
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
 msgid "Addition: Sums to 20"
 msgstr "Toplama: Toplamı 20"
 
-#: data/missions/lessons/descr_lessons:7
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
 msgid "Addition: Two Digit Numbers"
 msgstr "Toplama : İki Basamaklı Sayılar"
 
-#: data/missions/lessons/descr_lessons:8
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
 msgid "Addition: Missing Numbers"
 msgstr "Toplama : Eksik Sayılar"
 
-#: data/missions/lessons/descr_lessons:9
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
 msgid "Subtraction: 0 to 10"
 msgstr "Çıkarma: 0'dan 10'a"
 
-#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
 msgid "Subtraction: 0 to 20"
 msgstr "Çıkarma: 0'dan 20'ye"
 
-#: data/missions/lessons/descr_lessons:11
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
 msgid "Subtraction: Two Digit Numbers"
 msgstr "Çıkarma: İki Basamaklı Sayılar"
 
-#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
 msgid "Addition and Subtraction Review"
 msgstr "Toplama ve Çıkarma Değerlendirmesi"
 
-#: data/missions/lessons/descr_lessons:13
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 3"
 msgstr "Çarpma: 0'dan 3'e"
 
-#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
 msgid "Multiples of 2"
 msgstr "2'nin Katları"
 
-#: data/missions/lessons/descr_lessons:15
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
 msgid "Multiples of 3"
 msgstr "3'ün Katları"
 
-#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
 msgid "Multiples of 4"
 msgstr "4'ün Katları"
 
-#: data/missions/lessons/descr_lessons:17
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
 msgid "Multiples of 5"
 msgstr "5'in Katları"
 
-#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
 msgid "Multiplication: 0 to 5"
 msgstr "Çarpma: 0'dan 5'e"
 
-#: data/missions/lessons/descr_lessons:19
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
 msgid "Multiples of 6"
 msgstr "6'nın Katları"
 
-#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
 msgid "Multiples of 7"
 msgstr "7'nin Katları"
 
-#: data/missions/lessons/descr_lessons:21
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
 msgid "Multiplication: 0 to 7"
 msgstr "Çarpma: 0'dan 7'ye"
 
-#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
 msgid "Multiples of 8"
 msgstr "8'in Katları"
 
-#: data/missions/lessons/descr_lessons:23
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
 msgid "Multiples of 9"
 msgstr "9'un Katları"
 
-#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
 msgid "Multiples of 10"
 msgstr "10'un Katları"
 
-#: data/missions/lessons/descr_lessons:25
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
 msgid "Multiplication: 0 to 10"
 msgstr "Çarpma: 0'dan 10'a"
 
-#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
 msgid "Multiples of 11 and 12"
 msgstr "11 ve 12'nin Katları"
 
-#: data/missions/lessons/descr_lessons:27
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
 msgid "Multiplication: 0 to 12"
 msgstr "Çarpma: 0'dan 12'ye"
 
-#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
 msgid "Multiples of 13, 14, and 15"
 msgstr "13, 14 ve 15'in Katları"
 
-#: data/missions/lessons/descr_lessons:29
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
 msgid "Multiplication: 0 to 15"
 msgstr "Çarpma: 0'dan 15'e"
 
-#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
 msgid "Multiplication: Missing Numbers"
 msgstr "Çarpma: Eksik Sayılar"
 
-#: data/missions/lessons/descr_lessons:31
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
 msgid "Division by 2"
 msgstr "2'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:64
+#: data/missions/lessons/descr_lessons:65
 msgid "Division by 3"
 msgstr "3'e Bölme"
 
-#: data/missions/lessons/descr_lessons:33
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
 msgid "Division by 4"
 msgstr "4'e Bölme"
 
-#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
 msgid "Division by 5"
 msgstr "5'e Bölme"
 
-#: data/missions/lessons/descr_lessons:35
+#: data/missions/lessons/descr_lessons:70
+#: data/missions/lessons/descr_lessons:71
 msgid "Division: 1 to 5"
 msgstr "Bölme: 1'den 5'e"
 
-#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
 msgid "Division by 6"
 msgstr "6'ya Bölme"
 
-#: data/missions/lessons/descr_lessons:37
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
 msgid "Division by 7"
 msgstr "7'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:76
+#: data/missions/lessons/descr_lessons:77
 msgid "Division by 8"
 msgstr "8'e Bölme"
 
-#: data/missions/lessons/descr_lessons:39
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
 msgid "Division by 9"
 msgstr "9'a Bölme"
 
-#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
 msgid "Division by 10"
 msgstr "10'a Bölme"
 
-#: data/missions/lessons/descr_lessons:41
+#: data/missions/lessons/descr_lessons:82
+#: data/missions/lessons/descr_lessons:83
 msgid "Division: 1 to 10"
 msgstr "Bölme: 1'den 10'a"
 
-#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
 msgid "Division by 11 and 12"
 msgstr "11 ve 12'ye Bölme"
 
-#: data/missions/lessons/descr_lessons:43
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
 msgid "Division: 1 to 12"
 msgstr "Bölme: 1'den 12'ye"
 
-#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:88
+#: data/missions/lessons/descr_lessons:89
 msgid "Division by 13, 14, and 15"
 msgstr "13, 14 ve 15'e Bölme"
 
-#: data/missions/lessons/descr_lessons:45
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
 msgid "Division: 1 to 15"
 msgstr "Bölme: 1'den 15'e"
 
-#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
 msgid "Multiplication and Division Review"
 msgstr "Çarpım ve Bölme Değerlendirmesi"
 
-#: data/missions/lessons/descr_lessons:47
+#: data/missions/lessons/descr_lessons:94
+#: data/missions/lessons/descr_lessons:95
 msgid "Typing Negative Numbers"
 msgstr "Negatif Sayıların Yazımı"
 
-#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
 msgid "Subtraction: Negative Answers"
 msgstr "Çıkartma: Negatif Sonuçlar"
 
-#: data/missions/lessons/descr_lessons:49
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
 msgid "Adding Negatives to Positives"
 msgstr "Negatiflerle Pozitiflerin Toplanması"
 
-#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:100
+#: data/missions/lessons/descr_lessons:101
 #, fuzzy
 msgid "Adding Positives to Negatives"
 msgstr "Negatiflerin Negatiflerle Toplanması"
 
-#: data/missions/lessons/descr_lessons:51
+#: data/missions/lessons/descr_lessons:102
+#: data/missions/lessons/descr_lessons:103
 msgid "Subtracting Negatives From Positives"
 msgstr "Pozitiflerden Negatiflerin Çıkartılması"
 
-#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:104
+#: data/missions/lessons/descr_lessons:105
 #, fuzzy
 msgid "Subtracting Positives From Negatives"
 msgstr "Negatiflerin Negatiflerden Çıkartılması"
 
-#: data/missions/lessons/descr_lessons:53
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
 msgid "Adding Negatives to Negatives"
 msgstr "Negatiflerin Negatiflerle Toplanması"
 
-#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
 msgid "Subtracting Negatives From Negatives"
 msgstr "Negatiflerin Negatiflerden Çıkartılması"
 
-#: data/missions/lessons/descr_lessons:55
+#: data/missions/lessons/descr_lessons:110
+#: data/missions/lessons/descr_lessons:111
 msgid "Negative and Positive Numbers Review"
 msgstr "Negatif ve Pozitif Sayıların Değerlendirmesi"
 
-#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
 msgid "Multiplication and Division of Negatives"
 msgstr "Negatif Sayıların Çarpma ve Bölmesi"
 
-#: data/missions/lessons/descr_lessons:57
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
 msgid "Multiplication of Positives and Negatives"
 msgstr "Pozitiflerle Negatiflerin Çarpılması"
 
-#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:116
+#: data/missions/lessons/descr_lessons:117
 msgid "Division of Positives and Negatives"
 msgstr "Pozitif ve Negatiflerin Bölünmesi"
 
@@ -1026,72 +1059,73 @@ msgid "Stop Server"
 msgstr ""
 
 #: data/menus/menu_strings:29
+#, fuzzy
+msgid "Additional options"
+msgstr "Toplama: 1'den 3'e"
+
+#: data/menus/menu_strings:30
 msgid "Complete missions for the Math Command Fleet."
 msgstr ""
 
-#: data/menus/menu_strings:30
+#: data/menus/menu_strings:31
 msgid "Customize the game you play"
 msgstr ""
 
-#: data/menus/menu_strings:31
+#: data/menus/menu_strings:32
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
 
-#: data/menus/menu_strings:32
+#: data/menus/menu_strings:33
 msgid "Easier"
 msgstr ""
 
-#: data/menus/menu_strings:33
+#: data/menus/menu_strings:34
 msgid "Easiest"
 msgstr ""
 
-#: data/menus/menu_strings:34
+#: data/menus/menu_strings:35
 msgid "Easy"
 msgstr ""
 
-#: data/menus/menu_strings:35
+#: data/menus/menu_strings:36
 #, fuzzy
 msgid "Exit to your desktop"
 msgstr "En iyisini yap!"
 
-#: data/menus/menu_strings:36
+#: data/menus/menu_strings:37
 msgid "Factorize numbers with your laser beam!"
 msgstr ""
 
-#: data/menus/menu_strings:37
+#: data/menus/menu_strings:38
 msgid "Hard"
 msgstr ""
 
-#: data/menus/menu_strings:38
-msgid "High Scores"
-msgstr ""
-
 #: data/menus/menu_strings:39
-msgid "Host a server for your friends to join on"
+msgid "Hardest"
 msgstr ""
 
 #: data/menus/menu_strings:40
-msgid "Join on a server hosted by your friends"
+msgid "High Scores"
 msgstr ""
 
 #: data/menus/menu_strings:41
-msgid "Moderate"
+msgid "Join a game on a server running on your network"
 msgstr ""
 
 #: data/menus/menu_strings:42
-msgid "Play a game of Factoroids with fractions"
+msgid "Moderate"
 msgstr ""
 
 #: data/menus/menu_strings:43
-msgid "Play a game of factoroids with whole numbers"
+msgid "Play a game of Factoroids with fractions"
 msgstr ""
 
 #: data/menus/menu_strings:44
-msgid "Play a game with your friends over LAN"
+msgid "Play a game of factoroids with whole numbers"
 msgstr ""
 
 #: data/menus/menu_strings:45
-msgid "Play a hotseat game with your friends"
+msgid "Play a game with your friends on a local network"
 msgstr ""
 
 #: data/menus/menu_strings:46
@@ -1100,35 +1134,47 @@ msgid "Play an arcade style game."
 msgstr "Eğlence Oyunu Oyna"
 
 #: data/menus/menu_strings:47
-msgid "Players with the lowest scores are eliminated every round"
+msgid "Play and learn on your own"
 msgstr ""
 
 #: data/menus/menu_strings:48
-msgid "Return to the main menu"
+msgid "Players with the lowest scores are eliminated every round"
 msgstr ""
 
 #: data/menus/menu_strings:49
-msgid "Run a demo of the game"
+msgid "Return to the main menu"
 msgstr ""
 
 #: data/menus/menu_strings:50
-msgid "See how to play the game"
+msgid "Run a demo of the game"
 msgstr ""
 
 #: data/menus/menu_strings:51
-msgid "See the credits for the game"
+msgid "See how to play the game"
 msgstr ""
 
 #: data/menus/menu_strings:52
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:53
 #, fuzzy
 msgid "See the project info"
 msgstr "Proje Bilgisi"
 
-#: data/menus/menu_strings:53
-msgid "Stop a server you've hosted"
+#: data/menus/menu_strings:54
+msgid "Start a server for a network game"
 msgstr ""
 
-#: data/menus/menu_strings:54
+#: data/menus/menu_strings:55
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:56
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:57
 msgid "The person with the highest score wins"
 msgstr ""
 
