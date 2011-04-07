@@ -734,10 +734,6 @@ msgstr "Entós %s\n"
 msgid "Who is playing first?"
 msgstr "¿Quién xuega primero?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
-msgid "Enter your name:"
-msgstr "Mete'l to nome:"
-
 #: src/multiplayer.c:280
 msgid "Who is playing next?"
 msgstr "¿Quién xuega depués?"
@@ -1251,30 +1247,6 @@ msgstr ""
 #: data/menus/menu_strings:57
 msgid "The person with the highest score wins"
 msgstr "El xugador cola mayor puntuación gana"
-
-#~ msgid "Detecting servers"
-#~ msgstr "Detectando sirvidores"
-
-#~ msgid "Please wait"
-#~ msgstr "Espera un segundu"
-
-#~ msgid "Connected to server: %s"
-#~ msgstr "Conectáu col sirvidor: %s"
-
-#~ msgid "%s"
-#~ msgstr "%s"
-
-#, fuzzy
-#~ msgid "Sorry, could not join game."
-#~ msgstr "Nun se pudo coneutar col sirvidor.\n"
-
-#, fuzzy
-#~ msgid "Sorry, could not join game.\n"
-#~ msgstr "Nun se pudo coneutar col sirvidor.\n"
-
-#, fuzzy
-#~ msgid "Sorry, no server could be found."
-#~ msgstr "Siéntolo, nun pudi encontrar nengún sirvidor."
 
 #, fuzzy
 #~ msgid ""
