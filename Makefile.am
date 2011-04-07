@@ -112,6 +112,23 @@ install-nsi-local: all
 ## Done with NSI_TEMP_INSTALL_DIR so uninstall:
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
 	rm -rf $(NSI_TEMP_INSTALL_DIR)
+## Convert text files from Unix format DOS/Windows format and rename
+## them with ".txt" extension:
+	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/doc; \
+	FILES=`find . -type f`; \	
+	for file in $$FILES; do \
+	    echo "Processing "$$file; \
+	    todos -p $$file; \
+	    mv $$file $$file".txt"; \
+	done)
+
+	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/data/missions; \
+	FILES=`find . -type f`; \	
+	for file in $$FILES; do \
+	    echo "Processing "$$file; \
+	    todos -p $$file; \
+	    mv $$file $$file".txt"; \
+	done)
 
 ## NOTE: we don't use any dll files now that we use mingw-cross-env
 ## because the entire executable is statically linked.

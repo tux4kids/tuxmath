@@ -179,7 +179,7 @@ char *GetDefaultSaveDir(const char *suffix)
 /* Windows XP: User/App Data/TuxMath/ */
 /* Windows 98/ME: TuxMath install dir/userdata/Options */
 #define OPTIONS_SUBDIR ""
-#define OPTIONS_FILENAME "options.cfg"
+#define OPTIONS_FILENAME "options.txt"
 #define HIGHSCORE_FILENAME "highscores.txt"
 #define GOLDSTAR_FILENAME "goldstars.txt"
 #define USER_MENU_ENTRIES_FILENAME "user_menu_entries.txt"

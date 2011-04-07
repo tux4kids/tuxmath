@@ -32,7 +32,7 @@ InstallDirRegKey HKLM SOFTWARE\${APP_PREFIX} "Install_Dir"
 
 # Licence text
 LicenseText "Please read the terms of the General Public License before installing ${APP_NAME}"
-LicenseData "mingw32\doc\COPYING_GPL3"
+LicenseData "mingw32\doc\COPYING_GPL3.txt"
 
 # Directory browsing
 # DirShow           show
