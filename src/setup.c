@@ -620,9 +620,9 @@ void initialize_SDL(void)
 
 
 
-#ifndef NOSOUND
   /* Init SDL Audio: */
   Opts_SetSoundHWAvailable(0);  // By default no sound HW
+#ifndef NOSOUND
   if (Opts_GetGlobalOpt(USE_SOUND))
   {
     if (SDL_Init(SDL_INIT_AUDIO) < 0)
@@ -633,7 +633,6 @@ void initialize_SDL(void)
             "%s\n\n", SDL_GetError());
     }
     else {
-      //if (Mix_OpenAudio(44100, AUDIO_S16SYS, 2, 2048) < 0)
       if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
       {
         fprintf(stderr,
@@ -655,8 +654,18 @@ void initialize_SDL(void)
                           "n_timesopened = %d\n",
                           frequency,format,channels,n_timesopened);
   }
-
 #endif
+  /* If couldn't set up sound, deselect sound options: */
+  if(!Opts_SoundHWAvailable())
+  {
+    DEBUGMSG(debug_setup, "Sound setup failed - deselecting sound options\n");	  
+    Opts_SetGlobalOpt(USE_SOUND, 0);
+    Opts_SetGlobalOpt(MENU_SOUND, 0);
+    Opts_SetGlobalOpt(MENU_MUSIC, 0);
+  }
+
+
+
   {
     const SDL_VideoInfo *videoInfo;
     Uint32 surfaceMode;

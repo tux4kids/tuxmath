@@ -383,7 +383,7 @@ int game(void)
       /* Keep playing music: */
 
 #ifndef NOSOUND
-    if (Opts_UsingSound())
+    if(Opts_GetGlobalOpt(USE_SOUND))
     {
       if (!Mix_PlayingMusic())
       {
@@ -437,6 +437,7 @@ int game_initialize(void)
   int i,img;
   
   DEBUGMSG(debug_game,"Entering game_initialize()\n");
+  DEBUGCODE(debug_game) print_game_options(stderr, 0);
   
   /* Clear window: */
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
@@ -665,7 +666,7 @@ void game_cleanup(void)
 
   /* Stop music: */
 #ifndef NOSOUND
-  if (Opts_UsingSound())
+  if(Opts_GetGlobalOpt(USE_SOUND))
   {
     if (Mix_PlayingMusic())
     {
@@ -765,7 +766,7 @@ void game_handle_help(void)
   game_set_message(&s1,_("Welcome to TuxMath!"),-1,50);
 
 #ifndef NOSOUND
-  if (Opts_UsingSound())
+  if(Opts_GetGlobalOpt(USE_SOUND))
   {
     if (!Mix_PlayingMusic())
     {
@@ -3286,7 +3287,7 @@ int pause_game(void)
   SDL_UpdateRect(screen, 0, 0, 0, 0);
 
 #ifndef NOSOUND
-  if (Opts_UsingSound())
+  if(Opts_GetGlobalOpt(USE_SOUND))
     Mix_PauseMusic();
 #endif
 
@@ -3308,7 +3309,7 @@ int pause_game(void)
   while (!pause_done && !pause_quit);
 
 #ifndef NOSOUND
-  if (Opts_UsingSound())
+  if(Opts_GetGlobalOpt(USE_SOUND))
     Mix_ResumeMusic();
 #endif
 

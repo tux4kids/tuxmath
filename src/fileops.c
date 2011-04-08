@@ -1379,7 +1379,10 @@ int read_config_file(FILE *fp, int file_type)
 
   return 1;
 }
-
+//TODO get rid of enum/array-based global opts and go back
+//to set/get functions for each option.  Being more compact
+//isn't worth making the code more error-prone, IMHO.
+//
 /* determine which option class a name belongs to, and set it */
 /* accordingly. Returns 1 on success, 0 on failure            */
 static int parse_option(const char* name, int val, int file_type)
