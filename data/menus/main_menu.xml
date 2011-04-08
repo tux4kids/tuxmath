@@ -39,11 +39,7 @@
         </menu>
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <menu title="Factoroids!" sprite="factoroids" entries="3" desc="Factorize numbers with your laser beam!">
-        <item title="Factors" sprite="factors" run="RUN_FACTORS" desc="Play a game of factoroids with whole numbers" />
-        <item title="Fractions" sprite="fractions" run="RUN_FRACTIONS" desc="Play a game of Factoroids with fractions" />
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
-    </menu>
+    <item title="Factoroids" sprite="factors" run="RUN_FACTORS" desc="Factorize numbers with your laser beam!"/>
     <item title="Help" sprite="help" run="RUN_HELP" desc="See how to play the game" />
     <menu title="More Options" sprite="tux_config" entries="4" desc="Additional options">
         <item title="Demo" sprite="comet" run="RUN_DEMO" desc="Run a demo of the game" />
