@@ -31,7 +31,7 @@ Mix_Music *music;
 void playsound(int snd)
 {
 #ifndef NOSOUND
-  if (Opts_UsingSound())
+  if (Opts_GetGlobalOpt(USE_SOUND))
     T4K_PlaySound(sounds[snd]);
 #endif
 }

@@ -292,7 +292,6 @@ void TitleScreen(void)
   }
 
   DEBUGMSG(debug_titlescreen, "TitleScreen(): Tux and Title are in place now\n");
-
   /* Start playing menu music if desired: */
   if (Opts_GetGlobalOpt(MENU_MUSIC))
   {

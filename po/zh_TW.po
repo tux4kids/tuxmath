@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath.pot\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-06 06:00-0500\n"
+"POT-Creation-Date: 2011-04-07 17:00-0500\n"
 "PO-Revision-Date: 2010-07-23 4:00\n"
 "Last-Translator: Tryneeds-Chinese <tryneeds@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -320,142 +320,142 @@ msgid ""
 "single shot!"
 msgstr "來將它分裂。最終不能簡化的分數，就把它擊落吧！"
 
-#: src/game.c:763
+#: src/game.c:765
 msgid "Welcome to TuxMath!"
 msgstr "歡迎進入TuxMath"
 
-#: src/game.c:780
+#: src/game.c:782
 msgid "Your mission is to save your"
 msgstr "您的任務是拯救"
 
-#: src/game.c:781
+#: src/game.c:783
 msgid "penguins' igloos from the"
 msgstr "您的企鵝小屋免"
 
-#: src/game.c:782
+#: src/game.c:784
 msgid "falling comets."
 msgstr "於被慧星擊中。"
 
-#: src/game.c:801
+#: src/game.c:803
 msgid "Stop a comet by typing"
 msgstr "阻止慧星的方法"
 
-#: src/game.c:802
+#: src/game.c:804
 msgid "the answer to the math problem"
 msgstr "是回答數學問題"
 
-#: src/game.c:803
+#: src/game.c:805
 msgid "and hitting 'space' or 'enter'."
 msgstr "並按下【空白鍵】或【Enter 鍵】。"
 
-#: src/game.c:804
+#: src/game.c:806
 msgid "Try it now!"
 msgstr "馬上玩玩看"
 
-#: src/game.c:812
+#: src/game.c:814
 msgid "Good shot!"
 msgstr "漂亮"
 
-#: src/game.c:822
+#: src/game.c:824
 msgid "If an igloo gets hit by a comet,"
 msgstr "如果雪屋被小行星擊中,"
 
-#: src/game.c:823
+#: src/game.c:825
 msgid "it melts. But don't worry: the"
 msgstr "它會融化掉！但是不用擔心:"
 
-#: src/game.c:824
+#: src/game.c:826
 msgid "penguin is OK!"
 msgstr "企鵝是安全的。"
 
-#: src/game.c:825
+#: src/game.c:827
 msgid "Just watch what happens:"
 msgstr "注意發生什麼:"
 
-#: src/game.c:826
+#: src/game.c:828
 msgid "(Press a key to start)"
 msgstr "(按任一按鍵開始)"
 
-#: src/game.c:839
+#: src/game.c:841
 msgid "Notice the answer"
 msgstr "注意答案"
 
-#: src/game.c:849
+#: src/game.c:851
 msgid "If it gets hit again, the"
 msgstr "如果它再被命中一次,"
 
-#: src/game.c:850
+#: src/game.c:852
 msgid "penguin leaves."
 msgstr "企鵝會離開。"
 
-#: src/game.c:851
+#: src/game.c:853
 msgid "(Press a key when ready)"
 msgstr "(準備好之後按一個按鍵)"
 
-#: src/game.c:874
+#: src/game.c:876
 msgid "You can fix the igloos"
 msgstr "擊中加分的慧星，"
 
-#: src/game.c:875
+#: src/game.c:877
 msgid "by stopping bonus comets."
 msgstr "可以把被損壞的小屋修好。"
 
-#: src/game.c:886 src/game.c:922
+#: src/game.c:888 src/game.c:924
 msgid "Zap it now!"
 msgstr "來吧！"
 
-#: src/game.c:892
+#: src/game.c:894
 msgid "Great job!"
 msgstr "了不起"
 
-#: src/game.c:911
+#: src/game.c:913
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "可以把被損壞的小屋修好。"
 
-#: src/game.c:912
+#: src/game.c:914
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:929
+#: src/game.c:931
 msgid "Quit at any time by pressing"
 msgstr "在任何時候，皆可以按下"
 
-#: src/game.c:930
+#: src/game.c:932
 msgid "'Esc' or clicking the 'X'"
 msgstr "【Esc】鍵或右上角的叉叉"
 
-#: src/game.c:931
+#: src/game.c:933
 msgid "in the upper right corner."
 msgstr "就可以離開。"
 
-#: src/game.c:932
+#: src/game.c:934
 msgid "Do it now, and then play!"
 msgstr "現在就開始遊戲吧！"
 
-#: src/game.c:2712
+#: src/game.c:2720
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2727
+#: src/game.c:2735
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2804
+#: src/game.c:2812
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "已連線到伺服器：%s"
 
-#: src/game.c:2812
+#: src/game.c:2820
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "已連線到伺服器：%s"
 
-#: src/game.c:4587
+#: src/game.c:4594
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -560,7 +560,7 @@ msgstr ""
 msgid "%d ÷ ? = %d"
 msgstr ""
 
-#: src/menu.c:209
+#: src/menu.c:215
 msgid ""
 "Tuxmath is free and open-source!\n"
 "You can help make it better.\n"
@@ -568,7 +568,7 @@ msgid ""
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
 
-#: src/menu.c:345
+#: src/menu.c:351
 #, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
@@ -576,37 +576,37 @@ msgid ""
 "See README.txt for more information.\n"
 msgstr "編輯您家目錄中的 'options' 檔"
 
-#: src/menu.c:372
+#: src/menu.c:378
 msgid "How many kids are playing?"
 msgstr "多少個小孩在使用?"
 
-#: src/menu.c:373
+#: src/menu.c:379
 msgid "(Between 2 and 4 players)"
 msgstr "(2 到 4 個玩家)"
 
-#: src/menu.c:438
+#: src/menu.c:444
 msgid "The server is already running"
 msgstr "此伺服器已經在執行中"
 
-#: src/menu.c:449
+#: src/menu.c:455
 msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
 
-#: src/menu.c:453
+#: src/menu.c:459
 msgid "Enter Server Name:"
 msgstr "請輸入伺服器名稱："
 
-#: src/menu.c:453
+#: src/menu.c:459
 msgid "(limit 50 characters)"
 msgstr "（最多 50 字元）"
 
-#: src/menu.c:467
+#: src/menu.c:473
 msgid "Click or press key to select server lesson file"
 msgstr "點擊或按任何鍵可以選擇伺服器的課程檔"
 
-#: src/menu.c:494
+#: src/menu.c:500
 #, fuzzy, c-format
 msgid ""
 "Server Name:\n"
@@ -615,50 +615,50 @@ msgid ""
 "%s"
 msgstr "選取的課程："
 
-#: src/menu.c:517
+#: src/menu.c:523
 #, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
 msgstr "抱歉，這個版本並未將網路支援編入。\n"
 
-#: src/menu.c:518 src/menu.c:596
+#: src/menu.c:524 src/menu.c:602
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr "抱歉，這個版本並未將網路支援編入。\n"
 
-#: src/menu.c:528
+#: src/menu.c:534
 #, fuzzy
 msgid "The server is not running."
 msgstr "此伺服器已經在執行中"
 
-#: src/menu.c:534
+#: src/menu.c:540
 msgid "Cannot stop server until current game finishes."
 msgstr ""
 
-#: src/menu.c:538
+#: src/menu.c:544
 msgid "The server has been stopped."
 msgstr ""
 
-#: src/menu.c:555
+#: src/menu.c:561
 msgid "Sorry, could not connect to server."
 msgstr ""
 
-#: src/menu.c:556
+#: src/menu.c:562
 msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
-#: src/menu.c:576
+#: src/menu.c:582
 #, fuzzy
 msgid "Sorry, game already in progress"
 msgstr "抱歉，遊戲已經在進行中。"
 
-#: src/menu.c:582
+#: src/menu.c:588
 #, fuzzy
 msgid "Connection with server was lost"
 msgstr "已連線到伺服器：%s"
 
-#: src/menu.c:595
+#: src/menu.c:601
 #, fuzzy
 msgid "Sorry, this version built without network support"
 msgstr "抱歉，這個版本並未將網路支援編入"
@@ -850,141 +850,160 @@ msgstr "乘法:遺漏的數字"
 
 #: data/missions/lessons/descr_lessons:62
 #: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
 msgid "Division by 2"
 msgstr "2 的除法"
 
-#: data/missions/lessons/descr_lessons:64
 #: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
 msgid "Division by 3"
 msgstr "3 的除法"
 
-#: data/missions/lessons/descr_lessons:66
-#: data/missions/lessons/descr_lessons:67
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
 msgid "Division by 4"
 msgstr "4 的除法"
 
-#: data/missions/lessons/descr_lessons:68
-#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
 msgid "Division by 5"
 msgstr "5 的除法"
 
-#: data/missions/lessons/descr_lessons:70
-#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
 msgid "Division: 1 to 5"
 msgstr "除法:1 到 5"
 
-#: data/missions/lessons/descr_lessons:72
-#: data/missions/lessons/descr_lessons:73
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
 msgid "Division by 6"
 msgstr "6 的除法"
 
-#: data/missions/lessons/descr_lessons:74
-#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
 msgid "Division by 7"
 msgstr "7 的除法"
 
-#: data/missions/lessons/descr_lessons:76
-#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
 msgid "Division by 8"
 msgstr "8 的除法"
 
-#: data/missions/lessons/descr_lessons:78
-#: data/missions/lessons/descr_lessons:79
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
 msgid "Division by 9"
 msgstr "9 的除法"
 
-#: data/missions/lessons/descr_lessons:80
-#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
 msgid "Division by 10"
 msgstr "10 的除法"
 
-#: data/missions/lessons/descr_lessons:82
-#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
 msgid "Division: 1 to 10"
 msgstr "除法:1 到 10"
 
-#: data/missions/lessons/descr_lessons:84
-#: data/missions/lessons/descr_lessons:85
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
 msgid "Division by 11 and 12"
 msgstr "11 和 12 的除法"
 
-#: data/missions/lessons/descr_lessons:86
-#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
 msgid "Division: 1 to 12"
 msgstr "除法:1 到 12"
 
-#: data/missions/lessons/descr_lessons:88
-#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
 msgid "Division by 13, 14, and 15"
 msgstr "13,14 和 15 的除法"
 
-#: data/missions/lessons/descr_lessons:90
-#: data/missions/lessons/descr_lessons:91
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
 msgid "Division: 1 to 15"
 msgstr "除法:1 到 15"
 
-#: data/missions/lessons/descr_lessons:92
-#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
 msgid "Multiplication and Division Review"
 msgstr "乘法和除法的復習"
 
-#: data/missions/lessons/descr_lessons:94
-#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
 msgid "Typing Negative Numbers"
 msgstr "輸入負數的數字"
 
-#: data/missions/lessons/descr_lessons:96
-#: data/missions/lessons/descr_lessons:97
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
 msgid "Subtraction: Negative Answers"
 msgstr "減法:負數的答案"
 
-#: data/missions/lessons/descr_lessons:98
-#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
 msgid "Adding Negatives to Positives"
 msgstr "負數加正數"
 
-#: data/missions/lessons/descr_lessons:100
-#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
 msgid "Adding Positives to Negatives"
 msgstr "正數加負數"
 
-#: data/missions/lessons/descr_lessons:102
-#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
 msgid "Subtracting Negatives From Positives"
 msgstr "負數減正數"
 
-#: data/missions/lessons/descr_lessons:104
-#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
 msgid "Subtracting Positives From Negatives"
 msgstr "正數減負數"
 
-#: data/missions/lessons/descr_lessons:106
-#: data/missions/lessons/descr_lessons:107
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
 msgid "Adding Negatives to Negatives"
 msgstr "負數相加"
 
-#: data/missions/lessons/descr_lessons:108
-#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
 msgid "Subtracting Negatives From Negatives"
 msgstr "負數相減"
 
-#: data/missions/lessons/descr_lessons:110
-#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
 msgid "Negative and Positive Numbers Review"
 msgstr "正數和負數的復習"
 
-#: data/missions/lessons/descr_lessons:112
-#: data/missions/lessons/descr_lessons:113
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
 msgid "Multiplication and Division of Negatives"
 msgstr "負數的乘法和除法"
 
-#: data/missions/lessons/descr_lessons:114
-#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
 msgid "Multiplication of Positives and Negatives"
 msgstr "正數和負數的乘法"
 
-#: data/missions/lessons/descr_lessons:116
-#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
 msgid "Division of Positives and Negatives"
 msgstr "正數和負數的除法"
 
@@ -1075,7 +1094,7 @@ msgid "Additional options"
 msgstr "加法:1 到 3"
 
 #: data/menus/menu_strings:30
-msgid "Complete missions for the Math Command Fleet."
+msgid "Complete missions for the Math Command Fleet"
 msgstr ""
 
 #: data/menus/menu_strings:31
@@ -1124,25 +1143,24 @@ msgid "Join a game on a server running on your network"
 msgstr ""
 
 #: data/menus/menu_strings:42
-msgid "Moderate"
+msgid "Make the Hall of Fame by beating the highest score"
 msgstr ""
 
 #: data/menus/menu_strings:43
-msgid "Play a game of Factoroids with fractions"
+msgid "Moderate"
 msgstr ""
 
 #: data/menus/menu_strings:44
-msgid "Play a game of factoroids with whole numbers"
+msgid "Play a game of Factoroids with fractions"
 msgstr ""
 
 #: data/menus/menu_strings:45
-msgid "Play a game with your friends on a local network"
+msgid "Play a game of factoroids with whole numbers"
 msgstr ""
 
 #: data/menus/menu_strings:46
-#, fuzzy
-msgid "Play an arcade style game."
-msgstr "遊樂場"
+msgid "Play a game with your friends on a local network"
+msgstr ""
 
 #: data/menus/menu_strings:47
 msgid "Play and learn on your own"
@@ -1188,6 +1206,10 @@ msgstr ""
 #: data/menus/menu_strings:57
 msgid "The person with the highest score wins"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "遊樂場"
 
 #~ msgid "Detecting servers"
 #~ msgstr "偵測伺服器中"

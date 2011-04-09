@@ -223,6 +223,13 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
 {
   if (index < NUM_GLOBAL_OPTS)
   {
+    //Need to make sure we don't turn on sound options if sound
+    //system couldn't be set up:
+    if(index == USE_SOUND || index == MENU_SOUND || index == MENU_MUSIC)
+    {
+      if(!Opts_SoundHWAvailable())
+        val = 0;
+    }
     global_options->iopts[index] = val;
   }
   else
