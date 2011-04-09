@@ -106,7 +106,7 @@ int calc_score(int difficulty, float t);
 
 //message sending:
 int add_question(MC_FlashCard* fc);
-int remove_question(int id);
+int remove_question(int quest_id, int answered_by);
 int send_counter_updates(void);
 int send_player_updates(void);
 //int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
@@ -1124,7 +1124,7 @@ void game_msg_correct_answer(int i, char* inbuf)
 		    srv_game.rem_in_wave, srv_game.active_quests);   
 
   //Tell all players to remove that question:
-  remove_question(id);
+  remove_question(id, i);
   //and update the game counters:
   send_counter_updates();
   //and the scores:
@@ -1169,7 +1169,8 @@ void game_msg_wrong_answer(int i, char* inbuf)
           id, client[i].name);             
   broadcast_msg(outbuf);
   //Tell all players to remove that question:
-  remove_question(id);
+  //-1 means question was missed.
+  remove_question(id, -1);
   //and update the game counters:
   send_counter_updates();
 }
@@ -1518,10 +1519,10 @@ int add_question(MC_FlashCard* fc)
 }
 
 /* Tells all clients to remove a specific question: */
-int remove_question(int id)
+int remove_question(int quest_id, int answered_by)
 {
   char buf[NET_BUF_LEN];
-  snprintf(buf, NET_BUF_LEN, "%s\t%d", "REMOVE_QUESTION", id);
+  snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d", "REMOVE_QUESTION", quest_id, answered_by);
   transmit_all(buf);
   return 1;
 }

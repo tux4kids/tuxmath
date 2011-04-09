@@ -276,7 +276,7 @@ int remove_quest_recvd(char* buf);
 int wave_recvd(char* buf);
 int player_left_recvd(char* buf);
 int game_halted_recvd(char* buf);
-int erase_comet_on_screen(comet_type* comet_ques);
+int erase_comet_on_screen(comet_type* zapped_comet, int answered_by);
 //MC_FlashCard* search_queue_by_id(int id);
 comet_type* search_comets_by_id(int id);
 int compare_scores(const void* p1, const void* p2);
@@ -4506,9 +4506,9 @@ int lan_add_comet(MC_FlashCard* fc)
 int remove_quest_recvd(char* buf)
 {
   int id = 0;
+  int answered_by = -1;
   char* p = NULL;
-//  MC_FlashCard* fc = NULL;
-  comet_type* comet_screen;
+  comet_type* zapped_comet;
 
   if(!buf)
     return 0;
@@ -4519,32 +4519,25 @@ int remove_quest_recvd(char* buf)
 
   p++;
   id = atoi(p);
+  //Now get index of player who answered it:
+  p = strchr(p, '\t');
+  if(!p)
+    return 0;
+  
+  p++;
+  answered_by = atoi(p);
 
-  DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d\n", id);
+  DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d, answered by %d\n", id, answered_by);
 
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
 
-  comet_screen = search_comets_by_id(id);
-  //fc = search_queue_by_id(id);
-  if(!comet_screen)// && !fc)
+  zapped_comet = search_comets_by_id(id);
+  if(!zapped_comet)
     return 0;
 
-  if(comet_screen)
-  {
-    DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
-    erase_comet_on_screen(comet_screen);
-  }
-
-  //NOTE: normally the question should no longer be in the queue,
-  //so the next statement should not get executed:
-  //if(fc)
-  //{
-  //  DEBUGMSG(debug_game,
-  //           "Note - request to erase question still in queue: %s\n",
-  //           fc->formula_string);
-  //  MC_ResetFlashCard(fc);
-  //}
+  DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
+  erase_comet_on_screen(zapped_comet, answered_by);
 
   return 1;
 }
@@ -4625,7 +4618,7 @@ comet_type* search_comets_by_id(int id)
 
 
 
-int erase_comet_on_screen(comet_type* comet)
+int erase_comet_on_screen(comet_type* comet, int answered_by)
 {
   if(!comet)
     return 0;
