@@ -125,7 +125,10 @@ typedef struct powerup_comet_type {
 
 /* Local (to game.c) 'globals': */
 
-static char* game_music_filenames[3] = {
+static char* game_music_filenames[6] = {
+  "01_rush.ogg",
+  "02_on_the_edge_of_the_universe.ogg",
+  "03_gravity.ogg",
   "game.mod",
   "game2.mod",
   "game3.mod",
