@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-07 17:00-0500\n"
+"POT-Creation-Date: 2011-04-10 08:24-0500\n"
 "PO-Revision-Date: 2008-09-21 19:08+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -309,157 +309,157 @@ msgid ""
 "single shot!"
 msgstr ""
 
-#: src/game.c:765
+#: src/game.c:766
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
 
-#: src/game.c:782
+#: src/game.c:783
 msgid "Your mission is to save your"
 msgstr "Oppdraget ditt er å redde"
 
-#: src/game.c:783
+#: src/game.c:784
 msgid "penguins' igloos from the"
 msgstr "igloene til pingvinene fra"
 
-#: src/game.c:784
+#: src/game.c:785
 msgid "falling comets."
 msgstr "kometer fra verdensrommet."
 
-#: src/game.c:803
+#: src/game.c:804
 msgid "Stop a comet by typing"
 msgstr "Du kan stoppe en komet ved"
 
-#: src/game.c:804
+#: src/game.c:805
 msgid "the answer to the math problem"
 msgstr "å skrive inn svaret, og så"
 
-#: src/game.c:805
+#: src/game.c:806
 msgid "and hitting 'space' or 'enter'."
 msgstr "«Mellomrom» eller «Enter»."
 
-#: src/game.c:806
+#: src/game.c:807
 msgid "Try it now!"
 msgstr "Prøv det nå!"
 
-#: src/game.c:814
+#: src/game.c:815
 msgid "Good shot!"
 msgstr "Bra skudd!"
 
-#: src/game.c:824
+#: src/game.c:825
 msgid "If an igloo gets hit by a comet,"
 msgstr "Hvis en iglo blir truffet av en"
 
-#: src/game.c:825
+#: src/game.c:826
 msgid "it melts. But don't worry: the"
 msgstr "komet, smelter den. Men ta det"
 
-#: src/game.c:826
+#: src/game.c:827
 msgid "penguin is OK!"
 msgstr "med ro: pingvinen klarer seg!"
 
-#: src/game.c:827
+#: src/game.c:828
 msgid "Just watch what happens:"
 msgstr "Berre se hva som skjer."
 
-#: src/game.c:828
+#: src/game.c:829
 msgid "(Press a key to start)"
 msgstr "(Trykk en tast for å se.)"
 
-#: src/game.c:841
+#: src/game.c:842
 msgid "Notice the answer"
 msgstr "Legg merke til rett svar."
 
-#: src/game.c:851
+#: src/game.c:852
 msgid "If it gets hit again, the"
 msgstr "Hvis igloen blir truffet på nytt,"
 
-#: src/game.c:852
+#: src/game.c:853
 msgid "penguin leaves."
 msgstr "vandrer pingvinen bort."
 
-#: src/game.c:853
+#: src/game.c:854
 msgid "(Press a key when ready)"
 msgstr "(Trykk en tast når du er klar.)"
 
-#: src/game.c:876
+#: src/game.c:877
 msgid "You can fix the igloos"
 msgstr "Du kan bygge opp igjen igloene"
 
-#: src/game.c:877
+#: src/game.c:878
 msgid "by stopping bonus comets."
 msgstr "ved å stoppe bonuskometer."
 
-#: src/game.c:888 src/game.c:924
+#: src/game.c:889 src/game.c:925
 msgid "Zap it now!"
 msgstr "Skyt kometen nå!"
 
-#: src/game.c:894
+#: src/game.c:895
 msgid "Great job!"
 msgstr "Kjempebra!"
 
-#: src/game.c:913
+#: src/game.c:914
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "ved å stoppe bonuskometer."
 
-#: src/game.c:914
+#: src/game.c:915
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:931
+#: src/game.c:932
 msgid "Quit at any time by pressing"
 msgstr "Du kan når som helst gi deg,"
 
-#: src/game.c:932
+#: src/game.c:933
 msgid "'Esc' or clicking the 'X'"
 msgstr "ved å trykke «Escape» eller"
 
-#: src/game.c:933
+#: src/game.c:934
 msgid "in the upper right corner."
 msgstr "klikke på X-en oppe til høyre."
 
-#: src/game.c:934
+#: src/game.c:935
 msgid "Do it now, and then play!"
 msgstr "Prøv det nå, og start spillet!"
 
-#: src/game.c:2720
+#: src/game.c:2721
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2735
+#: src/game.c:2736
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2812
+#: src/game.c:2813
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2820
+#: src/game.c:2821
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4594
+#: src/game.c:4588
 #, c-format
 msgid "%s has left the game."
 msgstr ""
 
-#: src/highscore.c:175 data/menus/menu_strings:9
+#: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Rekordar"
 
-#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
 msgid "Space Cadet"
 msgstr "Romkadett"
 
-#: src/highscore.c:198 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:24
 msgid "Scout"
 msgstr "Romlærling"
 
-#: src/highscore.c:201 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:21
 msgid "Ranger"
 msgstr "Romvokter"
 
@@ -471,11 +471,11 @@ msgstr "Romsjef"
 msgid "Commando"
 msgstr "Romkommandør"
 
-#: src/highscore.c:210 data/menus/menu_strings:7
+#: src/highscore.c:210
 msgid "Factors"
 msgstr "Faktorer"
 
-#: src/highscore.c:213 data/menus/menu_strings:8
+#: src/highscore.c:213
 msgid "Fractions"
 msgstr "Brøker"
 
@@ -674,7 +674,7 @@ msgstr ""
 msgid "Await player name"
 msgstr ""
 
-#: src/titlescreen.c:522
+#: src/titlescreen.c:521
 #, fuzzy
 msgid ""
 "Work In Progress!\n"
@@ -1005,188 +1005,180 @@ msgstr ""
 
 #: data/menus/menu_strings:6
 #, fuzzy
-msgid "Factoroids!"
+msgid "Factoroids"
 msgstr "Faktorer"
 
-#: data/menus/menu_strings:10
+#: data/menus/menu_strings:8
 msgid "Help"
 msgstr "Hjelp"
 
-#: data/menus/menu_strings:11
+#: data/menus/menu_strings:9
 msgid "Join Game"
 msgstr ""
 
-#: data/menus/menu_strings:12
+#: data/menus/menu_strings:10
 msgid "Main Menu"
 msgstr "Hovedmeny"
 
-#: data/menus/menu_strings:13
+#: data/menus/menu_strings:11
 msgid "Math Command Fleet Missions"
 msgstr "Oppdrag"
 
-#: data/menus/menu_strings:14
+#: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
 msgstr "Kadettskole"
 
-#: data/menus/menu_strings:15
+#: data/menus/menu_strings:13
 msgid "More Options"
 msgstr "Flere valg"
 
-#: data/menus/menu_strings:16
+#: data/menus/menu_strings:14
 msgid "Network Game"
 msgstr ""
 
-#: data/menus/menu_strings:17
+#: data/menus/menu_strings:15
 msgid "Play Alone"
 msgstr "Spill alene"
 
-#: data/menus/menu_strings:18
+#: data/menus/menu_strings:16
 msgid "Play Arcade Game"
 msgstr "Arkadespill"
 
-#: data/menus/menu_strings:19
+#: data/menus/menu_strings:17
 msgid "Play Custom Game"
 msgstr "Selvlaget spill"
 
-#: data/menus/menu_strings:20
+#: data/menus/menu_strings:18
 msgid "Play With Friends"
 msgstr "Spill med venner"
 
-#: data/menus/menu_strings:21
+#: data/menus/menu_strings:19
 msgid "Project Info"
 msgstr "Prosjektinfo"
 
-#: data/menus/menu_strings:22
+#: data/menus/menu_strings:20
 msgid "Quit"
 msgstr "Avslutt"
 
-#: data/menus/menu_strings:24
+#: data/menus/menu_strings:22
 msgid "Run Server"
 msgstr ""
 
-#: data/menus/menu_strings:25
+#: data/menus/menu_strings:23
 msgid "Score Sweep"
 msgstr ""
 
-#: data/menus/menu_strings:28
+#: data/menus/menu_strings:26
 msgid "Stop Server"
 msgstr ""
 
-#: data/menus/menu_strings:29
+#: data/menus/menu_strings:27
 #, fuzzy
 msgid "Additional options"
 msgstr "Addisjon: 1 til 3"
 
-#: data/menus/menu_strings:30
+#: data/menus/menu_strings:28
 msgid "Complete missions for the Math Command Fleet"
 msgstr ""
 
-#: data/menus/menu_strings:31
+#: data/menus/menu_strings:29
 msgid "Customize the game you play"
 msgstr ""
 
-#: data/menus/menu_strings:32
+#: data/menus/menu_strings:30
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
 
-#: data/menus/menu_strings:33
+#: data/menus/menu_strings:31
 msgid "Easier"
 msgstr ""
 
-#: data/menus/menu_strings:34
+#: data/menus/menu_strings:32
 msgid "Easiest"
 msgstr ""
 
-#: data/menus/menu_strings:35
+#: data/menus/menu_strings:33
 msgid "Easy"
 msgstr ""
 
-#: data/menus/menu_strings:36
+#: data/menus/menu_strings:34
 msgid "Exit to your desktop"
 msgstr ""
 
-#: data/menus/menu_strings:37
+#: data/menus/menu_strings:35
 msgid "Factorize numbers with your laser beam!"
 msgstr ""
 
-#: data/menus/menu_strings:38
+#: data/menus/menu_strings:36
 msgid "Hard"
 msgstr ""
 
-#: data/menus/menu_strings:39
+#: data/menus/menu_strings:37
 msgid "Hardest"
 msgstr ""
 
-#: data/menus/menu_strings:40
+#: data/menus/menu_strings:38
 msgid "High Scores"
 msgstr ""
 
-#: data/menus/menu_strings:41
+#: data/menus/menu_strings:39
 msgid "Join a game on a server running on your network"
 msgstr ""
 
-#: data/menus/menu_strings:42
+#: data/menus/menu_strings:40
 msgid "Make the Hall of Fame by beating the highest score"
 msgstr ""
 
-#: data/menus/menu_strings:43
+#: data/menus/menu_strings:41
 msgid "Moderate"
 msgstr ""
 
-#: data/menus/menu_strings:44
-msgid "Play a game of Factoroids with fractions"
-msgstr ""
-
-#: data/menus/menu_strings:45
-msgid "Play a game of factoroids with whole numbers"
-msgstr ""
-
-#: data/menus/menu_strings:46
+#: data/menus/menu_strings:42
 msgid "Play a game with your friends on a local network"
 msgstr ""
 
-#: data/menus/menu_strings:47
+#: data/menus/menu_strings:43
 msgid "Play and learn on your own"
 msgstr ""
 
-#: data/menus/menu_strings:48
+#: data/menus/menu_strings:44
 msgid "Players with the lowest scores are eliminated every round"
 msgstr ""
 
-#: data/menus/menu_strings:49
+#: data/menus/menu_strings:45
 msgid "Return to the main menu"
 msgstr ""
 
-#: data/menus/menu_strings:50
+#: data/menus/menu_strings:46
 msgid "Run a demo of the game"
 msgstr ""
 
-#: data/menus/menu_strings:51
+#: data/menus/menu_strings:47
 msgid "See how to play the game"
 msgstr ""
 
-#: data/menus/menu_strings:52
+#: data/menus/menu_strings:48
 msgid "See the credits for the game"
 msgstr ""
 
-#: data/menus/menu_strings:53
+#: data/menus/menu_strings:49
 #, fuzzy
 msgid "See the project info"
 msgstr "Prosjektinfo"
 
-#: data/menus/menu_strings:54
+#: data/menus/menu_strings:50
 msgid "Start a server for a network game"
 msgstr ""
 
-#: data/menus/menu_strings:55
+#: data/menus/menu_strings:51
 msgid "Stop a server running on your machine"
 msgstr ""
 
-#: data/menus/menu_strings:56
+#: data/menus/menu_strings:52
 msgid "Take turns in a game with your friends on a single computer"
 msgstr ""
 
-#: data/menus/menu_strings:57
+#: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
 

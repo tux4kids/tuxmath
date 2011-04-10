@@ -1,6 +1,7 @@
 #!/bin/sh
 
 # Simple script to setup mingw-cross-env and build the libraries needed to cross-build tuxmath for Windows.
+# WARNING - this could be improved - in particular it will clobber any existing data at $MINGW_DIR!
 
 #FIXME improve this by prompting user for location where mingw-cross-env is to be installed.
 

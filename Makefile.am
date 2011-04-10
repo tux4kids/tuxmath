@@ -14,7 +14,8 @@ SUBDIRS = data	\
 
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = tuxmath.spec \
+EXTRA_DIST = t4k_common.mk \
+	tuxmath.spec \
 	tuxmath.desktop \
 	config.rpath \
 	m4/ChangeLog \
@@ -29,7 +30,12 @@ EXTRA_DIST = tuxmath.spec \
         cmake-modules/FindTux4Kids-common.cmake \
         cmake-modules/T4K_Sugar.cmake \
         po/CMakeLists.txt \
-	config.h.cmake
+	config.h.cmake \
+	buildw32/cross-configure.sh \
+	buildw32/cross-make.sh \
+	buildw32/setup_mingw-cross-env.sh \
+	buildw32/tmwin.sh \
+	buildw32/t4k_common.mk
 
 ##datadir = @datadir@
 ##localedir = $(datadir)/locale
@@ -41,7 +47,6 @@ MAKENSIS=$(NSIS)
 ##NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 ##NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
-
 
 ## ---------------------------------------------------------------------------
 ## Rules: --------------------------------------------------------------------
@@ -115,7 +120,7 @@ install-nsi-local: all
 ## Convert text files from Unix format DOS/Windows format and rename
 ## them with ".txt" extension:
 	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/doc; \
-	FILES=`find . -type f`; \	
+	FILES=`find . -type f`; \
 	for file in $$FILES; do \
 	    echo "Processing "$$file; \
 	    todos -p $$file; \
@@ -123,7 +128,7 @@ install-nsi-local: all
 	done)
 
 	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/data/missions; \
-	FILES=`find . -type f`; \	
+	FILES=`find . -type f`; \
 	for file in $$FILES; do \
 	    echo "Processing "$$file; \
 	    todos -p $$file; \
