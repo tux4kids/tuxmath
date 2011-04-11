@@ -2238,27 +2238,7 @@ static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
   if(label == NULL || contents == NULL)
     return;
 
-  //NOTE - below code being added to t4k_common as
-  //"int T4K_CharsForWidth(int fontsize, int pixel_width)"
-  //Replace this code block with function call when
-  //t4k_common-0.1.1 released.
-  //char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, LVL_WIDTH_MSG);
-{
-  char buf[256];
-  int i = 0;
-  int done = 0;
-  SDL_Surface* s;
-  for(i = 0; i < 255 && !done; i++)
-  {
-    buf[i] = 'x';
-    buf[i + 1] = '\0';
-    s = T4K_SimpleText(buf, fontsize, &white);
-    if(s && s->w > pixel_width)  //means string of (i++) 'x' exceeds width
-      done = 1;
-    SDL_FreeSurface(s);
-  }
-  char_width = i;
-}
+  char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, LVL_WIDTH_MSG);
   T4K_LineWrapInsBreaks(label, wrapped_label, char_width, 64, 64);
   T4K_LineWrapInsBreaks(contents, wrapped_contents, char_width, 64, 64);
 

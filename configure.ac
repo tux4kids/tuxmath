@@ -326,6 +326,7 @@ fi
 AC_SUBST(NSI_DLL_DIR)
 
 AC_PATH_PROG(NSIS, makensis, [], [$PATH])
+AC_PATH_PROGS(U2D, [todos unix2dos], [], [$PATH])
 
 # ---------------------------------------------------------------
 # Create Makefiles

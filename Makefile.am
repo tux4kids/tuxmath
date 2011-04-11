@@ -42,7 +42,7 @@ EXTRA_DIST = t4k_common.mk \
 
 
 ## These are defined in configure.ac:
-MAKENSIS=$(NSIS)
+##MAKENSIS=$(NSIS)
 ##NSIS_FOUND=@NSIS_FOUND@
 ##NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 ##NSI_DLL_DIR=@NSI_DLL_DIR@
@@ -123,7 +123,7 @@ install-nsi-local: all
 	FILES=`find . -type f`; \
 	for file in $$FILES; do \
 	    echo "Processing "$$file; \
-	    todos -p $$file; \
+	    $(U2D) $$file; \
 	    mv $$file $$file".txt"; \
 	done)
 
@@ -131,7 +131,7 @@ install-nsi-local: all
 	FILES=`find . -type f`; \
 	for file in $$FILES; do \
 	    echo "Processing "$$file; \
-	    todos -p $$file; \
+	    $(U2D) $$file; \
 	    mv $$file $$file".txt"; \
 	done)
 
@@ -170,15 +170,25 @@ install-nsi-am: install-nsi-local
 
 
 nsis:
-	if test "x$(MAKENSIS)" = "x"; then \
+
+	if test "x$(U2D)" = "x"; then \
+	  echo "\nWarning - unix2dos (or todos) program not found!"; \
+          echo "It is needed to convert text files to Windows format."; \
+          echo "Without this program, user documention will be in Unix" ; \
+          echo "format, which will not display correctly with common"; \
+          echo "Windows text editors such as Notepad\n"; \
+	fi
+
+	if test "x$(NSIS)" = "x"; then \
 	  echo "\nError - makensis program not found!"; \
           echo "It is needed to build the NSIS executable installer for Windows."; \
           echo "Install it from your distribution's repository, or" ; \
           echo "download it from: http://nsis.sourceforge.net/Download\n"; \
 	else \
 	$(MAKE) $(AM_MAKEFLAGS) install-nsi-local; \
-	  $(MAKENSIS) -NOCD nsis/tuxmath.nsi; \
+	  $(NSIS) -NOCD nsis/tuxmath.nsi; \
 	fi
+
 
 clean-local:
 	@$(NORMAL_CLEAN)
