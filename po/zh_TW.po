@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath.pot\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-10 20:59-0500\n"
+"POT-Creation-Date: 2011-04-11 13:33-0500\n"
 "PO-Revision-Date: 2010-07-23 4:00\n"
 "Last-Translator: Tryneeds-Chinese <tryneeds@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -227,94 +227,94 @@ msgstr "此程式的文件中包含一份完整的 GPL 授權複本。"
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "關於自由軟體與 GNU GPL 的詳情，請參考："
 
-#: src/factoroids.c:498
-msgid "Powers of 2"
-msgstr ""
-
-#: src/factoroids.c:499
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "11 和 12 的倍數"
-
-#: src/factoroids.c:500
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "13,14 和 15 的倍數"
-
-#: src/factoroids.c:501
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "13,14 和 15 的倍數"
-
-#: src/factoroids.c:502
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "13,14 和 15 的倍數"
-
-#: src/factoroids.c:503
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "13,14 和 15 的倍數"
-
-#: src/factoroids.c:508
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "13,14 和 15 的倍數"
-
 #: src/factoroids.c:509
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgid "Powers of 2"
 msgstr ""
 
 #: src/factoroids.c:510
 #, fuzzy
+msgid "Products of 2 and 3"
+msgstr "11 和 12 的倍數"
+
+#: src/factoroids.c:511
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "13,14 和 15 的倍數"
+
+#: src/factoroids.c:512
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "13,14 和 15 的倍數"
+
+#: src/factoroids.c:513
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "13,14 和 15 的倍數"
+
+#: src/factoroids.c:514
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "13,14 和 15 的倍數"
+
+#: src/factoroids.c:519
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "13,14 和 15 的倍數"
+
+#: src/factoroids.c:520
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
+
+#: src/factoroids.c:521
+#, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "13,14 和 15 的倍數"
 
-#: src/factoroids.c:511
+#: src/factoroids.c:522
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:512
+#: src/factoroids.c:523
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:513
+#: src/factoroids.c:524
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:530
+#: src/factoroids.c:541
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:531
+#: src/factoroids.c:542
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:747
+#: src/factoroids.c:758
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "因數分解：要過關，您必須擊滅所有的小行星。"
 
-#: src/factoroids.c:748 src/factoroids.c:759
+#: src/factoroids.c:759 src/factoroids.c:770
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr "用方向鍵移動，瞄準小行星。"
 
-#: src/factoroids.c:749
+#: src/factoroids.c:760
 msgid "type one of its factors, and press space or return"
 msgstr "輸入一個它的因數，並且按空白鍵或 Enter 鍵"
 
-#: src/factoroids.c:750
+#: src/factoroids.c:761
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr "它就會分裂成因數的小石頭。到只剩質數時，它就會被毀滅！"
 
-#: src/factoroids.c:758
+#: src/factoroids.c:769
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "分數: 要過關, 您必須擊落所有的小行星"
 
-#: src/factoroids.c:760
+#: src/factoroids.c:771
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr "輸入可以用於約分的數字，並且按空白鍵或 Enter 鍵"
 
-#: src/factoroids.c:761
+#: src/factoroids.c:772
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"

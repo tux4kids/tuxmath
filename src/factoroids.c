@@ -42,6 +42,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
 
+#include "credits.h"
 #include "game.h"
 #include "fileops.h"
 #include "setup.h"
@@ -117,6 +118,17 @@ enum BUTTON_TYPE
   SELECTED,
   PRESSED,
   DISABLED
+};
+
+enum FF_STATUS
+{
+  FF_OVER_SDL_QUIT,
+  FF_OVER_ESCAPE,
+  FF_OVER_LOST,
+  FF_OVER_WON,
+  FF_OVER_ERROR,
+  FF_OVER_OTHER,
+  FF_IN_PROGRESS
 };
 
 /********* Structures *********/
@@ -338,7 +350,7 @@ static int FF_add_laser(void);
 static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int a, int b, int new_wave);
 static int FF_destroy_asteroid(int i, float xspeed, float yspeed);
 
-static void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4);
+static void FF_ShowMessage(char* str);
 static void FF_LevelMessage(void);
 static void FF_LevelObjsHints(char *label, char *contents, int x, int y);
 
@@ -375,7 +387,7 @@ void factors(void)
   }
   FF_LevelMessage();
 
-  while (game_status == GAME_IN_PROGRESS)
+  while (game_status == FF_IN_PROGRESS)
   {
     counter++;
 
@@ -439,7 +451,7 @@ void fractions(void)
   }
 
   /************ Main Loop **************/
-  while (game_status == GAME_IN_PROGRESS)
+  while (game_status == FF_IN_PROGRESS)
   {
     counter++;
 
@@ -681,12 +693,12 @@ static int FF_init(void)
   shift_pressed = 0;
   shoot_pressed = 0;
   button_pressed = 0;
-
+  SDL_quit_received = 0; 
   score = 0;
   wave = 0;
   escape_received = 0;
-  game_status = GAME_IN_PROGRESS;
-
+  game_status = FF_IN_PROGRESS;
+  
   FF_add_level();
 
   for (i = 0; i < MAX_LASER; i++)
@@ -744,10 +756,14 @@ static void FF_intro(void)
     rect.x = (screen->w/2) - (IMG_factors->w/2);
     rect.y = (screen->h)/7;
     SDL_BlitSurface(IMG_factors, NULL, screen, &rect);
-    FF_ShowMessage(_("FACTOROIDS: to win, you need destroy all the asteroids."),
-		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
-		   _("type one of its factors, and press space or return"),
-		   _("to split it into its factors.  Rocks with prime numbers are destroyed!"));
+//    FF_ShowMessage(_("To win, you need destroy all the asteroids.\n"));
+    FF_ShowMessage(_("To win, you must destroy all the asteroids.\n"
+		     "Turn: arrow keys or mouse movement.\n"
+		     "Thrust: up arrow or right mouse button.\n"
+		     "Shoot: [Enter], [Space], or left mouse button.\n"
+		     "Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+		     "Activate Powerup: [Shift].\n"
+		     "Shoot the rocks with their prime factors until they are all destroyed."));
     SDL_BlitSurface(IMG_asteroids1[3],NULL,screen,&rect);
   }
   else if (FF_game == FRACTIONS_GAME)
@@ -755,10 +771,10 @@ static void FF_intro(void)
     rect.x = (screen->w/2)-(IMG_fractions->w/2);
     rect.y = (screen->h)/7;
     SDL_BlitSurface(IMG_fractions,NULL,screen,&rect);
-    FF_ShowMessage(_("FRACTIONS: to win, you need destroy all the asteroids"),
-		   _("Use the arrow keys to turn or go forward.  Aim at an asteroid,"),
-		   _("type a number that can simplify the fraction, and press space or return"),
-		   _("to split it.  Destroy fractions that can not be further simplified in a single shot!"));
+    FF_ShowMessage(_("FRACTIONS: to win, you need destroy all the asteroids. "
+		   "Use the arrow keys to turn or go forward.  Aim at an asteroid, "
+		   "type a number that can simplify the fraction, and press space or return "
+		   "to split it.  Destroy fractions that can not be further simplified in a single shot!"));
   }
 
   SDL_FreeSurface(IMG_factors);
@@ -1620,12 +1636,15 @@ static int FF_over(int game_status)
   SDL_ShowCursor(1);
   SDL_WM_GrabInput(SDL_GRAB_OFF);
 
+  
   switch (game_status)
   {
-    case GAME_OVER_WON:
+    case FF_OVER_WON:
     {
       int looping = 1;
-//      int frame;
+      
+      DEBUGMSG(debug_factoroids, "Loop exited with GAME_OVER_WON\n");
+
       /* set up victory message: */
       dest_message.x = (screen->w - images[IMG_GAMEOVER_WON]->w) / 2;
       dest_message.y = (screen->h - images[IMG_GAMEOVER_WON]->h) / 2;
@@ -1663,14 +1682,16 @@ static int FF_over(int game_status)
       break;
     }
 
-    case GAME_OVER_ERROR:
+    case FF_OVER_ERROR:
     {
-      DEBUGMSG(debug_factoroids, "game() exiting with error");
+      DEBUGMSG(debug_factoroids, "Loop exited with  FF_OVER_ERROR\n");
     }
-    case GAME_OVER_LOST:
-    case GAME_OVER_OTHER:
+    case FF_OVER_LOST:
+    case FF_OVER_OTHER:
     {
       int looping = 1;
+
+      DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_LOST or FF_OVER_OTHER\n");
 
       /* set up GAMEOVER message: */
       dest_message.x = (screen->w - images[IMG_GAMEOVER]->w) / 2;
@@ -1703,16 +1724,22 @@ static int FF_over(int game_status)
       break;
     }
 
-    case GAME_OVER_ESCAPE:
+    case FF_OVER_ESCAPE:
     {
+      DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_ESCAPE\n");
       break;
     }
 
-    case GAME_OVER_WINDOW_CLOSE:
+    case FF_OVER_SDL_QUIT:
     {
+      DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_SDL_QUIT\n");
       break;
     }
 
+    default:
+    {
+      DEBUGMSG(debug_factoroids, "Loop exited with unrecognized status value: %dn", game_status);
+    }
   }
 
   FF_exit_free();
@@ -2168,61 +2195,27 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 
 /************** MODIFIED FUNCS FROM game.c and titlescreen.c ******************/
 
-void FF_ShowMessage(char* str1, char* str2, char* str3, char* str4)
+void FF_ShowMessage(char* str)
 {
-  SDL_Surface *s1, *s2, *s3, *s4;
+  SDL_Surface* s1 = NULL;
   SDL_Rect loc;
+  char wrapped_str[1024];
+  int char_width;
 
-  s1 = s2 = s3 = s4 = NULL;
+  if(str == NULL)
+    return;
 
-  DEBUGMSG(debug_factoroids, "ShowMessage() - creating text\n" );
-
-  if (str1)
-    s1 = T4K_BlackOutline(str1, DEFAULT_MENU_FONT_SIZE, &white);
-  if (str2)
-    s2 = T4K_BlackOutline(str2, DEFAULT_MENU_FONT_SIZE, &white);
-  if (str3)
-    s3 = T4K_BlackOutline(str3, DEFAULT_MENU_FONT_SIZE, &white);
-  /* When we get going with i18n may need to modify following - see below: */
-  if (str4)
-    s4 = T4K_BlackOutline(str4, DEFAULT_MENU_FONT_SIZE, &white);
-
-  DEBUGMSG(debug_factoroids, "ShowMessage() - drawing screen\n" );
-
-  /* Draw lines of text (do after drawing Tux so text is in front): */
+  char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, screen->w * 0.75);
+  T4K_LineWrapInsBreaks(str, wrapped_str, char_width, 64, 64);
+  s1 = T4K_BlackOutline(wrapped_str, DEFAULT_MENU_FONT_SIZE, &yellow);
   if (s1)
   {
-    loc.x = (screen->w / 2) - (s1->w/2);
-    loc.y = (screen->h / 2) + 10;
-    SDL_BlitSurface( s1, NULL, screen, &loc);
+    loc.x = screen->w/2 - s1->w/2;
+    loc.y = screen->h/4;
+    SDL_BlitSurface(s1, NULL, screen, &loc);
+    SDL_FreeSurface(s1);
   }
-  if (s2)
-  {
-    loc.x = (screen->w / 2) - (s2->w/2);
-    loc.y = (screen->h / 2) + 80;
-    SDL_BlitSurface( s2, NULL, screen, &loc);
-  }
-  if (s3)
-  {
-    loc.x = (screen->w / 2) - (s3->w/2);
-    loc.y = (screen->h / 2) + 130;
-    SDL_BlitSurface( s3, NULL, screen, &loc);
-  }
-  if (s4)
-  {
-    loc.x = (screen->w / 2) - (s4->w/2);
-    loc.y = (screen->h / 2) + 180;
-    SDL_BlitSurface( s4, NULL, screen, &loc);
-  }
-
-  /* and update: */
   SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-
-  SDL_FreeSurface(s1);
-  SDL_FreeSurface(s2);
-  SDL_FreeSurface(s3);
-  SDL_FreeSurface(s4);
 }
 
 static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
@@ -2232,8 +2225,6 @@ static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
   char wrapped_label[256];
   char wrapped_contents[256];
   int char_width;
-  int pixel_width = LVL_WIDTH_MSG;
-  int fontsize =  DEFAULT_MENU_FONT_SIZE;
 
   if(label == NULL || contents == NULL)
     return;
@@ -2574,22 +2565,22 @@ static int check_exit_conditions(void)
 {
   if(SDL_quit_received)
   {
-    return GAME_OVER_WINDOW_CLOSE;
+    return FF_OVER_SDL_QUIT;
   }
 
   if(escape_received)
   {
-    return GAME_OVER_ESCAPE;
+    return FF_OVER_ESCAPE;
   }
   if(tuxship.lives<=0)
   {
-    return GAME_OVER_LOST;
+    return FF_OVER_LOST;
   }
   if(wave > 6 )
   {
-    return GAME_OVER_WON;
+    return FF_OVER_WON;
   }
 
   /* if we made it to here, the game goes on! */
-  return GAME_IN_PROGRESS;
+  return FF_IN_PROGRESS;
 }

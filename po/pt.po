@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-10 20:59-0500\n"
+"POT-Creation-Date: 2011-04-11 13:33-0500\n"
 "PO-Revision-Date: 2009-10-14 16:04+0100\n"
 "Last-Translator: Pedro Amorim <pedro_amorim@live.com.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -254,102 +254,102 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Para mais informações sobre Software Livre e da GNU GPL, visite:"
 
-#: src/factoroids.c:498
-msgid "Powers of 2"
-msgstr ""
-
-#: src/factoroids.c:499
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "Múltiplos de 11 e 12"
-
-#: src/factoroids.c:500
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "Múltiplos de 13, 14 e 15"
-
-#: src/factoroids.c:501
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Múltiplos de 13, 14 e 15"
-
-#: src/factoroids.c:502
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Múltiplos de 13, 14 e 15"
-
-#: src/factoroids.c:503
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Múltiplos de 13, 14 e 15"
-
-#: src/factoroids.c:508
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Múltiplos de 13, 14 e 15"
-
 #: src/factoroids.c:509
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgid "Powers of 2"
 msgstr ""
 
 #: src/factoroids.c:510
 #, fuzzy
+msgid "Products of 2 and 3"
+msgstr "Múltiplos de 11 e 12"
+
+#: src/factoroids.c:511
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: src/factoroids.c:512
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: src/factoroids.c:513
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: src/factoroids.c:514
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: src/factoroids.c:519
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: src/factoroids.c:520
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
+
+#: src/factoroids.c:521
+#, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "Múltiplos de 13, 14 e 15"
 
-#: src/factoroids.c:511
+#: src/factoroids.c:522
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:512
+#: src/factoroids.c:523
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:513
+#: src/factoroids.c:524
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:530
+#: src/factoroids.c:541
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:531
+#: src/factoroids.c:542
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:747
+#: src/factoroids.c:758
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr "FACTOROIDS: para ganhar, precisas de destruir todos os asteróides."
 
-#: src/factoroids.c:748 src/factoroids.c:759
+#: src/factoroids.c:759 src/factoroids.c:770
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 "Utiliza as setas do teclado para virar ou ir em frente. Faz mira contra um "
 "asteróide,"
 
-#: src/factoroids.c:749
+#: src/factoroids.c:760
 msgid "type one of its factors, and press space or return"
 msgstr ""
 "digitando o número que corresponde ao seu factor, e carregas nas teclas "
 "Espaço ou Enter"
 
-#: src/factoroids.c:750
+#: src/factoroids.c:761
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 "para dividir entre os seus factores.  As rochas com números primos são "
 "destruídos! Por exemplo o factor primo de 6 é 2 e 3 (6 = 2 × 3)"
 
-#: src/factoroids.c:758
+#: src/factoroids.c:769
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr "FRACÇÕES: para ganhar, precisas de destruir todos os asteróides."
 
-#: src/factoroids.c:760
+#: src/factoroids.c:771
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 "digitando um número que pode simplificar a divisão, e carregas nas teclas "
 "Espaço ou Enter"
 
-#: src/factoroids.c:761
+#: src/factoroids.c:772
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
