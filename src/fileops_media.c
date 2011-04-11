@@ -262,11 +262,6 @@ int load_sound_data(void)
   DATA_PREFIX "/sounds/explosion.wav"
   };
 
-  static char* music_filenames[NUM_MUSICS] = {
-  DATA_PREFIX "/sounds/game.mod",
-  DATA_PREFIX "/sounds/game2.mod",
-  DATA_PREFIX "/sounds/game3.mod"
-  };
 
   /* skip loading sound files if sound system not available: */
   if (Opts_UsingSound())
@@ -285,24 +280,9 @@ int load_sound_data(void)
         return 0;
       }
     }
-
-
-    for (i = 0; i < NUM_MUSICS; i++)
-    {
-      musics[i] = Mix_LoadMUS(music_filenames[i]);
-
-      if (musics[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a music file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", music_filenames[i], SDL_GetError());
-        return 0;
-      }
-
-    }
   }
+
+  //NOTE - no longer load musics here - they are loaded as needed
   return 1;
 }
 

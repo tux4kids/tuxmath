@@ -5,9 +5,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: tuxmath 2.0.0\n"
+"Project-Id-Version: tuxmath 2.0.0-pre1\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-10 08:24-0500\n"
+"POT-Creation-Date: 2011-04-10 20:59-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -214,225 +214,225 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:495
+#: src/factoroids.c:498
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:496
+#: src/factoroids.c:499
 msgid "Products of 2 and 3"
 msgstr ""
 
-#: src/factoroids.c:497
+#: src/factoroids.c:500
 msgid "Products of 2, 3 and 5"
 msgstr ""
 
-#: src/factoroids.c:498
+#: src/factoroids.c:501
 msgid "Products of 2, 3, 5 and 7"
 msgstr ""
 
-#: src/factoroids.c:499
+#: src/factoroids.c:502
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr ""
 
-#: src/factoroids.c:500
+#: src/factoroids.c:503
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr ""
 
-#: src/factoroids.c:505
+#: src/factoroids.c:508
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr ""
 
-#: src/factoroids.c:506
+#: src/factoroids.c:509
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:507
+#: src/factoroids.c:510
 msgid "All multiples of 5 end in 0 or 5"
 msgstr ""
 
-#: src/factoroids.c:508
+#: src/factoroids.c:511
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:509
+#: src/factoroids.c:512
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:510
+#: src/factoroids.c:513
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:527
+#: src/factoroids.c:530
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:528
+#: src/factoroids.c:531
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:744
+#: src/factoroids.c:747
 msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 msgstr ""
 
-#: src/factoroids.c:745 src/factoroids.c:756
+#: src/factoroids.c:748 src/factoroids.c:759
 msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
 msgstr ""
 
-#: src/factoroids.c:746
+#: src/factoroids.c:749
 msgid "type one of its factors, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:747
+#: src/factoroids.c:750
 msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
 msgstr ""
 
-#: src/factoroids.c:755
+#: src/factoroids.c:758
 msgid "FRACTIONS: to win, you need destroy all the asteroids"
 msgstr ""
 
-#: src/factoroids.c:757
+#: src/factoroids.c:760
 msgid "type a number that can simplify the fraction, and press space or return"
 msgstr ""
 
-#: src/factoroids.c:758
+#: src/factoroids.c:761
 msgid ""
 "to split it.  Destroy fractions that can not be further simplified in a "
 "single shot!"
 msgstr ""
 
-#: src/game.c:766
+#: src/game.c:770
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:783
+#: src/game.c:787
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:784
+#: src/game.c:788
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:785
+#: src/game.c:789
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:804
+#: src/game.c:808
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:805
+#: src/game.c:809
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:806
+#: src/game.c:810
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:807
+#: src/game.c:811
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:815
+#: src/game.c:819
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:825
+#: src/game.c:829
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:826
+#: src/game.c:830
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:827
+#: src/game.c:831
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:828
+#: src/game.c:832
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:829
+#: src/game.c:833
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:842
+#: src/game.c:846
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:852
+#: src/game.c:856
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:853
+#: src/game.c:857
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:854
+#: src/game.c:858
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:877
+#: src/game.c:881
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:878
+#: src/game.c:882
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:889 src/game.c:925
+#: src/game.c:893 src/game.c:929
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:895
+#: src/game.c:899
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:914
+#: src/game.c:918
 msgid "Fast-moving powerup comets"
 msgstr ""
 
-#: src/game.c:915
+#: src/game.c:919
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:932
+#: src/game.c:936
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:933
+#: src/game.c:937
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:934
+#: src/game.c:938
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:935
+#: src/game.c:939
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/game.c:2721
+#: src/game.c:2725
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2736
+#: src/game.c:2740
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2813
+#: src/game.c:2817
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2821
+#: src/game.c:2825
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4588
+#: src/game.c:4592
 #, c-format
 msgid "%s has left the game."
 msgstr ""

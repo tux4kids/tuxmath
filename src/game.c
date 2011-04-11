@@ -125,7 +125,8 @@ typedef struct powerup_comet_type {
 
 /* Local (to game.c) 'globals': */
 
-static char* game_music_filenames[6] = {
+
+static char* game_music_filenames[NUM_MUSICS] = {
   "01_rush.ogg",
   "02_on_the_edge_of_the_universe.ogg",
   "03_gravity.ogg",
@@ -390,7 +391,7 @@ int game(void)
     {
       if (!Mix_PlayingMusic())
       {
-        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % NUM_MUSICS)], T4K_AUDIO_PLAY_ONCE);
       }
     }
 #endif
@@ -769,13 +770,13 @@ void game_handle_help(void)
   game_set_message(&s1,_("Welcome to TuxMath!"),-1,50);
 
 #ifndef NOSOUND
-  if(Opts_GetGlobalOpt(USE_SOUND))
-  {
-    if (!Mix_PlayingMusic())
+    if(Opts_GetGlobalOpt(USE_SOUND))
     {
-      Mix_PlayMusic(musics[MUS_GAME], 0);
+      if (!Mix_PlayingMusic())
+      {
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % NUM_MUSICS)], T4K_AUDIO_PLAY_ONCE);
+      }
     }
-  }
 #endif
 
   // Wait 2 seconds while rendering frames

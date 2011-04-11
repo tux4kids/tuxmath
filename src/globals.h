@@ -142,7 +142,6 @@ extern const int debug_multiplayer;
 #define DEFAULT_MENU_FONT_SIZE 18
 #define DEFAULT_HELP_FONT_SIZE 32
 
-
 #define HIGH_SCORES_SAVED 10
 #define HIGH_SCORE_NAME_LENGTH 32
 

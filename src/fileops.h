@@ -208,9 +208,12 @@ enum {
 
 /* Names for background music (also formerly in sounds.h): */
 enum {
-  MUS_GAME,
+  MUS_GAME1,
   MUS_GAME2,
   MUS_GAME3,
+  MUS_GAME4,
+  MUS_GAME5,
+  MUS_GAME6,
   NUM_MUSICS
 };
 

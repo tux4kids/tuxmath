@@ -224,7 +224,10 @@ static const int prime_power_limit[] = {7, 4, 3, 3, 2, 2}; //custom calibrated p
 static const int prime_next[] = {2, 2, 3, 5, 5, 7, 7, 11, 11, 11, 11, 13, 13, 2};
 static const int prime_prev[] = {13, 13, 13, 2, 3, 3, 3, 5, 5, 7, 7, 7, 7, 11, 11};
 
-static char* game_music_filenames[3] = {
+static char* game_music_filenames[NUM_MUSICS] = {
+  "01_rush.ogg",
+  "02_on_the_edge_of_the_universe.ogg",
+  "03_gravity.ogg",
   "game.mod",
   "game2.mod",
   "game3.mod",
@@ -404,7 +407,7 @@ void factors(void)
       //...oops, wrong song! Actually, we just pick next music at random:
       if (!Mix_PlayingMusic())
       {
-        T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
+        T4K_AudioMusicLoad(game_music_filenames[(rand() % NUM_MUSICS)], T4K_AUDIO_PLAY_ONCE);
       }
     }
 #endif
