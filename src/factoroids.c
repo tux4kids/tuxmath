@@ -2074,7 +2074,7 @@ int FF_add_laser(void)
       return 1;
     }
   }
-  fprintf(stderr, "Laser could't be created!\n");
+  DEBUGMSG(debug_factoroids, "Laser could't be created!\n");
   return -1;
 }
 
@@ -2106,7 +2106,7 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
 
          if(!validate_number(fact_number, wave))
 	 {
-           fprintf(stderr, "Invalid asteroid number: %d\n", fact_number);
+           DEBUGMSG(debug_factoroids, "Invalid asteroid number: %d\n", fact_number);
            return -1;
          }
   	 //while(!asteroid[i].fact_number)
