@@ -1203,7 +1203,7 @@ void game_handle_answer(void)
   /* Register the indices of comets with correct answers in the comets_answer[]
    * array.  If smartbomb_firing, all answers are automatically correct here
    */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].alive &&
         comets[i].expl == -1 &&
@@ -1440,7 +1440,7 @@ void game_handle_comets(void)
   for (i = 0; i < NUM_CITIES; i++)
     cities[i].threatened = 0;
 
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].alive)
     {
@@ -2056,7 +2056,7 @@ void game_draw_comets(void)
   char* comet_str;
 
    /* First draw regular comets: */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].alive && !comets[i].bonus)
     {
@@ -2097,7 +2097,7 @@ void game_draw_comets(void)
   }
 
   /* Now draw any bonus comets: */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].alive && comets[i].bonus)
     {
@@ -2888,7 +2888,7 @@ void reset_level(void)
    * We initialize all the fields at the start of the game independent of this function anyway.
    */
 
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     DEBUGCODE(debug_game)
     {
@@ -3069,7 +3069,7 @@ int add_comet(void)
   y_spacing = (images[IMG_NUMS]->h) * 1.5;
 
   /* Return if any previous comet too high up to create another one yet: */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].alive)
       if (comets[i].y < y_spacing)
@@ -3082,7 +3082,7 @@ int add_comet(void)
   }  
     
   /* Now look for a free comet slot: */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (!comets[i].alive)
     {
@@ -3892,7 +3892,7 @@ void reset_comets(void)
 {
   int i = 0;
 
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     comets[i].alive = 0;
     comets[i].expl = -1;
@@ -3989,7 +3989,7 @@ void game_recalc_positions(int xres, int yres)
   city_expl_height = yres - images[IMG_CITY_BLUE]->h;
   //move comets to a location 'equivalent' to where they were
   //i.e. with the same amount of time left before impact
-  for (i = 0; i < Opts_MaxComets(); ++i)
+  for (i = 0; i < MAX_MAX_COMETS; ++i)
   {
     if (!comets[i].alive)
       continue;
@@ -4006,7 +4006,7 @@ static int num_comets_alive()
 {
   int i = 0;
   int living = 0;
-  for(i = 0; i < Opts_MaxComets(); i++)
+  for(i = 0; i < MAX_MAX_COMETS; i++)
     if(comets[i].alive)
       living++;
   return living;
@@ -4422,7 +4422,7 @@ int lan_add_comet(MC_FlashCard* fc)
   
 
   /* Look for a free comet slot: */
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (!comets[i].alive)
     {
@@ -4609,7 +4609,7 @@ int game_halted_recvd(char* buf)
 comet_type* search_comets_by_id(int id)
 {
   int i;
-  for (i = 0; i < Opts_MaxComets(); i++)
+  for (i = 0; i < MAX_MAX_COMETS; i++)
   {
     if (comets[i].flashcard.question_id == id)
     {
@@ -4652,7 +4652,7 @@ void print_current_quests(void)
 {
   int i;
   fprintf(stderr, "\n------------  Current Questions:  -----------\n");
-  for(i = 0; i < Opts_MaxComets(); i++)
+  for(i = 0; i < MAX_MAX_COMETS; i++)
   { 
     if(comets[i].alive == 1)
      fprintf(stderr, "Comet %d - question %d:\t%s\n", i, comets[i].flashcard.question_id, comets[i].flashcard.formula_string);
