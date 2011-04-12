@@ -295,9 +295,9 @@ int MC_Initialize(void)
 
     DEBUGCODE(debug_mathcards)
     {
-      printf("\nAlready initialized");
+      fprintf(stderr, "\nAlready initialized");
       MC_PrintMathOptions(stdout, 0);
-      printf("\nLeaving MC_Initialize()\n");
+      fprintf(stderr, "\nLeaving MC_Initialize()\n");
     }
 
     return 1;
@@ -333,7 +333,7 @@ int MC_Initialize(void)
   DEBUGCODE(debug_mathcards)
   {
     MC_PrintMathOptions(stdout, 0);
-    printf("\nLeaving MC_Initialize()\n");
+    fprintf(stderr, "\nLeaving MC_Initialize()\n");
   }
 
   return 1;
@@ -467,7 +467,7 @@ int MC_StartGameUsingWrongs(void)
     if (debug_status & debug_mathcards) {
       print_counters();
       print_list(stdout, question_list);
-      printf("\nLeaving MC_StartGameUsingWrongs()\n");
+      fprintf(stderr, "\nLeaving MC_StartGameUsingWrongs()\n");
     }
 
     return 1;
@@ -526,10 +526,10 @@ int MC_NextQuestion(MC_FlashCard* fc)
   active_quests = append_node(active_quests, ptr);
 
   DEBUGCODE (debug_mathcards) {
-    printf("\nnext question is:");
+    fprintf(stderr, "\nnext question is:");
     print_card(*fc);
     print_counters();
-    printf("\n\nLeaving MC_NextQuestion()\n");
+    fprintf(stderr, "\n\nLeaving MC_NextQuestion()\n");
   }
 
   return 1;
@@ -572,9 +572,9 @@ int MC_AnsweredCorrectly(int id, float t)
 
   DEBUGCODE(debug_mathcards)
   {
-    printf("\nQuestion was:");
+    fprintf(stderr, "\nQuestion was:");
     print_card(quest->card);
-    printf("Player recieves %d points\n", points);
+    fprintf(stderr, "Player recieves %d points\n", points);
   }
 
 
@@ -609,7 +609,7 @@ int MC_AnsweredCorrectly(int id, float t)
   DEBUGCODE(debug_mathcards)
   {
     print_counters();
-    printf("\nLeaving MC_AnsweredCorrectly()\n");
+    fprintf(stderr, "\nLeaving MC_AnsweredCorrectly()\n");
   }
 
   /* Record the time it took to answer: */ 
@@ -668,7 +668,7 @@ int MC_NotAnsweredCorrectly(int id)
     DEBUGCODE(debug_mathcards)
     {
       print_counters();
-      printf("\nLeaving MC_AnsweredCorrectly()\n");
+      fprintf(stderr, "\nLeaving MC_AnsweredCorrectly()\n");
     }
 
     /* can put in more than one copy (to drive the point home!) */
@@ -711,7 +711,7 @@ int MC_NotAnsweredCorrectly(int id)
   DEBUGCODE(debug_mathcards)
  {
     print_counters();
-    printf("\nLeaving MC_NotAnswered_Correctly()\n");
+    fprintf(stderr, "\nLeaving MC_NotAnswered_Correctly()\n");
   }
 
   return 1;
@@ -1268,8 +1268,8 @@ void print_vect_list(FILE* fp, MC_MathQuestion** vect, int length)
 
 void print_card(MC_FlashCard card)
 {
-  printf("\nprint_card():\n");
-  printf("question_id: %d\nformula_string: %s\nanswer_string: %s\n"
+  fprintf(stderr, "\nprint_card():\n");
+  fprintf(stderr, "question_id: %d\nformula_string: %s\nanswer_string: %s\n"
          "answer: %d\ndifficulty: %d\n\n",
          card.question_id,
          card.formula_string,
@@ -1282,15 +1282,15 @@ void print_card(MC_FlashCard card)
 /* lengths of the question lists to stdout - for debugging */
 void print_counters(void)
 {
-  printf("\nquest_list_length = \t%d", quest_list_length);
-  printf("\nlist_length(question_list) = \t%d", list_length(question_list));
-  printf("\nstarting_length = \t%d", starting_length);
-  printf("\nunanswered = \t%d", unanswered);
-  printf("\nanswered_correctly = \t%d", answered_correctly);
-  printf("\nanswered_wrong = \t%d", answered_wrong);
-  printf("\nlist_length(wrong_quests) = \t%d", list_length(wrong_quests));
-  printf("\nquestions_pending = \t%d", questions_pending);
-  printf("\nlist_length(active_quests) = \t%d", list_length(active_quests));
+  fprintf(stderr, "\nquest_list_length = \t%d", quest_list_length);
+  fprintf(stderr, "\nlist_length(question_list) = \t%d", list_length(question_list));
+  fprintf(stderr, "\nstarting_length = \t%d", starting_length);
+  fprintf(stderr, "\nunanswered = \t%d", unanswered);
+  fprintf(stderr, "\nanswered_correctly = \t%d", answered_correctly);
+  fprintf(stderr, "\nanswered_wrong = \t%d", answered_wrong);
+  fprintf(stderr, "\nlist_length(wrong_quests) = \t%d", list_length(wrong_quests));
+  fprintf(stderr, "\nquestions_pending = \t%d", questions_pending);
+  fprintf(stderr, "\nlist_length(active_quests) = \t%d", list_length(active_quests));
 }
 
 
@@ -1560,7 +1560,7 @@ MC_MathQuestion* allocate_node()
   ret = malloc(sizeof(MC_MathQuestion) );
   if (!ret)
   {
-    printf("Could not allocate space for a new node!\n");
+    fprintf(stderr, "Could not allocate space for a new node!\n");
     return NULL;
   }
 
@@ -2188,7 +2188,7 @@ int MC_GetOpt(unsigned int index)
   }
   if (!math_opts)
   {
-    printf("Invalid options list!\n");
+    fprintf(stderr, "Invalid options list!\n");
     return MC_MATH_OPTS_INVALID;
   }
   return math_opts->iopts[index];

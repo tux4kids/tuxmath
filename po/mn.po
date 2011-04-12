@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-12 09:41-0500\n"
+"POT-Creation-Date: 2011-04-12 16:07-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Batkhuu.I <batkhu0014@gmail.com>\n"
 "Language-Team: \n"
@@ -234,70 +234,70 @@ msgstr ""
 "ГНУ ЖПЛ-д зочилсоноор үнэгүй програм хангамжийн тухай илүү мэдээллийг авч "
 "болно."
 
-#: src/factoroids.c:519
+#: src/factoroids.c:520
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:520
+#: src/factoroids.c:521
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "11 ба 12-оор үржих"
 
-#: src/factoroids.c:521
+#: src/factoroids.c:522
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:522
+#: src/factoroids.c:523
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:523
+#: src/factoroids.c:524
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:524
+#: src/factoroids.c:525
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:529
+#: src/factoroids.c:530
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:530
+#: src/factoroids.c:531
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:531
+#: src/factoroids.c:532
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:532
+#: src/factoroids.c:533
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:533
+#: src/factoroids.c:534
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:534
+#: src/factoroids.c:535
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:551
+#: src/factoroids.c:552
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:552
+#: src/factoroids.c:553
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:769
+#: src/factoroids.c:785
 msgid ""
 "To win, you must destroy all the asteroids.\n"
 "Turn: arrow keys or mouse movement.\n"
@@ -308,7 +308,7 @@ msgid ""
 "Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
 
-#: src/factoroids.c:783
+#: src/factoroids.c:799
 msgid ""
 "FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
 "turn or go forward.  Aim at an asteroid, type a number that can simplify the "

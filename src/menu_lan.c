@@ -382,7 +382,7 @@ int Pregame(void)
             }
             else if(strncmp(buf, "NETWORK_ERROR", strlen("NETWORK_ERROR")) == 0)
             {
-                printf("NETWORK_ERROR msg received!\n");
+                fprintf(stderr, "NETWORK_ERROR msg received!\n");
                 status = PREGAME_OVER_LAN_DISCONNECT;
                 break;
             }

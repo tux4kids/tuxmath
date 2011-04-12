@@ -165,7 +165,7 @@ int RunServer(int argc, char* argv[])
   ignore_stdin = 0;
   int frame = 0;
 
-  printf("Started tuxmathserver, waiting for client to connect:\n>\n");
+  fprintf(stderr, "Started tuxmathserver, waiting for client to connect:\n>\n");
 
   server_handle_command_args(argc, argv);
 
@@ -182,7 +182,7 @@ int RunServer(int argc, char* argv[])
   server_running = 1;
   quit = 0;
 
-  printf("Waiting for clients to connect:\n>");
+  fprintf(stderr, "Waiting for clients to connect:\n>");
   fflush(stdout);
 
   
@@ -294,7 +294,7 @@ int RunServer_pthread(int argc, char* argv[])
 
   if(pthread_create(&server_thread, NULL, run_server_local_args, NULL))
   {
-    printf("Error creating thread\n");
+    fprintf(stderr, "Error creating thread\n");
     return -1;
   }
   return 0;
@@ -422,7 +422,7 @@ int setup_server(void)
   client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
   if(!client_set)
   { 
-    printf("SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+    fprintf(stderr, "SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     return 0;
   }
 
@@ -448,7 +448,7 @@ int setup_server(void)
 #ifdef HAVE_FCNTL   
     fcntl(0, F_SETFL, fcntl(0, F_GETFL, 0) | O_NONBLOCK);
 
-    printf("Enter the SERVER's NAME: \n>");
+    fprintf(stderr, "Enter the SERVER's NAME: \n>");
     fflush(stdout);
 
     while(!name_recvd && (SDL_GetTicks() < timeout))
@@ -458,7 +458,7 @@ int setup_server(void)
       T4K_Throttle(10, &timer);
     }
     if(!name_recvd)
-      printf("No name entered within timeout, will use default: %s\n",
+      fprintf(stderr, "No name entered within timeout, will use default: %s\n",
              DEFAULT_SERVER_NAME);
   
     /* If no nickname received, use default: */
@@ -494,7 +494,7 @@ int setup_server(void)
   udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
   if(!udpsock)
   {
-    printf("SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+    fprintf(stderr, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
     return 0;
   }
 
@@ -549,7 +549,7 @@ void server_handle_command_args(int argc, char* argv[])
     if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
     {
       /* Display help message: */
-      printf("\n");
+      fprintf(stderr, "\n");
       cleanup_server();
       exit(0);
     }
@@ -712,7 +712,7 @@ void update_clients(void)
   sockets_used = SDLNet_TCP_AddSocket(client_set, client[slot].sock);
   if(sockets_used == -1) //No way this should happen
   {
-    printf("SDLNet_AddSocket: %s\n", SDLNet_GetError());
+    fprintf(stderr, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
     cleanup_server();
     exit(EXIT_FAILURE);
   }
@@ -733,12 +733,12 @@ void update_clients(void)
     IPaddress* client_ip = NULL;
     client_ip = SDLNet_TCP_GetPeerAddress(client[slot].sock);
 
-    printf("num_clients = %d\n", num_clients);
+    fprintf(stderr, "num_clients = %d\n", num_clients);
     if (client_ip != NULL)
     /* Print the address, converting in the host format */
     {
-      printf("Client connected\n>\n");
-      printf("Client: IP = %x, Port = %d\n",
+      fprintf(stderr, "Client connected\n>\n");
+      fprintf(stderr, "Client: IP = %x, Port = %d\n",
              SDLNet_Read32(&client_ip->host),
              SDLNet_Read16(&client_ip->port));
     }
@@ -764,10 +764,10 @@ int server_check_messages(void)
 
   /* Check the client socket set for activity: */
   actives = SDLNet_CheckSockets(client_set, 0);
-//  printf("in check_messages(), actives = %d\n", actives);
+//  fprintf(stderr, "in check_messages(), actives = %d\n", actives);
   if(actives == -1)
   {
-    printf("SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    fprintf(stderr, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
     perror("SDLNet_CheckSockets");
   }
@@ -809,7 +809,7 @@ int server_check_messages(void)
         }
         else  // Socket activity but cannot receive - client invalid
         {
-          printf("Client %d active but receive failed - apparently disconnected\n>\n", i);
+          fprintf(stderr, "Client %d active but receive failed - apparently disconnected\n>\n", i);
           remove_client(i);
         }
       }
@@ -820,7 +820,7 @@ int server_check_messages(void)
 
     if(actives > ready_found)
     {
-      printf("Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
+      fprintf(stderr, "Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
              "but only %d detected by SDLNet_SocketReady()\n", actives, ready_found);
       //Presently, this just runs ping_client() on all the sockets:
       //test_connections();
@@ -852,7 +852,7 @@ void server_check_stdin(void)
       }
       else
       {
-        printf("Command not recognized.\n");
+        fprintf(stderr, "Command not recognized.\n");
       }
     }
 }
@@ -880,7 +880,7 @@ void remove_client(int i)
   int j;
   char buf[256];
   
-  printf("Removing client[%d] - name: %s\n>\n", i, client[i].name);
+  fprintf(stderr, "Removing client[%d] - name: %s\n>\n", i, client[i].name);
   sprintf(buf, "PLAYER_LEFT\t%d", i);
   
   for(j=0; j<MAX_CLIENTS; j++) {
@@ -1039,7 +1039,7 @@ int handle_client_game_msg(int i , char* buffer)
   }
   else
   {
-    printf("command %s not recognized\n", buffer);
+    fprintf(stderr, "command %s not recognized\n", buffer);
   }
   return(0);
 }
@@ -1212,7 +1212,7 @@ void game_msg_next_question(void)
 
 void game_msg_exit(int i)
 {
-  printf("LEFT the GAME : %s",client[i].name);
+  fprintf(stderr, "LEFT the GAME : %s",client[i].name);
   remove_client(i);
 }
 
@@ -1221,7 +1221,7 @@ void game_msg_exit(int i)
 //FIXME don't think we want to allow players to shut down the server
 void game_msg_quit(int i)
 {
-  printf("Server has been shut down by %s\n", client[i].name); 
+  fprintf(stderr, "Server has been shut down by %s\n", client[i].name); 
   cleanup_server();
   exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
 }
@@ -1244,7 +1244,7 @@ void start_game(void)
     if((client[j].game_ready != 1)
     && (client[j].sock != NULL))
     {
-      printf("Warning - start_game() entered when someone not ready\n");
+      fprintf(stderr, "Warning - start_game() entered when someone not ready\n");
       return;      
     }
   }
@@ -1265,7 +1265,7 @@ void start_game(void)
         num_clients++;
       else
       {
-        printf("in start_game() - failed to send to client %d, removing\n", j);
+        fprintf(stderr, "in start_game() - failed to send to client %d, removing\n", j);
         remove_client(j);
       }
     }
@@ -1276,7 +1276,7 @@ void start_game(void)
   /* If no players join the game (should not happen) */
   if(num_clients == 0)
   {
-    printf("There were no players........=(\n");
+    fprintf(stderr, "There were no players........=(\n");
     return;
   }
 
@@ -1313,7 +1313,7 @@ void start_game(void)
   //  if (!MC_NextQuestion(&flash))
   //  { 
   //    /* no more questions available */
-  //    printf("MC_NextQuestion() returned NULL - no questions available\n");
+  //    fprintf(stderr, "MC_NextQuestion() returned NULL - no questions available\n");
   //    return;
   //  }
 
@@ -1582,7 +1582,7 @@ int transmit(int i, char* msg)
   snprintf(buf, NET_BUF_LEN, "%s", msg);
   if(SDLNet_TCP_Send(client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
   {
-    printf("The client %s is disconnected\n", client[i].name);
+    fprintf(stderr, "The client %s is disconnected\n", client[i].name);
     remove_client(i);
     return 0;
   }

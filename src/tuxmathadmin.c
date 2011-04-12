@@ -289,7 +289,7 @@ void usage(int err, char * cmd)
 
 void display_help(void)
 {
-  printf("\ntuxmathadmin\n"
+  fprintf(stderr, "\ntuxmathadmin\n"
          "This program facilitates administering tuxmath, and is particularly\n"
          "useful for schools and the like that may have many users.\n\n"
          "Examples:\n"
@@ -363,7 +363,7 @@ void create_homedirs(const char *path,const char *file)
     // Make sure this line isn't blank
     if (strlen(line_begin) == 0)
       continue;
-    //printf("Read the line %s\n",line_begin);
+    //fprintf(stderr, "Read the line %s\n",line_begin);
 
     // Count the number of levels by counting the commas + 1
     this_line_total_depth = 1;

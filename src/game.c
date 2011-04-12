@@ -2521,63 +2521,63 @@ int check_exit_conditions(void)
 
 void print_exit_conditions(void)
 {
-  printf("\ngame_status:\t");
+  fprintf(stderr, "\ngame_status:\t");
   switch (game_status)
   {
     case GAME_IN_PROGRESS:
     {
-      printf("GAME_IN_PROGRESS\n");
+      fprintf(stderr, "GAME_IN_PROGRESS\n");
       break;
     }
     case GAME_OVER_WON:
     {
-      printf("GAME_OVER_WON\n");
+      fprintf(stderr, "GAME_OVER_WON\n");
       break;
     }
     case GAME_OVER_LOST:
     {
-      printf("GAME_OVER_LOST\n");
+      fprintf(stderr, "GAME_OVER_LOST\n");
       break;
     }
     case GAME_OVER_OTHER:
     {
-      printf("GAME_OVER_OTHER\n");
+      fprintf(stderr, "GAME_OVER_OTHER\n");
       break;
     }
     case GAME_OVER_ESCAPE:
     {
-      printf("GAME_OVER_ESCAPE\n");
+      fprintf(stderr, "GAME_OVER_ESCAPE\n");
       print_status();
       break;
     }
     case GAME_OVER_WINDOW_CLOSE:
     {
-      printf("GAME_OVER_WINDOW_CLOSE\n");
+      fprintf(stderr, "GAME_OVER_WINDOW_CLOSE\n");
       break;
     }
     case GAME_OVER_LAN_HALTED:
     {
-      printf("GAME_OVER_LAN_HALTED\n");
+      fprintf(stderr, "GAME_OVER_LAN_HALTED\n");
       break;
     }
     case GAME_OVER_LAN_DISCONNECT:
     {
-      printf("GAME_OVER_LAN_DISCONNECT\n");
+      fprintf(stderr, "GAME_OVER_LAN_DISCONNECT\n");
       break;
     }
     case GAME_OVER_LAN_WON:
     {
-      printf("GAME_OVER_LAN_WON\n");
+      fprintf(stderr, "GAME_OVER_LAN_WON\n");
       break;
     }
     case GAME_OVER_ERROR:
     {
-      printf("GAME_OVER_ERROR\n");
+      fprintf(stderr, "GAME_OVER_ERROR\n");
       break;
     }
     default:
     {
-      printf("Unrecognized value\n");
+      fprintf(stderr, "Unrecognized value\n");
       break;
     }
   }
@@ -2590,7 +2590,7 @@ void game_handle_game_over(int game_status)
 
   DEBUGCODE(debug_game)
   {	 
-    printf("Entering game_handle_game_over() - game status = %d\n", game_status);
+    fprintf(stderr, "Entering game_handle_game_over() - game status = %d\n", game_status);
     print_exit_conditions();
   }
 
@@ -2893,7 +2893,7 @@ void reset_level(void)
     DEBUGCODE(debug_game)
     {
       if(comets[i].alive)
-        printf("Warning - changing wave but comet[%d] still alive (could be OK in LAN mode)\n", i);
+        fprintf(stderr, "Warning - changing wave but comet[%d] still alive (could be OK in LAN mode)\n", i);
     }
     //comets[i].alive = 0;
   }
@@ -2981,7 +2981,7 @@ void reset_level(void)
       if (use_feedback)
       {
         #ifdef FEEDBACK_DEBUG
-        printf("Evaluating feedback...\n  old danger level = %g,",danger_level);
+        fprintf(stderr, "Evaluating feedback...\n  old danger level = %g,",danger_level);
         #endif
 
         /* Update our danger level, i.e., the target height */
@@ -2991,7 +2991,7 @@ void reset_level(void)
           danger_level = Opts_DangerLevelMax();
 
         #ifdef FEEDBACK_DEBUG
-        printf(" new danger level = %g.\n",danger_level);
+        fprintf(stderr, " new danger level = %g.\n",danger_level);
         #endif
 
         /* Check to see whether we have any feedback data. If not, skip it. */
@@ -3000,7 +3000,7 @@ void reset_level(void)
           use_feedback = 0;  /* No comets above living cities, skip feedback */
 
           #ifdef FEEDBACK_DEBUG
-          printf("No feedback data available, aborting.\n\n");
+          fprintf(stderr, "No feedback data available, aborting.\n\n");
           #endif
         }
         else
@@ -3015,9 +3015,9 @@ void reset_level(void)
           /* height. That makes the changes a bit more conservative. */
 
           #ifdef FEEDBACK_DEBUG
-          printf("  comet average height = %g, height differential = %g.\n",
+          fprintf(stderr, "  comet average height = %g, height differential = %g.\n",
                  comet_avg_height, height_differential);
-          printf("  old speed = %g,",speed);
+          fprintf(stderr, "  old speed = %g,",speed);
           #endif
 
           speed *= (1 - height_differential/danger_level/2);
@@ -3029,8 +3029,8 @@ void reset_level(void)
             speed = Opts_MaxSpeed();
 
           #ifdef FEEDBACK_DEBUG
-          printf(" new speed = %g.\n",speed);
-          printf("Feedback evaluation complete.\n\n");
+          fprintf(stderr, " new speed = %g.\n",speed);
+          fprintf(stderr, "Feedback evaluation complete.\n\n");
           #endif
         }
       }
@@ -3107,7 +3107,7 @@ int add_comet(void)
 
   DEBUGCODE(debug_game)
   {
-    printf("In add_comet(), card is\n");
+    fprintf(stderr, "In add_comet(), card is\n");
     print_card(comets[com_found].flashcard);
   }
   
@@ -3115,7 +3115,7 @@ int add_comet(void)
   if( (comets[com_found].flashcard.answer > 999)
     ||(comets[com_found].flashcard.answer < -999))
   {
-    printf("Warning, card with invalid answer encountered: %d\n",
+    fprintf(stderr, "Warning, card with invalid answer encountered: %d\n",
            comets[com_found].flashcard.answer);
     MC_ResetFlashCard(&(comets[com_found].flashcard));
     return 0;
@@ -3684,7 +3684,7 @@ void game_mouse_event(SDL_Event event)
      || row    < 0
      || row    > 3)
     {
-      printf("\nIllegal row or column value!\n");
+      fprintf(stderr, "\nIllegal row or column value!\n");
       return;
     }
 
@@ -3848,7 +3848,7 @@ void game_key_event(SDLKey key, SDLMod mod)
           )  /* do nothing unless neg answers allowed */
   {
     /* allow player to make answer positive: */
-	  printf("SDKL_PLUS received\n");
+	  fprintf(stderr, "SDKL_PLUS received\n");
     neg_answer_picked = 0;
     tux_pressing = 1;
   }
@@ -3910,23 +3910,23 @@ void print_status(void)
 {
   int i;
 
-  printf("\nCities:");
-  printf("\nHits left: ");
+  fprintf(stderr, "\nCities:");
+  fprintf(stderr, "\nHits left: ");
   for (i = 0; i < NUM_CITIES; i++)
-    printf("%02d ",cities[i].hits_left);
-  printf("\nStatus:    ");
+    fprintf(stderr, "%02d ",cities[i].hits_left);
+  fprintf(stderr, "\nStatus:    ");
   for (i = 0; i < NUM_CITIES; i++)
-    printf("%02d ",cities[i].status);
+    fprintf(stderr, "%02d ",cities[i].status);
 
-  printf("\nPenguins:");
-  printf("\nStatus:    ");
+  fprintf(stderr, "\nPenguins:");
+  fprintf(stderr, "\nStatus:    ");
   for (i = 0; i < NUM_CITIES; i++)
-    printf("%02d ",penguins[i].status);
+    fprintf(stderr, "%02d ",penguins[i].status);
 
-  printf("\nCloud:");
-  printf("\nStatus:    %d",cloud.status);
-  printf("\nCity:      %d",cloud.city);
-  printf("\n");
+  fprintf(stderr, "\nCloud:");
+  fprintf(stderr, "\nStatus:    %d",cloud.status);
+  fprintf(stderr, "\nCity:      %d",cloud.city);
+  fprintf(stderr, "\n");
 }
 
 
@@ -4109,7 +4109,7 @@ int powerup_add_comet(void)
   if((powerup_comet->comet.flashcard.answer > 999) || 
      (powerup_comet->comet.flashcard.answer < -999))
   {
-    printf("Warning, card with invalid answer encountered: %d\n",
+    fprintf(stderr, "Warning, card with invalid answer encountered: %d\n",
            powerup_comet->comet.flashcard.answer);
     MC_ResetFlashCard(&(powerup_comet->comet.flashcard));
     return 0;
@@ -4406,16 +4406,16 @@ int lan_add_comet(MC_FlashCard* fc)
     
   DEBUGCODE(debug_game)
   {
-    printf("Entering lan_add_comet(), card is\n");
+    fprintf(stderr, "Entering lan_add_comet(), card is\n");
     print_card(*fc);
-    printf("Existing questions are:\n");
+    fprintf(stderr, "Existing questions are:\n");
     print_current_quests();
   }
   
   /* Make sure question is "sane" before we add it: */
   if(fc->answer > 999 || fc->answer < -999)
   {
-    printf("Warning, card with invalid answer encountered: %d\n",
+    fprintf(stderr, "Warning, card with invalid answer encountered: %d\n",
            fc->answer);
     return 0;
   }
@@ -4499,7 +4499,7 @@ int lan_add_comet(MC_FlashCard* fc)
    
   DEBUGCODE(debug_game)
   {
-    printf("Leaving lan_add_comet(), questions are:\n");
+    fprintf(stderr, "Leaving lan_add_comet(), questions are:\n");
     print_current_quests();
   }
   

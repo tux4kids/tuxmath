@@ -95,20 +95,20 @@ int main(int argc, char **argv)
 
   if(servers_found < 1)
   {
-    printf("No server could be found - exiting.\n");
+    fprintf(stderr, "No server could be found - exiting.\n");
     exit(EXIT_FAILURE);
   }
   else if(servers_found  == 1)  //One server - connect without player intervention
   {
-    printf("Single server found - connecting automatically...");
+    fprintf(stderr, "Single server found - connecting automatically...");
 
     if(!LAN_AutoSetup(0))  //i.e.first (and only) entry in list
     {
-      printf("setup_client() failed - exiting.\n");
+      fprintf(stderr, "setup_client() failed - exiting.\n");
       exit(EXIT_FAILURE);
     }
 
-    printf("connected\n");
+    fprintf(stderr, "connected\n");
   } 
 
 
@@ -116,20 +116,20 @@ int main(int argc, char **argv)
   {
     while(server_number < 0 || server_number >= servers_found)
     {
-      printf("The following TuxMath servers were detected:\n");
+      fprintf(stderr, "The following TuxMath servers were detected:\n");
       print_server_list();
-      printf("Enter the SERVER NUMBER you would like to connect to:\n");
+      fprintf(stderr, "Enter the SERVER NUMBER you would like to connect to:\n");
       scanf("%d", &server_number);
       if(server_number < 0 || server_number >= servers_found)
-        printf("Illegal value - try again.\n");
+        fprintf(stderr, "Illegal value - try again.\n");
     }
     if(!LAN_AutoSetup(server_number))  //i.e.first (and only) entry in list
     {
-      printf("setup_client() failed - exiting.\n");
+      fprintf(stderr, "setup_client() failed - exiting.\n");
       exit(EXIT_FAILURE);
     }
 
-    printf("connected\n");
+    fprintf(stderr, "connected\n");
   }
   
 
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
     char name[NAME_SIZE];
     char* p;
 
-    printf("Please enter your name:\n>\n");
+    fprintf(stderr, "Please enter your name:\n>\n");
     fgets(buffer, NAME_SIZE, stdin);
     p = strchr(buffer, '\n');  //get rid of newline character
     if(p)
@@ -152,8 +152,8 @@ int main(int argc, char **argv)
     LAN_SetName(name);
   }
 
-  printf("Welcome to the Tux Math Test Client!\n");
-  printf("Type:\n"
+  fprintf(stderr, "Welcome to the Tux Math Test Client!\n");
+  fprintf(stderr, "Type:\n"
          "'game' to start math game;\n"
          "'exit' to end client leaving server running;\n"
          "'quit' to end both client and server\n>\n"); 
@@ -184,15 +184,15 @@ int main(int argc, char **argv)
       {
         // Begin the actual math game
         playgame();
-        printf("Math game finished.\n\n");
-        printf("Type:\n"
+        fprintf(stderr, "Math game finished.\n\n");
+        fprintf(stderr, "Type:\n"
                "'game' to start math game;\n"
                "'exit' to end client leaving server running;\n"
                "'quit' to end both client and server\n>\n"); 
       }
       else
       {
-        printf("Command not recognized. Type:\n"
+        fprintf(stderr, "Command not recognized. Type:\n"
                "'game' to start math game;\n"
                "'exit' to end client leaving server running;\n"
                "'quit' to end both client and server\n\n>\n");
@@ -221,7 +221,7 @@ int game_check_msgs(void)
     status = LAN_NextMsg(buf);
     if (status == -1)  //Fatal error
     {
-      printf("Error - LAN_NextMsg() returned -1\n");
+      fprintf(stderr, "Error - LAN_NextMsg() returned -1\n");
       return -1;
     }
 
@@ -236,7 +236,7 @@ int game_check_msgs(void)
     if(strncmp(buf, "SEND_QUESTION", strlen("SEND_QUESTION")) == 0)
     {
       if(!add_quest_recvd(buf))
-        printf("SEND_QUESTION received but could not add question\n");
+        fprintf(stderr, "SEND_QUESTION received but could not add question\n");
       else
         // If we successfully added question, show new questions to user:
         print_current_quests();
@@ -244,20 +244,20 @@ int game_check_msgs(void)
     else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
     {
       if(!add_quest_recvd(buf))
-        printf("ADD_QUESTION received but could not add question\n");
+        fprintf(stderr, "ADD_QUESTION received but could not add question\n");
       else  
         print_current_quests();
     }
     else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
     {
       if(!remove_quest_recvd(buf)) //remove the question with id in buf
-        printf("REMOVE_QUESTION received but could not remove question\n");
+        fprintf(stderr, "REMOVE_QUESTION received but could not remove question\n");
       else 
         print_current_quests();
     }
     else if(strncmp(buf, "SEND_MESSAGE", strlen("SEND_MESSAGE")) == 0)
     {
-      printf("%s\n", buf);
+      fprintf(stderr, "%s\n", buf);
     }
     else if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
     {
@@ -274,7 +274,7 @@ int game_check_msgs(void)
     }
     else 
     {
-      printf("game_check_msgs() - unrecognized message: %s\n", buf);
+      fprintf(stderr, "game_check_msgs() - unrecognized message: %s\n", buf);
     }
   }
 
@@ -289,13 +289,13 @@ int add_quest_recvd(char* buf)
 
   if(!fc || !buf)
   {
-    printf("NULL fc or buf\n");
+    fprintf(stderr, "NULL fc or buf\n");
     return 0;
   }
   /* function call to parse buffer and receive question */
   if(!Make_Flashcard(buf, fc))
   {
-    printf("Unable to parse buffer into FlashCard\n");
+    fprintf(stderr, "Unable to parse buffer into FlashCard\n");
     return 0;
   }
 
@@ -339,7 +339,7 @@ int player_msg_recvd(char* buf)
   if(p)
   { 
     p++;
-    printf("%s\n", p);
+    fprintf(stderr, "%s\n", p);
     return 1;
   }
   else
@@ -375,8 +375,8 @@ int playgame(void)
   char buf[NET_BUF_LEN];
   Uint32 timer = 0;
 
-  printf("\nStarting Tux, of the Math Command Line ;-)\n");
-  printf("Waiting for other players to be ready...\n\n");
+  fprintf(stderr, "\nStarting Tux, of the Math Command Line ;-)\n");
+  fprintf(stderr, "Waiting for other players to be ready...\n\n");
 
   //Tell server we're ready to start:
   LAN_StartGame(); 
@@ -424,7 +424,7 @@ int playgame(void)
         fc = check_answer(ans);
         if((fc != NULL))
         {  
-          printf("%s is correct!\nAwait next question...\n>\n", buf);
+          fprintf(stderr, "%s is correct!\nAwait next question...\n>\n", buf);
           //Tell server we answered it right:
           //NOTE the '-1' means we aren't tracking times for testclient
           LAN_AnsweredCorrectly(fc->question_id, -1);
@@ -434,7 +434,7 @@ int playgame(void)
         else  //we got input, but not the correct answer:
         {
           int i = rand()%QUEST_QUEUE_SIZE;
-          printf("Sorry, %s is incorrect. Try again!\n", buf); 
+          fprintf(stderr, "Sorry, %s is incorrect. Try again!\n", buf); 
           // Can't tell which question was the 'wrong' one, so we
           // a non-empty one at random.  Note that this is just for 
           // purposes of testing LAN_NotAnsweredCorrectly()
@@ -452,10 +452,10 @@ int playgame(void)
   switch(game_status)
   {
     case GAME_OVER_ESCAPE:
-      printf("You quit :(\n");
+      fprintf(stderr, "You quit :(\n");
       break;
     case GAME_OVER_WON:
-      printf("You won! :-)\n");
+      fprintf(stderr, "You won! :-)\n");
   }
 
   DEBUGMSG(debug_lan, "Leaving playgame()\n");
@@ -496,15 +496,15 @@ int read_stdin_nonblock(char* buf, size_t max_length)
 void print_current_quests(void)
 {
   int i;
-  printf("\n------------  Current Questions:  -----------\n");
+  fprintf(stderr, "\n------------  Current Questions:  -----------\n");
   for(i = 0; i < QUEST_QUEUE_SIZE; i ++)
   { 
     if(comets[i].question_id != -1)
-      printf("Comet %d - question %d:\t%s\n", i, comets[i].question_id, comets[i].formula_string);
+      fprintf(stderr, "Comet %d - question %d:\t%s\n", i, comets[i].question_id, comets[i].formula_string);
     else
-      printf("Comet %d:\tEmpty\n", i);
+      fprintf(stderr, "Comet %d:\tEmpty\n", i);
   }
-  printf("-----------------------------------------------\n");
+  fprintf(stderr, "-----------------------------------------------\n");
 }
 
 

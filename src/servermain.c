@@ -44,7 +44,7 @@ int main(int argc, char** argv)
   //Initialize SDL and SDL_net:
   if(SDL_Init(0) == -1)
   {
-    printf("SDL_Init: %s\n", SDL_GetError());
+    fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
     return 0;;
   }
   if (SDLNet_Init() < 0)

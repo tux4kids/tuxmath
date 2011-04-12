@@ -623,7 +623,7 @@ static int FF_init(void)
     zoom = (float)screen->w/(float)BASE_RES_X;
 
   DEBUGCODE(debug_factoroids)
-    printf("The zoom factor is: %f\n", zoom);
+    fprintf(stderr, "The zoom factor is: %f\n", zoom);
 
   /*************** Precalculating software rotation ***************/
 
@@ -686,7 +686,7 @@ static int FF_init(void)
 
   if (asteroid == NULL)
   {
-    printf("Allocation of asteroids failed");
+    fprintf(stderr, "Allocation of asteroids failed");
     return 0;
   }
 

@@ -66,7 +66,7 @@ int main(int argc,char *argv[])
   /* Initialize MathCards backend for math questions: */
   if (!MC_Initialize())
   {
-    printf("\nUnable to initialize MathCards\n");
+    fprintf(stderr, "\nUnable to initialize MathCards\n");
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
@@ -82,10 +82,10 @@ int main(int argc,char *argv[])
      this is something that happens in the ordinary course of events
      in tuxmath itself. */
   for (i = 1; i < argc; i++) {
-    printf("Reading %s\n",argv[i]);
+    fprintf(stderr, "Reading %s\n",argv[i]);
     read_named_config_file(argv[i]);
   }
-  printf("All done reading!\n");
+  fprintf(stderr, "All done reading!\n");
 
   MC_StartGame();
   MC_PrintQuestionList(stdout);

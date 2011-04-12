@@ -73,7 +73,7 @@ void mp_run_multiplayer()
 
   if (initMP() )
   {
-    printf("Initialization failed, bailing out\n");
+    fprintf(stderr, "Initialization failed, bailing out\n");
     return;
   }
 
@@ -176,7 +176,7 @@ int mp_get_parameter(unsigned int param)
 {
   if (param > NUM_PARAMS)
   {
-    printf("Invalid mp_param index: %d\n", param);
+    fprintf(stderr, "Invalid mp_param index: %d\n", param);
     return 0;
   }
   return params[param];
@@ -259,7 +259,7 @@ int initMP()
 
   if (!success)
   {
-    printf("Couldn't read in settings for %s\n",
+    fprintf(stderr, "Couldn't read in settings for %s\n",
            config_files[params[DIFFICULTY]] );
     return 1;
   }
@@ -281,7 +281,7 @@ int initMP()
     }
     else
     {
-      printf("Can't allocate name %d!\n", i);
+      fprintf(stderr, "Can't allocate name %d!\n", i);
       return 1;
     }
   }

@@ -974,8 +974,8 @@ void user_data_dirname_down(char *subdir)
   strcat(user_data_dir,"/");
   dir = opendir(user_data_dir);
   if (dir == NULL) {
-    printf("User data directory cannot be opened, there is a configuration error\n");
-    printf("Continuing anyway without saving or loading individual settings.\n");
+    fprintf(stderr, "User data directory cannot be opened, there is a configuration error\n");
+    fprintf(stderr, "Continuing anyway without saving or loading individual settings.\n");
   }
   else {
     closedir(dir);
@@ -1328,7 +1328,7 @@ int read_config_file(FILE *fp, int file_type)
       if (ival == -1) //guess not, must be an int
         ival = atoi(value);
       if (!parse_option(parameter, ival, file_type) )
-        printf("Sorry, I couldn't set %s\n", parameter);
+        fprintf(stderr, "Sorry, I couldn't set %s\n", parameter);
 //        
 //      if (file_type != GLOBAL_CONFIG_FILE)
 //        MC_SetOp(parameter, ival); 
@@ -2206,7 +2206,7 @@ static int read_lines_from_file(FILE *fp,char ***lines)
 
   n_entries = 0;
   if(*lines != NULL) {
-    printf("Error: lines buffer was not NULL upon entry");
+    fprintf(stderr, "Error: lines buffer was not NULL upon entry");
     exit(EXIT_FAILURE);
   }
 
@@ -2227,14 +2227,14 @@ static int read_lines_from_file(FILE *fp,char ***lines)
     *lines = (char**) realloc(*lines,n_entries*sizeof(char*));
     if (*lines == NULL) {
       // Memory allocation error
-      printf("Error #1 allocating memory in read_lines_from_file\n");
+      fprintf(stderr, "Error #1 allocating memory in read_lines_from_file\n");
       exit(EXIT_FAILURE);
     }
     // Copy the cleaned-up line to the list
     (*lines)[n_entries-1] = strdup(name_buf);
     if ((*lines)[n_entries-1] == NULL) {
       // Memory allocation error
-      printf("Error #2 allocating memory in read_lines_from_file\n");
+      fprintf(stderr, "Error #2 allocating memory in read_lines_from_file\n");
       exit(EXIT_FAILURE);
     }
     // Read the next line

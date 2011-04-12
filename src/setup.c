@@ -205,7 +205,7 @@ void initialize_options(void)
   /* Initialize MathCards backend for math questions: */
   if (!MC_Initialize())
   {
-    printf("\nUnable to initialize MathCards\n");
+    fprintf(stderr, "\nUnable to initialize MathCards\n");
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
@@ -362,7 +362,7 @@ void handle_command_args(int argc, char* argv[])
     {
       /* Display help message: */
 
-      printf("\nTux, of Math Command\n\n"
+      fprintf(stderr, "\nTux, of Math Command\n\n"
         "Use the number keys on the keyboard to answer math equations,\n"
 	"and then hit the space bar or enter.\n"
         "If you don't answer a comet's math equation before it hits\n"
@@ -370,11 +370,11 @@ void handle_command_args(int argc, char* argv[])
 	"If an igloo is hit twice, the penguin inside walks away.\n"
         "When you lose all of your igloos, the game ends.\n\n");
 
-      printf("There is also a \"factoroids\" game in which a ship\n"
+      fprintf(stderr, "There is also a \"factoroids\" game in which a ship\n"
 	     "destroys asteroids if you type a valid factor of the number\n"
 	     "for a particular asteroid.  Use the number keys to steer.\n\n");
 
-      printf("Note: most settings are now stored in a config file named 'options' in\n"
+      fprintf(stderr, "Note: most settings are now stored in a config file named 'options' in\n"
              "a hidden directory named './tuxmath' within the user's home directory.\n"
              "The file consists of simple name/value pairs. It is much easier\n"
              "to edit this file to set game parameters than to use the command-line\n"
@@ -382,7 +382,7 @@ void handle_command_args(int argc, char* argv[])
              "command line. The config file contains extensive comments detailing how\n"
              "to configure the behavior of Tuxmath.\n\n");
 
-      printf("Run the game with:\n"
+      fprintf(stderr, "Run the game with:\n"
         "--homedir dirname      - seek for user home director(ies) in the specified\n"
         "                         location, rather than the user's actual home\n"
         "                         directory.  You can set up a user directory tree in\n"
@@ -430,7 +430,7 @@ void handle_command_args(int argc, char* argv[])
 	"                     all: everything!\n"
         );
 
-      printf("\n");
+      fprintf(stderr, "\n");
 
       cleanup_on_error();
       exit(0);
@@ -515,7 +515,7 @@ void handle_command_args(int argc, char* argv[])
     else if (strcmp(argv[i], "--version") == 0 ||
              strcmp(argv[i], "-v") == 0)
     {
-      printf("Tux, of Math Command (\"tuxmath\")\n"
+      fprintf(stderr, "Tux, of Math Command (\"tuxmath\")\n"
              "Version " VERSION "\n");
       cleanup_on_error();
       exit(0);

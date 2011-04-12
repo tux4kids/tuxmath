@@ -50,16 +50,16 @@ int start_campaign()
   int gameresult = 0, endcampaign = 0;
   char roundmessage[10];
   char endtext[2][MAX_LINEWIDTH] = {N_("Congratulations! You win!"), " "};
-  printf("Entering start_campaign()\n");
+  fprintf(stderr, "Entering start_campaign()\n");
   
   
   for (i = 0; i < NUM_STAGES; ++i)
   {
-    printf("Stage %s\n", stagenames[i]);
+    fprintf(stderr, "Stage %s\n", stagenames[i]);
     briefPlayer(i);
     for (j = 1; j <= NUM_ROUNDS; ++j)
     {
-      printf("Round %d\n", j);
+      fprintf(stderr, "Round %d\n", j);
      
       //read in settings 
       read_named_config_file("campaign/campaign");    
@@ -76,7 +76,7 @@ int start_campaign()
       }
 
       //play!
-      printf("Starting game...\n");
+      fprintf(stderr, "Starting game...\n");
       gameresult = game();
       
       //move on if we've won, game over if not
@@ -101,7 +101,7 @@ int start_campaign()
 #endif      
       else
       {
-        printf("gameresult = %d\n", gameresult);
+        fprintf(stderr, "gameresult = %d\n", gameresult);
         endcampaign = 0;
       }
       
