@@ -99,7 +99,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 //a value (float) indicating the sensitivity of the mouse
 //0 = disable mouse; 0.1 high ... 1 low, 2 lower, so on
+//FIXME - this is a very quick/dirty response to my observation
+//that the mouse sensitivity is too high in my initial tests
+//of the win32 build. We ought to figure out if we can get
+//some info from the OS under SDL to set this better, and
+//also provide a way for users to adjust this setting.
+#ifdef BUILD_MINGW32
+#define MOUSE_SENSITIVITY 1.5
+#else
 #define MOUSE_SENSITIVITY 0.5
+#endif
 
 //a special value indicating that a bonus hasn't been used yet
 #define BONUS_NOTUSED -1

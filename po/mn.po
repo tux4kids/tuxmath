@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-11 13:33-0500\n"
+"POT-Creation-Date: 2011-04-12 09:41-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Batkhuu.I <batkhu0014@gmail.com>\n"
 "Language-Team: \n"
@@ -234,102 +234,87 @@ msgstr ""
 "ГНУ ЖПЛ-д зочилсоноор үнэгүй програм хангамжийн тухай илүү мэдээллийг авч "
 "болно."
 
-#: src/factoroids.c:509
+#: src/factoroids.c:519
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:510
+#: src/factoroids.c:520
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "11 ба 12-оор үржих"
 
-#: src/factoroids.c:511
+#: src/factoroids.c:521
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:512
+#: src/factoroids.c:522
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:513
+#: src/factoroids.c:523
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:514
+#: src/factoroids.c:524
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:519
+#: src/factoroids.c:529
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:520
+#: src/factoroids.c:530
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:521
+#: src/factoroids.c:531
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "13, 14, 15-аар үржих"
 
-#: src/factoroids.c:522
+#: src/factoroids.c:532
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:523
+#: src/factoroids.c:533
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:524
+#: src/factoroids.c:534
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:541
+#: src/factoroids.c:551
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:542
+#: src/factoroids.c:552
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:758
-msgid "FACTOROIDS: to win, you need destroy all the asteroids."
-msgstr "САНСАРЫН БИЕТ: Бүх жижиг гаргийг устгасанаар та хожих болно."
-
-#: src/factoroids.c:759 src/factoroids.c:770
-msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr ""
-"Хөлгийн урагш явах болон чиглүүлэн эргүүлэхдээ сумтай товчлууруудыг "
-"хэрэглэнэ."
-
-#: src/factoroids.c:760
-msgid "type one of its factors, and press space or return"
-msgstr "Үржүүлэгч болгох хариуг бичээд урт товчлуур товшино."
-
-#: src/factoroids.c:761
-msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
-msgstr "Жижиг гаригууд хуваагдахгүй тоонуудтай бол устгагдана!"
-
 #: src/factoroids.c:769
-msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr ""
-"БУТАРХАЙ: Бутархайг хялбарчлан хуваах тоог бичиж урт болон буцах товчлуур "
-"товшиж,"
-
-#: src/factoroids.c:771
-msgid "type a number that can simplify the fraction, and press space or return"
-msgstr "бүх жижиг гаригуудыг устгаснаар та ялна."
-
-#: src/factoroids.c:772
 msgid ""
-"to split it.  Destroy fractions that can not be further simplified in a "
-"single shot!"
-msgstr "Бутархайнуудыг дахин хуваагдахгүйгээр ганц буудалтаар сөнөө!"
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
+msgstr ""
+
+#: src/factoroids.c:783
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
 
 #: src/game.c:770
 msgid "Welcome to TuxMath!"
@@ -1203,6 +1188,35 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "САНСАРЫН БИЕТ: Бүх жижиг гаргийг устгасанаар та хожих болно."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr ""
+#~ "Хөлгийн урагш явах болон чиглүүлэн эргүүлэхдээ сумтай товчлууруудыг "
+#~ "хэрэглэнэ."
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "Үржүүлэгч болгох хариуг бичээд урт товчлуур товшино."
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr "Жижиг гаригууд хуваагдахгүй тоонуудтай бол устгагдана!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr ""
+#~ "БУТАРХАЙ: Бутархайг хялбарчлан хуваах тоог бичиж урт болон буцах товчлуур "
+#~ "товшиж,"
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr "бүх жижиг гаригуудыг устгаснаар та ялна."
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr "Бутархайнуудыг дахин хуваагдахгүйгээр ганц буудалтаар сөнөө!"
 
 #, fuzzy
 #~ msgid "Play an arcade style game."

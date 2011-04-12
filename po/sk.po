@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-11 13:33-0500\n"
+"POT-Creation-Date: 2011-04-12 09:41-0500\n"
 "PO-Revision-Date: 2011-01-14 18:34+0200\n"
 "Last-Translator: Administrator <>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -238,103 +238,87 @@ msgstr "PlnÃº verziu GPL nÃ¡jdete v dokumentÃ¡cii k programu."
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Viac informÃ¡ciÃ­ o slobodnom softvÃ©ri a GNU GPL nÃ¡jdete na:"
 
-#: src/factoroids.c:509
+#: src/factoroids.c:519
 msgid "Powers of 2"
 msgstr "Mocniny 2"
 
-#: src/factoroids.c:510
+#: src/factoroids.c:520
 msgid "Products of 2 and 3"
 msgstr "NÃ¡sobky 2 a 3"
 
-#: src/factoroids.c:511
+#: src/factoroids.c:521
 msgid "Products of 2, 3 and 5"
 msgstr "NÃ¡sobky 2, 3 a 5"
 
-#: src/factoroids.c:512
+#: src/factoroids.c:522
 msgid "Products of 2, 3, 5 and 7"
 msgstr "NÃ¡sobky 2, 3, 5 a 7"
 
-#: src/factoroids.c:513
+#: src/factoroids.c:523
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "NÃ¡sobky 2, 3, 5, 7 a 11"
 
-#: src/factoroids.c:514
+#: src/factoroids.c:524
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "NÃ¡sobky 2, 3, 5, 7, 11 a 13"
 
-#: src/factoroids.c:519
+#: src/factoroids.c:529
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "VÅ¡etky nÃ¡sobky 2 konÄia ÄÃ­slicou 2, 4, 6, 8 alebo 0"
 
-#: src/factoroids.c:520
+#: src/factoroids.c:530
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr "SÃºÄet ÄÃ­slic nÃ¡sobku ÄÃ­sla 3 je deliteÄ¾nÃ½ ÄÃ­slom 3"
 
-#: src/factoroids.c:521
+#: src/factoroids.c:531
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "VÅ¡etky nÃ¡sobky 5 konÄia ÄÃ­slicou 0 alebo 5"
 
-#: src/factoroids.c:522
+#: src/factoroids.c:532
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 "Ä½utujeme - jednoduchÃ© pravidlo na urÄenie deliteÄ¾nosti ÄÃ­slom 7 "
 "neexistuje."
 
-#: src/factoroids.c:523
+#: src/factoroids.c:533
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 "NÃ¡sobky 11, menÅ¡ie ako 100, majÃº rovnakÃ© ÄÃ­slice, ako naprÃ­klad 55 alebo "
 "88."
 
-#: src/factoroids.c:524
+#: src/factoroids.c:534
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 "Ä½utujeme - jednoduchÃ© pravidlo na urÄenie deliteÄ¾nosti ÄÃ­slom 13 "
 "neexistuje."
 
-#: src/factoroids.c:541
+#: src/factoroids.c:551
 msgid "Objectives:"
 msgstr "Ciele:"
 
-#: src/factoroids.c:542
+#: src/factoroids.c:552
 #, fuzzy
 msgid "Hints:"
 msgstr "Rady:"
 
-#: src/factoroids.c:758
-msgid "FACTOROIDS: to win, you need destroy all the asteroids."
-msgstr "FAKTOROIDY: aby si zvÃ­Å¥azil, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy."
-
-#: src/factoroids.c:759 src/factoroids.c:770
-msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
-msgstr ""
-"Pomocou Å¡Ã­pok sa mÃ´Å¾eÅ¡ otÃ¡ÄaÅ¥ a postupovaÅ¥ dopredu. Zamier na "
-"asteroid,"
-
-#: src/factoroids.c:760
-msgid "type one of its factors, and press space or return"
-msgstr "napÃ­Å¡ jeden z jeho deliteÄ¾ov a stlaÄ medzernÃ­k alebo Enter"
-
-#: src/factoroids.c:761
-msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
-msgstr "...rozÅ¡tiepi na delitele.    Kamene s prvoÄÃ­slami zmiznÃº!"
-
 #: src/factoroids.c:769
-msgid "FRACTIONS: to win, you need destroy all the asteroids"
-msgstr "ZLOMKY: ak chceÅ¡ vyhraÅ¥, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy"
-
-#: src/factoroids.c:771
-msgid "type a number that can simplify the fraction, and press space or return"
-msgstr ""
-"napÃ­Å¡ ÄÃ­slo, ktorÃ© mÃ´Å¾e zlomok zjednoduÅ¡iÅ¥, stlaÄ medzernÃ­k alebo Enter"
-
-#: src/factoroids.c:772
 msgid ""
-"to split it.  Destroy fractions that can not be further simplified in a "
-"single shot!"
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
-"a on sa rozÅ¡tiepi. Zlomky, ktorÃ© sa uÅ¾ nedajÃº zjednoduÅ¡iÅ¥, zniÄ jednou "
-"ranou!"
+
+#: src/factoroids.c:783
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
 
 #: src/game.c:770
 msgid "Welcome to TuxMath!"
@@ -1240,6 +1224,37 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "FAKTOROIDY: aby si zvÃ­Å¥azil, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr ""
+#~ "Pomocou Å¡Ã­pok sa mÃ´Å¾eÅ¡ otÃ¡ÄaÅ¥ a postupovaÅ¥ dopredu. Zamier na "
+#~ "asteroid,"
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "napÃ­Å¡ jeden z jeho deliteÄ¾ov a stlaÄ medzernÃ­k alebo Enter"
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr "...rozÅ¡tiepi na delitele.    Kamene s prvoÄÃ­slami zmiznÃº!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr "ZLOMKY: ak chceÅ¡ vyhraÅ¥, musÃ­Å¡ zniÄiÅ¥ vÅ¡etky asteroidy"
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr ""
+#~ "napÃ­Å¡ ÄÃ­slo, ktorÃ© mÃ´Å¾e zlomok zjednoduÅ¡iÅ¥, stlaÄ medzernÃ­k alebo "
+#~ "Enter"
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr ""
+#~ "a on sa rozÅ¡tiepi. Zlomky, ktorÃ© sa uÅ¾ nedajÃº zjednoduÅ¡iÅ¥, zniÄ "
+#~ "jednou ranou!"
 
 #, fuzzy
 #~ msgid "Play an arcade style game."
