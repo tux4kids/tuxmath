@@ -286,6 +286,7 @@ static int game_status;
 static int escape_received;
 
 //SDL_Surfaces:
+static SDL_Surface* IMG_lives_ship = NULL;
 static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_tuxship_cloaked[NUM_OF_ROTO_IMGS];
 static SDL_Surface* IMG_tuxship_thrust[NUM_OF_ROTO_IMGS];
@@ -646,6 +647,10 @@ static int FF_init(void)
       return 0;
     }
   }
+  
+
+  /* Create zoomed and scaled ship image for "lives" counter */
+  IMG_lives_ship = rotozoomSurface(images[IMG_SHIP_CLOAKED], 90, zoom * 0.7, 1);
 
 
   /********   Set up properly scaled and optimized background surfaces: *********/
@@ -1221,13 +1226,13 @@ static void FF_draw(void){
   {
     if(tuxship.lives <= 5)
     {
-      dest.y = dest.y - (images[IMG_TUX_LITTLE]->h);
-      SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
+      dest.y = dest.y - (IMG_lives_ship->h);
+      SDL_BlitSurface(IMG_lives_ship, NULL, screen, &dest);
     }
     else if(tuxship.lives > 4)
     {
-      dest.y = screen->h - (images[IMG_TUX_LITTLE]->h);
-      SDL_BlitSurface(images[IMG_TUX_LITTLE], NULL, screen, &dest);
+      dest.y = screen->h - (IMG_lives_ship->h);
+      SDL_BlitSurface(IMG_lives_ship, NULL, screen, &dest);
       sprintf(str, "%d", tuxship.lives);
       draw_numbers(str, 10, (screen->h) - 30);
     }
@@ -1784,6 +1789,21 @@ static void FF_exit_free()
       SDL_FreeSurface(IMG_tuxship[i]);
       IMG_tuxship[i] = NULL;
     }
+    if (IMG_tuxship_thrust[i])
+    {
+      SDL_FreeSurface(IMG_tuxship_thrust[i]);
+      IMG_tuxship_thrust[i] = NULL;
+    }
+    if (IMG_tuxship_cloaked[i])
+    {
+      SDL_FreeSurface(IMG_tuxship_cloaked[i]);
+      IMG_tuxship_cloaked[i] = NULL;
+    }
+    if (IMG_tuxship_thrust_cloaked[i])
+    {
+      SDL_FreeSurface(IMG_tuxship_thrust_cloaked[i]);
+      IMG_tuxship_thrust_cloaked[i] = NULL;
+    }
     if (IMG_asteroids1[i])
     {
       SDL_FreeSurface(IMG_asteroids1[i]);
@@ -1794,6 +1814,12 @@ static void FF_exit_free()
       SDL_FreeSurface(IMG_asteroids2[i]);
       IMG_asteroids2[i] = NULL;
     }
+  }
+  
+  if (IMG_lives_ship)
+  {
+    SDL_FreeSurface(IMG_lives_ship);
+    IMG_lives_ship = NULL;
   }
 
 //  SDL_FreeSurface(*IMG_asteroids1);

@@ -259,7 +259,7 @@ int load_sound_data(void)
   DATA_PREFIX "/sounds/sizzling.wav",
   DATA_PREFIX "/sounds/towerclock.wav",
   DATA_PREFIX "/sounds/cheer.wav",
-  DATA_PREFIX "/sounds/explosion.wav"
+  DATA_PREFIX "/sounds/engine.wav"
   };
 
 
