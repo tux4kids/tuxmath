@@ -602,6 +602,19 @@ static int FF_init(void)
    */
   SDL_WM_GrabInput(SDL_GRAB_ON);
 
+  /********   Set up properly scaled and optimized background surfaces: *********/
+  /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
+  /* can take advantage of it - DSB                                             */
+
+  T4K_LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
+
+  if (bkgd == NULL || scaled_bkgd == NULL)
+  {
+    fprintf(stderr,
+       "\nError: could not scale background\n");
+    return 0;
+  }
+
   FF_intro();
 
   if(screen->h < 600 && screen->w < 800)
@@ -750,7 +763,6 @@ static void FF_intro(void)
   static SDL_Surface* IMG_factors;
   static SDL_Surface* IMG_fractions;
 
-//  SDL_Event event;
   SDL_Rect rect;
 
   float zoom;
@@ -770,7 +782,6 @@ static void FF_intro(void)
     rect.x = (screen->w/2) - (IMG_factors->w/2);
     rect.y = (screen->h)/7;
     SDL_BlitSurface(IMG_factors, NULL, screen, &rect);
-//    FF_ShowMessage(_("To win, you need destroy all the asteroids.\n"));
     FF_ShowMessage(_("To win, you must destroy all the asteroids.\n"
 		     "Turn: arrow keys or mouse movement.\n"
 		     "Thrust: up arrow or right mouse button.\n"
