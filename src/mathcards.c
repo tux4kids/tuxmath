@@ -562,7 +562,7 @@ int MC_AnsweredCorrectly(int id, float t)
     quest = quest->next;
   if(!quest) // Means we didn't find matching card - something is wrong:
   {
-    fprintf(stderr, "MC_AnsweredCorrectly() - matching question not found!\n");
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - question id = %d not found!\n", id);
     return 0;
   }
 
@@ -574,7 +574,7 @@ int MC_AnsweredCorrectly(int id, float t)
   {
     fprintf(stderr, "\nQuestion was:");
     print_card(quest->card);
-    fprintf(stderr, "Player recieves %d points\n", points);
+    fprintf(stderr, "Player receives %d points\n", points);
   }
 
 
@@ -648,7 +648,7 @@ int MC_NotAnsweredCorrectly(int id)
     quest = quest->next;
   if(!quest) // Means we didn't find matching card - something is wrong:
   {
-    fprintf(stderr, "MC_NotAnsweredCorrectly() - matching question not found!\n");
+    fprintf(stderr, "MC_NotAnsweredCorrectly() - question id = %d not found!\n", id);
     return 0;
   }
 
@@ -1279,18 +1279,18 @@ void print_card(MC_FlashCard card)
 }
 
 /* This sends the values of all "global" counters and the */
-/* lengths of the question lists to stdout - for debugging */
+/* lengths of the question lists to stderr - for debugging */
 void print_counters(void)
 {
-  fprintf(stderr, "\nquest_list_length = \t%d", quest_list_length);
-  fprintf(stderr, "\nlist_length(question_list) = \t%d", list_length(question_list));
-  fprintf(stderr, "\nstarting_length = \t%d", starting_length);
-  fprintf(stderr, "\nunanswered = \t%d", unanswered);
-  fprintf(stderr, "\nanswered_correctly = \t%d", answered_correctly);
-  fprintf(stderr, "\nanswered_wrong = \t%d", answered_wrong);
-  fprintf(stderr, "\nlist_length(wrong_quests) = \t%d", list_length(wrong_quests));
-  fprintf(stderr, "\nquestions_pending = \t%d", questions_pending);
-  fprintf(stderr, "\nlist_length(active_quests) = \t%d", list_length(active_quests));
+  fprintf(stderr, "quest_list_length = \t%d\n", quest_list_length);
+  fprintf(stderr, "list_length(question_list) = \t%d\n", list_length(question_list));
+  fprintf(stderr, "starting_length = \t%d\n", starting_length);
+  fprintf(stderr, "unanswered = \t%d\n", unanswered);
+  fprintf(stderr, "answered_correctly = \t%d\n", answered_correctly);
+  fprintf(stderr, "answered_wrong = \t%d\n", answered_wrong);
+  fprintf(stderr, "list_length(wrong_quests) = \t%d\n", list_length(wrong_quests));
+  fprintf(stderr, "questions_pending = \t%d\n", questions_pending);
+  fprintf(stderr, "list_length(active_quests) = \t%d\n", list_length(active_quests));
 }
 
 
@@ -1975,7 +1975,7 @@ MC_MathQuestion* generate_list(void)
   {
     int i = 1;
     MC_MathQuestion* ptr = list;
-    while(ptr->next)
+    while(ptr)
     {
       ptr->card.question_id = i;
       ptr = ptr->next;
@@ -1998,8 +1998,12 @@ static int compare_card(const MC_FlashCard* a, const MC_FlashCard* b)
     return 1;
   if (a->answer != b->answer);
     return 1;
-
-  return 0; //the cards are identical
+  if (a->question_id != b->question_id);
+    return 1;
+  if (a->difficulty != b->difficulty);
+    return 1;
+  //No differences detected - the cards are identical 
+  return 0; 
 }
 
 /* Public functions */

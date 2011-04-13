@@ -1178,7 +1178,8 @@ void game_handle_demo(void)
 
 void game_handle_answer(void)
 {
-  int i, j, comets_answer[MAX_MAX_COMETS], number_of_comets;
+  int i, j, num_zapped;
+  int comets_answer[MAX_MAX_COMETS] = {-1}; 
   char ans[MC_MAX_DIGITS + 2]; //extra space for negative, and for final '\0'
   Uint32 ctime;
   int powerup_ans = 0;
@@ -1198,7 +1199,7 @@ void game_handle_answer(void)
     ans[j] = digits[i] + '0';
   ans[j] = '\0';
   
-  number_of_comets = 0;
+  num_zapped = 0;
 
   /* Register the indices of comets with correct answers in the comets_answer[]
    * array.  If smartbomb_firing, all answers are automatically correct here
@@ -1209,8 +1210,8 @@ void game_handle_answer(void)
         comets[i].expl == -1 &&
         (smartbomb_firing || 0 == strncmp(comets[i].flashcard.answer_string, ans, MC_MAX_DIGITS + 1))) 
     {
-      comets_answer[number_of_comets] = i;
-      number_of_comets++;
+      comets_answer[num_zapped] = i;
+      num_zapped++;
     }
   }
 
@@ -1224,13 +1225,13 @@ void game_handle_answer(void)
   }
 
   /* If there was a comet with this answer, destroy it! */
-  if (number_of_comets != 0 || powerup_ans) 
+  if (num_zapped != 0 || powerup_ans) 
   {
     float t;
     ctime = SDL_GetTicks();
     /* Store the time the question was present on screen (do this */
     /* in a way that avoids storing it if the time wrapped around */
-    for(i = 0; i < number_of_comets; i++)
+    for(i = 0; i < num_zapped; i++)
     {
       int index_comets = comets_answer[i];
       if (ctime > comets[index_comets].time_started)
@@ -1245,9 +1246,9 @@ void game_handle_answer(void)
         {}  // Needed for compiler, even though this path can't occur
 #endif      
       else
+      {
         MC_AnsweredCorrectly(comets[index_comets].flashcard.question_id, t);
-
-
+      }
       /* Destroy comet: */
       comets[index_comets].expl = 0;
       comets[index_comets].zapped = 1;
@@ -1257,12 +1258,12 @@ void game_handle_answer(void)
       laser[i].y1 = screen->h;
       laser[i].x2 = comets[index_comets].x;
       laser[i].y2 = comets[index_comets].y;
-      if(number_of_comets == 1)
+      if(num_zapped == 1)
       {
         playsound(SND_LASER);
         playsound(SND_SIZZLE);
       }
-      else if(number_of_comets > 1 && i == number_of_comets-1)
+      else if(num_zapped > 1 && i == num_zapped-1) //only play sounds once for group
       {
         playsound(SND_LASER);
         playsound(SND_SIZZLE);
@@ -1285,7 +1286,7 @@ void game_handle_answer(void)
 
       /* Pick Tux animation: */
       /* 50% of the time.. */
-      if(number_of_comets == 1)
+      if(num_zapped == 1)
       {
         if ((rand() % 10) < 5)
         {
@@ -1481,6 +1482,10 @@ void game_handle_comets(void)
         else
           MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
 
+	
+        /* Destroy comet: */
+        comets[i].expl = 0;
+
         /* Store the time the question was present on screen (do this */
         /* in a way that avoids storing it if the time wrapped around */
         ctime = SDL_GetTicks();
@@ -1539,8 +1544,6 @@ void game_handle_comets(void)
         tux_anim = IMG_TUX_FIST1;
         tux_anim_frame = ANIM_FRAME_START;
 
-        /* Destroy comet: */
-        comets[i].expl = 0;
       }
 
       /* Handle animation of any comets that are "exploding": */
@@ -4292,6 +4295,8 @@ void game_handle_net_messages(void)
       default:
         {}
     }
+    //"empty" buffer before next time through:
+    buf[0] = '\0';
   }
 }
 
@@ -4316,7 +4321,10 @@ void game_handle_net_msg(char* buf)
   else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
   {
     if(!remove_quest_recvd(buf)) //remove the question with id in buf
-      fprintf(stderr, "REMOVE_QUESTION received but could not remove question\n");
+    {
+      DEBUGMSG(debug_game, "REMOVE_QUESTION received but could not remove question\n");
+      DEBUGMSG(debug_game, "(this is OK if it was answered by this player, as it was removed already)\n");
+    }
     else 
       DEBUGCODE(debug_game) print_current_quests();
   }
@@ -4536,6 +4544,9 @@ int remove_quest_recvd(char* buf)
 
   if(id < 1)  // The question_id can never be negative or zero
     return 0;
+
+  if(answered_by == LAN_MyIndex()) //If we answered, it's already removed
+    return 0;	  
 
   zapped_comet = search_comets_by_id(id);
   if(!zapped_comet)

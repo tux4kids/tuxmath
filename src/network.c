@@ -294,6 +294,8 @@ int LAN_NextMsg(char* buf)
     DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return -1;
   }
+  else  //Make sure we start off with "empty" buffer
+    buf[0] = '\0';
   
   //Check to see if there is socket activity:
   numready = SDLNet_CheckSockets(set, 0);
@@ -311,8 +313,6 @@ int LAN_NextMsg(char* buf)
    // check with SDLNet_SocketReady():
     if(SDLNet_SocketReady(sd))
     {
-      buf[0] = '\0';
-      
       if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) > 0)
       {
         //Success - message is now in buffer
