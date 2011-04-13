@@ -86,7 +86,7 @@ int LAN_DetectServers(void)
   for(i = 0; i < MAX_CLIENTS; i++)
   {
       lan_player_info[i].connected = 0;
-      lan_player_info[i].name[0] = '\0';
+      strncpy(lan_player_info[i].name, _("Await player name"), NAME_SIZE);
       lan_player_info[i].score = -1;
       lan_player_info[i].mine = 0;
       lan_player_info[i].ready = 0;
@@ -301,9 +301,9 @@ int LAN_NextMsg(char* buf)
   numready = SDLNet_CheckSockets(set, 0);
   if(numready == -1)
   {
-    DEBUGMSG(debug_lan, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    DEBUGMSG(debug_lan, "In LAN_NextMsg(), SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
-    perror("SDLNet_CheckSockets");
+    perror("In LAN_NextMsg(), SDLNet_CheckSockets");
     strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
     DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return -1;
@@ -675,7 +675,7 @@ int lan_player_left_recvd(char* buf)
     //rewrite buf to contain name itself for "downstream" rather than index,
     //because we are about to clobber name in lan_player_info[]
     snprintf(buf, NET_BUF_LEN, "%s\t%s", "PLAYER_LEFT", LAN_PlayerName(i));
-    lan_player_info[i].name[0] = '\0';
+    strncpy(lan_player_info[i].name, _("Await player name"), NAME_SIZE);
     lan_player_info[i].score = -1;
     lan_player_info[i].ready = false;
     lan_player_info[i].connected = false;
@@ -717,7 +717,7 @@ int connected_players_recvd(char* buf)
   /* following messages.                                          */
   for(i = 0; i < MAX_CLIENTS; i++)
   {
-    lan_player_info[i].name[0] = '\0';
+    strncpy(lan_player_info[i].name, _("Await player name"), NAME_SIZE);
     lan_player_info[i].score = -1;
     lan_player_info[i].connected = false;
     lan_player_info[i].ready = false;

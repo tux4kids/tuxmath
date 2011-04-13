@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.0-pre1\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-12 16:07-0500\n"
+"POT-Creation-Date: 2011-04-13 15:48-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -401,27 +401,27 @@ msgstr ""
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/game.c:2725
+#: src/game.c:2728
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2740
+#: src/game.c:2743
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2817
+#: src/game.c:2820
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2825
+#: src/game.c:2828
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4592
+#: src/game.c:4603
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -466,62 +466,62 @@ msgstr ""
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/mathcards.c:2620
+#: src/mathcards.c:2624
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2620
+#: src/mathcards.c:2624
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2620
+#: src/mathcards.c:2624
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2621
+#: src/mathcards.c:2625
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2621
+#: src/mathcards.c:2625
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2621
+#: src/mathcards.c:2625
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2622
+#: src/mathcards.c:2626
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2622
+#: src/mathcards.c:2626
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2622
+#: src/mathcards.c:2626
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2623
+#: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2623
+#: src/mathcards.c:2627
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2623
+#: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""

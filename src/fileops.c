@@ -315,9 +315,16 @@ int read_named_config_file(const char* fn)
 {
   FILE* fp;
   char opt_path[PATH_MAX];
-  /* Make compiler happy: */
-  const char* filename = (const char*)fn;
 
+  /* Adjust fn extension for Windows: */
+#ifdef BUILD_MINGW32
+  char fn_tmp[PATH_MAX];
+  strncpy(fn_tmp, fn, PATH_MAX);
+  strcat(fn_tmp, ".txt");
+  const char* filename = (const char*)fn_tmp;
+#else
+  const char* filename = (const char*)fn;
+#endif
  
   if (last_config_file_name != NULL)
     free(last_config_file_name);

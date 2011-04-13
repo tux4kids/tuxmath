@@ -483,7 +483,7 @@ int setup_server(void)
     for(i = 0; i < MAX_CLIENTS; i++)
     {
       client[i].game_ready = 0;   /* waiting for user to OK game start */
-      client[i].name[0] = _("Await player name");   /* no nicknames yet                  */
+      strncpy(client[i].name, _("Await player name"), NAME_SIZE);   /* no nicknames yet                  */
       client[i].sock = NULL;      /* sockets start out unconnected     */
       client[i].score = 0;
     }
@@ -767,9 +767,9 @@ int server_check_messages(void)
 //  fprintf(stderr, "in check_messages(), actives = %d\n", actives);
   if(actives == -1)
   {
-    fprintf(stderr, "SDLNet_CheckSockets: %s\n", SDLNet_GetError());
+    fprintf(stderr, "In server_check_messages(), SDLNet_CheckSockets: %s\n", SDLNet_GetError());
     //most of the time this is a system error, where perror might help you.
-    perror("SDLNet_CheckSockets");
+    perror("In server_check_messages(), SDLNet_CheckSockets");
   }
 
   else if(actives) 
@@ -974,8 +974,6 @@ void check_game_clients(void)
 
 void handle_client_nongame_msg(int i, char* buffer)
 {
-  char buf[NET_BUF_LEN];
-
   DEBUGMSG(debug_lan, "nongame_msg received from client: %s\n", buffer);
 
   if(strncmp(buffer, "PLAYER_READY", strlen("PLAYER_READY")) == 0)
