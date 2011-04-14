@@ -70,6 +70,7 @@ int LAN_DetectServers(void)
 {
   UDPsocket udpsock = NULL;  
   UDPpacket* out;
+  UDPpacket* out_local;
   UDPpacket* in;
   IPaddress bcast_ip;
   int sent = 0;
@@ -117,14 +118,23 @@ int LAN_DetectServers(void)
   }
  
   out = SDLNet_AllocPacket(NET_BUF_LEN);
+  out_local = SDLNet_AllocPacket(NET_BUF_LEN);
   in = SDLNet_AllocPacket(NET_BUF_LEN);
 
+  //Prepare packets for broadcast and (for testing) for localhost:
   SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
   out->address.host = bcast_ip.host;
   sprintf(out->data, "TUXMATH_CLIENT");
   out->address.port = bcast_ip.port;
   out->len = strlen("TUXMATH_CLIENT") + 1;
 
+  SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
+  out_local->address.host = bcast_ip.host;
+  sprintf(out_local->data, "TUXMATH_CLIENT");
+  out_local->address.port = bcast_ip.port;
+  out_local->len = strlen("TUXMATH_CLIENT") + 1;
+ 
+  
   //Here we will need to send every few seconds until we hear back from server
   //and get its ip address:  IPaddress bcast_ip;
   DEBUGMSG(debug_lan, "\nAutodetecting TuxMath servers:\n");
@@ -139,8 +149,7 @@ int LAN_DetectServers(void)
     if(!sent)
     {
       DEBUGMSG(debug_lan, "broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
-      SDLNet_ResolveHost(&bcast_ip, "localhost", DEFAULT_PORT);
-      out->address.host = bcast_ip.host;
+      sent = SDLNet_UDP_Send(udpsock, -1, out_local);
     }
     SDL_Delay(50);  //give server chance to answer
 
@@ -154,10 +163,7 @@ int LAN_DetectServers(void)
       }
     }
 
-    DEBUGCODE(debug_lan)
-    {
-      print_server_list();
-    }
+    DEBUGCODE(debug_lan) print_server_list();
 
     //Make sure we always scan at least 0.5 but not more than 2 seconds:
     T4K_Throttle(100, &timer); //repeat 10x per second
@@ -171,9 +177,9 @@ int LAN_DetectServers(void)
   DEBUGMSG(debug_lan, "done\n\n");
 
   SDLNet_FreePacket(out); 
+  SDLNet_FreePacket(out_local); 
   SDLNet_FreePacket(in); 
   SDLNet_UDP_Close(udpsock); 
-  print_server_list();
   return num_servers;
 }
 

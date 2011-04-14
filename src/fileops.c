@@ -316,11 +316,12 @@ int read_named_config_file(const char* fn)
   FILE* fp;
   char opt_path[PATH_MAX];
 
-  /* Adjust fn extension for Windows: */
+  /* Adjust fn extension for Windows, if needed: */
 #ifdef BUILD_MINGW32
   char fn_tmp[PATH_MAX];
   strncpy(fn_tmp, fn, PATH_MAX);
-  strcat(fn_tmp, ".txt");
+  if(!strstr(fn_tmp, ".txt") && !strstr(fn_tmp, ".TXT")) //no strcasestr() in mingw
+    strcat(fn_tmp, ".txt");
   const char* filename = (const char*)fn_tmp;
 #else
   const char* filename = (const char*)fn;
