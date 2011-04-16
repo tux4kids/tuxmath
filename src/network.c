@@ -462,7 +462,7 @@ int LAN_PlayerScore(int i)
   if(i < 0 || i >= MAX_CLIENTS)
   {
     fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerScore()\n", i);
-    return NULL;
+    return -1;
   }  
   return lan_player_info[i].score;
 }

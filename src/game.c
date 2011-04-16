@@ -112,6 +112,8 @@ typedef struct comet_type {
   int bonus;
   int zapped;
   MC_FlashCard flashcard;
+  SDL_Surface* formula_surf;
+  SDL_Surface* answer_surf;
   Uint32 time_started;
 } comet_type;
 
@@ -145,6 +147,7 @@ static int score;
 static int pre_wave_score;
 static int prev_wave_comets;
 static int slowdown;
+static int comet_fontsize;
 static int num_attackers;
 static float speed;
 static int demo_countdown;
@@ -226,6 +229,7 @@ static void game_handle_extra_life(void);
 static void game_draw(void);
 static void game_draw_background(void);
 static void game_draw_comets(void);
+static void game_draw_comet_nums(const comet_type* comet, bool answered, SDL_Color* col);
 static void game_draw_cities(void);
 static void game_draw_misc(void);
 static void game_handle_game_over(int game_status);
@@ -506,6 +510,7 @@ int game_initialize(void)
   cities = NULL;
   penguins = NULL;
   steam = NULL;
+
   comets = (comet_type *) malloc(MAX_MAX_COMETS * sizeof(comet_type));
   if (comets == NULL)
   {
@@ -623,11 +628,18 @@ int game_initialize(void)
   cloud.status = EXTRA_LIFE_OFF;
 
   /* (Clear laser) */
-  for(i=0;i<MAX_LASER;i++)
+  for(i= 0; i < MAX_LASER; i++)
      laser[i].alive = 0; 
- 
-  /* Reset remaining stuff: */
 
+  /* Assign all comet surfs to NULL initially: */
+  for (i = 0; i < MAX_MAX_COMETS; i++)
+  {
+    comets[i].formula_surf = NULL;
+    comets[i].answer_surf = NULL;
+  }
+
+  /* Reset remaining stuff: */
+  comet_fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
   bkgd = scaled_bkgd = NULL;
   last_bkgd = -1;
   reset_comets();
@@ -656,6 +668,8 @@ int game_initialize(void)
   help_controls.extra_life_is_blinking = 0;
   help_controls.laser_enabled = 1;
 
+  //This tells t4k_common what function we want called
+  //when the screen size changes.
   T4K_OnResolutionSwitch(game_recalc_positions);
   
   DEBUGMSG(debug_game,"Exiting game_initialize()\n");
@@ -679,39 +693,12 @@ void game_cleanup(void)
   }
 #endif
 
-  DEBUGMSG(debug_game, "game_cleanup(): after stopping music\n");
 
 #ifdef HAVE_LIBSDL_NET  
   if (Opts_LanMode() )
     LAN_Cleanup();
-
-  if(player_left_surf)
-  {
-    SDL_FreeSurface(player_left_surf);
-    player_left_surf = NULL;
-  }
 #endif
 
-  DEBUGMSG(debug_game, "game_cleanup(): after LAN_Cleanup\n");
-
-  /* Free background: */
-  if (bkgd)
-  {
-    SDL_FreeSurface(bkgd);
-    bkgd = NULL;
-  }
-  if (scaled_bkgd)
-  {
-    SDL_FreeSurface(scaled_bkgd);
-    scaled_bkgd = NULL;
-  }
-  if(player_left_surf)
-  {
-    SDL_FreeSurface(player_left_surf);
-    player_left_surf = NULL;
-  }
-
-  DEBUGMSG(debug_game, "game_cleanup(): after freeing backgrounds\n");
 
   /* clear start message */
   start_message_chosen = 0;
@@ -998,6 +985,10 @@ void help_add_comet(const char* formula_str, const char* ans_str)
 
   strncpy(comets[0].flashcard.formula_string,formula_str,MC_MaxFormulaSize() );
   strncpy(comets[0].flashcard.answer_string,ans_str,MC_MaxAnswerSize() );
+  if(comets[0].formula_surf) SDL_FreeSurface(comets[0].formula_surf);
+  if(comets[0].answer_surf) SDL_FreeSurface(comets[0].answer_surf);
+  comets[0].formula_surf = T4K_BlackOutline(comets[0].flashcard.formula_string, comet_fontsize, &white);
+  comets[0].answer_surf = T4K_BlackOutline(comets[0].flashcard.answer_string, comet_fontsize, &white);
 }
 
 void game_set_message(game_message *msg,const char *txt,int x,int y)
@@ -1553,6 +1544,10 @@ void game_handle_comets(void)
         if (comets[i].expl >= sprites[IMG_COMET_EXPL]->num_frames * 2) {
           comets[i].alive = 0;
           comets[i].expl = -1;
+	  if(comets[i].answer_surf)
+	    {SDL_FreeSurface(comets[i].answer_surf); comets[i].answer_surf = NULL; }
+	  if(comets[i].formula_surf)
+	    {SDL_FreeSurface(comets[i].formula_surf); comets[i].formula_surf = NULL; }
           if (bonus_comet_counter > 1 && comets[i].zapped) {
             bonus_comet_counter--;
             DEBUGMSG(debug_game, "bonus_comet_counter is now %d\n",bonus_comet_counter);
@@ -2054,9 +2049,9 @@ void game_draw_comets(void)
 {
 
   int i;
+  bool answered, num_draw;
   SDL_Surface* img = NULL;
   SDL_Rect dest;
-  char* comet_str;
 
    /* First draw regular comets: */
   for (i = 0; i < MAX_MAX_COMETS; i++)
@@ -2065,24 +2060,22 @@ void game_draw_comets(void)
     {
       if (comets[i].expl == -1)
       {
+        answered = 0;
         /* Decide which image to display: */
         img = sprites[IMG_COMET]->frame[(frame + i) % sprites[IMG_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
-        {
-          comet_str = comets[i].flashcard.formula_string;
-        }
+	  num_draw = 1;
         else
-        {
-          comet_str = NULL;
-        }
+	  num_draw = 0;
       }
       else
       {
         /* show each frame of explosion twice */
         img = sprites[IMG_COMET_EXPL]->frame[comets[i].expl / 2];
-        comet_str = comets[i].flashcard.answer_string;
+	num_draw = 1;
+	answered = 1;
       }
 
       /* Draw it! */
@@ -2090,11 +2083,11 @@ void game_draw_comets(void)
       dest.y = comets[i].y - img->h;
       dest.w = img->w;
       dest.h = img->h;
-
       SDL_BlitSurface(img, NULL, screen, &dest);
-      if (comet_str != NULL)
+
+      if (num_draw)
       {
-        draw_nums(comet_str, comets[i].x, comets[i].y, &white);
+        game_draw_comet_nums(&comets[i], answered, &white);
       }
     }
   }
@@ -2106,23 +2099,21 @@ void game_draw_comets(void)
     {
       if (comets[i].expl == -1)
       {
+        answered = 0;
         /* Decide which image to display: */
         img = sprites[IMG_BONUS_COMET]->frame[(frame + i) % sprites[IMG_BONUS_COMET]->num_frames];
         /* Display the formula (flashing, in the bottom half
                    of the screen) */
         if (comets[i].y < screen->h / 2 || frame % 8 < 6)
-        {
-          comet_str = comets[i].flashcard.formula_string;
-        }
+	  num_draw = 1;
         else
-        {
-          comet_str = NULL;
-        }
+	  num_draw = 0;
       }
       else
       {
+	answered = 1;
+	num_draw = 1;
         img = sprites[IMG_BONUS_COMET_EXPL]->frame[comets[i].expl / 2];
-        comet_str = comets[i].flashcard.answer_string;
       }
 
       /* Draw it! */
@@ -2131,10 +2122,8 @@ void game_draw_comets(void)
       dest.w = img->w;
       dest.h = img->h;
       SDL_BlitSurface(img, NULL, screen, &dest);
-      if (comet_str != NULL)
-      {
-        draw_nums(comet_str, comets[i].x, comets[i].y, &white);
-      }
+      if (num_draw)
+        game_draw_comet_nums(&comets[i], answered, &white);
     }
   }
 }
@@ -3127,6 +3116,10 @@ int add_comet(void)
   /* If we make it to here, create a new comet!*/
   comets[com_found].answer = comets[com_found].flashcard.answer;
   comets[com_found].alive = 1;
+  if(comets[com_found].formula_surf) SDL_FreeSurface(comets[com_found].formula_surf);
+  if(comets[com_found].answer_surf) SDL_FreeSurface(comets[com_found].answer_surf);
+  comets[com_found].formula_surf = T4K_BlackOutline(comets[com_found].flashcard.formula_string, comet_fontsize, &white);
+  comets[com_found].answer_surf = T4K_BlackOutline(comets[com_found].flashcard.answer_string, comet_fontsize, &white);
 //  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
@@ -3187,8 +3180,7 @@ void draw_nums(const char* str, int x, int y, SDL_Color* col)
     return;
 
   SDL_Surface* surf = NULL;
-  int fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
-  surf = T4K_BlackOutline(str, fontsize, col);
+  surf = T4K_BlackOutline(str, comet_fontsize, col);
   if(surf)
   {
     int w = T4K_GetScreen()->w;
@@ -3207,6 +3199,32 @@ void draw_nums(const char* str, int x, int y, SDL_Color* col)
   }
 }
 
+/* Draw numbers/symbols over the attacker: */
+/* This draws the numbers related to the comets */
+void game_draw_comet_nums(const comet_type* comet, bool answered, SDL_Color* col)
+{
+  if(!comet || !col)
+    return;
+
+  SDL_Surface* surf = answered ? comet->answer_surf : comet->formula_surf;
+  if(surf)
+  {
+    int w = T4K_GetScreen()->w;
+    int x = comet->x;
+    int y = comet->y;
+    x -= surf->w/2;
+    // Keep formula at least 8 pixels inside screen:
+    if(surf->w + x > (w - 8))
+      x = w - 8 - surf->w;
+    if(x < 8)
+      x = 8;
+    //Draw numbers over comet:
+    y -= surf->h;
+
+    SDL_Rect pos = {x, y};
+    SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
+  }
+}
 
 float get_scale(void)
 {
@@ -3905,6 +3923,10 @@ void reset_comets(void)
     comets[i].answer = 0;
     MC_ResetFlashCard(&(comets[i].flashcard));
     comets[i].bonus = 0;
+    if(comets[i].formula_surf) SDL_FreeSurface(comets[i].formula_surf);
+    comets[i].formula_surf = NULL;
+    if(comets[i].answer_surf) SDL_FreeSurface(comets[i].answer_surf);
+    comets[i].answer_surf = NULL;
   }
 }
 
@@ -3940,17 +3962,69 @@ void free_on_exit(void)
   DEBUGMSG(debug_game,"Enter free_on_exit\n");
 
   for (i = 0; i < MAX_MAX_COMETS; ++i)
-    MC_FreeFlashcard(&(comets[i].flashcard));
-  free(comets);
-  free(cities);
-  free(penguins);
-  free(steam);
-  MC_FreeFlashcard(&(powerup_comet->comet.flashcard));
+  {
+    DEBUGMSG(debug_game,"About to free surfaces for comet %d\n", i);
+    if (comets[i].formula_surf)
+    {
+      SDL_FreeSurface(comets[i].formula_surf);
+      comets[i].formula_surf = NULL;
+    }
+    if (comets[i].answer_surf)
+    {
+      SDL_FreeSurface(comets[i].answer_surf);
+      comets[i].answer_surf = NULL;
+    }
+  }
+  
+  if(comets)
+  {
+    free(comets);
+    comets = NULL;
+  }
+
+  if(cities)
+  {
+    free(cities);
+    cities = NULL;
+  }
+
+  if(penguins)
+  {
+    free(penguins);
+    penguins = NULL;
+  }
+
+  if(steam)
+  {
+    free(steam);
+    steam = NULL;
+  }
+
   if(powerup_comet)
   {
     free(powerup_comet);
     powerup_comet = NULL;
   }
+
+  /* Free background: */
+  if (bkgd)
+  {
+    SDL_FreeSurface(bkgd);
+    bkgd = NULL;
+  }
+  if (scaled_bkgd)
+  {
+    SDL_FreeSurface(scaled_bkgd);
+    scaled_bkgd = NULL;
+  }
+
+#ifdef HAVE_LIBSDL_NET  
+  if(player_left_surf)
+  {
+    SDL_FreeSurface(player_left_surf);
+    player_left_surf = NULL;
+  }
+#endif
 
   DEBUGMSG(debug_game,"Leave free_on_exit\n");
 }
@@ -3963,6 +4037,7 @@ void game_recalc_positions(int xres, int yres)
 
   DEBUGMSG(debug_game,"Recalculating positions\n");
   
+
   if (Opts_GetGlobalOpt(USE_IGLOOS))
     img = IMG_IGLOO_INTACT;
   else
@@ -3989,19 +4064,31 @@ void game_recalc_positions(int xres, int yres)
     penguins[i].x = cities[i].x;
   }
 
+  //Handle resize for comets: -------------
+  
   city_expl_height = yres - images[IMG_CITY_BLUE]->h;
-  //move comets to a location 'equivalent' to where they were
-  //i.e. with the same amount of time left before impact
+  comet_fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
+  
   for (i = 0; i < MAX_MAX_COMETS; ++i)
   {
     if (!comets[i].alive)
       continue;
 
+    //move comets to a location 'equivalent' to where they were
+    //i.e. with the same amount of time left before impact
     comets[i].x = cities[comets[i].city].x;
-    //if (Opts_GetGlobalOpt(FULLSCREEN) )
-      comets[i].y = comets[i].y * city_expl_height / old_city_expl_height;
-    //else
-    //  comets[i].y = comets[i].y * RES_Y / screen->h;
+    comets[i].y = comets[i].y * city_expl_height / old_city_expl_height;
+    //  Re-render the numbers of any living comets at the new resolution:
+    if(comets[i].formula_surf != NULL)  //for safety, but shouldn't occur if comet is alive
+    {
+      SDL_FreeSurface(comets[i].formula_surf);
+      comets[i].formula_surf = T4K_BlackOutline(comets[i].flashcard.formula_string, comet_fontsize, &white);
+    }
+    if(comets[i].answer_surf != NULL)
+    {
+      SDL_FreeSurface(comets[i].answer_surf);
+      comets[i].answer_surf = T4K_BlackOutline(comets[i].flashcard.answer_string, comet_fontsize, &white);
+    }
   }
 }
 
@@ -4121,6 +4208,10 @@ int powerup_add_comet(void)
   /* Now make the powerup comet alive */
   powerup_comet->comet.answer = powerup_comet->comet.flashcard.answer;
   powerup_comet->comet.alive = 1;
+  if(powerup_comet->comet.formula_surf) SDL_FreeSurface(powerup_comet->comet.formula_surf);
+  if(powerup_comet->comet.answer_surf) SDL_FreeSurface(powerup_comet->comet.answer_surf);
+  powerup_comet->comet.formula_surf = T4K_BlackOutline(powerup_comet->comet.flashcard.formula_string, comet_fontsize, &white);
+  powerup_comet->comet.answer_surf = T4K_BlackOutline(powerup_comet->comet.flashcard.answer_string, comet_fontsize, &white);
 
   /* Set the direction */
   /* Only two direction, left or right */
@@ -4161,6 +4252,10 @@ void game_handle_powerup(void)
     {
       powerup_comet->comet.alive = 0;
       powerup_comet->comet.expl = -1;
+      if(powerup_comet->comet.answer_surf)
+        {SDL_FreeSurface(powerup_comet->comet.answer_surf); powerup_comet->comet.answer_surf = NULL; }
+      if(powerup_comet->comet.formula_surf)
+        {SDL_FreeSurface(powerup_comet->comet.formula_surf); powerup_comet->comet.formula_surf = NULL; }
       if(powerup_comet->comet.zapped)
       {
         switch(powerup_comet->type)
@@ -4217,8 +4312,7 @@ void game_draw_powerup(void)
 {
   SDL_Surface* img = NULL;
   SDL_Rect dest;
-  char* powerup_str;
-  int imgid;
+  int imgid, answered, num_draw ;
   if(powerup_comet == NULL)
     return;
 
@@ -4227,6 +4321,7 @@ void game_draw_powerup(void)
 
   if(powerup_comet->comet.expl == -1)
   {
+    answered = 0;
     if(powerup_comet->direction == POWERUP_DIR_LEFT)
       imgid = IMG_LEFT_POWERUP_COMET;
     else
@@ -4239,18 +4334,19 @@ void game_draw_powerup(void)
     if(powerup_comet->comet.x >= img->w/2 && 
        powerup_comet->comet.x <= screen->w - img->w/2)
     {
-       powerup_str = powerup_comet->comet.flashcard.formula_string;
+       num_draw = 1;
     }
     else
     {
-      powerup_str = NULL;
+       num_draw = 0;
     }
   }
   else
   {
+    answered = 1;
+    num_draw = 1;
     /* show each frame of explosion twice */
     img = sprites[IMG_POWERUP_COMET_EXPL]->frame[powerup_comet->comet.expl / 2];
-    powerup_str = powerup_comet->comet.flashcard.answer_string;
   }
 
   /* Draw it! */
@@ -4260,11 +4356,15 @@ void game_draw_powerup(void)
   dest.h = img->h;
 
   SDL_BlitSurface(img, NULL, screen, &dest);
-  if (powerup_str != NULL)
+  if (num_draw)
   {
     //Draw twice for extra heavy black outline effect for legibility:
-    draw_nums(powerup_str, powerup_comet->comet.x+5, powerup_comet->comet.y+5, &black);
-    draw_nums(powerup_str, powerup_comet->comet.x, powerup_comet->comet.y, &white);
+    powerup_comet->comet.x += 5;
+    powerup_comet->comet.y += 5;
+    game_draw_comet_nums(&(powerup_comet->comet), answered, &white);
+    powerup_comet->comet.x -= 5;
+    powerup_comet->comet.y -= 5;
+    game_draw_comet_nums(&(powerup_comet->comet), answered, &white);
   }
 }
 
@@ -4456,6 +4556,10 @@ int lan_add_comet(MC_FlashCard* fc)
   MC_CopyCard(fc, &(comets[com_found].flashcard));
   comets[com_found].answer = fc->answer;
   comets[com_found].alive = 1;
+  if(comets[com_found].formula_surf) SDL_FreeSurface(comets[com_found].formula_surf);
+  if(comets[com_found].answer_surf) SDL_FreeSurface(comets[com_found].answer_surf);
+  comets[com_found].formula_surf = T4K_BlackOutline(comets[com_found].flashcard.formula_string, comet_fontsize, &white);
+  comets[com_found].answer_surf = T4K_BlackOutline(comets[com_found].flashcard.answer_string, comet_fontsize, &white);
 //  num_comets_alive++;
 
   /* Pick a city to attack that was not attacked last time */
