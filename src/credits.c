@@ -41,7 +41,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {"-"N_("TUX, OF MATH COMMAND")},  /* '-' at beginning makes highlighted: */
-  {N_("COPYRIGHT 2001-2010")},
+  {N_("COPYRIGHT 2001-2011")},
+  {N_("VERSION ")VERSION},
   {" "},
   {N_("PART OF THE 'TUX4KIDS' PROJECT")},
   {"http://tux4kids.alioth.debian.org"},
@@ -92,7 +93,16 @@ const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
   {"BY GROO OF CNCD, 1994"},
   {" "},
   {"SOFT BRILLIANCE"},
-  {"TJOPPBASS, 1994"},
+  {"BY TJOPPBASS, 1994"},
+  {" "},
+  {"RUSH"},
+  {"BY SERBERIS"},
+  {" "},
+  {"ON THE EDGE OF THE UNIVERSE"},
+  {"BY SYNTHAURION"},
+  {" "},
+  {"GRAVITY"},
+  {"BY SERBERIS"},
   {" "},
   {"-"N_("PACKAGERS")},
   {"JESSE ANDREWS"},

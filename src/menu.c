@@ -212,10 +212,11 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_INFO:
-        ShowMessageWrap( DEFAULT_MENU_FONT_SIZE, _("Tuxmath is free and open-source!\n"
-                                               "You can help make it better.\n"
-                                                "Suggestions, artwork, and code are all welcome!\n"
-                                                "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"));
+      {
+        char msg[512];
+	snprintf(msg, sizeof(msg), _("TuxMath version %s is free and open-source!\nYou can help make it better.\nSuggestions, artwork, and code are all welcome!\nDiscuss TuxMath at tuxmath-devel@list.sourceforge.net"), VERSION);
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
+      }
       break;
 
     case RUN_CREDITS:

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: nb\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-13 15:48-0500\n"
+"POT-Creation-Date: 2011-04-17 13:30-0500\n"
 "PO-Revision-Date: 2008-09-21 19:08+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <i18n-nn@lister.ping.uio.no>\n"
@@ -139,80 +139,84 @@ msgid "TUX, OF MATH COMMAND"
 msgstr ""
 
 #: src/credits.c:44
-msgid "COPYRIGHT 2001-2010"
+msgid "COPYRIGHT 2001-2011"
 msgstr ""
 
-#: src/credits.c:46
+#: src/credits.c:45
+msgid "VERSION "
+msgstr ""
+
+#: src/credits.c:47
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
 msgstr ""
 
-#: src/credits.c:49
+#: src/credits.c:50
 msgid "DESIGNED BY"
 msgstr ""
 
-#: src/credits.c:52
+#: src/credits.c:53
 msgid "LEAD PROGRAMMERS"
 msgstr ""
 
-#: src/credits.c:58
+#: src/credits.c:59
 msgid "ADDITIONAL CODE"
 msgstr ""
 
-#: src/credits.c:74
+#: src/credits.c:75
 msgid "LEAD ARTISTS"
 msgstr ""
 
-#: src/credits.c:78
+#: src/credits.c:79
 msgid "ADDITIONAL ART"
 msgstr ""
 
-#: src/credits.c:84
+#: src/credits.c:85
 msgid "SOUND EFFECTS"
 msgstr ""
 
-#: src/credits.c:87
+#: src/credits.c:88
 msgid "MUSIC"
 msgstr ""
 
-#: src/credits.c:97
+#: src/credits.c:107
 msgid "PACKAGERS"
 msgstr ""
 
-#: src/credits.c:102
+#: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr ""
 
-#: src/credits.c:105
+#: src/credits.c:115
 msgid "TESTERS"
 msgstr ""
 
-#: src/credits.c:117
+#: src/credits.c:127
 msgid "USER WEBSITE"
 msgstr ""
 
-#: src/credits.c:120
+#: src/credits.c:130
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
 msgstr ""
 
-#: src/credits.c:123
+#: src/credits.c:133
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
 
-#: src/credits.c:125
+#: src/credits.c:135
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
 
-#: src/credits.c:127
+#: src/credits.c:137
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 
-#: src/credits.c:129
+#: src/credits.c:139
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
@@ -298,140 +302,140 @@ msgid ""
 "not be further simplified in a single shot!"
 msgstr ""
 
-#: src/game.c:770
+#: src/game.c:757
 msgid "Welcome to TuxMath!"
 msgstr "Velkommen til TuxMath!"
 
-#: src/game.c:787
+#: src/game.c:774
 msgid "Your mission is to save your"
 msgstr "Oppdraget ditt er å redde"
 
-#: src/game.c:788
+#: src/game.c:775
 msgid "penguins' igloos from the"
 msgstr "igloene til pingvinene fra"
 
-#: src/game.c:789
+#: src/game.c:776
 msgid "falling comets."
 msgstr "kometer fra verdensrommet."
 
-#: src/game.c:808
+#: src/game.c:795
 msgid "Stop a comet by typing"
 msgstr "Du kan stoppe en komet ved"
 
-#: src/game.c:809
+#: src/game.c:796
 msgid "the answer to the math problem"
 msgstr "å skrive inn svaret, og så"
 
-#: src/game.c:810
+#: src/game.c:797
 msgid "and hitting 'space' or 'enter'."
 msgstr "«Mellomrom» eller «Enter»."
 
-#: src/game.c:811
+#: src/game.c:798
 msgid "Try it now!"
 msgstr "Prøv det nå!"
 
-#: src/game.c:819
+#: src/game.c:806
 msgid "Good shot!"
 msgstr "Bra skudd!"
 
-#: src/game.c:829
+#: src/game.c:816
 msgid "If an igloo gets hit by a comet,"
 msgstr "Hvis en iglo blir truffet av en"
 
-#: src/game.c:830
+#: src/game.c:817
 msgid "it melts. But don't worry: the"
 msgstr "komet, smelter den. Men ta det"
 
-#: src/game.c:831
+#: src/game.c:818
 msgid "penguin is OK!"
 msgstr "med ro: pingvinen klarer seg!"
 
-#: src/game.c:832
+#: src/game.c:819
 msgid "Just watch what happens:"
 msgstr "Berre se hva som skjer."
 
-#: src/game.c:833
+#: src/game.c:820
 msgid "(Press a key to start)"
 msgstr "(Trykk en tast for å se.)"
 
-#: src/game.c:846
+#: src/game.c:833
 msgid "Notice the answer"
 msgstr "Legg merke til rett svar."
 
-#: src/game.c:856
+#: src/game.c:843
 msgid "If it gets hit again, the"
 msgstr "Hvis igloen blir truffet på nytt,"
 
-#: src/game.c:857
+#: src/game.c:844
 msgid "penguin leaves."
 msgstr "vandrer pingvinen bort."
 
-#: src/game.c:858
+#: src/game.c:845
 msgid "(Press a key when ready)"
 msgstr "(Trykk en tast når du er klar.)"
 
-#: src/game.c:881
+#: src/game.c:868
 msgid "You can fix the igloos"
 msgstr "Du kan bygge opp igjen igloene"
 
-#: src/game.c:882
+#: src/game.c:869
 msgid "by stopping bonus comets."
 msgstr "ved å stoppe bonuskometer."
 
-#: src/game.c:893 src/game.c:929
+#: src/game.c:880 src/game.c:916
 msgid "Zap it now!"
 msgstr "Skyt kometen nå!"
 
-#: src/game.c:899
+#: src/game.c:886
 msgid "Great job!"
 msgstr "Kjempebra!"
 
-#: src/game.c:918
+#: src/game.c:905
 #, fuzzy
 msgid "Fast-moving powerup comets"
 msgstr "ved å stoppe bonuskometer."
 
-#: src/game.c:919
+#: src/game.c:906
 msgid "earn you a secret weapon:"
 msgstr ""
 
-#: src/game.c:936
+#: src/game.c:923
 msgid "Quit at any time by pressing"
 msgstr "Du kan når som helst gi deg,"
 
-#: src/game.c:937
+#: src/game.c:924
 msgid "'Esc' or clicking the 'X'"
 msgstr "ved å trykke «Escape» eller"
 
-#: src/game.c:938
+#: src/game.c:925
 msgid "in the upper right corner."
 msgstr "klikke på X-en oppe til høyre."
 
-#: src/game.c:939
+#: src/game.c:926
 msgid "Do it now, and then play!"
 msgstr "Prøv det nå, og start spillet!"
 
-#: src/game.c:2728
+#: src/game.c:2717
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2743
+#: src/game.c:2732
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2820
+#: src/game.c:2809
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2828
+#: src/game.c:2817
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4603
+#: src/game.c:4707
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -536,15 +540,16 @@ msgstr ""
 msgid "%d ÷ ? = %d"
 msgstr ""
 
-#: src/menu.c:215
+#: src/menu.c:217
+#, c-format
 msgid ""
-"Tuxmath is free and open-source!\n"
+"TuxMath version %s is free and open-source!\n"
 "You can help make it better.\n"
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
 
-#: src/menu.c:351
+#: src/menu.c:352
 #, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
@@ -552,37 +557,37 @@ msgid ""
 "See README.txt for more information.\n"
 msgstr "Rediger «options»-fila i hjemmemappa di"
 
-#: src/menu.c:378
+#: src/menu.c:379
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/menu.c:379
+#: src/menu.c:380
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:444
+#: src/menu.c:445
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:455
+#: src/menu.c:456
 msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
 
-#: src/menu.c:459
+#: src/menu.c:460
 msgid "Enter Server Name:"
 msgstr ""
 
-#: src/menu.c:459
+#: src/menu.c:460
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:473
+#: src/menu.c:474
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:500
+#: src/menu.c:501
 #, c-format
 msgid ""
 "Server Name:\n"
@@ -591,46 +596,46 @@ msgid ""
 "%s"
 msgstr ""
 
-#: src/menu.c:523
+#: src/menu.c:524
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
 msgstr ""
 
-#: src/menu.c:524 src/menu.c:602
+#: src/menu.c:525 src/menu.c:603
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:534
+#: src/menu.c:535
 msgid "The server is not running."
 msgstr ""
 
-#: src/menu.c:540
+#: src/menu.c:541
 msgid "Cannot stop server until current game finishes."
 msgstr ""
 
-#: src/menu.c:544
+#: src/menu.c:545
 msgid "The server has been stopped."
 msgstr ""
 
-#: src/menu.c:561
+#: src/menu.c:562
 msgid "Sorry, could not connect to server."
 msgstr ""
 
-#: src/menu.c:562
+#: src/menu.c:563
 msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
-#: src/menu.c:582
+#: src/menu.c:583
 msgid "Sorry, game already in progress"
 msgstr ""
 
-#: src/menu.c:588
+#: src/menu.c:589
 msgid "Connection with server was lost"
 msgstr ""
 
-#: src/menu.c:601
+#: src/menu.c:602
 msgid "Sorry, this version built without network support"
 msgstr ""
 
