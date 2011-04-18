@@ -1429,6 +1429,7 @@ void game_handle_comets(void)
   int i, this_city;
   Uint32 ctime;
 
+
 //  num_comets_alive = 0;
 
   /* Clear the threatened flag on each city */
