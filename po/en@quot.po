@@ -26,10 +26,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: tuxmath 2.0.0\n"
+"Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-17 13:30-0500\n"
-"PO-Revision-Date: 2011-04-17 13:30-0500\n"
+"POT-Creation-Date: 2011-04-17 20:07-0500\n"
+"PO-Revision-Date: 2011-04-17 20:07-0500\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
