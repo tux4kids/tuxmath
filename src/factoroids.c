@@ -53,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define FPS 15                     /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
 #define BASE_RES_X 1280
+#define ASTEROID_NUM_SIZE 48
 
 #define MAX_LASER 5
 #define MAX_ASTEROIDS 50
@@ -296,6 +297,8 @@ static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
 static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
 static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
 
+//Scale factor for window size/resolution
+static float zoom;
 
 // Game type
 static int FF_game;
@@ -343,6 +346,7 @@ static void FF_draw(void);
 static void FF_draw_bkgr(void);
 static void FF_draw_led_console(void);
 static void draw_console_image(int i);
+void draw_nums(const char* str, int x, int y, SDL_Color* col);
 
 static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y);
 static void FF_DrawButtonLayout(void);
@@ -589,7 +593,6 @@ static int FF_init(void)
 {
   Uint32 timer = 0;
   int i;
-  float zoom;
   mouse_reset = 0;
 
   SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
@@ -2629,4 +2632,29 @@ static int check_exit_conditions(void)
 
   /* if we made it to here, the game goes on! */
   return FF_IN_PROGRESS;
+}
+
+
+/* Draw numbers/symbols over the attacker: */
+void draw_nums(const char* str, int x, int y, SDL_Color* col)
+{
+  if(!str || !col)
+    return;
+
+  SDL_Surface* surf = NULL;
+  surf = T4K_BlackOutline(str, ASTEROID_NUM_SIZE * zoom, col);
+  if(surf)
+  {
+    int w = T4K_GetScreen()->w;
+    x -= surf->w/2;
+    // Keep formula at least 8 pixels inside screen:
+    if(surf->w + x > (w - 8))
+      x -= (surf->w + x - (w - 8));
+    if(x < 8)
+      x = 8;
+
+    SDL_Rect pos = {x, y};
+    SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
+    SDL_FreeSurface(surf);
+  }
 }

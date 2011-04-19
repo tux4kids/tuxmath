@@ -3172,32 +3172,6 @@ int add_comet(void)
 
 
 
-/* Draw numbers/symbols over the attacker: */
-/* This draws the numbers related to the comets */
-void draw_nums(const char* str, int x, int y, SDL_Color* col)
-{
-  if(!str || !col)
-    return;
-
-  SDL_Surface* surf = NULL;
-  surf = T4K_BlackOutline(str, comet_fontsize, col);
-  if(surf)
-  {
-    int w = T4K_GetScreen()->w;
-    x -= surf->w/2;
-    // Keep formula at least 8 pixels inside screen:
-    if(surf->w + x > (w - 8))
-      x -= (surf->w + x - (w - 8));
-    if(x < 8)
-      x = 8;
-    //Draw numbers over comet:
-    y -= surf->h;
-
-    SDL_Rect pos = {x, y};
-    SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
-    SDL_FreeSurface(surf);
-  }
-}
 
 /* Draw numbers/symbols over the attacker: */
 /* This draws the numbers related to the comets */
