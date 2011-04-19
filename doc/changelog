@@ -1,3 +1,9 @@
+2011.Apr.19 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.1:
+	- Fix of bug preventing display of asteroid numbers in Factoroids.
+	
+	David Bruce <davidstuartbruce@gmail.com>
 2011.Apr.18 (git://git.debian.org/tux4kids/tuxmath.git)
 
 	For version 2.0.0, major changes include:
