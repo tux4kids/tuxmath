@@ -42,6 +42,7 @@ int params[NUM_PARAMS] = {0, 0, 0, 0};
 int inprogress = 0;
 int pscores[MAX_PLAYERS];
 char* pnames[MAX_PLAYERS];
+int currentplayer = 0;
 
 //local function decs
 static void showWinners(int* order, int num); //show a sequence recognizing winner
@@ -55,6 +56,11 @@ void mp_set_parameter(unsigned int param, int value)
     DEBUGMSG(debug_multiplayer, "Oops, tried to set param %d in the middle of a game\n", param);
     return;
   }
+  if (param > NUM_PARAMS)
+  {
+    DEBUGMSG(debug_multiplayer, "Oops, param %d is illegal, must be < %d\n", param, NUM_PARAMS);
+    return;
+  }
   params[param] = value;
 }
 
@@ -62,12 +68,12 @@ void mp_run_multiplayer()
 {
   int i;
   int round = 1;
-  int currentplayer = 0;
   int result = 0;
   int done = 0;
   int activeplayers = params[PLAYERS];
   int winners[MAX_PLAYERS];
 
+  currentplayer = 0;
   for (i = 0; i < MAX_PLAYERS; ++i)
     winners[i] = -1;
 
@@ -152,9 +158,25 @@ void mp_run_multiplayer()
   cleanupMP();
 }
 
+int mp_get_currentplayer(void)
+{
+  return currentplayer;
+}
+	
+int mp_set_player_score(int playernum, int score)
+{
+  if (playernum < 0 || playernum > params[PLAYERS])
+  {
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
+    return 0;
+  }
+  pscores[playernum] = score;
+  return 1;
+}
+
 int mp_get_player_score(int playernum)
 {
-  if (playernum > params[PLAYERS])
+  if (playernum < 0 || playernum > params[PLAYERS])
   {
     DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
@@ -164,7 +186,7 @@ int mp_get_player_score(int playernum)
 
 const char* mp_get_player_name(int playernum)
 {
-  if (playernum > params[PLAYERS])
+  if (playernum < 0 || playernum > params[PLAYERS])
   {
     DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
@@ -311,4 +333,5 @@ void cleanupMP()
     params[i] = 0;
     
   inprogress = 0;
+  currentplayer = 0;
 }

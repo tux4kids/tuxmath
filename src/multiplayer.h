@@ -50,10 +50,12 @@ typedef enum {
   ELIMINATION
 } MP_Mode;
 
-void mp_set_parameter(unsigned int param, int value);
-int mp_get_parameter(unsigned int param);
 void mp_run_multiplayer();
+void mp_set_parameter(unsigned int param, int value);
+int mp_set_player_score(int playernum, int score);
+int mp_get_parameter(unsigned int param);
 int mp_get_player_score(int playernum);
+int mp_get_currentplayer(void);
 const char* mp_get_player_name(int playernum);
 int mp_num_players();
 

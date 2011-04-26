@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-17 20:07-0500\n"
+"POT-Creation-Date: 2011-04-19 14:53-0500\n"
 "PO-Revision-Date: 2008-02-15 03:00+0100\n"
 "Last-Translator: Caroline Ford <caroline.ford.work@googlemail.com>\n"
 "Language-Team: \n"
@@ -215,70 +215,70 @@ msgstr ""
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:520
+#: src/factoroids.c:524
 msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:521
+#: src/factoroids.c:525
 #, fuzzy
 msgid "Products of 2 and 3"
 msgstr "مضاعفات اﻷعداد 11 و 12"
 
-#: src/factoroids.c:522
+#: src/factoroids.c:526
 #, fuzzy
 msgid "Products of 2, 3 and 5"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:523
+#: src/factoroids.c:527
 #, fuzzy
 msgid "Products of 2, 3, 5 and 7"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:524
+#: src/factoroids.c:528
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:525
+#: src/factoroids.c:529
 #, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:530
+#: src/factoroids.c:534
 #, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:531
+#: src/factoroids.c:535
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:532
+#: src/factoroids.c:536
 #, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
 msgstr "مضاعفات الأعداد 13و 14و 15"
 
-#: src/factoroids.c:533
+#: src/factoroids.c:537
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:534
+#: src/factoroids.c:538
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
 
-#: src/factoroids.c:535
+#: src/factoroids.c:539
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
-#: src/factoroids.c:552
+#: src/factoroids.c:556
 msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:553
+#: src/factoroids.c:557
 msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:785
+#: src/factoroids.c:788
 msgid ""
 "To win, you must destroy all the asteroids.\n"
 "Turn: arrow keys or mouse movement.\n"
@@ -289,7 +289,7 @@ msgid ""
 "Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
 
-#: src/factoroids.c:799
+#: src/factoroids.c:802
 msgid ""
 "FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
 "turn or go forward.  Aim at an asteroid, type a number that can simplify the "
@@ -431,7 +431,7 @@ msgid ""
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4707
+#: src/game.c:4681
 #, c-format
 msgid "%s has left the game."
 msgstr ""

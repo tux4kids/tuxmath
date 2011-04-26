@@ -2346,10 +2346,10 @@ void game_draw_misc(void)
   }
 
   /* Draw other players' scores (turn-based single machine multiplayer) */
-  if (mp_get_parameter(PLAYERS) && mp_get_parameter(MODE) == SCORE_SWEEP )
+  if (mp_get_parameter(PLAYERS)) // && mp_get_parameter(MODE) == SCORE_SWEEP )
   {
     int i;
-    SDL_Surface* score = NULL;
+    SDL_Surface* score_surf = NULL;
     SDL_Rect loc;
 
     //Adjust font size for resolution:
@@ -2357,17 +2357,18 @@ void game_draw_misc(void)
 
     for (i = 0; i < mp_get_parameter(PLAYERS); ++i)
     {
-      snprintf(str, 64, "%s: %d", mp_get_player_name(i),mp_get_player_score(i));
-      score = T4K_BlackOutline(str, fontsize, &white);
-      if(score)
+      snprintf(str, 64, "%s: %d", mp_get_player_name(i), mp_get_player_score(i));
+      score_surf = T4K_BlackOutline(str, fontsize, &white);
+      if(score_surf)
       {
-        loc.w = screen->w - score->w;
-        loc.h = score->h * (i + 2);
         loc.x = 0;
-        loc.y = 0;
-        SDL_BlitSurface(score, NULL, screen, &loc);
-	SDL_FreeSurface(score);
-	score = NULL;
+        loc.y = score_surf->h * (i + 2);
+        loc.w = score_surf->w;
+        loc.h = score_surf->h;
+
+        SDL_BlitSurface(score_surf, NULL, screen, &loc);
+	SDL_FreeSurface(score_surf);
+	score_surf = NULL;
       }
     }
   }
@@ -2376,7 +2377,7 @@ void game_draw_misc(void)
   if (Opts_LanMode())
   {
     int entries = 0;
-    SDL_Surface* score = NULL;
+    SDL_Surface* score_surf = NULL;
     SDL_Rect loc;
     
     //Adjust font size for resolution:
@@ -2388,19 +2389,19 @@ void game_draw_misc(void)
       {
         snprintf(str, 64, "%s: %d",  LAN_PlayerName(i),  LAN_PlayerScore(i));
 	if(LAN_PlayerMine(i))
-          score = T4K_BlackOutline(str, fontsize, &yellow);
+          score_surf = T4K_BlackOutline(str, fontsize, &yellow);
 	else
-          score = T4K_BlackOutline(str, fontsize, &white);
-        if(score)
+          score_surf = T4K_BlackOutline(str, fontsize, &white);
+        if(score_surf)
         {
-          loc.w = score->w;
-          loc.h = score->h;
+          loc.w = score_surf->w;
+          loc.h = score_surf->h;
           loc.x = 0;
-          loc.y = score->h * (entries + 2);
-          SDL_BlitSurface(score, NULL, screen, &loc);
+          loc.y = score_surf->h * (entries + 2);
+          SDL_BlitSurface(score_surf, NULL, screen, &loc);
           entries++;
-	  SDL_FreeSurface(score);
-	  score = NULL;
+	  SDL_FreeSurface(score_surf);
+	  score_surf = NULL;
         }
       }
     }
@@ -2585,6 +2586,12 @@ void game_handle_game_over(int game_status)
     fprintf(stderr, "Entering game_handle_game_over() - game status = %d\n", game_status);
     print_exit_conditions();
   }
+
+  /* For turn-based multiplayer, don't show victory screen after
+   * each player's "game":
+   */
+  if(mp_get_parameter(PLAYERS))
+    return;
 
   /* TODO: need better "victory" screen with animation, special music, etc., */
   /* as well as options to review missed questions, play again using missed  */
@@ -3158,7 +3165,9 @@ int add_comet(void)
 
   /* If enabled, add powerup comet occasionally:
    */
-  if(Opts_UsePowerupComets() && !powerup_comet_running)
+  if(Opts_UsePowerupComets()
+     && !mp_get_parameter(PLAYERS)  // no powerups in mp game, for now 
+     && !powerup_comet_running)
   {
     int t = rand()%Opts_PowerupFreq();
     if( t < 1 )
@@ -3879,6 +3888,12 @@ void add_score(int inc)
 {
   score += inc;
   DEBUGMSG(debug_game,"Score is now: %d\n", score);
+  /* For turn-based multiplayer game, update score in mp info: */
+  if (mp_get_parameter(PLAYERS)) 
+  {
+    int new_score = mp_get_player_score(mp_get_currentplayer()) + inc;
+    mp_set_player_score(mp_get_currentplayer(), new_score);
+  }
 }
 
 
