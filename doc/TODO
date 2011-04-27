@@ -1,6 +1,6 @@
 TODO.txt for "tuxmath"
 
-2011.Apr.19
+2011.Apr.27
 
 These are the main (difficult) issues we would like to tackle
 at some point:
@@ -21,13 +21,14 @@ thread-safe.
 
 6. Dependable creation of dmg installer builds for Mac OS-X.
 
-7. Remove ".txt" extensions from text files, with renaming of them to "*.txt"
-at the time of building for Windows.
-
-8. Improve teaching value of main game by reviewing any incorrectly answered questions
+7. Improve teaching value of main game by reviewing any incorrectly answered questions
 at the end of the game, and playing another game with only these questions.
 
+8. Ability to select locale from within game or as a command-line option.
 
+9. More professional-looking artwork throughout game.
+
+10. Consistent use of SVG with caching of scaled images, also load and unload images as needed.
 
 
 Older stuff:
