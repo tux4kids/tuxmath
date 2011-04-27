@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -445,29 +445,29 @@ msgstr "en la esquina derecha de la pantalla."
 msgid "Do it now, and then play!"
 msgstr "Hazlo ahora y luego juega"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr "Los Penguinos Han Sido Salvados"
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr "Cuenta Final"
 
-#: src/game.c:2809
+#: src/game.c:2816
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "La conexion con el servidor fue perdida "
 
-#: src/game.c:2817
+#: src/game.c:2824
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "La conexion con el servidor fue perdida "
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -680,28 +680,32 @@ msgstr "Conectado al servidor: %s"
 msgid "Sorry, this version built without network support"
 msgstr "Perdon, esta version construyo sin apoyo de red"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Entonces %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "¿Quién juega primero?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Escribe tu nombre:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "¿Quién juega después?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "¿Cuántas vueltas van a jugar?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Escribe un número"
 

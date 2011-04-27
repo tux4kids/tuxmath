@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 2009-10-14 16:04+0100\n"
 "Last-Translator: Pedro Amorim <pedro_amorim@live.com.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -453,27 +453,27 @@ msgstr "que está no canto superior direito."
 msgid "Do it now, and then play!"
 msgstr "Faz isso agora e, depois joga!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2809
+#: src/game.c:2816
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2817
+#: src/game.c:2824
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr ""
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -678,28 +678,32 @@ msgstr ""
 msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr ""
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "Quem vai jogar primeiro?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Coloca o teu nome:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "Quem joga a seguir?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "Quantas voltas querem jogar?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Coloca um número"
 

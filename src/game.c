@@ -4143,6 +4143,8 @@ int powerup_initialize(void)
   powerup_comet->comet.y = 0;
   powerup_comet->comet.zapped = 0;
   powerup_comet->comet.answer = 0;
+  powerup_comet->comet.formula_surf = NULL;
+  powerup_comet->comet.answer_surf = NULL;
   powerup_comet->inc_speed = 0;
   powerup_comet->direction = POWERUP_DIR_UNKNOWN;
   MC_ResetFlashCard(&(powerup_comet->comet.flashcard));
@@ -4161,6 +4163,8 @@ PowerUp_Type powerup_gettype(void)
 int powerup_add_comet(void)
 {
   PowerUp_Type puType;
+
+  DEBUGMSG( debug_game, "Enter powerup_add_comet()\n");
 
   if(smartbomb_alive)
     return 0;
@@ -4197,8 +4201,10 @@ int powerup_add_comet(void)
   /* Now make the powerup comet alive */
   powerup_comet->comet.answer = powerup_comet->comet.flashcard.answer;
   powerup_comet->comet.alive = 1;
-  if(powerup_comet->comet.formula_surf) SDL_FreeSurface(powerup_comet->comet.formula_surf);
-  if(powerup_comet->comet.answer_surf) SDL_FreeSurface(powerup_comet->comet.answer_surf);
+  if(powerup_comet->comet.formula_surf)
+    SDL_FreeSurface(powerup_comet->comet.formula_surf);
+  if(powerup_comet->comet.answer_surf)
+    SDL_FreeSurface(powerup_comet->comet.answer_surf);
   powerup_comet->comet.formula_surf = T4K_BlackOutline(powerup_comet->comet.flashcard.formula_string, comet_fontsize, &white);
   powerup_comet->comet.answer_surf = T4K_BlackOutline(powerup_comet->comet.flashcard.answer_string, comet_fontsize, &white);
 
@@ -4220,6 +4226,8 @@ int powerup_add_comet(void)
   }
 
   powerup_comet->comet.time_started = SDL_GetTicks();
+
+  DEBUGMSG( debug_game, "Leave powerup_add_comet()\n");
 
   return 1;
 }
@@ -4347,12 +4355,6 @@ void game_draw_powerup(void)
   SDL_BlitSurface(img, NULL, screen, &dest);
   if (num_draw)
   {
-    //Draw twice for extra heavy black outline effect for legibility:
-    powerup_comet->comet.x += 5;
-    powerup_comet->comet.y += 5;
-    game_draw_comet_nums(&(powerup_comet->comet), answered, &white);
-    powerup_comet->comet.x -= 5;
-    powerup_comet->comet.y -= 5;
     game_draw_comet_nums(&(powerup_comet->comet), answered, &white);
   }
 }

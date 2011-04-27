@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.5.8\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 20010-28-11 12:00+0100\n"
 "Last-Translator: Léo Grange <grangeleo@gmail.com>\n"
 "Language-Team:\n"
@@ -444,29 +444,29 @@ msgstr "dans le coin en haut à droite."
 msgid "Do it now, and then play!"
 msgstr "Faites le maintenant, et ensuite jouez!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr ""
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr ""
 
-#: src/game.c:2809
+#: src/game.c:2816
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Connecté au seveur : %s"
 
-#: src/game.c:2817
+#: src/game.c:2824
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Connecté au seveur : %s"
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -677,28 +677,32 @@ msgstr "Connecté au seveur : %s"
 msgid "Sorry, this version built without network support"
 msgstr "Désolé, cette version a été compilée sans les fonctionalités réseau"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Alors %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "Qui est le premier joueur?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Entrez votre nom:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "Qui joue ensuite?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "En combien de tours allez vous jouer?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Entrez un nombre"
 

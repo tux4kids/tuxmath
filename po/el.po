@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 2010-12-29 01:51-0500\n"
 "Last-Translator: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
 "Language-Team: Giannis Konstantinidis <gloooabvoe9a@gmail.com>\n"
@@ -450,29 +450,29 @@ msgstr "στην πάνω δεξιά γωνία."
 msgid "Do it now, and then play!"
 msgstr "Κάνε το τώρα και μετά παίξε!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr "Οι πιγκουίνοι σώθηκαν!"
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr "Τελική Βαθμολογία:"
 
-#: src/game.c:2809
+#: src/game.c:2816
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Η σύνδεση με το διακομιστή χάθηκε."
 
-#: src/game.c:2817
+#: src/game.c:2824
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Η σύνδεση με το διακομιστή χάθηκε."
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -684,28 +684,32 @@ msgstr "Σύνδεση στο διακομιστή: %s"
 msgid "Sorry, this version built without network support"
 msgstr "Λυπούμαστε, αυτη η έκδοση δεν έχει δυνατότητα δικτύωσης"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Ύστερα %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "Ποιός παίζει πρώτος ;"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Γράψε το όνομα σου:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "Ποιός παίζει μετά ;"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "Πόσους γύρους θα παίξετε ;"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Γράψε έναν αριθμό"
 

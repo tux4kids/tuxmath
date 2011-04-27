@@ -499,7 +499,12 @@ void Opts_SetUsePowerupComets(int val)
 
 void Opts_SetPowerupFreq(int val)
 {
-  game_options->powerup_freq = val;
+  if(val > 0)
+    game_options->powerup_freq = val;
+  else
+    fprintf(stderr,"Warning: requested powerup frequency illegal, setting to %d.\n",
+            DEFAULT_POWERUP_FREQ);
+
 }
 
 

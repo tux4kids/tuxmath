@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Evgeni <evgenizero@gmail.com>\n"
 "Language-Team: \n"
@@ -439,29 +439,29 @@ msgstr "в горния десен ъгъл."
 msgid "Do it now, and then play!"
 msgstr "Направи го сега и след това играй!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr "Пингвините са спасени!"
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr "Краен резултат:"
 
-#: src/game.c:2809
+#: src/game.c:2816
 #, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr "Връзката със сървъра беше изгубена."
 
-#: src/game.c:2817
+#: src/game.c:2824
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "Връзката със сървъра беше изгубена."
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -671,28 +671,32 @@ msgstr "Свързан към сървър: %s"
 msgid "Sorry, this version built without network support"
 msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Тогава %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "Кой играе първи?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Напишете си името:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "Кой е следващият играч?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "Колко рунда ще играеш?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Напиши число"
 

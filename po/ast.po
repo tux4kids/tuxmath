@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.7.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 2011-04-04 07:28+0200\n"
 "Last-Translator: Xandru Armesto <xandru@softastur.org>\n"
 "Language-Team: Softastur alministradores@softastur.org\n"
@@ -444,15 +444,15 @@ msgstr "de la esquina superior drecha."
 msgid "Do it now, and then play!"
 msgstr "¡Fecho, agora a xugar!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr "¡Salvasti a los pingüinos!"
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr "Puntuaciones Finales:"
 
-#: src/game.c:2809
+#: src/game.c:2816
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
@@ -460,7 +460,7 @@ msgstr ""
 "Xuegu en rede termináu pol sirvidor.\n"
 "El sirvidor ta tovía corriendo."
 
-#: src/game.c:2817
+#: src/game.c:2824
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -468,7 +468,7 @@ msgstr ""
 "Xuegu en rede termináu.\n"
 "Perdióse la conexón col sirvidor."
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr "%s dexó'l xuegu."
@@ -692,28 +692,32 @@ msgstr "Conectáu col sirvidor: %s"
 msgid "Sorry, this version built without network support"
 msgstr "Esta versión nun tien sofitu de rede"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Entós %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "¿Quién xuega primero?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Mete'l to nome:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "¿Quién xuega depués?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "¿Cuántes rondes vais xugar?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Mete un númberu"
 

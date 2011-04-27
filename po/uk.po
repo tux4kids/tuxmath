@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-19 14:53-0500\n"
+"POT-Creation-Date: 2011-04-27 05:09-0500\n"
 "PO-Revision-Date: 2010-12-30 19:07-0100\n"
 "Last-Translator: Seva Deribas seva@deribas.info\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -460,28 +460,28 @@ msgstr "у верхньому правому кутку."
 msgid "Do it now, and then play!"
 msgstr "Зробіть це зараз, а потім грайте!"
 
-#: src/game.c:2717
+#: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
 msgstr "Пінгвіни були врятовані!"
 
-#: src/game.c:2732
+#: src/game.c:2739
 msgid "Final Scores:"
 msgstr "Кінцеві результати:"
 
-#: src/game.c:2809
+#: src/game.c:2816
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
 msgstr ""
 
-#: src/game.c:2817
+#: src/game.c:2824
 #, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
 msgstr "З'єднання з сервером було втрачено."
 
-#: src/game.c:4681
+#: src/game.c:4696
 #, c-format
 msgid "%s has left the game."
 msgstr ""
@@ -689,28 +689,32 @@ msgstr "Підключинний до сервера: %s"
 msgid "Sorry, this version built without network support"
 msgstr "На жаль, ця версія була зібрана без підтримки мережі"
 
-#: src/multiplayer.c:203
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr "Далі %s\n"
 
-#: src/multiplayer.c:278
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr "Хто грає першим?"
 
-#: src/multiplayer.c:278 src/multiplayer.c:280
+#: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
 msgstr "Ваше ім'я:"
 
-#: src/multiplayer.c:280
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr "Хто грає наступним?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr "Скільки раундів ви будете грати?"
 
-#: src/multiplayer.c:294
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr "Введіть число"
 
