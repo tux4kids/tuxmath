@@ -127,9 +127,9 @@ void mp_run_multiplayer()
     {
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
-        game_set_start_message(pnames[currentplayer], "Go!", NULL, NULL);
+        game_set_start_message(pnames[currentplayer], _("Go!"), NULL, NULL);
         result = game();
-        pscores[currentplayer] += Opts_LastScore(); //add this player's score
+        //pscores[currentplayer] += Opts_LastScore(); //add this player's score
         if (result == GAME_OVER_WON)
           pscores[currentplayer] += 500; //plus a possible bonus
       }
@@ -138,13 +138,14 @@ void mp_run_multiplayer()
     //sort out winners
     for (i = 0; i < params[PLAYERS]; ++i)
     {
+      int j = 0;
       hiscore = 0;
-      for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
+      for (j = 0; j < params[PLAYERS]; ++j)
       {
-        if (pscores[currentplayer] >= hiscore)
+        if (pscores[j] >= hiscore)
         {
-          hiscore = pscores[currentplayer];
-          currentwinner = currentplayer;
+          hiscore = pscores[j];
+          currentwinner = j;
         }
       winners[i] = currentwinner;
       pscores[currentwinner] = -1;
@@ -205,6 +206,9 @@ int mp_get_parameter(unsigned int param)
 }
 
 //TODO a nicer-looking sequence that also recognizes second place etc.
+//FIXME doesn't sort correctly if the winner happens to be other than the
+//first player (winner is correct, but others aren't).  We could use the
+//game-over standings coded for the LAN game here.
 void showWinners(int* winners, int num)
 {
   int skip = 0;
