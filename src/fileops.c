@@ -264,7 +264,13 @@ void get_user_data_dir_with_subdir(char *opt_path)
 int read_global_config_file(void)
 {
   FILE* fp;
+
+#ifdef BUILD_MINGW32
+  fp = fopen(DATA_PREFIX "/missions/options.txt", "r");
+#else
   fp = fopen(DATA_PREFIX "/missions/options", "r");
+#endif
+
   if (fp)
   {
     read_config_file(fp, GLOBAL_CONFIG_FILE);

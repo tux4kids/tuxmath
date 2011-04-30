@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-27 05:09-0500\n"
+"POT-Creation-Date: 2011-04-30 17:37-0500\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -467,7 +467,7 @@ msgid ""
 " Connection with server was lost."
 msgstr "La conexion con el servidor fue perdida "
 
-#: src/game.c:4696
+#: src/game.c:4698
 #, c-format
 msgid "%s has left the game."
 msgstr ""

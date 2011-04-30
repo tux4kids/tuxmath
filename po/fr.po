@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.5.8\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-27 05:09-0500\n"
+"POT-Creation-Date: 2011-04-30 17:37-0500\n"
 "PO-Revision-Date: 20010-28-11 12:00+0100\n"
 "Last-Translator: Léo Grange <grangeleo@gmail.com>\n"
 "Language-Team:\n"
@@ -466,7 +466,7 @@ msgid ""
 " Connection with server was lost."
 msgstr "Connecté au seveur : %s"
 
-#: src/game.c:4696
+#: src/game.c:4698
 #, c-format
 msgid "%s has left the game."
 msgstr ""

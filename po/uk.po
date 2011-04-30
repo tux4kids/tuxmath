@@ -28,7 +28,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-27 05:09-0500\n"
+"POT-Creation-Date: 2011-04-30 17:37-0500\n"
 "PO-Revision-Date: 2010-12-30 19:07-0100\n"
 "Last-Translator: Seva Deribas seva@deribas.info\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -481,7 +481,7 @@ msgid ""
 " Connection with server was lost."
 msgstr "З'єднання з сервером було втрачено."
 
-#: src/game.c:4696
+#: src/game.c:4698
 #, c-format
 msgid "%s has left the game."
 msgstr ""

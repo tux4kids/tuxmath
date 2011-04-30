@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-04-27 05:09-0500\n"
+"POT-Creation-Date: 2011-04-30 17:37-0500\n"
 "PO-Revision-Date: 2010-12-11 20:26+0530\n"
 "Last-Translator: Gautam <gautam.2011@gmail.com>\n"
 "Language-Team: Gautam Gupta <admin@gaut.am>\n"
@@ -460,7 +460,7 @@ msgid ""
 " Connection with server was lost."
 msgstr "सर्वर से कनेक्शन खो गया है|"
 
-#: src/game.c:4696
+#: src/game.c:4698
 #, c-format
 msgid "%s has left the game."
 msgstr ""
