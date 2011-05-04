@@ -105,8 +105,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 //of the win32 build. We ought to figure out if we can get
 //some info from the OS under SDL to set this better, and
 //also provide a way for users to adjust this setting.
-#ifdef BUILD_MINGW32
-#define MOUSE_SENSITIVITY 1.5
+#if defined BUILD_MINGW32 || defined __APPLE__
+#define MOUSE_SENSITIVITY 2
 #else
 #define MOUSE_SENSITIVITY 0.5
 #endif
