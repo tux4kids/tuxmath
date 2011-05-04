@@ -5,12 +5,12 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.5.8\n"
+"Project-Id-Version: 2.0.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2011-04-30 17:37-0500\n"
-"PO-Revision-Date: 20010-28-11 12:00+0100\n"
-"Last-Translator: Léo Grange <grangeleo@gmail.com>\n"
-"Language-Team:\n"
+"PO-Revision-Date: 2011-05-03 18:29+0100\n"
+"Last-Translator: Wiltur <wiltur@gmail.com>\n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -42,8 +42,8 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
-"Les pingouins ont besoin de votre aide! Des comètes sont entrain de tomber "
-"du ciel, et font fondre les igloos des pengouins. Pour sauver leurs maisons, "
+"Les pingouins ont besoin de ton aide! Des comètes sont entrain de tomber du "
+"ciel, et font fondre les igloos des pingouins. Pour sauver leurs maisons, "
 "nous devons trouver le code secret qui supprime chacune des comètes."
 
 #: src/campaign.c:147
@@ -59,9 +59,8 @@ msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
-"Bon travail! Depuis que vous avez sauvé les maisons des pengouins, nous vous "
-"avons promu Scout. Les Scouts sont bons pour garder un œuil sur le "
-"problème..."
+"Bon travail! Depuis que tu as sauvé les maisons des pingouins, nous t'avons "
+"promu Scout. Les Scouts sont bons pour garder un œil sur les problèmes..."
 
 #: src/campaign.c:157
 msgid ""
@@ -69,11 +68,11 @@ msgid ""
 "sending new, trickier comets against the penguins!"
 msgstr ""
 "...comme ce qui arrive maintenant! Les Soustracteurs sont arrivés, et ils "
-"envoient de nouvelles comètes, plus difficiles à arrêter, aux pengouins!"
+"envoient de nouvelles comètes, plus difficiles à arrêter sur les pingouins!"
 
 #: src/campaign.c:158
 msgid "But you can save them!"
-msgstr "Mais vous pouvez les sauver!"
+msgstr "Mais tu peux les sauver!"
 
 #: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
@@ -84,6 +83,9 @@ msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
+"Tu y es encore arrivé! L'Empereur Pingouin t'as choisi pour rejoindre son "
+"équipe de Rangers qui aident à protéger la ville. Nous t'envoyons là-bas "
+"maintenant ..."
 
 #: src/campaign.c:168
 msgid ""
@@ -92,9 +94,9 @@ msgid ""
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
 "...oh non! Maintenant l'Empereur lui-même est attaqué par un nouveau type de "
-"comètes : ces problèmes sont des multiplications! Pour les combattre, vous "
-"avez besoin d'excellentes compétences. Nous pensons que vous pouvez faire "
-"ça. Rejoignez les Rangers et aidez à sauver la ville!"
+"comètes : ces problèmes sont des multiplications! Pour les combattre, tu as "
+"besoin d'excellentes compétences. Nous pensons que tu peux le faire. Rejoint "
+"les Rangers et aide-les à sauver la ville!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
@@ -105,9 +107,9 @@ msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
-"Vous l'avez fait! L'Empereur veut vous remercier en personne. Nous vous "
-"avons fait venir dans sont palais de glace pour un grand honeur : vous allez "
-"devenir l'As Impérial!"
+"Tu as réussit!  L'Empereur veut te remercie en personne. Nous t'avons fait "
+"venir dans son palais de glace pour un grand honeur : tu vas devenir l'As "
+"Impérial!"
 
 #: src/campaign.c:178
 msgid ""
@@ -132,11 +134,10 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
-"Les scientifiques pengouins ont apris que toutes les attaques proviennent "
-"d'une base secrète, et ils ont besoin de vous pour aller vous batter pour la "
-"bataille finale. Ils vous donne aussi un indice : les premières comètes "
-"demanderont de faire des multiplications et divisions, et ensuites des "
-"additions et soustractions."
+"Les pingouins scientifiques ont appris que toutes les attaques proviennent "
+"d'une base secrète, et ils ont besoin de toi pour la bataille finale. Ils "
+"vous donne aussi un indice : faire d'abord des multiplications et divisions, "
+"et ensuite des additions et soustractions."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
@@ -160,11 +161,11 @@ msgstr "TUX, AU COMMANDEMENT MATHÉMATIQUE"
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2011"
-msgstr ""
+msgstr "COPYRIGHT 2001-2011"
 
 #: src/credits.c:45
 msgid "VERSION "
-msgstr ""
+msgstr "VERSION"
 
 #: src/credits.c:47
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
@@ -183,7 +184,6 @@ msgid "ADDITIONAL CODE"
 msgstr "CODE ADDITIONNEL"
 
 #: src/credits.c:75
-#, fuzzy
 msgid "LEAD ARTISTS"
 msgstr "ARTISTES PRINCIPAUX"
 
@@ -205,7 +205,7 @@ msgstr "EMPAQUETAGE"
 
 #: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr "'TUX' LE PENGOUIN CRÉÉ PAR"
+msgstr "'TUX' LE PNGOUIN CRÉÉ PAR"
 
 #: src/credits.c:115
 msgid "TESTERS"
@@ -251,66 +251,63 @@ msgstr ""
 
 #: src/factoroids.c:524
 msgid "Powers of 2"
-msgstr ""
+msgstr "Puissance 2"
 
 #: src/factoroids.c:525
-#, fuzzy
 msgid "Products of 2 and 3"
-msgstr "Multiples de 11 et 12"
+msgstr "Multiples de 2 et 3"
 
 #: src/factoroids.c:526
-#, fuzzy
 msgid "Products of 2, 3 and 5"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Multiples de 2, 3 et 5"
 
 #: src/factoroids.c:527
-#, fuzzy
 msgid "Products of 2, 3, 5 and 7"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Multiples de 2, 3 et 7"
 
 #: src/factoroids.c:528
-#, fuzzy
 msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Multiples de 2, 3,5, 7 et 11"
 
 #: src/factoroids.c:529
-#, fuzzy
 msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Multiples de 2, 3, 5, 7, 11 et 13"
 
 #: src/factoroids.c:534
-#, fuzzy
 msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Tous les Multiples de 2 se terminant par  2, 4, 6, 8, or 0"
 
 #: src/factoroids.c:535
 msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
+msgstr "Les chiffres d'un multiple de 3 ajouter jusqu'à un multiple de 3"
 
 #: src/factoroids.c:536
-#, fuzzy
 msgid "All multiples of 5 end in 0 or 5"
-msgstr "Multiples de 13, 14 et 15"
+msgstr "Tous les Multiples de 5 se terminant par 0 ou 5"
 
 #: src/factoroids.c:537
 msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
+"Désolé - il n'y a pas de règle simple pour identifier les multiples de 7."
 
 #: src/factoroids.c:538
 msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
 msgstr ""
+"En dessous de 100, les multiples de 11 ont des chiffres égaux, comme que 55 "
+"ou 88."
 
 #: src/factoroids.c:539
 msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
+"Désolé - il n'y a pas de règle simple pour identifier les multiples de 13."
 
 #: src/factoroids.c:556
 msgid "Objectives:"
-msgstr ""
+msgstr "Objectifs"
 
 #: src/factoroids.c:557
 msgid "Hints:"
-msgstr ""
+msgstr "Conseils:"
 
 #: src/factoroids.c:788
 msgid ""
@@ -322,6 +319,14 @@ msgid ""
 "Activate Powerup: [Shift].\n"
 "Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
+"Pour gagner, tu dois détruire tous les astéroïdes. \n"
+"Tourner: touches fléchées ou mouvement de la souris \n"
+"Pousser: flèche vers le haut ou le bouton droit de la souris \n"
+"Tirer: [Entrée], [Espace], ou le bouton gauche de la souris \n"
+"Pistolet à Basculer le Nombre Premier : [D], [F], ou molette de la souris \n"
+"Activer Bonus: [Maj] \n"
+"Tirez sur les rochers avec leurs facteurs premiers jusqu'à ce qu'ils soient "
+"tous détruits."
 
 #: src/factoroids.c:802
 msgid ""
@@ -330,6 +335,11 @@ msgid ""
 "fraction, and press space or return to split it.  Destroy fractions that can "
 "not be further simplified in a single shot!"
 msgstr ""
+"FRACTIONS: pour gagner, tu doisz détruire tous les astéroïdes. Utilise les "
+"touches fléchées pour tourner ou aller de l'avant. Vise un astéroïde, tape "
+"un nombre qui peut simplifier la fraction, et presse Espace ou Efface pour "
+"le diviser. Détruit les fractions qui ne peuvent pas encore être simplifiée "
+"en un seul coup!"
 
 #: src/game.c:757
 msgid "Welcome to TuxMath!"
@@ -337,11 +347,11 @@ msgstr "Bienvenue sur TuxMath!"
 
 #: src/game.c:774
 msgid "Your mission is to save your"
-msgstr "Votre missionest de sauver"
+msgstr "Ta  mission est de sauver"
 
 #: src/game.c:775
 msgid "penguins' igloos from the"
-msgstr "les igloos de vos penguins"
+msgstr "les igloos des pingouins"
 
 #: src/game.c:776
 msgid "falling comets."
@@ -349,7 +359,7 @@ msgstr "des comètes qui tombent."
 
 #: src/game.c:795
 msgid "Stop a comet by typing"
-msgstr "Arrêtez une comète en tappant"
+msgstr "Arrête une comète en tapant"
 
 #: src/game.c:796
 msgid "the answer to the math problem"
@@ -357,7 +367,7 @@ msgstr "la réponse au problème de math"
 
 #: src/game.c:797
 msgid "and hitting 'space' or 'enter'."
-msgstr "posé et tappez 'espace' ou 'entrer'."
+msgstr "posé et tape 'espace' ou 'entrer'."
 
 #: src/game.c:798
 msgid "Try it now!"
@@ -373,23 +383,23 @@ msgstr "Si un igloo se fait toucher par une"
 
 #: src/game.c:817
 msgid "it melts. But don't worry: the"
-msgstr "comète, il fond. Mais ne vous"
+msgstr "comète, il fond. Mais ne"
 
 #: src/game.c:818
 msgid "penguin is OK!"
-msgstr "inquiétez pas, le pengouin va bien!"
+msgstr "t'inquiéte pas, le pingouin va bien!"
 
 #: src/game.c:819
 msgid "Just watch what happens:"
-msgstr "Regardez juste ce qu'il se passe :"
+msgstr "Regarde juste ce qu'il se passe :"
 
 #: src/game.c:820
 msgid "(Press a key to start)"
-msgstr "(Pressez une touche pour commencer)"
+msgstr "(Presse une touche pour commencer)"
 
 #: src/game.c:833
 msgid "Notice the answer"
-msgstr "Observez la conséquence"
+msgstr "Observe la conséquence"
 
 #: src/game.c:843
 msgid "If it gets hit again, the"
@@ -397,15 +407,15 @@ msgstr "Si il se fait encore toucher,"
 
 #: src/game.c:844
 msgid "penguin leaves."
-msgstr "le pengouin fuit."
+msgstr "le pingouin fuit."
 
 #: src/game.c:845
 msgid "(Press a key when ready)"
-msgstr "(Pressez une touche lorsque vous êtes prêt)"
+msgstr "(Presse une touche lorsque vous êtes prêt)"
 
 #: src/game.c:868
 msgid "You can fix the igloos"
-msgstr "Vous pouvez réparer les igloos"
+msgstr "Tu peux réparer les igloos"
 
 #: src/game.c:869
 msgid "by stopping bonus comets."
@@ -413,24 +423,23 @@ msgstr "en détruisant les comètes bonus."
 
 #: src/game.c:880 src/game.c:916
 msgid "Zap it now!"
-msgstr "Tirez dessus maintenant!"
+msgstr "Tire dessus maintenant!"
 
 #: src/game.c:886
 msgid "Great job!"
 msgstr "Excellent travail!"
 
 #: src/game.c:905
-#, fuzzy
 msgid "Fast-moving powerup comets"
-msgstr "en détruisant les comètes bonus."
+msgstr "Déplacement rapide = comète bonus."
 
 #: src/game.c:906
 msgid "earn you a secret weapon:"
-msgstr ""
+msgstr "Gagne une arme secrète:"
 
 #: src/game.c:923
 msgid "Quit at any time by pressing"
-msgstr "Quittez n'importe quand en pressant"
+msgstr "Quitte n'importe quand en pressant"
 
 #: src/game.c:924
 msgid "'Esc' or clicking the 'X'"
@@ -442,34 +451,36 @@ msgstr "dans le coin en haut à droite."
 
 #: src/game.c:926
 msgid "Do it now, and then play!"
-msgstr "Faites le maintenant, et ensuite jouez!"
+msgstr "Faits le maintenant, et ensuite joue!"
 
 #: src/game.c:2724
 msgid "The Penguins Have Been Saved!"
-msgstr ""
+msgstr "Les pingouins ont été sauvés !"
 
 #: src/game.c:2739
 msgid "Final Scores:"
-msgstr ""
+msgstr "Score Final:"
 
 #: src/game.c:2816
-#, fuzzy
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
-msgstr "Connecté au seveur : %s"
+msgstr ""
+"Jeu en réseau terminé par le serveur. \n"
+"Le serveur est toujours en cours d'exécution."
 
 #: src/game.c:2824
-#, fuzzy
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
-msgstr "Connecté au seveur : %s"
+msgstr ""
+"Jeu en réseau terminée. \n"
+"Connexion avec le serveur a été perdue."
 
 #: src/game.c:4698
 #, c-format
 msgid "%s has left the game."
-msgstr ""
+msgstr "%s à quitté le jeu."
 
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
@@ -505,71 +516,71 @@ msgstr "Fractions"
 
 #: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
-msgstr "Vous êtes dans les Meilleurs Scores!"
+msgstr "Tu ess dans les Meilleurs Scores!"
 
 #: src/highscore.c:291
 msgid "Enter Your Name:"
-msgstr "Entrez votre nom:"
+msgstr "Entre ton nom:"
 
 #: src/mathcards.c:2624
 #, c-format
 msgid "%d + %d = ?"
-msgstr ""
+msgstr "%d + %d = ?"
 
 #: src/mathcards.c:2624
 #, c-format
 msgid "? + %d = %d"
-msgstr ""
+msgstr "? + %d = %d"
 
 #: src/mathcards.c:2624
 #, c-format
 msgid "%d + ? = %d"
-msgstr ""
+msgstr "%d + ? = %d"
 
 #: src/mathcards.c:2625
 #, c-format
 msgid "%d - %d = ?"
-msgstr ""
+msgstr "%d - %d = ?"
 
 #: src/mathcards.c:2625
 #, c-format
 msgid "? - %d = %d"
-msgstr ""
+msgstr "? - %d = %d"
 
 #: src/mathcards.c:2625
 #, c-format
 msgid "%d - ? = %d"
-msgstr ""
+msgstr "%d - ? = %d"
 
 #: src/mathcards.c:2626
 #, c-format
 msgid "%d x %d = ?"
-msgstr ""
+msgstr "%d x %d = ?"
 
 #: src/mathcards.c:2626
 #, c-format
 msgid "? x %d = %d"
-msgstr ""
+msgstr "? x %d = %d"
 
 #: src/mathcards.c:2626
 #, c-format
 msgid "%d x ? = %d"
-msgstr ""
+msgstr "%d x ? = %d"
 
 #: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ %d = ?"
-msgstr ""
+msgstr "%d ÷ %d = ?"
 
 #: src/mathcards.c:2627
 #, c-format
 msgid "? ÷ %d = %d"
-msgstr ""
+msgstr "? ÷ %d = %d"
 
 #: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ ? = %d"
-msgstr ""
+msgstr "%d ÷ ? = %d"
 
 #: src/menu.c:217
 #, c-format
@@ -579,14 +590,21 @@ msgid ""
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
+"Tuxmath version %s est gratuit et open-source!\n"
+"Vous pouvez aider à le rendre meilleur.\n"
+"Suggestions, œuvres d'art, ou code sont tous les bienvenus!\n"
+"Discutez de Tuxmath à tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:352
-#, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
 "Press a key or click your mouse to start game.\n"
 "See README.txt for more information.\n"
-msgstr "Editer le fichier 'options' dans le dossier home"
+msgstr ""
+"Édite le fichier «options» dans votre répertoire home pour créer un jeu "
+"personnalisé! \n"
+"Appuis sur une touche ou clique sur ta souris pour le début du match. \n"
+"Voir le fichier README.txt pour plus d'informations. \n"
 
 #: src/menu.c:379
 msgid "How many kids are playing?"
@@ -605,6 +623,8 @@ msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
+"Le port est utilisé par un autre programme sur cet ordinateur, probablement "
+"un autre serveur Tux Math"
 
 #: src/menu.c:460
 msgid "Enter Server Name:"
@@ -617,23 +637,28 @@ msgstr "(maximum 50 caractères)"
 #: src/menu.c:474
 msgid "Click or press key to select server lesson file"
 msgstr ""
-"Cliquez ou pressez une touche pour selectionner le fichier de leçon serveur"
+"Clique ou presse une touche pour selectionner le fichier de leçon serveur"
 
 #: src/menu.c:501
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Server Name:\n"
 "%s\n"
 "Selected Lesson:\n"
 "%s"
-msgstr "Leçon sélectionnée"
+msgstr ""
+"Nom du serveur:\n"
+"%s\n"
+"Leçon sélectionnée:\n"
+"%s"
 
 #: src/menu.c:524
-#, fuzzy
 msgid ""
 "\n"
 "Sorry, this version built withour network support."
-msgstr "Désolé, cette version a été compilée sans les fonctionalités réseau.\n"
+msgstr ""
+"\n"
+"Désolé, cette version a été compilée sans les fonctionnalités réseau."
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
@@ -641,45 +666,41 @@ msgid "Sorry, this version built without network support.\n"
 msgstr "Désolé, cette version a été compilée sans les fonctionalités réseau.\n"
 
 #: src/menu.c:535
-#, fuzzy
 msgid "The server is not running."
-msgstr "Le serveur est déjà en cours d'exécution"
+msgstr "Le serveur n'est pas activé."
 
 #: src/menu.c:541
 msgid "Cannot stop server until current game finishes."
 msgstr ""
+"Impossible d'arrêter le serveur jusqu'à ce que se termine la partie en cours."
 
 #: src/menu.c:545
 msgid "The server has been stopped."
-msgstr ""
+msgstr "Le serveur à été arrêter."
 
 #: src/menu.c:562
-#, fuzzy
 msgid "Sorry, could not connect to server."
-msgstr "Désolé, impossible de se connecter au serveur.\n"
+msgstr "Désolé, impossible de se connecter au serveur."
 
 #: src/menu.c:563
 msgid "Sorry, could not connect to server.\n"
 msgstr "Désolé, impossible de se connecter au serveur.\n"
 
 #: src/menu.c:583
-#, fuzzy
 msgid "Sorry, game already in progress"
 msgstr "Désolé, un jeu est déjà en cours"
 
 #: src/menu.c:589
-#, fuzzy
 msgid "Connection with server was lost"
-msgstr "Connecté au seveur : %s"
+msgstr "La connexion au serveur à été perdue."
 
 #: src/menu.c:602
-#, fuzzy
 msgid "Sorry, this version built without network support"
-msgstr "Désolé, cette version a été compilée sans les fonctionalités réseau"
+msgstr "Désolé, cette version a été compilée sans les fonctionnalités réseau"
 
 #: src/multiplayer.c:130
 msgid "Go!"
-msgstr ""
+msgstr "ALLEZ !"
 
 #: src/multiplayer.c:229
 #, c-format
@@ -708,16 +729,19 @@ msgstr "Entrez un nombre"
 
 #: src/server.c:486
 msgid "Await player name"
-msgstr ""
+msgstr "Attente du nom du joueur"
 
 #: src/titlescreen.c:521
-#, fuzzy
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"
 "Discuss the future of TuxMath at\n"
 "tuxmath-devel@lists.sourceforge.net"
-msgstr "Parlons-en sur tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"Travaux en cours!\n"
+"Cette fonctionnalité c'est pas encore prête\n"
+"Parler du futur de TuxMath sur\n"
+"tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
 #: data/missions/lessons/descr_lessons:3
@@ -1038,9 +1062,8 @@ msgid "Elimination"
 msgstr "Élimination"
 
 #: data/menus/menu_strings:6
-#, fuzzy
 msgid "Factoroids"
-msgstr "Factoroids!"
+msgstr "Factoroids"
 
 #: data/menus/menu_strings:8
 msgid "Help"
@@ -1060,7 +1083,7 @@ msgstr "Mission de la Flotte de Commandement des Math"
 
 #: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
-msgstr "École d'entrainement mathématique"
+msgstr "École d'entraînement mathématique"
 
 #: data/menus/menu_strings:13
 msgid "More Options"
@@ -1103,120 +1126,119 @@ msgid "Score Sweep"
 msgstr "Effacer les scores"
 
 #: data/menus/menu_strings:26
-#, fuzzy
 msgid "Stop Server"
-msgstr "Lancer le serveur"
+msgstr "Arrêter le serveur"
 
 #: data/menus/menu_strings:27
-#, fuzzy
 msgid "Additional options"
-msgstr "Addition: 1 à 3"
+msgstr "Options supplémentaires"
 
 #: data/menus/menu_strings:28
 msgid "Complete missions for the Math Command Fleet"
-msgstr ""
+msgstr "Termine les missions de la flotte Math Command"
 
 #: data/menus/menu_strings:29
 msgid "Customize the game you play"
-msgstr ""
+msgstr "Personnalise le jeu auquel tu joues"
 
 #: data/menus/menu_strings:30
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
+"Gagne des Étoiles d'Or à mesure que tu progresses en mathématiques à chaque "
+"mission"
 
 #: data/menus/menu_strings:31
 msgid "Easier"
-msgstr ""
+msgstr "Plus facile"
 
 #: data/menus/menu_strings:32
 msgid "Easiest"
-msgstr ""
+msgstr "Le plus facile"
 
 #: data/menus/menu_strings:33
 msgid "Easy"
-msgstr ""
+msgstr "Facile"
 
 #: data/menus/menu_strings:34
-#, fuzzy
 msgid "Exit to your desktop"
-msgstr "Fait de ton mieux!"
+msgstr "Sortir et retour au bureau"
 
 #: data/menus/menu_strings:35
 msgid "Factorize numbers with your laser beam!"
-msgstr ""
+msgstr "Factorisation de numéros avec ton rayon laser!"
 
 #: data/menus/menu_strings:36
 msgid "Hard"
-msgstr ""
+msgstr "Difficile"
 
 #: data/menus/menu_strings:37
 msgid "Hardest"
-msgstr ""
+msgstr "Plus difficile"
 
 #: data/menus/menu_strings:38
 msgid "High Scores"
-msgstr ""
+msgstr "Hauts Scores"
 
 #: data/menus/menu_strings:39
 msgid "Join a game on a server running on your network"
-msgstr ""
+msgstr "Rejoint un jeu sur un serveur qui tourne sur votre réseau"
 
 #: data/menus/menu_strings:40
 msgid "Make the Hall of Fame by beating the highest score"
-msgstr ""
+msgstr "Rejoint le Temple de la renommée en battant le score le plus élevé"
 
 #: data/menus/menu_strings:41
 msgid "Moderate"
-msgstr ""
+msgstr "Modéré"
 
 #: data/menus/menu_strings:42
 msgid "Play a game with your friends on a local network"
-msgstr ""
+msgstr "Joue avec tes amis sur un réseau local"
 
 #: data/menus/menu_strings:43
 msgid "Play and learn on your own"
-msgstr ""
+msgstr "Écoute et apprend par toi-même"
 
 #: data/menus/menu_strings:44
 msgid "Players with the lowest scores are eliminated every round"
 msgstr ""
+"Les joueurs avec les scores les plus faibles sont éliminés à chaque tour"
 
 #: data/menus/menu_strings:45
 msgid "Return to the main menu"
-msgstr ""
+msgstr "Retourner au menu principal"
 
 #: data/menus/menu_strings:46
 msgid "Run a demo of the game"
-msgstr ""
+msgstr "Exécuter une démo du jeu"
 
 #: data/menus/menu_strings:47
 msgid "See how to play the game"
-msgstr ""
+msgstr "Regarde comment jouer"
 
 #: data/menus/menu_strings:48
 msgid "See the credits for the game"
-msgstr ""
+msgstr "Voir les crédits pour le jeu"
 
 #: data/menus/menu_strings:49
-#, fuzzy
 msgid "See the project info"
 msgstr "À propos"
 
 #: data/menus/menu_strings:50
 msgid "Start a server for a network game"
-msgstr ""
+msgstr "Lancer un serveur pour jeu en ligne"
 
 #: data/menus/menu_strings:51
 msgid "Stop a server running on your machine"
-msgstr ""
+msgstr "Stopper un serveur sur ton ordinateur"
 
 #: data/menus/menu_strings:52
 msgid "Take turns in a game with your friends on a single computer"
-msgstr ""
+msgstr "À tour de rôle dans un jeu avec tes amis sur un seul ordinateur"
 
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
-msgstr ""
+msgstr "Celui qui à le plus grand score gagne"
 
 #~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 #~ msgstr "FACTOROIDS: pour gagner, vous devez détruire tous les astéroïdes."
