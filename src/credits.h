@@ -6,9 +6,9 @@
    as the function which displays the credits in the game window.
 
    Copyright 2001, 2008, 2009, 2010
-   Authors: Bill Kendrick, David Bruce.
-   email: <tuxmath-devel@lists.sourceforge.net>
-   website: http://tux4kids.alioth.debian.org
+Authors: Bill Kendrick, David Bruce.
+email: <tuxmath-devel@lists.sourceforge.net>
+website: http://tux4kids.alioth.debian.org
 
 credits.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 

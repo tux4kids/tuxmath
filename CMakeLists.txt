@@ -6,10 +6,15 @@
 # This was based on many examples, but a particular debt is owed to
 # Peter K�mmel of the LyX project.
 
+# NOTE - the CMake build basically works, but is not completely 
+# up-to-date and does not check for as many libs, headers,
+# programs, and functions.  The Autotools build is the basis
+# for official releases and is more consistently maintained.
+
 project(TuxMath)
 
 
-set(TUXMATH_VERSION "2.0.2")
+set(TUXMATH_VERSION "2.0.3")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 

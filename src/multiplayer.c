@@ -262,80 +262,80 @@ void showWinners(int* winners, int num)
 
 int initMP()
 {
-  int i;
-  int success = 1;
-  char nrstr[HIGH_SCORE_NAME_LENGTH * 3];
-  int nplayers = params[PLAYERS];
+    int i;
+    int success = 1;
+    char nrstr[HIGH_SCORE_NAME_LENGTH * 3];
+    int nplayers = params[PLAYERS];
 
-  const char* config_files[5] = {
-    "multiplay/space_cadet",
-    "multiplay/scout",
-    "multiplay/ranger",
-    "multiplay/ace",
-    "multiplay/commando"
-  };
+    const char* config_files[5] = {
+	"multiplay/space_cadet",
+	"multiplay/scout",
+	"multiplay/ranger",
+	"multiplay/ace",
+	"multiplay/commando"
+    };
 
-  DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
+    DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
 
-  success *= read_global_config_file();
+    success *= read_global_config_file();
 
-  success *= read_named_config_file("multiplay/mpoptions");
+    success *= read_named_config_file("multiplay/mpoptions");
 
-  success *= read_named_config_file(config_files[params[DIFFICULTY]]);
+    success *= read_named_config_file(config_files[params[DIFFICULTY]]);
 
-  if (!success)
-  {
-    fprintf(stderr, "Couldn't read in settings for %s\n",
-           config_files[params[DIFFICULTY]] );
-    return 1;
-  }
-
-  pscores[0] = pscores[1] = pscores[2] = pscores[3] = 0;
-  pnames[0] = pnames[1] = pnames[2] = pnames[3] = NULL;
-
-  //allocate and enter player names
-  for (i = 0; i < nplayers; ++i)
-    pnames[i] = malloc((1 + 3 * HIGH_SCORE_NAME_LENGTH) * sizeof(char) );
-  for (i = 0; i < nplayers; ++i)
-  {
-    if (pnames[i])
+    if (!success)
     {
-      if (i == 0) //First player
-        NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"), NULL);
-      else //subsequent players
-        NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"), NULL);
+	fprintf(stderr, "Couldn't read in settings for %s\n",
+		config_files[params[DIFFICULTY]] );
+	return 1;
     }
-    else
+
+    pscores[0] = pscores[1] = pscores[2] = pscores[3] = 0;
+    pnames[0] = pnames[1] = pnames[2] = pnames[3] = NULL;
+
+    //allocate and enter player names
+    for (i = 0; i < nplayers; ++i)
+	pnames[i] = malloc((1 + 3 * HIGH_SCORE_NAME_LENGTH) * sizeof(char) );
+    for (i = 0; i < nplayers; ++i)
     {
-      fprintf(stderr, "Can't allocate name %d!\n", i);
-      return 1;
+	if (pnames[i])
+	{
+	    if (i == 0) //First player
+		NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"), NULL);
+	    else //subsequent players
+		NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"), NULL);
+	}
+	else
+	{
+	    fprintf(stderr, "Can't allocate name %d!\n", i);
+	    return 1;
+	}
     }
-  }
-  
-  //enter how many rounds
-  if (params[MODE] == SCORE_SWEEP)
-  {
-    while (params[ROUNDS] <= 0)
+
+    //enter how many rounds
+    if (params[MODE] == SCORE_SWEEP)
     {
-      NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"), NULL);
-      params[ROUNDS] = atoi(nrstr);
+	while (params[ROUNDS] <= 0)
+	{
+	    NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"), NULL);
+	    params[ROUNDS] = atoi(nrstr);
+	}
     }
-  }
-  inprogress = 1; //now we can start the game
-  return 0;
+    inprogress = 1; //now we can start the game
+    return 0;
 }
 
 void cleanupMP()
 {
-  int i;
+    int i;
 
-  for (i = 0; i < params[PLAYERS]; ++i)
-    if (pnames[i])
-      free(pnames[i]);
-      
-  for (i = 0; i < NUM_PARAMS; ++i)
-    params[i] = 0;
-    
-  inprogress = 0;
-  currentplayer = 0;
+    for (i = 0; i < params[PLAYERS]; ++i)
+	if (pnames[i])
+	    free(pnames[i]);
+
+    for (i = 0; i < NUM_PARAMS; ++i)
+	params[i] = 0;
+
+    inprogress = 0;
+    currentplayer = 0;
 }

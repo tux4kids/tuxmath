@@ -1,10 +1,10 @@
 /*
    menu_lan.h: Contains headers for Tux Math's LAN selection code.
- 
+
    Copyright 2007, 2008, 2009, 2010, 2011.
-   Authors: David Bruce, Tim Holy.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: David Bruce, Tim Holy.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 menu_lan.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -29,13 +29,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "globals.h"
 
 enum {
-  PREGAME_WAITING,
-  PREGAME_GAME_IN_PROGRESS,
-  PREGAME_OVER_START_GAME,
-  PREGAME_OVER_ESCAPE,
-  PREGAME_OVER_WINDOW_CLOSE,
-  PREGAME_OVER_LAN_DISCONNECT,
-  PREGAME_OVER_ERROR,
+    PREGAME_WAITING,
+    PREGAME_GAME_IN_PROGRESS,
+    PREGAME_OVER_START_GAME,
+    PREGAME_OVER_ESCAPE,
+    PREGAME_OVER_WINDOW_CLOSE,
+    PREGAME_OVER_LAN_DISCONNECT,
+    PREGAME_OVER_ERROR,
 };
 
 int ConnectToServer(void);

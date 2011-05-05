@@ -3,14 +3,14 @@
 
    Contains global data for configuration of math questions and
    for general game options, as well as constants and defaults.
- 
+
    Copyright 2005, 2007, 2008, 2009, 2010.
-   Authors: David Bruce, Tim Holy
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: David Bruce, Tim Holy
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
-   tuxmath.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+tuxmath.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
 Tuxmath is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by

@@ -354,77 +354,77 @@ int run_custom_game(void)
                                          "See README.txt for more information.\n"));
 
   if (read_user_config_file()) {
-    if (Opts_GetGlobalOpt(MENU_MUSIC))
-      T4K_AudioMusicUnload();
+      if (Opts_GetGlobalOpt(MENU_MUSIC))
+	  T4K_AudioMusicUnload();
 
-    game();
-    write_user_config_file();
+      game();
+      write_user_config_file();
 
-    if (Opts_GetGlobalOpt(MENU_MUSIC))
-      T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+      if (Opts_GetGlobalOpt(MENU_MUSIC))
+	  T4K_AudioMusicLoad( "tuxi.ogg", -1 );
   }
 
   return 0;
 }
 
- 
+
 
 void run_multiplayer(int mode, int difficulty)
 {
-  int nplayers = 0;
-  char npstr[HIGH_SCORE_NAME_LENGTH * 3];
+    int nplayers = 0;
+    char npstr[HIGH_SCORE_NAME_LENGTH * 3];
 
-  while (nplayers <= 0 || nplayers > MAX_PLAYERS)
-  {
-    NameEntry(npstr, _("How many kids are playing?"),
-                     _("(Between 2 and 4 players)"), NULL);
-    nplayers = atoi(npstr);
-  }
+    while (nplayers <= 0 || nplayers > MAX_PLAYERS)
+    {
+	NameEntry(npstr, _("How many kids are playing?"),
+		_("(Between 2 and 4 players)"), NULL);
+	nplayers = atoi(npstr);
+    }
 
-  mp_set_parameter(PLAYERS, nplayers);
-  mp_set_parameter(MODE, mode);
-  mp_set_parameter(DIFFICULTY, difficulty);
-  mp_run_multiplayer();
+    mp_set_parameter(PLAYERS, nplayers);
+    mp_set_parameter(MODE, mode);
+    mp_set_parameter(DIFFICULTY, difficulty);
+    mp_run_multiplayer();
 }
 
-  
+
 
 int run_factoroids(int choice)
 {
-  const int factoroids_high_score_tables[2] =
+    const int factoroids_high_score_tables[2] =
     {FACTORS_HIGH_SCORE, FRACTIONS_HIGH_SCORE};
-  int hs_table;
+    int hs_table;
 
-  T4K_AudioMusicUnload();
-  if(choice == 0)
-    factors();
-  else
-    fractions();
+    T4K_AudioMusicUnload();
+    if(choice == 0)
+	factors();
+    else
+	fractions();
 
-  if (Opts_GetGlobalOpt(MENU_MUSIC))
-    T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+    if (Opts_GetGlobalOpt(MENU_MUSIC))
+	T4K_AudioMusicLoad( "tuxi.ogg", -1 );
 
-  hs_table = factoroids_high_score_tables[choice];
-  if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
-    char player_name[HIGH_SCORE_NAME_LENGTH * 3];
-    /* Get name from player: */
-    HighScoreNameEntry(&player_name[0]);
-    insert_score(player_name, hs_table, Opts_LastScore());
-    /* Show the high scores. Note the user will see his/her */
-    /* achievement even if (in the meantime) another player */
-    /* has in fact already bumped this score off the table. */
-    DisplayHighScores(hs_table);
-    /* save to disk: */
-    /* See "On File Locking" in fileops.c */
-    append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
-    DEBUGCODE(debug_titlescreen)
-    print_high_scores(stderr);
-  }
-  else {
-    fprintf(stderr, "\nCould not find config file\n");
-  }
+    hs_table = factoroids_high_score_tables[choice];
+    if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
+	char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+	/* Get name from player: */
+	HighScoreNameEntry(&player_name[0]);
+	insert_score(player_name, hs_table, Opts_LastScore());
+	/* Show the high scores. Note the user will see his/her */
+	/* achievement even if (in the meantime) another player */
+	/* has in fact already bumped this score off the table. */
+	DisplayHighScores(hs_table);
+	/* save to disk: */
+	/* See "On File Locking" in fileops.c */
+	append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
+	DEBUGCODE(debug_titlescreen)
+	    print_high_scores(stderr);
+    }
+    else {
+	fprintf(stderr, "\nCould not find config file\n");
+    }
 
-  return 0;
+    return 0;
 }
 
 
@@ -433,326 +433,326 @@ int run_factoroids(int choice)
 int run_lan_host(void)
 {
 #ifdef HAVE_LIBSDL_NET
-  char msg[256];
-  char buf[256];
-  char server_name[150];
-  char* serv_argv[3];
-  int chosen_lesson = -1;
+    char msg[256];
+    char buf[256];
+    char server_name[150];
+    char* serv_argv[3];
+    int chosen_lesson = -1;
 
-  /* For now, only allow one server instance: */
-  if(OurServerRunning())
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
-    return 0;
-  }
+    /* For now, only allow one server instance: */
+    if(OurServerRunning())
+    {
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
+	return 0;
+    }
 
-  /* We still have possibility that a server is running on this machine as a standalone
-   * program or within another tuxmath instance, in which case we still can't start our
-   * server because the port is already taken:
-   */
+    /* We still have possibility that a server is running on this machine as a standalone
+     * program or within another tuxmath instance, in which case we still can't start our
+     * server because the port is already taken:
+     */
 
-  if(!PortAvailable(DEFAULT_PORT))
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
-    return 0;
-  }
-  
-  NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"), NULL);
-  serv_argv[0] = "tuxmathserver";
-  serv_argv[1] = "--name";
-  //snprintf(buf, 256, "\"%s\"", server_name);
-  snprintf(buf, 256, "%s", server_name);
-  serv_argv[2] = buf;
+    if(!PortAvailable(DEFAULT_PORT))
+    {
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
+	return 0;
+    }
+
+    NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"), NULL);
+    serv_argv[0] = "tuxmathserver";
+    serv_argv[1] = "--name";
+    //snprintf(buf, 256, "\"%s\"", server_name);
+    snprintf(buf, 256, "%s", server_name);
+    serv_argv[2] = buf;
 
 
-  /* If we have POSIX threads available, we launch server in a thread within          */
-  /* our same process. The server will use the currently selected Mathcards settings, */
-  /* so we can let the user select the lesson for the server to use.                  */
+    /* If we have POSIX threads available, we launch server in a thread within          */
+    /* our same process. The server will use the currently selected Mathcards settings, */
+    /* so we can let the user select the lesson for the server to use.                  */
 
 #ifdef HAVE_PTHREAD_H
 
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Click or press key to select server lesson file"));
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Click or press key to select server lesson file"));
 
-  {
-    chosen_lesson = run_menu(MENU_LESSONS, true);
-
-    while (chosen_lesson >= 0)
     {
-      if (Opts_GetGlobalOpt(MENU_SOUND))
-        playsound(SND_POP);
+	chosen_lesson = run_menu(MENU_LESSONS, true);
 
-      /* Re-read global settings first in case any settings were */
-      /* clobbered by other lesson or arcade games this session: */
-      read_global_config_file();
-      /* Now read the selected file and play the "mission": */
-      if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
-        break;
-      else    
-      {  // Something went wrong - could not read lesson config file:
-        fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
-        chosen_lesson = -1;
-      }
-      // Let the user choose another lesson; start with the screen and
-      // selection that we ended with
-      chosen_lesson = run_menu(MENU_LESSONS, true);
+	while (chosen_lesson >= 0)
+	{
+	    if (Opts_GetGlobalOpt(MENU_SOUND))
+		playsound(SND_POP);
+
+	    /* Re-read global settings first in case any settings were */
+	    /* clobbered by other lesson or arcade games this session: */
+	    read_global_config_file();
+	    /* Now read the selected file and play the "mission": */
+	    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+		break;
+	    else    
+	    {  // Something went wrong - could not read lesson config file:
+		fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+		chosen_lesson = -1;
+	    }
+	    // Let the user choose another lesson; start with the screen and
+	    // selection that we ended with
+	    chosen_lesson = run_menu(MENU_LESSONS, true);
+	}
+	if(chosen_lesson==STOP) return 0;
     }
-    if(chosen_lesson==STOP) return 0;
-  }
-  sprintf(msg, _("Server Name:\n%s\nSelected Lesson:\n%s"), server_name, lesson_list_titles[chosen_lesson]);
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
+    sprintf(msg, _("Server Name:\n%s\nSelected Lesson:\n%s"), server_name, lesson_list_titles[chosen_lesson]);
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
 
-  DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
-	   "serv_argv[0] = %s\n"
-	   "serv_argv[1] = %s\n"
-	   "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
-  RunServer_pthread(3, serv_argv);
+    DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
+	    "serv_argv[0] = %s\n"
+	    "serv_argv[1] = %s\n"
+	    "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+    RunServer_pthread(3, serv_argv);
 
 
-  /* Without pthreads, we just launch standalone server, which for now only     */
-  /* supports the hardcoded default settings.                                   */
+    /* Without pthreads, we just launch standalone server, which for now only     */
+    /* supports the hardcoded default settings.                                   */
 #else
 
-  DEBUGMSG(debug_lan, "About to launch RunServer_prog() with:\n"
-	   "serv_argv[0] = %s\n"
-	   "serv_argv[1] = %s\n"
-	   "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
-  RunServer_prog(3, serv_argv);
+    DEBUGMSG(debug_lan, "About to launch RunServer_prog() with:\n"
+	    "serv_argv[0] = %s\n"
+	    "serv_argv[1] = %s\n"
+	    "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+    RunServer_prog(3, serv_argv);
 #endif
 
-/* No SDL_net, so show explanatory message: */
+    /* No SDL_net, so show explanatory message: */
 #else
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
-  printf( _("Sorry, this version built without network support.\n"));
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
+    printf( _("Sorry, this version built without network support.\n"));
 #endif
-  return 0;
+    return 0;
 }
 
 int stop_lan_host(void)
 {
-  DEBUGMSG(debug_lan|debug_menu, "Entering stop_lan_join()\n");
-  if(!OurServerRunning())
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
-    return 0; 
-  }
+    DEBUGMSG(debug_lan|debug_menu, "Entering stop_lan_join()\n");
+    if(!OurServerRunning())
+    {
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
+	return 0; 
+    }
 
-  if(SrvrGameInProgress())
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
-    return 0;
-  }
-  StopServer();
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server has been stopped."));
+    if(SrvrGameInProgress())
+    {
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
+	return 0;
+    }
+    StopServer();
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server has been stopped."));
 
-  return 1;
+    return 1;
 }
 
 
 int run_lan_join(void)
 {
-  DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n"); 
+    DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n"); 
 
 #ifdef HAVE_LIBSDL_NET
-  int pregame_status;
+    int pregame_status;
 
-  /* autodetect servers, allowing player to choose if > 1 found: */
-  if(!ConnectToServer())
-  /* Could not connect: */
-  {
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not connect to server."));
-    DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
-    return 0;
-  }
+    /* autodetect servers, allowing player to choose if > 1 found: */
+    if(!ConnectToServer())
+	/* Could not connect: */
+    {
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not connect to server."));
+	DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
+	return 0;
+    }
 
-  /* Connected to server but not yet in game */
-  pregame_status = Pregame();
-  switch(pregame_status)
-  {	  
-    case PREGAME_OVER_START_GAME:
-      playsound(SND_TOCK);
-      T4K_AudioMusicUnload();
-      Opts_SetLanMode(1);  // Tells game() we are playing over network
-      game();
-      Opts_SetLanMode(0);  // Go back to local play
-      if (Opts_GetGlobalOpt(MENU_MUSIC))
-        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-      break;
+    /* Connected to server but not yet in game */
+    pregame_status = Pregame();
+    switch(pregame_status)
+    {	  
+	case PREGAME_OVER_START_GAME:
+	    playsound(SND_TOCK);
+	    T4K_AudioMusicUnload();
+	    Opts_SetLanMode(1);  // Tells game() we are playing over network
+	    game();
+	    Opts_SetLanMode(0);  // Go back to local play
+	    if (Opts_GetGlobalOpt(MENU_MUSIC))
+		T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+	    break;
 
-    case PREGAME_GAME_IN_PROGRESS:
-      playsound(SND_TOCK);
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
-      LAN_Cleanup();
-      break;
+	case PREGAME_GAME_IN_PROGRESS:
+	    playsound(SND_TOCK);
+	    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
+	    LAN_Cleanup();
+	    break;
 
-    case PREGAME_OVER_LAN_DISCONNECT: 
-      playsound(SND_TOCK);
-      ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
-      LAN_Cleanup();
-      break;
+	case PREGAME_OVER_LAN_DISCONNECT: 
+	    playsound(SND_TOCK);
+	    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+	    LAN_Cleanup();
+	    break;
 
-    case PREGAME_OVER_ESCAPE: 
-      LAN_Cleanup();
-      return 0;
+	case PREGAME_OVER_ESCAPE: 
+	    LAN_Cleanup();
+	    return 0;
 
-    default:
-      { /* do nothing */ }
+	default:
+	    { /* do nothing */ }
 
-  }  
+    }  
 #else
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
-  DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
-  return 0;
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
+    DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
+    return 0;
 #endif
 
-  DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n"); 
-  return 1;
+    DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n"); 
+    return 1;
 }
 
 
 /* load menu trees from disk and prerender them */
 void LoadMenus(void)
 {
-  T4K_SetMenuSpritePrefix("sprites");
-  T4K_SetActivitiesList(N_OF_ACTIVITIES, activities);
-  /* main menu */
-  T4K_LoadMenu(MENU_MAIN, "main_menu.xml");
-  
-  //NOTE level_menu.xml doesn't exist, and as it's not being used I'm skipping the load for now -Cheez
-  /* difficulty menu */
-//  T4K_LoadMenu(MENU_DIFFICULTY, "level_menu.xml");
-  T4K_SetMenuFontSize(MF_BESTFIT, 0);
-  T4K_PrerenderAll();
+    T4K_SetMenuSpritePrefix("sprites");
+    T4K_SetActivitiesList(N_OF_ACTIVITIES, activities);
+    /* main menu */
+    T4K_LoadMenu(MENU_MAIN, "main_menu.xml");
+
+    //NOTE level_menu.xml doesn't exist, and as it's not being used I'm skipping the load for now -Cheez
+    /* difficulty menu */
+    //  T4K_LoadMenu(MENU_DIFFICULTY, "level_menu.xml");
+    T4K_SetMenuFontSize(MF_BESTFIT, 0);
+    T4K_PrerenderAll();
 }
 
 
 
 /* create login menu tree, run it and set the user home directory
    -1 indicates that the user wants to quit without logging in,
-    0 indicates that a choice has been made. */
+   0 indicates that a choice has been made. */
 int RunLoginMenu(void)
 {
-  const char *trailer_quit = "Quit";
-  const char *trailer_back = "Back";
-  int n_login_questions = 0;
-  char **user_login_questions = NULL;
-  char *title = NULL;
-  int n_users = 0;
-  char **user_names = NULL;
-  int chosen_login = -1;
-  int level;
-  int i;
-  char *trailer = NULL;
-  SDLMod mod;
+    const char *trailer_quit = "Quit";
+    const char *trailer_back = "Back";
+    int n_login_questions = 0;
+    char **user_login_questions = NULL;
+    char *title = NULL;
+    int n_users = 0;
+    char **user_names = NULL;
+    int chosen_login = -1;
+    int level;
+    int i;
+    char *trailer = NULL;
+    SDLMod mod;
 
-  DEBUGMSG(debug_menu, "Entering RunLoginMenu()");
-  // Check for & read user_login_questions file
-  n_login_questions = read_user_login_questions(&user_login_questions);
+    DEBUGMSG(debug_menu, "Entering RunLoginMenu()");
+    // Check for & read user_login_questions file
+    n_login_questions = read_user_login_questions(&user_login_questions);
 
-  // Check for & read user_menu_entries file
-  n_users = read_user_menu_entries(&user_names);
+    // Check for & read user_menu_entries file
+    n_users = read_user_menu_entries(&user_names);
 
-  if (n_users == 0)
-    return 0;   // a quick exit, there's only one user
+    if (n_users == 0)
+	return 0;   // a quick exit, there's only one user
 
-  // Check for a highscores file
-  if (high_scores_found_in_user_dir())
-    set_high_score_path();
-
-  level = 0;
-
-  if (n_login_questions > 0)
-    title = user_login_questions[0];
-
-  T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer_quit);
-  
-  while (n_users) {
-    // Get the user choice
-    T4K_PrerenderMenu(MENU_LOGIN);
-    chosen_login = run_menu(MENU_LOGIN, true);
-    // Determine whether there were any modifier (CTRL) keys pressed
-    mod = SDL_GetModState();
-    if (chosen_login < 0 || chosen_login == n_users) {
-      // User pressed escape or selected Quit/Back, handle by quitting
-      // or going up a level
-      if (level == 0) {
-        // We are going to quit without logging in.
-        // Clean up memory (prob. not necessary, but prevents Valgrind errors!)
-        for (i = 0; i < n_login_questions; i++)
-          free(user_login_questions[i]);
-        free(user_login_questions);
-        for (i = 0; i < n_users; i++)
-          free(user_names[i]);
-        free(user_names);
-        return -1;
-      }
-      else {
-        // Go back up one level of the directory tree
-        user_data_dirname_up();
-        level--;
-      }
-    }
-    else {
-      // User chose an entry, set it up
-      user_data_dirname_down(user_names[chosen_login]);
-      level++;
-    }
     // Check for a highscores file
     if (high_scores_found_in_user_dir())
-      set_high_score_path();
-    // Free the entries from the previous menu
-    for (i = 0; i < n_users; i++)
-      free(user_names[i]);
-    free(user_names);
-    user_names = NULL;
-    // If the CTRL key was pressed, choose this as the identity, even
-    // if there is a lower level to the hierarchy
-    if (mod & KMOD_CTRL)
-      break;
-    // Set the title appropriately for the next menu
-    if (level < n_login_questions)
-      title = user_login_questions[level];
-    else
-      title = NULL;
-    if (level == 0)
-      trailer = trailer_quit;
-    else
-      trailer = trailer_back;
-    // Check to see if there are more choices to be made
-    n_users = read_user_menu_entries(&user_names);
-    T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer);
-  }
+	set_high_score_path();
 
-  // The user home directory is set, clean up remaining memory
-  for (i = 0; i < n_login_questions; i++)
-    free(user_login_questions[i]);
-  free(user_login_questions);
+    level = 0;
 
-  // Signal success
-  return 0;
+    if (n_login_questions > 0)
+	title = user_login_questions[0];
+
+    T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer_quit);
+
+    while (n_users) {
+	// Get the user choice
+	T4K_PrerenderMenu(MENU_LOGIN);
+	chosen_login = run_menu(MENU_LOGIN, true);
+	// Determine whether there were any modifier (CTRL) keys pressed
+	mod = SDL_GetModState();
+	if (chosen_login < 0 || chosen_login == n_users) {
+	    // User pressed escape or selected Quit/Back, handle by quitting
+	    // or going up a level
+	    if (level == 0) {
+		// We are going to quit without logging in.
+		// Clean up memory (prob. not necessary, but prevents Valgrind errors!)
+		for (i = 0; i < n_login_questions; i++)
+		    free(user_login_questions[i]);
+		free(user_login_questions);
+		for (i = 0; i < n_users; i++)
+		    free(user_names[i]);
+		free(user_names);
+		return -1;
+	    }
+	    else {
+		// Go back up one level of the directory tree
+		user_data_dirname_up();
+		level--;
+	    }
+	}
+	else {
+	    // User chose an entry, set it up
+	    user_data_dirname_down(user_names[chosen_login]);
+	    level++;
+	}
+	// Check for a highscores file
+	if (high_scores_found_in_user_dir())
+	    set_high_score_path();
+	// Free the entries from the previous menu
+	for (i = 0; i < n_users; i++)
+	    free(user_names[i]);
+	free(user_names);
+	user_names = NULL;
+	// If the CTRL key was pressed, choose this as the identity, even
+	// if there is a lower level to the hierarchy
+	if (mod & KMOD_CTRL)
+	    break;
+	// Set the title appropriately for the next menu
+	if (level < n_login_questions)
+	    title = user_login_questions[level];
+	else
+	    title = NULL;
+	if (level == 0)
+	    trailer = trailer_quit;
+	else
+	    trailer = trailer_back;
+	// Check to see if there are more choices to be made
+	n_users = read_user_menu_entries(&user_names);
+	T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer);
+    }
+
+    // The user home directory is set, clean up remaining memory
+    for (i = 0; i < n_login_questions; i++)
+	free(user_login_questions[i]);
+    free(user_login_questions);
+
+    // Signal success
+    return 0;
 }
 
 /* run main menu. If this function ends it means that tuxmath is going to quit */
 void RunMainMenu(void)
 {
-  int i;
-//  char* lltitle = "Lesson List"; //lesson list menu title
-  char* icon_names[num_lessons];
-  
-  DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");
+    int i;
+    //  char* lltitle = "Lesson List"; //lesson list menu title
+    char* icon_names[num_lessons];
 
-   /* lessons menu */
-  DEBUGMSG(debug_menu, "RunMainMenu(): Generating lessons submenu. (%d lessons)\n", num_lessons);
+    DEBUGMSG(debug_menu, "Entering RunMainMenu()\n");
 
-  for(i = 0; i < num_lessons; i++)
-  {
-    icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
-  }
+    /* lessons menu */
+    DEBUGMSG(debug_menu, "RunMainMenu(): Generating lessons submenu. (%d lessons)\n", num_lessons);
 
-  T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");
+    for(i = 0; i < num_lessons; i++)
+    {
+	icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
+    }
 
-  T4K_PrerenderMenu(MENU_LESSONS);
+    T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");
 
-  run_menu(MENU_MAIN, false);
-  DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
+    T4K_PrerenderMenu(MENU_LESSONS);
+
+    run_menu(MENU_MAIN, false);
+    DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
 }
 

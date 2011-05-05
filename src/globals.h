@@ -1,15 +1,15 @@
 /*
    globals.h:
- 
+
    Contains global data for configuration of math questions and for
    general game options, as well as constants and defaults.  Nothing
    depending on SDL should be in here; put any SDL-related items into
    tuxmath.h.
 
    Copyright 2006, 2007, 2008, 2009, 2010.
-   Authors: David Bruce, Tim Holy, and others.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: David Bruce, Tim Holy, and others.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 game.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -51,10 +51,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 /* Conditional includes of t4k_common replacement functions
  * if not supplied by platform:
  */
-#ifndef HAVE_ALPHASORT
+/* Somehow, configure defines HAVE_ALPHASORT and
+ * HAVE_SCANDIR for mingw32 even though they are 
+ * not available for that build, so use our own:
+ */
+#if !defined HAVE_ALPHASORT || defined BUILD_MINGW32
 #include <t4k_alphasort.h>
 #endif
-#ifndef HAVE_SCANDIR
+#if !defined HAVE_SCANDIR || defined BUILD_MINGW32
 #include <t4k_scandir.h>
 #endif
 
@@ -151,18 +155,18 @@ extern const int debug_multiplayer;
 #define PIXEL_BITS 32
 
 enum {
-  CADET_HIGH_SCORE,
-  SCOUT_HIGH_SCORE,
-  RANGER_HIGH_SCORE,
-  ACE_HIGH_SCORE,
-  COMMANDO_HIGH_SCORE,
-  NUM_MATH_COMMAND_LEVELS
+    CADET_HIGH_SCORE,
+    SCOUT_HIGH_SCORE,
+    RANGER_HIGH_SCORE,
+    ACE_HIGH_SCORE,
+    COMMANDO_HIGH_SCORE,
+    NUM_MATH_COMMAND_LEVELS
 };
 
 enum {
-  FACTORS_HIGH_SCORE = NUM_MATH_COMMAND_LEVELS,
-  FRACTIONS_HIGH_SCORE,
-  NUM_HIGH_SCORE_LEVELS
+    FACTORS_HIGH_SCORE = NUM_MATH_COMMAND_LEVELS,
+    FRACTIONS_HIGH_SCORE,
+    NUM_HIGH_SCORE_LEVELS
 };
 
 

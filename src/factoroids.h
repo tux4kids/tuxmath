@@ -1,12 +1,12 @@
 /*
-   
+
    factoroids.h: Contains headers for the factor and
    fraction activities.
- 
+
    Copyright 2008, 2010
-   Author: Jesus M. Mager H. (fongog@gmail.com)
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Author: Jesus M. Mager H. (fongog@gmail.com)
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 factoroids.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 

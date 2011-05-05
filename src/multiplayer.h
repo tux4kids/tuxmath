@@ -5,11 +5,11 @@
    multiplayer that can accommodate up to four players (more with
    a recompilation).  Note that this is separate from the LAN-based
    "real" multiplayer mode.
- 
+
    Copyright 2008, 2010.
-   Authors:  Brendan Luchen, David Bruce.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors:  Brendan Luchen, David Bruce.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 multiplayer.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
@@ -38,16 +38,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX_PLAYERS 4
 
 enum {
-  PLAYERS,
-  ROUNDS,
-  DIFFICULTY,
-  MODE,
-  NUM_PARAMS
+    PLAYERS,
+    ROUNDS,
+    DIFFICULTY,
+    MODE,
+    NUM_PARAMS
 };
 
 typedef enum {
-  SCORE_SWEEP,
-  ELIMINATION
+    SCORE_SWEEP,
+    ELIMINATION
 } MP_Mode;
 
 void mp_run_multiplayer();

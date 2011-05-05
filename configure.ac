@@ -1,6 +1,6 @@
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
-AC_INIT([Tux Of Math Command],[2.0.2],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
+AC_INIT([Tux Of Math Command],[2.0.3],[tuxmath-devel@lists.sourceforge.net],[tuxmath])
 
 AC_PREREQ(2.61)
 AC_CANONICAL_HOST

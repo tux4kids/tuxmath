@@ -5,9 +5,9 @@
    LAN-based play in Tux,of Math Command.
 
    Copyright 2009, 2010.
-   Author: David Bruce.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Author: David Bruce.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 servermain.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -39,28 +39,28 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 int main(int argc, char** argv)
 {
-  int ret;
+    int ret;
 #ifdef HAVE_LIBSDL_NET
-  //Initialize SDL and SDL_net:
-  if(SDL_Init(0) == -1)
-  {
-    fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
-    return 0;;
-  }
-  if (SDLNet_Init() < 0)
-  {
-    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-    return 0;
-  }
+    //Initialize SDL and SDL_net:
+    if(SDL_Init(0) == -1)
+    {
+	fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
+	return 0;;
+    }
+    if (SDLNet_Init() < 0)
+    {
+	fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+	return 0;
+    }
 
-  /* Run actual program: */
-  ret = RunServer(argc, argv);
-  /* cleanup */
-  SDLNet_Quit();
-  SDL_Quit();
-  MC_EndGame();
-  return ret;
+    /* Run actual program: */
+    ret = RunServer(argc, argv);
+    /* cleanup */
+    SDLNet_Quit();
+    SDL_Quit();
+    MC_EndGame();
+    return ret;
 #else
-  return 0;
+    return 0;
 #endif
 }

@@ -1,9 +1,9 @@
 /* audio.c -  description: this file contains audio related functions
-   
+
    Copyright (C) 2003, 2006, 2007, 2008, 2009, 2010.
-   Authors: Sam Hart, Jesse Andrews, David Bruce.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: Sam Hart, Jesse Andrews, David Bruce.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 audio.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -31,8 +31,8 @@ Mix_Music *music;
 void playsound(int snd)
 {
 #ifndef NOSOUND
-  if (Opts_GetGlobalOpt(USE_SOUND))
-    T4K_PlaySound(sounds[snd]);
+    if (Opts_GetGlobalOpt(USE_SOUND))
+	T4K_PlaySound(sounds[snd]);
 #endif
 }
 

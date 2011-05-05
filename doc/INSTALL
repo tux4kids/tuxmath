@@ -1,7 +1,7 @@
 INSTALL for "Tux, Of Math Command" (aka "Tuxmath")
-Version 2.0.2
+Version 2.0.3
 
-April 27, 2011
+May 04, 2011
 
 For users
 ---------
@@ -379,13 +379,12 @@ process of downloading and building 15-20 libs by hand.
 
 Basically, go to the mingw-cross-env site listed above and follow the
 well-written directions to get the basic setup in place. Now, you need to
-cross-build t4k_common using mingw-cross-env.  I have submitted our
-"t4k_common.mk" recipe file for mingw-cross-env to that project, but as of this
-writing, it is not yet included with mingw-cross-env itself.  You also might
-conceivably have a previous version of mingw-cross-env.  So, try running "make
-t4k_common" from your mingw-cross-env directory.  If it works, great, otherwise
-you need to copy the t4k_common.mk file from tuxmath's source tree into
-mingw-cross-env's src/, e.g.:
+cross-build t4k_common using mingw-cross-env.  As of this writing, t4k_common
+has been added to the mingw-cross-env project, but is only in the development
+version in the Mercurial repository, not in any stable release.  So, try
+running "make t4k_common" from your mingw-cross-env directory.  If it works,
+great, otherwise you need to copy the t4k_common.mk file from tuxmath's source
+tree into mingw-cross-env's src/, e.g.:
 
 cp t4k_common.mk /opt/mingw-cross-env/src
 cd /opt/mingw-cross-env

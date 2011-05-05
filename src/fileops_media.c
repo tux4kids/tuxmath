@@ -245,45 +245,45 @@ int load_image_data()
 #ifndef NOSOUND
 int load_sound_data(void)
 {
-  int i = 0;
+    int i = 0;
 
-  static char* sound_filenames[NUM_SOUNDS] = {
-  DATA_PREFIX "/sounds/harp.wav",
-  DATA_PREFIX "/sounds/pop.wav",
-  DATA_PREFIX "/sounds/tock.wav",
-  DATA_PREFIX "/sounds/laser.wav",
-  DATA_PREFIX "/sounds/buzz.wav",
-  DATA_PREFIX "/sounds/alarm.wav",
-  DATA_PREFIX "/sounds/shieldsdown.wav",
-  DATA_PREFIX "/sounds/explosion.wav",
-  DATA_PREFIX "/sounds/sizzling.wav",
-  DATA_PREFIX "/sounds/towerclock.wav",
-  DATA_PREFIX "/sounds/cheer.wav",
-  DATA_PREFIX "/sounds/engine.wav"
-  };
+    static char* sound_filenames[NUM_SOUNDS] = {
+	DATA_PREFIX "/sounds/harp.wav",
+	DATA_PREFIX "/sounds/pop.wav",
+	DATA_PREFIX "/sounds/tock.wav",
+	DATA_PREFIX "/sounds/laser.wav",
+	DATA_PREFIX "/sounds/buzz.wav",
+	DATA_PREFIX "/sounds/alarm.wav",
+	DATA_PREFIX "/sounds/shieldsdown.wav",
+	DATA_PREFIX "/sounds/explosion.wav",
+	DATA_PREFIX "/sounds/sizzling.wav",
+	DATA_PREFIX "/sounds/towerclock.wav",
+	DATA_PREFIX "/sounds/cheer.wav",
+	DATA_PREFIX "/sounds/engine.wav"
+    };
 
 
-  /* skip loading sound files if sound system not available: */
-  if (Opts_UsingSound())
-  {
-    for (i = 0; i < NUM_SOUNDS; i++)
+    /* skip loading sound files if sound system not available: */
+    if (Opts_UsingSound())
     {
-      sounds[i] = Mix_LoadWAV(sound_filenames[i]);
+	for (i = 0; i < NUM_SOUNDS; i++)
+	{
+	    sounds[i] = Mix_LoadWAV(sound_filenames[i]);
 
-      if (sounds[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a sound file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", sound_filenames[i], SDL_GetError());
-        return 0;
-      }
+	    if (sounds[i] == NULL)
+	    {
+		fprintf(stderr,
+			"\nError: I couldn't load a sound file:\n"
+			"%s\n"
+			"The Simple DirectMedia error that occured was:\n"
+			"%s\n\n", sound_filenames[i], SDL_GetError());
+		return 0;
+	    }
+	}
     }
-  }
 
-  //NOTE - no longer load musics here - they are loaded as needed
-  return 1;
+    //NOTE - no longer load musics here - they are loaded as needed
+    return 1;
 }
 
 #endif /* NOSOUND */

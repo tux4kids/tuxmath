@@ -1,3 +1,12 @@
+2011.May.04 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.3:
+	- Fix of turn-based multiplayer game in Windows.
+	- Tweak of mouse sensitivity for Factoroids
+	- Fix of minor build errors appearing under MacPorts.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
 2011.Apr.27 (git://git.debian.org/tux4kids/tuxmath.git)
 
 	For version 2.0.2:

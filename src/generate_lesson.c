@@ -1,12 +1,12 @@
 /* generate_lesson.c
-  
+
    A simple standalone program to help test the creation of valid 
    question lists by mathcards.
-    
+
    Copyright 2008, 2009,2010.
-   Author: Tim Holy.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Author: Tim Holy.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 generate_lesson.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 /* Compile this with the following statement:
 
-gcc -lm -o generate_lesson -DDATA_PREFIX=\"/usr/local/share/tuxmath\" generate_lesson.c mathcards.c options.c fileops.c lesson.c
+   gcc -lm -o generate_lesson -DDATA_PREFIX=\"/usr/local/share/tuxmath\" generate_lesson.c mathcards.c options.c fileops.c lesson.c
 
 Usage: generate_lesson configfile1 configfile2 ...
 
@@ -50,44 +50,44 @@ int num_lessons = 0;
 
 int read_high_scores_fp(FILE* fp)
 {
-  /* This is a stub to let things compile */
-  return 1;
+    /* This is a stub to let things compile */
+    return 1;
 }
 
 void initialize_scores(void)
 {
-  /* This is a stub to let things compile */
+    /* This is a stub to let things compile */
 }  
 
 int main(int argc,char *argv[])
 {
-  int i;
+    int i;
 
-  /* Initialize MathCards backend for math questions: */
-  if (!MC_Initialize())
-  {
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
-    exit(1);
-  }
+    /* Initialize MathCards backend for math questions: */
+    if (!MC_Initialize())
+    {
+	fprintf(stderr, "\nUnable to initialize MathCards\n");
+	fprintf(stderr, "\nUnable to initialize MathCards\n");
+	exit(1);
+    }
 
-  /* initialize game_options struct with defaults DSB */
-  if (!Opts_Initialize())
-  {
-    fprintf(stderr, "\nUnable to initialize game_options\n");
-    exit(1);
-  }
+    /* initialize game_options struct with defaults DSB */
+    if (!Opts_Initialize())
+    {
+	fprintf(stderr, "\nUnable to initialize game_options\n");
+	exit(1);
+    }
 
-  /* This next bit allows multiple config files to be read in sequence, since
-     this is something that happens in the ordinary course of events
-     in tuxmath itself. */
-  for (i = 1; i < argc; i++) {
-    fprintf(stderr, "Reading %s\n",argv[i]);
-    read_named_config_file(argv[i]);
-  }
-  fprintf(stderr, "All done reading!\n");
+    /* This next bit allows multiple config files to be read in sequence, since
+       this is something that happens in the ordinary course of events
+       in tuxmath itself. */
+    for (i = 1; i < argc; i++) {
+	fprintf(stderr, "Reading %s\n",argv[i]);
+	read_named_config_file(argv[i]);
+    }
+    fprintf(stderr, "All done reading!\n");
 
-  MC_StartGame();
-  MC_PrintQuestionList(stdout);
-  return 0;
+    MC_StartGame();
+    MC_PrintQuestionList(stdout);
+    return 0;
 }

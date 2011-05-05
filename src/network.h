@@ -3,14 +3,14 @@
 
    Provides routines for various networking functions to be used
    in the LAN multiplayer game.
- 
+
    Copyright 2009, 2010.
-   Authors: David Bruce, Akash Gangil
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: David Bruce, Akash Gangil
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
-   network.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+network.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
 Tuxmath is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -49,11 +49,11 @@ typedef struct {
 
 /* Keep information on other connected players for on-screen display: */
 typedef struct lan_player_type {
-  bool connected;
-  char name[NAME_SIZE];
-  bool mine;	
-  bool ready;	
-  int score;	
+    bool connected;
+    char name[NAME_SIZE];
+    bool mine;	
+    bool ready;	
+    int score;	
 } lan_player_type;
 
 /* Networking setup and cleanup: */

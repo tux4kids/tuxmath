@@ -1,8 +1,8 @@
 /* campaign.h - handle TuxMath's 'Mission mode'
-   
+
    Copyright (C) 2008, 2009, 2010.
-   Authors: Brendan Luchen, David Bruce.
-   email: <tuxmath-devel@lists.sourceforge.net>
+Authors: Brendan Luchen, David Bruce.
+email: <tuxmath-devel@lists.sourceforge.net>
 
 campaign.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -23,7 +23,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
- 
+
 #include "tuxmath.h"
 
 //#define TESTING_CAMPAIGN //allow ESC to skip missions instead of exiting
