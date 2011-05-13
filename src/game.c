@@ -4394,11 +4394,11 @@ void game_handle_net_messages(void)
 
 void game_handle_net_msg(char* buf)
 {
-    DEBUGMSG(debug_lan, "Received server message: %s\n", buf);
+    DEBUGMSG(debug_game|debug_lan, "Received server message: %s\n", buf);
 
     if(strncmp(buf, "PLAYER_MSG", strlen("PLAYER_MSG")) == 0)
     {
-	DEBUGMSG(debug_lan, "buf is %s\n", buf);                                                  
+	DEBUGMSG(debug_game|debug_lan, "buf is %s\n", buf);                                                  
     }
 
     else if(strncmp(buf, "ADD_QUESTION", strlen("ADD_QUESTION")) == 0)
@@ -4406,18 +4406,18 @@ void game_handle_net_msg(char* buf)
 	if(!add_quest_recvd(buf))
 	    fprintf(stderr, "ADD_QUESTION received but could not add question\n");
 	else  
-	    DEBUGCODE(debug_game) print_current_quests();
+	    DEBUGCODE(debug_game|debug_lan) print_current_quests();
     }
 
     else if(strncmp(buf, "REMOVE_QUESTION", strlen("REMOVE_QUESTION")) == 0)
     {
 	if(!remove_quest_recvd(buf)) //remove the question with id in buf
 	{
-	    DEBUGMSG(debug_game, "REMOVE_QUESTION received but could not remove question\n");
-	    DEBUGMSG(debug_game, "(this is OK if it was answered by this player, as it was removed already)\n");
+	    DEBUGMSG(debug_game|debug_lan, "REMOVE_QUESTION received but could not remove question\n");
+	    DEBUGMSG(debug_game|debug_lan, "(this is OK if it was answered by this player, as it was removed already)\n");
 	}
 	else 
-	    DEBUGCODE(debug_game) print_current_quests();
+	    DEBUGCODE(debug_game|debug_lan) print_current_quests();
     }
 
     else if(strncmp(buf, "TOTAL_QUESTIONS", strlen("TOTAL_QUESTIONS")) == 0)
@@ -4454,7 +4454,7 @@ void game_handle_net_msg(char* buf)
 
     else
     {
-	DEBUGMSG(debug_game, "Unrecognized message from server: %s\n", buf);
+	DEBUGMSG(debug_game|debug_lan, "Unrecognized message from server: %s\n", buf);
     }  
 }
 
@@ -4463,7 +4463,7 @@ int add_quest_recvd(char* buf)
 {
     MC_FlashCard  fc;
 
-    DEBUGMSG(debug_game, "Enter add_quest_recvd(), buf is: %s\n", buf);
+    DEBUGMSG(debug_game|debug_lan, "Enter add_quest_recvd(), buf is: %s\n", buf);
 
     if(!buf)
     {
@@ -4503,7 +4503,7 @@ int lan_add_comet(MC_FlashCard* fc)
     int com_found = -1;
 
 
-    DEBUGCODE(debug_game)
+    DEBUGCODE(debug_game|debug_lan)
     {
 	fprintf(stderr, "Entering lan_add_comet(), card is\n");
 	print_card(*fc);
@@ -4526,7 +4526,7 @@ int lan_add_comet(MC_FlashCard* fc)
 	if (!comets[i].alive)
 	{
 	    com_found = i;
-	    DEBUGMSG(debug_game, "lan_add_comet(): free comet slot found = %d\n", i);
+	    DEBUGMSG(debug_game|debug_lan, "lan_add_comet(): free comet slot found = %d\n", i);
 	    break;
 	}
     }
@@ -4534,8 +4534,8 @@ int lan_add_comet(MC_FlashCard* fc)
     if (-1 == com_found)
     {
 	/* free comet slot not found - no comet added: */
-	DEBUGMSG(debug_game, "lan_add_comet() called but no free comet slot\n");
-	DEBUGCODE(debug_game) print_current_quests();
+	DEBUGMSG(debug_game|debug_lan, "lan_add_comet() called but no free comet slot\n");
+	DEBUGCODE(debug_game|debug_lan) print_current_quests();
 	return 0;
     }
 
@@ -4575,17 +4575,17 @@ int lan_add_comet(MC_FlashCard* fc)
     /* Record the time at which this comet was created */
     comets[com_found].time_started = SDL_GetTicks();
 
-    DEBUGMSG(debug_game, "lan_add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
+    DEBUGMSG(debug_game|debug_lan, "lan_add_comet(): formula string is: %s\n", comets[com_found].flashcard.formula_string);
 
     /* No bonus comets in lan game for now: */
-    //DEBUGMSG(debug_game, "bonus_comet_counter is %d\n",bonus_comet_counter);
+    //DEBUGMSG(debug_game|debug_lan, "bonus_comet_counter is %d\n",bonus_comet_counter);
 
     if (bonus_comet_counter == 1)
     {
 	bonus_comet_counter = 0;
 	//    comets[com_found].bonus = 1;
 	//    playsound(SND_BONUS_COMET);
-	//    DEBUGMSG(debug_game, "Created bonus comet");
+	//    DEBUGMSG(debug_game|debug_lan, "Created bonus comet");
     }
 
 
@@ -4600,7 +4600,7 @@ int lan_add_comet(MC_FlashCard* fc)
     //  } 
     //}
 
-    DEBUGCODE(debug_game)
+    DEBUGCODE(debug_game|debug_lan)
     {
 	fprintf(stderr, "Leaving lan_add_comet(), questions are:\n");
 	print_current_quests();
@@ -4635,7 +4635,7 @@ int remove_quest_recvd(char* buf)
     p++;
     answered_by = atoi(p);
 
-    DEBUGMSG(debug_game, "remove_quest_recvd() for id = %d, answered by %d\n", id, answered_by);
+    DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() for id = %d, answered by %d\n", id, answered_by);
 
     if(id < 1)  // The question_id can never be negative or zero
 	return 0;
@@ -4647,7 +4647,7 @@ int remove_quest_recvd(char* buf)
     if(!zapped_comet)
 	return 0;
 
-    DEBUGMSG(debug_game, "comet on screen found with question_id = %d\n", id);
+    DEBUGMSG(debug_game|debug_lan, "comet on screen found with question_id = %d\n", id);
     erase_comet_on_screen(zapped_comet, answered_by);
 
     return 1;
