@@ -4619,18 +4619,25 @@ int remove_quest_recvd(char* buf)
     comet_type* zapped_comet;
 
     if(!buf)
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - returning because buf is NULL\n");
 	return 0;
-
+    }
     p = strchr(buf, '\t');
     if(!p)
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - returning because strchr() failed to find first tab char\n");
 	return 0;
-
+    }
     p++;
     id = atoi(p);
     //Now get index of player who answered it:
     p = strchr(p, '\t');
     if(!p)
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - returning because strchr() failed to find second tab char\n");
 	return 0;
+    }
 
     p++;
     answered_by = atoi(p);
@@ -4638,14 +4645,23 @@ int remove_quest_recvd(char* buf)
     DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() for id = %d, answered by %d\n", id, answered_by);
 
     if(id < 1)  // The question_id can never be negative or zero
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - illegal question_id: %d\n", id);
 	return 0;
+    }
 
     if(answered_by == LAN_MyIndex()) //If we answered, it's already removed
-	return 0;	  
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - answered and already removed by this client\n");
+	return 0;
+    }
 
     zapped_comet = search_comets_by_id(id);
     if(!zapped_comet)
+    {
+        DEBUGMSG(debug_game|debug_lan, "remove_quest_recvd() - could not find comet with id = %d\n", id);
 	return 0;
+    }
 
     DEBUGMSG(debug_game|debug_lan, "comet on screen found with question_id = %d\n", id);
     erase_comet_on_screen(zapped_comet, answered_by);
