@@ -40,15 +40,6 @@ SDL_Rect srcupdate[MAX_UPDATES];
 SDL_Rect dstupdate[MAX_UPDATES];
 int numupdates = 0; // tracks how many blits to be done
 
-// Colors we use:
-SDL_Color black;
-SDL_Color gray;
-SDL_Color dark_blue;
-SDL_Color red;
-SDL_Color white;
-SDL_Color yellow;
-SDL_Color bright_green;
-
 // Type needed for trans_wipe():
 struct blit {
     SDL_Surface *src;
