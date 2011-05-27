@@ -588,36 +588,22 @@ void handle_command_args(int argc, char* argv[])
 
 void initialize_SDL(void)
 {
+    //NOTE - SDL_Init() and friends now in InitT4KCommon()
+
     // Audio parameters
     int frequency, channels, n_timesopened;
     Uint16 format;
 
     /* Init common library */
-    InitT4KCommon(debug_status);
+    if(!InitT4KCommon(debug_status))
+    {
+       fprintf(stderr, "InitT4KCommon() failed - exiting.\n");
+       cleanup_on_error();
+       exit(1);
+    }
 
     /* Init SDL Video: */
     screen = NULL;
-
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
-    {
-	fprintf(stderr,
-		"\nError: I could not initialize video!\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", SDL_GetError());
-	cleanup_on_error();
-	exit(1);
-    }
-
-    /* This sets up whichever text library we are using: */
-    if (!T4K_Setup_SDL_Text())
-    {
-	fprintf( stderr, "Couldn't initialize text (SDL_ttf or SDL_Pango)\n");
-	cleanup_on_error();
-	exit(2);
-    }
-
-    //  atexit(TTF_Quit); // Maybe this is redundant?
-
 
 
     /* Init SDL Audio: */
@@ -625,23 +611,14 @@ void initialize_SDL(void)
 #ifndef NOSOUND
     if (Opts_GetGlobalOpt(USE_SOUND))
     {
-	if (SDL_Init(SDL_INIT_AUDIO) < 0)
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
 	{
 	    fprintf(stderr,
-		    "\nWarning: I could not initialize audio!\n"
-		    "The Simple DirectMedia error that occured was:\n"
-		    "%s\n\n", SDL_GetError());
-	}
-	else {
-	    if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
-	    {
-		fprintf(stderr,
-			"\nWarning: I could not set up audio for 44100 Hz "
-			"16-bit stereo.\n"
-			"The Simple DirectMedia error that occured was:\n"
-			"%s\n\n", SDL_GetError());
+		"\nWarning: I could not set up audio for 44100 Hz "
+		"16-bit stereo.\n"
+		"The Simple DirectMedia error that occured was:\n"
+		"%s\n\n", SDL_GetError());
 
-	    }
 	}
 	n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
 	if (n_timesopened > 0)
@@ -720,14 +697,6 @@ void initialize_SDL(void)
 	SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 
 
-#ifdef HAVE_LIBSDL_NET
-	/* init networking: */
-	if (SDLNet_Init() < 0)
-	{
-	    fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-	    return;
-	}
-#endif
     }
 }
 
@@ -826,12 +795,8 @@ void cleanup_on_error(void)
 void cleanup_memory(void)
 {
     int i;
-    int frequency,channels,n_timesopened;
-    Uint16 format;
 
     /* Free all images and sounds used by SDL: */
-    T4K_Cleanup_SDL_Text();
-
     for (i = 0; i < NUM_IMAGES; i++)
     {
 	if (images[i])
@@ -887,28 +852,13 @@ void cleanup_memory(void)
 	lesson_list_goldstars = NULL;
     }
 
-    // Close the audio mixer. We have to do this at least as many times
-    // as it was opened.
-    n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
-    while (n_timesopened) {
-	Mix_CloseAudio();
-	n_timesopened--;
-    }
-
-    T4K_UnloadMenus();
-
-#ifdef HAVE_LIBSDL_NET
-    /* Quit networking if appropriate: */
-    SDLNet_Quit();
-#endif
-
-    // Finally, quit SDL
-    SDL_Quit();
-
     /* frees the game_options struct: */
     Opts_Cleanup();
     /* frees any heap used by MathCards: */
     MC_EndGame();
+
+    /* Cleanup SDL+friends and anything else used by t4k_common: */
+    CleanupT4KCommon();
 }
 
 
@@ -933,29 +883,23 @@ void seticon(void)
 	return;
     }
 
-
     /* Create mask: */
     masklen = (((icon -> w) + 7) / 8) * (icon -> h);
     mask = malloc(masklen * sizeof(Uint8));
     memset(mask, 0xFF, masklen);
 
-
     /* Set icon: */
     SDL_WM_SetIcon(icon, mask);
-
 
     /* Free icon surface & mask: */
     free(mask);
     SDL_FreeSurface(icon);
-
-
-    /* Seed random-number generator: */
-    srand(SDL_GetTicks());
 }
 
-void usage(int err, char * cmd)
+
+void usage(int err, char* cmd)
 {
-    FILE * f;
+    FILE* f;
 
     if (err == 0)
 	f = stdout;
