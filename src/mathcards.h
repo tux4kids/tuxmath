@@ -201,6 +201,14 @@ int MC_Initialize(void);
 /*  successfully.                                         */
 int MC_StartGame(void);
 
+/*  Generates a list math questions for every level based */
+/*  on existing settings. It should be called during reset*/
+/*  of a level. Question_list is now generated at every   */
+/*  to support intra-game feedback mechanism.             */
+/*  @Param int - The number of questions to be generated  */
+/*  Returns 1 on successful generation, 0 otherwise       */
+int MC_generate_questionlist(int);
+
 /*  MC_StartGameUsingWrongs() is like MC_StartGame(),     */
 /*  but uses the incorrectly answered questions from the  */
 /*  previous game for the question list as a review form  */

@@ -443,7 +443,6 @@ int game(void)
 int game_initialize(void)
 {
     int i, img;
-
     DEBUGMSG(debug_game,"Entering game_initialize()\n");
     DEBUGCODE(debug_game) print_game_options(stderr, 0);
 
@@ -551,7 +550,7 @@ int game_initialize(void)
     /* Write pre-game info to game summary file: */
     if (Opts_SaveSummary())
     {
-	write_pregame_summary();
+//	write_pregame_summary();
     }
 
     /* Prepare to start the game: */
@@ -642,8 +641,9 @@ int game_initialize(void)
     comet_fontsize = (int)(BASE_COMET_FONTSIZE * get_scale());
     bkgd = scaled_bkgd = NULL;
     last_bkgd = -1;
-    reset_comets();
+    DEBUGMSG(debug_game, "Reset the level");
     reset_level();
+    reset_comets();
     powerup_initialize();
 
     frame = 0;
@@ -2960,6 +2960,7 @@ void reset_level(void)
     {
 	next_wave_comets = Opts_StartingComets();
 	speed = Opts_Speed();
+	MC_generate_questionlist(next_wave_comets);	    
 	slowdown = 0;
     }
 
@@ -2970,11 +2971,13 @@ void reset_level(void)
 	if (Opts_AllowSpeedup())
 	{
 	    next_wave_comets += Opts_ExtraCometsPerWave();
+
 	    if (next_wave_comets > Opts_MaxComets())
 	    {
 		next_wave_comets = Opts_MaxComets();
 	    }
-
+	    
+            MC_generate_questionlist(next_wave_comets);	    
 	    use_feedback = Opts_UseFeedback();
 
 	    if (use_feedback)

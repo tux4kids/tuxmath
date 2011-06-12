@@ -223,8 +223,9 @@ const MC_FlashCard DEFAULT_CARD = {{'\0'}, {'\0'}, 0, 0, 0}; //empty card to sig
 /* the private functions of a C++ class. Declared static */
 /* to give file scope rather than extern scope.          */
 
-static MC_MathQuestion* generate_list(void);
+static MC_MathQuestion* generate_list(int);
 static void clear_negatives(void);
+static int questions_per_game(void);
 //static int validate_question(int n1, int n2, int n3);
 //static MC_MathQuestion* create_node(int n1, int n2, int op, int ans, int f);
 //static MC_MathQuestion* create_node_from_card(const MC_FlashCard* flashcard);
@@ -386,10 +387,10 @@ int MC_StartGame(void)
     length_alloc_time_per_question_list = 0;
   }
 
-  question_list = generate_list();
+  //question_list = generate_list();
   next_wrong_quest = NULL;
   /* initialize counters for new game: */
-  quest_list_length = list_length(question_list);
+  quest_list_length = questions_per_game();
   
 
   /* Note: the distinction between quest_list_length and  */
@@ -406,8 +407,8 @@ int MC_StartGame(void)
     print_counters();
   }
 
-/* make sure list now exists and has non-zero length: */
-  if (question_list && quest_list_length)
+/* make sure list has a non-zero length: */
+  if (quest_list_length)
   {
     DEBUGMSG(debug_mathcards, "\nGame set up successfully");
     DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
@@ -1840,25 +1841,40 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
   return ret;
 }
 
+/*  Generates a list math questions for every level based */
+/*  on existing settings. It should be called during reset*/
+/*  of a level. Question_list is now generated at every   */
+/*  to support intra-game feedback mechanism.             */
+/*  @Param int - The number of questions to be generated  */
+/*  Returns 1 on successful generation, 0 otherwise       */
+int MC_generate_questionlist(int length) {
 
+  DEBUGMSG(debug_mathcards,"\nEntering MC_questionlist(int)");
 
-MC_MathQuestion* generate_list(void)
-{
-  int i, j;
-  int length = MC_GetOpt(AVG_LIST_LENGTH);
-  int cl; //raw length
-  double r1, r2, delta, var; //randomizers for list length
-  MC_MathQuestion* list = NULL;
-  MC_MathQuestion* end_of_list = NULL;
-  MC_MathQuestion* tnode = NULL;
+  /* clear out old list before starting new one */
+  delete_list(question_list);
+  question_list = NULL;
+
+  // Keep the length of question_list in check
+  if (length > unanswered)
+    length = unanswered;  
+
+  question_list = generate_list(length);
 
   if (debug_status & debug_mathcards)
-    MC_PrintMathOptions(stdout, 0);
+    print_counters();
 
-  if (!(MC_GetOpt(ARITHMETIC_ALLOWED) ||
-      MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||
-      MC_GetOpt(COMPARISON_ALLOWED) ) )
-    return NULL;
+  if (length == list_length(question_list)) {
+    return 1;
+  }
+  return 0;  
+}
+
+// Total number of questions needed in a game (based on AVG_LIST_LENGTH)
+// This function should be called at the start of the game
+int questions_per_game(void) {
+  int length = MC_GetOpt(AVG_LIST_LENGTH);
+  double r1, r2, delta, var; //randomizers for list length
 
   //randomize list length by a "bell curve" centered on average
   if (length && MC_GetOpt(VARY_LIST_LENGTH) )
@@ -1874,6 +1890,25 @@ MC_MathQuestion* generate_list(void)
     if (length < 0)
       length = 1; //just in case...
   }
+  return length;
+}
+
+// This function will be called in a game at every new wave
+MC_MathQuestion* generate_list(int length)
+{
+  int i, j;
+  int cl; //raw length
+  MC_MathQuestion* list = NULL;
+  MC_MathQuestion* end_of_list = NULL;
+  MC_MathQuestion* tnode = NULL;
+
+  if (debug_status & debug_mathcards)
+    MC_PrintMathOptions(stdout, 0);
+
+  if (!(MC_GetOpt(ARITHMETIC_ALLOWED) ||
+      MC_GetOpt(TYPING_PRACTICE_ALLOWED) ||
+      MC_GetOpt(COMPARISON_ALLOWED) ) )
+    return NULL;
 
   if (MC_GetOpt(COMPREHENSIVE)) //generate all
   {
