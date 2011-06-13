@@ -550,7 +550,7 @@ int game_initialize(void)
     /* Write pre-game info to game summary file: */
     if (Opts_SaveSummary())
     {
-//	write_pregame_summary();
+	write_pregame_summary();
     }
 
     /* Prepare to start the game: */
@@ -2491,7 +2491,7 @@ int check_exit_conditions(void)
     /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
     if (!Opts_LanMode())
     {
-	if (!MC_ListQuestionsLeft() && !num_comets_alive())
+	if (!MC_TotalQuestionsLeft() && !num_comets_alive())
 	{
 	    fprintf(stderr, "Error - no questions left but game not over\n");
 	    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
@@ -2977,7 +2977,9 @@ void reset_level(void)
 		next_wave_comets = Opts_MaxComets();
 	    }
 	    
-            MC_generate_questionlist(next_wave_comets);	    
+            if (!(next_wave_comets = MC_generate_questionlist(next_wave_comets)))
+              DEBUGMSG(debug_game, "Fail in generation of question list")
+	   
 	    use_feedback = Opts_UseFeedback();
 
 	    if (use_feedback)
@@ -4166,7 +4168,6 @@ PowerUp_Type powerup_gettype(void)
 int powerup_add_comet(void)
 {
     PowerUp_Type puType;
-
     DEBUGMSG( debug_game, "Enter powerup_add_comet()\n");
 
     if(smartbomb_alive)
@@ -4186,6 +4187,9 @@ int powerup_add_comet(void)
     puType = powerup_gettype();
     powerup_comet->type = puType;
     DEBUGMSG( debug_game, "Power-Up Type: %d\n", puType );
+
+    // Append a new question to the list
+    MC_add_question();
 
     /* create the flashcard */
     if(!MC_NextQuestion(&(powerup_comet->comet.flashcard)))

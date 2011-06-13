@@ -341,12 +341,11 @@ int MC_Initialize(void)
 }
 
 
-
-/*  MC_StartGame() generates the list of math questions   */
-/*  based on existing settings. It should be called at    */
-/*  the beginning of each math game for the player.       */
-/*  Returns 1 if resultant list contains 1 or more        */
-/*  questions, 0 if list empty or not generated           */
+/*  MC_StartGame() initializes the question list related  */
+/*  variables and decides on the length of the list. It   */
+/*  should be called at the beginning of each math game   */
+/*  for the player. Returns 1 if resultant list contains  */
+/*  1 or more questions, 0 if list empty or not generated */
 /*  successfully.                                         */
 int MC_StartGame(void)
 {
@@ -390,7 +389,7 @@ int MC_StartGame(void)
   //question_list = generate_list();
   next_wrong_quest = NULL;
   /* initialize counters for new game: */
-  quest_list_length = questions_per_game();
+  starting_length = questions_per_game();
   
 
   /* Note: the distinction between quest_list_length and  */
@@ -398,7 +397,8 @@ int MC_StartGame(void)
   /* that are currently "in play" by the user interface - */
   /* it is only decremented when an answer to the question*/
   /* is received.                                         */
-  unanswered = starting_length = quest_list_length;
+  quest_list_length = 0;
+  unanswered = starting_length;
   answered_correctly = 0;
   answered_wrong = 0;
   questions_pending = 0;
@@ -407,8 +407,8 @@ int MC_StartGame(void)
     print_counters();
   }
 
-/* make sure list has a non-zero length: */
-  if (quest_list_length)
+/* make sure the starting length is non-zero */
+  if (starting_length)
   {
     DEBUGMSG(debug_mathcards, "\nGame set up successfully");
     DEBUGMSG(debug_mathcards, "\nLeaving MC_StartGame()\n");
@@ -424,8 +424,9 @@ int MC_StartGame(void)
   }
 }
 
-/*  MC_StartGameUsingWrongs() is like MC_StartGame(),     */
-/*  but uses the incorrectly answered questions from the  */
+/*  MC_StartGameUsingWrongs() differs from MC_StartGame() */
+/*  in the way that it generates a question list.         */
+/*  It uses the incorrectly answered questions from the   */
 /*  previous game for the question list as a review form  */
 /*  of learning. If there were no wrong answers (or no    */
 /*  previous game), it behaves just like MC_StartGame().  */
@@ -603,7 +604,7 @@ int MC_AnsweredCorrectly(int id, float t)
   {
     DEBUGMSG(debug_mathcards, "\nNot reinserting question into list");
     free_node(quest);
-    /* not recycling questions so fewer questions remain:      */
+/* not recycling questions so fewer questions remain:      */
     unanswered--;
   }
 
@@ -968,7 +969,13 @@ int MC_PrintQuestionList(FILE* fp)
   }
   else
   {
-    fprintf(stderr, "\nFile pointer and/or question list invalid\n");
+    if (!question_list && (unanswered == starting_length)) {
+      DEBUGMSG(debug_mathcards, "Start of game. Question list not yet"
+              "initialized - in MC_PrintQuestionList\n");
+      return 1;
+    }
+    else
+      fprintf(stderr, "\nFile pointer and/or question list invalid\n");
     return 0;
   }
 }
@@ -1846,16 +1853,18 @@ MC_FlashCard generate_random_ooo_card_of_length(int length, int reformat)
 /*  of a level. Question_list is now generated at every   */
 /*  to support intra-game feedback mechanism.             */
 /*  @Param int - The number of questions to be generated  */
-/*  Returns 1 on successful generation, 0 otherwise       */
+/*  Returns list_length on successful generation,         */
+/*  0 otherwise       					  */
 int MC_generate_questionlist(int length) {
 
   DEBUGMSG(debug_mathcards,"\nEntering MC_questionlist(int)");
 
-  /* clear out old list before starting new one */
+  // clear out old list before starting new one
   delete_list(question_list);
   question_list = NULL;
 
-  // Keep the length of question_list in check
+  // This condition will be true when questions left to be asked
+  // are less than the intended number of comets in the wave.
   if (length > unanswered)
     length = unanswered;  
 
@@ -1865,9 +1874,29 @@ int MC_generate_questionlist(int length) {
     print_counters();
 
   if (length == list_length(question_list)) {
-    return 1;
+    // Since quest_list_length is used as the length of question_list
+    quest_list_length = length;
+    return length;
   }
   return 0;  
+}
+
+
+/* Appends a new question to the question list. Since     */
+/* fixed number of questions are generated per_level(wave)*/
+/* , the function is to satisfy the needs of              */
+/* powerup_comets; the generation of which will use       */
+/* an additional question.				  */
+/* Returns 1 on success, and 0 otherwise                  */
+int MC_add_question(void) {
+  DEBUGMSG(debug_mathcards, "\nEntering MC_add_question()");
+  MC_MathQuestion* new_question = generate_list(1);
+  if (!new_question) {
+    DEBUGMSG(debug_mathcards, "Error in generating question, in MC_add_question()");
+    return 0;
+  }
+  append_node(question_list, new_question);
+  return 1;
 }
 
 // Total number of questions needed in a game (based on AVG_LIST_LENGTH)

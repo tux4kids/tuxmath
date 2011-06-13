@@ -193,20 +193,20 @@ typedef struct MC_MathQuestion {
 /*  successful, 0 otherwise.                              */
 int MC_Initialize(void);
 
-/*  MC_StartGame() generates the list of math questions   */
-/*  based on existing settings. It should be called at    */
-/*  the beginning of each math game for the player.       */
-/*  Returns 1 if resultant list contains 1 or more        */
-/*  questions, 0 if list empty or not generated           */
+/*  MC_StartGame() initializes the question list related  */
+/*  variables and decides on the length of the list. It   */
+/*  should be called at the beginning of each math game   */
+/*  for the player. Returns 1 if resultant list contains  */
+/*  1 or more questions, 0 if list empty or not generated */
 /*  successfully.                                         */
 int MC_StartGame(void);
 
-/*  Generates a list math questions for every level based */
-/*  on existing settings. It should be called during reset*/
-/*  of a level. Question_list is now generated at every   */
-/*  to support intra-game feedback mechanism.             */
+/*  Generates a question list for every level based on    */
+/*  existing settings. It should be called when resetting */
+/*  a level. The aim is to provide flexibility for the    */
+/*  support of intra_level question generation            */
 /*  @Param int - The number of questions to be generated  */
-/*  Returns 1 on successful generation, 0 otherwise       */
+/*  @Returns 1 on successful generation, 0 otherwise      */
 int MC_generate_questionlist(int);
 
 /*  MC_StartGameUsingWrongs() is like MC_StartGame(),     */
@@ -218,6 +218,14 @@ int MC_generate_questionlist(int);
 /*  list is created from settings because there is no     */
 /*  valid wrong question list?                            */
 int MC_StartGameUsingWrongs(void);
+
+/* Appends a new question to the question list. Since     */
+/* fixed number of questions are generated per_level(wave)*/
+/* , the function is to satisfy the needs of              */
+/* powerup_comets; the generation of which will use       */
+/* an additional question.				  */
+/* Returns 1 on success, and 0 otherwise                  */
+int MC_add_question(void);
 
 /*  MC_NextQuestion() takes a pointer to an allocated     */
 /*  MC_MathQuestion struct and fills in the fields for    */
