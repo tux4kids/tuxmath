@@ -23,6 +23,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
 
@@ -41,8 +42,18 @@ struct graph {
 
 /* Local function prototypes */
 link add(int, link);
-link remove(int, link, int *);
+link remov_(int, link, int *);
 
+
+/* Create an edge from 1st vertice to second   */
+/* @Param v - Origin vertice                   */
+/* @Param w - Destination vertice              */
+Edge EDGE(int v, int w) {
+  Edge e;
+  e.out = v;
+  e.in = w;
+  return e;
+}
 
 /* Initialize graph with a fixed number of     */
 /* vertices                                    */
@@ -75,18 +86,33 @@ void graph_insert_edge(Graph G, Edge e) {
 void graph_remove_edge(Graph G, Edge e) {
   int vertice_out = e.out;
   int vertice_in = e.in;
-  G->adj[vertice_out] = remove(vertice_in, G->adj[vertice_out], &G->E);
+  G->adj[vertice_out] = remov_(vertice_in, G->adj[vertice_out], &G->E);
+}
+
+/* Prints the graph on the console             */
+/* @Param Graph                                */
+void graph_display(Graph G) {
+  int v;
+  link t;
+  for(v = 0; v < G->V; v++) {
+    printf("%d -> ", v);
+    for(t = G->adj[v]; t != NULL; t = t->next) {
+      printf("%d, ", t->v);
+    }
+    printf("\n");
+  }
 }
 
 
 link add(int v, link list) {
   link new = malloc(sizeof *new);
   new->v = v;
-  list->next = new;
-  return list;
+  new->next = list;
+  return new;
 }
 
-link remove(int v, link start, int *edge_counter) {
+
+link remov_(int v, link start, int *edge_counter) {
 
   link temp, current, previous;
   // check the start link

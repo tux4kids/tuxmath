@@ -25,16 +25,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+#ifndef GRAPH_H
+#define GRAPH_H
 
 typedef struct {
   int out;
   int in;
 } Edge;
 
+typedef struct graph *Graph;
+
 /* Create an edge from 1st vertice to second */
 Edge EDGE(int, int);
-
-typedef struct graph *Graph;
 
 /* Initialize graph                          */
 /* @Param int - The number of vertices       */
@@ -48,3 +50,9 @@ void graph_insert_edge(Graph, Edge);
 /* Remove an existing edge from the graph    */
 /* @Param Graph, Edge                        */
 void graph_remove_edge(Graph, Edge);
+
+/* Prints the graph on the console           */
+/* @Param Graph                              */
+void graph_display(Graph);
+
+#endif
