@@ -27,19 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include "graph.h"
 
-typedef struct node *link;
 
 struct node {
   int v;
   link next;
 };
 
-struct graph {
-  int V;
-  int E;
-  link *child;
-  link *parent;
-};
 
 /* Local function prototypes */
 link add(int, link);
@@ -113,6 +106,13 @@ void graph_display(Graph G) {
   }
 }
 
+int get_number_parents(Graph G, int node) {
+  link t;
+  int num = 0;
+  for (t = G->parent[node]; t != NULL; t=t->next)
+     num++;
+  return num;
+}
 
 link add(int v, link list) {
   link new = malloc(sizeof *new);

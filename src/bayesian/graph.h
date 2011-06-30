@@ -23,15 +23,24 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 */
+
 #ifndef GRAPH_H
 #define GRAPH_H
+
+typedef struct node *link;
 
 typedef struct {
   int out;
   int in;
 } Edge;
+
+struct graph {
+  int V;
+  int E;
+  link *child;
+  link *parent;
+};
 
 typedef struct graph *Graph;
 
