@@ -29,35 +29,54 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BAYESIAN_NETWORK_H
 #define BAYESIAN_NETWORK_H
 
+typedef struct joint_probability *Joint_Probability;
+
+struct joint_probability {
+  int number;
+  double *probability;
+};
+
+struct bayesian_network {
+  Graph G;
+  Joint_Probability *P;
+};
+
+typedef struct bayesian_network *Bayesian_Network;
+
 /* Initializes a Bayesian network with a specified */
 /* number of nodes.                                */
 /* @Param int - Number of nodes in the Bayesian    */
 /* network                                         */
-void BN_init(int);
+/* @Return - The initialized Bayesian_Network var. */
+Bayesian_Network BN_init(int);
 
 /* Adds a link from a node to the other. The nodes */
 /* are identified only by indices                  */
+/* @Param Bayesian_Network instance                */
 /* @Param int - The 'from' node index              */
 /* @Param int - The 'to' node index                */
-void BN_add_link(int from, int to);
+void BN_add_link(Bayesian_Network, int from, int to);
 
 /* Removes an existing link between two nodes. The */
 /* direction of the link is identified by the posi-*/
 /* tion of the arguments.                          */
+/* @Param Bayesian_Network instance                */
 /* @Param int - The 'from' node index              */
 /* @Param int - The 'to' node index                */
-void BN_remove_link(int from, int to);
+void BN_remove_link(Bayesian_Network, int from, int to);
 
 /* Specify the initial probabilites for each node  */
+/* @Param Bayesian_Network instance                */
 /* @Param int - the node index                     */
 /* @Param double[] - the probability distribution  */
 /* specified as an array(since the number of prob- */
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
-void BN_nodeprobability(int, double[]);
+void BN_nodeprobability(Bayesian_Network, int, double[]);
 
 /* Prints on the console the relations among nodes */
 /* and the probability distribution                */
-void BN_display();
+/* @Param Bayesian_Network instance                */
+void BN_display(Bayesian_Network);
 
 #endif

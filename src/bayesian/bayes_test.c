@@ -30,11 +30,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 int main(void) {
   double d[] = {0.0};
   double d1[] = {0.1, 0.9, 0.3, 0.7};
-  BN_init(3);
-  BN_add_link(0,2);
-  BN_add_link(1,2);
-  BN_nodeprobability(0, d);
-  BN_nodeprobability(1, d);
-  BN_nodeprobability(2, d1);
-  BN_display();
+  Bayesian_Network BN = BN_init(3);
+  BN_add_link(BN, 0,2);
+  BN_add_link(BN, 1,2);
+  BN_nodeprobability(BN, 0, d);
+  BN_nodeprobability(BN, 1, d);
+  BN_nodeprobability(BN, 2, d1);
+  BN_display(BN);
 }

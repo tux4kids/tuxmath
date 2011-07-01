@@ -28,59 +28,48 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include "bayesian_network.h"
 
-typedef struct joint_probability *Joint_Probability;
-
-struct joint_probability {
-  int number;
-  double *probability;
-};
-
-struct bayesian_network {
-  Graph G;
-  Joint_Probability *P;
-};
-
-typedef struct bayesian_network *Bayesian_Network;
-
-Bayesian_Network BN;
 
 /* Initializes a Bayesian network with a specified */
 /* number of nodes.                                */
 /* @Param int - Number of nodes in the Bayesian    */
 /* network                                         */
-void BN_init(int total_nodes) {
+Bayesian_Network BN_init(int total_nodes) {
   int i = 0;
-  BN = malloc(sizeof *BN);
+  Bayesian_Network BN = malloc(sizeof *BN);
   BN->G = graph_init(total_nodes);
   BN->P = malloc(total_nodes*sizeof(Joint_Probability));
   for (; i < total_nodes; i++)
     BN->P[i] = NULL;
+  return BN;
 }
 
 /* Adds a link from a node to the other. The nodes */
 /* are identified only by indices                  */
+/* @Param Bayesian_Network instance                */
 /* @Param int - The 'from' node index              */
 /* @Param int - The 'to' node index                */
-void BN_add_link(int node1, int node2) {
+void BN_add_link(Bayesian_Network BN, int node1, int node2) {
   graph_insert_edge(BN->G, EDGE(node1, node2));
 }
 
 /* Removes an existing link between two nodes. The */
 /* direction of the link is identified by the posi-*/
 /* tion of the arguments.                          */
+/* @Param Bayesian_Network instance                */
 /* @Param int - The 'from' node index              */
 /* @Param int - The 'to' node index                */
-void BN_remove_link(int node1, int node2) {
+void BN_remove_link(Bayesian_Network BN, int node1, int node2) {
   graph_remove_edge(BN->G, EDGE(node1, node2));
 }
 
 /* Specify the initial probabilites for each node  */
+/* @Param Bayesian_Network instance                */
 /* @Param int - the node index                     */
 /* @Param double[] - the probability distribution  */
 /* specified as an array(since the number of prob- */
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
-void BN_nodeprobability(int node, double probability[]) {
+void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
   int num = get_number_parents(BN->G, node);
   int index = 0;
   num = 1<<num;
@@ -94,7 +83,8 @@ void BN_nodeprobability(int node, double probability[]) {
 
 /* Prints on the console the relations among nodes */
 /* and the probability distribution                */
-void BN_display() {
+/* @Param Bayesian_Network instance                */
+void BN_display(Bayesian_Network BN) {
   printf("Structure\n");
   graph_display(BN->G);
   printf("Joint probability distribution\n");
