@@ -26,15 +26,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdio.h>
 #include "bayesian_network.h"
+#include "inference.h"
 
 int main(void) {
-  double d[] = {0.0};
-  double d1[] = {0.1, 0.9, 0.3, 0.7};
-  Bayesian_Network BN = BN_init(3);
+  double d[] = {0.2};
+  double d1[] = {0.25, 0.05};
+  double d2[] = {0.003, 0.00005};
+  double d3[] = {0.6, 0.02};
+  Bayesian_Network BN = BN_init(4);
+  BN_add_link(BN, 0,1);
   BN_add_link(BN, 0,2);
-  BN_add_link(BN, 1,2);
+  BN_add_link(BN, 2,3);
   BN_nodeprobability(BN, 0, d);
-  BN_nodeprobability(BN, 1, d);
-  BN_nodeprobability(BN, 2, d1);
+  BN_nodeprobability(BN, 1, d1);
+  BN_nodeprobability(BN, 2, d2);
+  BN_nodeprobability(BN, 3, d3);
+
+  initial_tree(BN);
+  BN_display(BN);
+
+  update_tree(BN, 1, 0);
   BN_display(BN);
 }
