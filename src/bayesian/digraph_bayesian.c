@@ -25,7 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "graph.h"
+#include "digraph_bayesian.h"
 
 
 struct node {
@@ -102,16 +102,43 @@ void graph_display(Graph G) {
     for(t = G->parent[v]; t != NULL; t = t->next) {
       printf("%d, ", t->v);
     }
-    printf("\n"); 
+    printf("\n");
   }
 }
 
-int get_number_parents(Graph G, int node) {
-  link t;
-  int num = 0;
-  for (t = G->parent[node]; t != NULL; t=t->next)
-     num++;
-  return num;
+int root_index(Graph G) {
+  int i;
+  for (i = 0; i < G->V; i++) {
+    if (parent_index(G, i) == -1)
+      return i;
+  }
+  return -1;  // Error case
+}
+
+int parent_index(Graph G, int node) {
+  if (G->parent[node] == NULL) // in case of root
+    return -1;
+  return G->parent[node]->v;
+}
+
+int children_index(Graph G, int node) {
+  if (G->child[node] == NULL) // in case of leaf
+    return -1; 
+  return G->child[node]->v;
+}
+
+link child_reference(Graph G, int node) {
+  return G->child[node];
+}
+
+int link_index(link t) {
+  if (t != NULL)
+    return t->v;
+  return -1;   // Error case
+}
+
+link next_reference(link t) {
+  return (t == NULL)?NULL:t->next;
 }
 
 link add(int v, link list) {

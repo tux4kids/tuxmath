@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include "bayesian_network.h"
-
+#include "inference.h"
 
 /* Initializes a Bayesian network with a specified */
 /* number of nodes.                                */
@@ -37,6 +37,8 @@ Bayesian_Network BN_init(int total_nodes) {
   int i = 0;
   Bayesian_Network BN = malloc(sizeof *BN);
   BN->G = graph_init(total_nodes);
+  BN->E = malloc(sizeof *(BN->E));
+  BN->E->index = malloc(total_nodes*sizeof(Evidence_set));
   BN->P = malloc(total_nodes*sizeof(Joint_Probability));
   for (; i < total_nodes; i++)
     BN->P[i] = NULL;
@@ -65,19 +67,45 @@ void BN_remove_link(Bayesian_Network BN, int node1, int node2) {
 /* Specify the initial probabilites for each node  */
 /* @Param Bayesian_Network instance                */
 /* @Param int - the node index                     */
-/* @Param double[] - the probability distribution  */
+/*  @Param double[] - the probability distribution  */
 /* specified as an array(since the number of prob- */
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
 void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
-  int num = get_number_parents(BN->G, node);
-  int index = 0;
-  num = 1<<num;
-  BN->P[node] = malloc(sizeof(Joint_Probability));
+  int num = parent_index(BN->G, node);
+  int i,j;
+  num = (num == -1)?2:4; // 'num' stores the number of prob. values required
+  
+  BN->P[node] = malloc(sizeof(*(BN->P[node])));
   BN->P[node]->number = num;
-  BN->P[node]->probability = (double *)malloc(num*sizeof(double));
-  for (; index < num; index++) {
-    BN->P[node]->probability[index] = probability[index];
+  BN->P[node]->probability = (double *)malloc(num*sizeof(double));  
+  for (i=0,j=0; i < num; i += 2, j++) {
+    BN->P[node]->probability[i] = probability[j];
+    BN->P[node]->probability[i+1] = 1.0-probability[j];
+  }
+}
+
+int BN_parent_index(Bayesian_Network BN, int index) {
+  return parent_index(BN->G, index);
+}
+
+int ismember_Evidence_Set(Bayesian_Network BN, int index) {
+  int i;
+  for (i = 0; i < BN->E->count; i++) {
+    if (index == BN->E->index[i])
+      return 1;
+  }
+  return -1;    // not found
+}
+
+void debug_probability(Bayesian_Network BN) {
+  int i,j,node;
+  for (node = 0; node < BN->G->V; node++) {
+    printf("node %d (", node);
+    for (i=0,j=0; i < BN->P[node]->number; i += 2, j++) {
+      printf("%.4lf, %.4lf, ",BN->P[node]->probability[i], BN->P[node]->probability[i+1]);
+    }
+    printf(")\n");
   }
 }
 
@@ -96,5 +124,10 @@ void BN_display(Bayesian_Network BN) {
     for (i = 0; i < BN->P[v]->number; i++)
       printf("%.2lf, ", BN->P[v]->probability[i]);
     printf("\n");
+    printf("lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
+    printf("lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
+    printf("pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
+    printf("pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+    printf("posterior:  (%lf, %lf)\n\n", BN->P[v]->post_probabilitiy[0], BN->P[v]->post_probabilitiy[1]);
   }
 }

@@ -26,18 +26,32 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "digraph_bayesian.h"
-#ifndef BAYESIAN_NETWORK_H
-#define BAYESIAN_NETWORK_H
+#ifndef BAYESIAN_NETWORK_H_
+#define BAYESIAN_NETWORK_H_
+#define NODE_VALUES 2
 
 typedef struct joint_probability *Joint_Probability;
 
 struct joint_probability {
   int number;
+  double post_probabilitiy[NODE_VALUES];
+  double lambda_value[NODE_VALUES];
+  double lambda_message[NODE_VALUES];
+  double pi_value[NODE_VALUES];
+  double pi_message[NODE_VALUES];
   double *probability;
+};
+
+typedef struct evidence_set *Evidence_set;
+
+struct evidence_set {
+  int *index;
+  int count;
 };
 
 struct bayesian_network {
   Graph G;
+  Evidence_set E;
   Joint_Probability *P;
 };
 
@@ -79,4 +93,9 @@ void BN_nodeprobability(Bayesian_Network, int, double[]);
 /* @Param Bayesian_Network instance                */
 void BN_display(Bayesian_Network);
 
+int BN_parent_index(Bayesian_Network, int);
+
+int ismember_Evidence_Set(Bayesian_Network, int);
+
+void debug_probability(Bayesian_Network);
 #endif
