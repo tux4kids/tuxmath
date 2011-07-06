@@ -1,0 +1,4 @@
+USAGE for the Bayesian network library.
+
+Compile-command for stand-alone test:
+gcc -o 'output_filename' bayes_test.c bayesian_network.c digraph_bayesian.c inference.c
