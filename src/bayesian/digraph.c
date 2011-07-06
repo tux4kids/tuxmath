@@ -3,7 +3,7 @@
    Graph is represented in the form of adjaceny-lists;
    and the implementation is specific to directed graphs.
    
-   Copyright 2005, 2008, 2009, 2010.
+   Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

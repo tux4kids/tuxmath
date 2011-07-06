@@ -1,9 +1,11 @@
 /* bayesian_network.c
   
-   This is the main Bayesian_network file. Contains all the functions
-   for constructing and inferencing.
+   Bayesian network functions for creating and initializing the 
+   network. The topology of the DAG (directed acyclic graph) 
+   should be "linear" or "tree", as inferencing is supported 
+   for only these two type of topologies.
    
-   Copyright 2005, 2008, 2009, 2010.
+   Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -67,7 +69,7 @@ void BN_remove_link(Bayesian_Network BN, int node1, int node2) {
 /* Specify the initial probabilites for each node  */
 /* @Param Bayesian_Network instance                */
 /* @Param int - the node index                     */
-/*  @Param double[] - the probability distribution  */
+/* @Param double[] - the probability distribution  */
 /* specified as an array(since the number of prob- */
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
@@ -85,10 +87,18 @@ void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
   }
 }
 
+/* Returns the parent node's index                 */
+/* @Param Bayesian_Network reference               */
+/* @Param int - The index of the node whose parent */
+/* is to be found                                  */
 int BN_parent_index(Bayesian_Network BN, int index) {
   return parent_index(BN->G, index);
 }
 
+/* Find out whether a node is a member of the evid */
+/* ence set.                                       */
+/* @Param Bayesian_Network reference               */
+/* @Param int - index of the node                  */
 int ismember_Evidence_Set(Bayesian_Network BN, int index) {
   int i;
   for (i = 0; i < BN->E->count; i++) {
@@ -98,6 +108,7 @@ int ismember_Evidence_Set(Bayesian_Network BN, int index) {
   return -1;    // not found
 }
 
+// For debug purposes - not needed for the user 
 void debug_probability(Bayesian_Network BN) {
   int i,j,node;
   for (node = 0; node < BN->G->V; node++) {
@@ -112,7 +123,9 @@ void debug_probability(Bayesian_Network BN) {
 /* Prints on the console the relations among nodes */
 /* and the probability distribution                */
 /* @Param Bayesian_Network instance                */
-void BN_display(Bayesian_Network BN) {
+/* @Param int - 0 for additional debug info.       */
+/*          any positive value for normal output   */
+void BN_display(Bayesian_Network BN, int quantity) {
   printf("Structure\n");
   graph_display(BN->G);
   printf("Joint probability distribution\n");
@@ -124,10 +137,14 @@ void BN_display(Bayesian_Network BN) {
     for (i = 0; i < BN->P[v]->number; i++)
       printf("%.2lf, ", BN->P[v]->probability[i]);
     printf("\n");
-    printf("lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
-    printf("lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
-    printf("pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
-    printf("pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+    if (quantity == 0) {
+      printf("lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
+      printf("lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
+      printf("pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
+      printf("pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+    }
     printf("posterior:  (%lf, %lf)\n\n", BN->P[v]->post_probabilitiy[0], BN->P[v]->post_probabilitiy[1]);
+    printf("-------------------\n");
   }
+  printf("------------------------------------------------------------\n\n");
 }

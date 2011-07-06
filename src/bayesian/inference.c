@@ -1,11 +1,12 @@
 /* inference.c
-  
-   Determines the probabilities of the values of each node 
-   conditional on specified value of a particular node. 
-   Implementation is specific for a Bayesian network whose 
-   DAG topology is a tree.
    
-   Copyright 2005, 2008, 2009, 2010.
+   The inference algorithm used is Pearl's message-passing algorithm
+   for DAG with a rooted-tree topology. (I am working on extending 
+   the algorithm for singly-connected networks, aka polytrees).
+   This algorithm is exact, and it's computationally intensive in 
+   nature (NP-hard), depending on the topology and number of nodes.
+
+   Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -30,9 +31,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "inference.h"
 
 
+/* local function prototypes */
 void send_lambda_message(Bayesian_Network, int, int);
 void send_pi_message(Bayesian_Network, int, int);
 
+
+/* One-time initialization call before using the   */
+/* update_tree function. Initializes the Evidence- */
+/* set, and posterior probability is set to prior  */
+/* probability, intialize lambda, pi message       */
+/* @Param Bayesian_Network reference               */
 void initial_tree(Bayesian_Network BN) {
   int i,j,node;   // counters
   int parent_index, root_in;
@@ -59,7 +67,13 @@ void initial_tree(Bayesian_Network BN) {
     send_pi_message(BN, root_in, link_index(child));
 }
 
-
+/* Each time a (variable) Node is updated for a    */
+/* 0/1, update_tree is called for finding out the  */
+/* posterior probability of all the nodes.         */
+/* @Param Bayesian_Network reference               */
+/* @Param int node_index - The index of the insta  */
+/* ntiated node.                                   */
+/* @Param int node_value - The value(either 0 or 1)*/
 void update_tree(Bayesian_Network BN, int node_index, int value) {
   int i, p_index;
   link child_list;

@@ -3,7 +3,7 @@
    Extends 'digraph.c' by providing additional functionality
    specific to bayesian networks
    
-   Copyright 2005, 2008, 2009, 2010.
+   Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -21,7 +21,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -106,6 +107,10 @@ void graph_display(Graph G) {
   }
 }
 
+/* Find out the root vertice for the given Graph.  */
+/* It's computational complexity is O(V)           */
+/* @Param Graph reference                          */
+/* @Return int - The index if exists, -1 otherwise */
 int root_index(Graph G) {
   int i;
   for (i = 0; i < G->V; i++) {
@@ -115,31 +120,49 @@ int root_index(Graph G) {
   return -1;  // Error case
 }
 
+/* Find the index of parent vertice - O(V)         */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+/* @Return int - The index if exists, -1 otherwise */
 int parent_index(Graph G, int node) {
   if (G->parent[node] == NULL) // in case of root
     return -1;
   return G->parent[node]->v;
 }
 
+/* Find the index of the child vertice - O(V)      */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+/* @Return int - The index if exists, -1 otherwise */
 int children_index(Graph G, int node) {
   if (G->child[node] == NULL) // in case of leaf
     return -1; 
   return G->child[node]->v;
 }
 
+/* Returns the link pointing to one of the child   */
+/* vertices                                        */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
 link child_reference(Graph G, int node) {
   return G->child[node];
 }
 
+/* Returns the index of the given link             */
+/* @Param link reference                           */
 int link_index(link t) {
   if (t != NULL)
     return t->v;
   return -1;   // Error case
 }
 
+/* Returns the next element present in the linked- */
+/* list.                                           */
+/* @Param link reference                           */
 link next_reference(link t) {
   return (t == NULL)?NULL:t->next;
 }
+
 
 link add(int v, link list) {
   link new = malloc(sizeof *new);

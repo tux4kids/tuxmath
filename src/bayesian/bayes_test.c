@@ -3,7 +3,7 @@
    'bayes_test' - This is used for testing, debugging 
    and showing an example usage of 'bayesian_network.c'. 
    
-   Copyright 2005, 2008, 2009, 2010.
+   Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -43,8 +43,11 @@ int main(void) {
   BN_nodeprobability(BN, 3, d3);
 
   initial_tree(BN);
-  BN_display(BN);
+  BN_display(BN,1);
 
   update_tree(BN, 1, 0);
-  BN_display(BN);
+  BN_display(BN,0);
+
+  update_tree(BN, 3, 0);
+  BN_display(BN,0);
 }
