@@ -47,8 +47,9 @@ tuxmath_SOURCES = tuxmath.c \
 	SDL_rotozoom.c	\
 	lessons.c	\
 	server.c        \
-        bayesian/bayesian_network.c \
-        bayesian/digraph_bayesian.c \
+        bayesian/bayesian_network.c   \
+        bayesian/bayesian_structure.c \
+        bayesian/digraph_bayesian.c   \
         bayesian/inference.c
 
 
@@ -98,11 +99,12 @@ EXTRA_DIST = 	credits.h 	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
-        bayesian/bayesian_network.h \
-        bayesian/digraph_bayesian.h \
-        bayesian/graph.h            \
-        bayesian/inference.h        \
-        bayesian/USAGE              \
+        bayesian/bayesian_network.h   \
+        bayesian/bayesian_structure.h \
+        bayesian/digraph_bayesian.h   \
+        bayesian/graph.h              \
+        bayesian/inference.h          \
+        bayesian/USAGE                \
         CMakeLists.txt
         
 

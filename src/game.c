@@ -53,7 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "multiplayer.h"
 #include "titlescreen.h"
 #include "options.h"
-
+#include "bayesian/bayesian_structure.h"
 
 #define FPS 15                    /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -1220,6 +1220,10 @@ void game_handle_answer(void)
     {
 	float t;
 	ctime = SDL_GetTicks();
+                
+        // Also, update the topic_cluster with the answer
+        BN_update_cluster(TRUE);
+
 	/* Store the time the question was present on screen (do this */
 	/* in a way that avoids storing it if the time wrapped around */
 	for(i = 0; i < num_zapped; i++)
@@ -1332,6 +1336,8 @@ void game_handle_answer(void)
     }
     else
     {
+        // Update the topic_cluster with the answer
+        BN_update_cluster(FALSE);
 	/* Didn't hit anything! */
 	laser[0].alive = LASER_START;
 	laser[0].x1 = screen->w / 2;

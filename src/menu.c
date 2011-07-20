@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "fileops.h"
 #include "setup.h"
+#include "bayesian/bayesian_structure.h"
 
 #ifdef HAVE_LIBSDL_NET
 #include "menu_lan.h"
@@ -241,6 +242,7 @@ int handle_activity(int act, int param)
   return 0;
 }
 
+
 int run_academy(void)
 {
   int chosen_lesson = -1;
@@ -256,6 +258,10 @@ int run_academy(void)
     /* Re-read global settings first in case any settings were */
     /* clobbered by other lesson or arcade games this session: */
     read_global_config_file();
+
+    /* Initialize the topic cluster for the given lesson */
+    BN_init_cluster(chosen_lesson);
+
     /* Now read the selected file and play the "mission": */
     if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
     {
@@ -263,9 +269,10 @@ int run_academy(void)
         {T4K_AudioMusicUnload();}
 
       T4K_OnResolutionSwitch(NULL);
+      BN_init_cluster(chosen_lesson);
       game();
       T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
-
+      BN_update_backbone();
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
