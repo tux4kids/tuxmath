@@ -98,6 +98,7 @@ int             run_factoroids(int choice);
 int             run_lan_join(void);
 int             run_lan_host(void);
 int             stop_lan_host(void);
+void            create_prerender_levelmenu(void);
 
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
@@ -268,9 +269,12 @@ int run_academy(void)
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
+        DEBUGMSG(debug_menu, "mission accomplished %d\n", chosen_lesson);
         lesson_list_goldstars[chosen_lesson] = 1;
        /* and save to disk: */
         write_goldstars();
+        /* Also, add the star in the level menu */
+        create_prerender_levelmenu();
       }
 
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
@@ -731,9 +735,7 @@ int RunLoginMenu(void)
     return 0;
 }
 
-/* run main menu. If this function ends it means that tuxmath is going to quit */
-void RunMainMenu(void)
-{
+void create_prerender_levelmenu() {
     int i;
     //  char* lltitle = "Lesson List"; //lesson list menu title
     char* icon_names[num_lessons];
@@ -744,14 +746,17 @@ void RunMainMenu(void)
     DEBUGMSG(debug_menu, "RunMainMenu(): Generating lessons submenu. (%d lessons)\n", num_lessons);
 
     for(i = 0; i < num_lessons; i++)
-    {
 	icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
-    }
 
     T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");
-
     T4K_PrerenderMenu(MENU_LESSONS);
+}
 
+
+/* run main menu. If this function ends it means that tuxmath is going to quit */
+void RunMainMenu(void)
+{
+    create_prerender_levelmenu();
     run_menu(MENU_MAIN, false);
     DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
 }
