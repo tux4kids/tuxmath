@@ -50,14 +50,14 @@ int children_index(Graph G, int node);
 /* vertices                                        */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
-link child_reference(Graph G, int node);
+links child_reference(Graph G, int node);
 
 /* Returns the index of the given link             */
 /* @Param link reference                           */
-int link_index(link);
+int link_index(links);
 
 /* Returns the next element present in the linked- */
 /* list.                                           */
 /* @Param link reference                           */
-link next_reference(link);
+links next_reference(links);
 #endif

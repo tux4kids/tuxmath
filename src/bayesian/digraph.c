@@ -27,22 +27,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include "graph.h"
 
-typedef struct node *link;
+typedef struct node *links;
 
 struct node {
   int v;
-  link next;
+  links next;
 };
 
 struct graph {
   int V;
   int E;
-  link *adj;
+  links *adj;
 };
 
 /* Local function prototypes */
-link add(int, link);
-link remov_(int, link, int *);
+links add(int, links);
+links remov_(int, links, int *);
 
 
 /* Create an edge from 1st vertice to second   */
@@ -64,7 +64,7 @@ Graph graph_init(int V) {
   Graph G = malloc(sizeof *G);
   G->V = V;
   G->E = 0;
-  G->adj = malloc(V*sizeof(link));
+  G->adj = malloc(V*sizeof(links));
   for (v = 0; v < V; v++)
     G->adj[v] = NULL;
   return G;
@@ -93,7 +93,7 @@ void graph_remove_edge(Graph G, Edge e) {
 /* @Param Graph                                */
 void graph_display(Graph G) {
   int v;
-  link t;
+  links t;
   for(v = 0; v < G->V; v++) {
     printf("%d -> ", v);
     for(t = G->adj[v]; t != NULL; t = t->next) {
@@ -104,17 +104,17 @@ void graph_display(Graph G) {
 }
 
 
-link add(int v, link list) {
-  link new = malloc(sizeof *new);
+links add(int v, links list) {
+  links new = malloc(sizeof *new);
   new->v = v;
   new->next = list;
   return new;
 }
 
 
-link remov_(int v, link start, int *edge_counter) {
+links remov_(int v, links start, int *edge_counter) {
 
-  link temp, current, previous;
+  links temp, current, previous;
   // check the start link
   if (start->v == v) {
     temp = start;

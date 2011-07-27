@@ -28,7 +28,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef GRAPH_H
 #define GRAPH_H
 
-typedef struct node *link;
+typedef struct node *links;
 
 typedef struct {
   int out;
@@ -38,8 +38,8 @@ typedef struct {
 struct graph {
   int V;
   int E;
-  link *child;
-  link *parent;
+  links *child;
+  links *parent;
 };
 
 typedef struct graph *Graph;

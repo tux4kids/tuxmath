@@ -31,13 +31,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 struct node {
   int v;
-  link next;
+  links next;
 };
 
 
 /* Local function prototypes */
-link add(int, link);
-link remov_(int, link, int *, int);
+links add(int, links);
+links remov_(int, links, int *, int);
 
 
 /* Create an edge from 1st vertice to second   */
@@ -59,8 +59,8 @@ Graph graph_init(int V) {
   Graph G = malloc(sizeof *G);
   G->V = V;
   G->E = 0;
-  G->child = malloc(V*sizeof(link));
-  G->parent = malloc(V*sizeof(link));
+  G->child = malloc(V*sizeof(links));
+  G->parent = malloc(V*sizeof(links));
   for (v = 0; v < V; v++) {
     G->child[v] = NULL;
     G->parent[v] = NULL;
@@ -93,7 +93,7 @@ void graph_remove_edge(Graph G, Edge e) {
 /* @Param Graph                                */
 void graph_display(Graph G) {
   int v;
-  link t;
+  links t;
   for(v = 0; v < G->V; v++) {
     printf("%d (child )-> ", v);
     for(t = G->child[v]; t != NULL; t = t->next) {
@@ -144,13 +144,13 @@ int children_index(Graph G, int node) {
 /* vertices                                        */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
-link child_reference(Graph G, int node) {
+links child_reference(Graph G, int node) {
   return G->child[node];
 }
 
 /* Returns the index of the given link             */
 /* @Param link reference                           */
-int link_index(link t) {
+int link_index(links t) {
   if (t != NULL)
     return t->v;
   return -1;   // Error case
@@ -159,22 +159,22 @@ int link_index(link t) {
 /* Returns the next element present in the linked- */
 /* list.                                           */
 /* @Param link reference                           */
-link next_reference(link t) {
+links next_reference(links t) {
   return (t == NULL)?NULL:t->next;
 }
 
 
-link add(int v, link list) {
-  link new = malloc(sizeof *new);
+links add(int v, links list) {
+  links new = malloc(sizeof *new);
   new->v = v;
   new->next = list;
   return new;
 }
 
 
-link remov_(int v, link start, int *edge_counter, int condition) {
+links remov_(int v, links start, int *edge_counter, int condition) {
 
-  link temp, current, previous;
+  links temp, current, previous;
   // check the start link
   if (start->v == v) {
     temp = start;
