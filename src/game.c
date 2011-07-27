@@ -1222,7 +1222,7 @@ void game_handle_answer(void)
 	ctime = SDL_GetTicks();
                 
         // Also, update the topic_cluster with the answer
-        BN_update_cluster(TRUE);
+        BS_update_cluster(TRUE);
 
 	/* Store the time the question was present on screen (do this */
 	/* in a way that avoids storing it if the time wrapped around */
@@ -1337,7 +1337,8 @@ void game_handle_answer(void)
     else
     {
         // Update the topic_cluster with the answer
-        BN_update_cluster(FALSE);
+        BS_update_cluster(FALSE);
+        printf("False input");
 	/* Didn't hit anything! */
 	laser[0].alive = LASER_START;
 	laser[0].x1 = screen->w / 2;

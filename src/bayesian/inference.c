@@ -44,7 +44,7 @@ void send_pi_message(Bayesian_Network, int, int);
 void initial_tree(Bayesian_Network BN) {
   int i,j,node;   // counters
   int parent_index, root_in;
-  link child;
+  links child;
   BN->E->count=0;                                // Initialize number of evidence nodes
 
   for (i = 0; i < BN->G->V; i++) {
@@ -76,7 +76,7 @@ void initial_tree(Bayesian_Network BN) {
 /* @Param int node_value - The value(either 0 or 1)*/
 void update_tree(Bayesian_Network BN, int node_index, int value) {
   int i, p_index;
-  link child_list;
+  links child_list;
 
   if (ismember_Evidence_Set(BN, node_index) == -1) {
     BN->E->index[BN->E->count] = node_index;
@@ -112,7 +112,7 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
   int i,j;
   double temp = 0.0;
   double normalizer;
-  link child_list;
+  links child_list;
 
   for (i = 0; i < NODE_VALUES; i++) {
     for (temp = 0.0, j = 0; j < NODE_VALUES; j++)
@@ -150,14 +150,11 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
 
 void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
   int i, j, index;              // counters and temporary storage variables
-  link children_list; 
+  links children_list; 
   double temp = 0.0;
   double normalizer;
-  printf("node: %d\n", node_child);
   for (i = 0; i < NODE_VALUES; i++) {
     temp = BN->P[node_parent]->pi_value[i];
-    if (node_child == 3)
-      printf("tmep -> %.4lf\n", temp);
     children_list = child_reference(BN->G, node_parent);
     for (; children_list != NULL; children_list = next_reference(children_list)) {
       index = link_index(children_list);

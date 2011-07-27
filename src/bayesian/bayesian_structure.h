@@ -6,9 +6,9 @@ typedef enum {
     FALSE
 } node_state;
 
-void BN_init_cluster(int topic_index);
+void BS_init_beliefnet();
 
-void BN_update_cluster(node_state value);
+void BS_set_topic(int topic_index);
 
-void BN_update_backbone(void);
+void BS_update_cluster(node_state value);
 #endif
