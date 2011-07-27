@@ -2,6 +2,7 @@
 #include "bayesian_network.h"
 #include "inference.h"
 #include "../globals.h"
+#include <math.h>
 
 #define LOCAL_NODES 1
 #define GLOBAL_NODES 0
@@ -32,7 +33,7 @@ static void init_subtraction_cluster(void);
 static void init_multiplication_cluster(void);
 static void init_division_cluster(void);
 static void update_cluster(const int type, int index, node_state state);
-
+static void check_absorbing_states(double *probability);
 
 void BS_init_beliefnet() {
     lessons = malloc(num_lessons*sizeof(int));
@@ -168,46 +169,69 @@ void BS_update_cluster(node_state value) {
 }
 
 
+static void check_absorbing_states(double *probability) {
+    if (fabs(probability[0] - 1.00) < 0.01) {
+        probability[0] = 0.99;
+        probability[1] = 0.01;
+        return;
+    }
+    if (fabs(probability[0] - 0.00) < 0.01) { 
+        probability[0] = 0.01;
+        probability[1] = 0.99;
+    }
+}
+
+
 static void update_cluster(const int type, int cluster_index, node_state state) {
     int i, j;
     switch (type) {
         case NUMBER_TYPING:
             update_tree(number_cluster, cluster_index, state);
-            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) 
-                for (j = 0; j < NODE_VALUES; j++) 
+            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) {
+                check_absorbing_states((number_cluster->P[i]->post_probabilitiy));
+                for (j = 0; j < NODE_VALUES; j++)
                     number_cluster->P[i]->probability[j] = number_cluster->P[i]->post_probabilitiy[j];
+            }
             initial_tree(number_cluster);
             BN_display(number_cluster, 0);
             break;
         case ADDITION:
             update_tree(addition_cluster, cluster_index, state);
-            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) 
+            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) {
+                check_absorbing_states((addition_cluster->P[i]->post_probabilitiy));
                 for (j = 0; j < NODE_VALUES; j++) 
                     addition_cluster->P[i]->probability[j] = addition_cluster->P[i]->post_probabilitiy[j];
+            }
             initial_tree(addition_cluster);
             BN_display(addition_cluster, 0);
             break;
         case SUBTRACTION:
             update_tree(subtraction_cluster, cluster_index, state);
-            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) 
+            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) {
+                check_absorbing_states((subtraction_cluster->P[i]->post_probabilitiy));
                 for (j = 0; j < NODE_VALUES; j++) 
                     subtraction_cluster->P[i]->probability[j] = subtraction_cluster->P[i]->post_probabilitiy[j];
+            }
             initial_tree(subtraction_cluster);
             BN_display(subtraction_cluster, 0);
             break;
         case MULTIPLICATION:
             update_tree(multiplication_cluster, cluster_index, state);
-            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) 
+            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) {
+                check_absorbing_states((multiplication_cluster->P[i]->post_probabilitiy));
                 for (j = 0; j < NODE_VALUES; j++) 
                     multiplication_cluster->P[i]->probability[j] = multiplication_cluster->P[i]->post_probabilitiy[j];
+            }
             initial_tree(multiplication_cluster);
             BN_display(multiplication_cluster, 0);
             break;
         case DIVISION:
             update_tree(division_cluster, cluster_index, state);
-            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) 
+            for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1) {
+                check_absorbing_states((division_cluster->P[i]->post_probabilitiy));
                 for (j = 0; j < NODE_VALUES; j++) 
                     division_cluster->P[i]->probability[j] = division_cluster->P[i]->post_probabilitiy[j];
+            }
             initial_tree(division_cluster);
             BN_display(division_cluster, 0);
             break; 
@@ -215,4 +239,5 @@ static void update_cluster(const int type, int cluster_index, node_state state) 
             printf("Lesson does not match any topics\n");
             break;
     }
+    printf("Current node-index - %d\n", cluster_index);
 }
