@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 // extern unsigned char **lesson_list_titles;
 // extern unsigned char **lesson_list_filenames;
 int* lesson_list_goldstars = NULL;
+int* lesson_list_topics = NULL;
 // extern int num_lessons;
 
 /* local function prototypes: */

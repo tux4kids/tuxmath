@@ -169,12 +169,19 @@ enum {
     NUM_HIGH_SCORE_LEVELS
 };
 
-
+enum {
+    NUMBER_TYPING,
+    ADDITION, 
+    SUBTRACTION,
+    MULTIPLICATION,
+    DIVISION
+};
 
 #define NAME_BUF_SIZE 200
 
 /* data for 'Training Academy' lessons: */
 extern char **lesson_list_titles;
+extern int* lesson_list_topics;
 extern char **lesson_list_filenames;
 extern int* lesson_list_goldstars;
 extern int num_lessons;

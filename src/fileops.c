@@ -91,7 +91,7 @@ static int parse_option(const char* name, int val, int file_type);
 static void dirname_up(char *dirname);
 static char* get_user_name(void);
 static char* get_file_name(char *fullpath);
-
+static void associate_lesson_topics(void);
 
 /* Mingw does not have localtime_r(): */
 /* (this replacement is Windows-specific, so also check for Win32) */
@@ -649,6 +649,8 @@ int parse_lesson_file_directory(void)
 	/* Increment the iterator for correctly-parsed lesson files */
 	lessons++;
     }
+ 
+
     /* Now free the individual dirents. We do this on a second pass */
     /* because of the "continue" approach used to error handling.   */
     for (lessonIterator = 0; lessonIterator < num_lessons; lessonIterator++)
@@ -685,9 +687,76 @@ int parse_lesson_file_directory(void)
     /* Now read file to see what lessons have been previously completed: */
     read_goldstars();
 
+    //TO-DO: Parse the info. from the lesson files 
+    associate_lesson_topics();
+
     return (num_lessons > 0);  /* Success! */
 }
 
+/* Doesn't parse the topics from lesson files.               */
+/* Set to help testing other real parts                      */
+void associate_lesson_topics(void) {
+    printf("Num_lessons  = %d\n", num_lessons);
+    lesson_list_topics = (const int *)malloc(num_lessons*sizeof(int));
+    lesson_list_topics[0] = NUMBER_TYPING;
+    lesson_list_topics[1] = ADDITION;
+    lesson_list_topics[2] = ADDITION;
+    lesson_list_topics[3] = ADDITION;
+    lesson_list_topics[4] = ADDITION;
+    lesson_list_topics[5] = ADDITION;
+    lesson_list_topics[6] = ADDITION;
+    lesson_list_topics[7] = ADDITION;
+    lesson_list_topics[8] = SUBTRACTION;
+    lesson_list_topics[9] = SUBTRACTION;
+    lesson_list_topics[10] = SUBTRACTION;
+    lesson_list_topics[11] = -1;
+    lesson_list_topics[12] = MULTIPLICATION;
+    lesson_list_topics[13] = MULTIPLICATION;
+    lesson_list_topics[14] = MULTIPLICATION;
+    lesson_list_topics[15] = MULTIPLICATION;
+    lesson_list_topics[16] = MULTIPLICATION;
+    lesson_list_topics[17] = MULTIPLICATION;
+    lesson_list_topics[18] = MULTIPLICATION;
+    lesson_list_topics[19] = MULTIPLICATION;
+    lesson_list_topics[20] = MULTIPLICATION;
+    lesson_list_topics[21] = MULTIPLICATION;
+    lesson_list_topics[22] = MULTIPLICATION;
+    lesson_list_topics[23] = MULTIPLICATION;
+    lesson_list_topics[24] = MULTIPLICATION;
+    lesson_list_topics[25] = MULTIPLICATION;
+    lesson_list_topics[26] = MULTIPLICATION;
+    lesson_list_topics[27] = MULTIPLICATION;
+    lesson_list_topics[28] = MULTIPLICATION;
+    lesson_list_topics[29] = MULTIPLICATION;
+    lesson_list_topics[30] = DIVISION;
+    lesson_list_topics[31] = DIVISION;
+    lesson_list_topics[32] = DIVISION;
+    lesson_list_topics[33] = DIVISION;
+    lesson_list_topics[34] = DIVISION;
+    lesson_list_topics[35] = DIVISION;
+    lesson_list_topics[36] = DIVISION;
+    lesson_list_topics[37] = DIVISION;
+    lesson_list_topics[38] = DIVISION;
+    lesson_list_topics[39] = DIVISION;
+    lesson_list_topics[40] = DIVISION;
+    lesson_list_topics[41] = DIVISION;
+    lesson_list_topics[42] = DIVISION;
+    lesson_list_topics[43] = DIVISION;
+    lesson_list_topics[44] = DIVISION;
+    lesson_list_topics[45] = -1;
+    lesson_list_topics[46] = NUMBER_TYPING;
+    lesson_list_topics[47] = SUBTRACTION;
+    lesson_list_topics[48] = ADDITION;
+    lesson_list_topics[49] = ADDITION;
+    lesson_list_topics[50] = SUBTRACTION;
+    lesson_list_topics[51] = SUBTRACTION;
+    lesson_list_topics[52] = ADDITION;
+    lesson_list_topics[53] = SUBTRACTION;
+    lesson_list_topics[54] = -1;
+    lesson_list_topics[55] = -1;
+    lesson_list_topics[56] = MULTIPLICATION;
+    lesson_list_topics[57] = DIVISION;
+}
 
 /* Look for a completed lessons file in the user's homedir   */
 /* and if found, pass the FILE* to read_goldstars_fp()       */

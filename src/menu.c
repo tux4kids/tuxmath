@@ -248,6 +248,8 @@ int run_academy(void)
   int chosen_lesson = -1;
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
+  // Defines the structure of the underlying belief network
+  BS_init_beliefnet();
   chosen_lesson = run_menu(MENU_LESSONS, true);
   while (chosen_lesson >= 0)
   {
@@ -259,8 +261,6 @@ int run_academy(void)
     /* clobbered by other lesson or arcade games this session: */
     read_global_config_file();
 
-    /* Initialize the topic cluster for the given lesson */
-    BN_init_cluster(chosen_lesson);
 
     /* Now read the selected file and play the "mission": */
     if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
@@ -269,10 +269,13 @@ int run_academy(void)
         {T4K_AudioMusicUnload();}
 
       T4K_OnResolutionSwitch(NULL);
-      BN_init_cluster(chosen_lesson);
+
+      /* Set the index of the chosen lesson in BBN */
+      BS_set_topic(chosen_lesson);
+
       game();
+
       T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
-      BN_update_backbone();
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
