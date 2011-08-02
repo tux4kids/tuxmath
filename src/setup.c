@@ -343,6 +343,10 @@ void handle_debug_args(int argc, char* argv[])
     {
       debug_status |= debug_text_and_intl;
     }
+    else if (strcmp(argv[i], "--debug-bayesian") == 0)
+    {
+      debug_status |= debug_bayesian;
+    }
   }/* end of command-line args */
 
   DEBUGMSG(debug_setup,"debug_status: %x", debug_status);

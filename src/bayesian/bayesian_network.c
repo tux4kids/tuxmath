@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdlib.h>
 #include "bayesian_network.h"
 #include "inference.h"
+#include "../globals.h"
 
 /* Initializes a Bayesian network with a specified */
 /* number of nodes.                                */
@@ -117,11 +118,11 @@ int ismember_Evidence_Set(Bayesian_Network BN, int index) {
 void debug_probability(Bayesian_Network BN) {
   int i,j,node;
   for (node = 0; node < BN->G->V; node++) {
-    printf("node %d (", node);
+    DEBUGMSG(debug_bayesian, "node %d (", node);
     for (i=0,j=0; i < BN->P[node]->number; i += 2, j++) {
-      printf("%.4lf, %.4lf, ",BN->P[node]->probability[i], BN->P[node]->probability[i+1]);
+      DEBUGMSG(debug_bayesian, "%.4lf, %.4lf, ",BN->P[node]->probability[i], BN->P[node]->probability[i+1]);
     }
-    printf(")\n");
+    DEBUGMSG(debug_bayesian, ")\n");
   }
 }
 
@@ -131,25 +132,25 @@ void debug_probability(Bayesian_Network BN) {
 /* @Param int - 0 for additional debug info.       */
 /*          any positive value for normal output   */
 void BN_display(Bayesian_Network BN, int quantity) {
-  printf("Structure\n");
+  DEBUGMSG(debug_bayesian, "Structure\n");
   graph_display(BN->G);
-  printf("Joint probability distribution\n");
+  DEBUGMSG(debug_bayesian, "Joint probability distribution\n");
   int v = 0, i;
   Joint_Probability p;
   Graph g = BN->G;
   for (; v < g->V; v++) {
-    printf("Node #%d: ", v);
+    DEBUGMSG(debug_bayesian, "Node #%d: ", v);
     for (i = 0; i < BN->P[v]->number; i++)
-      printf("%.2lf, ", BN->P[v]->probability[i]);
-    printf("\n");
+      DEBUGMSG(debug_bayesian, "%.2lf, ", BN->P[v]->probability[i]);
+    DEBUGMSG(debug_bayesian, "\n");
     if (quantity == 0) {
-      printf("lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
-      printf("lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
-      printf("pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
-      printf("pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+      DEBUGMSG(debug_bayesian, "lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
+      DEBUGMSG(debug_bayesian, "lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
+      DEBUGMSG(debug_bayesian, "pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
+      DEBUGMSG(debug_bayesian, "pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
     }
-    printf("posterior:  (%lf, %lf)\n\n", BN->P[v]->post_probabilitiy[0], BN->P[v]->post_probabilitiy[1]);
-    printf("-------------------\n");
+    DEBUGMSG(debug_bayesian, "posterior:  (%lf, %lf)\n\n", BN->P[v]->post_probabilitiy[0], BN->P[v]->post_probabilitiy[1]);
+    DEBUGMSG(debug_bayesian, "-------------------\n");
   }
-  printf("------------------------------------------------------------\n\n");
+  DEBUGMSG(debug_bayesian, "------------------------------------------------------------\n\n");
 }

@@ -63,6 +63,7 @@ const int debug_lan            = dstart << 8;
 const int debug_mathcards      = dstart << 9;
 const int debug_highscore      = dstart << 10;
 const int debug_lessons        = dstart << 11;
+const int debug_bayesian       = dstart << 12;
 
 /* extern'd constants */
 

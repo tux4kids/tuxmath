@@ -702,6 +702,7 @@ Tuxmath:
 	--debug-lessons
 	--debug-highscore
 	--debug-options
+	--debug-bayesian
 
      --optionfile filename - play game based on settings in the named file (see
                          below for more on tuxmath config files). Tuxmath will

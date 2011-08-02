@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdio.h>
 #include <stdlib.h>
 #include "graph.h"
+#include "../globals.h"
 
 typedef struct node *links;
 
@@ -95,11 +96,11 @@ void graph_display(Graph G) {
   int v;
   links t;
   for(v = 0; v < G->V; v++) {
-    printf("%d -> ", v);
+    DEBUGMSG(debug_bayesian, "%d -> ", v);
     for(t = G->adj[v]; t != NULL; t = t->next) {
-      printf("%d, ", t->v);
+      DEBUGMSG(debug_bayesian, "%d, ", t->v);
     }
-    printf("\n");
+    DEBUGMSG(debug_bayesian, "\n");
   }
 }
 

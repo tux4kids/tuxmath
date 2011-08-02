@@ -78,6 +78,7 @@ extern const int debug_highscore;
 extern const int debug_options;
 extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
+extern const int debug_bayesian;
 
 /* debug macros (now in libt4k_comon) */
 //#define DEBUGCODE(mask) if((mask) & debug_status)

@@ -79,7 +79,7 @@ static void init_number_cluster() {
     double prob_dist[][2] = {init_prob, evidence_given_state, backbone_causal, evidence_given_state};
     int i, num_nodes;
     num_nodes = BACKBONE_NUMBER_NODES*(LOCAL_NODES+1);
-    printf("Number cluster initialization - %d\n", num_nodes);
+    DEBUGMSG(debug_bayesian, "Number cluster initialization - %d\n", num_nodes);
     number_cluster = BN_init(BACKBONE_NUMBER_NODES*(LOCAL_NODES+1));
     BN_add_link(number_cluster, 0, 1);
     BN_add_link(number_cluster, 0, 2);
@@ -98,7 +98,7 @@ static void init_addition_cluster() {
             backbone_causal, evidence_given_state, backbone_causal, evidence_given_state, backbone_causal,
             evidence_given_state, backbone_causal, evidence_given_state, backbone_causal, evidence_given_state};
     num_nodes = BACKBONE_ADDITION_NODES*(LOCAL_NODES+1);
-    printf("Addition cluster initialization - %d\n", num_nodes);
+    DEBUGMSG(debug_bayesian, "Addition cluster initialization - %d\n", num_nodes);
     addition_cluster = BN_init(num_nodes);
     for (i = 0; i < num_nodes-2; i+=2) {
         BN_add_link(addition_cluster, i, i+1); 
@@ -117,7 +117,7 @@ static void init_subtraction_cluster() {
     double prob_dist[][2] = {init_prob, evidence_given_state, backbone_causal, evidence_given_state, 
                              backbone_causal,evidence_given_state};
     num_nodes = BACKBONE_SUBTRACTION_NODES*(LOCAL_NODES+1);
-    printf("Subtraction cluster initialization - %d\n", num_nodes);
+    DEBUGMSG(debug_bayesian, "Subtraction cluster initialization - %d\n", num_nodes);
     subtraction_cluster = BN_init(num_nodes);
     for (i = 0; i < num_nodes; i += 2)
         BN_add_link(subtraction_cluster, i, i+1);
@@ -139,7 +139,7 @@ static void init_multiplication_cluster() {
     double back_causal[] = backbone_causal;
     double init_probab[] = init_prob;
     multiplication_cluster = BN_init(num_nodes);
-    printf("Multiplication cluster initialization - %d\n", num_nodes);
+    DEBUGMSG(debug_bayesian, "Multiplication cluster initialization - %d\n", num_nodes);
     memcpy(&prob_dist[0], init_probab, NODE_VALUES*sizeof(double));
     for (i = 1; i < num_nodes; i += 2) {
         memcpy(&prob_dist[i], evid_state, NODE_VALUES*sizeof(double));
@@ -165,7 +165,7 @@ static void init_division_cluster() {
     double back_causal[] = backbone_causal;
     double init_probab[] = init_prob;
     division_cluster = BN_init(num_nodes);
-    printf("Division cluster initialization - %d\n", num_nodes);
+    DEBUGMSG(debug_bayesian, "Division cluster initialization - %d\n", num_nodes);
     memcpy(&prob_dist[0], init_probab, NODE_VALUES*sizeof(double));
     for (i = 1; i < num_nodes; i += 2) {
         memcpy(&prob_dist[i], evid_state, NODE_VALUES*sizeof(double));
@@ -185,14 +185,14 @@ static void init_division_cluster() {
 }
 
 static void check_absorbing_states(double *probability) {
-    if (fabs(probability[0] - 1.00) < 0.01) {
-        probability[0] = 0.99;
-        probability[1] = 0.01;
+    if (fabs(probability[0] - 1.00) < 0.00001) {
+        probability[0] = 0.99999;
+        probability[1] = 0.00001;
         return;
     }
-    if (fabs(probability[0] - 0.00) < 0.01) { 
-        probability[0] = 0.01;
-        probability[1] = 0.99;
+    if (fabs(probability[0] - 0.00) < 0.00001) { 
+        probability[0] = 0.00001;
+        probability[1] = 0.99999;
     }
 }
 
@@ -226,7 +226,8 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1)
                 check_absorbing_states((addition_cluster->P[i]->post_probabilitiy));
             initial_tree(addition_cluster);
-            lesson_list_probability[current_sub_topic] = number_cluster->P[cluster_index-1]->post_probabilitiy[0];
+	    DEBUGMSG(debug_bayesian, "cluster_index = %d, sub_topic = %d\n", cluster_index, current_sub_topic);
+            lesson_list_probability[current_sub_topic] = addition_cluster->P[cluster_index-1]->post_probabilitiy[0];
             BN_display(addition_cluster, 0);
             break;
         case SUBTRACTION:
@@ -234,7 +235,7 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1)
                 check_absorbing_states((subtraction_cluster->P[i]->post_probabilitiy));
             initial_tree(subtraction_cluster);
-            lesson_list_probability[current_sub_topic] = number_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] = subtraction_cluster->P[cluster_index-1]->post_probabilitiy[0];
             BN_display(subtraction_cluster, 0);
             break;
         case MULTIPLICATION:
@@ -242,7 +243,7 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1)
                 check_absorbing_states((multiplication_cluster->P[i]->post_probabilitiy));
             initial_tree(multiplication_cluster);
-            lesson_list_probability[current_sub_topic] = number_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] = multiplication_cluster->P[cluster_index-1]->post_probabilitiy[0];
             BN_display(multiplication_cluster, 0);
             break;
         case DIVISION:
@@ -250,13 +251,13 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_NUMBER_NODES*(LOCAL_NODES+1); i += LOCAL_NODES+1)
                 check_absorbing_states((division_cluster->P[i]->post_probabilitiy));
             initial_tree(division_cluster);
-            lesson_list_probability[current_sub_topic] = number_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] = division_cluster->P[cluster_index-1]->post_probabilitiy[0];
             BN_display(division_cluster, 0);
             break; 
         default:
-            printf("Lesson does not match any topics\n");
+            DEBUGMSG(debug_bayesian, "Lesson does not match any topics\n");
             break;
     }
-    printf("Current node-index - %d\n", cluster_index);
-    printf("Node[%d] probability - %.2lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
+    DEBUGMSG(debug_bayesian, "Current node-index - %d\n", cluster_index);
+    DEBUGMSG(debug_bayesian, "Node[%d] probability - %.2lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
 }

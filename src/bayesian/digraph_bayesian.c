@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include "digraph_bayesian.h"
-
+#include "../globals.h"
 
 struct node {
   int v;
@@ -95,15 +95,15 @@ void graph_display(Graph G) {
   int v;
   links t;
   for(v = 0; v < G->V; v++) {
-    printf("%d (child )-> ", v);
+    DEBUGMSG(debug_bayesian, "%d (child )-> ", v);
     for(t = G->child[v]; t != NULL; t = t->next) {
-      printf("%d, ", t->v);
+      DEBUGMSG(debug_bayesian, "%d, ", t->v);
     }
-    printf("\n%d (parent)-> ", v);
+    DEBUGMSG(debug_bayesian, "\n%d (parent)-> ", v);
     for(t = G->parent[v]; t != NULL; t = t->next) {
-      printf("%d, ", t->v);
+      DEBUGMSG(debug_bayesian, "%d, ", t->v);
     }
-    printf("\n");
+    DEBUGMSG(debug_bayesian, "\n");
   }
 }
 
