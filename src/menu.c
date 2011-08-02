@@ -286,6 +286,8 @@ int run_academy(void)
         /* Also, add the star in the level menu */
         create_prerender_levelmenu();
       }
+  
+      // Re-arrange the lesson-menu based on the recent performance
 
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
         {T4K_AudioMusicLoad("tuxi.ogg", -1);}
@@ -763,11 +765,18 @@ void create_prerender_levelmenu() {
 }
 
 
+void rearrange_lesson_menu(void) {
+    int i = 0;
+    for (; i < num_lessons; i++) {
+        printf("(%.2lf)\n", lesson_list_probability[i]);
+    }
+}
+
 /* run main menu. If this function ends it means that tuxmath is going to quit */
 void RunMainMenu(void)
 {
     create_prerender_levelmenu();
     run_menu(MENU_MAIN, false);
-    DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
+   DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
 }
 

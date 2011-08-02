@@ -85,6 +85,11 @@ void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
     BN->P[node]->probability[i] = probability[j];
     BN->P[node]->probability[i+1] = 1.0-probability[j];
   }
+  // Initialize the posterior-probability in case of a root node
+  if (num == 2) {
+    for (i = 0; i < NODE_VALUES; i++)
+      BN->P[node]->post_probabilitiy[i] = BN->P[node]->probability[i];
+  }
 }
 
 /* Returns the parent node's index                 */

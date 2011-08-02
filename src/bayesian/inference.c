@@ -45,7 +45,7 @@ void initial_tree(Bayesian_Network BN) {
   int i,j,node;   // counters
   int parent_index, root_in;
   links child;
-  BN->E->count=0;                                // Initialize number of evidence nodes
+  BN->E->count = 0;                                // Initialize number of evidence nodes
 
   for (i = 0; i < BN->G->V; i++) {
     for (j = 0; j < NODE_VALUES; j++) { 
@@ -59,7 +59,7 @@ void initial_tree(Bayesian_Network BN) {
 
 
   for (j = 0; j < NODE_VALUES; j++) {
-    BN->P[root_in]->pi_value[j] = BN->P[root_in]->probability[j];// Compute Root's 'pi' values
+    BN->P[root_in]->pi_value[j] = BN->P[root_in]->post_probabilitiy[j];// Compute Root's 'pi' values
   }
    
   child = child_reference(BN->G, root_in);
@@ -137,7 +137,10 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
   i = parent_index(BN->G, node_parent);
   if (root_index(BN->G) != node_parent && ismember_Evidence_Set(BN, i) == -1)
     send_lambda_message(BN, node_parent, i);
-
+  else if (root_index(BN->G) == node_parent) {
+    for (i = 0; i < NODE_VALUES; i++)
+      BN->P[node_parent]->probability[i] = BN->P[node_parent]->post_probabilitiy[i];
+  }
   
   child_list = child_reference(BN->G, node_parent);
   for (; child_list != NULL; child_list = next_reference(child_list)) {
