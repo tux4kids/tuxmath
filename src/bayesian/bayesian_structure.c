@@ -39,17 +39,19 @@
 #define BACKBONE_MULTIPLICATION_NODES 17
 #define BACKBONE_DIVISION_NODES 15
 
+#define evidence_given_state {0.85, 0.2}
+#define backbone_causal {0.8, 0.2}
+#define init_prob {0.5}
+
 Bayesian_Network topic_cluster;
 Bayesian_Network number_cluster, addition_cluster, subtraction_cluster, 
                  multiplication_cluster, division_cluster;
 
+int nodes_to_lesson[5][50];
 int current_sub_topic;
 typedef enum{STUDENT_KNOWS, EVIDENCE} node_label;
 int *lessons;
 int lesson_counter;
-#define evidence_given_state {0.85, 0.2}
-#define backbone_causal {0.8, 0.2}
-#define init_prob {0.5}
 
 
 /* local function prototypes */
@@ -65,15 +67,15 @@ static void check_absorbing_states(double *probability);
 /* the topic clusters. Must be called once when  */
 /* the user runs training academy in Tuxmath     */
 void BS_init_beliefnet() {
-    int i;
     lessons = malloc(num_lessons*sizeof(int));
     lesson_list_probability = (double *)malloc(num_lessons*sizeof(double));
+    memset(nodes_to_lesson, -1, 5*50*sizeof(int));
     init_number_cluster();
-    init_addition_cluster(); 
+    init_addition_cluster();
     init_subtraction_cluster();
     init_multiplication_cluster();
     init_division_cluster();
-}    
+}
 
 static void init_number_cluster() {
     double prob_dist[][2] = {init_prob, evidence_given_state, backbone_causal, evidence_given_state};
@@ -90,6 +92,9 @@ static void init_number_cluster() {
     initial_tree(number_cluster);
     lessons[0] = 0;
     lessons[46] = 2;
+    nodes_to_lesson[NUMBER_TYPING][0] = 0;
+    nodes_to_lesson[NUMBER_TYPING][2] = 46;
+    BN_display(number_cluster, 0);
 }
 
 static void init_addition_cluster() {
@@ -107,9 +112,12 @@ static void init_addition_cluster() {
     BN_add_link(addition_cluster, num_nodes-2, num_nodes-1);
     for (i = 0; i < num_nodes; i++)
         BN_nodeprobability(addition_cluster, i, prob_dist[i]);
-    for (i = 1; i < 8; i++)
+    for (i = 1; i < 8; i++) {
         lessons[i] = 2*(i-1);
+	nodes_to_lesson[ADDITION][2*(i-1)] = i;
+    }
     initial_tree(addition_cluster);
+    //BN_display(addition_cluster, 1);
 }
 
 static void init_subtraction_cluster() {
@@ -128,8 +136,12 @@ static void init_subtraction_cluster() {
     lessons[8] = 0;
     lessons[9] = 2;
     lessons[10] = 4;
+    nodes_to_lesson[SUBTRACTION][0] = 8;
+    nodes_to_lesson[SUBTRACTION][2] = 9;
+    nodes_to_lesson[SUBTRACTION][4] = 10;
+
     initial_tree(subtraction_cluster);
-    BN_display(subtraction_cluster, 1);
+    //BN_display(subtraction_cluster, 1);
 }
 
 static void init_multiplication_cluster() {
@@ -152,10 +164,12 @@ static void init_multiplication_cluster() {
     BN_add_link(multiplication_cluster, num_nodes-2, num_nodes-1);
     for (i = 0; i < num_nodes; i++)
         BN_nodeprobability(multiplication_cluster, i, prob_dist[i]);
-    for (i = 0; i < BACKBONE_MULTIPLICATION_NODES; i++)
+    for (i = 0; i < BACKBONE_MULTIPLICATION_NODES; i++) {
         lessons[i+12] =  (LOCAL_NODES+1)*i;
+	nodes_to_lesson[MULTIPLICATION][(LOCAL_NODES+1)*i] = i+12;
+    }
     initial_tree(multiplication_cluster);
-    BN_display(multiplication_cluster, 1);
+    //BN_display(multiplication_cluster, 1);
 }
 
 static void init_division_cluster() {
@@ -178,10 +192,12 @@ static void init_division_cluster() {
     BN_add_link(division_cluster, num_nodes-2, num_nodes-1);
     for (i = 0; i < num_nodes; i++)
         BN_nodeprobability(division_cluster, i, prob_dist[i]);
-    for (i = 0; i < BACKBONE_DIVISION_NODES; i++)
+    for (i = 0; i < BACKBONE_DIVISION_NODES; i++) {
         lessons[i+30] =  (LOCAL_NODES+1)*i;
+	nodes_to_lesson[DIVISION][(LOCAL_NODES+1)*i] = i+30;
+    }
     initial_tree(division_cluster);    
-    BN_display(division_cluster, 1);
+    //BN_display(division_cluster, 1);
 }
 
 static void check_absorbing_states(double *probability) {
@@ -211,7 +227,7 @@ void BS_set_topic(int sub_topic_index) {
 void BS_update_cluster(node_state value) {
     const int type = lesson_list_topics[current_sub_topic];
     int cluster_index = lessons[current_sub_topic]+1;
-    int i,j;
+    int i;
     switch (type) {
         case NUMBER_TYPING:
             update_tree(number_cluster, cluster_index, value);
@@ -259,5 +275,17 @@ void BS_update_cluster(node_state value) {
             break;
     }
     DEBUGMSG(debug_bayesian, "Current node-index - %d\n", cluster_index);
-    DEBUGMSG(debug_bayesian, "Node[%d] probability - %.2lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
+    DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.2lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
+}
+
+/* Return the next lesson in the topic to which  */
+/* the 'lesson' parameter belongs.               */
+/* @Param int lesson - the lesson index          */
+/* @Param const int type - topic to which lesson */
+/*   belongs                                     */
+/* @Return int - If exists, index of next lesson,*/
+/* -1 otherwise                                  */
+int BS_next_lesson(int lesson, const int type) {
+  int node = lessons[lesson]+2;
+  return nodes_to_lesson[type][node];
 }

@@ -85,7 +85,7 @@ SDL_Rect menu_title_rect;
 /* buffer size used when reading attributes or names */
 const int buf_size = 128;
 
-
+char ** suggest_lessons;
 
 /* local functions */
 
@@ -245,7 +245,12 @@ int handle_activity(int act, int param)
 
 int run_academy(void)
 {
+  int lesson_index, i;
+  static int suggest_lesson_counter = 0;
   int chosen_lesson = -1;
+  int is_render_menu = 0;
+  int temp_goldstar;
+
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
   // Defines the structure of the underlying belief network
@@ -279,16 +284,40 @@ int run_academy(void)
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
-        DEBUGMSG(debug_menu, "mission accomplished %d\n", chosen_lesson);
+        DEBUGMSG(debug_menu | debug_bayesian, "mission accomplished %d\n", chosen_lesson);
         lesson_list_goldstars[chosen_lesson] = 1;
        /* and save to disk: */
         write_goldstars();
-        /* Also, add the star in the level menu */
-        create_prerender_levelmenu();
+	is_render_menu = 1;
       }
-  
-      // Re-arrange the lesson-menu based on the recent performance
 
+      // Re-arrange the lesson-menu based on the recent performance (let's say 0.6 is decent)
+      if (lesson_list_probability[chosen_lesson] >= 0.6) {
+        lesson_index = BS_next_lesson(chosen_lesson, lesson_list_topics[chosen_lesson]);
+	DEBUGMSG(debug_menu, "Lesson index: %d, title = %s\n", lesson_index, lesson_list_titles[lesson_index]);
+        if (lesson_index != -1) {
+	  if (chosen_lesson >= suggest_lesson_counter) {
+	    chosen_lesson = suggest_lesson_counter;
+	  }
+	  DEBUGMSG(debug_menu | debug_bayesian, "Swapping %s and %s\n", lesson_list_titles[chosen_lesson], 
+			  lesson_list_titles[lesson_index]);
+	  // point the pointers of suggest_lessons to swapped lesson_list_titles
+	  *(&suggest_lessons[lesson_index]) = *(&lesson_list_titles[chosen_lesson]);
+	  *(&suggest_lessons[chosen_lesson]) = *(&lesson_list_titles[lesson_index]);
+	  // Also swap the gold-stars
+	  temp_goldstar = lesson_list_goldstars[chosen_lesson];
+	  lesson_list_goldstars[chosen_lesson] = lesson_list_goldstars[lesson_index];
+	  lesson_list_goldstars[lesson_index] = temp_goldstar;
+
+	  suggest_lesson_counter++;
+	  is_render_menu = 1;
+	  DEBUGMSG(debug_menu | debug_bayesian, "swapped lessons: %s, %s\n", suggest_lessons[chosen_lesson], 
+			  suggest_lessons[lesson_index]);
+        }
+      }
+
+      if (is_render_menu)
+	create_prerender_levelmenu();
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
         {T4K_AudioMusicLoad("tuxi.ogg", -1);}
     }
@@ -760,7 +789,7 @@ void create_prerender_levelmenu() {
     for(i = 0; i < num_lessons; i++)
 	icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
 
-    T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");
+    T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, suggest_lessons, icon_names, NULL, "Back");
     T4K_PrerenderMenu(MENU_LESSONS);
 }
 
@@ -772,9 +801,17 @@ void rearrange_lesson_menu(void) {
     }
 }
 
+void suggest_lesson_lists() {
+    int i;
+    suggest_lessons = (char **)malloc(num_lessons*sizeof(char *));
+    for (i = 0; i < num_lessons; i++)
+      *(&suggest_lessons[i]) = *(&lesson_list_titles[i]);
+}
+
 /* run main menu. If this function ends it means that tuxmath is going to quit */
 void RunMainMenu(void)
 {
+    suggest_lesson_lists();
     create_prerender_levelmenu();
     run_menu(MENU_MAIN, false);
    DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");

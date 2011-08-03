@@ -47,4 +47,13 @@ void BS_set_topic(int topic_index);
 /* correctly or incorrectly.                     */
 /* @param node_state - TRUE, or FALSE            */
 void BS_update_cluster(node_state value);
+
+/* Return the next lesson in the topic to which  */
+/* the 'lesson' parameter belongs.               */
+/* @Param int lesson - the lesson index          */
+/* @Param const int type - topic to which lesson */
+/*   belongs                                     */
+/* @Return int - If exists, index of next lesson,*/
+/* -1 otherwise                                  */
+int BS_next_lesson(int lesson, const int type);
 #endif
