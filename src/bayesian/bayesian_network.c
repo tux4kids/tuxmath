@@ -136,7 +136,6 @@ void BN_display(Bayesian_Network BN, int quantity) {
   graph_display(BN->G);
   DEBUGMSG(debug_bayesian, "Joint probability distribution\n");
   int v = 0, i;
-  Joint_Probability p;
   Graph g = BN->G;
   for (; v < g->V; v++) {
     DEBUGMSG(debug_bayesian, "Node #%d: ", v);
