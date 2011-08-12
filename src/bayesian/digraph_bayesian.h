@@ -34,11 +34,36 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* @Return int - The index if exists, -1 otherwise */
 int root_index(Graph G);
 
+/* This function needs to be called whenever before*/
+/* calling root_reference                          */
+/* @Param Graph reference                          */
+void calc_root_nodes(Graph G);
+
+/* Returns the link pointing to one of the root    */
+/* vertices                                        */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+/* @Return links reference                         */
+links root_reference(Graph G, int node);
+
 /* Find the index of parent vertice - O(V)         */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
 /* @Return int - The index if exists, -1 otherwise */
 int parent_index(Graph G, int node);
+
+/* Find out the number of parent nodes for the     */
+/* given node                                      */
+/* @Param Graph reference                          */
+/* @Param int node - node index                    */
+/* @Return int - The number of parent nodes        */
+int parent_number(Graph G, int node);
+
+/* Returns the link pointing to one of the parent  */
+/* vertices                                        */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+links parent_reference(Graph G, int node);
 
 /* Find the index of the child vertice - O(V)      */
 /* @Param Graph reference                          */

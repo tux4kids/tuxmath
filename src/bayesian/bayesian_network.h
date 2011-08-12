@@ -42,9 +42,9 @@ struct joint_probability {
   int number;
   double post_probabilitiy[NODE_VALUES];
   double lambda_value[NODE_VALUES];
-  double lambda_message[NODE_VALUES];
   double pi_value[NODE_VALUES];
   double pi_message[NODE_VALUES];
+  double *lambda_message;
   double *probability;
 };
 

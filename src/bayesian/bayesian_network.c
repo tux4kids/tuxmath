@@ -75,13 +75,15 @@ void BN_remove_link(Bayesian_Network BN, int node1, int node2) {
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
 void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
-  int num = parent_index(BN->G, node);
+  int num; 
   int i,j;
-  num = (num == -1)?2:4; // 'num' stores the number of prob. values required
-  
+  num = 2 << parent_number(BN->G, node); // 'num' stores the number of prob. values required
+  DEBUGMSG(debug_bayesian, "Node: %d, num_parents: %d\n", node, parent_number(BN->G, node));
+
   BN->P[node] = malloc(sizeof(*(BN->P[node])));
   BN->P[node]->number = num;
-  BN->P[node]->probability = (double *)malloc(num*sizeof(double));  
+  BN->P[node]->lambda_message = (double *)malloc(num*sizeof(double));
+  BN->P[node]->probability = (double *)malloc(num*sizeof(double));
   for (i=0,j=0; i < num; i += 2, j++) {
     BN->P[node]->probability[i] = probability[j];
     BN->P[node]->probability[i+1] = 1.0-probability[j];

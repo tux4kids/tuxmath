@@ -40,6 +40,7 @@ struct graph {
   int E;
   links *child;
   links *parent;
+  links root;
 };
 
 typedef struct graph *Graph;

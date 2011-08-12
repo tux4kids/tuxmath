@@ -27,13 +27,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <stdio.h>
 #include <stdlib.h>
 #include "digraph_bayesian.h"
-#include "../globals.h"
+//#include "../globals.h"
 
 struct node {
   int v;
   links next;
 };
-
 
 /* Local function prototypes */
 links add(int, links);
@@ -61,6 +60,7 @@ Graph graph_init(int V) {
   G->E = 0;
   G->child = malloc(V*sizeof(links));
   G->parent = malloc(V*sizeof(links));
+  G->root = NULL;
   for (v = 0; v < V; v++) {
     G->child[v] = NULL;
     G->parent[v] = NULL;
@@ -95,16 +95,21 @@ void graph_display(Graph G) {
   int v;
   links t;
   for(v = 0; v < G->V; v++) {
-    DEBUGMSG(debug_bayesian, "%d (child )-> ", v);
+    printf("%d (child )-> ", v);
     for(t = G->child[v]; t != NULL; t = t->next) {
-      DEBUGMSG(debug_bayesian, "%d, ", t->v);
+      printf("%d, ", t->v);
     }
-    DEBUGMSG(debug_bayesian, "\n%d (parent)-> ", v);
+    printf("\n%d (parent)-> ", v);
     for(t = G->parent[v]; t != NULL; t = t->next) {
-      DEBUGMSG(debug_bayesian, "%d, ", t->v);
+      printf("%d, ", t->v);
     }
-    DEBUGMSG(debug_bayesian, "\n");
+    printf("\n");
   }
+  printf("Root(s): ");;
+  for (t = G->root; t != NULL; t = t->next) {
+    printf("%d, ", t->v);
+  }
+  printf("\n");
 }
 
 /* Find out the root vertice for the given Graph.  */
@@ -120,6 +125,31 @@ int root_index(Graph G) {
   return -1;  // Error case
 }
 
+/* This function needs to be called whenever before*/
+/* calling root_reference                          */
+/* @Param Graph reference                          */
+void calc_root_nodes(Graph G) {
+  int i;
+  for (i = 0; i < G->V; i++) {
+    if (parent_index(G, i) == -1) {
+      links new = malloc(sizeof *new);
+      new->v = i;
+      new->next = G->root;
+      G->root = new;
+    }
+  }
+}
+
+/* Returns the link pointing to one of the root    */
+/* vertices                                        */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+/* @Return links reference                         */
+links root_reference(Graph G, int node) {
+  return G->root;
+}
+
+
 /* Find the index of parent vertice - O(V)         */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
@@ -128,6 +158,28 @@ int parent_index(Graph G, int node) {
   if (G->parent[node] == NULL) // in case of root
     return -1;
   return G->parent[node]->v;
+}
+
+/* Find out the number of parent nodes for the     */
+/* given node                                      */
+/* @Param Graph reference                          */
+/* @Param int node - node index                    */
+/* @Return int - The number of parent nodes        */
+int parent_number(Graph G, int node) {
+  int total = 0;
+  links t = G->parent[node];
+  for (; t != NULL; t = t->next)
+    total++;
+  return total;
+}
+
+/* Returns the link pointing to one of the parent  */
+/* vertices                                        */
+/* @Param Graph reference                          */
+/* @Param node - vertice index                     */
+/* @Return links reference                         */
+links parent_reference(Graph G, int node) {
+  return G->parent[node];
 }
 
 /* Find the index of the child vertice - O(V)      */
@@ -144,6 +196,7 @@ int children_index(Graph G, int node) {
 /* vertices                                        */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
+/* @Return links reference                         */
 links child_reference(Graph G, int node) {
   return G->child[node];
 }
