@@ -50,7 +50,8 @@ tuxmath_SOURCES = tuxmath.c \
         bayesian/bayesian_network.c   \
         bayesian/bayesian_structure.c \
         bayesian/digraph_bayesian.c   \
-        bayesian/inference.c
+        bayesian/inference.c          \
+        bayesian/inference_poly.c
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
@@ -104,6 +105,7 @@ EXTRA_DIST = 	credits.h 	\
         bayesian/digraph_bayesian.h   \
         bayesian/graph.h              \
         bayesian/inference.h          \
+        bayesian/inference_poly.h     \
         bayesian/USAGE                \
         CMakeLists.txt
         
