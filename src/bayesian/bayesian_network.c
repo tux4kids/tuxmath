@@ -82,9 +82,10 @@ void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
 
   BN->P[node] = malloc(sizeof(*(BN->P[node])));
   BN->P[node]->number = num;
+  BN->P[node]->pi_message = (double *)malloc(num*sizeof(double));
   BN->P[node]->lambda_message = (double *)malloc(num*sizeof(double));
   BN->P[node]->probability = (double *)malloc(num*sizeof(double));
-  for (i=0,j=0; i < num; i += 2, j++) {
+  for (i=0, j=0; i < num; i += NODE_VALUES, j++) {
     BN->P[node]->probability[i] = probability[j];
     BN->P[node]->probability[i+1] = 1.0-probability[j];
   }
@@ -142,13 +143,21 @@ void BN_display(Bayesian_Network BN, int quantity) {
   for (; v < g->V; v++) {
     DEBUGMSG(debug_bayesian, "Node #%d: ", v);
     for (i = 0; i < BN->P[v]->number; i++)
-      DEBUGMSG(debug_bayesian, "%.2lf, ", BN->P[v]->probability[i]);
+      DEBUGMSG(debug_bayesian, "%.3lf, ", BN->P[v]->probability[i]);
     DEBUGMSG(debug_bayesian, "\n");
     if (quantity == 0) {
       DEBUGMSG(debug_bayesian, "lmda values: (%lf, %lf)\n", BN->P[v]->lambda_value[0], BN->P[v]->lambda_value[1]);
-      DEBUGMSG(debug_bayesian, "lmda message: (%lf, %lf)\n", BN->P[v]->lambda_message[0], BN->P[v]->lambda_message[1]);
-      DEBUGMSG(debug_bayesian, "pi message: (%lf, %lf)\n", BN->P[v]->pi_message[0], BN->P[v]->pi_message[1]);
-      DEBUGMSG(debug_bayesian, "pi values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+      DEBUGMSG(debug_bayesian, "pi   values: (%lf, %lf)\n", BN->P[v]->pi_value[0], BN->P[v]->pi_value[1]);
+      if (parent_number(BN->G, v) != 0) {
+        DEBUGMSG(debug_bayesian, "lmda mssges: (");
+        for (i = 0; i < (1 << parent_number(BN->G, v)); i++)
+          DEBUGMSG(debug_bayesian, "%lf, ", BN->P[v]->lambda_message[i]);
+        DEBUGMSG(debug_bayesian, ")\n");
+        DEBUGMSG(debug_bayesian, "pi messages: (");
+        for (i = 0; i < (1 << parent_number(BN->G, v)); i++)
+          DEBUGMSG(debug_bayesian, "%lf, ", BN->P[v]->pi_message[i]);
+        DEBUGMSG(debug_bayesian, ")\n");
+      }
     }
     DEBUGMSG(debug_bayesian, "posterior:  (%lf, %lf)\n\n", BN->P[v]->post_probabilitiy[0], BN->P[v]->post_probabilitiy[1]);
     DEBUGMSG(debug_bayesian, "-------------------\n");

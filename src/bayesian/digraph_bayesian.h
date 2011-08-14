@@ -42,9 +42,8 @@ void calc_root_nodes(Graph G);
 /* Returns the link pointing to one of the root    */
 /* vertices                                        */
 /* @Param Graph reference                          */
-/* @Param node - vertice index                     */
 /* @Return links reference                         */
-links root_reference(Graph G, int node);
+links root_reference(Graph G);
 
 /* Find the index of parent vertice - O(V)         */
 /* @Param Graph reference                          */
@@ -64,6 +63,13 @@ int parent_number(Graph G, int node);
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
 links parent_reference(Graph G, int node);
+
+/* Find position of the node in the linked list    */
+/* @Param Graph reference                          */
+/* @Param child_node - child_node's vertex number  */
+/* @Param parent_node -parent node's vertex number */
+/* @Return int - Position of the parent node       */
+int parent_position(Graph G, int child_node, int parent_node);
 
 /* Find the index of the child vertice - O(V)      */
 /* @Param Graph reference                          */

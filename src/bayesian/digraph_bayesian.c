@@ -130,27 +130,22 @@ int root_index(Graph G) {
 /* @Param Graph reference                          */
 void calc_root_nodes(Graph G) {
   int i;
-  for (i = 0; i < G->V; i++) {
-    if (parent_index(G, i) == -1) {
-      links new = malloc(sizeof *new);
-      new->v = i;
-      new->next = G->root;
-      G->root = new;
-    }
-  }
+  for (i = 0; i < G->V; i++) 
+  if (parent_index(G, i) == -1) 
+    G->root = add(i, G->root);
 }
 
 /* Returns the link pointing to one of the root    */
 /* vertices                                        */
 /* @Param Graph reference                          */
-/* @Param node - vertice index                     */
 /* @Return links reference                         */
-links root_reference(Graph G, int node) {
+links root_reference(Graph G) {
   return G->root;
 }
 
 
-/* Find the index of parent vertice - O(V)         */
+/* Depcrecated: Only applicable for single-parent topology
+  Find the index of parent vertice                 */
 /* @Param Graph reference                          */
 /* @Param node - vertice index                     */
 /* @Return int - The index if exists, -1 otherwise */
@@ -176,7 +171,7 @@ int parent_number(Graph G, int node) {
 /* Returns the link pointing to one of the parent  */
 /* vertices                                        */
 /* @Param Graph reference                          */
-/* @Param node - vertice index                     */
+/* @Param node - child vertice index               */
 /* @Return links reference                         */
 links parent_reference(Graph G, int node) {
   return G->parent[node];
@@ -209,6 +204,20 @@ int link_index(links t) {
   return -1;   // Error case
 }
 
+/* Find position of the node in the linked list    */
+/* @Param Graph reference                          */
+/* @Param child_node - child_node's vertex number  */
+/* @Param parent_node -parent node's vertex number */
+/* @Return int - Position of the parent node       */
+int parent_position(Graph G, int child_node, int parent_node) {
+  links start;
+  int position = 0;
+  for (start = G->parent[child_node]; start != NULL && start->v < parent_node; 
+          start = start->next, position++);
+  return position;
+}
+
+
 /* Returns the next element present in the linked- */
 /* list.                                           */
 /* @Param link reference                           */
@@ -217,11 +226,24 @@ links next_reference(links t) {
 }
 
 
+// Adds a new element in the linked-list such that
+// the elements remain sorted in ascending order
 links add(int v, links list) {
-  links new = malloc(sizeof *new);
+  links t, new = malloc(sizeof *new);
   new->v = v;
-  new->next = list;
-  return new;
+  if (list == NULL || list->v > v) {
+    new->next = list;
+    return new;
+  }
+  for (t = list; t != NULL; t = t->next) {
+    if (t->next == NULL || t->next->v > v) {
+      new->next = t->next;
+      t->next = new;
+      return list;
+    }
+  }
+  // Control should not reach here - // just in case
+  return NULL;
 }
 
 
