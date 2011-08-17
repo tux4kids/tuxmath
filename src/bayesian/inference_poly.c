@@ -39,8 +39,10 @@ void initial_net (Bayesian_Network BN) {
   links node, root;
 
   DEBUGMSG(debug_bayesian, "inital_net()\n");
-  BN->E->count = 0;
 
+  calc_root_nodes(BN->G);
+
+  BN->E->count = 0;
   for (i = 0; i < BN->G->V; i++) {
     for (j = 0; j < NODE_VALUES; j++) {
       BN->P[i]->lambda_value[j] = 1.0; 				// compute 'lambda' values
@@ -84,7 +86,8 @@ void initial_net (Bayesian_Network BN) {
 void update_net(Bayesian_Network BN, int node_index, int value) {
   int i, index;
   links node;
-  DEBUGMSG(debug_bayesian, "update_net() init\n");
+  DEBUGMSG(debug_bayesian, "update_net() init - %d, %d\n", node_index, value);
+  printf("ct - %d - \n", BN->E->count); 
   if (ismember_Evidence_Set(BN, node_index) == -1) {
     BN->E->index[BN->E->count] = node_index;
     BN->E->count++;

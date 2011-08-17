@@ -30,6 +30,14 @@ typedef enum {
     FALSE
 } node_state;
 
+typedef struct bayesian_node *Bayesian_node;
+
+struct bayesian_node {
+    int node_index;
+    int parents[2];
+    double probability[4];
+};
+
 /* Initialise the bayesian structures for all    */
 /* the topic clusters. Must be called once when  */
 /* the user runs training academy in Tuxmath     */
@@ -56,4 +64,7 @@ void BS_update_cluster(node_state value);
 /* @Return int - If exists, index of next lesson,*/
 /* -1 otherwise                                  */
 int BS_next_lesson(int lesson, const int type);
+
+
+int BS_write(Bayesian_node *cluster_node, const int type);
 #endif
