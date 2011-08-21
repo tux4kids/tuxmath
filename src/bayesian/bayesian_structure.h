@@ -25,6 +25,15 @@
 #ifndef BAYESIAN_STRUCTURE_H
 #define BAYESIAN_STRUCTURE_H
 
+#define LOCAL_NODES 4
+#define GLOBAL_NODES 1
+
+#define BACKBONE_NUMBER_NODES 2
+#define BACKBONE_ADDITION_NODES 7
+#define BACKBONE_SUBTRACTION_NODES 3
+#define BACKBONE_MULTIPLICATION_NODES 17
+#define BACKBONE_DIVISION_NODES 15
+
 typedef enum {
     TRUE,
     FALSE
@@ -65,6 +74,33 @@ void BS_update_cluster(node_state value);
 /* -1 otherwise                                  */
 int BS_next_lesson(int lesson, const int type);
 
+/* BS_read() parses out the structure of the Bay-*
+ * esian network from the file and initializes it*
+ * It maintains Bayesian_Network model of a stud-*
+ * ent between consecutive sessions.             *
+ * @Param - Bayesian_node * => Array of struct b-*
+ * ayesian_node retrieved from lesson-proficiency*
+ * file.
+ * @Param - const int => Type of the structure   *
+ * (Number, Addition, Sub., Mult. or Division  ) *
+ * @Param - int => Backbone nodes in the BBN     *
+ * @Return - int => 0 for success, -1 for failure*/
+int BS_read(Bayesian_node *cluster_node, const int type, int back_nodes);
 
-int BS_write(Bayesian_node *cluster_node, const int type);
+/* BS_write writes out the structure of the BBN  *
+ * in a format compatible with BS_read. Informa- *
+ * tion about a particular node is written in the*
+ * following format: %d %d %d |%lf %lf %lf %lf   *
+ * 1st number is the index of the node, 2nd and  *
+ * 3rd numbers are indices of it's parent nodes, *
+ * -1 in case there are less than 2 parent nodes.*
+ * | acts as a delimiter. The last 4 values are  *
+ * the conditional probability values of the node*
+ * The number of values needed is 1 << num_par.  *
+ * The redundent values are filled with -1.000000*
+ * @Param - const int => Type of BBN structure   *
+ * @Return - Bayesian_node* => Array of struct b-*
+ * ayesian_node, each array member containing    *
+ * information related to a node in the BBN.     */
+Bayesian_node* BS_write(const int type);
 #endif

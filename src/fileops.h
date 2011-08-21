@@ -243,6 +243,8 @@ int append_high_score(int tableid,int score,char *player_name);
 void set_high_score_path(void);
 void set_user_data_dir(const char* dirname);
 int write_goldstars(void);
+int read_lesson_proficiency(void);
+int write_lesson_proficiency(void);
 
 /* These functions are used by titlescreen() to assist with the login */
 int read_user_menu_entries(char ***user_names);

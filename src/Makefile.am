@@ -64,7 +64,11 @@ generate_lesson_SOURCES = generate_lesson.c	\
 		mathcards.c	\
 		options.c	\
 		fileops.c	\
-		lessons.c
+		lessons.c	\
+		bayesian/bayesian_structure.c \
+		bayesian/inference_poly.c \
+	        bayesian/bayesian_network.c \
+		bayesian/digraph_bayesian.c
 
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
@@ -108,7 +112,7 @@ EXTRA_DIST = 	credits.h 	\
         bayesian/inference_poly.h     \
         bayesian/USAGE                \
         CMakeLists.txt
-        
+
 
 
 WINDRES=@WINDRES@

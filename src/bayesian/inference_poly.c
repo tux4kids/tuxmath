@@ -1,7 +1,7 @@
 /* inference_poly.c
 
    Inference is done by Pearl's message-passing algorithm
-   for DAG with a topology of poly-tree. 
+   for DAG with a topology of poly-tree.
 
    Copyright 2011.
    Authors:  Siddharth Kothari
@@ -74,7 +74,8 @@ void initial_net (Bayesian_Network BN) {
     for (j = 0; j < NODE_VALUES; j++) {
       BN->P[root_in]->pi_value[j] = BN->P[root_in]->post_probabilitiy[j];	// Compute Root node's 'pi' values
       DEBUGMSG(debug_bayesian, "pi_v(%d = %s) = %.3lf,   ", root_in, STATE(j), BN->P[root_in]->pi_value[j]);
-    } 
+    }
+    BN->P[root_in]->probability[0] = BN->P[root_in]->post_probabilitiy[0];      // Update probability value of root
     DEBUGMSG(debug_bayesian, "\n");
     for (node = child_reference(BN->G, root_in); node != NULL; node = next_reference(node)) {
       DEBUGMSG(debug_bayesian, "send_pi_message(%d, %d)\n----------\n", root_in, link_index(node));
@@ -87,7 +88,9 @@ void update_net(Bayesian_Network BN, int node_index, int value) {
   int i, index;
   links node;
   DEBUGMSG(debug_bayesian, "update_net() init - %d, %d\n", node_index, value);
-  printf("ct - %d - \n", BN->E->count); 
+#if FILE_DEBUG
+  printf("ct - %d - \n", BN->E->count);
+#endif
   if (ismember_Evidence_Set(BN, node_index) == -1) {
     BN->E->index[BN->E->count] = node_index;
     BN->E->count++;
@@ -127,7 +130,7 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
   int i, j, k, num_bits, position_node_parent, index, bit_counter, node_counter;
   int bit[10] = {0};
   links parent, child;
-  double temp, temp_, normalizer; 
+  double temp, temp_, normalizer;
   position_node_parent = parent_position(BN->G, node_child, node_parent);
   num_bits = parent_number(BN->G, node_child);
 
@@ -159,7 +162,7 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
 	  if (index != node_parent) {
             temp_ *= BN->P[node_child]->pi_message[node_counter + bit[position_node_parent]];
 #if FILE_DEBUG
-            printf("th[%d + %d]- %.3lf\n", node_counter, bit[position_node_parent], 
+            printf("th[%d + %d]- %.3lf\n", node_counter, bit[position_node_parent],
                   BN->P[node_child]->pi_message[node_counter + bit[position_node_parent]]);
 #endif
           }
@@ -172,7 +175,7 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
       temp *= BN->P[node_child]->lambda_value[k];
       BN->P[node_child]->lambda_message[position_node_parent*NODE_VALUES + i] += temp;
     }
-    DEBUGMSG(debug_bayesian, "ld_m_%d(%d = %s) = %.3lf, ", node_child, node_parent, STATE(i), 
+    DEBUGMSG(debug_bayesian, "ld_m_%d(%d = %s) = %.3lf, ", node_child, node_parent, STATE(i),
           BN->P[node_child]->lambda_message[position_node_parent*NODE_VALUES + i]);
 
     BN->P[node_parent]->lambda_value[i] = 1.0;
@@ -183,7 +186,7 @@ void send_lambda_message(Bayesian_Network BN, int node_child, int node_parent) {
     DEBUGMSG(debug_bayesian, "ld_v(%d = %s) = %.3lf\n", node_parent, STATE(i), BN->P[node_parent]->lambda_value[i]);
     BN->P[node_parent]->post_probabilitiy[i] = BN->P[node_parent]->lambda_value[i]*(BN->P[node_parent]->pi_value[i]);
 #if FILE_DEBUG
-    printf("prob._%d[%d] = %.3lf\n", node_parent, i, BN->P[node_parent]->post_probabilitiy[i]); 
+    printf("prob._%d[%d] = %.3lf\n", node_parent, i, BN->P[node_parent]->post_probabilitiy[i]);
 #endif
   }
   DEBUGMSG(debug_bayesian, "\n");
@@ -218,7 +221,7 @@ void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
   double temp = 0.0, temp_, normalizer;
   links child, parent;
   int node_counter = parent_position(BN->G, node_child, node_parent)*NODE_VALUES;
-  
+
   for (i = 0; i < NODE_VALUES; i++) {
     temp = BN->P[node_parent]->pi_value[i];
     child = child_reference(BN->G, node_parent);
@@ -228,7 +231,7 @@ void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
         temp *= BN->P[index]->lambda_message[i];
     }
     BN->P[node_child]->pi_message[node_counter+i] = temp;        // Compute pi message
-    DEBUGMSG(debug_bayesian, "pi_m_%d(%d = %s) = %.3lf, ", node_child, node_parent, STATE(i), 
+    DEBUGMSG(debug_bayesian, "pi_m_%d(%d = %s) = %.3lf, ", node_child, node_parent, STATE(i),
           BN->P[node_child]->pi_message[node_counter+i]);
   }
   DEBUGMSG(debug_bayesian, "\n");
@@ -239,7 +242,6 @@ void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
       for (j = 0, temp = 0.0, temp_ = 0.0; j < (NODE_VALUES << num_bits); j++) {
         bit_counter = num_bits-1;
 	if (j%2 != i) continue;
-        printf("bits for %d - ", j);
 	while (bit_counter >= 0) {
 	  bit[bit_counter] = 1 & (j >> (bit_counter+1));
 #if FILE_DEBUG
@@ -247,7 +249,9 @@ void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
 #endif
 	  bit_counter--;
 	}
+#if FILE_DEBUG
         printf("\n");
+#endif
 	temp_ = BN->P[node_child]->probability[j];
 #if FILE_DEBUG
         printf("1st - %.3lf\n", temp_);
@@ -258,7 +262,7 @@ void send_pi_message(Bayesian_Network BN, int node_parent, int node_child) {
           node_counter = parent_position(BN->G, node_child, index)*NODE_VALUES;
           temp_ *= BN->P[node_child]->pi_message[node_counter + bit[bit_counter]];
 #if FILE_DEBUG
-          printf("th[%d + %d]- %.3lf\n", node_counter, bit[bit_counter], 
+          printf("th[%d + %d]- %.3lf\n", node_counter, bit[bit_counter],
                   BN->P[node_child]->pi_message[node_counter + bit[bit_counter]]);
 #endif
           bit_counter--;

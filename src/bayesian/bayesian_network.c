@@ -1,10 +1,10 @@
 /* bayesian_network.c
-  
-   Bayesian network functions for creating and initializing the 
-   network. The topology of the DAG (directed acyclic graph) 
-   should be "linear" or "tree", as inferencing is supported 
+
+   Bayesian network functions for creating and initializing the
+   network. The topology of the DAG (directed acyclic graph)
+   should be "linear" or "tree", as inferencing is supported
    for only these two type of topologies.
-   
+
    Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
@@ -23,7 +23,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
@@ -75,10 +75,9 @@ void BN_remove_link(Bayesian_Network BN, int node1, int node2) {
 /* abilities required depends on the number of     */
 /* incoming links)                                 */
 void BN_nodeprobability(Bayesian_Network BN, int node, double probability[]) {
-  int num; 
+  int num;
   int i,j;
   num = 2 << parent_number(BN->G, node); // 'num' stores the number of prob. values required
-  DEBUGMSG(debug_bayesian, "Node: %d, num_parents: %d\n", node, parent_number(BN->G, node));
 
   BN->P[node] = malloc(sizeof(*(BN->P[node])));
   BN->P[node]->number = num;
@@ -117,7 +116,7 @@ int ismember_Evidence_Set(Bayesian_Network BN, int index) {
   return -1;    // not found
 }
 
-// For debug purposes - not needed for the user 
+// For debug purposes - not needed for the user
 void debug_probability(Bayesian_Network BN) {
   int i,j,node;
   for (node = 0; node < BN->G->V; node++) {
