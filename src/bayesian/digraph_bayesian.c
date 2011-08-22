@@ -1,8 +1,8 @@
 /* digraph_bayesian.c
-  
+
    Extends 'digraph.c' by providing additional functionality
    specific to bayesian networks
-   
+
    Copyright 2011.
    Authors:  Siddharth Kothari
    Project email: <tuxmath-devel@lists.sourceforge.net>
@@ -21,13 +21,13 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.  
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include "digraph_bayesian.h"
-//#include "../globals.h"
+#include "../globals.h"
 
 struct node {
   int v;
@@ -95,21 +95,21 @@ void graph_display(Graph G) {
   int v;
   links t;
   for(v = 0; v < G->V; v++) {
-    printf("%d (child )-> ", v);
+    DEBUGMSG(debug_bayesian, "%d (child )-> ", v);
     for(t = G->child[v]; t != NULL; t = t->next) {
-      printf("%d, ", t->v);
+      DEBUGMSG(debug_bayesian, "%d, ", t->v);
     }
-    printf("\n%d (parent)-> ", v);
+    DEBUGMSG(debug_bayesian, "\n%d (parent)-> ", v);
     for(t = G->parent[v]; t != NULL; t = t->next) {
-      printf("%d, ", t->v);
+      DEBUGMSG(debug_bayesian, "%d, ", t->v);
     }
-    printf("\n");
+    DEBUGMSG(debug_bayesian, "\n");
   }
-  printf("Root(s): ");;
+  DEBUGMSG(debug_bayesian, "Root(s): ");
   for (t = G->root; t != NULL; t = t->next) {
-    printf("%d, ", t->v);
+    DEBUGMSG(debug_bayesian, "%d, ", t->v);
   }
-  printf("\n");
+  DEBUGMSG(debug_bayesian, "\n");
 }
 
 /* Find out the root vertice for the given Graph.  */
@@ -130,8 +130,8 @@ int root_index(Graph G) {
 /* @Param Graph reference                          */
 void calc_root_nodes(Graph G) {
   int i;
-  for (i = 0; i < G->V; i++) 
-  if (parent_index(G, i) == -1) 
+  for (i = 0; i < G->V; i++)
+  if (parent_index(G, i) == -1)
     G->root = add(i, G->root);
 }
 
@@ -183,7 +183,7 @@ links parent_reference(Graph G, int node) {
 /* @Return int - The index if exists, -1 otherwise */
 int children_index(Graph G, int node) {
   if (G->child[node] == NULL) // in case of leaf
-    return -1; 
+    return -1;
   return G->child[node]->v;
 }
 
@@ -212,7 +212,7 @@ int link_index(links t) {
 int parent_position(Graph G, int child_node, int parent_node) {
   links start;
   int position = 0;
-  for (start = G->parent[child_node]; start != NULL && start->v < parent_node; 
+  for (start = G->parent[child_node]; start != NULL && start->v < parent_node;
           start = start->next, position++);
   return position;
 }
@@ -267,7 +267,7 @@ links remov_(int v, links start, int *edge_counter, int condition) {
         (*edge_counter)--;
       // de-allocate memory
       free(temp);
-    } 
+    }
     else previous = previous->next;
     current = current->next;
   }

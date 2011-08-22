@@ -103,4 +103,6 @@ int BS_read(Bayesian_node *cluster_node, const int type, int back_nodes);
  * ayesian_node, each array member containing    *
  * information related to a node in the BBN.     */
 Bayesian_node* BS_write(const int type);
+
+int BS_is_new_profile(void);
 #endif

@@ -60,15 +60,7 @@ TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
 
-generate_lesson_SOURCES = generate_lesson.c	\
-		mathcards.c	\
-		options.c	\
-		fileops.c	\
-		lessons.c	\
-		bayesian/bayesian_structure.c \
-		bayesian/inference_poly.c \
-	        bayesian/bayesian_network.c \
-		bayesian/digraph_bayesian.c
+generate_lesson_SOURCES = $(tuxmath_SOURCES)
 
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \

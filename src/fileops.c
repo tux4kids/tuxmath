@@ -41,6 +41,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "options.h"
 #include "highscore.h"
 #include "lessons.h"
+#include "menu.h"
 #include "bayesian/bayesian_structure.h"
 
 /* OS includes - NOTE: these may not be very portable */
@@ -860,6 +861,7 @@ static int read_lesson_proficiency_fp(FILE *fp) {
    int nodes[] = {BACKBONE_NUMBER_NODES, BACKBONE_ADDITION_NODES,
         BACKBONE_SUBTRACTION_NODES, BACKBONE_MULTIPLICATION_NODES, BACKBONE_DIVISION_NODES};
    char current_topic[20];
+   int *actual_list, suggestion_counter;
    Bayesian_node *cluster;
    DEBUGMSG(debug_lessons, "Entering read_lesson_proficiency_fp()\n");
 
@@ -893,6 +895,16 @@ static int read_lesson_proficiency_fp(FILE *fp) {
      else return 1; // File isn't in correct format (rm)
      // TODO: remove the file in this case
    }
+   actual_list = malloc(num_lessons*sizeof(int));
+   // Read the topic-sequence
+   for (i = 0; i < num_lessons; i++)
+      fscanf(fp, "%d", &actual_list[i]);
+   fscanf(fp, "%d", &suggestion_counter);
+   DEBUGMSG(debug_bayesian, "Suggestion_cnt = %d\n", suggestion_counter);
+   init_suggest_lesson_list(actual_list, suggestion_counter);
+   // Free memory
+   free(actual_list);
+   actual_list = NULL;
    return 0;
 }
 
@@ -935,6 +947,7 @@ static void write_lesson_proficiency_fp(FILE* fp) {
                          "MULTIPLICATION", "DIVISION"};
     int nodes[] = {BACKBONE_NUMBER_NODES, BACKBONE_ADDITION_NODES,
         BACKBONE_SUBTRACTION_NODES, BACKBONE_MULTIPLICATION_NODES, BACKBONE_DIVISION_NODES};
+    int *actual_list;
     Bayesian_node *cluster;
     DEBUGMSG(debug_lessons, "Entering write_lesson_proficiency_fp()\n");
 
@@ -965,6 +978,10 @@ static void write_lesson_proficiency_fp(FILE* fp) {
         cluster[j] = NULL;
       }
     }
+    actual_list = write_lesson_list();
+    for (i = 0; i < num_lessons; i++)
+       fprintf(fp, "%d\n", actual_list[i]);
+    fprintf(fp, "%d\n", suggest_counter());
     return;
 }
 

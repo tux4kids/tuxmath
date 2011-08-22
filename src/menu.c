@@ -2,7 +2,7 @@
    menu.c
 
    Functions responsible for loading, parsing and displaying game menu.
-   
+
    Copyright 2009, 2010.
    Authors:  Boleslaw Kulbabinski, David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
@@ -86,9 +86,10 @@ SDL_Rect menu_title_rect;
 const int buf_size = 128;
 
 char ** suggest_lessons;
+int *actual_indices;
+static int suggest_lesson_counter = 0;
 
 /* local functions */
-
 int             run_menu(MenuType which, bool return_choice);
 int             handle_activity(int act, int param);
 int             run_academy(void);
@@ -103,9 +104,9 @@ void            create_prerender_levelmenu(void);
 
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
-{    
+{
   DEBUGCODE(debug_setup)
-  {	
+  {
     fprintf(stderr, "From run_menu():\n");
     print_locale_info(stderr);
   }
@@ -113,9 +114,9 @@ int run_menu(MenuType which, bool return_choice)
   return T4K_RunMenu(
     which,
     return_choice,
-    &DrawTitleScreen, 
-    &HandleTitleScreenEvents, 
-    &HandleTitleScreenAnimations, 
+    &DrawTitleScreen,
+    &HandleTitleScreenEvents,
+    &HandleTitleScreenAnimations,
     &handle_activity);
 }
 
@@ -129,9 +130,9 @@ int handle_activity(int act, int param)
 {
   DEBUGMSG(debug_menu, "entering handle_activity()\n");
   DEBUGMSG(debug_menu, "act: %d\n", act);
-  
+
   T4K_OnResolutionSwitch(NULL); //in case an activity forgets to register its own resolution switch handler, prevent insanity
-  
+
   switch(act)
   {
     case RUN_CAMPAIGN:
@@ -159,7 +160,7 @@ int handle_activity(int act, int param)
       DEBUGMSG(debug_menu, "activity: STOP_LAN_HOST\n");
       stop_lan_host();
       break;
-  
+
     case RUN_LAN_JOIN:
       DEBUGMSG(debug_menu, "activity: RUN_LAN_JOIN\n");
       run_lan_join();
@@ -233,7 +234,7 @@ int handle_activity(int act, int param)
   T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
   //redraw if necessary
   RenderTitleScreen();
-    
+
   if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
     T4K_AudioMusicLoad( "tuxi.ogg", T4K_AUDIO_LOOP_FOREVER );
 
@@ -245,8 +246,7 @@ int handle_activity(int act, int param)
 
 int run_academy(void)
 {
-  int lesson_index, i;
-  static int suggest_lesson_counter = 0;
+  int lesson_index, inverse_number, i;
   int chosen_lesson = -1;
   int is_render_menu = 0;
   int temp_goldstar;
@@ -258,7 +258,7 @@ int run_academy(void)
   chosen_lesson = run_menu(MENU_LESSONS, true);
   while (chosen_lesson >= 0)
   {
-    DEBUGMSG(debug_menu, "chosen_lesson: %d\n", chosen_lesson);
+    DEBUGMSG(debug_menu|debug_bayesian, "chosen_lesson: %d\n", actual_indices[chosen_lesson]);
     if (Opts_GetGlobalOpt(MENU_SOUND))
       playsound(SND_POP);
 
@@ -266,9 +266,11 @@ int run_academy(void)
     /* clobbered by other lesson or arcade games this session: */
     read_global_config_file();
 
+    // Reset render_menu option
+    is_render_menu = 0;
 
     /* Now read the selected file and play the "mission": */
-    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+    if (read_named_config_file(lesson_list_filenames[actual_indices[chosen_lesson]]))
     {
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {T4K_AudioMusicUnload();}
@@ -276,7 +278,7 @@ int run_academy(void)
       T4K_OnResolutionSwitch(NULL);
 
       /* Set the index of the chosen lesson in BBN */
-      BS_set_topic(chosen_lesson);
+      BS_set_topic(actual_indices[chosen_lesson]);
 
       game();
 
@@ -284,35 +286,48 @@ int run_academy(void)
       /* If successful, display Gold Star for this lesson! */
       if (MC_MissionAccomplished())
       {
-        DEBUGMSG(debug_menu | debug_bayesian, "mission accomplished %d\n", chosen_lesson);
-        lesson_list_goldstars[chosen_lesson] = 1;
+        DEBUGMSG(debug_menu | debug_bayesian, "mission accomplished %d, screen_index = %d\n",
+              actual_indices[chosen_lesson], chosen_lesson);
+        lesson_list_goldstars[actual_indices[chosen_lesson]] = 1;
        /* and save to disk: */
         write_goldstars();
 	is_render_menu = 1;
       }
 
       // Re-arrange the lesson-menu based on the recent performance (let's say 0.6 is decent)
-      if (lesson_list_probability[chosen_lesson] >= 0.6) {
-        lesson_index = BS_next_lesson(chosen_lesson, lesson_list_topics[chosen_lesson]);
-	DEBUGMSG(debug_menu, "Lesson index: %d, title = %s\n", lesson_index, lesson_list_titles[lesson_index]);
+      if (lesson_list_probability[actual_indices[chosen_lesson]] >= 0.6 && is_render_menu == 1) {
+        lesson_index = BS_next_lesson(actual_indices[chosen_lesson], lesson_list_topics[actual_indices[chosen_lesson]]);
+	DEBUGMSG(debug_menu|debug_bayesian, "Lesson index: %d, title = %s\n", lesson_index, lesson_list_titles[lesson_index]);
+        for (i = 0; i < suggest_lesson_counter; i++) {
+          if (actual_indices[i] == lesson_index) {  // Already in suggestion_list
+             lesson_index = -1;
+             break;
+          }
+        }
         if (lesson_index != -1) {
 	  if (chosen_lesson >= suggest_lesson_counter) {
 	    chosen_lesson = suggest_lesson_counter;
 	  }
-	  DEBUGMSG(debug_menu | debug_bayesian, "Swapping %s and %s\n", lesson_list_titles[chosen_lesson], 
+          for (i = 0; i < num_lessons; i++) {
+             if (actual_indices[i] == lesson_index) {
+                inverse_number = i;
+                break;
+             }
+          }
+	  DEBUGMSG(debug_menu | debug_bayesian, "Swapping %s and %s\n", lesson_list_titles[actual_indices[chosen_lesson]],
 			  lesson_list_titles[lesson_index]);
 	  // point the pointers of suggest_lessons to swapped lesson_list_titles
-	  *(&suggest_lessons[lesson_index]) = *(&lesson_list_titles[chosen_lesson]);
+	  *(&suggest_lessons[lesson_index]) = *(&lesson_list_titles[actual_indices[chosen_lesson]]);
 	  *(&suggest_lessons[chosen_lesson]) = *(&lesson_list_titles[lesson_index]);
-	  // Also swap the gold-stars
-	  temp_goldstar = lesson_list_goldstars[chosen_lesson];
-	  lesson_list_goldstars[chosen_lesson] = lesson_list_goldstars[lesson_index];
-	  lesson_list_goldstars[lesson_index] = temp_goldstar;
+          // Also swap the indices
+          actual_indices[inverse_number] = actual_indices[chosen_lesson];
+          actual_indices[chosen_lesson] = lesson_index;
 
 	  suggest_lesson_counter++;
 	  is_render_menu = 1;
-	  DEBUGMSG(debug_menu | debug_bayesian, "swapped lessons: %s, %s\n", suggest_lessons[chosen_lesson], 
+	  DEBUGMSG(debug_menu | debug_bayesian, "swapped lessons: %s, %s\n", suggest_lessons[chosen_lesson],
 			  suggest_lessons[lesson_index]);
+          DEBUGMSG(debug_bayesian, "suggest_lesson_counter = %d\n", suggest_lesson_counter);
         }
       }
 
@@ -330,6 +345,8 @@ int run_academy(void)
     // selection that we ended with
     chosen_lesson = run_menu(MENU_LESSONS, true);
   }
+  write_lesson_proficiency();
+  DEBUGMSG(debug_bayesian, "Returning from run_academy() with %d\n", chosen_lesson);
   return chosen_lesson;
 }
 
@@ -487,7 +504,7 @@ int run_lan_host(void)
     /* For now, only allow one server instance: */
     if(OurServerRunning())
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running"));
 	return 0;
     }
 
@@ -498,7 +515,7 @@ int run_lan_host(void)
 
     if(!PortAvailable(DEFAULT_PORT))
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server"));
 	return 0;
     }
 
@@ -532,7 +549,7 @@ int run_lan_host(void)
 	    /* Now read the selected file and play the "mission": */
 	    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
 		break;
-	    else    
+	    else
 	    {  // Something went wrong - could not read lesson config file:
 		fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
 		chosen_lesson = -1;
@@ -566,7 +583,7 @@ int run_lan_host(void)
 
     /* No SDL_net, so show explanatory message: */
 #else
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support."));
     printf( _("Sorry, this version built without network support.\n"));
 #endif
     return 0;
@@ -578,7 +595,7 @@ int stop_lan_host(void)
     if(!OurServerRunning())
     {
 	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
-	return 0; 
+	return 0;
     }
 
     if(SrvrGameInProgress())
@@ -595,7 +612,7 @@ int stop_lan_host(void)
 
 int run_lan_join(void)
 {
-    DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n"); 
+    DEBUGMSG(debug_menu|debug_lan, "Enter run_lan_join()\n");
 
 #ifdef HAVE_LIBSDL_NET
     int pregame_status;
@@ -612,7 +629,7 @@ int run_lan_join(void)
     /* Connected to server but not yet in game */
     pregame_status = Pregame();
     switch(pregame_status)
-    {	  
+    {
 	case PREGAME_OVER_START_GAME:
 	    playsound(SND_TOCK);
 	    T4K_AudioMusicUnload();
@@ -629,27 +646,27 @@ int run_lan_join(void)
 	    LAN_Cleanup();
 	    break;
 
-	case PREGAME_OVER_LAN_DISCONNECT: 
+	case PREGAME_OVER_LAN_DISCONNECT:
 	    playsound(SND_TOCK);
 	    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
 	    LAN_Cleanup();
 	    break;
 
-	case PREGAME_OVER_ESCAPE: 
+	case PREGAME_OVER_ESCAPE:
 	    LAN_Cleanup();
 	    return 0;
 
 	default:
 	    { /* do nothing */ }
 
-    }  
+    }
 #else
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, this version built without network support"));
     DEBUGMSG(debug_menu|debug_lan,  _("Sorry, this version built without network support.\n"));
     return 0;
 #endif
 
-    DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n"); 
+    DEBUGMSG(debug_menu|debug_lan, "Leaving run_lan_join()\n");
     return 1;
 }
 
@@ -777,7 +794,7 @@ int RunLoginMenu(void)
 }
 
 void create_prerender_levelmenu() {
-    int i;
+    int i, j, inverse;
     //  char* lltitle = "Lesson List"; //lesson list menu title
     char* icon_names[num_lessons];
 
@@ -786,8 +803,15 @@ void create_prerender_levelmenu() {
     /* lessons menu */
     DEBUGMSG(debug_menu, "RunMainMenu(): Generating lessons submenu. (%d lessons)\n", num_lessons);
 
-    for(i = 0; i < num_lessons; i++)
-	icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
+    for(i = 0; i < num_lessons; i++) {
+        for (j = 0; j < num_lessons; j++)
+           if (actual_indices[j] == i) {
+              inverse = j;
+              break;
+           }
+	icon_names[inverse] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
+        DEBUGMSG(debug_bayesian, "i = %d, icon_names[%d] = %s\n", i, inverse, icon_names[inverse]);
+    }
 
     T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, suggest_lessons, icon_names, NULL, "Back");
     T4K_PrerenderMenu(MENU_LESSONS);
@@ -806,14 +830,36 @@ void suggest_lesson_lists() {
     suggest_lessons = (char **)malloc(num_lessons*sizeof(char *));
     for (i = 0; i < num_lessons; i++)
       *(&suggest_lessons[i]) = *(&lesson_list_titles[i]);
+    actual_indices = (int *)malloc(num_lessons*sizeof(int));
+    for (i = 0; i < num_lessons; i++)
+      actual_indices[i] = i;
+}
+
+void init_suggest_lesson_list(int *actual_list, int suggestion_counter) {
+   int i;
+   suggest_lesson_counter = suggestion_counter;
+   for (i = 0; i < num_lessons; i++) {
+     actual_indices[i] = actual_list[i];
+   }
+   for (i = 0; i < num_lessons; i++)
+     *(&suggest_lessons[i]) = *(&lesson_list_titles[actual_indices[i]]);
+   create_prerender_levelmenu();
+}
+
+int *write_lesson_list(void) {
+   return actual_indices;
+}
+
+int suggest_counter(void) {
+   return suggest_lesson_counter;
 }
 
 /* run main menu. If this function ends it means that tuxmath is going to quit */
 void RunMainMenu(void)
 {
-    suggest_lesson_lists();
-    create_prerender_levelmenu();
-    run_menu(MENU_MAIN, false);
+   suggest_lesson_lists();
+   create_prerender_levelmenu();
+   run_menu(MENU_MAIN, false);
    DEBUGMSG(debug_menu, "Leaving RunMainMenu()\n");
 }
 

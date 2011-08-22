@@ -44,7 +44,7 @@
 #define challenge_acceptance {0.8, 0.2}
 // }}}
 
-//{{{ Global variables
+//{{{ Global file variables
 Bayesian_Network topic_cluster;
 Bayesian_Network number_cluster, addition_cluster, subtraction_cluster,
                  multiplication_cluster, division_cluster;
@@ -257,6 +257,11 @@ void BS_set_topic(int sub_topic_index) {
 }
 //  }}}
 
+
+int BS_is_new_profile(void) {
+    return new_profile;
+}
+
 /* The call to this function must be made from   */
 /* within the game, with either TRUE or FALSE    */
 /* based on whether the user answers the question*/
@@ -314,7 +319,11 @@ void BS_update_cluster(node_state value) {
             break;
     }
     DEBUGMSG(debug_bayesian, "Current node-index - %d\n", cluster_index-1);
-    DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.2lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
+    DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.4lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
+    lesson_list_probability[current_sub_topic] /= pow(0.8, (cluster_index-1)/LOCAL_NODES);
+    if (lesson_list_probability[current_sub_topic] >= 1.00000)
+       lesson_list_probability[current_sub_topic] = 0.99999;
+    DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.4lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
 }
 //  }}}
 
@@ -328,6 +337,9 @@ void BS_update_cluster(node_state value) {
 //  {{{ int BS_next_lesson(int, const int)
 int BS_next_lesson(int lesson, const int type) {
   int node = lessons[lesson]+LOCAL_NODES;
+  if (nodes_to_lesson[type][node] == -1 && type <= MULTIPLICATION) {
+    return nodes_to_lesson[type+1][0];
+  }
   return nodes_to_lesson[type][node];
 }
 //  }}}
@@ -427,7 +439,6 @@ Bayesian_node* BS_write(const int type) {
     case NUMBER_TYPING:
       BN = number_cluster;
       num_nodes = BACKBONE_NUMBER_NODES;
-      printf("num_nodes = %d\n", num_nodes);
       break;
     case ADDITION:
       BN = addition_cluster;
@@ -447,7 +458,6 @@ Bayesian_node* BS_write(const int type) {
       break;
   }
   num_nodes *= LOCAL_NODES;
-  printf("Sizeof Bayesian_node = %d\n", sizeof(struct bayesian_node));
   cluster_node = malloc(num_nodes*sizeof(Bayesian_node));
   DEBUGMSG(debug_bayesian, "num_nodes = %d\n", num_nodes);
   for (i = 0; i < num_nodes; i++) {

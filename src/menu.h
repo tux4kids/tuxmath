@@ -101,6 +101,9 @@ extern SDL_Surface *stop_button, *prev_arrow, *next_arrow, *prev_gray, *next_gra
 
 /* global functions */
 void LoadMenus(void);
+void init_suggest_lesson_list(int *actual_list, int suggestion_counter);
+int *write_lesson_list(void);
+int suggest_counter(void);
 int RunLoginMenu(void);
 void RunMainMenu(void);
 
