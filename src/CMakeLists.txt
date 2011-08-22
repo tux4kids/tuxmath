@@ -43,6 +43,10 @@ set(SOURCES_TUXMATH
   multiplayer.c
   campaign.c
   tuxmath.c
+  bayesian/bayesian_network.c
+  bayesian/bayesian_structure.c
+  bayesian/digraph_bayesian.c
+  bayesian/inference_poly.c
   ${TUXMATH_EXTRA_SRC}
   )
 
@@ -67,17 +71,17 @@ endif (NOT BUILD_INTL)
 check_include_file(${CMAKE_CURRENT_BINARY_DIR}/config.h HAVE_CONFIG_H)
 
 include_directories(
-  ${CMAKE_CURRENT_BINARY_DIR} 
-  ${SDL_INCLUDE_DIR} 
-  ${SDLIMAGE_INCLUDE_DIR} 
-  ${SDLMIXER_INCLUDE_DIR} 
-  ${SDLNET_INCLUDE_DIR} 
+  ${CMAKE_CURRENT_BINARY_DIR}
+  ${SDL_INCLUDE_DIR}
+  ${SDLIMAGE_INCLUDE_DIR}
+  ${SDLMIXER_INCLUDE_DIR}
+  ${SDLNET_INCLUDE_DIR}
   ${T4KCOMMON_INCLUDE_DIR}
-  ${TUXMATH_EXTRA_INCLUDES} 
+  ${TUXMATH_EXTRA_INCLUDES}
   ${INTL_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src
   )
-if (SDLGFX_FOUND)  
+if (SDLGFX_FOUND)
   include_directories(${SDLGFX_INCLUDE_DIR})
 endif(SDLGFX_FOUND)
 
@@ -162,7 +166,7 @@ endif(TUXMATH_BUILD_INTL)
 
 set_target_properties (
   tuxmathadmin
-  PROPERTIES COMPILE_FLAGS 
+  PROPERTIES COMPILE_FLAGS
   "-DDATA_PREFIX=\\\"${TUXMATH_DATA_PREFIX}\\\" -DVERSION=\\\"${TUXMATHADMIN_VERSION}\\\" -DLOCALEDIR=\\\"${LOCALE_DIR}\\\" -DPACKAGE=\\\"tuxmathadmin\\\""
   )
 
