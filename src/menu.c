@@ -810,7 +810,7 @@ void create_prerender_levelmenu() {
               break;
            }
 	icon_names[inverse] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
-        DEBUGMSG(debug_bayesian, "i = %d, icon_names[%d] = %s\n", i, inverse, icon_names[inverse]);
+        DEBUGMSG(debug_menu, "i = %d, icon_names[%d] = %s\n", i, inverse, icon_names[inverse]);
     }
 
     T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, suggest_lessons, icon_names, NULL, "Back");

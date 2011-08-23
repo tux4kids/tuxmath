@@ -64,6 +64,7 @@ static void init_multiplication_cluster(void);
 static void init_division_cluster(void);
 static double** add_conditional_links(int backbone_nodes, Bayesian_Network);
 static void check_absorbing_states(double *probability);
+double calculate_probability_range(int node_index, int val);
 //  }}}
 
 /* Initialise the bayesian structures for all    */
@@ -77,6 +78,7 @@ void BS_init_beliefnet() {
     lessons = malloc(num_lessons*sizeof(int));
     lesson_list_probability = (double *)malloc(num_lessons*sizeof(double));
     memset(nodes_to_lesson, -1, 5*100*sizeof(int));
+    memset(lessons, -1, num_lessons*sizeof(int));
     init_number_cluster();
     init_addition_cluster();
     init_subtraction_cluster();
@@ -270,8 +272,11 @@ int BS_is_new_profile(void) {
 void BS_update_cluster(node_state value) {
     const int type = lesson_list_topics[current_sub_topic];
     int cluster_index = lessons[current_sub_topic]+1;
+    if (cluster_index <= 0) // The lesson is not yet implemented
+       return;
     DEBUGMSG(debug_bayesian, "%d, %d\n", current_sub_topic, cluster_index);
     int i;
+    double max_possible, min_possible;
     switch (type) {
         case NUMBER_TYPING:
             update_net(number_cluster, cluster_index, value);
@@ -318,14 +323,25 @@ void BS_update_cluster(node_state value) {
             DEBUGMSG(debug_bayesian, "Lesson does not match any topics\n");
             break;
     }
-    DEBUGMSG(debug_bayesian, "Current node-index - %d\n", cluster_index-1);
-    DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.4lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
-    lesson_list_probability[current_sub_topic] /= pow(0.8, (cluster_index-1)/LOCAL_NODES);
+    max_possible = calculate_probability_range(cluster_index-1, 1);
+    min_possible = calculate_probability_range(cluster_index-1, 0);
+    lesson_list_probability[current_sub_topic] = (fabs(lesson_list_probability[current_sub_topic] - min_possible))/(fabs(max_possible-min_possible));
     if (lesson_list_probability[current_sub_topic] >= 1.00000)
        lesson_list_probability[current_sub_topic] = 0.99999;
     DEBUGMSG(debug_bayesian, "Lesson[%d] probability - %.4lf\n", current_sub_topic, lesson_list_probability[current_sub_topic]);
 }
 //  }}}
+
+
+double calculate_probability_range(int node_index, int val) {
+    double prob_true = val;
+    int i = 0;
+    for (i = LOCAL_NODES; i <= node_index; i += LOCAL_NODES) {
+      prob_true = prob_true*0.8 + (1-prob_true)*0.2;
+    }
+    return prob_true;
+}
+
 
 /* Return the next lesson in the topic to which  */
 /* the 'lesson' parameter belongs.               */
@@ -361,7 +377,6 @@ int BS_read(Bayesian_node *cluster, const int type, int back_nodes) {
   int i, j, num_nodes = back_nodes*LOCAL_NODES;
   Bayesian_Network BN;
   double **probability_distribution;
-  static int k = 0;
   probability_distribution = (double **)malloc(num_nodes*sizeof(double*));
   for (i = 0; i < num_nodes; i++)
     probability_distribution[i] = (double *)malloc(2*sizeof(double));
