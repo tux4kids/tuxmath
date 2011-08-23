@@ -64,7 +64,7 @@ static void init_multiplication_cluster(void);
 static void init_division_cluster(void);
 static double** add_conditional_links(int backbone_nodes, Bayesian_Network);
 static void check_absorbing_states(double *probability);
-double calculate_probability_range(int node_index, int val);
+double calculate_probability_range(int node_index, double val);
 //  }}}
 
 /* Initialise the bayesian structures for all    */
@@ -275,7 +275,7 @@ void BS_update_cluster(node_state value) {
     if (cluster_index <= 0) // The lesson is not yet implemented
        return;
     DEBUGMSG(debug_bayesian, "%d, %d\n", current_sub_topic, cluster_index);
-    int i;
+    int i, root_in;
     double max_possible, min_possible;
     switch (type) {
         case NUMBER_TYPING:
@@ -283,7 +283,8 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_NUMBER_NODES*LOCAL_NODES; i += LOCAL_NODES)
                 check_absorbing_states((number_cluster->P[i]->post_probabilitiy));
             initial_net(number_cluster);
-            lesson_list_probability[current_sub_topic] = number_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] =
+               calculate_probability_range(cluster_index-1, number_cluster->P[0]->post_probabilitiy[0]);
             BN_display(number_cluster, 0);
             break;
         case ADDITION:
@@ -292,7 +293,8 @@ void BS_update_cluster(node_state value) {
                 check_absorbing_states((addition_cluster->P[i]->post_probabilitiy));
             initial_net(addition_cluster);
 	    DEBUGMSG(debug_bayesian, "cluster_index = %d, sub_topic = %d\n", cluster_index, current_sub_topic);
-            lesson_list_probability[current_sub_topic] = addition_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] =
+               calculate_probability_range(cluster_index-1, addition_cluster->P[0]->post_probabilitiy[0]);
             BN_display(addition_cluster, 0);
             break;
         case SUBTRACTION:
@@ -300,7 +302,8 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_SUBTRACTION_NODES*LOCAL_NODES; i += LOCAL_NODES)
                 check_absorbing_states((subtraction_cluster->P[i]->post_probabilitiy));
             initial_net(subtraction_cluster);
-            lesson_list_probability[current_sub_topic] = subtraction_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] =
+               calculate_probability_range(cluster_index-1, subtraction_cluster->P[0]->post_probabilitiy[0]);
             BN_display(subtraction_cluster, 0);
             break;
         case MULTIPLICATION:
@@ -308,7 +311,8 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_MULTIPLICATION_NODES*LOCAL_NODES; i += LOCAL_NODES)
                 check_absorbing_states((multiplication_cluster->P[i]->post_probabilitiy));
             initial_net(multiplication_cluster);
-            lesson_list_probability[current_sub_topic] = multiplication_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] =
+               calculate_probability_range(cluster_index-1, multiplication_cluster->P[0]->post_probabilitiy[0]);
             BN_display(multiplication_cluster, 0);
             break;
         case DIVISION:
@@ -316,7 +320,8 @@ void BS_update_cluster(node_state value) {
             for (i = 0; i < BACKBONE_DIVISION_NODES*LOCAL_NODES; i += LOCAL_NODES)
                 check_absorbing_states((division_cluster->P[i]->post_probabilitiy));
             initial_net(division_cluster);
-            lesson_list_probability[current_sub_topic] = division_cluster->P[cluster_index-1]->post_probabilitiy[0];
+            lesson_list_probability[current_sub_topic] =
+               calculate_probability_range(cluster_index-1, division_cluster->P[0]->post_probabilitiy[0]);
             BN_display(division_cluster, 0);
             break;
         default:
@@ -333,7 +338,7 @@ void BS_update_cluster(node_state value) {
 //  }}}
 
 
-double calculate_probability_range(int node_index, int val) {
+double calculate_probability_range(int node_index, double val) {
     double prob_true = val;
     int i = 0;
     for (i = LOCAL_NODES; i <= node_index; i += LOCAL_NODES) {
