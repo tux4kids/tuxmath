@@ -1,4 +1,31 @@
-USAGE for the Bayesian network library.
+USAGE:
 
-Compile-command for stand-alone test:
-gcc -o 'output_filename' bayes_test.c bayesian_network.c digraph_bayesian.c inference.c
+A brief overview of the function of the code-files -
+
+bayesian_structure.c
+  This module acts an interface between the game-code and other bbn-related modules in the bayesian/ directory. The
+module specifies the connections between nodes in a Bayesian network and CPT for each of the nodes. Once the BBN's are
+instantiated at the start of the game, the role of this module is to interface between game-code and the inference mod-
+ule for updating the BBN.
+
+inference_poly.c
+  This module is used for performing inference on a BBN based on an evidence node. The implementation is based on 
+Pearl's Belief Propagation algorithm for a DAG with a poly-tree topology (or singly-connected networks).
+
+bayesian_network.c
+  This module performs the task of creating and initializing a bayesian network structure based on the inputs provided
+by the bayesian_structure.c module.
+
+digraph_bayesian.c
+  This module maintains the underlying DAG of the BBN.
+
+digraph.c
+  digraph_bayesian.c module is an extension of this module, in the sense that this module doesn't assume the graph 
+structure to be of the tree form and doesn't have specific functions.
+
+inference.c
+  This module is deprecated and not in use now. Prior, it was used for inference purposes, but it's support for
+inferencing was only for DAG's with a tree topology (single-root).
+
+bayes_test.c, digraph_tester.c - These modules are deprecated, and were used for debugging the bbn's prior to 
+integration with the game.
