@@ -4,7 +4,7 @@
    Functions responsible for loading, parsing and displaying game menu.
    (interface)
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
 Authors: Boleslaw Kulbabinski <bkulbabinski@gmail.com>
 Brendan Luchen
 David Bruce

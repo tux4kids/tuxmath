@@ -3,7 +3,7 @@
 
    Headers for command-line test client for LAN game
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
 Authors: David Bruce, Akash Gangil
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

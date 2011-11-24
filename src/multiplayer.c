@@ -6,7 +6,7 @@
    multiplayer that can accommodate up to four players (more with
    a recompilation)
    
-   Copyright 2008, 2010.
+   Copyright 2008, 2010, 2011.
    Authors: David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

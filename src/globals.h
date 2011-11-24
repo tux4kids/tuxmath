@@ -6,7 +6,7 @@
    depending on SDL should be in here; put any SDL-related items into
    tuxmath.h.
 
-   Copyright 2006, 2007, 2008, 2009, 2010.
+   Copyright 2006, 2007, 2008, 2009, 2010, 2011.
 Authors: David Bruce, Tim Holy, and others.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

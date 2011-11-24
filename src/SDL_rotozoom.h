@@ -9,7 +9,7 @@
    SDL_gfx website: http://www.ferzkopp.net/Software/SDL_gfx-2.0/
 
    Slight modification and relicensing for tuxmath:
-   Copyright (C) 2008, 2009, 2010.
+   Copyright (C) 2008, 2009, 2010, 2011.
 Authors: David Bruce, Tim Holy, Brendan Luchen.
 email: <tuxmath-devel@lists.sourceforge.net>
 

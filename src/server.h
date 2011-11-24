@@ -4,7 +4,7 @@
    Headers related to the tuxmathserver program (or thread) for the 
    multiplayer LAN version of tuxmath
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
 Authors: David Bruce, Akash Gangil
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

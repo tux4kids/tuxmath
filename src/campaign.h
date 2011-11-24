@@ -1,6 +1,6 @@
 /* campaign.h - handle TuxMath's 'Mission mode'
 
-   Copyright (C) 2008, 2009, 2010.
+   Copyright (C) 2008, 2009, 2010, 2011.
 Authors: Brendan Luchen, David Bruce.
 email: <tuxmath-devel@lists.sourceforge.net>
 

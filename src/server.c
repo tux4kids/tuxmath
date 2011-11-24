@@ -11,7 +11,7 @@
    of derivative works into a GPLv3+ project like TuxMath.  FWIW, virtually
    none of the tutorial code is still present here - David Bruce 
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
    Authors: Akash Gangil, David Bruce
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

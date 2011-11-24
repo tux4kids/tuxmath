@@ -1,7 +1,7 @@
 /*
    game.c: Contains Tux Math's main game loop!
 
-   Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011.
 Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen,
 Akash Gangil.
 Project email: <tuxmath-devel@lists.sourceforge.net>

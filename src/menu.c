@@ -3,7 +3,7 @@
 
    Functions responsible for loading, parsing and displaying game menu.
    
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
    Authors:  Boleslaw Kulbabinski, David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

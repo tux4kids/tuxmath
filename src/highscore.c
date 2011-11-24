@@ -2,7 +2,7 @@
 
    Implementation of high score tables for tuxmath.
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
 Authors: David Bruce, Akash Gangil, Brendan Luchen.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

@@ -8,7 +8,7 @@
    Licensed in Tux Paint under GPL 2 or later.
 
    Moved into tuxmath, minimally edited, and relicensed as GPLv3+:
-   Copyright (C) 2008, 2009, 2010.
+   Copyright (C) 2008, 2009, 2010, 2011.
    Brendan Luchen, David Bruce.
 email: <tuxmath-devel@lists.sourceforge.net>
 

@@ -2,7 +2,7 @@
 
    fileops.h: Contains headers for code involving disk operations.
 
-   Copyright 2001, 2006, 2007, 2008, 2010
+   Copyright 2001, 2006, 2007, 2008, 2010, 2011
 Authors: Bill Kendrick, David Bruce, Tim Holy.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

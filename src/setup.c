@@ -4,7 +4,7 @@
    Contains some globals (screen surface, images, some option flags, etc.)
    as well as the function to load data files (images, sounds, music)
 
-   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
    Authors: Bill Kendrick, David Bruce, Tim Holy, Wenyuan Guo.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

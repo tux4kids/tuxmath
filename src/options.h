@@ -3,7 +3,7 @@
 
    Contains headers for game options for tuxmath.
 
-   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007,2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007,2008, 2009, 2010, 2011.
 Authors: Bill Kendrick, David Bruce, Tim Holy.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
