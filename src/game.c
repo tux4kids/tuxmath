@@ -3,7 +3,8 @@
 
    Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011.
 Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen,
-Akash Gangil.
+Akash Gangil, Jakub Spiwak.
+
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
 
@@ -48,15 +49,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "transtruct.h"
 #include "game.h"
 #include "fileops.h"
+#include "frame_counter.h"
 #include "setup.h"
 #include "mathcards.h"
 #include "multiplayer.h"
 #include "titlescreen.h"
 #include "options.h"
 
-
-#define FPS 15                    /* 15 frames per second */
-#define MS_PER_FRAME (1000 / FPS)
 
 #define CITY_EXPL_START (3 * 5)  /* Must be mult. of 5 (number of expl frames) */
 #define ANIM_FRAME_START (4 * 2) /* Must be mult. of 2 (number of tux frames) */
@@ -70,14 +69,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define STANDING_COUNTER_START 8
 #define EVAPORATING_COUNTER_START 100
 
-#define PENGUIN_WALK_SPEED 3
-#define SNOWFLAKE_SPEED 6
+#define PENGUIN_WALK_SPEED 90
+#define SNOWFLAKE_SPEED 180
 #define SNOWFLAKE_SEPARATION 3
 
 #define MAX_LASER 10
 
 #define POWERUP_Y_POS 100
-#define MS_POWERUP_SPEED 1000 
+#define MS_POWERUP_SPEED 250
 
 #define SMARTBOMB_ICON_W 40 
 #define SMARTBOMB_ICON_H 47 
@@ -156,7 +155,6 @@ static int tux_anim_frame;
 static int num_cities_alive;
 static int tux_img;
 static int old_tux_img;
-static int frame;
 static int neg_answer_picked;
 static int tux_pressing;
 static int doing_answer;
@@ -305,8 +303,6 @@ static void print_status(void);
 
 int game(void)
 {
-    Uint32 timer = 0;
-
     DEBUGMSG(debug_game, "Entering game():\n");
 
     srand(time(0));
@@ -328,7 +324,6 @@ int game(void)
 	return 0;
     }
 
-
     if (Opts_HelpMode()) {
 	game_handle_help();
 	game_cleanup();
@@ -340,8 +335,9 @@ int game(void)
     /* --- MAIN GAME LOOP: --- */
     do
     {
+        FC_frame_begin();
+
 	/* reset or increment various things with each loop: */
-	frame++;
 	old_tux_img = tux_img;
 	tux_pressing = 0;
 	int i;    
@@ -400,10 +396,7 @@ int game(void)
 	}
 #endif
 
-
-	/* Pause (keep frame-rate event) */
-	T4K_Throttle(MS_PER_FRAME, &timer);
-
+        FC_frame_end();
     }
     while(GAME_IN_PROGRESS == game_status);
     /* END OF MAIN GAME LOOP! */
@@ -564,7 +557,7 @@ int game_initialize(void)
 
     wave = 1;
     num_attackers = prev_wave_comets = Opts_StartingComets();
-    speed = Opts_Speed();
+    speed = Opts_Speed()*15; //The old fps limit was 15
     slowdown = 0;
     score = 0;
     demo_countdown = 2000;
@@ -646,7 +639,6 @@ int game_initialize(void)
     reset_level();
     powerup_initialize();
 
-    frame = 0;
     paused = 0;
     doing_answer = 0;
     tux_pressing = 0;
@@ -673,6 +665,8 @@ int game_initialize(void)
     T4K_OnResolutionSwitch(game_recalc_positions);
 
     DEBUGMSG(debug_game,"Exiting game_initialize()\n");
+
+    FC_init();
 
     return 1;
 }
@@ -739,7 +733,7 @@ void game_set_start_message(const char* m1, const char* m2,
 void game_handle_help(void)
 {
     const int left_edge = 140;
-    int frame_start;
+    float timer = 0;
     int quit_help = 0;
 
     help_controls.laser_enabled = 0;
@@ -751,7 +745,6 @@ void game_handle_help(void)
     tux_img = IMG_TUX_CONSOLE1;
     old_tux_img = tux_img;
     tux_pressing = 0;
-    frame = 0;
 
     // Write the introductory text
     game_set_message(&s1,_("Welcome to TuxMath!"),-1,50);
@@ -767,7 +760,7 @@ void game_handle_help(void)
 #endif
 
     // Wait 2 seconds while rendering frames
-    while (frame < 2*FPS && !(quit_help = help_renderframe_exit()));
+    while ((timer+=FC_time_elapsed) < 2 && !(quit_help = help_renderframe_exit()));
     if (quit_help)
 	return;
 
@@ -775,19 +768,19 @@ void game_handle_help(void)
     game_set_message(&s3,_("penguins' igloos from the"), left_edge, 135);
     game_set_message(&s4,_("falling comets."), left_edge, 170);
 
-    frame_start = frame;
-    while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 more secs
+    timer = 0;
+    while ((timer+=FC_time_elapsed) < 5 && !(quit_help = help_renderframe_exit()));  // wait 5 more secs
     if (quit_help)
 	return;
 
     // Bring in a comet
-    speed = 2;
+    speed = 30;
     help_add_comet("2 + 1 = ?", "3");
     help_controls.laser_enabled = 1;
     level_start_wait = 0;
 
-    frame_start = frame;
-    while (comets[0].alive && frame-frame_start < 100 && !(quit_help = help_renderframe_exit())); // advance comet
+    timer = 0;
+    while (comets[0].alive && (timer+=FC_time_elapsed) < 7 && !(quit_help = help_renderframe_exit())); // advance comet
     if (quit_help)
 	return;
 
@@ -809,10 +802,10 @@ void game_handle_help(void)
     game_clear_message(&s4);
 
     help_controls.laser_enabled = 0;
-    frame_start = frame;
-    while (frame-frame_start < 3*FPS && !(quit_help = help_renderframe_exit()));  // wait 3 secs
+    timer = 0;
+    while ((timer+=FC_time_elapsed) < 3 && !(quit_help = help_renderframe_exit()));  // wait 3 secs
 
-    speed = 2;
+    speed = 30;
     game_set_message(&s1,_("If an igloo gets hit by a comet,"),left_edge,100);
     game_set_message(&s2,_("it melts. But don't worry: the"),left_edge,135);
     game_set_message(&s3,_("penguin is OK!"),left_edge,170);
@@ -835,8 +828,8 @@ void game_handle_help(void)
     SDL_Delay(4000);
     game_clear_message(&s4);
 
-    frame_start = frame;
-    while (frame-frame_start < 5*FPS && !(quit_help = help_renderframe_exit()));  // wait 5 secs
+    timer = 0;
+    while ((timer+=FC_time_elapsed) < 5 && !(quit_help = help_renderframe_exit()));  // wait 5 secs
     if (quit_help)
 	return;
 
@@ -857,9 +850,9 @@ void game_handle_help(void)
 
     if (quit_help)
 	return;
-    frame_start = frame;
+    timer = 0;
 
-    while ((frame-frame_start < 3*FPS) && !(quit_help = help_renderframe_exit()));
+    while ((timer+=FC_time_elapsed) < 3 && !(quit_help = help_renderframe_exit()));
 
     if (quit_help)
 	return;
@@ -869,9 +862,9 @@ void game_handle_help(void)
     game_set_message(&s2,_("by stopping bonus comets."), left_edge,135);
     help_add_comet("2 + 2 = ?", "4");
     comets[0].bonus = 1;
-    frame_start = frame;
+    timer = 0;
 
-    while (comets[0].alive && (frame-frame_start < 50) && !(quit_help = help_renderframe_exit()));
+    while (comets[0].alive && ((timer+=FC_time_elapsed) < 3) && !(quit_help = help_renderframe_exit()));
 
     if (quit_help)
 	return;
@@ -886,16 +879,16 @@ void game_handle_help(void)
     game_set_message(&s1,_("Great job!"),left_edge,100);
     game_clear_message(&s2);
     game_clear_message(&s3);
-    frame_start = frame;
+    timer = 0;
 
-    while ((frame-frame_start < 2*FPS) && !(quit_help = help_renderframe_exit()));
+    while (((timer+=FC_time_elapsed) < 2) && !(quit_help = help_renderframe_exit()));
 
     if (quit_help)
 	return;
     check_extra_life();
-    frame_start = frame;
+    timer = 0;
 
-    while ((frame-frame_start < 10*FPS) && !(quit_help = help_renderframe_exit()));
+    while (((timer+=FC_time_elapsed) < 10) && !(quit_help = help_renderframe_exit()));
 
     if (quit_help)
 	return;
@@ -905,9 +898,9 @@ void game_handle_help(void)
     game_set_message(&s1,_("Fast-moving powerup comets"), left_edge,100);
     game_set_message(&s2,_("earn you a secret weapon:"), left_edge,135);
     powerup_add_comet();
-    frame_start = frame;
+    timer = 0;
 
-    while (powerup_comet->comet.alive && (frame - frame_start < 10) && !(quit_help = help_renderframe_exit()));
+    while (powerup_comet->comet.alive && ((timer+=FC_time_elapsed) < 1) && !(quit_help = help_renderframe_exit()));
 
     if (quit_help)
 	return;
@@ -935,10 +928,7 @@ void game_handle_help(void)
 // 0, but returns 1 if the user chooses to exit help.
 int help_renderframe_exit(void)
 {
-    /* Need to have this static and not explicitly assigned for 
-     * T4K_Throttle() to work:
-     */
-    static Uint32 timer;
+    FC_frame_begin();
 
     tux_pressing = 0;
     int i;
@@ -961,8 +951,7 @@ int help_renderframe_exit(void)
 
     // Delay to keep frame rate constant. Do this in a way
     // that won't cause a freeze if the timer wraps around.
-    T4K_Throttle(MS_PER_FRAME, &timer);
-    frame++;
+    FC_frame_end();
 
     return (game_status != GAME_IN_PROGRESS);
 }
@@ -1128,7 +1117,7 @@ void game_handle_demo(void)
 	}
 
 	/* Add a digit: */
-	if (picked_comet != -1 && (frame % 5) == 0 && (rand() % 10) < 8)
+        if (picked_comet != -1 && (FC_sprite_counter % 5) == 0 && (rand() % 10) < 8)
 	{
 	    tux_pressing = 1;
 
@@ -1445,13 +1434,13 @@ void game_handle_comets(void)
 	    /* NOTE y increment scaled to make game play similar at any resolution */
 	    if (comets[i].bonus)
 	    {
-		comets[i].y += speed * Opts_BonusSpeedRatio() *
-		    city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
+                comets[i].y += FC_time_elapsed * speed * Opts_BonusSpeedRatio() *
+                    city_expl_height / (480 - images[IMG_CITY_BLUE]->h);
 	    }
 	    else /* Regular comet: */
 	    {
-		comets[i].y += speed *
-		    city_expl_height / (screen->h - images[IMG_CITY_BLUE]->h);
+                comets[i].y += FC_time_elapsed * speed *
+                    city_expl_height / (480 - images[IMG_CITY_BLUE]->h);
 	    }
 
 	    /* Does it threaten a city? */
@@ -1528,7 +1517,7 @@ void game_handle_comets(void)
 		/* number of attacking comets: */
 		if (Opts_SlowAfterWrong())
 		{
-		    speed = Opts_Speed();
+                    speed = Opts_Speed()*15; //The old fps limit was 15;
 		    slowdown = 1;
 		}
 
@@ -1755,7 +1744,7 @@ void game_handle_penguins(void)
 		penguins[i].img = IMG_PENGUIN_WALK_ON1 + walk_counter;
 		penguins[i].counter++;
 		direction = 2*(i < NUM_CITIES/2)-1;  /* +1 for walk right, -1 for left */
-		penguins[i].x += direction*PENGUIN_WALK_SPEED;
+                penguins[i].x += FC_time_elapsed*direction*PENGUIN_WALK_SPEED;
 		if (direction*penguins[i].x >= direction*cities[i].x) {
 		    penguins[i].status = PENGUIN_SITTING_DOWN;
 		    penguins[i].counter = STANDING_COUNTER_START;
@@ -1770,12 +1759,12 @@ void game_handle_penguins(void)
 		penguins[i].img = IMG_PENGUIN_WALK_OFF1 + walk_counter;
 		penguins[i].counter++;
 		direction = 1-2*(i < NUM_CITIES/2);
-		penguins[i].x += direction*PENGUIN_WALK_SPEED;
+                penguins[i].x += FC_time_elapsed*direction*PENGUIN_WALK_SPEED;
 		if (direction < 0) {
-		    if (penguins[i].x + images[IMG_PENGUIN_WALK_OFF1]->w/2 < 0)
+                    if (penguins[i].x + images[IMG_PENGUIN_WALK_OFF1]->w/2 <= 0)
 			penguins[i].status = PENGUIN_OFFSCREEN;
 		} else {
-		    if (penguins[i].x - images[IMG_PENGUIN_WALK_OFF1]->w/2 > screen->w)
+                    if (penguins[i].x - images[IMG_PENGUIN_WALK_OFF1]->w/2 >= screen->w)
 			penguins[i].status = PENGUIN_OFFSCREEN;
 		}
 		penguins[i].layer = 3;
@@ -1889,7 +1878,7 @@ void game_handle_extra_life(void)
 	// Get the cloud moving in the right direction, if not yet "parked"
 	direction = 2*(cloud.city < NUM_CITIES/2) - 1;
 	if (direction*cloud.x < direction*cities[cloud.city].x) {
-	    cloud.x += direction*PENGUIN_WALK_SPEED;
+            cloud.x += FC_time_elapsed*direction*PENGUIN_WALK_SPEED;
 	}
 	else {
 	    // Cloud is "parked," handle the snowfall and igloo rebuilding
@@ -1897,7 +1886,7 @@ void game_handle_extra_life(void)
 	    igloo_top = screen->h - igloo_vertical_offset
 		- images[IMG_IGLOO_INTACT]->h;
 	    for (i = 0, num_below_igloo = 0; i < NUM_SNOWFLAKES; i++) {
-		cloud.snowflake_y[i] += SNOWFLAKE_SPEED;
+                cloud.snowflake_y[i] += FC_time_elapsed*SNOWFLAKE_SPEED;
 		if (cloud.snowflake_y[i] > igloo_top)
 		    num_below_igloo++;
 	    }
@@ -2062,10 +2051,10 @@ void game_draw_comets(void)
 	    {
 		answered = 0;
 		/* Decide which image to display: */
-		img = sprites[IMG_COMET]->frame[(frame + i) % sprites[IMG_COMET]->num_frames];
+                img = sprites[IMG_COMET]->frame[(FC_sprite_counter + i) % sprites[IMG_COMET]->num_frames];
 		/* Display the formula (flashing, in the bottom half
 		   of the screen) */
-		if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+                if (comets[i].y < screen->h / 2 || FC_sprite_counter % 8 < 6)
 		    num_draw = 1;
 		else
 		    num_draw = 0;
@@ -2101,10 +2090,10 @@ void game_draw_comets(void)
 	    {
 		answered = 0;
 		/* Decide which image to display: */
-		img = sprites[IMG_BONUS_COMET]->frame[(frame + i) % sprites[IMG_BONUS_COMET]->num_frames];
+                img = sprites[IMG_BONUS_COMET]->frame[(FC_sprite_counter + i) % sprites[IMG_BONUS_COMET]->num_frames];
 		/* Display the formula (flashing, in the bottom half
 		   of the screen) */
-		if (comets[i].y < screen->h / 2 || frame % 8 < 6)
+                if (comets[i].y < screen->h / 2 || FC_sprite_counter % 8 < 6)
 		    num_draw = 1;
 		else
 		    num_draw = 0;
@@ -2242,7 +2231,7 @@ void game_draw_cities(void)
 
 	    /* Draw sheilds: */
 	    if (cities[i].hits_left > 1) {
-		for (j = (frame % 3); j < images[IMG_SHIELDS]->h; j = j + 3) {
+                for (j = (FC_sprite_counter % 3); j < images[IMG_SHIELDS]->h; j = j + 3) {
 		    src.x = 0;
 		    src.y = j;
 		    src.w = images[IMG_SHIELDS]->w;
@@ -2408,7 +2397,7 @@ void game_draw_misc(void)
     }
 
     /* Draw stop button: */
-    if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
+    if (!help_controls.x_is_blinking || (FC_sprite_counter % 10 < 5)) {
 	dest.x = (screen->w - images[IMG_STOP]->w);
 	dest.y = 0;
 	dest.w = images[IMG_STOP]->w;
@@ -2616,7 +2605,7 @@ void game_handle_game_over(int game_status)
 
 	    do
 	    {
-		frame++;
+                FC_frame_begin();
 
 		while (SDL_PollEvent(&event) > 0)
 		{
@@ -2632,7 +2621,7 @@ void game_handle_game_over(int game_status)
 		    SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
 
 		/* draw flashing victory message: */
-		if ((frame / 2) % 4)
+                if ((FC_sprite_counter / 2) % 4)
 		{
 		    SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
 		}
@@ -2643,9 +2632,9 @@ void game_handle_game_over(int game_status)
 		tux_offset += tux_step;
 		/* select tux_egypt images according to which way tux is headed: */
 		if (tux_step < 0)
-		    tux_img = IMG_TUX_EGYPT1 + ((frame / 3) % 2);
+                    tux_img = IMG_TUX_EGYPT1 + ((FC_sprite_counter / 3) % 2);
 		else
-		    tux_img = IMG_TUX_EGYPT3 + ((frame / 3) % 2);
+                    tux_img = IMG_TUX_EGYPT3 + ((FC_sprite_counter / 3) % 2);
 
 		/* turn around if we go far enough: */
 		if (tux_offset >= (screen->w)/2
@@ -2664,7 +2653,7 @@ void game_handle_game_over(int game_status)
 		/* draw_console_image(tux_img);*/
 
 		SDL_Flip(screen);
-		T4K_Throttle(MS_PER_FRAME, &timer);
+                FC_frame_end();
 	    }
 	    while (looping);
 	    break;
@@ -2703,7 +2692,7 @@ void game_handle_game_over(int game_status)
 	    /* Begin display loop: */
 	    do
 	    {
-		frame++;
+                FC_frame_begin();
 		entries = 0;
 		rank = 1;
 
@@ -2730,7 +2719,7 @@ void game_handle_game_over(int game_status)
 		    loc.w = surf->w;
 		    loc.h = surf->h;
 		    /* Make this blink: */
-		    if ((frame / 2) % 4)
+                    if ((FC_sprite_counter / 2) % 4)
 			SDL_BlitSurface(surf, NULL, screen, &loc);
 		    SDL_FreeSurface(surf);
 		    surf = NULL;
@@ -2783,9 +2772,9 @@ void game_handle_game_over(int game_status)
 		tux_offset += tux_step;
 		/* select tux_egypt images according to which way tux is headed: */
 		if (tux_step < 0)
-		    tux_img = IMG_TUX_EGYPT1 + ((frame / 3) % 2);
+                    tux_img = IMG_TUX_EGYPT1 + ((FC_sprite_counter / 3) % 2);
 		else
-		    tux_img = IMG_TUX_EGYPT3 + ((frame / 3) % 2);
+                    tux_img = IMG_TUX_EGYPT3 + ((FC_sprite_counter / 3) % 2);
 
 		/* turn around if we go far enough: */
 		if (tux_offset >= (screen->w)/2
@@ -2804,7 +2793,7 @@ void game_handle_game_over(int game_status)
 		/* draw_console_image(tux_img);*/
 
 		SDL_Flip(screen);
-		T4K_Throttle(MS_PER_FRAME, &timer);
+                FC_frame_end();
 	    }
 	    while (looping);
 	    break;
@@ -2840,7 +2829,7 @@ void game_handle_game_over(int game_status)
 
 	    do
 	    {
-		frame++;
+                FC_frame_begin();
 
 		while (SDL_PollEvent(&event) > 0)
 		{
@@ -2855,7 +2844,7 @@ void game_handle_game_over(int game_status)
 		SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
 		SDL_Flip(screen);
 
-		T4K_Throttle(MS_PER_FRAME, &timer);
+                FC_frame_end();
 	    }
 	    while (looping);
 
@@ -2959,7 +2948,7 @@ void reset_level(void)
     if (wave == 1 || slowdown)
     {
 	next_wave_comets = Opts_StartingComets();
-	speed = Opts_Speed();
+        speed = Opts_Speed()*15; //The old fps limit was 15;
 	slowdown = 0;
     }
 
@@ -3479,7 +3468,7 @@ void draw_question_counter(void)
 
     /* Draw mini comet symbol:            */
     /* Decide which image to display: */
-    comet_img = IMG_MINI_COMET1 + (frame % 3);
+    comet_img = IMG_MINI_COMET1 + (FC_sprite_counter % 3);
     /* Draw it! */
     dest.x = comet_x;
     dest.y = 0;
@@ -4217,12 +4206,12 @@ int powerup_add_comet(void)
     if(powerup_comet->direction == POWERUP_DIR_LEFT)
     {
 	powerup_comet->comet.x = screen->w; 
-	powerup_comet->inc_speed = -(MS_POWERUP_SPEED / MS_PER_FRAME);
+        powerup_comet->inc_speed = -MS_POWERUP_SPEED;
     }
     else
     {
 	powerup_comet->comet.x = 0; 
-	powerup_comet->inc_speed = MS_POWERUP_SPEED / MS_PER_FRAME;
+        powerup_comet->inc_speed = MS_POWERUP_SPEED;
     }
 
     powerup_comet->comet.time_started = SDL_GetTicks();
@@ -4240,7 +4229,7 @@ void game_handle_powerup(void)
     if(!powerup_comet->comet.alive)
 	return;
 
-    powerup_comet->comet.x += powerup_comet->inc_speed; 
+    powerup_comet->comet.x += powerup_comet->inc_speed*FC_time_elapsed*screen->w/640;
 
     if(powerup_comet->comet.expl >= 0)
     {
@@ -4324,7 +4313,7 @@ void game_draw_powerup(void)
 	else
 	    imgid = IMG_RIGHT_POWERUP_COMET;
 
-	img = sprites[imgid]->frame[frame % sprites[imgid]->num_frames];
+        img = sprites[imgid]->frame[FC_sprite_counter % sprites[imgid]->num_frames];
 	if(!img)
 	    return;
 

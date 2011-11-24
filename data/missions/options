@@ -510,3 +510,18 @@ keep_score = 1
 
 per_user_config = 1
 # homedir = /servervolume/tuxmath_users
+
+
+############################################################
+#                                                          #
+#                    Frame rate                            #
+#                                                          #
+# Parameter: fps_limit (integer)                           #
+# Default: 60                                              #
+#                                                          #
+# 'fps_limit' is the max allowed frame count per second,   #
+# 0 means no limit.                                        #
+#                                                          #
+############################################################
+
+fps_limit = 60

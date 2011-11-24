@@ -99,6 +99,8 @@ typedef struct game_option_type {
     int num_bkgds;
     int max_city_colors;
     int keep_score;
+
+    int fps_limit;
 } game_option_type;
 
 
@@ -159,6 +161,7 @@ void Opts_SetDangerLevel(float val);
 void Opts_SetDangerLevelSpeedup(float val);
 void Opts_SetDangerLevelMax(float val);
 void Opts_SetCityExplHandicap(float val);
+void Opts_SetFPSLimit(int val);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */
@@ -197,6 +200,7 @@ float Opts_DangerLevelSpeedup(void);
 float Opts_DangerLevelMax(void);
 float Opts_CityExplHandicap(void);
 int Opts_KeepScore(void);
+int Opts_FPSLimit(void);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */

@@ -35,6 +35,7 @@ tuxmath_SOURCES = tuxmath.c \
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
+	frame_counter.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\

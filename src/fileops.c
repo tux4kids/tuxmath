@@ -1336,6 +1336,11 @@ int read_config_file(FILE *fp, int file_type)
 	    Opts_SetKeepScore(atoi(value) );
 	}
 
+        else if (0 == strcasecmp(parameter, "fps_limit"))
+        {
+            Opts_SetFPSLimit(atoi(value));
+        }
+
 	else //we're going to delegate the setting of options to their subsystems
 	{
 	    int ival = str_to_bool(value); //see if it's a valid bool
@@ -1913,6 +1918,22 @@ int write_config_file(FILE *fp, int verbose)
     }
     fprintf(fp, "per_user_config = %d\n", Opts_GetGlobalOpt(PER_USER_CONFIG));
     fprintf(fp, "# homedir = /servervolume/tuxmath_users\n");
+
+    if(verbose)
+    {
+        fprintf (fp, "\n\n############################################################\n"
+                "#                                                          #\n"
+                "#                       Frame rate                         #\n"
+                "#                                                          #\n"
+                "# Parameter: fps_limit (integer)                           #\n"
+                "# Default: 60                                              #\n"
+                "#                                                          #\n"
+                "# 'fps_limit' is the max allowed frame count per second,   #\n"
+                "# 0 means no limit.                                        #\n"
+                "#                                                          #\n"
+                "############################################################\n\n");
+    }
+    fprintf(fp, "fps_limit = %d\n", Opts_FPSLimit());
 
 
     /* print general game options (passing '1' as second arg causes */

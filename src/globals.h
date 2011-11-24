@@ -124,6 +124,7 @@ extern const int debug_multiplayer;
 #define DEFAULT_DANGER_LEVEL_MAX 0.9
 #define DEFAULT_CITY_EXPL_HANDICAP 0
 #define DEFAULT_LAST_SCORE 0
+#define DEFAULT_FPS_LIMIT 60
 
 /* These values are hard-coded and used 'as is' by the program */
 /* (i.e. these behaviors require recompilation to change)   */ 
@@ -131,7 +132,7 @@ extern const int debug_multiplayer;
 #define DEFAULT_MAX_CITY_COLORS 4
 
 #define MINIMUM_SPEED 0.8
-#define MAX_MAX_SPEED 20.0
+#define MAX_MAX_SPEED 50.0
 #define MIN_SPEEDUP_FACTOR 1.0
 #define MAX_SPEEDUP_FACTOR 2.0
 #define MAX_BONUS_SPEED_RATIO 3.0
