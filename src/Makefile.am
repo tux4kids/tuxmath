@@ -75,6 +75,7 @@ tuxmathtestclient_SOURCES = testclient.c \
 EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
 	fileops.h 	\
+	frame_counter.h	\
 	game.h		\
 	menu.h		\
 	menu_lan.h	\
