@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-05-13 18:37-0500\n"
+"POT-Creation-Date: 2011-11-24 12:35-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Davor Buday <davor.buday@gmail.com>\n"
 "Language-Team: Ubuntu Klub <codemaster@lavabit.com>\n"
@@ -329,127 +329,127 @@ msgstr ""
 "Enter za dijeljenje. Uništi razlomke koji se ne mogu dalje pojednostaviti "
 "jednim hicem!"
 
-#: src/game.c:757
+#: src/game.c:750
 msgid "Welcome to TuxMath!"
 msgstr "Dobrodošli u TuxMatku!"
 
-#: src/game.c:774
+#: src/game.c:767
 msgid "Your mission is to save your"
 msgstr "Tvoja je misija spasiti"
 
-#: src/game.c:775
+#: src/game.c:768
 msgid "penguins' igloos from the"
 msgstr "iglue svojih pingvina od"
 
-#: src/game.c:776
+#: src/game.c:769
 msgid "falling comets."
 msgstr "padajućih kometa."
 
-#: src/game.c:795
+#: src/game.c:788
 msgid "Stop a comet by typing"
 msgstr "Zaustavi komet utipkavajući"
 
-#: src/game.c:796
+#: src/game.c:789
 msgid "the answer to the math problem"
 msgstr "odgovor na matematički problem"
 
-#: src/game.c:797
+#: src/game.c:790
 msgid "and hitting 'space' or 'enter'."
 msgstr "i zatim opali 'space' ili 'enter'."
 
-#: src/game.c:798
+#: src/game.c:791
 msgid "Try it now!"
 msgstr "Pokušaj odmah!"
 
-#: src/game.c:806
+#: src/game.c:799
 msgid "Good shot!"
 msgstr "Dobar hitac!"
 
-#: src/game.c:816
+#: src/game.c:809
 msgid "If an igloo gets hit by a comet,"
 msgstr "Ako iglu pogodi komet,"
 
-#: src/game.c:817
+#: src/game.c:810
 msgid "it melts. But don't worry: the"
 msgstr "on se otopi. Ali ne brini:"
 
-#: src/game.c:818
+#: src/game.c:811
 msgid "penguin is OK!"
 msgstr "pingvin je OK!"
 
-#: src/game.c:819
+#: src/game.c:812
 msgid "Just watch what happens:"
 msgstr "Samo gledaj šta se zbiva:"
 
-#: src/game.c:820
+#: src/game.c:813
 msgid "(Press a key to start)"
 msgstr "(Pritisni neku tipku za početak)"
 
-#: src/game.c:833
+#: src/game.c:826
 msgid "Notice the answer"
 msgstr "Uoči odgovor"
 
-#: src/game.c:843
+#: src/game.c:836
 msgid "If it gets hit again, the"
 msgstr "Ako bude opet pogođen,"
 
-#: src/game.c:844
+#: src/game.c:837
 msgid "penguin leaves."
 msgstr "pingvin odlazi."
 
-#: src/game.c:845
+#: src/game.c:838
 msgid "(Press a key when ready)"
 msgstr "(Pritisni tipku ako je sve spremno)"
 
-#: src/game.c:868
+#: src/game.c:861
 msgid "You can fix the igloos"
 msgstr "Možeš popraviti igue"
 
-#: src/game.c:869
+#: src/game.c:862
 msgid "by stopping bonus comets."
 msgstr "ako zaustaviš bonus komete."
 
-#: src/game.c:880 src/game.c:916
+#: src/game.c:873 src/game.c:909
 msgid "Zap it now!"
 msgstr "Sad ga sredi!"
 
-#: src/game.c:886
+#: src/game.c:879
 msgid "Great job!"
 msgstr "Svaka čast!"
 
-#: src/game.c:905
+#: src/game.c:898
 msgid "Fast-moving powerup comets"
 msgstr "Brzi kometi s pojačanjima"
 
-#: src/game.c:906
+#: src/game.c:899
 msgid "earn you a secret weapon:"
 msgstr "donose ti tajno oružje:"
 
-#: src/game.c:923
+#: src/game.c:916
 msgid "Quit at any time by pressing"
 msgstr "Odustani bilo kad stisnuvši"
 
-#: src/game.c:924
+#: src/game.c:917
 msgid "'Esc' or clicking the 'X'"
 msgstr "'Esc' ili kliknuvši 'X'"
 
-#: src/game.c:925
+#: src/game.c:918
 msgid "in the upper right corner."
 msgstr "u desnom gornjem kutu."
 
-#: src/game.c:926
+#: src/game.c:919
 msgid "Do it now, and then play!"
 msgstr "Učini to odmah, a zatim igraj!"
 
-#: src/game.c:2724
+#: src/game.c:2713
 msgid "The Penguins Have Been Saved!"
 msgstr "Pinvini su spašeni!"
 
-#: src/game.c:2739
+#: src/game.c:2728
 msgid "Final Scores:"
 msgstr "Konačni Rezultati:"
 
-#: src/game.c:2816
+#: src/game.c:2805
 msgid ""
 "Network game terminated by server.\n"
 " The server is still running."
@@ -457,7 +457,7 @@ msgstr ""
 "Poslužitelj je prekinuo mrežnu igru. \n"
 "Poslužitelj još uvijek radi."
 
-#: src/game.c:2824
+#: src/game.c:2813
 msgid ""
 "Network game terminated.\n"
 " Connection with server was lost."
@@ -465,7 +465,7 @@ msgstr ""
 "Mrežna igra je prekinuta. \n"
 "Veza s poslužiteljem je izgubljena."
 
-#: src/game.c:4714
+#: src/game.c:4703
 #, c-format
 msgid "%s has left the game."
 msgstr "%s je napustio igru"
