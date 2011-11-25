@@ -380,6 +380,7 @@ static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 static int game_mouseroto(SDL_Event event) {return event.motion.xrel;}
 static void _tb_PowerBomb(int n);
+static void wait_for_input(void);
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -517,7 +518,6 @@ static void FF_LevelMessage(void)
     SDL_Surface *bgsurf=NULL;
     int nwave;
     Uint32 timer =0;
-    int waiting = 1;
 
     char objs_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
     {
@@ -558,40 +558,12 @@ static void FF_LevelMessage(void)
 
     SDL_Flip(screen);
 
-    /* wait for user events */
-    while(waiting)
-    {
-	while(SDL_PollEvent(&event))
-	{
-	    if (event.type == SDL_QUIT)
-	    {
-		SDL_quit_received = 1;
-		quit = 1;
-		waiting = 0;
-		break;
-	    }
-	    else if (event.type == SDL_MOUSEBUTTONDOWN)
-	    {
-		waiting = 0;
-		break;
-	    }
-	    else if (event.type == SDL_KEYDOWN)
-	    {
-		if (event.key.keysym.sym == SDLK_ESCAPE)
-		    escape_received = 1;
-		waiting = 0;
-		break;
-	    }
-	}
-	/* keep from eating all CPU: */
-	T4K_Throttle(MS_PER_FRAME, &timer);
-    }
+    wait_for_input();
 }
 
 /************ Initialize all vars... ****************/
 static int FF_init(void)
 {
-    Uint32 timer = 0;
     int i;
     mouse_reset = 0;
 
@@ -734,30 +706,9 @@ static int FF_init(void)
     for (i = 0; i < MAX_LASER; i++)
 	laser[i].alive = 0;
 
-    // Wait for click or keypress to start (get out if user presses Esc) :
-    while(1)
-    {
-	SDL_PollEvent(&event);
-	if (event.type == SDL_QUIT)
-	{
-	    SDL_quit_received = 1;
-	    quit = 1;
-	    return 1;
-	}
-	else if (event.type == SDL_MOUSEBUTTONDOWN)
-	{
-	    return 1;
-	}
-	else if (event.type == SDL_KEYDOWN)
-	{
-	    if (event.key.keysym.sym == SDLK_ESCAPE)
-		escape_received = 1;
-	    return 1;
-	}
-	/* Don't eat all available CPU: */
-	T4K_Throttle(MS_PER_FRAME, &timer);
-    }
-    T4K_Throttle(MS_PER_FRAME, &timer);
+    wait_for_input();
+
+    return 1;
 }
 
 
@@ -1648,7 +1599,6 @@ static void FF_add_level(void)
 
 static int FF_over(int game_status)
 {
-    Uint32 timer = 0;
     SDL_Rect dest_message;
     SDL_Event event;
 
@@ -1679,34 +1629,10 @@ static int FF_over(int game_status)
 		dest_message.w = images[IMG_GAMEOVER_WON]->w;
 		dest_message.h = images[IMG_GAMEOVER_WON]->h;
 
-		do
-		{
-		    //frame++;
+                SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
+                SDL_Flip(screen);
 
-		    /* draw flashing victory message: */
-		    //if (((frame / 2) % 4))
-		    //{
-		    SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
-		    //}
-
-
-		    SDL_Flip(screen);
-
-		    while (1)
-		    {
-			SDL_PollEvent(&event);
-			if  (event.type == SDL_QUIT
-				|| event.type == SDL_KEYDOWN
-				|| event.type == SDL_MOUSEBUTTONDOWN)
-			{
-			    looping = 0;
-			    break;
-			}
-			T4K_Throttle(MS_PER_FRAME, &timer);
-		    }
-		    T4K_Throttle(MS_PER_FRAME, &timer);
-		}
-		while (looping);
+                wait_for_input();
 		break;
 	    }
 
@@ -1717,8 +1643,6 @@ static int FF_over(int game_status)
 	case FF_OVER_LOST:
 	case FF_OVER_OTHER:
 	    {
-		int looping = 1;
-
 		DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_LOST or FF_OVER_OTHER\n");
 
 		/* set up GAMEOVER message: */
@@ -1727,28 +1651,10 @@ static int FF_over(int game_status)
 		dest_message.w = images[IMG_GAMEOVER]->w;
 		dest_message.h = images[IMG_GAMEOVER]->h;
 
-		do
-		{
-		    //frame++;
-		    SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
-		    SDL_Flip(screen);
+                SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
+                SDL_Flip(screen);
 
-		    while (1)
-		    {
-			SDL_PollEvent(&event);
-			if  (event.type == SDL_QUIT
-				|| event.type == SDL_KEYDOWN
-				|| event.type == SDL_MOUSEBUTTONDOWN)
-			{
-			    looping = 0;
-			    break;
-			}
-			T4K_Throttle(MS_PER_FRAME, &timer);
-		    }
-		    T4K_Throttle(MS_PER_FRAME, &timer);
-		}
-		while (looping);
-
+                wait_for_input();
 		break;
 	    }
 
@@ -2656,5 +2562,43 @@ void draw_nums(const char* str, int x, int y, SDL_Color* col)
 	SDL_Rect pos = {x, y};
 	SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
 	SDL_FreeSurface(surf);
+    }
+}
+
+
+void wait_for_input(void)
+{
+    SDL_Event event = {SDL_NOEVENT};
+
+    while(1)
+    {
+        if(!SDL_PollEvent(&event))
+        {
+            SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
+            SDL_EventState(SDL_JOYAXISMOTION, SDL_IGNORE);
+
+            SDL_WaitEvent(&event);
+
+            SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
+            SDL_EventState(SDL_JOYAXISMOTION, SDL_ENABLE);
+        }
+
+        if (event.type == SDL_QUIT)
+        {
+            SDL_quit_received = 1;
+            quit = 1;
+            break;
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN ||
+                 event.type == SDL_JOYBUTTONDOWN)
+        {
+            break;
+        }
+        else if (event.type == SDL_KEYDOWN)
+        {
+            if (event.key.keysym.sym == SDLK_ESCAPE)
+                escape_received = 1;
+            break;
+        }
     }
 }
