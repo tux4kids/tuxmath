@@ -295,6 +295,8 @@ void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest);
 void MC_FreeFlashcard(MC_FlashCard* fc);
 void MC_ResetFlashCard(MC_FlashCard* fc); //empty flashcard of strings & values
 int MC_FlashCardGood(const MC_FlashCard* fc); //verifies a flashcard is valid
+int MC_MakeFlashcard(char* buf, MC_FlashCard* fc);
+
 /* Reorganize formula_string and answer_string to render the same equation
    in a different format */
 void reformat_arithmetic(MC_FlashCard* card, MC_Format f);

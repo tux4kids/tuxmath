@@ -1412,7 +1412,7 @@ void FF_draw_led_console(void)
 
 	/* begin drawing so as to center display depending on whether minus */
 	/* sign needed (4 digit slots) or not (3 digit slots) DSB */
-	if (MC_GetOpt(ALLOW_NEGATIVES) )
+	if (MC_GetOpt(local_game, ALLOW_NEGATIVES) )
 	    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
 	else
 	    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
@@ -1422,7 +1422,7 @@ void FF_draw_led_console(void)
 	{
 	    if (-1 == i)
 	    {
-		if (MC_GetOpt(ALLOW_NEGATIVES))
+		if (MC_GetOpt(local_game, ALLOW_NEGATIVES))
 		{
 		    if (neg_answer_picked)
 			src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;

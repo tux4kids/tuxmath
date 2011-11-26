@@ -72,12 +72,12 @@ int start_campaign()
 
 	  DEBUGCODE(debug_setup)
 	  {
-	      MC_PrintMathOptions(stdout, 0);
+	      MC_PrintMathOptions(local_game, stdout, 0);
 	  }
 
 	  //play!
 	  fprintf(stderr, "Starting game...\n");
-	  gameresult = game();
+	  gameresult = game(local_game);
 
 	  //move on if we've won, game over if not
 	  if (gameresult == GAME_OVER_WON)
