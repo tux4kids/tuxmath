@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef GAME_H
 #define GAME_H
+#include "mathcards.h"
 
 #define MAX_COMETS 10
 #define NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
@@ -33,6 +34,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define NUM_BKGDS 8
 
 #define MAX_CITY_COLORS 4
+
 
 typedef struct laser_type {
     int alive;
@@ -148,7 +150,7 @@ enum {
     EXTRA_LIFE_ON
 };
 
-int game(void);
+int game(MC_MathGame* loc_game);
 void game_set_start_message(const char*, const char*, const char*, const char*);
 
 

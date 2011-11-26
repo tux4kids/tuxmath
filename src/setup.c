@@ -67,6 +67,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
 sprite* sprites[NUM_SPRITES];
+MC_MathGame* local_game;
+
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
    NUM_IMAGES. */
@@ -203,9 +205,14 @@ void print_locale_info(FILE* fp)
 void initialize_options(void)
 {
   /* Initialize MathCards backend for math questions: */
-  if (!MC_Initialize())
+  local_game = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+  if (local_game == NULL)
   {
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
+    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+    exit(1);
+  }
+  if (!MC_Initialize(local_game))
+  {
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
@@ -538,24 +545,24 @@ void handle_command_args(int argc, char* argv[])
       else if (strcmp(argv[i], "--allownegatives") == 0 ||
 	      strcmp(argv[i], "-n") == 0)
       {
-	  MC_SetOpt(ALLOW_NEGATIVES, 1);
+	  MC_SetOpt(local_game, ALLOW_NEGATIVES, 1);
       }
       else if (strcmp(argv[i], "--playthroughlist") == 0 ||
 	      strcmp(argv[i], "-l") == 0)
       {
-	  MC_SetOpt(PLAY_THROUGH_LIST, 1);
+	  MC_SetOpt(local_game, PLAY_THROUGH_LIST, 1);
       }
       else if (strcmp(argv[i], "--answersfirst") == 0)
       {
-	  MC_SetOpt(FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_FIRST, 1);
-	  MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 1);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 0);
       }
       else if (strcmp(argv[i], "--answersmiddle") == 0)
       {
-	  MC_SetOpt(FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_MIDDLE, 1);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 1);
       }
       else if (strcmp(argv[i], "--speed") == 0 ||
 	      strcmp(argv[i], "-s") == 0)
@@ -918,8 +925,14 @@ void cleanup_memory(void)
 
     /* frees the game_options struct: */
     Opts_Cleanup();
+
     /* frees any heap used by MathCards: */
-    MC_EndGame();
+    if(local_game)
+    {	    
+        MC_EndGame(local_game);
+	free(local_game);
+	local_game = NULL;
+    }
 }
 
 

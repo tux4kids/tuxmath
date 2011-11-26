@@ -185,7 +185,7 @@ int handle_activity(int act, int param)
       Opts_SetDemoMode(0);
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {T4K_AudioMusicUnload();}
-      game();
+      game(local_game);
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
         T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       Opts_SetHelpMode(0);
@@ -203,7 +203,7 @@ int handle_activity(int act, int param)
       if(read_named_config_file("demo"))
       {
         T4K_AudioMusicUnload();
-        game();
+        game(local_game);
         if (Opts_GetGlobalOpt(MENU_MUSIC))
           T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       }
@@ -262,11 +262,11 @@ int run_academy(void)
         {T4K_AudioMusicUnload();}
 
       T4K_OnResolutionSwitch(NULL);
-      game();
+      game(local_game);
       T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
       /* If successful, display Gold Star for this lesson! */
-      if (MC_MissionAccomplished())
+      if (MC_MissionAccomplished(local_game))
       {
         lesson_list_goldstars[chosen_lesson] = 1;
        /* and save to disk: */
@@ -313,7 +313,7 @@ int run_arcade(int choice)
     if (read_named_config_file(arcade_config_files[choice]))
     {
       T4K_AudioMusicUnload();
-      game();
+      game(local_game);
       RenderTitleScreen();
       if (Opts_GetGlobalOpt(MENU_MUSIC))
         T4K_AudioMusicLoad( "tuxi.ogg", -1 );
@@ -357,7 +357,7 @@ int run_custom_game(void)
       if (Opts_GetGlobalOpt(MENU_MUSIC))
 	  T4K_AudioMusicUnload();
 
-      game();
+      game(local_game);
       write_user_config_file();
 
       if (Opts_GetGlobalOpt(MENU_MUSIC))
@@ -572,7 +572,7 @@ int run_lan_join(void)
 	    playsound(SND_TOCK);
 	    T4K_AudioMusicUnload();
 	    Opts_SetLanMode(1);  // Tells game() we are playing over network
-	    game();
+	    game(NULL);
 	    Opts_SetLanMode(0);  // Go back to local play
 	    if (Opts_GetGlobalOpt(MENU_MUSIC))
 		T4K_AudioMusicLoad( "tuxi.ogg", -1 );

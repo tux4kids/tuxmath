@@ -86,6 +86,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define BASE_COMET_FONTSIZE 24
 #define SCALE_EXPONENT 0.7
 
+static MC_MathGame* curr_game;
+
 static int powerup_comet_running = 0;
 static int smartbomb_alive = 0;
 typedef enum {
@@ -301,11 +303,20 @@ static void print_status(void);
 /* --- MAIN GAME FUNCTION!!! --- */
 
 
-int game(void)
+int game(MC_MathGame* mgame)
 {
     DEBUGMSG(debug_game, "Entering game():\n");
 
     srand(time(0));
+
+    if(!mgame && !Opts_LanMode())
+    {
+        fprintf(stderr, "Error - null game struct passed for non_LAN game\n");
+	return 0;
+    }
+
+    //Save this in a "file global" so we don't have to pass it to every function:
+    curr_game = mgame;
 
     //see if the option matches the actual screen
     //FIXME figure out how this is happening so we don't need this workaround
@@ -470,7 +481,7 @@ int game_initialize(void)
 
     if(!Opts_LanMode())
     {
-	if (!MC_StartGame())
+	if (!MC_StartGame(curr_game))
 	{
 	    fprintf(stderr, "\nMC_StartGame() failed!");
 	    return 0;
@@ -972,7 +983,7 @@ void help_add_comet(const char* formula_str, const char* ans_str)
     comets[0].zapped = 0;
     comets[0].bonus = 0;
 
-    strncpy(comets[0].flashcard.formula_string,formula_str,MC_MaxFormulaSize() );
+    strncpy(comets[0].flashcard.formula_string,formula_str, MC_MaxFormulaSize() );
     strncpy(comets[0].flashcard.answer_string,ans_str,MC_MaxAnswerSize() );
     if(comets[0].formula_surf) SDL_FreeSurface(comets[0].formula_surf);
     if(comets[0].answer_surf) SDL_FreeSurface(comets[0].answer_surf);
@@ -1227,7 +1238,7 @@ void game_handle_answer(void)
 #endif      
 	    else
 	    {
-		MC_AnsweredCorrectly(comets[index_comets].flashcard.question_id, t);
+		MC_AnsweredCorrectly(curr_game, comets[index_comets].flashcard.question_id, t);
 	    }
 	    /* Destroy comet: */
 	    comets[index_comets].expl = 0;
@@ -1316,7 +1327,7 @@ void game_handle_answer(void)
 	    {}  // Needed for compiler, even though this path can't occur
 #endif      
 	    else
-		MC_AnsweredCorrectly(powerup_comet->comet.flashcard.question_id, t);
+		MC_AnsweredCorrectly(curr_game, powerup_comet->comet.flashcard.question_id, t);
 	}
     }
     else
@@ -1460,7 +1471,7 @@ void game_handle_comets(void)
 		{}
 #endif
 		else
-		    MC_NotAnsweredCorrectly(comets[i].flashcard.question_id);
+		    MC_NotAnsweredCorrectly(curr_game, comets[i].flashcard.question_id);
 
 
 		/* Destroy comet: */
@@ -1470,7 +1481,7 @@ void game_handle_comets(void)
 		/* in a way that avoids storing it if the time wrapped around */
 		ctime = SDL_GetTicks();
 		if (ctime > comets[i].time_started) {
-		    MC_AddTimeToList((float)(ctime - comets[i].time_started)/1000);
+		    MC_AddTimeToList(curr_game, (float)(ctime - comets[i].time_started)/1000);
 		}
 
 		/* Record data for speed feedback */
@@ -1951,7 +1962,7 @@ void game_draw(void)
     {
 	/* pick image to draw: */
 	int keypad_image;
-	if (MC_GetOpt(ALLOW_NEGATIVES) )
+	if (MC_GetOpt(curr_game, ALLOW_NEGATIVES) )
 	{
 	    /* draw regular keypad */
 	    keypad_image = IMG_KEYPAD;
@@ -2273,7 +2284,7 @@ void game_draw_misc(void)
 
     /* If we are playing through a defined list of questions */
     /* without "recycling", display number of remaining questions: */
-    if (MC_GetOpt(PLAY_THROUGH_LIST) )
+    if (MC_GetOpt(curr_game, PLAY_THROUGH_LIST) )
     {
 	draw_question_counter();
     }
@@ -2450,7 +2461,7 @@ int check_exit_conditions(void)
     }
     else
     {
-	if (MC_MissionAccomplished())
+	if (MC_MissionAccomplished(curr_game))
 	{
 	    DEBUGMSG(debug_game,"Mission accomplished!\n");
 	    return GAME_OVER_WON;
@@ -2467,7 +2478,7 @@ int check_exit_conditions(void)
     }
     else
     {
-	if(!MC_TotalQuestionsLeft())
+	if(!MC_TotalQuestionsLeft(curr_game))
 	    return GAME_OVER_OTHER;
     }
 
@@ -2480,10 +2491,10 @@ int check_exit_conditions(void)
     /* This SHOULD NOT HAPPEN and means we have a bug somewhere. */
     if (!Opts_LanMode())
     {
-	if (!MC_ListQuestionsLeft() && !num_comets_alive())
+	if (!MC_ListQuestionsLeft(curr_game) && !num_comets_alive())
 	{
 	    fprintf(stderr, "Error - no questions left but game not over\n");
-	    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft());
+	    DEBUGMSG(debug_game, "ListQuestionsLeft() = %d ", MC_ListQuestionsLeft(curr_game));
 	    DEBUGMSG(debug_game, "num_comets_alive() = %d", num_comets_alive());
 	    return GAME_OVER_ERROR;
 	}
@@ -3087,7 +3098,7 @@ int add_comet(void)
 	return 0;
     }
 
-    if (!MC_NextQuestion(&(comets[com_found].flashcard)))
+    if (!MC_NextQuestion(curr_game, &(comets[com_found].flashcard)))
     {
 	/* no more questions available - cannot create comet.  */
 	return 0;
@@ -3481,7 +3492,7 @@ void draw_question_counter(void)
     if(Opts_LanMode())
 	questions_left = total_questions_left;
     else
-	questions_left = MC_TotalQuestionsLeft();
+	questions_left = MC_TotalQuestionsLeft(curr_game);
 
     sprintf(str, "%.4d", questions_left);
     draw_numbers(str, nums_x, 0);
@@ -3503,7 +3514,7 @@ void draw_led_console(void)
 
     /* begin drawing so as to center display depending on whether minus */
     /* sign needed (4 digit slots) or not (3 digit slots) DSB */
-    if (MC_GetOpt(ALLOW_NEGATIVES) )
+    if (MC_GetOpt(curr_game, ALLOW_NEGATIVES) )
 	dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
     else
 	dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
@@ -3513,7 +3524,7 @@ void draw_led_console(void)
     {
 	if (-1 == i)
 	{
-	    if (MC_GetOpt(ALLOW_NEGATIVES))
+	    if (MC_GetOpt(curr_game, ALLOW_NEGATIVES))
 	    {
 		if (neg_answer_picked)
 		    src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
@@ -3596,7 +3607,7 @@ void game_mouse_event(SDL_Event event)
     /* make sure keypad image is valid and has non-zero dimensions: */
     /* FIXME maybe this checking should be done once at the start */
     /* of game() rather than with every mouse click */
-    if (MC_GetOpt(ALLOW_NEGATIVES))
+    if (MC_GetOpt(curr_game, ALLOW_NEGATIVES))
     {
 	if (!images[IMG_KEYPAD])
 	    return;
@@ -3820,7 +3831,7 @@ void game_key_event(SDLKey key, SDLMod mod)
     }
     /* support for negative answer input DSB */
     else if ((key == SDLK_MINUS || key == SDLK_KP_MINUS)
-	    && MC_GetOpt(ALLOW_NEGATIVES) )  /* do nothing unless neg answers allowed */
+	    && MC_GetOpt(curr_game, ALLOW_NEGATIVES) )  /* do nothing unless neg answers allowed */
     {
 	/* allow player to make answer negative: */
 	neg_answer_picked = 1;
@@ -3837,7 +3848,7 @@ void game_key_event(SDLKey key, SDLMod mod)
 	     )
 	    )
 	    &&
-	    MC_GetOpt(ALLOW_NEGATIVES)
+	    MC_GetOpt(curr_game, ALLOW_NEGATIVES)
 	    )  /* do nothing unless neg answers allowed */
     {
 	/* allow player to make answer positive: */
@@ -4174,7 +4185,7 @@ int powerup_add_comet(void)
     DEBUGMSG( debug_game, "Power-Up Type: %d\n", puType );
 
     /* create the flashcard */
-    if(!MC_NextQuestion(&(powerup_comet->comet.flashcard)))
+    if(!MC_NextQuestion(curr_game, &(powerup_comet->comet.flashcard)))
 	return 0;
 
     /* Make sure question is "sane" before we add it: */
@@ -4289,7 +4300,7 @@ void game_handle_powerup(void)
 	    {}
 #endif
 	    else
-		MC_NotAnsweredCorrectly(powerup_comet->comet.flashcard.question_id);
+		MC_NotAnsweredCorrectly(curr_game, powerup_comet->comet.flashcard.question_id);
 	}
     }
 }

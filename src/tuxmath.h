@@ -45,10 +45,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <t4k_common.h>
+#include "mathcards.h"
 
 /* Global data gets 'externed' here: */
 
 /* declared in setup.c */
+extern MC_MathGame* local_game;
 /* windowed mode screen  size */
 extern int win_res_x;
 extern int win_res_y;
