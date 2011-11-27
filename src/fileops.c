@@ -86,7 +86,7 @@ static int write_config_file(MC_MathGame* game, FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 static int read_goldstars(void);
 static int read_lines_from_file(FILE *fp,char ***lines);
-static int parse_option(const char* name, int val, int file_type);
+static int parse_option(MC_MathGame* game, const char* name, int val, int file_type);
 static void dirname_up(char *dirname);
 static char* get_user_name(void);
 static char* get_file_name(char *fullpath);
@@ -260,7 +260,7 @@ void get_user_data_dir_with_subdir(char *opt_path)
 }
   
 /* FIXME should have better file path (/etc or /usr/local/etc) and name */
-int read_global_config_file(MC_MathGame* game, void)
+int read_global_config_file(MC_MathGame* game)
 {
   FILE* fp;
 
@@ -1348,7 +1348,7 @@ int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
 	    int ival = str_to_bool(value); //see if it's a valid bool
 	    if (ival == -1) //guess not, must be an int
 		ival = atoi(value);
-	    if (!parse_option(parameter, ival, file_type) )
+	    if (!parse_option(game, parameter, ival, file_type) )
 		fprintf(stderr, "Sorry, I couldn't set %s\n", parameter);
 	    //        
 	    //      if (file_type != GLOBAL_CONFIG_FILE)
@@ -1395,7 +1395,7 @@ int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
 
     DEBUGMSG(debug_fileops, "After file read in:\n");
     DEBUGCODE(debug_fileops)
-	write_config_file(stdout, 0);
+	write_config_file(game, stdout, 0);
     DEBUGMSG(debug_fileops, "Leaving read_config_file()\n");
 
     return 1;
@@ -1406,7 +1406,7 @@ int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
 //
 /* determine which option class a name belongs to, and set it */
 /* accordingly. Returns 1 on success, 0 on failure            */
-static int parse_option(const char* name, int val, int file_type)
+static int parse_option(MC_MathGame* game, const char* name, int val, int file_type)
 {
     int index = -1;
 
@@ -1428,11 +1428,17 @@ static int parse_option(const char* name, int val, int file_type)
 }
 
 
-int write_user_config_file(void)
+int write_user_config_file(MC_MathGame* game)
 {
     char opt_path[PATH_MAX];
     FILE* fp;
 
+    if(!game)
+    {
+	fprintf(stderr, "\nInvalid MC_MathGame* arg\n");
+	return 0;
+    }
+    
     if (!find_tuxmath_dir())
     {
 	fprintf(stderr, "\nCould not find or create tuxmath dir\n");
@@ -1449,7 +1455,7 @@ int write_user_config_file(void)
     fp = fopen(opt_path, "w");
     if (fp)
     {
-	write_config_file(fp, 1);
+	write_config_file(game, fp, 1);
 	fclose(fp);
 	fp = NULL;
 	return 1;
@@ -1462,10 +1468,17 @@ int write_user_config_file(void)
 
 /* this function writes the settings for all game options to a */
 /* human-readable file.                                        */
-int write_config_file(FILE *fp, int verbose)
+int write_config_file(MC_MathGame* game, FILE* fp, int verbose)
 {
     int i, vcommentsprimed = 0;
     static char* vcomments[NOPTS]; //comments when writing out verbose
+
+    if(!game)
+    {
+	fprintf(stderr, "\nInvalid MC_MathGame* arg\n");
+	return 0;
+    }
+
     if (!vcommentsprimed) //we only want to initialize these once
     {
 	vcommentsprimed = 1;
@@ -1958,12 +1971,15 @@ int write_config_file(FILE *fp, int verbose)
 /* the last ten summaries for review. write_postgame_summary()       */
 /* the list of questions that were not answered correctly and         */
 /* calculates the percent correct.                                    */
-int write_pregame_summary(void)
+int write_pregame_summary(MC_MathGame* game)
 {
     int i;
     FILE* fp;
     char filepath1[PATH_MAX];
     char filepath2[PATH_MAX];
+
+    if(!game)
+        return 0;
 
     DEBUGMSG(debug_fileops,"Entering write_pregame_summary.\n")
 
@@ -2046,9 +2062,9 @@ int write_pregame_summary(void)
     }
 }
 
-int write_postgame_summary(void)
+int write_postgame_summary(MC_MathGame* game)
 {
-    FILE *fp;
+    FILE* fp;
     char filepath1[PATH_MAX];
     int total_answered;
     float median_time;
@@ -2057,7 +2073,7 @@ int write_postgame_summary(void)
     time_t filetime;
     struct stat filestat;
     struct tm datetime;
-    char *mission_name;
+    char* mission_name;
 
     get_user_data_dir_with_subdir(filepath1);
     strcat(filepath1, summary_filenames[0]);

@@ -62,7 +62,7 @@ int start_campaign()
 	  fprintf(stderr, "Round %d\n", j);
 
 	  //read in settings 
-	  read_named_config_file("campaign/campaign");    
+	  read_named_config_file(local_game, "campaign/campaign");    
 	  readStageSettings(i);
 	  readRoundSettings(i, j);
 	  Opts_SetKeepScore(0);
@@ -242,7 +242,7 @@ void readStageSettings(int stage)
 {
     char fn[PATH_MAX];
     snprintf(fn,PATH_MAX, "campaign/%s/%s", stagenames[stage], stagenames[stage]);
-    read_named_config_file(fn);
+    read_named_config_file(local_game, fn);
 }
 
 void readRoundSettings(int stage, int round)
@@ -252,7 +252,7 @@ void readRoundSettings(int stage, int round)
 	snprintf(fn, PATH_MAX, "campaign/%s/bonus", stagenames[stage]);
     else
 	snprintf(fn,PATH_MAX, "campaign/%s/round%d", stagenames[stage], round);
-    read_named_config_file(fn);
+    read_named_config_file(local_game, fn);
 }
 
 void showGameOver()

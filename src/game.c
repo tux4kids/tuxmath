@@ -58,6 +58,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 #define CITY_EXPL_START (3 * 5)  /* Must be mult. of 5 (number of expl frames) */
+#define ANIM_FRAME_START (4 * 2) /* Must be mult. of 2 (number of tux frames) */
 #define GAMEOVER_COUNTER_START 40
 #define LEVEL_START_WAIT_START 20
 #define LASER_START 5

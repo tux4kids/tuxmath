@@ -277,11 +277,11 @@ int initMP()
 
     DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
 
-    success *= read_global_config_file();
+    success *= read_global_config_file(local_game);
 
-    success *= read_named_config_file("multiplay/mpoptions");
+    success *= read_named_config_file(local_game, "multiplay/mpoptions");
 
-    success *= read_named_config_file(config_files[params[DIFFICULTY]]);
+    success *= read_named_config_file(local_game, config_files[params[DIFFICULTY]]);
 
     if (!success)
     {
