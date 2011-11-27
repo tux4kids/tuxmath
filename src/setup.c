@@ -68,6 +68,7 @@ SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
 sprite* sprites[NUM_SPRITES];
 MC_MathGame* local_game;
+MC_MathGame* lan_game_settings;
 
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
@@ -211,11 +212,27 @@ void initialize_options(void)
     fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
     exit(1);
   }
+  local_game->math_opts = NULL;
   if (!MC_Initialize(local_game))
   {
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
+
+
+  lan_game_settings = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+  if (lan_game_settings == NULL)
+  {
+    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+    exit(1);
+  }
+  lan_game_settings->math_opts = NULL;
+  if (!MC_Initialize(lan_game_settings))
+  {
+    fprintf(stderr, "\nUnable to initialize MathCards\n");
+    exit(1);
+  }
+
 
   /* initialize game_options struct with defaults DSB */
   if (!Opts_Initialize())
@@ -228,7 +245,7 @@ void initialize_options(void)
   /* Now that MathCards and game_options initialized using  */
   /* hard-coded defaults, read options from disk and mofify */
   /* as needed. First read in installation-wide settings:   */
-  if (!read_global_config_file())
+  if (!read_global_config_file(local_game))
   {
     fprintf(stderr, "\nCould not find global config file.\n");
     /* can still proceed using hard-coded defaults.         */
@@ -245,14 +262,14 @@ void initialize_options_user(void)
   /* game:                                                  */
   if (Opts_GetGlobalOpt(PER_USER_CONFIG))
   {
-    if (!read_user_config_file())
+    if (!read_user_config_file(local_game))
     {
       fprintf(stderr, "\nCould not find user's config file.\n");
       /* can still proceed using hard-coded defaults.         */
     }
 
     /* If game being run for first time, try to write file: */
-    if (!write_user_config_file())
+    if (!write_user_config_file(local_game))
     {
       fprintf(stderr, "\nUnable to write user's config file.\n");
     }
@@ -495,7 +512,7 @@ void handle_command_args(int argc, char* argv[])
 	  }
 	  else /* try to read file named in following arg: */
 	  {
-	      if (!read_named_config_file(argv[i + 1]))
+	      if (!read_named_config_file(local_game, argv[i + 1]))
 	      {
 		  fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
 	      }
@@ -932,6 +949,12 @@ void cleanup_memory(void)
         MC_EndGame(local_game);
 	free(local_game);
 	local_game = NULL;
+    }
+    if(lan_game_settings)
+    {	    
+        MC_EndGame(lan_game_settings);
+	free(lan_game_settings);
+	lan_game_settings = NULL;
     }
 }
 

@@ -200,7 +200,7 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_DEMO:
-      if(read_named_config_file("demo"))
+      if(read_named_config_file(local_game, "demo"))
       {
         T4K_AudioMusicUnload();
         game(local_game);
@@ -254,9 +254,9 @@ int run_academy(void)
 
     /* Re-read global settings first in case any settings were */
     /* clobbered by other lesson or arcade games this session: */
-    read_global_config_file();
+    read_global_config_file(local_game);
     /* Now read the selected file and play the "mission": */
-    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+    if (read_named_config_file(local_game, lesson_list_filenames[chosen_lesson]))
     {
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {T4K_AudioMusicUnload();}
@@ -310,7 +310,7 @@ int run_arcade(int choice)
 
   if (choice < NUM_MATH_COMMAND_LEVELS) {
     // Play arcade game
-    if (read_named_config_file(arcade_config_files[choice]))
+    if (read_named_config_file(local_game, arcade_config_files[choice]))
     {
       T4K_AudioMusicUnload();
       game(local_game);
@@ -353,12 +353,12 @@ int run_custom_game(void)
                                          "Press a key or click your mouse to start game.\n"
                                          "See README.txt for more information.\n"));
 
-  if (read_user_config_file()) {
+  if (read_user_config_file(local_game)) {
       if (Opts_GetGlobalOpt(MENU_MUSIC))
 	  T4K_AudioMusicUnload();
 
       game(local_game);
-      write_user_config_file();
+      write_user_config_file(local_game);
 
       if (Opts_GetGlobalOpt(MENU_MUSIC))
 	  T4K_AudioMusicLoad( "tuxi.ogg", -1 );
@@ -483,9 +483,9 @@ int run_lan_host(void)
 
 	    /* Re-read global settings first in case any settings were */
 	    /* clobbered by other lesson or arcade games this session: */
-	    read_global_config_file();
+	    read_global_config_file(lan_game_settings);
 	    /* Now read the selected file and play the "mission": */
-	    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+	    if (read_named_config_file(lan_game_settings, lesson_list_filenames[chosen_lesson]))
 		break;
 	    else    
 	    {  // Something went wrong - could not read lesson config file:
@@ -521,7 +521,7 @@ int run_lan_host(void)
 
     /* No SDL_net, so show explanatory message: */
 #else
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built without network support.")); 
     printf( _("Sorry, this version built without network support.\n"));
 #endif
     return 0;

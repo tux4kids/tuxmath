@@ -58,7 +58,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 #define CITY_EXPL_START (3 * 5)  /* Must be mult. of 5 (number of expl frames) */
-#define ANIM_FRAME_START (4 * 2) /* Must be mult. of 2 (number of tux frames) */
 #define GAMEOVER_COUNTER_START 40
 #define LEVEL_START_WAIT_START 20
 #define LASER_START 5
@@ -420,7 +419,7 @@ int game(MC_MathGame* mgame)
     /* Write post-game info to game summary file: */
     if (Opts_SaveSummary())
     {
-	write_postgame_summary();
+	write_postgame_summary(curr_game);
     }
 
     /* Save score in case needed for high score table: */
@@ -555,7 +554,7 @@ int game_initialize(void)
     /* Write pre-game info to game summary file: */
     if (Opts_SaveSummary())
     {
-	write_pregame_summary();
+	write_pregame_summary(curr_game);
     }
 
     /* Prepare to start the game: */

@@ -29,6 +29,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define FILEOPS_H
 
 #include "globals.h"
+#include "mathcards.h"
 
 /* Flag basically telling whether or not to allow admin-level */
 /* settings to be changed: */
@@ -233,13 +234,13 @@ enum {
 };
 
 /* These functions used by setup() and titlescreen() to read in settings: */
-int read_global_config_file(void);
-int read_user_config_file(void);
+int read_global_config_file(MC_MathGame* game);
+int read_user_config_file(MC_MathGame* game);
 int parse_lesson_file_directory(void);
-int read_named_config_file(const char* fn);
-int write_user_config_file(void);
+int read_named_config_file(MC_MathGame* game, const char* fn);
+int write_user_config_file(MC_MathGame* game);
 int read_high_scores(void);
-int append_high_score(int tableid,int score,char *player_name);
+int append_high_score(int tableid, int score, char *player_name);
 void set_high_score_path(void);
 void set_user_data_dir(const char* dirname);
 int write_goldstars(void);
@@ -253,8 +254,8 @@ void user_data_dirname_up(void);
 void user_data_dirname_down(char *subdir);
 
 /* These functions used by game() to record game summary: */
-int write_pregame_summary(void);
-int write_postgame_summary(void);
+int write_pregame_summary(MC_MathGame* game);
+int write_postgame_summary(MC_MathGame* game);
 
 int load_image_data();
 

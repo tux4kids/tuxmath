@@ -253,9 +253,14 @@ static int calc_score(int difficulty, float t);
 int MC_Initialize(MC_MathGame* game)
 {
   int i;
-
+  
   DEBUGMSG(debug_mathcards,"\nEntering MC_Initialize()");
   
+  if(!game)
+    return 0;
+  if(game->math_opts != NULL)
+    return 1; //already initialized
+
   game->math_opts = malloc(sizeof(MC_Options));
   
   /* bail out if no struct */
@@ -279,6 +284,7 @@ int MC_Initialize(MC_MathGame* game)
   {
     clear_negatives(game);
   }
+
 
   DEBUGCODE(debug_mathcards)
   {

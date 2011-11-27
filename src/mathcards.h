@@ -177,7 +177,6 @@ typedef struct _MC_MathGame {
   float* time_per_question_list;
   int length_time_per_question_list;
   int length_alloc_time_per_question_list;
-  
   MC_Options* math_opts;
 } MC_MathGame;
 
