@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <wchar.h>
 #include <math.h>
 #include <time.h>
 
@@ -180,7 +181,8 @@ const int MC_DEFAULTS[] = {
 #define PI_VAL 3.1415927
 #define NPRIMES 9
 const int smallprimes[NPRIMES] = {2, 3, 5 ,7, 11, 13, 17, 19, 23};
-const char operchars[4] = "+-*/";
+//const char operchars[4] = "+-*/";
+const char operchars[4] = "+-x/";
 
 static int id = 0;
 
