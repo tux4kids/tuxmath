@@ -37,10 +37,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * in RunServer(), so we don't crash tuxmath by cleaning up SDL if the
  * server is running in a thread. Similar considerations apply to MC_EndGame().
  */
+MC_MathGame* lan_game_settings = NULL;
+
 int main(int argc, char** argv)
 {
     int ret;
 #ifdef HAVE_LIBSDL_NET
+    //Initialize a copy of mathcards to hold settings:
+    lan_game_settings = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+    if (lan_game_settings == NULL)
+    {
+        fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+        exit(1);
+    }
+    lan_game_settings->math_opts = NULL;
+    if (!MC_Initialize(lan_game_settings))
+    {
+        fprintf(stderr, "\nUnable to initialize MathCards\n");
+        exit(1);
+    }
     //Initialize SDL and SDL_net:
     if(SDL_Init(0) == -1)
     {
@@ -58,7 +73,12 @@ int main(int argc, char** argv)
     /* cleanup */
     SDLNet_Quit();
     SDL_Quit();
-    MC_EndGame();
+    if (lan_game_settings)
+    {
+        MC_EndGame(lan_game_settings);
+        free(lan_game_settings);
+        lan_game_settings = NULL;
+    }
     return ret;
 #else
     return 0;
