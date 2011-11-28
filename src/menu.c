@@ -572,7 +572,7 @@ int run_lan_join(void)
 	    playsound(SND_TOCK);
 	    T4K_AudioMusicUnload();
 	    Opts_SetLanMode(1);  // Tells game() we are playing over network
-	    game(NULL);
+	    game(lan_game_settings);
 	    Opts_SetLanMode(0);  // Go back to local play
 	    if (Opts_GetGlobalOpt(MENU_MUSIC))
 		T4K_AudioMusicLoad( "tuxi.ogg", -1 );

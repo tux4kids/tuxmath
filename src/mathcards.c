@@ -1,20 +1,26 @@
-/*
-*  C Implementation: mathcards.c
-*
-*       Description: implementation of backend for a flashcard-type math game.
-        Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
-        (aka tuxmath).  (If tuxmath were a C++ program, this would be a C++ class).
-        MathCards could be used as the basis for similar games using a different interface.
+/* mathcards.c
+  
+   implementation of backend for a flashcard-type math game.
+   
+   Copyright 2005, 2008, 2009, 2010, 2011.
+   Authors:  David Bruce, Tim Holy, Brendan Luchen, "Povik".
+   Project email: <tuxmath-devel@lists.sourceforge.net>
+   Project website: http://tux4kids.alioth.debian.org
 
-*
-*
-* Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2005
-*
-* Copyright: See COPYING file that comes with this distribution.  (Briefly, GNU GPL).
-*
-* Revised extensively in 2008 by Brendan Luchen, Tim Holy, and David Bruce
-* Revised more in 2009 by David Bruce
-*/
+mathcards.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -239,6 +245,8 @@ static MC_MathQuestion* find_node(MC_MathQuestion* list, int num);
 //TODO we may want to play with this a bit
 static int calc_score(int difficulty, float t);
 
+//Create formula_string in i18n-friendly fashion:
+static int create_formula_str(char* form_str, int n1, int n2, int op, int format);
 
 
 
@@ -2399,8 +2407,9 @@ MC_MathQuestion* add_all_valid(MC_MathGame* game,
             }
 
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", ans);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "%d %c %d = ?", i, operchars[k], j);
+            //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+            //         "%d %c %d = ?", i, operchars[k], j);
+            create_formula_str(tnode->card.formula_string, i, j, k, MC_FORMAT_ANS_LAST);
             tnode->card.difficulty = k + 1;
             tnode->card.answer = ans;
             list = insert_node(list, *end_of_list, tnode);
@@ -2434,13 +2443,14 @@ MC_MathQuestion* add_all_valid(MC_MathGame* game,
               return NULL;
             }
 
-            snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "? %c %d = %d", operchars[k], j, ans);
-            tnode->card.answer = ans;
-            tnode->card.difficulty = k + 3;
-            list = insert_node(list, *end_of_list, tnode);
-            *end_of_list = tnode;
+	    snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", i);
+	    create_formula_str(tnode->card.formula_string, j, ans, k, MC_FORMAT_ANS_FIRST);
+	    //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+	    //         "? %c %d = %d", operchars[k], j, ans);
+	    tnode->card.answer = ans;
+	    tnode->card.difficulty = k + 3;
+	    list = insert_node(list, *end_of_list, tnode);
+	    *end_of_list = tnode;
           }
 
 
@@ -2470,8 +2480,9 @@ MC_MathQuestion* add_all_valid(MC_MathGame* game,
             }
 
             snprintf(tnode->card.answer_string, MC_ANSWER_LEN, "%d", j);
-            snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
-                     "%d %c ? = %d", i, operchars[k], ans);
+            create_formula_str(tnode->card.formula_string, i, ans, k, MC_FORMAT_ANS_MIDDLE);
+            //snprintf(tnode->card.formula_string, MC_FORMULA_LEN,
+            //         "%d %c ? = %d", i, operchars[k], ans);
             tnode->card.answer = ans;
             tnode->card.difficulty = k + 3;
             list = insert_node(list, *end_of_list, tnode);
@@ -2570,5 +2581,28 @@ static int calc_score(int difficulty, float t)
   if (t < 0 || difficulty < 1)
     return 0;
   return (difficulty * SCORE_COEFFICIENT)/t;
+}
+
+static int create_formula_str(char* formula_str, int n1, int n2, int op, int format)
+{
+    const char format_strings[MC_NUM_OPERS][MC_NUM_FORMATS][32] = {
+	{N_("%d + %d = ?"), N_("? + %d = %d"), N_("%d + ? = %d")},
+	{N_("%d - %d = ?"), N_("? - %d = %d"), N_("%d - ? = %d")},
+	{N_("%d x %d = ?"), N_("? x %d = %d"), N_("%d x ? = %d")},
+	{N_("%d ÷ %d = ?"), N_("? ÷ %d = %d"), N_("%d ÷ ? = %d")}
+    };
+
+    if(!formula_str)
+	return 0;
+
+    snprintf(formula_str, MC_FORMULA_LEN,
+	    _(format_strings[op][format]),
+	    n1, n2);
+
+    DEBUGMSG(debug_mathcards, "n1 = %d\tn2 = %d\top = %d\tformat = "
+	    "%dformat_strings[op][format] = %s\tformula: %s\n",
+	    n1, n2, op, format, format_strings[op][format], formula_str);
+
+    return 1;
 }
 
