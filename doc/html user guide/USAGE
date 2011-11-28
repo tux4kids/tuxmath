@@ -1,0 +1,21 @@
+How to use:
+-----------
+
+1. Go to build/singlehtml
+2. Open index.html with your favorite browser
+
+
+How to build?
+-------------
+
+Dependencies -> Requires python-sphinx.
+
+For different options on how to build, type
+make help
+
+
+TODO:
+-----
+
+Merge the Makefile for sphinx-build along with the main Makefile,
+and add python-sphinx as a dependency.
