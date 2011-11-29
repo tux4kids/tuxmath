@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 typedef struct laser_type {
-    int alive;
+    float alive;
     int x1, y1;
     int x2, y2;
 } laser_type;

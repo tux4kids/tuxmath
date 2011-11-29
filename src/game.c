@@ -3,7 +3,7 @@
 
    Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011.
 Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen,
-Akash Gangil, Jakub Spiwak.
+Akash Gangil, Jakub Spiewak.
 
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
@@ -355,7 +355,7 @@ int game(MC_MathGame* mgame)
 	for(i=0;i<MAX_LASER;i++)
 	{
 	    if (laser[i].alive > 0)
-		laser[i].alive--;
+                laser[i].alive -= 15*FC_time_elapsed;
 	}
 #ifdef HAVE_LIBSDL_NET
 	/* Check for server messages if we are playing a LAN game: */
@@ -946,7 +946,7 @@ int help_renderframe_exit(void)
     for(i=0;i<MAX_LASER;i++)
     {
 	if (laser[i].alive > 0)
-	    laser[i].alive--;
+            laser[i].alive -= 15*FC_time_elapsed;
     }
     game_handle_user_events();
     game_handle_answer();
@@ -1948,7 +1948,7 @@ void game_draw(void)
     int i;
     for(i = 0; i < MAX_LASER; i++)
     {
-	if (laser[i].alive)
+        if (laser[i].alive > 0)
 	{
 	    draw_line(laser[i].x1, laser[i].y1, laser[i].x2, laser[i].y2,
 		    255 / ((LASER_START + 1) - laser[i].alive),
