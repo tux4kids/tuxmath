@@ -1,3 +1,9 @@
+tuxmath (1.8.0-4) UNRELEASED; urgency=low
+
+  * Bump standards version to 3.9.2, no changes needed.
+
+ -- Holger Levsen <holger@debian.org>  Thu, 22 Dec 2011 19:16:00 +0100
+
 tuxmath (1.8.0-3) unstable; urgency=low
 
   * debian/menu: move to section Applications/Education. 
