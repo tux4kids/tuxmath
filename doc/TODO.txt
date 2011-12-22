@@ -1,0 +1,65 @@
+TODO.txt for "tuxmath"
+
+2009.Mar.12
+These are the main (difficult) issues we would like to tackle
+at some point:
+1. svg support
+2. stand-alone, GUI config/admin program
+3. client/server model to support LAN multiplayer play
+
+We also need to get SDL_Pango support functioning in the Windows
+build, if possible.
+
+Older stuff:
+2007.Oct.08
+Build:
+  * Make a relocatable binary for Linux (klik package?)
+  * Refine NSIS installer for Windows (or perhaps executable
+    itself) to create Start Menu link to options.txt file
+
+Graphics:
+  * Make game more "themable" (there is a pending request for an
+    "Egyptian" theme with pyramids and an "Islands" theme with
+    palm trees, etc.)
+  * svg support - allow game to draw correctly at any resolution.
+
+Interface:
+  * Add more sound effects and music files
+  * Speech mode
+  * Add option for number-keys to control main menu and possible options
+    (for mouseless scenarios where arrow keys might not be the available...
+    is there such a thing as numeric-only keyboards for PCs???)
+  * Implement lockfile to prevent multiple invocations.
+
+Game Play:
+  * More entertaining "victory" and "defeat" screens
+  * Add option to review missed questions to end-of-game screens
+  * Add option to play next game using missed questions from current game
+  * End-of-level calculations, bonuses and animations
+  * "Lesson server" with login - keep track of lessons completed, percent
+    correct, etc. on a per-user basis, even if installation doesn't have 
+    students log into computers individually.
+  * Multiplayer mode - points go to whoever shoots the comet first.
+  * Re-examine algorithm for spacing of comets (allow game to deliver
+    problems faster even if the comet speed limit is not raised).
+
+Documentation:
+  * Finish README.txt
+  * Finish INSTALL.txt
+
+Options:
+  * Make use of some of function keys(F1-F12) to toggle settings in-game
+    (perhaps speed control, muting of music)
+  * Save options.
+  * Admin options screen / files
+  * Command-line options based on grade-level (?)
+  * Internationalization - use gettext() for all strings
+  * Install some kind of security on --homedir, to make sure that
+    tuxmath can write but that students can't edit the files by hand?
+
+Code:
+  * Optimize graphics blitting!!!
+  * Abstract SDL_BlitSurface() calls
+
+Website:
+  * Make something more user-friendly

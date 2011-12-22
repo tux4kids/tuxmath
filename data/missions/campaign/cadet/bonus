@@ -1,0 +1,10 @@
+#cadet bonus round
+
+typing_practice_allowed = 0
+addition_allowed = 0
+multiplication_allowed = 1
+min_multiplier = 0
+max_multiplier = 10
+min_multiplicand = 0
+max_multiplicand = 10
+avg_list_length = 0

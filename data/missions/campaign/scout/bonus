@@ -1,0 +1,16 @@
+#scout bonus round
+
+subtraction_allowed = 0
+addition_allowed = 1
+multiplication_allowed = 1
+min_formula_nums = 2
+max_formula_nums = 3
+min_addend = 0
+max_addend = 10
+min_augend = 0
+max_augend = 10
+min_multiplier = 0
+max_multiplier = 10
+min_multiplicand = 0
+max_multiplicand = 10
+avg_list_length = 20

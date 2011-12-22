@@ -1,0 +1,17 @@
+# campaign master lesson file
+
+play_through_list = 1
+allow_speedup = 1
+use_feedback = 0
+use_bkgd = 1
+demo_mode = 0
+repeat_wrongs = 1
+slow_after_wrong = 0
+max_questions = 5000
+randomize = 1
+comprehensive = 1
+allow_pause = 1
+bonus_speed_ratio = 1.8
+max_speed = 10.00
+keep_score = 0
+

@@ -1,0 +1,855 @@
+# Vietnamese translation for tuxmath
+# Copyright (c) 2008 Rosetta Contributors and Canonical Ltd 2008
+# This file is distributed under the same license as the tuxmath package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2008.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: tuxmath\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2010-02-07 11:28-0600\n"
+"PO-Revision-Date: 2008-07-22 18:01+0000\n"
+"Last-Translator: lusiads <Unknown>\n"
+"Language-Team: Vietnamese <vi@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Launchpad-Export-Date: 2009-06-24 22:20+0000\n"
+"X-Generator: Launchpad (build Unknown)\n"
+
+#: src/campaign.c:30
+msgid "Congratulations! You win!"
+msgstr ""
+
+#: src/campaign.c:48
+msgid "Round"
+msgstr ""
+
+#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+msgid "-[Esc] to skip"
+msgstr ""
+
+#: src/campaign.c:116
+msgid "Mission One: Careful Cadet"
+msgstr ""
+
+#: src/campaign.c:118
+msgid "I'm so glad you've come!"
+msgstr ""
+
+#: src/campaign.c:120
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+
+#: src/campaign.c:122
+msgid "Do your best!"
+msgstr ""
+
+#: src/campaign.c:128
+msgid "Mission Two: Smart Scout"
+msgstr ""
+
+#: src/campaign.c:130
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+
+#: src/campaign.c:132
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+
+#: src/campaign.c:133
+msgid "But you can save them!"
+msgstr ""
+
+#: src/campaign.c:139
+msgid "Mission Three: Royal Ranger"
+msgstr ""
+
+#: src/campaign.c:141
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+
+#: src/campaign.c:143
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+
+#: src/campaign.c:149
+msgid "Mission Four: Imperial Ace"
+msgstr ""
+
+#: src/campaign.c:151
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+
+#: src/campaign.c:153
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr ""
+
+#: src/campaign.c:154
+msgid "Now is no time for resting; the city needs your help!"
+msgstr ""
+
+#: src/campaign.c:160
+msgid "Final Mission: Computing Commando"
+msgstr ""
+
+#: src/campaign.c:162
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+
+#: src/campaign.c:163
+msgid "I hope that hint helps!"
+msgstr ""
+
+#: src/campaign.c:165
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr ""
+
+#: src/campaign.c:229
+msgid "Sorry, try again!"
+msgstr ""
+
+#: src/campaign.c:236
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr ""
+
+#: src/credits.c:35
+msgid "TUX, OF MATH COMMAND"
+msgstr ""
+
+#: src/credits.c:36
+msgid "COPYRIGHT 2001-2009"
+msgstr ""
+
+#: src/credits.c:38
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr ""
+
+#: src/credits.c:41
+msgid "DESIGNED BY"
+msgstr ""
+
+#: src/credits.c:44
+msgid "LEAD PROGRAMMERS"
+msgstr ""
+
+#: src/credits.c:50
+msgid "ADDITIONAL CODE"
+msgstr ""
+
+#: src/credits.c:61
+msgid "LEAD ARTIST"
+msgstr ""
+
+#: src/credits.c:64
+msgid "ADDITIONAL ART"
+msgstr ""
+
+#: src/credits.c:68
+msgid "SOUND EFFECTS"
+msgstr ""
+
+#: src/credits.c:71
+msgid "MUSIC"
+msgstr ""
+
+#: src/credits.c:81
+msgid "PACKAGERS"
+msgstr ""
+
+#: src/credits.c:86
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr ""
+
+#: src/credits.c:89
+msgid "TESTERS"
+msgstr ""
+
+#: src/credits.c:101
+msgid "WEBSITE"
+msgstr ""
+
+#: src/credits.c:104
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+
+#: src/credits.c:106
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+
+#: src/credits.c:108
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr ""
+
+#: src/credits.c:110
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr ""
+
+#: src/factoroids.c:553
+msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+msgstr ""
+
+#: src/factoroids.c:554 src/factoroids.c:565
+msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+msgstr ""
+
+#: src/factoroids.c:555
+msgid "type one of its factors, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:556
+msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgstr ""
+
+#: src/factoroids.c:564
+msgid "FRACTIONS: to win, you need destroy all the asteroids"
+msgstr ""
+
+#: src/factoroids.c:566
+msgid "type a number that can simplify the fraction, and press space or return"
+msgstr ""
+
+#: src/factoroids.c:567
+msgid ""
+"to split it.  Destroy fractions that can not be further simplified in a "
+"single shot!"
+msgstr ""
+
+#: src/game.c:1091
+msgid "Welcome to TuxMath!"
+msgstr ""
+
+#: src/game.c:1108
+msgid "Your mission is to save your"
+msgstr ""
+
+#: src/game.c:1109
+msgid "penguins' igloos from the"
+msgstr ""
+
+#: src/game.c:1110
+msgid "falling comets."
+msgstr ""
+
+#: src/game.c:1129
+msgid "Stop a comet by typing"
+msgstr ""
+
+#: src/game.c:1130
+msgid "the answer to the math problem"
+msgstr ""
+
+#: src/game.c:1131
+msgid "and hitting 'space' or 'enter'."
+msgstr ""
+
+#: src/game.c:1132
+msgid "Try it now!"
+msgstr ""
+
+#: src/game.c:1140
+msgid "Good shot!"
+msgstr ""
+
+#: src/game.c:1150
+msgid "If an igloo gets hit by a comet,"
+msgstr ""
+
+#: src/game.c:1151
+msgid "it melts. But don't worry: the"
+msgstr ""
+
+#: src/game.c:1152
+msgid "penguin is OK!"
+msgstr ""
+
+#: src/game.c:1153
+msgid "Just watch what happens:"
+msgstr ""
+
+#: src/game.c:1154
+msgid "(Press a key to start)"
+msgstr ""
+
+#: src/game.c:1167
+msgid "Notice the answer"
+msgstr ""
+
+#: src/game.c:1177
+msgid "If it gets hit again, the"
+msgstr ""
+
+#: src/game.c:1178
+msgid "penguin leaves."
+msgstr ""
+
+#: src/game.c:1179
+msgid "(Press a key when ready)"
+msgstr ""
+
+#: src/game.c:1202
+msgid "You can fix the igloos"
+msgstr ""
+
+#: src/game.c:1203
+msgid "by stopping bonus comets."
+msgstr ""
+
+#: src/game.c:1214
+msgid "Zap it now!"
+msgstr ""
+
+#: src/game.c:1220
+msgid "Great job!"
+msgstr ""
+
+#: src/game.c:1238
+msgid "Quit at any time by pressing"
+msgstr ""
+
+#: src/game.c:1239
+msgid "'Esc' or clicking the 'X'"
+msgstr ""
+
+#: src/game.c:1240
+msgid "in the upper right corner."
+msgstr ""
+
+#: src/game.c:1241
+msgid "Do it now, and then play!"
+msgstr ""
+
+#: src/highscore.c:168 data/menus/menu_strings:9
+msgid "Hall Of Fame"
+msgstr "Nhà lưu niệm"
+
+#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
+msgid "Space Cadet"
+msgstr "Space Cadet"
+
+#: src/highscore.c:191 data/menus/menu_strings:26
+msgid "Scout"
+msgstr "Trinh sát"
+
+#: src/highscore.c:194 data/menus/menu_strings:23
+msgid "Ranger"
+msgstr "Ranger"
+
+#: src/highscore.c:197 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "Ace"
+
+#: src/highscore.c:200 data/menus/menu_strings:2
+msgid "Commando"
+msgstr ""
+
+#: src/highscore.c:203 data/menus/menu_strings:7
+msgid "Factors"
+msgstr ""
+
+#: src/highscore.c:206 data/menus/menu_strings:8
+msgid "Fractions"
+msgstr ""
+
+#: src/highscore.c:287
+msgid "You Are In The Hall of Fame!"
+msgstr ""
+
+#: src/highscore.c:287
+msgid "Enter Your Name:"
+msgstr ""
+
+#: src/menu.c:375
+msgid "TuxMath is free and open-source!"
+msgstr "TuxMatch là phần mềm miễn phí và mã nguồn mở!"
+
+#: src/menu.c:376
+#, fuzzy
+msgid "You can help make it better."
+msgstr "Bạn có thể giúp cải thiện chương trình bằng cách báo cáo lỗi."
+
+#: src/menu.c:377
+msgid "Suggestions, artwork, and code are all welcome!"
+msgstr ""
+
+#: src/menu.c:378
+#, fuzzy
+msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
+msgstr "Thảo luận về tương lai tại tuxmath-devel@lists.sourceforge.net"
+
+#: src/menu.c:499
+msgid "Edit 'options' file in your home directory"
+msgstr ""
+
+#: src/menu.c:500
+msgid "to create customized game!"
+msgstr ""
+
+#: src/menu.c:501
+msgid "Press a key or click your mouse to start game."
+msgstr ""
+
+#: src/menu.c:502
+msgid "See README.txt for more information"
+msgstr ""
+
+#: src/menu.c:526
+msgid "How many kids are playing?"
+msgstr ""
+
+#: src/menu.c:527
+msgid "(Between 2 and 4 players)"
+msgstr ""
+
+#: src/menu.c:589
+msgid "The server is already running"
+msgstr ""
+
+#: src/menu.c:594
+msgid "Enter Server Name:"
+msgstr ""
+
+#: src/menu.c:594
+msgid "(limit 50 characters)"
+msgstr ""
+
+#: src/menu.c:608
+msgid "Click or press key to select server lesson file"
+msgstr ""
+
+#: src/menu.c:637
+msgid "Server Name:"
+msgstr ""
+
+#: src/menu.c:639
+msgid "Selected Lesson:"
+msgstr ""
+
+#: src/menu.c:654 src/menu.c:701
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/menu.c:655 src/menu.c:702
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
+#: src/menu.c:665
+msgid "Detecting servers"
+msgstr ""
+
+#: src/menu.c:665
+msgid "Please wait"
+msgstr ""
+
+#: src/menu.c:671
+#, c-format
+msgid "Connected to server: %s"
+msgstr ""
+
+#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
+msgid "Enter your name:"
+msgstr ""
+
+#: src/menu.c:674
+msgid "Click when ready"
+msgstr ""
+
+#: src/menu.c:676
+msgid "Waiting for other players"
+msgstr ""
+
+#: src/menu.c:689
+msgid "Sorry, game already in progress."
+msgstr ""
+
+#: src/menu.c:690
+#, c-format
+msgid "Sorry, game already in progress.\n"
+msgstr ""
+
+#: src/menu.c:696
+msgid "Sorry, no server could be found."
+msgstr ""
+
+#: src/menu.c:697
+#, c-format
+msgid "Sorry, no server could be found.\n"
+msgstr ""
+
+#: src/multiplayer.c:183
+#, c-format
+msgid "Then %s\n"
+msgstr ""
+
+#: src/multiplayer.c:258
+msgid "Who is playing first?"
+msgstr ""
+
+#: src/multiplayer.c:260
+msgid "Who is playing next?"
+msgstr ""
+
+#: src/multiplayer.c:274
+msgid "How many rounds will you play?"
+msgstr ""
+
+#: src/multiplayer.c:274
+msgid "Enter a number"
+msgstr ""
+
+#: src/titlescreen.c:478
+msgid "Work In Progress!"
+msgstr "Đang được thực hiện!"
+
+#: src/titlescreen.c:479
+msgid "This feature is not ready yet"
+msgstr "Tính năng này chưa sẵn sàng"
+
+#: src/titlescreen.c:480
+msgid "Discuss the future of TuxMath at"
+msgstr "Thảo luận tương lại của TuxMath tại"
+
+#: src/titlescreen.c:481
+msgid "tuxmath-devel@lists.sourceforge.net"
+msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#: src/tuxmath.c:54 data/menus/menu_strings:10
+msgid "Help"
+msgstr "Trợ giúp"
+
+#: data/missions/lessons/descr_lessons:1
+msgid "Number Typing"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:2
+msgid "Addition: 1 to 3"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:3
+msgid "Addition: 0 to 5"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:4
+msgid "Addition: Sums to 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:5
+msgid "Addition: Sums to 15"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:6
+msgid "Addition: Sums to 20"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:7
+msgid "Addition: Two Digit Numbers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:8
+msgid "Addition: Missing Numbers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:9
+msgid "Subtraction: 0 to 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:10
+msgid "Subtraction: 0 to 20"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:11
+msgid "Subtraction: Two Digit Numbers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:12
+msgid "Addition and Subtraction Review"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:13
+msgid "Multiplication: 0 to 3"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:14
+msgid "Multiples of 2"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:15
+msgid "Multiples of 3"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:16
+msgid "Multiples of 4"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:17
+msgid "Multiples of 5"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:18
+msgid "Multiplication: 0 to 5"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:19
+msgid "Multiples of 6"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:20
+msgid "Multiples of 7"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:21
+msgid "Multiplication: 0 to 7"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:22
+msgid "Multiples of 8"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:23
+msgid "Multiples of 9"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:24
+msgid "Multiples of 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:25
+msgid "Multiplication: 0 to 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:26
+msgid "Multiples of 11 and 12"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 12"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:28
+msgid "Multiples of 13, 14, and 15"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiplication: 0 to 15"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:30
+msgid "Multiplication: Missing Numbers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:31
+msgid "Division by 2"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:32
+msgid "Division by 3"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:33
+msgid "Division by 4"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:34
+msgid "Division by 5"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:35
+msgid "Division: 1 to 5"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:36
+msgid "Division by 6"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:37
+msgid "Division by 7"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:38
+msgid "Division by 8"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:39
+msgid "Division by 9"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:40
+msgid "Division by 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:41
+msgid "Division: 1 to 10"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:42
+msgid "Division by 11 and 12"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:43
+msgid "Division: 1 to 12"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:44
+msgid "Division by 13, 14, and 15"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:45
+msgid "Division: 1 to 15"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:46
+msgid "Multiplication and Division Review"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:47
+msgid "Typing Negative Numbers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:48
+msgid "Subtraction: Negative Answers"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:49
+msgid "Adding Negatives to Positives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:50
+msgid "Adding Positives to Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:51
+msgid "Subtracting Negatives From Positives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:52
+msgid "Subtracting Positives From Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:53
+msgid "Adding Negatives to Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:54
+msgid "Subtracting Negatives From Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:55
+msgid "Negative and Positive Numbers Review"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:56
+msgid "Multiplication and Division of Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiplication of Positives and Negatives"
+msgstr ""
+
+#: data/missions/lessons/descr_lessons:58
+msgid "Division of Positives and Negatives"
+msgstr ""
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Lời cám ơn"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr ""
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr ""
+
+#: data/menus/menu_strings:6
+msgid "Factoroids!"
+msgstr ""
+
+#: data/menus/menu_strings:11
+msgid "Join Game"
+msgstr ""
+
+#: data/menus/menu_strings:12
+msgid "Main Menu"
+msgstr "Trình đơn chính"
+
+#: data/menus/menu_strings:13
+msgid "Math Command Fleet Missions"
+msgstr ""
+
+#: data/menus/menu_strings:14
+msgid "Math Command Training Academy"
+msgstr ""
+
+#: data/menus/menu_strings:15
+msgid "More Options"
+msgstr "Tuỳ chọn khác"
+
+#: data/menus/menu_strings:16
+msgid "Network Game"
+msgstr ""
+
+#: data/menus/menu_strings:17
+msgid "Play Alone"
+msgstr ""
+
+#: data/menus/menu_strings:18
+msgid "Play Arcade Game"
+msgstr "Chơi trò chơi Arcade"
+
+#: data/menus/menu_strings:19
+msgid "Play Custom Game"
+msgstr "Chơi trò chơi tự chọn"
+
+#: data/menus/menu_strings:20
+msgid "Play With Friends"
+msgstr ""
+
+#: data/menus/menu_strings:21
+msgid "Project Info"
+msgstr "Thông tin dự án"
+
+#: data/menus/menu_strings:22
+msgid "Quit"
+msgstr "Thoát"
+
+#: data/menus/menu_strings:24
+msgid "Run Server"
+msgstr ""
+
+#: data/menus/menu_strings:25
+msgid "Score Sweep"
+msgstr ""
+
+#~ msgid "Main menu"
+#~ msgstr "Trình đơn chính"
+
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "gợi ý cải thiện, hoặc viết thêm mã."

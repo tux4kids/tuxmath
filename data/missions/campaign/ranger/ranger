@@ -1,0 +1,26 @@
+# campaign ranger stage lesson file
+
+addition_allowed = 1
+subtraction_allowed = 1
+multiplication_allowed = 1
+division_allowed = 0
+typing_practice_allowed = 0
+allow_negatives = 1
+max_formula_nums = 2
+min_formula_nums = 2
+comprehensive = 1
+question_copies = 1
+copies_repeated_wrongs = 1
+format_add_answer_last = 1
+format_add_answer_first = 1
+format_add_answer_middle = 1
+max_answer = 150
+starting_comets = 3
+extra_comets_per_wave = 2
+max_comets = 10
+speed = 1.0
+max_speed = 10.00
+speedup_factor = 1.2
+bonus_comet_interval = 20
+vary_list_length = 0
+

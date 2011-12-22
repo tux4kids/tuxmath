@@ -1,0 +1,7 @@
+#cadet round 1
+
+typing_practice_allowed = 1
+addition_allowed = 0
+min_typing_num = 0
+max_typing_num = 20
+avg_list_length = 10

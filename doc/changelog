@@ -1,0 +1,1426 @@
+2009.Sep.04 (svn.debian.org/tux4kids - revision 1546)
+        Data - click.wav removed due to minor concerns about whether it is really
+        under a free license (license not really known).
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Sep.04 (svn.debian.org/tux4kids - revision 1489)
+        LAN project branch merged back into trunk.
+	Graphical LAN play tested and functional in branch prior to merge.
+	New menu entry code for LAN game needs to be written to actually use LAN mode
+	in trunk build.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Jul.03 (svn.debian.org/tux4kids - revision 1141)
+        LAN project - basic TCP/IP server and test client implemented in branches/lan.
+        The client and server provide multiplayer command-line tuxmath over tcp.
+        Akash Gangil <akashg1611@gmail.com>
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Jun.24 (svn.debian.org/tux4kids - revision xxx)
+        i18n - new languages from launchpad.
+        Asturian by Xuacu
+        Kurdish by Amed Çeko Jiyan
+        Slovenian by Štefan Baebler
+        Vietnamese by lusiads
+
+        Caroline Ford <caroline.ford.work@googlemail.com> 
+
+2009.Mar.12 (svn.debian.org/tux4kids - revision 954
+	one-liner tweak of campaign.c to fix display problem in scrolling text
+        that strangely is only apparent in Windows and Mac
+2009.Mar.12 (svn.debian.org/tux4kids - revision 937)
+Version 1.7.2
+        Build- some minor tweaks to tuxmath.desktop and specfiles.
+        Doc - update of README, INSTALL for new release
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Mar.06 (svn.debian.org/tux4kids - revision 929)
+        Text drawing - SDL_extras revamp done, AFAIK - supports resetting of font
+        sizes and run-time changing of fonts (new field added to options struct
+        for current font name). 
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Mar.04 (svn.debian.org/tux4kids - revision 922)
+        Text drawing - implemented Set_SDL_Pango_Font_Size() in SDL_extras.c so
+        that BlackOutline() e.g. now use the font size argument, albeit still with
+        a slight hack.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Mar.03 (svn.debian.org/tux4kids - revision 919)
+        i18n - marking of some additional strings in campaign.c and credits.c for
+        translation.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Mar.03 (svn.debian.org/tux4kids - revision 918)
+        Text drawing - all of text drawing now encapsulated within SDL_extras.
+        Other code no longer has any SDL_ttf-specific data or includes. Tuxmath no
+        longer depends on any specific fonts as long as SDL_Pango is available.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.28 
+        Text drawing - as all of this is handled by functions within SDL_extras,
+        there isn't any need for code elsewhere in the program to have to know 
+        about TTF fonts - changed BlackOutline() to take int size parameter instead
+        of a TTF_Font* parameter. With a little more work we can confine all mention
+        of SDL_Pango/SDL_ttf to within SDL_extras. When this is done, we will not
+        have any dependencies on specific fonts (or need to bundle them) whenever
+        SDL_Pango is available.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.28 
+        Build - added tuxmath.spec.in and tuxmath_preview.spec.in, which
+        are processed by configure to give the corresponding specfiles.
+        tuxmath.spec is for rpm packaging of official releases.  tuxmath_preview.spec
+        generates rpm packages with "tuxmath_preview" as the title, but otherwise
+        identical.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.17 (svn.debian.org/tux4kids - revision 892)
+        Fix convert_utf filename in CMake build. Eliminate the last few
+	warnings (David got almost all of them), so now tuxmath builds
+	without any compiler warnings.
+
+	Tim Holy <holy@wustl.edu>
+
+2009.Feb.15 (svn.debian.org/tux4kids - revision 889)
+        build - moved linebreak-related code back to /linebreak, adjusted 
+        autotools files. The code in /linebreak is now built as a static 
+        library when using the autotools build.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.09 (svn.debian.org/tux4kids - revision 876)
+        i18n - modified credits text slightly (replaced empty line
+        strings "" with " ") because otherwise the wrapping text truncates
+        the credits at the first blank line.
+
+	David Bruce <davidstuartbruce@gmail.com>
+
+2009.Feb.06 (svn.debian.org/tux4kids - revision 873)
+        Put two more strings in highscore.c under the domain of gettext.
+
+	Tim Holy <holy@wustl.edu>
+
+
+2009.Feb.06 (svn.debian.org/tux4kids - revision 872)
+        Add the facility to use translatable versions of "SCORE" and
+	"WAVE".  To enable, define REPLACE_WAVESCORE upon compilation
+	(disabled by default, because they don't look as nice).
+
+	Tim Holy <holy@wustl.edu>
+	
+2009.Feb.06 (svn.debian.org/tux4kids - revision 871)
+	Moved linewrapping source files into main src directory and
+	adjusted autotools files accordingly. Note - plan to combine most of
+	the libgettextpo-derived files into one larger file to reduce clutter.
+
+	David Bruce <davidstuartbruce@gmail.com>
+	
+2009.Feb.04 (svn.debian.org/tux4kids - revision 869)
+	Added algorithmic linewrapping to the code.  This should make life
+	easier for the translators.
+	This works with the CMake build. Needs to have the autotools build
+	incorporated.
+
+	Tim Holy <holy@wustl.edu>
+	
+2009.Feb.01 (svn.debian.org/tux4kids - revision 860)
+	Build - small changes to get the CMake build working with intl.
+	This allows the OS X build to work.
+
+	Tim Holy <holy@wustl.edu>
+	
+2009.Jan.23 (svn.debian.org/tux4kids - revision 851)
+Version 1.7.1
+        Build - tuxmath.desktop and tuxmath.spec files incorporated into tarball.
+
+        Graphics - cloud.png cleaned up a bit.
+
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2009.Jan.17 (svn.debian.org/tux4kids - revision 847)
+        Code - background scaling and optimization in factoroids.c cleaned up,
+          basically now uses LoadBothBkgds() from loaders.c which has the 
+          optimizations incorporated into it.
+        Graphics - new menu icon for "Factors" version of Factoroids.
+
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2008.Dec.16 (svn.debian.org/tux4kids - revision 812)
+        Code - some work on mathcards.c to check for indeterminate questions
+          and to use the "comprehensive" method whenever multiple-operand
+          questions are not needed, such as the "Math Command Training
+          Academy" lessons. Fixed bug in add_all_valid() that was due to
+          the end_of_list arg actually needing to be doubly indirect.
+
+        Lessons - updated all "Math Command Training Academy" lesson files
+          to make sure all the needed parameters get reset properly between
+          lessons.
+        Graphics - new menu icons for "Factoroids" and "Fleet Missions"
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2008.Dec.11 (svn.debian.org/tux4kids - revision 797)
+	Add a "unit test" function, generate_lesson.c. See the file itself
+	for compiling instructions.
+
+	Tim Holy <holy@wustl.edu>
+2008.Dec.11 (svn.debian.org/tux4kids - revision 796)
+	Initial file reorganization to separate SDL-related code from more
+	infrastructural code. This is intended to allow us to create and
+	compile stand-alone programs that test specific functions (e.g.,
+	generating problems for specific lessons).
+
+	Tim Holy <holy@wustl.edu>
+	
+2008.Dec.08 (svn.debian.org/tux4kids - revision 788)
+Version 1.7.0
+        First post-Google Summer of Code release with numerous enhancements.
+        The changelog was not kept updated very well over the summer, although
+        most of the changes had descriptive commit messages in subversion.
+        To summarize the most important changes and their contributors:
+          - Fullscreen support at native resolution (Brendan Luchen).
+          - Overhaul of mathcards question-generation code with support
+            for multiple-operand questions (Brendan Luchen).
+          - Turn-based multiplayer mode (Brendan Luchen).
+          - Redo of Credits screen to allow i18n (Brendan Luchen).
+          - Very humorous menu-screen Easter egg (Brendan Luchen).
+          - Factoroids factor game activity (Jesus Mager, based on Bill
+            Kendricks' "Vectoroids").
+          - New Irish (Seanán Ó Coistín) and Turkish (Doruk Fisek)
+            translations.
+          - Several new menu icons.
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2008.Oct.16 (svn.debian.org/tux4kids - revision 763)
+	Credits: 
+          Changed Tim Holy's listing from "Additional Code" to "Lead
+          Programmer" to better acknowledge his major role over the last
+          year.
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+2008.Oct.14 (svn.debian.org/tux4kids - revision 761)
+	i18n:
+          Added Irish translation courtesy of Seanán Ó Coistín <seananoc@gmail.com> 
+
+        David Bruce <davidstuartbruce@gmail.com>
+
+
+2008.Aug.15 (svn.debian.org/tux4kids - revision 627)
+	Added SDL_rotozoom to the sources, from the SDL_gfx library.
+	
+	Also note: most of the summer of code contributions have been
+	added, but this is not well-reflected in the changelog.
+
+	Tim Holy
+
+2008.June.19 (svn.debian.org/tux4kids - revision 537)
+      Code:
+        Tweaked menu locations for larger screens and fixed a number of
+	issues redrawing upon returning to the menu from a game.
+
+      Brendan Luchen
+
+2008.June.14 (svn.debian.org/tux4kids - revision 521)
+      Graphics:
+        New 1280x1024 versions of background images (from Debian Etch at
+        /usr/share/pixmaps/backgrounds/cosmos/*.jpg - these are public
+        domain astrophotographs released by NASA). The four older, GIMP-
+        drawn backgrounds have been removed.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.June.14 (svn.debian.org/tux4kids - revision 518)
+      Graphics:
+        Got zoom() working - made pixels.c its own file instead of having
+        putpixel??() and getpixel??() in SDL_extras.c. (basically, the
+        compiler.h file from TuxPaint was needed. Also added LoadBkgd() 
+        wrapper function for IMG_Load() that automatically rescales image
+        to screen size - should use this as replacement wherever backgrounds
+        need to be drawn.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.April-May (svn.debian.org/tux4kids - revision 501)
+Version 1.6.3
+	Build:
+	 Create a CMake build, including support for internationalization
+	 (builds the intl directory on Mac OS X) and SDL_Pango. This also
+	 builds a .dmg on Mac OS X.
+	Code:
+	 Fix pointer bug in mathcards when initializing with wrong questions.
+	 Fix a number of compiler warnings.
+      i18n:
+        Added po files for many languages from Ubuntu's Launchpad
+
+      Tim Holy <holy@wustl.edu>
+	
+2008.May.05 (svn.debian.org/tux4kids - revision 477)
+        Code:
+	  SDL_Pango support for right-to-left languages 
+	
+	Contributed by Ahmed Sayed <ahmad.ahmadsayed@gmail.com>
+	Checked in on Ahmed's behalf by Tim Holy
+
+
+2008.Apr.26 (svn.debian.org/tux4kids - revision 471)
+Version 1.6.2
+      i18n:
+        Added Spanish translation (contributed by
+        Angela Ruiz <angieruiz211@hotmail.com>
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Feb.23 (svn.debian.org/tux4kids - revision 435)
+      code:
+        Added some additional pointer checks to cleanup() in setup.c
+        to fix segfaults when exiting due to window close events, as
+        cleanup() gets called twice in that code path and we were
+        getting double free() errors.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Feb.12 (svn.debian.org/tux4kids - revision 427)
+      i18n:
+	Added updated Hungarian translation (contributed by Mikl�s
+	Mer�nyi) that includes the help text strings
+
+      Committed by Tim Holy <holy@wustl.edu>      
+	
+2008.Feb.06 (svn.debian.org/tux4kids - revision 426)
+      i18n:
+        Added Swedish translation (contributed by
+        Daniel Nylander <po@danielnylander.se>)
+
+        Small syntax fix in game.c to correct error detected while
+        building for BeOS (thanks Luc Schrivers)
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Feb.05 (svn.debian.org/tux4kids - revision 424)
+      i18n:
+        Added Hungarian translation (contributed by
+        Merenyi Miklos <mermik@freemail.hu>)
+
+        Added src/game.c to po/POTFILES.in so help strings will appear in
+        tuxmath.pot for translation.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Jan.30 (svn.debian.org/tux4kids - revision 418)
+Version 1.6.1
+      Docs:
+        Updating of changelog, README.txt, INSTALL.txt to reflect recent work -
+        no code changes beyond what is listed below.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Jan.26 (svn.debian.org/tux4kids - revision 410)
+      Build:
+        After a few minor modifications, tuxmath now builds and installs on
+        MacOSX Leopard with "./configure; make; sudo make install", including
+        functioning gettext!
+
+        The build environment needs current versions of gettext,
+        libiconv, and all the SDL* libs.  Also, it needs newer versions of
+        the autotools than are currently in either Fink or Leopard itself - 
+        not exactly trivial.
+
+        The alterations to tuxmath consisted of testing for the presence of
+        error.h in autoconf, and implementing Tim's workaround (suggested for
+        BeOS) if not found - this should also fix the BeOS issue.
+ 
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Jan.02 (svn.debian.org/tux4kids - revision 405)
+      Code:
+        A little more refinement of randomize_list() - now just
+        rearranges pointers to existing nodes rather than allocating
+        new list and deleting old one. Sort time for full Ace list (~16,000 
+        questions) has gone from over 7 sec to 0.012 sec! (on 3.2 GHz P4)
+        Even on much slower machines in schools, expect this will be quick enough. 
+	
+      David Bruce <davidstuartbruce@gmail.com>
+
+2008.Jan.02 (svn.debian.org/tux4kids - revision 402)
+      Build:
+        New files scandir.h, .c with better cross-platform scandir()
+        and alphasort().  New code is from Hatari project at SF.net.
+        Thanks to Thomas Huth <thothy@users.sourceforge.net> - dev/maintainer
+        of Hatari project, and to contributers to that project.
+
+        Better use of autoconf to detect need for replacement functions
+        like this when building on various platforms.
+	
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Dec.31 (svn.debian.org/tux4kids - revision 397)
+      Code:
+	Add some additional reporting about student progress: a log.csv
+	file that contains a brief (one-line) summary of every game
+	played.  This file organization is chosen to make it easy to
+	import the data into a spreadsheet program.
+
+      Tim Holy <holy@wustl.edu>
+
+2007.Dec.30 (svn.debian.org/tux4kids - revision 396)
+    Bug fixes:
+      fileops.c: homedir setting in read_config_file lacked a closedir,
+        resulting in a memory leak.
+      fileops.c: write_postgame_summary did not close the file after
+        appending, resulting in the summary sometimes never being
+        "flushed" (some summary files have just been truncated).
+      mathcards.c: new_randomize_list did not set the "previous" field of
+        each node, resulting in memory corruption & drawing glitches
+      mathcards.c: free tmp_vect (fixes memory leak)
+
+    New feature:
+      mathcards & game & fileops: collect data on the amount of time each
+        problem is on the screen, and report the median in the game
+        summary files.
+
+      Tim Holy <holy@wustl.edu>
+	
+2007.Dec.26 (svn.debian.org/tux4kids - revision 394)
+    Code:
+      * More bugfixing in the new login system: now the system seems to
+	work if the homedir is specified in the global configuration file,
+	and in a multiuser setup file permissions are set to be
+	unrestrictive (so that a user can modify his/her own files no
+	matter how he/she is logged in).
+	
+    Tim Holy <holy@wustl.edu>
+
+
+2007.Dec.24 (svn.debian.org/tux4kids - revision 382-392)
+    Code:
+      * Fix bugs that came with the new login system, including: fix
+	re-reading of highscores table, and several Valgrind-detected
+	memory leaks in the string processing associate with the login
+	system.
+      * Add the gettext macro in front of the help strings so they can
+	be internationalized (does it work?)
+    Documentation:
+      * Add documentation on tuxmathadmin in the README.txt file.
+	
+	Tim Holy <holy@wustl.edu>
+
+2007.Dec.18 (svn.debian.org/tux4kids -?)
+Version 1.6.0
+  Build:
+    * Successful crossbuild for Windows with functioning gettext. The
+      significant change within tuxmath was elimination of the use of
+      libgw32c.a - most of work was building mingw environment and all
+      needed libs from source with rigorous attention to documentation
+      and help from autotools, mingw, and gettext mailing lists.
+      David Bruce <davidstuartbruce@gmail.com>	
+
+2007.Dec.07 (svn.debian.org/tux4kids - revision 359)
+Version 1.5.9
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Dec.07 (svn.debian.org/tux4kids - revision 357)
+  i18n:
+      * Added French po file - contributed by:
+       Luc Schrijvers <Begasus@skynet.be>
+
+2007.Dec.05 (svn.debian.org/tux4kids - revision 354)
+  Build:
+    * Improvement of Makefile.am code for Windows crossbuild to make
+      better use of autotools.
+    * Addition of tux4kids/tuxmath/people/dbruce/tuxmath_dll directory
+      to make it easier for others to set up crossbuild - intention is 
+      to have entire cross-compile setup managed by svn.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Dec.03 (svn.debian.org/tux4kids - revision 353)
+  Options:
+    * Added global config file support for specifying a home directory
+      (tree) location.
+  Game:
+    * Allow users to share a single high score file.
+	
+      Tim Holy <holy@wustl.edu>
+
+2007.Dec.02 (svn.debian.org/tux4kids - revision 350)
+  Options:
+      * Reworked the user login to make it more robust and
+	user-friendly.  This version should be pretty generally usable.
+	
+      Tim Holy <holy@wustl.edu>
+
+2007.Nov.26 (svn.debian.org/tux4kids - revision 342)
+  Options:
+      * Added support for user login. This should be helpful in school
+	settings where all students log in with the same username.  See
+	the README for details.
+
+      Tim Holy <holy@wustl.edu>
+	
+2007.Nov.18 (svn.debian.org/tux4kids - revision 327)
+
+  Build:
+      * Changed name of "docs" to more standard "doc";
+      fixed doc/Makefile.am so that files go under 
+      "$(prefix)/share/doc/" rather than "$(prefix)/doc/"
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Nov.15 (svn.debian.org/tux4kids - revision 322)
+Version 1.5.8
+  i18n:
+      * Added Dutch po file - contributed by:
+       Luc Schrijvers <Begasus@skynet.be>
+
+  Build:
+      * Started work on gettext for Windows - removed
+      #ifdef WIN32 statements, program builds and runs
+      without errors but the crossbuild doesn't yet include
+      the .mo translation files.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Nov.15 (svn.debian.org/tux4kids - revision 320)
+  Graphics:
+      * Added a new function "Blend" to composite two images with transparency
+  Game:
+      * Use Blend to smooth out the animation of the rebuilding igloos
+	
+      Tim Holy <holy@pcg.wustl.edu>
+
+	
+2007.Nov.11 (svn.debian.org/tux4kids - revision 319)
+Version 1.5.8
+  i18n:
+      * Added Czech po file - contributed by:
+      Jaroslav Krejčí <krejci@zstenis.com>
+
+  Graphics:
+      * Minor tweak of "janitor penguin" sprite files to tone down glare
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Nov.11 (svn.debian.org/tux4kids - revision 316)
+
+  Build:
+      * Gettext again works properly, AFAICT (was broken in 1.5.6 and 1.5.7). Much 
+        thanks to Gettext maintainer Bruno Haible for helpful correspondence! The intl
+        directory is now included in preparation of trying to get gettext working on
+        Windows - nothing done on that yet.  I think we can start adding as many po
+        files as we can get.
+      * Some more removal of dead code and unused variables.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Oct.30 (svn.debian.org/tux4kids - revision 311)
+
+
+  Code:
+      * Uncrufting! - eliminated tuxtype_playsound(), moved playsound() to audio.c,
+        and removed playsound.c and .h; eliminated alphabet.c; moved DarkenScreen()
+        to SDL_extras.c and eliminated pause.c; moved SwitchScreenMode() to SDL_extras.c.
+  Graphics:
+      * Change to using 32 bits/pixel, however all functions that need this info now
+        use PIXEL_BITS #define'd in tuxmath.h - recompiling for 16 BPP only requires
+        changing this def (confirmed that both settings work, at least in Linux).
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Oct.29 (svn.debian.org/tux4kids - revision 310)
+
+  Version 1.5.7
+
+  Build:
+      * Implementation of proper "install" and "uninstall" targets in
+        the Makefile.am's, replacing some old quick-and-dirty hackery.
+      * gettext/po/intl needs testing.
+  Code:
+      * Removal of numerous unused image files as well as unused code
+        in options.c (old options system), savings ~400 KB.
+  Graphics:
+      * Rest of sprites updated to "crystal" look.
+  Game:
+      * Inactivated mouse warping in menus (at least for now) - the
+        users I've tested it on find the warping to be unexpected and
+        confusing.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Oct.19 (svn.debian.org/tux4kids - revision 306)
+
+  Build:
+      * More gettext/po/intl work (in progress)
+  Game:
+      * Implementation of "gold stars" - the game keeps track of what
+        lessons have been successfully completed and displays a gold
+        star icon for completed lessons, with a grayed-out icon for lessons
+        that have not been completed.
+      * Fix of a bug in the menu code causing unintended exiting of the
+        game.
+  Graphics:
+      * Most of sprites revised to have a more uniform and modern shiny/
+      "crystal" look - remainder to be finished shortly.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Oct.19 (svn.debian.org/tux4kids - revision 303)
+
+  Build:
+      * Work on gettext-related stuff - hope to get i18n supported on all
+        platforms (in progress)
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2007.Oct.12 (svn.debian.org/tux4kids - revision 298)
+  Options:
+      * Added material in "Project Info" and (temporarily) removed the
+	Settings menu.  This removes the last menu entries that result in
+	"Work In Progress."  The thought is that it will make the
+	application seem more polished to only have entries that do what
+	they advertise.  We can restore the Settings entry when the code is
+	ready.
+      Tim Holy <holy@wustl.edu>
+	
+
+2007.Oct.12 (svn.debian.org/tux4kids - revision 297)
+  Options:
+      * Redesigned the help to make it more interactive.
+      Tim Holy <holy@wustl.edu>
+	
+
+2007.Oct.10 (svn.debian.org/tux4kids - revision 294)
+  Graphics:
+      * Added a help menu sprite. The help screen will probably be
+	redesigned to give users more control over the pace of the help.
+      Tim Holy <holy@wustl.edu>
+	
+
+2007.Oct.09 (svn.debian.org/tux4kids - revision 293)
+  Build:
+      * Merged in code to allow build under BeOS/Zeta - implementations
+      of scandir() and alphasort() originally contributed to ARAnYm 
+      project under GPLv2 - code written by:
+
+      Milan Jurik <M.Jurik xylab.cz>
+
+      and made into a patch for TuxMath by:
+
+      Luc Schrijvers <Begasus@skynet.be> 
+
+2007.Oct.09 (svn.debian.org/tux4kids - revision 291)
+  Docs:
+      * Added license notice for Andika font to 
+        README_DATA_LICENSES.TXT as well as including full license text
+        for the Open Font License 1.1 as "OFL.txt" under docs.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Oct.09 (svn.debian.org/tux4kids - revision 290)
+  Build:
+      * Ran Autoconf's "autoupdate" util to update configure.ac and 
+        the m4 macros to work properly with the current version (1.10)
+        of Automake (hope this doesn't break things for those using
+        automake 1.9.6).
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2007.Oct.09 (svn.debian.org/tux4kids - revision 289)
+  Options:
+      * Start of "real" help for tuxmath. I've tried to keep the text
+	simple for early readers, but I imagine this could be improved.
+	Needs a help sprite in the menu.
+
+      Tim Holy <holy@wustl.edu>
+	
+	
+2007.Oct.03 (svn.debian.org/tux4kids - revision 283)
+  Version 1.5.5
+  Code:
+      * One-liner bug fix in mathcards.c for rare segfaults during
+        problem list generation (thanks to Tim Holy's test program
+        for mathcards).
+      * Elimination of "evil" macros in titlescreen.h.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2007.Sep.28 (svn.debian.org/tux4kids - revision 279)
+  Code:
+      * Completed the transition in TitleScreen to using a generic
+	menu-traversal function, choose_menu_item.  All the menus have
+	been transitioned over to the new code.  This version fixes a
+	couple of minor visual glitches, slightly enhances consistency
+	across menus, and may fix a bug in the mouse-handling code.  But
+	by and large the main effort has been to replicate the previous
+	behavior using only a single menu-traversal function.  It has
+	been tested for memory leaks with valgrind (none found).
+
+	Tim Holy <holy@wustl.edu>
+
+	
+2007.Sep.28 (svn.debian.org/tux4kids - revision 277)
+  Game:
+    * Completed implementation of high score table and 
+      reorganized related code into highscore.c/h.
+  Code:
+    * Re-implemented DrawButton in more flexible, 
+      generalized, and basically correct fashion - now
+      supports drawing of nice rounded rectangles with
+      any size, corner radius, RGB color, and alpha
+      channel.
+    * Added ConvertUTF.c/.h from Unicode, Inc to support
+      conversions between UTF-8 and wchar_t.
+    
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Sep.18 (svn.debian.org/tux4kids - revision 260)
+  Build:
+    * Modified Makefile.am and data/fonts/Makefile.am to
+      support building dist tarball either with font
+      bundled (make dist_with_fonts) or without font
+      (make dist). Added Andika font to svn.
+    
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Sep.08 (svn.debian.org/tux4kids - revision 233)
+  Code:
+    * Added replacement function for scandir() (called
+      "w32_scandir() ) because scandir isn't available
+      under Windows - or at least isn't supported by
+      mingw32.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Sep.07 (svn.debian.org/tux4kids - revision 231)
+  Version 1.5.4
+
+  Build:
+    * Renamed configure.in to configure.ac as is now preferred.
+    * Removed autogen.sh as autoreconf is preferred.
+  Game:
+    * Added lesson for "Subtraction 0-20"
+      (data/missions/lessons/lesson08.1)
+    * Added hackery to load_default_font() to get it to load
+      "/usr/share/fonts/truetype/ttf-sil-andika/AndikaDesRevG.ttf"
+      (Debian font location) if font not found under data path.
+    * Fixed minor problem with screen redrawing for "Custom Game".
+    * Setup now tries to write user config file (using default
+      settings) if user config file not found, e.g.  when the
+      game is run for the first time by that user.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2007.Aug.27 (svn.debian.org/tux4kids - revision 215)
+
+  Code:
+    * Changed arrays in game.c to dynamic allocation, fixed a
+      crashing bug related to array bounds violation.
+  Game:
+    * Fix of "Custom Game" option to enable play based on user's
+      options file, also added on-screen explanatory text.
+
+      Tim Holy <holy@wustl.edu>
+
+
+2007.Aug.23 (svn.debian.org/tux4kids - revision 212)
+  Version 1.5.3
+
+  Build:
+    * Fixes in images/Makefile.am and image/tux/Makefile.am - some
+      files had been left off EXTRA_DIST list leading to incomplete
+      installation with 1.5.2 tar.gz.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Aug.21 (svn.debian.org/tux4kids - revision 211)
+  Version 1.5.2
+
+  Build:
+    * Doc updates
+    * Fixes in top-level Makefile.am - "make distcheck" now
+      succeeds without errors, "make uninstall" removes data and *.mo
+      files properly.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2007.Aug.21 (svn.debian.org/tux4kids - revision 207)
+  Game:
+    * Fix audio system: clean up properly on exit, more robust handling
+      of the availability of audio hardware, respect --nosound command line
+      parameter setting.
+    * Got demo mode working again
+  Options:
+    * Fix memory leak in parsing options files
+
+      Tim Holy <holy@wustl.edu>
+
+	
+2007.Aug.19 (svn.debian.org/tux4kids - revision 199)
+  Build: 
+    * fix a path in Makefile.am for installing the locales
+
+      Holger Levsen (holger@layer-acht.org)
+
+
+2007.Apr.29 (svn.debian.org/tux4kids - revision 174)
+  Build:
+    * Makefile.am files added to all directories with EXTRA_DIST
+      lists to get "make dist" to generate a working tarball.  It
+      now seems to work correctly, although "make distcheck" fails
+      because msgfmt cannot find the locales to generate the .mo
+      files while doing the test install (a real "make install"
+      works correctly, at least on my system).
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Apr.11 
+  Version 1.5.1
+
+  Game:
+    * Enabled play of custom game based on user's option file.
+  Graphics:
+    * Tweaked black_outline() slightly to improve font appearance.
+  Docs:
+    * Updated changelog, README.txt, INSTALL.txt.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Apr.09 (svn.debian.org/tux4kids - revision 150)
+  Game:
+    * Fixed lesson order bug - code now explicitly sorts the
+      lesson files by alphabetical order of filenames.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Apr.07 (svn.debian.org/tux4kids - revision 149)
+  Game:
+    * Partially implemented high-score table in place (no support
+      yet for player to put in own name).
+    * Font rendering addressed - black_outline() now works as
+      intended (perhaps appearance can be improved).
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Mar.15 (svn.debian.org/tux4kids - revision ??? & ???)
+  Build:
+    * First revision adds Xcode building for MacOSX
+    * Second commit removes the earlier (incomplete) approach to a
+      UNIX-style build. (This was abandoned mainly for reasons of
+      building Universal Binaries---the SDL Frameworks supposedly
+      only work with Xcode)
+	
+      Tim Holy < holy at wustl period edu >
+	
+2007.Mar.08  (svn.debian.org/tux4kids - revision 125)
+  Game:
+    * High scores now saved to and read from file, not yet
+      visible to game player.
+    * svn repository move completed.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Mar.05  (https://svn.tux4kids.net/tuxmath/ - revision 75)
+  Code:
+    * Most of tuxtype-derived code now using functions in
+      fileops.c to load - trying to make this more consistent
+      and unified. Fixes problems finding data files on some
+      Windows machines.
+    * Beginning of audit of all pointers to prevent segfaults and
+      other memory management errors.
+  Game:
+    * Data structures and several functions in place for high score
+      lists (nothing user-visible yet).
+
+      Last commit at svn.tux4kids.net before move to Alioth.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Feb.12  (https://svn.tux4kids.net/tuxmath/ - revision 74)
+  Code:
+    * Fixed MC_FORMULA_LEN bug causing long comet strings to
+      drop last character.
+    * Added new fields to game_options (bonus_comet_interval,
+      bonus_speed_ratio) with relevant support functions.
+    * Further implementation and cleanup of new menus.
+      David Bruce <davidstuartbruce@gmail.com>
+
+  Game:
+    * Implementation of bonus comets that cause an igloo to
+      be rebuilt.
+      Tim Holy <holy@wustl.edu>
+    * Many additional lesson files.
+      David Bruce <davidstuartbruce@gmail.com>
+
+  Build:
+    * Andika font now default, included under data/fonts.
+      Karl Ove Hufthammer <karl@huftis.org>
+
+2007.Jan.31 (https://svn.tux4kids.net/tuxmath/ - revision 72)
+  Game/Graphics:
+    * New graphics in which Tux protects igloo-dwelling
+      penguins rather than cities. The older "city" mode still
+      works and is selectable via the config file.
+    * Restoration of lost igloo after each two waves.
+
+      Tim Holy <holy@wustl.edu>
+
+2007.Jan.24 (https://svn.tux4kids.net/tuxmath/ - revision 69)
+  Options:
+    * More progress on new menu system, generally works
+      correctly to extent that things have been implemented.
+      More 'lesson' files added, now up through addition and
+      subtraction of two-digit positive numbers.
+  Game:
+    * "Typing Tutor" mode added for kids just beginning to 
+      use the keyboard.
+
+      New menu still "alpha" - would not suggest packaging
+      for Debian yet.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2007.Jan.12 (https://svn.tux4kids.net/tuxmath/ - revision 67)
+  Options:
+    * Overhaul of menu system well underway, suitable for
+      alpha/developer preview status.  New menus prominently
+      feature a series of prepared "lessons" to be completed,
+      as well as arcade-style settings of varying difficulty
+      that will ultimately be used to compete for high scores.
+      New menus are basically functional but far from complete.
+  Graphics:
+    * Several very nice space-themed backgrounds adapted from
+      "cosmos" backgrounds directory in Gnome, which I believe
+      should be OK from licensing standpoint.
+  Code:
+    * Bugfix - question_copies parameter now handled correctly
+      in read_config_file().
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Dec.07 (https://svn.tux4kids.net/tuxmath/ - revision 65)
+  Options:
+    * Several files brought in from tuxtype as part of overhaul
+      of titlescreen and menu system: titlescreen.h (header for
+      all of tuxtype-derived files), titlescreen.c, loaders.c,
+      audio.c, gettext.c, alphabet.c, pause.c, theme.c.  The
+      program again compiles and runs, but none of the new code
+      is actually used yet.  Still under heavy construction.
+  Build:
+    * SDL_ttf now needed to build program, although the code
+      that actually uses fonts is not yet active.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 61)
+  Version 1.0.2
+
+  Build:
+    * Support for native MacOSX build (G4-PPC, OSX 10.4) - now 
+      has "macapp" target in Makefile.
+
+      Tim Holy <holy@wustl.edu>
+
+2006.Nov.17  (https://svn.tux4kids.net/tuxmath/ - revision 58)
+  Version 1.0.1
+
+  Game:
+    * Two simple bugfixes for config file input not setting
+      the correct parameter.
+    * Minor updates to docs.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+
+2006.Oct.31 (https://svn.tux4kids.net/tuxmath/ - revision 54)
+  Version 1.0
+
+  Docs:
+    * Updated changelog, README.txt, INSTALL.txt, TODO.txt.
+
+2006.Oct.30 (https://svn.tux4kids.net/tuxmath/ - revision 53)
+  Version 0.98
+
+  Code:
+    * Minor bug fix to prevent the game from asking questions
+      with an indeterminate answer (i.e. 0 / ? = 0).
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Oct.20
+
+  Build:
+    * More support for Windows crossbuild under linux added
+      to svn, including cross-configure.sh and cross-make.sh 
+      scripts and minor changes to configure.in and Makefile.am
+      when building for Windows.
+  Code:
+    * game_options struct now has complete set of accessor
+      functions with sanity checks to keep impossible values
+      from getting read in from config files.  This is in
+      options.c. This fixes several ways in which the program
+      could previously be crashed, and also cleans up 
+      read_config_file() as it no longer needs to do any
+      sanity testing.
+
+2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 48)
+  Version 0.97 final
+
+  Build:
+    * removed icon* from Makefile.am as its included in data
+
+      Holger Levsen <debian@layer-acht.org>
+
+2006.Oct.07 (https://svn.tux4kids.net/tuxmath/ - revision 47)
+
+  Build:
+    * Many files needed for build using autotools added to svn
+      that I previously left out by accident.
+    * autogen.sh added, now build and install under *nix using:
+         ./autogen.h && ./configure && make && make install
+    * make install no longer copies .svn files into data dir
+
+2006.Sep.29 (https://svn.tux4kids.net/tuxmath/ - revision 28)
+  Version 0.97
+
+  Build:
+    * Successful Windows XP build including all current features,
+      config file handling, game summaries.
+    * Build system changed to autoconf/automake. fileops.h/fileops.c
+      changed to accomodate cross-platform build. Under Linux/Unix,
+      now install with ./configure && make && make install.
+
+      Yves Combe <yves@ycombe.net>
+
+2006.Sep.22 (https://svn.tux4kids.net/tuxmath/ - revision 27)
+  Version 0.96
+  
+  Game:
+    * Tuxmath now saves summaries of the last ten games in
+      the player's .tuxmath directory. They are rotated out,
+      with the oldest discarded each time. The summaries
+      include the starting question list, a list of all
+      missed questions, and the numbers of correct and 
+      incorrect answers with percent correct.
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Sep.18 (https://svn.tux4kids.net/tuxmath/ - revision 26)
+  Version 0.95
+
+  Setup:
+    * Config file output cleaned up with better organization
+      and better comments.
+  Game:
+    * Feedback system implemented to dynamically adjust comet
+      speed based on player performance.
+      Tim Holy <holy@wustl.edu>
+  Code:
+    * Fixed bug causing crash if max_comets set too high.
+      Tim Holy <holy@wustl.edu>
+    * Fixed bug causing crash due to SDL_FreeSurface() being
+      called twice on same pointer in certain code path.
+      David Bruce <davidstuartbruce@gmail.com>
+     
+
+2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 22)
+  Version 0.94
+
+  Setup:
+    * Math question formats (answer last, answer first, etc.)
+      are now set independently for each math operation, e.g.
+      "format_add_answer_last", etc.
+  Code:
+    * Mathcards now prints questions in same format as what
+      appears in game (e.g. "2 + 2 = ?").  So far this is 
+      only used for debugging output, but soon tuxmath will
+      save lists of questions asked and questions missed to 
+      files for post-game review.
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Sep.03 (https://svn.tux4kids.net/tuxmath/ - revision 21)
+  Version 0.93
+
+  Code:
+    * config.h/c now called fileops.h/c and all code related to
+      file operations contained here (config files as well as
+      loading of image and sound data files). Both images.h and 
+      sound.h have been incorporated into fileops.h. Idea is to
+      have only one place for OS-specific code, if possible.
+    * setup() split into several smaller functions.
+    * If a sound file cannot be loaded, the program continues 
+      without sound rather than exiting. Bug fixed that caused 
+      this to turn off sound for subsequent games (thanks Tim Holy).
+    * All global data now extern'd in same place in tuxmath.h.
+  Setup:
+    * Better handling of config files.  Program now creates 
+      .tuxmath directory in user's home, config file is in this
+      directory and is called "options".  Global config file
+      located in new "missions" folder in program data (this 
+      will change to something under /etc or /usr/local/etc when
+      I have studied FHS and makefiles more).
+    * Added "--optionfile filename" command-line arg (thanks Yves
+      Combe for suggestion) - program will look for 'filename' in
+      several locations including as absolute path.
+  Docs:
+    * Updates to changelog and TODO.txt; update to usage();
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Aug.22 (https://svn.tux4kids.net/tuxmath/ - revision 20)
+  Version 0.92
+
+  Code:
+    * Patch to allow program to exit more gracefully
+      if unable to load data files - primarily, the screen 
+      resolution goes back to normal instead of staying at
+      640x480.
+      David Yoder <hobie20dude@gmail.com>
+
+2006.Aug.13 (https://svn.tux4kids.net/tuxmath/ - revision 19)
+  Version 0.91
+
+  Code:
+    * Fixed embarrassing bug in revision 18/version 0.9 that 
+      caused program to crash with segmentation fault if 
+      TUXMATH_DEBUG disabled (which was how it was committed).
+      :^(
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Aug.11 (https://svn.tux4kids.net/tuxmath/ - revision 18)
+  Version 0.9 
+
+  Setup:
+    * Tuxmath now reads and writes all settings to disc in human-
+      readable form. The first time it is run by each user, it
+      creates a config file (called .tuxmath for now) in the user's
+      home directory  The settings are initially set to hard-coded
+      defaults, then overridden as needed by a master config file
+      (for now located in DATA_PREFIX i.e. /usr/local/share/tuxmath),
+      then overridden if desired by the user's own config file.
+      The settings are saved from game to game if the file is left
+      unchanged.  Any text editor can be used to modify the settings.
+      The config file contains extensive comments documenting
+      all settings.  Complete control over program behavior is now
+      available without recompiling.
+    * tuxmath -h output updated with prominent notice that config
+      file now being used.
+  Game:
+    * By default the game now plays through the question list and 
+      ends with "Victory" when all questions correctly answered.
+    * game.c now handles 'slow_after_wrong' and other comet and speed
+      settings correctly.
+    * title screen has shortcuts 'P' for Play, 'O' for Options, etc.
+  Code:
+    * names of some of settings in game_options and math_options
+      structs changed to more intuitive/descriptive ones.
+  Docs:
+    * Updates to README.txt and TODO.txt
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Jun.17 (https://svn.tux4kids.net/tuxmath/ - revision 10)
+  Docs:
+    * Updates to README.txt and TODO.txt.
+    * Version designated as 0.8 in README.txt, tuxmath.h, and Makefile.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Jun.12 (https://svn.tux4kids.net/tuxmath/ - revision 9)
+  Game:
+    * Command-line argument added to allow ending the game with
+      "victory" when all questions in the defined list have been
+      successfully answered.
+    * Counter of remaining questions added to upper center of screen
+      when operating in "defined list" mode.
+    * LED numbers now display in "monitor" added to Tux's console
+      when "defined list" mode selected".
+    * Drawing of math question formulas overhauled, with support
+      for display of negatives (e.g. 2 x -3 = ?). The program supports
+      negative numbers for limits of question ranges, but for now
+      this must be selected at compile time.
+    * Support for questions formatted like ? + 2 = 4 and 2 + ? = 4, 
+      in addition to default format (2 + 2 = ?).
+    * Command-line options to select from the three question formats.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.May.16 (https://svn.tux4kids.net/tuxmath/ - revision 8)
+  Code:
+    * Major changes to internal workings of program. Everything 
+      related to generation of math questions is now handled by
+      a backend called MathCards, which generates question lists
+      based on parameters in a struct called math_opts. MathCards
+      is (obviously) contained in two new files, mathcards.h and
+      mathcards.c.  For now, many options can only be set at 
+      compile time by changing the defaults in mathcards.h. 
+      MathCards allows fine-grained control of the questions to
+      be asked, and allows the player to "win" if all of the
+      questions in the list are answered while the cities are
+      still alive.  By default, game behavior is unchanged from
+      previously.
+    * Main game() function in game.c has been split into several
+      smaller functions; updated to use MathCards. 
+    * Options() updated to use MathCards.
+  Game:
+    * demo mode now handles negative answers properly.
+
+  Note: the code contains many FIXMEs and TODOs and should be
+      tested more before being packaged for a distribution.
+      I would describe revision 8 as a developer or alpha release.
+
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Mar.8 (https://svn.tux4kids.net/tuxmath/ - revision 7)
+  Setup:
+    * updated usage() to include all command-line options
+  Credits:
+    * updated credits to include more recent contributions
+  Code:
+    * added tuxmath.h containing the global structs math_options
+      and game_options as well as defaults for all values.
+      Goal is to have one place to look for all global data.
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Mar.1 (https://svn.tux4kids.net/tuxmath/ - revision 6)
+  Game:
+    * Added support for negative subtraction answers.
+      Updated LED drawing to include negative sign.
+      Updated on-screen keypad to include '+' and '-'. 
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Feb.18 (https://svn.tux4kids.net/tuxmath/ - revision 5)
+  Options:
+    * Added mouse support to Options screen
+      David Bruce <davidstuartbruce@gmail.com>
+
+2006.Feb.14 (https://svn.tux4kids.net/tuxmath/ - revision 4)
+  Options:
+    * Added speed control to Options screen
+      Yves Combe <yves@ycombe.net>
+
+2006.Feb.7 (https://svn.tux4kids.net/tuxmath/ - revision 3)
+  Options:
+    * Fixed minor deadlock bug if all operations deselected
+      David Bruce <davidstuartbruce@gmail.com>
+
+2005.Mar.7
+  Interface:
+    * Added sound effects to Options screen.
+    
+    * Comets 'sizzle' when you shoot them.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Correct answer is displayed when a comet hits a city.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+  Game:
+    * Kept first value in division questions from being huge.
+    
+    * Spread out comets in 'slow' mode.
+      Glen Ditchfield <gjditchfield@acm.org>
+
+  Options:
+    * Added basic "Maximum Answer" option.
+
+  Documentation:
+    * Updated Credits screen some.
+
+  Build:
+    * Makefile modifications ($OWNER).
+      Donny Viszneki <smirk@thebuicksix.com>
+
+    * Compile options ("-g" for debugging, then strip)
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Tidier linkage (fewer multiply-included #define's)
+      Glen Ditchfield <gjditchfield@acm.org>
+
+    * Created "uninstall" Makefile target.
+
+2004.Feb.18
+  Game:
+    * Speed now depends on a speed setting, multiplied by the current wave #.
+      Michael Behrisch <behrisch at users.sourceforge.net>
+      
+  Options:
+    * Added "--speed" option to set initial game speed.
+      Michael Behrisch <behrisch at users.sourceforge.net>
+
+2003.Apr.5
+  Interface:
+    * Removed "Alpha Version" stamp from title screen.
+
+  Options:
+    * Replaced info. screen with actual option-setting interface.
+
+    * Alternative command-line options available for operators.
+      ("addition", along with "add",
+       "subtraction", along with "subtract",
+       "multiplication", along with "multiply", and
+       "division" along with "divide")
+
+  Sound:
+    * Increased audio buffer, so it's less choppy-sounding.
+
+  Documentation:
+    * Updated Credits screen.
+
+
+2001.Sep.14:
+  Documentation:
+    * Added more testers, and a "." character, to the credits display.
+
+
+2001.Sep.7:
+  Code:
+    * On-screen keypad control was enabled even if keypad wasn't.  Fixed.
+
+  Game:
+    * Slightly tweaked current equation-generation code to be more interesting.
+      (Will eventually be based on options)
+
+
+2001.Sep.6:
+  Code:
+    * Pause also pauses music
+    * More attention is paid to "NOSOUND" compile-time define
+      (you should now be able to build without SDL_mixer)
+
+  Interface:
+    * In lieu of an option screen, a message asking for help in that
+      aspect of the game design has been added.
+    * Added "SCORE" and "WAVE" displays
+
+  Game:
+    * Waves progress
+    * Score accumulates
+    * Game over at end of wave if all cities destroyed
+
+  Documentation:
+    * INSTALL.txt fleshed out quite a bit.
+
+  Installation:
+    * "install" target added to "makefile"
+
+
+2001.Sep.4:
+  Documentation:
+    * Added copyright info. to the program ("--copyright")
+    * Moved documentation into "docs/" subdirectory
+
+
+2001.Sep.3:
+  Code:
+    * "#ifdef 0" in "src/game.c" replaced.
+
+
+2001.Sep.2:
+  Graphics:
+    * Icon image ("icon.png") changed.
+
+  Documentation:
+    * More added to "README.txt"
+
+
+2001.Aug.31
+  Interface:
+    * Operators used in the game can be overridden ("--operator")
+    * Mouse controls added to title screen
+    * Added keyclick sound effect
+    * Added an on-screen keyboard (eg, for touchscreens?)  ("--keypad")
+
+  Graphics:
+    * Replaced spire with Tux at a console.
+    * Added surface (land) to remaining background photos.
+    * PNGs processed with "pngcrush" to make them smaller.
+    * Comet explosion animation works right.  Also, numbers disappear.
+    * Equations drawn after all comets drawn (to avoid covering them up)
+    * LED digits spread apart
+    * No-background mode draws faux-skyline (instead of black)
+    * "DEMO" on title screen reduced
+
+  Code:
+    * Keyboard event handling and demo mode stuff split up
+    * Demo mode plays more like a regular player
+    * FPS slowed down to max 15fps
+
+
+2001.Aug.30
+  Interface:
+    * Details added to "--help" display.
+
+  Graphics:
+    * Accidentally displayed "DEMO" on title screen even in normal mode. Fixed
+
+
+2001.Aug.29  (Live, from LinuxWorld Expo!)
+  Interface:
+    * Added demo mode ("--demo" option)
+
+
+2001.Aug.28
+  Interface:
+    * Command-line options added ("--help", "--version",
+       "--nosound", "--fullscreen", "--usage", and "--nobackground")
+    * Random backgrounds loaded (optional; use "--nobackground" to disable)
+    * Replaced UFOs with comets
+    * "Paused" text added to screen when game is paused
+    * Laser shot added
+    * Shields added to city
+
+  Graphics:
+    * Converted background PNGs to JPEGs
+    * "Alpha Version" added to title screen
+    * Title screen menu items redone to look nicer
+    * Equations don't disappear off edges of screen
+
+  Code:
+    * References to "aliens" in source replaced with "comets"
+    * Initial sound code added.
+    * Initial music code added.
+    * Sometimes cities would explode at level start. Fixed.
+
+
+2001.Aug.27
+  Interface:
+    * Initial pause code added
+    * KEYPAD numbers accepted in the game
+    * Credits in nifty rainbow colors
+    * Commands on title screen shrunk to fit and centered
+    * Cities explode when crashed-into.
+    * Spire added to game screen.
+    * Extra padding removed from digits image ("nums.png")
+    * Sound support now optional.
+    * Added New Breed Software logo
+
+  Gameplay:
+    * Game loop slowed to max(20fps)
+    * Aliens pick cities to crash into.
+    * Changed equation-creation algorithm
+
+  Code:
+    * More comments added to "game.c"
+    * Makefile fixed (was rebuilding objects due to "obj" _dir_ being newer)
+
+  Documentation:
+    * CHANGES.txt list categorized
+    * TODO.txt list categorized
+    * README.txt expanded some
+
+
+2001.Aug.26
+  * Initial build
+
