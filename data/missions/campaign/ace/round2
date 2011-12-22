@@ -1,0 +1,15 @@
+#ace round 2
+
+addition_allowed = 0
+subtraction_allowed = 0
+multiplication_allowed = 1
+allow_negatives = 1
+min_divisor = -12
+max_divisor = 12
+min_quotient = -12
+max_quotient = 12
+min_multiplier = -10
+max_multiplier = 10
+min_multiplicand = -10
+max_multiplicand = 10
+avg_list_length = 70

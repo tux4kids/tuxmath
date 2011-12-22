@@ -1,0 +1,8 @@
+#scout round 1
+
+addition_allowed = 0
+min_minuend = 0
+max_minuend = 10
+min_subtrahend = 0
+max_subtrahend = 10
+avg_list_length = 40

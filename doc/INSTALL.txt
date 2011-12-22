@@ -1,0 +1,405 @@
+INSTALL.txt for "Tux, Of Math Command" (aka "Tuxmath")
+Version 1.7.2
+
+March 12, 2009
+
+For users
+---------
+
+This document is mostly about building TuxMath on your own
+computer. If you just want to download a working copy of the program,
+then you might want to consider pre-built versions.
+
+For Linux: your distribution probably already has packages available.
+Your distributor probably has a graphical way to install tuxmath.
+Alternatively, you can use the command line to install it.  For
+example, with Debian systems you can say "apt-get install tuxmath" and
+you're done.
+
+The openSUSE Build Service now has extremely up-to-date builds of TuxMath
+for most rpm-based distributions (all recent openSUSE versions, Mandriva 2008
+and 2009, Fedora 9 and 10) that can be found via http://software.opensuse.org/search
+by searching for "tuxmath" (btw, TuxType is available there, too). Preliminary
+developer builds will have "tuxmath_preview" in the package name instead of just
+"tuxmath", but all are available to everyone.
+
+For Windows/Macs: visit http://www.tux4kids.com, click on "Released
+Files," and find the most recent package for your platform.  You will
+not need the source code packages.  Save the package on your
+harddrive and double-click on the icon.
+
+Also, Mac users interested in free/open source software should strongly consider
+the MacPorts project (http://www.macports.org).  MacPorts is a package manager
+for over 5000 free software programs for the Mac. Both TuxMath and TuxType are
+included in MacPorts. Once MacPorts is installed (a simple
+dmg file), it is extremely easy to automatically get the latest version of TuxMath.
+
+
+The remainder of this document is for people who want to compile TuxMath
+themselves on their own computers.
+
+
+Requirements
+------------
+  Operating System
+  ----------------
+    "Tux, of Math Command" ("TuxMath" for short) requires a computer and
+    operating system supported by libSDL.  At the time this document was
+    written, this included:
+
+      Linux
+      Windows 32-bit
+      MacOSX
+      FreeBSD
+      BeOS
+
+    In principle, Tuxmath should build and run on any platform with SDL,
+    including: 
+      Solaris
+      IRIX
+      Other *BSDs
+    However, I do not know if anyone has done a current build on these systems.
+    (as of Jan 2009, OpenSolaris does not have all the needed SDL libs -DSB)
+
+  CPU
+  ---
+    Any machine from the last decade should easily handle TuxMath - when first
+    written, the minimum suggested CPU was a 90 MHz Pentium.
+
+
+  Video Display
+  -------------
+    By default, TuxMath displays fullscreen, as long as a 640x480
+    or greater resolution is supported by your system. Beginning 
+    with the 1.7.0 release, fullscreen mode runs at the native
+    resolution of the operating system, rather than only 640x480.
+    TuxMath can also display the game screen in a 640x480 window.
+    F10 toggles between these two modes.
+
+    TuxMath prefers 32bpp (bits per pixel) color depth.  Current
+    builds have not been tested on systems that cannot provide this
+    (AFAIK), but I believe SDL will make do with lower color depth if
+    necessary.
+
+
+  Sound Card
+  ----------
+    TuxMath attempts to play stereo 16-bit sound and music at
+    44.1Khz, if possible.
+
+    Sound, however, is optional, and can be disabled at compile-time
+    (see below) or run-time (see "README.txt" or the program's "--usage"
+    display).
+
+
+  Input Methods
+  -------------
+    The game is typically played using a keyboard.  The numeric keypad
+    portion of standard PC keyboards is supported (so if there are any
+    stand-alone numeric keyboards with no other keys, they SHOULD
+    work, too).
+
+    Menus and options can be controlled with either the pointer or the
+    keyboard's arrow keys.
+
+    The game can also be played with a large, on-screen numeric keypad
+    which can be accessed using the pointer (ie, a mouse, trackball,
+    touch-screen monitor, touchpad, etc.).  (See "README.txt" or the
+    game's "--usage" display).
+
+
+  Required Libraries
+  ------------------
+    "Tux, of Math Command" uses the Simple DirectMedia Layer library (libSDL)
+    to display graphics, receive keyboard and mouse input, and play sounds.
+    (It was designed around libSDL version 1.2, but later versions should
+    work.)
+
+    It uses the SDL helper library "SDL_image" to load the game's graphics
+    data, as they are in PNG (Portable Network Graphic) format.
+
+    Also, by default, it uses "SDL_mixer" to load and play the game's
+    sound and music.  This library is optional, but without it, the program
+    will be completely silent.
+
+    As of v1.5.8 (Linux), v1.6.0 (Windows), and v1.6.1(MacOSX),
+    internationalization is supported using Gnu gettext and libiconv.
+
+    TuxMath can use either SDL_Pango or SDL_ttf to display text. SDL_Pango
+    is more capable and is required for right-to-left display (e.g. Arabic,
+    Hebrew) and proper rendering of Indic and many other non-Western languages.
+    Also, SDL_Pango takes care of font selection, so it eliminates the need
+    for any bundled fonts. For these reasons, SDL_Pango is the default when
+    available (Linux and the MacPorts build for MacOSX). If SDL_Pango is
+    available, SDL_ttf is not needed (as of v1.7.2).
+
+    SDL_Pango is not yet supported in the Windows build or the CMake MacOSX
+    build (the ones available for download from www.tux4kids.com), so the
+    program still supports SDL_ttf.  For testing purposes, TuxMath can be
+    built without SDL_Pango by "./configure --without-sdlpango".
+
+    The executable Windows installer contains all needed libraries
+    (DLLs) and the Andika font - nothing else should be needed that is
+    not part of Windows.  The *tar.gz source packages require the
+    "*-dev" versions of SDL, SDL_image, SDL_mixer, SDL_ttf (and, optionally,
+    SDL_Pango) for building and installation.  These are easily installed
+    in most any GNU-Linux distribution.  For Debian and its derivatives 
+    (including Ubuntu) type "aptitude search SDL" to find the exact package
+    names, and install them with "sudo aptitude install".  For Fedora and
+    Red Hat derivatives, the "yum" tool works very similarly.
+
+    The Andika font is also included in the "tuxmath_w_fonts-*" packages.
+    You will definitely want this if building for a platform without
+    SDL_Pango. If you have SDL_Pango, both the packages with and without
+    fonts should work fine - the fonts will just take up a bit of space
+    on your hard drive.
+    
+    Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and
+    libiconv are all free, Open Source libraries, released under the
+    GNU Library General Public License (LGPL).
+
+    Getting SDL
+    -----------
+      On Linux, the easy way to get the required SDL packages is from
+      your distributor. See below, "Using SDL Packages".
+
+      Alternatively (and by necessity on other platforms), you can
+      download "libSDL," "SDL_image," "SDL_ttf", and "SDL_mixer" from
+      the SDL website and build these libs from source:
+
+      http://www.libsdl.org/
+
+
+      Specifically, the download pages for each are here:
+
+        libSDL:     http://www.libsdl.org/download-1.2.html
+        SDL_image:  http://www.libsdl.org/projects/SDL_image/
+        SDL_mixer:  http://www.libsdl.org/projects/SDL_mixer/
+        SDL_ttf:    http://www.libsdl.org/projects/SDL_ttf/
+	SDL_Pango:  http://sourceforge.net/projects/sdlpango/
+	SDL_gfx:    http://www.ferzkopp.net/Software/SDL_gfx-2.0/
+
+
+      Using SDL Packages
+      ------------------
+        When building "TuxMath" from source, if you decide to install the
+        SDL libraries using packages (RedHat RPMs or DEBs), you'll
+        need to install not only each library's 'binary' package, but ALSO
+        each library's 'development' package.
+
+        These contain the text "-devel" or "-dev" in the package name.
+
+        Also note: Make sure you download the packages for the appropriate
+        operating system and architecture (eg, an RPM for Linux/i386 for
+        RedHat Linux on Intel-compatible computers).
+
+	For example, on (K)Ubuntu Hardy, you could say:
+           sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0 libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2 libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev
+
+        This should work for nearly any Debian variant.
+
+Compiling and Installing TuxMath
+--------------------------------
+
+Note: there are now two ways to build tuxmath from source.  The first
+(and main method) is using autotools ("./configure && make && make
+install").  The second is to use CMake, which was developed to
+better-support Mac OS X.
+
+
+  Linux/Unix
+  ----------
+    Getting Tuxmath
+    ---------------
+      You can build Tuxmath either with the latest subversion checkout or 
+      using a convenient source tar.gz distribution package. The current
+      website is:
+
+        http://www.tux4kids.com
+
+      where you generally can find the latest tuxmath*tar.gz package.
+
+      The svn repository is located at:
+
+      � http://svn.debian.org/wsvn/tux4kids/tuxmath 
+
+      or:
+
+      � svn://svn.debian.org/tux4kids/tuxmath
+
+    Compiling the Program: Automake (Linux)
+    --------------------------------------
+      If you are using a source tar.gz package (e.g.,
+      tuxmath_w_fonts-1.7.2-tar.gz), all you need to do is unpack the
+      archive in a convient location and do a typical configure, make,
+      and install.  In other words, the tarball contains a complete
+      "GNU Build System".  Note, however, that you will need the
+      "-dev" files for SDL, SDL_image, SDL_mixer, and SDL_ttf/SDL_Pango.
+
+      (NOTE: -If you have built other packages from source, your
+      system is virtually certain to already contain the other
+      standard libs used at compile or run time. If you haven't built
+      anything before, you might need to install some other packages.
+      Notably, on Ubuntu the needed tools are included in a package
+      called "build-essential").
+
+      For example:
+ 
+        tar -xzf tuxmath_w_fonts-1.7.2-tar.gz
+        cd tuxmath_w_fonts-1.7.2
+        ./configure
+        make
+        make install.  (you might need "su" or "sudo" for this)
+ 
+      Note: the build now uses SDL_Pango by default - the "enable-sdlpango"
+      switch is no longer needed.  We now have a "--without-sdlpango" option
+      for testing purposes.  If your build environment lacks SDL_Pango, TuxMath
+      will be built using SDL_ttf instead.
+
+      If you use a subversion checkout, you will need to generate the
+      configure script.  Tuxmath uses the Gnu Autoconf/Automake tools
+      for development. You will Autoconf 2.61 or later, Automake 1.10
+      or later, and Gnu Gettext 0.16 or later, in addition to the libs
+      needed for the build itself. Run Autoconf's "autoreconf" to
+      generate the configure script, Makefile.in's, and friends, so the
+      build process becomes:
+      
+        autoreconf --install;
+        ./configure;
+        make;
+        sudo make install
+
+      Tuxmath supports "parallel" or "vpath" builds to avoid
+      cluttering the source tree with object files, so a clean way
+      would be (starting within trunk):
+
+        mkdir build
+        cd build
+        autoreconf --install ../trunk
+        ../trunk/configure
+        make
+        sudo make install
+
+      (which is what I do).
+
+      By default, the build process will install tuxmath under
+      /usr/local/share for the data and /usr/local/bin for the
+      executable, which is simply called "tuxmath".
+
+      If you are using a deb or rpm-based distribution, your distro
+      may have tuxmath in a prepared package, in which case your job
+      is as simple as "apt-get install tuxmath", "yum install tuxmath",
+      or using a GUI package manager.
+
+  Compiling the Program: CMake (Linux & Mac OS X)
+  ----------------------------------------------
+    The recommended procedure is to build out-of-source (equivalent to
+    the "parallel" or "vpath" build for automake described above).
+
+    From a directory above "trunk," do the following:
+       mkdir build-cmake
+       cd build-cmake
+       cmake ../trunk
+       make
+       make install
+
+    By default, the CMake build includes support for SDL_Pango, if the
+    library & its header can be found.
+
+    On Mac OS X, this builds a static "intl" library (for
+    internationalization support) and creates a .dmg file. Building
+    requires the full gettext infrastructure; see below under "Mac OS
+    X" for more details.
+
+
+  Windows 
+  -------
+
+      Tuxmath can be cross-compiled for Windows under Linux.  I have
+      done this on my Debian system. Once the crossbuild environment
+      is set up, the process is simple and nearly automatic.
+
+      In order to get a successful crossbuild using gettext, it was
+      necessary to set up a "pure" mingw environment, in particular
+      avoiding the use of libgw32c.  I also stopped using the
+      Debian-packaged mingw32 cross-tools and used the script directly
+      from the mingw project:
+
+      http://downloads.sourceforge.net/mingw/x86-mingw32-build.sh-0.0-20061107-1.tar.bz2
+
+      I used the above to create a crossbuild environment under
+      /usr/local/mingw.
+
+      After that, I built *everything* from source needed for the
+      crossbuild, including all the SDL* libs, gettext, libiconv,
+      libjpeg, freetype, and so forth.  There were a number of
+      pitfalls along the way, and hopefully I will get this documented
+      at some point.  Suffice to say that tuxmath itself builds fine
+      in this way, once the environment is set up.  The only deficiency
+      as of this writing is that SDL_Pango is not supported.
+
+      You need to have a directory containing all of the dlls that
+      will need to be packaged into the installer.  The Makefile
+      expects them to be in NSI_DLL_DIR, which I have set to
+      ~/tuxmath_dll. On my machine, this contains:
+
+        dbruce@debian:~/tuxmath_dll$ ls
+        jpeg.dll      ogg.dll        SDL_mixer.dll  vorbis.dll
+        libpng12.dll  SDL.dll        SDL_ttf.dll    vorbisfile.dll
+        libtiff.dll   SDL_image.dll  smpeg.dll      zlib1.dll
+        libiconv-2.dll
+
+      The svn repository has a directory with copies of all of these files:
+
+        tuxmath/people/dbruce/tuxmath_dll
+
+
+      If you have done a native (Linux) build in the same source tree, run 
+      "make distclean" to get rid of the autogenerated files.
+
+      From the trunk dir, run:
+         autoreconf --install
+         ./cross-configure.sh
+         ./cross-make.sh
+         ./cross-make.sh nsis
+
+      This should create the windows installer file
+      ("tuxmath-1.7.2-win32-installer.exe") under trunk.
+
+      Installation on Windows:
+      ------------------------
+      To install, simply execute the installer file on the Windows
+      machine. Depending on the version of Windows and the computer's
+      security settings, it may be necessary to install with
+      administrator privileges in order to use the default
+      installation location (C:\Program Files\Tuxmath). If you are not
+      able to write to the default location, TuxMath can be installed
+      in any writable location (i.e. "My Documents") and should
+      function correctly.  It can be run with ordinary user
+      privileges, even if installed by the administrator.
+
+
+  Mac OS X:
+  ----------------------------------
+
+  There are several options for compiling on OS X.  If you just want
+  to do a local build, using macports (http://www.macports.org/) is
+  perhaps the easiest approach: "port install tuxmath" and then wait.
+  MacPorts can also build .dmg files with "port mdmg tuxmath".  The
+  MacPorts dmg files are very big because they include all the library
+  dependencies, even things like the X server. 
+
+  To build a .dmg, another approach is to use CMake (described above
+  under Linux/Unix).  You will need to have both gettext and cmake
+  installed on the build machine; using macports is the easiest way,
+  "port install cmake gettext".
+
+  "make install" will create the .dmg in the build directory.
+
+  Finally, it is also possible to do the conventional "./configure;
+  make; make install" if you have the required libraries.
+
+  There is still an old XCode project file in the macosx/ directory,
+  but this is not up-to-date.  If you want to develop with XCode, your
+  best bet might be to use CMake to create a new XCode project.  See
+  the CMake documentation for details.

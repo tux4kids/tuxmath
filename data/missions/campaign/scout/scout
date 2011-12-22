@@ -1,0 +1,26 @@
+# campaign scout stage lesson file
+
+addition_allowed = 0
+subtraction_allowed = 1
+multiplication_allowed = 0
+division_allowed = 0
+typing_practice_allowed = 0
+allow_negatives = 0
+max_formula_nums = 2
+min_formula_nums = 2
+comprehensive = 1
+question_copies = 1
+copies_repeated_wrongs = 1
+format_add_answer_last = 1
+format_add_answer_first = 0
+format_add_answer_middle = 0
+max_answer = 100
+starting_comets = 2
+extra_comets_per_wave = 2
+max_comets = 8
+max_speed = 10
+speed = 1.00
+speedup_factor = 1.1
+bonus_comet_interval = 15
+vary_list_length = 0
+

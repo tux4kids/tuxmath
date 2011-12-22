@@ -1,0 +1,8 @@
+#cadet round 3
+
+typing_practice_allowed = 0
+min_augend = 0
+max_augend = 20
+min_addend = 0
+max_addend = 20
+avg_list_length = 50

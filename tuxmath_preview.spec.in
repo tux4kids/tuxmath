@@ -1,0 +1,150 @@
+## tuxmath_preview.spec.in - process with configure to substitute in PACKAGE
+## VERSION strings
+#
+# spec file for preview packages for tuxmath 
+#
+# Note: this spec file is intended to produce RPM packages with
+# "tuxmath_preview" rather than "tuxmath" as the package name, but
+# otherwise identical for a given *.bzip2 source archive.
+#
+# It is intended for preview packaging of code that is under active
+# development prior to the next general release.
+#
+# This file and all modifications and additions to the pristine
+# package are under the same license as the package itself.
+#
+
+
+Name:           @PACKAGE@_preview
+Obsoletes:      tuxmath = 2001.09.07
+Obsoletes: 	tuxmath <= @VERSION@
+%define         realname @PACKAGE@
+%define         progname @PACKAGE@
+Summary:        Tux Math - educational math game
+Version:        @VERSION@
+Release:        1
+License:        GPL
+Group:          Amusements/Teaching/Mathematics
+Url:            http://tux4kids.alioth.debian.org/
+Vendor:         openSUSE-Education
+
+BuildRequires:  SDL_image-devel >= 1.2.2
+#BuildRequires:  SDL_ttf-devel > 2.0.8
+BuildRequires:  SDL-devel
+BuildRequires:  SDL_mixer-devel
+BuildRequires:  SDL_Pango-devel
+BuildRequires:  ImageMagick
+
+%if 0%{?suse_version}
+BuildRequires:  update-desktop-files
+BuildRequires:  fdupes
+%endif
+
+%if 0%{?fedora_version}
+BuildRequires:  desktop-file-utils
+%endif
+
+%if 0%{?mandriva_version}
+BuildRequires:  desktop-file-utils
+Requires(post): desktop-file-utils
+Requires(postun): desktop-file-utils
+%endif
+%if 0%{?mandriva_version} >= 2009
+BuildRequires: pulseaudio-esound-compat
+%endif  
+
+Source0:        %realname-%version.tar.bz2
+
+BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+
+%description
+An educational math tutorial game starring Tux, the Linux Penguin.
+
+Based on the classic arcade game "Missile Command," Tux must defend his cities. 
+In this case, though, he must do it by solving math problems.
+
+Authors:
+========
+  Bill Kendrick
+  David Bruce
+  Tim Holy
+  Brendan Luchen
+  Jesus Mager
+  Sam 'Criswell' Hart
+  Larry Ewing
+
+
+
+# prep section: ---------------------------------------------------------
+
+%prep
+%setup -q -n %realname-%version
+rm -rf $(find . -type d -name CVS)
+rm -rf $(find . -type d -name .svn)
+rm -rf $(find . -type d -name .xvpics)
+
+
+
+# build section: ---------------------------------------------------------
+
+%build
+%configure --disable-rpath
+make %{?jobs:-j %jobs}
+
+
+
+# install section: ---------------------------------------------------------
+
+%install
+install -d %buildroot/{%_bindir,%_datadir/pixmaps,%_datadir/applications,%_datadir/%progname,%_defaultdocdir/%progname}
+make DESTDIR=%{buildroot} install
+install -m 644 data/images/icons/icon.png %buildroot%_datadir/pixmaps/%progname.png
+
+%if 0%{?suse_version}
+# handle special docdir path
+mv %buildroot/%_datadir/doc/%progname/* %buildroot/%_defaultdocdir/%progname/
+rm -rf %buildroot/%_datadir/doc/%progname
+# install desktop file
+%suse_update_desktop_file -i %progname Education Math
+%fdupes -s %buildroot
+%endif
+%if 0%{?fedora_version}
+# install desktop file
+desktop-file-install --vendor="%{vendor}" \
+  --dir=%buildroot/%_datadir/applications \
+  %progname.desktop
+%endif
+%if 0%{?mandriva_version}
+desktop-file-install --vendor="%{vendor}" \
+  --dir=%buildroot/%_datadir/applications \
+  %progname.desktop
+%endif
+# remove invalid locale directories
+rm -rf %buildroot/%{_datadir}/locale/en@*
+%find_lang %progname
+
+%if 0%{?mandriva_version}
+%post
+%{update_menus}
+
+%postun
+%{clean_menus}
+%endif
+
+%clean
+rm -rf %buildroot
+
+
+
+# files section: ---------------------------------------------------------
+
+%files -f %progname.lang
+
+%defattr(-,root,root)
+%doc %_defaultdocdir/%progname
+%_bindir/*
+%_datadir/pixmaps/*
+%_datadir/applications/*
+%_datadir/%progname
+
+%changelog

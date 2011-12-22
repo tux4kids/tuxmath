@@ -1,0 +1,504 @@
+############################################################
+#                                                          #
+#       Tuxmath configuration file for the "demo" mode     #
+#       selected on the "More options" menu item.          #
+#                                                          #
+############################################################
+############################################################
+#                                                          #
+#              Tuxmath Configuration File                  #
+#                                                          #
+# The behavior of Tuxmath can be controlled to a great     #
+# extent by editing this file with any and saving it in    #
+# the default options location ($HOME/.tuxmath/options).   #
+# The file consists of 'NAME = VALUE' pairs, one pair per  #
+# line. Each option is one of the following types:         #
+#                                                          #
+#     boolean: 1 (synonyms 'true', 'T', 'yes', 'Y', 'on')  #
+#              or                                          #
+#              0 (synonyms 'false, 'F', 'no', 'N', 'off')  #
+#     integer  (i.e. non-fractional numbers)               #
+#     float    (i.e decimal fractions)                     #
+#                                                          #
+# Lines beginning with '#' or ';' are ignored as comments. #
+# The synonyms for boolean '0' and '1' are accepted as     #
+# input, but always written as '0' or '1' when Tuxmath     #
+# writes a config file to disk.                            #
+# The file is organized with the more important options    #
+# first.                                                   #
+############################################################
+
+############################################################
+#                                                          #
+#                       Game Mode                          #
+#                                                          #
+# Parameter: play_through_list (Boolean)                   #
+# Default: 1                                               #
+#                                                          #
+# Tuxmath generates a list of math questions based on      #
+# parameters set below.  By default, (play_through_list =  #
+# 1) the questions are asked in a random order.            #
+# Correctly answered questions are removed from the list.  #
+# If the player fails to correctly answer a question       #
+# before it hits a city, the question will be reinserted   #
+# into the list in a random location.                      #
+# The player wins if all questions are answered correctly  #
+# before the cities are destroyed.                         #
+#                                                          #
+# Alternatively, Tuxmath can be played in 'Arcade Mode'    #
+# by setting play_through_list = 0 (i.e. 'false'). If this #
+# is done, all questions will be randomly reinserted into  #
+# the list whether or not they are answered correctly, and #
+# the game continues as long as there is a surviving city. #
+############################################################
+
+play_through_list = 0
+
+############################################################
+#                                                          #
+#                 Speed and Number of Comets               #
+#                                                          #
+# Parameter: allow_speedup (boolean)                       #
+# Default: 1                                               #
+# Parameter: use_feedback  (boolean)                       #
+# Default: 0                                               #
+#                                                          #
+# By default, the comets become faster and more numerous   #
+# with each succeeding. The increase can be prevented      #
+# by setting 'allow_speedup' to 0.                         #
+#                                                          #
+# If 'allow_speedup' is enabled, it is also possible to    #
+# dynamically adjust the speed to the player's performance #
+# by setting 'use_feedback' to 1.  This feature attempts   #
+# to speed the game up if it is too easy for the player,   #
+# and to slow it down if the player is having trouble.     #
+#                                                          #
+# Many additional parameters under 'Advanced Options' can  #
+# be used to fine-tune these behaviors.                    #
+############################################################
+
+allow_speedup = 1
+use_feedback = 0
+
+############################################################
+#                                                          #
+#               Selecting Math Operations                  #
+#                                                          #
+# Parameter: addition_allowed (boolean)                    #
+# Default: 1                                               #
+# Parameter: subtraction_allowed (boolean)                 #
+# Default: 1                                               #
+# Parameter: multiplication_allowed (boolean)              #
+# Default: 1                                               #
+# Parameter: division_allowed (boolean)                    #
+# Default: 1                                               #
+#                                                          #
+# These options enable questions for each of the four math #
+# operations.  All are 1 (yes) by default.                 #
+############################################################
+
+addition_allowed = 1
+subtraction_allowed = 1
+multiplication_allowed = 1
+division_allowed = 1
+
+############################################################
+#                                                          #
+#                    Typing Practice                       #
+#                                                          #
+# Parameter: typing_practice_allowed (boolean)             #
+# Default: 0                                               #
+#                                                          #
+# This option simply displays numbers for the youngest     #
+# players to type in to learn the keyboard.                #
+############################################################
+
+typing_practice_allowed = 0
+
+############################################################
+#                                                          #
+#                 Negative Number Support                  #
+#                                                          #
+# Parameter: allow_negatives (boolean)                     #
+# Default: 0                                               #
+#                                                          #
+# 'allow_negatives' allows or disallows use of negative    #
+# numbers as both operands and answers.  Default is 0      #
+# (no), which disallows questions like:                    #
+#          2 - 4 = ?                                       #
+# Note: this option must be enabled in order to set the    #
+# operand ranges to include negatives. If it is changed    #
+# from 1 (yes) to 0 (no), any negative operand limits will #
+# be reset to 0.                                           #
+############################################################
+
+allow_negatives = 0
+
+############################################################
+#                                                          #
+#      Minimum and Maximum Values for Operand Ranges       #
+#                                                          #
+# Parameters: (multiple - all integer type)                #
+#                                                          #
+# Operand limits can be set to any integer up to the       #
+# value of 'max_answer'. Tuxmath will generate questions   #
+# for every value in the specified range. The maximum must #
+# be greater than or equal to the corresponding minimum    #
+# for any questions to be generated for that operation.    #
+# Defaults are 0 for minima and 12 for maxima.             #
+#                                                          #
+# Note: 'allow_negatives' must be set to 1 for negative    #
+# values to be accepted (see 'Advanced Options').          #
+############################################################
+
+# Addition operands:
+# augend + addend = sum
+
+min_augend = 0
+max_augend = 20
+min_addend = 0
+max_addend = 20
+
+# Subtraction operands:
+# minuend - subtrahend = difference
+
+min_minuend = 0
+max_minuend = 20
+min_subtrahend = 0
+max_subtrahend = 20
+
+# Multiplication operands:
+# multiplier * multiplicand = product
+
+min_multiplier = 0
+max_multiplier = 10
+min_multiplicand = 0
+max_multiplicand = 10
+
+# Division operands:
+# dividend/divisor = quotient
+
+min_divisor = 0
+max_divisor = 10
+min_quotient = 0
+max_quotient = 10
+
+# Typing practice:
+
+min_typing_num = 0
+max_typing_num = 10
+
+
+############################################################
+#                                                          #
+#                 General Game Options                     #
+#                                                          #
+# Parameter: use_sound (boolean)                           #
+# Default: 1                                               #
+# Parameter: menu_sound (boolean)                          #
+# Default: 1                                               #
+# Parameter: menu_music (boolean)                          #
+# Default: 1                                               #
+# Parameter: fullscreen (boolean)                          #
+# Default: 1                                               #
+# Parameter: demo_mode (boolean)                           #
+# Default: 0                                               #
+# Parameter: use_keypad (boolean)                          #
+# Default: 0                                               #
+# Parameter: allow_pause (boolean)                         #
+# Default: 0                                               #
+# Parameter: use_igloos (boolean)                          #
+# Default: 1                                               #
+# Parameter: save_game_summary (boolean)                   #
+# Default: 1                                               #
+#                                                          #
+# These parameters control various aspects of Tuxmath's    #
+# not directly related to the math question to be asked.   #
+############################################################
+
+# Use game sounds and background music if possible:
+#use_sound = 1
+#menu_sound = 1
+#menu_music = 1
+
+# Use fullscreen at 640x480 resolution instead of
+# 640x480 window. Change to 0 if SDL has trouble with
+# fullscreen on your system:
+#fullscreen = 1
+
+# Display jpg images for background:
+use_bkgd = 1
+
+# Run Tuxmath as demo (i.e. without user input):
+demo_mode = 1
+
+# Display onscreen numeric keypad - allows mouse-only
+# gameplay or use with touchscreens:
+use_keypad = 0
+
+# Allow 'Pause' feature - should disable this
+# when competing for high scores!
+allow_pause = 1
+
+# Use newer graphics where Tux defends igloo-
+# dwelling penguins (for those who find the older
+# images of exploding cities to be distasteful)
+use_igloos = 1
+
+# By default, Tuxmath saves summaries of the last
+# ten games in the user's .tuxmath directory. Set
+# this parameter to '0' to turn off.
+save_summary = 1
+
+
+
+############################################################
+#                                                          #
+#                   Advanced Options                       #
+#                                                          #
+# The remaining settings further customize Tuxmath's       #
+# behavior.  Most users will probably not change them.     #
+############################################################
+
+
+############################################################
+#                                                          #
+#           Advanced Math Question List Options            #
+#                                                          #
+# Parameter: question_copies (integer)                     #
+# Default: 1                                               #
+# Parameter: repeat_wrongs (boolean)                       #
+# Default: 1                                               #
+# Parameter: copies_repeated_wrongs (integer)              #
+# Default: 1                                               #
+#                                                          #
+# These settings offer further control over the question   #
+# list and are generally only useful if 'play_through_list'#
+# is enabled (as it is by default).                        #
+#                                                          #
+# 'question_copies' is the number of times each question   #
+# is put into the initial list. It can be 1 to 10.         #
+#                                                          #
+# 'repeat_wrongs' determines whether questions the player  #
+# failed to answer correctly will be asked again.          #
+#                                                          #
+# 'copies_repeated_wrongs' gives the number of times a     #
+# missed question will reappear. This can be set anywhere  #
+# from 1 to 10.                                            #
+#                                                          #
+# The defaults for these values result in a 'mission'      #
+# for Tux that is accomplished by answering all            #
+# questions correctly with at least one surviving city.    #
+############################################################
+
+question_copies = 1
+repeat_wrongs = 1
+copies_repeated_wrongs = 1
+
+############################################################
+#                                                          #
+#                 Math Question Formats                    #
+#                                                          #
+# The 'format_<op>_answer_<place>  options control         #
+# generation of questions with the answer in different     #
+# places in the equation.  i.e.:                           #
+#                                                          #
+#    format_add_answer_last:    2 + 2 = ?                  #
+#    format_add_answer_first:   ? + 2 = 4                  #
+#    format_add_answer_middle:  2 + ? = 4                  #
+#                                                          #
+# By default, 'format_answer_first' is enabled and the     #
+# other two formats are disabled.  Note that the options   #
+# are not mutually exclusive - the question list may       #
+# contain questions with different formats.                #
+#                                                          #
+# The formats are set independently for each of the four   #
+# math operations. All parameters are type 'boolean'.      #
+############################################################
+
+format_add_answer_last = 1
+format_add_answer_first = 0
+format_add_answer_middle = 0
+format_sub_answer_last = 1
+format_sub_answer_first = 0
+format_sub_answer_middle = 0
+format_mult_answer_last = 1
+format_mult_answer_first = 0
+format_mult_answer_middle = 0
+format_div_answer_last = 1
+format_div_answer_first = 0
+format_div_answer_middle = 0
+
+############################################################
+#                                                          #
+# Parameter: max_answer (integer)                          #
+# Default: 999                                             #
+#                                                          #
+# 'max_answer' is the largest absolute value allowed in    #
+# any value in a question (not only the answer). Default   #
+# is 999, which is as high as it can be set. It can be set #
+# lower to fine-tune the list for certain 'lessons'.       #
+############################################################
+
+max_answer = 100
+
+############################################################
+#                                                          #
+# Parameter: max_questions (integer)                       #
+# Default: 5000                                            #
+#                                                          #
+# 'max_questions' is limit of the length of the question   #
+# list. Default is 5000 - only severe taskmasters will     #
+# need to raise it!                                        #
+############################################################
+
+max_questions = 25000
+
+############################################################
+#                                                          #
+# Parameter: randomize (boolean)                           #
+# Default: 1                                               #
+#                                                          #
+# If 'randomize' selected, the list will be shuffled       #
+# at the start of the game. Otherwise, the questions       #
+# appear in the order the program generates them.          #
+############################################################
+
+randomize = 1
+
+############################################################
+#                                                          #
+#                Advanced Comet Speed Options              #
+#                                                          #
+# Parameter: starting_comets (integer)                     #
+# Default: 2                                               #
+# Parameter: extra_comets_per_wave (integer)               #
+# Default: 2                                               #
+# Parameter: max_comets (integer)                          #
+# Default: 10                                              #
+# Parameter: speed (float)                                 #
+# Default: 1.00                                            #
+# Parameter: max_speed (float)                             #
+# Default: 10.00                                           #
+# Parameter: speedup_factor (float)                        #
+# Default: 1.20                                            #
+# Parameter: bonus_comet_interval (integer)                #
+# Default: 10                                              #
+# Parameter: bonus_speed_ratio (float)                     #
+# Default: 1.50                                            #
+# Parameter: slow_after_wrong (bool)                       #
+# Default: 0                                               #
+#                                                          #
+# (for 'feedback' speed control system):                   #
+# Parameter: danger_level (float)                          #
+# Default: 0.35                                            #
+# Parameter: danger_level_speedup (float)                  #
+# Default: 1.1                                             #
+# Parameter: danger_level_max (float)                      #
+# Default: 0.9                                             #
+# Parameter: city_explode_handicap (float)                 #
+# Default: 0                                               #
+#                                                          #
+# The comet number parameters and initial/max speed apply  #
+# whether or not the feedback system is activated.         #
+#                                                          #
+# 'speedup_factor' and 'slow_after_wrong' only apply if    #
+# feedback is not activated.                               #
+#                                                          #
+# The 'danger_level_*' and 'city_explode_handicap'         #
+# parameters are only used if feedback is activated.       #
+############################################################
+
+
+# Number of comets for first wave. Default is 2.
+starting_comets = 2
+
+# Comets to add for each successive wave. Default is 2.
+extra_comets_per_wave = 2
+
+# Maximum number of comets. Default is 10.
+max_comets = 10
+
+# Starting comet speed. Default is 1.
+speed = 1.00
+
+# Maximum speed. Default is 10.
+max_speed = 10.00
+
+# 'speedup_factor': If feedback is not used but 
+# 'allow_speedup' is enabled, the comet speed will be
+# multiplied by this factor with each new wave.
+# Values from 0.5 to 2 are accepted (note that a 
+# value less than 1 causes the comets to be 
+# slower with each wave!).
+# Default is 1.2 (i.e. 20 percent increase per wave)
+
+speedup_factor = 1.20
+
+# 'bonus_comet_interval' controls how frequently
+# special comets appear that cause a igloo to be  
+# rebuilt if answered correctly. The bonus comet  
+# appears after this number of regular comets (a  
+# value of 0 disables bonus comets). Default is 10. 
+bonus_comet_interval = 10
+
+# 'bonus_speed_ratio' determines how fast the
+# bonus comets fall relative to the regular comets.
+# Range 1.0 - 3.0, default 1.5:
+bonus_speed_ratio = 1.80
+
+# 'slow_after_wrong' tells Tuxmath to go back to  
+# starting speed and number of comets if the player misses 
+# a question. Useful for smaller kids. Default is 0.
+
+slow_after_wrong = 0
+
+# (Feedback) Set the desired danger level.
+# 0 = too safe, comets typically exploded at the very top
+# 1 = too dangerous, comets typically exploded as they
+# hit cities. Set it somewhere between these extremes. As
+# a guideline, early elementary kids might prefer
+# 0.2-0.3, older kids at around 0.4-0.6. Default 0.35.
+
+danger_level = 0.35
+
+# (Feedback) Set danger level speedup.
+# The margin of safety will decrease by this factor each
+# wave. Default 1.1. Note 1 = no increase in danger level.
+
+danger_level_speedup = 1.00
+
+# (Feedback) Set the maximum danger level.
+# Default 0.9.
+danger_level_max = 0.90
+
+# (Feedback) Set the handicap for hitting cities.
+# When bigger than 0, this causes the game to slow down
+# by an extra amount after a wave in which one or more
+# cities get hit. Note that this is similar to
+# 'slow_after_wrong', but allows for more gradual
+# changes. Default 0 (no extra handicap).
+
+city_explode_handicap = 0.00
+
+
+############################################################
+#                                                          #
+#                 Restricting User Settings                #
+#                                                          #
+# Parameter: per_user_config (boolean)                     #
+# Default: 1                                               #
+#                                                          #
+# 'per_user_config' determines whether Tuxmath will look   #
+# in the user's home directory for settings. Default is 1  #
+# (yes). If set to 0, the program will ignore the user's   #
+# .tuxmath file and use the the global settings in the     #
+# installation-wide config file.                           #
+#                                                          #
+# This setting cannot be changed by an ordinary user, i.e. #
+# it is ignored unless the config file is Tuxmath's global #
+# config file. Thus, users cannot 'lock themselves out'    #
+# by accidentally setting this to 0.                       #
+############################################################
+
+per_user_config = 1
