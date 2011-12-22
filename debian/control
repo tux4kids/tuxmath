@@ -5,8 +5,8 @@ Maintainer: Holger Levsen <holger@debian.org>
 Build-Depends: debhelper (>=5.0.42), libsdl1.2-dev, libsdl-image1.2-dev, libsdl-mixer1.2-dev, libsdl-ttf2.0-dev, libx11-6, libxext6, libsdl-pango-dev, librsvg2-dev, libsdl-net1.2-dev
 Standards-Version: 3.9.2
 Homepage: http://tux4kids.alioth.debian.org
-Vcs-Svn: svn://svn.debian.org/svn/tux4kids/tuxmath/
-Vcs-Browser: http://svn.debian.org/wsvn/tux4kids/tuxmath/
+Vcs-Git: git://anonscm.debian.org/tux4kids/tuxmath.git
+Vcs-Browser: http://anonscm.debian.org/git/tux4kids/tuxmath.git
 
 Package: tuxmath
 Architecture: any

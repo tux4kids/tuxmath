@@ -1,6 +1,10 @@
 tuxmath (1.8.0-4) UNRELEASED; urgency=low
 
-  * Bump standards version to 3.9.2, no changes needed.
+  * debian/control:
+    - update Vcs-Headers as tuxmath is now maintained in git. 
+    - bump standards version to 3.9.2, no changes needed.
+  * debian/copyright: mention location of upstream GIT repository, instead of
+    svn.
 
  -- Holger Levsen <holger@debian.org>  Thu, 22 Dec 2011 19:16:00 +0100
 

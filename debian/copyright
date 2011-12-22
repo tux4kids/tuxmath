@@ -3,8 +3,8 @@ Tue,  7 Dec 2004 00:18:36 -0200.
 It was brought up to date by Holger Levsen <debian@layer-acht.org> on
 Sun, 22 Jan 2006 00:27:22 +0000
 
-The upstream SVN is available here:
-    svn://svn.debian.org/svn/tux4kids/tuxmath/trunk
+The upstream GIT is here:
+    http://anonscm.debian.org/gitweb/?p=tux4kids/tuxmath.git;a=summary
 
 Releases are available here:
     http://tux4kids.alioth.debian.org
