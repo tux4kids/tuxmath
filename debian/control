@@ -10,7 +10,7 @@ Vcs-Browser: http://anonscm.debian.org/git/tux4kids/tuxmath.git
 
 Package: tuxmath
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}, ttf-sil-andika (>=1.0.basic-1)
+Depends: ${misc:Depends}, ${shlibs:Depends}, fonts-sil-andika | ttf-sil-andika (>=1.0.basic-1)
 Suggests: ttf-wqy-zenhei | ttf-arphic-uming
 Description: math game for kids with Tux 
  "Tux, of Math Command" ("TuxMath," for short) is an
