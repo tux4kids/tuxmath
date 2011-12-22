@@ -1,4 +1,4 @@
-tuxmath (1.8.0-4) UNRELEASED; urgency=low
+tuxmath (1.8.0-4) unstable; urgency=low
 
   * debian/control:
     - update Vcs-Headers as tuxmath is now maintained in git. 
@@ -8,7 +8,7 @@ tuxmath (1.8.0-4) UNRELEASED; urgency=low
   * debian/copyright: mention location of upstream GIT repository, instead of
     svn.
 
- -- Holger Levsen <holger@debian.org>  Thu, 22 Dec 2011 19:16:00 +0100
+ -- Holger Levsen <holger@debian.org>  Thu, 22 Dec 2011 19:39:06 +0100
 
 tuxmath (1.8.0-3) unstable; urgency=low
 
