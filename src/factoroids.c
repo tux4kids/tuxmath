@@ -1920,7 +1920,7 @@ int FF_add_laser(void)
     if (screensize < screen->h)
 	screensize = screen->h;
 
-    for(i=0; i<=MAX_LASER; i++)
+    for(i=0; i<MAX_LASER; i++)
     {
 	if(laser[i].alive==0)
 	{

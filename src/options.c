@@ -92,6 +92,10 @@ const int DEFAULT_GLOBAL_OPTS[NUM_GLOBAL_OPTS] = {
 static game_option_type* game_options = NULL;
 static global_option_type* global_options = NULL;
 
+/* windowed mode screen  size */
+extern int win_res_x;
+extern int win_res_y;
+
 /*local function prototypes: */
 static int int_to_bool(int i);
 //static int find_and_set_option(const char* name, int val);
@@ -168,6 +172,8 @@ int Opts_Initialize(void)
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
 
   game_options->fps_limit = DEFAULT_FPS_LIMIT;
+  game_options->w_width = DEFAULT_WINDOW_WIDTH;
+  game_options->w_height = DEFAULT_WINDOW_HEIGHT;
 
   DEBUGCODE(debug_options)
     print_game_options(stdout, 0);
@@ -622,6 +628,29 @@ void Opts_SetFPSLimit(int val)
   game_options->fps_limit = val;
 }
 
+
+void Opts_SetWindowWidth(int val)
+{
+    game_options->w_width = val;
+
+    if(val > 0)
+    {
+        win_res_x = val;
+    }
+}
+
+
+void Opts_SetWindowHeight(int val)
+{
+    game_options->w_height = val;
+
+    if(val > 0)
+    {
+        win_res_y = val;
+    }
+}
+
+
 /* "Get" functions for tuxmath options struct: */
 //int Opts_PerUserConfig(void)
 //{
@@ -1049,6 +1078,19 @@ int Opts_FPSLimit(void)
     }
     return game_options->fps_limit;
 }
+
+
+int Opts_WindowWidth(void)
+{
+    return game_options->w_width;
+}
+
+
+int Opts_WindowHeight(void)
+{
+    return game_options->w_height;
+}
+
 
 /********************************************************************/
 /*  "private methods" (static functions only visible in options.c)  */

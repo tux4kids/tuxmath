@@ -125,6 +125,8 @@ extern const int debug_multiplayer;
 #define DEFAULT_CITY_EXPL_HANDICAP 0
 #define DEFAULT_LAST_SCORE 0
 #define DEFAULT_FPS_LIMIT 60
+#define DEFAULT_WINDOW_WIDTH 640
+#define DEFAULT_WINDOW_HEIGHT 480
 
 /* These values are hard-coded and used 'as is' by the program */
 /* (i.e. these behaviors require recompilation to change)   */ 

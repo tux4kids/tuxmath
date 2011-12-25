@@ -212,11 +212,19 @@ static char* last_config_file_name = NULL;
 char *get_user_data_dir ()
 { 
   if (! user_data_dir)
+  {
 #ifdef BUILD_MINGW32
      user_data_dir = GetDefaultSaveDir(PROGRAM_NAME);
 #else
-     user_data_dir = strdup(getenv("HOME"));
+     //I think this should be slash terminated
+     user_data_dir = (char*)malloc(strlen(getenv("HOME"))+2);
+     if(user_data_dir)
+     {
+         strcpy(user_data_dir, getenv("HOME"));
+         strcat(user_data_dir, "/");
+     }
 #endif
+  }
 
   return user_data_dir;  
 }
@@ -1343,6 +1351,24 @@ int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
             Opts_SetFPSLimit(atoi(value));
         }
 
+        else if (0 == strcasecmp(parameter, "window_width"))
+        {
+            int w = atoi(value);
+
+            //Read them only if resolution wasn't set through
+            //command line options
+            if(w > 0 && Opts_WindowWidth() == DEFAULT_WINDOW_WIDTH)
+                Opts_SetWindowWidth(w);
+        }
+
+        else if (0 == strcasecmp(parameter, "window_height"))
+        {
+            int h = atoi(value);
+
+            if(h > 0 && Opts_WindowHeight() == DEFAULT_WINDOW_HEIGHT)
+                Opts_SetWindowHeight(h);
+        }
+
 	else //we're going to delegate the setting of options to their subsystems
 	{
 	    int ival = str_to_bool(value); //see if it's a valid bool
@@ -1950,6 +1976,24 @@ int write_config_file(MC_MathGame* game, FILE* fp, int verbose)
     }
     fprintf(fp, "fps_limit = %d\n", Opts_FPSLimit());
 
+    if(verbose)
+    {
+        fprintf (fp, "\n\n############################################################\n"
+                "#                                                          #\n"
+                "#                   Window resolution                      #\n"
+                "#                                                          #\n"
+                "# Parameter: window_width (integer)                        #\n"
+                "# Default: 640                                             #\n"
+                "# Parameter: window_height (integer)                       #\n"
+                "# Default: 480                                             #\n"
+                "#                                                          #\n"
+                "# Set window resolution for windowed mode.                 #\n"
+                "#                                                          #\n"
+                "############################################################\n\n");
+    }
+    fprintf(fp, "window_width = %d\n", Opts_WindowWidth());
+    fprintf(fp, "window_height = %d\n", Opts_WindowHeight());
+
 
     /* print general game options (passing '1' as second arg causes */
     /* "help" info for each option to be written to file as comments) */
@@ -2230,7 +2274,7 @@ static int find_tuxmath_dir(void)
 	/* mkdir () returns 0 if successful */
 	if (0 == status)
 	{
-	    fprintf(stderr, "\nfind_tuxmath_dir() - $HOME" OPTIONS_SUBDIR " created\n");
+            fprintf(stderr, "\nfind_tuxmath_dir() - %s created\n", opt_path);
 	    return 1;
 	}
 	else

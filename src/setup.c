@@ -136,6 +136,8 @@ void setup(int argc, char * argv[])
   initialize_options();
   /* Command-line code now in own function: */
   handle_command_args(argc, argv);
+  /* initialize default user's options (for resolution)*/
+  initialize_options_user();
   /* SDL setup in own function:*/
   initialize_SDL();
   /* Read image and sound files: */
@@ -429,6 +431,7 @@ void handle_command_args(int argc, char* argv[])
 		  "--nobackground   - to disable background photos (for slower systems)\n"
 		  "--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
 		  "--windowed       - to run in a window rather than fullscreen\n"
+                  "--resolution WxH - window resolution (windowed mode only)\n"
 		  "--keypad         - to enable the on-sceen numeric keypad\n"
 		  "--demo           - to run the program as a cycling demonstration\n"
 		  "--speed S        - set initial speed of the game\n"
@@ -524,10 +527,31 @@ void handle_command_args(int argc, char* argv[])
       {
 	  Opts_SetGlobalOpt(FULLSCREEN, 1);
       }
-      else if (strcmp(argv[i], "--windowed") == 0 ||
-	      strcmp(argv[i], "-w") == 0)
+      else if (strcmp(argv[i], "--resolution") == 0 ||
+              strcmp(argv[i], "-r") == 0)
       {
-	  Opts_SetGlobalOpt(FULLSCREEN, 0);
+          if (i >= argc - 1)
+          {
+              fprintf(stderr, "%s option requires an argument\n", argv[i]);
+              usage(1, argv[0]);
+          }
+          else
+          {
+              int w=0, h=0;
+              sscanf(argv[i+1], "%dx%d", &w, &h);
+
+              if(w>0 && h>0)
+              {
+                Opts_SetWindowWidth(w);
+                Opts_SetWindowHeight(h);
+              }
+          }
+          ++i;
+      }
+      else if (strcmp(argv[i], "--windowed") == 0 ||
+              strcmp(argv[i], "-w") == 0)
+      {
+          Opts_SetGlobalOpt(FULLSCREEN, 0);
       }
       else if (strcmp(argv[i], "--nosound") == 0 ||
 	      strcmp(argv[i], "-s") == 0 ||
@@ -726,7 +750,7 @@ void initialize_SDL(void)
 
 	if (!Opts_GetGlobalOpt(FULLSCREEN))
 	{
-	    screen = SDL_SetVideoMode(win_res_x, win_res_y, PIXEL_BITS, surfaceMode);
+            screen = SDL_SetVideoMode(Opts_WindowWidth(), Opts_WindowHeight(), PIXEL_BITS, surfaceMode);
 	}
 
 	if (screen == NULL)

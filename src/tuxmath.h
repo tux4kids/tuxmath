@@ -52,9 +52,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /* declared in setup.c */
 extern MC_MathGame* local_game;
 extern MC_MathGame* lan_game_settings;
-/* windowed mode screen  size */
-extern int win_res_x;
-extern int win_res_y;
 
 /* full screen size */
 extern int fs_res_x;
