@@ -874,6 +874,13 @@ void cleanup_memory(void)
 	images[i] = NULL;
     }
 
+    for (i = 0; i < NUM_SPRITES; i++)
+    {
+	if (sprites[i])
+	    T4K_FreeSprite(sprites[i]);
+	sprites[i] = NULL;
+    }
+
     for (i = 0; i < NUM_SOUNDS; i++)
     {
 	if (sounds[i])
