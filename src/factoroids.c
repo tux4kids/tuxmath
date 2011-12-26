@@ -42,6 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "SDL_image.h"
 #include "SDL_rotozoom.h"
 
+#include "factoroids.h"
+#include "factoroids_graphics.h"
 #include "credits.h"
 #include "game.h"
 #include "fileops.h"
@@ -50,9 +52,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "titlescreen.h"
 #include "options.h"
 #include "frame_counter.h"
+#include "draw_utils.h"
 
 #define BASE_RES_X 1280
-#define ASTEROID_NUM_SIZE 48
 
 #define MAX_LASER 5
 #define MAX_ASTEROIDS 50
@@ -72,31 +74,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define CTRL_NEXT SDLK_f
 #define CTRL_PREV SDLK_d
 
-/* definitions of level message */
-#define MAX_CHAR_MSG 256
-#define LVL_WIDTH_MSG 350
-#define LVL_HEIGHT_MSG 200
-#define LVL_OBJ_X_OFFSET 20
-#define LVL_OBJ_Y_OFFSET 20
-#define LVL_HINT_X_OFFSET 20
-#define LVL_HINT_Y_OFFSET 130
-
-/* definitions for cockpit buttons */
-#define BUTTONW 24
-#define BUTTONH 24
-#define BUTTON2_X 65
-#define BUTTON2_Y 45
-#define BUTTON3_X 53
-#define BUTTON3_Y 65
-#define BUTTON5_X 30
-#define BUTTON5_Y 77
-#define BUTTON7_X 8
-#define BUTTON7_Y 77
-#define BUTTON11_X 30
-#define BUTTON11_Y 65
-#define BUTTON13_X 45
-#define BUTTON13_Y 45
-#define NUMBUTTONS 6
 
 //a value (float) indicating the sensitivity of the mouse
 //0 = disable mouse; 0.1 high ... 1 low, 2 lower, so on
@@ -115,20 +92,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #define BONUS_NOTUSED -1
 
 /********* Enumerations ***********/
-
-enum{
-    FACTOROIDS_GAME,
-    FRACTIONS_GAME
-};
-
-/* Enumerations for Button Types in Cockpit */
-enum BUTTON_TYPE
-{
-    ACTIVE,
-    SELECTED,
-    PRESSED,
-    DISABLED
-};
 
 enum FF_STATUS
 {
@@ -150,73 +113,6 @@ typedef struct colorRGBA_type {
     Uint8 a;
 } ColorRGBA_type;
 
-typedef struct asteroid_type {
-    int alive, size;
-    int angle, angle_speed;
-    int xspeed, yspeed;
-    int x, y;
-    int rx, ry;
-    int centerx, centery;
-    int radius;
-    int fact_number;
-    int isprime;
-    int a, b; /*  a / b */
-    int count;
-    int xdead, ydead, isdead, countdead;
-} asteroid_type;
-
-
-typedef struct tuxship_type {
-    int lives, size;
-    int xspeed, yspeed;
-    int x, y;
-    int rx, ry;
-    int x1,y1,x2,y2,x3,y3;
-    int radius;
-    int centerx, centery;
-    int angle;
-    int hurt, hurt_count;
-    int count;
-    bool thrust;
-} tuxship_type;
-
-
-typedef struct FF_laser_type{
-    int alive;
-    int x, y;
-    int destx,desty;
-    int r, g, b;
-    float count;
-    int angle;
-    int m;
-    int n;
-} FF_laser_type;
-
-
-typedef struct {
-    int x_is_blinking;
-    int extra_life_is_blinking;
-    int laser_enabled;
-} help_controls_type;
-
-/* Structures for Buttons on Cockpit */
-struct ButtonType
-{
-    int img_id;
-    int x;
-    int y;
-    int prime;
-};
-
-/********* Enums ******************/
-
-typedef enum _TuxBonus {
-    TB_CLOAKING, TB_FORCEFIELD, TB_POWERBOMB, TB_SIZE
-} TuxBonus;
-
-int bonus_img_ids[] = {
-    IMG_BONUS_CLOAKING, IMG_BONUS_FORCEFIELD, IMG_BONUS_POWERBOMB
-};
 
 /********* Global vars ************/
 
@@ -255,23 +151,6 @@ static char* game_music_filenames[NUM_MUSICS] = {
     "game3.mod",
 };
 
-static int laser_coeffs[][3] = {
-    {0, 0, 0},	// 0
-    {0, 0, 0},	// 1
-    {18, 0, 0},	// 2
-    {0, 18, 0},	// 3
-    {0, 0, 0},	// 4
-    {0, 0, 18},	// 5
-    {0, 0, 0},	// 6
-    {18, 18, 0},// 7
-    {0, 0, 0},	// 8
-    {0, 0, 0},	// 9
-    {0, 0, 0},	// 10
-    {0, 18, 18},// 11
-    {0, 0, 0},	// 12
-    {18, 0, 18}	// 13
-};
-
 // ControlKeys
 static int mouseroto;
 static int left_pressed;
@@ -286,22 +165,8 @@ static int game_status;
 //static int gameover_counter;
 static int escape_received;
 
-//SDL_Surfaces:
-static SDL_Surface* IMG_lives_ship = NULL;
-static SDL_Surface* IMG_tuxship[NUM_OF_ROTO_IMGS];
-static SDL_Surface* IMG_tuxship_cloaked[NUM_OF_ROTO_IMGS];
-static SDL_Surface* IMG_tuxship_thrust[NUM_OF_ROTO_IMGS];
-static SDL_Surface* IMG_tuxship_thrust_cloaked[NUM_OF_ROTO_IMGS];
-static SDL_Surface* IMG_asteroids1[NUM_OF_ROTO_IMGS];
-static SDL_Surface* IMG_asteroids2[NUM_OF_ROTO_IMGS];
-static SDL_Surface* bkgd = NULL; //640x480 background (windowed)
-static SDL_Surface* scaled_bkgd = NULL; //native resolution (fullscreen)
-
-//Scale factor for window size/resolution
-static float zoom;
-
 // Game type
-static int FF_game;
+int FF_game;
 
 // Game vars
 static int score;
@@ -328,46 +193,26 @@ static FF_laser_type laser[MAX_LASER];
 static int NUM_ASTEROIDS;
 static int roto_speed;
 
-static struct ButtonType buttons[NUMBUTTONS];
-
 /*************** The Factor and Fraction Activity Game Functions ***************/
 
 /* Local function prototypes: */
 
 static int FF_init(void);
-static void FF_intro(void);
 
 static void FF_handle_ship(void);
 static void FF_handle_asteroids(void);
 static void FF_handle_answer(void);
 static int check_exit_conditions(void);
-static void FF_draw(void);
-static void FF_draw_bkgr(void);
-static void FF_draw_led_console(void);
-static void draw_console_image(int i);
-void draw_nums(const char* str, int x, int y, SDL_Color* col);
-
-static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y);
-static void FF_DrawButtonLayout(void);
-static void FF_ButtonInit(void);
-static int FF_CockpitTux(int prime);
-
-static SDL_Surface* current_bkgd()
-{ return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd; }
+static int cockpit_tux_image(int prime);
 
 static void FF_add_level(void);
 static int FF_over(int game_status);
 static void FF_exit_free(void);
 
 static int FF_add_laser(void);
-static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int 				   angle_speed, int fact_num, int a, int b, int new_wave);
+static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int angle, int angle_speed, int fact_num, int a, int b, int new_wave);
 static int FF_destroy_asteroid(int i, float xspeed, float yspeed);
 
-static void FF_ShowMessage(char* str);
-static void FF_LevelMessage(void);
-static void FF_LevelObjsHints(char *label, char *contents, int x, int y);
-
-static SDL_Surface* get_asteroid_image(int size,int angle);
 static int AsteroidColl(int astW,int astH,int astX,int astY,
 	int x, int y);
 static int is_prime(int num);
@@ -379,7 +224,6 @@ static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 static int game_mouseroto(SDL_Event event) {return event.motion.xrel;}
 static void _tb_PowerBomb(int n);
-static void wait_for_input(void);
 
 /************** factors(): The factor main function ********************/
 void factors(void)
@@ -404,7 +248,9 @@ void factors(void)
 	FF_exit_free();
 	return;
     }
-    FF_LevelMessage();
+
+    factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
+    factoroids_level_message(wave);
 
     while (game_status == FF_IN_PROGRESS)
     {
@@ -417,9 +263,9 @@ void factors(void)
 	FF_handle_asteroids();
 	FF_handle_answer();
 
-	tux_img = FF_CockpitTux(num);
+        tux_img = cockpit_tux_image(num);
 
-	FF_draw();
+        factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
 	SDL_Flip(screen);
 
 	game_status = check_exit_conditions();
@@ -490,8 +336,8 @@ void fractions(void)
 
 	FF_handle_ship();
 	FF_handle_asteroids();
-	FF_handle_answer();
-	FF_draw();
+        FF_handle_answer();
+        factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
 	SDL_Flip(screen);
 
 	game_status = check_exit_conditions();
@@ -518,53 +364,6 @@ void fractions(void)
     FF_over(game_status);
 }
 
-static void FF_LevelMessage(void)
-{
-    SDL_Rect rect;
-    SDL_Surface *bgsurf=NULL;
-    int nwave;
-
-    char objs_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
-    {
-	N_("Powers of 2"),
-	N_("Products of 2 and 3"),
-	N_("Products of 2, 3 and 5"),
-	N_("Products of 2, 3, 5 and 7"),
-	N_("Products of 2, 3, 5, 7, and 11"),
-	N_("Products of 2, 3, 5, 7, 11 and 13")
-    };
-
-    char hints_str[PRIME_MAX_LIMIT][MAX_CHAR_MSG] =
-    {
-	N_("All multiples of 2 end in 2, 4, 6, 8, or 0"),
-	N_("The digits of a multiple of 3 add up to a multiple of 3"),
-	N_("All multiples of 5 end in 0 or 5"),
-	N_("Sorry - there is no simple rule to identify multiples of 7."),
-	N_("Under 100, multiples of 11 have equal digits, such as 55 or 88."),
-	N_("Sorry - there is no simple rule to identify multiples of 13."),
-    };
-
-    rect.x = (screen->w/2)-(LVL_WIDTH_MSG/2);
-    rect.y = (screen->h/2)-(LVL_HEIGHT_MSG/2);
-
-    FF_draw();
-    bgsurf = T4K_CreateButton(LVL_WIDTH_MSG,LVL_HEIGHT_MSG,12,19,19,96,96);
-
-    if(bgsurf)
-    {
-	SDL_BlitSurface(bgsurf, NULL, screen, &rect );
-	SDL_FreeSurface(bgsurf);
-    }
-
-    nwave = (wave > PRIME_MAX_LIMIT) ? PRIME_MAX_LIMIT : wave;
-
-    FF_LevelObjsHints(_("Objectives:"), _(objs_str[nwave-1]), rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
-    FF_LevelObjsHints(_("Hints:"), _(hints_str[nwave-1]), rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET);
-
-    SDL_Flip(screen);
-
-    wait_for_input();
-}
 
 /************ Initialize all vars... ****************/
 static int FF_init(void)
@@ -582,86 +381,13 @@ static int FF_init(void)
      */
     SDL_WM_GrabInput(SDL_GRAB_ON);
 
-    /********   Set up properly scaled and optimized background surfaces: *********/
-    /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
-    /* can take advantage of it - DSB                                             */
-
-    T4K_LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
-
-    if (bkgd == NULL || scaled_bkgd == NULL)
-    {
-        fprintf(stderr,
-                "\nError: could not scale background\n");
-        return 0;
-    }
-
     //Initialize frame counter
     FC_init();
 
-    FF_intro();
-
-    if(screen->h < 600 && screen->w < 800)
-	zoom = 0.65;
-    else
-	zoom = (float)screen->w/(float)BASE_RES_X;
-
-    DEBUGCODE(debug_factoroids)
-	fprintf(stderr, "The zoom factor is: %f\n", zoom);
-
-    /*************** Precalculating software rotation ***************/
-
-    for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
-    {
-	//rotozoomSurface (SDL_Surface *src, double angle, double zoom, int smooth);
-	IMG_tuxship[i] = rotozoomSurface(images[IMG_SHIP01], i * DEG_PER_ROTATION, zoom, 1);
-	IMG_tuxship_cloaked[i] = rotozoomSurface(images[IMG_SHIP_CLOAKED], i * DEG_PER_ROTATION, zoom, 1);
-	IMG_tuxship_thrust[i] = rotozoomSurface(images[IMG_SHIP_THRUST], i * DEG_PER_ROTATION, zoom, 1);
-	IMG_tuxship_thrust_cloaked[i] = rotozoomSurface(images[IMG_SHIP_THRUST_CLOAKED], i * DEG_PER_ROTATION, zoom, 1);
-
-	if (IMG_tuxship[i] == NULL)
-	{
-	    fprintf(stderr,
-		    "\nError: rotozoomSurface() of images[IMG_SHIP01] for i = %d returned NULL\n", i);
-	    return 0;
-	}
-
-	IMG_asteroids1[i] = rotozoomSurface(images[IMG_ASTEROID1], i * DEG_PER_ROTATION, zoom, 1);
-
-	if (IMG_asteroids1[i] == NULL)
-	{
-	    fprintf(stderr,
-		    "\nError: rotozoomSurface() of images[IMG_ASTEROID1] for i = %d returned NULL\n", i);
-	    return 0;
-	}
-
-	IMG_asteroids2[i] = rotozoomSurface(images[IMG_ASTEROID2], i*DEG_PER_ROTATION, zoom, 1);
-
-	if (IMG_asteroids2[i] == NULL)
-	{
-	    fprintf(stderr,
-		    "\nError: rotozoomSurface() of images[IMG_ASTEROID2] for i = %d returned NULL\n", i);
-	    return 0;
-	}
-    }
-
-
-    /* Create zoomed and scaled ship image for "lives" counter */
-    IMG_lives_ship = rotozoomSurface(images[IMG_SHIP_CLOAKED], 90, zoom * 0.7, 1);
-
-
-    /********   Set up properly scaled and optimized background surfaces: *********/
-    /* NOTE - optimization code moved into LoadBothBkgds() so rest of program     */
-    /* can take advantage of it - DSB                                             */
-
-    T4K_LoadBothBkgds("factoroids/gbstars.png", &scaled_bkgd, &bkgd);
-
-    if (bkgd == NULL || scaled_bkgd == NULL)
-    {
-        fprintf(stderr,
-                "\nError: could not scale background\n");
+    if(!factoroids_init_graphics())
         return 0;
-    }
 
+    factoroids_intro();
 
     // Allocate memory
     asteroid = NULL;  // set in case allocation fails partway through
@@ -720,64 +446,12 @@ static int FF_init(void)
 }
 
 
-static void FF_intro(void)
-{
-    static SDL_Surface* IMG_factors;
-    static SDL_Surface* IMG_fractions;
-
-    SDL_Rect rect;
-
-    float zoom;
-
-    if(screen->h < 600 && screen->w < 800)
-	zoom = 0.65;
-    else
-	zoom=(float)screen->w/(float)BASE_RES_X;
-
-    IMG_factors   = rotozoomSurface(images[IMG_FACTOROIDS], 0, zoom, 1);
-    IMG_fractions = rotozoomSurface(images[IMG_FACTORS], 0, zoom, 1);
-
-    FF_draw_bkgr();
-    if(FF_game == FACTOROIDS_GAME)
-    {
-
-	rect.x = (screen->w/2) - (IMG_factors->w/2);
-	rect.y = (screen->h)/7;
-	SDL_BlitSurface(IMG_factors, NULL, screen, &rect);
-	FF_ShowMessage(_("To win, you must destroy all the asteroids.\n"
-		    "Turn: arrow keys or mouse movement.\n"
-		    "Thrust: up arrow or right mouse button.\n"
-		    "Shoot: [Enter], [Space], or left mouse button.\n"
-		    "Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-		    "Activate Powerup: [Shift].\n"
-		    "Shoot the rocks with their prime factors until they are all destroyed."));
-	SDL_BlitSurface(IMG_asteroids1[3],NULL,screen,&rect);
-    }
-    else if (FF_game == FRACTIONS_GAME)
-    {
-	rect.x = (screen->w/2)-(IMG_fractions->w/2);
-	rect.y = (screen->h)/7;
-	SDL_BlitSurface(IMG_fractions,NULL,screen,&rect);
-	FF_ShowMessage(_("FRACTIONS: to win, you need destroy all the asteroids. "
-		    "Use the arrow keys to turn or go forward.  Aim at an asteroid, "
-		    "type a number that can simplify the fraction, and press space or return "
-		    "to split it.  Destroy fractions that can not be further simplified in a single shot!"));
-    }
-
-    SDL_FreeSurface(IMG_factors);
-    SDL_FreeSurface(IMG_fractions);
-}
-
 static void FF_handle_ship(void)
 {
-    //FIXME - am I missing something -- doesn't this just reduce to
-    //"tuxship.centerx = tuxship.x" and likewise for y???
     /****************** Ship center... ******************/
 
-    tuxship.centerx = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w)/2) +
-	(tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
-    tuxship.centery = ((IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h)/2) +
-	(tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));
+    tuxship.centerx = tuxship.x;
+    tuxship.centery = tuxship.y;
 
     /******************* Ship live *********************/
 
@@ -985,472 +659,6 @@ static void FF_handle_answer(void)
 
 }
 
-static SDL_Surface* get_asteroid_image(int size,int angle)
-{
-    if (size == 0)
-	return IMG_asteroids1[angle/DEG_PER_ROTATION];
-    else
-	return IMG_asteroids2[angle/DEG_PER_ROTATION];
-}
-
-static void FF_draw(void){
-
-    int i, offset;
-    int xnum, ynum;
-    char str[64];
-    SDL_Surface* surf;
-    SDL_Rect dest;
-
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-
-    /************ Draw Background ***************/
-
-    FF_draw_bkgr();
-
-    /******************* Draw laser *************************/
-    for (i=0;i<MAX_LASER;i++){
-	if(laser[i].alive)
-	{
-	    if(laser[i].count>0)
-            {
-                laser[i].x += tuxship.xspeed*FC_time_elapsed;
-                laser[i].y += tuxship.yspeed*FC_time_elapsed;
-                laser[i].destx += tuxship.xspeed*FC_time_elapsed;
-                laser[i].desty += tuxship.yspeed*FC_time_elapsed;
-
-		draw_line(laser[i].x, laser[i].y, laser[i].destx, laser[i].desty,
-                        laser[i].count*laser_coeffs[laser[i].n][0], laser[i].count*laser_coeffs[laser[i].n][1], laser[i].count*laser_coeffs[laser[i].n][2]);
-
-                laser[i].count -= 15*FC_time_elapsed;
-	    } else if (laser[i].count <= 0)
-	    {
-		laser[i].alive=0;
-	    }
-	}
-    }
-    /*************** Draw Ship ******************/
-
-    if(!tuxship.hurt || (tuxship.hurt && tuxship.hurt_count%2==0)){
-	dest.x = (tuxship.x - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w/2));
-	dest.y = (tuxship.y - (IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h/2));
-	dest.w = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->w;
-	dest.h = IMG_tuxship[tuxship.angle/DEG_PER_ROTATION]->h;
-
-	//Change the image based on if the rocket is thrusting
-	//Google code in task
-
-	if(!tuxship.thrust) {
-	    SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_cloaked : IMG_tuxship;
-	    SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
-	} else {
-	    SDL_Surface **_IMG_ship = bonus == TB_CLOAKING && bonus_time>0 ? IMG_tuxship_thrust_cloaked : IMG_tuxship_thrust;
-	    SDL_BlitSurface(_IMG_ship[tuxship.angle/DEG_PER_ROTATION], NULL, screen, &dest);
-	}
-
-
-
-	if(bonus == TB_FORCEFIELD && bonus_time > 0) {
-	    SDL_Rect tmp = {tuxship.x - images[IMG_FORCEFIELD]->w/2, tuxship.y - images[IMG_FORCEFIELD]->h/2};
-	    SDL_BlitSurface(images[IMG_FORCEFIELD], NULL, screen, &tmp);
-	}
-    }
-
-    /************* Draw Asteroids ***************/
-    for(i=0; i<MAX_ASTEROIDS; i++){
-	if(asteroid[i].alive>0){
-
-	    xnum=0;
-	    ynum=0;
-
-	    dest.x = asteroid[i].x;
-	    dest.y = asteroid[i].y;
-
-	    surf=get_asteroid_image(asteroid[i].size,asteroid[i].angle);
-
-	    dest.w = surf->w;
-	    dest.h = surf->h;
-
-	    SDL_BlitSurface(surf, NULL, screen, &dest);
-
-	    // Wrap the numbers of the asteroids
-	    if((asteroid[i].centery)>23 && (asteroid[i].centery)<screen->h)
-	    {
-		if((asteroid[i].centerx)>0 && (asteroid[i].centerx)<screen->w)
-		{
-		    xnum=asteroid[i].centerx-3;
-		    ynum=asteroid[i].centery;
-		}
-		else if((asteroid[i].centerx)<=0){
-		    xnum=20;
-		    ynum=asteroid[i].centery;
-		}
-		else if((asteroid[i].centerx)<=screen->w){
-		    xnum=screen->w-20;
-		    ynum=asteroid[i].centery;
-		}
-	    }
-	    else if((asteroid[i].centery)<=23)
-	    {
-		xnum=asteroid[i].centerx;
-		ynum=23;
-	    }
-	    else if((asteroid[i].centery)>=screen->h)
-	    {
-		xnum=asteroid[i].centerx;
-		ynum=screen->h-7;
-	    }
-
-	    //Draw Numbers
-	    if(FF_game==FACTOROIDS_GAME)
-	    {
-		sprintf(str, "%.1d", asteroid[i].fact_number);
-		draw_nums(str, xnum, ynum, &white);
-	    }
-	    else if (FF_game==FRACTIONS_GAME)
-	    {
-		sprintf(str, "%d", asteroid[i].a);
-		draw_nums(str, xnum, ynum, &white);
-		draw_line(xnum, ynum + 4, xnum + 30, ynum + 4,
-			255, 255, 255);
-		sprintf(str, "%d", asteroid[i].b);
-		draw_nums(str, xnum, ynum + 35, &white);
-	    }
-	}
-    }
-    /*************** Draw Steam ***************/
-    for(i=0; i<MAX_ASTEROIDS; i++)
-    {
-	if(asteroid[i].isdead) {
-	    dest.x = asteroid[i].xdead;
-	    dest.y = asteroid[i].ydead;
-	    SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
-	    if(bonus == TB_POWERBOMB && bonus_time > 0)
-		draw_line(asteroid[i].x, asteroid[i].y, tuxship.x, tuxship.y,
-			(5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
-			(5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
-			(5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
-	}
-
-
-	if(asteroid[i].isdead) {
-	    dest.x = asteroid[i].xdead;
-	    dest.y = asteroid[i].ydead;
-	    SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
-	    asteroid[i].countdead++;
-	    if(asteroid[i].countdead > 5)
-	    {
-		asteroid[i].isdead = 0;
-		asteroid[i].countdead = 0;
-	    }
-	}
-    }
-
-    /* Draw wave: */
-    if (1)//Opts_BonusCometInterval())
-	offset = images[IMG_EXTRA_LIFE]->w + 5;
-    else
-	offset = 0;
-
-    dest.x = offset;
-
-    dest.y = 0;
-    dest.w = images[IMG_WAVE]->w;
-    dest.h = images[IMG_WAVE]->h;
-
-    SDL_BlitSurface(images[IMG_WAVE], NULL, screen, &dest);
-
-    sprintf(str, "%d", wave);
-    draw_numbers(str, offset+images[IMG_WAVE]->w + (images[IMG_NUMBERS]->w / 10), 0);
-
-    /* Draw "score" label: */
-    dest.x = (screen->w - ((images[IMG_NUMBERS]->w/10) * 7) -
-	    images[IMG_SCORE]->w -
-	    images[IMG_STOP]->w - 5);
-    dest.y = 0;
-    dest.w = images[IMG_SCORE]->w;
-    dest.h = images[IMG_SCORE]->h;
-
-    SDL_BlitSurface(images[IMG_SCORE], NULL, screen, &dest);
-
-    sprintf(str, "%.6d", score);
-    draw_numbers(str,
-	    screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
-	    0);
-
-    /* Draw stop button: */
-    //  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {
-    dest.x = (screen->w - images[IMG_STOP]->w);
-    dest.y = 0;
-    dest.w = images[IMG_STOP]->w;
-    dest.h = images[IMG_STOP]->h;
-
-    SDL_BlitSurface(images[IMG_STOP], NULL, screen, &dest);
-    // }
-
-    /************* Draw pre answer ************/
-
-
-    if(screen->w < 800 && screen->h < 600)
-    {
-	sprintf(str, "%.3d", num);
-	draw_numbers(str, ((screen->w)/2) - 50, (screen->h) - 30);
-    }
-    else
-    {
-	FF_draw_led_console();
-	draw_console_image(tux_img);
-    }
-
-    /************** Draw lives ***************/
-    dest.y = screen->h;
-    dest.x = 0;
-
-    for(i = 1; i <= tuxship.lives; i++)
-    {
-	if(tuxship.lives <= 5)
-	{
-	    dest.y = dest.y - (IMG_lives_ship->h);
-	    SDL_BlitSurface(IMG_lives_ship, NULL, screen, &dest);
-	}
-	else if(tuxship.lives > 4)
-	{
-	    dest.y = screen->h - (IMG_lives_ship->h);
-	    SDL_BlitSurface(IMG_lives_ship, NULL, screen, &dest);
-	    sprintf(str, "%d", tuxship.lives);
-	    draw_numbers(str, 10, (screen->h) - 30);
-	}
-    }
-
-    /*** Draw Bonus Indicator ***/
-    static int blink = 0;
-    if(bonus_time == 0)
-	blink = 0;
-    else if(bonus_time - SDL_GetTicks() > 3000)
-	blink = 5;
-    else
-	blink = (blink + 1) % 10;
-    if(bonus != -1 && blink>4) {
-	SDL_Surface *indicator = images[bonus_img_ids[bonus]];
-	SDL_Rect pos = {screen->w - indicator->w, screen->h - indicator->h};
-	SDL_BlitSurface(indicator, NULL, screen, &pos);
-    }
-}
-
-static void FF_DrawButton(int img_id, enum BUTTON_TYPE type, int x, int y)
-{
-    SDL_Rect rect, scr;
-    rect.y = 0;
-    rect.w = BUTTONW;
-    rect.h = BUTTONH;
-
-    scr.x = x;
-    scr.y = y;
-
-    if(type == ACTIVE)
-    {
-	rect.x = 0;
-	SDL_BlitSurface(images[img_id], &rect, screen, &scr);
-    }
-    else if(type == SELECTED)
-    {
-	rect.x = BUTTONW;
-	SDL_BlitSurface(images[img_id], &rect, screen, &scr);
-    }
-    else if(type == PRESSED)
-    {
-	rect.x = BUTTONW * 2;
-	SDL_BlitSurface(images[img_id], &rect, screen, &scr);
-    }
-    else if(type == DISABLED)
-    {
-	rect.x = BUTTONW * 3;
-	SDL_BlitSurface(images[img_id], &rect, screen, &scr);
-    }
-}
-
-static void FF_ButtonInit(void)
-{
-
-    buttons[0].img_id = IMG_BUTTON2;
-    buttons[0].x = screen->w/2 - BUTTON2_X;
-    buttons[0].y = screen->h - BUTTON2_Y;
-    buttons[0].prime = 2;
-
-    buttons[1].img_id = IMG_BUTTON3;
-    buttons[1].x = screen->w/2 - BUTTON3_X;
-    buttons[1].y = screen->h - BUTTON3_Y;
-    buttons[1].prime = 3;
-
-    buttons[2].img_id = IMG_BUTTON5;
-    buttons[2].x = screen->w/2 - BUTTON5_X;
-    buttons[2].y = screen->h - BUTTON5_Y;
-    buttons[2].prime = 5;
-
-    buttons[3].img_id = IMG_BUTTON7;
-    buttons[3].x = screen->w/2 + BUTTON7_X;
-    buttons[3].y = screen->h - BUTTON7_Y;
-    buttons[3].prime = 7;
-
-    buttons[4].img_id = IMG_BUTTON11;
-    buttons[4].x = screen->w/2 + BUTTON11_X;
-    buttons[4].y = screen->h - BUTTON11_Y;
-    buttons[4].prime = 11;
-
-    buttons[5].img_id = IMG_BUTTON13;
-    buttons[5].x = screen->w/2 + BUTTON13_X;
-    buttons[5].y = screen->h - BUTTON13_Y;
-    buttons[5].prime = 13;
-
-}
-
-static void FF_DrawButtonLayout(void)
-{
-    int i;
-    enum BUTTON_TYPE type;
-
-    FF_ButtonInit();
-
-    for(i=0; i<6; i++)
-    {
-	if(i < wave)
-	{
-	    if(button_pressed && num==buttons[i].prime)
-	    {
-		type=PRESSED;
-	    }
-	    else if(num==buttons[i].prime)
-	    {
-		type=SELECTED;
-	    }
-	    else
-	    {
-		type = ACTIVE;
-	    }
-	}
-	else
-	{
-	    type = DISABLED;
-	}
-	FF_DrawButton(buttons[i].img_id,type,buttons[i].x,buttons[i].y);
-    }
-}
-
-static int FF_CockpitTux( int prime )
-{
-    switch( prime )
-    {
-	case 2:
-	    return IMG_TUX1;
-	case 3:
-	    return IMG_TUX2;
-	case 5:
-	    return IMG_TUX3;
-	case 7:
-	    return IMG_TUX4;
-	case 11:
-	    return IMG_TUX5;
-	case 13:
-	    return IMG_TUX6;
-	default:
-	    return IMG_TUX1;
-    }
-}
-
-/*Modified from game.c*/
-void FF_draw_led_console(void)
-{
-    int i;
-    SDL_Rect src, dest;
-    int y;
-
-
-    if(FF_game == FACTOROIDS_GAME)
-    {
-	draw_console_image(IMG_COCKPIT);
-	FF_DrawButtonLayout();
-    }
-    else
-    {
-	/* draw new console image with "monitor" for LED numbers: */
-	draw_console_image(IMG_CONSOLE_LED);
-
-	/* set y to draw LED numbers into Tux's "monitor": */
-	y = (screen->h
-		- images[IMG_CONSOLE_LED]->h
-		+ 4);  /* "monitor" has 4 pixel margin */
-
-	/* begin drawing so as to center display depending on whether minus */
-	/* sign needed (4 digit slots) or not (3 digit slots) DSB */
-	if (MC_GetOpt(local_game, ALLOW_NEGATIVES) )
-	    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 4) / 2);
-	else
-	    dest.x = ((screen->w - ((images[IMG_LEDNUMS]->w) / 10) * 3) / 2);
-
-	for (i = -1; i < MC_MAX_DIGITS; i++) /* -1 is special case to allow minus sign */
-	    /* with minimal modification of existing code DSB */
-	{
-	    if (-1 == i)
-	    {
-		if (MC_GetOpt(local_game, ALLOW_NEGATIVES))
-		{
-		    if (neg_answer_picked)
-			src.x =  (images[IMG_LED_NEG_SIGN]->w) / 2;
-		    else
-			src.x = 0;
-		    src.y = 0;
-		    src.w = (images[IMG_LED_NEG_SIGN]->w) / 2;
-		    src.h = images[IMG_LED_NEG_SIGN]->h;
-
-		    dest.y = y;
-		    dest.w = src.w;
-		    dest.h = src.h;
-
-		    SDL_BlitSurface(images[IMG_LED_NEG_SIGN], &src, screen, &dest);
-		    /* move "cursor" */
-		    dest.x += src.w;
-		}
-	    }
-	    else
-	    {
-		src.x = digits[i] * ((images[IMG_LEDNUMS]->w) / 10);
-		src.y = 0;
-		src.w = (images[IMG_LEDNUMS]->w) / 10;
-		src.h = images[IMG_LEDNUMS]->h;
-
-		/* dest.x already set */
-		dest.y = y;
-		dest.w = src.w;
-		dest.h = src.h;
-
-		SDL_BlitSurface(images[IMG_LEDNUMS], &src, screen, &dest);
-		/* move "cursor" */
-		dest.x += src.w;
-	    }
-	}
-    }
-}
-
-/* Draw image at lower center of screen: */
-void draw_console_image(int i)
-{
-    SDL_Rect dest;
-
-    dest.x = (screen->w - images[i]->w) / 2;
-    dest.y = (screen->h - images[i]->h);
-    dest.w = images[i]->w;
-    dest.h = images[i]->h;
-
-    SDL_BlitSurface(images[i], NULL, screen, &dest);
-}
-
-static void FF_draw_bkgr(void)
-{
-
-    SDL_BlitSurface(current_bkgd(), NULL, screen, NULL);
-    //if(bgSrc.y>bkg_h)
-    //  SDL_BlitSurface(images[BG_STARS], NULL, screen, &bgScreen);
-
-}
 
 /*Tree rectangle vs a point collitions
   returns 1 if the collitions is detected
@@ -1608,8 +816,8 @@ static void FF_add_level(void)
             FC_frame_begin();
 
 	    rect.x=(screen->w/2)-(images[IMG_GOOD]->w/2);
-	    rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
-	    FF_draw();
+            rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
+            factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
 	    SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
 	    SDL_Flip(screen);
 
@@ -1619,7 +827,8 @@ static void FF_add_level(void)
         //Empty the message queue
         while(SDL_PollEvent(&event));
 
-	FF_LevelMessage();
+        factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
+        factoroids_level_message(wave);
     }
 }
 
@@ -1724,64 +933,8 @@ static int FF_over(int game_status)
 
 static void FF_exit_free()
 {
-    int i = 0;
-
     free(asteroid);
-
-    for(i = 0; i < NUM_OF_ROTO_IMGS; i++)
-    {
-	if (IMG_tuxship[i])
-	{
-	    SDL_FreeSurface(IMG_tuxship[i]);
-	    IMG_tuxship[i] = NULL;
-	}
-	if (IMG_tuxship_thrust[i])
-	{
-	    SDL_FreeSurface(IMG_tuxship_thrust[i]);
-	    IMG_tuxship_thrust[i] = NULL;
-	}
-	if (IMG_tuxship_cloaked[i])
-	{
-	    SDL_FreeSurface(IMG_tuxship_cloaked[i]);
-	    IMG_tuxship_cloaked[i] = NULL;
-	}
-	if (IMG_tuxship_thrust_cloaked[i])
-	{
-	    SDL_FreeSurface(IMG_tuxship_thrust_cloaked[i]);
-	    IMG_tuxship_thrust_cloaked[i] = NULL;
-	}
-	if (IMG_asteroids1[i])
-	{
-	    SDL_FreeSurface(IMG_asteroids1[i]);
-	    IMG_asteroids1[i] = NULL;
-	}
-	if (IMG_asteroids2[i])
-	{
-	    SDL_FreeSurface(IMG_asteroids2[i]);
-	    IMG_asteroids2[i] = NULL;
-	}
-    }
-
-    if (IMG_lives_ship)
-    {
-	SDL_FreeSurface(IMG_lives_ship);
-	IMG_lives_ship = NULL;
-    }
-
-    //  SDL_FreeSurface(*IMG_asteroids1);
-    //  SDL_FreeSurface(*IMG_asteroids2);
-    //  SDL_FreeSurface(*IMG_tuxship);
-
-    if (bkgd)
-    {
-	SDL_FreeSurface(bkgd);
-	bkgd = NULL;
-    }
-    if (scaled_bkgd)
-    {
-	SDL_FreeSurface(scaled_bkgd);
-	scaled_bkgd = NULL;
-    }
+    factoroids_cleanup_graphics();
 
     /* Resume "normal" settings when we leave:
     */
@@ -2038,8 +1191,8 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
 	    asteroid[i].rx=x;
 	    asteroid[i].ry=y;
             asteroid[i].angle=angle;
-	    asteroid[i].y=(asteroid[i].ry - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->h/2));
-	    asteroid[i].x=(asteroid[i].rx - (IMG_tuxship[asteroid[i].angle/DEG_PER_ROTATION]->w/2));
+            asteroid[i].y=(asteroid[i].ry - tuxship_img_h(asteroid[i].angle/DEG_PER_ROTATION)/2);
+            asteroid[i].x=(asteroid[i].rx - tuxship_img_w(asteroid[i].angle/DEG_PER_ROTATION)/2);
 	    asteroid[i].xdead = 0;
 	    asteroid[i].ydead = 0;
 	    asteroid[i].isdead = 0;
@@ -2193,67 +1346,6 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
     return 0;
 }
 
-/************** MODIFIED FUNCS FROM game.c and titlescreen.c ******************/
-
-void FF_ShowMessage(char* str)
-{
-    SDL_Surface* s1 = NULL;
-    SDL_Rect loc;
-    char wrapped_str[1024];
-    int char_width;
-
-    if(str == NULL)
-	return;
-
-    char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, screen->w * 0.75);
-    T4K_LineWrapInsBreaks(str, wrapped_str, char_width, 64, 64);
-    s1 = T4K_BlackOutline(wrapped_str, DEFAULT_MENU_FONT_SIZE, &yellow);
-    if (s1)
-    {
-	loc.x = screen->w/2 - s1->w/2;
-	loc.y = screen->h/4;
-	SDL_BlitSurface(s1, NULL, screen, &loc);
-	SDL_FreeSurface(s1);
-    }
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
-}
-
-static void FF_LevelObjsHints(char *label, char *contents, int x, int y )
-{
-    SDL_Surface *s1 = NULL, *s2 = NULL;
-    SDL_Rect loc;
-    char wrapped_label[256];
-    char wrapped_contents[256];
-    int char_width;
-
-    if(label == NULL || contents == NULL)
-	return;
-
-    char_width = T4K_CharsForWidth(DEFAULT_MENU_FONT_SIZE, LVL_WIDTH_MSG);
-    T4K_LineWrapInsBreaks(label, wrapped_label, char_width, 64, 64);
-    T4K_LineWrapInsBreaks(contents, wrapped_contents, char_width, 64, 64);
-
-    s1 = T4K_BlackOutline(wrapped_label, DEFAULT_MENU_FONT_SIZE, &white);
-    s2 = T4K_BlackOutline(wrapped_contents, DEFAULT_MENU_FONT_SIZE, &white);
-
-    if(s1)
-    {
-	loc.x = x;
-	loc.y = y;
-	SDL_BlitSurface(s1, NULL, screen, &loc);
-    }
-    if(s2)
-    {
-	loc.x = x;
-	loc.y = s1->h + loc.y ;
-	SDL_BlitSurface(s2, NULL, screen, &loc);
-    }
-
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
-
-    SDL_FreeSurface(s1);
-    SDL_FreeSurface(s2);
-}
 
 void game_handle_user_events(void)
 {
@@ -2586,31 +1678,6 @@ static int check_exit_conditions(void)
 }
 
 
-/* Draw numbers/symbols over the attacker: */
-void draw_nums(const char* str, int x, int y, SDL_Color* col)
-{
-    if(!str || !col)
-	return;
-
-    SDL_Surface* surf = NULL;
-    surf = T4K_BlackOutline(str, ASTEROID_NUM_SIZE * zoom, col);
-    if(surf)
-    {
-	int w = T4K_GetScreen()->w;
-	x -= surf->w/2;
-	// Keep formula at least 8 pixels inside screen:
-	if(surf->w + x > (w - 8))
-	    x -= (surf->w + x - (w - 8));
-	if(x < 8)
-	    x = 8;
-
-	SDL_Rect pos = {x, y};
-	SDL_BlitSurface(surf, NULL, T4K_GetScreen(), &pos);
-	SDL_FreeSurface(surf);
-    }
-}
-
-
 void wait_for_input(void)
 {
     SDL_Event event = {SDL_NOEVENT};
@@ -2645,5 +1712,27 @@ void wait_for_input(void)
                 escape_received = 1;
             break;
         }
+    }
+}
+
+
+static int cockpit_tux_image( int prime )
+{
+    switch( prime )
+    {
+        case 2:
+            return IMG_TUX1;
+        case 3:
+            return IMG_TUX2;
+        case 5:
+            return IMG_TUX3;
+        case 7:
+            return IMG_TUX4;
+        case 11:
+            return IMG_TUX5;
+        case 13:
+            return IMG_TUX6;
+        default:
+            return IMG_TUX1;
     }
 }
