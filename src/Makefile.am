@@ -35,6 +35,7 @@ tuxmath_SOURCES = tuxmath.c \
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
+	frame_counter.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
@@ -74,6 +75,7 @@ tuxmathtestclient_SOURCES = testclient.c \
 EXTRA_DIST = 	credits.h 	\
 	factoroids.h	\
 	fileops.h 	\
+	frame_counter.h	\
 	game.h		\
 	menu.h		\
 	menu_lan.h	\

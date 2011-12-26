@@ -1,7 +1,7 @@
 /*
    game.h: Contains headers for Tux Math's main game loop.
 
-   Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2004, 2006, 2007, 2008, 2009, 2010, 2011.
 Authors: Bill Kendrick, David Bruce, Tim Holy.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
@@ -26,6 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #ifndef GAME_H
 #define GAME_H
+#include "mathcards.h"
 
 #define MAX_COMETS 10
 #define NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
@@ -34,8 +35,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 #define MAX_CITY_COLORS 4
 
+
 typedef struct laser_type {
-    int alive;
+    float alive;
     int x1, y1;
     int x2, y2;
 } laser_type;
@@ -148,7 +150,7 @@ enum {
     EXTRA_LIFE_ON
 };
 
-int game(void);
+int game(MC_MathGame* loc_game);
 void game_set_start_message(const char*, const char*, const char*, const char*);
 
 

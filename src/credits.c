@@ -3,7 +3,7 @@
    Contains the text of the credits display, as well
    as the function which displays the credits in the game window.
   
-  Copyright 2001, 2002, 2003, 2004, 2005, 2008, 2009, 2010.
+  Copyright 2001, 2002, 2003, 2004, 2005, 2008, 2009, 2010, 2011.
   Authors: Bill Kendrick, David Bruce, Brendan Luchen.
   Project email: <tuxmath-devel@lists.sourceforge.net>
   Project website: http://tux4kids.alioth.debian.org

@@ -1,7 +1,7 @@
 # This file implements a build for TuxMath using CMake
 # License information can be found in doc/COPYING.txt
 #
-# Copyright 2008 by Timothy E. Holy
+# Copyright 2008-2011 by Timothy E. Holy
 #
 # This was based on many examples, but a particular debt is owed to
 # Peter K�mmel of the LyX project.

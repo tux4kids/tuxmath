@@ -42,3 +42,6 @@ buildw32/
 
 # Ignore backup files:
 *~
+
+# Ignore Qt Creator project file
+CMakeLists.txt.user

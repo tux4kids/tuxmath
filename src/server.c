@@ -11,7 +11,7 @@
    of derivative works into a GPLv3+ project like TuxMath.  FWIW, virtually
    none of the tutorial code is still present here - David Bruce 
 
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
    Authors: Akash Gangil, David Bruce
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -124,7 +124,8 @@ int read_stdin_nonblock(char* buf, size_t max_length);
 // client message --needs better name:
 void game_msg_next_question(void);
 
-
+/* global mathgame struct for lan game: */
+extern MC_MathGame* lan_game_settings;
 
 /*  ------------   "Local globals" for server.c: ----------  */
 char server_name[NAME_SIZE];  /* User-visible name for server selection  */
@@ -428,7 +429,7 @@ int setup_server(void)
 
   //this sets up our mathcards "library" with hard-coded defaults - no
   //settings read from config file here as of yet:
-  if (!MC_Initialize())
+  if (!MC_Initialize(lan_game_settings))
   {
     fprintf(stderr, "Could not initialize MathCards\n");
     return 0;
@@ -1099,7 +1100,7 @@ void game_msg_correct_answer(int i, char* inbuf)
     }
 
     //Tell mathcards so lists get updated:
-    points = MC_AnsweredCorrectly(id, t);
+    points = MC_AnsweredCorrectly(lan_game_settings, id, t);
     if(!points)
 	return;
     //If we get to here, the id was successfully parsed out of inbuf
@@ -1147,7 +1148,7 @@ void game_msg_wrong_answer(int i, char* inbuf)
     id = atoi(p);
 
     //Tell mathcards so lists get updated:
-    if(!MC_NotAnsweredCorrectly(id))
+    if(!MC_NotAnsweredCorrectly(lan_game_settings, id))
 	return;
     //If we get to here, the id was successfully parsed out of inbuf
     //and the corresponding question was found.
@@ -1180,7 +1181,7 @@ void game_msg_next_question(void)
     MC_FlashCard flash;
 
     /* Get next question from MathCards: */
-    if (!MC_NextQuestion(&flash))
+    if (!MC_NextQuestion(lan_game_settings, &flash))
     { 
 	/* no more questions available */
 	DEBUGMSG(debug_lan, "MC_NextQuestion() returned NULL - no questions available\n");
@@ -1282,7 +1283,10 @@ void start_game(void)
 
     game_in_progress = 1;  //setting the game_in_progress flag to '1'
     //Start a new math game as far as mathcards is concerned:
-    if (!MC_StartGame())
+    //TODO we could create more than one MathCards instance here when
+    //we start supporting multiple simultaneous games in the future.  For now
+    //we just use the lan_game_settings instance - DSB.
+    if (!MC_StartGame(lan_game_settings))
     {
 	fprintf(stderr, "\nMC_StartGame() failed!");
 	return;
@@ -1386,7 +1390,7 @@ void server_update_game(void)
     }
 
     /* Find out from mathcards if we're done: */
-    if(MC_TotalQuestionsLeft() == 0)
+    if(MC_TotalQuestionsLeft(lan_game_settings) == 0)
     {
 	game_in_progress = 0;
 	DEBUGMSG(debug_lan, "/nGame over:\nwave = %d\n"
@@ -1436,7 +1440,7 @@ int send_counter_updates(void)
     int total_questions;
 
     //If game won, tell everyone:
-    if(MC_MissionAccomplished())
+    if(MC_MissionAccomplished(lan_game_settings))
     {
 	char buf[NET_BUF_LEN];
 	snprintf(buf, NET_BUF_LEN, "%s", "MISSION_ACCOMPLISHED");
@@ -1444,7 +1448,7 @@ int send_counter_updates(void)
     }
 
     //Tell everyone how many questions left:
-    total_questions = MC_TotalQuestionsLeft();
+    total_questions = MC_TotalQuestionsLeft(lan_game_settings);
     {
 	char buf[NET_BUF_LEN];
 	snprintf(buf, NET_BUF_LEN, "%s\t%d", "TOTAL_QUESTIONS", total_questions);

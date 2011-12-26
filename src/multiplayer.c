@@ -6,7 +6,7 @@
    multiplayer that can accommodate up to four players (more with
    a recompilation)
    
-   Copyright 2008, 2010.
+   Copyright 2008, 2010, 2011.
    Authors: David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -90,7 +90,7 @@ void mp_run_multiplayer()
     {
       //TODO maybe gradually increase difficulty
       game_set_start_message(pnames[currentplayer], "Go!", "", "");
-      result = game();
+      result = game(local_game);
 
       if (result == GAME_OVER_LOST || result == GAME_OVER_ESCAPE)
       {
@@ -128,7 +128,7 @@ void mp_run_multiplayer()
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
         game_set_start_message(pnames[currentplayer], _("Go!"), NULL, NULL);
-        result = game();
+        result = game(local_game);
         //pscores[currentplayer] += Opts_LastScore(); //add this player's score
         if (result == GAME_OVER_WON)
           pscores[currentplayer] += 500; //plus a possible bonus
@@ -277,11 +277,11 @@ int initMP()
 
     DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
 
-    success *= read_global_config_file();
+    success *= read_global_config_file(local_game);
 
-    success *= read_named_config_file("multiplay/mpoptions");
+    success *= read_named_config_file(local_game, "multiplay/mpoptions");
 
-    success *= read_named_config_file(config_files[params[DIFFICULTY]]);
+    success *= read_named_config_file(local_game, config_files[params[DIFFICULTY]]);
 
     if (!success)
     {

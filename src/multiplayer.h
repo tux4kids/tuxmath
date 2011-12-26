@@ -6,7 +6,7 @@
    a recompilation).  Note that this is separate from the LAN-based
    "real" multiplayer mode.
 
-   Copyright 2008, 2010.
+   Copyright 2008, 2010, 2011.
 Authors:  Brendan Luchen, David Bruce.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

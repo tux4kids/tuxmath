@@ -31,6 +31,7 @@ set(SOURCES_TUXMATH
   factoroids.c
   fileops.c
   fileops_media.c
+  frame_counter.c
   game.c
   menu.c
   menu_lan.c
@@ -158,6 +159,11 @@ endif()
 if (TUXMATH_BUILD_INTL)
   target_link_libraries(tuxmath ${ICONV_TEMP} libintl.a)
 endif(TUXMATH_BUILD_INTL)
+
+#Some versions of binutils may have problems linking libm without an explicit declaration
+if(UNIX AND NOT APPLE)
+  target_link_libraries(tuxmath m)
+endif(UNIX AND NOT APPLE)
 
 
 set_target_properties (

@@ -3,7 +3,7 @@
    A simple standalone program to help test the creation of valid 
    question lists by mathcards.
 
-   Copyright 2008, 2009,2010.
+   Copyright 2008, 2009,2010, 2011.
 Author: Tim Holy.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
@@ -62,9 +62,10 @@ void initialize_scores(void)
 int main(int argc,char *argv[])
 {
     int i;
+    MC_MathGame game;
 
     /* Initialize MathCards backend for math questions: */
-    if (!MC_Initialize())
+    if (!MC_Initialize(&game))
     {
 	fprintf(stderr, "\nUnable to initialize MathCards\n");
 	fprintf(stderr, "\nUnable to initialize MathCards\n");
@@ -83,11 +84,11 @@ int main(int argc,char *argv[])
        in tuxmath itself. */
     for (i = 1; i < argc; i++) {
 	fprintf(stderr, "Reading %s\n",argv[i]);
-	read_named_config_file(argv[i]);
+	read_named_config_file(&game, argv[i]);
     }
     fprintf(stderr, "All done reading!\n");
 
-    MC_StartGame();
-    MC_PrintQuestionList(stdout);
+    MC_StartGame(&game);
+    MC_PrintQuestionList(&game, stdout);
     return 0;
 }

@@ -5,7 +5,7 @@
    Contains all the network-related functions for
    LAN-based play in "Tux, of Math Command".
    
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
    Authors: Akash Gangil, David Bruce.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org

@@ -2,7 +2,7 @@
 
    manage bundled lesson config files for tuxmath
 
-   Copyright 2007, 2008, 2009, 2010.
+   Copyright 2007, 2008, 2009, 2010, 2011.
 Author: David Bruce, Tim Holy, Brendan Luchen.
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

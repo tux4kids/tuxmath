@@ -3,7 +3,7 @@
    factoroids.h: Contains headers for the factor and
    fraction activities.
 
-   Copyright 2008, 2010
+   Copyright 2008, 2010, 2011
 Author: Jesus M. Mager H. (fongog@gmail.com)
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

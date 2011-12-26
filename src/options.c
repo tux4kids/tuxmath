@@ -3,7 +3,7 @@
 
    The options screen loop.
    
-   Copyright 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
    Authors: Bill Kendrick, David Bruce, Tim Holy, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -103,11 +103,14 @@ static int int_to_bool(int i);
 
 int Opts_Initialize(void)
 {
-  int i;
+    int i;
 
   /* Only allocate game_options if not already done: */
   if(!game_options)
     game_options = (game_option_type*)malloc(sizeof(game_option_type));
+  else
+    return 1;
+
   /* bail out if somehow malloc failed: */
   if (!game_options)
     return 0;
@@ -163,6 +166,8 @@ int Opts_Initialize(void)
 
   game_options->num_cities = DEFAULT_NUM_CITIES;   /* MUST BE AN EVEN NUMBER! */
   game_options->max_city_colors = DEFAULT_MAX_CITY_COLORS;
+
+  game_options->fps_limit = DEFAULT_FPS_LIMIT;
 
   DEBUGCODE(debug_options)
     print_game_options(stdout, 0);
@@ -607,6 +612,15 @@ void Opts_SetKeepScore(int val)
   game_options->keep_score = val;
 }
 
+void Opts_SetFPSLimit(int val)
+{
+  if (val < 0)
+  {
+    val = 0;
+    fprintf(stderr,"Warning: fps_limit level set below minimum, setting to 0 (no limit).\n");
+  }
+  game_options->fps_limit = val;
+}
 
 /* "Get" functions for tuxmath options struct: */
 //int Opts_PerUserConfig(void)
@@ -1024,6 +1038,18 @@ int Opts_KeepScore(void)
     }
     return game_options->keep_score;
 }
+
+
+int Opts_FPSLimit(void)
+{
+    if (!game_options)
+    {
+        fprintf(stderr, "\nOpts_KeepScore(): game_options not valid!\n");
+        return GAME_OPTS_INVALID;
+    }
+    return game_options->fps_limit;
+}
+
 /********************************************************************/
 /*  "private methods" (static functions only visible in options.c)  */
 /********************************************************************/

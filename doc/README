@@ -2,9 +2,9 @@
 the Linux Penguin
 -----------------------------------------------------------------
 
-May 04, 2011
+Nov 25, 2011
 
-For Tuxmath-2.0.3
+For Tuxmath-2.0.4
 
 Objective --------- 
 
@@ -23,7 +23,7 @@ Installation
 ------------
 
 For instructions on installing the game on your system, please read
-the "INSTALL.txt" file.
+the "INSTALL" file.
 
 
 Configuration
@@ -829,18 +829,18 @@ Vim (Vi IMproved)
 	http://www.vim.org/
 
 Git
-    (GET CORRECT URL)
+    	http://www.git-scm.com/
 
 Inkscape
-    (GET CORRECT URL)
+    	http://www.inkscape.org/
 
 CMake (for Mac OSX build)
-    (GET CORRECT URL)
+    	http://www.cmake.org/
 
 Mingw cross-compiler port of GCC and Mingw Cross Environment
     (for cross-compiled Windows build)
-    (GET CORRECT URL for mingw project)
-	http://mingw-cross-env.nongnu.org
+	http://mingw-cross-env.nongnu.org (mingw cross environment project)
+    	http://www.mingw.org/ (mingw tool chain itself)
 
 
 SDL_rotozoom was copied from the SDL_gfx library and re-licensed (for

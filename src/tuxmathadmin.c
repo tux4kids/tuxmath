@@ -3,7 +3,7 @@
 
    Administer user tuxmath accounts: create accounts, clear gold stars, etc.
 
-   Copyright 2007, 2010.
+   Copyright 2007, 2010, 2011.
 Authors: Tim Holy
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org

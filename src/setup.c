@@ -4,7 +4,7 @@
    Contains some globals (screen surface, images, some option flags, etc.)
    as well as the function to load data files (images, sounds, music)
 
-   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010.
+   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
    Authors: Bill Kendrick, David Bruce, Tim Holy, Wenyuan Guo.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -67,6 +67,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 SDL_Surface* screen;
 SDL_Surface* images[NUM_IMAGES];
 sprite* sprites[NUM_SPRITES];
+MC_MathGame* local_game;
+MC_MathGame* lan_game_settings;
+
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
    NUM_IMAGES. */
@@ -203,12 +206,33 @@ void print_locale_info(FILE* fp)
 void initialize_options(void)
 {
   /* Initialize MathCards backend for math questions: */
-  if (!MC_Initialize())
+  local_game = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+  if (local_game == NULL)
   {
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
+    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+    exit(1);
+  }
+  local_game->math_opts = NULL;
+  if (!MC_Initialize(local_game))
+  {
     fprintf(stderr, "\nUnable to initialize MathCards\n");
     exit(1);
   }
+
+
+  lan_game_settings = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+  if (lan_game_settings == NULL)
+  {
+    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+    exit(1);
+  }
+  lan_game_settings->math_opts = NULL;
+  if (!MC_Initialize(lan_game_settings))
+  {
+    fprintf(stderr, "\nUnable to initialize MathCards\n");
+    exit(1);
+  }
+
 
   /* initialize game_options struct with defaults DSB */
   if (!Opts_Initialize())
@@ -221,7 +245,7 @@ void initialize_options(void)
   /* Now that MathCards and game_options initialized using  */
   /* hard-coded defaults, read options from disk and mofify */
   /* as needed. First read in installation-wide settings:   */
-  if (!read_global_config_file())
+  if (!read_global_config_file(local_game))
   {
     fprintf(stderr, "\nCould not find global config file.\n");
     /* can still proceed using hard-coded defaults.         */
@@ -238,14 +262,14 @@ void initialize_options_user(void)
   /* game:                                                  */
   if (Opts_GetGlobalOpt(PER_USER_CONFIG))
   {
-    if (!read_user_config_file())
+    if (!read_user_config_file(local_game))
     {
       fprintf(stderr, "\nCould not find user's config file.\n");
       /* can still proceed using hard-coded defaults.         */
     }
 
     /* If game being run for first time, try to write file: */
-    if (!write_user_config_file())
+    if (!write_user_config_file(local_game))
     {
       fprintf(stderr, "\nUnable to write user's config file.\n");
     }
@@ -488,7 +512,7 @@ void handle_command_args(int argc, char* argv[])
 	  }
 	  else /* try to read file named in following arg: */
 	  {
-	      if (!read_named_config_file(argv[i + 1]))
+	      if (!read_named_config_file(local_game, argv[i + 1]))
 	      {
 		  fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
 	      }
@@ -538,24 +562,24 @@ void handle_command_args(int argc, char* argv[])
       else if (strcmp(argv[i], "--allownegatives") == 0 ||
 	      strcmp(argv[i], "-n") == 0)
       {
-	  MC_SetOpt(ALLOW_NEGATIVES, 1);
+	  MC_SetOpt(local_game, ALLOW_NEGATIVES, 1);
       }
       else if (strcmp(argv[i], "--playthroughlist") == 0 ||
 	      strcmp(argv[i], "-l") == 0)
       {
-	  MC_SetOpt(PLAY_THROUGH_LIST, 1);
+	  MC_SetOpt(local_game, PLAY_THROUGH_LIST, 1);
       }
       else if (strcmp(argv[i], "--answersfirst") == 0)
       {
-	  MC_SetOpt(FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_FIRST, 1);
-	  MC_SetOpt(FORMAT_ANSWER_MIDDLE, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 1);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 0);
       }
       else if (strcmp(argv[i], "--answersmiddle") == 0)
       {
-	  MC_SetOpt(FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_FIRST, 0);
-	  MC_SetOpt(FORMAT_ANSWER_MIDDLE, 1);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 0);
+	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 1);
       }
       else if (strcmp(argv[i], "--speed") == 0 ||
 	      strcmp(argv[i], "-s") == 0)
@@ -804,6 +828,13 @@ void cleanup_memory(void)
 	images[i] = NULL;
     }
 
+    for (i = 0; i < NUM_SPRITES; i++)
+    {
+	if (sprites[i])
+	    T4K_FreeSprite(sprites[i]);
+	sprites[i] = NULL;
+    }
+
     for (i = 0; i < NUM_SOUNDS; i++)
     {
 	if (sounds[i])
@@ -854,8 +885,20 @@ void cleanup_memory(void)
 
     /* frees the game_options struct: */
     Opts_Cleanup();
+
     /* frees any heap used by MathCards: */
-    MC_EndGame();
+    if(local_game)
+    {	    
+        MC_EndGame(local_game);
+	free(local_game);
+	local_game = NULL;
+    }
+    if(lan_game_settings)
+    {	    
+        MC_EndGame(lan_game_settings);
+	free(lan_game_settings);
+	lan_game_settings = NULL;
+    }
 
     /* Cleanup SDL+friends and anything else used by t4k_common: */
     CleanupT4KCommon();

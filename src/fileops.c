@@ -9,7 +9,7 @@
    Licensed under GNU GPL v2+.
    This code is a nearly complete rewrite but I would like to express my thanks.)
   
-  Copyright 2006, 2007, 2008, 2009, 2010.
+  Copyright 2006, 2007, 2008, 2009, 2010, 2011.
   Author: David Bruce, Tim Holy, Boleslaw Kulbabinski, Brendan Luchen.
   Project email: <tuxmath-devel@lists.sourceforge.net>
   Project website: http://tux4kids.alioth.debian.org
@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "globals.h"
 #include "fileops.h"
 #include "setup.h"
-#include "mathcards.h"
 #include "options.h"
 #include "highscore.h"
 #include "lessons.h"
@@ -82,12 +81,12 @@ static char* summary_filenames[NUM_SUMMARIES] = {
 /* local function prototypes: */
 static int find_tuxmath_dir(void);
 static int str_to_bool(const char* val);
-static int read_config_file(FILE* fp, int file_type);
-static int write_config_file(FILE* fp, int verbose);
+static int read_config_file(MC_MathGame* game, FILE* fp, int file_type);
+static int write_config_file(MC_MathGame* game, FILE* fp, int verbose);
 static int is_lesson_file(const struct dirent *lfdirent);
 static int read_goldstars(void);
 static int read_lines_from_file(FILE *fp,char ***lines);
-static int parse_option(const char* name, int val, int file_type);
+static int parse_option(MC_MathGame* game, const char* name, int val, int file_type);
 static void dirname_up(char *dirname);
 static char* get_user_name(void);
 static char* get_file_name(char *fullpath);
@@ -261,7 +260,7 @@ void get_user_data_dir_with_subdir(char *opt_path)
 }
   
 /* FIXME should have better file path (/etc or /usr/local/etc) and name */
-int read_global_config_file(void)
+int read_global_config_file(MC_MathGame* game)
 {
   FILE* fp;
 
@@ -271,9 +270,9 @@ int read_global_config_file(void)
   fp = fopen(DATA_PREFIX "/missions/options", "r");
 #endif
 
-  if (fp)
+  if (fp && game)
   {
-      read_config_file(fp, GLOBAL_CONFIG_FILE);
+      read_config_file(game, fp, GLOBAL_CONFIG_FILE);
       fclose(fp);
       fp = NULL;
       return 1;
@@ -284,7 +283,7 @@ int read_global_config_file(void)
 
 /* Attempts to read in user's config file - on a *nix system, */
 /* something like: /home/laura/.tuxmath/options               */
-int read_user_config_file(void)
+int read_user_config_file(MC_MathGame* game)
 {
     FILE* fp;
     char opt_path[PATH_MAX];
@@ -296,9 +295,9 @@ int read_user_config_file(void)
     DEBUGMSG(debug_fileops, "In read_user_config_file() full path to config file is: = %s\n", opt_path);
 
     fp = fopen(opt_path, "r");
-    if (fp) /* file exists */
+    if (fp && game) /* file exists and mathgame valid */
     {
-	read_config_file(fp, USER_CONFIG_FILE);
+	read_config_file(game, fp, USER_CONFIG_FILE);
 	fclose(fp);
 	fp = NULL;
 	return 1;
@@ -317,7 +316,7 @@ int read_user_config_file(void)
 /*   5. In missions/arcade directory.                   */
 /*   6. In user's own .tuxmath directory                */
 /* FIXME redundant code - figure out way to iterate through above */
-int read_named_config_file(const char* fn)
+int read_named_config_file(MC_MathGame* game, const char* fn)
 {
     FILE* fp;
     char opt_path[PATH_MAX];
@@ -332,6 +331,9 @@ int read_named_config_file(const char* fn)
 #else
     const char* filename = (const char*)fn;
 #endif
+
+    if (!game)
+        return 0;
 
     if (last_config_file_name != NULL)
 	free(last_config_file_name);
@@ -355,7 +357,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -388,7 +390,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -414,7 +416,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -439,7 +441,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -464,7 +466,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -489,7 +491,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -516,7 +518,7 @@ int read_named_config_file(const char* fn)
     {
 	DEBUGMSG(debug_fileops, "Found %s\n", opt_path);
 
-	if (read_config_file(fp, USER_CONFIG_FILE))
+	if (read_config_file(game, fp, USER_CONFIG_FILE))
 	{
 	    fclose(fp);
 	    fp = NULL;
@@ -1011,7 +1013,7 @@ void user_data_dirname_down(char *subdir)
 /* Note that file_type simply indicates whether or not    */
 /* to change admin-only settings such as per_user_config. */
 /* FIXME return value only tells whether file pointer valid */
-int read_config_file(FILE *fp, int file_type)
+int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
 {
     char buf[PATH_MAX];
     char *parameter, *param_begin, *param_end, *value, *value_end;
@@ -1032,7 +1034,7 @@ int read_config_file(FILE *fp, int file_type)
      * have checks to do this safely even if they have previously been initialized.
      */
     Opts_Initialize();
-    MC_Initialize();
+    MC_Initialize(game);
 
     /* make sure we start at beginning: */
     rewind(fp);
@@ -1336,12 +1338,17 @@ int read_config_file(FILE *fp, int file_type)
 	    Opts_SetKeepScore(atoi(value) );
 	}
 
+        else if (0 == strcasecmp(parameter, "fps_limit"))
+        {
+            Opts_SetFPSLimit(atoi(value));
+        }
+
 	else //we're going to delegate the setting of options to their subsystems
 	{
 	    int ival = str_to_bool(value); //see if it's a valid bool
 	    if (ival == -1) //guess not, must be an int
 		ival = atoi(value);
-	    if (!parse_option(parameter, ival, file_type) )
+	    if (!parse_option(game, parameter, ival, file_type) )
 		fprintf(stderr, "Sorry, I couldn't set %s\n", parameter);
 	    //        
 	    //      if (file_type != GLOBAL_CONFIG_FILE)
@@ -1371,24 +1378,24 @@ int read_config_file(FILE *fp, int file_type)
 	free(parameter);
     }
     //handle min > max by disallowing operation
-    if (MC_GetOpt(MIN_AUGEND) > MC_GetOpt(MAX_AUGEND) || 
-	    MC_GetOpt(MIN_ADDEND) > MC_GetOpt(MAX_ADDEND) )
-	MC_SetOpt(ADDITION_ALLOWED, 0);
-    if (MC_GetOpt(MIN_MINUEND) > MC_GetOpt(MAX_MINUEND) || 
-	    MC_GetOpt(MIN_SUBTRAHEND) > MC_GetOpt(MAX_SUBTRAHEND) )
-	MC_SetOpt(SUBTRACTION_ALLOWED, 0);
-    if (MC_GetOpt(MIN_MULTIPLICAND) > MC_GetOpt(MAX_MULTIPLICAND) || 
-	    MC_GetOpt(MIN_MULTIPLIER) > MC_GetOpt(MAX_MULTIPLIER) )
-	MC_SetOpt(MULTIPLICATION_ALLOWED, 0);
-    if (MC_GetOpt(MIN_DIVISOR) > MC_GetOpt(MAX_DIVISOR) || 
-	    MC_GetOpt(MIN_QUOTIENT) > MC_GetOpt(MAX_QUOTIENT) )
-	MC_SetOpt(DIVISION_ALLOWED, 0);
-    if (MC_GetOpt(MIN_TYPING_NUM) > MC_GetOpt(MAX_TYPING_NUM) )
-	MC_SetOpt(TYPING_PRACTICE_ALLOWED, 0);
+    if (MC_GetOpt(game, MIN_AUGEND) > MC_GetOpt(game, MAX_AUGEND) || 
+	    MC_GetOpt(game, MIN_ADDEND) > MC_GetOpt(game, MAX_ADDEND) )
+	MC_SetOpt(game, ADDITION_ALLOWED, 0);
+    if (MC_GetOpt(game, MIN_MINUEND) > MC_GetOpt(game, MAX_MINUEND) || 
+	    MC_GetOpt(game, MIN_SUBTRAHEND) > MC_GetOpt(game, MAX_SUBTRAHEND) )
+	MC_SetOpt(game, SUBTRACTION_ALLOWED, 0);
+    if (MC_GetOpt(game, MIN_MULTIPLICAND) > MC_GetOpt(game, MAX_MULTIPLICAND) || 
+	    MC_GetOpt(game, MIN_MULTIPLIER) > MC_GetOpt(game, MAX_MULTIPLIER) )
+	MC_SetOpt(game, MULTIPLICATION_ALLOWED, 0);
+    if (MC_GetOpt(game, MIN_DIVISOR) > MC_GetOpt(game, MAX_DIVISOR) || 
+	    MC_GetOpt(game, MIN_QUOTIENT) > MC_GetOpt(game, MAX_QUOTIENT) )
+	MC_SetOpt(game, DIVISION_ALLOWED, 0);
+    if (MC_GetOpt(game, MIN_TYPING_NUM) > MC_GetOpt(game, MAX_TYPING_NUM) )
+	MC_SetOpt(game, TYPING_PRACTICE_ALLOWED, 0);
 
     DEBUGMSG(debug_fileops, "After file read in:\n");
     DEBUGCODE(debug_fileops)
-	write_config_file(stdout, 0);
+	write_config_file(game, stdout, 0);
     DEBUGMSG(debug_fileops, "Leaving read_config_file()\n");
 
     return 1;
@@ -1399,13 +1406,13 @@ int read_config_file(FILE *fp, int file_type)
 //
 /* determine which option class a name belongs to, and set it */
 /* accordingly. Returns 1 on success, 0 on failure            */
-static int parse_option(const char* name, int val, int file_type)
+static int parse_option(MC_MathGame* game, const char* name, int val, int file_type)
 {
     int index = -1;
 
     if ((index = MC_MapTextToIndex(name)) != -1) //is it a math opt?
     {
-	MC_SetOpt(index, val);
+	MC_SetOpt(game, index, val);
     }
     else if ((index = Opts_MapTextToIndex(name)) != -1) //is it a global opt?
     {
@@ -1421,11 +1428,17 @@ static int parse_option(const char* name, int val, int file_type)
 }
 
 
-int write_user_config_file(void)
+int write_user_config_file(MC_MathGame* game)
 {
     char opt_path[PATH_MAX];
     FILE* fp;
 
+    if(!game)
+    {
+	fprintf(stderr, "\nInvalid MC_MathGame* arg\n");
+	return 0;
+    }
+    
     if (!find_tuxmath_dir())
     {
 	fprintf(stderr, "\nCould not find or create tuxmath dir\n");
@@ -1442,7 +1455,7 @@ int write_user_config_file(void)
     fp = fopen(opt_path, "w");
     if (fp)
     {
-	write_config_file(fp, 1);
+	write_config_file(game, fp, 1);
 	fclose(fp);
 	fp = NULL;
 	return 1;
@@ -1455,10 +1468,17 @@ int write_user_config_file(void)
 
 /* this function writes the settings for all game options to a */
 /* human-readable file.                                        */
-int write_config_file(FILE *fp, int verbose)
+int write_config_file(MC_MathGame* game, FILE* fp, int verbose)
 {
     int i, vcommentsprimed = 0;
     static char* vcomments[NOPTS]; //comments when writing out verbose
+
+    if(!game)
+    {
+	fprintf(stderr, "\nInvalid MC_MathGame* arg\n");
+	return 0;
+    }
+
     if (!vcommentsprimed) //we only want to initialize these once
     {
 	vcommentsprimed = 1;
@@ -1697,7 +1717,7 @@ int write_config_file(FILE *fp, int verbose)
     {
 	if (verbose && vcomments[i]) //comment goes before
 	    fprintf(fp, "%s", vcomments[i]);
-	fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], MC_GetOpt(i) );
+	fprintf(fp, "%s = %d\n", MC_OPTION_TEXT[i], MC_GetOpt(game, i) );
     }
 
     if (verbose)
@@ -1914,6 +1934,22 @@ int write_config_file(FILE *fp, int verbose)
     fprintf(fp, "per_user_config = %d\n", Opts_GetGlobalOpt(PER_USER_CONFIG));
     fprintf(fp, "# homedir = /servervolume/tuxmath_users\n");
 
+    if(verbose)
+    {
+        fprintf (fp, "\n\n############################################################\n"
+                "#                                                          #\n"
+                "#                       Frame rate                         #\n"
+                "#                                                          #\n"
+                "# Parameter: fps_limit (integer)                           #\n"
+                "# Default: 60                                              #\n"
+                "#                                                          #\n"
+                "# 'fps_limit' is the max allowed frame count per second,   #\n"
+                "# 0 means no limit.                                        #\n"
+                "#                                                          #\n"
+                "############################################################\n\n");
+    }
+    fprintf(fp, "fps_limit = %d\n", Opts_FPSLimit());
+
 
     /* print general game options (passing '1' as second arg causes */
     /* "help" info for each option to be written to file as comments) */
@@ -1935,12 +1971,15 @@ int write_config_file(FILE *fp, int verbose)
 /* the last ten summaries for review. write_postgame_summary()       */
 /* the list of questions that were not answered correctly and         */
 /* calculates the percent correct.                                    */
-int write_pregame_summary(void)
+int write_pregame_summary(MC_MathGame* game)
 {
     int i;
     FILE* fp;
     char filepath1[PATH_MAX];
     char filepath2[PATH_MAX];
+
+    if(!game)
+        return 0;
 
     DEBUGMSG(debug_fileops,"Entering write_pregame_summary.\n")
 
@@ -2009,8 +2048,8 @@ int write_pregame_summary(void)
 
 	/* Write question list:  */
 	fprintf(fp, "\nStarting Question List:");
-	MC_PrintQuestionList(fp);
-	fprintf(fp, "\n\nNumber of Questions: %d", MC_StartingListLength());
+	MC_PrintQuestionList(game, fp);
+	fprintf(fp, "\n\nNumber of Questions: %d", MC_StartingListLength(game));
 
 	fclose(fp);
 	DEBUGMSG(debug_fileops,"Leaving write_pregame_summary.\n")
@@ -2023,9 +2062,9 @@ int write_pregame_summary(void)
     }
 }
 
-int write_postgame_summary(void)
+int write_postgame_summary(MC_MathGame* game)
 {
-    FILE *fp;
+    FILE* fp;
     char filepath1[PATH_MAX];
     int total_answered;
     float median_time;
@@ -2034,36 +2073,36 @@ int write_postgame_summary(void)
     time_t filetime;
     struct stat filestat;
     struct tm datetime;
-    char *mission_name;
+    char* mission_name;
 
     get_user_data_dir_with_subdir(filepath1);
     strcat(filepath1, summary_filenames[0]);
 
-    total_answered = MC_NumAnsweredCorrectly() + MC_NumNotAnsweredCorrectly();
-    median_time = MC_MedianTimePerQuestion();
+    total_answered = MC_NumAnsweredCorrectly(game) + MC_NumNotAnsweredCorrectly(game);
+    median_time = MC_MedianTimePerQuestion(game);
 
     fp = fopen(filepath1, "a"); /* "a" means append to end of file */
     if (fp)
     {
 	/* Write list of questions missed: */
 	fprintf(fp, "\n\n\nList Of Questions Not Answered Correctly:");
-	MC_PrintWrongList(fp);
+	MC_PrintWrongList(game, fp);
 	fprintf(fp, "\n\nNumber Of Distinct Questions Not Answered Correctly: %d",
-		MC_WrongListLength());
+		MC_WrongListLength(game));
 
 	/* Write post-game statistics:     */
 
 	fprintf(fp, "\n\nSummary:\n");
 	fprintf(fp, "Questions Answered:\t%d\n", total_answered);
 	fprintf(fp, "Questions Correct:\t%d\n",
-		MC_NumAnsweredCorrectly());
+		MC_NumAnsweredCorrectly(game));
 	fprintf(fp, "Questions Missed:\t%d\n",
-		MC_NumNotAnsweredCorrectly());
+		MC_NumNotAnsweredCorrectly(game));
 	/* Avoid divide-by-zero errror: */
 	if (total_answered)
 	{
 	    fprintf(fp, "Percent Correct:\t%d %%\n", 
-		    ((MC_NumAnsweredCorrectly() * 100)/ total_answered) );
+		    ((MC_NumAnsweredCorrectly(game) * 100)/ total_answered) );
 	}
 	else
 	    fprintf(fp, "Percent Correct: (not applicable)\n");
@@ -2071,7 +2110,7 @@ int write_postgame_summary(void)
 	fprintf(fp,"Median Time/Question:\t%g\n",median_time);
 
 	fprintf(fp, "Mission Accomplished:\t");
-	if (MC_MissionAccomplished())
+	if (MC_MissionAccomplished(game))
 	{
 	    fprintf(fp, "Yes!\n\n8^)\n");
 	}
@@ -2124,7 +2163,7 @@ int write_postgame_summary(void)
 		mission_name = strdup(last_config_file_name);
 	    else
 		mission_name = strdup("[NONE]");
-	    fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(), total_answered, ((MC_NumAnsweredCorrectly() * 100)/ total_answered), median_time);
+	    fprintf(fp,"\"%s\",\"%s\",%d/%d/%d,%d,%d,%d,%g\n", get_user_name(), get_file_name(mission_name), datetime.tm_year+1900, datetime.tm_mon+1, datetime.tm_mday, MC_MissionAccomplished(game), total_answered, ((MC_NumAnsweredCorrectly(game) * 100)/ total_answered), median_time);
 	    fclose(fp);
 	    free(mission_name);
 	} else

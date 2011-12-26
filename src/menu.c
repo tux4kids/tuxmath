@@ -3,7 +3,7 @@
 
    Functions responsible for loading, parsing and displaying game menu.
    
-   Copyright 2009, 2010.
+   Copyright 2009, 2010, 2011.
    Authors:  Boleslaw Kulbabinski, David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -185,7 +185,7 @@ int handle_activity(int act, int param)
       Opts_SetDemoMode(0);
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {T4K_AudioMusicUnload();}
-      game();
+      game(local_game);
       if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
         T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       Opts_SetHelpMode(0);
@@ -200,10 +200,10 @@ int handle_activity(int act, int param)
       break;
 
     case RUN_DEMO:
-      if(read_named_config_file("demo"))
+      if(read_named_config_file(local_game, "demo"))
       {
         T4K_AudioMusicUnload();
-        game();
+        game(local_game);
         if (Opts_GetGlobalOpt(MENU_MUSIC))
           T4K_AudioMusicLoad( "tuxi.ogg", -1 );
       }
@@ -254,19 +254,19 @@ int run_academy(void)
 
     /* Re-read global settings first in case any settings were */
     /* clobbered by other lesson or arcade games this session: */
-    read_global_config_file();
+    read_global_config_file(local_game);
     /* Now read the selected file and play the "mission": */
-    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+    if (read_named_config_file(local_game, lesson_list_filenames[chosen_lesson]))
     {
       if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
         {T4K_AudioMusicUnload();}
 
       T4K_OnResolutionSwitch(NULL);
-      game();
+      game(local_game);
       T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
       /* If successful, display Gold Star for this lesson! */
-      if (MC_MissionAccomplished())
+      if (MC_MissionAccomplished(local_game))
       {
         lesson_list_goldstars[chosen_lesson] = 1;
        /* and save to disk: */
@@ -310,10 +310,10 @@ int run_arcade(int choice)
 
   if (choice < NUM_MATH_COMMAND_LEVELS) {
     // Play arcade game
-    if (read_named_config_file(arcade_config_files[choice]))
+    if (read_named_config_file(local_game, arcade_config_files[choice]))
     {
       T4K_AudioMusicUnload();
-      game();
+      game(local_game);
       RenderTitleScreen();
       if (Opts_GetGlobalOpt(MENU_MUSIC))
         T4K_AudioMusicLoad( "tuxi.ogg", -1 );
@@ -353,12 +353,12 @@ int run_custom_game(void)
                                          "Press a key or click your mouse to start game.\n"
                                          "See README.txt for more information.\n"));
 
-  if (read_user_config_file()) {
+  if (read_user_config_file(local_game)) {
       if (Opts_GetGlobalOpt(MENU_MUSIC))
 	  T4K_AudioMusicUnload();
 
-      game();
-      write_user_config_file();
+      game(local_game);
+      write_user_config_file(local_game);
 
       if (Opts_GetGlobalOpt(MENU_MUSIC))
 	  T4K_AudioMusicLoad( "tuxi.ogg", -1 );
@@ -483,9 +483,9 @@ int run_lan_host(void)
 
 	    /* Re-read global settings first in case any settings were */
 	    /* clobbered by other lesson or arcade games this session: */
-	    read_global_config_file();
+	    read_global_config_file(lan_game_settings);
 	    /* Now read the selected file and play the "mission": */
-	    if (read_named_config_file(lesson_list_filenames[chosen_lesson]))
+	    if (read_named_config_file(lan_game_settings, lesson_list_filenames[chosen_lesson]))
 		break;
 	    else    
 	    {  // Something went wrong - could not read lesson config file:
@@ -521,7 +521,7 @@ int run_lan_host(void)
 
     /* No SDL_net, so show explanatory message: */
 #else
-    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built withour network support.")); 
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("\nSorry, this version built without network support.")); 
     printf( _("Sorry, this version built without network support.\n"));
 #endif
     return 0;
@@ -572,7 +572,7 @@ int run_lan_join(void)
 	    playsound(SND_TOCK);
 	    T4K_AudioMusicUnload();
 	    Opts_SetLanMode(1);  // Tells game() we are playing over network
-	    game();
+	    game(lan_game_settings);
 	    Opts_SetLanMode(0);  // Go back to local play
 	    if (Opts_GetGlobalOpt(MENU_MUSIC))
 		T4K_AudioMusicLoad( "tuxi.ogg", -1 );

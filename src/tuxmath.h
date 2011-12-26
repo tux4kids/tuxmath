@@ -4,7 +4,7 @@
    Contains global data for configuration of math questions and
    for general game options, as well as constants and defaults.
 
-   Copyright 2005, 2007, 2008, 2009, 2010.
+   Copyright 2005, 2006, 2007, 2008, 2009, 2010.
 Authors: David Bruce, Tim Holy
 Project email: <tuxmath-devel@lists.sourceforge.net>
 Project website: http://tux4kids.alioth.debian.org
@@ -45,10 +45,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 #include <t4k_common.h>
+#include "mathcards.h"
 
 /* Global data gets 'externed' here: */
 
 /* declared in setup.c */
+extern MC_MathGame* local_game;
+extern MC_MathGame* lan_game_settings;
 /* windowed mode screen  size */
 extern int win_res_x;
 extern int win_res_y;

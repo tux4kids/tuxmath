@@ -1,7 +1,7 @@
 /* 
    campaign.c - handle TuxMath's 'Mission mode'
    
-   Copyright (C) 2008, 2009, 2010.
+   Copyright (C) 2008, 2009, 2010, 2011.
    Authors: Brendan Luchen, David Bruce.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -62,7 +62,7 @@ int start_campaign()
 	  fprintf(stderr, "Round %d\n", j);
 
 	  //read in settings 
-	  read_named_config_file("campaign/campaign");    
+	  read_named_config_file(local_game, "campaign/campaign");    
 	  readStageSettings(i);
 	  readRoundSettings(i, j);
 	  Opts_SetKeepScore(0);
@@ -72,12 +72,12 @@ int start_campaign()
 
 	  DEBUGCODE(debug_setup)
 	  {
-	      MC_PrintMathOptions(stdout, 0);
+	      MC_PrintMathOptions(local_game, stdout, 0);
 	  }
 
 	  //play!
 	  fprintf(stderr, "Starting game...\n");
-	  gameresult = game();
+	  gameresult = game(local_game);
 
 	  //move on if we've won, game over if not
 	  if (gameresult == GAME_OVER_WON)
@@ -242,7 +242,7 @@ void readStageSettings(int stage)
 {
     char fn[PATH_MAX];
     snprintf(fn,PATH_MAX, "campaign/%s/%s", stagenames[stage], stagenames[stage]);
-    read_named_config_file(fn);
+    read_named_config_file(local_game, fn);
 }
 
 void readRoundSettings(int stage, int round)
@@ -252,7 +252,7 @@ void readRoundSettings(int stage, int round)
 	snprintf(fn, PATH_MAX, "campaign/%s/bonus", stagenames[stage]);
     else
 	snprintf(fn,PATH_MAX, "campaign/%s/round%d", stagenames[stage], round);
-    read_named_config_file(fn);
+    read_named_config_file(local_game, fn);
 }
 
 void showGameOver()
