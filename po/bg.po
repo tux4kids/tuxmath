@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Evgeni <evgenizero@gmail.com>\n"
 "Language-Team: \n"
@@ -244,228 +244,6 @@ msgstr "Пълно копие на GPL е включен с документац
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "За повече информация относно Свободния Софтуер и  GNU GPL посетете:"
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr ""
-
-#: src/factoroids.c:525
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "Умножение по 11 и 12"
-
-#: src/factoroids.c:526
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:527
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:528
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:529
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:534
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
-
-#: src/factoroids.c:536
-#, fuzzy
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Умножение по 13, 14 и 15"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr ""
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr ""
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "Добре дошли в TuxMath!"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "Мисията ти е да спасиш твоите"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "иглута на пингвини от "
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "падащите комети."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Спри комета, като напишеш"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "отговора на математическата задача"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "и натиснеш 'space' 'или 'enter'."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "Сега се пробвай!"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "Добър изстрел!"
-
-#: src/game.c:809
-msgid "If an igloo gets hit by a comet,"
-msgstr "Ако комета удари иглу,"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr "то се разтопява. Но не се притеснявай:"
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "пингвинът е добре!"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Просто наблюдавай какво се случва:"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Натисни клавиш, за да започнеш)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Забележи отговора"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Ако отново бъде ударен,"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "пингвинът напуска."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Натисни клавиш, когато си готов)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Можеш да поправяш иглутата"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr "като спираш бонус комети."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "Стряляй сега!"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "Страхотна работа!"
-
-#: src/game.c:898
-#, fuzzy
-msgid "Fast-moving powerup comets"
-msgstr "като спираш бонус комети."
-
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr ""
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Можеш да излезеш по всяко време, натискайки"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "'Esc' или като кликнеш на 'X'"
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "в горния десен ъгъл."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Направи го сега и след това играй!"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr "Пингвините са спасени!"
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr "Краен резултат:"
-
-#: src/game.c:2805
-#, fuzzy
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr "Връзката със сървъра беше изгубена."
-
-#: src/game.c:2813
-#, fuzzy
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr "Връзката със сървъра беше изгубена."
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr ""
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Залата на Славата"
@@ -506,62 +284,62 @@ msgstr "Ти си в Залата на Славата"
 msgid "Enter Your Name:"
 msgstr "Напиши си името:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
@@ -626,7 +404,7 @@ msgstr "Избран Урок:"
 #, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
+"Sorry, this version built without network support."
 msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа.\n"
 
 #: src/menu.c:525 src/menu.c:603
@@ -700,7 +478,7 @@ msgstr "Колко рунда ще играеш?"
 msgid "Enter a number"
 msgstr "Напиши число"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr ""
 
@@ -1212,6 +990,140 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Умножение по 11 и 12"
+
+#, fuzzy
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#, fuzzy
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#, fuzzy
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Умножение по 13, 14 и 15"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "Добре дошли в TuxMath!"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "Мисията ти е да спасиш твоите"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "иглута на пингвини от "
+
+#~ msgid "falling comets."
+#~ msgstr "падащите комети."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Спри комета, като напишеш"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "отговора на математическата задача"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "и натиснеш 'space' 'или 'enter'."
+
+#~ msgid "Try it now!"
+#~ msgstr "Сега се пробвай!"
+
+#~ msgid "Good shot!"
+#~ msgstr "Добър изстрел!"
+
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Ако комета удари иглу,"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr "то се разтопява. Но не се притеснявай:"
+
+#~ msgid "penguin is OK!"
+#~ msgstr "пингвинът е добре!"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Просто наблюдавай какво се случва:"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Натисни клавиш, за да започнеш)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Забележи отговора"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Ако отново бъде ударен,"
+
+#~ msgid "penguin leaves."
+#~ msgstr "пингвинът напуска."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Натисни клавиш, когато си готов)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Можеш да поправяш иглутата"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr "като спираш бонус комети."
+
+#~ msgid "Zap it now!"
+#~ msgstr "Стряляй сега!"
+
+#~ msgid "Great job!"
+#~ msgstr "Страхотна работа!"
+
+#, fuzzy
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr "като спираш бонус комети."
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Можеш да излезеш по всяко време, натискайки"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "'Esc' или като кликнеш на 'X'"
+
+#~ msgid "in the upper right corner."
+#~ msgstr "в горния десен ъгъл."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Направи го сега и след това играй!"
+
+#~ msgid "The Penguins Have Been Saved!"
+#~ msgstr "Пингвините са спасени!"
+
+#~ msgid "Final Scores:"
+#~ msgstr "Краен резултат:"
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr "Връзката със сървъра беше изгубена."
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr "Връзката със сървъра беше изгубена."
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа.\n"
 
 #~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 #~ msgstr "ФАКТОРОИДИ: за да победиш, трябва да унищожиш всички астероиди."

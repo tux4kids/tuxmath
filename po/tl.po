@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0-pre2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -259,228 +259,6 @@ msgstr ""
 "Para sa karagdagang ipormasyon tungkol sa libreng Software at ang GNU GPL , "
 "bisitahin ang:"
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr ""
-
-#: src/factoroids.c:525
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "Nahahati ng 11 at 12"
-
-#: src/factoroids.c:526
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:527
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:528
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:529
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:534
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
-
-#: src/factoroids.c:536
-#, fuzzy
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Nahahati ng 13, 14 at 15"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr ""
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr ""
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "Malugod na pagtanggap sa TuxMath!"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "Ang iyong mission ay protektahan ang iyong"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "mga yelong bahay ng mga ibong dagat sa"
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "bumabagsak na mga kometa."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Tigilan ang kometa sa pamamagitan ng pagtayp"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "ng sagot sa mga katanungan sa matematika"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "at pindutin ang 'space' o 'enter'."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "Subukan mo na!"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "Mabuting pagbaril!"
-
-#: src/game.c:809
-msgid "If an igloo gets hit by a comet,"
-msgstr "Kung ang yelong bahay ay natamaan ng kometa"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr ",ito ay matutunaw. Pero wag kang mag-alala: ang"
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "ibong dagat ay okay lang!"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Tignan mo lang kung anung mangyayari:"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Pumindot ng key para makapagsimula na)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Tignan ang sagot"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Kung iyon ay natamaan ulit, ang"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "ibong dagat ay aalis."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Pumindot ng key kung handa na)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Kaya mong ayusin ang mga yelong bahay"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "Barilin mo na!"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "Ang galing mo!"
-
-#: src/game.c:898
-#, fuzzy
-msgid "Fast-moving powerup comets"
-msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
-
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr ""
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Pede kang umalis sa kahit anung oras sa pagpindot ng"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "'Esc' o pagpindot ng 'X'"
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "sa kanang itaas na sulok."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Gawin mo na ngayon, at maglaro!"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr ""
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr ""
-
-#: src/game.c:2805
-#, fuzzy
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr "Nakakonekta na sa server: %s"
-
-#: src/game.c:2813
-#, fuzzy
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr "Nakakonekta na sa server: %s"
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr ""
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Lugar ng mga Katanyagan"
@@ -521,62 +299,62 @@ msgstr "Ikaw Ay Nasa Lugar ng mga Katanyagan!"
 msgid "Enter Your Name:"
 msgstr "Ibigay ang iyong Pangalan:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
@@ -641,7 +419,7 @@ msgstr "Napiling Lesson:"
 #, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
+"Sorry, this version built without network support."
 msgstr "Pansensya, itong salin ay ginawa na walang suporta sa network.\n"
 
 #: src/menu.c:525 src/menu.c:603
@@ -715,7 +493,7 @@ msgstr "Ilang round ang inyong lalaruin?"
 msgid "Enter a number"
 msgstr "Maglagay ng number"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr ""
 
@@ -1226,6 +1004,134 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Nahahati ng 11 at 12"
+
+#, fuzzy
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#, fuzzy
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#, fuzzy
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Nahahati ng 13, 14 at 15"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "Malugod na pagtanggap sa TuxMath!"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "Ang iyong mission ay protektahan ang iyong"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "mga yelong bahay ng mga ibong dagat sa"
+
+#~ msgid "falling comets."
+#~ msgstr "bumabagsak na mga kometa."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Tigilan ang kometa sa pamamagitan ng pagtayp"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "ng sagot sa mga katanungan sa matematika"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "at pindutin ang 'space' o 'enter'."
+
+#~ msgid "Try it now!"
+#~ msgstr "Subukan mo na!"
+
+#~ msgid "Good shot!"
+#~ msgstr "Mabuting pagbaril!"
+
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Kung ang yelong bahay ay natamaan ng kometa"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr ",ito ay matutunaw. Pero wag kang mag-alala: ang"
+
+#~ msgid "penguin is OK!"
+#~ msgstr "ibong dagat ay okay lang!"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Tignan mo lang kung anung mangyayari:"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Pumindot ng key para makapagsimula na)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Tignan ang sagot"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Kung iyon ay natamaan ulit, ang"
+
+#~ msgid "penguin leaves."
+#~ msgstr "ibong dagat ay aalis."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Pumindot ng key kung handa na)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Kaya mong ayusin ang mga yelong bahay"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
+
+#~ msgid "Zap it now!"
+#~ msgstr "Barilin mo na!"
+
+#~ msgid "Great job!"
+#~ msgstr "Ang galing mo!"
+
+#, fuzzy
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr "sa pamamagitan ng pagtigil ng mga bonus na kometa."
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Pede kang umalis sa kahit anung oras sa pagpindot ng"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "'Esc' o pagpindot ng 'X'"
+
+#~ msgid "in the upper right corner."
+#~ msgstr "sa kanang itaas na sulok."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Gawin mo na ngayon, at maglaro!"
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr "Nakakonekta na sa server: %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr "Nakakonekta na sa server: %s"
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr "Pansensya, itong salin ay ginawa na walang suporta sa network.\n"
 
 #~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 #~ msgstr ""

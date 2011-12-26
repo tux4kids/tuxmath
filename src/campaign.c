@@ -77,7 +77,7 @@ int start_campaign()
 
 	  //play!
 	  fprintf(stderr, "Starting game...\n");
-	  gameresult = game(local_game);
+          gameresult = comets_game(local_game);
 
 	  //move on if we've won, game over if not
 	  if (gameresult == GAME_OVER_WON)

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.1\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: 2011-11-21 21:27+0100\n"
 "Last-Translator: Joan Creus <joan.creus.c (_-_at_-_) gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -246,238 +246,6 @@ msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 "Per a més informació sobre el programari lliure i la GPL de GNU, visiteu:"
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr "Potències de 2"
-
-#: src/factoroids.c:525
-msgid "Products of 2 and 3"
-msgstr "Múltiples de 2 i de 3"
-
-#: src/factoroids.c:526
-msgid "Products of 2, 3 and 5"
-msgstr "Múltiples de 2, de 3 i de 5"
-
-#: src/factoroids.c:527
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Múltiples de 2, de 3, de 5 i de 7"
-
-#: src/factoroids.c:528
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Múltiples de 2, de 3 de 5, de 7 i d'11"
-
-#: src/factoroids.c:529
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Múltiples de 2, de 3 de 5, de 7, 11 i de 13"
-
-#: src/factoroids.c:534
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Tots els múltiples de 2 acaben en 2, 4, 6, 8 o 0"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr "La suma dels dígits d'un múltiple de 3 dóna un altre múltiple de 3"
-
-#: src/factoroids.c:536
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Tots els múltiples de 5 acaben en 0 o 5"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr "Ho sento - no hi ha cap regla simple per identificar múltiples de 7."
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-"En nombres menors que 100, els múltiples d'11 tenen els mateixos dígits, com "
-"55 o 88."
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr "Ho sento - no hi ha cap regla simple per identificar múltiples de 13."
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr "Objectius:"
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr "Pistes:"
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-"Per guanyar, has de destruir tots els asteroides.\n"
-"Per girar, les tecles de fletxa o moviment del ratolí\n"
-"Potència: fletxa cap amunt o botó dret del ratolí.\n"
-"Per disparar, [Enter], [Space], o botó esquerre del ratolí.\n"
-"Per canviar Pistola dels Nombres Primers: [D], [F], o la roda central del "
-"ratolí.\n"
-"Activa poders: [Shift].\n"
-"Dispara les roques abm els seus nombres primers fins que quedin totes "
-"destruïdes."
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-"FRACCIONS: per guanyar, has de destruir tots els asteroides. Utilitza les "
-"tecles de cursor per girar o avançar. Apunta cap a un asteroide, escriu un "
-"nombre que pot simplificar la fracció, i prem espai o la tecla de retorn per "
-"dividir-lo. Destrueix les fraccions que no es poden simplificar més amb un "
-"sol tret!"
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "Benvingut a TuxMath!"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "La teva missió és salvar els"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "iglús dels teus pingüins dels"
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "cometes caients."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Para un cometa escrivint la"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "resposta al problema matemàtic"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "i prement la tecla d'espai o retorn."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "Prova-ho ara!"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "Bon tir!"
-
-#: src/game.c:809
-msgid "If an igloo gets hit by a comet,"
-msgstr "Si un cometa toca un cometa,"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr "es fon. Però no et preocupis: el"
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "pingüí està bé!"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Observa el que passa:"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Prem una tecla per començar)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Observa la resposta"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Si torna a ser tocat, el"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "pingüí marxa."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Prem una tecla quan estiguis preparat)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Pots arreglar els iglús"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr "parant cometes extra."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "Fregeix-lo ara!"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "Bona feina!"
-
-#: src/game.c:898
-msgid "Fast-moving powerup comets"
-msgstr "Els cometes de bonus que van ràpids"
-
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr "et dónen una arma secreta:"
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Surt en qualsevol moment prement"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "la tecla d'escapada o la 'X'"
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "al racó dret superior."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Fes-ho ara, i després juga!"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr "Els Pingüins s'han salvat!"
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr "Resultats finals:"
-
-#: src/game.c:2805
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr ""
-"El joc de xarxa s'ha terminat pel servidor.\n"
-" El servidor encara funciona."
-
-#: src/game.c:2813
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr ""
-"El joc de xarxa s'ha terminat pel servidor.\n"
-" La conexxió amb el servidor s'ha perdut."
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr "%s ha abandonat el joc."
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Saló de la Fama"
@@ -518,62 +286,62 @@ msgstr "Estàs al Saló de la Fama!"
 msgid "Enter Your Name:"
 msgstr "Escriu el teu nom:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr "%d + %d = ?"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr "? + %d = %d"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr "%d + ? = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr "%d - %d = ?"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr "? - %d = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr "%d - ? = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr "%d x %d = ?"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr "? x %d = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr "%d x ? = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr "%d ÷ %d = ?"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr "? ÷ %d = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr "%d ÷ ? = %d"
@@ -648,12 +416,11 @@ msgstr ""
 "%s"
 
 #: src/menu.c:524
+#, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
-msgstr ""
-"\n"
-"Ho sento, aquesta versió no té suport de xarxa."
+"Sorry, this version built without network support."
+msgstr "Ho sento, aquesta versió no té suport de xarxa.\n"
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
@@ -721,7 +488,7 @@ msgstr "Quantes rondes jugareu?"
 msgid "Enter a number"
 msgstr "Escriu un nombre"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr "S'està esperant el nom del jugador"
 
@@ -1232,3 +999,194 @@ msgstr "Fes una partida per torns en un sol ordinador amb els teus amics"
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr "La persona amb la puntuació més alta guanya"
+
+#~ msgid "Powers of 2"
+#~ msgstr "Potències de 2"
+
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Múltiples de 2 i de 3"
+
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Múltiples de 2, de 3 i de 5"
+
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Múltiples de 2, de 3, de 5 i de 7"
+
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Múltiples de 2, de 3 de 5, de 7 i d'11"
+
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Múltiples de 2, de 3 de 5, de 7, 11 i de 13"
+
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Tots els múltiples de 2 acaben en 2, 4, 6, 8 o 0"
+
+#~ msgid "The digits of a multiple of 3 add up to a multiple of 3"
+#~ msgstr "La suma dels dígits d'un múltiple de 3 dóna un altre múltiple de 3"
+
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Tots els múltiples de 5 acaben en 0 o 5"
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 7."
+#~ msgstr ""
+#~ "Ho sento - no hi ha cap regla simple per identificar múltiples de 7."
+
+#~ msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+#~ msgstr ""
+#~ "En nombres menors que 100, els múltiples d'11 tenen els mateixos dígits, "
+#~ "com 55 o 88."
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 13."
+#~ msgstr ""
+#~ "Ho sento - no hi ha cap regla simple per identificar múltiples de 13."
+
+#~ msgid "Objectives:"
+#~ msgstr "Objectius:"
+
+#~ msgid "Hints:"
+#~ msgstr "Pistes:"
+
+#~ msgid ""
+#~ "To win, you must destroy all the asteroids.\n"
+#~ "Turn: arrow keys or mouse movement.\n"
+#~ "Thrust: up arrow or right mouse button.\n"
+#~ "Shoot: [Enter], [Space], or left mouse button.\n"
+#~ "Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+#~ "Activate Powerup: [Shift].\n"
+#~ "Shoot the rocks with their prime factors until they are all destroyed."
+#~ msgstr ""
+#~ "Per guanyar, has de destruir tots els asteroides.\n"
+#~ "Per girar, les tecles de fletxa o moviment del ratolí\n"
+#~ "Potència: fletxa cap amunt o botó dret del ratolí.\n"
+#~ "Per disparar, [Enter], [Space], o botó esquerre del ratolí.\n"
+#~ "Per canviar Pistola dels Nombres Primers: [D], [F], o la roda central del "
+#~ "ratolí.\n"
+#~ "Activa poders: [Shift].\n"
+#~ "Dispara les roques abm els seus nombres primers fins que quedin totes "
+#~ "destruïdes."
+
+#~ msgid ""
+#~ "FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys "
+#~ "to turn or go forward.  Aim at an asteroid, type a number that can "
+#~ "simplify the fraction, and press space or return to split it.  Destroy "
+#~ "fractions that can not be further simplified in a single shot!"
+#~ msgstr ""
+#~ "FRACCIONS: per guanyar, has de destruir tots els asteroides. Utilitza les "
+#~ "tecles de cursor per girar o avançar. Apunta cap a un asteroide, escriu "
+#~ "un nombre que pot simplificar la fracció, i prem espai o la tecla de "
+#~ "retorn per dividir-lo. Destrueix les fraccions que no es poden "
+#~ "simplificar més amb un sol tret!"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "Benvingut a TuxMath!"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "La teva missió és salvar els"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "iglús dels teus pingüins dels"
+
+#~ msgid "falling comets."
+#~ msgstr "cometes caients."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Para un cometa escrivint la"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "resposta al problema matemàtic"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "i prement la tecla d'espai o retorn."
+
+#~ msgid "Try it now!"
+#~ msgstr "Prova-ho ara!"
+
+#~ msgid "Good shot!"
+#~ msgstr "Bon tir!"
+
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Si un cometa toca un cometa,"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr "es fon. Però no et preocupis: el"
+
+#~ msgid "penguin is OK!"
+#~ msgstr "pingüí està bé!"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Observa el que passa:"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Prem una tecla per començar)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Observa la resposta"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Si torna a ser tocat, el"
+
+#~ msgid "penguin leaves."
+#~ msgstr "pingüí marxa."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Prem una tecla quan estiguis preparat)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Pots arreglar els iglús"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr "parant cometes extra."
+
+#~ msgid "Zap it now!"
+#~ msgstr "Fregeix-lo ara!"
+
+#~ msgid "Great job!"
+#~ msgstr "Bona feina!"
+
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr "Els cometes de bonus que van ràpids"
+
+#~ msgid "earn you a secret weapon:"
+#~ msgstr "et dónen una arma secreta:"
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Surt en qualsevol moment prement"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "la tecla d'escapada o la 'X'"
+
+#~ msgid "in the upper right corner."
+#~ msgstr "al racó dret superior."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Fes-ho ara, i després juga!"
+
+#~ msgid "The Penguins Have Been Saved!"
+#~ msgstr "Els Pingüins s'han salvat!"
+
+#~ msgid "Final Scores:"
+#~ msgstr "Resultats finals:"
+
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr ""
+#~ "El joc de xarxa s'ha terminat pel servidor.\n"
+#~ " El servidor encara funciona."
+
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr ""
+#~ "El joc de xarxa s'ha terminat pel servidor.\n"
+#~ " La conexxió amb el servidor s'ha perdut."
+
+#~ msgid "%s has left the game."
+#~ msgstr "%s ha abandonat el joc."
+
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr ""
+#~ "\n"
+#~ "Ho sento, aquesta versió no té suport de xarxa."

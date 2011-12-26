@@ -90,7 +90,7 @@ void mp_run_multiplayer()
     {
       //TODO maybe gradually increase difficulty
       game_set_start_message(pnames[currentplayer], "Go!", "", "");
-      result = game(local_game);
+      result = comets_game(local_game);
 
       if (result == GAME_OVER_LOST || result == GAME_OVER_ESCAPE)
       {
@@ -128,7 +128,7 @@ void mp_run_multiplayer()
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
         game_set_start_message(pnames[currentplayer], _("Go!"), NULL, NULL);
-        result = game(local_game);
+        result = comets_game(local_game);
         //pscores[currentplayer] += Opts_LastScore(); //add this player's score
         if (result == GAME_OVER_WON)
           pscores[currentplayer] += 500; //plus a possible bonus

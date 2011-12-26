@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.0.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: melodie <meets@gmx.fr>\n"
 "Language-Team: \n"
@@ -253,242 +253,6 @@ msgstr ""
 "Pour plus d'informations à propos des Logiciels libres et de la GNU GPL, "
 "visitez : "
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr "Puissances de 2"
-
-#: src/factoroids.c:525
-msgid "Products of 2 and 3"
-msgstr "Multiples de 2 et 3"
-
-#: src/factoroids.c:526
-msgid "Products of 2, 3 and 5"
-msgstr "Multiples de 2, 3 et 5"
-
-#: src/factoroids.c:527
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Multiples de 2, 3 et 7"
-
-#: src/factoroids.c:528
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Multiples de 2, 3, 5, 7 et 11"
-
-#: src/factoroids.c:529
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Multiples de 2, 3, 5, 7, 11 et 13"
-
-#: src/factoroids.c:534
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Tous les Multiples de 2 se terminent par  2, 4, 6, 8, ou 0"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
-"Les chiffres d'un multiple de 3 s'ajoutent pour donner un multiple de 3"
-
-#: src/factoroids.c:536
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Tous les multiples de 5 se terminent par 0 ou 5"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-"Désolé - il n'y a pas de règle simple pour identifier les multiples de 7."
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-"En dessous de 100, les multiples de 11 ont des chiffres égaux, tels que 55 "
-"ou 88."
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-"Désolé - il n'y a pas de règle simple pour identifier les multiples de 13."
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr "Objectifs :"
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr "Indices :"
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-"Pour gagner, tu dois détruire tous les astéroïdes. \n"
-"Tourner : touches fléchées ou mouvement de la souris \n"
-"Pousser : flèche vers le haut ou le bouton droit de la souris \n"
-"Tirer : [Entrée], [Espace], ou le bouton gauche de la souris \n"
-"Canon à Basculer le Nombre Premier : [D], [F], ou molette de la souris \n"
-"Activer Bonus : [Maj] \n"
-"Tirez sur les rochers avec leurs facteurs premiers jusqu'à ce qu'ils soient "
-"tous détruits."
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-"FRACTIONS : pour gagner, tu dois détruire tous les astéroïdes. Utilise les "
-"touches fléchées pour tourner ou aller vers l'avant. Vise un astéroïde, tape "
-"un nombre qui peut simplifier la fraction, et presse Espace ou Entrée pour "
-"le diviser. Détruis les fractions qui ne peuvent plus être simplifiées en "
-"une fois !"
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "Bienvenue sur TuxMath !"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "Ta mission est de sauver"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "les igloos de tes manchots"
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "des comètes qui tombent."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Arrête une comète en tapant"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "la réponse au problème mathématique"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "posé et tape 'espace' ou 'entrée'."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "À toi maintenant !"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "Joli tir !"
-
-#: src/game.c:809
-msgid "If an igloo gets hit by a comet,"
-msgstr "Si un igloo se fait toucher par une comète,"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr "il fond. Mais ne t'inquiète pas, le "
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "manchot va bien !"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Regarde juste ce qui se passe :"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Appuie sur une touche pour commencer)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Observe la réponse"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Si il se fait encore toucher, le"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "manchot s'en va."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Appuie sur une touche lorsque tu es prêt)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Tu peux réparer les igloos"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr "en détruisant les comètes bonus."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "Tire dessus maintenant !"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "Bon boulot !"
-
-# fail msgstr "Déplacement rapide = comète bonus."
-#: src/game.c:898
-msgid "Fast-moving powerup comets"
-msgstr "Les comètes bonus rapides"
-
-# fail msgstr "Gagne une arme secrète :"
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr "te font gagner une arme secrète :"
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Quitte à tout moment en appuyant"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "sur 'Échap' ou en cliquant sur le 'X'"
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "dans le coin en haut à droite."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Fais-le maintenant, et joue ensuite !"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr "Les Manchots Ont Été Sauvés !"
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr "Scores Finaux :"
-
-#: src/game.c:2805
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr ""
-"Jeu en réseau interrompu par le serveur. \n"
-"Le serveur est toujours en fonctionnement."
-
-#: src/game.c:2813
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr ""
-"Jeu en réseau interrompu. \n"
-"La connexion avec le serveur a été perdue."
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr "%s a quitté le jeu."
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Meilleurs scores"
@@ -529,62 +293,62 @@ msgstr "Tu Es Dans Le Temple de la Renommée !"
 msgid "Enter Your Name:"
 msgstr "Inscris ton nom :"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr "%d + %d = ?"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr "? + %d = %d"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr "%d + ? = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr "%d - %d = ?"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr "? - %d = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr "%d - ? = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr "%d x %d = ?"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr "? x %d = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr "%d x ? = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr "%d ÷ %d = ?"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr "? ÷ %d = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr "%d ÷ ? = %d"
@@ -661,12 +425,11 @@ msgstr ""
 "%s"
 
 #: src/menu.c:524
+#, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
-msgstr ""
-"\n"
-"Désolé, cette version a été compilée sans les fonctionnalités réseau."
+"Sorry, this version built without network support."
+msgstr "Désolé, cette version a été compilée sans les fonctionalités réseau.\n"
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
@@ -734,7 +497,7 @@ msgstr "En combien de tours allez vous jouer ?"
 msgid "Enter a number"
 msgstr "Entrez un nombre"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr "Attente du nom du joueur"
 
@@ -1246,6 +1009,199 @@ msgstr "À tour de rôle dans un jeu avec tes amis sur un seul ordinateur"
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr "Celui qui a le plus grand score gagne"
+
+#~ msgid "Powers of 2"
+#~ msgstr "Puissances de 2"
+
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Multiples de 2 et 3"
+
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Multiples de 2, 3 et 5"
+
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Multiples de 2, 3 et 7"
+
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Multiples de 2, 3, 5, 7 et 11"
+
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Multiples de 2, 3, 5, 7, 11 et 13"
+
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Tous les Multiples de 2 se terminent par  2, 4, 6, 8, ou 0"
+
+#~ msgid "The digits of a multiple of 3 add up to a multiple of 3"
+#~ msgstr ""
+#~ "Les chiffres d'un multiple de 3 s'ajoutent pour donner un multiple de 3"
+
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Tous les multiples de 5 se terminent par 0 ou 5"
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 7."
+#~ msgstr ""
+#~ "Désolé - il n'y a pas de règle simple pour identifier les multiples de 7."
+
+#~ msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+#~ msgstr ""
+#~ "En dessous de 100, les multiples de 11 ont des chiffres égaux, tels que "
+#~ "55 ou 88."
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 13."
+#~ msgstr ""
+#~ "Désolé - il n'y a pas de règle simple pour identifier les multiples de 13."
+
+#~ msgid "Objectives:"
+#~ msgstr "Objectifs :"
+
+#~ msgid "Hints:"
+#~ msgstr "Indices :"
+
+#~ msgid ""
+#~ "To win, you must destroy all the asteroids.\n"
+#~ "Turn: arrow keys or mouse movement.\n"
+#~ "Thrust: up arrow or right mouse button.\n"
+#~ "Shoot: [Enter], [Space], or left mouse button.\n"
+#~ "Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+#~ "Activate Powerup: [Shift].\n"
+#~ "Shoot the rocks with their prime factors until they are all destroyed."
+#~ msgstr ""
+#~ "Pour gagner, tu dois détruire tous les astéroïdes. \n"
+#~ "Tourner : touches fléchées ou mouvement de la souris \n"
+#~ "Pousser : flèche vers le haut ou le bouton droit de la souris \n"
+#~ "Tirer : [Entrée], [Espace], ou le bouton gauche de la souris \n"
+#~ "Canon à Basculer le Nombre Premier : [D], [F], ou molette de la souris \n"
+#~ "Activer Bonus : [Maj] \n"
+#~ "Tirez sur les rochers avec leurs facteurs premiers jusqu'à ce qu'ils "
+#~ "soient tous détruits."
+
+#~ msgid ""
+#~ "FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys "
+#~ "to turn or go forward.  Aim at an asteroid, type a number that can "
+#~ "simplify the fraction, and press space or return to split it.  Destroy "
+#~ "fractions that can not be further simplified in a single shot!"
+#~ msgstr ""
+#~ "FRACTIONS : pour gagner, tu dois détruire tous les astéroïdes. Utilise "
+#~ "les touches fléchées pour tourner ou aller vers l'avant. Vise un "
+#~ "astéroïde, tape un nombre qui peut simplifier la fraction, et presse "
+#~ "Espace ou Entrée pour le diviser. Détruis les fractions qui ne peuvent "
+#~ "plus être simplifiées en une fois !"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "Bienvenue sur TuxMath !"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "Ta mission est de sauver"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "les igloos de tes manchots"
+
+#~ msgid "falling comets."
+#~ msgstr "des comètes qui tombent."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Arrête une comète en tapant"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "la réponse au problème mathématique"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "posé et tape 'espace' ou 'entrée'."
+
+#~ msgid "Try it now!"
+#~ msgstr "À toi maintenant !"
+
+#~ msgid "Good shot!"
+#~ msgstr "Joli tir !"
+
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Si un igloo se fait toucher par une comète,"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr "il fond. Mais ne t'inquiète pas, le "
+
+#~ msgid "penguin is OK!"
+#~ msgstr "manchot va bien !"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Regarde juste ce qui se passe :"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Appuie sur une touche pour commencer)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Observe la réponse"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Si il se fait encore toucher, le"
+
+#~ msgid "penguin leaves."
+#~ msgstr "manchot s'en va."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Appuie sur une touche lorsque tu es prêt)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Tu peux réparer les igloos"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr "en détruisant les comètes bonus."
+
+#~ msgid "Zap it now!"
+#~ msgstr "Tire dessus maintenant !"
+
+#~ msgid "Great job!"
+#~ msgstr "Bon boulot !"
+
+# fail msgstr "Déplacement rapide = comète bonus."
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr "Les comètes bonus rapides"
+
+# fail msgstr "Gagne une arme secrète :"
+#~ msgid "earn you a secret weapon:"
+#~ msgstr "te font gagner une arme secrète :"
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Quitte à tout moment en appuyant"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "sur 'Échap' ou en cliquant sur le 'X'"
+
+#~ msgid "in the upper right corner."
+#~ msgstr "dans le coin en haut à droite."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Fais-le maintenant, et joue ensuite !"
+
+#~ msgid "The Penguins Have Been Saved!"
+#~ msgstr "Les Manchots Ont Été Sauvés !"
+
+#~ msgid "Final Scores:"
+#~ msgstr "Scores Finaux :"
+
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr ""
+#~ "Jeu en réseau interrompu par le serveur. \n"
+#~ "Le serveur est toujours en fonctionnement."
+
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr ""
+#~ "Jeu en réseau interrompu. \n"
+#~ "La connexion avec le serveur a été perdue."
+
+#~ msgid "%s has left the game."
+#~ msgstr "%s a quitté le jeu."
+
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr ""
+#~ "\n"
+#~ "Désolé, cette version a été compilée sans les fonctionnalités réseau."
 
 #~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 #~ msgstr "FACTOROIDS: pour gagner, vous devez détruire tous les astéroïdes."
