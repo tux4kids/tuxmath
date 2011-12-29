@@ -28,14 +28,20 @@ endif
 
 
 tuxmath_SOURCES = tuxmath.c \
+    comets.c    \
+    comets_graphics.c  \
 	setup.c 	\
 	titlescreen.c	\
 	menu.c		\
+	menu_lan.c	\
 	game.c 		\
 	factoroids.c    \
+	factoroids_graphics.c    \
 	fileops_media.c \
+	frame_counter.c \
 	options.c	\
 	credits.c	\
+	draw_utils.c	\
 	highscore.c	\
 	audio.c 	\
         network.c       \
@@ -51,10 +57,6 @@ tuxmath_SOURCES = tuxmath.c \
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
 TuxMath_SOURCES  = $(tuxmath_SOURCES) tuxmathrc.rc
 
-
-# NOTE - the "extra" programs built here don't need the same linking,
-# so they have their own prog_LDADD statements to override the
-# global LDADD flag.
 
 tuxmathadmin_SOURCES = tuxmathadmin.c
 
@@ -74,11 +76,18 @@ tuxmathtestclient_SOURCES = testclient.c \
                             options.c  \
                             mathcards.c
 
-EXTRA_DIST = 	credits.h 	\
+EXTRA_DIST = 	\
+    comets.h    \
+    comets_graphics.h  \
+    credits.h 	\
+	draw_utils.h	\
 	factoroids.h	\
+	factoroids_graphics.h    \
 	fileops.h 	\
+	frame_counter.h	\
 	game.h		\
 	menu.h		\
+	menu_lan.h	\
 	globals.h	\
 	highscore.h 	\
         network.h       \

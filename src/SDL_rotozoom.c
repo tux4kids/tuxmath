@@ -1,17 +1,17 @@
 /* SDL_rotozoom.c
-  
 
-  The SDL_rotozoom sources were copied from the SDL_gfx library and
-  are relicensed, only for the purposes of TuxMath, to GPL.  Original
-  license was GNU Lesser Public License, Version 2 (or later).
-  Thanks to Andreas Schiffler.
 
-  SDL_gfx website: http://www.ferzkopp.net/Software/SDL_gfx-2.0/
+   The SDL_rotozoom sources were copied from the SDL_gfx library and
+   are relicensed, only for the purposes of TuxMath, to GPL.  Original
+   license was GNU Lesser Public License, Version 2 (or later).
+   Thanks to Andreas Schiffler.
 
-  Slight modification and relicensing for tuxmath:
-  Copyright (C) 2008, 2009, 2010.
-  Authors: David Bruce, Tim Holy, Brendan Luchen.
-  email: <tuxmath-devel@lists.sourceforge.net>
+   SDL_gfx website: http://www.ferzkopp.net/Software/SDL_gfx-2.0/
+
+   Slight modification and relicensing for tuxmath:
+   Copyright (C) 2008, 2009, 2010, 2011.
+Authors: David Bruce, Tim Holy, Brendan Luchen.
+email: <tuxmath-devel@lists.sourceforge.net>
 
 
 
@@ -46,11 +46,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* 
- 
- 32bit integer-factor averaging Shrinker
 
- Shrinks 32bit RGBA/ABGR 'src' surface to 'dst' surface.
- 
+   32bit integer-factor averaging Shrinker
+
+   Shrinks 32bit RGBA/ABGR 'src' surface to 'dst' surface.
+
 */
 
 int shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
@@ -66,7 +66,7 @@ int shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int fac
 
     /* Precalculate division factor */
     n_average = factorx*factory;
-   
+
     /*
      * Scan destination
      */
@@ -78,57 +78,57 @@ int shrinkSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int factorx, int fac
 
     for (y = 0; y < dst->h; y++) {
 
-      osp=sp;
-      for (x = 0; x < dst->w; x++) {
+	osp=sp;
+	for (x = 0; x < dst->w; x++) {
 
-        /* Trace out source box and accumulate */
-        oosp=sp;
-        ra=ga=ba=aa=0;
-        for (dy=0; dy < factory; dy++) {
-         for (dx=0; dx < factorx; dx++) {
-          ra += sp->r;
-          ga += sp->g;
-          ba += sp->b;
-          aa += sp->a;
-          
-          sp++;
-         } // src dx loop
-         sp = (tColorRGBA *)((Uint8*)sp + (src->pitch - 4*factorx)); // next y
-        } // src dy loop
+	    /* Trace out source box and accumulate */
+	    oosp=sp;
+	    ra=ga=ba=aa=0;
+	    for (dy=0; dy < factory; dy++) {
+		for (dx=0; dx < factorx; dx++) {
+		    ra += sp->r;
+		    ga += sp->g;
+		    ba += sp->b;
+		    aa += sp->a;
 
-        // next box-x
-        sp = (tColorRGBA *)((Uint8*)oosp + 4*factorx);
-                
-        /* Store result in destination */
-        dp->r = ra/n_average;
-        dp->g = ga/n_average;
-        dp->b = ba/n_average;
-        dp->a = aa/n_average;
-                 
-        /*
-         * Advance destination pointer 
-         */
-         dp++;
-        } // dst x loop
+		    sp++;
+		} // src dx loop
+		sp = (tColorRGBA *)((Uint8*)sp + (src->pitch - 4*factorx)); // next y
+	    } // src dy loop
 
-        // next box-y
-        sp = (tColorRGBA *)((Uint8*)osp + src->pitch*factory);
+	    // next box-x
+	    sp = (tColorRGBA *)((Uint8*)oosp + 4*factorx);
 
-        /*
-         * Advance destination pointers 
-         */
-        dp = (tColorRGBA *) ((Uint8 *) dp + dgap);
-      } // dst y loop
+	    /* Store result in destination */
+	    dp->r = ra/n_average;
+	    dp->g = ga/n_average;
+	    dp->b = ba/n_average;
+	    dp->a = aa/n_average;
+
+	    /*
+	     * Advance destination pointer 
+	     */
+	    dp++;
+	} // dst x loop
+
+	// next box-y
+	sp = (tColorRGBA *)((Uint8*)osp + src->pitch*factory);
+
+	/*
+	 * Advance destination pointers 
+	 */
+	dp = (tColorRGBA *) ((Uint8 *) dp + dgap);
+    } // dst y loop
 
     return (0);
 }
 
 /* 
- 
- 8bit integer-factor averaging Shrinker
 
- Shrinks 8bit Y 'src' surface to 'dst' surface.
- 
+   8bit integer-factor averaging Shrinker
+
+   Shrinks 8bit Y 'src' surface to 'dst' surface.
+
 */
 
 int shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factory)
@@ -144,7 +144,7 @@ int shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factor
 
     /* Precalculate division factor */
     n_average = factorx*factory;
-   
+
     /*
      * Scan destination
      */
@@ -153,53 +153,53 @@ int shrinkSurfaceY(SDL_Surface * src, SDL_Surface * dst, int factorx, int factor
 
     dp = (Uint8 *) dst->pixels;
     dgap = dst->pitch - dst->w;
-    
+
     for (y = 0; y < dst->h; y++) {    
 
-      osp=sp;
-      for (x = 0; x < dst->w; x++) {
+	osp=sp;
+	for (x = 0; x < dst->w; x++) {
 
-        /* Trace out source box and accumulate */
-        oosp=sp;
-        a=0;
-        for (dy=0; dy < factory; dy++) {
-         for (dx=0; dx < factorx; dx++) {
-          a += (*sp);           
-          sp++; // next x
-         } // src dx loop         
-         sp = (Uint8 *)((Uint8*)sp + (src->pitch - factorx)); // next y
-        } // src dy loop
-        
-        // next box-x
-        sp = (Uint8 *)((Uint8*)oosp + factorx);
-                
-        /* Store result in destination */
-        *dp = a/n_average;
+	    /* Trace out source box and accumulate */
+	    oosp=sp;
+	    a=0;
+	    for (dy=0; dy < factory; dy++) {
+		for (dx=0; dx < factorx; dx++) {
+		    a += (*sp);           
+		    sp++; // next x
+		} // src dx loop         
+		sp = (Uint8 *)((Uint8*)sp + (src->pitch - factorx)); // next y
+	    } // src dy loop
 
-        /*
-         * Advance destination pointer 
-         */
-         dp++;
-        } // dst x loop
+	    // next box-x
+	    sp = (Uint8 *)((Uint8*)oosp + factorx);
 
-        // next box-y
-        sp = (Uint8 *)((Uint8*)osp + src->pitch*factory);
+	    /* Store result in destination */
+	    *dp = a/n_average;
 
-        /*
-         * Advance destination pointers 
-         */
-        dp = (Uint8 *)((Uint8 *)dp + dgap);
-      } // dst y loop
+	    /*
+	     * Advance destination pointer 
+	     */
+	    dp++;
+	} // dst x loop
+
+	// next box-y
+	sp = (Uint8 *)((Uint8*)osp + src->pitch*factory);
+
+	/*
+	 * Advance destination pointers 
+	 */
+	dp = (Uint8 *)((Uint8 *)dp + dgap);
+    } // dst y loop
 
     return (0);
 }
 
 /* 
- 
- 32bit Zoomer with optional anti-aliasing by bilinear interpolation.
 
- Zoomes 32bit RGBA/ABGR 'src' surface to 'dst' surface.
- 
+   32bit Zoomer with optional anti-aliasing by bilinear interpolation.
+
+   Zoomes 32bit RGBA/ABGR 'src' surface to 'dst' surface.
+
 */
 
 int zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, int smooth)
@@ -387,11 +387,11 @@ int zoomSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy, 
 }
 
 /* 
- 
- 8bit Zoomer without smoothing.
 
- Zoomes 8bit palette/Y 'src' surface to 'dst' surface.
- 
+   8bit Zoomer without smoothing.
+
+   Zoomes 8bit palette/Y 'src' surface to 'dst' surface.
+
 */
 
 int zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
@@ -502,11 +502,11 @@ int zoomSurfaceY(SDL_Surface * src, SDL_Surface * dst, int flipx, int flipy)
 }
 
 /* 
- 
- 32bit Rotozoomer with optional anti-aliasing by bilinear interpolation.
 
- Rotates and zoomes 32bit RGBA/ABGR 'src' surface to 'dst' surface.
- 
+   32bit Rotozoomer with optional anti-aliasing by bilinear interpolation.
+
+   Rotates and zoomes 32bit RGBA/ABGR 'src' surface to 'dst' surface.
+
 */
 
 void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos, int flipx, int flipy, int smooth)
@@ -663,11 +663,11 @@ void transformSurfaceRGBA(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, 
 }
 
 /* 
- 
- 8bit Rotozoomer without smoothing
 
- Rotates and zoomes 8bit palette/Y 'src' surface to 'dst' surface.
- 
+   8bit Rotozoomer without smoothing
+
+   Rotates and zoomes 8bit palette/Y 'src' surface to 'dst' surface.
+
 */
 
 void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int isin, int icos)
@@ -716,114 +716,114 @@ void transformSurfaceY(SDL_Surface * src, SDL_Surface * dst, int cx, int cy, int
 
 
 /* 
- 
- 32bit specialized 90degree rotator
 
- Rotates and zooms 'src' surface to 'dst' surface in 90degree increments.
+   32bit specialized 90degree rotator
 
- (contributed by Jeff Schiller)
- 
+   Rotates and zooms 'src' surface to 'dst' surface in 90degree increments.
+
+   (contributed by Jeff Schiller)
+
 */
 SDL_Surface* rotateSurface90Degrees(SDL_Surface* pSurf, int numClockwiseTurns) 
 {
- int row, col;
- 
- // Has to be a valid surface pointer and only 32-bit surfaces (for now)
- if (!pSurf || pSurf->format->BitsPerPixel != 32) { return NULL; }
+    int row, col;
 
- // normalize numClockwiseTurns
- while(numClockwiseTurns < 0) { numClockwiseTurns += 4; }
- numClockwiseTurns = (numClockwiseTurns % 4);
+    // Has to be a valid surface pointer and only 32-bit surfaces (for now)
+    if (!pSurf || pSurf->format->BitsPerPixel != 32) { return NULL; }
 
- // if it's even, our new width will be the same as the source surface
- int newWidth = (numClockwiseTurns % 2) ? (pSurf->h) : (pSurf->w);
- int newHeight = (numClockwiseTurns % 2) ? (pSurf->w) : (pSurf->h);
- SDL_Surface* pSurfOut = SDL_CreateRGBSurface( pSurf->flags, newWidth, newHeight, pSurf->format->BitsPerPixel,
-                           pSurf->format->Rmask,
-                           pSurf->format->Gmask, 
-                           pSurf->format->Bmask, 
-                           pSurf->format->Amask);
- if(!pSurfOut) {
-   return NULL;
- }
+    // normalize numClockwiseTurns
+    while(numClockwiseTurns < 0) { numClockwiseTurns += 4; }
+    numClockwiseTurns = (numClockwiseTurns % 4);
 
- if(numClockwiseTurns != 0) {
-   SDL_LockSurface(pSurf);
-   SDL_LockSurface(pSurfOut);
-   switch(numClockwiseTurns) {
-     // rotate clockwise
-     case 1: // rotated 90 degrees clockwise
-     {
-       Uint32* srcBuf = NULL;
-       Uint32* dstBuf = NULL;
+    // if it's even, our new width will be the same as the source surface
+    int newWidth = (numClockwiseTurns % 2) ? (pSurf->h) : (pSurf->w);
+    int newHeight = (numClockwiseTurns % 2) ? (pSurf->w) : (pSurf->h);
+    SDL_Surface* pSurfOut = SDL_CreateRGBSurface( pSurf->flags, newWidth, newHeight, pSurf->format->BitsPerPixel,
+	    pSurf->format->Rmask,
+	    pSurf->format->Gmask, 
+	    pSurf->format->Bmask, 
+	    pSurf->format->Amask);
+    if(!pSurfOut) {
+	return NULL;
+    }
 
-       for (row = 0; row < pSurf->h; ++row) {
-         srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
-         dstBuf = (Uint32*)(pSurfOut->pixels) + (pSurfOut->w - row - 1);
-         for (col = 0; col < pSurf->w; ++col) {
-           *dstBuf = *srcBuf;
-           ++srcBuf;
-           dstBuf += pSurfOut->pitch/4;
-         } // for(col)
-       } // for(row)
-     }
-     break;
+    if(numClockwiseTurns != 0) {
+	SDL_LockSurface(pSurf);
+	SDL_LockSurface(pSurfOut);
+	switch(numClockwiseTurns) {
+	    // rotate clockwise
+	    case 1: // rotated 90 degrees clockwise
+		{
+		    Uint32* srcBuf = NULL;
+		    Uint32* dstBuf = NULL;
 
-     case 2: // rotated 180 degrees clockwise
-     {
-       Uint32* srcBuf = NULL;
-       Uint32* dstBuf = NULL;
+		    for (row = 0; row < pSurf->h; ++row) {
+			srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
+			dstBuf = (Uint32*)(pSurfOut->pixels) + (pSurfOut->w - row - 1);
+			for (col = 0; col < pSurf->w; ++col) {
+			    *dstBuf = *srcBuf;
+			    ++srcBuf;
+			    dstBuf += pSurfOut->pitch/4;
+			} // for(col)
+		    } // for(row)
+		}
+		break;
 
-       for(row = 0; row < pSurf->h; ++row) {
-         srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
-         dstBuf = (Uint32*)(pSurfOut->pixels) + ((pSurfOut->h - row - 1)*pSurfOut->pitch/4) + (pSurfOut->w - 1);
-         for(col = 0; col < pSurf->w; ++col) {
-           *dstBuf = *srcBuf;
-           ++srcBuf;
-           --dstBuf;
-         } // for(col)
-       } // for(row)
-     }
-     break;
+	    case 2: // rotated 180 degrees clockwise
+		{
+		    Uint32* srcBuf = NULL;
+		    Uint32* dstBuf = NULL;
 
-     case 3:
-     {
-       Uint32* srcBuf = NULL;
-       Uint32* dstBuf = NULL;
+		    for(row = 0; row < pSurf->h; ++row) {
+			srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
+			dstBuf = (Uint32*)(pSurfOut->pixels) + ((pSurfOut->h - row - 1)*pSurfOut->pitch/4) + (pSurfOut->w - 1);
+			for(col = 0; col < pSurf->w; ++col) {
+			    *dstBuf = *srcBuf;
+			    ++srcBuf;
+			    --dstBuf;
+			} // for(col)
+		    } // for(row)
+		}
+		break;
 
-       for(row = 0; row < pSurf->h; ++row) {
-         srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
-         dstBuf = (Uint32*)(pSurfOut->pixels) + row + ((pSurfOut->h - 1)*pSurfOut->pitch/4);
-         for(col = 0; col < pSurf->w; ++col) {
-           *dstBuf = *srcBuf;
-           ++srcBuf;
-           dstBuf -= pSurfOut->pitch/4;
-         } // for(col)
-       } // for(row)
-     }
-     break;
-   } // switch
+	    case 3:
+		{
+		    Uint32* srcBuf = NULL;
+		    Uint32* dstBuf = NULL;
 
-   SDL_UnlockSurface(pSurf);
-   SDL_UnlockSurface(pSurfOut);
- } // if numClockwiseTurns > 0
- else {
-   // simply copy surface to output
-   if(SDL_BlitSurface(pSurf, NULL, pSurfOut, NULL)) {
-     return NULL;
-   }
- }
- return pSurfOut;
+		    for(row = 0; row < pSurf->h; ++row) {
+			srcBuf = (Uint32*)(pSurf->pixels) + (row*pSurf->pitch/4);
+			dstBuf = (Uint32*)(pSurfOut->pixels) + row + ((pSurfOut->h - 1)*pSurfOut->pitch/4);
+			for(col = 0; col < pSurf->w; ++col) {
+			    *dstBuf = *srcBuf;
+			    ++srcBuf;
+			    dstBuf -= pSurfOut->pitch/4;
+			} // for(col)
+		    } // for(row)
+		}
+		break;
+	} // switch
+
+	SDL_UnlockSurface(pSurf);
+	SDL_UnlockSurface(pSurfOut);
+    } // if numClockwiseTurns > 0
+    else {
+	// simply copy surface to output
+	if(SDL_BlitSurface(pSurf, NULL, pSurfOut, NULL)) {
+	    return NULL;
+	}
+    }
+    return pSurfOut;
 }
 
 /* 
- 
- rotozoomSurface()
 
- Rotates and zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
- 'angle' is the rotation in degrees. 'zoom' a scaling factor. If 'smooth' is 1
- then the destination 32bit surface is anti-aliased. If the surface is not 8bit
- or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
+   rotozoomSurface()
+
+   Rotates and zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
+   'angle' is the rotation in degrees. 'zoom' a scaling factor. If 'smooth' is 1
+   then the destination 32bit surface is anti-aliased. If the surface is not 8bit
+   or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
 
 */
 
@@ -833,7 +833,7 @@ SDL_Surface* rotateSurface90Degrees(SDL_Surface* pSurf, int numClockwiseTurns)
 /* Local rotozoom-size function with trig result return */
 
 void rotozoomSurfaceSizeTrig(int width, int height, double angle, double zoomx, double zoomy, int *dstwidth, int *dstheight, 
-			     double *canglezoom, double *sanglezoom)
+	double *canglezoom, double *sanglezoom)
 {
     double x, y, cx, cy, sx, sy;
     double radangle;
@@ -853,11 +853,11 @@ void rotozoomSurfaceSizeTrig(int width, int height, double angle, double zoomx, 
     cy = *canglezoom * y;
     sx = *sanglezoom * x;
     sy = *sanglezoom * y;
-    
+
     dstwidthhalf = MAX((int)
-		       ceil(MAX(MAX(MAX(fabs(cx + sy), fabs(cx - sy)), fabs(-cx + sy)), fabs(-cx - sy))), 1);
+	    ceil(MAX(MAX(MAX(fabs(cx + sy), fabs(cx - sy)), fabs(-cx + sy)), fabs(-cx - sy))), 1);
     dstheighthalf = MAX((int)
-			ceil(MAX(MAX(MAX(fabs(sx + cy), fabs(sx - cy)), fabs(-sx + cy)), fabs(-sx - cy))), 1);
+	    ceil(MAX(MAX(MAX(fabs(sx + cy), fabs(sx - cy)), fabs(-sx + cy)), fabs(-sx - cy))), 1);
     *dstwidth = 2 * dstwidthhalf;
     *dstheight = 2 * dstheighthalf;
 }
@@ -885,7 +885,7 @@ void rotozoomSurfaceSize(int width, int height, double angle, double zoom, int *
 
 SDL_Surface *rotozoomSurface(SDL_Surface * src, double angle, double zoom, int smooth)
 {
-  return rotozoomSurfaceXY(src, angle, zoom, zoom, smooth);
+    return rotozoomSurfaceXY(src, angle, zoom, zoom, smooth);
 }
 
 /* Publically available rotozoom function */
@@ -924,11 +924,11 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	rz_src =
 	    SDL_CreateRGBSurface(SDL_SWSURFACE, src->w, src->h, 32, 
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                                0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
+		    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
 #else
-                                0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
+		    0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
 #endif
-	    );
+		    );
 	SDL_BlitSurface(src, NULL, rz_src, NULL);
 	src_converted = 1;
 	is32bit = 1;
@@ -982,8 +982,8 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	     */
 	    rz_dst =
 		SDL_CreateRGBSurface(SDL_SWSURFACE, dstwidth, dstheight, 32,
-				     rz_src->format->Rmask, rz_src->format->Gmask,
-				     rz_src->format->Bmask, rz_src->format->Amask);
+			rz_src->format->Rmask, rz_src->format->Gmask,
+			rz_src->format->Bmask, rz_src->format->Amask);
 	} else {
 	    /*
 	     * Target surface is 8bit 
@@ -1003,9 +1003,9 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	     * Call the 32bit transformation routine to do the rotation (using alpha) 
 	     */
 	    transformSurfaceRGBA(rz_src, rz_dst, dstwidthhalf, dstheighthalf,
-				 (int) (sanglezoominv), (int) (canglezoominv), 
-				 flipx, flipy,
-				 smooth);
+		    (int) (sanglezoominv), (int) (canglezoominv), 
+		    flipx, flipy,
+		    smooth);
 	    /*
 	     * Turn on source-alpha support 
 	     */
@@ -1022,7 +1022,7 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	     * Call the 8bit transformation routine to do the rotation 
 	     */
 	    transformSurfaceY(rz_src, rz_dst, dstwidthhalf, dstheighthalf,
-			      (int) (sanglezoominv), (int) (canglezoominv));
+		    (int) (sanglezoominv), (int) (canglezoominv));
 	    SDL_SetColorKey(rz_dst, SDL_SRCCOLORKEY | SDL_RLEACCEL, rz_src->format->colorkey);
 	}
 	/*
@@ -1054,8 +1054,8 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 	     */
 	    rz_dst =
 		SDL_CreateRGBSurface(SDL_SWSURFACE, dstwidth, dstheight, 32,
-				     rz_src->format->Rmask, rz_src->format->Gmask,
-				     rz_src->format->Bmask, rz_src->format->Amask);
+			rz_src->format->Rmask, rz_src->format->Gmask,
+			rz_src->format->Bmask, rz_src->format->Amask);
 	} else {
 	    /*
 	     * Target surface is 8bit 
@@ -1113,13 +1113,13 @@ SDL_Surface *rotozoomSurfaceXY(SDL_Surface * src, double angle, double zoomx, do
 }
 
 /* 
- 
- zoomSurface()
 
- Zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
- 'zoomx' and 'zoomy' are scaling factors for width and height. If 'smooth' is 1
- then the destination 32bit surface is anti-aliased. If the surface is not 8bit
- or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
+   zoomSurface()
+
+   Zoomes a 32bit or 8bit 'src' surface to newly created 'dst' surface.
+   'zoomx' and 'zoomy' are scaling factors for width and height. If 'smooth' is 1
+   then the destination 32bit surface is anti-aliased. If the surface is not 8bit
+   or 32bit RGBA/ABGR it will be converted into a 32bit RGBA format on the fly.
 
 */
 
@@ -1182,11 +1182,11 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	rz_src =
 	    SDL_CreateRGBSurface(SDL_SWSURFACE, src->w, src->h, 32, 
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                                0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
+		    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
 #else
-                                0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
+		    0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
 #endif
-	    );
+		    );
 	SDL_BlitSurface(src, NULL, rz_src, NULL);
 	src_converted = 1;
 	is32bit = 1;
@@ -1210,8 +1210,8 @@ SDL_Surface *zoomSurface(SDL_Surface * src, double zoomx, double zoomy, int smoo
 	 */
 	rz_dst =
 	    SDL_CreateRGBSurface(SDL_SWSURFACE, dstwidth, dstheight, 32,
-				 rz_src->format->Rmask, rz_src->format->Gmask,
-				 rz_src->format->Bmask, rz_src->format->Amask);
+		    rz_src->format->Rmask, rz_src->format->Gmask,
+		    rz_src->format->Bmask, rz_src->format->Amask);
     } else {
 	/*
 	 * Target surface is 8bit 
@@ -1298,11 +1298,11 @@ SDL_Surface *shrinkSurface(SDL_Surface * src, int factorx, int factory)
 	rz_src =
 	    SDL_CreateRGBSurface(SDL_SWSURFACE, src->w, src->h, 32, 
 #if SDL_BYTEORDER == SDL_LIL_ENDIAN
-                                0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
+		    0x000000ff, 0x0000ff00, 0x00ff0000, 0xff000000
 #else
-                                0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
+		    0xff000000,  0x00ff0000, 0x0000ff00, 0x000000ff
 #endif
-	    );
+		    );
 	SDL_BlitSurface(src, NULL, rz_src, NULL);
 	src_converted = 1;
 	is32bit = 1;
@@ -1324,8 +1324,8 @@ SDL_Surface *shrinkSurface(SDL_Surface * src, int factorx, int factory)
 	 */
 	rz_dst =
 	    SDL_CreateRGBSurface(SDL_SWSURFACE, dstwidth, dstheight, 32,
-				 rz_src->format->Rmask, rz_src->format->Gmask,
-				 rz_src->format->Bmask, rz_src->format->Amask);
+		    rz_src->format->Rmask, rz_src->format->Gmask,
+		    rz_src->format->Bmask, rz_src->format->Amask);
     } else {
 	/*
 	 * Target surface is 8bit 

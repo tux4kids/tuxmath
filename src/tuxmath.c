@@ -3,10 +3,10 @@
 
    Main function for TuxMath
 
-   Copyright 2001, 2006, 2007, 2008, 2009, 2010.
-   Authors: Bill Kendrick, David Bruce, Tim Holy, Karl Ove Hufthammer.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+   Copyright 2001, 2006, 2007, 2008, 2009, 2010, 2011.
+Authors: Bill Kendrick, David Bruce, Tim Holy, Karl Ove Hufthammer.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 tuxmath.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -37,9 +37,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int main(int argc, char* argv[])
 {
-  setup(argc, argv);
-  TitleScreen();  /* Run the game! */
-  cleanup();
-  return 0;
+    setup(argc, argv);
+    TitleScreen();  /* Run the game! */
+    cleanup();
+    return 0;
 }
 

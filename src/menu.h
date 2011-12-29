@@ -3,13 +3,13 @@
 
    Functions responsible for loading, parsing and displaying game menu.
    (interface)
- 
-   Copyright 2009, 2010.
-   Authors: Boleslaw Kulbabinski <bkulbabinski@gmail.com>
-            Brendan Luchen
-	    David Bruce
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+
+   Copyright 2009, 2010, 2011.
+Authors: Boleslaw Kulbabinski <bkulbabinski@gmail.com>
+Brendan Luchen
+David Bruce
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 menu.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
@@ -55,29 +55,29 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
    By using a define we can create both an enum and
    a string array without writing these names twice */
 #define ACTIVITIES \
-  X( RUN_QUIT ),\
-  X( RUN_ACADEMY ),\
-  X( RUN_CAMPAIGN ),\
-  X( RUN_ARCADE ),\
-  X( RUN_CUSTOM ),\
-  X( RUN_LAN_HOST ),\
-  X( STOP_LAN_HOST ),\
-  X( RUN_LAN_JOIN ),\
-  X( RUN_SCORE_SWEEP ),\
-  X( RUN_ELIMINATION ),\
-  X( RUN_FACTORS ),\
-  X( RUN_FRACTIONS ),\
-  X( RUN_HELP ),\
-  X( RUN_DEMO ),\
-  X( RUN_INFO ),\
-  X( RUN_CREDITS ),\
-  X( RUN_HALL_OF_FAME ),\
-  X( RUN_SPACE_CADET ),\
-  X( RUN_SCOUT ),\
-  X( RUN_RANGER ),\
-  X( RUN_ACE ),\
-  X( RUN_COMMANDO ),\
-  X( N_OF_ACTIVITIES )  /* this one has to be the last one */
+    X( RUN_QUIT ),\
+X( RUN_ACADEMY ),\
+X( RUN_CAMPAIGN ),\
+X( RUN_ARCADE ),\
+X( RUN_CUSTOM ),\
+X( RUN_LAN_HOST ),\
+X( STOP_LAN_HOST ),\
+X( RUN_LAN_JOIN ),\
+X( RUN_SCORE_SWEEP ),\
+X( RUN_ELIMINATION ),\
+X( RUN_FACTORS ),\
+X( RUN_FRACTIONS ),\
+X( RUN_HELP ),\
+X( RUN_DEMO ),\
+X( RUN_INFO ),\
+X( RUN_CREDITS ),\
+X( RUN_HALL_OF_FAME ),\
+X( RUN_SPACE_CADET ),\
+X( RUN_SCOUT ),\
+X( RUN_RANGER ),\
+X( RUN_ACE ),\
+X( RUN_COMMANDO ),\
+X( N_OF_ACTIVITIES )  /* this one has to be the last one */
 
 /* create enum */
 #define X(name) name
@@ -86,12 +86,12 @@ enum { ACTIVITIES };
 
 /* we may use a few separate menu trees */
 typedef enum {
-  MENU_MAIN,
-  MENU_DIFFICULTY, //(not used)
-  MENU_LESSONS,
-  MENU_SERVERSELECT, // menu for server selection when multiple servers found
-  MENU_LOGIN,
-  N_OF_MENUS
+    MENU_MAIN,
+    MENU_DIFFICULTY, //(not used)
+    MENU_LESSONS,
+    MENU_SERVERSELECT, // menu for server selection when multiple servers found
+    MENU_LOGIN,
+    N_OF_MENUS
 } MenuType;
 
 /* used also by highscore.c */

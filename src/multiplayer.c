@@ -6,7 +6,7 @@
    multiplayer that can accommodate up to four players (more with
    a recompilation)
    
-   Copyright 2008, 2010.
+   Copyright 2008, 2010, 2011.
    Authors: David Bruce, Brendan Luchen.
    Project email: <tuxmath-devel@lists.sourceforge.net>
    Project website: http://tux4kids.alioth.debian.org
@@ -42,6 +42,7 @@ int params[NUM_PARAMS] = {0, 0, 0, 0};
 int inprogress = 0;
 int pscores[MAX_PLAYERS];
 char* pnames[MAX_PLAYERS];
+int currentplayer = 0;
 
 //local function decs
 static void showWinners(int* order, int num); //show a sequence recognizing winner
@@ -55,6 +56,11 @@ void mp_set_parameter(unsigned int param, int value)
     DEBUGMSG(debug_multiplayer, "Oops, tried to set param %d in the middle of a game\n", param);
     return;
   }
+  if (param > NUM_PARAMS)
+  {
+    DEBUGMSG(debug_multiplayer, "Oops, param %d is illegal, must be < %d\n", param, NUM_PARAMS);
+    return;
+  }
   params[param] = value;
 }
 
@@ -62,18 +68,18 @@ void mp_run_multiplayer()
 {
   int i;
   int round = 1;
-  int currentplayer = 0;
   int result = 0;
   int done = 0;
   int activeplayers = params[PLAYERS];
   int winners[MAX_PLAYERS];
 
+  currentplayer = 0;
   for (i = 0; i < MAX_PLAYERS; ++i)
     winners[i] = -1;
 
   if (initMP() )
   {
-    printf("Initialization failed, bailing out\n");
+    fprintf(stderr, "Initialization failed, bailing out\n");
     return;
   }
 
@@ -84,7 +90,7 @@ void mp_run_multiplayer()
     {
       //TODO maybe gradually increase difficulty
       game_set_start_message(pnames[currentplayer], "Go!", "", "");
-      result = game();
+      result = comets_game(local_game);
 
       if (result == GAME_OVER_LOST || result == GAME_OVER_ESCAPE)
       {
@@ -121,9 +127,9 @@ void mp_run_multiplayer()
     {
       for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
       {
-        game_set_start_message(pnames[currentplayer], "Go!", NULL, NULL);
-        result = game();
-        pscores[currentplayer] += Opts_LastScore(); //add this player's score
+        game_set_start_message(pnames[currentplayer], _("Go!"), NULL, NULL);
+        result = comets_game(local_game);
+        //pscores[currentplayer] += Opts_LastScore(); //add this player's score
         if (result == GAME_OVER_WON)
           pscores[currentplayer] += 500; //plus a possible bonus
       }
@@ -132,13 +138,14 @@ void mp_run_multiplayer()
     //sort out winners
     for (i = 0; i < params[PLAYERS]; ++i)
     {
+      int j = 0;
       hiscore = 0;
-      for (currentplayer = 0; currentplayer < params[PLAYERS]; ++currentplayer)
+      for (j = 0; j < params[PLAYERS]; ++j)
       {
-        if (pscores[currentplayer] >= hiscore)
+        if (pscores[j] >= hiscore)
         {
-          hiscore = pscores[currentplayer];
-          currentwinner = currentplayer;
+          hiscore = pscores[j];
+          currentwinner = j;
         }
       winners[i] = currentwinner;
       pscores[currentwinner] = -1;
@@ -152,9 +159,25 @@ void mp_run_multiplayer()
   cleanupMP();
 }
 
+int mp_get_currentplayer(void)
+{
+  return currentplayer;
+}
+	
+int mp_set_player_score(int playernum, int score)
+{
+  if (playernum < 0 || playernum > params[PLAYERS])
+  {
+    DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
+    return 0;
+  }
+  pscores[playernum] = score;
+  return 1;
+}
+
 int mp_get_player_score(int playernum)
 {
-  if (playernum > params[PLAYERS])
+  if (playernum < 0 || playernum > params[PLAYERS])
   {
     DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
@@ -164,7 +187,7 @@ int mp_get_player_score(int playernum)
 
 const char* mp_get_player_name(int playernum)
 {
-  if (playernum > params[PLAYERS])
+  if (playernum < 0 || playernum > params[PLAYERS])
   {
     DEBUGMSG(debug_multiplayer, "No player %d!\n", playernum);
     return 0;
@@ -176,13 +199,16 @@ int mp_get_parameter(unsigned int param)
 {
   if (param > NUM_PARAMS)
   {
-    printf("Invalid mp_param index: %d\n", param);
+    fprintf(stderr, "Invalid mp_param index: %d\n", param);
     return 0;
   }
   return params[param];
 }
 
 //TODO a nicer-looking sequence that also recognizes second place etc.
+//FIXME doesn't sort correctly if the winner happens to be other than the
+//first player (winner is correct, but others aren't).  We could use the
+//game-over standings coded for the LAN game here.
 void showWinners(int* winners, int num)
 {
   int skip = 0;
@@ -236,79 +262,80 @@ void showWinners(int* winners, int num)
 
 int initMP()
 {
-  int i;
-  int success = 1;
-  char nrstr[HIGH_SCORE_NAME_LENGTH * 3];
-  int nplayers = params[PLAYERS];
+    int i;
+    int success = 1;
+    char nrstr[HIGH_SCORE_NAME_LENGTH * 3];
+    int nplayers = params[PLAYERS];
 
-  const char* config_files[5] = {
-    "multiplay/space_cadet",
-    "multiplay/scout",
-    "multiplay/ranger",
-    "multiplay/ace",
-    "multiplay/commando"
-  };
+    const char* config_files[5] = {
+	"multiplay/space_cadet",
+	"multiplay/scout",
+	"multiplay/ranger",
+	"multiplay/ace",
+	"multiplay/commando"
+    };
 
-  DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
+    DEBUGMSG(debug_multiplayer, "Reading in difficulty settings...\n");
 
-  success *= read_global_config_file();
+    success *= read_global_config_file(local_game);
 
-  success *= read_named_config_file("multiplay/mpoptions");
+    success *= read_named_config_file(local_game, "multiplay/mpoptions");
 
-  success *= read_named_config_file(config_files[params[DIFFICULTY]]);
+    success *= read_named_config_file(local_game, config_files[params[DIFFICULTY]]);
 
-  if (!success)
-  {
-    printf("Couldn't read in settings for %s\n",
-           config_files[params[DIFFICULTY]] );
-    return 1;
-  }
-
-  pscores[0] = pscores[1] = pscores[2] = pscores[3] = 0;
-  pnames[0] = pnames[1] = pnames[2] = pnames[3] = NULL;
-
-  //allocate and enter player names
-  for (i = 0; i < nplayers; ++i)
-    pnames[i] = malloc((1 + 3 * HIGH_SCORE_NAME_LENGTH) * sizeof(char) );
-  for (i = 0; i < nplayers; ++i)
-  {
-    if (pnames[i])
+    if (!success)
     {
-      if (i == 0) //First player
-        NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"), NULL);
-      else //subsequent players
-        NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"), NULL);
+	fprintf(stderr, "Couldn't read in settings for %s\n",
+		config_files[params[DIFFICULTY]] );
+	return 1;
     }
-    else
+
+    pscores[0] = pscores[1] = pscores[2] = pscores[3] = 0;
+    pnames[0] = pnames[1] = pnames[2] = pnames[3] = NULL;
+
+    //allocate and enter player names
+    for (i = 0; i < nplayers; ++i)
+	pnames[i] = malloc((1 + 3 * HIGH_SCORE_NAME_LENGTH) * sizeof(char) );
+    for (i = 0; i < nplayers; ++i)
     {
-      printf("Can't allocate name %d!\n", i);
-      return 1;
+	if (pnames[i])
+	{
+	    if (i == 0) //First player
+		NameEntry(pnames[i], N_("Who is playing first?"), N_("Enter your name:"), NULL);
+	    else //subsequent players
+		NameEntry(pnames[i], N_("Who is playing next?"), N_("Enter your name:"), NULL);
+	}
+	else
+	{
+	    fprintf(stderr, "Can't allocate name %d!\n", i);
+	    return 1;
+	}
     }
-  }
-  
-  //enter how many rounds
-  if (params[MODE] == SCORE_SWEEP)
-  {
-    while (params[ROUNDS] <= 0)
+
+    //enter how many rounds
+    if (params[MODE] == SCORE_SWEEP)
     {
-      NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"), NULL);
-      params[ROUNDS] = atoi(nrstr);
+	while (params[ROUNDS] <= 0)
+	{
+	    NameEntry(nrstr, N_("How many rounds will you play?"), N_("Enter a number"), NULL);
+	    params[ROUNDS] = atoi(nrstr);
+	}
     }
-  }
-  inprogress = 1; //now we can start the game
-  return 0;
+    inprogress = 1; //now we can start the game
+    return 0;
 }
 
 void cleanupMP()
 {
-  int i;
+    int i;
 
-  for (i = 0; i < params[PLAYERS]; ++i)
-    if (pnames[i])
-      free(pnames[i]);
-      
-  for (i = 0; i < NUM_PARAMS; ++i)
-    params[i] = 0;
-    
-  inprogress = 0;
+    for (i = 0; i < params[PLAYERS]; ++i)
+	if (pnames[i])
+	    free(pnames[i]);
+
+    for (i = 0; i < NUM_PARAMS; ++i)
+	params[i] = 0;
+
+    inprogress = 0;
+    currentplayer = 0;
 }

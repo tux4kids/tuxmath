@@ -2,11 +2,11 @@
    options.h:
 
    Contains headers for game options for tuxmath.
-   
-   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007,2008, 2009, 2010.
-   Authors: Bill Kendrick, David Bruce, Tim Holy.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+
+   Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007,2008, 2009, 2010, 2011.
+Authors: Bill Kendrick, David Bruce, Tim Holy.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 options.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
@@ -34,14 +34,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "globals.h"  /* needed for PATH_MAX definition */
 
 enum {
-  PER_USER_CONFIG,
-  USE_SOUND,
-  MENU_SOUND,
-  MENU_MUSIC,
-  FULLSCREEN,
-  USE_KEYPAD,
-  USE_IGLOOS,
-  NUM_GLOBAL_OPTS
+    PER_USER_CONFIG,
+    USE_SOUND,
+    MENU_SOUND,
+    MENU_MUSIC,
+    FULLSCREEN,
+    USE_KEYPAD,
+    USE_IGLOOS,
+    NUM_GLOBAL_OPTS
 };                                 
 
 extern const char* const OPTION_TEXT[];
@@ -50,65 +50,69 @@ extern const int OPTION_DEFAULTS[];
 /* contains options that tend to apply to the progam as a whole, rather *
  * than on a per-game basis                                             */
 typedef struct global_option_type {
-  int iopts[NUM_GLOBAL_OPTS];
+    int iopts[NUM_GLOBAL_OPTS];
 } global_option_type;
 
 /* this struct contains all options regarding general       */
 /* gameplay but not having to do with math questions per se */
 typedef struct game_option_type {
-  /* general game options */
-  char lesson_title[LESSON_TITLE_LENGTH];
-  char current_font_name[FONT_NAME_LENGTH];
-  int lan_mode;
-  int use_bkgd;
-  int help_mode;
-  int demo_mode;
-  int oper_override;
-  int allow_pause;
-  int bonus_comet_interval;
-  float bonus_speed_ratio;
-  float speed;
-  int allow_speedup;
-  float speedup_factor;
-  float max_speed;
-  int slow_after_wrong;
-  int starting_comets;
-  int extra_comets_per_wave;
-  int max_comets;
-  char next_mission[PATH_MAX];
-  int save_summary;
-  int use_feedback;
-  float danger_level;
-  float danger_level_speedup;
-  float danger_level_max;
-  float city_expl_handicap;
-  
-  int mp_multiplayer;
-  int mp_round;
-  int mp_playernum;
-  
-  /* whether sound system is successfully initialized and sound files loaded: */
-  /* this flag is set by the program, not the user, and is not in the config file. */
-  int sound_hw_available;
-  /* place to save score of last game - not read in from file: */
-  int last_score;
-  /* not sure the rest of these belong in here */
-  int num_cities;  /* MUST BE AN EVEN NUMBER! */
-  int num_bkgds;
-  int max_city_colors;
-  int keep_score;
+    /* general game options */
+    char lesson_title[LESSON_TITLE_LENGTH];
+    char current_font_name[FONT_NAME_LENGTH];
+    int lan_mode;
+    int use_bkgd;
+    int help_mode;
+    int demo_mode;
+    int oper_override;
+    int allow_pause;
+    int bonus_comet_interval;
+    float bonus_speed_ratio;
+    float speed;
+    int allow_speedup;
+    float speedup_factor;
+    float max_speed;
+    int slow_after_wrong;
+    int starting_comets;
+    int extra_comets_per_wave;
+    int max_comets;
+    int use_powerup_comets;
+    int powerup_freq;
+    char next_mission[PATH_MAX];
+    int save_summary;
+    int use_feedback;
+    float danger_level;
+    float danger_level_speedup;
+    float danger_level_max;
+    float city_expl_handicap;
+
+    int mp_multiplayer;
+    int mp_round;
+    int mp_playernum;
+
+    /* whether sound system is successfully initialized and sound files loaded: */
+    /* this flag is set by the program, not the user, and is not in the config file. */
+    int sound_hw_available;
+    /* place to save score of last game - not read in from file: */
+    int last_score;
+    /* not sure the rest of these belong in here */
+    int num_cities;  /* MUST BE AN EVEN NUMBER! */
+    int num_bkgds;
+    int max_city_colors;
+    int keep_score;
+
+    int fps_limit;
 } game_option_type;
 
 
 enum {
-  OPT_OP_ADD,
-  OPT_OP_SUB,
-  OPT_OP_MUL,
-  OPT_OP_DIV,
-  OPT_A_MAX,
-  OPT_A_SPEED,
-  OPT_Q_RANGE,
-  NUM_OPTS
+    OPT_OP_ADD,
+    OPT_OP_SUB,
+    OPT_OP_MUL,
+    OPT_OP_DIV,
+    OPT_A_MAX,
+    OPT_A_SPEED,
+    OPT_Q_RANGE,
+    NUM_OPTS
 };
 
 /* global struct (until accessor functions completed) */
@@ -148,6 +152,8 @@ void Opts_SetSlowAfterWrong(int val);
 void Opts_SetStartingComets(int val);
 void Opts_SetExtraCometsPerWave(int val);
 void Opts_SetMaxComets(int val);
+void Opts_SetUsePowerupComets(int val);
+void Opts_SetPowerupFreq(int val);
 void Opts_SetNextMission(char* str);
 void Opts_SetSaveSummary(int val);
 void Opts_SetUseFeedback(int val);
@@ -155,6 +161,7 @@ void Opts_SetDangerLevel(float val);
 void Opts_SetDangerLevelSpeedup(float val);
 void Opts_SetDangerLevelMax(float val);
 void Opts_SetCityExplHandicap(float val);
+void Opts_SetFPSLimit(int val);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */
@@ -183,7 +190,9 @@ int Opts_SlowAfterWrong(void);
 int Opts_StartingComets(void);
 int Opts_ExtraCometsPerWave(void);
 int Opts_MaxComets(void);
-char* Opts_NextMission(void);
+int Opts_UsePowerupComets(void);
+int Opts_PowerupFreq(void);
+const char* Opts_NextMission(void);
 int Opts_SaveSummary(void);
 int Opts_UseFeedback(void);
 float Opts_DangerLevel(void);
@@ -191,6 +200,7 @@ float Opts_DangerLevelSpeedup(void);
 float Opts_DangerLevelMax(void);
 float Opts_CityExplHandicap(void);
 int Opts_KeepScore(void);
+int Opts_FPSLimit(void);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */

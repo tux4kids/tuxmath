@@ -1,16 +1,16 @@
 /* compiler.h
 
-  Compiler-specific #defines and such
-  for Tux Paint
+   Compiler-specific #defines and such
+   for Tux Paint
 
-  Mostly by Albert Cahalan <albert@users.sf.net>
-  Copyright (c) 2002-2006
-  Licensed in Tux Paint under GPL 2 or later.
+   Mostly by Albert Cahalan <albert@users.sf.net>
+   Copyright (c) 2002-2006
+   Licensed in Tux Paint under GPL 2 or later.
 
-  Moved into tuxmath, minimally edited, and relicensed as GPLv3+:
-   Copyright (C) 2008, 2009, 2010.
+   Moved into tuxmath, minimally edited, and relicensed as GPLv3+:
+   Copyright (C) 2008, 2009, 2010, 2011.
    Brendan Luchen, David Bruce.
-   email: <tuxmath-devel@lists.sourceforge.net>
+email: <tuxmath-devel@lists.sourceforge.net>
 
 compiler.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -33,26 +33,26 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #ifdef WIN32
 /* Horrible, dangerous macros. */
 /*
-  The SDL stderr redirection trick doesn't seem to work for perror().
-  This does pretty much the same thing.
-*/
+   The SDL stderr redirection trick doesn't seem to work for perror().
+   This does pretty much the same thing.
+   */
 #define perror(str) ({ \
-  if ( (str) && *(str) ) \
-    fprintf(stderr,"%s : ",(str)); \
-  fprintf(stderr, \
-          "%s [%d]\n", \
-          (errno<_sys_nerr)?_sys_errlist[errno]:"unknown",errno ); \
-})
+	if ( (str) && *(str) ) \
+	fprintf(stderr,"%s : ",(str)); \
+	fprintf(stderr, \
+	    "%s [%d]\n", \
+	    (errno<_sys_nerr)?_sys_errlist[errno]:"unknown",errno ); \
+	})
 
 /*
-  MinGW implementation of isspace() crashes on some Win98 boxes
-  if c is 'out-of-range'.
-*/
+   MinGW implementation of isspace() crashes on some Win98 boxes
+   if c is 'out-of-range'.
+   */
 #define isspace(c) (((c) == 0x20) || ((c) >= 0x09 && (c) <= 0x0D))
 
 /*
-  WIN32 and MINGW don't have strcasestr().
-*/
+   WIN32 and MINGW don't have strcasestr().
+   */
 #define NOMINMAX
 #include "shlwapi.h"
 #define strcasestr StrStrI
@@ -65,15 +65,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 // This version has strict type checking for safety.
 // See the "unnecessary" pointer comparison. (from Linux)
 #define min(x,y) ({ \
-  typeof(x) _x = (x);     \
-  typeof(y) _y = (y);     \
-  (void) (&_x == &_y);            \
-  _x < _y ? _x : _y; })
+	typeof(x) _x = (x);     \
+	typeof(y) _y = (y);     \
+	(void) (&_x == &_y);            \
+	_x < _y ? _x : _y; })
 #define max(x,y) ({ \
-  typeof(x) _x = (x);     \
-  typeof(y) _y = (y);     \
-  (void) (&_x == &_y);            \
-  _x > _y ? _x : _y; })
+	typeof(x) _x = (x);     \
+	typeof(y) _y = (y);     \
+	(void) (&_x == &_y);            \
+	_x > _y ? _x : _y; })
 #else
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))

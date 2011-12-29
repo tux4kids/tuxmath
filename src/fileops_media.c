@@ -2,7 +2,7 @@
   ±±±±
   Load media files from disk.
 
-  Copyright 2006, 2007, 2008, 2009, 2010.
+  Copyright 2006, 2007, 2008, 2009, 2010, 2011.
   Author: David Bruce, Tim Holy, Boleslaw Kulbabinski, Brendan Luchen.
   Project email: <tuxmath-devel@lists.sourceforge.net>
   Project website: http://tux4kids.alioth.debian.org
@@ -152,7 +152,7 @@ int load_image_data()
   "factoroids/asteroid1.png",
   "factoroids/asteroid2.png",
   "factoroids/asteroid3.png",
-  "factoroids/ship01.png",
+  "factoroids/ship.png",
   "factoroids/ship-cloaked.png",
   "factoroids/powerbomb.png",
   "factoroids/shield.png",
@@ -175,8 +175,8 @@ int load_image_data()
   "factoroids/button_13.png",
   "factoroids/cockpit.png",
   "factoroids/forcefield.png",
-  "factoroids/ship_thrust.png",
-  "factoroids/ship_thrust_cloaked.png",
+  "factoroids/ship-thrust.png",
+  "factoroids/ship-thrust-cloaked.png",
   "status/arrows.png"
   };
 
@@ -245,65 +245,45 @@ int load_image_data()
 #ifndef NOSOUND
 int load_sound_data(void)
 {
-  int i = 0;
+    int i = 0;
 
-  static char* sound_filenames[NUM_SOUNDS] = {
-  DATA_PREFIX "/sounds/harp.wav",
-  DATA_PREFIX "/sounds/pop.wav",
-  DATA_PREFIX "/sounds/tock.wav",
-  DATA_PREFIX "/sounds/laser.wav",
-  DATA_PREFIX "/sounds/buzz.wav",
-  DATA_PREFIX "/sounds/alarm.wav",
-  DATA_PREFIX "/sounds/shieldsdown.wav",
-  DATA_PREFIX "/sounds/explosion.wav",
-  DATA_PREFIX "/sounds/sizzling.wav",
-  DATA_PREFIX "/sounds/towerclock.wav",
-  DATA_PREFIX "/sounds/cheer.wav",
-  DATA_PREFIX "/sounds/explosion.wav"
-  };
+    static char* sound_filenames[NUM_SOUNDS] = {
+	DATA_PREFIX "/sounds/harp.wav",
+	DATA_PREFIX "/sounds/pop.wav",
+	DATA_PREFIX "/sounds/tock.wav",
+	DATA_PREFIX "/sounds/laser.wav",
+	DATA_PREFIX "/sounds/buzz.wav",
+	DATA_PREFIX "/sounds/alarm.wav",
+	DATA_PREFIX "/sounds/shieldsdown.wav",
+	DATA_PREFIX "/sounds/explosion.wav",
+	DATA_PREFIX "/sounds/sizzling.wav",
+	DATA_PREFIX "/sounds/towerclock.wav",
+	DATA_PREFIX "/sounds/cheer.wav",
+	DATA_PREFIX "/sounds/engine.wav"
+    };
 
-  static char* music_filenames[NUM_MUSICS] = {
-  DATA_PREFIX "/sounds/game.mod",
-  DATA_PREFIX "/sounds/game2.mod",
-  DATA_PREFIX "/sounds/game3.mod"
-  };
 
-  /* skip loading sound files if sound system not available: */
-  if (Opts_UsingSound())
-  {
-    for (i = 0; i < NUM_SOUNDS; i++)
+    /* skip loading sound files if sound system not available: */
+    if (Opts_UsingSound())
     {
-      sounds[i] = Mix_LoadWAV(sound_filenames[i]);
+	for (i = 0; i < NUM_SOUNDS; i++)
+	{
+	    sounds[i] = Mix_LoadWAV(sound_filenames[i]);
 
-      if (sounds[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a sound file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", sound_filenames[i], SDL_GetError());
-        return 0;
-      }
+	    if (sounds[i] == NULL)
+	    {
+		fprintf(stderr,
+			"\nError: I couldn't load a sound file:\n"
+			"%s\n"
+			"The Simple DirectMedia error that occured was:\n"
+			"%s\n\n", sound_filenames[i], SDL_GetError());
+		return 0;
+	    }
+	}
     }
 
-
-    for (i = 0; i < NUM_MUSICS; i++)
-    {
-      musics[i] = Mix_LoadMUS(music_filenames[i]);
-
-      if (musics[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a music file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", music_filenames[i], SDL_GetError());
-        return 0;
-      }
-
-    }
-  }
-  return 1;
+    //NOTE - no longer load musics here - they are loaded as needed
+    return 1;
 }
 
 #endif /* NOSOUND */

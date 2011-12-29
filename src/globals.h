@@ -1,15 +1,15 @@
 /*
    globals.h:
- 
+
    Contains global data for configuration of math questions and for
    general game options, as well as constants and defaults.  Nothing
    depending on SDL should be in here; put any SDL-related items into
    tuxmath.h.
 
-   Copyright 2006, 2007, 2008, 2009, 2010.
-   Authors: David Bruce, Tim Holy, and others.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+   Copyright 2006, 2007, 2008, 2009, 2010, 2011.
+Authors: David Bruce, Tim Holy, and others.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 game.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -48,10 +48,19 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <wchar.h>
 
 #include <t4k_common.h>
-
-/* for Tim's feedback speed control code           */
-//#define FEEDBACK_DEBUG
-//#define LINEBREAK
+/* Conditional includes of t4k_common replacement functions
+ * if not supplied by platform:
+ */
+/* Somehow, configure defines HAVE_ALPHASORT and
+ * HAVE_SCANDIR for mingw32 even though they are 
+ * not available for that build, so use our own:
+ */
+#if !defined HAVE_ALPHASORT || defined BUILD_MINGW32
+#include <t4k_alphasort.h>
+#endif
+#if !defined HAVE_SCANDIR || defined BUILD_MINGW32
+#include <t4k_scandir.h>
+#endif
 
 /* debug data (now declared in libt4k_common */
 //extern int debug_status;
@@ -104,6 +113,8 @@ extern const int debug_multiplayer;
 #define DEFAULT_STARTING_COMETS 2
 #define DEFAULT_EXTRA_COMETS_PER_WAVE 2
 #define DEFAULT_MAX_COMETS 10
+#define DEFAULT_USE_POWERUP_COMETS 1
+#define DEFAULT_POWERUP_FREQ 10
 #define DEFAULT_SAVE_SUMMARY 1        
 #define DEFAULT_SOUND_HW_AVAILABLE 1
 #define DEFAULT_USE_IGLOOS 1
@@ -113,6 +124,7 @@ extern const int debug_multiplayer;
 #define DEFAULT_DANGER_LEVEL_MAX 0.9
 #define DEFAULT_CITY_EXPL_HANDICAP 0
 #define DEFAULT_LAST_SCORE 0
+#define DEFAULT_FPS_LIMIT 60
 
 /* These values are hard-coded and used 'as is' by the program */
 /* (i.e. these behaviors require recompilation to change)   */ 
@@ -120,7 +132,7 @@ extern const int debug_multiplayer;
 #define DEFAULT_MAX_CITY_COLORS 4
 
 #define MINIMUM_SPEED 0.8
-#define MAX_MAX_SPEED 20.0
+#define MAX_MAX_SPEED 50.0
 #define MIN_SPEEDUP_FACTOR 1.0
 #define MAX_SPEEDUP_FACTOR 2.0
 #define MAX_BONUS_SPEED_RATIO 3.0
@@ -135,7 +147,6 @@ extern const int debug_multiplayer;
 #define DEFAULT_MENU_FONT_SIZE 18
 #define DEFAULT_HELP_FONT_SIZE 32
 
-
 #define HIGH_SCORES_SAVED 10
 #define HIGH_SCORE_NAME_LENGTH 32
 
@@ -145,18 +156,18 @@ extern const int debug_multiplayer;
 #define PIXEL_BITS 32
 
 enum {
-  CADET_HIGH_SCORE,
-  SCOUT_HIGH_SCORE,
-  RANGER_HIGH_SCORE,
-  ACE_HIGH_SCORE,
-  COMMANDO_HIGH_SCORE,
-  NUM_MATH_COMMAND_LEVELS
+    CADET_HIGH_SCORE,
+    SCOUT_HIGH_SCORE,
+    RANGER_HIGH_SCORE,
+    ACE_HIGH_SCORE,
+    COMMANDO_HIGH_SCORE,
+    NUM_MATH_COMMAND_LEVELS
 };
 
 enum {
-  FACTORS_HIGH_SCORE = NUM_MATH_COMMAND_LEVELS,
-  FRACTIONS_HIGH_SCORE,
-  NUM_HIGH_SCORE_LEVELS
+    FACTORS_HIGH_SCORE = NUM_MATH_COMMAND_LEVELS,
+    FRACTIONS_HIGH_SCORE,
+    NUM_HIGH_SCORE_LEVELS
 };
 
 
