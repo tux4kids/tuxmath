@@ -536,7 +536,7 @@ int stop_lan_host(void)
 	return 0; 
     }
 
-    if(SrvrGameInProgress())
+    if(SrvrGameInProgress(0)) // FIXME deepak its had coded
     {
 	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
 	return 0;

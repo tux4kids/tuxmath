@@ -37,6 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 /* This must come before #ifdef HAVE_LIBSDL_NET to get "config.h" */
 #include "globals.h"
+#include "server_handle.h"
 
 #ifdef HAVE_LIBSDL_NET
 
@@ -52,6 +53,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <fcntl.h> 
 #include <sys/types.h>  
 #include <unistd.h>
+#include<time.h>
 
 #ifdef HAVE_PTHREAD_H
 #include <pthread.h>
@@ -59,18 +61,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define MAX_ARGS 16
 #define SRV_QUEST_INTERVAL 2000
+#define PAUSE 3
 
-typedef struct srv_game_type {
-  char lesson_name[NAME_SIZE];
-  int wave;
-  int active_quests;        //Number of questions currently "in play"
-  int max_quests_on_screen;
-  int quests_in_wave;
-  int rem_in_wave;          //Number still to be issued in wave
-}srv_game_type;
+/*========================================================================================== 
+They are used when server is running in thread 
+============================================================================================*/
 
-
-
+struct threadID * thread_header;  // from global.h
+pthread_mutex_t mutex_variable;  // from global.h
+int global_port;// from server_handle.h
+int max_slave_server; // from server_handle.h
 
 /*  -----------  Local function prototypes:   ------------  */
 
@@ -102,7 +102,7 @@ void game_msg_correct_answer(int thread_id_no, int i, char* inbuf);
 void game_msg_wrong_answer(int thread_id_no, int i, char* inbuf);
 void game_msg_quit(int thread_id_no, int i);
 void game_msg_exit(int thread_id_no, int i);
-int calc_score(int difficulty, float t);
+// int calc_score(int difficulty, float t);     //Why it is present here 
 
 //message sending:
 int add_question(int thread_id_no, MC_FlashCard* fc);
@@ -110,7 +110,7 @@ int remove_question(int thread_id_no, int quest_id, int answered_by);
 int send_counter_updates(int thread_id_no);
 int send_player_updates(int thread_id_no);
 //int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
-int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock);
+//int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock); // why it is present here 
 int player_msg(int thread_id_no, int i, char* msg);
 void broadcast_msg(int thread_id_no, char* msg);
 int transmit(int thread_id_no, int i, char* msg);
@@ -130,22 +130,11 @@ extern MC_MathGame* lan_game_settings;	//TODO Deepak:- see its effect and change
 /*  ------------   "Local globals" for server.c: ----------  */
 char server_name[NAME_SIZE];  /* User-visible name for server selection  */
 int need_server_name = 1;     /* Always request server name */
-static int game_in_progress = 0;
 static int server_running = 0;
 static int quit = 0;
 static int ignore_stdin = 0;    //TODO not needed as all work is done in threads
 
-/* used for keeping record of every instance of a thread running within a server */
-struct threadID   
-{
-	UDPsocket udpsock ;              /* Used to listen for client's server autodetection           */
-	TCPsocket server_sock;    /* Socket descriptor for server to accept client TCP sockets. */
-	IPaddress ip;
-	SDLNet_SocketSet client_set;
-	struct client_type client[MAX_CLIENTS];  //TODO Deepak removed static from it as they can't be declared inside it. might result problem in future 
-	int num_clients;
-	struct srv_game_type srv_game;
-};
+
 struct threadID slave_thread[2]; //TODO it might have to be replaced with a pointer pointing to head of the stack when integrating thread in it.
 
 // These are to allow the server to be invoked in a thread
@@ -365,9 +354,9 @@ int PortAvailable(Uint16 port)
 
 
 /* Find out if game is already in progress: */
-int SrvrGameInProgress(void)
+int SrvrGameInProgress(int thread_id_no)
 {
-  return game_in_progress;
+  return slave_thread[thread_id_no].game_in_progress;
 }
 
 /* FIXME make these more civilized - notify players, clean up game
@@ -695,7 +684,7 @@ void update_clients(int thread_id_no)
     check_game_clients(thread_id_no); 
 
     // If game already started, send our regrets:
-    if(game_in_progress)
+    if(slave_thread[thread_id_no].game_in_progress)
     {
 	snprintf(buffer, NET_BUF_LEN, 
 		"%s",
@@ -804,7 +793,7 @@ int server_check_messages(int thread_id_no)
 
 		    /* Here we pass the client number and the message buffer */
 		    /* to a suitable function for further action:                */
-		    if(game_in_progress)
+		    if(slave_thread[thread_id_no].game_in_progress)
 		    {
 			handle_client_game_msg(thread_id_no, i, buffer);
 		    }
@@ -925,7 +914,7 @@ void check_game_clients(int thread_id_no)
 
     //If the game is already started, we leave it running as long as at least
     //one client is both connected and willing to play:
-    if(game_in_progress)
+    if(slave_thread[thread_id_no].game_in_progress)
     {
 	int someone_still_playing = 0;
 	for(i = 0; i < MAX_CLIENTS; i++)
@@ -950,7 +939,7 @@ void check_game_clients(int thread_id_no)
 		slave_thread[thread_id_no].client[i].game_ready = 0;
 	    }
 
-	    game_in_progress = 0;
+	    slave_thread[thread_id_no].game_in_progress = 0;
 	    end_game(thread_id_no);
 	}
     }
@@ -1288,7 +1277,7 @@ void start_game(int thread_id_no)
 
     DEBUGMSG(debug_lan, "We have %d players.......\n", slave_thread[thread_id_no].num_clients);
 
-    game_in_progress = 1;  //setting the game_in_progress flag to '1'
+    slave_thread[thread_id_no].game_in_progress = 1;  //setting the game_in_progress flag to '1'
     //Start a new math game as far as mathcards is concerned:
     //TODO we could create more than one MathCards instance here when
     //we start supporting multiple simultaneous games in the future.  For now
@@ -1305,7 +1294,7 @@ void start_game(int thread_id_no)
     slave_thread[thread_id_no].srv_game.max_quests_on_screen = Opts_StartingComets();
     slave_thread[thread_id_no].srv_game.quests_in_wave = slave_thread[thread_id_no].srv_game.rem_in_wave = Opts_StartingComets() * 2;
 
-    game_in_progress = 1;
+    slave_thread[thread_id_no].game_in_progress = 1;
 
     // Zero out scores:
     for(j = 0; j < MAX_CLIENTS; j++)
@@ -1346,7 +1335,7 @@ void server_update_game(int thread_id_no)
     static Uint32 last_time, now_time, wait_time;
 
     /* Do nothing unless game started: */
-    if(!game_in_progress)
+    if(!slave_thread[thread_id_no].game_in_progress)
     {
 	return;
     }
@@ -1399,7 +1388,7 @@ void server_update_game(int thread_id_no)
     /* Find out from mathcards if we're done: */
     if(MC_TotalQuestionsLeft(lan_game_settings) == 0)
     {
-	game_in_progress = 0;
+	slave_thread[thread_id_no].game_in_progress = 0;
 	DEBUGMSG(debug_lan, "/nGame over:\nwave = %d\n"
 		"srv_game.max_quests_on_screen = %d\n"
 		"srv_game.rem_in_wave = %d\n"
@@ -1431,7 +1420,7 @@ void end_game(int thread_id_no)
 	slave_thread[thread_id_no].client[i].game_ready = 0;
     }
 
-    game_in_progress = 0;
+    slave_thread[thread_id_no].game_in_progress = 0;
     //  NOTE: we only want to call MC_EndGame() when the program exits,
     //  not when an individual math game ends.
     //  MC_EndGame();
@@ -1644,6 +1633,166 @@ int read_stdin_nonblock(char* buf, size_t max_length)
     return 0;
 #endif
 }
+
+/*============================== server_handle functions =================================== 
+They are used when server is running in thread 
+============================================================================================*/
+
+// for intializing the server 
+pthread_t * SDLserver_init(int _max_slave_server,int _global_port)   
+{
+	static pthread_t thread;
+	if(SDLNet_Init()!=0)
+	{
+		printf("\nUnable to initialize sdl");
+	}
+	atexit(SDLNet_Quit);
+	max_slave_server=_max_slave_server;
+	global_port=_global_port;
+	pthread_mutex_init(&mutex_variable,NULL);
+	pthread_create(&thread,NULL,lobby_server,NULL);
+	return (&thread);
+}
+
+// for destroying the mutex variable intialize in above function. Lobby server will call this when it exits
+void SDLserver_quit()
+{
+pthread_mutex_destroy(&mutex_variable);
+}
+
+// Used for creating TCP socket. This is used by both lobby server and client server
+int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uint16 port,const char *host)
+{
+	if(SDLNet_ResolveHost(host_ipaddress,host,port)!=0)
+	{
+		printf("\nUnable to initialize ipaddress for server");
+		return 0;
+	}
+	printf("\n I am listening on port %d",port);
+	if(!(*server_socket=SDLNet_TCP_Open(host_ipaddress)))
+	{	
+		printf("\nUnable to initialize server socket:%s",SDLNet_GetError());
+		return 0;
+	}
+	return 1;
+}
+
+
+//////////////////////////////////temp
+
+
+void * slave_server(void * data)
+{
+	struct threadID * temp_thread=(struct threadID *) data;
+	int quit1=1;
+	int *temp=(int *) data;
+	char buffer[512];
+	TCPsocket client_socket;
+	int check_connection;
+	while(1)   // to make sure thread doesn't terminate
+	{
+		if(temp_thread->status==0)
+		{
+			sem_wait(&(temp_thread->binary_sem));
+		}
+		printf("\n Activating thread");
+		// here thread start receiving data from client	
+		while(quit1)
+		{
+			if(client_socket=SDLNet_TCP_Accept(temp_thread->client_socket.server_socket))
+			{	
+				printf("\nGetting request from client");
+				quit1=1;
+				while(quit1)
+				{
+					if(temp_thread->client_socket.client_ipaddress=SDLNet_TCP_GetPeerAddress(client_socket))
+						printf("\n Listening from client:%x",SDLNet_Read32(&temp_thread->client_socket.client_ipaddress->host));
+					if(check_connection=SDLNet_TCP_Recv(client_socket,buffer,512)>0)
+					{
+						printf("\nClient send:%s",buffer);
+						if(!strcmp(buffer,"exit"))
+						{
+							printf("\n Client requesting for closing connection");
+							quit1=0;
+						}
+						if(!strcmp(buffer,"quit"))
+						{
+							quit1=0;
+							quit=0;
+						}
+					}
+					else
+					{
+						printf("\n Client Disconnected");
+						quit1=0;
+					}
+				}
+				printf("\nClosing client socket");
+				SDLNet_TCP_Close(client_socket);
+			}
+		}
+		quit1=1; //so that this thread can be used again
+		temp_thread->status=0;
+		push_thread(temp_thread);
+	}// here it ends 
+	printf("\n Terminating thread"); //TODO 
+}
+
+void * lobby_server(void * data)
+{
+	int flag=1,choice,n;
+	int temp;
+	int i;
+	struct timespec t;
+	t.tv_sec=PAUSE/1000;
+	t.tv_nsec=(PAUSE%1000) * (1000*1000);
+	TCPsocket client_socket,server_socket;
+	for(i=1;i<=max_slave_server;i++)
+	{
+		start_new_thread(2000+i);
+	}
+	printf("\n Value of active ports is:%d",get_active_threads());
+
+	// first server receive request from client to connect and open master server socket. To be created only once.-permanent 
+	if(common_connect_server(&host_ipaddress,&server_socket,global_port,(const char *)NULL)==0)
+		return (void *)1;
+	while(quit) 
+	{
+		nanosleep(&t,NULL);
+		// Open client socket on server side for sending dynamic port address-temprary
+		if((client_socket=SDLNet_TCP_Accept(server_socket)))
+		{
+ 			// send port address to client
+			pthread_mutex_lock(&mutex_variable);
+			printf("\n Value of active ports:%d",get_active_threads());
+			if(get_active_threads()==max_slave_server)
+			{
+				int temp=0;
+				SDLNet_TCP_Send(client_socket,&(temp),2);
+				SDLNet_TCP_Close(client_socket);
+				pthread_mutex_unlock(&mutex_variable);
+			}
+			else
+				if(SDLNet_TCP_Send(client_socket,&(thread_header->client_socket.port),2)==2)
+				{
+					printf("\nNew Port is send to client"); 
+					// close temprary client socket 
+					SDLNet_TCP_Close(client_socket);
+					// opening port so that server can accept content from client in different thread;
+					pthread_mutex_unlock(&mutex_variable);
+					printf("\n Activating thread");
+					activate_thread();
+				}
+		}
+	}
+		printf("\nEverything is OK now exiting");	
+		SDLNet_TCP_Close(server_socket);
+		cleanup_thread();
+		return NULL;
+}
+
+
+
 
 
 

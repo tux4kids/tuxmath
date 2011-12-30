@@ -44,14 +44,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define SERVER_NAME_TIMEOUT 30000
 #define DEFAULT_PORT 4779
 
-typedef struct client_type {
-    int game_ready;   //game_ready = 1 means client has said OK to start
-    char name[NAME_SIZE];
-    int score;
-    TCPsocket sock;
-}client_type;
-
-
 
 /* Ways to run the server - all accept command-line style arguments: */
 
@@ -80,7 +72,7 @@ int OurServerRunning(void);
  * is using the desired port: */
 int PortAvailable(Uint16 port);
 /* Find out if game is already in progress: */
-int SrvrGameInProgress(void);
+int SrvrGameInProgress(int thread_id_no);
 /* Stop Server */
 void StopServer(void);
 /* Stop currently running game: */

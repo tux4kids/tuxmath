@@ -51,6 +51,7 @@ tuxmath_SOURCES = tuxmath.c \
 	fileops.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
+	thread_handle.c \
 	server.c
 
 
@@ -69,6 +70,7 @@ generate_lesson_SOURCES = generate_lesson.c	\
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
+		thread_handle.c \
 		options.c
 
 tuxmathtestclient_SOURCES = testclient.c \
@@ -106,6 +108,9 @@ EXTRA_DIST = 	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
+	global.h	\
+	thread_handle.h \
+	server_handle.h \
         CMakeLists.txt
         
 
