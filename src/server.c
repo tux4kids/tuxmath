@@ -75,46 +75,46 @@ int max_slave_server; // from server_handle.h
 /*  -----------  Local function prototypes:   ------------  */
 
 // setup and cleanup:
-int setup_server(int thread_id_no);
-void cleanup_server(int thread_id_no);
+int setup_server(struct threadID  *instance);
+void cleanup_server(struct threadID  *instance);
 void server_handle_command_args(int argc, char* argv[]);
 void* run_server_local_args(void* data);
 
 // top level functions in main loop:
-void check_UDP(int thread_id_no);
-void update_clients(int thread_id_no);
-int server_check_messages(int thread_id_no);
-void server_update_game(int thread_id_no);
-void server_check_stdin(int thread_id_no);
+void check_UDP(struct threadID  *instance);
+void update_clients(struct threadID  *instance);
+int server_check_messages(struct threadID  *instance);
+void server_update_game(struct threadID  *instance);
+void server_check_stdin(struct threadID  *instance);
 // client management utilities:
-int find_vacant_client(int thread_id_no);
-void remove_client(int thread_id_no, int i);
-void check_game_clients(int thread_id_no);
+int find_vacant_client(struct threadID  *instance);
+void remove_client(struct threadID  *instance, int i);
+void check_game_clients(struct threadID  *instance);
 
 // message reception:
-int handle_client_game_msg(int thread_id_no, int i, char* buffer);
-void handle_client_nongame_msg(int thread_id_no, int i, char* buffer);
-int msg_set_name(int thread_id_no, int i, char* buf);
-void msg_socket_index(int thread_id_no, int i, char* buf);
-void start_game(int thread_id_no);
-void end_game(int thread_id_no);
-void game_msg_correct_answer(int thread_id_no, int i, char* inbuf);
-void game_msg_wrong_answer(int thread_id_no, int i, char* inbuf);
-void game_msg_quit(int thread_id_no, int i);
-void game_msg_exit(int thread_id_no, int i);
+int handle_client_game_msg(struct threadID  *instance, int i, char* buffer);
+void handle_client_nongame_msg(struct threadID  *instance, int i, char* buffer);
+int msg_set_name(struct threadID  *instance, int i, char* buf);
+void msg_socket_index(struct threadID  *instance, int i, char* buf);
+void start_game(struct threadID  *instance);
+void end_game(struct threadID  *instance);
+void game_msg_correct_answer(struct threadID  *instance, int i, char* inbuf);
+void game_msg_wrong_answer(struct threadID  *instance, int i, char* inbuf);
+void game_msg_quit(struct threadID  *instance, int i);
+void game_msg_exit(struct threadID  *instance, int i);
 // int calc_score(int difficulty, float t);     //Why it is present here 
 
 //message sending:
-int add_question(int thread_id_no, MC_FlashCard* fc);
-int remove_question(int thread_id_no, int quest_id, int answered_by);
-int send_counter_updates(int thread_id_no);
-int send_player_updates(int thread_id_no);
+int add_question(struct threadID  *instance, MC_FlashCard* fc);
+int remove_question(struct threadID  *instance, int quest_id, int answered_by);
+int send_counter_updates(struct threadID  *instance);
+int send_player_updates(struct threadID  *instance);
 //int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
 //int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock); // why it is present here 
-int player_msg(int thread_id_no, int i, char* msg);
-void broadcast_msg(int thread_id_no, char* msg);
-int transmit(int thread_id_no, int i, char* msg);
-int transmit_all(int thread_id_no, char* msg);
+int player_msg(struct threadID  *instance, int i, char* msg);
+void broadcast_msg(struct threadID  *instance, char* msg);
+int transmit(struct threadID  *instance, int i, char* msg);
+int transmit_all(struct threadID  *instance, char* msg);
 
 // For non-blocking input:
 int read_stdin_nonblock(char* buf, size_t max_length);
@@ -122,7 +122,7 @@ int read_stdin_nonblock(char* buf, size_t max_length);
 
 // not really deprecated but not done in response to 
 // client message --needs better name:
-void game_msg_next_question(int thread_id_no);
+void game_msg_next_question(struct threadID  *instance);
 
 /* global mathgame struct for lan game: */
 extern MC_MathGame* lan_game_settings;	//TODO Deepak:- see its effect and change it accordingly
@@ -135,7 +135,7 @@ static int quit = 0;
 static int ignore_stdin = 0;    //TODO not needed as all work is done in threads
 
 
-struct threadID slave_thread[2]; //TODO it might have to be replaced with a pointer pointing to head of the stack when integrating thread in it.
+struct threadID *instance;
 
 // These are to allow the server to be invoked in a thread
 // with the same syntax as used to launch it as a standalone
@@ -159,16 +159,17 @@ int RunServer(int argc, char* argv[])
   Uint32 timer = 0;
   ignore_stdin = 0;
   int frame = 0;
-
+  
+  instance= malloc(sizeof(struct threadID));
   fprintf(stderr, "Started tuxmathserver, waiting for client to connect:\n>\n");
 
   server_handle_command_args(argc, argv);
 
   /*     ---------------- Setup: ---------------------------   */
-  if (!setup_server(0)) //FIXME Deepak its hard coded.
+  if (!setup_server(instance)) //FIXME Deepak its hard coded.
   {
     fprintf(stderr, "setup_server() failed - exiting.\n");
-    cleanup_server(0);  //FIXME Deepak its hard coded.
+    cleanup_server(instance);  //FIXME Deepak its hard coded.
     return EXIT_FAILURE;
   }
 
@@ -191,15 +192,15 @@ int RunServer(int argc, char* argv[])
     }
 
     /* Respond to any clients pinging us to find the server: */
-    check_UDP(0);    //FIXME Deepak its hard coded.
+    check_UDP(instance);    //FIXME Deepak its hard coded.
     /* Now we check to see if anyone is trying to connect. */
-    update_clients(0); //FIXME Deepak its hard coded.
+    update_clients(instance); //FIXME Deepak its hard coded.
     /* Check for any pending messages from clients already connected: */
-    server_check_messages(0);  //FIXME Deepak its hard coded.
+    server_check_messages(instance);  //FIXME Deepak its hard coded.
     /* Handle any game updates not driven by received messages:  */
-    server_update_game(0);     //FIXME Deepak its hard coded
+    server_update_game(instance);     //FIXME Deepak its hard coded
     /* Check for command line input, if appropriate: */
-    server_check_stdin(0);   // FIXME Deepak its hard coded
+    server_check_stdin(instance);   // FIXME Deepak its hard coded
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
@@ -211,8 +212,9 @@ int RunServer(int argc, char* argv[])
   server_running = 0;
    
   /*   -----  Free resources before exiting: -------    */
-  cleanup_server(0); //FIXME Deepak its hard coded.
-
+  cleanup_server(instance); //FIXME Deepak its hard coded.
+  free(instance);
+  
   return EXIT_SUCCESS;
 }
 
@@ -354,9 +356,9 @@ int PortAvailable(Uint16 port)
 
 
 /* Find out if game is already in progress: */
-int SrvrGameInProgress(int thread_id_no)
+int SrvrGameInProgress(struct threadID  *instance)
 {
-  return slave_thread[thread_id_no].game_in_progress;
+  return instance->game_in_progress;
 }
 
 /* FIXME make these more civilized - notify players, clean up game
@@ -366,15 +368,15 @@ int SrvrGameInProgress(int thread_id_no)
 /* Stop Server */
 void StopServer(void)
 {
-  StopSrvrGame(0);   // FIXME Deepak its hard coded. StopServer is called from somewhere else
+  StopSrvrGame(instance);   // FIXME Deepak its hard coded. StopServer is called from somewhere else
   quit = 1;
 }
 
 
 /* Stop currently running game: */
-void StopSrvrGame(int thread_id_no)
+void StopSrvrGame(struct threadID  *instance)
 {
-  end_game(thread_id_no);
+  end_game(instance);
   //TODO send notifications to players
 }
 
@@ -396,28 +398,28 @@ void StopSrvrGame(int thread_id_no)
  */
 
 // setup_server() - all the things needed to get server running:
-int setup_server(int thread_id_no)
+int setup_server(struct threadID  *instance)
 {
   Uint32 timer = 0;
 
-  slave_thread[thread_id_no].num_clients=0; // To ensure no garbage value is used. 
+  instance->num_clients=0; // To ensure no garbage value is used. 
 
   /* Resolving the host using NULL make network interface to listen */
-  if (SDLNet_ResolveHost(&(slave_thread[thread_id_no].ip), NULL, DEFAULT_PORT) < 0)
+  if (SDLNet_ResolveHost(&(instance->ip), NULL, DEFAULT_PORT) < 0)
   {
     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
     return 0;
   }
  
   /* Open a connection with the IP provided (listen on the host's port) */
-  if (!(slave_thread[thread_id_no].server_sock = SDLNet_TCP_Open(&(slave_thread[thread_id_no].ip)) ) )
+  if (!(instance->server_sock = SDLNet_TCP_Open(&(instance->ip)) ) )
   {
     fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
     return 0;
   }
 
-  slave_thread[thread_id_no].client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
-  if(!(slave_thread[thread_id_no].client_set) )
+  instance->client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
+  if(!(instance->client_set) )
   { 
     fprintf(stderr, "SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
     return 0;
@@ -479,17 +481,17 @@ int setup_server(int thread_id_no)
       int i = 0;
       for(i = 0; i < MAX_CLIENTS; i++)
       {
-	  slave_thread[thread_id_no].client[i].game_ready = 0;   /* waiting for user to OK game start */
-	  strncpy(slave_thread[thread_id_no].client[i].name, _("Await player name"), NAME_SIZE);   /* no nicknames yet                  */
-	  slave_thread[thread_id_no].client[i].sock = NULL;      /* sockets start out unconnected     */
-	  slave_thread[thread_id_no].client[i].score = 0;
+	  instance->client[i].game_ready = 0;   /* waiting for user to OK game start */
+	  strncpy(instance->client[i].name, _("Await player name"), NAME_SIZE);   /* no nicknames yet                  */
+	  instance->client[i].sock = NULL;      /* sockets start out unconnected     */
+	  instance->client[i].score = 0;
       }
   }
 
 
   //Now open a UDP socket to listen for clients broadcasting to find the server:
-  slave_thread[thread_id_no].udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
-  if(!slave_thread[thread_id_no].udpsock)
+  instance->udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
+  if(!instance->udpsock)
   {
       fprintf(stderr, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
       return 0;
@@ -502,36 +504,36 @@ int setup_server(int thread_id_no)
 
 
 //Free resources, closing sockets, and so forth:
-void cleanup_server(int thread_id_no)
+void cleanup_server(struct threadID  *instance)
 {
     int i;
     /* Close the client socket(s) */
 
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-	if(slave_thread[thread_id_no].client[i].sock != NULL)
+	if(instance->client[i].sock != NULL)
 	{
-	    SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);    //close all the client sockets one by one
-	    slave_thread[thread_id_no].client[i].sock = NULL;               // So we don't segfault in case cleanup()
+	    SDLNet_TCP_Close(instance->client[i].sock);    //close all the client sockets one by one
+	    instance->client[i].sock = NULL;               // So we don't segfault in case cleanup()
 	}                                      // somehow gets called more than once.
     } 
 
-    if (slave_thread[thread_id_no].client_set != NULL)
+    if (instance->client_set != NULL)
     {
-	SDLNet_FreeSocketSet(slave_thread[thread_id_no].client_set);    //releasing the memory of the client socket set
-	slave_thread[thread_id_no].client_set = NULL;                   //this helps us remember that this set is not allocated
+	SDLNet_FreeSocketSet(instance->client_set);    //releasing the memory of the client socket set
+	instance->client_set = NULL;                   //this helps us remember that this set is not allocated
     } 
 
-    if(slave_thread[thread_id_no].server_sock != NULL)
+    if(instance->server_sock != NULL)
     {
-	SDLNet_TCP_Close(slave_thread[thread_id_no].server_sock);
-	slave_thread[thread_id_no].server_sock = NULL;
+	SDLNet_TCP_Close(instance->server_sock);
+	instance->server_sock = NULL;
     }
 
-    if(slave_thread[thread_id_no].udpsock != NULL)
+    if(instance->udpsock != NULL)
     {
-	SDLNet_UDP_Close(slave_thread[thread_id_no].udpsock);
-	slave_thread[thread_id_no].udpsock = NULL;
+	SDLNet_UDP_Close(instance->udpsock);
+	instance->udpsock = NULL;
     }
 }
 
@@ -547,7 +549,7 @@ void server_handle_command_args(int argc, char* argv[])
 	{
 	    /* Display help message: */
 	    fprintf(stderr, "\n");
-	    cleanup_server(0);                                //FIXME Deepak its hard coded.
+	    cleanup_server(instance);                                //FIXME Deepak its hard coded.
 	    exit(0);
 	}
 	else if (strcmp(argv[i], "--debug-lan") == 0)
@@ -574,7 +576,7 @@ void server_handle_command_args(int argc, char* argv[])
 		    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
 		    "\n");
 
-	    cleanup_server(0);             //FIXME Deepak its hard coded.
+	    cleanup_server(instance);             //FIXME Deepak its hard coded.
 	    exit(0);
 	}
 	else if (strcmp(argv[i], "--usage") == 0 ||
@@ -601,19 +603,19 @@ void server_handle_command_args(int argc, char* argv[])
 //network on this port, and the server sends a response.
 //The client will then try to open a TCP socket at the server's ip address,
 //which will be picked up in update_clients() below.
-void check_UDP(int thread_id_no)
+void check_UDP(struct threadID  *instance)
 {
     int recvd = 0;
     UDPpacket* in = NULL;
 
-    if(slave_thread[thread_id_no].udpsock == NULL)
+    if(instance->udpsock == NULL)
     {
 	fprintf(stderr, "warning - check_UDP() called but udpsock == NULL\n");
 	return;
     }
 
     in = SDLNet_AllocPacket(NET_BUF_LEN);
-    recvd = SDLNet_UDP_Recv(slave_thread[thread_id_no].udpsock, in);
+    recvd = SDLNet_UDP_Recv(instance->udpsock, in);
 
     if(recvd > 0)
     {	
@@ -634,7 +636,7 @@ void check_UDP(int thread_id_no)
 	    out->len = strlen(buf) + 1;
 	    out->address.host = in->address.host;
 	    out->address.port = in->address.port;
-	    sent = SDLNet_UDP_Send(slave_thread[thread_id_no].udpsock, -1, out);
+	    sent = SDLNet_UDP_Send(instance->udpsock, -1, out);
 	    SDLNet_FreePacket(out);
 	}
     }
@@ -648,7 +650,7 @@ void check_UDP(int thread_id_no)
 //update_clients() sees if anyone is trying to connect, and connects if a slot
 //is open and the game is not in progress. The purpose is to make sure our
 //client set accurately reflects the current state.
-void update_clients(int thread_id_no)
+void update_clients(struct threadID  *instance)
 {
     TCPsocket temp_sock = NULL;        /* Just used when client can't be accepted */
     int slot = 0;
@@ -656,14 +658,14 @@ void update_clients(int thread_id_no)
     char buffer[NET_BUF_LEN];
 
     /* See if we have a pending connection: */
-    temp_sock = SDLNet_TCP_Accept(slave_thread[thread_id_no].server_sock);
+    temp_sock = SDLNet_TCP_Accept(instance->server_sock);
     if (!temp_sock)  /* No one waiting to join - do nothing */
     {
 	return;   // Leave num_clients unchanged
     }
 
     // See if any slots are available:
-    slot = find_vacant_client(thread_id_no);
+    slot = find_vacant_client(instance);
     if (slot == -1) /* No vacancies: */
     {
 	snprintf(buffer, NET_BUF_LEN, 
@@ -681,10 +683,10 @@ void update_clients(int thread_id_no)
     }
 
     //If everyone is disconnected, game no longer in progress:
-    check_game_clients(thread_id_no); 
+    check_game_clients(instance); 
 
     // If game already started, send our regrets:
-    if(slave_thread[thread_id_no].game_in_progress)
+    if(instance->game_in_progress)
     {
 	snprintf(buffer, NET_BUF_LEN, 
 		"%s",
@@ -703,34 +705,34 @@ void update_clients(int thread_id_no)
     // game is not in progress, so we connect:
     DEBUGMSG(debug_lan, "creating connection for client[%d].sock:\n", slot);
 
-    slave_thread[thread_id_no].client[slot].sock = temp_sock;
+    instance->client[slot].sock = temp_sock;
 
     /* Add client socket to set: */
-    sockets_used = SDLNet_TCP_AddSocket(slave_thread[thread_id_no].client_set, slave_thread[thread_id_no].client[slot].sock);
+    sockets_used = SDLNet_TCP_AddSocket(instance->client_set, instance->client[slot].sock);
     if(sockets_used == -1) //No way this should happen
     {
 	fprintf(stderr, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
-	cleanup_server(0);                            //FIXME Deepak its hard coded.
+	cleanup_server(instance);                            //FIXME Deepak its hard coded.
 	exit(EXIT_FAILURE);
     }
 
     /* At this point num_clients can be updated: */
-    slave_thread[thread_id_no].num_clients = sockets_used;
+    instance->num_clients = sockets_used;
 
-    /* Now we can communicate with the client using slave_thread[thread_id_no].client[i].sock socket */
+    /* Now we can communicate with the client using instance->client[i].sock socket */
     /* serv_sock will remain opened waiting other connections.            */
 
     /* Send message informing client of successful connection:            */
-    msg_socket_index(thread_id_no, slot, buffer);
+    msg_socket_index(instance, slot, buffer);
     /* Now tell rest of clients that another has joined: */
-    send_player_updates(thread_id_no);
+    send_player_updates(instance);
     /* Get the remote address */
     DEBUGCODE(debug_lan)
     {
 	IPaddress* client_ip = NULL;
-	client_ip = SDLNet_TCP_GetPeerAddress(slave_thread[thread_id_no].client[slot].sock);
+	client_ip = SDLNet_TCP_GetPeerAddress(instance->client[slot].sock);
 
-	fprintf(stderr, "num_clients = %d\n", slave_thread[thread_id_no].num_clients);
+	fprintf(stderr, "num_clients = %d\n", instance->num_clients);
 	if (client_ip != NULL)
 	    /* Print the address, converting in the host format */
 	{
@@ -753,14 +755,14 @@ void update_clients(int thread_id_no)
 // or not a math game is in progress (although we expect different messages
 // during a game from those encountered outside of a game)
 
-int server_check_messages(int thread_id_no)
+int server_check_messages(struct threadID  *instance)
 {
     int actives = 0, i = 0;
     int ready_found = 0;
     char buffer[NET_BUF_LEN];
 
     /* Check the client socket set for activity: */
-    actives = SDLNet_CheckSockets(slave_thread[thread_id_no].client_set, 0);
+    actives = SDLNet_CheckSockets(instance->client_set, 0);
     //  fprintf(stderr, "in check_messages(), actives = %d\n", actives);
     if(actives == -1)
     {
@@ -780,38 +782,38 @@ int server_check_messages(int thread_id_no)
 	// check_messages() called - probably OK if we just get it next time through.
 	for(i = 0; i < MAX_CLIENTS; i++)
 	{
-	    if((slave_thread[thread_id_no].client[i].sock != NULL)
-		    && (SDLNet_SocketReady(slave_thread[thread_id_no].client[i].sock))) 
+	    if((instance->client[i].sock != NULL)
+		    && (SDLNet_SocketReady(instance->client[i].sock))) 
 	    { 
 		ready_found++;
 
 		DEBUGMSG(debug_lan, "client socket %d is ready\n", i);
 
-		if (SDLNet_TCP_Recv(slave_thread[thread_id_no].client[i].sock, buffer, NET_BUF_LEN) > 0)
+		if (SDLNet_TCP_Recv(instance->client[i].sock, buffer, NET_BUF_LEN) > 0)
 		{
 		    DEBUGMSG(debug_lan, "buffer received from client %d is: %s\n", i, buffer);
 
 		    /* Here we pass the client number and the message buffer */
 		    /* to a suitable function for further action:                */
-		    if(slave_thread[thread_id_no].game_in_progress)
+		    if(instance->game_in_progress)
 		    {
-			handle_client_game_msg(thread_id_no, i, buffer);
+			handle_client_game_msg(instance, i, buffer);
 		    }
 		    else
 		    {
-			handle_client_nongame_msg(thread_id_no, i, buffer);
+			handle_client_nongame_msg(instance, i, buffer);
 		    }
 		    // See if game is ended because everyone has left:
-		    check_game_clients(thread_id_no); 
+		    check_game_clients(instance); 
 		}
 		else  // Socket activity but cannot receive - client invalid
 		{
 		    fprintf(stderr, "Client %d active but receive failed - apparently disconnected\n>\n", i);
-		    remove_client(thread_id_no,i);
+		    remove_client(instance,i);
 		}
 	    }
 	}  // end of for() loop - all client sockets checked
-	check_game_clients(thread_id_no); //APPARENTLY checking one more time "just in case"???
+	check_game_clients(instance); //APPARENTLY checking one more time "just in case"???
 	// Make sure all the active sockets reported by SDLNet_CheckSockets()
 	// are accounted for:
 
@@ -827,7 +829,7 @@ int server_check_messages(int thread_id_no)
 }
 
 
-void server_check_stdin(int thread_id_no)
+void server_check_stdin(struct threadID  *instance)
 {
     char buffer[NET_BUF_LEN];
     /* Get out if we are ignoring stdin, e.g. thread in tuxmath gui program: */
@@ -845,7 +847,7 @@ void server_check_stdin(int thread_id_no)
 	}
 	else if (strncmp(buffer, "endgame", 7) == 0) // stop game leaving server running
 	{
-	    end_game(thread_id_no);
+	    end_game(instance);
 	}
 	else
 	{
@@ -858,10 +860,10 @@ void server_check_stdin(int thread_id_no)
 // client management utilities:
 
 //Returns the index of the first vacant client, or -1 if all clients full
-int find_vacant_client(int thread_id_no)
+int find_vacant_client(struct threadID  *instance)
 {
     int i = 0;
-    while (slave_thread[thread_id_no].client[i].sock && i < MAX_CLIENTS)
+    while (instance->client[i].sock && i < MAX_CLIENTS)
 	i++;
     if (i == MAX_CLIENTS)
     {
@@ -872,28 +874,28 @@ int find_vacant_client(int thread_id_no)
 }
 
 
-void remove_client(int thread_id_no, int i)
+void remove_client(struct threadID  *instance, int i)
 {
     int j;
     char buf[256];
 
-    fprintf(stderr, "Removing client[%d] - name: %s\n>\n", i, slave_thread[thread_id_no].client[i].name);
+    fprintf(stderr, "Removing client[%d] - name: %s\n>\n", i, instance->client[i].name);
     sprintf(buf, "PLAYER_LEFT\t%d", i);
 
     for(j=0; j<MAX_CLIENTS; j++) {
-	if(j != i && slave_thread[thread_id_no].client[j].sock) {
-	    SDLNet_TCP_Send(slave_thread[thread_id_no].client[j].sock, buf, strlen(buf) + 1);
+	if(j != i && instance->client[j].sock) {
+	    SDLNet_TCP_Send(instance->client[j].sock, buf, strlen(buf) + 1);
 	}
     }
 
-    SDLNet_TCP_DelSocket(slave_thread[thread_id_no].client_set, slave_thread[thread_id_no].client[i].sock);
+    SDLNet_TCP_DelSocket(instance->client_set, instance->client[i].sock);
 
-    if(slave_thread[thread_id_no].client[i].sock != NULL)
-	SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
+    if(instance->client[i].sock != NULL)
+	SDLNet_TCP_Close(instance->client[i].sock);
 
-    slave_thread[thread_id_no].client[i].sock = NULL;  
-    slave_thread[thread_id_no].client[i].game_ready = 0;
-    slave_thread[thread_id_no].client[i].name[0] = '\0';
+    instance->client[i].sock = NULL;  
+    instance->client[i].game_ready = 0;
+    instance->client[i].name[0] = '\0';
 }
 
 
@@ -908,19 +910,19 @@ void remove_client(int thread_id_no, int i)
 // FIXME we need to do more than just toggle game_in_progress - should have
 // start_game() and end_game() functions that make sure mathcards is 
 // properly set up or cleaned up.
-void check_game_clients(int thread_id_no)
+void check_game_clients(struct threadID  *instance)
 {
     int i = 0;
 
     //If the game is already started, we leave it running as long as at least
     //one client is both connected and willing to play:
-    if(slave_thread[thread_id_no].game_in_progress)
+    if(instance->game_in_progress)
     {
 	int someone_still_playing = 0;
 	for(i = 0; i < MAX_CLIENTS; i++)
 	{
-	    if((slave_thread[thread_id_no].client[i].sock != NULL)
-		    && slave_thread[thread_id_no].client[i].game_ready)
+	    if((instance->client[i].sock != NULL)
+		    && instance->client[i].game_ready)
 	    {
 		someone_still_playing = 1;
 		break;
@@ -934,13 +936,13 @@ void check_game_clients(int thread_id_no)
 	    /* Now make sure all clients are closed: */ 
 	    for(i = 0; i < MAX_CLIENTS; i++)
 	    {
-		SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
-		slave_thread[thread_id_no].client[i].sock = NULL;
-		slave_thread[thread_id_no].client[i].game_ready = 0;
+		SDLNet_TCP_Close(instance->client[i].sock);
+		instance->client[i].sock = NULL;
+		instance->client[i].game_ready = 0;
 	    }
 
-	    slave_thread[thread_id_no].game_in_progress = 0;
-	    end_game(thread_id_no);
+	    instance->game_in_progress = 0;
+	    end_game(instance);
 	}
     }
     //If the game hasn't started yet, we only start it 
@@ -953,83 +955,83 @@ void check_game_clients(int thread_id_no)
 	int someone_not_ready = 0;
 	for(i = 0; i < MAX_CLIENTS; i++)
 	{
-	    if(slave_thread[thread_id_no].client[i].sock != NULL)
+	    if(instance->client[i].sock != NULL)
 	    { 
 		someone_connected = 1;
-		if (!slave_thread[thread_id_no].client[i].game_ready)
+		if (!instance->client[i].game_ready)
 		{
 		    someone_not_ready = 1;
 		}
 	    }
 	}
 	if(someone_connected && !someone_not_ready)
-	    start_game(thread_id_no); 
+	    start_game(instance); 
     }
 }
 
 
 
-void handle_client_nongame_msg(int thread_id_no, int i, char* buffer)
+void handle_client_nongame_msg(struct threadID  *instance, int i, char* buffer)
 {
     DEBUGMSG(debug_lan, "nongame_msg received from client: %s\n", buffer);
 
     if(strncmp(buffer, "PLAYER_READY", strlen("PLAYER_READY")) == 0)
     {
-	slave_thread[thread_id_no].client[i].game_ready = 1;
+	instance->client[i].game_ready = 1;
 	//Inform other clients:
-	send_player_updates(thread_id_no);
+	send_player_updates(instance);
 	//This will call start_game() if all the other clients are ready:
-	check_game_clients(thread_id_no);
+	check_game_clients(instance);
     }
     else if(strncmp(buffer, "PLAYER_NOT_READY", strlen("PLAYER_NOT_READY")) == 0)
     {
-	slave_thread[thread_id_no].client[i].game_ready = 0;
+	instance->client[i].game_ready = 0;
 	//Inform other clients:
-	send_player_updates(thread_id_no);
-	check_game_clients(thread_id_no);
+	send_player_updates(instance);
+	check_game_clients(instance);
     }
     else if(strncmp(buffer, "SET_NAME", strlen("SET_NAME")) == 0)
     {
-	msg_set_name(thread_id_no, i, buffer);
+	msg_set_name(instance, i, buffer);
     }
     else if(strncmp(buffer, "REQUEST_INDEX", strlen("REQUEST_INDEX")) == 0)
     {
-	msg_socket_index(thread_id_no, i, buffer);
+	msg_socket_index(instance, i, buffer);
     }                            
 }
 
 
-int handle_client_game_msg(int thread_id_no, int i , char* buffer)
+int handle_client_game_msg(struct threadID  *instance, int i , char* buffer)
 {
     DEBUGMSG(debug_lan, "game_msg received from client: %s\n", buffer);
 
     if(strncmp(buffer, "CORRECT_ANSWER", strlen("CORRECT_ANSWER")) == 0)
     {
-	game_msg_correct_answer(thread_id_no,i, buffer);
+	game_msg_correct_answer(instance,i, buffer);
     }                            
     else if(strncmp(buffer, "REQUEST_INDEX", strlen("REQUEST_INDEX")) == 0)
     {
-	msg_socket_index(thread_id_no, i, buffer);
+	msg_socket_index(instance, i, buffer);
     }                            
 
     else if(strncmp(buffer, "WRONG_ANSWER",strlen("WRONG_ANSWER")) == 0) /* Player answered the question incorrectly , meaning comet crashed into a city or an igloo */
     {
-	game_msg_wrong_answer(thread_id_no,i, buffer);
+	game_msg_wrong_answer(instance,i, buffer);
     }
 
     else if(strncmp(buffer, "LEAVE_GAME", strlen("LEAVE_GAME")) == 0) 
     {
-	slave_thread[thread_id_no].client[i].game_ready = 0;  /* Player quitting game but not disconnecting */
+	instance->client[i].game_ready = 0;  /* Player quitting game but not disconnecting */
     }
 
     else if(strncmp(buffer, "exit",strlen("exit")) == 0) /* Terminate this connection */
     {
-	game_msg_exit(thread_id_no, i);
+	game_msg_exit(instance, i);
     }
 
     else if(strncmp(buffer, "quit",strlen("quit")) == 0) /* Quit the program */
     {
-	game_msg_quit(thread_id_no, i);
+	game_msg_quit(instance, i);
 	return(1);
     }
     else
@@ -1041,7 +1043,7 @@ int handle_client_game_msg(int thread_id_no, int i , char* buffer)
 
 
 
-int msg_set_name(int thread_id_no,int i, char* buf)
+int msg_set_name(struct threadID  *instance,int i, char* buf)
 {
     char* p;
 
@@ -1052,8 +1054,8 @@ int msg_set_name(int thread_id_no,int i, char* buf)
     if(p)
     { 
 	p++;
-	strncpy(slave_thread[thread_id_no].client[i].name, p, NAME_SIZE);
-	send_player_updates(thread_id_no);
+	strncpy(instance->client[i].name, p, NAME_SIZE);
+	send_player_updates(instance);
 	return 1;
     }
     else
@@ -1061,14 +1063,14 @@ int msg_set_name(int thread_id_no,int i, char* buf)
 }
 
 
-void msg_socket_index(int thread_id_no, int i, char* buf)
+void msg_socket_index(struct threadID  *instance, int i, char* buf)
 {  
     snprintf(buf, NET_BUF_LEN, "%s\t%d", "SOCKET_INDEX", i);
-    SDLNet_TCP_Send(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN);
+    SDLNet_TCP_Send(instance->client[i].sock, buf, NET_BUF_LEN);
 }
 
 
-void game_msg_correct_answer(int thread_id_no,int i, char* inbuf)
+void game_msg_correct_answer(struct threadID  *instance,int i, char* inbuf)
 {
     char outbuf[NET_BUF_LEN];
     char* p = NULL;
@@ -1101,33 +1103,33 @@ void game_msg_correct_answer(int thread_id_no,int i, char* inbuf)
 	return;
     //If we get to here, the id was successfully parsed out of inbuf
     //and the corresponding question was found.
-    slave_thread[thread_id_no].client[i].score += points;
-    slave_thread[thread_id_no].srv_game.active_quests--;
+    instance->client[i].score += points;
+    instance->srv_game.active_quests--;
 
     //Announcement for server and all clients:
     snprintf(outbuf, NET_BUF_LEN, 
 	    "question id %d was answered in %f seconds for %d points by %s",
-	    id, t, points, slave_thread[thread_id_no].client[i].name);             
-    broadcast_msg(thread_id_no, outbuf);
+	    id, t, points, instance->client[i].name);             
+    broadcast_msg(instance, outbuf);
 
     DEBUGMSG(debug_lan, "\ngame_msg_correct_answer(): %s\n", outbuf);
     DEBUGMSG(debug_lan, "After correct answer, wave %d\n"
 	    "srv_game.max_quests_on_screen = %d\n"
 	    "srv_game.rem_in_wave = %d\n"
 	    "srv_game.active_quests = %d\n\n",
-	    slave_thread[thread_id_no].srv_game.wave, slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-	    slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests);   
+	    instance->srv_game.wave, instance->srv_game.max_quests_on_screen,
+	    instance->srv_game.rem_in_wave, instance->srv_game.active_quests);   
 
     //Tell all players to remove that question:
-    remove_question(thread_id_no, id, i);
+    remove_question(instance, id, i);
     //and update the game counters:
-    send_counter_updates(thread_id_no);
+    send_counter_updates(instance);
     //and the scores:
-    send_player_updates(thread_id_no);
+    send_player_updates(instance);
 }
 
 
-void game_msg_wrong_answer(int thread_id_no, int i, char* inbuf)
+void game_msg_wrong_answer(struct threadID  *instance, int i, char* inbuf)
 {
     char outbuf[NET_BUF_LEN];
     char* p;
@@ -1150,29 +1152,29 @@ void game_msg_wrong_answer(int thread_id_no, int i, char* inbuf)
     //and the corresponding question was found.
 
     //One less comet in play:
-    slave_thread[thread_id_no].srv_game.active_quests--;
+    instance->srv_game.active_quests--;
 
     DEBUGMSG(debug_lan, "\nAfter wrong answer: wave %d\n"
 	    "srv_game.max_quests_on_screen = %d\n"
 	    "srv_game.rem_in_wave = %d\n"
 	    "srv_game.active_quests = %d\n\n",
-	    slave_thread[thread_id_no].srv_game.wave, slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-	    slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests);   
+	    instance->srv_game.wave, instance->srv_game.max_quests_on_screen,
+	    instance->srv_game.rem_in_wave, instance->srv_game.active_quests);   
     //Announcement for server and all clients:
     snprintf(outbuf, NET_BUF_LEN, 
 	    "question id %d was missed by %s\n",
-	    id, slave_thread[thread_id_no].client[i].name);             
-    broadcast_msg(thread_id_no,outbuf);
+	    id, instance->client[i].name);             
+    broadcast_msg(instance,outbuf);
     //Tell all players to remove that question:
     //-1 means question was missed.
-    remove_question(thread_id_no, id, -1);
+    remove_question(instance, id, -1);
     //and update the game counters:
-    send_counter_updates(thread_id_no);
+    send_counter_updates(instance);
 }
 
 
 
-void game_msg_next_question(int thread_id_no)
+void game_msg_next_question(struct threadID  *instance)
 {
     MC_FlashCard flash;
 
@@ -1188,43 +1190,43 @@ void game_msg_next_question(int thread_id_no)
     DEBUGCODE(debug_lan) print_card(flash); 
 
     /* Send it to all the clients: */ 
-    add_question(thread_id_no, &flash);
+    add_question(instance, &flash);
     /* Adjust counters accordingly: */
-    slave_thread[thread_id_no].srv_game.active_quests++;
-    slave_thread[thread_id_no].srv_game.rem_in_wave--;
+    instance->srv_game.active_quests++;
+    instance->srv_game.rem_in_wave--;
 
     DEBUGMSG(debug_lan, "In game_msg_next_question(), after quest added, wave %d\n"
 	    "srv_game.max_quests_on_screen = %d\n"
 	    "srv_game.rem_in_wave = %d\n"
 	    "srv_game.active_quests = %d\n\n",
-	    slave_thread[thread_id_no].srv_game.wave, slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-	    slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests);   
+	    instance->srv_game.wave, instance->srv_game.max_quests_on_screen,
+	    instance->srv_game.rem_in_wave, instance->srv_game.active_quests);   
 }
 
 
 
 
 
-void game_msg_exit(int thread_id_no, int i)
+void game_msg_exit(struct threadID  *instance, int i)
 {
-    fprintf(stderr, "LEFT the GAME : %s",slave_thread[thread_id_no].client[i].name);
-    remove_client(thread_id_no, i);
+    fprintf(stderr, "LEFT the GAME : %s",instance->client[i].name);
+    remove_client(instance, i);
 }
 
 
 
 //FIXME don't think we want to allow players to shut down the server
-void game_msg_quit(int thread_id_no, int i)
+void game_msg_quit(struct threadID  *instance, int i)
 {
-    fprintf(stderr, "Server has been shut down by %s\n", slave_thread[thread_id_no].client[i].name); 
-    cleanup_server(0);                 //FIXME Deepak its hard coded.  
+    fprintf(stderr, "Server has been shut down by %s\n", instance->client[i].name); 
+    cleanup_server(instance);                 //FIXME Deepak its hard coded.  
     exit(9);                           // '9' means exit ;)  (just taken an arbitary no:)
 }
 
 
 /* Now this gets called to actually start the game once all the players */
 /* have indicated that they are ready:                                  */
-void start_game(int thread_id_no)
+void start_game(struct threadID  *instance)
 {
     char buf[NET_BUF_LEN];
     int j;
@@ -1236,8 +1238,8 @@ void start_game(int thread_id_no)
     for(j = 0; j < MAX_CLIENTS; j++)
     {
 	// Only check sockets that aren't null:
-	if((slave_thread[thread_id_no].client[j].game_ready != 1)
-		&& (slave_thread[thread_id_no].client[j].sock != NULL))
+	if((instance->client[j].game_ready != 1)
+		&& (instance->client[j].sock != NULL))
 	{
 	    fprintf(stderr, "Warning - start_game() entered when someone not ready\n");
 	    return;      
@@ -1247,21 +1249,21 @@ void start_game(int thread_id_no)
 
     /***********************Will be modified**************/
     //Tell everyone we are starting and count who's really in:
-    slave_thread[thread_id_no].num_clients = 0;
+    instance->num_clients = 0;
     snprintf(buf, NET_BUF_LEN, 
 	    "%s\n",
 	    "GO_TO_GAME");          
     for(j = 0; j < MAX_CLIENTS; j++)
     {
-	if((slave_thread[thread_id_no].client[j].game_ready == 1)
-		&& (slave_thread[thread_id_no].client[j].sock != NULL))
+	if((instance->client[j].game_ready == 1)
+		&& (instance->client[j].sock != NULL))
 	{
-	    if(SDLNet_TCP_Send(slave_thread[thread_id_no].client[j].sock, buf, NET_BUF_LEN) == NET_BUF_LEN)
-		slave_thread[thread_id_no].num_clients++;
+	    if(SDLNet_TCP_Send(instance->client[j].sock, buf, NET_BUF_LEN) == NET_BUF_LEN)
+		instance->num_clients++;
 	    else
 	    {
 		fprintf(stderr, "in start_game() - failed to send to client %d, removing\n", j);
-		remove_client(thread_id_no, j);
+		remove_client(instance, j);
 	    }
 	}
     }
@@ -1269,15 +1271,15 @@ void start_game(int thread_id_no)
 
 
     /* If no players join the game (should not happen) */
-    if(slave_thread[thread_id_no].num_clients == 0)
+    if(instance->num_clients == 0)
     {
 	fprintf(stderr, "There were no players........=(\n");
 	return;
     }
 
-    DEBUGMSG(debug_lan, "We have %d players.......\n", slave_thread[thread_id_no].num_clients);
+    DEBUGMSG(debug_lan, "We have %d players.......\n", instance->num_clients);
 
-    slave_thread[thread_id_no].game_in_progress = 1;  //setting the game_in_progress flag to '1'
+    instance->game_in_progress = 1;  //setting the game_in_progress flag to '1'
     //Start a new math game as far as mathcards is concerned:
     //TODO we could create more than one MathCards instance here when
     //we start supporting multiple simultaneous games in the future.  For now
@@ -1289,16 +1291,16 @@ void start_game(int thread_id_no)
     }
 
     /* Initialize game data that isn't handled by mathcards: */
-    slave_thread[thread_id_no].srv_game.wave = 1;
-    slave_thread[thread_id_no].srv_game.active_quests = 0;
-    slave_thread[thread_id_no].srv_game.max_quests_on_screen = Opts_StartingComets();
-    slave_thread[thread_id_no].srv_game.quests_in_wave = slave_thread[thread_id_no].srv_game.rem_in_wave = Opts_StartingComets() * 2;
+    instance->srv_game.wave = 1;
+    instance->srv_game.active_quests = 0;
+    instance->srv_game.max_quests_on_screen = Opts_StartingComets();
+    instance->srv_game.quests_in_wave = instance->srv_game.rem_in_wave = Opts_StartingComets() * 2;
 
-    slave_thread[thread_id_no].game_in_progress = 1;
+    instance->game_in_progress = 1;
 
     // Zero out scores:
     for(j = 0; j < MAX_CLIENTS; j++)
-	slave_thread[thread_id_no].client[j].score = 0;
+	instance->client[j].score = 0;
 
     // Initialize game data:
 
@@ -1323,19 +1325,19 @@ void start_game(int thread_id_no)
     //}
 
     //Send all the clients the counter totals:
-    send_counter_updates(thread_id_no);
-    send_player_updates(thread_id_no);
+    send_counter_updates(instance);
+    send_player_updates(instance);
 }
 
 /* Update anything that isn't a response to a client message, such
  * as timer-based events:
  */
-void server_update_game(int thread_id_no)
+void server_update_game(struct threadID  *instance)
 {
     static Uint32 last_time, now_time, wait_time;
 
     /* Do nothing unless game started: */
-    if(!slave_thread[thread_id_no].game_in_progress)
+    if(!instance->game_in_progress)
     {
 	return;
     }
@@ -1343,13 +1345,13 @@ void server_update_game(int thread_id_no)
     now_time = SDL_GetTicks();
 
     /* Wait time is shorter in higher waves because the comets move faster: */
-    wait_time = SRV_QUEST_INTERVAL/pow(DEFAULT_SPEEDUP_FACTOR, slave_thread[thread_id_no].srv_game.wave);
+    wait_time = SRV_QUEST_INTERVAL/pow(DEFAULT_SPEEDUP_FACTOR, instance->srv_game.wave);
 
     /* Send another question if there is room and enough time has elapsed: */
     if(now_time - last_time > wait_time)
     {	  
-	if((slave_thread[thread_id_no].srv_game.active_quests < slave_thread[thread_id_no].srv_game.max_quests_on_screen)
-		&& (slave_thread[thread_id_no].srv_game.rem_in_wave > 0))
+	if((instance->srv_game.active_quests < instance->srv_game.max_quests_on_screen)
+		&& (instance->srv_game.rem_in_wave > 0))
 	{
 	    DEBUGMSG(debug_lan, "\nAbout to add next question:\n"
 		    "srv_game.max_quests_on_screen = %d\n"
@@ -1357,51 +1359,51 @@ void server_update_game(int thread_id_no)
 		    "srv_game.active_quests = %d\n"
 		    "last_time = %d\n"
 		    "now_time = %d\n\n",
-		    slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-		    slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests,
+		    instance->srv_game.max_quests_on_screen,
+		    instance->srv_game.rem_in_wave, instance->srv_game.active_quests,
 		    last_time, now_time);   
-	    game_msg_next_question(thread_id_no);
+	    game_msg_next_question(instance);
 	    last_time = now_time;
 	}
     }
 
     /* Go on to next wave when appropriate: */
-    if(  slave_thread[thread_id_no].srv_game.rem_in_wave <= 0
-	    && slave_thread[thread_id_no].srv_game.active_quests <= 0)
+    if(  instance->srv_game.rem_in_wave <= 0
+	    && instance->srv_game.active_quests <= 0)
     {
-	slave_thread[thread_id_no].srv_game.wave++;
-	slave_thread[thread_id_no].srv_game.active_quests = 0; 
-	slave_thread[thread_id_no].srv_game.max_quests_on_screen += Opts_ExtraCometsPerWave(); 
-	if(slave_thread[thread_id_no].srv_game.max_quests_on_screen > Opts_MaxComets()) 
-	    slave_thread[thread_id_no].srv_game.max_quests_on_screen = Opts_MaxComets(); 
-	slave_thread[thread_id_no].srv_game.rem_in_wave = slave_thread[thread_id_no].srv_game.max_quests_on_screen * 2;
-	send_counter_updates(thread_id_no); 
+	instance->srv_game.wave++;
+	instance->srv_game.active_quests = 0; 
+	instance->srv_game.max_quests_on_screen += Opts_ExtraCometsPerWave(); 
+	if(instance->srv_game.max_quests_on_screen > Opts_MaxComets()) 
+	    instance->srv_game.max_quests_on_screen = Opts_MaxComets(); 
+	instance->srv_game.rem_in_wave = instance->srv_game.max_quests_on_screen * 2;
+	send_counter_updates(instance); 
 	DEBUGMSG(debug_lan, "/nAdvance to wave %d\n"
 		"srv_game.max_quests_on_screen = %d\n"
 		"srv_game.rem_in_wave = %d\n"
 		"srv_game.active_quests = %d\n\n",
-		slave_thread[thread_id_no].srv_game.wave, slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-		slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests);   
+		instance->srv_game.wave, instance->srv_game.max_quests_on_screen,
+		instance->srv_game.rem_in_wave, instance->srv_game.active_quests);   
 
     }
 
     /* Find out from mathcards if we're done: */
     if(MC_TotalQuestionsLeft(lan_game_settings) == 0)
     {
-	slave_thread[thread_id_no].game_in_progress = 0;
+	instance->game_in_progress = 0;
 	DEBUGMSG(debug_lan, "/nGame over:\nwave = %d\n"
 		"srv_game.max_quests_on_screen = %d\n"
 		"srv_game.rem_in_wave = %d\n"
 		"srv_game.active_quests = %d\n\n",
-		slave_thread[thread_id_no].srv_game.wave, slave_thread[thread_id_no].srv_game.max_quests_on_screen,
-		slave_thread[thread_id_no].srv_game.rem_in_wave, slave_thread[thread_id_no].srv_game.active_quests);   
+		instance->srv_game.wave, instance->srv_game.max_quests_on_screen,
+		instance->srv_game.rem_in_wave, instance->srv_game.active_quests);   
 
     }
 }
 
 
 /* Shut down game in progress: */
-void end_game(int thread_id_no)
+void end_game(struct threadID  *instance)
 {
     int i = 0;
     char buf[NET_BUF_LEN];
@@ -1410,17 +1412,17 @@ void end_game(int thread_id_no)
 
     /* Broadcast notice to anyone who is left: */
     snprintf(buf, NET_BUF_LEN, "%s", "GAME_HALTED");
-    transmit_all(thread_id_no,buf);
+    transmit_all(instance,buf);
 
     /* Now make sure all clients are closed: */ 
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-	SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
-	slave_thread[thread_id_no].client[i].sock = NULL;
-	slave_thread[thread_id_no].client[i].game_ready = 0;
+	SDLNet_TCP_Close(instance->client[i].sock);
+	instance->client[i].sock = NULL;
+	instance->client[i].game_ready = 0;
     }
 
-    slave_thread[thread_id_no].game_in_progress = 0;
+    instance->game_in_progress = 0;
     //  NOTE: we only want to call MC_EndGame() when the program exits,
     //  not when an individual math game ends.
     //  MC_EndGame();
@@ -1431,7 +1433,7 @@ void end_game(int thread_id_no)
 //More centralized function to update the clients of the number of 
 //questions remaining, whether the mission has been accomplished,
 //and so forth:
-int send_counter_updates(int thread_id_no)
+int send_counter_updates(struct threadID  *instance)
 {
     int total_questions;
 
@@ -1440,7 +1442,7 @@ int send_counter_updates(int thread_id_no)
     {
 	char buf[NET_BUF_LEN];
 	snprintf(buf, NET_BUF_LEN, "%s", "MISSION_ACCOMPLISHED");
-	transmit_all(thread_id_no, buf);
+	transmit_all(instance, buf);
     }
 
     //Tell everyone how many questions left:
@@ -1448,20 +1450,20 @@ int send_counter_updates(int thread_id_no)
     {
 	char buf[NET_BUF_LEN];
 	snprintf(buf, NET_BUF_LEN, "%s\t%d", "TOTAL_QUESTIONS", total_questions);
-	transmit_all(thread_id_no, buf);
+	transmit_all(instance, buf);
     }
 
     //Tell everyone what wave we are on:
     {
 	char buf[NET_BUF_LEN];
-	snprintf(buf, NET_BUF_LEN, "%s\t%d", "WAVE", slave_thread[thread_id_no].srv_game.wave);
-	transmit_all(thread_id_no, buf);
+	snprintf(buf, NET_BUF_LEN, "%s\t%d", "WAVE", instance->srv_game.wave);
+	transmit_all(instance, buf);
     }
     return 1;
 }
 
 
-int send_player_updates(int thread_id_no)
+int send_player_updates(struct threadID  *instance)
 {
     int i = 0;
 
@@ -1470,26 +1472,26 @@ int send_player_updates(int thread_id_no)
 	int connected_players = 0;
 	char buf[NET_BUF_LEN];
 	for(i = 0; i < MAX_CLIENTS; i++)
-	    if((slave_thread[thread_id_no].client[i].game_ready == 1) && (slave_thread[thread_id_no].client[i].sock != NULL))
+	    if((instance->client[i].game_ready == 1) && (instance->client[i].sock != NULL))
 		connected_players++;
 
 	snprintf(buf, NET_BUF_LEN, "%s\t%d", "CONNECTED_PLAYERS",
 		connected_players);
-	transmit_all(thread_id_no, buf);
+	transmit_all(instance, buf);
     }
 
     /* Now send out all the names and scores: */
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-	if(slave_thread[thread_id_no].client[i].sock != NULL)
+	if(instance->client[i].sock != NULL)
 	{
 	    char buf[NET_BUF_LEN];
 	    snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d\t%s\t%d", "UPDATE_PLAYER_INFO",
 		    i,
-		    slave_thread[thread_id_no].client[i].game_ready,
-		    slave_thread[thread_id_no].client[i].name,
-		    slave_thread[thread_id_no].client[i].score);
-	    transmit_all(thread_id_no, buf);
+		    instance->client[i].game_ready,
+		    instance->client[i].name,
+		    instance->client[i].score);
+	    transmit_all(instance, buf);
 	}
     }
 
@@ -1498,7 +1500,7 @@ int send_player_updates(int thread_id_no)
 
 
 /* Sends a new question to all clients: */
-int add_question(int thread_id_no, MC_FlashCard* fc)
+int add_question(struct threadID  *instance, MC_FlashCard* fc)
 {
     char buf[NET_BUF_LEN];
 
@@ -1512,22 +1514,22 @@ int add_question(int thread_id_no, MC_FlashCard* fc)
 	    fc->answer,
 	    fc->answer_string,
 	    fc->formula_string);
-    transmit_all(thread_id_no, buf);
+    transmit_all(instance, buf);
     return 1;
 }
 
 /* Tells all clients to remove a specific question: */
-int remove_question(int thread_id_no, int quest_id, int answered_by)
+int remove_question(struct threadID  *instance, int quest_id, int answered_by)
 {
     char buf[NET_BUF_LEN];
     snprintf(buf, NET_BUF_LEN, "%s\t%d\t%d", "REMOVE_QUESTION", quest_id, answered_by);
-    transmit_all(thread_id_no, buf);
+    transmit_all(instance, buf);
     return 1;
 }
 
 
 /* Sends a string for the client to display to player: */
-int player_msg(int thread_id_no, int i, char* msg)
+int player_msg(struct threadID  *instance, int i, char* msg)
 {
     char buf[NET_BUF_LEN];
     if(!msg)
@@ -1539,21 +1541,21 @@ int player_msg(int thread_id_no, int i, char* msg)
     /* Add header: */
     snprintf(buf, NET_BUF_LEN, "%s\t%s", "PLAYER_MSG", msg);
     //NOTE transmit() validates index and socket
-    return transmit(thread_id_no, i, buf);
+    return transmit(instance, i, buf);
 }
 
 /* Send a player message to all clients: */
-void broadcast_msg(int thread_id_no, char* msg)
+void broadcast_msg(struct threadID  *instance, char* msg)
 {
     int i = 0;
     if (!msg)
 	return;
     for(i = 0; i < MAX_CLIENTS; i++)
-	player_msg(thread_id_no, i, msg);
+	player_msg(instance, i, msg);
 }
 
 /* Send string to client. String should already have its header */ 
-int transmit(int thread_id_no, int i, char* msg)
+int transmit(struct threadID  *instance, int i, char* msg)
 {
     char buf[NET_BUF_LEN];
 
@@ -1570,7 +1572,7 @@ int transmit(int thread_id_no, int i, char* msg)
 	return 0;
     }
 
-    if(!slave_thread[thread_id_no].client[i].sock)
+    if(!instance->client[i].sock)
     {
 	return 0;
     }
@@ -1578,10 +1580,10 @@ int transmit(int thread_id_no, int i, char* msg)
     //NOTE SDLNet's Send() keeps sending until the requested length is
     //sent, so it really is an error if we send less thatn NET_BUF_LEN
     snprintf(buf, NET_BUF_LEN, "%s", msg);
-    if(SDLNet_TCP_Send(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
+    if(SDLNet_TCP_Send(instance->client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
     {
-	fprintf(stderr, "The client %s is disconnected\n", slave_thread[thread_id_no].client[i].name);
-	remove_client(thread_id_no, i);
+	fprintf(stderr, "The client %s is disconnected\n", instance->client[i].name);
+	remove_client(instance, i);
 	return 0;
     }
     //Success:
@@ -1590,14 +1592,14 @@ int transmit(int thread_id_no, int i, char* msg)
 
 
 /* Send the message to all clients: */
-int transmit_all(int thread_id_no, char* msg)
+int transmit_all(struct threadID  *instance, char* msg)
 {
     int i = 0;
     if (!msg)
 	return 0;
 
     for(i = 0; i < MAX_CLIENTS; i++)
-	transmit(thread_id_no, i, msg);
+	transmit(instance, i, msg);
 
     return 1;
 }
