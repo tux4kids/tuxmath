@@ -68,9 +68,10 @@ They are used when server is running in thread
 ============================================================================================*/
 
 struct threadID * thread_header;  // from global.h
-pthread_mutex_t mutex_variable;  // from global.h
+pthread_mutex_t mutex_variable;  // from global.h Used as a mutex for thread_header
 int global_port;// from server_handle.h
 int max_slave_server; // from server_handle.h
+//==========================================================================================
 
 /*  -----------  Local function prototypes:   ------------  */
 
@@ -162,6 +163,7 @@ int RunServer(int argc, char* argv[])
   
   instance= malloc(sizeof(struct threadID));
   fprintf(stderr, "Started tuxmathserver, waiting for client to connect:\n>\n");
+  instance->info.port=DEFAULT_PORT;  // Assigning port to server
 
   server_handle_command_args(argc, argv);
 
@@ -192,15 +194,15 @@ int RunServer(int argc, char* argv[])
     }
 
     /* Respond to any clients pinging us to find the server: */
-    check_UDP(instance);    //FIXME Deepak its hard coded.
+    check_UDP(instance);    
     /* Now we check to see if anyone is trying to connect. */
-    update_clients(instance); //FIXME Deepak its hard coded.
+    update_clients(instance); 
     /* Check for any pending messages from clients already connected: */
-    server_check_messages(instance);  //FIXME Deepak its hard coded.
+    server_check_messages(instance);  
     /* Handle any game updates not driven by received messages:  */
-    server_update_game(instance);     //FIXME Deepak its hard coded
+    server_update_game(instance);     
     /* Check for command line input, if appropriate: */
-    server_check_stdin(instance);   // FIXME Deepak its hard coded
+    server_check_stdin(instance);   
     /* Limit frame rate to keep from eating all CPU: */
     /* NOTE almost certainly could make this longer wtihout noticably */
     /* affecting performance, but even throttling to 1 msec/loop cuts */
@@ -299,6 +301,8 @@ int RunServer_pthread(int argc, char* argv[])
 
 void* run_server_local_args(void* data)
 {
+  void * exit_status;
+  pthread_t *thread;
   DEBUGMSG(debug_lan, "In RunServer_pthread():\n"
 		  "local_argc = %d\n"
 		  "local_argv[0] = %s\n"
@@ -306,9 +310,8 @@ void* run_server_local_args(void* data)
 		  "local_argv[2] = %s\n"
 		  "local_argv[3] = %s\n",
 		  local_argc, local_argv[0], local_argv[1], local_argv[2], local_argv[3]);
-
-  RunServer(local_argc, local_argv);
-  pthread_exit(NULL);
+  thread=SDLserver_init(1,DEFAULT_PORT);
+  pthread_join(*thread,&exit_status);
   return NULL;
 }
 
@@ -356,7 +359,7 @@ int PortAvailable(Uint16 port)
 
 
 /* Find out if game is already in progress: */
-int SrvrGameInProgress(struct threadID  *instance)
+int SrvrGameInProgress()
 {
   return instance->game_in_progress;
 }
@@ -405,7 +408,7 @@ int setup_server(struct threadID  *instance)
   instance->num_clients=0; // To ensure no garbage value is used. 
 
   /* Resolving the host using NULL make network interface to listen */
-  if (SDLNet_ResolveHost(&(instance->ip), NULL, DEFAULT_PORT) < 0)
+  if (SDLNet_ResolveHost(&(instance->ip), NULL, instance->info.port) < 0)
   {
     fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
     return 0;
@@ -1644,15 +1647,10 @@ They are used when server is running in thread
 pthread_t * SDLserver_init(int _max_slave_server,int _global_port)   
 {
 	static pthread_t thread;
-	if(SDLNet_Init()!=0)
-	{
-		printf("\nUnable to initialize sdl");
-	}
-	atexit(SDLNet_Quit);
 	max_slave_server=_max_slave_server;
 	global_port=_global_port;
 	pthread_mutex_init(&mutex_variable,NULL);
-	pthread_create(&thread,NULL,lobby_server,NULL);
+	pthread_create(&thread,NULL,lobby_server,&global_port);
 	return (&thread);
 }
 
@@ -1662,7 +1660,7 @@ void SDLserver_quit()
 pthread_mutex_destroy(&mutex_variable);
 }
 
-// Used for creating TCP socket. This is used by both lobby server and client server
+// Used for creating TCP socket. This is used by lobby server 
 int common_connect_server(IPaddress *host_ipaddress,TCPsocket *server_socket,Uint16 port,const char *host)
 {
 	if(SDLNet_ResolveHost(host_ipaddress,host,port)!=0)
@@ -1687,110 +1685,74 @@ void * slave_server(void * data)
 {
 	struct threadID * temp_thread=(struct threadID *) data;
 	int quit1=1;
-	int *temp=(int *) data;
-	char buffer[512];
-	TCPsocket client_socket;
-	int check_connection;
+	Uint32 timer = 0;
+        int frame = 0;
 	while(1)   // to make sure thread doesn't terminate
 	{
 		if(temp_thread->status==0)
 		{
 			sem_wait(&(temp_thread->binary_sem));
 		}
-		printf("\n Activating thread");
+		fprintf(stderr, "Activating Thread\n");
 		// here thread start receiving data from client	
 		while(quit1)
 		{
-			if(client_socket=SDLNet_TCP_Accept(temp_thread->client_socket.server_socket))
-			{	
-				printf("\nGetting request from client");
-				quit1=1;
-				while(quit1)
-				{
-					if(temp_thread->client_socket.client_ipaddress=SDLNet_TCP_GetPeerAddress(client_socket))
-						printf("\n Listening from client:%x",SDLNet_Read32(&temp_thread->client_socket.client_ipaddress->host));
-					if(check_connection=SDLNet_TCP_Recv(client_socket,buffer,512)>0)
-					{
-						printf("\nClient send:%s",buffer);
-						if(!strcmp(buffer,"exit"))
-						{
-							printf("\n Client requesting for closing connection");
-							quit1=0;
-						}
-						if(!strcmp(buffer,"quit"))
-						{
-							quit1=0;
-							quit=0;
-						}
-					}
-					else
-					{
-						printf("\n Client Disconnected");
-						quit1=0;
-					}
-				}
-				printf("\nClosing client socket");
-				SDLNet_TCP_Close(client_socket);
-			}
+			DEBUGCODE(debug_lan)
+   			 {
+ 			     if(frame % 1000 == 0)
+  			     fprintf(stderr, "server running\n");
+  		         }
+
+    			/* Respond to any clients pinging us to find the server: */
+		        check_UDP(temp_thread);    
+		        /* Now we check to see if anyone is trying to connect. */
+          		update_clients(temp_thread); 
+		        /* Check for any pending messages from clients already connected: */
+		        server_check_messages(temp_thread);  
+                        /* Handle any game updates not driven by received messages:  */
+                        server_update_game(temp_thread);     
+                        /* Check for command line input, if appropriate: */
+		        server_check_stdin(temp_thread);   
+		        /* Limit frame rate to keep from eating all CPU: */
+		        /* NOTE almost certainly could make this longer wtihout noticably */
+		        /* affecting performance, but even throttling to 1 msec/loop cuts */
+		        /* CPU from 100% to ~2% on my desktop - DSB                       */
+		        T4K_Throttle(5, &timer);  //min loop time 5 msec
+		        frame++;	
 		}
 		quit1=1; //so that this thread can be used again
 		temp_thread->status=0;
 		push_thread(temp_thread);
 	}// here it ends 
-	printf("\n Terminating thread"); //TODO 
+ 
 }
 
 void * lobby_server(void * data)
 {
-	int flag=1,choice,n;
-	int temp;
 	int i;
+	int *master_port = (int *) data;
+	(*master_port)--;   // temprorary fix
 	struct timespec t;
 	t.tv_sec=PAUSE/1000;
 	t.tv_nsec=(PAUSE%1000) * (1000*1000);
-	TCPsocket client_socket,server_socket;
 	for(i=1;i<=max_slave_server;i++)
 	{
-		start_new_thread(2000+i);
+		start_new_thread((*master_port)+i);
 	}
 	printf("\n Value of active ports is:%d",get_active_threads());
-
-	// first server receive request from client to connect and open master server socket. To be created only once.-permanent 
-	if(common_connect_server(&host_ipaddress,&server_socket,global_port,(const char *)NULL)==0)
-		return (void *)1;
-	while(quit) 
+  
+	server_running = 1;
+        quit = 0;
+       
+        activate_thread();  //TODO Deepak temporary   
+	while(!quit)   // by default value of quit is 0 and thread exit when its value is zero
 	{
 		nanosleep(&t,NULL);
-		// Open client socket on server side for sending dynamic port address-temprary
-		if((client_socket=SDLNet_TCP_Accept(server_socket)))
-		{
- 			// send port address to client
-			pthread_mutex_lock(&mutex_variable);
-			printf("\n Value of active ports:%d",get_active_threads());
-			if(get_active_threads()==max_slave_server)
-			{
-				int temp=0;
-				SDLNet_TCP_Send(client_socket,&(temp),2);
-				SDLNet_TCP_Close(client_socket);
-				pthread_mutex_unlock(&mutex_variable);
-			}
-			else
-				if(SDLNet_TCP_Send(client_socket,&(thread_header->client_socket.port),2)==2)
-				{
-					printf("\nNew Port is send to client"); 
-					// close temprary client socket 
-					SDLNet_TCP_Close(client_socket);
-					// opening port so that server can accept content from client in different thread;
-					pthread_mutex_unlock(&mutex_variable);
-					printf("\n Activating thread");
-					activate_thread();
-				}
-		}
 	}
-		printf("\nEverything is OK now exiting");	
-		SDLNet_TCP_Close(server_socket);
-		cleanup_thread();
-		return NULL;
+	fprintf(stderr,"\nEverything is OK now exiting");
+	server_running = 1;
+	cleanup_thread();
+	return NULL;
 }
 
 

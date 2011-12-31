@@ -43,6 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "menu_lan.h"
 #include "network.h"
 #include "server.h"
+#include "server_handle.h"
 #endif
 
 #include <stdio.h>
@@ -441,9 +442,14 @@ int run_lan_host(void)
 
     /* For now, only allow one server instance: */
     if(OurServerRunning())
-    {
+    {   
+        #ifdef HAVE_PTHREAD_H   
+	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running but you can choose more lessons."));
+	goto choose_lesson;
+	#else
 	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
 	return 0;
+	#endif
     }
 
     /* We still have possibility that a server is running on this machine as a standalone
@@ -470,7 +476,8 @@ int run_lan_host(void)
     /* so we can let the user select the lesson for the server to use.                  */
 
 #ifdef HAVE_PTHREAD_H
-
+    
+     choose_lesson: ;   // Above goto statement 
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Click or press key to select server lesson file"));
 
     {
@@ -536,7 +543,7 @@ int stop_lan_host(void)
 	return 0; 
     }
 
-    if(SrvrGameInProgress(0)) // FIXME deepak its had coded
+    if(SrvrGameInProgress()) 
     {
 	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
 	return 0;

@@ -35,14 +35,6 @@ typedef struct client_type {
 }client_type; 
 
 
-
-// structure which contain information for a particular thread 
-struct socket 
-{
-	IPaddress *client_ipaddress;
-	TCPsocket server_socket;
-	Uint16 port;
-};
 struct server_info   // information of server. Used to transmit available/active  server information to client  
 {
 char info[100];
@@ -56,9 +48,8 @@ struct threadID
 	pthread_t ID;
 	int status; // 1 if thread is in use or otherwise zero.	
 	sem_t binary_sem; // used as binary semphore
-	struct socket client_socket;
 	struct threadID *next;
-	//struct server_info info;   // store information of a server contained in server pool
+	struct server_info info;   // store information of a server contained in server pool
 	UDPsocket udpsock ;              // Used to listen for client's server autodetection        
 	TCPsocket server_sock;    // Socket descriptor for server to accept client TCP sockets. 
 	IPaddress ip;

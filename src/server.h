@@ -72,7 +72,7 @@ int OurServerRunning(void);
  * is using the desired port: */
 int PortAvailable(Uint16 port);
 /* Find out if game is already in progress: */
-int SrvrGameInProgress(struct threadID  *instance);
+int SrvrGameInProgress();
 /* Stop Server */
 void StopServer(void);
 /* Stop currently running game: */
