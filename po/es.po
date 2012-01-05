@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.6.2\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: 2009-10-29 15:39-0300\n"
 "Last-Translator: SoporteLihuen <soportelihuen@linti.unlp.edu.ar>\n"
 "Language-Team: Español <LL@li.org>\n"
@@ -250,228 +250,6 @@ msgstr "Se incluye una copia de la GPL en la documentación de este programa."
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr "Para mayor información sobre el Software Libre y la GPL GNU, visite:"
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr ""
-
-#: src/factoroids.c:525
-#, fuzzy
-msgid "Products of 2 and 3"
-msgstr "Múltipos de 11 y 12"
-
-#: src/factoroids.c:526
-#, fuzzy
-msgid "Products of 2, 3 and 5"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:527
-#, fuzzy
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:528
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:529
-#, fuzzy
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:534
-#, fuzzy
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
-
-#: src/factoroids.c:536
-#, fuzzy
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Múltipos de 13, 14, 15"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr ""
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr ""
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "¡Bienvenido a TuxMath!"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "Tu mision es salvar a"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "los iglúes de tus pingüinos"
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "de los cometas que caen."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Para parar el cometa"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "debes escribir la respuesta correcta al problema matemático"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "y presionar 'espacio' o 'enter'."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "¡Prueba ahora!"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "¡Buen tiro!"
-
-#: src/game.c:809
-msgid "If an igloo gets hit by a comet,"
-msgstr "Si uno de los iglúes es atacado por un cometa,"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr "se derretirá. Pero no te preocupes: "
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "¡el pingüino estará a salvo!"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Observa lo que sucede:"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Presiona una tecla para empezar)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Nota la respuesta"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Si el iglú es atacado de nuevo,"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "el pingüino se irá."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Presiona una tecla cuando estés listo)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Tú puedes areglar los iglúes"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr " si logras parar cometas de bono."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "¡Dispárale ahora!"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "¡Bien hecho!"
-
-#: src/game.c:898
-#, fuzzy
-msgid "Fast-moving powerup comets"
-msgstr " si logras parar cometas de bono."
-
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr ""
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Puedes parar el juego en cualquier momento"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "oprimiendo la tecla 'ESC' o haciendo clic en la X "
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "en la esquina derecha de la pantalla."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Hazlo ahora y luego juega"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr "Los Penguinos Han Sido Salvados"
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr "Cuenta Final"
-
-#: src/game.c:2805
-#, fuzzy
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr "La conexion con el servidor fue perdida "
-
-#: src/game.c:2813
-#, fuzzy
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr "La conexion con el servidor fue perdida "
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr ""
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Salón de la Fama"
@@ -512,62 +290,62 @@ msgstr "¡Estás en el Salón de la Fama!"
 msgid "Enter Your Name:"
 msgstr "Escribe tu nombre:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr ""
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr ""
@@ -635,7 +413,7 @@ msgstr "Seleccione leccion"
 #, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
+"Sorry, this version built without network support."
 msgstr "Perdon, esta version constuyo sin apoyo de red.\n"
 
 #: src/menu.c:525 src/menu.c:603
@@ -709,7 +487,7 @@ msgstr "¿Cuántas vueltas van a jugar?"
 msgid "Enter a number"
 msgstr "Escribe un número"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr ""
 
@@ -1221,6 +999,140 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Múltipos de 11 y 12"
+
+#, fuzzy
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#, fuzzy
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#, fuzzy
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#, fuzzy
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Múltipos de 13, 14, 15"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "¡Bienvenido a TuxMath!"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "Tu mision es salvar a"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "los iglúes de tus pingüinos"
+
+#~ msgid "falling comets."
+#~ msgstr "de los cometas que caen."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Para parar el cometa"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "debes escribir la respuesta correcta al problema matemático"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "y presionar 'espacio' o 'enter'."
+
+#~ msgid "Try it now!"
+#~ msgstr "¡Prueba ahora!"
+
+#~ msgid "Good shot!"
+#~ msgstr "¡Buen tiro!"
+
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Si uno de los iglúes es atacado por un cometa,"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr "se derretirá. Pero no te preocupes: "
+
+#~ msgid "penguin is OK!"
+#~ msgstr "¡el pingüino estará a salvo!"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Observa lo que sucede:"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Presiona una tecla para empezar)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Nota la respuesta"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Si el iglú es atacado de nuevo,"
+
+#~ msgid "penguin leaves."
+#~ msgstr "el pingüino se irá."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Presiona una tecla cuando estés listo)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Tú puedes areglar los iglúes"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr " si logras parar cometas de bono."
+
+#~ msgid "Zap it now!"
+#~ msgstr "¡Dispárale ahora!"
+
+#~ msgid "Great job!"
+#~ msgstr "¡Bien hecho!"
+
+#, fuzzy
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr " si logras parar cometas de bono."
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Puedes parar el juego en cualquier momento"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "oprimiendo la tecla 'ESC' o haciendo clic en la X "
+
+#~ msgid "in the upper right corner."
+#~ msgstr "en la esquina derecha de la pantalla."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Hazlo ahora y luego juega"
+
+#~ msgid "The Penguins Have Been Saved!"
+#~ msgstr "Los Penguinos Han Sido Salvados"
+
+#~ msgid "Final Scores:"
+#~ msgstr "Cuenta Final"
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr "La conexion con el servidor fue perdida "
+
+#, fuzzy
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr "La conexion con el servidor fue perdida "
+
+#, fuzzy
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr "Perdon, esta version constuyo sin apoyo de red.\n"
 
 #~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
 #~ msgstr "FACTOROIDES: para ganar, tendrás que destruir todos los asteroides."

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-11-24 12:35-0600\n"
+"POT-Creation-Date: 2011-12-26 15:55-0600\n"
 "PO-Revision-Date: 2009-06-24 20:33+0100\n"
 "Last-Translator: David Bruce and Bob, from Google Code-In 2011 "
 "<davidstuartbruce@gmail.com>\n"
@@ -261,245 +261,6 @@ msgstr ""
 "Orfay oremay informationway aboutway Reefay Oftwaresay andway hetay GNU GPL, "
 "isitvay:"
 
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr "Owerspay ofway 2"
-
-#: src/factoroids.c:525
-msgid "Products of 2 and 3"
-msgstr "Roductspay ofway 2 andway 3"
-
-#: src/factoroids.c:526
-msgid "Products of 2, 3 and 5"
-msgstr "Roductspay ofway 2, 3 andway 5"
-
-#: src/factoroids.c:527
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Roductspay ofway 2, 3, 5 andway 7"
-
-#: src/factoroids.c:528
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Roductspay ofway 2, 3, 5, 7, andway 11"
-
-#: src/factoroids.c:529
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Roductspay ofway 2, 3, 5, 7, 11 andway 13"
-
-#: src/factoroids.c:534
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Allway ultiplesmay ofway 2 endway inway 2, 4, 6, 8, orway 0"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
-msgstr ""
-"Hetay igitsday ofway away ultiplemay ofway 3 addway upway otay away "
-"ultiplemay ofway 3"
-
-#: src/factoroids.c:536
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Allway ultiplesmay ofway 5 endway inway 0 orway 5"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-"Orrysay - heretay isway onay implesay uleray otay identifyway ultiplesmay "
-"ofway 7."
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-"Underway 100, ultiplesmay ofway 11 avehay equalway igitsday, uchsay asway 55 "
-"orway 88."
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-"Orrysay - heretay isway onay implesay uleray otay identifyway ultiplesmay "
-"ofway 13."
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr "Objectivesway:"
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr "Intshay:"
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-"Otay inway, youway ustmay estroyday allway hetay asteroidsway.\n"
-"Urntay: arrowway eyskay orway ousemay ovementmay.\n"
-"Hrusttay: upway arrowway orway ightray ousemay uttonbay.\n"
-"Hootsay: [Enter], [Space], orway eftlay ousemay uttonbay.\n"
-"Witchsay Rimepay Umbernay Ungay: [D], [F], orway ousemay crollsay heelway.\n"
-"Activateway Oweruppay: [Shift].\n"
-"Hootsay hetay ocksray ithway heirtay rimepay actorsfay untilway heytay "
-"areway allway estroyedday."
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-"RACTIONSFAY: otay inway, youway eednay estroyday allway hetay asteroidsway. "
-"Useway hetay arrowway eyskay otay urntay orway ogay orwardfay.  Aimway atway "
-"anway asteroidway, ypetay away umbernay hattay ancay implifysay hetay "
-"ractionfay, andway resspay pacesay orway eturnray otay plitsay itway.  "
-"Estroyday ractionsfay hattay ancay otnay ebay urtherfay implifiedsay inway "
-"away inglesay hotsay!"
-
-#: src/game.c:750
-msgid "Welcome to TuxMath!"
-msgstr "Elcomeway otay UxMathtay!"
-
-#: src/game.c:767
-msgid "Your mission is to save your"
-msgstr "Yourway issionmay isway otay avesay yourway"
-
-#: src/game.c:768
-msgid "penguins' igloos from the"
-msgstr "enguinspay' igloosway romfay hetay"
-
-#: src/game.c:769
-msgid "falling comets."
-msgstr "allingfay ometscay."
-
-#: src/game.c:788
-msgid "Stop a comet by typing"
-msgstr "Topsay away ometcay ybay ypingtay"
-
-#: src/game.c:789
-msgid "the answer to the math problem"
-msgstr "hetay answerway otay hetay athmay roblempay"
-
-#: src/game.c:790
-msgid "and hitting 'space' or 'enter'."
-msgstr "andway ittinghay 'pacesay' orway 'enterway'."
-
-#: src/game.c:791
-msgid "Try it now!"
-msgstr "Rytay itway ownay!"
-
-#: src/game.c:799
-msgid "Good shot!"
-msgstr "Oodgay hotsay!"
-
-#: src/game.c:809
-#, fuzzy
-msgid "If an igloo gets hit by a comet,"
-msgstr "Ifway anway iglooway etsgay ithay ybay away ometcay,"
-
-#: src/game.c:810
-msgid "it melts. But don't worry: the"
-msgstr "itway eltsmay. Utbay oday otnay orryway: hetay"
-
-#: src/game.c:811
-msgid "penguin is OK!"
-msgstr "enguinpay isway OKWAY!"
-
-#: src/game.c:812
-msgid "Just watch what happens:"
-msgstr "Ustjay atchway hatway appenshay:"
-
-#: src/game.c:813
-msgid "(Press a key to start)"
-msgstr "(Resspay away eykay otay tartsay)"
-
-#: src/game.c:826
-msgid "Notice the answer"
-msgstr "Oticenay hetay answerway"
-
-#: src/game.c:836
-msgid "If it gets hit again, the"
-msgstr "Ifway itway etsgay ithay againway, hetay"
-
-#: src/game.c:837
-msgid "penguin leaves."
-msgstr "enguinpay eaveslay."
-
-#: src/game.c:838
-msgid "(Press a key when ready)"
-msgstr "(Resspay away eykay henway eadyray)"
-
-#: src/game.c:861
-msgid "You can fix the igloos"
-msgstr "Youway ancay ixfay hetay igloosway"
-
-#: src/game.c:862
-msgid "by stopping bonus comets."
-msgstr "ybay toppingsay onusbay ometscay."
-
-#: src/game.c:873 src/game.c:909
-msgid "Zap it now!"
-msgstr "Apzay itway ownay!"
-
-#: src/game.c:879
-msgid "Great job!"
-msgstr "Reatgay objay!"
-
-#: src/game.c:898
-msgid "Fast-moving powerup comets"
-msgstr "Astfay-ovingmay oweruppay ometscay"
-
-#: src/game.c:899
-msgid "earn you a secret weapon:"
-msgstr "earnway youway away ecretsay eaponway:"
-
-#: src/game.c:916
-msgid "Quit at any time by pressing"
-msgstr "Uitqay atway anyway imetay ybay ressingpay"
-
-#: src/game.c:917
-msgid "'Esc' or clicking the 'X'"
-msgstr "'Esc' orway lickingcay hetay 'X'"
-
-#: src/game.c:918
-msgid "in the upper right corner."
-msgstr "inway hetay upperway ightray ornercay."
-
-#: src/game.c:919
-msgid "Do it now, and then play!"
-msgstr "Oday itway ownay, andway hentay laypay!"
-
-#: src/game.c:2713
-msgid "The Penguins Have Been Saved!"
-msgstr "Hetay Enguinspay Avehay Eenbay Avedsay!"
-
-#: src/game.c:2728
-msgid "Final Scores:"
-msgstr "Inalfay Coressay:"
-
-#: src/game.c:2805
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr ""
-"Etworknay amegay erminatedtay ybay erversay.\n"
-" Hetay erversay isway tillsay unningray."
-
-#: src/game.c:2813
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr ""
-"Etworknay amegay erminatedtay.\n"
-" Onnectioncay ithway erversat asway ostlay."
-
-#: src/game.c:4703
-#, c-format
-msgid "%s has left the game."
-msgstr "%s ashay eftlay hetay amegay."
-
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "Allhay Ofway Amefay"
@@ -540,62 +301,62 @@ msgstr "Youway Areway Inway Hetay Allhay ofway Amefay!"
 msgid "Enter Your Name:"
 msgstr "Enterway Yourway Amenay:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr "%d + %d = ?"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr "? + %d = %d"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr "%d + ? = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr "%d - %d = ?"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr "? - %d = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr "%d - ? = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr "%d x %d = ?"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr "? x %d = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr "%d x ? = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr "%d ÷ %d = ?"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr "? ÷ %d = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr "%d ÷ ? = %d"
@@ -670,12 +431,11 @@ msgstr ""
 "%s"
 
 #: src/menu.c:524
+#, fuzzy
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
-msgstr ""
-"\n"
-"Orrysay, histay ersionvay uiltbay ithourway etworknay upportsay."
+"Sorry, this version built without network support."
+msgstr "Orrysay, histay ersionvay uiltbay ithoutway etworknay upportsay.\n"
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
@@ -743,7 +503,7 @@ msgstr "Owhay anymay oundsray illway youway laypay?"
 msgid "Enter a number"
 msgstr "Enterway away umbernay"
 
-#: src/server.c:486
+#: src/server.c:487
 msgid "Await player name"
 msgstr "Awaitway layerpay amenay"
 
@@ -1261,3 +1021,200 @@ msgstr ""
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
 msgstr "Hetay ersonpay ithway hetay ighesthay coresay insway"
+
+#~ msgid "Powers of 2"
+#~ msgstr "Owerspay ofway 2"
+
+#~ msgid "Products of 2 and 3"
+#~ msgstr "Roductspay ofway 2 andway 3"
+
+#~ msgid "Products of 2, 3 and 5"
+#~ msgstr "Roductspay ofway 2, 3 andway 5"
+
+#~ msgid "Products of 2, 3, 5 and 7"
+#~ msgstr "Roductspay ofway 2, 3, 5 andway 7"
+
+#~ msgid "Products of 2, 3, 5, 7, and 11"
+#~ msgstr "Roductspay ofway 2, 3, 5, 7, andway 11"
+
+#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
+#~ msgstr "Roductspay ofway 2, 3, 5, 7, 11 andway 13"
+
+#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+#~ msgstr "Allway ultiplesmay ofway 2 endway inway 2, 4, 6, 8, orway 0"
+
+#~ msgid "The digits of a multiple of 3 add up to a multiple of 3"
+#~ msgstr ""
+#~ "Hetay igitsday ofway away ultiplemay ofway 3 addway upway otay away "
+#~ "ultiplemay ofway 3"
+
+#~ msgid "All multiples of 5 end in 0 or 5"
+#~ msgstr "Allway ultiplesmay ofway 5 endway inway 0 orway 5"
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 7."
+#~ msgstr ""
+#~ "Orrysay - heretay isway onay implesay uleray otay identifyway ultiplesmay "
+#~ "ofway 7."
+
+#~ msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+#~ msgstr ""
+#~ "Underway 100, ultiplesmay ofway 11 avehay equalway igitsday, uchsay asway "
+#~ "55 orway 88."
+
+#~ msgid "Sorry - there is no simple rule to identify multiples of 13."
+#~ msgstr ""
+#~ "Orrysay - heretay isway onay implesay uleray otay identifyway ultiplesmay "
+#~ "ofway 13."
+
+#~ msgid "Objectives:"
+#~ msgstr "Objectivesway:"
+
+#~ msgid "Hints:"
+#~ msgstr "Intshay:"
+
+#~ msgid ""
+#~ "To win, you must destroy all the asteroids.\n"
+#~ "Turn: arrow keys or mouse movement.\n"
+#~ "Thrust: up arrow or right mouse button.\n"
+#~ "Shoot: [Enter], [Space], or left mouse button.\n"
+#~ "Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+#~ "Activate Powerup: [Shift].\n"
+#~ "Shoot the rocks with their prime factors until they are all destroyed."
+#~ msgstr ""
+#~ "Otay inway, youway ustmay estroyday allway hetay asteroidsway.\n"
+#~ "Urntay: arrowway eyskay orway ousemay ovementmay.\n"
+#~ "Hrusttay: upway arrowway orway ightray ousemay uttonbay.\n"
+#~ "Hootsay: [Enter], [Space], orway eftlay ousemay uttonbay.\n"
+#~ "Witchsay Rimepay Umbernay Ungay: [D], [F], orway ousemay crollsay "
+#~ "heelway.\n"
+#~ "Activateway Oweruppay: [Shift].\n"
+#~ "Hootsay hetay ocksray ithway heirtay rimepay actorsfay untilway heytay "
+#~ "areway allway estroyedday."
+
+#~ msgid ""
+#~ "FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys "
+#~ "to turn or go forward.  Aim at an asteroid, type a number that can "
+#~ "simplify the fraction, and press space or return to split it.  Destroy "
+#~ "fractions that can not be further simplified in a single shot!"
+#~ msgstr ""
+#~ "RACTIONSFAY: otay inway, youway eednay estroyday allway hetay "
+#~ "asteroidsway. Useway hetay arrowway eyskay otay urntay orway ogay "
+#~ "orwardfay.  Aimway atway anway asteroidway, ypetay away umbernay hattay "
+#~ "ancay implifysay hetay ractionfay, andway resspay pacesay orway eturnray "
+#~ "otay plitsay itway.  Estroyday ractionsfay hattay ancay otnay ebay "
+#~ "urtherfay implifiedsay inway away inglesay hotsay!"
+
+#~ msgid "Welcome to TuxMath!"
+#~ msgstr "Elcomeway otay UxMathtay!"
+
+#~ msgid "Your mission is to save your"
+#~ msgstr "Yourway issionmay isway otay avesay yourway"
+
+#~ msgid "penguins' igloos from the"
+#~ msgstr "enguinspay' igloosway romfay hetay"
+
+#~ msgid "falling comets."
+#~ msgstr "allingfay ometscay."
+
+#~ msgid "Stop a comet by typing"
+#~ msgstr "Topsay away ometcay ybay ypingtay"
+
+#~ msgid "the answer to the math problem"
+#~ msgstr "hetay answerway otay hetay athmay roblempay"
+
+#~ msgid "and hitting 'space' or 'enter'."
+#~ msgstr "andway ittinghay 'pacesay' orway 'enterway'."
+
+#~ msgid "Try it now!"
+#~ msgstr "Rytay itway ownay!"
+
+#~ msgid "Good shot!"
+#~ msgstr "Oodgay hotsay!"
+
+#, fuzzy
+#~ msgid "If an igloo gets hit by a comet,"
+#~ msgstr "Ifway anway iglooway etsgay ithay ybay away ometcay,"
+
+#~ msgid "it melts. But don't worry: the"
+#~ msgstr "itway eltsmay. Utbay oday otnay orryway: hetay"
+
+#~ msgid "penguin is OK!"
+#~ msgstr "enguinpay isway OKWAY!"
+
+#~ msgid "Just watch what happens:"
+#~ msgstr "Ustjay atchway hatway appenshay:"
+
+#~ msgid "(Press a key to start)"
+#~ msgstr "(Resspay away eykay otay tartsay)"
+
+#~ msgid "Notice the answer"
+#~ msgstr "Oticenay hetay answerway"
+
+#~ msgid "If it gets hit again, the"
+#~ msgstr "Ifway itway etsgay ithay againway, hetay"
+
+#~ msgid "penguin leaves."
+#~ msgstr "enguinpay eaveslay."
+
+#~ msgid "(Press a key when ready)"
+#~ msgstr "(Resspay away eykay henway eadyray)"
+
+#~ msgid "You can fix the igloos"
+#~ msgstr "Youway ancay ixfay hetay igloosway"
+
+#~ msgid "by stopping bonus comets."
+#~ msgstr "ybay toppingsay onusbay ometscay."
+
+#~ msgid "Zap it now!"
+#~ msgstr "Apzay itway ownay!"
+
+#~ msgid "Great job!"
+#~ msgstr "Reatgay objay!"
+
+#~ msgid "Fast-moving powerup comets"
+#~ msgstr "Astfay-ovingmay oweruppay ometscay"
+
+#~ msgid "earn you a secret weapon:"
+#~ msgstr "earnway youway away ecretsay eaponway:"
+
+#~ msgid "Quit at any time by pressing"
+#~ msgstr "Uitqay atway anyway imetay ybay ressingpay"
+
+#~ msgid "'Esc' or clicking the 'X'"
+#~ msgstr "'Esc' orway lickingcay hetay 'X'"
+
+#~ msgid "in the upper right corner."
+#~ msgstr "inway hetay upperway ightray ornercay."
+
+#~ msgid "Do it now, and then play!"
+#~ msgstr "Oday itway ownay, andway hentay laypay!"
+
+#~ msgid "The Penguins Have Been Saved!"
+#~ msgstr "Hetay Enguinspay Avehay Eenbay Avedsay!"
+
+#~ msgid "Final Scores:"
+#~ msgstr "Inalfay Coressay:"
+
+#~ msgid ""
+#~ "Network game terminated by server.\n"
+#~ " The server is still running."
+#~ msgstr ""
+#~ "Etworknay amegay erminatedtay ybay erversay.\n"
+#~ " Hetay erversay isway tillsay unningray."
+
+#~ msgid ""
+#~ "Network game terminated.\n"
+#~ " Connection with server was lost."
+#~ msgstr ""
+#~ "Etworknay amegay erminatedtay.\n"
+#~ " Onnectioncay ithway erversat asway ostlay."
+
+#~ msgid "%s has left the game."
+#~ msgstr "%s ashay eftlay hetay amegay."
+
+#~ msgid ""
+#~ "\n"
+#~ "Sorry, this version built withour network support."
+#~ msgstr ""
+#~ "\n"
+#~ "Orrysay, histay ersionvay uiltbay ithourway etworknay upportsay."

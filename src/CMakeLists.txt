@@ -27,8 +27,12 @@ endif (SDLNET_FOUND)
 # tuxmath
 set(SOURCES_TUXMATH
   audio.c
+  comets.c
+  comets_graphics.c
   credits.c
+  draw_utils.c
   factoroids.c
+  factoroids_graphics.c
   fileops.c
   fileops_media.c
   frame_counter.c

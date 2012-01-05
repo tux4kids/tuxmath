@@ -28,16 +28,20 @@ endif
 
 
 tuxmath_SOURCES = tuxmath.c \
+    comets.c    \
+    comets_graphics.c  \
 	setup.c 	\
 	titlescreen.c	\
 	menu.c		\
 	menu_lan.c	\
 	game.c 		\
 	factoroids.c    \
+	factoroids_graphics.c    \
 	fileops_media.c \
 	frame_counter.c \
 	options.c	\
 	credits.c	\
+	draw_utils.c	\
 	highscore.c	\
 	audio.c 	\
         network.c       \
@@ -72,8 +76,13 @@ tuxmathtestclient_SOURCES = testclient.c \
                             options.c  \
                             mathcards.c
 
-EXTRA_DIST = 	credits.h 	\
+EXTRA_DIST = 	\
+    comets.h    \
+    comets_graphics.h  \
+    credits.h 	\
+	draw_utils.h	\
 	factoroids.h	\
+	factoroids_graphics.h    \
 	fileops.h 	\
 	frame_counter.h	\
 	game.h		\
