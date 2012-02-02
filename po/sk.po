@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 1.9.0\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
 "PO-Revision-Date: 2011-01-14 18:34+0200\n"
 "Last-Translator: Administrator <>\n"
 "Language-Team: sk <l10n@soit.sk>\n"
@@ -493,7 +493,7 @@ msgstr "KoÄ¾ko kÃ´l chcete hraÅ¥?"
 msgid "Enter a number"
 msgstr "Zadaj ÄÃ­slo"
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr ""
 

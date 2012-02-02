@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.1\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
 "PO-Revision-Date: 2011-11-21 21:27+0100\n"
 "Last-Translator: Joan Creus <joan.creus.c (_-_at_-_) gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -488,7 +488,7 @@ msgstr "Quantes rondes jugareu?"
 msgid "Enter a number"
 msgstr "Escriu un nombre"
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr "S'està esperant el nom del jugador"
 

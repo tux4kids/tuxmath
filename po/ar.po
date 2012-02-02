@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
 "PO-Revision-Date: 2008-02-15 03:00+0100\n"
 "Last-Translator: Caroline Ford <caroline.ford.work@googlemail.com>\n"
 "Language-Team: \n"
@@ -443,7 +443,7 @@ msgstr ""
 msgid "Enter a number"
 msgstr ""
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr ""
 

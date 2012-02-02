@@ -84,7 +84,7 @@ int SrvrGameInProgress(void);
 /* Stop Server */
 void StopServer(void);
 /* Stop currently running game: */
-void StopSrvrGame(void);
+void StopSrvrGame(int thread_id_no);
 
 #endif
 
