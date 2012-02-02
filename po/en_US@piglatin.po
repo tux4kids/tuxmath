@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
 "PO-Revision-Date: 2009-06-24 20:33+0100\n"
 "Last-Translator: David Bruce and Bob, from Google Code-In 2011 "
 "<davidstuartbruce@gmail.com>\n"
@@ -503,7 +503,7 @@ msgstr "Owhay anymay oundsray illway youway laypay?"
 msgid "Enter a number"
 msgstr "Enterway away umbernay"
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr "Awaitway layerpay amenay"
 

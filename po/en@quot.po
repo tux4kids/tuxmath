@@ -1,6 +1,6 @@
 # English translations for tuxmath package.
 # This file is put in the public domain.
-# Automatically generated, 2011.
+# Automatically generated, 2012.
 #
 # All this catalog "translates" are quotation characters.
 # The msgids must be ASCII and therefore cannot contain real quotation
@@ -28,8 +28,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.4\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
-"PO-Revision-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
+"PO-Revision-Date: 2012-02-02 16:07-0600\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: en@quot\n"
@@ -508,7 +508,7 @@ msgstr "How many rounds will you play?"
 msgid "Enter a number"
 msgstr "Enter a number"
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr "Await player name"
 

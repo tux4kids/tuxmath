@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath.pot\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-12-26 15:55-0600\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
 "PO-Revision-Date: 2010-07-23 4:00\n"
 "Last-Translator: Tryneeds-Chinese <tryneeds@gmail.com>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
@@ -465,7 +465,7 @@ msgstr "您要玩多少回合?"
 msgid "Enter a number"
 msgstr "輸入一個數字"
 
-#: src/server.c:487
+#: src/server.c:494
 msgid "Await player name"
 msgstr ""
 

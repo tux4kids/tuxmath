@@ -1200,23 +1200,23 @@ static int FF_add_asteroid(int x, int y, int xspeed, int yspeed, int size, int a
 
             //Without this on higher frame rates moevement in pixels per frame could be less than 1
             if(xspeed < 16 && xspeed >= 0)
-                asteroid[i].xspeed = (random()%4+1)*16;
+                asteroid[i].xspeed = (rand()%4+1)*16;
             else if(xspeed > -16 && xspeed <= 0)
-                asteroid[i].xspeed = -(random()%4+1)*16;
+                asteroid[i].xspeed = -(rand()%4+1)*16;
             else
                 asteroid[i].xspeed = xspeed;
 
             if(yspeed < 16 && yspeed >= 0)
-                asteroid[i].yspeed = (random()%4+1)*16;
+                asteroid[i].yspeed = (rand()%4+1)*16;
             else if(yspeed > -16 && yspeed <= 0)
-                asteroid[i].yspeed = -(random()%4+1)*16;
+                asteroid[i].yspeed = -(rand()%4+1)*16;
             else
                 asteroid[i].yspeed = yspeed;
 
             if(angle_speed < 16 && angle_speed >= 0)
-                asteroid[i].angle_speed = (random()%4+1)*16;
+                asteroid[i].angle_speed = (rand()%4+1)*16;
             else if(angle_speed > -16 && angle_speed <= 0)
-                asteroid[i].angle_speed = -(random()%4+1)*16;
+                asteroid[i].angle_speed = -(rand()%4+1)*16;
             else
                 asteroid[i].angle_speed = angle_speed;
 
