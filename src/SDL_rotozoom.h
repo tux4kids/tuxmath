@@ -44,27 +44,27 @@ extern "C" {
 #endif
 
 #ifndef M_PI
-#define M_PI	3.141592654
+#define M_PI    3.141592654
 #endif
 
 #include "SDL.h"
 
     /* ---- Defines */
 
-#define SMOOTHING_OFF		0
-#define SMOOTHING_ON		1
+#define SMOOTHING_OFF           0
+#define SMOOTHING_ON            1
 
     /* ---- Structures */
 
     typedef struct tColorRGBA {
-	Uint8 r;
-	Uint8 g;
-	Uint8 b;
-	Uint8 a;
+        Uint8 r;
+        Uint8 g;
+        Uint8 b;
+        Uint8 a;
     } tColorRGBA;
 
     typedef struct tColorY {
-	Uint8 y;
+        Uint8 y;
     } tColorY;
 
 
@@ -97,16 +97,16 @@ extern "C" {
     DLLINTERFACE SDL_Surface *rotozoomSurface(SDL_Surface * src, double angle, double zoom, int smooth);
 
     DLLINTERFACE SDL_Surface *rotozoomSurfaceXY
-	(SDL_Surface * src, double angle, double zoomx, double zoomy, int smooth);
+        (SDL_Surface * src, double angle, double zoomx, double zoomy, int smooth);
 
     /* Returns the size of the target surface for a rotozoomSurface() call */
 
     DLLINTERFACE void rotozoomSurfaceSize(int width, int height, double angle, double zoom, int *dstwidth,
-	    int *dstheight);
+            int *dstheight);
 
     DLLINTERFACE void rotozoomSurfaceSizeXY
-	(int width, int height, double angle, double zoomx, double zoomy, 
-	 int *dstwidth, int *dstheight);
+        (int width, int height, double angle, double zoomx, double zoomy, 
+         int *dstwidth, int *dstheight);
 
     /* 
 
@@ -151,4 +151,4 @@ extern "C" {
 }
 #endif
 
-#endif				/* _SDL_rotozoom_h */
+#endif                          /* _SDL_rotozoom_h */

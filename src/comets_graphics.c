@@ -140,8 +140,8 @@ void comets_draw_comets(const comet_type *comets)
 
 
 void comets_draw_cities(int igloo_vertical_offset,
-                        const cloud_type *cloud, const city_type *cities,
-                        const penguin_type *penguins, const steam_type *steam)
+        const cloud_type *cloud, const city_type *cities,
+        const penguin_type *penguins, const steam_type *steam)
 {
     int i, j, current_layer, max_layer;
     SDL_Rect src, dest;
@@ -276,8 +276,8 @@ void comets_draw_cities(int igloo_vertical_offset,
 
 
 void comets_draw_misc(MC_MathGame *curr_game, int wave,
-                      int extra_life_earned, int bonus_comet_counter, int score,
-                      int total_questions_left, help_controls_type *help_controls)
+        int extra_life_earned, int bonus_comet_counter, int score,
+        int total_questions_left, help_controls_type *help_controls)
 {
     int i;
     int offset;

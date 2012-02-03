@@ -37,12 +37,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
    This does pretty much the same thing.
    */
 #define perror(str) ({ \
-	if ( (str) && *(str) ) \
-	fprintf(stderr,"%s : ",(str)); \
-	fprintf(stderr, \
-	    "%s [%d]\n", \
-	    (errno<_sys_nerr)?_sys_errlist[errno]:"unknown",errno ); \
-	})
+        if ( (str) && *(str) ) \
+        fprintf(stderr,"%s : ",(str)); \
+        fprintf(stderr, \
+            "%s [%d]\n", \
+            (errno<_sys_nerr)?_sys_errlist[errno]:"unknown",errno ); \
+        })
 
 /*
    MinGW implementation of isspace() crashes on some Win98 boxes
@@ -65,15 +65,15 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 // This version has strict type checking for safety.
 // See the "unnecessary" pointer comparison. (from Linux)
 #define min(x,y) ({ \
-	typeof(x) _x = (x);     \
-	typeof(y) _y = (y);     \
-	(void) (&_x == &_y);            \
-	_x < _y ? _x : _y; })
+        typeof(x) _x = (x);     \
+        typeof(y) _y = (y);     \
+        (void) (&_x == &_y);            \
+        _x < _y ? _x : _y; })
 #define max(x,y) ({ \
-	typeof(x) _x = (x);     \
-	typeof(y) _y = (y);     \
-	(void) (&_x == &_y);            \
-	_x > _y ? _x : _y; })
+        typeof(x) _x = (x);     \
+        typeof(y) _y = (y);     \
+        (void) (&_x == &_y);            \
+        _x > _y ? _x : _y; })
 #else
 #define min(a,b) (((a) < (b)) ? (a) : (b))
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -85,7 +85,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 // since gcc-2.5
 #ifdef __GNUC__
 #define NORETURN __attribute__((__noreturn__))
-#define FUNCTION __attribute__((__const__))	// no access to global mem, even via ptr, and no side effect
+#define FUNCTION __attribute__((__const__))     // no access to global mem, even via ptr, and no side effect
 #else
 #define NORETURN
 #define FUNCTION

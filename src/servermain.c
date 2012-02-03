@@ -59,13 +59,13 @@ int main(int argc, char** argv)
     //Initialize SDL and SDL_net:
     if(SDL_Init(0) == -1)
     {
-	fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
-	return 0;;
+        fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
+        return 0;;
     }
     if (SDLNet_Init() < 0)
     {
-	fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
-	return 0;
+        fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+        return 0;
     }
 
     /* Run actual program: */

@@ -67,24 +67,24 @@ int main(int argc,char *argv[])
     /* Initialize MathCards backend for math questions: */
     if (!MC_Initialize(&game))
     {
-	fprintf(stderr, "\nUnable to initialize MathCards\n");
-	fprintf(stderr, "\nUnable to initialize MathCards\n");
-	exit(1);
+        fprintf(stderr, "\nUnable to initialize MathCards\n");
+        fprintf(stderr, "\nUnable to initialize MathCards\n");
+        exit(1);
     }
 
     /* initialize game_options struct with defaults DSB */
     if (!Opts_Initialize())
     {
-	fprintf(stderr, "\nUnable to initialize game_options\n");
-	exit(1);
+        fprintf(stderr, "\nUnable to initialize game_options\n");
+        exit(1);
     }
 
     /* This next bit allows multiple config files to be read in sequence, since
        this is something that happens in the ordinary course of events
        in tuxmath itself. */
     for (i = 1; i < argc; i++) {
-	fprintf(stderr, "Reading %s\n",argv[i]);
-	read_named_config_file(&game, argv[i]);
+        fprintf(stderr, "Reading %s\n",argv[i]);
+        read_named_config_file(&game, argv[i]);
     }
     fprintf(stderr, "All done reading!\n");
 

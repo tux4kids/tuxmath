@@ -25,8 +25,8 @@ void factoroids_cleanup_graphics(void);
 void factoroids_intro(void);
 
 void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_type *laser,
-                     int bonus, int bonus_time, int *digits, int wave, int score, int num,
-                     int tux_img, int button_pressed);
+        int bonus, int bonus_time, int *digits, int wave, int score, int num,
+        int tux_img, int button_pressed);
 
 void factoroids_draw_bkgr(void);
 

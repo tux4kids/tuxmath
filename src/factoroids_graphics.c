@@ -62,20 +62,20 @@ struct ButtonType
 static struct ButtonType buttons[NUMBUTTONS];
 
 static int laser_coeffs[][3] = {
-    {0, 0, 0},	// 0
-    {0, 0, 0},	// 1
-    {18, 0, 0},	// 2
-    {0, 18, 0},	// 3
-    {0, 0, 0},	// 4
-    {0, 0, 18},	// 5
-    {0, 0, 0},	// 6
+    {0, 0, 0},  // 0
+    {0, 0, 0},  // 1
+    {18, 0, 0}, // 2
+    {0, 18, 0}, // 3
+    {0, 0, 0},  // 4
+    {0, 0, 18}, // 5
+    {0, 0, 0},  // 6
     {18, 18, 0},// 7
-    {0, 0, 0},	// 8
-    {0, 0, 0},	// 9
-    {0, 0, 0},	// 10
+    {0, 0, 0},  // 8
+    {0, 0, 0},  // 9
+    {0, 0, 0},  // 10
     {0, 18, 18},// 11
-    {0, 0, 0},	// 12
-    {18, 0, 18}	// 13
+    {0, 0, 0},  // 12
+    {18, 0, 18} // 13
 };
 
 int bonus_img_ids[] = {
@@ -271,8 +271,8 @@ void factoroids_intro(void)
 
 
 void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_type *laser,
-                     int bonus, int bonus_time, int *digits, int wave, int score, int num,
-                     int tux_img, int button_pressed)
+        int bonus, int bonus_time, int *digits, int wave, int score, int num,
+        int tux_img, int button_pressed)
 {
 
     int i, offset;
@@ -406,9 +406,9 @@ void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_ty
             SDL_BlitSurface(images[IMG_STEAM1+asteroid[i].countdead], NULL, screen, &dest);
             if(bonus == TB_POWERBOMB && bonus_time > 0)
                 draw_line(screen, asteroid[i].x, asteroid[i].y, tuxship->x, tuxship->y,
-                          (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
-                          (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
-                          (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
+                        (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][0],
+                        (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][1],
+                        (5 - asteroid[i].countdead)*4*laser_coeffs[digits[1]*10+digits[2]][2]);
         }
 
 
@@ -454,8 +454,8 @@ void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_ty
 
     sprintf(str, "%.6d", score);
     draw_numbers(screen, str,
-                screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
-                0);
+            screen->w - ((images[IMG_NUMBERS]->w / 10) * 6) - images[IMG_STOP]->w - 5,
+            0);
 
     /* Draw stop button: */
     //  if (!help_controls.x_is_blinking || (frame % 10 < 5)) {

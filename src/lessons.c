@@ -56,15 +56,15 @@ int read_goldstars_fp(FILE* fp)
     /* get out if file pointer invalid: */
     if(!fp)
     {
-	fprintf(stderr, "In read_goldstars_fp(), file pointer invalid!\n");
-	return 0;
+        fprintf(stderr, "In read_goldstars_fp(), file pointer invalid!\n");
+        return 0;
     }
 
     if (num_lessons <= 0)
     {
-	perror("no lessons - returning");
-	num_lessons = 0;
-	return 0;
+        perror("no lessons - returning");
+        num_lessons = 0;
+        return 0;
     }
 
 
@@ -75,29 +75,29 @@ int read_goldstars_fp(FILE* fp)
     /* read in a line at a time: */
     while (fgets (buf, PATH_MAX, fp))
     { 
-	/* Ignore comment lines: */
-	if ((buf[0] == ';') || (buf[0] == '#'))
-	{
-	    continue;
-	}
+        /* Ignore comment lines: */
+        if ((buf[0] == ';') || (buf[0] == '#'))
+        {
+            continue;
+        }
 
-	/* Split up line with strtok()to get needed values -    */ 
-	/* for now, each line just contains a lesson file name, */
-	/* but eventually there may be more fields (e.g date, % correct) */
-	token = strtok(buf, delimiters);
-	if (!token)
-	    continue;
+        /* Split up line with strtok()to get needed values -    */ 
+        /* for now, each line just contains a lesson file name, */
+        /* but eventually there may be more fields (e.g date, % correct) */
+        token = strtok(buf, delimiters);
+        if (!token)
+            continue;
 
-	/* Now set "goldstar" to 1 if we find a matching lesson: */
-	for (i = 0; i < num_lessons; i++)
-	{
-	    /* compare basenames only, not entire path (see below): */
-	    if (0 == filename_comp(token, lesson_list_filenames[i]))
-	    {
-		lesson_list_goldstars[i] = 1;
-		break; //should not have to worry about duplicates
-	    }
-	}
+        /* Now set "goldstar" to 1 if we find a matching lesson: */
+        for (i = 0; i < num_lessons; i++)
+        {
+            /* compare basenames only, not entire path (see below): */
+            if (0 == filename_comp(token, lesson_list_filenames[i]))
+            {
+                lesson_list_goldstars[i] = 1;
+                break; //should not have to worry about duplicates
+            }
+        }
     }
     return 1;
 }
@@ -115,8 +115,8 @@ void write_goldstars_fp(FILE* fp)
     /* get out if file pointer invalid: */
     if(!fp)
     {
-	fprintf(stderr, "In write_goldstars_fp(), file pointer invalid!\n");
-	return;
+        fprintf(stderr, "In write_goldstars_fp(), file pointer invalid!\n");
+        return;
     }
 
     /* make sure we start at beginning: */
@@ -124,14 +124,14 @@ void write_goldstars_fp(FILE* fp)
 
     for (i = 0; i < num_lessons; i++)
     {
-	DEBUGMSG(debug_lessons, "i = %d\nfilename = %s\ngoldstar = %d\n",
-		i, lesson_list_filenames[i],
-		lesson_list_goldstars[i]);
+        DEBUGMSG(debug_lessons, "i = %d\nfilename = %s\ngoldstar = %d\n",
+                i, lesson_list_filenames[i],
+                lesson_list_goldstars[i]);
 
-	if(lesson_list_goldstars[i] == 1)
-	{
-	    fprintf(fp, "%s\n", lesson_list_filenames[i]);
-	}
+        if(lesson_list_goldstars[i] == 1)
+        {
+            fprintf(fp, "%s\n", lesson_list_filenames[i]);
+        }
     }
     return;
 }

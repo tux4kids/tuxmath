@@ -2,11 +2,11 @@
    menu.c
 
    Functions responsible for loading, parsing and displaying game menu.
-   
+
    Copyright 2009, 2010, 2011.
-   Authors:  Boleslaw Kulbabinski, David Bruce, Brendan Luchen.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors:  Boleslaw Kulbabinski, David Bruce, Brendan Luchen.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 menu.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
@@ -102,269 +102,269 @@ int             stop_lan_host(void);
 /* convenience wrapper for T4K_RunMenu */
 int run_menu(MenuType which, bool return_choice)
 {    
-  DEBUGCODE(debug_setup)
-  {	
-    fprintf(stderr, "From run_menu():\n");
-    print_locale_info(stderr);
-  }
+    DEBUGCODE(debug_setup)
+    {   
+        fprintf(stderr, "From run_menu():\n");
+        print_locale_info(stderr);
+    }
 
-  return T4K_RunMenu(
-    which,
-    return_choice,
-    &DrawTitleScreen, 
-    &HandleTitleScreenEvents, 
-    &HandleTitleScreenAnimations, 
-    &handle_activity);
+    return T4K_RunMenu(
+            which,
+            return_choice,
+            &DrawTitleScreen, 
+            &HandleTitleScreenEvents, 
+            &HandleTitleScreenAnimations, 
+            &handle_activity);
 }
 
 /*
-  handlers for specific game activities
-*/
+   handlers for specific game activities
+   */
 
 /* return QUIT if user decided to quit the application while running an activity
    return 0 otherwise */
 int handle_activity(int act, int param)
 {
-  DEBUGMSG(debug_menu, "entering handle_activity()\n");
-  DEBUGMSG(debug_menu, "act: %d\n", act);
-  
-  T4K_OnResolutionSwitch(NULL); //in case an activity forgets to register its own resolution switch handler, prevent insanity
-  
-  switch(act)
-  {
-    case RUN_CAMPAIGN:
-      DEBUGMSG(debug_menu, "activity: RUN_CAMPAIGN\n");
-      start_campaign();
-      break;
+    DEBUGMSG(debug_menu, "entering handle_activity()\n");
+    DEBUGMSG(debug_menu, "act: %d\n", act);
 
-    case RUN_ACADEMY:
-      DEBUGMSG(debug_menu, "activity: RUN_ACADEMY\n");
-      if(run_academy() == QUIT)
-        return QUIT;
-      break;
+    T4K_OnResolutionSwitch(NULL); //in case an activity forgets to register its own resolution switch handler, prevent insanity
 
-    case RUN_ARCADE:
-      DEBUGMSG(debug_menu, "activity: RUN_ARCADE\n");
-      run_arcade(param);
-      break;
+    switch(act)
+    {
+        case RUN_CAMPAIGN:
+            DEBUGMSG(debug_menu, "activity: RUN_CAMPAIGN\n");
+            start_campaign();
+            break;
 
-    case RUN_LAN_HOST:
-      DEBUGMSG(debug_menu, "activity: RUN_LAN_HOST\n");
-      run_lan_host();
-      break;
+        case RUN_ACADEMY:
+            DEBUGMSG(debug_menu, "activity: RUN_ACADEMY\n");
+            if(run_academy() == QUIT)
+                return QUIT;
+            break;
 
-    case STOP_LAN_HOST:
-      DEBUGMSG(debug_menu, "activity: STOP_LAN_HOST\n");
-      stop_lan_host();
-      break;
-  
-    case RUN_LAN_JOIN:
-      DEBUGMSG(debug_menu, "activity: RUN_LAN_JOIN\n");
-      run_lan_join();
-      break;
+        case RUN_ARCADE:
+            DEBUGMSG(debug_menu, "activity: RUN_ARCADE\n");
+            run_arcade(param);
+            break;
 
-    case RUN_CUSTOM:
-      DEBUGMSG(debug_menu, "activity: RUN_CUSTOM\n");
-      run_custom_game();
-      break;
+        case RUN_LAN_HOST:
+            DEBUGMSG(debug_menu, "activity: RUN_LAN_HOST\n");
+            run_lan_host();
+            break;
 
-    case RUN_HALL_OF_FAME:
-      DisplayHighScores(CADET_HIGH_SCORE);
-      break;
+        case STOP_LAN_HOST:
+            DEBUGMSG(debug_menu, "activity: STOP_LAN_HOST\n");
+            stop_lan_host();
+            break;
 
-    case RUN_SCORE_SWEEP:
-      run_multiplayer(0, param);
-      break;
+        case RUN_LAN_JOIN:
+            DEBUGMSG(debug_menu, "activity: RUN_LAN_JOIN\n");
+            run_lan_join();
+            break;
 
-    case RUN_ELIMINATION:
-      run_multiplayer(1, param);
-      break;
+        case RUN_CUSTOM:
+            DEBUGMSG(debug_menu, "activity: RUN_CUSTOM\n");
+            run_custom_game();
+            break;
 
-    case RUN_HELP:
-      Opts_SetHelpMode(1);
-      Opts_SetDemoMode(0);
-      if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
-        {T4K_AudioMusicUnload();}
-      comets_game(local_game);
-      if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
-        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-      Opts_SetHelpMode(0);
-      break;
+        case RUN_HALL_OF_FAME:
+            DisplayHighScores(CADET_HIGH_SCORE);
+            break;
 
-    case RUN_FACTORS:
-      run_factoroids(0);
-      break;
+        case RUN_SCORE_SWEEP:
+            run_multiplayer(0, param);
+            break;
 
-    case RUN_FRACTIONS:
-      run_factoroids(1);
-      break;
+        case RUN_ELIMINATION:
+            run_multiplayer(1, param);
+            break;
 
-    case RUN_DEMO:
-      if(read_named_config_file(local_game, "demo"))
-      {
-        T4K_AudioMusicUnload();
-        comets_game(local_game);
-        if (Opts_GetGlobalOpt(MENU_MUSIC))
-          T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-      }
-      else
-        fprintf(stderr, "\nCould not find demo config file\n");
-      break;
+        case RUN_HELP:
+            Opts_SetHelpMode(1);
+            Opts_SetDemoMode(0);
+            if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
+            {T4K_AudioMusicUnload();}
+            comets_game(local_game);
+            if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+                T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+            Opts_SetHelpMode(0);
+            break;
 
-    case RUN_INFO:
-      {
-        char msg[512];
-	snprintf(msg, sizeof(msg), _("TuxMath version %s is free and open-source!\nYou can help make it better.\nSuggestions, artwork, and code are all welcome!\nDiscuss TuxMath at tuxmath-devel@list.sourceforge.net"), VERSION);
-        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
-      }
-      break;
+        case RUN_FACTORS:
+            run_factoroids(0);
+            break;
 
-    case RUN_CREDITS:
-      credits();
-      break;
+        case RUN_FRACTIONS:
+            run_factoroids(1);
+            break;
 
-    case RUN_QUIT:
-      return QUIT;
-  }
+        case RUN_DEMO:
+            if(read_named_config_file(local_game, "demo"))
+            {
+                T4K_AudioMusicUnload();
+                comets_game(local_game);
+                if (Opts_GetGlobalOpt(MENU_MUSIC))
+                    T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+            }
+            else
+                fprintf(stderr, "\nCould not find demo config file\n");
+            break;
 
-  //re-register resolution switcher
-  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
-  //redraw if necessary
-  RenderTitleScreen();
-    
-  if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
-    T4K_AudioMusicLoad( "tuxi.ogg", T4K_AUDIO_LOOP_FOREVER );
+        case RUN_INFO:
+            {
+                char msg[512];
+                snprintf(msg, sizeof(msg), _("TuxMath version %s is free and open-source!\nYou can help make it better.\nSuggestions, artwork, and code are all welcome!\nDiscuss TuxMath at tuxmath-devel@list.sourceforge.net"), VERSION);
+                ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
+            }
+            break;
 
-  DEBUGMSG(debug_menu, "Leaving handle_activity\n");
+        case RUN_CREDITS:
+            credits();
+            break;
 
-  return 0;
+        case RUN_QUIT:
+            return QUIT;
+    }
+
+    //re-register resolution switcher
+    T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+    //redraw if necessary
+    RenderTitleScreen();
+
+    if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+        T4K_AudioMusicLoad( "tuxi.ogg", T4K_AUDIO_LOOP_FOREVER );
+
+    DEBUGMSG(debug_menu, "Leaving handle_activity\n");
+
+    return 0;
 }
 
 int run_academy(void)
 {
-  int chosen_lesson = -1;
-  T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+    int chosen_lesson = -1;
+    T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
 
-  chosen_lesson = run_menu(MENU_LESSONS, true);
-  while (chosen_lesson >= 0)
-  {
-    DEBUGMSG(debug_menu, "chosen_lesson: %d\n", chosen_lesson);
-    if (Opts_GetGlobalOpt(MENU_SOUND))
-      playsound(SND_POP);
-
-    /* Re-read global settings first in case any settings were */
-    /* clobbered by other lesson or arcade games this session: */
-    read_global_config_file(local_game);
-    /* Now read the selected file and play the "mission": */
-    if (read_named_config_file(local_game, lesson_list_filenames[chosen_lesson]))
-    {
-      if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
-        {T4K_AudioMusicUnload();}
-
-      T4K_OnResolutionSwitch(NULL);
-      comets_game(local_game);
-      T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
-
-      /* If successful, display Gold Star for this lesson! */
-      if (MC_MissionAccomplished(local_game))
-      {
-        lesson_list_goldstars[chosen_lesson] = 1;
-       /* and save to disk: */
-        write_goldstars();
-      }
-
-      if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
-        {T4K_AudioMusicLoad("tuxi.ogg", -1);}
-    }
-    else  // Something went wrong - could not read lesson config file:
-    {
-      fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
-      chosen_lesson = -1;
-    }
-    // Let the user choose another lesson; start with the screen and
-    // selection that we ended with
     chosen_lesson = run_menu(MENU_LESSONS, true);
-  }
-  return chosen_lesson;
+    while (chosen_lesson >= 0)
+    {
+        DEBUGMSG(debug_menu, "chosen_lesson: %d\n", chosen_lesson);
+        if (Opts_GetGlobalOpt(MENU_SOUND))
+            playsound(SND_POP);
+
+        /* Re-read global settings first in case any settings were */
+        /* clobbered by other lesson or arcade games this session: */
+        read_global_config_file(local_game);
+        /* Now read the selected file and play the "mission": */
+        if (read_named_config_file(local_game, lesson_list_filenames[chosen_lesson]))
+        {
+            if (Opts_GetGlobalOpt(MENU_MUSIC))  //Turn menu music off for game
+            {T4K_AudioMusicUnload();}
+
+            T4K_OnResolutionSwitch(NULL);
+            comets_game(local_game);
+            T4K_OnResolutionSwitch(&HandleTitleScreenResSwitch);
+
+            /* If successful, display Gold Star for this lesson! */
+            if (MC_MissionAccomplished(local_game))
+            {
+                lesson_list_goldstars[chosen_lesson] = 1;
+                /* and save to disk: */
+                write_goldstars();
+            }
+
+            if (Opts_GetGlobalOpt(MENU_MUSIC)) //Turn menu music back on
+            {T4K_AudioMusicLoad("tuxi.ogg", -1);}
+        }
+        else  // Something went wrong - could not read lesson config file:
+        {
+            fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+            chosen_lesson = -1;
+        }
+        // Let the user choose another lesson; start with the screen and
+        // selection that we ended with
+        chosen_lesson = run_menu(MENU_LESSONS, true);
+    }
+    return chosen_lesson;
 }
 
 int run_arcade(int choice)
 {
-  const char* arcade_config_files[5] =
+    const char* arcade_config_files[5] =
     {"arcade/space_cadet",
-     "arcade/scout",
-     "arcade/ranger",
-     "arcade/ace",
-     "arcade/commando"
+        "arcade/scout",
+        "arcade/ranger",
+        "arcade/ace",
+        "arcade/commando"
     };
 
-  const int arcade_high_score_tables[5] =
+    const int arcade_high_score_tables[5] =
     {CADET_HIGH_SCORE,
-     SCOUT_HIGH_SCORE,
-     RANGER_HIGH_SCORE,
-     ACE_HIGH_SCORE,
-     COMMANDO_HIGH_SCORE
+        SCOUT_HIGH_SCORE,
+        RANGER_HIGH_SCORE,
+        ACE_HIGH_SCORE,
+        COMMANDO_HIGH_SCORE
     };
 
-  int hs_table;
+    int hs_table;
 
-  if (choice < NUM_MATH_COMMAND_LEVELS) {
-    // Play arcade game
-    if (read_named_config_file(local_game, arcade_config_files[choice]))
-    {
-      T4K_AudioMusicUnload();
-      comets_game(local_game);
-      RenderTitleScreen();
-      if (Opts_GetGlobalOpt(MENU_MUSIC))
-        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-      /* See if player made high score list!                        */
-      read_high_scores();  /* Update, in case other users have added to it */
-      hs_table = arcade_high_score_tables[choice];
-      if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED)
-      {
-        char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+    if (choice < NUM_MATH_COMMAND_LEVELS) {
+        // Play arcade game
+        if (read_named_config_file(local_game, arcade_config_files[choice]))
+        {
+            T4K_AudioMusicUnload();
+            comets_game(local_game);
+            RenderTitleScreen();
+            if (Opts_GetGlobalOpt(MENU_MUSIC))
+                T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+            /* See if player made high score list!                        */
+            read_high_scores();  /* Update, in case other users have added to it */
+            hs_table = arcade_high_score_tables[choice];
+            if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED)
+            {
+                char player_name[HIGH_SCORE_NAME_LENGTH * 3];
 
-        /* Get name from player: */
-        HighScoreNameEntry(&player_name[0]);
-        insert_score(player_name, hs_table, Opts_LastScore());
-        /* Show the high scores. Note the user will see his/her */
-        /* achievement even if (in the meantime) another player */
-        /* has in fact already bumped this score off the table. */
-        DisplayHighScores(hs_table);
-        /* save to disk: */
-        /* See "On File Locking" in fileops.c */
-        append_high_score(choice,Opts_LastScore(),&player_name[0]);
+                /* Get name from player: */
+                HighScoreNameEntry(&player_name[0]);
+                insert_score(player_name, hs_table, Opts_LastScore());
+                /* Show the high scores. Note the user will see his/her */
+                /* achievement even if (in the meantime) another player */
+                /* has in fact already bumped this score off the table. */
+                DisplayHighScores(hs_table);
+                /* save to disk: */
+                /* See "On File Locking" in fileops.c */
+                append_high_score(choice,Opts_LastScore(),&player_name[0]);
 
-        DEBUGCODE(debug_titlescreen)
-          print_high_scores(stderr);
-      }
+                DEBUGCODE(debug_titlescreen)
+                    print_high_scores(stderr);
+            }
+        }
+        else {
+            fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
+        }
     }
-    else {
-      fprintf(stderr, "\nCould not find %s config file\n",arcade_config_files[choice]);
-    }
-  }
-  return 0;
+    return 0;
 }
 
 
 int run_custom_game(void)
 {
-  ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Edit 'options' file in you home directory to create customized game!\n"
-                                         "Press a key or click your mouse to start game.\n"
-                                         "See README.txt for more information.\n"));
+    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Edit 'options' file in you home directory to create customized game!\n"
+                "Press a key or click your mouse to start game.\n"
+                "See README.txt for more information.\n"));
 
-  if (read_user_config_file(local_game)) {
-      if (Opts_GetGlobalOpt(MENU_MUSIC))
-	  T4K_AudioMusicUnload();
+    if (read_user_config_file(local_game)) {
+        if (Opts_GetGlobalOpt(MENU_MUSIC))
+            T4K_AudioMusicUnload();
 
-      comets_game(local_game);
-      write_user_config_file(local_game);
+        comets_game(local_game);
+        write_user_config_file(local_game);
 
-      if (Opts_GetGlobalOpt(MENU_MUSIC))
-	  T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-  }
+        if (Opts_GetGlobalOpt(MENU_MUSIC))
+            T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+    }
 
-  return 0;
+    return 0;
 }
 
 
@@ -376,9 +376,9 @@ void run_multiplayer(int mode, int difficulty)
 
     while (nplayers <= 0 || nplayers > MAX_PLAYERS)
     {
-	NameEntry(npstr, _("How many kids are playing?"),
-		_("(Between 2 and 4 players)"), NULL);
-	nplayers = atoi(npstr);
+        NameEntry(npstr, _("How many kids are playing?"),
+                _("(Between 2 and 4 players)"), NULL);
+        nplayers = atoi(npstr);
     }
 
     mp_set_parameter(PLAYERS, nplayers);
@@ -397,31 +397,31 @@ int run_factoroids(int choice)
 
     T4K_AudioMusicUnload();
     if(choice == 0)
-	factors();
+        factors();
     else
-	fractions();
+        fractions();
 
     if (Opts_GetGlobalOpt(MENU_MUSIC))
-	T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+        T4K_AudioMusicLoad( "tuxi.ogg", -1 );
 
     hs_table = factoroids_high_score_tables[choice];
     if (check_score_place(hs_table, Opts_LastScore()) < HIGH_SCORES_SAVED){
-	char player_name[HIGH_SCORE_NAME_LENGTH * 3];
-	/* Get name from player: */
-	HighScoreNameEntry(&player_name[0]);
-	insert_score(player_name, hs_table, Opts_LastScore());
-	/* Show the high scores. Note the user will see his/her */
-	/* achievement even if (in the meantime) another player */
-	/* has in fact already bumped this score off the table. */
-	DisplayHighScores(hs_table);
-	/* save to disk: */
-	/* See "On File Locking" in fileops.c */
-	append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
-	DEBUGCODE(debug_titlescreen)
-	    print_high_scores(stderr);
+        char player_name[HIGH_SCORE_NAME_LENGTH * 3];
+        /* Get name from player: */
+        HighScoreNameEntry(&player_name[0]);
+        insert_score(player_name, hs_table, Opts_LastScore());
+        /* Show the high scores. Note the user will see his/her */
+        /* achievement even if (in the meantime) another player */
+        /* has in fact already bumped this score off the table. */
+        DisplayHighScores(hs_table);
+        /* save to disk: */
+        /* See "On File Locking" in fileops.c */
+        append_high_score(hs_table,Opts_LastScore(),&player_name[0]);
+        DEBUGCODE(debug_titlescreen)
+            print_high_scores(stderr);
     }
     else {
-	fprintf(stderr, "\nCould not find config file\n");
+        fprintf(stderr, "\nCould not find config file\n");
     }
 
     return 0;
@@ -442,8 +442,8 @@ int run_lan_host(void)
     /* For now, only allow one server instance: */
     if(OurServerRunning())
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
-	return 0;
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is already running")); 
+        return 0;
     }
 
     /* We still have possibility that a server is running on this machine as a standalone
@@ -453,8 +453,8 @@ int run_lan_host(void)
 
     if(!PortAvailable(DEFAULT_PORT))
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
-	return 0;
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The port is in use by another program on this computer, most likely another Tux Math server")); 
+        return 0;
     }
 
     NameEntry(server_name, _("Enter Server Name:"), _("(limit 50 characters)"), NULL);
@@ -474,37 +474,37 @@ int run_lan_host(void)
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE,_("Click or press key to select server lesson file"));
 
     {
-	chosen_lesson = run_menu(MENU_LESSONS, true);
+        chosen_lesson = run_menu(MENU_LESSONS, true);
 
-	while (chosen_lesson >= 0)
-	{
-	    if (Opts_GetGlobalOpt(MENU_SOUND))
-		playsound(SND_POP);
+        while (chosen_lesson >= 0)
+        {
+            if (Opts_GetGlobalOpt(MENU_SOUND))
+                playsound(SND_POP);
 
-	    /* Re-read global settings first in case any settings were */
-	    /* clobbered by other lesson or arcade games this session: */
-	    read_global_config_file(lan_game_settings);
-	    /* Now read the selected file and play the "mission": */
-	    if (read_named_config_file(lan_game_settings, lesson_list_filenames[chosen_lesson]))
-		break;
-	    else    
-	    {  // Something went wrong - could not read lesson config file:
-		fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
-		chosen_lesson = -1;
-	    }
-	    // Let the user choose another lesson; start with the screen and
-	    // selection that we ended with
-	    chosen_lesson = run_menu(MENU_LESSONS, true);
-	}
-	if(chosen_lesson==STOP) return 0;
+            /* Re-read global settings first in case any settings were */
+            /* clobbered by other lesson or arcade games this session: */
+            read_global_config_file(lan_game_settings);
+            /* Now read the selected file and play the "mission": */
+            if (read_named_config_file(lan_game_settings, lesson_list_filenames[chosen_lesson]))
+                break;
+            else    
+            {  // Something went wrong - could not read lesson config file:
+                fprintf(stderr, "\nCould not find file: %s\n", lesson_list_filenames[chosen_lesson]);
+                chosen_lesson = -1;
+            }
+            // Let the user choose another lesson; start with the screen and
+            // selection that we ended with
+            chosen_lesson = run_menu(MENU_LESSONS, true);
+        }
+        if(chosen_lesson==STOP) return 0;
     }
     sprintf(msg, _("Server Name:\n%s\nSelected Lesson:\n%s"), server_name, lesson_list_titles[chosen_lesson]);
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, msg);
 
     DEBUGMSG(debug_lan, "About to launch RunServer_pthread() with:\n"
-	    "serv_argv[0] = %s\n"
-	    "serv_argv[1] = %s\n"
-	    "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+            "serv_argv[0] = %s\n"
+            "serv_argv[1] = %s\n"
+            "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
     RunServer_pthread(3, serv_argv);
 
 
@@ -513,9 +513,9 @@ int run_lan_host(void)
 #else
 
     DEBUGMSG(debug_lan, "About to launch RunServer_prog() with:\n"
-	    "serv_argv[0] = %s\n"
-	    "serv_argv[1] = %s\n"
-	    "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
+            "serv_argv[0] = %s\n"
+            "serv_argv[1] = %s\n"
+            "serv_argv[2] = %s\n", serv_argv[0], serv_argv[1], serv_argv[2]);
     RunServer_prog(3, serv_argv);
 #endif
 
@@ -532,14 +532,14 @@ int stop_lan_host(void)
     DEBUGMSG(debug_lan|debug_menu, "Entering stop_lan_join()\n");
     if(!OurServerRunning())
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
-	return 0; 
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server is not running."));
+        return 0; 
     }
 
     if(SrvrGameInProgress())
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
-	return 0;
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Cannot stop server until current game finishes."));
+        return 0;
     }
     StopServer();
     ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("The server has been stopped."));
@@ -557,45 +557,45 @@ int run_lan_join(void)
 
     /* autodetect servers, allowing player to choose if > 1 found: */
     if(!ConnectToServer())
-	/* Could not connect: */
+        /* Could not connect: */
     {
-	ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not connect to server."));
-	DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
-	return 0;
+        ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, could not connect to server."));
+        DEBUGMSG(debug_menu|debug_lan, _("Sorry, could not connect to server.\n"));
+        return 0;
     }
 
     /* Connected to server but not yet in game */
     pregame_status = Pregame();
     switch(pregame_status)
-    {	  
-	case PREGAME_OVER_START_GAME:
-	    playsound(SND_TOCK);
-	    T4K_AudioMusicUnload();
-	    Opts_SetLanMode(1);  // Tells game() we are playing over network
+    {     
+        case PREGAME_OVER_START_GAME:
+            playsound(SND_TOCK);
+            T4K_AudioMusicUnload();
+            Opts_SetLanMode(1);  // Tells game() we are playing over network
             comets_game(lan_game_settings);
-	    Opts_SetLanMode(0);  // Go back to local play
-	    if (Opts_GetGlobalOpt(MENU_MUSIC))
-		T4K_AudioMusicLoad( "tuxi.ogg", -1 );
-	    break;
+            Opts_SetLanMode(0);  // Go back to local play
+            if (Opts_GetGlobalOpt(MENU_MUSIC))
+                T4K_AudioMusicLoad( "tuxi.ogg", -1 );
+            break;
 
-	case PREGAME_GAME_IN_PROGRESS:
-	    playsound(SND_TOCK);
-	    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
-	    LAN_Cleanup();
-	    break;
+        case PREGAME_GAME_IN_PROGRESS:
+            playsound(SND_TOCK);
+            ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Sorry, game already in progress"));
+            LAN_Cleanup();
+            break;
 
-	case PREGAME_OVER_LAN_DISCONNECT: 
-	    playsound(SND_TOCK);
-	    ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
-	    LAN_Cleanup();
-	    break;
+        case PREGAME_OVER_LAN_DISCONNECT: 
+            playsound(SND_TOCK);
+            ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server was lost"));
+            LAN_Cleanup();
+            break;
 
-	case PREGAME_OVER_ESCAPE: 
-	    LAN_Cleanup();
-	    return 0;
+        case PREGAME_OVER_ESCAPE: 
+            LAN_Cleanup();
+            return 0;
 
-	default:
-	    { /* do nothing */ }
+        default:
+            { /* do nothing */ }
 
     }  
 #else
@@ -652,79 +652,79 @@ int RunLoginMenu(void)
     n_users = read_user_menu_entries(&user_names);
 
     if (n_users == 0)
-	return 0;   // a quick exit, there's only one user
+        return 0;   // a quick exit, there's only one user
 
     // Check for a highscores file
     if (high_scores_found_in_user_dir())
-	set_high_score_path();
+        set_high_score_path();
 
     level = 0;
 
     if (n_login_questions > 0)
-	title = user_login_questions[0];
+        title = user_login_questions[0];
 
     T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer_quit);
 
     while (n_users) {
-	// Get the user choice
-	T4K_PrerenderMenu(MENU_LOGIN);
-	chosen_login = run_menu(MENU_LOGIN, true);
-	// Determine whether there were any modifier (CTRL) keys pressed
-	mod = SDL_GetModState();
-	if (chosen_login < 0 || chosen_login == n_users) {
-	    // User pressed escape or selected Quit/Back, handle by quitting
-	    // or going up a level
-	    if (level == 0) {
-		// We are going to quit without logging in.
-		// Clean up memory (prob. not necessary, but prevents Valgrind errors!)
-		for (i = 0; i < n_login_questions; i++)
-		    free(user_login_questions[i]);
-		free(user_login_questions);
-		for (i = 0; i < n_users; i++)
-		    free(user_names[i]);
-		free(user_names);
-		return -1;
-	    }
-	    else {
-		// Go back up one level of the directory tree
-		user_data_dirname_up();
-		level--;
-	    }
-	}
-	else {
-	    // User chose an entry, set it up
-	    user_data_dirname_down(user_names[chosen_login]);
-	    level++;
-	}
-	// Check for a highscores file
-	if (high_scores_found_in_user_dir())
-	    set_high_score_path();
-	// Free the entries from the previous menu
-	for (i = 0; i < n_users; i++)
-	    free(user_names[i]);
-	free(user_names);
-	user_names = NULL;
-	// If the CTRL key was pressed, choose this as the identity, even
-	// if there is a lower level to the hierarchy
-	if (mod & KMOD_CTRL)
-	    break;
-	// Set the title appropriately for the next menu
-	if (level < n_login_questions)
-	    title = user_login_questions[level];
-	else
-	    title = NULL;
-	if (level == 0)
-	    trailer = trailer_quit;
-	else
-	    trailer = trailer_back;
-	// Check to see if there are more choices to be made
-	n_users = read_user_menu_entries(&user_names);
-	T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer);
+        // Get the user choice
+        T4K_PrerenderMenu(MENU_LOGIN);
+        chosen_login = run_menu(MENU_LOGIN, true);
+        // Determine whether there were any modifier (CTRL) keys pressed
+        mod = SDL_GetModState();
+        if (chosen_login < 0 || chosen_login == n_users) {
+            // User pressed escape or selected Quit/Back, handle by quitting
+            // or going up a level
+            if (level == 0) {
+                // We are going to quit without logging in.
+                // Clean up memory (prob. not necessary, but prevents Valgrind errors!)
+                for (i = 0; i < n_login_questions; i++)
+                    free(user_login_questions[i]);
+                free(user_login_questions);
+                for (i = 0; i < n_users; i++)
+                    free(user_names[i]);
+                free(user_names);
+                return -1;
+            }
+            else {
+                // Go back up one level of the directory tree
+                user_data_dirname_up();
+                level--;
+            }
+        }
+        else {
+            // User chose an entry, set it up
+            user_data_dirname_down(user_names[chosen_login]);
+            level++;
+        }
+        // Check for a highscores file
+        if (high_scores_found_in_user_dir())
+            set_high_score_path();
+        // Free the entries from the previous menu
+        for (i = 0; i < n_users; i++)
+            free(user_names[i]);
+        free(user_names);
+        user_names = NULL;
+        // If the CTRL key was pressed, choose this as the identity, even
+        // if there is a lower level to the hierarchy
+        if (mod & KMOD_CTRL)
+            break;
+        // Set the title appropriately for the next menu
+        if (level < n_login_questions)
+            title = user_login_questions[level];
+        else
+            title = NULL;
+        if (level == 0)
+            trailer = trailer_quit;
+        else
+            trailer = trailer_back;
+        // Check to see if there are more choices to be made
+        n_users = read_user_menu_entries(&user_names);
+        T4K_CreateOneLevelMenu(MENU_LOGIN, n_users, user_names, NULL, title, trailer);
     }
 
     // The user home directory is set, clean up remaining memory
     for (i = 0; i < n_login_questions; i++)
-	free(user_login_questions[i]);
+        free(user_login_questions[i]);
     free(user_login_questions);
 
     // Signal success
@@ -745,7 +745,7 @@ void RunMainMenu(void)
 
     for(i = 0; i < num_lessons; i++)
     {
-	icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
+        icon_names[i] = (lesson_list_goldstars[i] ? "goldstar" : "no_goldstar");
     }
 
     T4K_CreateOneLevelMenu(MENU_LESSONS, num_lessons, lesson_list_titles, icon_names, NULL, "Back");

@@ -5,9 +5,9 @@
    as well as the function to load data files (images, sounds, music)
 
    Copyright 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011.
-   Authors: Bill Kendrick, David Bruce, Tim Holy, Wenyuan Guo.
-   Project email: <tuxmath-devel@lists.sourceforge.net>
-   Project website: http://tux4kids.alioth.debian.org
+Authors: Bill Kendrick, David Bruce, Tim Holy, Wenyuan Guo.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 setup.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
@@ -79,12 +79,12 @@ int flipped_img_lookup[NUM_IMAGES];
 SDL_Surface* blended_igloos[NUM_BLENDED_IGLOOS];
 
 const int flipped_img[] = {
-  IMG_PENGUIN_WALK_ON1,
-  IMG_PENGUIN_WALK_ON2,
-  IMG_PENGUIN_WALK_ON3,
-  IMG_PENGUIN_WALK_OFF1,
-  IMG_PENGUIN_WALK_OFF2,
-  IMG_PENGUIN_WALK_OFF3
+    IMG_PENGUIN_WALK_ON1,
+    IMG_PENGUIN_WALK_ON2,
+    IMG_PENGUIN_WALK_ON3,
+    IMG_PENGUIN_WALK_OFF1,
+    IMG_PENGUIN_WALK_OFF2,
+    IMG_PENGUIN_WALK_OFF3
 };
 
 
@@ -95,10 +95,10 @@ Mix_Music* musics[NUM_MUSICS];
 
 /* Keep return values from locale setup: */
 typedef struct locale_info {
-  char setlocale_ret[64];
-  char bindtextdomain_ret[64];
-  char bind_textdomain_codeset_ret[64];
-  char textdomain_ret[64];
+    char setlocale_ret[64];
+    char bindtextdomain_ret[64];
+    char bind_textdomain_codeset_ret[64];
+    char textdomain_ret[64];
 } locale_info;
 
 locale_info tuxmath_locale;
@@ -127,30 +127,30 @@ void cleanup_memory(void);
 /* --- OK, now we have eight. --- */
 void setup(int argc, char * argv[])
 {
-  /* Read debugging args from command line */
-  handle_debug_args(argc, argv);
-  /* initialize locale from system settings: */
-  initialize_locale("");	
-  /* initialize settings and read in config files: */
-  /* Note this now only does the global settings   */
-  initialize_options();
-  /* Command-line code now in own function: */
-  handle_command_args(argc, argv);
-  /* initialize default user's options (for resolution)*/
-  initialize_options_user();
-  /* SDL setup in own function:*/
-  initialize_SDL();
-  /* Read image and sound files: */
-  load_data_files();
-  /* Generate flipped versions of walking images */
-  generate_flipped_images();
-  /* Generate blended images (e.g., igloos) */
-  generate_blended_images();
-  /* Note that the per-user options will be set after the call to
-     titlescreen, to allow for user-login to occur. 
-     
-     FIXME this means that command-line args will be overridden!
-     Is this desirable? */
+    /* Read debugging args from command line */
+    handle_debug_args(argc, argv);
+    /* initialize locale from system settings: */
+    initialize_locale("");      
+    /* initialize settings and read in config files: */
+    /* Note this now only does the global settings   */
+    initialize_options();
+    /* Command-line code now in own function: */
+    handle_command_args(argc, argv);
+    /* initialize default user's options (for resolution)*/
+    initialize_options_user();
+    /* SDL setup in own function:*/
+    initialize_SDL();
+    /* Read image and sound files: */
+    load_data_files();
+    /* Generate flipped versions of walking images */
+    generate_flipped_images();
+    /* Generate blended images (e.g., igloos) */
+    generate_blended_images();
+    /* Note that the per-user options will be set after the call to
+       titlescreen, to allow for user-login to occur. 
+
+       FIXME this means that command-line args will be overridden!
+       Is this desirable? */
 }
 
 
@@ -168,7 +168,7 @@ void initialize_locale(const char* desired_loc)
     s2 = bindtextdomain(PACKAGE, TUXLOCALE);
     s3 = bind_textdomain_codeset(PACKAGE, "UTF-8");
     s4 = textdomain(PACKAGE);
-  
+
     strncpy(tuxmath_locale.setlocale_ret, s1, 64);
     strncpy(tuxmath_locale.bindtextdomain_ret, s2, 64);
     strncpy(tuxmath_locale.bind_textdomain_codeset_ret, s3, 64);
@@ -189,7 +189,7 @@ void print_locale_info(FILE* fp)
     fprintf(fp, "PACKAGE = %s\n", PACKAGE);
     fprintf(fp, "TUXLOCALE = %s\n", TUXLOCALE);
     fprintf(fp, "setlocale(LC_ALL, \"\") returned: %s\n",
-	    tuxmath_locale.setlocale_ret);
+            tuxmath_locale.setlocale_ret);
     fprintf(fp, "bindtextdomain(PACKAGE, TUXLOCALE) returned: %s\n",
             tuxmath_locale.bindtextdomain_ret);
     fprintf(fp, "bind_textdomain_codeset(PACKAGE, \"UTF-8\") returned: %s\n",
@@ -207,51 +207,51 @@ void print_locale_info(FILE* fp)
 /* then read in global config file                                 */
 void initialize_options(void)
 {
-  /* Initialize MathCards backend for math questions: */
-  local_game = (MC_MathGame*) malloc(sizeof(MC_MathGame));
-  if (local_game == NULL)
-  {
-    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
-    exit(1);
-  }
-  local_game->math_opts = NULL;
-  if (!MC_Initialize(local_game))
-  {
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
-    exit(1);
-  }
+    /* Initialize MathCards backend for math questions: */
+    local_game = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+    if (local_game == NULL)
+    {
+        fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+        exit(1);
+    }
+    local_game->math_opts = NULL;
+    if (!MC_Initialize(local_game))
+    {
+        fprintf(stderr, "\nUnable to initialize MathCards\n");
+        exit(1);
+    }
 
 
-  lan_game_settings = (MC_MathGame*) malloc(sizeof(MC_MathGame));
-  if (lan_game_settings == NULL)
-  {
-    fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
-    exit(1);
-  }
-  lan_game_settings->math_opts = NULL;
-  if (!MC_Initialize(lan_game_settings))
-  {
-    fprintf(stderr, "\nUnable to initialize MathCards\n");
-    exit(1);
-  }
+    lan_game_settings = (MC_MathGame*) malloc(sizeof(MC_MathGame));
+    if (lan_game_settings == NULL)
+    {
+        fprintf(stderr, "\nUnable to allocate MC_MathGame\n");
+        exit(1);
+    }
+    lan_game_settings->math_opts = NULL;
+    if (!MC_Initialize(lan_game_settings))
+    {
+        fprintf(stderr, "\nUnable to initialize MathCards\n");
+        exit(1);
+    }
 
 
-  /* initialize game_options struct with defaults DSB */
-  if (!Opts_Initialize())
-  {
-    fprintf(stderr, "\nUnable to initialize game_options\n");
-    cleanup_on_error();
-    exit(1);
-  }
+    /* initialize game_options struct with defaults DSB */
+    if (!Opts_Initialize())
+    {
+        fprintf(stderr, "\nUnable to initialize game_options\n");
+        cleanup_on_error();
+        exit(1);
+    }
 
-  /* Now that MathCards and game_options initialized using  */
-  /* hard-coded defaults, read options from disk and mofify */
-  /* as needed. First read in installation-wide settings:   */
-  if (!read_global_config_file(local_game))
-  {
-    fprintf(stderr, "\nCould not find global config file.\n");
-    /* can still proceed using hard-coded defaults.         */
-  }
+    /* Now that MathCards and game_options initialized using  */
+    /* hard-coded defaults, read options from disk and mofify */
+    /* as needed. First read in installation-wide settings:   */
+    if (!read_global_config_file(local_game))
+    {
+        fprintf(stderr, "\nCould not find global config file.\n");
+        /* can still proceed using hard-coded defaults.         */
+    }
 }
 
 /* Read in the user-specific options (if desired)              */
@@ -259,39 +259,39 @@ void initialize_options(void)
 /* from titlescreen, to allow for user-login to occur.         */
 void initialize_options_user(void)
 {
-  /* Read in user-specific settings, if desired.  By    */
-  /* default, this restores settings from the player's last */
-  /* game:                                                  */
-  if (Opts_GetGlobalOpt(PER_USER_CONFIG))
-  {
-    if (!read_user_config_file(local_game))
+    /* Read in user-specific settings, if desired.  By    */
+    /* default, this restores settings from the player's last */
+    /* game:                                                  */
+    if (Opts_GetGlobalOpt(PER_USER_CONFIG))
     {
-      fprintf(stderr, "\nCould not find user's config file.\n");
-      /* can still proceed using hard-coded defaults.         */
+        if (!read_user_config_file(local_game))
+        {
+            fprintf(stderr, "\nCould not find user's config file.\n");
+            /* can still proceed using hard-coded defaults.         */
+        }
+
+        /* If game being run for first time, try to write file: */
+        if (!write_user_config_file(local_game))
+        {
+            fprintf(stderr, "\nUnable to write user's config file.\n");
+        }
     }
 
-    /* If game being run for first time, try to write file: */
-    if (!write_user_config_file(local_game))
+    /* Read the lessons directory to determine which lesson   */
+    /* files are available.                                   */
+    if (!parse_lesson_file_directory())
+        fprintf(stderr,"\nCould not parse the lesson file directory.\n");
+
+    /* Now set up high score tables: */
+    initialize_scores();
+    if (!read_high_scores())
     {
-      fprintf(stderr, "\nUnable to write user's config file.\n");
+        fprintf(stderr, "\nCould not find high score table.\n");
+        /* (can still proceed).         */
     }
-  }
 
-  /* Read the lessons directory to determine which lesson   */
-  /* files are available.                                   */
-  if (!parse_lesson_file_directory())
-    fprintf(stderr,"\nCould not parse the lesson file directory.\n");
-
-  /* Now set up high score tables: */
-  initialize_scores();
-  if (!read_high_scores())
-  {
-    fprintf(stderr, "\nCould not find high score table.\n");
-    /* (can still proceed).         */
-  }
-
-  DEBUGCODE(debug_setup)
-    print_high_scores(stdout);
+    DEBUGCODE(debug_setup)
+        print_high_scores(stdout);
 }
 
 
@@ -301,77 +301,77 @@ void initialize_options_user(void)
 /* get output for earlier setup events - DSB           */
 void handle_debug_args(int argc, char* argv[])
 {
-  int i;
+    int i;
 
-  for (i = 1; i < argc; i++)
-  {
-    if (strcmp(argv[i], "--debug-all") == 0)
+    for (i = 1; i < argc; i++)
     {
-      debug_status |= debug_all;
-    }
-    else if (strcmp(argv[i], "--debug-setup") == 0)
-    {
-      debug_status |= debug_setup;
-    }
-    else if (strcmp(argv[i], "--debug-fileops") == 0)
-    {
-      debug_status |= debug_fileops;
-    }
-    else if (strcmp(argv[i], "--debug-loaders") == 0)
-    {
-      debug_status |= debug_loaders;
-    }
-    else if (strcmp(argv[i], "--debug-titlescreen") == 0)
-    {
-      debug_status |= debug_titlescreen;
-    }
-    else if (strcmp(argv[i], "--debug-menu") == 0)
-    {
-      debug_status |= debug_menu;
-    }
-    else if (strcmp(argv[i], "--debug-menu-parser") == 0)
-    {
-      debug_status |= debug_menu_parser;
-    }
-    else if (strcmp(argv[i], "--debug-game") == 0)
-    {
-      debug_status |= debug_game;
-    }
-    else if (strcmp(argv[i], "--debug-factoroids") == 0)
-    {
-      debug_status |= debug_factoroids;
-    }
-    else if (strcmp(argv[i], "--debug-lan") == 0)
-    {
-      debug_status |= debug_lan;
-    }
-    else if (strcmp(argv[i], "--debug-mathcards") == 0)
-    {
-      debug_status |= debug_mathcards;
-    }
-    else if (strcmp(argv[i], "--debug-sdl") == 0)
-    {
-      debug_status |= debug_sdl;
-    }
-    else if (strcmp(argv[i], "--debug-lessons") == 0)
-    {
-      debug_status |= debug_lessons;
-    }
-    else if (strcmp(argv[i], "--debug-highscore") == 0)
-    {
-      debug_status |= debug_highscore;
-    }
-    else if (strcmp(argv[i], "--debug-options") == 0)
-    {
-      debug_status |= debug_options;
-    }
-    else if (strcmp(argv[i], "--debug-text-and-intl") == 0)
-    {
-      debug_status |= debug_text_and_intl;
-    }
-  }/* end of command-line args */
+        if (strcmp(argv[i], "--debug-all") == 0)
+        {
+            debug_status |= debug_all;
+        }
+        else if (strcmp(argv[i], "--debug-setup") == 0)
+        {
+            debug_status |= debug_setup;
+        }
+        else if (strcmp(argv[i], "--debug-fileops") == 0)
+        {
+            debug_status |= debug_fileops;
+        }
+        else if (strcmp(argv[i], "--debug-loaders") == 0)
+        {
+            debug_status |= debug_loaders;
+        }
+        else if (strcmp(argv[i], "--debug-titlescreen") == 0)
+        {
+            debug_status |= debug_titlescreen;
+        }
+        else if (strcmp(argv[i], "--debug-menu") == 0)
+        {
+            debug_status |= debug_menu;
+        }
+        else if (strcmp(argv[i], "--debug-menu-parser") == 0)
+        {
+            debug_status |= debug_menu_parser;
+        }
+        else if (strcmp(argv[i], "--debug-game") == 0)
+        {
+            debug_status |= debug_game;
+        }
+        else if (strcmp(argv[i], "--debug-factoroids") == 0)
+        {
+            debug_status |= debug_factoroids;
+        }
+        else if (strcmp(argv[i], "--debug-lan") == 0)
+        {
+            debug_status |= debug_lan;
+        }
+        else if (strcmp(argv[i], "--debug-mathcards") == 0)
+        {
+            debug_status |= debug_mathcards;
+        }
+        else if (strcmp(argv[i], "--debug-sdl") == 0)
+        {
+            debug_status |= debug_sdl;
+        }
+        else if (strcmp(argv[i], "--debug-lessons") == 0)
+        {
+            debug_status |= debug_lessons;
+        }
+        else if (strcmp(argv[i], "--debug-highscore") == 0)
+        {
+            debug_status |= debug_highscore;
+        }
+        else if (strcmp(argv[i], "--debug-options") == 0)
+        {
+            debug_status |= debug_options;
+        }
+        else if (strcmp(argv[i], "--debug-text-and-intl") == 0)
+        {
+            debug_status |= debug_text_and_intl;
+        }
+    }/* end of command-line args */
 
-  DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
+    DEBUGMSG(debug_setup,"debug_status: %x", debug_status);
 }
 
 
@@ -379,258 +379,258 @@ void handle_debug_args(int argc, char* argv[])
 /* for debug flags which we already have dealt with.     */
 void handle_command_args(int argc, char* argv[])
 {
-  DIR *dirp;
-  int i;
+    DIR *dirp;
+    int i;
 
-  for (i = 1; i < argc; i++)
-  {
-      if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
-      {
-	  /* Display help message: */
+    for (i = 1; i < argc; i++)
+    {
+        if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
+        {
+            /* Display help message: */
 
-	  fprintf(stderr, "\nTux, of Math Command\n\n"
-		  "Use the number keys on the keyboard to answer math equations,\n"
-		  "and then hit the space bar or enter.\n"
-		  "If you don't answer a comet's math equation before it hits\n"
-		  "one of your igloos, the igloo will be damaged.\n"
-		  "If an igloo is hit twice, the penguin inside walks away.\n"
-		  "When you lose all of your igloos, the game ends.\n\n");
+            fprintf(stderr, "\nTux, of Math Command\n\n"
+                    "Use the number keys on the keyboard to answer math equations,\n"
+                    "and then hit the space bar or enter.\n"
+                    "If you don't answer a comet's math equation before it hits\n"
+                    "one of your igloos, the igloo will be damaged.\n"
+                    "If an igloo is hit twice, the penguin inside walks away.\n"
+                    "When you lose all of your igloos, the game ends.\n\n");
 
-	  fprintf(stderr, "There is also a \"factoroids\" game in which a ship\n"
-		  "destroys asteroids if you type a valid factor of the number\n"
-		  "for a particular asteroid.  Use the number keys to steer.\n\n");
+            fprintf(stderr, "There is also a \"factoroids\" game in which a ship\n"
+                    "destroys asteroids if you type a valid factor of the number\n"
+                    "for a particular asteroid.  Use the number keys to steer.\n\n");
 
-	  fprintf(stderr, "Note: most settings are now stored in a config file named 'options' in\n"
-		  "a hidden directory named './tuxmath' within the user's home directory.\n"
-		  "The file consists of simple name/value pairs. It is much easier\n"
-		  "to edit this file to set game parameters than to use the command-line\n"
-		  "arguments listed below. Also, many options are not selectable from the\n"
-		  "command line. The config file contains extensive comments detailing how\n"
-		  "to configure the behavior of Tuxmath.\n\n");
+            fprintf(stderr, "Note: most settings are now stored in a config file named 'options' in\n"
+                    "a hidden directory named './tuxmath' within the user's home directory.\n"
+                    "The file consists of simple name/value pairs. It is much easier\n"
+                    "to edit this file to set game parameters than to use the command-line\n"
+                    "arguments listed below. Also, many options are not selectable from the\n"
+                    "command line. The config file contains extensive comments detailing how\n"
+                    "to configure the behavior of Tuxmath.\n\n");
 
-	  fprintf(stderr, "Run the game with:\n"
-		  "--homedir dirname      - seek for user home director(ies) in the specified\n"
-		  "                         location, rather than the user's actual home\n"
-		  "                         directory.  You can set up a user directory tree in\n"
-		  "                         this location (see README).  This option is\n"
-		  "                         especially useful for schools where all students log\n"
-		  "                         in with a single user name.\n"
-		  "--optionfile filename  - read config settings from named file. The locations\n"
-		  "                         searched for a file with a matching name are the\n"
-		  "                         current working directory, the absolute path of the\n"
-		  "                         filename, tuxmath's missions directory, the user's\n"
-		  "                         tuxmath directory, and the user's home.\n"
-		  "--playthroughlist      - to ask each question only once, allowing player to\n"
-		  "                         win game if all questions successfully answered\n"
+            fprintf(stderr, "Run the game with:\n"
+                    "--homedir dirname      - seek for user home director(ies) in the specified\n"
+                    "                         location, rather than the user's actual home\n"
+                    "                         directory.  You can set up a user directory tree in\n"
+                    "                         this location (see README).  This option is\n"
+                    "                         especially useful for schools where all students log\n"
+                    "                         in with a single user name.\n"
+                    "--optionfile filename  - read config settings from named file. The locations\n"
+                    "                         searched for a file with a matching name are the\n"
+                    "                         current working directory, the absolute path of the\n"
+                    "                         filename, tuxmath's missions directory, the user's\n"
+                    "                         tuxmath directory, and the user's home.\n"
+                    "--playthroughlist      - to ask each question only once, allowing player to\n"
+                    "                         win game if all questions successfully answered\n"
 
-		  "--answersfirst   - to ask questions in format: ? + num2 = num3\n"
-		  "                   instead of default format: num1 + num2 = ?\n"
-		  "--answersmiddle  - to ask questions in format: num1 + ? = num3\n"
-		  "                   instead of default format: num1 + num2 = ?\n"
-		  "--nosound        - to disable sound/music\n"
-		  "--nobackground   - to disable background photos (for slower systems)\n"
-		  "--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
-		  "--windowed       - to run in a window rather than fullscreen\n"
-                  "--resolution WxH - window resolution (windowed mode only)\n"
-		  "--keypad         - to enable the on-sceen numeric keypad\n"
-		  "--demo           - to run the program as a cycling demonstration\n"
-		  "--speed S        - set initial speed of the game\n"
-		  "                   (S may be fractional, default is 1.0)\n"
-		  "--allownegatives - to allow answers to be less than zero\n"
-		  "--debug-X        - prints debug information on command line\n"
-		  "                   X may be one of the following:\n"
-		  "                     setup: debug messages only during initialization \n"
-		  "                     fileops: file operations (loading and saving data)\n"
-		  "                     loaders: loading of mulitmedia (images and sounds)\n"
-		  "                     titlescreen\n"
-		  "                     menu: most operations dealing with menus\n"
-		  "                     menu-parser: subset of operations dealing with menus\n"
-		  "                     game: the comets game\n"
-		  "                     factoroids: the factoroids game\n"
-		  "                     lan: anything dealing with networking\n"
-		  "                     mathcards: generation of math problems\n"
-		  "                     sdl: the general graphical system\n"
-		  "                     lessons: parsing pre-prepared lessons\n"
-		  "                     highscore: loading and saving high scores\n"
-		  "                     options: loading and saving options files\n"
-		  "                     text-and-intl: text and internationalization\n"
-		  "                     all: everything!\n"
-		  );
+                    "--answersfirst   - to ask questions in format: ? + num2 = num3\n"
+                    "                   instead of default format: num1 + num2 = ?\n"
+                    "--answersmiddle  - to ask questions in format: num1 + ? = num3\n"
+                    "                   instead of default format: num1 + num2 = ?\n"
+                    "--nosound        - to disable sound/music\n"
+                    "--nobackground   - to disable background photos (for slower systems)\n"
+                    "--fullscreen     - to run in fullscreen, if possible (vs. windowed)\n"
+                    "--windowed       - to run in a window rather than fullscreen\n"
+                    "--resolution WxH - window resolution (windowed mode only)\n"
+                    "--keypad         - to enable the on-sceen numeric keypad\n"
+                    "--demo           - to run the program as a cycling demonstration\n"
+                    "--speed S        - set initial speed of the game\n"
+                    "                   (S may be fractional, default is 1.0)\n"
+                    "--allownegatives - to allow answers to be less than zero\n"
+                    "--debug-X        - prints debug information on command line\n"
+                    "                   X may be one of the following:\n"
+                    "                     setup: debug messages only during initialization \n"
+                    "                     fileops: file operations (loading and saving data)\n"
+                    "                     loaders: loading of mulitmedia (images and sounds)\n"
+                    "                     titlescreen\n"
+                    "                     menu: most operations dealing with menus\n"
+                    "                     menu-parser: subset of operations dealing with menus\n"
+                    "                     game: the comets game\n"
+                    "                     factoroids: the factoroids game\n"
+                    "                     lan: anything dealing with networking\n"
+                    "                     mathcards: generation of math problems\n"
+                    "                     sdl: the general graphical system\n"
+                    "                     lessons: parsing pre-prepared lessons\n"
+                    "                     highscore: loading and saving high scores\n"
+                    "                     options: loading and saving options files\n"
+                    "                     text-and-intl: text and internationalization\n"
+                    "                     all: everything!\n"
+                    );
 
-	  fprintf(stderr, "\n");
+            fprintf(stderr, "\n");
 
-	  cleanup_on_error();
-	  exit(0);
-      }
-      else if (strcmp(argv[i], "--copyright") == 0 ||
-	      strcmp(argv[i], "-c") == 0)
-      {
-	  printf(
-		  "\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001-2011,\n"
-		  "Bill Kendrick, David Bruce, Tim Holy, and the Tux4Kids Project.\n"
-		  "This program is free software; you can redistribute it and/or\n"
-		  "modify it under the terms of the GNU General Public License\n"
-		  "as published by the Free Software Foundation.  See COPYING.txt\n"
-		  "\n"
-		  "This program is distributed in the hope that it will be useful,\n"
-		  "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
-		  "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
-		  "\n");
+            cleanup_on_error();
+            exit(0);
+        }
+        else if (strcmp(argv[i], "--copyright") == 0 ||
+                strcmp(argv[i], "-c") == 0)
+        {
+            printf(
+                    "\n\"Tux, of Math Command\" version " VERSION ", Copyright (C) 2001-2011,\n"
+                    "Bill Kendrick, David Bruce, Tim Holy, and the Tux4Kids Project.\n"
+                    "This program is free software; you can redistribute it and/or\n"
+                    "modify it under the terms of the GNU General Public License\n"
+                    "as published by the Free Software Foundation.  See COPYING.txt\n"
+                    "\n"
+                    "This program is distributed in the hope that it will be useful,\n"
+                    "but WITHOUT ANY WARRANTY; without even the implied warranty of\n"
+                    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n"
+                    "\n");
 
-	  cleanup_on_error();
-	  exit(0);
-      }
-      else if (strcmp(argv[i], "--usage") == 0 ||
-	      strcmp(argv[i], "-u") == 0)
-      {
-	  /* Display (happy) usage: */
+            cleanup_on_error();
+            exit(0);
+        }
+        else if (strcmp(argv[i], "--usage") == 0 ||
+                strcmp(argv[i], "-u") == 0)
+        {
+            /* Display (happy) usage: */
 
-	  usage(0, argv[0]);
-      }
-      else if (0 == strcmp(argv[i], "--homedir"))
-      {
-	  // Parse the user choice of a non-default home directory
-	  if (i >= argc -1)
-	  {
-	      fprintf(stderr, "%s option requires an argument (dirname)\n", argv[i]);
-	      usage(1, argv[0]);
-	  }
-	  else // see whether the specified name is a directory
-	  {
-	      if ((dirp = opendir(argv[i+1])) == NULL)
-		  fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
-	      else {
-		  set_user_data_dir(argv[i+1]);  // copy the homedir setting
-		  closedir(dirp);
-	      }
-	      i++;   // to pass over the next argument, so remaining options parsed
-	  }
-      }
-      else if (0 == strcmp(argv[i], "--optionfile"))
-      {
-	  if (i >= argc - 1)
-	  {
-	      fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
-	      usage(1, argv[0]);
-	  }
-	  else /* try to read file named in following arg: */
-	  {
-	      if (!read_named_config_file(local_game, argv[i + 1]))
-	      {
-		  fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
-	      }
-	  }
-	  i++; /* so program doesn't barf on next arg (the filename) */
-      }
-      else if (strcmp(argv[i], "--fullscreen") == 0 ||
-	      strcmp(argv[i], "-f") == 0)
-      {
-	  Opts_SetGlobalOpt(FULLSCREEN, 1);
-      }
-      else if (strcmp(argv[i], "--resolution") == 0 ||
-              strcmp(argv[i], "-r") == 0)
-      {
-          if (i >= argc - 1)
-          {
-              fprintf(stderr, "%s option requires an argument\n", argv[i]);
-              usage(1, argv[0]);
-          }
-          else
-          {
-              int w=0, h=0;
-              sscanf(argv[i+1], "%dx%d", &w, &h);
+            usage(0, argv[0]);
+        }
+        else if (0 == strcmp(argv[i], "--homedir"))
+        {
+            // Parse the user choice of a non-default home directory
+            if (i >= argc -1)
+            {
+                fprintf(stderr, "%s option requires an argument (dirname)\n", argv[i]);
+                usage(1, argv[0]);
+            }
+            else // see whether the specified name is a directory
+            {
+                if ((dirp = opendir(argv[i+1])) == NULL)
+                    fprintf(stderr,"homedir: %s is not a directory, or it could not be read\n", argv[i+1]);
+                else {
+                    set_user_data_dir(argv[i+1]);  // copy the homedir setting
+                    closedir(dirp);
+                }
+                i++;   // to pass over the next argument, so remaining options parsed
+            }
+        }
+        else if (0 == strcmp(argv[i], "--optionfile"))
+        {
+            if (i >= argc - 1)
+            {
+                fprintf(stderr, "%s option requires an argument (filename)\n", argv[i]);
+                usage(1, argv[0]);
+            }
+            else /* try to read file named in following arg: */
+            {
+                if (!read_named_config_file(local_game, argv[i + 1]))
+                {
+                    fprintf(stderr, "Could not read config file: %s\n", argv[i + 1]);
+                }
+            }
+            i++; /* so program doesn't barf on next arg (the filename) */
+        }
+        else if (strcmp(argv[i], "--fullscreen") == 0 ||
+                strcmp(argv[i], "-f") == 0)
+        {
+            Opts_SetGlobalOpt(FULLSCREEN, 1);
+        }
+        else if (strcmp(argv[i], "--resolution") == 0 ||
+                strcmp(argv[i], "-r") == 0)
+        {
+            if (i >= argc - 1)
+            {
+                fprintf(stderr, "%s option requires an argument\n", argv[i]);
+                usage(1, argv[0]);
+            }
+            else
+            {
+                int w=0, h=0;
+                sscanf(argv[i+1], "%dx%d", &w, &h);
 
-              if(w>0 && h>0)
-              {
-                Opts_SetWindowWidth(w);
-                Opts_SetWindowHeight(h);
-              }
-          }
-          ++i;
-      }
-      else if (strcmp(argv[i], "--windowed") == 0 ||
-              strcmp(argv[i], "-w") == 0)
-      {
-          Opts_SetGlobalOpt(FULLSCREEN, 0);
-      }
-      else if (strcmp(argv[i], "--nosound") == 0 ||
-	      strcmp(argv[i], "-s") == 0 ||
-	      strcmp(argv[i], "--quiet") == 0 ||
-	      strcmp(argv[i], "-q") == 0)
-      {
-	  Opts_SetGlobalOpt(USE_SOUND, -1);  // prevent options files from overwriting
-      }
-      else if (strcmp(argv[i], "--version") == 0 ||
-	      strcmp(argv[i], "-v") == 0)
-      {
-	  fprintf(stderr, "Tux, of Math Command (\"tuxmath\")\n"
-		  "Version " VERSION "\n");
-	  cleanup_on_error();
-	  exit(0);
-      }
-      else if (strcmp(argv[i], "--nobackground") == 0 ||
-	      strcmp(argv[i], "-b") == 0)
-      {
-	  Opts_SetUseBkgd(0);
-      }
-      else if (strcmp(argv[i], "--demo") == 0 ||
-	      strcmp(argv[i], "-d") == 0)
-      {
-	  Opts_SetDemoMode(1);
-      }
-      else if (strcmp(argv[i], "--keypad") == 0 ||
-	      strcmp(argv[i], "-k") == 0)
-      {
-	  Opts_SetGlobalOpt(USE_KEYPAD, 1);
-      }
-      else if (strcmp(argv[i], "--allownegatives") == 0 ||
-	      strcmp(argv[i], "-n") == 0)
-      {
-	  MC_SetOpt(local_game, ALLOW_NEGATIVES, 1);
-      }
-      else if (strcmp(argv[i], "--playthroughlist") == 0 ||
-	      strcmp(argv[i], "-l") == 0)
-      {
-	  MC_SetOpt(local_game, PLAY_THROUGH_LIST, 1);
-      }
-      else if (strcmp(argv[i], "--answersfirst") == 0)
-      {
-	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 1);
-	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 0);
-      }
-      else if (strcmp(argv[i], "--answersmiddle") == 0)
-      {
-	  MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
-	  MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 0);
-	  MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 1);
-      }
-      else if (strcmp(argv[i], "--speed") == 0 ||
-	      strcmp(argv[i], "-s") == 0)
-      {
-	  if (i >= argc - 1)
-	  {
-	      fprintf(stderr, "%s option requires an argument\n", argv[i]);
-	      usage(1, argv[0]);
-	  }
+                if(w>0 && h>0)
+                {
+                    Opts_SetWindowWidth(w);
+                    Opts_SetWindowHeight(h);
+                }
+            }
+            ++i;
+        }
+        else if (strcmp(argv[i], "--windowed") == 0 ||
+                strcmp(argv[i], "-w") == 0)
+        {
+            Opts_SetGlobalOpt(FULLSCREEN, 0);
+        }
+        else if (strcmp(argv[i], "--nosound") == 0 ||
+                strcmp(argv[i], "-s") == 0 ||
+                strcmp(argv[i], "--quiet") == 0 ||
+                strcmp(argv[i], "-q") == 0)
+        {
+            Opts_SetGlobalOpt(USE_SOUND, -1);  // prevent options files from overwriting
+        }
+        else if (strcmp(argv[i], "--version") == 0 ||
+                strcmp(argv[i], "-v") == 0)
+        {
+            fprintf(stderr, "Tux, of Math Command (\"tuxmath\")\n"
+                    "Version " VERSION "\n");
+            cleanup_on_error();
+            exit(0);
+        }
+        else if (strcmp(argv[i], "--nobackground") == 0 ||
+                strcmp(argv[i], "-b") == 0)
+        {
+            Opts_SetUseBkgd(0);
+        }
+        else if (strcmp(argv[i], "--demo") == 0 ||
+                strcmp(argv[i], "-d") == 0)
+        {
+            Opts_SetDemoMode(1);
+        }
+        else if (strcmp(argv[i], "--keypad") == 0 ||
+                strcmp(argv[i], "-k") == 0)
+        {
+            Opts_SetGlobalOpt(USE_KEYPAD, 1);
+        }
+        else if (strcmp(argv[i], "--allownegatives") == 0 ||
+                strcmp(argv[i], "-n") == 0)
+        {
+            MC_SetOpt(local_game, ALLOW_NEGATIVES, 1);
+        }
+        else if (strcmp(argv[i], "--playthroughlist") == 0 ||
+                strcmp(argv[i], "-l") == 0)
+        {
+            MC_SetOpt(local_game, PLAY_THROUGH_LIST, 1);
+        }
+        else if (strcmp(argv[i], "--answersfirst") == 0)
+        {
+            MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+            MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 1);
+            MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 0);
+        }
+        else if (strcmp(argv[i], "--answersmiddle") == 0)
+        {
+            MC_SetOpt(local_game, FORMAT_ANSWER_LAST, 0);
+            MC_SetOpt(local_game, FORMAT_ANSWER_FIRST, 0);
+            MC_SetOpt(local_game, FORMAT_ANSWER_MIDDLE, 1);
+        }
+        else if (strcmp(argv[i], "--speed") == 0 ||
+                strcmp(argv[i], "-s") == 0)
+        {
+            if (i >= argc - 1)
+            {
+                fprintf(stderr, "%s option requires an argument\n", argv[i]);
+                usage(1, argv[0]);
+            }
 
-	  Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
-	  i++;
-      }
-      else /* Warn for unknown option, except debug flags */
-	  /* that we deal with separately:               */
-      {
-	  if(strncmp(argv[i], "--debug", strlen("--debug")) != 0)	    
-	      fprintf(stderr, "Unknown option: %s\n", argv[i]);
-      }
-  }/* end of command-line args */
+            Opts_SetSpeed(strtod(argv[i + 1], (char **) NULL));
+            i++;
+        }
+        else /* Warn for unknown option, except debug flags */
+            /* that we deal with separately:               */
+        {
+            if(strncmp(argv[i], "--debug", strlen("--debug")) != 0)         
+                fprintf(stderr, "Unknown option: %s\n", argv[i]);
+        }
+    }/* end of command-line args */
 
 
-  if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
-  {
-      fprintf(stderr, "No use for keypad in demo mode!\n");
-      Opts_SetGlobalOpt(USE_KEYPAD, 0);
-  }
+    if (Opts_DemoMode() && Opts_GetGlobalOpt(USE_KEYPAD))
+    {
+        fprintf(stderr, "No use for keypad in demo mode!\n");
+        Opts_SetGlobalOpt(USE_KEYPAD, 0);
+    }
 }
 
 
@@ -645,9 +645,9 @@ void initialize_SDL(void)
     /* Init common library */
     if(!InitT4KCommon(debug_status))
     {
-       fprintf(stderr, "InitT4KCommon() failed - exiting.\n");
-       cleanup_on_error();
-       exit(1);
+        fprintf(stderr, "InitT4KCommon() failed - exiting.\n");
+        cleanup_on_error();
+        exit(1);
     }
 
     /* Init SDL Video: */
@@ -659,90 +659,90 @@ void initialize_SDL(void)
 #ifndef NOSOUND
     if (Opts_GetGlobalOpt(USE_SOUND))
     {
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
-	{
-	    fprintf(stderr,
-		"\nWarning: I could not set up audio for 44100 Hz "
-		"16-bit stereo.\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", SDL_GetError());
+        if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
+        {
+            fprintf(stderr,
+                    "\nWarning: I could not set up audio for 44100 Hz "
+                    "16-bit stereo.\n"
+                    "The Simple DirectMedia error that occured was:\n"
+                    "%s\n\n", SDL_GetError());
 
-	}
-	n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
-	if (n_timesopened > 0)
-	    Opts_SetSoundHWAvailable(1);
-	else
-	    frequency = format = channels = 0; //more helpful than garbage
-	DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
-		"format = %x, "
-		"channels = %d, "
-		"n_timesopened = %d\n",
-		frequency,format,channels,n_timesopened);
+        }
+        n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
+        if (n_timesopened > 0)
+            Opts_SetSoundHWAvailable(1);
+        else
+            frequency = format = channels = 0; //more helpful than garbage
+        DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
+                "format = %x, "
+                "channels = %d, "
+                "n_timesopened = %d\n",
+                frequency,format,channels,n_timesopened);
     }
 #endif
     /* If couldn't set up sound, deselect sound options: */
     if(!Opts_SoundHWAvailable())
     {
-	DEBUGMSG(debug_setup, "Sound setup failed - deselecting sound options\n");	  
-	Opts_SetGlobalOpt(USE_SOUND, 0);
-	Opts_SetGlobalOpt(MENU_SOUND, 0);
-	Opts_SetGlobalOpt(MENU_MUSIC, 0);
+        DEBUGMSG(debug_setup, "Sound setup failed - deselecting sound options\n");        
+        Opts_SetGlobalOpt(USE_SOUND, 0);
+        Opts_SetGlobalOpt(MENU_SOUND, 0);
+        Opts_SetGlobalOpt(MENU_MUSIC, 0);
     }
 
 
 
     {
-	const SDL_VideoInfo *videoInfo;
-	Uint32 surfaceMode;
-	videoInfo = SDL_GetVideoInfo();
-	if (videoInfo->hw_available)
-	{
-	    surfaceMode = SDL_HWSURFACE;
-	    DEBUGMSG(debug_setup, "HW mode\n");
-	}
-	else
-	{
-	    surfaceMode = SDL_SWSURFACE;
-	    DEBUGMSG(debug_setup, "SW mode\n");
-	}
+        const SDL_VideoInfo *videoInfo;
+        Uint32 surfaceMode;
+        videoInfo = SDL_GetVideoInfo();
+        if (videoInfo->hw_available)
+        {
+            surfaceMode = SDL_HWSURFACE;
+            DEBUGMSG(debug_setup, "HW mode\n");
+        }
+        else
+        {
+            surfaceMode = SDL_SWSURFACE;
+            DEBUGMSG(debug_setup, "SW mode\n");
+        }
 
-	// Determine the current resolution: this will be used as the
-	// fullscreen resolution, if the user wants fullscreen.
-	DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
-	fs_res_x = videoInfo->current_w;
-	fs_res_y = videoInfo->current_h;
+        // Determine the current resolution: this will be used as the
+        // fullscreen resolution, if the user wants fullscreen.
+        DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
+        fs_res_x = videoInfo->current_w;
+        fs_res_y = videoInfo->current_h;
 
-	if (Opts_GetGlobalOpt(FULLSCREEN))
-	{
-	    screen = SDL_SetVideoMode(fs_res_x, fs_res_y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
-	    if (screen == NULL)
-	    {
-		fprintf(stderr,
-			"\nWarning: I could not open the display in fullscreen mode.\n"
-			"The Simple DirectMedia error that occured was:\n"
-			"%s\n\n", SDL_GetError());
-		Opts_SetGlobalOpt(FULLSCREEN, 0);
-	    }
-	}
+        if (Opts_GetGlobalOpt(FULLSCREEN))
+        {
+            screen = SDL_SetVideoMode(fs_res_x, fs_res_y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
+            if (screen == NULL)
+            {
+                fprintf(stderr,
+                        "\nWarning: I could not open the display in fullscreen mode.\n"
+                        "The Simple DirectMedia error that occured was:\n"
+                        "%s\n\n", SDL_GetError());
+                Opts_SetGlobalOpt(FULLSCREEN, 0);
+            }
+        }
 
-	if (!Opts_GetGlobalOpt(FULLSCREEN))
-	{
+        if (!Opts_GetGlobalOpt(FULLSCREEN))
+        {
             screen = SDL_SetVideoMode(Opts_WindowWidth(), Opts_WindowHeight(), PIXEL_BITS, surfaceMode);
-	}
+        }
 
-	if (screen == NULL)
-	{
-	    fprintf(stderr,
-		    "\nError: I could not open the display.\n"
-		    "The Simple DirectMedia error that occured was:\n"
-		    "%s\n\n", SDL_GetError());
-	    cleanup_on_error();
-	    exit(1);
-	}
+        if (screen == NULL)
+        {
+            fprintf(stderr,
+                    "\nError: I could not open the display.\n"
+                    "The Simple DirectMedia error that occured was:\n"
+                    "%s\n\n", SDL_GetError());
+            cleanup_on_error();
+            exit(1);
+        }
 
-	seticon();
+        seticon();
 
-	SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
+        SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
 
 
     }
@@ -755,8 +755,8 @@ void load_data_files(void)
     T4K_AddDataPrefix(DATA_PREFIX);
     if (!load_sound_data())
     {
-	fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
-	Opts_SetSoundHWAvailable(0);
+        fprintf(stderr, "\nCould not load sound file - attempting to proceed without sound.\n");
+        Opts_SetSoundHWAvailable(0);
     }
 
     /* This now has to come after loading the font, because it replaces
@@ -764,9 +764,9 @@ void load_data_files(void)
     /* NOTE now the text code will load the font if it isn't already loaded */
     if (!load_image_data())
     {
-	fprintf(stderr, "\nCould not load image file - exiting!\n");
-	cleanup_on_error();
-	exit(1);
+        fprintf(stderr, "\nCould not load image file - exiting!\n");
+        cleanup_on_error();
+        exit(1);
     }
 }
 
@@ -780,11 +780,11 @@ void generate_flipped_images(void)
 
     /* Zero out the flip lookup table */
     for (i = 0; i < NUM_IMAGES; i++)
-	flipped_img_lookup[i] = 0;
+        flipped_img_lookup[i] = 0;
 
     for (i = 0; i < NUM_FLIPPED_IMAGES; i++) {
-	flipped_images[i] = T4K_Flip(images[flipped_img[i]],1,0);
-	flipped_img_lookup[flipped_img[i]] = i;
+        flipped_images[i] = T4K_Flip(images[flipped_img[i]],1,0);
+        flipped_img_lookup[flipped_img[i]] = i;
     }
 }
 
@@ -847,64 +847,64 @@ void cleanup_memory(void)
     /* Free all images and sounds used by SDL: */
     for (i = 0; i < NUM_IMAGES; i++)
     {
-	if (images[i])
-	    SDL_FreeSurface(images[i]);
-	images[i] = NULL;
+        if (images[i])
+            SDL_FreeSurface(images[i]);
+        images[i] = NULL;
     }
 
     for (i = 0; i < NUM_SPRITES; i++)
     {
-	if (sprites[i])
-	    T4K_FreeSprite(sprites[i]);
-	sprites[i] = NULL;
+        if (sprites[i])
+            T4K_FreeSprite(sprites[i]);
+        sprites[i] = NULL;
     }
 
     for (i = 0; i < NUM_SOUNDS; i++)
     {
-	if (sounds[i])
-	    Mix_FreeChunk(sounds[i]);
-	sounds[i] = NULL;
+        if (sounds[i])
+            Mix_FreeChunk(sounds[i]);
+        sounds[i] = NULL;
     }
 
     for (i = 0; i < NUM_MUSICS; i++)
     {
-	if (musics[i])
-	    Mix_FreeMusic(musics[i]);
-	musics[i] = NULL;
+        if (musics[i])
+            Mix_FreeMusic(musics[i]);
+        musics[i] = NULL;
     }
 
     if (lesson_list_titles)
     {
-	for (i = 0; i < num_lessons; i++)
-	{
-	    if (lesson_list_titles[i])
-	    {
-		free(lesson_list_titles[i]);
-		lesson_list_titles[i] = NULL;
-	    }
-	}
-	free(lesson_list_titles);
-	lesson_list_titles = NULL;
+        for (i = 0; i < num_lessons; i++)
+        {
+            if (lesson_list_titles[i])
+            {
+                free(lesson_list_titles[i]);
+                lesson_list_titles[i] = NULL;
+            }
+        }
+        free(lesson_list_titles);
+        lesson_list_titles = NULL;
     }
 
     if (lesson_list_filenames)
     {
-	for (i = 0; i < num_lessons; i++)
-	{
-	    if (lesson_list_filenames[i])
-	    {
-		free(lesson_list_filenames[i]);
-		lesson_list_filenames[i] = NULL;
-	    }
-	}
-	free(lesson_list_filenames);
-	lesson_list_filenames = NULL;
+        for (i = 0; i < num_lessons; i++)
+        {
+            if (lesson_list_filenames[i])
+            {
+                free(lesson_list_filenames[i]);
+                lesson_list_filenames[i] = NULL;
+            }
+        }
+        free(lesson_list_filenames);
+        lesson_list_filenames = NULL;
     }
 
     if (lesson_list_goldstars)
     {
-	free(lesson_list_goldstars);
-	lesson_list_goldstars = NULL;
+        free(lesson_list_goldstars);
+        lesson_list_goldstars = NULL;
     }
 
     /* frees the game_options struct: */
@@ -912,16 +912,16 @@ void cleanup_memory(void)
 
     /* frees any heap used by MathCards: */
     if(local_game)
-    {	    
+    {       
         MC_EndGame(local_game);
-	free(local_game);
-	local_game = NULL;
+        free(local_game);
+        local_game = NULL;
     }
     if(lan_game_settings)
-    {	    
+    {       
         MC_EndGame(lan_game_settings);
-	free(lan_game_settings);
-	lan_game_settings = NULL;
+        free(lan_game_settings);
+        lan_game_settings = NULL;
     }
 
     /* Cleanup SDL+friends and anything else used by t4k_common: */
@@ -943,11 +943,11 @@ void seticon(void)
     icon = IMG_Load(DATA_PREFIX "/images/icons/icon.png");
     if (icon == NULL)
     {
-	fprintf(stderr,
-		"\nWarning: I could not load the icon image: %s\n"
-		"The Simple DirectMedia error that occured was:\n"
-		"%s\n\n", DATA_PREFIX "/images/icons/icon.png", SDL_GetError());
-	return;
+        fprintf(stderr,
+                "\nWarning: I could not load the icon image: %s\n"
+                "The Simple DirectMedia error that occured was:\n"
+                "%s\n\n", DATA_PREFIX "/images/icons/icon.png", SDL_GetError());
+        return;
     }
 
     /* Create mask: */
@@ -969,19 +969,19 @@ void usage(int err, char* cmd)
     FILE* f;
 
     if (err == 0)
-	f = stdout;
+        f = stdout;
     else
-	f = stderr;
+        f = stderr;
 
     fprintf(f,
-	    "\nUsage: %s {--help | --usage | --copyright}\n"
-	    "          [--optionfile <filename>]\n"
-	    "          [--playthroughlist] [--answersfirst] [--answersmiddle]\n"
-	    "       %s [--fullscreen] [--nosound] [--nobackground]\n"
-	    "          [--demo] [--keypad] [--allownegatives]\n"
-	    //   "          [--operator {add | subtract | multiply | divide} ...]\n"
-	    "          [--speed <val>]\n"
-	    "\n", cmd, cmd);
+            "\nUsage: %s {--help | --usage | --copyright}\n"
+            "          [--optionfile <filename>]\n"
+            "          [--playthroughlist] [--answersfirst] [--answersmiddle]\n"
+            "       %s [--fullscreen] [--nosound] [--nobackground]\n"
+            "          [--demo] [--keypad] [--allownegatives]\n"
+            //   "          [--operator {add | subtract | multiply | divide} ...]\n"
+            "          [--speed <val>]\n"
+            "\n", cmd, cmd);
 
     exit (err);
 }

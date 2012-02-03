@@ -1,12 +1,12 @@
 /*
-    frame_counter.h:
+   frame_counter.h:
 
-    Contains function and global definitions for manipulating frame counter in tuxmath.
+   Contains function and global definitions for manipulating frame counter in tuxmath.
 
-    Copyright 2011.
-    Authors: Jakub M. Spiewak.
-    Project email: <tuxmath-devel@lists.sourceforge.net>
-    Project website: http://tux4kids.alioth.debian.org
+   Copyright 2011.
+Authors: Jakub M. Spiewak.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
 
 frame_counter.h is part of "Tux, of Math Command", a.k.a. "tuxmath".

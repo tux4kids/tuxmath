@@ -51,9 +51,9 @@ typedef struct {
 typedef struct lan_player_type {
     bool connected;
     char name[NAME_SIZE];
-    bool mine;	
-    bool ready;	
-    int score;	
+    bool mine;  
+    bool ready; 
+    int score;  
 } lan_player_type;
 
 /* Networking setup and cleanup: */
