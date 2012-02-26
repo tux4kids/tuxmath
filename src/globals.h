@@ -63,7 +63,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #endif
 
 /* debug data (now declared in libt4k_common */
-//extern int debug_status;
+extern int debug_status;
 
 /* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;

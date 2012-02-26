@@ -69,6 +69,7 @@ SDL_Surface* images[NUM_IMAGES];
 sprite* sprites[NUM_SPRITES];
 MC_MathGame* local_game;
 MC_MathGame* lan_game_settings;
+int debug_status;
 
 /* Need special handling to generate flipped versions of images. This
    is a slightly ugly hack arising from the use of the enum trick for
@@ -642,14 +643,51 @@ void initialize_SDL(void)
     int frequency, channels, n_timesopened;
     Uint16 format;
 
-    /* Init common library */
-    if(!InitT4KCommon(debug_status))
+    ///* Init common library */
+   // if(!InitT4KCommon(debug_status))
+   // {
+   //     fprintf(stderr, "InitT4KCommon() failed - exiting.\n");
+   //     cleanup_on_error();
+   //     exit(1);
+   // }
+
+    /* Video: */
+    if (SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        fprintf(stderr, "InitT4KCommon() failed - exiting.\n");
-        cleanup_on_error();
-        exit(1);
+	fprintf(stderr,
+		"\nError: I could not initialize video!\n"
+		"The Simple DirectMedia error that occured was:\n"
+		"%s\n\n", SDL_GetError());
+	return 0;
     }
 
+    /* Audio: */
+    if (SDL_Init(SDL_INIT_AUDIO) < 0)
+    {
+        fprintf(stderr,
+	    "\nWarning: I could not initialize audio!\n"
+	    "The Simple DirectMedia error that occured was:\n"
+	    "%s\n\n", SDL_GetError());
+    }
+    
+    /* Text (either SDL_ttf or SDL_Pango): */
+    if (!T4K_Setup_SDL_Text())
+    {
+	fprintf( stderr, "Couldn't initialize text (SDL_ttf or SDL_Pango)\n");
+	return 0;
+    }
+
+#ifdef HAVE_LIBSDL_NET
+    /* Networking: */
+    if (SDLNet_Init() < 0)
+    {
+        fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+	return 0;
+    }
+#endif
+
+    /* Seed random-number generator: */
+    srand(SDL_GetTicks());
     /* Init SDL Video: */
     screen = NULL;
 
@@ -690,8 +728,12 @@ void initialize_SDL(void)
     }
 
 
+    /* Seed random-number generator: */
+    srand(SDL_GetTicks());
 
     {
+        /* Init SDL Video: */
+        screen = NULL;
         const SDL_VideoInfo *videoInfo;
         Uint32 surfaceMode;
         videoInfo = SDL_GetVideoInfo();
@@ -925,7 +967,31 @@ void cleanup_memory(void)
     }
 
     /* Cleanup SDL+friends and anything else used by t4k_common: */
-    CleanupT4KCommon();
+    //CleanupT4KCommon();
+    
+    int frequency, channels, n_timesopened;
+    Uint16 format;
+
+    // Close the audio mixer. We have to do this at least as many times
+    // as it was opened.
+    n_timesopened = Mix_QuerySpec(&frequency, &format, &channels);
+    while (n_timesopened)
+    {
+	Mix_CloseAudio();
+	n_timesopened--;
+    }
+    
+    T4K_UnloadMenus();
+    // Unload SDL_Pango or SDL_ttf:
+    T4K_Cleanup_SDL_Text();
+    
+#ifdef HAVE_LIBSDL_NET
+    /* Quit networking if appropriate: */
+    SDLNet_Quit();
+#endif
+
+    // Finally, quit SDL
+    SDL_Quit();
 }
 
 

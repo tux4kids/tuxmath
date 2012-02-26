@@ -47,6 +47,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <t4k_common.h>
 #include "mathcards.h"
 
+
+//NOTE: remove these color defs for compatibility with 
+//t4k_common >= 1.0.0
+//Define our color constants:
+static const SDL_Color black        = {0x00, 0x00, 0x00, 0xff};
+static const SDL_Color gray         = {0x80, 0x80, 0x80, 0xff};
+static const SDL_Color dark_blue    = {0x00, 0x00, 0x60, 0xff};
+static const SDL_Color red          = {0xff, 0x00, 0x00, 0xff};
+static const SDL_Color white        = {0xff, 0xff, 0xff, 0xff};
+static const SDL_Color yellow       = {0xff, 0xff, 0x00, 0xff};
+static const SDL_Color bright_green = {0x60, 0xff, 0x00, 0xff};
+
 /* Global data gets 'externed' here: */
 
 /* declared in setup.c */
