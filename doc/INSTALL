@@ -321,7 +321,7 @@ level):
 mkdir build
 cd build
 autoreconf --install ..
-..configure
+../configure
 make
 sudo make install
 

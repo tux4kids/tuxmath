@@ -162,12 +162,6 @@ AC_ARG_WITH([sdlnet],
 )
 
 if test "x$with_sdlnet" != xno; then
-dnl We will need this for socket programming on Win32
-AC_CHECK_LIB([ws2_32],
-             [WSAStartup],
-	     []  ,
-	     [AC_MSG_NOTICE([Windows socket library ws2_32 not found - (only needed on win32)])])
-
 PKG_CHECK_MODULES([SDL_NET],
 	[SDL_net],
 	[],
@@ -290,7 +284,7 @@ AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
 if test $native_win32 = yes; then
    AC_DEFINE([BUILD_MINGW32], 1,[Native MinGW32 build])
    CFLAGS="$CFLAGS -D__GW32__"
-   LIBS="$LIBS -luuid -lole32 -lwsock32 -mwindows -liphlpapi"
+   LIBS="$LIBS -luuid -lole32 -lwsock32 -mwindows"
    CPPFLAGS="$CPPFLAGS -idirafter $prefix/include/glibc"
    AC_PATH_PROG(WINDRES, "$target_alias-windres", no, [$PATH])
 fi
