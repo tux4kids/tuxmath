@@ -253,6 +253,8 @@ void factors(void)
     factoroids_level_message(wave);
     /* Reset frame counter */
     FC_init();
+    /* Escape key disable in overview screen */
+    escape_received = 0;
 
     while (game_status == FF_IN_PROGRESS)
     {
@@ -833,6 +835,8 @@ static void FF_add_level(void)
         factoroids_level_message(wave);
         /* Reset frame counter */
         FC_init();
+        /* Escape key disable in overview screen */
+         escape_received = 0;
     }
 }
 
