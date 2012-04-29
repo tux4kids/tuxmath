@@ -251,6 +251,8 @@ void factors(void)
 
     factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
     factoroids_level_message(wave);
+    /* Reset frame counter */
+    FC_init();
 
     while (game_status == FF_IN_PROGRESS)
     {
@@ -829,6 +831,8 @@ static void FF_add_level(void)
 
         factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
         factoroids_level_message(wave);
+        /* Reset frame counter */
+        FC_init();
     }
 }
 
