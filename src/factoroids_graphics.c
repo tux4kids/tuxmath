@@ -729,7 +729,7 @@ void factoroids_level_message(int wave)
     nwave = (wave > PRIME_MAX_LIMIT) ? PRIME_MAX_LIMIT : wave;
 
     factoroids_level_objs_hints(_("Objectives:"), _(objs_str[nwave-1]), rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
-    factoroids_level_objs_hints(_("Hints:"), _(hints_str[nwave-1]), rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET);
+    factoroids_level_objs_hints(_("Hints:"), _(hints_str[nwave-1]), rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET-10);
 
     SDL_Flip(screen);
 
