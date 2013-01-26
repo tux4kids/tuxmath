@@ -1,0 +1,992 @@
+# Punjabi Translation for TUX MATH.
+# This file is distributed under the same license as the tuxmath package.
+# Arshpreet Singh <arsh840@gmail.com>, 2013.
+msgid ""
+msgstr ""
+"Project-Id-Version: tuxmath 2.0.4\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Arshpreet Singh <arsh840@gmail.com>\n"
+"Language-Team: Punjabi\n"
+"Language: pu\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Hindi\n"
+"X-Poedit-Country: INDIA\n"
+#: src/campaign.c:52
+msgid "Congratulations! You win!"
+msgstr "ਵਧਾਈਆਂ ..! ਤੁਸੀਂ ਜਿੱਤ ਗਏ"
+
+#: src/campaign.c:70
+msgid "Round"
+msgstr "ਗੋਲ "
+
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
+msgid "-[Esc] to skip"
+msgstr "ਅੱਗੇ ਜਾਣ ਵਾਸਤੇ [Esc]ਦੱਬੋ"
+
+#: src/campaign.c:141
+msgid "Mission One: Careful Cadet"
+msgstr "ਮਿਸਨ ਪਹਿਲਾ  : ਜਵਾਨ ਸਾਵਧਾਨ"
+
+#: src/campaign.c:143
+msgid "I'm so glad you've come!"
+msgstr "ਸਾਨੂੰ ਖੁਸ਼ੀ ਹੈ ਕਿ ਤੁਸੀਂ ਆਏ!"
+
+#: src/campaign.c:145
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"ਪੇੰਗੁਏਨ ਨੂੰ ਤੁਹਾਡੀ ਸਹਾਇਤਾ ਦੀ ਜਰੂਰਤ ਹੈ ਆਕਾਸ਼ ਤੋਂ ਧੂਮਕੇਤੂ ਡਿਗ ਰਹੇ ਹਨ "
+ "ਵਿਚਾਰੇ ਪੇੰਗੁਏਨਾ ਦੇ ਘਰ ਤਬਾਹ ਹੋ ਰਹੇ ਹਨ "
+"ਅਸੀਂ ਓਹਨਾ ਭੋਲੇ ਅਤੇ ਮਾਸੂਮ ਜੀਵਾਂ ਦੀ ਰਖਇਆ ਕਰਨੀ ਹੈ "
+
+#: src/campaign.c:147
+msgid "Do your best!"
+msgstr "ਪੂਰਾ ਜੋਰ ਲਗਾ ਕੇ!"
+
+#: src/campaign.c:153
+msgid "Mission Two: Smart Scout"
+msgstr "ਦੂਸਰਾ ਮਿਸਨ : ਬਹਾਦਰ ਚਾਲਕ "
+
+#: src/campaign.c:155
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr "" 
+"ਸਾਬਾਸ਼ ! ਤੁਸੀਂ ਕਮਾਲ ਕਰ ਦਿੱਤਾ "
+"ਇਸ ਵਾਸਤੇ ਤੁਹਾਨੂੰ ਇਨਾਮ ਦਿੱਤਾ ਜਾਵੇਗਾ"
+
+#: src/campaign.c:157
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""  
+"ਦੇਖੋ ਦੁਸ਼ਮਣ ਕੀ ਕਰ ਰਿਹਾ ਹੈ "
+"ਓਹ ਫੇਰ ਨੰਨੇ ਪੇੰਗੁਏਨਾ ਦੇ ਘਰ ਤਬਾਹ ਕਰ ਰਿਹਾ ਹੈ "
+
+#: src/campaign.c:158
+msgid "But you can save them!"
+msgstr "ਪਰ ਤੁਸੀਂ ਓਹਨਾ ਨੂੰ ਬਚਾ ਸਕਦੇ ਹੋ"
+
+#: src/campaign.c:164
+msgid "Mission Three: Royal Ranger"
+msgstr "ਤੀਸਰਾ ਮਿਸਨ : ਨਿਡਰ ਫੌਜੀ"
+
+#: src/campaign.c:166
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr "" 
+"ਵਾਹ ਬਈ ਵਾਹ "
+"ਤੁਸੀਂ ਫੇਰ ਕਮਾਲ ਕਰ ਦਿੱਤਾ ਅਸੀਂ ਪੇੰਗੁਏਨਾ ਦਾ ਰਾਜਾ ਤੁਹਾਨੂੰ ਨਿਡਰ ਫੌਜੀ ਦੀ ਪਦਵੀ ਨਾਲ ਸਨਮਾਨਿਤ ਕਰਦਾ ਹੈ"
+
+#: src/campaign.c:168
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"ਇਹ ਗੁਣਾ ਦੀ ਖੇਡ ਹੈ "
+"ਦੇਖੋ ਦੁਸ਼ਮਣਾਂ ਨੇ ਸ਼ਹਰ ਤੇ ਹਮਲਾ ਕਰ ਦਿੱਤਾ ਹੈ" 
+"ਆਓ ਸਾਰੇ ਰਲ ਕੇ ਸ਼ਹਰ ਵਾਲਿਆਂ ਨੂ ਬਚਾਈਏ"
+
+#: src/campaign.c:174
+msgid "Mission Four: Imperial Ace"
+msgstr " ਚੌਥਾ ਮਿਸਨ : ਬਹਾਦਰ ਸੇਨਾਪਤੀ"
+
+#: src/campaign.c:176
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""  
+"ਤੁਹਾਡਾ ਰਾਜਾ ਤੁਹਾਡੀ ਇਸ ਬਹਾਦਰੀ ਲਈ ਪੁਰਸਕਾਰ ਦੇਣਾ ਚਾਉਂਦਾ ਹੈ "
+"ਆਓ ਤੁਹਾਨੂੰ ਉਸਦੇ ਬਰਫ ਮਹਿਲ ਵਿਚ ਲੈ ਕੇ ਚਲੀਏ"
+
+#: src/campaign.c:178
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr"" 
+"ਦੁਸ਼ਮਨ ਨੇ ਬਰਫ ਮੇਹਲ ਤੇ ਹਮਲਾ ਕਰ ਦਿੱਤਾ ਹੈ "
+"ਖੇਡ ਸ਼ੁਰੂ ਕਰੋ "
+#: src/campaign.c:179
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "ਉਠੋ ਹੁਣ ਵੇਹਲੇ ਬੈਠਨ ਦਾ ਸਮਾ ਨਹੀ ਹੈ ਸਹਿਰ ਦੇ ਲੋਕਾਂ ਨੂੰ ਤੁਹਾਡੀ ਮਦਦ ਦੀ ਜਰੂਰਤ ਹੈ"
+
+#: src/campaign.c:185
+msgid "Final Mission: Computing Commando"
+msgstr "ਆਖਰੀ ਮਿਸਨ : ਕਮਾਂਡੋ ਫੋਰਸ"
+
+#: src/campaign.c:187
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr "" 
+"ਸਾਨੂੰ ਪਤਾ ਲੱਗਿਆ ਹੈ ਕੇ ਦੁਸ਼ਮਨ ਦਾ ਗੁਪਤ ਅੱਡਾ ਕਿਥੇ ਹੈ"
+" ਅਸੀਂ ਉਸਨੂੰ ਤਬਾਹ ਕਰਨਾ ਹੈ ਤਾਂ ਜੋ ਫ਼ੇਰ ਹਮਲਾ ਨਾਂ ਕਰ ਸਕੇ ਅੱਡਾ ਤਬਾਹ ਕਰਨ ਦਾ ਤਰੀਕਾ ਇਹ ਹੈ ਕੇ"
+" ਸਭ ਤੋਂ ਪਹਲਾ ਗੁਣਾ ਕਰੋ ਫੇਰ ਵੰਡੋ ਕਰੋ ਉਸਦੇ ਬਾਅਦ ਜੋੜ ਅਤੇ"
+" ਫੇਰ ਘਟਾਓ ਕਰੋ"
+
+#: src/campaign.c:188
+msgid "I hope that hint helps!"
+msgstr "ਉਮੀਦ ਹੈ ਕੇ ਏਸ ਤਰੀਕੇ ਨਾਲ ਅਸੀਂ ਦੁਸ਼ਮਨ ਨੂੰ ਫੇਰ ਹਰਾ ਸਕਦੇ ਹਾਂ"
+
+#: src/campaign.c:190
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "ਬੱਸ ਏਨਾ ਈ ਕੰਮ  ਹੈ ਅਸੀਂ ਦੁਸ਼ਮਨ ਦੇ ਹਮਲੇ ਹਮੇਸ਼ਾ ਲਈ ਰੋਕ ਸਕਦੇ ਹਾਂ"
+
+#: src/campaign.c:260
+msgid "Sorry, try again!"
+msgstr "ਮਾਫ਼ ਕਰੋ ਫੇਰ ਤੋਂ ਕੋਸ਼ਿਸ਼ ਕਰੋ"
+
+#: src/campaign.c:267
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "ਮਿਸਨ ਪੂਰਾ । ਬ੍ਰੇਹਮੰਡ ਤੁਹਾਡੀ ਮਦਦ ਨਾਲ ਸੁਰਖਿਅਤ ਹੈ "
+
+#: src/credits.c:43
+msgid "TUX, OF MATH COMMAND"
+msgstr "ਟਕਸ ਗਣਿਤ ਨਾਲ  ਖੇਡੋ ਅਤੇ ਸਿਖੋ"
+
+#: src/credits.c:44
+msgid "COPYRIGHT 2001-2011"
+msgstr "ਕਾਪੀ ਰਾਈਟ 2001-2011"
+
+#: src/credits.c:45
+msgid "VERSION "
+msgstr "ਵਰਸਨ"
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "ਟਕਸ ਫ਼ੋਰ ਕਿਡਸ ਦੁਆਰਾ ਬਣਾਇਆ ਗਿਆ "
+
+#: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "ਕਾਰੀਗਰੀ "
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "ਮੁਖ "
+
+#: src/credits.c:59
+msgid "ADDITIONAL CODE"
+msgstr "ਵਾਧੂ"
+
+#: src/credits.c:75
+msgid "LEAD ARTISTS"
+msgstr "ਮੁਖ ਕਲਾਕਾਰ "
+
+#: src/credits.c:79
+msgid "ADDITIONAL ART"
+msgstr "ਹੋਰ ਕਲਾਕਾਰੀ "
+
+#: src/credits.c:85
+msgid "SOUND EFFECTS"
+msgstr "ਧੁਨੀਆ"
+
+#: src/credits.c:88
+msgid "MUSIC"
+msgstr "ਸੰਗੀਤ"
+
+#: src/credits.c:107
+msgid "PACKAGERS"
+msgstr "ਹੋਰ ਸੋਫਟ ਵੇਅਰ "
+
+#: src/credits.c:112
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "ਟਕਸ ਜਿਹਨਾ ਨੇ ਨੰਨੇ ਪੇੰਗੁਏਨਾ ਨੂੰ ਬਣਇਆ ਹੈ "
+
+#: src/credits.c:115
+msgid "TESTERS"
+msgstr "ਨਿਰੀਖਣ "
+
+#: src/credits.c:127
+msgid "USER WEBSITE"
+msgstr "ਵੇਬ  ਸਾਈਟ"
+
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "ਇਹ ਪ੍ਰੋਜੇਕ੍ਟ ਅਲੀਓਥ ਤੇ ਹੈ :"
+
+#: src/credits.c:133
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr "" 
+"ਇਹ ਇੱਕ ਫ੍ਰੀ ਸੋਫਟਵੇਅਰ ਹੈ ਜਾਣਕਾਰੀ ਵਾਸਤੇ ਇਹ ਵੇਬਸਾਈਟ ਦੇਖੋ"
+"ਤੁਸੀਂ ਇਸ  ਸੋਫਟਵੇਅਰ ਤੋਂ ਸਿਖ ਸਕਦੇ ਹੋ ,ਇਸਨੂੰ ਆਪਣੀ ਜਰੂਰਤ ਅਨੁਸਾਰ ਬਦਲ ਸਕਦੇ ਹੋ" "ਕਿਸੇ ਹੋਰ ਨੂੰ ਵੀ ਦੇ ਸਕਦੇ ਹੋ "
+
+#: src/credits.c:135
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"ਤੁਸੀਂ ਇਸ  ਸੋਫਟਵੇਅਰ ਤੋਂ ਸਿਖ ਸਕਦੇ ਹੋ"
+"ਇਹ ਪ੍ਰੋਜੇਕ੍ਟ ਸਟਡੀ,ਕਾਪੀ ਅਤੇ ਬਦਲ ਲਈ ਛੋਟ ਹੈ "
+
+#: src/credits.c:137
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr " ਜੀ ਪੀ ਐੱਲ  ਦੀ ਪੂਰੀ ਕਾਪੀ ਇਸ ਨਾਲ ਆਉਂਦੀ ਹੈ "
+
+#: src/credits.c:139
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "ਹੋਰ ਮਦਦ ਵਾਸਤੇ  ਜੀ ਪੀ ਐੱਲ  ਦੀ ਵੇਬ ਸਾਈਟ ਤੇ ਜਾਓ "
+
+#: src/highscore.c:175 data/menus/menu_strings:7
+msgid "Hall Of Fame"
+msgstr "ਪ੍ਰਸਿਧ ਖਿਡਾਰੀ "
+
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
+msgid "Space Cadet"
+msgstr "ਅਸਮਾਨੀ ਯੋਧਾ "
+
+#: src/highscore.c:198 data/menus/menu_strings:24
+msgid "Scout"
+msgstr "ਜਵਾਨ "
+
+#: src/highscore.c:201 data/menus/menu_strings:21
+msgid "Ranger"
+msgstr "ਬਹਾਦਰ  ਚਾਲਕ "
+
+#: src/highscore.c:204 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "ਨਿਡਰ ਸੇਨਾਪਤੀ "
+
+#: src/highscore.c:207 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "ਕਮਾਂਡੋ "
+
+#: src/highscore.c:210
+msgid "Factors"
+msgstr "ਗੁਣਨਖੰਡ "
+
+#: src/highscore.c:213
+msgid "Fractions"
+msgstr "ਭਾਜ਼"
+
+#: src/highscore.c:291
+msgid "You Are In The Hall of Fame!"
+msgstr "ਤੁਸੀਂ ਮਸ਼ਹੂਰੀ ਦੇਖ ਰਹੇ ਓ "
+
+#: src/highscore.c:291
+msgid "Enter Your Name:"
+msgstr " ਤੁਹਾਡਾ ਨਾਮ ਕੀ ਹੈ ?"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "%d + %d = ?"
+msgstr "%d + %d = ?"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "? + %d = %d"
+msgstr "? + %d = %d"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "%d + ? = %d"
+msgstr "%d + ? = %d"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "%d - %d = ?"
+msgstr "%d - %d = ?"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "? - %d = %d"
+msgstr "? - %d = %d"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "%d - ? = %d"
+msgstr "%d - ? = %d"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d x %d = ?"
+msgstr "%d x %d = ?"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "? x %d = %d"
+msgstr "? x %d = %d"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d x ? = %d"
+msgstr "%d x ? = %d"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr "%d ÷ %d = ?"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr "? ÷ %d = %d"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr "%d ÷ ? = %d"
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+"ਇਹ ਫ੍ਰੀ ਅਤੇ ਓਪਨ ਸੋਰਸ ਵਰਸਨ %s ਹੈ \n"
+"ਤੁਸੀਂ ਏਸਨੂ ਵਧੀਆ ਬਣਾ ਸਕਦੇ ਓ \n"
+"ਆਪਣੀ ਸਲਾਹ ਜਰੂਰ ਦਿਓ \n"
+"ਆਪਣੇ ਵਿਚਾਰ  tuxmath-devel@list.sourceforge.net ਤੇ ਜਾਹਰ ਕਰੋ"
+
+#: src/menu.c:352
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr ""
+"ਆਪਣੀ ਨਵੀ ਗੇਮ ਬਣਾਉਣ ਲੈ ਹੋਮ ਵਿਚ ਤਬਦੀਲੀਆ ਕਰੋ \n"
+"ਗੇਮ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਮਾਉਸ ਤੋਂ ਕੋਈ ਵੀ ਬਟਨ ਦੱਬੋ \n"
+"README.txt ਫਾਈਲ ਦੇਖੋ\n"
+
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "ਕਿੰਨੇ ਬਚੇ ਖੇਡੋਗੇ ?"
+
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "2 ਅਤੇ 4 ਸਾਲ ਦੇ ਬਚਿਆਂ ਲਈ "
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr "ਸਰਵਰ ਚੱਲ ਰਿਹਾ ਹੈ "
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+"ਇਹ ਗੇਮ ਕਿਸੇ ਹੋਰ ਸਾਫਟਵੇਅਰ ਨਾਲ ਚਲ ਰਹੀ ਹੈ"  
+"ਟਕਸ ਗਣਿਤ ਤੇ ਚਲ ਰਹੀ ਹੈ "
+
+#: src/menu.c:460
+msgid "Enter Server Name:"
+msgstr "ਸਰਵਰ ਦਾ ਨਾਮ ਲਿਖੋ"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr "(50 ਅਖਰਾਂ ਦੀ ਲਿਮਟ ਹੈ)"
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr "ਸਰਵਰ ਪਾਠ ਲਈ ਕਲਿਕ ਕਰੋ "
+
+#: src/menu.c:501
+#, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr ""
+"ਸਰਵਰ ਦਾ ਨਾਮ :\n"
+"%s\n"
+"ਪਾਠ : \n"
+"%s"
+#: src/menu.c:524
+msgid ""
+"\n"
+"Sorry, this version built without network support."
+msgstr ""
+"\n"
+"ਮਾਫ਼ ਕਰਨਾ ਇਹ ਵਰਸਨ ਨੇਟਵਰਕ ਤੋਂ ਬਿਨਾ ਹੈ "
+
+#: src/menu.c:525 src/menu.c:603
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr "ਮਾਫ਼ ਕਰਨਾ ਇਹ ਵਰਸਨ ਨੇਟਵਰਕ ਤੋਂ ਬਿਨਾ ਹੈ \n"
+
+#: src/menu.c:535
+msgid "The server is not running."
+msgstr "ਸਰਵਰ ਨਹੀ ਚਲ ਰਿਹਾ"
+
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
+msgstr "ਸਰਵਰ ਬੰਦ ਨਹੀ ਕਰ ਸਕਦੇ "
+
+#: src/menu.c:545
+msgid "The server has been stopped."
+msgstr "ਸਰਵਰ ਬੰਦ ਹੈ "
+
+#: src/menu.c:562
+msgid "Sorry, could not connect to server."
+msgstr "ਮਾਫ਼ ਕਰਨਾ,ਸਰਵਰ ਨਹੀ ਚਲ ਰਿਹਾ"
+
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
+msgstr "ਮਾਫ਼ ਕਰਨਾ,ਸਰਵਰ ਨਹੀ ਮਿਲਆ \n"
+
+#: src/menu.c:583
+msgid "Sorry, game already in progress"
+msgstr "ਮਾਫ਼ ਕਰਨਾ ਖੇਡ ਪਹਲਾ ਈ ਚਲ ਰਹੀ ਹੈ "
+
+#: src/menu.c:589
+msgid "Connection with server was lost"
+msgstr "ਸਰਵਰ ਨਹੀ ਮਿਲਆ"
+
+#: src/menu.c:602
+msgid "Sorry, this version built without network support"
+msgstr "ਮਾਫ਼ ਕਰਨਾ ਇਹ ਵਰਸਨ ਨੇਟਵਰਕ ਤੋਂ ਬਿਨਾ ਹੈ "
+
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr "ਚਲੋ "
+
+#: src/multiplayer.c:229
+#, c-format
+msgid "Then %s\n"
+msgstr "ਫੇਰ  %s\n"
+
+#: src/multiplayer.c:304
+msgid "Who is playing first?"
+msgstr "ਪੇਹਲਾਂ ਕੌਣ ਖੇਦੋਗਾ? "
+
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "ਆਪਣਾ ਨਾਮ ਲਿਖੋ "
+
+#: src/multiplayer.c:306
+msgid "Who is playing next?"
+msgstr "ਪੇਹ੍ਲਾਂ ਕੌਣ ਖੇਡੇਗਾ ?"
+
+#: src/multiplayer.c:320
+msgid "How many rounds will you play?"
+msgstr "ਤੁਸੀਂ ਕਿੰਨੇ ਮਿਸਨ ਖੇਡੋਗੇ ?"
+
+#: src/multiplayer.c:320
+msgid "Enter a number"
+msgstr "ਇੱਕ ਨੰਬਰ ਲਿਖੋ "
+
+#: src/server.c:494
+msgid "Await player name"
+msgstr "ਖਿਡਾਰੀ ਦਾ ਨਾਮ ਲਿਖੋ "
+
+#: src/titlescreen.c:521
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"ਕੰਮ ਚਲ ਰਿਹਾ ਹੈ \n "
+"ਇਹ ਸੁਵਿਧਾ ਅਜੇ ਲਾਗੂ ਨਹੀ ਹੋਈ \n"
+"ਟਕਸ ਗਣਿਤ ਦੇ ਭਵਿਖ ਬਾਰੇ ਸੰਪਰਕ ਕਰੋ \n"
+"tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
+msgid "Number Typing"
+msgstr "ਸੰਖਇਆ ਲਿਖੋ "
+
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
+msgid "Addition: 1 to 3"
+msgstr "ਜੋੜ : 1 ਤੋਂ 3"
+
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
+msgid "Addition: 0 to 5"
+msgstr "ਜੋੜ : 0 ਤੋਂ 5"
+
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
+msgid "Addition: Sums to 10"
+msgstr "ਜੋੜ :10 ਤਕ "
+
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
+msgid "Addition: Sums to 15"
+msgstr "ਜੋੜ :15 ਤਕ "
+
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
+msgid "Addition: Sums to 20"
+msgstr "ਜੋੜ:20 ਤਕ "
+
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
+msgid "Addition: Two Digit Numbers"
+msgstr "ਜੋੜ : ਦੋ ਅੰਕਾ ਵਾਲੀ ਸੰਖਇਆ "
+
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
+msgid "Addition: Missing Numbers"
+msgstr "ਜੋੜ : ਸੰਖਇਆ ਲਭੋ "
+
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
+msgid "Subtraction: 0 to 10"
+msgstr "ਘਟਾਓ : 0 ਤੋਂ 10"
+
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
+msgid "Subtraction: 0 to 20"
+msgstr "ਘਟਾਓ : 0 ਤੋਂ 20"
+
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
+msgid "Subtraction: Two Digit Numbers"
+msgstr "ਘਟਾਓ : ਦੋ ਅਕਾਂ ਵਾਲੀ ਸੰਖਇਆ "
+
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
+msgid "Addition and Subtraction Review"
+msgstr "ਜੋੜ ਅਤੇ ਘਟਾਓ "
+
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 3"
+msgstr "ਗੁਣਾ : 0 ਤੋਂ 3"
+
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiples of 2"
+msgstr "2 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
+msgid "Multiples of 3"
+msgstr "3 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
+msgid "Multiples of 4"
+msgstr "4 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
+msgid "Multiples of 5"
+msgstr "5 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
+msgid "Multiplication: 0 to 5"
+msgstr "ਗੁਣਾਂ : 0 ਤੋਂ 5"
+
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
+msgid "Multiples of 6"
+msgstr "6 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
+msgid "Multiples of 7"
+msgstr "7 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
+msgid "Multiplication: 0 to 7"
+msgstr "ਗੁਣਾ : 0 ਤੋਂ 7"
+
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
+msgid "Multiples of 8"
+msgstr "8 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
+msgid "Multiples of 9"
+msgstr "9 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
+msgid "Multiples of 10"
+msgstr "10 ਦੇ ਗੁਣਨਫਲ "
+
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
+msgid "Multiplication: 0 to 10"
+msgstr "ਗੁਣਾ : 0 ਤੋਂ 10"
+
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
+msgid "Multiples of 11 and 12"
+msgstr "11 ਅਤੇ 12 ਦੇ ਗੁਣਨਫਲ"
+
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication: 0 to 12"
+msgstr "ਗੁਣਾ : 0 ਤੋਂ 12"
+
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiples of 13, 14, and 15"
+msgstr "13,14 ਅਤੇ 15 ਦੇ ਗੁਣਨਫਲ"
+
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
+msgid "Multiplication: 0 to 15"
+msgstr "ਗੁਣਾ : 0 ਤੋਂ 15"
+
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
+msgid "Multiplication: Missing Numbers"
+msgstr "ਗੁਣਾ : ਲਾਪਤਾ ਸੰਖਇਆ ਪਤਾ ਕਰੋ "
+
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
+msgid "Division by 2"
+msgstr "2 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
+msgid "Division by 3"
+msgstr "3 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
+msgid "Division by 4"
+msgstr "4 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
+msgid "Division by 5"
+msgstr "5 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
+msgid "Division: 1 to 5"
+msgstr "ਵੰਡੋ : 1 ਤੋਂ 5 "
+
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
+msgid "Division by 6"
+msgstr "6 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
+msgid "Division by 7"
+msgstr "7 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
+msgid "Division by 8"
+msgstr "8 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
+msgid "Division by 9"
+msgstr "9 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
+msgid "Division by 10"
+msgstr "10 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
+msgid "Division: 1 to 10"
+msgstr "ਵੰਡੋ 1 ਤੋਂ 10"
+
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
+msgid "Division by 11 and 12"
+msgstr "11 ਅਤੇ 12 ਤੇ ਵੰਡੋ"
+
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
+msgid "Division: 1 to 12"
+msgstr "ਵੰਡੋ : 1 ਤੋਂ 12"
+
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
+msgid "Division by 13, 14, and 15"
+msgstr "13,14 ਅਤੇ 15 ਤੇ ਵੰਡੋ "
+
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
+msgid "Division: 1 to 15"
+msgstr "ਵੰਡੋ : 1 ਤੋਂ 15"
+
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
+msgid "Multiplication and Division Review"
+msgstr "ਗੁਣਾ ਅਤੇ ਵੰਡੋ ਦਾ ਨਿਰੀਖਣ "
+
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
+msgid "Typing Negative Numbers"
+msgstr "ਰਿਣ ਸੰਖਇਆ "
+
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
+msgid "Subtraction: Negative Answers"
+msgstr "ਰਿਣ ਸੰਖਇਆ ਦਾ ਘਟਾਓ "
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
+msgid "Adding Negatives to Positives"
+msgstr "ਰਿਣ ਅਤੇ ਧਨ ਸੰਖਇਆ ਦਾ ਜੋੜ "
+
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
+msgid "Adding Positives to Negatives"
+msgstr "ਧਨ ਅਤੇ ਰਿਣ ਸੰਖਇਆ ਦਾ ਜੋੜ "
+
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
+msgid "Subtracting Negatives From Positives"
+msgstr "ਰਿਣ ਅਤੇ ਧਨ ਸੰਖਇਆ ਦਾ ਘਟਾਓ "
+
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
+msgid "Subtracting Positives From Negatives"
+msgstr "ਰਿਣ ਅਤੇ ਧਨ ਸੰਖਇਆ ਦਾ ਘਟਾਓ "
+
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
+msgid "Adding Negatives to Negatives"
+msgstr "ਰਿਣ ਅਤੇ ਰਿਣ  ਸੰਖਇਆ ਦਾ ਜੋੜ"
+
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
+msgid "Subtracting Negatives From Negatives"
+msgstr "ਰਿਣ ਅਤੇ ਰਿਣ  ਸੰਖਇਆ ਦਾ ਘਟਾਓ "
+
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
+msgid "Negative and Positive Numbers Review"
+msgstr "ਰਿਣ ਅਤੇ ਧਨ ਸੰਖਇਆ"
+
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
+msgid "Multiplication and Division of Negatives"
+msgstr "ਰਿਣ ਦੀ ਗੁਣਾ ਅਤੇ ਵੰਡੋ"
+
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
+msgid "Multiplication of Positives and Negatives"
+msgstr "ਰਿਣ ਅਤੇ ਰਿਣ  ਸੰਖਇਆ ਗੁਣਾ "
+
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
+msgid "Division of Positives and Negatives"
+msgstr "ਰਿਣ ਅਤੇ ਰਿਣ  ਸੰਖਇਆ ਦੀ ਵੰਡੋ "
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "ਕ੍ਰੇਡਿਟ"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "ਡੇਮੋ "
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "ਖਾਤਮਾ"
+
+#: data/menus/menu_strings:6
+msgid "Factoroids"
+msgstr "ਉਲਕਾ ਪਿੰਡ "
+
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "ਮਦਦ "
+
+#: data/menus/menu_strings:9
+msgid "Join Game"
+msgstr "ਆਓ ਖੇਲਿਆ "
+
+#: data/menus/menu_strings:10
+msgid "Main Menu"
+msgstr "ਮੁਖ ਮੀਨੋ "
+
+#: data/menus/menu_strings:11
+msgid "Math Command Fleet Missions"
+msgstr "ਗਣਿਤ ਦੇ ਮਿਸਨ "
+
+#: data/menus/menu_strings:12
+msgid "Math Command Training Academy"
+msgstr "ਗਣਿਤ ਦੀ ਟ੍ਰੇਨਿੰਗ ਲਵੋ  "
+
+#: data/menus/menu_strings:13
+msgid "More Options"
+msgstr "ਹੋਰ ਸਹੂਲਤਾਂ "
+
+#: data/menus/menu_strings:14
+msgid "Network Game"
+msgstr "ਨੇਟਵਰਕ ਤੇ ਖੇਡੋ "
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "ਇਕੱਲੇ  ਖੇਡੋ "
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "ਆਰਕੇਡ  ਖੇਡ ਖੇਡੋ"
+
+
+#: data/menus/menu_strings:17
+msgid "Play Custom Game"
+msgstr "ਆਪਣੀ  ਬਣਾਈ  ਖੇਡ ਖੇਡੋ "
+#: data/menus/menu_strings:18
+msgid "Play With Friends"
+msgstr "ਦੋਸਤਾਂ ਨਾਲ ਖੇਡੋ "
+
+#: data/menus/menu_strings:19
+msgid "Project Info"
+msgstr "ਏਸ ਗੇਮ ਬਾਰੇ "
+
+#: data/menus/menu_strings:20
+msgid "Quit"
+msgstr "ਬਾਹਰ ਜਾਓ "
+
+#: data/menus/menu_strings:22
+msgid "Run Server"
+msgstr "ਸਰਵਰ ਚਲਾਓ "
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "ਸਕੋਰ ਬਨਾਓ "
+
+#: data/menus/menu_strings:26
+msgid "Stop Server"
+msgstr "ਸਰਵਰ ਬੰਦ ਕਰੋ "
+
+#: data/menus/menu_strings:27
+msgid "Additional options"
+msgstr "ਹੋਰ ਸਹੂਲਤਾਂ "
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr "ਮਿਸਨ ਪੂਰੇ ਕਰੋ "
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr "ਆਪਣੀ ਖੇਡ ਬਨਾਓ "
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr "ਗੋਲਡਨ ਨੰਬਰ ਪ੍ਰਾਪਤ ਕਰੋ "
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr "ਸੌਖੀ ਖੇਡ "
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr "ਸਭ ਤੋਂ ਸੌਖੀ ਖੇਡ "
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr "ਹੋਰ ਸੌਖੀ ਖੇਡ "
+
+#: data/menus/menu_strings:34
+msgid "Exit to your desktop"
+msgstr "ਆਪਣੇ ਡਿਸਕਟੋਪ ਤੇ ਵਾਪਸ ਜਾਓ "
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr "ਆਪਣੀ ਲੇਜ਼ਰ ਗੰਨ ਨਾਲ ਨਿਸ਼ਾਨਾ ਲਗਾਓ "
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr "ਔਖਾ "
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr "ਬਹੁਤ ਔਖਾ "
+
+#: data/menus/menu_strings:38
+msgid "High Scores"
+msgstr "ਸਭ ਤੋਂ ਵਧ ਸਕੋਰ"
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr "ਸਰਵਰ ਤੇ ਖੇਡ ਨੂੰ ਜੋਇਨ ਕਰੋ "
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr "ਸਭ ਤੋਂ ਵਧ ਸਕੋਰ ਬਨਾਓ "
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr "ਵਿਚਲੇ "
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr "ਆਪਣੇ ਦੋਸਤਾਂ ਨਾਲ ਖੇਡੋ "
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr "ਖੇਡੋ ਅਤੇ ਸਿਖੋ "
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr "ਸਭ ਤੋਂ ਘਟ ਸਕੋਰਾਂ ਵਾਲੇ ਖੇਡ ਵਿਚੋਂ ਬਾਹਰ ਹੋ ਜਾਣਗੇ "
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr "ਮੀਨੋ ਤੇ ਵਾਪਸ ਜਾਓ "
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr "ਡੇਮੋ ਚਲਾਓ "
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr "ਦੇਖੋ ਕੇ ਖੇਡ ਕਿਵੇਂ ਖੇਡਣੀ ਹੈ "
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr "ਖੇਡ ਦੇ ਕ੍ਰੇਡਿਟ ਦੇਖੋ "
+
+#: data/menus/menu_strings:49
+msgid "See the project info"
+msgstr "ਖੇਡ ਬਾਰੇ ਜਾਣਕਾਰੀ "
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr "ਸਰਵਰ ਸ਼ੁਰੂ ਕਰੋ "
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr "ਸਰਵਰ ਬੰਦ ਕਰੋ "
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr "ਇਕ ਕੰਪਿਊਟਰ ਤੇ ਵਾਰੋ ਵਾਰੀ ਖੇਡੋ "
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr "ਸਭ ਤੋਂ ਵਧ ਸਕੋਰਾਂ ਵਾਲਾ ਜਿਤੇਗਾ "
