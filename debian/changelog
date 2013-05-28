@@ -1,6 +1,9 @@
 tuxmath (1.8.0-5) UNRELEASED; urgency=low
 
-  * Bump standards version to 3.9.4.
+  * debian/rules: Build debhelper 9 style.
+  * debian/control:
+    - Raise Build-Depends: to debhelper (>=9.20120909~).
+    - Bump standards version to 3.9.4.
 
  -- Holger Levsen <holger@debian.org>  Tue, 28 May 2013 22:52:51 +0200
 
