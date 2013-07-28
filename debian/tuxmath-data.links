@@ -1,0 +1,5 @@
+/usr/share/fonts/opentype/andika/Andika-R.ttf  /usr/share/tuxmath/fonts/AndikaDesRevG.ttf
+/usr/share/tuxmath/images/icons/tuxmath.svg    /usr/share/pixmaps/tuxmath.svg
+
+## workaround for "load_image(): ERROR could not load required graphics file menu/stop.svg"
+/usr/share/tuxmath/images/status  /usr/share/tuxmath/images/menu
