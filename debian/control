@@ -33,7 +33,7 @@ Package: tuxmath-data
 Architecture: all
 Multi-Arch: foreign
 Depends: ${misc:Depends}
-        ,fonts-sil-andika | ttf-sil-andika (>=1.0.basic-1)
+        ,fonts-sil-andika | ttf-sil-andika
 Suggests: ttf-wqy-zenhei | ttf-arphic-uming
 Breaks: tuxmath (<< 2.0.3)
 Replaces: tuxmath (<< 2.0.3)
