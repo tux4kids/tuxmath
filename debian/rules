@@ -2,21 +2,26 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-# use hardening-wrapper
-export DEB_BUILD_HARDENING=1
 
 %:
-	dh $@
+	dh $@  --parallel --with autoreconf
 
 override_dh_auto_configure:
-	./configure --host=$(DEB_HOST_GNU_TYPE) --build=$(DEB_BUILD_GNU_TYPE) --prefix=/usr --mandir=\$${prefix}/share/man --infodir=\$${prefix}/share/info --bindir=\$${prefix}/games
-	
-override_dh_install:
-	rm $(CURDIR)/debian/tuxmath/usr/share/tuxmath/fonts/AndikaDesRevG.ttf
-	dh_install
-	mv $(CURDIR)/debian/tuxmath/usr/share/tuxmath/images/icons/tuxmath.svg $(CURDIR)/debian/tuxmath/usr/share/pixmaps/
+	dh_auto_configure -- \
+                          --host=$(DEB_HOST_GNU_TYPE) \
+                          --build=$(DEB_BUILD_GNU_TYPE) \
+                          --prefix=/usr \
+                          --mandir=\$${prefix}/share/man \
+                          --infodir=\$${prefix}/share/info \
+                          --bindir=\$${prefix}/lib/tuxmath
 
-override_dh_installdocs:
-	dh_installdocs
-	cd $(CURDIR)/debian/tuxmath/usr/share/doc/tuxmath && rm COPYING_GPL2 COPYING_GPL3 GPL_VERSIONS INSTALL.txt OFL.txt README_DATA_LICENSES.TXT
+override_dh_auto_install:
+	dh_auto_install --destdir=$(CURDIR)/debian/tmp
+
+override_dh_install:
+	dh_install -X*.ico -X*.icns
+
+override_dh_installchangelogs:
+	dh_installchangelogs doc/changelog
+
 
