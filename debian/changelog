@@ -1,3 +1,9 @@
+tuxmath (2.0.3-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+ -- Dmitry Smirnov <onlyjob@debian.org>  Mon, 08 Jul 2013 03:55:52 +1000
+
 tuxmath (1.8.0-5) unstable; urgency=low
 
   * debian/rules: Build debhelper 9 style using hardening-wrapper.
