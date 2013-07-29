@@ -31,9 +31,6 @@ override_dh_install:
 override_dh_installchangelogs:
 	dh_installchangelogs doc/changelog
 
-override_dh_installdocs:
-	dh_installdocs --link-doc=$(PKG)-data
-
 override_dh_builddeb:
 	dh_builddeb -- -Zxz
 
