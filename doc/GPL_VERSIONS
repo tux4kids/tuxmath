@@ -1,9 +1,0 @@
-NOTE concerning GPL versions used in this program:
-
-Tuxmath has historically been understood by the core developers to be licensed under "GPL version 2 or greater", although theactual copyright/license notices in some of the individual source code files are sloppy or missing.  Also, a few of the files say "GPL version 3 or greater".  It appears that some of the GPL 3 notices are intentional, while others were inadvertant boilerplate introduced by development tools.  We are currently discussing whether to move the project as a whole to "GPL v3 or greater". As far as I know, no one has expressed a desire to keep any code "GPL 2 only". Tuxmath has many contributors, and I want to hear from as many authors a possible before I go slapping copyright notices on other people's code.
-
-So, while the sloppiness in the individual file notices is regrettable (and will be addressed in due course), I feel very confident in saying that all of the original code is either GPLv2+ or GPLv3+, which means the program when built as a whole is licensed under GPL version 3.
-
-Hopefully, all these loose ends will be tidied up in the near future and we will have a consensus on this issue.
-
-David Bruce <davidstuartbruce@gmail.com>
