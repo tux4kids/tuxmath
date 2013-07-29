@@ -1,8 +1,24 @@
 tuxmath (2.0.3-1) UNRELEASED; urgency=low
 
-  * New upstream release.
+  * New upstream release [May 2011] (Closes: #692729).
+  * Build-Depends:
+    + libt4k-common0-dev
+    - hardening-wrapper
+    + dh-autoreconf
+  * Arch-independent files are separated to new "tuxmath-data" package.
+  * Source to "3.0 (quilt)" format.
+  * Compat to version 9 + debian/rules rewrite.
+  * Build with "--as-needed" to minimise needless linking.
+  * Install game binaries to "/usr/lib/tuxmath" and provide
+    "/usr/games/tuxmath" symlink.
+  * Added "debian/watch" file.
+  * "debian/copyright: to copyright-format-1.0 + audit.
+  * Updated man page and introduced target to invoke `help2man`.
+  * Removed unnecessary versioned dependencies.
+  * xz compression for source archive and binary (.deb) packages.
+  * Added myself to Uploaders.
 
- -- Dmitry Smirnov <onlyjob@debian.org>  Mon, 08 Jul 2013 03:55:52 +1000
+ -- Dmitry Smirnov <onlyjob@debian.org>  Mon, 29 Jul 2013 13:11:12 +1000
 
 tuxmath (1.8.0-5) unstable; urgency=low
 
