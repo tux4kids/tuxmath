@@ -1,25 +1,119 @@
-.TH TUXMATH 6 "Dec 17, 2004" "Fabio Brito"
+.TH TUXMATH 6 "2013-07-29" "Fabio Brito"
 
 .SH NAME
 tuxmath \- a math game for kids with Tux
 
 .SH DESCRIPTION
- "Tux, of Math Command" ("TuxMath," for short) is an
- educational arcade game starring Tux, the Linux mascot!
- Based on the classic arcade game "Missile Command," Tux
- must defend his cities. In this case, though, he must do
- it by solving math problems.
+"Tux, of Math Command" ("TuxMath," for short) is an
+educational arcade game starring Tux, the Linux mascot!
+Based on the classic arcade game "Missile Command," Tux
+must defend his cities. In this case, though, he must do
+it by solving math problems.
+.PP
+Use the number keys on the keyboard to answer math equations,
+and then hit the space bar or enter.
+If you don't answer a comet's math equation before it hits
+one of your igloos, the igloo will be damaged.
+If an igloo is hit twice, the penguin inside walks away.
+When you lose all of your igloos, the game ends.
+.PP
+There is also a "factoroids" game in which a ship
+destroys asteroids if you type a valid factor of the number
+for a particular asteroid.  Use the number keys to steer.
 
 .SH OPTIONS
+.PP
+Note: most settings are now stored in a config file named 'options' in
+a hidden directory named './tuxmath' within the user's home directory.
+The file consists of simple name/value pairs. It is much easier
+to edit this file to set game parameters than to use the command\-line
+arguments listed below. Also, many options are not selectable from the
+command line. The config file contains extensive comments detailing how
+to configure the behavior of Tuxmath.
 .TP
 .B \-\-help
 Display help for the command
 .TP
 .B \-\-version
 Display version and author information
+.TP
+\fB\-\-homedir\fR dirname
+seek for user home director(ies) in the specified
+location, rather than the user's actual home
+directory.  You can set up a user directory tree in
+this location (see README).  This option is
+especially useful for schools where all students log
+in with a single user name.
+.TP
+\fB\-\-optionfile\fR filename
+read config settings from named file. The locations
+searched for a file with a matching name are the
+current working directory, the absolute path of the
+filename, tuxmath's missions directory, the user's
+tuxmath directory, and the user's home.
+.TP
+\fB\-\-playthroughlist\fR
+to ask each question only once, allowing player to
+win game if all questions successfully answered
+.TP
+\fB\-\-answersfirst\fR
+to ask questions in format: ? + num2 = num3
+instead of default format: num1 + num2 = ?
+.TP
+\fB\-\-answersmiddle\fR
+to ask questions in format: num1 + ? = num3
+instead of default format: num1 + num2 = ?
+.TP
+\fB\-\-nosound\fR
+to disable sound/music
+.TP
+\fB\-\-nobackground\fR
+to disable background photos (for slower systems)
+.TP
+\fB\-\-fullscreen\fR
+to run in fullscreen, if possible (vs. windowed)
+.TP
+\fB\-\-windowed\fR
+to run in a window rather than fullscreen
+.TP
+\fB\-\-keypad\fR
+to enable the on\-sceen numeric keypad
+.TP
+\fB\-\-demo\fR
+to run the program as a cycling demonstration
+.TP
+\fB\-\-speed\fR S
+set initial speed of the game
+(S may be fractional, default is 1.0)
+.TP
+\fB\-\-allownegatives\fR
+to allow answers to be less than zero
+.TP
+\fB\-\-debug\-X\fR
+prints debug information on command line.
+X may be one of the following:
+    setup: debug messages only during initialization
+    fileops: file operations (loading and saving data)
+    loaders: loading of mulitmedia (images and sounds)
+titlescreen
+    menu: most operations dealing with menus
+    menu\-parser: subset of operations dealing with menus
+    game: the comets game
+    factoroids: the factoroids game
+    lan: anything dealing with networking
+    mathcards: generation of math problems
+    sdl: the general graphical system
+    lessons: parsing pre\-prepared lessons
+    highscore: loading and saving high scores
+    options: loading and saving options files
+    text\-and\-intl: text and internationalization
+    all: everything!
 
 .SH HISTORY
-Dec 17 2004: First version of this manual page.
+.TP
+2013-07-29: Updated for version 2.0.3 by Dmitry Smirnov.
+.TP
+2004-12-17: First version of this manual page.
 
 .SH AUTHOR
 This manual page was written by
