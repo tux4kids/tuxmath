@@ -273,10 +273,15 @@ int MC_Initialize(MC_MathGame* game)
 
     game->math_opts = malloc(sizeof(MC_Options));
 
+    /* Zero out lists. Only YOU can prevent undefined behaviour!*/
+    game->question_list = NULL;
+    game->active_quests = NULL;
+    game->wrong_quests = NULL;
+
     /* bail out if no struct */
     if (!game->math_opts)
     {
-        DEBUGMSG(debug_mathcards,"\nError: malloc couldn't allocate math_opts for some reason\n");
+        DEBUGMSG(debug_mathcards,"\nError: calloc couldn't allocate math_opts for some reason\n");
         DEBUGMSG(debug_mathcards,"\nLeaving MC_Initialize()\n");
 
         fprintf(stderr, "\nUnable to initialize math_options");
@@ -1512,7 +1517,7 @@ void free_node(MC_MathQuestion* mq) //no, not that freenode.
 {
     if (!mq)
         return;
-    MC_FreeFlashcard(&(mq->card) );
+    DEBUGMSG(debug_mathcards, "Freeing card: %s", mq->card.formula_string);
     free(mq);
 }
 
@@ -1976,25 +1981,6 @@ MC_FlashCard MC_AllocateFlashcard(void)
     return ret;
 }
 
-//Now a no-op - MC_FlashCard no longer has dynamically allocated strings
-void MC_FreeFlashcard(MC_FlashCard* fc)
-{
-    return;
-    //   if (!fc)
-    //     return;
-    // //  DEBUGMSG(debug_mathcards, "Freeing formula_string\n");
-    //   if (fc->formula_string)
-    //   {
-    //     free(fc->formula_string);
-    //     fc->formula_string = NULL;
-    //   }
-    // //  DEBUGMSG(debug_mathcards, "Freeing answer_string\n");
-    //   if (fc->answer_string)
-    //   {
-    //     free(fc->answer_string);
-    //     fc->answer_string = NULL;
-    //   }
-}
 
 unsigned int MC_MapTextToIndex(const char* text)
 {
