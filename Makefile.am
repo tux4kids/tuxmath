@@ -9,35 +9,44 @@
 
 SUBDIRS = data	\
 	doc	\
-	linebreak \
 	po	\
 	src
 
-# We bundle intl with us for now in Windows cross-build:
-if BUILD_MINGW32
-	SUBDIRS = $(SUBDIRS) intl
-endif
-
 ACLOCAL_AMFLAGS = -I m4
 
-EXTRA_DIST = tuxmath.spec \
+EXTRA_DIST = t4k_common.mk \
+	tuxmath.spec \
 	tuxmath.desktop \
 	config.rpath \
 	m4/ChangeLog \
 	Info.plist \
-	CMakeLists.txt
+	CMakeLists.txt \
+        cmake-modules/ConfigureChecks.cmake \
+        cmake-modules/ConfigureChecksIntl.cmake \
+        cmake-modules/FindIconv.cmake \
+        cmake-modules/FindMSGFMT.cmake \
+        cmake-modules/FindSDL_gfx.cmake \
+        cmake-modules/FindSDL_Pango.cmake \
+        cmake-modules/FindTux4Kids-common.cmake \
+        cmake-modules/T4K_Sugar.cmake \
+        po/CMakeLists.txt \
+	config.h.cmake \
+	buildw32/cross-configure.sh \
+	buildw32/cross-make.sh \
+	buildw32/setup_mingw-cross-env.sh \
+	buildw32/tmwin.sh \
+	buildw32/t4k_common.mk
 
 ##datadir = @datadir@
 ##localedir = $(datadir)/locale
 
 
 ## These are defined in configure.ac:
-MAKENSIS=$(NSIS)
+##MAKENSIS=$(NSIS)
 ##NSIS_FOUND=@NSIS_FOUND@
 ##NSI_INSTALL_DIR=@NSI_INSTALL_DIR@
 ##NSI_DLL_DIR=@NSI_DLL_DIR@
 NSI_TEMP_INSTALL_DIR=$(abs_top_builddir)/_instw32
-
 
 ## ---------------------------------------------------------------------------
 ## Rules: --------------------------------------------------------------------
@@ -108,23 +117,78 @@ install-nsi-local: all
 ## Done with NSI_TEMP_INSTALL_DIR so uninstall:
 	$(MAKE) $(AM_MAKEFLAGS) DESTDIR=$(NSI_TEMP_INSTALL_DIR) uninstall
 	rm -rf $(NSI_TEMP_INSTALL_DIR)
+## Convert text files from Unix format DOS/Windows format and rename
+## them with ".txt" extension:
+	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/doc; \
+	FILES=`find . -type f`; \
+	for file in $$FILES; do \
+	    echo "Processing "$$file; \
+	    $(U2D) $$file; \
+	    mv $$file $$file".txt"; \
+	done)
+
+	(cd $(top_builddir)/$(NSI_INSTALL_DIR)/data/missions; \
+	FILES=`find . -type f`; \
+	for file in $$FILES; do \
+	    echo "Processing "$$file; \
+	    $(U2D) $$file; \
+	    mv $$file $$file".txt"; \
+	done)
+
+## NOTE: we don't use any dll files now that we use mingw-cross-env
+## because the entire executable is statically linked.
 ## copy needed dll files into NSI_INSTALL_DIR:
 #	-cp $(NSI_DLL_DIR)/*.dll $(top_builddir)/$(NSI_INSTALL_DIR);
+
+## NOTE: However, we do need to copy non-executable data and config files
+## needed by the libraries that we have used:
+
+## Copy data files for our t4k_common library:
+	(cd $(prefix)/share/t4k_common; \
+	   tar cf - * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/data; \
+           tar xf -)
+	echo 'fontconfig files: ' $(sysconfdir)/fonts	
+
+## Create NSI_INSTALL_DIR/fonts dir and copy fontconfig's needed
+## fonts dir to that location. 
+
+## NOTE: $(sysconfdir) will point to the etc dir 
+## in the mingw-cross-env installation, where the fontconfig lib will have
+## installed a dir called "fonts" containing the libs config files, most
+## importantly fonts.conf.  This folder must be copied into the same dir on
+## the user's Windows machine as the final TuxMath.exe binary.  It would be 
+## desirable to be able to set this to a location of our choice - DSB.
+	$(INSTALL) -d $(top_builddir)/$(NSI_INSTALL_DIR)/fonts;
+	(cd $(sysconfdir)/fonts; \
+           tar cf -  * ) \
+           | ( cd $(top_builddir)/$(NSI_INSTALL_DIR)/fonts; \
+           tar xf -)
 
 
 install-nsi-am: install-nsi-local
 
 
 nsis:
-	if test "x$(MAKENSIS)" = "x"; then \
+
+	if test "x$(U2D)" = "x"; then \
+	  echo "\nWarning - unix2dos (or todos) program not found!"; \
+          echo "It is needed to convert text files to Windows format."; \
+          echo "Without this program, user documention will be in Unix" ; \
+          echo "format, which will not display correctly with common"; \
+          echo "Windows text editors such as Notepad\n"; \
+	fi
+
+	if test "x$(NSIS)" = "x"; then \
 	  echo "\nError - makensis program not found!"; \
           echo "It is needed to build the NSIS executable installer for Windows."; \
           echo "Install it from your distribution's repository, or" ; \
           echo "download it from: http://nsis.sourceforge.net/Download\n"; \
 	else \
 	$(MAKE) $(AM_MAKEFLAGS) install-nsi-local; \
-	  $(MAKENSIS) -NOCD nsis/tuxmath.nsi; \
+	  $(NSIS) -NOCD nsis/tuxmath.nsi; \
 	fi
+
 
 clean-local:
 	@$(NORMAL_CLEAN)

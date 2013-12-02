@@ -1,0 +1,1289 @@
+# This file is put in the public domain.
+#
+# , 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: tuxmath 1.7.2\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
+"PO-Revision-Date: 2010-10-18 22:54+0200\n"
+"Last-Translator: \n"
+"Language-Team: Danish <kde-i18n-doc@kde.org>\n"
+"Language: da\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Lokalize 1.1\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/campaign.c:52
+msgid "Congratulations! You win!"
+msgstr "Tillykke! Du vinder! "
+
+#: src/campaign.c:70
+msgid "Round"
+msgstr "Runde"
+
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
+msgid "-[Esc] to skip"
+msgstr "-[Esc] spring over "
+
+#: src/campaign.c:141
+msgid "Mission One: Careful Cadet"
+msgstr "Mission Et: Omhyggelig Kadet"
+
+#: src/campaign.c:143
+msgid "I'm so glad you've come!"
+msgstr "Jeg er glad for at du kom!"
+
+#: src/campaign.c:145
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"Pingvinerne har brug for din hjælp! Kometer falder ned fra himlen, og "
+"smelter pingvinernes iglooer. For at redde deres hjem, må vi finde den "
+"hemmelige kode, som vil fjerne hver komet."
+
+#: src/campaign.c:147
+msgid "Do your best!"
+msgstr "Gør dit bedste!"
+
+#: src/campaign.c:153
+msgid "Mission Two: Smart Scout"
+msgstr "Mission To: Smart Spejder"
+
+#: src/campaign.c:155
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"Flot arbejde! Da du reddede pingvinernes hjem, bliver du forfremmet til "
+"Spejder. Spejdere er gode til at holde øje med problemer..."
+
+#: src/campaign.c:157
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+"...som det der er ved at ske lige nu! TagVækkerne er kommet, og de sender "
+"nye og anderledes kometer mod pingvinerne!"
+
+#: src/campaign.c:158
+msgid "But you can save them!"
+msgstr "Men du kan redde dem!"
+
+#: src/campaign.c:164
+msgid "Mission Three: Royal Ranger"
+msgstr "Mission Tre: Royal Ranger"
+
+#: src/campaign.c:166
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"Du har gjort det igen!Pingvin Kejseren har valgt dig til at blive en af hans "
+"Rangere, som hjælper med at beskytte byen. Vi sender dig afsted nu..."
+
+#: src/campaign.c:168
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"...åh nej! Nu er det kejseren selv der bliver angrebet af den nye slags "
+"kometer: Problemerne ganges bare op! For at bekæmpe disse, skal du være "
+"dygtig. Vi tror du kan gøre det. Bliv en Ranger og hjælp med at redde byen!"
+
+#: src/campaign.c:174
+msgid "Mission Four: Imperial Ace"
+msgstr "Mission Fire: Imperiets Es"
+
+#: src/campaign.c:176
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+"Du gjorde det! Kejseren vil takke dig personligt. Vi tager dig til hans is "
+"palads for at ære dig: Du vil blive Imperiets Es!"
+
+#: src/campaign.c:178
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr "Men midt i ceremonien, kommer der et angreb fraDivisionens land!"
+
+#: src/campaign.c:179
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Det er ikke tid til afslapning: Byen har brug for din hjælp!"
+
+#: src/campaign.c:185
+msgid "Final Mission: Computing Commando"
+msgstr "Sidste Mission: Computer Kommandør"
+
+#: src/campaign.c:187
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"Pingvin'ske videnskabsmænd har fundet ud af at alle disse angreb kommer far "
+"enhemmelig base, og at du skal kæmpe det afgørende slag. De giver dig også "
+"dette råd: Først skal du Gange og Dividere - så skal lægge til og trække fra."
+
+#: src/campaign.c:188
+msgid "I hope that hint helps!"
+msgstr "Jeg håber det råd hjælper!"
+
+#: src/campaign.c:190
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Sådan! Du kan stoppe disse angreb for evigt, Kommandør!"
+
+#: src/campaign.c:260
+msgid "Sorry, try again!"
+msgstr "Desværre, prøv igen!"
+
+#: src/campaign.c:267
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Missionen færdig! Galaksen er reddet!"
+
+#: src/credits.c:43
+msgid "TUX, OF MATH COMMAND"
+msgstr "TUX, af MATEMATIK KOMMANDOEN"
+
+#: src/credits.c:44
+#, fuzzy
+msgid "COPYRIGHT 2001-2011"
+msgstr "COPYRIGHT 2001-2009"
+
+#: src/credits.c:45
+msgid "VERSION "
+msgstr ""
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "DEL AF 'TUX4KIDS' PROJEKTET"
+
+#: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "DESIGNET AF"
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "HOVED PROGRAMMØRER"
+
+#: src/credits.c:59
+msgid "ADDITIONAL CODE"
+msgstr "YDERLIGERE KODE"
+
+#: src/credits.c:75
+#, fuzzy
+msgid "LEAD ARTISTS"
+msgstr "HOVED KUNSTNER"
+
+#: src/credits.c:79
+msgid "ADDITIONAL ART"
+msgstr "YDERLIGERE KUNSTNERE"
+
+#: src/credits.c:85
+msgid "SOUND EFFECTS"
+msgstr "LYD EFFEKTER"
+
+#: src/credits.c:88
+msgid "MUSIC"
+msgstr "MUSIK"
+
+#: src/credits.c:107
+msgid "PACKAGERS"
+msgstr "PAKKERE"
+
+#: src/credits.c:112
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "PINGVINEN 'TUX' SKABT AF"
+
+#: src/credits.c:115
+msgid "TESTERS"
+msgstr "TESTERE"
+
+#: src/credits.c:127
+#, fuzzy
+msgid "USER WEBSITE"
+msgstr "HJEMMESIDE"
+
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr ""
+
+#: src/credits.c:133
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+"TuxMath er gratis software, udgivet under GNU General Public Licence (GPL). "
+"Derved får du nogle rettighedersom du sædvanligvis ikke får med proprietær "
+"software."
+
+#: src/credits.c:135
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"Disse rettigheder inkluderer friheden til at studere, kopiere, ændre, og "
+"videreformidle programmet."
+
+#: src/credits.c:137
+#, fuzzy
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr "En fuld kopi af GPL er inkluderet i dokumentationen til dette program."
+
+#: src/credits.c:139
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "For mere information om Gratis Software og GNU GPL, besøg:"
+
+#: src/factoroids.c:524
+msgid "Powers of 2"
+msgstr ""
+
+#: src/factoroids.c:525
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "Multiplum af  11 og 12"
+
+#: src/factoroids.c:526
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:527
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:528
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:529
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:534
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
+
+#: src/factoroids.c:536
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
+msgstr ""
+
+#: src/factoroids.c:556
+msgid "Objectives:"
+msgstr ""
+
+#: src/factoroids.c:557
+msgid "Hints:"
+msgstr ""
+
+#: src/factoroids.c:788
+msgid ""
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
+msgstr ""
+
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+
+#: src/game.c:757
+msgid "Welcome to TuxMath!"
+msgstr "Velkommen til TuxMath!"
+
+#: src/game.c:774
+msgid "Your mission is to save your"
+msgstr "Din mission er at redde dine"
+
+#: src/game.c:775
+msgid "penguins' igloos from the"
+msgstr "pingviners iglooer fra"
+
+#: src/game.c:776
+msgid "falling comets."
+msgstr "de faldende kometer."
+
+#: src/game.c:795
+msgid "Stop a comet by typing"
+msgstr "Stop en komet ved at skrive"
+
+#: src/game.c:796
+msgid "the answer to the math problem"
+msgstr "løsningen på det matematiske problem"
+
+#: src/game.c:797
+msgid "and hitting 'space' or 'enter'."
+msgstr "og trykke Mellemrum eller Enter."
+
+#: src/game.c:798
+msgid "Try it now!"
+msgstr "Prøv det nu!"
+
+#: src/game.c:806
+msgid "Good shot!"
+msgstr "Godt skud!"
+
+#: src/game.c:816
+msgid "If an igloo gets hit by a comet,"
+msgstr "Hvis en igloo rammes af en komet,"
+
+#: src/game.c:817
+msgid "it melts. But don't worry: the"
+msgstr "smelter den. Men tag det roligt: "
+
+#: src/game.c:818
+msgid "penguin is OK!"
+msgstr "Pingvinerne er OK!"
+
+#: src/game.c:819
+msgid "Just watch what happens:"
+msgstr "Bare se hvad der sker:"
+
+#: src/game.c:820
+msgid "(Press a key to start)"
+msgstr "(Tryk en tast for at starte)"
+
+#: src/game.c:833
+msgid "Notice the answer"
+msgstr "Bemærk svaret"
+
+#: src/game.c:843
+msgid "If it gets hit again, the"
+msgstr "Hvis den rammes igen, må"
+
+#: src/game.c:844
+msgid "penguin leaves."
+msgstr "pingvinerne flygte."
+
+#: src/game.c:845
+msgid "(Press a key when ready)"
+msgstr "(Tryk en tast når du er klar)"
+
+#: src/game.c:868
+msgid "You can fix the igloos"
+msgstr "Du kan redde iglooerne"
+
+#: src/game.c:869
+msgid "by stopping bonus comets."
+msgstr "ved at stoppe bonus kometerne."
+
+#: src/game.c:880 src/game.c:916
+msgid "Zap it now!"
+msgstr "Skyd den nu!"
+
+#: src/game.c:886
+msgid "Great job!"
+msgstr "Godt arbejdet!"
+
+#: src/game.c:905
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "ved at stoppe bonus kometerne."
+
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:923
+msgid "Quit at any time by pressing"
+msgstr "Du kan altid stoppe ved at"
+
+#: src/game.c:924
+msgid "'Esc' or clicking the 'X'"
+msgstr "trykke 'Esc' eller klikke 'X'"
+
+#: src/game.c:925
+msgid "in the upper right corner."
+msgstr "i øverste højre hjørne."
+
+#: src/game.c:926
+msgid "Do it now, and then play!"
+msgstr "Gør det nu, og spil!"
+
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr ""
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr ""
+
+#: src/game.c:2816
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr ""
+
+#: src/game.c:2824
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr ""
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:7
+msgid "Hall Of Fame"
+msgstr "Hall Of Fame"
+
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
+msgid "Space Cadet"
+msgstr "Rum Kadet"
+
+#: src/highscore.c:198 data/menus/menu_strings:24
+msgid "Scout"
+msgstr "Spejder"
+
+#: src/highscore.c:201 data/menus/menu_strings:21
+msgid "Ranger"
+msgstr "Ranger"
+
+#: src/highscore.c:204 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "Es"
+
+#: src/highscore.c:207 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "Kommandør"
+
+#: src/highscore.c:210
+msgid "Factors"
+msgstr "Faktorer"
+
+#: src/highscore.c:213
+msgid "Fractions"
+msgstr "Brøker"
+
+#: src/highscore.c:291
+msgid "You Are In The Hall of Fame!"
+msgstr "Du er i Hall Of Fame!"
+
+#: src/highscore.c:291
+msgid "Enter Your Name:"
+msgstr "Skriv dit navn:"
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr ""
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+
+#: src/menu.c:352
+#, fuzzy
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr "Rediger 'options' fil i din hjemmemappe"
+
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "Hvor mange børn spiller?"
+
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "(2 til 4 spillere)"
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr ""
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:460
+#, fuzzy
+msgid "Enter Server Name:"
+msgstr "Skriv dit navn:"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr ""
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr ""
+
+#: src/menu.c:501
+#, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr ""
+
+#: src/menu.c:524
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
+msgstr ""
+
+#: src/menu.c:525 src/menu.c:603
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr ""
+
+#: src/menu.c:535
+msgid "The server is not running."
+msgstr ""
+
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:545
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:562
+msgid "Sorry, could not connect to server."
+msgstr ""
+
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
+msgstr ""
+
+#: src/menu.c:583
+msgid "Sorry, game already in progress"
+msgstr ""
+
+#: src/menu.c:589
+msgid "Connection with server was lost"
+msgstr ""
+
+#: src/menu.c:602
+msgid "Sorry, this version built without network support"
+msgstr ""
+
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
+#, c-format
+msgid "Then %s\n"
+msgstr ""
+
+#: src/multiplayer.c:304
+msgid "Who is playing first?"
+msgstr "Hvem spiller først?"
+
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "Skriv dit navn:"
+
+#: src/multiplayer.c:306
+msgid "Who is playing next?"
+msgstr "Hvem er den næste?"
+
+#: src/multiplayer.c:320
+msgid "How many rounds will you play?"
+msgstr "Hvor mange runder vil du spille?"
+
+#: src/multiplayer.c:320
+msgid "Enter a number"
+msgstr "Skriv et tal"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
+
+#: src/titlescreen.c:521
+#, fuzzy
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Diskuter fremtiden på tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
+msgid "Number Typing"
+msgstr "Skriv Tal"
+
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
+msgid "Addition: 1 to 3"
+msgstr "Plus: 1 til 3"
+
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
+msgid "Addition: 0 to 5"
+msgstr "Plus: 0 til 5"
+
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
+msgid "Addition: Sums to 10"
+msgstr "Plus: Sum max. 10"
+
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
+msgid "Addition: Sums to 15"
+msgstr "Plus: Sum max. 15"
+
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
+msgid "Addition: Sums to 20"
+msgstr "Plus: Sum max. 20"
+
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
+msgid "Addition: Two Digit Numbers"
+msgstr "Plus: To-cifrede Tal"
+
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
+msgid "Addition: Missing Numbers"
+msgstr "Plus: Manglende Tal"
+
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
+msgid "Subtraction: 0 to 10"
+msgstr "Minus: 0 til 10"
+
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
+msgid "Subtraction: 0 to 20"
+msgstr "Minus:0 til 20"
+
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Minus: To-cifrede Tal"
+
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
+msgid "Addition and Subtraction Review"
+msgstr "Plus og Minus Prøve"
+
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 3"
+msgstr "Gange: 0 til 3"
+
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiples of 2"
+msgstr "Multiplum af 2"
+
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
+msgid "Multiples of 3"
+msgstr "Multiplum af 3"
+
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
+msgid "Multiples of 4"
+msgstr "Multiplum af 4"
+
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
+msgid "Multiples of 5"
+msgstr "Multiplum af 5"
+
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
+msgid "Multiplication: 0 to 5"
+msgstr "Gange: 0 til 5"
+
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
+msgid "Multiples of 6"
+msgstr "Multiplum af 6"
+
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
+msgid "Multiples of 7"
+msgstr "Multiplum af 7"
+
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
+msgid "Multiplication: 0 to 7"
+msgstr "Gange: 0 til 7"
+
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
+msgid "Multiples of 8"
+msgstr "Multiplum af 8"
+
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
+msgid "Multiples of 9"
+msgstr "Multiplum af 9"
+
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
+msgid "Multiples of 10"
+msgstr "Multiplum af 10"
+
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
+msgid "Multiplication: 0 to 10"
+msgstr "Gange: 0 til 10"
+
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
+msgid "Multiples of 11 and 12"
+msgstr "Multiplum af  11 og 12"
+
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication: 0 to 12"
+msgstr "Gange: 0 til 12"
+
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiples of 13, 14, and 15"
+msgstr "Multiplum af  13, 14 og 15"
+
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
+msgid "Multiplication: 0 to 15"
+msgstr "Gange: 0 til 15"
+
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
+msgid "Multiplication: Missing Numbers"
+msgstr "Gange: Manglende Tal"
+
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
+msgid "Division by 2"
+msgstr "Dividere med 2"
+
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
+msgid "Division by 3"
+msgstr "Dividere med 3"
+
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
+msgid "Division by 4"
+msgstr "Dividere med 4"
+
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
+msgid "Division by 5"
+msgstr "Dividere med 5"
+
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
+msgid "Division: 1 to 5"
+msgstr "Dividere: 1 til 5"
+
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
+msgid "Division by 6"
+msgstr "Dividere med 6"
+
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
+msgid "Division by 7"
+msgstr "Dividere med 7"
+
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
+msgid "Division by 8"
+msgstr "Dividere med 8"
+
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
+msgid "Division by 9"
+msgstr "Dividere med 9"
+
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
+msgid "Division by 10"
+msgstr "Dividere med 10"
+
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
+msgid "Division: 1 to 10"
+msgstr "Dividere: 1 til 10"
+
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
+msgid "Division by 11 and 12"
+msgstr "Dividere med 11 og 12"
+
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
+msgid "Division: 1 to 12"
+msgstr "Dividere: 1 til 12"
+
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
+msgid "Division by 13, 14, and 15"
+msgstr "Dividere med 13, 14 og 15"
+
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
+msgid "Division: 1 to 15"
+msgstr "Dividere: 1 til 15"
+
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
+msgid "Multiplication and Division Review"
+msgstr "Gange og Dividere prøve"
+
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
+msgid "Typing Negative Numbers"
+msgstr "Skrive Negative Tal"
+
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
+msgid "Subtraction: Negative Answers"
+msgstr "Minus: Negative Tal"
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
+msgid "Adding Negatives to Positives"
+msgstr "Lægge Negative til Positive"
+
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
+msgid "Adding Positives to Negatives"
+msgstr "Lægge Positive til Negative"
+
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
+msgid "Subtracting Negatives From Positives"
+msgstr "Trække Negative fra Positive"
+
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
+msgid "Subtracting Positives From Negatives"
+msgstr "Trække Positive fra Negative"
+
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
+msgid "Adding Negatives to Negatives"
+msgstr "Lægge Negative til Positive"
+
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
+msgid "Subtracting Negatives From Negatives"
+msgstr "Trække Negative fra Negative"
+
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
+msgid "Negative and Positive Numbers Review"
+msgstr "Prøve med Positive og Negative Tal"
+
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
+msgid "Multiplication and Division of Negatives"
+msgstr "Gange og Dividere med Negative"
+
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
+msgid "Multiplication of Positives and Negatives"
+msgstr "Gange Positive og Negative"
+
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
+msgid "Division of Positives and Negatives"
+msgstr "Dividere Positive og Negative"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Credits"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Demo"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Eliminering"
+
+#: data/menus/menu_strings:6
+#, fuzzy
+msgid "Factoroids"
+msgstr "Faktoroider!"
+
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "Hjælp"
+
+#: data/menus/menu_strings:9
+msgid "Join Game"
+msgstr ""
+
+#: data/menus/menu_strings:10
+msgid "Main Menu"
+msgstr "Hovedmenu"
+
+#: data/menus/menu_strings:11
+msgid "Math Command Fleet Missions"
+msgstr "Matematik Kommando Flåde missioner"
+
+#: data/menus/menu_strings:12
+msgid "Math Command Training Academy"
+msgstr "Matematik Kommando Trænings Akademi"
+
+#: data/menus/menu_strings:13
+msgid "More Options"
+msgstr "Fler muligheder"
+
+#: data/menus/menu_strings:14
+msgid "Network Game"
+msgstr ""
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "Spil Alene"
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "Spil Arkade Spil"
+
+#: data/menus/menu_strings:17
+msgid "Play Custom Game"
+msgstr "Spil Tilpasset Spil"
+
+#: data/menus/menu_strings:18
+msgid "Play With Friends"
+msgstr "Spil med Venner"
+
+#: data/menus/menu_strings:19
+msgid "Project Info"
+msgstr "Projekt information"
+
+#: data/menus/menu_strings:20
+msgid "Quit"
+msgstr "Afslut"
+
+#: data/menus/menu_strings:22
+msgid "Run Server"
+msgstr ""
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "Score Sweep"
+
+#: data/menus/menu_strings:26
+msgid "Stop Server"
+msgstr ""
+
+#: data/menus/menu_strings:27
+#, fuzzy
+msgid "Additional options"
+msgstr "Plus: 1 til 3"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr ""
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:34
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Gør dit bedste!"
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr ""
+
+#: data/menus/menu_strings:38
+msgid "High Scores"
+msgstr ""
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:49
+#, fuzzy
+msgid "See the project info"
+msgstr "Projekt information"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "FACTOROIDER: For at vinde skal du ødelægge alle asteroiderne."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr "Brug piletasterne for at vende eller gå frem. Sigt på en asteroide,"
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "skriv en af dens faktorer, og tryk mellemrum eller Enter"
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr ""
+#~ "for at dele den i den s faktorer. Klipper med promtal bliver ødelagt!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr "BRØKER: for at vinde må du ødelægge alle asteroiderne"
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr "skriv et tal der kan forkorte brøken, og tryk Mellemrum eller Enter"
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr ""
+#~ "for at dele den. Brøker der ikke kan forkortes, kan ødelægges med at "
+#~ "enkelt skud!"
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "Spil Arkade Spil"
+
+#, fuzzy
+#~ msgid "Click when ready"
+#~ msgstr "(Tryk en tast når du er klar)"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath er gratis og open-source!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Du kan hjælpe med at forbedre det ved at indrapportere"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Tryk på en tast eller klik med musen for at starte."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Se README.txt for mere information"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Igangværende arbejde!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Denne facilitet er ikke klar endnu"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Diskuter TuxMath's fremtid på"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#~ msgid "to create customized game!"
+#~ msgstr "for at lave tilrettet spil!"
+
+#, fuzzy
+#~ msgid "Server Name:"
+#~ msgstr "Skriv dit navn:"
+
+#~ msgid "Main menu"
+#~ msgstr "Hovedmenu"
+
+#~ msgid "suggesting improvements, or adding code."
+#~ msgstr "problemer, foreslå forbedringer eller tilføje kode."

@@ -1,8 +1,30 @@
+/* fileops_media.c
+  ±±±±
+  Load media files from disk.
+
+  Copyright 2006, 2007, 2008, 2009, 2010.
+  Author: David Bruce, Tim Holy, Boleslaw Kulbabinski, Brendan Luchen.
+  Project email: <tuxmath-devel@lists.sourceforge.net>
+  Project website: http://tux4kids.alioth.debian.org
+
+
+fileops.c is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "tuxmath.h"
 #include "fileops.h"
-#include "loaders.h"
 #include "options.h"
-#include "SDL_extras.h"
 
 int glyph_offset;
 
@@ -130,24 +152,49 @@ int load_image_data()
   "factoroids/asteroid1.png",
   "factoroids/asteroid2.png",
   "factoroids/asteroid3.png",
-  "factoroids/ship01.png",
+  "factoroids/ship.png",
+  "factoroids/ship-cloaked.png",
+  "factoroids/powerbomb.png",
+  "factoroids/shield.png",
+  "factoroids/stealth.png",
   "factoroids/factoroids.png",
   "factoroids/factors.png",
   "factoroids/tux.png",
-  "factoroids/good.png"
+  "factoroids/good.png",
+  "tux/cockpit_tux1.png",
+  "tux/cockpit_tux2.png",
+  "tux/cockpit_tux3.png",
+  "tux/cockpit_tux4.png",
+  "tux/cockpit_tux5.png",
+  "tux/cockpit_tux6.png",
+  "factoroids/button_2.png",
+  "factoroids/button_3.png",
+  "factoroids/button_5.png",
+  "factoroids/button_7.png",
+  "factoroids/button_11.png",
+  "factoroids/button_13.png",
+  "factoroids/cockpit.png",
+  "factoroids/forcefield.png",
+  "factoroids/ship-thrust.png",
+  "factoroids/ship-thrust-cloaked.png",
+  "status/arrows.png"
   };
 
-  static char* sprite_filenames[NUM_IMAGES] = {
+  static char* sprite_filenames[NUM_SPRITES] = {
   "comets/comet",
   "comets/bonus_comet",
   "comets/cometex",
-  "comets/bonus_cometex"
+  "comets/bonus_cometex",
+  "comets/left_powerup_comet",
+  "comets/right_powerup_comet",
+  "comets/powerup_cometex",
+  "tux/bigtux"
   };
 
   /* Load static images: */
   for (i = 0; i < NUM_IMAGES; i++)
   {
-    images[i] = LoadImage(image_filenames[i], IMG_ALPHA);
+    images[i] = T4K_LoadImage(image_filenames[i], IMG_ALPHA);
 
     if (images[i] == NULL)
     {
@@ -163,7 +210,7 @@ int load_image_data()
   /* Load animated graphics: */
   for (i = 0; i < NUM_SPRITES; i++)
   {
-    sprites[i] = LoadSprite(sprite_filenames[i], IMG_ALPHA);
+    sprites[i] = T4K_LoadSprite(sprite_filenames[i], IMG_ALPHA);
 
     if (sprites[i] == NULL)
     {
@@ -181,9 +228,9 @@ int load_image_data()
 #ifdef REPLACE_WAVESCORE
   /* Replace the "WAVE" and "SCORE" with translate-able versions */
   SDL_FreeSurface(images[IMG_WAVE]);
-  images[IMG_WAVE] = SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
+  images[IMG_WAVE] = T4K_SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
   SDL_FreeSurface(images[IMG_SCORE]);
-  images[IMG_SCORE] = SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
+  images[IMG_SCORE] = T4K_SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
   glyph_offset++;
 #endif
 
@@ -198,64 +245,45 @@ int load_image_data()
 #ifndef NOSOUND
 int load_sound_data(void)
 {
-  int i = 0;
+    int i = 0;
 
-  static char* sound_filenames[NUM_SOUNDS] = {
-  DATA_PREFIX "/sounds/harp.wav",
-  DATA_PREFIX "/sounds/pop.wav",
-  DATA_PREFIX "/sounds/tock.wav",
-  DATA_PREFIX "/sounds/laser.wav",
-  DATA_PREFIX "/sounds/buzz.wav",
-  DATA_PREFIX "/sounds/alarm.wav",
-  DATA_PREFIX "/sounds/shieldsdown.wav",
-  DATA_PREFIX "/sounds/explosion.wav",
-  DATA_PREFIX "/sounds/sizzling.wav",
-  DATA_PREFIX "/sounds/towerclock.wav",
-  DATA_PREFIX "/sounds/cheer.wav"
-  };
+    static char* sound_filenames[NUM_SOUNDS] = {
+	DATA_PREFIX "/sounds/harp.wav",
+	DATA_PREFIX "/sounds/pop.wav",
+	DATA_PREFIX "/sounds/tock.wav",
+	DATA_PREFIX "/sounds/laser.wav",
+	DATA_PREFIX "/sounds/buzz.wav",
+	DATA_PREFIX "/sounds/alarm.wav",
+	DATA_PREFIX "/sounds/shieldsdown.wav",
+	DATA_PREFIX "/sounds/explosion.wav",
+	DATA_PREFIX "/sounds/sizzling.wav",
+	DATA_PREFIX "/sounds/towerclock.wav",
+	DATA_PREFIX "/sounds/cheer.wav",
+	DATA_PREFIX "/sounds/engine.wav"
+    };
 
-  static char* music_filenames[NUM_MUSICS] = {
-  DATA_PREFIX "/sounds/game.mod",
-  DATA_PREFIX "/sounds/game2.mod",
-  DATA_PREFIX "/sounds/game3.mod"
-  };
 
-  /* skip loading sound files if sound system not available: */
-  if (Opts_UsingSound())
-  {
-    for (i = 0; i < NUM_SOUNDS; i++)
+    /* skip loading sound files if sound system not available: */
+    if (Opts_UsingSound())
     {
-      sounds[i] = Mix_LoadWAV(sound_filenames[i]);
+	for (i = 0; i < NUM_SOUNDS; i++)
+	{
+	    sounds[i] = Mix_LoadWAV(sound_filenames[i]);
 
-      if (sounds[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a sound file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", sound_filenames[i], SDL_GetError());
-        return 0;
-      }
+	    if (sounds[i] == NULL)
+	    {
+		fprintf(stderr,
+			"\nError: I couldn't load a sound file:\n"
+			"%s\n"
+			"The Simple DirectMedia error that occured was:\n"
+			"%s\n\n", sound_filenames[i], SDL_GetError());
+		return 0;
+	    }
+	}
     }
 
-
-    for (i = 0; i < NUM_MUSICS; i++)
-    {
-      musics[i] = Mix_LoadMUS(music_filenames[i]);
-
-      if (musics[i] == NULL)
-      {
-        fprintf(stderr,
-                "\nError: I couldn't load a music file:\n"
-                "%s\n"
-                "The Simple DirectMedia error that occured was:\n"
-                "%s\n\n", music_filenames[i], SDL_GetError());
-        return 0;
-      }
-
-    }
-  }
-  return 1;
+    //NOTE - no longer load musics here - they are loaded as needed
+    return 1;
 }
 
 #endif /* NOSOUND */

@@ -25,6 +25,9 @@
    */
 #undef HAVE_ALLOCA_H
 
+/* Define to 1 if you have the `alphasort' function. */
+#undef HAVE_ALPHASORT
+
 /* Define to 1 if you have the <argz.h> header file. */
 #undef HAVE_ARGZ_H
 
@@ -53,9 +56,6 @@
    */
 #undef HAVE_DIRENT_H
 
-/* Define to 1 if you have the <dlfcn.h> header file. */
-#undef HAVE_DLFCN_H
-
 /* Define to 1 if you don't have `vprintf' but do have `_doprnt.' */
 #undef HAVE_DOPRNT
 
@@ -76,6 +76,9 @@
 
 /* Define to 1 if you have the `floor' function. */
 #undef HAVE_FLOOR
+
+/* Define to 1 if you have the `fsync' function. */
+#undef HAVE_FSYNC
 
 /* Define to 1 if you have the `getcwd' function. */
 #undef HAVE_GETCWD
@@ -107,26 +110,20 @@
 /* Define to 1 if you have the `m' library (-lm). */
 #undef HAVE_LIBM
 
-/* Define to 1 if you have the `SDL_image' library (-lSDL_image). */
+/* Define to 1 if you have the 'SDL_image' library */
 #undef HAVE_LIBSDL_IMAGE
 
-/* Define to 1 if you have the `SDL_mixer' library (-lSDL_mixer). */
+/* Define to 1 if you have the 'SDL_mixer' library */
 #undef HAVE_LIBSDL_MIXER
 
-/* Define to 1 if you have the `SDL_net' library (-lSDL_net). */
+/* Define to 1 if you have the 'SDL_net' library */
 #undef HAVE_LIBSDL_NET
 
-/* Define to 1 if you have the `SDL_Pango' library (-lSDL_Pango). */
-#undef HAVE_LIBSDL_PANGO
+/* Define to 1 if you have the `t4k_common` library */
+#undef HAVE_LIBT4K_COMMON
 
-/* Define to 1 if you have the `SDL_ttf' library (-lSDL_ttf). */
-#undef HAVE_LIBSDL_TTF
-
-/* Define to 1 if you have the `t4kcommon' library (-lt4kcommon). */
-#undef HAVE_LIBT4KCOMMON
-
-/* Define to 1 if you have the `ws2_32' library (-lws2_32). */
-#undef HAVE_LIBWS2_32
+/* Define to 1 if you have the `libxml-2.0` library */
+#undef HAVE_LIBXML2
 
 /* Define to 1 if you have the <limits.h> header file. */
 #undef HAVE_LIMITS_H
@@ -294,10 +291,6 @@
 /* Define to 1 if `lstat' dereferences a symlink specified with a trailing
    slash. */
 #undef LSTAT_FOLLOWS_SLASHED_SYMLINK
-
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
-#undef LT_OBJDIR
 
 /* Name of package */
 #undef PACKAGE

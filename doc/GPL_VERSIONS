@@ -1,9 +1,27 @@
-NOTE concerning GPL versions used in this program:
+04 May 2011 - for Tux Math 2.0.3
 
-Tuxmath has historically been understood by the core developers to be licensed under "GPL version 2 or greater", although theactual copyright/license notices in some of the individual source code files are sloppy or missing.  Also, a few of the files say "GPL version 3 or greater".  It appears that some of the GPL 3 notices are intentional, while others were inadvertant boilerplate introduced by development tools.  We are currently discussing whether to move the project as a whole to "GPL v3 or greater". As far as I know, no one has expressed a desire to keep any code "GPL 2 only". Tuxmath has many contributors, and I want to hear from as many authors a possible before I go slapping copyright notices on other people's code.
+All of the source code in Tux Math is now uniformly licensed under the GNU
+General Public License, version 3 (or later).  This includes the "GPL2 or
+later" code retained from earlier releases, as well as all of the changes since
+our last public release.  
 
-So, while the sloppiness in the individual file notices is regrettable (and will be addressed in due course), I feel very confident in saying that all of the original code is either GPLv2+ or GPLv3+, which means the program when built as a whole is licensed under GPL version 3.
+Prior to this date, Tux Math was understood to be a "GPL2 or later" project,
+although many of the source code files had missing or incomplete copyright and
+license notices.  Some of the files, however, were labeled as "GPL3 or later".
 
-Hopefully, all these loose ends will be tidied up in the near future and we will have a consensus on this issue.
+If you wish to use Tux Math's previous source code in a GPL2 project, feel free
+to download our last public release prior to the license change
+(tuxmath_w_fonts-1.8.0.tar.gz) at http://tux4kids.alioth.debian.org. Unless a
+file in that archive says "GPL3 or later", I believe that the code can be
+freely re-used in GPL2 projects.  If code labeled "GPL3 or later" was written
+within the Tux4Kids project, please contact us as we very likely would agree to
+re-license it for a GPLv2 project.
+
 
 David Bruce <davidstuartbruce@gmail.com>
+
+Note to Tuxmath developers: It should be very easy to keep the code in
+compliance with license documentation requirements.  Basically, if you edit a
+file, just add your name to the list of authors at the top of the file, and add
+the current year to the list of copyright years.  If you create a new file,
+copy the notice from one of the existing files and adapt it as appropriate.

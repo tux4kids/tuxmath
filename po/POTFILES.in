@@ -5,6 +5,7 @@ src/credits.c
 src/factoroids.c
 src/game.c
 src/highscore.c
+src/mathcards.c
 src/menu.c
 src/multiplayer.c
 src/server.c

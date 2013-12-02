@@ -1,0 +1,1349 @@
+# Romanian translation for TuxMath
+# This file is put in the public domain.
+# Tabita Dolean <dtabita21@gmail.com>, 2010
+msgid ""
+msgstr ""
+"Project-Id-Version: tuxmath 1.9.0\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
+"PO-Revision-Date: 2010-11-26 11:59+0200\n"
+"Last-Translator: Tabita Dolean <dtabita21@gmail.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms:  nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+
+#: src/campaign.c:52
+msgid "Congratulations! You win!"
+msgstr "Felicitări! Ai câștigat!"
+
+#: src/campaign.c:70
+msgid "Round"
+msgstr "Rotund"
+
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
+msgid "-[Esc] to skip"
+msgstr "-[Esc] pentru a trece mai departe"
+
+#: src/campaign.c:141
+msgid "Mission One: Careful Cadet"
+msgstr "Prima misiune: Cadetul grijuliu"
+
+#: src/campaign.c:143
+msgid "I'm so glad you've come!"
+msgstr "Mă bucur că ai venit!"
+
+#: src/campaign.c:145
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"Pinguinii au nevoie de ajutorul tău! Cometele cad de pe cer, și topesc "
+"igluurile pinguinilor. Pentru a le salva casele, trebuie să găseșticodul "
+"secret care va lovi fiecare cometă. "
+
+#: src/campaign.c:147
+msgid "Do your best!"
+msgstr "Fă ce poți mai bine!"
+
+#: src/campaign.c:153
+msgid "Mission Two: Smart Scout"
+msgstr "A doua misiune: Cercetașul deștept"
+
+#: src/campaign.c:155
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"Bună treabă! Din moment ce ați salvaț casele pinguinilor, te promovămla "
+"gradul de cercetaș. Cercetașii sunt buni pentru a avea grijă să nu fie "
+"probleme..."
+
+#: src/campaign.c:157
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+"...de exemplu ce se întâmplă chiar acum! TakeAways au venit, și trimit "
+"comete noi, mai șirete, asupra pinguinilor!"
+
+#: src/campaign.c:158
+msgid "But you can save them!"
+msgstr "Dar poți să îi salvezi!"
+
+#: src/campaign.c:164
+msgid "Mission Three: Royal Ranger"
+msgstr "A treia misiune: Vânătorul regal"
+
+#: src/campaign.c:166
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"Ai făcut-o din nou! Împăratul Pinguin a ales să te alăture echipei salede "
+"vânători care ajută la protejarea orașului. Vă trimitem acum acolo..."
+
+#: src/campaign.c:168
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"...O nu! Împăratul este atacat de tipuri noi de comete: problemele se "
+"înmulțesc!Pentru a te lupta cu acestea, ai nevoie de îndemânare. Noi știm că "
+"poți face asta. Alătură-te vânătorilor și salvează orașul!"
+
+#: src/campaign.c:174
+msgid "Mission Four: Imperial Ace"
+msgstr "A patra misiune: Campionul Imperial"
+
+#: src/campaign.c:176
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+"Ai făcut-o! Împăratul vrea să îți mulțumească personal. Te ducem la palatul "
+"lui de gheață pentru o mare onoare: vei deveni Campionul Imperial"
+
+#: src/campaign.c:178
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr ""
+"Dar chiar în mijlocul ceremoniei, un nou atac din țara Diviziei începe!"
+
+#: src/campaign.c:179
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Nu este timp de odihnit; orașul are nevoie de ajutorul tău!"
+
+#: src/campaign.c:185
+msgid "Final Mission: Computing Commando"
+msgstr "Misiunea finală: Comandoul de calcul"
+
+#: src/campaign.c:187
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"Pinguinii de știință au invațat că toate atacurile vin dintr-o bază secretă "
+"și au nevoie de tine pentru a duce bătălia la capăt. Ei îți dau acest "
+"indiciu: prima dată fă înmulțirea și împărțirea, și apoi adunarea și "
+"scăderea."
+
+#: src/campaign.c:188
+msgid "I hope that hint helps!"
+msgstr "Sper că indiciul te ajută!"
+
+#: src/campaign.c:190
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Aceasta este! Poți aceste atacuri pentru totdeauna, Comando"
+
+#: src/campaign.c:260
+msgid "Sorry, try again!"
+msgstr "Ne pare rău, încearcă din nou!"
+
+#: src/campaign.c:267
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Misiune îndeplinită. Galaxia este în siguranță!"
+
+#: src/credits.c:43
+msgid "TUX, OF MATH COMMAND"
+msgstr "TUX, COMANDA MATEMATICII"
+
+#: src/credits.c:44
+#, fuzzy
+msgid "COPYRIGHT 2001-2011"
+msgstr "COPYRIGHT 2001-2010"
+
+#: src/credits.c:45
+msgid "VERSION "
+msgstr ""
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "PARTE DIN PROIECTUL 'TUX4KIDS' "
+
+#: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "MODELAT DE"
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "PROGRAMATORII CONDUCĂTORI"
+
+#: src/credits.c:59
+msgid "ADDITIONAL CODE"
+msgstr "COD SUPLIMENTAR"
+
+#: src/credits.c:75
+#, fuzzy
+msgid "LEAD ARTISTS"
+msgstr "ARTISTUL CONDUCATOR"
+
+#: src/credits.c:79
+msgid "ADDITIONAL ART"
+msgstr "ARTA SUPLIMENTARĂ"
+
+#: src/credits.c:85
+msgid "SOUND EFFECTS"
+msgstr "EFECTE DE SUNET"
+
+#: src/credits.c:88
+msgid "MUSIC"
+msgstr "MUZICĂ"
+
+#: src/credits.c:107
+msgid "PACKAGERS"
+msgstr "ASAMBLARE"
+
+#: src/credits.c:112
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "PINGUINUL 'TUX' CREAT DE"
+
+#: src/credits.c:115
+msgid "TESTERS"
+msgstr "TESTĂRI"
+
+#: src/credits.c:127
+msgid "USER WEBSITE"
+msgstr "PAGINA WEB UTILIZATORILOR"
+
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "DEZVOLTAREA TUX4KIDS GĂZDUIT LA ALIOTH:"
+
+#: src/credits.c:133
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+"TuxMath este software liber licențiat sub Licența Publică Generala GNU(GPL)."
+"Așadar, primiți în mod specific drepturile care sunt blocate în mod uzual "
+"pentru utilizatorii de software proprietar."
+
+#: src/credits.c:135
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"Aceste drepturi includ libertatea de a studia, copia, modifica, și "
+"redistribuiacest program."
+
+#: src/credits.c:137
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr ""
+"O copie întregă a GPL a fost inclusă împreună cu documentația pentru acest "
+"program."
+
+#: src/credits.c:139
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "Pentru mai multe informații despre Software Liber și GNU GPL vizitați:"
+
+#: src/factoroids.c:524
+msgid "Powers of 2"
+msgstr ""
+
+#: src/factoroids.c:525
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "Multipli lui 11 și 12"
+
+#: src/factoroids.c:526
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:527
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:528
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:529
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:534
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
+
+#: src/factoroids.c:536
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
+msgstr ""
+
+#: src/factoroids.c:556
+msgid "Objectives:"
+msgstr ""
+
+#: src/factoroids.c:557
+msgid "Hints:"
+msgstr ""
+
+#: src/factoroids.c:788
+msgid ""
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
+msgstr ""
+
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+
+#: src/game.c:757
+msgid "Welcome to TuxMath!"
+msgstr "Bine ai venit la TuxMath!"
+
+#: src/game.c:774
+msgid "Your mission is to save your"
+msgstr "Misiunea ta este să salvezi "
+
+#: src/game.c:775
+msgid "penguins' igloos from the"
+msgstr "igluurile pinguinilor de"
+
+#: src/game.c:776
+msgid "falling comets."
+msgstr "cometele care cad."
+
+#: src/game.c:795
+msgid "Stop a comet by typing"
+msgstr "Oprește o cometă scriind"
+
+#: src/game.c:796
+msgid "the answer to the math problem"
+msgstr "răspunsul la problema de matematică"
+
+#: src/game.c:797
+msgid "and hitting 'space' or 'enter'."
+msgstr "și apăsând 'spțiu' sau 'enter'."
+
+#: src/game.c:798
+msgid "Try it now!"
+msgstr "Încearcă acum!"
+
+#: src/game.c:806
+msgid "Good shot!"
+msgstr "Bună lovitură!"
+
+#: src/game.c:816
+msgid "If an igloo gets hit by a comet,"
+msgstr "Dacă un iglu este lovit de o cometă,"
+
+#: src/game.c:817
+msgid "it melts. But don't worry: the"
+msgstr "se topește. Dar nu te îngrijora: "
+
+#: src/game.c:818
+msgid "penguin is OK!"
+msgstr "pinguinul este OK!"
+
+#: src/game.c:819
+msgid "Just watch what happens:"
+msgstr "Doar privește ce se întâmplă:"
+
+#: src/game.c:820
+msgid "(Press a key to start)"
+msgstr "(Apasă o tastă pentru a începe)"
+
+#: src/game.c:833
+msgid "Notice the answer"
+msgstr "Observă răspunsul"
+
+#: src/game.c:843
+msgid "If it gets hit again, the"
+msgstr "Dacă primește o lovitură din nou,"
+
+#: src/game.c:844
+msgid "penguin leaves."
+msgstr "pinguinul pleacă."
+
+#: src/game.c:845
+msgid "(Press a key when ready)"
+msgstr "(Apasă o tastă când ești pregătit)"
+
+#: src/game.c:868
+msgid "You can fix the igloos"
+msgstr "Poți să repari igluurile"
+
+#: src/game.c:869
+msgid "by stopping bonus comets."
+msgstr "oprind cometele bonus."
+
+#: src/game.c:880 src/game.c:916
+msgid "Zap it now!"
+msgstr "Lovește-l acum!"
+
+#: src/game.c:886
+msgid "Great job!"
+msgstr "Bună treabă!"
+
+#: src/game.c:905
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "oprind cometele bonus."
+
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:923
+msgid "Quit at any time by pressing"
+msgstr "Ieși oricând apăsând tasta"
+
+#: src/game.c:924
+msgid "'Esc' or clicking the 'X'"
+msgstr "'Esc' sau apăsând 'X'"
+
+#: src/game.c:925
+msgid "in the upper right corner."
+msgstr "în colțul din stânga sus."
+
+#: src/game.c:926
+msgid "Do it now, and then play!"
+msgstr "Fă-o acum, apoi joacă-te!"
+
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr "Pinguinii au fost salvaţi!"
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr "Scoruri finale:"
+
+#: src/game.c:2816
+#, fuzzy
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr "Conexiunea cu serverul s-a întrerupt."
+
+#: src/game.c:2824
+#, fuzzy
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr "Conexiunea cu serverul s-a întrerupt."
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:7
+msgid "Hall Of Fame"
+msgstr "Holul Faimei"
+
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
+msgid "Space Cadet"
+msgstr "Cadetul Spațiului"
+
+#: src/highscore.c:198 data/menus/menu_strings:24
+msgid "Scout"
+msgstr "Cercetător"
+
+#: src/highscore.c:201 data/menus/menu_strings:21
+msgid "Ranger"
+msgstr "Vânător"
+
+#: src/highscore.c:204 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "Campion"
+
+#: src/highscore.c:207 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "Comando"
+
+#: src/highscore.c:210
+msgid "Factors"
+msgstr "Factori Primi"
+
+#: src/highscore.c:213
+msgid "Fractions"
+msgstr "Fracții"
+
+#: src/highscore.c:291
+msgid "You Are In The Hall of Fame!"
+msgstr "Te aflii în Holul Faimei!"
+
+#: src/highscore.c:291
+msgid "Enter Your Name:"
+msgstr "Introdu numele:"
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr ""
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+
+#: src/menu.c:352
+#, fuzzy
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr "Modifică fișierul 'opțiuni' în propriul director"
+
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "Cați copii se joacă?"
+
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "(Între 2 și 4 jucători)"
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr "Acest server deja rulează"
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:460
+msgid "Enter Server Name:"
+msgstr "Introdu numele serverului:"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr "(limita 50 caractere)"
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr ""
+"Fă clic cu mausul sau apasă o tastă pentru a selecta fișierul cu lecția "
+"serverului"
+
+#: src/menu.c:501
+#, fuzzy, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr "Lecția selectată:"
+
+#: src/menu.c:524
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
+msgstr "Ne pare rău, această versiune nu are suport pentru rețea.\n"
+
+#: src/menu.c:525 src/menu.c:603
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr "Ne pare rău, această versiune nu are suport pentru rețea.\n"
+
+#: src/menu.c:535
+#, fuzzy
+msgid "The server is not running."
+msgstr "Acest server deja rulează"
+
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:545
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:562
+#, fuzzy
+msgid "Sorry, could not connect to server."
+msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
+
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
+msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
+
+#: src/menu.c:583
+#, fuzzy
+msgid "Sorry, game already in progress"
+msgstr "Ne pare rău, jocul a început deja."
+
+#: src/menu.c:589
+#, fuzzy
+msgid "Connection with server was lost"
+msgstr "Conectat la server: %s"
+
+#: src/menu.c:602
+#, fuzzy
+msgid "Sorry, this version built without network support"
+msgstr "Ne pare rău, această versiune nu are suport pentru rețea"
+
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
+#, c-format
+msgid "Then %s\n"
+msgstr "Apoi %s\n"
+
+#: src/multiplayer.c:304
+msgid "Who is playing first?"
+msgstr "Cine se joacă primul?"
+
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "Introdu numele:"
+
+#: src/multiplayer.c:306
+msgid "Who is playing next?"
+msgstr "Cine se joacă următorul?"
+
+#: src/multiplayer.c:320
+msgid "How many rounds will you play?"
+msgstr "Câte runde te vei juca?"
+
+#: src/multiplayer.c:320
+msgid "Enter a number"
+msgstr "Introdu un număr"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
+
+#: src/titlescreen.c:521
+#, fuzzy
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Discută TuxMath la adresa tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
+msgid "Number Typing"
+msgstr "Introducere Număr"
+
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
+msgid "Addition: 1 to 3"
+msgstr "Adunare: 1 cu 3"
+
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
+msgid "Addition: 0 to 5"
+msgstr "Adunare: 0 cu 5"
+
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
+msgid "Addition: Sums to 10"
+msgstr "Adunare: Adunat la 10"
+
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
+msgid "Addition: Sums to 15"
+msgstr "Adunare: Adunat la 15"
+
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
+msgid "Addition: Sums to 20"
+msgstr "Adunare: Adunat la 20"
+
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
+msgid "Addition: Two Digit Numbers"
+msgstr "Adunare: Numere de două cifre"
+
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
+msgid "Addition: Missing Numbers"
+msgstr "Adunare: Numere lipsă"
+
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
+msgid "Subtraction: 0 to 10"
+msgstr "Scădere: 0 cu 10"
+
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
+msgid "Subtraction: 0 to 20"
+msgstr "Scădere: 0 cu 20"
+
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Scădere: Numere cu două cifre"
+
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
+msgid "Addition and Subtraction Review"
+msgstr "Verificare adunare și scădere"
+
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 3"
+msgstr "Înmulțire: 0 cu 3"
+
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiples of 2"
+msgstr "Multipli de 2"
+
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
+msgid "Multiples of 3"
+msgstr "Multipli de 3"
+
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
+msgid "Multiples of 4"
+msgstr "Multipli de 4"
+
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
+msgid "Multiples of 5"
+msgstr "Multipli de 5"
+
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
+msgid "Multiplication: 0 to 5"
+msgstr "Înmulțire: 0 cu 5"
+
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
+msgid "Multiples of 6"
+msgstr "Multipli de 6"
+
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
+msgid "Multiples of 7"
+msgstr "Multipli de 7"
+
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
+msgid "Multiplication: 0 to 7"
+msgstr "Înmulțire: 0 cu 7"
+
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
+msgid "Multiples of 8"
+msgstr "Multipli de 8"
+
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
+msgid "Multiples of 9"
+msgstr "Multipli de 9"
+
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
+msgid "Multiples of 10"
+msgstr "Multipli de 10"
+
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
+msgid "Multiplication: 0 to 10"
+msgstr "Înmulțire: 0 cu 10"
+
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
+msgid "Multiples of 11 and 12"
+msgstr "Multipli lui 11 și 12"
+
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication: 0 to 12"
+msgstr "Înmulțire: 0 cu 12"
+
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiples of 13, 14, and 15"
+msgstr "Multipli lui 13, 14 și 15"
+
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
+msgid "Multiplication: 0 to 15"
+msgstr "Înmulțire: 0 cu 15"
+
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
+msgid "Multiplication: Missing Numbers"
+msgstr "Înmulțire: numere lipsă"
+
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
+msgid "Division by 2"
+msgstr "Împărțire cu 2"
+
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
+msgid "Division by 3"
+msgstr "Împărțire cu 3"
+
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
+msgid "Division by 4"
+msgstr "Împărțire cu 4"
+
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
+msgid "Division by 5"
+msgstr "Împărțire cu 5"
+
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
+msgid "Division: 1 to 5"
+msgstr "Împărțire: 1 la 5"
+
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
+msgid "Division by 6"
+msgstr "Împărțire cu 6"
+
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
+msgid "Division by 7"
+msgstr "Împărțire cu 7"
+
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
+msgid "Division by 8"
+msgstr "Împărțire cu 8"
+
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
+msgid "Division by 9"
+msgstr "Împărțire cu 9"
+
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
+msgid "Division by 10"
+msgstr "Împărțire cu 10"
+
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
+msgid "Division: 1 to 10"
+msgstr "Împărțire: 1 la 10"
+
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
+msgid "Division by 11 and 12"
+msgstr "Împărțire cu 11 și 12"
+
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
+msgid "Division: 1 to 12"
+msgstr "Împărțire: 1 la 12"
+
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
+msgid "Division by 13, 14, and 15"
+msgstr "Împărțire cu 13, 14 și 15"
+
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
+msgid "Division: 1 to 15"
+msgstr "Împărțire: 1 la 15"
+
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
+msgid "Multiplication and Division Review"
+msgstr "Verificare înmulțire și împărțire"
+
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
+msgid "Typing Negative Numbers"
+msgstr "Scrierea numerelor negative"
+
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
+msgid "Subtraction: Negative Answers"
+msgstr "Scădere: răspunsuri negative"
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
+msgid "Adding Negatives to Positives"
+msgstr "Adunare numere negative la numere pozitive"
+
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
+msgid "Adding Positives to Negatives"
+msgstr "Adunare numere pozitive la numere negative"
+
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
+msgid "Subtracting Negatives From Positives"
+msgstr "Scădere numere negative din numere pozitive"
+
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
+msgid "Subtracting Positives From Negatives"
+msgstr "Scădere numere pozitive din numere negative"
+
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
+msgid "Adding Negatives to Negatives"
+msgstr "Adunare numere negative la numere negative"
+
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
+msgid "Subtracting Negatives From Negatives"
+msgstr "Scădere numere negativel din numere negative"
+
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
+msgid "Negative and Positive Numbers Review"
+msgstr "Verificare numere pozitive și numere negative"
+
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
+msgid "Multiplication and Division of Negatives"
+msgstr "Înmulțirea și împărțirea numerelor negative"
+
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
+msgid "Multiplication of Positives and Negatives"
+msgstr "Înmulțirea numerelor pozitive și numerelor negative"
+
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
+msgid "Division of Positives and Negatives"
+msgstr "Împarțirea numerelor pozitive și numerelor negative"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Credite"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Demonstrație"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Eliminare"
+
+#: data/menus/menu_strings:6
+#, fuzzy
+msgid "Factoroids"
+msgstr "Facotroizi!"
+
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "Ajutor"
+
+#: data/menus/menu_strings:9
+msgid "Join Game"
+msgstr "Intră în joc"
+
+#: data/menus/menu_strings:10
+msgid "Main Menu"
+msgstr "Meniu principal"
+
+#: data/menus/menu_strings:11
+msgid "Math Command Fleet Missions"
+msgstr "Comanda matematicii misiuni flotă"
+
+#: data/menus/menu_strings:12
+msgid "Math Command Training Academy"
+msgstr "Comanda matematicii academia de antrenare"
+
+#: data/menus/menu_strings:13
+msgid "More Options"
+msgstr "Mai multe opțiuni"
+
+#: data/menus/menu_strings:14
+msgid "Network Game"
+msgstr "Joc de rețea"
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "Joacă singur"
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "Joacă joc arcade"
+
+#: data/menus/menu_strings:17
+msgid "Play Custom Game"
+msgstr "Joacă joc personalizat"
+
+#: data/menus/menu_strings:18
+msgid "Play With Friends"
+msgstr "Joacă cu prietenii"
+
+#: data/menus/menu_strings:19
+msgid "Project Info"
+msgstr "Informații proiect"
+
+#: data/menus/menu_strings:20
+msgid "Quit"
+msgstr "Ieșire"
+
+#: data/menus/menu_strings:22
+msgid "Run Server"
+msgstr "Pornește serverul"
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "Măturare scor"
+
+#: data/menus/menu_strings:26
+#, fuzzy
+msgid "Stop Server"
+msgstr "Pornește serverul"
+
+#: data/menus/menu_strings:27
+#, fuzzy
+msgid "Additional options"
+msgstr "Adunare: 1 cu 3"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr ""
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:34
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Fă ce poți mai bine!"
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr ""
+
+#: data/menus/menu_strings:38
+#, fuzzy
+msgid "High Scores"
+msgstr "Scoruri finale:"
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:49
+#, fuzzy
+msgid "See the project info"
+msgstr "Informații proiect"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "FACTOROIZI: pentru a câștiga, trebuie să distrugi toți asteroizii."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr ""
+#~ "Folosește săgețile pentru a te întoarce sau a merge inainte. Țintește la "
+#~ "un asteroid,"
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "scrie unul din factorii săi, și apasă spațiu sau enter"
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr ""
+#~ "pentru a-i împărți în factori primi. Pietrele cu numere prime sunt "
+#~ "distruse!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr "FRACTII: pentru a câștiga, trebuie să distrugi toți asteroizii."
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr ""
+#~ "scrie un număr care poate să simplifice fracția, și apasă spațiu sau enter"
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr ""
+#~ "pentru a-l înjumătăți. Distruge fracțiile care nu mai pot fi simplificate "
+#~ "dintr-o singură lovitură!"
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "Joacă joc arcade"
+
+#~ msgid "Detecting servers"
+#~ msgstr "Detectare servere"
+
+#~ msgid "Please wait"
+#~ msgstr "Așteptați"
+
+#~ msgid "Connected to server: %s"
+#~ msgstr "Conectat la server: %s"
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#, fuzzy
+#~ msgid "Sorry, could not join game."
+#~ msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
+
+#, fuzzy
+#~ msgid "Sorry, could not join game.\n"
+#~ msgstr "Ne pare rău, nici un server nu a fost găsit.\n"
+
+#, fuzzy
+#~ msgid "Sorry, no server could be found."
+#~ msgstr "Ne pare rău, nici un server nu a fost găsit."
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "TuxMath a detectat %d servere pornite."
+
+#~ msgid "Click when ready"
+#~ msgstr "Fă clic cand sunteți pregătit"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "Aștept după alți jucători"
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "Ne pare rău, jocul a început deja.ân\n"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath este gratuit și sursă liberă!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Poți să ajuți facând-ul mai bun."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Sugestii, opere de artă, și codul toate sunt binevenite!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Apasă o tastă sau fă clic cu mausul pentru a începe jocul."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Citește README.txt pentru mai multe informații"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Se lucrează!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Aceasta caracteristică nu este gata încă"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Discută viitorul lui TuxMath la"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#, fuzzy
+#~ msgid "Network game terminated."
+#~ msgstr "Joc de rețea"
+
+#~ msgid "to create customized game!"
+#~ msgstr "pentru a crea un joc personalizat!"
+
+#~ msgid "Server Name:"
+#~ msgstr "Numele serverului:"
+
+#~ msgid "This version only allows one server on the network."
+#~ msgstr "Această versiune permite doar un singur server în reţea."
+
+#~ msgid "Try again when only one server is running."
+#~ msgstr "Încearcă din nou când doar un server este pornit."

@@ -1,0 +1,95 @@
+TODO.txt for "tuxmath"
+
+2011.May.04
+
+These are the main (difficult) issues we would like to tackle
+at some point:
+
+1. Create an easy package for both tuxmath and t4k_common for people who
+want to build from source but don't use the Git repositories.
+
+2. Update distro packaging to reflect the t4k_common refactoring. 
+
+3. The admin program needs to be finished, documented, and packaged.
+
+4. LAN mode could use some further work.  The server program could be made more
+robust and functional, with ability to handle multiple simultaneous games, and
+more configurability.  One prerequisite will be to make mathcards.c/h
+thread-safe.
+
+5. Removal of dead code and files now that t4k_common providing many functions.
+
+6. Dependable creation of dmg installer builds for Mac OS-X.
+
+7. Improve teaching value of main game by reviewing any incorrectly answered
+questions at the end of the game, and playing another game with only these
+questions.
+
+8. Ability to select locale from within game or as a command-line option.
+
+9. More professional-looking artwork throughout game.
+
+10. Consistent use of SVG with caching of scaled images, also load and unload
+images as needed.
+
+11. Make the game graphics "frame-rate-independent" so we can draw faster as
+allowed by the processor to improve appearance.
+
+
+
+Older stuff:
+2007.Oct.08
+Build:
+  * Make a relocatable binary for Linux (klik package?)
+
+Older stuff:
+2007.Oct.08
+Build:
+  * Make a relocatable binary for Linux (klik package?)
+  * Refine NSIS installer for Windows (or perhaps executable
+    itself) to create Start Menu link to options.txt file
+
+Graphics:
+  * Make game more "themable" (there is a pending request for an
+    "Egyptian" theme with pyramids and an "Islands" theme with
+    palm trees, etc.)
+  * svg support - allow game to draw correctly at any resolution.
+
+Interface:
+  * Add more sound effects and music files
+  * Speech mode
+  * Add option for number-keys to control main menu and possible options
+    (for mouseless scenarios where arrow keys might not be the available...
+    is there such a thing as numeric-only keyboards for PCs???)
+  * Implement lockfile to prevent multiple invocations.
+
+Game Play:
+  * More entertaining "victory" and "defeat" screens
+  * Add option to review missed questions to end-of-game screens
+  * Add option to play next game using missed questions from current game
+  * End-of-level calculations, bonuses and animations
+  * "Lesson server" with login - keep track of lessons completed, percent
+    correct, etc. on a per-user basis, even if installation doesn't have 
+    students log into computers individually.
+  * Multiplayer mode - points go to whoever shoots the comet first.
+  * Re-examine algorithm for spacing of comets (allow game to deliver
+    problems faster even if the comet speed limit is not raised).
+
+Documentation:
+  * Finish README.txt
+  * Finish INSTALL.txt
+
+Options:
+  * Make use of some of function keys(F1-F12) to toggle settings in-game
+    (perhaps speed control, muting of music)
+  * Save options.
+  * Admin options screen / files
+  * Command-line options based on grade-level (?)
+  * Internationalization - use gettext() for all strings
+  * Install some kind of security on --homedir, to make sure that
+    tuxmath can write but that students can't edit the files by hand?
+
+Code:
+  * Optimize graphics blitting!!!
+  * Abstract SDL_BlitSurface() calls
+
