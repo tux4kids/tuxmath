@@ -1,4 +1,4 @@
-tuxmath (2.0.3-1) UNRELEASED; urgency=low
+tuxmath (2.0.3-1) unstable; urgency=low
 
   * New upstream release [May 2011] (Closes: #692729).
   * Build-Depends:
@@ -19,7 +19,7 @@ tuxmath (2.0.3-1) UNRELEASED; urgency=low
   * xz compression for source archive and binary (.deb) packages.
   * Added myself to Uploaders.
 
- -- Dmitry Smirnov <onlyjob@debian.org>  Mon, 29 Jul 2013 13:11:12 +1000
+ -- Dmitry Smirnov <onlyjob@debian.org>  Tue, 03 Dec 2013 03:11:38 +1100
 
 tuxmath (1.8.0-5) unstable; urgency=low
 
