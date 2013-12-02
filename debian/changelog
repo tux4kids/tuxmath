@@ -6,6 +6,7 @@ tuxmath (2.0.3-1) UNRELEASED; urgency=low
     - hardening-wrapper
     + dh-autoreconf
   * Arch-independent files are separated to new "tuxmath-data" package.
+  * Standards to 3.9.5.
   * Source to "3.0 (quilt)" format.
   * Compat to version 9 + debian/rules rewrite.
   * Build with "--as-needed" to minimise needless linking.

@@ -14,7 +14,7 @@ Build-Depends: debhelper (>=9.20120909~), dh-autoreconf
               ,libx11-6
               ,libxext6
               ,libt4k-common0-dev
-Standards-Version: 3.9.4
+Standards-Version: 3.9.5
 Homepage: http://tux4kids.alioth.debian.org
 Vcs-Git: git://anonscm.debian.org/tux4kids/tuxmath.git
 Vcs-Browser: http://anonscm.debian.org/gitweb/?p=tux4kids/tuxmath.git
