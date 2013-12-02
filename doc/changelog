@@ -1,3 +1,88 @@
+2011.May.04 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.3:
+	- Fix of turn-based multiplayer game in Windows.
+	- Tweak of mouse sensitivity for Factoroids
+	- Fix of minor build errors appearing under MacPorts.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
+2011.Apr.27 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.2:
+	- Mainly to replace corrupted win32 build of 2.0.1 that was released.
+	- Also fixes some bugs with score display in single-machine
+	multiplayer game.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
+2011.Apr.19 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.1:
+	- Fix of bug preventing display of asteroid numbers in Factoroids.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
+2011.Apr.18 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 2.0.0, major changes include:
+	- Significant bug fixes, enhancements, and API changes in t4k_common
+	library version 0.1.1, which is required for tuxmath-2.0.0.
+	Importantly, bug fixed that prevented gettext from working in 1.9.0.
+	- "Tooltips" display of descriptions of menu items (not implemented
+	yet for lessons).
+	- Horizontal "Powerup" comets in Arcade games which earn "smartbombs"
+	that zap all comets simultanously.
+	- "Multizap" - all comets with identical answers are destroyed when
+	the answer is given.
+	- LAN server can now be stopped and restarted from within TuxMath
+	- Multiple servers on same LAN now detected properly, player can
+	select server to join.
+	- Enhanced LAN game-joining screen, showing screen names of other
+	connected players.
+	- In-game display of scores of all LAN players
+	- In-game notification if other LAN player leaves.
+	- Factoroids extensively revised, now play is organized around prime
+	factorization, with a new prime factor added for each level.
+	- Factoroids player toggles between "prime number guns" rather than
+	having to type the answer before each shot.
+	- New, professional-quality artwork for Factoroids ship, hopefully to
+	be rolled out through rest of game as well.
+	- Three new game music files.
+	- Proper handling of unix->dos text file conversion at time of Windows
+	build.
+	- Updates and addition of numerous translations.
+	- "Project Info" revised to show version number correctly.
+
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
+2010.Nov.09 (git://git.debian.org/tux4kids/tuxmath.git)
+
+	For version 1.9.0, major changes include:
+	- Extensive code refactoring. TuxMath now uses the t4k_common library,
+	which will also be the basis of the next release of Tux Typing.
+	- New build process for win32 platform using the mingw-cross-env
+	cross-compiling environment <http://mingw-cross-env.nongnu.org>.
+	- Fully-functional Windows crossbuild with SDL_Pango, SVG support,
+	and LAN support.
+	- LAN multiplayer mode usable, but with room for enhancements.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
+2010.Mar.12 (git://git.debian.org/tux4kids/tuxmath.git)
+        Tuxmath now using Git for source code management, which provides
+	superior automated documentation for changes in the form of commit
+	messages. From this point, this changelog file will likely consist of
+	much less frequent summary statements for official releases.
+
+	For version 1.8.0, major changes include:
+	- new menu code with xml-based menus
+	- SVG graphics for menus on supported platforms.
+	- Initial release of LAN multiplayer mode.
+	
+	David Bruce <davidstuartbruce@gmail.com>
+
 2009.Sep.04 (svn.debian.org/tux4kids - revision 1546)
         Data - click.wav removed due to minor concerns about whether it is really
         under a free license (license not really known).

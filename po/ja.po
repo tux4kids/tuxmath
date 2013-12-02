@@ -10,109 +10,110 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-02-07 11:28-0600\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
 "PO-Revision-Date: 2008-03-05 15:29+0000\n"
 "Last-Translator: CMasami <Unknown>\n"
 "Language-Team: Japanese <ja@li.org>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Launchpad-Export-Date: 2008-05-06 22:24+0000\n"
 "X-Generator: Launchpad (build Unknown)\n"
 
-#: src/campaign.c:30
+#: src/campaign.c:52
 msgid "Congratulations! You win!"
 msgstr ""
 
-#: src/campaign.c:48
+#: src/campaign.c:70
 msgid "Round"
 msgstr ""
 
-#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
 msgstr ""
 
-#: src/campaign.c:116
+#: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
 msgstr ""
 
-#: src/campaign.c:118
+#: src/campaign.c:143
 msgid "I'm so glad you've come!"
 msgstr ""
 
-#: src/campaign.c:120
+#: src/campaign.c:145
 msgid ""
 "The penguins need your help! Comets are falling from the sky, and are "
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
 
-#: src/campaign.c:122
+#: src/campaign.c:147
 msgid "Do your best!"
 msgstr ""
 
-#: src/campaign.c:128
+#: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
 msgstr ""
 
-#: src/campaign.c:130
+#: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
 
-#: src/campaign.c:132
+#: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
 
-#: src/campaign.c:133
+#: src/campaign.c:158
 msgid "But you can save them!"
 msgstr ""
 
-#: src/campaign.c:139
+#: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
 msgstr ""
 
-#: src/campaign.c:141
+#: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
 
-#: src/campaign.c:143
+#: src/campaign.c:168
 msgid ""
 "...oh no! Now the Emperor himself is under attack, from new types of comets: "
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
 
-#: src/campaign.c:149
+#: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
 msgstr ""
 
-#: src/campaign.c:151
+#: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
 
-#: src/campaign.c:153
+#: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
 msgstr ""
 
-#: src/campaign.c:154
+#: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
 msgstr ""
 
-#: src/campaign.c:160
+#: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
 msgstr ""
 
-#: src/campaign.c:162
+#: src/campaign.c:187
 msgid ""
 "Penguin scientists have learned that all these attacks are coming from a "
 "secret base, and they need you to go fight the final battle. They also give "
@@ -120,664 +121,873 @@ msgid ""
 "and subtraction."
 msgstr ""
 
-#: src/campaign.c:163
+#: src/campaign.c:188
 msgid "I hope that hint helps!"
 msgstr ""
 
-#: src/campaign.c:165
+#: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr ""
 
-#: src/campaign.c:229
+#: src/campaign.c:260
 msgid "Sorry, try again!"
 msgstr ""
 
-#: src/campaign.c:236
+#: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
 msgstr ""
 
-#: src/credits.c:35
+#: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
 msgstr ""
 
-#: src/credits.c:36
-msgid "COPYRIGHT 2001-2009"
+#: src/credits.c:44
+msgid "COPYRIGHT 2001-2011"
 msgstr ""
 
-#: src/credits.c:38
+#: src/credits.c:45
+msgid "VERSION "
+msgstr ""
+
+#: src/credits.c:47
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
 msgstr ""
 
-#: src/credits.c:41
+#: src/credits.c:50
 msgid "DESIGNED BY"
 msgstr ""
 
-#: src/credits.c:44
+#: src/credits.c:53
 msgid "LEAD PROGRAMMERS"
 msgstr ""
 
-#: src/credits.c:50
+#: src/credits.c:59
 msgid "ADDITIONAL CODE"
 msgstr ""
 
-#: src/credits.c:61
-msgid "LEAD ARTIST"
+#: src/credits.c:75
+msgid "LEAD ARTISTS"
 msgstr ""
 
-#: src/credits.c:64
+#: src/credits.c:79
 msgid "ADDITIONAL ART"
 msgstr ""
 
-#: src/credits.c:68
+#: src/credits.c:85
 msgid "SOUND EFFECTS"
 msgstr ""
 
-#: src/credits.c:71
+#: src/credits.c:88
 msgid "MUSIC"
 msgstr ""
 
-#: src/credits.c:81
+#: src/credits.c:107
 msgid "PACKAGERS"
 msgstr ""
 
-#: src/credits.c:86
+#: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
 msgstr ""
 
-#: src/credits.c:89
+#: src/credits.c:115
 msgid "TESTERS"
 msgstr ""
 
-#: src/credits.c:101
-msgid "WEBSITE"
+#: src/credits.c:127
+msgid "USER WEBSITE"
 msgstr ""
 
-#: src/credits.c:104
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr ""
+
+#: src/credits.c:133
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
 
-#: src/credits.c:106
+#: src/credits.c:135
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
 
-#: src/credits.c:108
+#: src/credits.c:137
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
 
-#: src/credits.c:110
+#: src/credits.c:139
 msgid "For more information about Free Software and the GNU GPL, visit:"
 msgstr ""
 
-#: src/factoroids.c:553
-msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#: src/factoroids.c:524
+msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:554 src/factoroids.c:565
-msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#: src/factoroids.c:525
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "11 と12の掛け算"
+
+#: src/factoroids.c:526
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:527
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:528
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:529
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:534
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:555
-msgid "type one of its factors, and press space or return"
+#: src/factoroids.c:536
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "13から15の掛け算"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
 #: src/factoroids.c:556
-msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:564
-msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#: src/factoroids.c:557
+msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:566
-msgid "type a number that can simplify the fraction, and press space or return"
-msgstr ""
-
-#: src/factoroids.c:567
+#: src/factoroids.c:788
 msgid ""
-"to split it.  Destroy fractions that can not be further simplified in a "
-"single shot!"
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
 
-#: src/game.c:1091
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+
+#: src/game.c:757
 msgid "Welcome to TuxMath!"
 msgstr ""
 
-#: src/game.c:1108
+#: src/game.c:774
 msgid "Your mission is to save your"
 msgstr ""
 
-#: src/game.c:1109
+#: src/game.c:775
 msgid "penguins' igloos from the"
 msgstr ""
 
-#: src/game.c:1110
+#: src/game.c:776
 msgid "falling comets."
 msgstr ""
 
-#: src/game.c:1129
+#: src/game.c:795
 msgid "Stop a comet by typing"
 msgstr ""
 
-#: src/game.c:1130
+#: src/game.c:796
 msgid "the answer to the math problem"
 msgstr ""
 
-#: src/game.c:1131
+#: src/game.c:797
 msgid "and hitting 'space' or 'enter'."
 msgstr ""
 
-#: src/game.c:1132
+#: src/game.c:798
 msgid "Try it now!"
 msgstr ""
 
-#: src/game.c:1140
+#: src/game.c:806
 msgid "Good shot!"
 msgstr ""
 
-#: src/game.c:1150
+#: src/game.c:816
 msgid "If an igloo gets hit by a comet,"
 msgstr ""
 
-#: src/game.c:1151
+#: src/game.c:817
 msgid "it melts. But don't worry: the"
 msgstr ""
 
-#: src/game.c:1152
+#: src/game.c:818
 msgid "penguin is OK!"
 msgstr ""
 
-#: src/game.c:1153
+#: src/game.c:819
 msgid "Just watch what happens:"
 msgstr ""
 
-#: src/game.c:1154
+#: src/game.c:820
 msgid "(Press a key to start)"
 msgstr ""
 
-#: src/game.c:1167
+#: src/game.c:833
 msgid "Notice the answer"
 msgstr ""
 
-#: src/game.c:1177
+#: src/game.c:843
 msgid "If it gets hit again, the"
 msgstr ""
 
-#: src/game.c:1178
+#: src/game.c:844
 msgid "penguin leaves."
 msgstr ""
 
-#: src/game.c:1179
+#: src/game.c:845
 msgid "(Press a key when ready)"
 msgstr ""
 
-#: src/game.c:1202
+#: src/game.c:868
 msgid "You can fix the igloos"
 msgstr ""
 
-#: src/game.c:1203
+#: src/game.c:869
 msgid "by stopping bonus comets."
 msgstr ""
 
-#: src/game.c:1214
+#: src/game.c:880 src/game.c:916
 msgid "Zap it now!"
 msgstr ""
 
-#: src/game.c:1220
+#: src/game.c:886
 msgid "Great job!"
 msgstr ""
 
-#: src/game.c:1238
+#: src/game.c:905
+msgid "Fast-moving powerup comets"
+msgstr ""
+
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:923
 msgid "Quit at any time by pressing"
 msgstr ""
 
-#: src/game.c:1239
+#: src/game.c:924
 msgid "'Esc' or clicking the 'X'"
 msgstr ""
 
-#: src/game.c:1240
+#: src/game.c:925
 msgid "in the upper right corner."
 msgstr ""
 
-#: src/game.c:1241
+#: src/game.c:926
 msgid "Do it now, and then play!"
 msgstr ""
 
-#: src/highscore.c:168 data/menus/menu_strings:9
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr ""
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr ""
+
+#: src/game.c:2816
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr ""
+
+#: src/game.c:2824
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr ""
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "殿堂入り"
 
-#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
 msgid "Space Cadet"
 msgstr "訓練生"
 
-#: src/highscore.c:191 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:24
 msgid "Scout"
 msgstr "上等兵"
 
-#: src/highscore.c:194 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:21
 msgid "Ranger"
 msgstr "特殊部隊"
 
-#: src/highscore.c:197 data/menus/menu_strings:1
+#: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "超能力者"
 
-#: src/highscore.c:200 data/menus/menu_strings:2
+#: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
 msgstr ""
 
-#: src/highscore.c:203 data/menus/menu_strings:7
+#: src/highscore.c:210
 msgid "Factors"
 msgstr ""
 
-#: src/highscore.c:206 data/menus/menu_strings:8
+#: src/highscore.c:213
 msgid "Fractions"
 msgstr ""
 
-#: src/highscore.c:287
+#: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
 msgstr ""
 
-#: src/highscore.c:287
+#: src/highscore.c:291
 msgid "Enter Your Name:"
 msgstr ""
 
-#: src/menu.c:375
-msgid "TuxMath is free and open-source!"
-msgstr "TuxMath は自由でオープンソースです!"
-
-#: src/menu.c:376
-#, fuzzy
-msgid "You can help make it better."
-msgstr "問題点を報告してゲームを改善することができます。"
-
-#: src/menu.c:377
-msgid "Suggestions, artwork, and code are all welcome!"
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + %d = ?"
 msgstr ""
 
-#: src/menu.c:378
-#, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
-msgstr "連絡先はこちら tuxmath-devel@lists.sourceforge.net"
+#: src/mathcards.c:2624
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
 
-#: src/menu.c:499
-msgid "Edit 'options' file in your home directory"
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr ""
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+
+#: src/menu.c:352
+#, fuzzy
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
 msgstr "ホーム・ディレクトリの'optoins'ファイルを編集して"
 
-#: src/menu.c:500
-msgid "to create customized game!"
-msgstr "オリジナルのゲームを作ろう!"
-
-#: src/menu.c:501
-msgid "Press a key or click your mouse to start game."
-msgstr "キーを押すかクリックしてゲーム開始"
-
-#: src/menu.c:502
-msgid "See README.txt for more information"
-msgstr "詳しい説明はREADME.txtを見てください"
-
-#: src/menu.c:526
+#: src/menu.c:379
 msgid "How many kids are playing?"
 msgstr ""
 
-#: src/menu.c:527
+#: src/menu.c:380
 msgid "(Between 2 and 4 players)"
 msgstr ""
 
-#: src/menu.c:589
+#: src/menu.c:445
 msgid "The server is already running"
 msgstr ""
 
-#: src/menu.c:594
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:460
 msgid "Enter Server Name:"
 msgstr ""
 
-#: src/menu.c:594
+#: src/menu.c:460
 msgid "(limit 50 characters)"
 msgstr ""
 
-#: src/menu.c:608
+#: src/menu.c:474
 msgid "Click or press key to select server lesson file"
 msgstr ""
 
-#: src/menu.c:637
-msgid "Server Name:"
+#: src/menu.c:501
+#, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
 msgstr ""
 
-#: src/menu.c:639
-msgid "Selected Lesson:"
+#: src/menu.c:524
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
 msgstr ""
 
-#: src/menu.c:654 src/menu.c:701
-msgid "Sorry, this version built without network support"
-msgstr ""
-
-#: src/menu.c:655 src/menu.c:702
+#: src/menu.c:525 src/menu.c:603
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
 
-#: src/menu.c:665
-msgid "Detecting servers"
+#: src/menu.c:535
+msgid "The server is not running."
 msgstr ""
 
-#: src/menu.c:665
-msgid "Please wait"
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
 msgstr ""
 
-#: src/menu.c:671
-#, c-format
-msgid "Connected to server: %s"
+#: src/menu.c:545
+msgid "The server has been stopped."
 msgstr ""
 
-#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
-msgid "Enter your name:"
+#: src/menu.c:562
+msgid "Sorry, could not connect to server."
 msgstr ""
 
-#: src/menu.c:674
-msgid "Click when ready"
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
-#: src/menu.c:676
-msgid "Waiting for other players"
+#: src/menu.c:583
+msgid "Sorry, game already in progress"
 msgstr ""
 
-#: src/menu.c:689
-msgid "Sorry, game already in progress."
+#: src/menu.c:589
+msgid "Connection with server was lost"
 msgstr ""
 
-#: src/menu.c:690
-#, c-format
-msgid "Sorry, game already in progress.\n"
+#: src/menu.c:602
+msgid "Sorry, this version built without network support"
 msgstr ""
 
-#: src/menu.c:696
-msgid "Sorry, no server could be found."
+#: src/multiplayer.c:130
+msgid "Go!"
 msgstr ""
 
-#: src/menu.c:697
-#, c-format
-msgid "Sorry, no server could be found.\n"
-msgstr ""
-
-#: src/multiplayer.c:183
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
 msgstr ""
 
-#: src/multiplayer.c:258
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
 msgstr ""
 
-#: src/multiplayer.c:260
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr ""
+
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
 msgstr ""
 
-#: src/multiplayer.c:274
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
 msgstr ""
 
-#: src/multiplayer.c:274
+#: src/multiplayer.c:320
 msgid "Enter a number"
 msgstr ""
 
-#: src/titlescreen.c:478
-msgid "Work In Progress!"
-msgstr "作業中!"
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
 
-#: src/titlescreen.c:479
-msgid "This feature is not ready yet"
-msgstr "この機能はまだありません"
+#: src/titlescreen.c:521
+#, fuzzy
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "連絡先はこちら tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:480
-msgid "Discuss the future of TuxMath at"
-msgstr "TuxMathについての要望は"
-
-#: src/titlescreen.c:481
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#: src/tuxmath.c:54 data/menus/menu_strings:10
-msgid "Help"
-msgstr "ヘルプ"
-
-#: data/missions/lessons/descr_lessons:1
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
 msgid "Number Typing"
 msgstr "数字を入力する"
 
-#: data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
 msgid "Addition: 1 to 3"
 msgstr "足し算: 1 から 3"
 
-#: data/missions/lessons/descr_lessons:3
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
 msgid "Addition: 0 to 5"
 msgstr "足し算: 0 から 5"
 
-#: data/missions/lessons/descr_lessons:4
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
 msgid "Addition: Sums to 10"
 msgstr "足し算: 合計を 10 にする"
 
-#: data/missions/lessons/descr_lessons:5
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
 msgid "Addition: Sums to 15"
 msgstr "足し算: 合計を 15 にする"
 
-#: data/missions/lessons/descr_lessons:6
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
 msgid "Addition: Sums to 20"
 msgstr "足し算: 合計を 20 にする"
 
-#: data/missions/lessons/descr_lessons:7
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
 msgid "Addition: Two Digit Numbers"
 msgstr "足し算: ２桁の数"
 
-#: data/missions/lessons/descr_lessons:8
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
 msgid "Addition: Missing Numbers"
 msgstr "足し算: 数字の穴埋め"
 
-#: data/missions/lessons/descr_lessons:9
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
 msgid "Subtraction: 0 to 10"
 msgstr "引き算: 0 から 10"
 
-#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
 msgid "Subtraction: 0 to 20"
 msgstr "引き算: 0 から 20"
 
-#: data/missions/lessons/descr_lessons:11
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
 msgid "Subtraction: Two Digit Numbers"
 msgstr "引き算: 2桁の数"
 
-#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
 msgid "Addition and Subtraction Review"
 msgstr "足し算と引き算のまとめ"
 
-#: data/missions/lessons/descr_lessons:13
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 3"
 msgstr "掛け算: 0 から 3"
 
-#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
 msgid "Multiples of 2"
 msgstr "2の掛け算"
 
-#: data/missions/lessons/descr_lessons:15
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
 msgid "Multiples of 3"
 msgstr "3の掛け算"
 
-#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
 msgid "Multiples of 4"
 msgstr "4の掛け算"
 
-#: data/missions/lessons/descr_lessons:17
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
 msgid "Multiples of 5"
 msgstr "5の掛け算"
 
-#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
 msgid "Multiplication: 0 to 5"
 msgstr "掛け算: 0 から 5"
 
-#: data/missions/lessons/descr_lessons:19
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
 msgid "Multiples of 6"
 msgstr "6の掛け算"
 
-#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
 msgid "Multiples of 7"
 msgstr "7の掛け算"
 
-#: data/missions/lessons/descr_lessons:21
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
 msgid "Multiplication: 0 to 7"
 msgstr "掛け算: 0 から 7"
 
-#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
 msgid "Multiples of 8"
 msgstr "8の掛け算"
 
-#: data/missions/lessons/descr_lessons:23
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
 msgid "Multiples of 9"
 msgstr "9の掛け算"
 
-#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
 msgid "Multiples of 10"
 msgstr "10の掛け算"
 
-#: data/missions/lessons/descr_lessons:25
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
 msgid "Multiplication: 0 to 10"
 msgstr "掛け算: 0 から 10"
 
-#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
 msgid "Multiples of 11 and 12"
 msgstr "11 と12の掛け算"
 
-#: data/missions/lessons/descr_lessons:27
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
 msgid "Multiplication: 0 to 12"
 msgstr "掛け算: 0 から 12"
 
-#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
 msgid "Multiples of 13, 14, and 15"
 msgstr "13から15の掛け算"
 
-#: data/missions/lessons/descr_lessons:29
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
 msgid "Multiplication: 0 to 15"
 msgstr "掛け算: 0 から15"
 
-#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
 msgid "Multiplication: Missing Numbers"
 msgstr "掛け算: 穴埋め"
 
-#: data/missions/lessons/descr_lessons:31
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
 msgid "Division by 2"
 msgstr "2の割り算"
 
-#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
 msgid "Division by 3"
 msgstr "3の割り算"
 
-#: data/missions/lessons/descr_lessons:33
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
 msgid "Division by 4"
 msgstr "4の割り算"
 
-#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
 msgid "Division by 5"
 msgstr "5の割り算"
 
-#: data/missions/lessons/descr_lessons:35
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
 msgid "Division: 1 to 5"
 msgstr "割り算: 1 から 5"
 
-#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
 msgid "Division by 6"
 msgstr "6の割り算"
 
-#: data/missions/lessons/descr_lessons:37
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
 msgid "Division by 7"
 msgstr "7の割り算"
 
-#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
 msgid "Division by 8"
 msgstr "8の割り算"
 
-#: data/missions/lessons/descr_lessons:39
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
 msgid "Division by 9"
 msgstr "9の割り算"
 
-#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
 msgid "Division by 10"
 msgstr "10の割り算"
 
-#: data/missions/lessons/descr_lessons:41
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
 msgid "Division: 1 to 10"
 msgstr "割り算: 1 から 10"
 
-#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
 msgid "Division by 11 and 12"
 msgstr "11と12の割り算"
 
-#: data/missions/lessons/descr_lessons:43
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
 msgid "Division: 1 to 12"
 msgstr "割り算: 1 から 12"
 
-#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
 msgid "Division by 13, 14, and 15"
 msgstr "13から15の割り算"
 
-#: data/missions/lessons/descr_lessons:45
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
 msgid "Division: 1 to 15"
 msgstr "割り算: 1 から 15"
 
-#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
 msgid "Multiplication and Division Review"
 msgstr "掛け算と割り算のまとめ"
 
-#: data/missions/lessons/descr_lessons:47
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
 msgid "Typing Negative Numbers"
 msgstr "負の数の入力"
 
-#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
 msgid "Subtraction: Negative Answers"
 msgstr "引き算: 負の数の答え"
 
-#: data/missions/lessons/descr_lessons:49
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
 msgid "Adding Negatives to Positives"
 msgstr "負の数と正の数の足し算"
 
-#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
 #, fuzzy
 msgid "Adding Positives to Negatives"
 msgstr "負の数と負の数の足し算"
 
-#: data/missions/lessons/descr_lessons:51
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
 msgid "Subtracting Negatives From Positives"
 msgstr "正の数から負の数を引く"
 
-#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
 #, fuzzy
 msgid "Subtracting Positives From Negatives"
 msgstr "負の数から負の数を引く"
 
-#: data/missions/lessons/descr_lessons:53
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
 msgid "Adding Negatives to Negatives"
 msgstr "負の数と負の数の足し算"
 
-#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
 msgid "Subtracting Negatives From Negatives"
 msgstr "負の数から負の数を引く"
 
-#: data/missions/lessons/descr_lessons:55
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
 msgid "Negative and Positive Numbers Review"
 msgstr "負の数と正の数のまとめ"
 
-#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
 msgid "Multiplication and Division of Negatives"
 msgstr "負の数の掛け算と割り算"
 
-#: data/missions/lessons/descr_lessons:57
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
 msgid "Multiplication of Positives and Negatives"
 msgstr "正の数と負の数の掛け算"
 
-#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
 msgid "Division of Positives and Negatives"
 msgstr "正の数と負の数の割り算"
 
@@ -794,64 +1004,224 @@ msgid "Elimination"
 msgstr ""
 
 #: data/menus/menu_strings:6
-msgid "Factoroids!"
+msgid "Factoroids"
 msgstr ""
 
-#: data/menus/menu_strings:11
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "ヘルプ"
+
+#: data/menus/menu_strings:9
 msgid "Join Game"
 msgstr ""
 
-#: data/menus/menu_strings:12
+#: data/menus/menu_strings:10
 msgid "Main Menu"
 msgstr "メインメニュー"
 
-#: data/menus/menu_strings:13
+#: data/menus/menu_strings:11
 msgid "Math Command Fleet Missions"
 msgstr ""
 
-#: data/menus/menu_strings:14
+#: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
 msgstr "計算戦隊訓練学校"
 
-#: data/menus/menu_strings:15
+#: data/menus/menu_strings:13
 msgid "More Options"
 msgstr "他のオプション"
 
-#: data/menus/menu_strings:16
+#: data/menus/menu_strings:14
 msgid "Network Game"
 msgstr ""
 
-#: data/menus/menu_strings:17
+#: data/menus/menu_strings:15
 msgid "Play Alone"
 msgstr ""
 
-#: data/menus/menu_strings:18
+#: data/menus/menu_strings:16
 msgid "Play Arcade Game"
 msgstr "一般訓練開始"
 
-#: data/menus/menu_strings:19
+#: data/menus/menu_strings:17
 msgid "Play Custom Game"
 msgstr "特殊訓練開始"
 
-#: data/menus/menu_strings:20
+#: data/menus/menu_strings:18
 msgid "Play With Friends"
 msgstr ""
 
-#: data/menus/menu_strings:21
+#: data/menus/menu_strings:19
 msgid "Project Info"
 msgstr "プロジェクト情報"
 
-#: data/menus/menu_strings:22
+#: data/menus/menu_strings:20
 msgid "Quit"
 msgstr "終了"
 
-#: data/menus/menu_strings:24
+#: data/menus/menu_strings:22
 msgid "Run Server"
 msgstr ""
 
-#: data/menus/menu_strings:25
+#: data/menus/menu_strings:23
 msgid "Score Sweep"
 msgstr ""
+
+#: data/menus/menu_strings:26
+msgid "Stop Server"
+msgstr ""
+
+#: data/menus/menu_strings:27
+#, fuzzy
+msgid "Additional options"
+msgstr "足し算: 1 から 3"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr ""
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:34
+msgid "Exit to your desktop"
+msgstr ""
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr ""
+
+#: data/menus/menu_strings:38
+msgid "High Scores"
+msgstr ""
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:49
+#, fuzzy
+msgid "See the project info"
+msgstr "プロジェクト情報"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "一般訓練開始"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath は自由でオープンソースです!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "問題点を報告してゲームを改善することができます。"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "キーを押すかクリックしてゲーム開始"
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "詳しい説明はREADME.txtを見てください"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "作業中!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "この機能はまだありません"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "TuxMathについての要望は"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#~ msgid "to create customized game!"
+#~ msgstr "オリジナルのゲームを作ろう!"
 
 #~ msgid "suggesting improvements, or adding code."
 #~ msgstr "新機能の提案や、コードの追加も歓迎します。"

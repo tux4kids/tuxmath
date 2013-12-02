@@ -48,12 +48,9 @@ ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/gettext.m4 \
 	$(top_srcdir)/m4/iconv.m4 $(top_srcdir)/m4/intlmacosx.m4 \
 	$(top_srcdir)/m4/lib-ld.m4 $(top_srcdir)/m4/lib-link.m4 \
-	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/libtool.m4 \
-	$(top_srcdir)/m4/ltoptions.m4 $(top_srcdir)/m4/ltsugar.m4 \
-	$(top_srcdir)/m4/ltversion.m4 $(top_srcdir)/m4/lt~obsolete.m4 \
-	$(top_srcdir)/m4/nls.m4 $(top_srcdir)/m4/po.m4 \
-	$(top_srcdir)/m4/progtest.m4 $(top_srcdir)/acinclude.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/m4/lib-prefix.m4 $(top_srcdir)/m4/nls.m4 \
+	$(top_srcdir)/m4/po.m4 $(top_srcdir)/m4/progtest.m4 \
+	$(top_srcdir)/acinclude.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(install_sh) -d
@@ -63,59 +60,48 @@ CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
 am__objects_1 = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) menu.$(OBJEXT) game.$(OBJEXT) \
-	factoroids.$(OBJEXT) fileops_media.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) linewrap.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) network.$(OBJEXT) \
-	mathcards.$(OBJEXT) campaign.$(OBJEXT) multiplayer.$(OBJEXT) \
-	fileops.$(OBJEXT) convert_utf.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	SDL_rotozoom.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
-	pixels.$(OBJEXT) server.$(OBJEXT) throttle.$(OBJEXT)
+	titlescreen.$(OBJEXT) menu.$(OBJEXT) menu_lan.$(OBJEXT) \
+	game.$(OBJEXT) factoroids.$(OBJEXT) fileops_media.$(OBJEXT) \
+	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
+	audio.$(OBJEXT) network.$(OBJEXT) mathcards.$(OBJEXT) \
+	campaign.$(OBJEXT) multiplayer.$(OBJEXT) fileops.$(OBJEXT) \
+	SDL_rotozoom.$(OBJEXT) lessons.$(OBJEXT) server.$(OBJEXT)
 am_TuxMath_OBJECTS = $(am__objects_1)
 TuxMath_OBJECTS = $(am_TuxMath_OBJECTS)
 TuxMath_LDADD = $(LDADD)
-TuxMath_DEPENDENCIES = ../linebreak/liblinebreak.a
 am_generate_lesson_OBJECTS = generate_lesson.$(OBJEXT) \
 	mathcards.$(OBJEXT) options.$(OBJEXT) fileops.$(OBJEXT) \
 	lessons.$(OBJEXT)
 generate_lesson_OBJECTS = $(am_generate_lesson_OBJECTS)
-generate_lesson_DEPENDENCIES =
+generate_lesson_LDADD = $(LDADD)
 am_tuxmath_OBJECTS = tuxmath.$(OBJEXT) setup.$(OBJEXT) \
-	titlescreen.$(OBJEXT) menu.$(OBJEXT) game.$(OBJEXT) \
-	factoroids.$(OBJEXT) fileops_media.$(OBJEXT) options.$(OBJEXT) \
-	credits.$(OBJEXT) highscore.$(OBJEXT) linewrap.$(OBJEXT) \
-	loaders.$(OBJEXT) audio.$(OBJEXT) network.$(OBJEXT) \
-	mathcards.$(OBJEXT) campaign.$(OBJEXT) multiplayer.$(OBJEXT) \
-	fileops.$(OBJEXT) convert_utf.$(OBJEXT) SDL_extras.$(OBJEXT) \
-	SDL_rotozoom.$(OBJEXT) lessons.$(OBJEXT) scandir.$(OBJEXT) \
-	pixels.$(OBJEXT) server.$(OBJEXT) throttle.$(OBJEXT)
+	titlescreen.$(OBJEXT) menu.$(OBJEXT) menu_lan.$(OBJEXT) \
+	game.$(OBJEXT) factoroids.$(OBJEXT) fileops_media.$(OBJEXT) \
+	options.$(OBJEXT) credits.$(OBJEXT) highscore.$(OBJEXT) \
+	audio.$(OBJEXT) network.$(OBJEXT) mathcards.$(OBJEXT) \
+	campaign.$(OBJEXT) multiplayer.$(OBJEXT) fileops.$(OBJEXT) \
+	SDL_rotozoom.$(OBJEXT) lessons.$(OBJEXT) server.$(OBJEXT)
 tuxmath_OBJECTS = $(am_tuxmath_OBJECTS)
 tuxmath_LDADD = $(LDADD)
-tuxmath_DEPENDENCIES = ../linebreak/liblinebreak.a
 am_tuxmathadmin_OBJECTS = tuxmathadmin.$(OBJEXT)
 tuxmathadmin_OBJECTS = $(am_tuxmathadmin_OBJECTS)
-tuxmathadmin_DEPENDENCIES =
+tuxmathadmin_LDADD = $(LDADD)
 am_tuxmathserver_OBJECTS = servermain.$(OBJEXT) server.$(OBJEXT) \
-	mathcards.$(OBJEXT) throttle.$(OBJEXT) options.$(OBJEXT)
+	mathcards.$(OBJEXT) options.$(OBJEXT)
 tuxmathserver_OBJECTS = $(am_tuxmathserver_OBJECTS)
-tuxmathserver_DEPENDENCIES =
-am_tuxmathtestclient_OBJECTS = testclient.$(OBJEXT) throttle.$(OBJEXT) \
-	network.$(OBJEXT) options.$(OBJEXT) mathcards.$(OBJEXT)
+tuxmathserver_LDADD = $(LDADD)
+am_tuxmathtestclient_OBJECTS = testclient.$(OBJEXT) network.$(OBJEXT) \
+	options.$(OBJEXT) mathcards.$(OBJEXT)
 tuxmathtestclient_OBJECTS = $(am_tuxmathtestclient_OBJECTS)
-tuxmathtestclient_DEPENDENCIES =
+tuxmathtestclient_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
 am__mv = mv -f
 COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
 	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
-	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
 CCLD = $(CC)
-LINK = $(LIBTOOL) --tag=CC $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) \
-	--mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) \
-	$(LDFLAGS) -o $@
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(TuxMath_SOURCES) $(generate_lesson_SOURCES) \
 	$(tuxmath_SOURCES) $(tuxmathadmin_SOURCES) \
 	$(tuxmathserver_SOURCES) $(tuxmathtestclient_SOURCES)
@@ -128,7 +114,6 @@ DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALLOCA = @ALLOCA@
 AMTAR = @AMTAR@
-AR = @AR@
 AUTOCONF = @AUTOCONF@
 AUTOHEADER = @AUTOHEADER@
 AUTOMAKE = @AUTOMAKE@
@@ -141,20 +126,16 @@ CFLAGS = @CFLAGS@
 CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CXX = @CXX@
-CXXCPP = @CXXCPP@
 CXXDEPMODE = @CXXDEPMODE@
 CXXFLAGS = @CXXFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = -DLOCALEDIR=\"$(localedir)\" @DEFS@
 DEPDIR = @DEPDIR@
-DSYMUTIL = @DSYMUTIL@
-DUMPBIN = @DUMPBIN@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
-FGREP = @FGREP@
 GETTEXT_MACRO_VERSION = @GETTEXT_MACRO_VERSION@
 GMSGFMT = @GMSGFMT@
 GMSGFMT_015 = @GMSGFMT_015@
@@ -166,15 +147,11 @@ INSTALL_SCRIPT = @INSTALL_SCRIPT@
 INSTALL_STRIP_PROGRAM = @INSTALL_STRIP_PROGRAM@
 INTLLIBS = @INTLLIBS@
 INTL_MACOSX_LIBS = @INTL_MACOSX_LIBS@
-LD = @LD@
 LDFLAGS = @LDFLAGS@
 LIBICONV = @LIBICONV@
 LIBINTL = @LIBINTL@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
-LIBTOOL = @LIBTOOL@
-LIPO = @LIPO@
-LN_S = @LN_S@
 LTLIBICONV = @LTLIBICONV@
 LTLIBINTL = @LTLIBINTL@
 LTLIBOBJS = @LTLIBOBJS@
@@ -185,15 +162,10 @@ MSGFMT = @MSGFMT@
 MSGFMT_015 = @MSGFMT_015@
 MSGMERGE = @MSGMERGE@
 NAME_VERSION = @NAME_VERSION@
-NM = @NM@
-NMEDIT = @NMEDIT@
 NSIS = @NSIS@
 NSI_DLL_DIR = @NSI_DLL_DIR@
 NSI_INSTALL_DIR = @NSI_INSTALL_DIR@
-OBJDUMP = @OBJDUMP@
 OBJEXT = @OBJEXT@
-OTOOL = @OTOOL@
-OTOOL64 = @OTOOL64@
 PACKAGE = @PACKAGE@
 PACKAGE_BUGREPORT = @PACKAGE_BUGREPORT@
 PACKAGE_NAME = @PACKAGE_NAME@
@@ -203,6 +175,8 @@ PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
 PKG_CONFIG = @PKG_CONFIG@
+PKG_CONFIG_LIBDIR = @PKG_CONFIG_LIBDIR@
+PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 POSUB = @POSUB@
 POW_LIB = @POW_LIB@
 RANLIB = @RANLIB@
@@ -217,20 +191,20 @@ SDL_MIXER_CFLAGS = @SDL_MIXER_CFLAGS@
 SDL_MIXER_LIBS = @SDL_MIXER_LIBS@
 SDL_NET_CFLAGS = @SDL_NET_CFLAGS@
 SDL_NET_LIBS = @SDL_NET_LIBS@
-SDL_PANGO_CFLAGS = @SDL_PANGO_CFLAGS@
-SDL_PANGO_LIBS = @SDL_PANGO_LIBS@
-SDL_TTF_CFLAGS = @SDL_TTF_CFLAGS@
-SDL_TTF_LIBS = @SDL_TTF_LIBS@
-SED = @SED@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+T4K_COMMON_CFLAGS = @T4K_COMMON_CFLAGS@
+T4K_COMMON_LIBS = @T4K_COMMON_LIBS@
+U2D = @U2D@
 USE_NLS = @USE_NLS@
 VERSION = @VERSION@
 WINDRES = @WINDRES@
 XGETTEXT = @XGETTEXT@
 XGETTEXT_015 = @XGETTEXT_015@
 XGETTEXT_EXTRA_OPTIONS = @XGETTEXT_EXTRA_OPTIONS@
+XML2_CFLAGS = @XML2_CFLAGS@
+XML2_LIBS = @XML2_LIBS@
 YACC = @YACC@
 YFLAGS = @YFLAGS@
 abs_builddir = @abs_builddir@
@@ -239,7 +213,6 @@ abs_top_builddir = @abs_top_builddir@
 abs_top_srcdir = @abs_top_srcdir@
 ac_ct_CC = @ac_ct_CC@
 ac_ct_CXX = @ac_ct_CXX@
-ac_ct_DUMPBIN = @ac_ct_DUMPBIN@
 am__include = @am__include@
 am__leading_dot = @am__leading_dot@
 am__quote = @am__quote@
@@ -272,7 +245,6 @@ libdir = @libdir@
 libexecdir = @libexecdir@
 localedir = $(datadir)/locale
 localstatedir = @localstatedir@
-lt_ECHO = @lt_ECHO@
 mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
@@ -295,12 +267,7 @@ top_srcdir = @top_srcdir@
 AM_CFLAGS = -Wall -g -DDATA_PREFIX=\"${DATA_PREFIX}\" -DDEBUG \
 	-D$(SOUND)SOUND
 
-AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\" \
-	-I../intl -I$(top_srcdir)/intl
-
-LDADD = @LIBINTL@ \
-  ../linebreak/liblinebreak.a
-
+AM_CPPFLAGS = -DLOCALEDIR=\"$(localedir)\"
 @BUILD_MINGW32_FALSE@DATA_PREFIX = ${pkgdatadir}
 @BUILD_MINGW32_TRUE@DATA_PREFIX = @MINGW32_PACKAGE_DATA_DIR@
 @BUILD_MINGW32_FALSE@TUXMATHRC = 
@@ -308,68 +275,51 @@ tuxmath_SOURCES = tuxmath.c \
 	setup.c 	\
 	titlescreen.c	\
 	menu.c		\
+	menu_lan.c	\
 	game.c 		\
 	factoroids.c    \
 	fileops_media.c \
 	options.c	\
 	credits.c	\
 	highscore.c	\
-	linewrap.c	\
-	loaders.c	\
 	audio.c 	\
         network.c       \
 	mathcards.c	\
 	campaign.c	\
 	multiplayer.c	\
 	fileops.c	\
-	convert_utf.c	\
-	SDL_extras.c	\
 	SDL_rotozoom.c	\
 	lessons.c	\
-	scandir.c	\
-	pixels.c	\
-	server.c	\
-	throttle.c	
+	server.c
 
 
 # HACK "TuxMath" is the Windows program, whereas "tuxmath" is the Unix program
 TuxMath_SOURCES = $(tuxmath_SOURCES) tuxmathrc.rc
-
-# NOTE - the "extra" programs built here don't need the same linking,
-# so they have their own prog_LDADD statements to override the
-# global LDADD flag.
 tuxmathadmin_SOURCES = tuxmathadmin.c
-tuxmathadmin_LDADD = @LIBINTL@
 generate_lesson_SOURCES = generate_lesson.c	\
 		mathcards.c	\
 		options.c	\
 		fileops.c	\
 		lessons.c
 
-generate_lesson_LDADD = 
 tuxmathserver_SOURCES = servermain.c	\
 		server.c \
 		mathcards.c	\
-		throttle.c	\
 		options.c
 
-tuxmathserver_LDADD = @LIBINTL@
 tuxmathtestclient_SOURCES = testclient.c \
-                            throttle.c \
                             network.c  \
                             options.c  \
                             mathcards.c
 
-tuxmathtestclient_LDADD = 
 EXTRA_DIST = credits.h 	\
 	factoroids.h	\
 	fileops.h 	\
 	game.h		\
 	menu.h		\
+	menu_lan.h	\
 	globals.h	\
 	highscore.h 	\
-	linewrap.h	\
-	loaders.h	\
         network.h       \
 	titlescreen.h   \
 	menu.h		\
@@ -379,23 +329,19 @@ EXTRA_DIST = credits.h 	\
 	campaign.h	\
 	multiplayer.h	\
 	tuxmath.h	\
-	convert_utf.h	\
-	SDL_extras.h	\
 	SDL_rotozoom.h	\
 	lessons.h	\
 	gettext.h	\
-	scandir.h	\
-	pixels.h	\
 	compiler.h	\
 	server.h	\
 	testclient.h	\
 	transtruct.h	\
-	throttle.h
+        CMakeLists.txt
 
 all: all-am
 
 .SUFFIXES:
-.SUFFIXES: .c .lo .o .obj
+.SUFFIXES: .c .o .obj
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -432,7 +378,7 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
 	for p in $$list; do echo "$$p $$p"; done | \
 	sed 's/$(EXEEXT)$$//' | \
-	while read p p1; do if test -f $$p || test -f $$p1; \
+	while read p p1; do if test -f $$p; \
 	  then echo "$$p"; echo "$$p"; else :; fi; \
 	done | \
 	sed -e 'p;s,.*/,,;n;h' -e 's|.*|.|' \
@@ -446,8 +392,8 @@ install-binPROGRAMS: $(bin_PROGRAMS)
 	while read type dir files; do \
 	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
 	    test -z "$$files" || { \
-	    echo " $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
-	    $(INSTALL_PROGRAM_ENV) $(LIBTOOL) $(AM_LIBTOOLFLAGS) $(LIBTOOLFLAGS) --mode=install $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	      echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	      $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
 	    } \
 	; done
 
@@ -462,13 +408,7 @@ uninstall-binPROGRAMS:
 	cd "$(DESTDIR)$(bindir)" && rm -f $$files
 
 clean-binPROGRAMS:
-	@list='$(bin_PROGRAMS)'; test -n "$$list" || exit 0; \
-	echo " rm -f" $$list; \
-	rm -f $$list || exit $$?; \
-	test -n "$(EXEEXT)" || exit 0; \
-	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
-	echo " rm -f" $$list; \
-	rm -f $$list
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 TuxMath$(EXEEXT): $(TuxMath_OBJECTS) $(TuxMath_DEPENDENCIES) 
 	@rm -f TuxMath$(EXEEXT)
 	$(LINK) $(TuxMath_OBJECTS) $(TuxMath_LDADD) $(LIBS)
@@ -494,11 +434,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDL_extras.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/SDL_rotozoom.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/audio.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/campaign.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/convert_utf.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/credits.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/factoroids.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/fileops.Po@am__quote@
@@ -507,20 +445,16 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/generate_lesson.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/highscore.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lessons.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/linewrap.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/loaders.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/mathcards.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/menu_lan.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/multiplayer.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/network.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/options.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/pixels.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scandir.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/server.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/servermain.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/setup.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/testclient.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/throttle.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/titlescreen.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmath.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/tuxmathadmin.Po@am__quote@
@@ -538,19 +472,6 @@ distclean-compile:
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(COMPILE) -c `$(CYGPATH_W) '$<'`
-
-.c.lo:
-@am__fastdepCC_TRUE@	$(LTCOMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
-@am__fastdepCC_TRUE@	$(am__mv) $(DEPDIR)/$*.Tpo $(DEPDIR)/$*.Plo
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	source='$<' object='$@' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-@am__fastdepCC_FALSE@	$(LTCOMPILE) -c -o $@ $<
-
-mostlyclean-libtool:
-	-rm -f *.lo
-
-clean-libtool:
-	-rm -rf .libs _libs
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -668,7 +589,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-am
 
-clean-am: clean-binPROGRAMS clean-generic clean-libtool mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -rf ./$(DEPDIR)
@@ -723,8 +644,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-am
 
-mostlyclean-am: mostlyclean-compile mostlyclean-generic \
-	mostlyclean-libtool
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
 pdf: pdf-am
 
@@ -739,18 +659,17 @@ uninstall-am: uninstall-binPROGRAMS
 .MAKE: install-am install-strip
 
 .PHONY: CTAGS GTAGS all all-am check check-am clean clean-binPROGRAMS \
-	clean-generic clean-libtool ctags distclean distclean-compile \
-	distclean-generic distclean-libtool distclean-tags distdir dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
-	maintainer-clean maintainer-clean-generic mostlyclean \
-	mostlyclean-compile mostlyclean-generic mostlyclean-libtool \
-	pdf pdf-am ps ps-am tags uninstall uninstall-am \
-	uninstall-binPROGRAMS
+	clean-generic ctags distclean distclean-compile \
+	distclean-generic distclean-tags distdir dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	installcheck installcheck-am installdirs maintainer-clean \
+	maintainer-clean-generic mostlyclean mostlyclean-compile \
+	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
+	uninstall-am uninstall-binPROGRAMS
 
 
 # How to make an RC file

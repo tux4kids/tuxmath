@@ -2,786 +2,1022 @@
 # Copyright (c) 2008 Tux4Kids
 # This file is distributed under the same license as the tuxmath package.
 # Yaron Shahrbani <sh.yaron@gmail.com>, 2008.
-#
 # Contributors:
 # Yaron Shahrabani
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2010-02-07 11:28-0600\n"
-"PO-Revision-Date: 2009-01-17 10:32+0200\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
+"PO-Revision-Date: 2010-09-14 12:53+0300\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
-"Language-Team: Hebrew <sh.yaron@gmail.com>\n"
+"Language-Team: Gezer (Hebrew)\n"
+"Language: he\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.6.1\n"
 "X-Launchpad-Export-Date: 2009-01-17 08:28+0000\n"
-"X-Generator: Launchpad (build Unknown)\n"
-"Plural-Forms: n!=1\n"
 "X-Poedit-Language: Hebrew\n"
 "X-Poedit-Country: ISRAEL\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
-#: src/campaign.c:30
+#: src/campaign.c:52
 msgid "Congratulations! You win!"
-msgstr ""
+msgstr "ברכות, ניצחת!"
 
-#: src/campaign.c:48
+#: src/campaign.c:70
 msgid "Round"
-msgstr ""
+msgstr "סיבוב"
 
-#: src/campaign.c:115 src/campaign.c:127 src/campaign.c:148 src/campaign.c:159
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
-msgstr ""
+msgstr "-[Esc] כדי לדלג"
 
-#: src/campaign.c:116
+#: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
-msgstr ""
+msgstr "משימה ראשונה: זהירות טירון"
 
-#: src/campaign.c:118
+#: src/campaign.c:143
 msgid "I'm so glad you've come!"
-msgstr ""
+msgstr "אני כל כך שמח שבאתם!"
 
-#: src/campaign.c:120
+#: src/campaign.c:145
 msgid ""
 "The penguins need your help! Comets are falling from the sky, and are "
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
+"הפינגווינים זקוקים לעזרתכם! כוכבים נופלים מהשמיים והם ממסים את האיגלואים של "
+"הפינגווינים. כדי להציל את בתיהם עליכם למצוא את הקוד הסודי שיפצח כל כוכב נופל."
 
-#: src/campaign.c:122
+#: src/campaign.c:147
 msgid "Do your best!"
-msgstr ""
+msgstr "עשו כמיטב יכולתכם!"
 
-#: src/campaign.c:128
+#: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
-msgstr ""
+msgstr "משימה שנייה: תלמיד חכם"
 
-#: src/campaign.c:130
+#: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
+"עבודה מעולה! כיוון שהצלתם את בתיהם של הפינגווינים, אני מקדם אתכם לדרגת "
+"תלמיד. תלמידים טובים בשמירה מפני צרות..."
 
-#: src/campaign.c:132
+#: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
+"...כמו אלו שקורות ברגעים אלו! החטפנים הגיעו והם שולחים כוכבים חדשים, "
+"מתוחכמים יותר כנגד הפינגווינים!"
 
-#: src/campaign.c:133
+#: src/campaign.c:158
 msgid "But you can save them!"
-msgstr ""
+msgstr "אך אתם יכולים להציל אותם!"
 
-#: src/campaign.c:139
+#: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
-msgstr ""
+msgstr "משימה שלישית: מתמצא מלכותי"
 
-#: src/campaign.c:141
+#: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
+"עשיתם זאת שוב! קיסר הפינגווינים בחר בכם להצטרף לצוות המתמצאים המלכותי המסייע "
+"בהגנה על העיר. אנו שולחים אתכם לשם מיד..."
 
-#: src/campaign.c:143
+#: src/campaign.c:168
 msgid ""
 "...oh no! Now the Emperor himself is under attack, from new types of comets: "
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
+"...אבוי! כעת הקיסר בעצמו נתון תחת מתקפה, על ידי סוג חדש של כוכבים: הצרות רק "
+"הולכות ומוכפלות! כדי להילחם באלה, תזדקק למיומנות רבה. אנו מאמינים כי אתם "
+"יכולים לעשות זאת. הצטרפו למתמצאים ועזרו להציל את העיר!"
 
-#: src/campaign.c:149
+#: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
-msgstr ""
+msgstr "משימה ארבע: תותח אימפריאלי"
 
-#: src/campaign.c:151
+#: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
+"כל הכבוד! הקיסר רוצה להודות לכם באופן אישי. אנו לוקחים אתכם אל ארמון הקרח "
+"שלו כדי לקבל הוקרה למעשיכם; אתם תהפכו לתותחי האימפריה!"
 
-#: src/campaign.c:153
+#: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
-msgstr ""
+msgstr "אך ממש באמצע החגיגות, מגיעה מתקפה חדשה מארץ החלוקה!"
 
-#: src/campaign.c:154
+#: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
-msgstr ""
+msgstr "כעת אין זמן לנוח; העיר זקוקה לעזרתכם!"
 
-#: src/campaign.c:160
+#: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
-msgstr ""
+msgstr "משימה אחרונה: מפקד החישובים"
 
-#: src/campaign.c:162
+#: src/campaign.c:187
 msgid ""
 "Penguin scientists have learned that all these attacks are coming from a "
 "secret base, and they need you to go fight the final battle. They also give "
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
+"מדעני הפינגווינים חקרו ומצאו שכל המתקפות האלו מגיעות מבסיס סודי והם זקוקים "
+"לעזרתך כדי להילחם בקרב האחרון. הם גם מספקים לכם את הרמז הבא: כפל וחילוק "
+"קודמים לחיבור וחיסור."
 
-#: src/campaign.c:163
+#: src/campaign.c:188
 msgid "I hope that hint helps!"
-msgstr ""
+msgstr "מקווים שהרמז יעזור!"
 
-#: src/campaign.c:165
+#: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
-msgstr ""
+msgstr "זה הכול! תוכלו להפסיק את המתקפות האלו אחת ולתמיד, המפקדים!"
 
-#: src/campaign.c:229
+#: src/campaign.c:260
 msgid "Sorry, try again!"
-msgstr ""
+msgstr "נא לנסות שוב, עמכם הסליחה!"
 
-#: src/campaign.c:236
+#: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr ""
+msgstr "המשימה הושלמה. הגלקסיה שוב בטוחה!"
 
-#: src/credits.c:35
+#: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
-msgstr ""
-
-#: src/credits.c:36
-msgid "COPYRIGHT 2001-2009"
-msgstr ""
-
-#: src/credits.c:38
-msgid "PART OF THE 'TUX4KIDS' PROJECT"
-msgstr ""
-
-#: src/credits.c:41
-msgid "DESIGNED BY"
-msgstr ""
+msgstr "טאקס, ממפקדת המתמטיקה"
 
 #: src/credits.c:44
-msgid "LEAD PROGRAMMERS"
+#, fuzzy
+msgid "COPYRIGHT 2001-2011"
+msgstr "כל הזכויות שמורות 2010-2001"
+
+#: src/credits.c:45
+msgid "VERSION "
 msgstr ""
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "חלק ממיזם 'TUX4KIDS'"
 
 #: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "תוכנן על ידי"
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "מתכנתים ראשיים"
+
+#: src/credits.c:59
 msgid "ADDITIONAL CODE"
-msgstr ""
+msgstr "תוספות קוד"
 
-#: src/credits.c:61
-msgid "LEAD ARTIST"
-msgstr ""
+#: src/credits.c:75
+#, fuzzy
+msgid "LEAD ARTISTS"
+msgstr "אמן ראשי"
 
-#: src/credits.c:64
+#: src/credits.c:79
 msgid "ADDITIONAL ART"
-msgstr ""
+msgstr "תוספות אמנות"
 
-#: src/credits.c:68
+#: src/credits.c:85
 msgid "SOUND EFFECTS"
-msgstr ""
+msgstr "אפקטי שמע"
 
-#: src/credits.c:71
+#: src/credits.c:88
 msgid "MUSIC"
-msgstr ""
+msgstr "מוזיקה"
 
-#: src/credits.c:81
+#: src/credits.c:107
 msgid "PACKAGERS"
-msgstr ""
+msgstr "אורזים"
 
-#: src/credits.c:86
+#: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr ""
+msgstr "הפינגווין 'טאקס' נוצר על ידי"
 
-#: src/credits.c:89
+#: src/credits.c:115
 msgid "TESTERS"
-msgstr ""
+msgstr "בודקים"
 
-#: src/credits.c:101
-msgid "WEBSITE"
-msgstr ""
+#: src/credits.c:127
+msgid "USER WEBSITE"
+msgstr "אתר הבית של המשתמש"
 
-#: src/credits.c:104
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "פיתוח TUX4KIDS מתארח אצל ALIOTH:"
+
+#: src/credits.c:133
 msgid ""
 "TuxMath is Free Software licensed under the GNU General Public License "
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
+"TuxMath הנה תכנה חופשית תחת תנאי הרישיון הציבורי הכללי של GNU (ה־GPL). כיוון "
+"שכך, מוענקות לכם הזכויות שעל פי רוב נמנעות ממשתמשי תכנה קניינית."
 
-#: src/credits.c:106
+#: src/credits.c:135
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
-msgstr ""
+msgstr "זכויות אלו כוללות את החופש ללמוד, להעתיק, לשנות ולהפיץ את התכנית."
 
-#: src/credits.c:108
+#: src/credits.c:137
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
-msgstr ""
+msgstr "עותק מלא של ה־GPL כלול בתיעוד של תכנית זו."
 
-#: src/credits.c:110
+#: src/credits.c:139
 msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "למידע נוסף על אודות תכנה חופשית וה־GPL של GNU תוכלו לבקר ב־:"
+
+#: src/factoroids.c:524
+msgid "Powers of 2"
 msgstr ""
 
-#: src/factoroids.c:553
-msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#: src/factoroids.c:525
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "כפולות של 11 ו־12"
+
+#: src/factoroids.c:526
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:527
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:528
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:529
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:534
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
 
-#: src/factoroids.c:554 src/factoroids.c:565
-msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#: src/factoroids.c:536
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "כפולות של 13, 14 ו־15"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
 msgstr ""
 
-#: src/factoroids.c:555
-msgid "type one of its factors, and press space or return"
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
 msgstr ""
 
 #: src/factoroids.c:556
-msgid "to split it into its factors.  Rocks with prime numbers are destroyed!"
+msgid "Objectives:"
 msgstr ""
 
-#: src/factoroids.c:564
-msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#: src/factoroids.c:557
+msgid "Hints:"
 msgstr ""
 
-#: src/factoroids.c:566
-msgid "type a number that can simplify the fraction, and press space or return"
-msgstr ""
-
-#: src/factoroids.c:567
+#: src/factoroids.c:788
 msgid ""
-"to split it.  Destroy fractions that can not be further simplified in a "
-"single shot!"
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
 msgstr ""
 
-#: src/game.c:1091
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+
+#: src/game.c:757
 msgid "Welcome to TuxMath!"
 msgstr "ברוכים הבאים לטאקסמטיקה!"
 
-#: src/game.c:1108
+#: src/game.c:774
 msgid "Your mission is to save your"
-msgstr "מטרתך היא להציל את"
+msgstr "מטרתכם היא להציל את"
 
-#: src/game.c:1109
+#: src/game.c:775
 msgid "penguins' igloos from the"
-msgstr "הפינגווינים שלך מפני"
+msgstr "הפינגווינים שלכם מפני"
 
-#: src/game.c:1110
+#: src/game.c:776
 msgid "falling comets."
 msgstr "הכוכבים הנופלים."
 
-#: src/game.c:1129
+#: src/game.c:795
 msgid "Stop a comet by typing"
-msgstr "תוכל להדוף כוכב על ידי"
+msgstr "תוכלו להדוף כוכב על ידי"
 
-#: src/game.c:1130
+#: src/game.c:796
 msgid "the answer to the math problem"
 msgstr "הקלדת התשובה לבעיה המתמטית"
 
-#: src/game.c:1131
+#: src/game.c:797
 msgid "and hitting 'space' or 'enter'."
 msgstr "ולחיצה על 'רווח' או 'Enter'."
 
-#: src/game.c:1132
+#: src/game.c:798
 msgid "Try it now!"
-msgstr "נסה זאת כעת!"
+msgstr "נסו זאת כעת!"
 
-#: src/game.c:1140
+#: src/game.c:806
 msgid "Good shot!"
 msgstr "פגיעה יפה!"
 
-#: src/game.c:1150
+#: src/game.c:816
 msgid "If an igloo gets hit by a comet,"
 msgstr "אם פוגע כוכב באיגלו,"
 
-#: src/game.c:1151
+#: src/game.c:817
 msgid "it melts. But don't worry: the"
 msgstr "האיגלו נמס. אך אל דאגה:"
 
-#: src/game.c:1152
+#: src/game.c:818
 msgid "penguin is OK!"
 msgstr "הפינגווינים בסדר גמור!"
 
-#: src/game.c:1153
+#: src/game.c:819
 msgid "Just watch what happens:"
-msgstr "פשוט שים לב מה קורה:"
+msgstr "פשוט שימו לב מה קורה:"
 
-#: src/game.c:1154
+#: src/game.c:820
 msgid "(Press a key to start)"
-msgstr "(לחץ על מקש להתחלה)"
+msgstr "(לחצו על מקש להתחלה)"
 
-#: src/game.c:1167
+#: src/game.c:833
 msgid "Notice the answer"
-msgstr "שים לב לתשובה"
+msgstr "שימו לב לתשובה"
 
-#: src/game.c:1177
+#: src/game.c:843
 msgid "If it gets hit again, the"
 msgstr "אם האיגלו נפגע שוב,"
 
-#: src/game.c:1178
+#: src/game.c:844
 msgid "penguin leaves."
 msgstr "הפינגווין עוזב."
 
-#: src/game.c:1179
+#: src/game.c:845
 msgid "(Press a key when ready)"
-msgstr "(לחץ על מקש כשאתה מוכן)"
+msgstr "(לחצו על מקש כשאתם מוכנים)"
 
-#: src/game.c:1202
+#: src/game.c:868
 msgid "You can fix the igloos"
 msgstr "תוכלו לתקן את האיגלואים"
 
-#: src/game.c:1203
+#: src/game.c:869
 msgid "by stopping bonus comets."
 msgstr "על ידי הדיפת כוכבי בונוס."
 
-#: src/game.c:1214
+#: src/game.c:880 src/game.c:916
 msgid "Zap it now!"
-msgstr "תירה בו כעת!"
+msgstr "תירו בו כעת!"
 
-#: src/game.c:1220
+#: src/game.c:886
 msgid "Great job!"
 msgstr "עבודה יפה!"
 
-#: src/game.c:1238
-msgid "Quit at any time by pressing"
-msgstr "תוכל לצאת בכל על על ידי"
+#: src/game.c:905
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "על ידי הדיפת כוכבי בונוס."
 
-#: src/game.c:1239
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:923
+msgid "Quit at any time by pressing"
+msgstr "תוכל לצאת בכל עת על ידי"
+
+#: src/game.c:924
 msgid "'Esc' or clicking the 'X'"
 msgstr "לחיצה על 'Esc' או על ה־'X'"
 
-#: src/game.c:1240
+#: src/game.c:925
 msgid "in the upper right corner."
 msgstr "בפינה השמאלית העליונה."
 
-#: src/game.c:1241
+#: src/game.c:926
 msgid "Do it now, and then play!"
-msgstr "עשה זאת כעת, שחק לאחר מכן!"
+msgstr "עשו זאת כעת, שחקו לאחר מכן!"
 
-#: src/highscore.c:168 data/menus/menu_strings:9
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr ""
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr ""
+
+#: src/game.c:2816
+#, fuzzy
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr "בהתחברות לשרת: %s"
+
+#: src/game.c:2824
+#, fuzzy
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr "בהתחברות לשרת: %s"
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
 msgstr "היכל התהילה"
 
-#: src/highscore.c:188 src/highscore.c:209 data/menus/menu_strings:27
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
 msgid "Space Cadet"
-msgstr "טירון"
+msgstr "טירון חלל"
 
-#: src/highscore.c:191 data/menus/menu_strings:26
+#: src/highscore.c:198 data/menus/menu_strings:24
 msgid "Scout"
 msgstr "תלמיד"
 
-#: src/highscore.c:194 data/menus/menu_strings:23
+#: src/highscore.c:201 data/menus/menu_strings:21
 msgid "Ranger"
 msgstr "מתמצא"
 
-#: src/highscore.c:197 data/menus/menu_strings:1
+#: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
 msgstr "תותח"
 
-#: src/highscore.c:200 data/menus/menu_strings:2
+#: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
-msgstr ""
+msgstr "מפקד"
 
-#: src/highscore.c:203 data/menus/menu_strings:7
+#: src/highscore.c:210
 msgid "Factors"
-msgstr ""
+msgstr "גורמים"
 
-#: src/highscore.c:206 data/menus/menu_strings:8
+#: src/highscore.c:213
 msgid "Fractions"
-msgstr ""
+msgstr "שברים"
 
-#: src/highscore.c:287
+#: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
-msgstr ""
+msgstr "הגעתם להיכל התהילה!"
 
-#: src/highscore.c:287
+#: src/highscore.c:291
 msgid "Enter Your Name:"
+msgstr "הקלידו את שמכם:"
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + %d = ?"
 msgstr ""
 
-#: src/menu.c:375
-msgid "TuxMath is free and open-source!"
-msgstr "טאקסמטיקה הינה חופשית ובעלת קוד פתוח!"
-
-#: src/menu.c:376
-#, fuzzy
-msgid "You can help make it better."
-msgstr "תוכל לעזור לנו לשפר אותו על ידי דיווח תקלות,"
-
-#: src/menu.c:377
-msgid "Suggestions, artwork, and code are all welcome!"
+#: src/mathcards.c:2624
+#, c-format
+msgid "? + %d = %d"
 msgstr ""
 
-#: src/menu.c:378
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr ""
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+
+#: src/menu.c:352
 #, fuzzy
-msgid "Discuss TuxMath at tuxmath-devel@lists.sourceforge.net"
-msgstr "דון בעתיד טאקסמטיקה ברשימת הדיוור tuxmath-devel@lists.sourceforge.net"
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr "ערכו את קובץ האפשרויות ('options') בתיקיית הבית שלכם"
 
-#: src/menu.c:499
-msgid "Edit 'options' file in your home directory"
-msgstr "ערוך את קובץ האפשרויות ('options') בתיקיית הבית שלך"
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "כמה ילדים משחקים?"
 
-#: src/menu.c:500
-msgid "to create customized game!"
-msgstr "כדי ליצור משחק מותאם אישית!"
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "(בין 2 ל־4 שחקנים)"
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr "השרת כבר פעיל"
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:460
+msgid "Enter Server Name:"
+msgstr "הזינו את שם השרת:"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr "(מוגבל ל־50 תווים)"
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr "יש ללחוץ עם העכבר או על מקש כדי לבחור בקובץ שיעור מהשרת"
 
 #: src/menu.c:501
-msgid "Press a key or click your mouse to start game."
-msgstr "לחץ על מקש במקלדת או בעכבר כדי להתחיל במשחק."
+#, fuzzy, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr "השיעור הנבחר:"
 
-#: src/menu.c:502
-msgid "See README.txt for more information"
-msgstr "עיין בקובץ README.TXT למידע נוסף"
+#: src/menu.c:524
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
+msgstr "גרסה זו נבנתה ללא תמיכה ברשת, עמכם הסליחה.\n"
 
-#: src/menu.c:526
-msgid "How many kids are playing?"
-msgstr ""
-
-#: src/menu.c:527
-msgid "(Between 2 and 4 players)"
-msgstr ""
-
-#: src/menu.c:589
-msgid "The server is already running"
-msgstr ""
-
-#: src/menu.c:594
-msgid "Enter Server Name:"
-msgstr ""
-
-#: src/menu.c:594
-msgid "(limit 50 characters)"
-msgstr ""
-
-#: src/menu.c:608
-msgid "Click or press key to select server lesson file"
-msgstr ""
-
-#: src/menu.c:637
-msgid "Server Name:"
-msgstr ""
-
-#: src/menu.c:639
-msgid "Selected Lesson:"
-msgstr ""
-
-#: src/menu.c:654 src/menu.c:701
-msgid "Sorry, this version built without network support"
-msgstr ""
-
-#: src/menu.c:655 src/menu.c:702
+#: src/menu.c:525 src/menu.c:603
 #, c-format
 msgid "Sorry, this version built without network support.\n"
-msgstr ""
+msgstr "גרסה זו נבנתה ללא תמיכה ברשת, עמכם הסליחה.\n"
 
-#: src/menu.c:665
-msgid "Detecting servers"
-msgstr ""
-
-#: src/menu.c:665
-msgid "Please wait"
-msgstr ""
-
-#: src/menu.c:671
-#, c-format
-msgid "Connected to server: %s"
-msgstr ""
-
-#: src/menu.c:672 src/multiplayer.c:258 src/multiplayer.c:260
-msgid "Enter your name:"
-msgstr ""
-
-#: src/menu.c:674
+#: src/menu.c:535
 #, fuzzy
-msgid "Click when ready"
-msgstr "(לחץ על מקש כשאתה מוכן)"
+msgid "The server is not running."
+msgstr "השרת כבר פעיל"
 
-#: src/menu.c:676
-msgid "Waiting for other players"
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
 msgstr ""
 
-#: src/menu.c:689
-msgid "Sorry, game already in progress."
+#: src/menu.c:545
+msgid "The server has been stopped."
 msgstr ""
 
-#: src/menu.c:690
-#, c-format
-msgid "Sorry, game already in progress.\n"
+#: src/menu.c:562
+msgid "Sorry, could not connect to server."
 msgstr ""
 
-#: src/menu.c:696
-msgid "Sorry, no server could be found."
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
 msgstr ""
 
-#: src/menu.c:697
-#, c-format
-msgid "Sorry, no server could be found.\n"
+#: src/menu.c:583
+#, fuzzy
+msgid "Sorry, game already in progress"
+msgstr "המשחק כבר בעיצומו, עמכם הסליחה."
+
+#: src/menu.c:589
+#, fuzzy
+msgid "Connection with server was lost"
+msgstr "בהתחברות לשרת: %s"
+
+#: src/menu.c:602
+#, fuzzy
+msgid "Sorry, this version built without network support"
+msgstr "גרסה זו נבנתה ללא תמיכה ברשת, עמכם הסליחה"
+
+#: src/multiplayer.c:130
+msgid "Go!"
 msgstr ""
 
-#: src/multiplayer.c:183
+#: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
-msgstr ""
+msgstr "ואז %s\n"
 
-#: src/multiplayer.c:258
+#: src/multiplayer.c:304
 msgid "Who is playing first?"
-msgstr ""
+msgstr "מי משחק ראשון?"
 
-#: src/multiplayer.c:260
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "הקלידו את שמכם:"
+
+#: src/multiplayer.c:306
 msgid "Who is playing next?"
-msgstr ""
+msgstr "מי השחקן הבא?"
 
-#: src/multiplayer.c:274
+#: src/multiplayer.c:320
 msgid "How many rounds will you play?"
-msgstr ""
+msgstr "כמה סיבובים יהיו במשחק?"
 
-#: src/multiplayer.c:274
+#: src/multiplayer.c:320
 msgid "Enter a number"
+msgstr "הזינו מספר"
+
+#: src/server.c:486
+msgid "Await player name"
 msgstr ""
 
-#: src/titlescreen.c:478
-msgid "Work In Progress!"
-msgstr "עבודה בתהליכים!"
+#: src/titlescreen.c:521
+#, fuzzy
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"דונו בעתידה של טאקסמטיקה ברשימת הדיוור tuxmath-devel@lists.sourceforge.net"
 
-#: src/titlescreen.c:479
-msgid "This feature is not ready yet"
-msgstr "תכונה זו אינה מוכנה עדיין"
-
-#: src/titlescreen.c:480
-msgid "Discuss the future of TuxMath at"
-msgstr "דון בעתידה של טאקסמתיקה בקבוצת הדיון"
-
-#: src/titlescreen.c:481
-msgid "tuxmath-devel@lists.sourceforge.net"
-msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#: src/tuxmath.c:54 data/menus/menu_strings:10
-msgid "Help"
-msgstr "עזרה"
-
-#: data/missions/lessons/descr_lessons:1
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
 msgid "Number Typing"
 msgstr "הקלדת מספרים"
 
-#: data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
 msgid "Addition: 1 to 3"
 msgstr "חיבור: 1 עד 3"
 
-#: data/missions/lessons/descr_lessons:3
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
 msgid "Addition: 0 to 5"
 msgstr "חיבור: 0 עד 5"
 
-#: data/missions/lessons/descr_lessons:4
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
 msgid "Addition: Sums to 10"
 msgstr "חיבור: סכומים עד 10"
 
-#: data/missions/lessons/descr_lessons:5
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
 msgid "Addition: Sums to 15"
 msgstr "חיבור: סכומים עד 15"
 
-#: data/missions/lessons/descr_lessons:6
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
 msgid "Addition: Sums to 20"
 msgstr "חיבור: סכומים עד 20"
 
-#: data/missions/lessons/descr_lessons:7
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
 msgid "Addition: Two Digit Numbers"
-msgstr "חיבור: מספרים דו-ספרתיים"
+msgstr "חיבור: מספרים דו־ספרתיים"
 
-#: data/missions/lessons/descr_lessons:8
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
 msgid "Addition: Missing Numbers"
 msgstr "חיבור: מספרים חסרים"
 
-#: data/missions/lessons/descr_lessons:9
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
 msgid "Subtraction: 0 to 10"
 msgstr "חיסור: 0 עד 10"
 
-#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
 msgid "Subtraction: 0 to 20"
 msgstr "חיסור: 0 עד 20"
 
-#: data/missions/lessons/descr_lessons:11
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
 msgid "Subtraction: Two Digit Numbers"
-msgstr "חיסור: מספרים דו-ספרתיים"
+msgstr "חיסור: מספרים דו־ספרתיים"
 
-#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
 msgid "Addition and Subtraction Review"
 msgstr "סקירת חיבור וחיסור"
 
-#: data/missions/lessons/descr_lessons:13
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 3"
 msgstr "כפל: 0 עד 3"
 
-#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
 msgid "Multiples of 2"
 msgstr "כפולות של 2"
 
-#: data/missions/lessons/descr_lessons:15
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
 msgid "Multiples of 3"
 msgstr "כפולות של 3"
 
-#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
 msgid "Multiples of 4"
 msgstr "כפולות של 4"
 
-#: data/missions/lessons/descr_lessons:17
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
 msgid "Multiples of 5"
 msgstr "כפולות של 5"
 
-#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
 msgid "Multiplication: 0 to 5"
 msgstr "כפל: 0 עד 5"
 
-#: data/missions/lessons/descr_lessons:19
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
 msgid "Multiples of 6"
 msgstr "כפולות של 6"
 
-#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
 msgid "Multiples of 7"
 msgstr "כפולות של 7"
 
-#: data/missions/lessons/descr_lessons:21
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
 msgid "Multiplication: 0 to 7"
 msgstr "כפל: 0 עד 7"
 
-#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
 msgid "Multiples of 8"
 msgstr "כפולות של 8"
 
-#: data/missions/lessons/descr_lessons:23
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
 msgid "Multiples of 9"
 msgstr "כפולות של 9"
 
-#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
 msgid "Multiples of 10"
 msgstr "כפולות של 10"
 
-#: data/missions/lessons/descr_lessons:25
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
 msgid "Multiplication: 0 to 10"
 msgstr "כפולות: 0 עד 10"
 
-#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
 msgid "Multiples of 11 and 12"
-msgstr "כפולות של 11 ו-12"
+msgstr "כפולות של 11 ו־12"
 
-#: data/missions/lessons/descr_lessons:27
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
 msgid "Multiplication: 0 to 12"
 msgstr "כפל: 0 עד 12"
 
-#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
 msgid "Multiples of 13, 14, and 15"
-msgstr "כפולות של 13, 14 ו-15"
+msgstr "כפולות של 13, 14 ו־15"
 
-#: data/missions/lessons/descr_lessons:29
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
 msgid "Multiplication: 0 to 15"
 msgstr "כפל: 0 עד 15"
 
-#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
 msgid "Multiplication: Missing Numbers"
 msgstr "כפל: מספרים חסרים"
 
-#: data/missions/lessons/descr_lessons:31
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
 msgid "Division by 2"
-msgstr "חילוק ב-2"
+msgstr "חילוק ב־2"
 
-#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
 msgid "Division by 3"
-msgstr "חילוק ב-3"
+msgstr "חילוק ב־3"
 
-#: data/missions/lessons/descr_lessons:33
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
 msgid "Division by 4"
-msgstr "חילוק ב-4"
+msgstr "חילוק ב־4"
 
-#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
 msgid "Division by 5"
-msgstr "חילוק ב-5"
+msgstr "חילוק ב־5"
 
-#: data/missions/lessons/descr_lessons:35
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
 msgid "Division: 1 to 5"
-msgstr "חילוק: 1עד 5"
+msgstr "חילוק: 1 עד 5"
 
-#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
 msgid "Division by 6"
-msgstr "חילוק ב-6"
+msgstr "חילוק ב־6"
 
-#: data/missions/lessons/descr_lessons:37
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
 msgid "Division by 7"
-msgstr "חילוק ב-7"
+msgstr "חילוק ב־7"
 
-#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
 msgid "Division by 8"
-msgstr "חילוק ב-8"
+msgstr "חילוק ב־8"
 
-#: data/missions/lessons/descr_lessons:39
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
 msgid "Division by 9"
-msgstr "חילוק ב-9"
+msgstr "חילוק ב־9"
 
-#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
 msgid "Division by 10"
-msgstr "חילוק ב-10"
+msgstr "חילוק ב־10"
 
-#: data/missions/lessons/descr_lessons:41
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
 msgid "Division: 1 to 10"
 msgstr "חילוק: 1 עד 10"
 
-#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
 msgid "Division by 11 and 12"
-msgstr "חילוק ב-11 ו-12"
+msgstr "חילוק ב־11 וב־12"
 
-#: data/missions/lessons/descr_lessons:43
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
 msgid "Division: 1 to 12"
 msgstr "חילוק: 1 עד 12"
 
-#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
 msgid "Division by 13, 14, and 15"
-msgstr "חילוק ב-13, 14 ו-15"
+msgstr "חילוק ב־13, ב־14 וב־15"
 
-#: data/missions/lessons/descr_lessons:45
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
 msgid "Division: 1 to 15"
 msgstr "חילוק: 1 עד 15"
 
-#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
 msgid "Multiplication and Division Review"
 msgstr "סקירת כפל וחילוק"
 
-#: data/missions/lessons/descr_lessons:47
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
 msgid "Typing Negative Numbers"
 msgstr "הקלדת מספרים שליליים"
 
-#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
 msgid "Subtraction: Negative Answers"
 msgstr "חיסור: תוצאות שליליות"
 
-#: data/missions/lessons/descr_lessons:49
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
 msgid "Adding Negatives to Positives"
 msgstr "הוספת מספרים שליליים לחיוביים"
 
-#: data/missions/lessons/descr_lessons:50
-#, fuzzy
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
 msgid "Adding Positives to Negatives"
-msgstr "הוספת שליליים לשליליים"
+msgstr "הוספת חיוביים לשליליים"
 
-#: data/missions/lessons/descr_lessons:51
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
 msgid "Subtracting Negatives From Positives"
 msgstr "חיסור מספרים שליליים מחיוביים"
 
-#: data/missions/lessons/descr_lessons:52
-#, fuzzy
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
 msgid "Subtracting Positives From Negatives"
-msgstr "חיסור שליליים משליליים"
+msgstr "חיסור חיוביים משליליים"
 
-#: data/missions/lessons/descr_lessons:53
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
 msgid "Adding Negatives to Negatives"
 msgstr "הוספת שליליים לשליליים"
 
-#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
 msgid "Subtracting Negatives From Negatives"
 msgstr "חיסור שליליים משליליים"
 
-#: data/missions/lessons/descr_lessons:55
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
 msgid "Negative and Positive Numbers Review"
 msgstr "סקירת מספרים חיוביים ושליליים"
 
-#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
 msgid "Multiplication and Division of Negatives"
 msgstr "כפל וחילוק של מספרים שליליים"
 
-#: data/missions/lessons/descr_lessons:57
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
 msgid "Multiplication of Positives and Negatives"
 msgstr "הכפלת מספרים חיוביים בשליליים"
 
-#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
 msgid "Division of Positives and Negatives"
 msgstr "חלוקת מספרים חיוביים בשליליים"
 
@@ -795,67 +1031,297 @@ msgstr "הדגמה"
 
 #: data/menus/menu_strings:5
 msgid "Elimination"
-msgstr ""
+msgstr "חיסול"
 
 #: data/menus/menu_strings:6
-msgid "Factoroids!"
-msgstr ""
+#, fuzzy
+msgid "Factoroids"
+msgstr "גורמואידים!"
 
-#: data/menus/menu_strings:11
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "עזרה"
+
+#: data/menus/menu_strings:9
 msgid "Join Game"
-msgstr ""
+msgstr "הצטרפות למשחק"
 
-#: data/menus/menu_strings:12
+#: data/menus/menu_strings:10
 msgid "Main Menu"
 msgstr "תפריט ראשי"
 
-#: data/menus/menu_strings:13
+#: data/menus/menu_strings:11
 msgid "Math Command Fleet Missions"
-msgstr ""
+msgstr "משימות צי פיקוד המתמטיקה"
 
-#: data/menus/menu_strings:14
+#: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
 msgstr "האקדמיה לאימון פעולות מתמטיות"
 
-#: data/menus/menu_strings:15
+#: data/menus/menu_strings:13
 msgid "More Options"
 msgstr "אפשרויות נוספות"
 
-#: data/menus/menu_strings:16
+#: data/menus/menu_strings:14
 msgid "Network Game"
-msgstr ""
+msgstr "משחק רשת"
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "משחק עצמאי"
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "משחק ארקייד"
 
 #: data/menus/menu_strings:17
-msgid "Play Alone"
-msgstr ""
+msgid "Play Custom Game"
+msgstr "משחק מותאם"
 
 #: data/menus/menu_strings:18
-msgid "Play Arcade Game"
-msgstr "שחק משחק ארקייד"
+msgid "Play With Friends"
+msgstr "משחק עם חברים"
 
 #: data/menus/menu_strings:19
-msgid "Play Custom Game"
-msgstr "שחק משחק מותאם"
-
-#: data/menus/menu_strings:20
-msgid "Play With Friends"
-msgstr ""
-
-#: data/menus/menu_strings:21
 msgid "Project Info"
 msgstr "מידע על המיזם"
 
-#: data/menus/menu_strings:22
+#: data/menus/menu_strings:20
 msgid "Quit"
 msgstr "יציאה"
 
-#: data/menus/menu_strings:24
+#: data/menus/menu_strings:22
 msgid "Run Server"
+msgstr "הפעלת שרת"
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "איפוס הנקודות"
+
+#: data/menus/menu_strings:26
+#, fuzzy
+msgid "Stop Server"
+msgstr "הפעלת שרת"
+
+#: data/menus/menu_strings:27
+#, fuzzy
+msgid "Additional options"
+msgstr "חיבור: 1 עד 3"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
 msgstr ""
 
-#: data/menus/menu_strings:25
-msgid "Score Sweep"
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
 msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:34
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "עשו כמיטב יכולתכם!"
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr ""
+
+#: data/menus/menu_strings:38
+msgid "High Scores"
+msgstr ""
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:49
+#, fuzzy
+msgid "See the project info"
+msgstr "מידע על המיזם"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "גורמואידים: כדי לנצח עליך להשמיד את כל האסטרואידים."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr "השתמשו במקשי החצים כדי לפנות או להתקדם קדימה.  כוונו על אסטרואידים."
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "הקלידו את אחד הגורמים ולחצו על רווח או Enter"
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr "כדי לפרק לגורמים.  סלעים עם מספרים ראשוניים יושמדו!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr "שברים: כדי לנצח עליך להשמיד את כל האסטרואידים"
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr "הקלידו מספר שיכול לפשט את השבר ולחצו על רווח או Enter"
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr "כדי לפצל אותו.  השמידו שברים שלא ניתן לפשט אותם עוד במכה אחת!"
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "משחק ארקייד"
+
+#~ msgid "Detecting servers"
+#~ msgstr "השרתים מזוהים"
+
+#~ msgid "Please wait"
+#~ msgstr "נא להמתין"
+
+#~ msgid "Connected to server: %s"
+#~ msgstr "בהתחברות לשרת: %s"
+
+#, fuzzy
+#~ msgid "Sorry, no server could be found."
+#~ msgstr "לא ניתן למצוא אף שרת, עמך הסליחה."
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "השרתים מזוהים"
+
+#~ msgid "Click when ready"
+#~ msgstr "לחצו כשאתם מוכנים"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "בהמתנה לשחקנים האחרים"
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "המשחק כבר בעיצומו, עמכם הסליחה.\n"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "טאקסמטיקה הנה חופשית ובעלת קוד פתוח!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "תוכל לעזור לנו לשפר אותה."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "הצעות, יצירות אומנות וקוד יתקבלו בברכה!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "לחצו על מקש במקלדת או בעכבר כדי להתחיל במשחק."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "עיינו בקובץ README.TXT למידע נוסף"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "עבודה בתהליכים!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "תכונה זו אינה מוכנה עדיין"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "דונו בעתידה של טאקסמתיקה בקבוצת הדיון"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#, fuzzy
+#~ msgid "Network game terminated."
+#~ msgstr "משחק רשת"
+
+#~ msgid "to create customized game!"
+#~ msgstr "כדי ליצור משחק מותאם אישית!"
+
+#~ msgid "Server Name:"
+#~ msgstr "שם השרת:"
+
+#~ msgid "Sorry, no server could be found.\n"
+#~ msgstr "לא ניתן למצוא אף שרת, עמך הסליחה.\n"
 
 #~ msgid "suggesting improvements, or adding code."
 #~ msgstr "הצעת שיפורים או הוספת קוד."

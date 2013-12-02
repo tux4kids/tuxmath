@@ -1,54 +1,51 @@
 <menu title="Main Menu" entries="7">
-    <menu title="Play Alone" sprite="alone" entries="5">
-        <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY">
-        <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_CAMPAIGN">
-        <menu title="Play Arcade Game" sprite="comet" entries="7">
-            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_ARCADE" param="0">
-            <item title="Scout" sprite="tux_helmet_green" run="RUN_ARCADE" param="1">
-            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_ARCADE" param="2">
-            <item title="Ace" sprite="tux_helmet_red" run="RUN_ARCADE" param="3">
-            <item title="Commando" sprite="tux_helmet_black" run="RUN_ARCADE" param="4">
-            <item title="Hall Of Fame" sprite="trophy" run="RUN_HALL_OF_FAME">
-            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+    <menu title="Play Alone" sprite="alone" entries="5" desc="Play and learn on your own">
+        <item title="Math Command Training Academy" sprite="lesson" run="RUN_ACADEMY" desc="Earn Gold Stars as you build your math skills with each mission" />
+        <item title="Math Command Fleet Missions" sprite="fleet" run="RUN_CAMPAIGN" desc="Complete missions for the Math Command Fleet" />
+        <menu title="Play Arcade Game" sprite="comet" entries="7" desc="Make the Hall of Fame by beating the highest score">
+            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_ARCADE" param="0" desc="Easiest" />
+            <item title="Scout" sprite="tux_helmet_green" run="RUN_ARCADE" param="1" desc="Easy" />
+            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_ARCADE" param="2" desc="Moderate" />
+            <item title="Ace" sprite="tux_helmet_red" run="RUN_ARCADE" param="3" desc="Hard" />
+            <item title="Commando" sprite="tux_helmet_black" run="RUN_ARCADE" param="4" desc="Hardest" />
+            <item title="Hall Of Fame" sprite="trophy" run="RUN_HALL_OF_FAME" desc="High Scores" />
+            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
         </menu>
-        <item title="Play Custom Game" sprite="tux_config_brown" run="RUN_CUSTOM">
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+        <item title="Play Custom Game" sprite="tux_config_brown" run="RUN_CUSTOM" desc="Customize the game you play" />
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <menu title="Network Game" sprite="lan" entries="3">
-        <item title="Run Server" sprite="lan" run="RUN_LAN_HOST">
-        <item title="Join Game" sprite="lan" run="RUN_LAN_JOIN">
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+    <menu title="Network Game" sprite="lan" entries="4" desc="Play a game with your friends on a local network">
+        <item title="Run Server" sprite="lan" run="RUN_LAN_HOST" desc="Start a server for a network game" />
+        <item title="Stop Server" sprite="lan" run="STOP_LAN_HOST" desc="Stop a server running on your machine" />
+        <item title="Join Game" sprite="lan" run="RUN_LAN_JOIN" desc="Join a game on a server running on your network" />
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <menu title="Play With Friends" sprite="friends" entries="3">
-        <menu title="Score Sweep" sprite="nums" entries="6">
-            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_SCORE_SWEEP" param="0">
-            <item title="Scout" sprite="tux_helmet_green" run="RUN_SCORE_SWEEP" param="1">
-            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_SCORE_SWEEP" param="2">
-            <item title="Ace" sprite="tux_helmet_red" run="RUN_SCORE_SWEEP" param="3">
-            <item title="Commando" sprite="tux_helmet_black" run="RUN_SCORE_SWEEP" param="4">
-            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+    <menu title="Play With Friends" sprite="friends" entries="3" desc="Take turns in a game with your friends on a single computer">
+        <menu title="Score Sweep" sprite="nums" entries="6" desc="The person with the highest score wins">
+            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_SCORE_SWEEP" param="0" desc="Easiest" />
+            <item title="Scout" sprite="tux_helmet_green" run="RUN_SCORE_SWEEP" param="1" desc="Easier" />
+            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_SCORE_SWEEP" param="2" desc="Easy" />
+            <item title="Ace" sprite="tux_helmet_red" run="RUN_SCORE_SWEEP" param="3" desc="Moderate" />
+            <item title="Commando" sprite="tux_helmet_black" run="RUN_SCORE_SWEEP" param="4" desc="Hard" />
+            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
         </menu>
-        <menu title="Elimination" sprite="exclamation" entries="6">
-            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_ELIMINATION" param="0">
-            <item title="Scout" sprite="tux_helmet_green" run="RUN_ELIMINATION" param="1">
-            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_ELIMINATION" param="2">
-            <item title="Ace" sprite="tux_helmet_red" run="RUN_ELIMINATION" param="3">
-            <item title="Commando" sprite="tux_helmet_black" run="RUN_ELIMINATION" param="4">
-            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+        <menu title="Elimination" sprite="exclamation" entries="6" desc="Players with the lowest scores are eliminated every round">
+            <item title="Space Cadet" sprite="tux_helmet_yellow" run="RUN_ELIMINATION" param="0" desc="Easiest" />
+            <item title="Scout" sprite="tux_helmet_green" run="RUN_ELIMINATION" param="1" desc="Easier" />
+            <item title="Ranger" sprite="tux_helmet_blue" run="RUN_ELIMINATION" param="2" desc="Easy" />
+            <item title="Ace" sprite="tux_helmet_red" run="RUN_ELIMINATION" param="3" desc="Moderate" />
+            <item title="Commando" sprite="tux_helmet_black" run="RUN_ELIMINATION" param="4" desc="Hard" />
+            <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
         </menu>
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <menu title="Factoroids!" sprite="factoroids" entries="3">
-        <item title="Factors" sprite="factors" run="RUN_FACTORS">
-        <item title="Fractions" sprite="fractions" run="RUN_FRACTIONS">
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
+    <item title="Factoroids" sprite="factors" run="RUN_FACTORS" desc="Factorize numbers with your laser beam!"/>
+    <item title="Help" sprite="help" run="RUN_HELP" desc="See how to play the game" />
+    <menu title="More Options" sprite="tux_config" entries="4" desc="Additional options">
+        <item title="Demo" sprite="comet" run="RUN_DEMO" desc="Run a demo of the game" />
+        <item title="Project Info" sprite="help" run="RUN_INFO" desc="See the project info" />
+        <item title="Credits" sprite="credits" run="RUN_CREDITS" desc="See the credits for the game" />
+        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
-    <item title="Help" sprite="help" run="RUN_HELP">
-    <menu title="More Options" sprite="tux_config" entries="4">
-        <item title="Demo" sprite="comet" run="RUN_DEMO">
-        <item title="Project Info" sprite="help" run="RUN_INFO">
-        <item title="Credits" sprite="credits" run="RUN_CREDITS">
-        <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU">
-    </menu>
-    <item title="Quit" sprite="quit" run="RUN_QUIT">
+    <item title="Quit" sprite="quit" run="RUN_QUIT" desc="Exit to your desktop" />
 </menu>

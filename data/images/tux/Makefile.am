@@ -11,6 +11,19 @@ dist_tux_DATA = bigtux0.png \
   bigtux5.png \
   bigtux6.png \
   bigtux.svg \
+  bigtux0.svg \
+  bigtux1.svg \
+  bigtux2.svg \
+  bigtux3.svg \
+  bigtux4.svg \
+  bigtux5.svg \
+  bigtux6.svg \
+  cockpit_tux1.png \
+  cockpit_tux2.png \
+  cockpit_tux3.png \
+  cockpit_tux4.png \
+  cockpit_tux5.png \
+  cockpit_tux6.png \
   console_led.png \
   console_bash.png \
   tux-console1.png \

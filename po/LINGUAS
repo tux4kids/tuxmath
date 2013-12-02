@@ -1,8 +1,11 @@
 # Set of available languages.
 ar
 ast
+bg
 cs
+da
 de
+el
 en@quot
 en@boldquot
 en_GB
@@ -11,10 +14,12 @@ fi
 fr
 ga
 he
+hi
 hu
 it
 ja
 ku
+mn
 nb
 nl
 nn
@@ -22,12 +27,16 @@ oc
 pl
 pt
 pt_BR
+ro
 ru
 sk
 sl
 sv
+tl
 tr
+uk
 vi
 zam
 zh_CN
+zh_TW
 

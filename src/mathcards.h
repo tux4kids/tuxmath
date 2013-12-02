@@ -1,17 +1,34 @@
 /*
+   mathcards.h:
 
-        mathcards.h
+   Contains headers for a flashcard-type math game.
+   This is a sort of interface-independent backend that could be used with a different
+   user interface. Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
+   (aka tuxmath).  If tuxmath were a C++ program, this would be a C++ class.
 
-        Description: contains headers for a flashcard-type math game.
-        This is a sort of interface-independent backend that could be used with a different
-        user interface. Developed as an enhancement to Bill Kendrick's "Tux of Math Command"
-        (aka tuxmath).  If tuxmath were a C++ program, this would be a C++ class.
+   Copyright 2006, 2008, 2009, 2010.
+Authors: David Bruce, Brendan Luchen
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
-        Author: David Bruce <davidstuartbruce@gmail.com>, (C) 2006
 
-        Copyright: See COPYING file that comes with this distribution (briefly, GNU GPL version 2 or later)
+mathcards.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
+
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
+
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
+
 
 
 #ifndef MATHCARDS_H
@@ -22,111 +39,111 @@
 
 /* different classes of problems TuxMath will ask */
 typedef enum _MC_ProblemType {
-  MC_PT_TYPING,
-  MC_PT_ARITHMETIC,
-  MC_PT_COMPARISON,
-  MC_NUM_PTYPES
+    MC_PT_TYPING,
+    MC_PT_ARITHMETIC,
+    MC_PT_COMPARISON,
+    MC_NUM_PTYPES
 } MC_ProblemType;
 
 /* type of math operation used in an arithmetic question */
 typedef enum _MC_Operation {
-  MC_OPER_ADD,
-  MC_OPER_SUB,
-  MC_OPER_MULT,
-  MC_OPER_DIV,
-  MC_NUM_OPERS
+    MC_OPER_ADD,
+    MC_OPER_SUB,
+    MC_OPER_MULT,
+    MC_OPER_DIV,
+    MC_NUM_OPERS
 } MC_Operation;
 
 /* math question formats: */
 typedef enum _MC_Format {
-  MC_FORMAT_ANS_LAST,     /* a + b = ? */
-  MC_FORMAT_ANS_FIRST,    /* ? + b = c */
-  MC_FORMAT_ANS_MIDDLE,    /* a + ? = c */
-  MC_NUM_FORMATS
+    MC_FORMAT_ANS_LAST,     /* a + b = ? */
+    MC_FORMAT_ANS_FIRST,    /* ? + b = c */
+    MC_FORMAT_ANS_MIDDLE,    /* a + ? = c */
+    MC_NUM_FORMATS
 } MC_Format;
 
 
 /*
-Indices for the various integer options. These are NOT the actual values!
-Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
-Creating additional [integral] options is now centralized--it should only
-be necessary to add to this list, the list of text, and the list of
-defaults. (Besides actually using the new options!)
-*/
+   Indices for the various integer options. These are NOT the actual values!
+   Actual values are accessed as such: options.iopts[PLAY_THROUGH_LIST] = val;
+   Creating additional [integral] options is now centralized--it should only
+   be necessary to add to this list, the list of text, and the list of
+   defaults. (Besides actually using the new options!)
+   */
 enum {
-  NOT_VALID_OPTION = -1     ,
-  PLAY_THROUGH_LIST = 0     , /* play until all questions answered correctly */
-  QUESTION_COPIES           , /* # times each question is put in list */
-  REPEAT_WRONGS             , /* reuse incorrectly answered questions or not */
-  COPIES_REPEATED_WRONGS    , /* how many copies of an incorrectly answered question to re-insert*/
-  ALLOW_NEGATIVES           ,
-  MAX_ANSWER                ,
-  MAX_QUESTIONS             ,
-  MAX_FORMULA_NUMS          ,
-  MIN_FORMULA_NUMS          ,
+    NOT_VALID_OPTION = -1     ,
+    PLAY_THROUGH_LIST = 0     , /* play until all questions answered correctly */
+    QUESTION_COPIES           , /* # times each question is put in list */
+    REPEAT_WRONGS             , /* reuse incorrectly answered questions or not */
+    COPIES_REPEATED_WRONGS    , /* how many copies of an incorrectly answered question to re-insert*/
+    ALLOW_NEGATIVES           ,
+    MAX_ANSWER                ,
+    MAX_QUESTIONS             ,
+    MAX_FORMULA_NUMS          ,
+    MIN_FORMULA_NUMS          ,
 
-  //NOTE: Do _not_ rearrange the FORMAT values because the functions
-  //rely on index arithmetic to iterate through these, and will be
-  //broken if the relative position changes!
-  FORMAT_ANSWER_LAST        , /* question format is: a + b = ? */
-  FORMAT_ANSWER_FIRST       , /* question format is: ? + b = c */
-  FORMAT_ANSWER_MIDDLE      , /* question format is: a + ? = c */
-  FORMAT_ADD_ANSWER_LAST    , /* a + b = ?    */
-  FORMAT_ADD_ANSWER_FIRST   , /* ? + b = c    */
-  FORMAT_ADD_ANSWER_MIDDLE  , /* a + ? = c    */
-  FORMAT_SUB_ANSWER_LAST    , /* a - b = ?    */
-  FORMAT_SUB_ANSWER_FIRST   , /* ? - b = c    */
-  FORMAT_SUB_ANSWER_MIDDLE  , /* a - ? = c    */
-  FORMAT_MULT_ANSWER_LAST   , /* a * b = ?    */
-  FORMAT_MULT_ANSWER_FIRST  , /* ? * b = c    */
-  FORMAT_MULT_ANSWER_MIDDLE , /* a * ? = c    */
-  FORMAT_DIV_ANSWER_LAST    , /* a / b = ?    */
-  FORMAT_DIV_ANSWER_FIRST   , /* ? / b = c    */
-  FORMAT_DIV_ANSWER_MIDDLE  , /* a / ? = c    */
+    //NOTE: Do _not_ rearrange the FORMAT values because the functions
+    //rely on index arithmetic to iterate through these, and will be
+    //broken if the relative position changes!
+    FORMAT_ANSWER_LAST        , /* question format is: a + b = ? */
+    FORMAT_ANSWER_FIRST       , /* question format is: ? + b = c */
+    FORMAT_ANSWER_MIDDLE      , /* question format is: a + ? = c */
+    FORMAT_ADD_ANSWER_LAST    , /* a + b = ?    */
+    FORMAT_ADD_ANSWER_FIRST   , /* ? + b = c    */
+    FORMAT_ADD_ANSWER_MIDDLE  , /* a + ? = c    */
+    FORMAT_SUB_ANSWER_LAST    , /* a - b = ?    */
+    FORMAT_SUB_ANSWER_FIRST   , /* ? - b = c    */
+    FORMAT_SUB_ANSWER_MIDDLE  , /* a - ? = c    */
+    FORMAT_MULT_ANSWER_LAST   , /* a * b = ?    */
+    FORMAT_MULT_ANSWER_FIRST  , /* ? * b = c    */
+    FORMAT_MULT_ANSWER_MIDDLE , /* a * ? = c    */
+    FORMAT_DIV_ANSWER_LAST    , /* a / b = ?    */
+    FORMAT_DIV_ANSWER_FIRST   , /* ? / b = c    */
+    FORMAT_DIV_ANSWER_MIDDLE  , /* a / ? = c    */
 
-  ADDITION_ALLOWED          ,
-  SUBTRACTION_ALLOWED       ,
-  MULTIPLICATION_ALLOWED    ,
-  DIVISION_ALLOWED          ,
-  TYPING_PRACTICE_ALLOWED   ,
-  ARITHMETIC_ALLOWED        ,
-  COMPARISON_ALLOWED        ,
+    ADDITION_ALLOWED          ,
+    SUBTRACTION_ALLOWED       ,
+    MULTIPLICATION_ALLOWED    ,
+    DIVISION_ALLOWED          ,
+    TYPING_PRACTICE_ALLOWED   ,
+    ARITHMETIC_ALLOWED        ,
+    COMPARISON_ALLOWED        ,
 
-  MIN_AUGEND                , /* augend + addend = sum */
-  MAX_AUGEND                ,
-  MIN_ADDEND                ,
-  MAX_ADDEND                ,
+    MIN_AUGEND                , /* augend + addend = sum */
+    MAX_AUGEND                ,
+    MIN_ADDEND                ,
+    MAX_ADDEND                ,
 
-  MIN_MINUEND               , /* minuend - subtrahend = difference */
-  MAX_MINUEND               ,
-  MIN_SUBTRAHEND            ,
-  MAX_SUBTRAHEND            ,
+    MIN_MINUEND               , /* minuend - subtrahend = difference */
+    MAX_MINUEND               ,
+    MIN_SUBTRAHEND            ,
+    MAX_SUBTRAHEND            ,
 
-  MIN_MULTIPLIER            , /* multiplier * multiplicand = product */
-  MAX_MULTIPLIER            ,
-  MIN_MULTIPLICAND          ,
-  MAX_MULTIPLICAND          ,
+    MIN_MULTIPLIER            , /* multiplier * multiplicand = product */
+    MAX_MULTIPLIER            ,
+    MIN_MULTIPLICAND          ,
+    MAX_MULTIPLICAND          ,
 
-  MIN_DIVISOR               , /* dividend/divisor = quotient */
-  MAX_DIVISOR               , /* note - generate_list() will prevent */
-  MIN_QUOTIENT              , /* questions with division by zero.    */
-  MAX_QUOTIENT              ,
+    MIN_DIVISOR               , /* dividend/divisor = quotient */
+    MAX_DIVISOR               , /* note - generate_list() will prevent */
+    MIN_QUOTIENT              , /* questions with division by zero.    */
+    MAX_QUOTIENT              ,
 
-  MIN_TYPING_NUM            , /* range for "typing tutor" mode, for  */
-  MAX_TYPING_NUM            , /* kids just learning to use keyboard. */
+    MIN_TYPING_NUM            , /* range for "typing tutor" mode, for  */
+    MAX_TYPING_NUM            , /* kids just learning to use keyboard. */
 
-  MIN_COMPARATOR            , /* left comparison operand */
-  MAX_COMPARATOR            ,
-  MIN_COMPARISAND           , /* right comparison operannd */
-  MAX_COMPARISAND           ,
+    MIN_COMPARATOR            , /* left comparison operand */
+    MAX_COMPARATOR            ,
+    MIN_COMPARISAND           , /* right comparison operannd */
+    MAX_COMPARISAND           ,
 
-  RANDOMIZE                 , /* whether to shuffle cards */
+    RANDOMIZE                 , /* whether to shuffle cards */
 
-  COMPREHENSIVE             , /* whether to generate all questions 'in order' */
-  AVG_LIST_LENGTH           , /* the average number of questions in a list */
-  VARY_LIST_LENGTH          , /* whether to randomly adjust list length */
+    COMPREHENSIVE             , /* whether to generate all questions 'in order' */
+    AVG_LIST_LENGTH           , /* the average number of questions in a list */
+    VARY_LIST_LENGTH          , /* whether to randomly adjust list length */
 
-  NOPTS
+    NOPTS
 };
 
 extern const char* const MC_OPTION_TEXT[];
@@ -136,9 +153,9 @@ extern const char operchars[MC_NUM_OPERS];
 /* default values for math_options */
 #define MC_MAX_DIGITS 3 
 #define MC_GLOBAL_MAX 999          /* This is the largest absolute value that */
-                                   /* can be entered for math question values.*/
+/* can be entered for math question values.*/
 #define MC_MATH_OPTS_INVALID -9999 /* Return value for accessor functions     */
-                                   /* if math_opts not valid                  */
+/* if math_opts not valid                  */
 //#define DEFAULT_FRACTION_TO_KEEP 1
 
 
@@ -148,17 +165,17 @@ extern const char operchars[MC_NUM_OPERS];
 /* code back to the old system - DSB                                        */
 typedef struct _MC_Options
 {
-  int iopts[NOPTS];
+    int iopts[NOPTS];
 } MC_Options;
 
 
 
 /* struct for node in math "flashcard" list */
 typedef struct MC_MathQuestion {
-  MC_FlashCard card;
-  struct MC_MathQuestion* next;
-  struct MC_MathQuestion* previous;
-  int randomizer;
+    MC_FlashCard card;
+    struct MC_MathQuestion* next;
+    struct MC_MathQuestion* previous;
+    int randomizer;
 } MC_MathQuestion;
 
 
@@ -207,9 +224,8 @@ int MC_NextQuestion(MC_FlashCard* q);
 /*  correctly, and how long the student took to answer.   */
 /*  Returns 1 if no errors.                               */
 int MC_AnsweredCorrectly(int id, float t);
-//int MC_AnsweredCorrectly_id(int id);
 
-/*  MC_NotAnsweredCorrectly() is how the user interface    */
+/*  MC_NotAnsweredCorrectly() is how the user interface   */
 /*  tells MathCards that the question has not been        */
 /*  answered correctly. Returns 1 if no errors.           */
 int MC_NotAnsweredCorrectly(int id);
@@ -259,18 +275,17 @@ float MC_MedianTimePerQuestion(void);
 void print_card(MC_FlashCard card);
 
 /********************************************
-Public functions for new mathcards architecture
-*********************************************/
+  Public functions for new mathcards architecture
+ *********************************************/
 /* Return the array index of the given text, e.g. randomize->47 */
 unsigned int MC_MapTextToIndex(const char* text);
-void MC_SetOpt(unsigned int index, int val); //access directly,for internal use
-int MC_GetOpt(unsigned int index);
-void MC_SetOp(const char* param, int val); //access by text, for config reading
-int MC_GetOp(const char* param);
+void MC_SetOpt(unsigned int index, int val); //set an option
+int MC_GetOpt(unsigned int index); //get an option :)
 int MC_VerifyOptionListSane(void);
 int MC_MaxFormulaSize(void); //amount of memory needed to safely hold strings
 int MC_MaxAnswerSize(void);
 MC_FlashCard MC_AllocateFlashcard();
+int MC_MakeFlashcard(char* buf, MC_FlashCard* fc);
 void MC_CopyCard(const MC_FlashCard* src, MC_FlashCard* dest);
 void MC_FreeFlashcard(MC_FlashCard* fc);
 void MC_ResetFlashCard(MC_FlashCard* fc); //empty flashcard of strings & values

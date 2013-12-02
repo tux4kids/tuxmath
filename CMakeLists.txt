@@ -6,9 +6,15 @@
 # This was based on many examples, but a particular debt is owed to
 # Peter K�mmel of the LyX project.
 
+# NOTE - the CMake build basically works, but is not completely 
+# up-to-date and does not check for as many libs, headers,
+# programs, and functions.  The Autotools build is the basis
+# for official releases and is more consistently maintained.
+
 project(TuxMath)
 
-set(TUXMATH_VERSION "1.7.1")
+
+set(TUXMATH_VERSION "2.0.3")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
@@ -19,20 +25,23 @@ set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
 #message("CMP: ${CMAKE_MODULE_PATH}")
 
+include(T4K_Sugar)
+
 ## Choose a debug build set
-set(CMAKE_BUILD_TYPE Debug)
+t4k_gentle_set(CMAKE_BUILD_TYPE Debug)
 
 ## Decide on our build-type: installed or relocatable
 ## Linux (& Windows?) would be installed, Mac relocatable
 ## Someday we might supply a Linux relocatable package; this would be
 ## specified by executing cmake -DTUXMATH_BUILD_TYPE=relocatable
-if (NOT TUXMATH_BUILD_TYPE)
-  if (APPLE)
-    set(TUXMATH_BUILD_TYPE relocatable)
-  else (APPLE)
-    set(TUXMATH_BUILD_TYPE installed)
-  endif (APPLE)
-endif (NOT TUXMATH_BUILD_TYPE)
+if (APPLE)
+  set(TUXMATH_BUILD_TYPE relocatable CACHE STRING "Installed or relocatable")
+else (APPLE)
+  set(TUXMATH_BUILD_TYPE installed CACHE STRING "Installed or relocatable")
+endif (APPLE)
+
+message("TBT IS ${TUXMATH_BUILD_TYPE}")
+
 if (TUXMATH_BUILD_TYPE MATCHES installed)
   message("The installation location is ${CMAKE_INSTALL_PREFIX}")
 endif (TUXMATH_BUILD_TYPE MATCHES installed)
@@ -51,22 +60,32 @@ if (APPLE)
   set(MACOSX_BUNDLE_ICON_FILE tuxmath.icns)
   set(TUXMATH_DATA_PREFIX ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources)
   set(LOCALE_DIR ${TUXMATH_MACOSX_BUNDLE_NAME}.app/Contents/Resources/locale)
+  set (TUXMATH_EXTRA_INCLUDE ${TuxMath_SOURCE_DIR}/macosx)
   # OS X SDL Framework does not have a pre-built libSDLmain, so we
   # instead include SDLmain.m as a source file
-  set (TUXMATH_EXTRA_INCLUDE ${TuxMath_SOURCE_DIR}/macosx)
   set (TUXMATH_EXTRA_SRC ${TuxMath_SOURCE_DIR}/macosx/SDLMain.m)
+  # Build universal binaries 
+  set(CMAKE_OSX_ARCHITECTURES ppc i386)    
 elseif (UNIX)
   # A non-apple Unix (Linux, Solaris, etc.)
   # This is where one would test for installed/relocatable, if that
   # choice is implemented.  For now we just provide installed.
   set (TUXMATH_DATA_PREFIX ${CMAKE_INSTALL_PREFIX}/share/tuxmath)
   set (LOCALE_DIR ${CMAKE_INSTALL_PREFIX}/share/locale)
+elseif (MINGW)
+  set (BUILD_MINGW32 TRUE)
+  t4k_include_definition(BUILD_MINGW32)
+  add_definitions(-DPROGRAM_NAME="TuxMath")
+  if (CMAKE_BUILD_TYPE MATCHES Debug)
+    set (TUXMATH_DATA_PREFIX "${CMAKE_SOURCE_DIR}/data" CACHE STRING "Data files")
+  elseif (TUXMATH_BUILD_TYPE MATCHES relocatable)
+    set (TUXMATH_DATA_PREFIX "./data" CACHE STRING "Data files")
+  else() # installed
+    string( REPLACE "\\" "/" TUXMATH_DATA_PREFIX "$ENV{USERPROFILE}/Tux4Kids")
+  endif()
 endif (APPLE)
 #message("TDP ${TUXMATH_DATA_PREFIX}")
 
-## OS X
-# Build universal binaries on OSX
-set(CMAKE_OSX_ARCHITECTURES ppc i386)
 
 ## Decide on whether we're going to build with internationalization
 # We can't build with internationalization unless the build computer
@@ -97,9 +116,6 @@ if (ENABLE_NLS)
   set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
 endif (ENABLE_NLS)
 
-# Line wrapping
-set(TUXMATH_BUILD_LINEBREAK true)
-set(LINEBREAK true)
 
 ## Don't think we need SDL_gfx anymore:
 ##FIND_PACKAGE(SDL_gfx REQUIRED)
@@ -134,13 +150,6 @@ if (TUXMATH_BUILD_INTL)
   set(PREFIX ${CMAKE_BINARY_DIR})
   add_subdirectory(intl)
 endif (TUXMATH_BUILD_INTL)
-if (TUXMATH_BUILD_LINEBREAK)
-  set(LINEBREAK_BINARY_DIR ${CMAKE_BINARY_DIR}/linebreak)
-  set(LINEBREAK_SOURCE_DIR ${CMAKE_SOURCE_DIR}/linebreak)
-  set(TOP_SRC_DIR ${CMAKE_BINARY_DIR})
-  set(PREFIX ${CMAKE_BINARY_DIR})
-  add_subdirectory(linebreak)
-endif (TUXMATH_BUILD_LINEBREAK)
 add_subdirectory(src)
 add_subdirectory(data)
 add_subdirectory(doc)
@@ -149,7 +158,7 @@ if (ENABLE_NLS)
   add_subdirectory(po)
 endif (ENABLE_NLS)
 
-#message("TMBD ${TuxMath_BINARY_DIR}")
+message("TMBD ${TuxMath_BINARY_DIR}")
 #message("TMBN ${TUXMATH_MACOSX_BUNDLE_NAME}")
 
 if (APPLE)

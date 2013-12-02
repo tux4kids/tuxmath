@@ -1,0 +1,1342 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Evgeni <evgenizero@gmail.com>\n"
+"Language-Team: \n"
+"Language: bg\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Bulgarian\n"
+"X-Poedit-Country: BULGARIA\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: src/campaign.c:52
+msgid "Congratulations! You win!"
+msgstr "Поздравления! Ти печелиш!"
+
+#: src/campaign.c:70
+msgid "Round"
+msgstr "Рунд"
+
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
+msgid "-[Esc] to skip"
+msgstr "-[Esc] да пропуснеш"
+
+#: src/campaign.c:141
+msgid "Mission One: Careful Cadet"
+msgstr "Мисия Едно: Внимателен Кадет"
+
+#: src/campaign.c:143
+msgid "I'm so glad you've come!"
+msgstr "Толко се радвам, че ти дойде!"
+
+#: src/campaign.c:145
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"Пингвините се нуждаят от помощта ти! Комети падат от небето и разтопяват "
+"иглутата на пингвините. За да опазиш домовете им, трябва да откриеш "
+"секретния код, който ще унищожи всяка комета."
+
+#: src/campaign.c:147
+msgid "Do your best!"
+msgstr "Дай най-доброто от себе си!"
+
+#: src/campaign.c:153
+msgid "Mission Two: Smart Scout"
+msgstr "Мисия Две: Умен Скаут"
+
+#: src/campaign.c:155
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"Страхотна работа! Тъй като успя да опазиш домовете на пингвините те "
+"повишаваме в Скаут. Скаутите са добри в следенето за неприятности..."
+
+#: src/campaign.c:157
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+"...като това, което се случва точно сега! Нападателите дойдоха и изпращат "
+"нови, по-хитри комети срещу пингвините!"
+
+#: src/campaign.c:158
+msgid "But you can save them!"
+msgstr "Но ти можеш да ги спасиш!"
+
+#: src/campaign.c:164
+msgid "Mission Three: Royal Ranger"
+msgstr "Мисия Три: Кралски Рейнджър"
+
+#: src/campaign.c:166
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"Ти отново се справи! Императорът на пингвините те избра да се присъединиш "
+"към неговия екип от Рейнджъри, които помагат в защитата на града. Сега те "
+"изпращаме там..."
+
+#: src/campaign.c:168
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"...о, не! Сега самият Император е под атака от нов вид комети: проблемите се "
+"увеличават! За да ги биеш, трябва да имаш големи умения. Мислим, че ще се "
+"справиш. Присъедини се към Рейнджърите и помогни в спасяването на града!"
+
+#: src/campaign.c:174
+msgid "Mission Four: Imperial Ace"
+msgstr "Мисия Четири: Имперският Шампион"
+
+#: src/campaign.c:176
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+"Ти успя! Императорът иска лично да ти благодари. Водим те в неговия леден "
+"дворец, за да ти бъде оказана голяма чест: ще станеш Императорски Шампион!"
+
+#: src/campaign.c:178
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr ""
+"Но точно по средата на церемонията, започва нова атаката от земята на "
+"Разделението!"
+
+#: src/campaign.c:179
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Сега не е време за почивка; градът се нуждае от помощта ти!"
+
+#: src/campaign.c:185
+msgid "Final Mission: Computing Commando"
+msgstr "Финална Мисия: Компютърен Войник"
+
+#: src/campaign.c:187
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"Учните на пингвините научили, че всички тези атаки идват от секретна база и "
+"се нуждаят от теб за финалната битка. Освен това, те ти дават тази следа: "
+"първо умножи и раздели и след това събери и извади."
+
+#: src/campaign.c:188
+msgid "I hope that hint helps!"
+msgstr "Надявам се този съвет да ти помогне!"
+
+#: src/campaign.c:190
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Това е! Можеш да спреш тези атаки завинаги, Войнико!"
+
+#: src/campaign.c:260
+msgid "Sorry, try again!"
+msgstr "Съжалявам, опитай отново!"
+
+#: src/campaign.c:267
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Мисията е изпълнена. Галактиката е спасена!"
+
+#: src/credits.c:43
+msgid "TUX, OF MATH COMMAND"
+msgstr "TUX, OF MATH COMMAND"
+
+#: src/credits.c:44
+#, fuzzy
+msgid "COPYRIGHT 2001-2011"
+msgstr "COPYRIGHT 2001-2010"
+
+#: src/credits.c:45
+msgid "VERSION "
+msgstr ""
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "ЧАСТ ОТ ПРОЕКТА 'TUX4KIDS'"
+
+#: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "ПРОЕКТИРАНО ОТ"
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "ВОДЕЩИ ПРОГРАМИСТИ"
+
+#: src/credits.c:59
+msgid "ADDITIONAL CODE"
+msgstr "ДОПЪЛНИТЕЛЕН КОД"
+
+#: src/credits.c:75
+#, fuzzy
+msgid "LEAD ARTISTS"
+msgstr "ВОДЕЩИ ИЗПЪЛНИТЕЛИ"
+
+#: src/credits.c:79
+msgid "ADDITIONAL ART"
+msgstr "ДОПЪЛНИТЕЛНО ИЗКУСТВО"
+
+#: src/credits.c:85
+msgid "SOUND EFFECTS"
+msgstr "ЗВУКОВИ ЕФЕКТИ"
+
+#: src/credits.c:88
+msgid "MUSIC"
+msgstr "МУЗИКА"
+
+#: src/credits.c:107
+#, fuzzy
+msgid "PACKAGERS"
+msgstr "ПАКЕТИРАЩИ"
+
+#: src/credits.c:112
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "'TUX' ПИНГВИНЪТ Е СЪЗДАДЕН ОТ"
+
+#: src/credits.c:115
+msgid "TESTERS"
+msgstr "ТЕСТЕРИ"
+
+#: src/credits.c:127
+msgid "USER WEBSITE"
+msgstr "ПОТРЕБИТЕЛСКИ УЕБСАЙТ"
+
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "РАЗРАБОТКАТА НА TUX4KIDS Е ХОСТНАТА НА ALIOTH:"
+
+#: src/credits.c:133
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+"TuxMath е Безплатен Софтуер, лицензиран под GNU General Public License "
+"(GPL). Като такъв, Вие сте предоставени със специални права, които "
+"обикновено са забранени за потребители на собственически софтуер."
+
+#: src/credits.c:135
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"Тези права включват свободата на изучаването, копирането, промяната и "
+"предистрибутирането на програмата."
+
+#: src/credits.c:137
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr "Пълно копие на GPL е включен с документацията на програмата."
+
+#: src/credits.c:139
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "За повече информация относно Свободния Софтуер и  GNU GPL посетете:"
+
+#: src/factoroids.c:524
+msgid "Powers of 2"
+msgstr ""
+
+#: src/factoroids.c:525
+#, fuzzy
+msgid "Products of 2 and 3"
+msgstr "Умножение по 11 и 12"
+
+#: src/factoroids.c:526
+#, fuzzy
+msgid "Products of 2, 3 and 5"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:527
+#, fuzzy
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:528
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:529
+#, fuzzy
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:534
+#, fuzzy
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
+msgstr ""
+
+#: src/factoroids.c:536
+#, fuzzy
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "Умножение по 13, 14 и 15"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
+
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
+msgstr ""
+
+#: src/factoroids.c:556
+msgid "Objectives:"
+msgstr ""
+
+#: src/factoroids.c:557
+msgid "Hints:"
+msgstr ""
+
+#: src/factoroids.c:788
+msgid ""
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
+msgstr ""
+
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+
+#: src/game.c:757
+msgid "Welcome to TuxMath!"
+msgstr "Добре дошли в TuxMath!"
+
+#: src/game.c:774
+msgid "Your mission is to save your"
+msgstr "Мисията ти е да спасиш твоите"
+
+#: src/game.c:775
+msgid "penguins' igloos from the"
+msgstr "иглута на пингвини от "
+
+#: src/game.c:776
+msgid "falling comets."
+msgstr "падащите комети."
+
+#: src/game.c:795
+msgid "Stop a comet by typing"
+msgstr "Спри комета, като напишеш"
+
+#: src/game.c:796
+msgid "the answer to the math problem"
+msgstr "отговора на математическата задача"
+
+#: src/game.c:797
+msgid "and hitting 'space' or 'enter'."
+msgstr "и натиснеш 'space' 'или 'enter'."
+
+#: src/game.c:798
+msgid "Try it now!"
+msgstr "Сега се пробвай!"
+
+#: src/game.c:806
+msgid "Good shot!"
+msgstr "Добър изстрел!"
+
+#: src/game.c:816
+msgid "If an igloo gets hit by a comet,"
+msgstr "Ако комета удари иглу,"
+
+#: src/game.c:817
+msgid "it melts. But don't worry: the"
+msgstr "то се разтопява. Но не се притеснявай:"
+
+#: src/game.c:818
+msgid "penguin is OK!"
+msgstr "пингвинът е добре!"
+
+#: src/game.c:819
+msgid "Just watch what happens:"
+msgstr "Просто наблюдавай какво се случва:"
+
+#: src/game.c:820
+msgid "(Press a key to start)"
+msgstr "(Натисни клавиш, за да започнеш)"
+
+#: src/game.c:833
+msgid "Notice the answer"
+msgstr "Забележи отговора"
+
+#: src/game.c:843
+msgid "If it gets hit again, the"
+msgstr "Ако отново бъде ударен,"
+
+#: src/game.c:844
+msgid "penguin leaves."
+msgstr "пингвинът напуска."
+
+#: src/game.c:845
+msgid "(Press a key when ready)"
+msgstr "(Натисни клавиш, когато си готов)"
+
+#: src/game.c:868
+msgid "You can fix the igloos"
+msgstr "Можеш да поправяш иглутата"
+
+#: src/game.c:869
+msgid "by stopping bonus comets."
+msgstr "като спираш бонус комети."
+
+#: src/game.c:880 src/game.c:916
+msgid "Zap it now!"
+msgstr "Стряляй сега!"
+
+#: src/game.c:886
+msgid "Great job!"
+msgstr "Страхотна работа!"
+
+#: src/game.c:905
+#, fuzzy
+msgid "Fast-moving powerup comets"
+msgstr "като спираш бонус комети."
+
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr ""
+
+#: src/game.c:923
+msgid "Quit at any time by pressing"
+msgstr "Можеш да излезеш по всяко време, натискайки"
+
+#: src/game.c:924
+msgid "'Esc' or clicking the 'X'"
+msgstr "'Esc' или като кликнеш на 'X'"
+
+#: src/game.c:925
+msgid "in the upper right corner."
+msgstr "в горния десен ъгъл."
+
+#: src/game.c:926
+msgid "Do it now, and then play!"
+msgstr "Направи го сега и след това играй!"
+
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr "Пингвините са спасени!"
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr "Краен резултат:"
+
+#: src/game.c:2816
+#, fuzzy
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr "Връзката със сървъра беше изгубена."
+
+#: src/game.c:2824
+#, fuzzy
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr "Връзката със сървъра беше изгубена."
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr ""
+
+#: src/highscore.c:175 data/menus/menu_strings:7
+msgid "Hall Of Fame"
+msgstr "Залата на Славата"
+
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
+msgid "Space Cadet"
+msgstr "Космически Кадет"
+
+#: src/highscore.c:198 data/menus/menu_strings:24
+msgid "Scout"
+msgstr "Скаут"
+
+#: src/highscore.c:201 data/menus/menu_strings:21
+msgid "Ranger"
+msgstr "Рейнджър"
+
+#: src/highscore.c:204 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "Шампион"
+
+#: src/highscore.c:207 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "Войник"
+
+#: src/highscore.c:210
+msgid "Factors"
+msgstr "Делители"
+
+#: src/highscore.c:213
+msgid "Fractions"
+msgstr "Дроби"
+
+#: src/highscore.c:291
+msgid "You Are In The Hall of Fame!"
+msgstr "Ти си в Залата на Славата"
+
+#: src/highscore.c:291
+msgid "Enter Your Name:"
+msgstr "Напиши си името:"
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "? + %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2624
+#, c-format
+msgid "%d + ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "? - %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2625
+#, c-format
+msgid "%d - ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "? x %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2626
+#, c-format
+msgid "%d x ? = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr ""
+
+#: src/mathcards.c:2627
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr ""
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+
+#: src/menu.c:352
+#, fuzzy
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr "Промени 'options' файла в твоята home директория"
+
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "Колко деца играят?"
+
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "(Между двама и четирима играчи)"
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr "Сървърът вече е стартиран."
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+
+#: src/menu.c:460
+msgid "Enter Server Name:"
+msgstr "Напиши името на сървъра:"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr "(лимит 50 символа)"
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr "Кликни или натисни клавиш, за да избереш файл с урок на сървъра"
+
+#: src/menu.c:501
+#, fuzzy, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr "Избран Урок:"
+
+#: src/menu.c:524
+#, fuzzy
+msgid ""
+"\n"
+"Sorry, this version built withour network support."
+msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа.\n"
+
+#: src/menu.c:525 src/menu.c:603
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа.\n"
+
+#: src/menu.c:535
+#, fuzzy
+msgid "The server is not running."
+msgstr "Сървърът вече е стартиран."
+
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
+msgstr ""
+
+#: src/menu.c:545
+msgid "The server has been stopped."
+msgstr ""
+
+#: src/menu.c:562
+#, fuzzy
+msgid "Sorry, could not connect to server."
+msgstr "Съзжалявам, няма връзка със сървъра.\n"
+
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
+msgstr "Съзжалявам, няма връзка със сървъра.\n"
+
+#: src/menu.c:583
+#, fuzzy
+msgid "Sorry, game already in progress"
+msgstr "Съжалявам, играта вече е в прогрес."
+
+#: src/menu.c:589
+#, fuzzy
+msgid "Connection with server was lost"
+msgstr "Свързан към сървър: %s"
+
+#: src/menu.c:602
+#, fuzzy
+msgid "Sorry, this version built without network support"
+msgstr "Съжалявам, тази версия е проектирана без подръжка на мрежа"
+
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr ""
+
+#: src/multiplayer.c:229
+#, c-format
+msgid "Then %s\n"
+msgstr "Тогава %s\n"
+
+#: src/multiplayer.c:304
+msgid "Who is playing first?"
+msgstr "Кой играе първи?"
+
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "Напишете си името:"
+
+#: src/multiplayer.c:306
+msgid "Who is playing next?"
+msgstr "Кой е следващият играч?"
+
+#: src/multiplayer.c:320
+msgid "How many rounds will you play?"
+msgstr "Колко рунда ще играеш?"
+
+#: src/multiplayer.c:320
+msgid "Enter a number"
+msgstr "Напиши число"
+
+#: src/server.c:486
+msgid "Await player name"
+msgstr ""
+
+#: src/titlescreen.c:521
+#, fuzzy
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr "Дискутирайте TuxMath на tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
+msgid "Number Typing"
+msgstr "Писане на Число"
+
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
+msgid "Addition: 1 to 3"
+msgstr "Събиране: 1 до 3"
+
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
+msgid "Addition: 0 to 5"
+msgstr "Събиране: 0 до 5"
+
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
+msgid "Addition: Sums to 10"
+msgstr "Събиране: Сумите до 10"
+
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
+msgid "Addition: Sums to 15"
+msgstr "Събиране: Сумите до 15"
+
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
+msgid "Addition: Sums to 20"
+msgstr "Събиране: Сумите до 20"
+
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
+msgid "Addition: Two Digit Numbers"
+msgstr "Събиране: Двуцифрени Числа"
+
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
+msgid "Addition: Missing Numbers"
+msgstr "Събиране: Липсващи Числа"
+
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
+msgid "Subtraction: 0 to 10"
+msgstr "Изваждане: 0 до 10"
+
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
+msgid "Subtraction: 0 to 20"
+msgstr "Изваждане: 0 до 20"
+
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Изваждане: Двуцифрени Числа"
+
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
+msgid "Addition and Subtraction Review"
+msgstr "Ревю на Събиране и Изваждане"
+
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 3"
+msgstr "Умножение: 0 до 3"
+
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiples of 2"
+msgstr "Умножение по 2"
+
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
+msgid "Multiples of 3"
+msgstr "Умножение по 3"
+
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
+msgid "Multiples of 4"
+msgstr "Умножение по 4"
+
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
+msgid "Multiples of 5"
+msgstr "Умножение по 5"
+
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
+msgid "Multiplication: 0 to 5"
+msgstr "Умножение: 0 до 5"
+
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
+msgid "Multiples of 6"
+msgstr "Умножение по 6"
+
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
+msgid "Multiples of 7"
+msgstr "Умножение по 7"
+
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
+msgid "Multiplication: 0 to 7"
+msgstr "Умножение: 0 до 7"
+
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
+msgid "Multiples of 8"
+msgstr "Умножение по 8"
+
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
+msgid "Multiples of 9"
+msgstr "Умножение по 9"
+
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
+msgid "Multiples of 10"
+msgstr "Умножение по 10"
+
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
+msgid "Multiplication: 0 to 10"
+msgstr "Умножение: 0 до 10"
+
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
+msgid "Multiples of 11 and 12"
+msgstr "Умножение по 11 и 12"
+
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication: 0 to 12"
+msgstr "Умножение: 0 до 12"
+
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiples of 13, 14, and 15"
+msgstr "Умножение по 13, 14 и 15"
+
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
+msgid "Multiplication: 0 to 15"
+msgstr "Умножение: 0 до 15"
+
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
+msgid "Multiplication: Missing Numbers"
+msgstr "Умножение: Липсващи Числа"
+
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
+msgid "Division by 2"
+msgstr "Делене на 2"
+
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
+msgid "Division by 3"
+msgstr "Делене на 3"
+
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
+msgid "Division by 4"
+msgstr "Делене на 4"
+
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
+msgid "Division by 5"
+msgstr "Делене на 5"
+
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
+msgid "Division: 1 to 5"
+msgstr "Делене: 1 до 5"
+
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
+msgid "Division by 6"
+msgstr "Делене на 6"
+
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
+msgid "Division by 7"
+msgstr "Делене на 7"
+
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
+msgid "Division by 8"
+msgstr "Делене на 8"
+
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
+msgid "Division by 9"
+msgstr "Делене на 9"
+
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
+msgid "Division by 10"
+msgstr "Делене на 10"
+
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
+msgid "Division: 1 to 10"
+msgstr "Делене: 1 до 10"
+
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
+msgid "Division by 11 and 12"
+msgstr "Делене на 11 и 12"
+
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
+msgid "Division: 1 to 12"
+msgstr "Делене: 1 до 12"
+
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
+msgid "Division by 13, 14, and 15"
+msgstr "Делене на 13,14 и 15"
+
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
+msgid "Division: 1 to 15"
+msgstr "Делене: 1 до 15"
+
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
+msgid "Multiplication and Division Review"
+msgstr "Ревю на Умножение и Деление"
+
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
+msgid "Typing Negative Numbers"
+msgstr "Писане на Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
+msgid "Subtraction: Negative Answers"
+msgstr "Изваждане: Отрицателни Отговори"
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
+msgid "Adding Negatives to Positives"
+msgstr "Добаване на Отрицателни към Положителни Числа"
+
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
+msgid "Adding Positives to Negatives"
+msgstr "Добавяна на Положителни към Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
+msgid "Subtracting Negatives From Positives"
+msgstr "Изваждане на Отрицателни от Положителни Числа"
+
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
+msgid "Subtracting Positives From Negatives"
+msgstr "Изваждане на Положителни от Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
+msgid "Adding Negatives to Negatives"
+msgstr "Добавяне на Отрицателни към Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
+msgid "Subtracting Negatives From Negatives"
+msgstr "Изваждане на Отрицателни от Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
+msgid "Negative and Positive Numbers Review"
+msgstr "Ревю на Отрицателни и Положителни Числа"
+
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
+msgid "Multiplication and Division of Negatives"
+msgstr "Умножение и Деление на Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
+msgid "Multiplication of Positives and Negatives"
+msgstr "Умножение на Положителни и Отрицателни Числа"
+
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
+msgid "Division of Positives and Negatives"
+msgstr "Деление на Положителни и Отрицателни Числа"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Кредити"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Демо"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Елиминация"
+
+#: data/menus/menu_strings:6
+#, fuzzy
+msgid "Factoroids"
+msgstr "Фактороиди!"
+
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "Помощ"
+
+#: data/menus/menu_strings:9
+msgid "Join Game"
+msgstr "Присъединяване към Игра"
+
+#: data/menus/menu_strings:10
+msgid "Main Menu"
+msgstr "Главно Меню"
+
+#: data/menus/menu_strings:11
+msgid "Math Command Fleet Missions"
+msgstr "Мисии на Математическата Въздушна Авиация"
+
+#: data/menus/menu_strings:12
+msgid "Math Command Training Academy"
+msgstr "Тренировки на Математическата Въздушна Авиация"
+
+#: data/menus/menu_strings:13
+msgid "More Options"
+msgstr "Повече Опции"
+
+#: data/menus/menu_strings:14
+msgid "Network Game"
+msgstr "Игра в Мрежа"
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "Играй Сам"
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "Играй Аркадна Игра"
+
+#: data/menus/menu_strings:17
+msgid "Play Custom Game"
+msgstr "Играй Персонализирана Игра"
+
+#: data/menus/menu_strings:18
+msgid "Play With Friends"
+msgstr "Играй с Приятели"
+
+#: data/menus/menu_strings:19
+msgid "Project Info"
+msgstr "Информация за проекта"
+
+#: data/menus/menu_strings:20
+msgid "Quit"
+msgstr "Изход"
+
+#: data/menus/menu_strings:22
+msgid "Run Server"
+msgstr "Стартирай сървър"
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "Нулиране на Резултатите"
+
+#: data/menus/menu_strings:26
+#, fuzzy
+msgid "Stop Server"
+msgstr "Стартирай сървър"
+
+#: data/menus/menu_strings:27
+#, fuzzy
+msgid "Additional options"
+msgstr "Събиране: 1 до 3"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr ""
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr ""
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr ""
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr ""
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr ""
+
+#: data/menus/menu_strings:34
+#, fuzzy
+msgid "Exit to your desktop"
+msgstr "Дай най-доброто от себе си!"
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr ""
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr ""
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr ""
+
+#: data/menus/menu_strings:38
+#, fuzzy
+msgid "High Scores"
+msgstr "Краен резултат:"
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr ""
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr ""
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr ""
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr ""
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr ""
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr ""
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr ""
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr ""
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr ""
+
+#: data/menus/menu_strings:49
+#, fuzzy
+msgid "See the project info"
+msgstr "Информация за проекта"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr ""
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr ""
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr ""
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr ""
+
+#~ msgid "FACTOROIDS: to win, you need destroy all the asteroids."
+#~ msgstr "ФАКТОРОИДИ: за да победиш, трябва да унищожиш всички астероиди."
+
+#~ msgid "Use the arrow keys to turn or go forward.  Aim at an asteroid,"
+#~ msgstr ""
+#~ "Използвай стрелките, за да завиваш или за да отидеш напред. Прицели се в "
+#~ "астероид, "
+
+#~ msgid "type one of its factors, and press space or return"
+#~ msgstr "напиши един от неговите делители и натисни спейс или назад"
+
+#~ msgid ""
+#~ "to split it into its factors.  Rocks with prime numbers are destroyed!"
+#~ msgstr ""
+#~ ",за да го разделиш на множители. Скалите с прости числа са унищожени!"
+
+#~ msgid "FRACTIONS: to win, you need destroy all the asteroids"
+#~ msgstr "ДРОБИ: за да спечелиш, трябва да унищожиш всички астероиди"
+
+#~ msgid ""
+#~ "type a number that can simplify the fraction, and press space or return"
+#~ msgstr ""
+#~ "напиши число, което може да опрости дробта, и натисни спейс или назад"
+
+#~ msgid ""
+#~ "to split it.  Destroy fractions that can not be further simplified in a "
+#~ "single shot!"
+#~ msgstr ""
+#~ ",за да го разделиш. Унищожавай дроби, които не могат да бъдат повече "
+#~ "опростявани с един единствен изтрел!"
+
+#, fuzzy
+#~ msgid "Play an arcade style game."
+#~ msgstr "Играй Аркадна Игра"
+
+#~ msgid "Detecting servers"
+#~ msgstr "Търсене за сървъри"
+
+#~ msgid "Please wait"
+#~ msgstr "Моля изчакайте"
+
+#~ msgid "Connected to server: %s"
+#~ msgstr "Свързан към сървър: %s"
+
+#~ msgid "%s"
+#~ msgstr "%s"
+
+#, fuzzy
+#~ msgid "Sorry, could not join game."
+#~ msgstr "Съзжалявам, няма връзка със сървъра.\n"
+
+#, fuzzy
+#~ msgid "Sorry, could not join game.\n"
+#~ msgstr "Съзжалявам, няма връзка със сървъра.\n"
+
+#, fuzzy
+#~ msgid "Sorry, no server could be found."
+#~ msgstr "Съжалявам, не могат да бъдат намерени сървъри."
+
+#, fuzzy
+#~ msgid ""
+#~ "TuxMath detected %d running servers.\n"
+#~ "Click to continue..."
+#~ msgstr "TuxMath откри %d стартирани сървъра."
+
+#~ msgid "Click when ready"
+#~ msgstr "Натисни, когато си готов"
+
+#~ msgid "Waiting for other players"
+#~ msgstr "Изчакване за други играчи"
+
+#~ msgid "Sorry, game already in progress.\n"
+#~ msgstr "Съжалявам, играта вече е в прогрес.\n"
+
+#, fuzzy
+#~ msgid "Tuxmath is free and open-source!\n"
+#~ msgstr "TuxMath е безплатна и със свободен код!"
+
+#, fuzzy
+#~ msgid "You can help make it better.\n"
+#~ msgstr "Можеш да помогнеш да стане по-добра."
+
+#, fuzzy
+#~ msgid "Suggestions, artwork, and code are all welcome!\n"
+#~ msgstr "Предложения, рисунки и код са добре дошли!"
+
+#, fuzzy
+#~ msgid "Press a key or click your mouse to start game.\n"
+#~ msgstr "Натисни клавиш или кликни на мишката, за да започнш игра."
+
+#, fuzzy
+#~ msgid "See README.txt for more information.\n"
+#~ msgstr "Виж README.txt за повече информация"
+
+#, fuzzy
+#~ msgid "Work In Progress!\n"
+#~ msgstr "Работа в Прогрес!"
+
+#, fuzzy
+#~ msgid ""
+#~ "This feature is not ready yet\n"
+#~ " "
+#~ msgstr "Тази опция все още не е готова"
+
+#, fuzzy
+#~ msgid ""
+#~ "Discuss the future of TuxMath at\n"
+#~ " "
+#~ msgstr "Дискутирайте бъдещето на TuxMath на"
+
+#~ msgid "tuxmath-devel@lists.sourceforge.net"
+#~ msgstr "tuxmath-devel@lists.sourceforge.net"
+
+#~ msgid "Network game terminated."
+#~ msgstr "Мрежовата игра е прекратена."
+
+#~ msgid "to create customized game!"
+#~ msgstr ",за да създадеш персонализирана игра!"
+
+#~ msgid "Server Name:"
+#~ msgstr "Име на сървъра:"
+
+#~ msgid "This version only allows one server on the network."
+#~ msgstr "Тази версия позволява само един сървър в мрежата."
+
+#~ msgid "Try again when only one server is running."
+#~ msgstr "Опитай отново, когато само един сървър е стартиран."

@@ -1,4 +1,5 @@
 # Division by 2
+use_powerup_comets = 0
 
 # Math options
 play_through_list = 1

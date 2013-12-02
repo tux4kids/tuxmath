@@ -10,12 +10,12 @@
 
 Name:           tuxmath
 Obsoletes:      tuxmath = 2001.09.07
-Obsoletes: 	tuxmath_preview <= 1.8.0
-Provides:  	tuxmath_preview = 1.8.0
+Obsoletes: 	tuxmath_preview <= 2.0.3
+Provides:  	tuxmath_preview = 2.0.3
 %define         realname tuxmath
 %define         progname tuxmath
 Summary:        Tux Math - educational math game
-Version:        1.8.0
+Version:        2.0.3
 Release:        1
 License:        GPL
 Group:          Amusements/Teaching/Mathematics

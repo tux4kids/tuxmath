@@ -1,25 +1,33 @@
 /*
-  titlescreen.h
+   titlescreen.h:
 
-  Splash, background and title screen items.
-  (interface)
+   Splash, background, and title screen items.
 
-  begin                : Thur May 4 2000
-  copyright            : (C) 2000 by Sam Hart
-                       : (C) 2003 by Jesse Andrews
-  email                : tuxtype-dev@tux4kids.net
+   Copyright 2000, 2003, 2006, 2007, 2008, 2009, 2010.
+Authors: Sam Hart, Jesse Andrews, David Bruce, Tim Holy.
+Project email: <tuxmath-devel@lists.sourceforge.net>
+Project website: http://tux4kids.alioth.debian.org
 
-  Modified for use in tuxmath by David Bruce - 2006-2007.
-  email                : <davidstuartbruce@gmail.com>
-                         <tuxmath-devel@lists.sourceforge.net>
 
-  Also significantly enhanced by Tim Holy - 2007
+titlescreen.h is part of "Tux, of Math Command", a.k.a. "tuxmath".
 
-  Part of "Tux4Kids" Project
-  http://www.tux4kids.com/
+Tuxmath is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 3 of the License, or
+(at your option) any later version.
 
-  Copyright: See COPYING file that comes with this distribution.
+Tuxmath is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 */
+
+
+
 
 #ifndef TITLESCREEN_H
 #define TITLESCREEN_H
@@ -47,7 +55,7 @@
 #endif
 
 #include "tuxmath.h"
-#include "loaders.h"
+
 
 #define MAX_LESSONS                     100
 #define MAX_NUM_WORDS                   500
@@ -71,14 +79,8 @@ extern SDL_Event  event;
 
 #define MUSIC_FADE_OUT_MS               80
 
-enum {
-    WIPE_BLINDS_VERT,
-    WIPE_BLINDS_HORIZ,
-    WIPE_BLINDS_BOX,
-    RANDOM_WIPE,
+#include <t4k_common.h>
 
-    NUM_WIPES
-};
 // End of code from tuxtype's globals.h
 
 /* --- timings for tux blinking --- */
@@ -101,8 +103,11 @@ void          TitleScreen(void);
 int           RenderTitleScreen(void);
 void          DrawTitleScreen(void);
 int           HandleTitleScreenEvents(const SDL_Event* evt);
+int           HandleTitleScreenResSwitch(int new_w, int new_h);
 void          HandleTitleScreenAnimations();
+void          HandleTitleScreenAnimations_Reset(bool reset);
 void          ShowMessage(int font_size, const char* str1, const char* str2, const char* str3, const char* str4);
+void          ShowMessageWrap( int font_size, const char* str );
 SDL_Surface*  current_bkg(); //appropriate background for current video mode
 
 
