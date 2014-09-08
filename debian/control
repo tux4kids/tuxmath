@@ -1,28 +1,30 @@
 Source: tuxmath
-Section: games
-Priority: optional
 Maintainer: Holger Levsen <holger@debian.org>
 Uploaders: Dmitry Smirnov <onlyjob@debian.org>
-Build-Depends: debhelper (>=9.20120909~), dh-autoreconf
-              ,librsvg2-dev
-              ,libsdl1.2-dev
-              ,libsdl-image1.2-dev
-              ,libsdl-mixer1.2-dev
-              ,libsdl-net1.2-dev
-              ,libsdl-pango-dev
-              ,libsdl-ttf2.0-dev
-              ,libx11-6
-              ,libxext6
-              ,libt4k-common0-dev
+Section: games
+Priority: optional
+Build-Depends: debhelper (>= 9.20120909~),
+               dh-autoreconf,
+               librsvg2-dev,
+               libsdl1.2-dev,
+               libsdl-image1.2-dev,
+               libsdl-mixer1.2-dev,
+               libsdl-net1.2-dev,
+               libsdl-pango-dev,
+               libsdl-ttf2.0-dev,
+               libx11-6,
+               libxext6,
+               libt4k-common0-dev
 Standards-Version: 3.9.5
-Homepage: http://tux4kids.alioth.debian.org
+Vcs-Browser: https://anonscm.debian.org/cgit/tux4kids/tuxmath.git
 Vcs-Git: git://anonscm.debian.org/tux4kids/tuxmath.git
-Vcs-Browser: http://anonscm.debian.org/gitweb/?p=tux4kids/tuxmath.git
+Homepage: http://tux4kids.alioth.debian.org
 
 Package: tuxmath
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends}
-        ,tuxmath-data (= ${source:Version})
+Depends: ${misc:Depends},
+         ${shlibs:Depends},
+         tuxmath-data (= ${source:Version})
 Description: math game for kids with Tux
  "Tux, of Math Command" ("TuxMath," for short) is an
  educational arcade game starring Tux, the Linux mascot!
@@ -33,8 +35,8 @@ Description: math game for kids with Tux
 Package: tuxmath-data
 Architecture: all
 Multi-Arch: foreign
-Depends: ${misc:Depends}
-        ,fonts-sil-andika | ttf-sil-andika
+Depends: ${misc:Depends},
+         fonts-sil-andika | ttf-sil-andika
 Suggests: ttf-wqy-zenhei | ttf-arphic-uming
 Breaks: tuxmath (<< 2.0.3)
 Replaces: tuxmath (<< 2.0.3)
