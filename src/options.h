@@ -41,6 +41,7 @@ enum {
     FULLSCREEN,
     USE_KEYPAD,
     USE_IGLOOS,
+    USE_TTS,
     NUM_GLOBAL_OPTS
 };                                 
 

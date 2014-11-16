@@ -38,7 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "setup.h"
 #include "credits.h"
 
-
 const char credit_text[MAX_LINES][MAX_LINEWIDTH] = {
     {"-"N_("TUX, OF MATH COMMAND")},  /* '-' at beginning makes highlighted: */
     {N_("COPYRIGHT 2001-2011")},
@@ -389,9 +388,20 @@ int line;
 
 int credits(void)
 {
-    int done, quit, scroll;
+    int i,done, quit, scroll;
     SDL_Rect subscreen, dest;
-
+	
+	char credit_tts_text[MAX_LINES*MAX_LINEWIDTH]; 
+    credit_tts_text[0] = '\0';
+	for (i = 0; i< MAX_LINES;i++)
+	{
+		strcat(credit_tts_text,credit_text[i]);
+	}
+	strcat(credit_tts_text,"Thaks for reading \0");
+	//fprintf(stderr,"OUTPUT = %s \n LEN = %d",credit_tts_text,MAX_LINES*MAX_LINEWIDTH);
+	
+	T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"%s",credit_tts_text);
+	
 
     /* Clear window: */
 
@@ -423,6 +433,7 @@ int credits(void)
     /*convert the text array to one wrapped at 40 columns: */
     T4K_LineWrapList(credit_text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
     quit = scroll_text(wrapped_lines, subscreen, 2);
+    fprintf(stderr,"\n%s",credit_text[10]);
 
     /* Return the chosen command: */
 

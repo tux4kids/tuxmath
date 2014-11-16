@@ -174,6 +174,9 @@ enum {
 
 
 
+//Declared in t4k_global.h
+extern int text_to_speech_status;
+
 #define NAME_BUF_SIZE 200
 
 /* data for 'Training Academy' lessons: */
@@ -182,4 +185,8 @@ extern char **lesson_list_filenames;
 extern int* lesson_list_goldstars;
 extern int num_lessons;
 
+SDL_Thread *tts_announcer_thread;
+
 #endif
+
+//int text_to_speech_global_switch = 1;

@@ -545,6 +545,9 @@ void ShowMessageWrap( int font_size, const char* str )
     else
         nline = T4K_LineWrap( str, strings, 35, MAX_LINES, MAX_LINEWIDTH );
 
+	/* Announcing the message */
+	T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"%s",str);
+	
     while(inprogress)
     {
         loc.x = screen->w * 0.25;
