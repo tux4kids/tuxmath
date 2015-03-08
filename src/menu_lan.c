@@ -204,6 +204,7 @@ int ConnectToServer(void)
         if(!LAN_SetName(player_name)) //tell server nickname
         {
             ShowMessageWrap(DEFAULT_MENU_FONT_SIZE, _("Connection with server lost"));
+            T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,_("Connection with server lost"));   
             return 0;
         }
     }
@@ -223,6 +224,7 @@ int ConnectToServer(void)
 int Pregame(void)
 {
     int widest = 0;
+    int i;
     int status = PREGAME_WAITING;
     Uint32 timer = 0;
     const int loop_msec = 20;
@@ -250,6 +252,10 @@ int Pregame(void)
     notready_title = T4K_BlackOutline(_("Waiting until you are ready"), DEFAULT_MENU_FONT_SIZE, &white);
     ready_subtitle = T4K_BlackOutline(_("Click \"Pause\" if not ready"), DEFAULT_MENU_FONT_SIZE, &white);
     notready_subtitle = T4K_BlackOutline(_("Click \"Play\" when ready"), DEFAULT_MENU_FONT_SIZE, &white);
+    T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"%s. %s. %s. Press space to announce updated table",_("Waiting for other players"), \
+    _("Waiting until you are ready"),_("Click \"Play\" when ready"));
+
+    
 
     //Make sure we have needed surfaces:
     if(!stop_button || !play_surf || !pause_surf || !ready_title
@@ -342,13 +348,28 @@ int Pregame(void)
                                 }
                             case SDLK_RETURN:
                             case SDLK_KP_ENTER:
-                            case SDLK_SPACE:
                                 {
                                     ready = true;
                                     LAN_SetReady(true);  //tell server we are ready to start
                                     playsound(SND_TOCK);
                                     break;
                                 }
+                            case SDLK_SPACE:
+								{
+									
+									T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,_("Server Name: %s"), LAN_ConnectedServerName());
+									T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,APPEND,_("Lesson: %s"), LAN_ConnectedServerLesson());
+									   for(i = 0; i < MAX_CLIENTS; i++)
+									   {
+										   if(LAN_PlayerConnected(i))
+										   {
+												if (LAN_PlayerReady(i))
+													T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,APPEND,"%s %s",LAN_PlayerName(i),_("Ready"));
+												else
+													T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,APPEND,"%s %s",LAN_PlayerName(i),_("Not Ready"));
+											}
+										}
+								}    
                             case SDLK_BACKSPACE:
                                 {
                                     ready = false;

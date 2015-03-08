@@ -2294,7 +2294,6 @@ void comets_handle_game_over(int game_status)
             //Adjust font size for resolution:
             int fontsize = (int)(DEFAULT_MENU_FONT_SIZE * get_scale());
 
-
             //For sorted list of scores:
             lan_player_type sorted_scores[MAX_CLIENTS];
             /* Sort scores: */
@@ -2306,6 +2305,17 @@ void comets_handle_game_over(int game_status)
                 sorted_scores[i].connected = LAN_PlayerConnected(i);
             }         
             qsort((void*)sorted_scores, MAX_CLIENTS, sizeof(lan_player_type), compare_scores);
+
+
+			//Announce the sorted Final score
+			T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,_("Final Scores:"));
+            for (i = 0; i < MAX_CLIENTS; i++)
+            {
+				if(sorted_scores[i].connected)
+                {
+					T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,APPEND,"%d.\t%s: %d", rank, sorted_scores[i].name, sorted_scores[i].score);
+				}
+			}            
 
 
             /* Begin display loop: */
@@ -4037,7 +4047,23 @@ int tts_announcer(void *unused)
 		}
 		else if(tts_announcer_switch == 2)
 		{
-			T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"Score %d!",score);
+			
+			if (Opts_LanMode())
+			{
+				T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"Score Board. ");
+				for (i = 0; i < MAX_CLIENTS; i++)
+				{
+					if(LAN_PlayerConnected(i))
+					{
+						T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,APPEND,"%s %d",LAN_PlayerName(i),  LAN_PlayerScore(i));
+						T4K_Tts_wait();
+					}
+				}
+			}
+			else
+			{	
+				T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"Score %d!",score);
+			}
 			SDL_Delay(20);
 			T4K_Tts_wait();
 			tts_announcer_switch = 1;
