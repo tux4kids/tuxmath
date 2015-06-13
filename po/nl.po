@@ -1,40 +1,42 @@
 # Dutch translation of tuxmath.pot for TuxMath
 # This file is put in the public domain.
 # Schrijvers Luc <Begasus@skynet.be>, 2007.
-#
+# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2015.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Tuxmath_2.0.3\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2012-02-02 16:07-0600\n"
-"PO-Revision-Date: 2007-11-15 09:00+0100\n"
-"Last-Translator: Schrijvers Luc <Begasus@skynet.be>\n"
-"Language-Team: Dutch <LL@li.org>\n"
+"POT-Creation-Date: 2011-05-04 13:40-0500\n"
+"PO-Revision-Date: 2015-05-13 20:36+0200\n"
+"Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
+"Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Gtranslator 2.91.6\n"
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
-msgstr ""
+msgstr "Gefeliciteerd! Jij hebt gewonnen!"
 
 #: src/campaign.c:70
 msgid "Round"
-msgstr ""
+msgstr "Ronde"
 
 #: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
-msgstr ""
+msgstr "-[Esc] om over te slaan"
 
 #: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
-msgstr ""
+msgstr "Missie één: Zorgvuldige cadet"
 
 #: src/campaign.c:143
 msgid "I'm so glad you've come!"
-msgstr ""
+msgstr "Ik ben zo blij dat je gekomen bent!"
 
 #: src/campaign.c:145
 msgid ""
@@ -42,40 +44,50 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
+"De pinguïns hebben je hulp nodig. Uit de lucht vallen kometen die de iglo's "
+"van de pinguïns doen smelten. Om hun huizen te beschermen, moet je de "
+"geheime code vinden die elke komeet zal vernietigen."
 
 #: src/campaign.c:147
 msgid "Do your best!"
-msgstr ""
+msgstr "Doe je best!"
 
 #: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
-msgstr ""
+msgstr "Missie twee: Knappe Verkenner"
 
 #: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
+"Goed gedaan! Vermits je de huizen van de pinguïns gered hebt, bevorderen we "
+"je tot Verkenner. Verkenners zijn goed in het opmerken van moeilijkheden..."
 
 #: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
+"...zoals wat nu aan het gebeuren is! Daar komen de Verminderaars en zij "
+"sturen nieuwe, moeilijker tegen te houden kometen af op de pinguïns!"
 
 #: src/campaign.c:158
 msgid "But you can save them!"
-msgstr ""
+msgstr "Maar jij kan ze beschermen!"
 
 #: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
-msgstr ""
+msgstr "Missie drie: Koninklijke Jager"
 
 #: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
+"Je kreeg het opnieuw voor elkaar! De pinguïnkeizer heeft jou uitverkoren om "
+"toe te treden tot zijn team van Jagers die de stad helpen beschermen. We "
+"sturen je er nu heen..."
 
 #: src/campaign.c:168
 msgid ""
@@ -83,30 +95,39 @@ msgid ""
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
+"...oh nee! Nu wordt de keizer zelf aangevallen door een nieuw soort kometen: "
+"deze problemen vermenigvuldigen zich! Om die te kunnen bestrijden moet je "
+"uiterst bekwaam zijn. We denken dat jij daartoe in staat bent. Kom bij de "
+"Jagers en help de stad beschermen!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
-msgstr ""
+msgstr "Missie vier: Keizerlijke Uitblinker"
 
 #: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
+"Je hebt het geklaard! De keizer wenst je persoonlijk te bedanken. We brengen "
+"je naar zijn paleis voor een groot eerbetoon: je zult de Keizerlijke "
+"Uitblinker worden!"
 
 #: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
 msgstr ""
+"Maar middenin de ceremonie wordt er vanuit het land van Deling een nieuwe "
+"aanval gelanceerd!"
 
 #: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
-msgstr ""
+msgstr "Nu is het niet de tijd om te rusten. De stad heeft je hulp nodig!"
 
 #: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
-msgstr ""
+msgstr "Laatste missie: Bevelhebber Rekenen"
 
 #: src/campaign.c:187
 msgid ""
@@ -115,86 +136,92 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
+"Pinguïnwetenschappers hebben ontdekt dat al deze aanvallen afkomstig zijn "
+"van een geheime basis en ze hebben je nodig om het laatste beslissende "
+"gevecht te leveren. Ze geven je ook deze hint mee: eerst vermenigvuldigen en "
+"delen en daarna optellen en aftrekken."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
-msgstr ""
+msgstr "Hopelijk helpt deze hint je!"
 
 #: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr ""
+"Nu is het alles op alles! Jij kunt deze aanvallen voorgoed stoppen, "
+"bevelhebber!"
 
 #: src/campaign.c:260
 msgid "Sorry, try again!"
-msgstr ""
+msgstr "Sorry, probeer het nogmaals!"
 
 #: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr ""
+msgstr "Missie volbracht. Het melkwegstelsel is veilig!"
 
 #: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
-msgstr ""
+msgstr "TUX, AAN HET COMMANDO VOOR WISKUNDE"
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2011"
-msgstr ""
+msgstr "COPYRIGHT 2001-2011"
 
 #: src/credits.c:45
 msgid "VERSION "
-msgstr ""
+msgstr "VERSIE"
 
 #: src/credits.c:47
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
-msgstr ""
+msgstr "ONDERDEEL VAN HET PROJECT 'TUX4KIDS'"
 
 #: src/credits.c:50
 msgid "DESIGNED BY"
-msgstr ""
+msgstr "ONTWORPEN DOOR"
 
 #: src/credits.c:53
 msgid "LEAD PROGRAMMERS"
-msgstr ""
+msgstr "BELANGRIJKSTE ONTWIKKELAARS"
 
 #: src/credits.c:59
 msgid "ADDITIONAL CODE"
-msgstr ""
+msgstr "BIJKOMENDE CODE"
 
 #: src/credits.c:75
 msgid "LEAD ARTISTS"
-msgstr ""
+msgstr "BELANGRIJKSTE VORMGEVERS"
 
 #: src/credits.c:79
 msgid "ADDITIONAL ART"
-msgstr ""
+msgstr "BIJKOMENDE VORMGEVING"
 
 #: src/credits.c:85
 msgid "SOUND EFFECTS"
-msgstr ""
+msgstr "KLANKEFFECTEN"
 
 #: src/credits.c:88
 msgid "MUSIC"
-msgstr ""
+msgstr "MUZIEK"
 
 #: src/credits.c:107
 msgid "PACKAGERS"
-msgstr ""
+msgstr "PAKKETBEHEERDERS"
 
 #: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr ""
+msgstr "'TUX' DE PINGUÏN, EEN CREATIE VAN"
 
 #: src/credits.c:115
 msgid "TESTERS"
-msgstr ""
+msgstr "TESTERS"
 
 #: src/credits.c:127
 msgid "USER WEBSITE"
-msgstr ""
+msgstr "WEBSITE VOOR GEBRUIKERS"
 
 #: src/credits.c:130
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr ""
+msgstr "DE ONTWIKKELING VAN TUX4KIDS WORDT OP ALIOTH GEHOST:"
 
 #: src/credits.c:133
 msgid ""
@@ -202,121 +229,361 @@ msgid ""
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
+"TuxMath is vrije software waarop de GNU General Public License (GPL) van "
+"toepassing is. Daardoor worden u specifiek die rechten toegekend die meestal "
+"ontzegt worden aan gebruikers van gepatenteerde software."
 
 #: src/credits.c:135
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
+"Tot deze rechten behoren het recht om het programma te bestuderen, te "
+"kopiëren, te wijzigen en verder te verspreiden."
 
 #: src/credits.c:137
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
+"Een volledige kopie van de GPL is toegevoegd aan de documentatie over dit "
+"programma."
 
 #: src/credits.c:139
 msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr "Voor meer informatie over Vrije Software en de GNU GPL, raadpleeg:"
+
+#: src/factoroids.c:524
+msgid "Powers of 2"
+msgstr "Machten van 2"
+
+#: src/factoroids.c:525
+msgid "Products of 2 and 3"
+msgstr "Vermenigvuldigen met 2 en 3"
+
+#: src/factoroids.c:526
+msgid "Products of 2, 3 and 5"
+msgstr "Vermenigvuldigen met 2, 3 en 5"
+
+#: src/factoroids.c:527
+msgid "Products of 2, 3, 5 and 7"
+msgstr "Vermenigvuldigen met 2, 3, 5 en 7"
+
+#: src/factoroids.c:528
+msgid "Products of 2, 3, 5, 7, and 11"
+msgstr "Vermenigvuldigen met 2, 3, 5, 7 en 11"
+
+#: src/factoroids.c:529
+msgid "Products of 2, 3, 5, 7, 11 and 13"
+msgstr "Vermenigvuldigen met 2, 3, 5, 7, 11 en 13"
+
+#: src/factoroids.c:534
+msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
+msgstr "Alle veelvouden van 2 eindigen op 2, 4, 6, 8, of 0"
+
+#: src/factoroids.c:535
+msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
+"De som van de cijfers van een veelvoud van 3 is zelf een veelvoud van 3"
+
+#: src/factoroids.c:536
+msgid "All multiples of 5 end in 0 or 5"
+msgstr "Alle veelvouden van 5 eindigen op 0 of 5"
+
+#: src/factoroids.c:537
+msgid "Sorry - there is no simple rule to identify multiples of 7."
+msgstr ""
+"Sorry - er bestaat geen eenvoudige regel om veelvouden van 7 te herkennen."
+
+#: src/factoroids.c:538
+msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
+msgstr ""
+"Beneden 100 bestaan veelvouden van 11 uit twee gelijke cijfers, zoals 55 of "
+"88."
+
+#: src/factoroids.c:539
+msgid "Sorry - there is no simple rule to identify multiples of 13."
+msgstr ""
+"Sorry - er bestaat geen eenvoudige regel om veelvouden van 13 te herkennen."
+
+#: src/factoroids.c:556
+msgid "Objectives:"
+msgstr "Doelen:"
+
+#: src/factoroids.c:557
+msgid "Hints:"
+msgstr "Hints:"
+
+#: src/factoroids.c:788
+msgid ""
+"To win, you must destroy all the asteroids.\n"
+"Turn: arrow keys or mouse movement.\n"
+"Thrust: up arrow or right mouse button.\n"
+"Shoot: [Enter], [Space], or left mouse button.\n"
+"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
+"Activate Powerup: [Shift].\n"
+"Shoot the rocks with their prime factors until they are all destroyed."
+msgstr ""
+"Om te winnen moet je alle asteroïden vernietigen.\n"
+"Draaien: pijltjestoetsen gebruiken of met de muis bewegen.\n"
+"Vooruit bewegen: pijltje omhoog of rechtermuisknop.\n"
+"Schieten: [Enter], [Spatie] of linker muisknop.\n"
+"Geweer met ander priemgetal laden: [D], [F], of muiswieltje.\n"
+"Bonus activeren: [Shift].\n"
+"Beschiet de rotsen met hun priemfactoren tot ze allemaal vernietigd zijn."
+
+#: src/factoroids.c:802
+msgid ""
+"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
+"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
+"fraction, and press space or return to split it.  Destroy fractions that can "
+"not be further simplified in a single shot!"
+msgstr ""
+"BREUKEN: Om te winnen moet je alle asteroïden vernietigen. Gebruik de "
+"pijltjestoetsen om te draaien of vooruit te bewegen. Mik op een asteroïde, "
+"typ een getal waardoor de breuk vereenvoudigd kan worden en druk op spatie "
+"of enter om de breuk te splitsen. Vernietig breuken die niet verder "
+"vereenvoudigd kunnen worden met één enkel schot!"
+
+#: src/game.c:757
+msgid "Welcome to TuxMath!"
+msgstr "Welkom bij TuxMath!"
+
+#: src/game.c:774
+msgid "Your mission is to save your"
+msgstr "Jouw missie is om"
+
+#: src/game.c:775
+msgid "penguins' igloos from the"
+msgstr "de iglo's van de pinguïns"
+
+#: src/game.c:776
+msgid "falling comets."
+msgstr "te beschermen tegen vallende kometen."
+
+#: src/game.c:795
+msgid "Stop a comet by typing"
+msgstr "Houd de komeet tegen door"
+
+#: src/game.c:796
+msgid "the answer to the math problem"
+msgstr "het antwoord op de rekenvraag te typen"
+
+#: src/game.c:797
+msgid "and hitting 'space' or 'enter'."
+msgstr "en 'spatie' of 'enter' te drukken."
+
+#: src/game.c:798
+msgid "Try it now!"
+msgstr "Probeer het nu!"
+
+#: src/game.c:806
+msgid "Good shot!"
+msgstr "Goed schot!"
+
+#: src/game.c:816
+msgid "If an igloo gets hit by a comet,"
+msgstr "Als een iglo door een komeet geraakt wordt,"
+
+#: src/game.c:817
+msgid "it melts. But don't worry: the"
+msgstr "smelt hij. Maar maak je geen zorgen:"
+
+#: src/game.c:818
+msgid "penguin is OK!"
+msgstr "de pinguïn blijft OK!"
+
+#: src/game.c:819
+msgid "Just watch what happens:"
+msgstr "Kijk gewoon wat er gebeurt:"
+
+#: src/game.c:820
+msgid "(Press a key to start)"
+msgstr "(Druk op een toets om te beginnen)"
+
+#: src/game.c:833
+msgid "Notice the answer"
+msgstr "Bekijk het antwoord"
+
+#: src/game.c:843
+msgid "If it gets hit again, the"
+msgstr "Als hij terug geraakt wordt,"
+
+#: src/game.c:844
+msgid "penguin leaves."
+msgstr "gaat de pinguïn weg."
+
+#: src/game.c:845
+msgid "(Press a key when ready)"
+msgstr "(Druk op een toets als je klaar bent)"
+
+#: src/game.c:868
+msgid "You can fix the igloos"
+msgstr "Je kunt de iglo's repareren"
+
+#: src/game.c:869
+msgid "by stopping bonus comets."
+msgstr "door bonuskometen tegen te houden."
+
+#: src/game.c:880 src/game.c:916
+msgid "Zap it now!"
+msgstr "Vernietig hem nu!"
+
+#: src/game.c:886
+msgid "Great job!"
+msgstr "Goed gedaan!"
+
+#: src/game.c:905
+msgid "Fast-moving powerup comets"
+msgstr "Door de snel bewegende bonuskometen te vernietigen"
+
+#: src/game.c:906
+msgid "earn you a secret weapon:"
+msgstr "kun je een geheim wapen verdienen:"
+
+#: src/game.c:923
+msgid "Quit at any time by pressing"
+msgstr "Op ieder ogenblik kun je stoppen"
+
+#: src/game.c:924
+msgid "'Esc' or clicking the 'X'"
+msgstr "door op 'Esc' te drukken"
+
+#: src/game.c:925
+msgid "in the upper right corner."
+msgstr " of te klikken op de 'X' in de rechterbovenhoek."
+
+#: src/game.c:926
+msgid "Do it now, and then play!"
+msgstr "Doe het nu. En dan spelen maar!"
+
+#: src/game.c:2724
+msgid "The Penguins Have Been Saved!"
+msgstr "De pinguïns werden gered!"
+
+#: src/game.c:2739
+msgid "Final Scores:"
+msgstr "Eindresultaten:"
+
+#: src/game.c:2816
+msgid ""
+"Network game terminated by server.\n"
+" The server is still running."
+msgstr ""
+"Het netwerkspel werd beëindigd door de server.\n"
+" De server is nog steeds actief."
+
+#: src/game.c:2824
+msgid ""
+"Network game terminated.\n"
+" Connection with server was lost."
+msgstr ""
+"Het netwerkspel werd afgesloten.\n"
+" De verbinding met de server ging verloren."
+
+#: src/game.c:4698
+#, c-format
+msgid "%s has left the game."
+msgstr "%s heeft het spel verlaten."
 
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
-msgstr "Hoogste scores"
+msgstr "Eregalerij"
 
 #: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
 msgid "Space Cadet"
-msgstr "Ruimte kadet"
+msgstr "Ruimtecadet"
 
 #: src/highscore.c:198 data/menus/menu_strings:24
 msgid "Scout"
-msgstr "Scout"
+msgstr "Verkenner"
 
 #: src/highscore.c:201 data/menus/menu_strings:21
 msgid "Ranger"
-msgstr "Ranger"
+msgstr "Jager"
 
 #: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
-msgstr "Ace"
+msgstr "Uitblinker"
 
 #: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
-msgstr ""
+msgstr "Bevelhebber"
 
 #: src/highscore.c:210
 msgid "Factors"
-msgstr ""
+msgstr "Factoren"
 
 #: src/highscore.c:213
 msgid "Fractions"
-msgstr ""
+msgstr "Breuken"
 
 #: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
-msgstr ""
+msgstr "Je staat in de eregalerij!"
 
 #: src/highscore.c:291
 msgid "Enter Your Name:"
-msgstr ""
+msgstr "Voer je naam in:"
 
-#: src/mathcards.c:2589
+#: src/mathcards.c:2624
 #, c-format
 msgid "%d + %d = ?"
-msgstr ""
+msgstr "%d + %d = ?"
 
-#: src/mathcards.c:2589
+#: src/mathcards.c:2624
 #, c-format
 msgid "? + %d = %d"
-msgstr ""
+msgstr "? + %d = %d"
 
-#: src/mathcards.c:2589
+#: src/mathcards.c:2624
 #, c-format
 msgid "%d + ? = %d"
-msgstr ""
+msgstr "%d + ? = %d"
 
-#: src/mathcards.c:2590
+#: src/mathcards.c:2625
 #, c-format
 msgid "%d - %d = ?"
-msgstr ""
+msgstr "%d - %d = ?"
 
-#: src/mathcards.c:2590
+#: src/mathcards.c:2625
 #, c-format
 msgid "? - %d = %d"
-msgstr ""
+msgstr "? - %d = %d"
 
-#: src/mathcards.c:2590
+#: src/mathcards.c:2625
 #, c-format
 msgid "%d - ? = %d"
-msgstr ""
+msgstr "%d - ? = %d"
 
-#: src/mathcards.c:2591
+#: src/mathcards.c:2626
 #, c-format
 msgid "%d x %d = ?"
-msgstr ""
+msgstr "%d x %d = ?"
 
-#: src/mathcards.c:2591
+#: src/mathcards.c:2626
 #, c-format
 msgid "? x %d = %d"
-msgstr ""
+msgstr "? x %d = %d"
 
-#: src/mathcards.c:2591
+#: src/mathcards.c:2626
 #, c-format
 msgid "%d x ? = %d"
-msgstr ""
+msgstr "%d x ? = %d"
 
-#: src/mathcards.c:2592
+#: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ %d = ?"
-msgstr ""
+msgstr "%d ÷ %d = ?"
 
-#: src/mathcards.c:2592
+#: src/mathcards.c:2627
 #, c-format
 msgid "? ÷ %d = %d"
-msgstr ""
+msgstr "? ÷ %d = %d"
 
-#: src/mathcards.c:2592
+#: src/mathcards.c:2627
 #, c-format
 msgid "%d ÷ ? = %d"
-msgstr ""
+msgstr "%d ÷ ? = %d"
 
 #: src/menu.c:217
 #, c-format
@@ -326,44 +593,53 @@ msgid ""
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
+"TuxMath versie %s is vrije en openbronsoftware!\n"
+"U kunt helpen het nog beter te maken.\n"
+"Suggesties, vormgeving en code zijn steeds welkom!\n"
+"Bespreek TuxMath op tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:352
-#, fuzzy
 msgid ""
 "Edit 'options' file in you home directory to create customized game!\n"
 "Press a key or click your mouse to start game.\n"
 "See README.txt for more information.\n"
-msgstr "Bewerk 'options' bestand in je home folder"
+msgstr ""
+"Bewerk het bestand 'options' in je persoonlijke map om aanpassingen aan het "
+"spel te maken!\n"
+"Druk op een toets of klik met de muis om het spel te starten.\n"
+"Lees het bestand README.txt voor bijkomende informatie.\n"
 
 #: src/menu.c:379
 msgid "How many kids are playing?"
-msgstr ""
+msgstr "Hoeveel kinderen spelen er?"
 
 #: src/menu.c:380
 msgid "(Between 2 and 4 players)"
-msgstr ""
+msgstr "(Tussen 2 en 4 spelers)"
 
 #: src/menu.c:445
 msgid "The server is already running"
-msgstr ""
+msgstr "De server is reeds actief"
 
 #: src/menu.c:456
 msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
+"De poort wordt op deze computer door een ander programma gebruikt, "
+"hoogstwaarschijnlijk een andere server voor TuxMath."
 
 #: src/menu.c:460
 msgid "Enter Server Name:"
-msgstr ""
+msgstr "Voer de naam van de server in:"
 
 #: src/menu.c:460
 msgid "(limit 50 characters)"
-msgstr ""
+msgstr "(beperkt tot 50 lettertekens)"
 
 #: src/menu.c:474
 msgid "Click or press key to select server lesson file"
-msgstr ""
+msgstr "Klik of druk op een toets om een lesbestand op de server te selecteren"
 
 #: src/menu.c:501
 #, c-format
@@ -373,104 +649,117 @@ msgid ""
 "Selected Lesson:\n"
 "%s"
 msgstr ""
+"Servernaam:\n"
+"%s\n"
+"Geselecteerde les:\n"
+"%s"
 
 #: src/menu.c:524
 msgid ""
 "\n"
-"Sorry, this version built without network support."
+"Sorry, this version built withour network support."
 msgstr ""
+"\n"
+"Sorry, deze versie van het programma werd zonder netwerkondersteuning "
+"gebouwd."
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
 msgid "Sorry, this version built without network support.\n"
 msgstr ""
+"Sorry, deze versie van het programma werd zonder netwerkondersteuning "
+"gebouwd.\n"
 
 #: src/menu.c:535
 msgid "The server is not running."
-msgstr ""
+msgstr "De server is niet actief."
 
 #: src/menu.c:541
 msgid "Cannot stop server until current game finishes."
-msgstr ""
+msgstr "Kan de server niet stoppen zolang het huidige spel niet afgesloten is."
 
 #: src/menu.c:545
 msgid "The server has been stopped."
-msgstr ""
+msgstr "De server werd gestopt."
 
 #: src/menu.c:562
 msgid "Sorry, could not connect to server."
-msgstr ""
+msgstr "Sorry, kon geen verbinding maken met de server."
 
 #: src/menu.c:563
 msgid "Sorry, could not connect to server.\n"
-msgstr ""
+msgstr "Sorry, kon geen verbinding maken met de server.\n"
 
 #: src/menu.c:583
 msgid "Sorry, game already in progress"
-msgstr ""
+msgstr "Sorry, het spel is al aan de gang"
 
 #: src/menu.c:589
 msgid "Connection with server was lost"
-msgstr ""
+msgstr "De verbinding met de server ging verloren"
 
 #: src/menu.c:602
 msgid "Sorry, this version built without network support"
 msgstr ""
+"Sorry, deze versie van het programma werd zonder netwerkondersteuning gebouwd"
 
 #: src/multiplayer.c:130
 msgid "Go!"
-msgstr ""
+msgstr "Kom op!"
 
 #: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
-msgstr ""
+msgstr "Dan %s\n"
 
 #: src/multiplayer.c:304
 msgid "Who is playing first?"
-msgstr ""
+msgstr "Wie speelt eerst?"
 
 #: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
-msgstr ""
+msgstr "Voer je naam in:"
 
 #: src/multiplayer.c:306
 msgid "Who is playing next?"
-msgstr ""
+msgstr "Wie speelt nadien?"
 
 #: src/multiplayer.c:320
 msgid "How many rounds will you play?"
-msgstr ""
+msgstr "Hoeveel rondes ga je spelen?"
 
 #: src/multiplayer.c:320
 msgid "Enter a number"
-msgstr ""
+msgstr "Voer een getal in"
 
-#: src/server.c:494
+#: src/server.c:486
 msgid "Await player name"
-msgstr ""
+msgstr "Wacht op de naam van de speler"
 
 #: src/titlescreen.c:521
-#, fuzzy
 msgid ""
 "Work In Progress!\n"
 "This feature is not ready yet\n"
 "Discuss the future of TuxMath at\n"
 "tuxmath-devel@lists.sourceforge.net"
-msgstr "Praat over de toekomst via tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"Werk in uitvoering!\n"
+"Deze functionaliteit is nog niet klaar voor gebruik\n"
+"Praat over de toekomst van TuxMath op\n"
+"tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
 #: data/missions/lessons/descr_lessons:3
 msgid "Number Typing"
-msgstr "Nummers typen"
+msgstr "Getallen typen"
 
 #: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
 msgid "Addition: 1 to 3"
-msgstr "Optellen 1 tot 3"
+msgstr "Optellen: 1 tot 3"
 
 #: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
 msgid "Addition: 0 to 5"
-msgstr "Optellen 1 tot 5"
+msgstr "Optellen: 0 tot 5"
 
 #: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
 msgid "Addition: Sums to 10"
@@ -489,32 +778,32 @@ msgstr "Optellen: sommen tot 20"
 #: data/missions/lessons/descr_lessons:14
 #: data/missions/lessons/descr_lessons:15
 msgid "Addition: Two Digit Numbers"
-msgstr "Optellen: dubbele getallen"
+msgstr "Optellen: getallen van twee cijfers"
 
 #: data/missions/lessons/descr_lessons:16
 #: data/missions/lessons/descr_lessons:17
 msgid "Addition: Missing Numbers"
-msgstr "Optellen: missende getallen"
+msgstr "Optellen: ontbrekende getallen"
 
 #: data/missions/lessons/descr_lessons:18
 #: data/missions/lessons/descr_lessons:19
 msgid "Subtraction: 0 to 10"
-msgstr "Aftellen: 0 tot 10"
+msgstr "Aftrekken: 0 tot 10"
 
 #: data/missions/lessons/descr_lessons:20
 #: data/missions/lessons/descr_lessons:21
 msgid "Subtraction: 0 to 20"
-msgstr "Aftellen: 0 tot 20"
+msgstr "Aftrekken: 0 tot 20"
 
 #: data/missions/lessons/descr_lessons:22
 #: data/missions/lessons/descr_lessons:23
 msgid "Subtraction: Two Digit Numbers"
-msgstr "Aftellen: dubbele getallen"
+msgstr "Aftrekken: getallen van twee cijfers"
 
 #: data/missions/lessons/descr_lessons:24
 #: data/missions/lessons/descr_lessons:25
 msgid "Addition and Subtraction Review"
-msgstr "Optellen en aftellen test"
+msgstr "Optellen en aftrekken: herhaling"
 
 #: data/missions/lessons/descr_lessons:26
 #: data/missions/lessons/descr_lessons:27
@@ -524,87 +813,87 @@ msgstr "Vermenigvuldigen: 0 tot 3"
 #: data/missions/lessons/descr_lessons:28
 #: data/missions/lessons/descr_lessons:29
 msgid "Multiples of 2"
-msgstr "Vermenigvuldigingen van 2"
+msgstr "Veelvouden van 2"
 
 #: data/missions/lessons/descr_lessons:30
 #: data/missions/lessons/descr_lessons:31
 msgid "Multiples of 3"
-msgstr "Vermenigvuldigingen van 3"
+msgstr "Veelvouden van 3"
 
 #: data/missions/lessons/descr_lessons:32
 #: data/missions/lessons/descr_lessons:33
 msgid "Multiples of 4"
-msgstr "Vermenigvuldigingen van 4"
+msgstr "Veelvouden van 4"
 
 #: data/missions/lessons/descr_lessons:34
 #: data/missions/lessons/descr_lessons:35
 msgid "Multiples of 5"
-msgstr "Vermenigvuldigingen van 5"
+msgstr "Veelvouden van 5"
 
 #: data/missions/lessons/descr_lessons:36
 #: data/missions/lessons/descr_lessons:37
 msgid "Multiplication: 0 to 5"
-msgstr "Vermenigvuldig: 0 tot 5"
+msgstr "Vermenigvuldigen: 0 tot 5"
 
 #: data/missions/lessons/descr_lessons:38
 #: data/missions/lessons/descr_lessons:39
 msgid "Multiples of 6"
-msgstr "Vermenigvuldigingen van 6"
+msgstr "Veelvouden van 6"
 
 #: data/missions/lessons/descr_lessons:40
 #: data/missions/lessons/descr_lessons:41
 msgid "Multiples of 7"
-msgstr "Vermenigvuldigingen van 7"
+msgstr "Veelvouden van 7"
 
 #: data/missions/lessons/descr_lessons:42
 #: data/missions/lessons/descr_lessons:43
 msgid "Multiplication: 0 to 7"
-msgstr "Vermenigvuldig: 0 tot 7"
+msgstr "Vermenigvuldigen: 0 tot 7"
 
 #: data/missions/lessons/descr_lessons:44
 #: data/missions/lessons/descr_lessons:45
 msgid "Multiples of 8"
-msgstr "Vermenigvuldigingen van 8"
+msgstr "Veelvouden van 8"
 
 #: data/missions/lessons/descr_lessons:46
 #: data/missions/lessons/descr_lessons:47
 msgid "Multiples of 9"
-msgstr "Vermenigvuldigingen van 9"
+msgstr "Veelvouden van 9"
 
 #: data/missions/lessons/descr_lessons:48
 #: data/missions/lessons/descr_lessons:49
 msgid "Multiples of 10"
-msgstr "Vermenigvuldigingen van 10"
+msgstr "Veelvouden van 10"
 
 #: data/missions/lessons/descr_lessons:50
 #: data/missions/lessons/descr_lessons:51
 msgid "Multiplication: 0 to 10"
-msgstr "Vermenigvuldig: 0 tot 10"
+msgstr "Vermenigvuldigen: 0 tot 10"
 
 #: data/missions/lessons/descr_lessons:52
 #: data/missions/lessons/descr_lessons:53
 msgid "Multiples of 11 and 12"
-msgstr "Vermenigvuldigingen van 11 en 12"
+msgstr "Veelvouden van 11 en 12"
 
 #: data/missions/lessons/descr_lessons:54
 #: data/missions/lessons/descr_lessons:55
 msgid "Multiplication: 0 to 12"
-msgstr "Vermenigvuldig: 0 tot 12"
+msgstr "Vermenigvuldigen: 0 tot 12"
 
 #: data/missions/lessons/descr_lessons:56
 #: data/missions/lessons/descr_lessons:57
 msgid "Multiples of 13, 14, and 15"
-msgstr "Vermenigvuldigingen van 13, 14 en 15"
+msgstr "Veelvouden van 13, 14 en 15"
 
 #: data/missions/lessons/descr_lessons:58
 #: data/missions/lessons/descr_lessons:59
 msgid "Multiplication: 0 to 15"
-msgstr "Vermenigvuldig: 0 tot 15"
+msgstr "Vermenigvuldigen: 0 tot 15"
 
 #: data/missions/lessons/descr_lessons:60
 #: data/missions/lessons/descr_lessons:61
 msgid "Multiplication: Missing Numbers"
-msgstr "Vermenigvuldig: missende getallen"
+msgstr "Vermenigvuldigen: ontbrekende getallen"
 
 #: data/missions/lessons/descr_lessons:62
 #: data/missions/lessons/descr_lessons:63
@@ -698,78 +987,76 @@ msgstr "Delen: 1 tot 15"
 #: data/missions/lessons/descr_lessons:106
 #: data/missions/lessons/descr_lessons:107
 msgid "Multiplication and Division Review"
-msgstr "Vermenigvuldigen en delen test"
+msgstr "Vermenigvuldigen en delen: herhaling"
 
 #: data/missions/lessons/descr_lessons:108
 #: data/missions/lessons/descr_lessons:109
 #: data/missions/lessons/descr_lessons:110
 msgid "Typing Negative Numbers"
-msgstr "Typ negatieve getallen"
+msgstr "Negatieve getallen typen"
 
 #: data/missions/lessons/descr_lessons:111
 #: data/missions/lessons/descr_lessons:112
 #: data/missions/lessons/descr_lessons:113
 msgid "Subtraction: Negative Answers"
-msgstr "Aftellen: negatieve antwoorden"
+msgstr "Aftrekken: negatieve uitkomsten"
 
 #: data/missions/lessons/descr_lessons:114
 #: data/missions/lessons/descr_lessons:115
 #: data/missions/lessons/descr_lessons:116
 msgid "Adding Negatives to Positives"
-msgstr "Optellen: negatief naar positief"
+msgstr "Negatieve getallen bij positieve getallen optellen"
 
 #: data/missions/lessons/descr_lessons:117
 #: data/missions/lessons/descr_lessons:118
 #: data/missions/lessons/descr_lessons:119
-#, fuzzy
 msgid "Adding Positives to Negatives"
-msgstr "Optellen: negatief naar negatief"
+msgstr "Positieve getallen bij negatieve getallen optellen"
 
 #: data/missions/lessons/descr_lessons:120
 #: data/missions/lessons/descr_lessons:121
 #: data/missions/lessons/descr_lessons:122
 msgid "Subtracting Negatives From Positives"
-msgstr "Aftellen: negatief van positief"
+msgstr "Negatieve getallen van positieve getallen aftrekken"
 
 #: data/missions/lessons/descr_lessons:123
 #: data/missions/lessons/descr_lessons:124
-#, fuzzy
 msgid "Subtracting Positives From Negatives"
-msgstr "Aftellen: negatief van negatief"
+msgstr "Positieve getallen van negatieve getallen aftrekken"
 
 #: data/missions/lessons/descr_lessons:125
 #: data/missions/lessons/descr_lessons:126
 msgid "Adding Negatives to Negatives"
-msgstr "Optellen: negatief naar negatief"
+msgstr "Negatieve getallen bij negatieve getallen optellen"
 
 #: data/missions/lessons/descr_lessons:127
 #: data/missions/lessons/descr_lessons:128
 msgid "Subtracting Negatives From Negatives"
-msgstr "Aftellen: negatief van negatief"
+msgstr "Negatieve getallen van negatieve getallen aftrekken"
 
 #: data/missions/lessons/descr_lessons:129
 #: data/missions/lessons/descr_lessons:130
 msgid "Negative and Positive Numbers Review"
-msgstr "Negatieve en positieve getallen test"
+msgstr "Negatieve en positieve getallen: herhaling"
 
 #: data/missions/lessons/descr_lessons:131
 #: data/missions/lessons/descr_lessons:132
 msgid "Multiplication and Division of Negatives"
-msgstr "Vermenigvuldigen en delen van negatieven"
+msgstr "Vermenigvuldigen en delen met negatieve getallen"
 
 #: data/missions/lessons/descr_lessons:133
 #: data/missions/lessons/descr_lessons:134
 msgid "Multiplication of Positives and Negatives"
-msgstr "Vermenigvuldigen van positieven en negatieven"
+msgstr "Vermenigvuldigen van positieve en negatieve getallen"
 
 #: data/missions/lessons/descr_lessons:135
 #: data/missions/lessons/descr_lessons:136
 msgid "Division of Positives and Negatives"
-msgstr "Delen van positieven en negatieven"
+msgstr "Delen van positieve en negatieve getallen"
 
 #: data/menus/menu_strings:3
 msgid "Credits"
-msgstr "Kredieten"
+msgstr "Aftiteling"
 
 #: data/menus/menu_strings:4
 msgid "Demo"
@@ -777,19 +1064,19 @@ msgstr "Demo"
 
 #: data/menus/menu_strings:5
 msgid "Elimination"
-msgstr ""
+msgstr "Eliminatie"
 
 #: data/menus/menu_strings:6
 msgid "Factoroids"
-msgstr ""
+msgstr "Factoroïden"
 
 #: data/menus/menu_strings:8
 msgid "Help"
-msgstr "Help"
+msgstr "Hulp"
 
 #: data/menus/menu_strings:9
 msgid "Join Game"
-msgstr ""
+msgstr "Meedoen met het spel"
 
 #: data/menus/menu_strings:10
 msgid "Main Menu"
@@ -797,11 +1084,11 @@ msgstr "Hoofdmenu"
 
 #: data/menus/menu_strings:11
 msgid "Math Command Fleet Missions"
-msgstr ""
+msgstr "Missies van de commandovloot wiskunde"
 
 #: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
-msgstr "Reken commando training academie"
+msgstr "Oefenschool van het wiskundecommando"
 
 #: data/menus/menu_strings:13
 msgid "More Options"
@@ -809,27 +1096,27 @@ msgstr "Meer opties"
 
 #: data/menus/menu_strings:14
 msgid "Network Game"
-msgstr ""
+msgstr "Netwerkspel"
 
 #: data/menus/menu_strings:15
 msgid "Play Alone"
-msgstr ""
+msgstr "Alleen spelen"
 
 #: data/menus/menu_strings:16
 msgid "Play Arcade Game"
-msgstr "Speel Arcade spel"
+msgstr "Een Arcadespel spelen"
 
 #: data/menus/menu_strings:17
 msgid "Play Custom Game"
-msgstr "Speel je eigen spel"
+msgstr "Speel een aangepast spel"
 
 #: data/menus/menu_strings:18
 msgid "Play With Friends"
-msgstr ""
+msgstr "Met vrienden spelen"
 
 #: data/menus/menu_strings:19
 msgid "Project Info"
-msgstr "Projekt info"
+msgstr "Projectinfo"
 
 #: data/menus/menu_strings:20
 msgid "Quit"
@@ -837,153 +1124,124 @@ msgstr "Afsluiten"
 
 #: data/menus/menu_strings:22
 msgid "Run Server"
-msgstr ""
+msgstr "De server opstarten"
 
 #: data/menus/menu_strings:23
 msgid "Score Sweep"
-msgstr ""
+msgstr "Scores wissen"
 
 #: data/menus/menu_strings:26
 msgid "Stop Server"
-msgstr ""
+msgstr "De server stoppen"
 
 #: data/menus/menu_strings:27
-#, fuzzy
 msgid "Additional options"
-msgstr "Optellen 1 tot 3"
+msgstr "Meer opties"
 
 #: data/menus/menu_strings:28
 msgid "Complete missions for the Math Command Fleet"
-msgstr ""
+msgstr "Voer missies uit voor de commandovloot wiskunde"
 
 #: data/menus/menu_strings:29
 msgid "Customize the game you play"
-msgstr ""
+msgstr "Pas het spel dat je speelt aan"
 
 #: data/menus/menu_strings:30
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
+"Win gouden sterren terwijl je met elke missie je rekenvaardigheden verbetert"
 
 #: data/menus/menu_strings:31
 msgid "Easier"
-msgstr ""
+msgstr "Makkelijker"
 
 #: data/menus/menu_strings:32
 msgid "Easiest"
-msgstr ""
+msgstr "Makkelijkst"
 
 #: data/menus/menu_strings:33
 msgid "Easy"
-msgstr ""
+msgstr "Makkelijk"
 
 #: data/menus/menu_strings:34
 msgid "Exit to your desktop"
-msgstr ""
+msgstr "Afsluiten en naar het bureaublad teruggaan"
 
 #: data/menus/menu_strings:35
 msgid "Factorize numbers with your laser beam!"
-msgstr ""
+msgstr "Ontbind getallen in factoren met je laserstraal!"
 
 #: data/menus/menu_strings:36
 msgid "Hard"
-msgstr ""
+msgstr "Moeilijk"
 
 #: data/menus/menu_strings:37
 msgid "Hardest"
-msgstr ""
+msgstr "Moeilijkst"
 
 #: data/menus/menu_strings:38
 msgid "High Scores"
-msgstr ""
+msgstr "Topscores"
 
 #: data/menus/menu_strings:39
 msgid "Join a game on a server running on your network"
-msgstr ""
+msgstr "Doe mee met een spel op een server op je netwerk"
 
 #: data/menus/menu_strings:40
 msgid "Make the Hall of Fame by beating the highest score"
-msgstr ""
+msgstr "Treed toe tot de eregalerij door de topscores te verbeteren"
 
 #: data/menus/menu_strings:41
 msgid "Moderate"
-msgstr ""
+msgstr "Middelmatig"
 
 #: data/menus/menu_strings:42
 msgid "Play a game with your friends on a local network"
-msgstr ""
+msgstr "Speel samen met je vrienden een spel op het lokale netwerk"
 
 #: data/menus/menu_strings:43
 msgid "Play and learn on your own"
-msgstr ""
+msgstr "In je eentje spelen en leren"
 
 #: data/menus/menu_strings:44
 msgid "Players with the lowest scores are eliminated every round"
-msgstr ""
+msgstr "Elke ronde wordt de speler met de laagste score uitgeschakeld"
 
 #: data/menus/menu_strings:45
 msgid "Return to the main menu"
-msgstr ""
+msgstr "Terug naar het hoofdmenu"
 
 #: data/menus/menu_strings:46
 msgid "Run a demo of the game"
-msgstr ""
+msgstr "Bekijk een demo van het spel"
 
 #: data/menus/menu_strings:47
 msgid "See how to play the game"
-msgstr ""
+msgstr "Kijk hoe je het spel moet spelen"
 
 #: data/menus/menu_strings:48
 msgid "See the credits for the game"
-msgstr ""
+msgstr "Bekijk wie meehielp het spel te maken"
 
 #: data/menus/menu_strings:49
-#, fuzzy
 msgid "See the project info"
-msgstr "Projekt info"
+msgstr "Bekijk de projectinfo"
 
 #: data/menus/menu_strings:50
 msgid "Start a server for a network game"
-msgstr ""
+msgstr "Start een server voor een netwerkspel"
 
 #: data/menus/menu_strings:51
 msgid "Stop a server running on your machine"
-msgstr ""
+msgstr "Stop een server die actief is op je computer"
 
 #: data/menus/menu_strings:52
 msgid "Take turns in a game with your friends on a single computer"
-msgstr ""
+msgstr "Speel met je vrienden elk om beurt op een autonome computer"
 
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
-msgstr ""
-
-#, fuzzy
-#~ msgid "Products of 2 and 3"
-#~ msgstr "Vermenigvuldigingen van 11 en 12"
-
-#, fuzzy
-#~ msgid "Products of 2, 3 and 5"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
-
-#, fuzzy
-#~ msgid "Products of 2, 3, 5 and 7"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
-
-#, fuzzy
-#~ msgid "Products of 2, 3, 5, 7, and 11"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
-
-#, fuzzy
-#~ msgid "Products of 2, 3, 5, 7, 11 and 13"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
-
-#, fuzzy
-#~ msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
-
-#, fuzzy
-#~ msgid "All multiples of 5 end in 0 or 5"
-#~ msgstr "Vermenigvuldigingen van 13, 14 en 15"
+msgstr "De persoon met de hoogste score wint"
 
 #, fuzzy
 #~ msgid "Play an arcade style game."
