@@ -525,3 +525,19 @@ per_user_config = 1
 ############################################################
 
 fps_limit = 60
+
+
+############################################################
+#                                                          #
+#                   Resolution                             #
+#                                                          #
+# Parameter: window_width (integer)                        #
+# Default: 640                                             #
+# Parameter: window_height (integer)                       #
+# Default: 480                                             #
+#                                                          #
+# Set window resolution for windowed mode. Or the screen   #
+# resolution in fullscreen mode                            #
+#                                                          #
+############################################################
+
