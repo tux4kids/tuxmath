@@ -1,12 +1,12 @@
 # Tux of Math Command.
 # This file is put in the public domain.
-# GunChleoc <fios@foramnagaidhlig.net>, 2016.
+# GunChleoc <fios@foramnagaidhlig.net>, 2016, 2017.
 msgid ""
 msgstr ""
 "Project-Id-Version: tuxmath 2.0.4\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 "POT-Creation-Date: 2012-02-02 16:07-0600\n"
-"PO-Revision-Date: 2016-06-10 12:01+0100\n"
+"PO-Revision-Date: 2017-03-07 12:50+0100\n"
 "Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
 "Language-Team: Fòram na Gàidhlig\n"
 "Language: gd\n"
@@ -235,7 +235,7 @@ msgid ""
 msgstr ""
 "’S e bathar-bog saor a th’ ann an TuxMath fo cheadachas GNU General Public "
 "License (GPL). Mar sin, tha na còraichean agad a dh’aona-ghnothaich a thèid "
-"a dhiùltadh air daoine a chleachdas bathar-bog fo shealbh."
+"a dhiùltadh air daoine a chleachdas bathar-bog fo sheilbh."
 
 #: src/credits.c:135
 msgid ""
