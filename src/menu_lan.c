@@ -37,7 +37,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 /* lan_player_type now defined in network.h */
-lan_player_type lan_player_info[MAX_CLIENTS];
 
 /* Local function prototypes: ------------------- */
 void draw_player_table(void);
