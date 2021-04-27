@@ -1980,14 +1980,15 @@ int write_config_file(MC_MathGame* game, FILE* fp, int verbose)
     {
         fprintf (fp, "\n\n############################################################\n"
                 "#                                                          #\n"
-                "#                   Window resolution                      #\n"
+                "#                   Resolution                             #\n"
                 "#                                                          #\n"
                 "# Parameter: window_width (integer)                        #\n"
                 "# Default: 640                                             #\n"
                 "# Parameter: window_height (integer)                       #\n"
                 "# Default: 480                                             #\n"
                 "#                                                          #\n"
-                "# Set window resolution for windowed mode.                 #\n"
+                "# Set window resolution for windowed mode. Or the screen   #\n"
+                "# resolution in fullscreen mode                            #\n"
                 "#                                                          #\n"
                 "############################################################\n\n");
     }

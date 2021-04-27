@@ -739,8 +739,14 @@ void initialize_SDL(void)
         // Determine the current resolution: this will be used as the
         // fullscreen resolution, if the user wants fullscreen.
         DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
-        fs_res_x = videoInfo->current_w;
-        fs_res_y = videoInfo->current_h;
+        if (Opts_GetGlobalOpt(FULLSCREEN) && Opts_CustomRes()) {
+          fs_res_x = Opts_WindowWidth();
+          fs_res_y = Opts_WindowHeight();
+          DEBUGMSG(debug_setup, "Full screen mode custom resolution: w %d, h %d.\n",fs_res_x,fs_res_y);
+        } else {
+          fs_res_x = videoInfo->current_w;
+          fs_res_y = videoInfo->current_h;
+        }
 
         if (Opts_GetGlobalOpt(FULLSCREEN))
         {

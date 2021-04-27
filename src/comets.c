@@ -3998,9 +3998,10 @@ void print_current_quests(void)
 wchar_t* convert_formula_to_sentence(char *formula_string)
 {
 	wchar_t wc_formula[2000];
-	wchar_t sentence[2000];
+	wchar_t *sentence;
 	wchar_t *ptr;
 	wchar_t *temp;
+	sentence = malloc(sizeof(wchar_t)*2000);
 	mbstowcs(wc_formula,formula_string,2000);
 	temp = wcstok(wc_formula,L" ",&ptr);
 	sentence[0] = L'\0';

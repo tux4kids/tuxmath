@@ -175,6 +175,7 @@ int Opts_Initialize(void)
     game_options->fps_limit = DEFAULT_FPS_LIMIT;
     game_options->w_width = DEFAULT_WINDOW_WIDTH;
     game_options->w_height = DEFAULT_WINDOW_HEIGHT;
+    game_options->custom_res = DEFAULT_CUSTOM_RES;
 
     DEBUGCODE(debug_options)
         print_game_options(stdout, 0);
@@ -638,6 +639,7 @@ void Opts_SetFPSLimit(int val)
 void Opts_SetWindowWidth(int val)
 {
     game_options->w_width = val;
+    game_options->custom_res = 1;
 
     if(val > 0)
     {
@@ -649,6 +651,7 @@ void Opts_SetWindowWidth(int val)
 void Opts_SetWindowHeight(int val)
 {
     game_options->w_height = val;
+    game_options->custom_res = 1;
 
     if(val > 0)
     {
@@ -1097,6 +1100,10 @@ int Opts_WindowHeight(void)
     return game_options->w_height;
 }
 
+int Opts_CustomRes(void)
+{
+    return game_options->custom_res;
+}
 
 /********************************************************************/
 /*  "private methods" (static functions only visible in options.c)  */
