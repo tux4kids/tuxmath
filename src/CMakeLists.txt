@@ -39,6 +39,7 @@ set(SOURCES_TUXMATH
   game.c
   menu.c
   menu_lan.c
+  mysetenv.c
   highscore.c
   lessons.c
   mathcards.c
