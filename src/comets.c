@@ -175,6 +175,8 @@ SDL_Rect player_left_pos = {0};
 
 static help_controls_type help_controls;
 
+SDL_Thread *tts_announcer_thread;
+
 /* Local function prototypes: */
 static int  comets_initialize(void);
 static void comets_cleanup(void);
@@ -4152,7 +4154,6 @@ int tts_announcer(void *unused)
 	return 0;
 }
 void start_tts_announcer_thread(){
-	extern SDL_Thread *tts_announcer_thread;
 	tts_announcer_thread = SDL_CreateThread(tts_announcer,NULL);
 }
 
@@ -4160,5 +4161,3 @@ void stop_tts_announcer_thread(){
 	tts_announcer_switch = 0;
 	T4K_Tts_stop();
 }
-
-
