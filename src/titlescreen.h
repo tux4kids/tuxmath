@@ -62,7 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define MAX_WORD_SIZE                   8
 
 //MAX_UPDATES needed for TransWipe() and friends:
-#define MAX_UPDATES                     180
+#define MAX_UPDATES                     512
 
 #define WAIT_MS                         2500
 #define FRAMES_PER_SEC                  50
