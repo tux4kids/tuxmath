@@ -6,17 +6,57 @@ Nov 25, 2011
 
 For Tuxmath-2.0.4
 
+Table of Contents
+------------
+
+Objective
+Why Use TuxMath
+Installation
+Configuration
+Running the Program
+Program Navigation
+Network Game
+Play With Friends
+Factoroids
+Help
+More Options
+How to Play
+Shortcuts
+Command Line Options
+Credits
+
+
 Objective --------- 
 
 In "Tux, of Math Command," you play the part of Commander Tux, as he
 defends his friends from an attack of math equations. Comets are
 crashing towards the friendly penguins in their igloos, and you must
-destroy the comets by solving their equations.
+destroy the comets by solving their equations. 
+
+These equations differ from Addition, Subtraction, Multiplication and 
+Division, and Relative Numbers. These math topics have many different
+levels that children can discover as they gain the skillset to tackle
+harder levels and faster speeds. The interface is also very child-
+friendly, and allows children to easily find what kinds of math 
+problems they want to test themselves on, in a penguin-themed
+environment centered around easy navigation and a fun story that is 
+simple and straightforward but interesting enough for retention. 
 
 As of version 1.7.0, TuxMath also includes a completely new game
 activity, "Factoroids", which gives practice in factoring numbers and
 simplifying fractions, as well as zapping rocks floating through
 space.
+
+
+Why Use TuxMath
+------------
+
+TuxMath is an application that wants to encourage students to want
+to learn and treat math like a game to be enjoyed, not a tedious task
+that requires too much brainpower. Having students play TuxMath can
+make them excited to learn about math outside of school, and develop
+quick-thinking skills, hand-eye coordination, and planning abilities
+in order to destroy multiple asteroids at once and gain a point boost.
 
 
 Installation
