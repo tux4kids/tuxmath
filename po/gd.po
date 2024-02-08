@@ -1,42 +1,41 @@
-# Dutch translation of tuxmath.pot for TuxMath
+# Tux of Math Command.
 # This file is put in the public domain.
-# Schrijvers Luc <Begasus@skynet.be>, 2007.
-# Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2015.
-#
+# GunChleoc <fios@foramnagaidhlig.net>, 2016, 2017.
 msgid ""
 msgstr ""
-"Project-Id-Version: Tuxmath_2.0.3\n"
+"Project-Id-Version: tuxmath 2.0.4\n"
 "Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
-"POT-Creation-Date: 2011-05-04 13:40-0500\n"
-"PO-Revision-Date: 2015-05-13 20:36+0200\n"
-"Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
-"Language-Team: Debian Dutch l10n Team <debian-l10n-dutch@lists.debian.org>\n"
-"Language: nl\n"
+"POT-Creation-Date: 2012-02-02 16:07-0600\n"
+"PO-Revision-Date: 2017-03-07 12:50+0100\n"
+"Last-Translator: GunChleoc <fios@foramnagaidhlig.net>\n"
+"Language-Team: Fòram na Gàidhlig\n"
+"Language: gd\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Gtranslator 2.91.6\n"
+"Plural-Forms: nplurals=4; plural=(n==1 || n==11) ? 0 : (n==2 || n==12) ? 1 : "
+"(n > 2 && n < 20) ? 2 : 3;\n"
+"X-Generator: Virtaal 0.7.1\n"
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
-msgstr "Gefeliciteerd! Jij hebt gewonnen!"
+msgstr "Meal do naidheachd! Bhuannaich thu!"
 
 #: src/campaign.c:70
 msgid "Round"
-msgstr "Ronde"
+msgstr "Cuairt"
 
 #: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
 msgid "-[Esc] to skip"
-msgstr "-[Esc] om over te slaan"
+msgstr "-[Esc] gus leam a ghearradh"
 
 #: src/campaign.c:141
 msgid "Mission One: Careful Cadet"
-msgstr "Missie één: Zorgvuldige cadet"
+msgstr "Gnìomh a h-aon: Òglach seòlta"
 
 #: src/campaign.c:143
 msgid "I'm so glad you've come!"
-msgstr "Ik ben zo blij dat je gekomen bent!"
+msgstr "Tha mi glè thoilichte gun dàinig thu!"
 
 #: src/campaign.c:145
 msgid ""
@@ -44,50 +43,53 @@ msgid ""
 "melting the penguins' igloos. To save their homes, we need you to find the "
 "secret code that will zap each comet."
 msgstr ""
-"De pinguïns hebben je hulp nodig. Uit de lucht vallen kometen die de iglo's "
-"van de pinguïns doen smelten. Om hun huizen te beschermen, moet je de "
-"geheime code vinden die elke komeet zal vernietigen."
+"Tha na cinn-fhionn feumaich air cobhair! Tha comaidean a’ tuiteam on adhar "
+"agus tha iad a leaghadh taighean-sneachda nan ceann-fionn. Feumaidh tu an "
+"còd dìomhair a lorg a loisgeas air na comaidean ach an sàbhail thu na "
+"taighean aca."
 
 #: src/campaign.c:147
 msgid "Do your best!"
-msgstr "Doe je best!"
+msgstr "Dèan do dhìcheall!"
 
 #: src/campaign.c:153
 msgid "Mission Two: Smart Scout"
-msgstr "Missie twee: Knappe Verkenner"
+msgstr "Gnìomh a dhà: Beachdair tapaidh"
 
 #: src/campaign.c:155
 msgid ""
 "Great job! Since you saved the penguins' homes, we are promoting you to "
 "Scout. Scouts are good for keeping an eye out for trouble..."
 msgstr ""
-"Goed gedaan! Vermits je de huizen van de pinguïns gered hebt, bevorderen we "
-"je tot Verkenner. Verkenners zijn goed in het opmerken van moeilijkheden..."
+"Sin thu! On a shàbhail thu taighean nan ceann-fionn, bhuannaich thu rang a’ "
+"bheachdair. Tha beachdairean math air sùil a chumail amach airson "
+"trioblaid..."
 
 #: src/campaign.c:157
 msgid ""
 "...like what's happening right now! The TakeAways have come, and they're "
 "sending new, trickier comets against the penguins!"
 msgstr ""
-"...zoals wat nu aan het gebeuren is! Daar komen de Verminderaars en zij "
-"sturen nieuwe, moeilijker tegen te houden kometen af op de pinguïns!"
+"...agus thàinig trioblaid oirnn mar-thà! Thàinig an luchd-ionnsaigh "
+"a-rithist agus tha iad a’ cur comaidean cunnartach ùra an comhair nan ceann-"
+"fionn!"
 
 #: src/campaign.c:158
 msgid "But you can save them!"
-msgstr "Maar jij kan ze beschermen!"
+msgstr "Ach ’s urrainn dhut an sàbhaladh!"
 
 #: src/campaign.c:164
 msgid "Mission Three: Royal Ranger"
-msgstr "Missie drie: Koninklijke Jager"
+msgstr "Gnìomh a trì: Maor loinneil"
 
 #: src/campaign.c:166
 msgid ""
 "You've done it again! The Penguin Emperor has chosen you to join his team of "
 "Rangers that help protect the city.  We're sending you there now..."
 msgstr ""
-"Je kreeg het opnieuw voor elkaar! De pinguïnkeizer heeft jou uitverkoren om "
-"toe te treden tot zijn team van Jagers die de stad helpen beschermen. We "
-"sturen je er nu heen..."
+"Rinn thu a’ chùis air a-rithist! Thagh impire nan ceann-fionn thu ach an dig "
+"thu an sas ann an sgioba nam maor aige a chuidicheas le dìon a’ baile. "
+"Bheir sinn a-null thu a-nis..."
 
 #: src/campaign.c:168
 msgid ""
@@ -95,39 +97,41 @@ msgid ""
 "these problems are multiplying! To fight these, you need great skill. We "
 "think you can do it. Join the Rangers and help save the city!"
 msgstr ""
-"...oh nee! Nu wordt de keizer zelf aangevallen door een nieuw soort kometen: "
-"deze problemen vermenigvuldigen zich! Om die te kunnen bestrijden moet je "
-"uiterst bekwaam zijn. We denken dat jij daartoe in staat bent. Kom bij de "
-"Jagers en help de stad beschermen!"
+"... och ochan ò! Tha an t-impire fhèin fo ionnsaigh a-nis o sheòrsa ùr dhe "
+"chomais: tha na trioblaidean ag iomadachadh! Feumaidh tu a bhith glè sheòlta "
+"gus sabaid an aghaidh an fheadhainn seo. Saoilidh sinn gu bheil thu "
+"comasach. Sàbhail am baile còmhla ris na maoir eile!"
 
 #: src/campaign.c:174
 msgid "Mission Four: Imperial Ace"
-msgstr "Missie vier: Keizerlijke Uitblinker"
+msgstr "Gnìomh a ceithir: Curaidh cliùiteach"
 
 #: src/campaign.c:176
 msgid ""
 "You did it! The Emperor wants to thank you in person. We are taking you to "
 "his ice palace for a great honor: you will become the Imperial Ace!"
 msgstr ""
-"Je hebt het geklaard! De keizer wenst je persoonlijk te bedanken. We brengen "
-"je naar zijn paleis voor een groot eerbetoon: je zult de Keizerlijke "
-"Uitblinker worden!"
+"Rinn thu a’ chùis air! Bu toigh leis an impire taing a thoirt dhut gu "
+"pearsanta. Bheir sinn dhan lùchairt deighe aige thu ach am faigh thu urram "
+"mòr: thèid thu ’nad churaidh cliùiteach na h-impireachd!"
 
 #: src/campaign.c:178
 msgid ""
 "But right in the middle of the ceremony, a new attack from the land of "
 "Division starts!"
 msgstr ""
-"Maar middenin de ceremonie wordt er vanuit het land van Deling een nieuwe "
-"aanval gelanceerd!"
+"Ach ann an teas-mheadhan na cuirme, thàinig ionnsaigh ùr o thìr an roinnidh "
+"oirbh!"
 
 #: src/campaign.c:179
 msgid "Now is no time for resting; the city needs your help!"
-msgstr "Nu is het niet de tijd om te rusten. De stad heeft je hulp nodig!"
+msgstr ""
+"Chan eil ùine agad gus d’ anail a ghabhail; tha am baile feumach air do "
+"chuideachadh!"
 
 #: src/campaign.c:185
 msgid "Final Mission: Computing Commando"
-msgstr "Laatste missie: Bevelhebber Rekenen"
+msgstr "An gnìomh mu dheireadh: Sàr-ghaisgeach an àireamhachaidh"
 
 #: src/campaign.c:187
 msgid ""
@@ -136,92 +140,92 @@ msgid ""
 "you this clue: first do multiplication and division, and then do addition "
 "and subtraction."
 msgstr ""
-"Pinguïnwetenschappers hebben ontdekt dat al deze aanvallen afkomstig zijn "
-"van een geheime basis en ze hebben je nodig om het laatste beslissende "
-"gevecht te leveren. Ze geven je ook deze hint mee: eerst vermenigvuldigen en "
-"delen en daarna optellen en aftrekken."
+"Fhuair eòlasan nan ceann-fionn a-mach gu bheil na h-ionnsaighean uile a’ "
+"tighinn o bhunait dhìomhair agus feumaidh tu dol dhan bhlàr deireannach. "
+"Mhol iad cuideachd gun dèan thu iomadachadh is roinneadh an toiseach agus "
+"cur ris is toirt air falbh an uairsin."
 
 #: src/campaign.c:188
 msgid "I hope that hint helps!"
-msgstr "Hopelijk helpt deze hint je!"
+msgstr "Tha mi ’n dòchas gun cuidich an gliocas sin!"
 
 #: src/campaign.c:190
 msgid "This is it! You can stop these attacks forever, Commando!"
 msgstr ""
-"Nu is het alles op alles! Jij kunt deze aanvallen voorgoed stoppen, "
-"bevelhebber!"
+"Seo an cothrom againn! ’S urrainn dhan bhuidheann agad stad a ghur air na "
+"h-ionnsaighean seo gu bràth tuilleadh, a’ ghaisgich!"
 
 #: src/campaign.c:260
 msgid "Sorry, try again!"
-msgstr "Sorry, probeer het nogmaals!"
+msgstr "Duilich, feuch ris a-rithist!"
 
 #: src/campaign.c:267
 msgid "Mission accomplished. The galaxy is safe!"
-msgstr "Missie volbracht. Het melkwegstelsel is veilig!"
+msgstr "Choilean thu an gnìomh. Tha an cruinne-cè sàbhailte a-nis!"
 
 #: src/credits.c:43
 msgid "TUX, OF MATH COMMAND"
-msgstr "TUX, AAN HET COMMANDO VOOR WISKUNDE"
+msgstr "TUX, GAISGEACH a’ MHATAMATAIG"
 
 #: src/credits.c:44
 msgid "COPYRIGHT 2001-2011"
-msgstr "COPYRIGHT 2001-2011"
+msgstr "CÒIR-LETHBHREAC 2001-2011"
 
 #: src/credits.c:45
 msgid "VERSION "
-msgstr "VERSIE"
+msgstr "TIONNDADH "
 
 #: src/credits.c:47
 msgid "PART OF THE 'TUX4KIDS' PROJECT"
-msgstr "ONDERDEEL VAN HET PROJECT 'TUX4KIDS'"
+msgstr "’NA PHÀIRT DHEN PHRÒISEACT “TUX4KIDS”"
 
 #: src/credits.c:50
 msgid "DESIGNED BY"
-msgstr "ONTWORPEN DOOR"
+msgstr "AIR A DHEALBHACHADH LE"
 
 #: src/credits.c:53
 msgid "LEAD PROGRAMMERS"
-msgstr "BELANGRIJKSTE ONTWIKKELAARS"
+msgstr "PRÌOMH-PHRÒGRAMAIREAN"
 
 #: src/credits.c:59
 msgid "ADDITIONAL CODE"
-msgstr "BIJKOMENDE CODE"
+msgstr "CÒD A BHARRACHD"
 
 #: src/credits.c:75
 msgid "LEAD ARTISTS"
-msgstr "BELANGRIJKSTE VORMGEVERS"
+msgstr "PRÌOMH LUCHD-EALAIN"
 
 #: src/credits.c:79
 msgid "ADDITIONAL ART"
-msgstr "BIJKOMENDE VORMGEVING"
+msgstr "OBAIR-EALAIN A BHARRACHD"
 
 #: src/credits.c:85
 msgid "SOUND EFFECTS"
-msgstr "KLANKEFFECTEN"
+msgstr "ÈIFEACHDAN FUAIME"
 
 #: src/credits.c:88
 msgid "MUSIC"
-msgstr "MUZIEK"
+msgstr "CEÒL"
 
 #: src/credits.c:107
 msgid "PACKAGERS"
-msgstr "PAKKETBEHEERDERS"
+msgstr "LUCHD-PACAIDIDH"
 
 #: src/credits.c:112
 msgid "'TUX' THE PENGUIN CREATED BY"
-msgstr "'TUX' DE PINGUÏN, EEN CREATIE VAN"
+msgstr "CHAIDH AN CEANN-FIONN “TUX” A CHRUTHACHADH LE"
 
 #: src/credits.c:115
 msgid "TESTERS"
-msgstr "TESTERS"
+msgstr "LUCHD-DEUCHAINN"
 
 #: src/credits.c:127
 msgid "USER WEBSITE"
-msgstr "WEBSITE VOOR GEBRUIKERS"
+msgstr "LÀRACH-LÌN an LUCHD-CLEACHDAIDH"
 
 #: src/credits.c:130
 msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
-msgstr "DE ONTWIKKELING VAN TUX4KIDS WORDT OP ALIOTH GEHOST:"
+msgstr "THA LEASACHADH TUX4KIDS ’GA ÒSTADH AIR ALIOTH:"
 
 #: src/credits.c:133
 msgid ""
@@ -229,358 +233,127 @@ msgid ""
 "(GPL). As such, you are specifically granted the rights that are usually "
 "denied to users of proprietary software."
 msgstr ""
-"TuxMath is vrije software waarop de GNU General Public License (GPL) van "
-"toepassing is. Daardoor worden u specifiek die rechten toegekend die meestal "
-"ontzegt worden aan gebruikers van gepatenteerde software."
+"’S e bathar-bog saor a th’ ann an TuxMath fo cheadachas GNU General Public "
+"License (GPL). Mar sin, tha na còraichean agad a dh’aona-ghnothaich a thèid "
+"a dhiùltadh air daoine a chleachdas bathar-bog fo sheilbh."
 
 #: src/credits.c:135
 msgid ""
 "These rights include the freedom to study, copy, modify, and redistribute "
 "the program."
 msgstr ""
-"Tot deze rechten behoren het recht om het programma te bestuderen, te "
-"kopiëren, te wijzigen en verder te verspreiden."
+"Tha na còraichean seo a’ gabhail a-steach gum faod thu am prògram a "
+"sgrùdadh, lethbhreac a dhèanamh dheth, atharrachadh agus a sgaoileadh gu "
+"saor."
 
 #: src/credits.c:137
 msgid ""
 "A full copy of the GPL is included with the documentation for this program."
 msgstr ""
-"Een volledige kopie van de GPL is toegevoegd aan de documentatie over dit "
-"programma."
+"Gheibh thu lethbhreac slàn dhen GPL an cois an docamaididh airson a’ "
+"phrògraim seo."
 
 #: src/credits.c:139
 msgid "For more information about Free Software and the GNU GPL, visit:"
-msgstr "Voor meer informatie over Vrije Software en de GNU GPL, raadpleeg:"
-
-#: src/factoroids.c:524
-msgid "Powers of 2"
-msgstr "Machten van 2"
-
-#: src/factoroids.c:525
-msgid "Products of 2 and 3"
-msgstr "Vermenigvuldigen met 2 en 3"
-
-#: src/factoroids.c:526
-msgid "Products of 2, 3 and 5"
-msgstr "Vermenigvuldigen met 2, 3 en 5"
-
-#: src/factoroids.c:527
-msgid "Products of 2, 3, 5 and 7"
-msgstr "Vermenigvuldigen met 2, 3, 5 en 7"
-
-#: src/factoroids.c:528
-msgid "Products of 2, 3, 5, 7, and 11"
-msgstr "Vermenigvuldigen met 2, 3, 5, 7 en 11"
-
-#: src/factoroids.c:529
-msgid "Products of 2, 3, 5, 7, 11 and 13"
-msgstr "Vermenigvuldigen met 2, 3, 5, 7, 11 en 13"
-
-#: src/factoroids.c:534
-msgid "All multiples of 2 end in 2, 4, 6, 8, or 0"
-msgstr "Alle veelvouden van 2 eindigen op 2, 4, 6, 8, of 0"
-
-#: src/factoroids.c:535
-msgid "The digits of a multiple of 3 add up to a multiple of 3"
 msgstr ""
-"De som van de cijfers van een veelvoud van 3 is zelf een veelvoud van 3"
-
-#: src/factoroids.c:536
-msgid "All multiples of 5 end in 0 or 5"
-msgstr "Alle veelvouden van 5 eindigen op 0 of 5"
-
-#: src/factoroids.c:537
-msgid "Sorry - there is no simple rule to identify multiples of 7."
-msgstr ""
-"Sorry - er bestaat geen eenvoudige regel om veelvouden van 7 te herkennen."
-
-#: src/factoroids.c:538
-msgid "Under 100, multiples of 11 have equal digits, such as 55 or 88."
-msgstr ""
-"Beneden 100 bestaan veelvouden van 11 uit twee gelijke cijfers, zoals 55 of "
-"88."
-
-#: src/factoroids.c:539
-msgid "Sorry - there is no simple rule to identify multiples of 13."
-msgstr ""
-"Sorry - er bestaat geen eenvoudige regel om veelvouden van 13 te herkennen."
-
-#: src/factoroids.c:556
-msgid "Objectives:"
-msgstr "Doelen:"
-
-#: src/factoroids.c:557
-msgid "Hints:"
-msgstr "Hints:"
-
-#: src/factoroids.c:788
-msgid ""
-"To win, you must destroy all the asteroids.\n"
-"Turn: arrow keys or mouse movement.\n"
-"Thrust: up arrow or right mouse button.\n"
-"Shoot: [Enter], [Space], or left mouse button.\n"
-"Switch Prime Number Gun: [D], [F], or mouse scroll wheel.\n"
-"Activate Powerup: [Shift].\n"
-"Shoot the rocks with their prime factors until they are all destroyed."
-msgstr ""
-"Om te winnen moet je alle asteroïden vernietigen.\n"
-"Draaien: pijltjestoetsen gebruiken of met de muis bewegen.\n"
-"Vooruit bewegen: pijltje omhoog of rechtermuisknop.\n"
-"Schieten: [Enter], [Spatie] of linker muisknop.\n"
-"Geweer met ander priemgetal laden: [D], [F], of muiswieltje.\n"
-"Bonus activeren: [Shift].\n"
-"Beschiet de rotsen met hun priemfactoren tot ze allemaal vernietigd zijn."
-
-#: src/factoroids.c:802
-msgid ""
-"FRACTIONS: to win, you need destroy all the asteroids. Use the arrow keys to "
-"turn or go forward.  Aim at an asteroid, type a number that can simplify the "
-"fraction, and press space or return to split it.  Destroy fractions that can "
-"not be further simplified in a single shot!"
-msgstr ""
-"BREUKEN: Om te winnen moet je alle asteroïden vernietigen. Gebruik de "
-"pijltjestoetsen om te draaien of vooruit te bewegen. Mik op een asteroïde, "
-"typ een getal waardoor de breuk vereenvoudigd kan worden en druk op spatie "
-"of enter om de breuk te splitsen. Vernietig breuken die niet verder "
-"vereenvoudigd kunnen worden met één enkel schot!"
-
-#: src/game.c:757
-msgid "Welcome to TuxMath!"
-msgstr "Welkom bij TuxMath!"
-
-#: src/game.c:774
-msgid "Your mission is to save your"
-msgstr "Jouw missie is om"
-
-#: src/game.c:775
-msgid "penguins' igloos from the"
-msgstr "de iglo's van de pinguïns"
-
-#: src/game.c:776
-msgid "falling comets."
-msgstr "te beschermen tegen vallende kometen."
-
-#: src/game.c:795
-msgid "Stop a comet by typing"
-msgstr "Houd de komeet tegen door"
-
-#: src/game.c:796
-msgid "the answer to the math problem"
-msgstr "het antwoord op de rekenvraag te typen"
-
-#: src/game.c:797
-msgid "and hitting 'space' or 'enter'."
-msgstr "en 'spatie' of 'enter' te drukken."
-
-#: src/game.c:798
-msgid "Try it now!"
-msgstr "Probeer het nu!"
-
-#: src/game.c:806
-msgid "Good shot!"
-msgstr "Goed schot!"
-
-#: src/game.c:816
-msgid "If an igloo gets hit by a comet,"
-msgstr "Als een iglo door een komeet geraakt wordt,"
-
-#: src/game.c:817
-msgid "it melts. But don't worry: the"
-msgstr "smelt hij. Maar maak je geen zorgen:"
-
-#: src/game.c:818
-msgid "penguin is OK!"
-msgstr "de pinguïn blijft OK!"
-
-#: src/game.c:819
-msgid "Just watch what happens:"
-msgstr "Kijk gewoon wat er gebeurt:"
-
-#: src/game.c:820
-msgid "(Press a key to start)"
-msgstr "(Druk op een toets om te beginnen)"
-
-#: src/game.c:833
-msgid "Notice the answer"
-msgstr "Bekijk het antwoord"
-
-#: src/game.c:843
-msgid "If it gets hit again, the"
-msgstr "Als hij terug geraakt wordt,"
-
-#: src/game.c:844
-msgid "penguin leaves."
-msgstr "gaat de pinguïn weg."
-
-#: src/game.c:845
-msgid "(Press a key when ready)"
-msgstr "(Druk op een toets als je klaar bent)"
-
-#: src/game.c:868
-msgid "You can fix the igloos"
-msgstr "Je kunt de iglo's repareren"
-
-#: src/game.c:869
-msgid "by stopping bonus comets."
-msgstr "door bonuskometen tegen te houden."
-
-#: src/game.c:880 src/game.c:916
-msgid "Zap it now!"
-msgstr "Vernietig hem nu!"
-
-#: src/game.c:886
-msgid "Great job!"
-msgstr "Goed gedaan!"
-
-#: src/game.c:905
-msgid "Fast-moving powerup comets"
-msgstr "Door de snel bewegende bonuskometen te vernietigen"
-
-#: src/game.c:906
-msgid "earn you a secret weapon:"
-msgstr "kun je een geheim wapen verdienen:"
-
-#: src/game.c:923
-msgid "Quit at any time by pressing"
-msgstr "Op ieder ogenblik kun je stoppen"
-
-#: src/game.c:924
-msgid "'Esc' or clicking the 'X'"
-msgstr "door op 'Esc' te drukken"
-
-#: src/game.c:925
-msgid "in the upper right corner."
-msgstr " of te klikken op de 'X' in de rechterbovenhoek."
-
-#: src/game.c:926
-msgid "Do it now, and then play!"
-msgstr "Doe het nu. En dan spelen maar!"
-
-#: src/game.c:2724
-msgid "The Penguins Have Been Saved!"
-msgstr "De pinguïns werden gered!"
-
-#: src/game.c:2739
-msgid "Final Scores:"
-msgstr "Eindresultaten:"
-
-#: src/game.c:2816
-msgid ""
-"Network game terminated by server.\n"
-" The server is still running."
-msgstr ""
-"Het netwerkspel werd beëindigd door de server.\n"
-" De server is nog steeds actief."
-
-#: src/game.c:2824
-msgid ""
-"Network game terminated.\n"
-" Connection with server was lost."
-msgstr ""
-"Het netwerkspel werd afgesloten.\n"
-" De verbinding met de server ging verloren."
-
-#: src/game.c:4698
-#, c-format
-msgid "%s has left the game."
-msgstr "%s heeft het spel verlaten."
+"Airson barrachd fiosrachaidh mu bhathar-bog saor agus GNU GPL, tadhail air:"
 
 #: src/highscore.c:175 data/menus/menu_strings:7
 msgid "Hall Of Fame"
-msgstr "Eregalerij"
+msgstr "Clàr nan curaidhean"
 
 #: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
 msgid "Space Cadet"
-msgstr "Ruimtecadet"
+msgstr "Òglach fànais"
 
 #: src/highscore.c:198 data/menus/menu_strings:24
 msgid "Scout"
-msgstr "Verkenner"
+msgstr "Beachdair"
 
 #: src/highscore.c:201 data/menus/menu_strings:21
 msgid "Ranger"
-msgstr "Jager"
+msgstr "Maor"
 
 #: src/highscore.c:204 data/menus/menu_strings:1
 msgid "Ace"
-msgstr "Uitblinker"
+msgstr "Curaidh"
 
 #: src/highscore.c:207 data/menus/menu_strings:2
 msgid "Commando"
-msgstr "Bevelhebber"
+msgstr "Sàr-ghaisgeach"
 
 #: src/highscore.c:210
 msgid "Factors"
-msgstr "Factoren"
+msgstr "Factaran"
 
 #: src/highscore.c:213
 msgid "Fractions"
-msgstr "Breuken"
+msgstr "Bloighean"
 
 #: src/highscore.c:291
 msgid "You Are In The Hall of Fame!"
-msgstr "Je staat in de eregalerij!"
+msgstr "Bhuannaich thu àite air clàr nan cuiridhean!"
 
 #: src/highscore.c:291
 msgid "Enter Your Name:"
-msgstr "Voer je naam in:"
+msgstr "Cuir d’ ainm a-steach:"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + %d = ?"
 msgstr "%d + %d = ?"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "? + %d = %d"
 msgstr "? + %d = %d"
 
-#: src/mathcards.c:2624
+#: src/mathcards.c:2589
 #, c-format
 msgid "%d + ? = %d"
 msgstr "%d + ? = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - %d = ?"
 msgstr "%d - %d = ?"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "? - %d = %d"
 msgstr "? - %d = %d"
 
-#: src/mathcards.c:2625
+#: src/mathcards.c:2590
 #, c-format
 msgid "%d - ? = %d"
 msgstr "%d - ? = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x %d = ?"
 msgstr "%d x %d = ?"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "? x %d = %d"
 msgstr "? x %d = %d"
 
-#: src/mathcards.c:2626
+#: src/mathcards.c:2591
 #, c-format
 msgid "%d x ? = %d"
 msgstr "%d x ? = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ %d = ?"
 msgstr "%d ÷ %d = ?"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "? ÷ %d = %d"
 msgstr "? ÷ %d = %d"
 
-#: src/mathcards.c:2627
+#: src/mathcards.c:2592
 #, c-format
 msgid "%d ÷ ? = %d"
 msgstr "%d ÷ ? = %d"
@@ -593,10 +366,10 @@ msgid ""
 "Suggestions, artwork, and code are all welcome!\n"
 "Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
 msgstr ""
-"TuxMath versie %s is vrije en openbronsoftware!\n"
-"U kunt helpen het nog beter te maken.\n"
-"Suggesties, vormgeving en code zijn steeds welkom!\n"
-"Bespreek TuxMath op tuxmath-devel@list.sourceforge.net"
+"Tha TuxMath tionndadh %s saor agus open-source!\n"
+"’S urrainn dhut ar cuideachadh gus piseach a thoirt air.\n"
+"Cuiridh sinn fàilte air molaidhean, obair-ealain agus còd!\n"
+"Deasbair TuxMath air tuxmath-devel@list.sourceforge.net"
 
 #: src/menu.c:352
 msgid ""
@@ -604,42 +377,43 @@ msgid ""
 "Press a key or click your mouse to start game.\n"
 "See README.txt for more information.\n"
 msgstr ""
-"Bewerk het bestand 'options' in je persoonlijke map om aanpassingen aan het "
-"spel te maken!\n"
-"Druk op een toets of klik met de muis om het spel te starten.\n"
-"Lees het bestand README.txt voor bijkomende informatie.\n"
+"Deasaidh am faidhle “options” da phasgan-dachaigh agad gus geama gnàthaichte "
+"a chruthachadh!\n"
+"Brùth air iuchair no briog leis an luchag agad gus geama a thòiseachadh.\n"
+"Faic README.txt airson barrachd fiosrachaidh.\n"
 
 #: src/menu.c:379
 msgid "How many kids are playing?"
-msgstr "Hoeveel kinderen spelen er?"
+msgstr "Co mheud clann a tha a’ cluich?"
 
 #: src/menu.c:380
 msgid "(Between 2 and 4 players)"
-msgstr "(Tussen 2 en 4 spelers)"
+msgstr "(Eadar 2 is 4 cluicheadairean)"
 
 #: src/menu.c:445
 msgid "The server is already running"
-msgstr "De server is reeds actief"
+msgstr "Tha am frithealaiche ’ga ruith mar-thà"
 
 #: src/menu.c:456
 msgid ""
 "The port is in use by another program on this computer, most likely another "
 "Tux Math server"
 msgstr ""
-"De poort wordt op deze computer door een ander programma gebruikt, "
-"hoogstwaarschijnlijk een andere server voor TuxMath."
+"Tha am port ’ga chleachdadh le prògram eile air a’ choimpiutair seo, tha "
+"sinn an dùil gur e frithealaiche Tux Math eile a th’ ann"
 
 #: src/menu.c:460
 msgid "Enter Server Name:"
-msgstr "Voer de naam van de server in:"
+msgstr "Cuir a-steach ainm an fhrithealaiche:"
 
 #: src/menu.c:460
 msgid "(limit 50 characters)"
-msgstr "(beperkt tot 50 lettertekens)"
+msgstr "(suas ri 50 caractar)"
 
 #: src/menu.c:474
 msgid "Click or press key to select server lesson file"
-msgstr "Klik of druk op een toets om een lesbestand op de server te selecteren"
+msgstr ""
+"Briog no brùth air iuchair gus faidhle leasain an fhrithealaiche a thaghadh"
 
 #: src/menu.c:501
 #, c-format
@@ -649,92 +423,91 @@ msgid ""
 "Selected Lesson:\n"
 "%s"
 msgstr ""
-"Servernaam:\n"
+"Ainm an fhrithealaiche:\n"
 "%s\n"
-"Geselecteerde les:\n"
+"An leasan a chaidh a thaghadh:\n"
 "%s"
 
 #: src/menu.c:524
 msgid ""
 "\n"
-"Sorry, this version built withour network support."
+"Sorry, this version built without network support."
 msgstr ""
 "\n"
-"Sorry, deze versie van het programma werd zonder netwerkondersteuning "
-"gebouwd."
+"Duilich ach chaidh an tionndadh seo a thogail gun taic dha lìonraidhean."
 
 #: src/menu.c:525 src/menu.c:603
 #, c-format
 msgid "Sorry, this version built without network support.\n"
-msgstr ""
-"Sorry, deze versie van het programma werd zonder netwerkondersteuning "
-"gebouwd.\n"
+msgstr "Duilich ach chaidh an tionndadh seo a thogail gun taic dha lìonraidhean.\n"
 
 #: src/menu.c:535
 msgid "The server is not running."
-msgstr "De server is niet actief."
+msgstr "Chan eil am frithealaiche a’ ruith."
 
 #: src/menu.c:541
 msgid "Cannot stop server until current game finishes."
-msgstr "Kan de server niet stoppen zolang het huidige spel niet afgesloten is."
+msgstr ""
+"Cha ghabh stad a chur air an fhrithealaiche mus bi an geama làithreach "
+"seachad."
 
 #: src/menu.c:545
 msgid "The server has been stopped."
-msgstr "De server werd gestopt."
+msgstr "Chaidh stad a chur air an fhrithealaiche."
 
 #: src/menu.c:562
 msgid "Sorry, could not connect to server."
-msgstr "Sorry, kon geen verbinding maken met de server."
+msgstr "Duilich ach cha b’ urrainn dhuinn ceangal ris an fhrithealaiche."
 
 #: src/menu.c:563
 msgid "Sorry, could not connect to server.\n"
-msgstr "Sorry, kon geen verbinding maken met de server.\n"
+msgstr "Duilich ach cha b’ urrainn dhuinn ceangal ris an fhrithealaiche.\n"
 
 #: src/menu.c:583
 msgid "Sorry, game already in progress"
-msgstr "Sorry, het spel is al aan de gang"
+msgstr "Duilich ach tha geama ’ga ruith mar-thà"
 
 #: src/menu.c:589
 msgid "Connection with server was lost"
-msgstr "De verbinding met de server ging verloren"
+msgstr "Chaidh an ceangal dhan fhrithealaiche air chall"
 
 #: src/menu.c:602
 msgid "Sorry, this version built without network support"
 msgstr ""
-"Sorry, deze versie van het programma werd zonder netwerkondersteuning gebouwd"
+"Duilich ach chaidh an tionndadh seo a thogail gun taic dha lìonraidhean."
 
 #: src/multiplayer.c:130
 msgid "Go!"
-msgstr "Kom op!"
+msgstr "Siuthad!"
 
 #: src/multiplayer.c:229
 #, c-format
 msgid "Then %s\n"
-msgstr "Dan %s\n"
+msgstr "Agus %s ’na dhèidh\n"
 
 #: src/multiplayer.c:304
 msgid "Who is playing first?"
-msgstr "Wie speelt eerst?"
+msgstr "Cò chluicheas an toiseach?"
 
 #: src/multiplayer.c:304 src/multiplayer.c:306
 msgid "Enter your name:"
-msgstr "Voer je naam in:"
+msgstr "Cuir d’ ainm a-steach:"
 
 #: src/multiplayer.c:306
 msgid "Who is playing next?"
-msgstr "Wie speelt nadien?"
+msgstr "Cò chluicheas an uairsin?"
 
 #: src/multiplayer.c:320
 msgid "How many rounds will you play?"
-msgstr "Hoeveel rondes ga je spelen?"
+msgstr "Co mheud cuairt?"
 
 #: src/multiplayer.c:320
 msgid "Enter a number"
-msgstr "Voer een getal in"
+msgstr "Cuir a-steach àireamh"
 
-#: src/server.c:486
+#: src/server.c:494
 msgid "Await player name"
-msgstr "Wacht op de naam van de speler"
+msgstr "A’ fuireach air ainm a’ chluicheadair"
 
 #: src/titlescreen.c:521
 msgid ""
@@ -743,320 +516,320 @@ msgid ""
 "Discuss the future of TuxMath at\n"
 "tuxmath-devel@lists.sourceforge.net"
 msgstr ""
-"Werk in uitvoering!\n"
-"Deze functionaliteit is nog niet klaar voor gebruik\n"
-"Praat over de toekomst van TuxMath op\n"
+"Tha sinn ag obair air fhathast!\n"
+"Chan eil am feart seo deiseil fhathast\n"
+"Deasbair air TuxMath air\n"
 "tuxmath-devel@lists.sourceforge.net"
 
 #: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
 #: data/missions/lessons/descr_lessons:3
 msgid "Number Typing"
-msgstr "Getallen typen"
+msgstr "Sgrìobhadh àireamhan"
 
 #: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
 msgid "Addition: 1 to 3"
-msgstr "Optellen: 1 tot 3"
+msgstr "Cur ris: 1 gu 3"
 
 #: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
 msgid "Addition: 0 to 5"
-msgstr "Optellen: 0 tot 5"
+msgstr "Cur ris: 0 gu 5"
 
 #: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
 msgid "Addition: Sums to 10"
-msgstr "Optellen: sommen tot 10"
+msgstr "Cur ris: Iomlain gu 10"
 
 #: data/missions/lessons/descr_lessons:10
 #: data/missions/lessons/descr_lessons:11
 msgid "Addition: Sums to 15"
-msgstr "Optellen: sommen tot 15"
+msgstr "Cur ris: Iomlain gu 15"
 
 #: data/missions/lessons/descr_lessons:12
 #: data/missions/lessons/descr_lessons:13
 msgid "Addition: Sums to 20"
-msgstr "Optellen: sommen tot 20"
+msgstr "Cur ris: Iomlain gu 20"
 
 #: data/missions/lessons/descr_lessons:14
 #: data/missions/lessons/descr_lessons:15
 msgid "Addition: Two Digit Numbers"
-msgstr "Optellen: getallen van twee cijfers"
+msgstr "Cur ris: Àireamhan le dà fhigear"
 
 #: data/missions/lessons/descr_lessons:16
 #: data/missions/lessons/descr_lessons:17
 msgid "Addition: Missing Numbers"
-msgstr "Optellen: ontbrekende getallen"
+msgstr "Cur ris: Àireamhan a dhìth"
 
 #: data/missions/lessons/descr_lessons:18
 #: data/missions/lessons/descr_lessons:19
 msgid "Subtraction: 0 to 10"
-msgstr "Aftrekken: 0 tot 10"
+msgstr "Toirt air falbh: 0 gu 10"
 
 #: data/missions/lessons/descr_lessons:20
 #: data/missions/lessons/descr_lessons:21
 msgid "Subtraction: 0 to 20"
-msgstr "Aftrekken: 0 tot 20"
+msgstr "Toirt air falbh: 0 gu 20"
 
 #: data/missions/lessons/descr_lessons:22
 #: data/missions/lessons/descr_lessons:23
 msgid "Subtraction: Two Digit Numbers"
-msgstr "Aftrekken: getallen van twee cijfers"
+msgstr "Toirt air falbh: Àireamhan le dà fhigear"
 
 #: data/missions/lessons/descr_lessons:24
 #: data/missions/lessons/descr_lessons:25
 msgid "Addition and Subtraction Review"
-msgstr "Optellen en aftrekken: herhaling"
+msgstr "Ath-sgrùdadh air cur ris is toirt air falbh"
 
 #: data/missions/lessons/descr_lessons:26
 #: data/missions/lessons/descr_lessons:27
 msgid "Multiplication: 0 to 3"
-msgstr "Vermenigvuldigen: 0 tot 3"
+msgstr "Iomadachadh: 0 gu 3"
 
 #: data/missions/lessons/descr_lessons:28
 #: data/missions/lessons/descr_lessons:29
 msgid "Multiples of 2"
-msgstr "Veelvouden van 2"
+msgstr "Iomadachadh le 2"
 
 #: data/missions/lessons/descr_lessons:30
 #: data/missions/lessons/descr_lessons:31
 msgid "Multiples of 3"
-msgstr "Veelvouden van 3"
+msgstr "Iomadachadh le 3"
 
 #: data/missions/lessons/descr_lessons:32
 #: data/missions/lessons/descr_lessons:33
 msgid "Multiples of 4"
-msgstr "Veelvouden van 4"
+msgstr "Iomadachadh le 4"
 
 #: data/missions/lessons/descr_lessons:34
 #: data/missions/lessons/descr_lessons:35
 msgid "Multiples of 5"
-msgstr "Veelvouden van 5"
+msgstr "Iomadachadh le 5"
 
 #: data/missions/lessons/descr_lessons:36
 #: data/missions/lessons/descr_lessons:37
 msgid "Multiplication: 0 to 5"
-msgstr "Vermenigvuldigen: 0 tot 5"
+msgstr "Iomadachadh: 0 gu 5"
 
 #: data/missions/lessons/descr_lessons:38
 #: data/missions/lessons/descr_lessons:39
 msgid "Multiples of 6"
-msgstr "Veelvouden van 6"
+msgstr "Iomadachadh le 6"
 
 #: data/missions/lessons/descr_lessons:40
 #: data/missions/lessons/descr_lessons:41
 msgid "Multiples of 7"
-msgstr "Veelvouden van 7"
+msgstr "Iomadachadh le 7"
 
 #: data/missions/lessons/descr_lessons:42
 #: data/missions/lessons/descr_lessons:43
 msgid "Multiplication: 0 to 7"
-msgstr "Vermenigvuldigen: 0 tot 7"
+msgstr "Iomadachadh: 0 gu 7"
 
 #: data/missions/lessons/descr_lessons:44
 #: data/missions/lessons/descr_lessons:45
 msgid "Multiples of 8"
-msgstr "Veelvouden van 8"
+msgstr "Iomadachadh le 8"
 
 #: data/missions/lessons/descr_lessons:46
 #: data/missions/lessons/descr_lessons:47
 msgid "Multiples of 9"
-msgstr "Veelvouden van 9"
+msgstr "Iomadachadh le 9"
 
 #: data/missions/lessons/descr_lessons:48
 #: data/missions/lessons/descr_lessons:49
 msgid "Multiples of 10"
-msgstr "Veelvouden van 10"
+msgstr "Iomadachadh le 10"
 
 #: data/missions/lessons/descr_lessons:50
 #: data/missions/lessons/descr_lessons:51
 msgid "Multiplication: 0 to 10"
-msgstr "Vermenigvuldigen: 0 tot 10"
+msgstr "Iomadachadh: 0 gu 10"
 
 #: data/missions/lessons/descr_lessons:52
 #: data/missions/lessons/descr_lessons:53
 msgid "Multiples of 11 and 12"
-msgstr "Veelvouden van 11 en 12"
+msgstr "Iomadachadh le 11 agus 12"
 
 #: data/missions/lessons/descr_lessons:54
 #: data/missions/lessons/descr_lessons:55
 msgid "Multiplication: 0 to 12"
-msgstr "Vermenigvuldigen: 0 tot 12"
+msgstr "Iomadachadh: 0 gu 12"
 
 #: data/missions/lessons/descr_lessons:56
 #: data/missions/lessons/descr_lessons:57
 msgid "Multiples of 13, 14, and 15"
-msgstr "Veelvouden van 13, 14 en 15"
+msgstr "Iomadachadh le 13, 14 agus 15"
 
 #: data/missions/lessons/descr_lessons:58
 #: data/missions/lessons/descr_lessons:59
 msgid "Multiplication: 0 to 15"
-msgstr "Vermenigvuldigen: 0 tot 15"
+msgstr "Iomadachadh: 0 gu 15"
 
 #: data/missions/lessons/descr_lessons:60
 #: data/missions/lessons/descr_lessons:61
 msgid "Multiplication: Missing Numbers"
-msgstr "Vermenigvuldigen: ontbrekende getallen"
+msgstr "Iomadachadh: Àireamhan a dhìth"
 
 #: data/missions/lessons/descr_lessons:62
 #: data/missions/lessons/descr_lessons:63
 #: data/missions/lessons/descr_lessons:64
 msgid "Division by 2"
-msgstr "Delen door 2"
+msgstr "Roinneadh le 2"
 
 #: data/missions/lessons/descr_lessons:65
 #: data/missions/lessons/descr_lessons:66
 #: data/missions/lessons/descr_lessons:67
 msgid "Division by 3"
-msgstr "Delen door 3"
+msgstr "Roinneadh le 3"
 
 #: data/missions/lessons/descr_lessons:68
 #: data/missions/lessons/descr_lessons:69
 #: data/missions/lessons/descr_lessons:70
 msgid "Division by 4"
-msgstr "Delen door 4"
+msgstr "Roinneadh le 4"
 
 #: data/missions/lessons/descr_lessons:71
 #: data/missions/lessons/descr_lessons:72
 #: data/missions/lessons/descr_lessons:73
 msgid "Division by 5"
-msgstr "Delen door 5"
+msgstr "Roinneadh le 5"
 
 #: data/missions/lessons/descr_lessons:74
 #: data/missions/lessons/descr_lessons:75
 #: data/missions/lessons/descr_lessons:76
 msgid "Division: 1 to 5"
-msgstr "Delen: 1 tot 5"
+msgstr "Roinneadh: 1 gu 5"
 
 #: data/missions/lessons/descr_lessons:77
 #: data/missions/lessons/descr_lessons:78
 #: data/missions/lessons/descr_lessons:79
 msgid "Division by 6"
-msgstr "Delen door 6"
+msgstr "Roinneadh le 6"
 
 #: data/missions/lessons/descr_lessons:80
 #: data/missions/lessons/descr_lessons:81
 #: data/missions/lessons/descr_lessons:82
 msgid "Division by 7"
-msgstr "Delen door 7"
+msgstr "Roinneadh le 7"
 
 #: data/missions/lessons/descr_lessons:83
 #: data/missions/lessons/descr_lessons:84
 #: data/missions/lessons/descr_lessons:85
 msgid "Division by 8"
-msgstr "Delen door 8"
+msgstr "Roinneadh le 8"
 
 #: data/missions/lessons/descr_lessons:86
 #: data/missions/lessons/descr_lessons:87
 #: data/missions/lessons/descr_lessons:88
 msgid "Division by 9"
-msgstr "Delen door 9"
+msgstr "Roinneadh le 9"
 
 #: data/missions/lessons/descr_lessons:89
 #: data/missions/lessons/descr_lessons:90
 #: data/missions/lessons/descr_lessons:91
 msgid "Division by 10"
-msgstr "Delen door 10"
+msgstr "Roinneadh le 10"
 
 #: data/missions/lessons/descr_lessons:92
 #: data/missions/lessons/descr_lessons:93
 #: data/missions/lessons/descr_lessons:94
 msgid "Division: 1 to 10"
-msgstr "Delen: 1 tot 10"
+msgstr "Roinneadh: 1 gu 10"
 
 #: data/missions/lessons/descr_lessons:95
 #: data/missions/lessons/descr_lessons:96
 #: data/missions/lessons/descr_lessons:97
 msgid "Division by 11 and 12"
-msgstr "Delen door 11 en 12"
+msgstr "Roinneadh le 11 agus 12"
 
 #: data/missions/lessons/descr_lessons:98
 #: data/missions/lessons/descr_lessons:99
 #: data/missions/lessons/descr_lessons:100
 msgid "Division: 1 to 12"
-msgstr "Delen: 1 tot 12"
+msgstr "Roinneadh: 1 gu 12"
 
 #: data/missions/lessons/descr_lessons:101
 #: data/missions/lessons/descr_lessons:102
 msgid "Division by 13, 14, and 15"
-msgstr "Delen door 13, 14 en 15"
+msgstr "Roinneadh le 13, 14 agus 15"
 
 #: data/missions/lessons/descr_lessons:103
 #: data/missions/lessons/descr_lessons:104
 msgid "Division: 1 to 15"
-msgstr "Delen: 1 tot 15"
+msgstr "Roinneadh: 1 gu 15"
 
 #: data/missions/lessons/descr_lessons:105
 #: data/missions/lessons/descr_lessons:106
 #: data/missions/lessons/descr_lessons:107
 msgid "Multiplication and Division Review"
-msgstr "Vermenigvuldigen en delen: herhaling"
+msgstr "Ath-sgrùdadh air iomadachadh is roinneadh"
 
 #: data/missions/lessons/descr_lessons:108
 #: data/missions/lessons/descr_lessons:109
 #: data/missions/lessons/descr_lessons:110
 msgid "Typing Negative Numbers"
-msgstr "Negatieve getallen typen"
+msgstr "Sgrìobhadh àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:111
 #: data/missions/lessons/descr_lessons:112
 #: data/missions/lessons/descr_lessons:113
 msgid "Subtraction: Negative Answers"
-msgstr "Aftrekken: negatieve uitkomsten"
+msgstr "Toirt air falbh: freagairtean àicheil"
 
 #: data/missions/lessons/descr_lessons:114
 #: data/missions/lessons/descr_lessons:115
 #: data/missions/lessons/descr_lessons:116
 msgid "Adding Negatives to Positives"
-msgstr "Negatieve getallen bij positieve getallen optellen"
+msgstr "Cur àireamhan àicheil ri àireamhan dearbha"
 
 #: data/missions/lessons/descr_lessons:117
 #: data/missions/lessons/descr_lessons:118
 #: data/missions/lessons/descr_lessons:119
 msgid "Adding Positives to Negatives"
-msgstr "Positieve getallen bij negatieve getallen optellen"
+msgstr "Cur àireamhan dearbha ri àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:120
 #: data/missions/lessons/descr_lessons:121
 #: data/missions/lessons/descr_lessons:122
 msgid "Subtracting Negatives From Positives"
-msgstr "Negatieve getallen van positieve getallen aftrekken"
+msgstr "Toirt air falbh àireamhan àicheil o àireamhan dearbha"
 
 #: data/missions/lessons/descr_lessons:123
 #: data/missions/lessons/descr_lessons:124
 msgid "Subtracting Positives From Negatives"
-msgstr "Positieve getallen van negatieve getallen aftrekken"
+msgstr "Toirt air falbh àireamhan dearbha o àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:125
 #: data/missions/lessons/descr_lessons:126
 msgid "Adding Negatives to Negatives"
-msgstr "Negatieve getallen bij negatieve getallen optellen"
+msgstr "Cur àireamhan àicheil ri àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:127
 #: data/missions/lessons/descr_lessons:128
 msgid "Subtracting Negatives From Negatives"
-msgstr "Negatieve getallen van negatieve getallen aftrekken"
+msgstr "Toirt air falbh àireamhan àicheil o àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:129
 #: data/missions/lessons/descr_lessons:130
 msgid "Negative and Positive Numbers Review"
-msgstr "Negatieve en positieve getallen: herhaling"
+msgstr "Ath-sgrùdadh air àireamhan àicheil is dearbha"
 
 #: data/missions/lessons/descr_lessons:131
 #: data/missions/lessons/descr_lessons:132
 msgid "Multiplication and Division of Negatives"
-msgstr "Vermenigvuldigen en delen met negatieve getallen"
+msgstr "Iomadachadh is roinneadh le àireamhan àicheil"
 
 #: data/missions/lessons/descr_lessons:133
 #: data/missions/lessons/descr_lessons:134
 msgid "Multiplication of Positives and Negatives"
-msgstr "Vermenigvuldigen van positieve en negatieve getallen"
+msgstr "Iomadachadh le àireamhan dearbha is àicheil"
 
 #: data/missions/lessons/descr_lessons:135
 #: data/missions/lessons/descr_lessons:136
 msgid "Division of Positives and Negatives"
-msgstr "Delen van positieve en negatieve getallen"
+msgstr "Roinneadh le àireamhan dearbha is àicheil"
 
 #: data/menus/menu_strings:3
 msgid "Credits"
-msgstr "Aftiteling"
+msgstr "Urram"
 
 #: data/menus/menu_strings:4
 msgid "Demo"
@@ -1064,229 +837,184 @@ msgstr "Demo"
 
 #: data/menus/menu_strings:5
 msgid "Elimination"
-msgstr "Eliminatie"
+msgstr "Cur às"
 
 #: data/menus/menu_strings:6
 msgid "Factoroids"
-msgstr "Factoroïden"
+msgstr "Factaraidean"
 
 #: data/menus/menu_strings:8
 msgid "Help"
-msgstr "Hulp"
+msgstr "Cobhair"
 
 #: data/menus/menu_strings:9
 msgid "Join Game"
-msgstr "Meedoen met het spel"
+msgstr "Gabh pàirt sa gheama"
 
 #: data/menus/menu_strings:10
 msgid "Main Menu"
-msgstr "Hoofdmenu"
+msgstr "Am prìomh chlàr-taice"
 
 #: data/menus/menu_strings:11
 msgid "Math Command Fleet Missions"
-msgstr "Missies van de commandovloot wiskunde"
+msgstr "Gnìomhan cabhlaich nan gaisgeach matamataig"
 
 #: data/menus/menu_strings:12
 msgid "Math Command Training Academy"
-msgstr "Oefenschool van het wiskundecommando"
+msgstr "Taigh-oilein nan gaisgeach matamataig"
 
 #: data/menus/menu_strings:13
 msgid "More Options"
-msgstr "Meer opties"
+msgstr "Barrachd roghainnean"
 
 #: data/menus/menu_strings:14
 msgid "Network Game"
-msgstr "Netwerkspel"
+msgstr "Geama lìonraidh"
 
 #: data/menus/menu_strings:15
 msgid "Play Alone"
-msgstr "Alleen spelen"
+msgstr "Cluich ’nad aonar"
 
 #: data/menus/menu_strings:16
 msgid "Play Arcade Game"
-msgstr "Een Arcadespel spelen"
+msgstr "Cluich faoin-chleas"
 
 #: data/menus/menu_strings:17
 msgid "Play Custom Game"
-msgstr "Speel een aangepast spel"
+msgstr "Cluich geama gnàthaichte"
 
 #: data/menus/menu_strings:18
 msgid "Play With Friends"
-msgstr "Met vrienden spelen"
+msgstr "Cluich còmhla ri do charaidean"
 
 #: data/menus/menu_strings:19
 msgid "Project Info"
-msgstr "Projectinfo"
+msgstr "Fiosrachadh mun phròiseact"
 
 #: data/menus/menu_strings:20
 msgid "Quit"
-msgstr "Afsluiten"
+msgstr "Fàg an-seo"
 
 #: data/menus/menu_strings:22
 msgid "Run Server"
-msgstr "De server opstarten"
+msgstr "Ruith frithealaiche"
 
 #: data/menus/menu_strings:23
 msgid "Score Sweep"
-msgstr "Scores wissen"
+msgstr "Gabhail nan sgòr"
 
 #: data/menus/menu_strings:26
 msgid "Stop Server"
-msgstr "De server stoppen"
+msgstr "Cuir stad air an fhrithealaiche"
 
 #: data/menus/menu_strings:27
 msgid "Additional options"
-msgstr "Meer opties"
+msgstr "Barrachd roghainnean"
 
 #: data/menus/menu_strings:28
 msgid "Complete missions for the Math Command Fleet"
-msgstr "Voer missies uit voor de commandovloot wiskunde"
+msgstr "Coilean gnìomhan às leth cabhlach nan gaisgeach matamataig"
 
 #: data/menus/menu_strings:29
 msgid "Customize the game you play"
-msgstr "Pas het spel dat je speelt aan"
+msgstr "Gnàthaich an geama a chluicheas tu"
 
 #: data/menus/menu_strings:30
 msgid "Earn Gold Stars as you build your math skills with each mission"
 msgstr ""
-"Win gouden sterren terwijl je met elke missie je rekenvaardigheden verbetert"
+"Buannaich rionnagan òir fhad ’s a chuireas tu ris na sgilean matamataig agad "
+"le gach gnìomha"
 
 #: data/menus/menu_strings:31
 msgid "Easier"
-msgstr "Makkelijker"
+msgstr "Nas fhasa"
 
 #: data/menus/menu_strings:32
 msgid "Easiest"
-msgstr "Makkelijkst"
+msgstr "As fhasa"
 
 #: data/menus/menu_strings:33
 msgid "Easy"
-msgstr "Makkelijk"
+msgstr "Furasta"
 
 #: data/menus/menu_strings:34
 msgid "Exit to your desktop"
-msgstr "Afsluiten en naar het bureaublad teruggaan"
+msgstr "Fàg dhan deasg agad"
 
 #: data/menus/menu_strings:35
 msgid "Factorize numbers with your laser beam!"
-msgstr "Ontbind getallen in factoren met je laserstraal!"
+msgstr "Dèan factaran dhe dh’àireamhan leis a’ ghath leusair agad!"
 
 #: data/menus/menu_strings:36
 msgid "Hard"
-msgstr "Moeilijk"
+msgstr "Doirbh"
 
 #: data/menus/menu_strings:37
 msgid "Hardest"
-msgstr "Moeilijkst"
+msgstr "As dorra"
 
 #: data/menus/menu_strings:38
 msgid "High Scores"
-msgstr "Topscores"
+msgstr "Sgòran àrda"
 
 #: data/menus/menu_strings:39
 msgid "Join a game on a server running on your network"
-msgstr "Doe mee met een spel op een server op je netwerk"
+msgstr ""
+"Gabh pàirt ann an geama air frithealaiche a tha a’ ruith air an lìonra agad"
 
 #: data/menus/menu_strings:40
 msgid "Make the Hall of Fame by beating the highest score"
-msgstr "Treed toe tot de eregalerij door de topscores te verbeteren"
+msgstr "Buannaich àite air clàr nan cuiridhean le sgòr àrd"
 
 #: data/menus/menu_strings:41
 msgid "Moderate"
-msgstr "Middelmatig"
+msgstr "Meadhanach"
 
 #: data/menus/menu_strings:42
 msgid "Play a game with your friends on a local network"
-msgstr "Speel samen met je vrienden een spel op het lokale netwerk"
+msgstr "Cluich geama le do charaidean air lìonra ionadail"
 
 #: data/menus/menu_strings:43
 msgid "Play and learn on your own"
-msgstr "In je eentje spelen en leren"
+msgstr "Cluich is ionnsaich leat fhèin"
 
 #: data/menus/menu_strings:44
 msgid "Players with the lowest scores are eliminated every round"
-msgstr "Elke ronde wordt de speler met de laagste score uitgeschakeld"
+msgstr ""
+"Thèid na cluicheadairean leis an sgòr as ìsle a thoirt air falbh gach cuairt"
 
 #: data/menus/menu_strings:45
 msgid "Return to the main menu"
-msgstr "Terug naar het hoofdmenu"
+msgstr "Till dhan phrìomh chlàr-taice"
 
 #: data/menus/menu_strings:46
 msgid "Run a demo of the game"
-msgstr "Bekijk een demo van het spel"
+msgstr "Ruith demo dhen gheama"
 
 #: data/menus/menu_strings:47
 msgid "See how to play the game"
-msgstr "Kijk hoe je het spel moet spelen"
+msgstr "Seall mar a chluicheas tu an geama"
 
 #: data/menus/menu_strings:48
 msgid "See the credits for the game"
-msgstr "Bekijk wie meehielp het spel te maken"
+msgstr "Seall urram airson a’ gheama"
 
 #: data/menus/menu_strings:49
 msgid "See the project info"
-msgstr "Bekijk de projectinfo"
+msgstr "Seall fiosrachadh mun phròiseact"
 
 #: data/menus/menu_strings:50
 msgid "Start a server for a network game"
-msgstr "Start een server voor een netwerkspel"
+msgstr "Tòisich frithealaiche airson geama lìonraidh"
 
 #: data/menus/menu_strings:51
 msgid "Stop a server running on your machine"
-msgstr "Stop een server die actief is op je computer"
+msgstr "Cuir stad air frithealaiche a tha a’ ruith air an uidheam agad"
 
 #: data/menus/menu_strings:52
 msgid "Take turns in a game with your friends on a single computer"
-msgstr "Speel met je vrienden elk om beurt op een autonome computer"
+msgstr "Cluich an geama le do charaidean neach mu seach air an aon choimpiutair"
 
 #: data/menus/menu_strings:53
 msgid "The person with the highest score wins"
-msgstr "De persoon met de hoogste score wint"
-
-#, fuzzy
-#~ msgid "Play an arcade style game."
-#~ msgstr "Speel Arcade spel"
-
-#, fuzzy
-#~ msgid "Tuxmath is free and open-source!\n"
-#~ msgstr "TuxMath is gratis en open-source!"
-
-#, fuzzy
-#~ msgid "You can help make it better.\n"
-#~ msgstr "Je kan helpen met het verbeteren door problemen te melden,"
-
-#, fuzzy
-#~ msgid "Press a key or click your mouse to start game.\n"
-#~ msgstr "Druk op een toets of de muis om het spel te starten."
-
-#, fuzzy
-#~ msgid "See README.txt for more information.\n"
-#~ msgstr "Lees README.txt voor meer informatie"
-
-#, fuzzy
-#~ msgid "Work In Progress!\n"
-#~ msgstr "Werk in uitvoering"
-
-#, fuzzy
-#~ msgid ""
-#~ "This feature is not ready yet\n"
-#~ " "
-#~ msgstr "Deze functie is nog niet beschikbaar"
-
-#, fuzzy
-#~ msgid ""
-#~ "Discuss the future of TuxMath at\n"
-#~ " "
-#~ msgstr "Praat over de toekomst van TuxMath op"
-
-#~ msgid "tuxmath-devel@lists.sourceforge.net"
-#~ msgstr "tuxmath-devel@lists.sourceforge.net"
-
-#~ msgid "to create customized game!"
-#~ msgstr "voor een eigen spel!"
-
-#~ msgid "suggesting improvements, or adding code."
-#~ msgstr "suggesties verbeteringen, of code toevoegen."
-
-#~ msgid "Main menu"
-#~ msgstr "Hoofdmenu"
+msgstr "Buannaichidh an neach leis an sgòr as àirde"
