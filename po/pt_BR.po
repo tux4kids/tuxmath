@@ -5,7 +5,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
 "Project-Id-Version: tuxmath\n"
-"Language: pt-br\n"
+"Language: pt_br\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
 
 #: src/campaign.c:52
 msgid "Congratulations! You win!"
