@@ -104,6 +104,7 @@ typedef struct game_option_type {
     int fps_limit;
     int w_width;
     int w_height;
+    int custom_res;
 } game_option_type;
 
 
@@ -209,6 +210,7 @@ int Opts_KeepScore(void);
 int Opts_FPSLimit(void);
 int Opts_WindowWidth(void);
 int Opts_WindowHeight(void);
+int Opts_CustomRes(void);
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */

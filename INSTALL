@@ -1,1 +1,44 @@
-For now, see doc/INSTALL for this information.
+# TuxMath 2.0.4 Installation Guide
+
+**Release Date:** 25 Nov 2011  
+**Website:** [tux4kids.alioth.debian.org](http://tux4kids.alioth.debian.org)  
+**Developer Contact:** tux4kids-tuxtype-dev@lists.alioth.debian.org
+
+## Overview
+TuxMath, also known as "Tux, of Math Command," is an educational math tutor for children. This guide provides installation instructions for Windows, macOS, and Ubuntu.
+
+## Windows Installation
+
+1. **Download Installer:**
+   - Download the TuxMath installer for Windows from the [official website](http://tux4kids.alioth.debian.org).
+
+2. **Run Installer:**
+   - Double-click the downloaded `.exe` file to run the installer.
+   - Follow the on-screen instructions to complete the installation.
+
+3. **Launch TuxMath:**
+   - After installation, you can launch TuxMath from the Start Menu or the desktop shortcut.
+
+## macOS Installation
+
+1. **Download Installer:**
+   - Download the TuxMath installer for macOS from the [official website](http://tux4kids.alioth.debian.org).
+
+2. **Install Application:**
+   - Open the downloaded `.dmg` file.
+   - Drag the TuxMath application to the Applications folder.
+
+3. **Launch TuxMath:**
+   - Open the Applications folder and double-click TuxMath to launch it.
+
+## Ubuntu Installation
+
+### Option 1: Using the Package Manager
+
+1. **Install TuxMath:**
+   ```sh
+   sudo apt update
+   sudo apt install tuxmath
+    ```
+2. **Launch TuxMath:**
+  - You can launch TuxMath from the application menu
