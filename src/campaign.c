@@ -1,4 +1,4 @@
-/* 
+/*
    campaign.c - handle TuxMath's 'Mission mode'
 
    Copyright (C) 2008, 2009, 2010, 2011.
@@ -23,9 +23,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 */
 
-
-
-
 #include "campaign.h"
 #include "tuxmath.h"
 #include "credits.h"
@@ -35,14 +32,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "mathcards.h"
 #include "options.h"
 
-
-void briefPlayer(int stage); //show text introducing the given stage
+void briefPlayer(int stage); // show text introducing the given stage
 void readStageSettings(int stage);
 void readRoundSettings(int stage, int round);
 void showGameOver();
 void showGameWon();
 
-char* stagenames[NUM_STAGES] = {"cadet", "scout", "ranger", "ace", "commando"};
+char *stagenames[NUM_STAGES] = {"cadet", "scout", "ranger", "ace", "commando"};
 
 int start_campaign()
 {
@@ -52,7 +48,6 @@ int start_campaign()
     char endtext[2][MAX_LINEWIDTH] = {N_("Congratulations! You win!"), " "};
     fprintf(stderr, "Entering start_campaign()\n");
 
-
     for (i = 0; i < NUM_STAGES; ++i)
     {
         fprintf(stderr, "Stage %s\n", stagenames[i]);
@@ -61,8 +56,8 @@ int start_campaign()
         {
             fprintf(stderr, "Round %d\n", j);
 
-            //read in settings 
-            read_named_config_file(local_game, "campaign/campaign");    
+            // read in settings
+            read_named_config_file(local_game, "campaign/campaign");
             readStageSettings(i);
             readRoundSettings(i, j);
             Opts_SetKeepScore(0);
@@ -75,11 +70,11 @@ int start_campaign()
                 MC_PrintMathOptions(local_game, stdout, 0);
             }
 
-            //play!
+            // play!
             fprintf(stderr, "Starting game...\n");
             gameresult = comets_game(local_game);
 
-            //move on if we've won, game over if not
+            // move on if we've won, game over if not
             if (gameresult == GAME_OVER_WON)
                 ;
             else if (gameresult == GAME_OVER_LOST)
@@ -98,7 +93,7 @@ int start_campaign()
                 DEBUGMSG(debug_game, "hit escape\n");
                 endcampaign = 1;
             }
-#endif      
+#endif
             else
             {
                 fprintf(stderr, "gameresult = %d\n", gameresult);
@@ -109,7 +104,7 @@ int start_campaign()
                 return 0;
         }
 
-        //if we've beaten the last stage, there is no bonus, skip to win sequence
+        // if we've beaten the last stage, there is no bonus, skip to win sequence
         if (i == NUM_STAGES - 1)
         {
             showGameWon();
@@ -133,82 +128,75 @@ void briefPlayer(int stage)
        string. This is a consequence of the linewrapping code.  TEH Feb
        2009. */
 
-    const char briefings[NUM_STAGES][MAX_LINES][MAX_LINEWIDTH] = 
-    {
-        //cadet
+    const char briefings[NUM_STAGES][MAX_LINES][MAX_LINEWIDTH] =
         {
-            {N_("-[Esc] to skip")},
-            {N_("Mission One: Careful Cadet")},
-            {"--------------------------"},
-            {N_("I'm so glad you've come!")},
-            {" "},
-            {N_("The penguins need your help! Comets are falling from the sky, and are melting the penguins' igloos. To save their homes, we need you to find the secret code that will zap each comet.")},
-            {" "},
-            {N_("Do your best!")},
-            {""}
-        },
-        //scout
-        {
-            {N_("-[Esc] to skip")},
-            {N_("Mission Two: Smart Scout")},
-            {"------------------------"},
-            {N_("Great job! Since you saved the penguins' homes, we are promoting you to Scout. Scouts are good for keeping an eye out for trouble...")},
-            {" "},
-            {N_("...like what's happening right now! The TakeAways have come, and they're sending new, trickier comets against the penguins!")},
-            {N_("But you can save them!")},
-            {""}
-        },
-        //ranger
-        {
-            {"-[Esc] to skip"},
-            {N_("Mission Three: Royal Ranger")},
-            {"---------------------------"},
-            {N_("You've done it again! The Penguin Emperor has chosen you to join his team of Rangers that help protect the city.  We're sending you there now...")},
-            {" "},
-            {N_("...oh no! Now the Emperor himself is under attack, from new types of comets: these problems are multiplying! To fight these, you need great skill. We think you can do it. Join the Rangers and help save the city!")},
-            {""}
-        },
-        //ace
-        {
-            {N_("-[Esc] to skip")},
-            {N_("Mission Four: Imperial Ace")},
-            {"--------------------------"},
-            {N_("You did it! The Emperor wants to thank you in person. We are taking you to his ice palace for a great honor: you will become the Imperial Ace!")},
-            {" "},
-            {N_("But right in the middle of the ceremony, a new attack from the land of Division starts!")},
-            {N_("Now is no time for resting; the city needs your help!")},
-            {""}
-        },
-        //commando
-        {
-            {N_("-[Esc] to skip")},
-            {N_("Final Mission: Computing Commando")},
-            {"---------------------------------"},
-            {N_("Penguin scientists have learned that all these attacks are coming from a secret base, and they need you to go fight the final battle. They also give you this clue: first do multiplication and division, and then do addition and subtraction.")},
-            {N_("I hope that hint helps!")},
-            {" "},
-            {N_("This is it! You can stop these attacks forever, Commando!")},
-            {""}
-        },
-    };
-    char* sprites[] = {
+            // cadet
+            {
+                {N_("-[Esc] to skip")},
+                {N_("Mission One: Careful Cadet")},
+                {"--------------------------"},
+                {N_("I'm so glad you've come!")},
+                {" "},
+                {N_("The penguins need your help! Comets are falling from the sky, and are melting the penguins' igloos. To save their homes, we need you to find the secret code that will zap each comet.")},
+                {" "},
+                {N_("Do your best!")},
+                {""}},
+            // scout
+            {
+                {N_("-[Esc] to skip")},
+                {N_("Mission Two: Smart Scout")},
+                {"------------------------"},
+                {N_("Great job! Since you saved the penguins' homes, we are promoting you to Scout. Scouts are good for keeping an eye out for trouble...")},
+                {" "},
+                {N_("...like what's happening right now! The TakeAways have come, and they're sending new, trickier comets against the penguins!")},
+                {N_("But you can save them!")},
+                {""}},
+            // ranger
+            {
+                {"-[Esc] to skip"},
+                {N_("Mission Three: Royal Ranger")},
+                {"---------------------------"},
+                {N_("You've done it again! The Penguin Emperor has chosen you to join his team of Rangers that help protect the city.  We're sending you there now...")},
+                {" "},
+                {N_("...oh no! Now the Emperor himself is under attack, from new types of comets: these problems are multiplying! To fight these, you need great skill. We think you can do it. Join the Rangers and help save the city!")},
+                {""}},
+            // ace
+            {
+                {N_("-[Esc] to skip")},
+                {N_("Mission Four: Imperial Ace")},
+                {"--------------------------"},
+                {N_("You did it! The Emperor wants to thank you in person. We are taking you to his ice palace for a great honor: you will become the Imperial Ace!")},
+                {" "},
+                {N_("But right in the middle of the ceremony, a new attack from the land of Division starts!")},
+                {N_("Now is no time for resting; the city needs your help!")},
+                {""}},
+            // commando
+            {
+                {N_("-[Esc] to skip")},
+                {N_("Final Mission: Computing Commando")},
+                {"---------------------------------"},
+                {N_("Penguin scientists have learned that all these attacks are coming from a secret base, and they need you to go fight the final battle. They also give you this clue: first do multiplication and division, and then do addition and subtraction.")},
+                {N_("I hope that hint helps!")},
+                {" "},
+                {N_("This is it! You can stop these attacks forever, Commando!")},
+                {""}},
+        };
+    char *sprites[] = {
         "sprites/tux_helmet_yellow.svg",
         "sprites/tux_helmet_green.svg",
         "sprites/tux_helmet_blue.svg",
         "sprites/tux_helmet_red.svg",
-        "sprites/tux_helmet_black.svg"
-    };
+        "sprites/tux_helmet_black.svg"};
 
-    SDL_Surface* icon = NULL;
+    char wrapped_lines[MAX_LINES][MAX_LINEWIDTH];
+
+    SDL_Surface *icon = NULL;
     SDL_Rect textarea = screen->clip_rect;
-    SDL_Surface* loadedsprite = T4K_LoadScaledImage(
-            sprites[stage], IMG_REGULAR|IMG_NOT_REQUIRED, 
-            screen->h / 4, screen->h / 4
-            );
+    SDL_Surface *loadedsprite = T4K_LoadScaledImage(
+        sprites[stage], IMG_REGULAR | IMG_NOT_REQUIRED,
+        screen->h / 4, screen->h / 4);
 
-
-
-    if (loadedsprite) //if using an image, make sure the text doesn't hit it
+    if (loadedsprite) // if using an image, make sure the text doesn't hit it
     {
         icon = loadedsprite;
         textarea.x = icon->w;
@@ -216,20 +204,21 @@ void briefPlayer(int stage)
         textarea.w = screen->w - icon->w;
         textarea.h = screen->h - icon->h;
     }
-    
-    char tts_text[1000];int i;
-    tts_text[0] = '\0';
-    for(i = 0;i < MAX_LINES;i++)
-    {
-		strcat(tts_text,briefings[stage][i]);
-	}
-	T4K_Tts_say(DEFAULT_VALUE,DEFAULT_VALUE,INTERRUPT,"%s",tts_text);
 
-    //background is dark blue with a black text area
+    char tts_text[1000];
+    int i;
+    tts_text[0] = '\0';
+    for (i = 0; i < MAX_LINES; i++)
+    {
+        strcat(tts_text, briefings[stage][i]);
+    }
+    T4K_Tts_say(DEFAULT_VALUE, DEFAULT_VALUE, INTERRUPT, "%s", tts_text);
+
+    // background is dark blue with a black text area
     SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 32));
     SDL_FillRect(screen, &textarea, 0);
 
-    //show this stage's text
+    // show this stage's text
     DEBUGMSG(debug_game, "Briefing\n");
 
     SDL_BlitSurface(icon, NULL, screen, NULL);
@@ -247,7 +236,7 @@ void briefPlayer(int stage)
 void readStageSettings(int stage)
 {
     char fn[PATH_MAX];
-    snprintf(fn,PATH_MAX, "campaign/%s/%s", stagenames[stage], stagenames[stage]);
+    snprintf(fn, PATH_MAX, "campaign/%s/%s", stagenames[stage], stagenames[stage]);
     read_named_config_file(local_game, fn);
 }
 
@@ -257,13 +246,14 @@ void readRoundSettings(int stage, int round)
     if (round == -1)
         snprintf(fn, PATH_MAX, "campaign/%s/bonus", stagenames[stage]);
     else
-        snprintf(fn,PATH_MAX, "campaign/%s/round%d", stagenames[stage], round);
+        snprintf(fn, PATH_MAX, "campaign/%s/round%d", stagenames[stage], round);
     read_named_config_file(local_game, fn);
 }
 
 void showGameOver()
 {
     const char text[2][MAX_LINEWIDTH] = {N_("Sorry, try again!"), ""};
+    char wrapped_lines[MAX_LINES][MAX_LINEWIDTH];
     T4K_LineWrapList(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
     scroll_text(wrapped_lines, screen->clip_rect, 3);
 }
@@ -271,6 +261,7 @@ void showGameOver()
 void showGameWon()
 {
     const char text[2][MAX_LINEWIDTH] = {N_("Mission accomplished. The galaxy is safe!"), ""};
+    char wrapped_lines[MAX_LINES][MAX_LINEWIDTH];
     T4K_LineWrapList(text, wrapped_lines, 40, MAX_LINES, MAX_LINEWIDTH);
     scroll_text(wrapped_lines, screen->clip_rect, 3);
 }

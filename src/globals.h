@@ -26,18 +26,16 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
-
-
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-// Translation stuff (now works for Mac and Win too!): 
+// Translation stuff (now works for Mac and Win too!):
 #include "config.h"
 #include "gettext.h"
 #include <locale.h>
-#define _(String) gettext (String)
+#define _(String) gettext(String)
 #define gettext_noop(String) String
-#define N_(String) gettext_noop (String)
+#define N_(String) gettext_noop(String)
 
 #ifdef WIN32
 #define TUXLOCALE "./locale"
@@ -52,7 +50,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
  * if not supplied by platform:
  */
 /* Somehow, configure defines HAVE_ALPHASORT and
- * HAVE_SCANDIR for mingw32 even though they are 
+ * HAVE_SCANDIR for mingw32 even though they are
  * not available for that build, so use our own:
  */
 #if !defined HAVE_ALPHASORT || defined BUILD_MINGW32
@@ -63,7 +61,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #endif
 
 /* debug data (now declared in libt4k_common */
-//extern int debug_status;
+// extern int debug_status;
 
 /* bitmasks for debugging options (declared in options.c) */
 extern const int debug_setup;
@@ -80,8 +78,8 @@ extern const int debug_text_and_intl;
 extern const int debug_multiplayer;
 
 /* debug macros (now in libt4k_comon) */
-//#define DEBUGCODE(mask) if((mask) & debug_status)
-//#define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
+// #define DEBUGCODE(mask) if((mask) & debug_status)
+// #define DEBUGMSG(mask, ...) if((mask) & debug_status){ fprintf(stderr, __VA_ARGS__); fflush(stderr); }
 
 /* Maximum length of file path: */
 #define PATH_MAX 4096
@@ -115,7 +113,7 @@ extern const int debug_multiplayer;
 #define DEFAULT_MAX_COMETS 10
 #define DEFAULT_USE_POWERUP_COMETS 1
 #define DEFAULT_POWERUP_FREQ 10
-#define DEFAULT_SAVE_SUMMARY 1        
+#define DEFAULT_SAVE_SUMMARY 1
 #define DEFAULT_SOUND_HW_AVAILABLE 1
 #define DEFAULT_USE_IGLOOS 1
 #define DEFAULT_USE_FEEDBACK 0
@@ -130,8 +128,8 @@ extern const int debug_multiplayer;
 #define DEFAULT_CUSTOM_RES 0
 
 /* These values are hard-coded and used 'as is' by the program */
-/* (i.e. these behaviors require recompilation to change)   */ 
-#define DEFAULT_NUM_CITIES 4   /* MUST BE AN EVEN NUMBER! */
+/* (i.e. these behaviors require recompilation to change)   */
+#define DEFAULT_NUM_CITIES 4 /* MUST BE AN EVEN NUMBER! */
 #define DEFAULT_MAX_CITY_COLORS 4
 
 #define MINIMUM_SPEED 0.8
@@ -153,12 +151,13 @@ extern const int debug_multiplayer;
 #define HIGH_SCORES_SAVED 10
 #define HIGH_SCORE_NAME_LENGTH 32
 
-#define REG_RGBA 16,16,96,96
-#define SEL_RGBA 16,16,128,128
+#define REG_RGBA 16, 16, 96, 96
+#define SEL_RGBA 16, 16, 128, 128
 
 #define PIXEL_BITS 32
 
-enum {
+enum
+{
     CADET_HIGH_SCORE,
     SCOUT_HIGH_SCORE,
     RANGER_HIGH_SCORE,
@@ -167,15 +166,14 @@ enum {
     NUM_MATH_COMMAND_LEVELS
 };
 
-enum {
+enum
+{
     FACTORS_HIGH_SCORE = NUM_MATH_COMMAND_LEVELS,
     FRACTIONS_HIGH_SCORE,
     NUM_HIGH_SCORE_LEVELS
 };
 
-
-
-//Declared in t4k_global.h
+// Declared in t4k_global.h
 extern int text_to_speech_status;
 
 #define NAME_BUF_SIZE 200
@@ -183,11 +181,11 @@ extern int text_to_speech_status;
 /* data for 'Training Academy' lessons: */
 extern char **lesson_list_titles;
 extern char **lesson_list_filenames;
-extern int* lesson_list_goldstars;
+extern int *lesson_list_goldstars;
 extern int num_lessons;
 
-SDL_Thread *tts_announcer_thread;
+extern SDL_Thread *tts_announcer_thread;
 
 #endif
 
-//int text_to_speech_global_switch = 1;
+// int text_to_speech_global_switch = 1;
