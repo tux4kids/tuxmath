@@ -1,4 +1,4 @@
-/* 
+/*
    options.c
 
    The options screen loop.
@@ -108,7 +108,7 @@ static int int_to_bool(int i);
 /********************************************************************/
 
 int Opts_Initialize(void)
-{   
+{
     int i;
     /* Only allocate game_options if not already done: */
     if(!game_options)
@@ -179,7 +179,7 @@ int Opts_Initialize(void)
 
     DEBUGCODE(debug_options)
         print_game_options(stdout, 0);
-        
+
 
 
     return 1;
@@ -247,7 +247,7 @@ void Opts_SetGlobalOpt(unsigned int index, int val)
         }
         if (index == USE_TTS)
 			text_to_speech_status = val;
-        
+
         global_options->iopts[index] = val;
     }
     else
@@ -657,6 +657,12 @@ void Opts_SetWindowHeight(int val)
     {
         win_res_y = val;
     }
+}
+
+
+void Opts_SetTTSMode(int enabled)
+{
+    Opts_SetGlobalOpt(USE_TTS, enabled);
 }
 
 
@@ -1128,14 +1134,14 @@ int int_to_bool(int i)
 //static int find_and_set_option(const char* name, int val)
 //{
 //  int index = -1;
-//  
+//
 //  if ((index = MC_MapTextToIndex(name)) != -1) //is it a math opt?
 //    MC_SetOpt(index, val);
 //  else if ((index = Opts_MapTextToIndex(name)) != -1) //is it a global opt?
 //    Opts_SetGlobalOpt(index, val);
 //  else //no? oh well.
 //    return 0;
-//    
+//
 //  return 1;
 //}
 
@@ -1151,7 +1157,7 @@ void print_game_options(FILE* fp, int verbose)
 
     if(verbose)
     {
-        fprintf (fp, "\n############################################################\n" 
+        fprintf (fp, "\n############################################################\n"
                 "#                                                          #\n"
                 "#                 General Game Options                     #\n"
                 "#                                                          #\n"
@@ -1167,7 +1173,7 @@ void print_game_options(FILE* fp, int verbose)
 
     if(verbose)
     {
-        fprintf (fp, "############################################################\n" 
+        fprintf (fp, "############################################################\n"
                 "# 'PER_USER_CONFIG' determines whether Tuxmath will look   #\n"
                 "# in the user's home directory for settings. Default is 1  #\n"
                 "# (yes). If deselected, the program will ignore the user's #\n"
@@ -1189,7 +1195,7 @@ void print_game_options(FILE* fp, int verbose)
         fprintf (fp, "\n# Use FULLSCREEN at 640x480 resolution instead of\n"
                 "640x480 window. Default is 1 (FULLSCREEN). Change to 0\n"
                 "if SDL has trouble with FULLSCREEN on your system.\n");
-    } 
+    }
     fprintf(fp, "FULLSCREEN = %d\n", global_options->iopts[FULLSCREEN]);
 
     if(verbose)
@@ -1218,7 +1224,7 @@ void print_game_options(FILE* fp, int verbose)
 
     if(verbose)
     {
-        fprintf (fp, "\n############################################################\n" 
+        fprintf (fp, "\n############################################################\n"
                 "# The next settings determine the speed and number         #\n"
                 "# of comets.  The speed settings are float numbers (mean-  #\n"
                 "# ing decimals allowed). The comet settings are integers.  #\n"
@@ -1328,7 +1334,7 @@ void print_game_options(FILE* fp, int verbose)
     fprintf(fp, "danger_level_max = %f\n", game_options->danger_level_max);
 
     if (verbose)
-    { 
+    {
         fprintf (fp, "\n# (Feedback) Set the handicap for hitting cities.\n"
                 "# When bigger than 0, this causes the game to slow down\n"
                 "# by an extra amount after a wave in which one or more\n"

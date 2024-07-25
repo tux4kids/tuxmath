@@ -41,10 +41,11 @@
     </menu>
     <item title="Factoroids" sprite="factors" run="RUN_FACTORS" desc="Factorize numbers with your laser beam!"/>
     <item title="Help" sprite="help" run="RUN_HELP" desc="See how to play the game" />
-    <menu title="More Options" sprite="tux_config" entries="4" desc="Additional options">
+    <menu title="More Options" sprite="tux_config" entries="5" desc="Additional options">
         <item title="Demo" sprite="comet" run="RUN_DEMO" desc="Run a demo of the game" />
         <item title="Project Info" sprite="help" run="RUN_INFO" desc="See the project info" />
         <item title="Credits" sprite="credits" run="RUN_CREDITS" desc="See the credits for the game" />
+        <item title="Toggle TTS" sprite="tts" run="TOGGLE_TTS" desc="Enable/Disable Text-to-Speech" />
         <item title="Main Menu" sprite="main" run="RUN_MAIN_MENU" desc="Return to the main menu" />
     </menu>
     <item title="Quit" sprite="quit" run="RUN_QUIT" desc="Exit to your desktop" />

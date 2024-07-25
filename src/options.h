@@ -43,7 +43,7 @@ enum {
     USE_IGLOOS,
     USE_TTS,
     NUM_GLOBAL_OPTS
-};                                 
+};
 
 extern const char* const OPTION_TEXT[];
 extern const int OPTION_DEFAULTS[];
@@ -138,6 +138,8 @@ unsigned int Opts_MapTextToIndex(const char* text);
 
 int  Opts_GetGlobalOpt(unsigned int index);
 void Opts_SetGlobalOpt(unsigned int index, int val);
+void Opts_SetTTSMode(int enabled);
+
 
 void Opts_SetLessonTitle(char* title);
 void Opts_SetLanMode(int val);
