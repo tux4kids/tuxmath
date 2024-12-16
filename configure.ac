@@ -46,7 +46,7 @@ AC_PROG_YACC
 # ---------------------------------------------------------------------
 
 AM_GNU_GETTEXT_VERSION([0.18.1])
-dnl Note that having a bundled intl/ directory is now deprecated 
+dnl Note that having a bundled intl/ directory is now deprecated
 AM_GNU_GETTEXT([external])
 
 
@@ -64,51 +64,44 @@ dnl back to standard autoconf macro as needed:
 dnl ---------------------------------------------------------------------------
 
 
+dnl Check for SDL2
+PKG_CHECK_MODULES([SDL2],
+  [sdl2 >= 2.0.0],
+  [],
+  [AC_MSG_ERROR([SDL2 version 2.0.0 or newer is required! http://www.libsdl.org])])
 
-dnl Check for SDL
-PKG_CHECK_MODULES([SDL],
-	[sdl >= 1.2.0],
-	[],
-	[SDL_VERSION=1.2.0
-	 AM_PATH_SDL($SDL_VERSION, :,
-		AC_MSG_ERROR([SDL version $SDL_VERSION not found! http://www.libsdl.org]))])
+CFLAGS="$CFLAGS $SDL2_CFLAGS"
+LIBS="$LIBS $SDL2_LIBS"
 
-CFLAGS="$CFLAGS $SDL_CFLAGS" 
-LIBS="$LIBS $SDL_LIBS"
 
 
 
 dnl Check for SDL_image: ------------------------------------------------------
 
-PKG_CHECK_MODULES([SDL_IMAGE],
-	[SDL_image],
-	[],
-	[AC_MSG_NOTICE([SDL_image not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_image],
-		[IMG_Load],
-		[],
-		[AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])])])
+PKG_CHECK_MODULES([SDL2_IMAGE],
+  [SDL2_image >= 2.0.0],
+  [],
+  [AC_MSG_ERROR([SDL2_image not found! http://www.libsdl.org/projects/SDL_image])])
 
-AC_DEFINE([HAVE_LIBSDL_IMAGE],[1],[Define to 1 if you have the 'SDL_image' library])
-CFLAGS="$CFLAGS $SDL_IMAGE"
-LIBS="$LIBS $SDL_IMAGE_LIBS"
+AC_DEFINE([HAVE_LIBSDL2_IMAGE],[1],[Define to 1 if you have the 'SDL2_image' library])
+CFLAGS="$CFLAGS $SDL2_IMAGE_CFLAGS"
+LIBS="$LIBS $SDL2_IMAGE_LIBS"
+
 
 
 
 dnl Check for SDL_mixer: --------------------------------------------------------
 
-PKG_CHECK_MODULES([SDL_MIXER],
-	[SDL_mixer],
-	[],
-	[AC_MSG_NOTICE([SDL_mixer not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_mixer],
-		[Mix_OpenAudio],
-		[],
-		[AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])])
 
-AC_DEFINE([HAVE_LIBSDL_MIXER],[1],[Define to 1 if you have the 'SDL_mixer' library])
-CFLAGS="$CFLAGS $SDL_MIXER_CFLAGS"
-LIBS="$LIBS $SDL_MIXER_LIBS"
+PKG_CHECK_MODULES([SDL2_MIXER],
+  [SDL2_mixer >= 2.0.0],
+  [],
+  [AC_MSG_ERROR([SDL2_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
+
+AC_DEFINE([HAVE_LIBSDL2_MIXER],[1],[Define to 1 if you have the 'SDL2_mixer' library])
+CFLAGS="$CFLAGS $SDL2_MIXER_CFLAGS"
+LIBS="$LIBS $SDL2_MIXER_LIBS"
+
 
 dnl Check for libRSVG and cairo. SVG support is enabled by default ----------------------
 
@@ -150,38 +143,38 @@ AC_CHECK_LIB([m],
 
 
 
-dnl Check for SDL_net: --------------------------------------------------------
+dnl Check for SDL2_net: --------------------------------------------------------
 
-dnl SDL_net is enabled by default.
+dnl SDL2_net is enabled by default.
 
-AC_ARG_WITH([sdlnet],
-	[AS_HELP_STRING([--without-sdlnet],
-	[Do not use SDL_net even if available])],
-	[],
-	[with_sdlnet=yes]
+AC_ARG_WITH([sdl2net],
+  [AS_HELP_STRING([--without-sdl2net],
+  [Do not use SDL2_net even if available])],
+  [],
+  [with_sdl2net=yes]
 )
 
-if test "x$with_sdlnet" != xno; then
-dnl We will need this for socket programming on Win32
-AC_CHECK_LIB([ws2_32],
-             [WSAStartup],
-	     []  ,
-	     [AC_MSG_NOTICE([Windows socket library ws2_32 not found - (only needed on win32)])])
+if test "x$with_sdl2net" != xno; then
+  dnl We will need this for socket programming on Win32
+  AC_CHECK_LIB([ws2_32],
+               [WSAStartup],
+               [],
+               [AC_MSG_NOTICE([Windows socket library ws2_32 not found - (only needed on win32)])])
+
+  PKG_CHECK_MODULES([SDL2_NET],
+    [sdl2_net >= 2.0.0],
+    [],
+    [AC_MSG_NOTICE([SDL2_net not located by pkg-config, checking with AC_CHECK_LIB:])
+     AC_CHECK_LIB([SDL2_net],
+       [SDLNet_Init],
+       [],
+       [AC_MSG_FAILURE([SDL2_net test failed (--without-sdl2net to disable)])])])
+
+  AC_DEFINE([HAVE_LIBSDL2_NET],[1],[Define to 1 if you have the 'SDL2_net' library])
+  CFLAGS="$CFLAGS $SDL2_NET_CFLAGS"
+  LIBS="$LIBS $SDL2_NET_LIBS"
 
 
-PKG_CHECK_MODULES([SDL_NET],
-	[SDL_net],
-	[],
-	[AC_MSG_NOTICE([SDL_net not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_net],
-		[SDLNet_Init],
-		[],
-		[AC_MSG_FAILURE([SDL_net test failed (--without-sdlnet to disable)])])])
-
-AC_DEFINE([HAVE_LIBSDL_NET],[1],[Define to 1 if you have the 'SDL_net' library])
-CFLAGS="$CFLAGS $SDL_NET_CFLAGS"
-LIBS="$LIBS $SDL_NET_LIBS"
-fi
 
 
 
@@ -283,7 +276,7 @@ AC_MSG_RESULT([$native_win32])
 
 AM_CONDITIONAL(BUILD_MINGW32, test $native_win32 = yes)
 
-# Set the 
+# Set the
 MINGW32_PACKAGE_DATA_DIR="data"
 AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
 
@@ -313,7 +306,7 @@ AC_SUBST(MINGW32_PACKAGE_DATA_DIR)
 
 AC_ARG_WITH([dll-directory],
             AS_HELP_STRING([--with-dll-directory=path], [provide location of DLL files needed for build  [$(NSI_DLL_DIR)]]),
-            [dll_path=$withval], 
+            [dll_path=$withval],
             [dll_path=no])
 
 AM_CONDITIONAL(NSI_BUILD, test $dll_path = no)

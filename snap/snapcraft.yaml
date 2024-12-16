@@ -1,0 +1,148 @@
+---
+name: tux-math
+version: '2.0.4'
+summary: An educational math game for kids.
+description: |
+  In "Tux, of Math Command," you play the part of Commander Tux, as he
+  defends his friends from an attack of math equations. Comets are
+  crashing towards the friendly penguins in their igloos, and you must
+  destroy the comets by solving their equations.
+
+  As of version 1.7.0, TuxMath also includes a completely new game
+  activity, "Factoroids", which gives practice in factoring numbers and
+  simplifying fractions, as well as zapping rocks floating through
+  space.
+
+  _More build details: https://github.com/Joker2770/tuxmath-snap_
+
+grade: stable
+confinement: strict
+base: core20
+architectures:
+  - build-on: amd64
+
+plugs:
+  gtk-3-themes:
+    interface: content
+    target: $SNAP/data-dir/themes
+    default-provider: gtk-common-themes
+  icon-themes:
+    interface: content
+    target: $SNAP/data-dir/icons
+    default-provider: gtk-common-themes
+  sound-themes:
+    interface: content
+    target: $SNAP/data-dir/sounds
+    default-provider: gtk-common-themes
+
+apps:
+  tux-math:
+    command-chain: ["snap/command-chain/alsa-launch"]
+    command: usr/local/bin/tuxmath
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio/
+    extensions: [gnome-3-38]
+    plugs:
+      - home
+      - audio-playback
+      - pulseaudio
+      - alsa
+      - desktop
+      - desktop-legacy
+      - wayland
+      - unity7
+      - x11
+      - opengl
+      - gsettings
+      - removable-media
+      - network
+      - network-bind
+
+  tuxmathadmin:
+    command-chain: ["snap/command-chain/alsa-launch"]
+    command: usr/local/bin/tuxmathadmin
+    environment:
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio/
+    extensions: [gnome-3-38]
+    plugs:
+      - home
+      - audio-playback
+      - pulseaudio
+      - alsa
+      - desktop
+      - desktop-legacy
+      - wayland
+      - unity7
+      - x11
+      - opengl
+      - gsettings
+      - removable-media
+
+layout:
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/local/share/locale:
+    bind: $SNAP/usr/local/share/locale
+  /usr/local/share/tuxmath:
+    bind: $SNAP/usr/local/share/tuxmath
+  /usr/local/var/tuxmath:
+    bind: $SNAP/usr/local/var/tuxmath
+  /usr/local/etc/tuxmath:
+    bind: $SNAP/usr/local/etc/tuxmath
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+  /etc/fonts:
+    bind: $SNAP/etc/fonts
+
+parts:
+  alsa-mixin:
+    plugin: dump
+    source: https://github.com/diddlesnaps/snapcraft-alsa.git
+    source-subdir: snapcraft-assets
+    build-packages:
+      - libasound2-dev
+    stage-packages:
+      - libasound2
+      - libasound2-plugins
+      - yad
+
+  tux-math:
+    after: [alsa-mixin]
+    plugin: cmake
+    source: "https://github.com/tux4kids/tuxmath.git"
+    source-depth: 1
+    source-commit: f3a7b0243f88be6518b6ad6a0dbe5a42c5b71c4c
+    source-type: git
+    build-packages:
+      - gcc
+      - build-essential
+      - cmake
+      - make
+      - libc6-dev
+      - libcairo2-dev
+      - libsdl1.2-dev
+      - libsdl-gfx1.2-dev
+      - libsdl-image1.2-dev
+      - libsdl-net1.2-dev
+      - libsdl-pango-dev
+      - libsdl2-ttf-dev
+      - libsdl-mixer1.2-dev
+      - librsvg2-dev
+      - libt4k-common0-dev
+    stage-packages:
+      - libc6
+      - libcairo2
+      - libsdl1.2debian
+      - libsdl-gfx1.2-5
+      - libsdl-image1.2
+      - libsdl-net1.2
+      - libsdl-pango1
+      - libsdl2-ttf-2.0-0
+      - libsdl-mixer1.2
+      - libpulse0
+      - librsvg2-2
+      - librsvg2-common
+      - libslang2
+      - libt4k-common0
+      - libglu1-mesa
+      - freeglut3
