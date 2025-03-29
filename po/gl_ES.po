@@ -1,0 +1,1004 @@
+# Galician translation for Tux, Of Math Command.
+# This file is put in the public domain.
+#
+#
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.6.2\n"
+"Report-Msgid-Bugs-To: tuxmath-devel@lists.sourceforge.net\n"
+"POT-Creation-Date: 25-02-02 18:35-0600\n"
+"PO-Revision-Date: 2025-03-09 20:12+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: gl_ES\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.5\n"
+
+#: src/campaign.c:52
+msgid "Congratulations! You win!"
+msgstr "Parabéns! Ti gañas!"
+
+#: src/campaign.c:70
+msgid "Round"
+msgstr "Quenda"
+
+#: src/campaign.c:140 src/campaign.c:152 src/campaign.c:173 src/campaign.c:184
+msgid "-[Esc] to skip"
+msgstr "-[Esc] para saír"
+
+#: src/campaign.c:141
+msgid "Mission One: Careful Cadet"
+msgstr "Misión un: Cadete coidadoso"
+
+#: src/campaign.c:143
+msgid "I'm so glad you've come!"
+msgstr "Alédome moito de que viñeras!"
+
+#: src/campaign.c:145
+msgid ""
+"The penguins need your help! Comets are falling from the sky, and are "
+"melting the penguins' igloos. To save their homes, we need you to find the "
+"secret code that will zap each comet."
+msgstr ""
+"Os pingüíns precisan a túa axuda! Cometas están a caer do ceo e están "
+"derretendo os iglús dos pingüíns. Para salvar as súas casas, precisamos que "
+"atopes o código secreto que desintegrará cada cometa."
+
+#: src/campaign.c:147
+msgid "Do your best!"
+msgstr "Fai todo o que poidas!"
+
+#: src/campaign.c:153
+msgid "Mission Two: Smart Scout"
+msgstr "Misión dous: Supervisor intelixente"
+
+#: src/campaign.c:155
+msgid ""
+"Great job! Since you saved the penguins' homes, we are promoting you to "
+"Scout. Scouts are good for keeping an eye out for trouble..."
+msgstr ""
+"Gran traballo! Xa que salvaches as casas dos pingüíns, promocionámoste a "
+"Supervisor. Os supervisores son bos para estar atentos aos problemas..."
+
+#: src/campaign.c:157
+msgid ""
+"...like what's happening right now! The TakeAways have come, and they're "
+"sending new, trickier comets against the penguins!"
+msgstr ""
+"...como o que está pasando agora mesmo! Chegaron os Arrebatadores e están "
+"enviando cometas novos e máis complicados contra os pingüíns!"
+
+#: src/campaign.c:158
+msgid "But you can save them!"
+msgstr "Pero podes salvalos!"
+
+#: src/campaign.c:164
+msgid "Mission Three: Royal Ranger"
+msgstr "Tercera misión: Garda real"
+
+#: src/campaign.c:166
+msgid ""
+"You've done it again! The Penguin Emperor has chosen you to join his team of "
+"Rangers that help protect the city.  We're sending you there now..."
+msgstr ""
+"Xa o fixeches de novo! O emperador dos pingüíns escolleito para unirte ao "
+"seu equipo de Gardas que axudan a protexer a cidade. Enviámosche alí agora..."
+
+#: src/campaign.c:168
+msgid ""
+"...oh no! Now the Emperor himself is under attack, from new types of comets: "
+"these problems are multiplying! To fight these, you need great skill. We "
+"think you can do it. Join the Rangers and help save the city!"
+msgstr ""
+"... oh non! Agora o propio emperador está baixo ataque de novos tipos de "
+"cometas: estes problemas están a multiplicarse! Para loitar contra estes, "
+"precisas dunha gran habilidade. Pensamos que podes facelo. Únete aos Gardas "
+"e axuda a salvar a cidade!"
+
+#: src/campaign.c:174
+msgid "Mission Four: Imperial Ace"
+msgstr "Misión Catro: As Imperial"
+
+#: src/campaign.c:176
+msgid ""
+"You did it! The Emperor wants to thank you in person. We are taking you to "
+"his ice palace for a great honor: you will become the Imperial Ace!"
+msgstr ""
+"Fixéchelo! O Emperador quere darche as grazas en persoa. Levámoste ao seu "
+"palacio de xeo para unha gran honra: converteraste no As Imperial!"
+
+#: src/campaign.c:178
+msgid ""
+"But right in the middle of the ceremony, a new attack from the land of "
+"Division starts!"
+msgstr ""
+"Pero xusto no medio da cerimonia, comeza un novo ataque desde a terra da "
+"división!"
+
+#: src/campaign.c:179
+msgid "Now is no time for resting; the city needs your help!"
+msgstr "Agora non é momento de descansar; a cidade precisa da túa axuda!"
+
+#: src/campaign.c:185
+msgid "Final Mission: Computing Commando"
+msgstr "Misión final: Comando de Cálculo"
+
+#: src/campaign.c:187
+msgid ""
+"Penguin scientists have learned that all these attacks are coming from a "
+"secret base, and they need you to go fight the final battle. They also give "
+"you this clue: first do multiplication and division, and then do addition "
+"and subtraction."
+msgstr ""
+"Os científicos pingüíns descubriron que todos estes ataques proceden dunha "
+"base secreta e precisan de ti para loitar na batalla final. Tamén che dan "
+"esta pista: primeiro fai multiplicación e división, e logo fai a suma e a "
+"resta."
+
+#: src/campaign.c:188
+msgid "I hope that hint helps!"
+msgstr "Agardo que esta pista axude!"
+
+#: src/campaign.c:190
+msgid "This is it! You can stop these attacks forever, Commando!"
+msgstr "Isto é todo! Podes deter estes ataques para sempre, Comando!"
+
+#: src/campaign.c:260
+msgid "Sorry, try again!"
+msgstr "Sentímolo, téntao de novo!"
+
+#: src/campaign.c:267
+msgid "Mission accomplished. The galaxy is safe!"
+msgstr "Misión cumprida. A galaxia está a salvo!"
+
+#: src/credits.c:43
+msgid "TUX, OF MATH COMMAND"
+msgstr "TUX, DO COMANDO MATEMÁTICO"
+
+#: src/credits.c:44
+msgid "COPYRIGHT 2001-2011"
+msgstr "DEREITOS DE AUTOR 2001-2010"
+
+#: src/credits.c:45
+msgid "VERSION "
+msgstr "VERSION "
+
+#: src/credits.c:47
+msgid "PART OF THE 'TUX4KIDS' PROJECT"
+msgstr "PARTE DO PROXECTO 'TUX4KIDS'"
+
+#: src/credits.c:50
+msgid "DESIGNED BY"
+msgstr "DESEÑADO POR"
+
+#: src/credits.c:53
+msgid "LEAD PROGRAMMERS"
+msgstr "PROGRAMADORES PRINCIPAIS"
+
+#: src/credits.c:59
+msgid "ADDITIONAL CODE"
+msgstr "CÓDIGO ADICIONAL"
+
+#: src/credits.c:75
+msgid "LEAD ARTISTS"
+msgstr "ARTISTAS PRINCIPAIS"
+
+#: src/credits.c:79
+msgid "ADDITIONAL ART"
+msgstr "ARTE ADICIONAL"
+
+#: src/credits.c:85
+msgid "SOUND EFFECTS"
+msgstr "EFECTOS DE SON"
+
+#: src/credits.c:88
+msgid "MUSIC"
+msgstr "MÚSICA"
+
+#: src/credits.c:107
+msgid "PACKAGERS"
+msgstr "PAQUETIZADORES"
+
+#: src/credits.c:112
+msgid "'TUX' THE PENGUIN CREATED BY"
+msgstr "'TUX' O PINGÜÍN CREADO POR"
+
+#: src/credits.c:115
+msgid "TESTERS"
+msgstr "PROBADORES"
+
+#: src/credits.c:127
+msgid "USER WEBSITE"
+msgstr "PÁXINA WEB DO USUARIO"
+
+#: src/credits.c:130
+msgid "TUX4KIDS DEVELOPMENT HOSTED AT ALIOTH:"
+msgstr "O DESENVOLVEMENTO DE TUX4KIDS ACOLLIDO EN ALIOTH:"
+
+#: src/credits.c:133
+msgid ""
+"TuxMath is Free Software licensed under the GNU General Public License "
+"(GPL). As such, you are specifically granted the rights that are usually "
+"denied to users of proprietary software."
+msgstr ""
+"TuxMath é un software libre baixo a licenza GNU General Public License "
+"(GPL). Polo tanto, concédenselle especificamente os dereitos que normalmente "
+"se lles denegan aos usuarios de software propietario."
+
+#: src/credits.c:135
+msgid ""
+"These rights include the freedom to study, copy, modify, and redistribute "
+"the program."
+msgstr ""
+"Estes dereitos inclúen a liberdade de estudar, copiar, modificar e "
+"redistribuír o programa."
+
+#: src/credits.c:137
+msgid ""
+"A full copy of the GPL is included with the documentation for this program."
+msgstr "Inclúese unha copia completa da GPL coa documentación deste programa."
+
+#: src/credits.c:139
+msgid "For more information about Free Software and the GNU GPL, visit:"
+msgstr ""
+"Para obter máis información sobre o software libre e a GNU GPL, visite:"
+
+#: src/highscore.c:175 data/menus/menu_strings:7
+msgid "Hall Of Fame"
+msgstr "Salón da Fama"
+
+#: src/highscore.c:195 src/highscore.c:216 data/menus/menu_strings:25
+msgid "Space Cadet"
+msgstr "Cadete Espacial"
+
+#: src/highscore.c:198 data/menus/menu_strings:24
+msgid "Scout"
+msgstr "Supervisor"
+
+#: src/highscore.c:201 data/menus/menu_strings:21
+msgid "Ranger"
+msgstr "Garda"
+
+#: src/highscore.c:204 data/menus/menu_strings:1
+msgid "Ace"
+msgstr "As"
+
+#: src/highscore.c:207 data/menus/menu_strings:2
+msgid "Commando"
+msgstr "Comando"
+
+#: src/highscore.c:210
+msgid "Factors"
+msgstr "Factores"
+
+#: src/highscore.c:213
+msgid "Fractions"
+msgstr "Fraccións"
+
+#: src/highscore.c:291
+msgid "You Are In The Hall of Fame!"
+msgstr "Estás no Salón da Fama!"
+
+#: src/highscore.c:291
+msgid "Enter Your Name:"
+msgstr "Insire o teu nome:"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "%d + %d = ?"
+msgstr "%d + %d = ?"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "? + %d = %d"
+msgstr "? + %d = %d"
+
+#: src/mathcards.c:2589
+#, c-format
+msgid "%d + ? = %d"
+msgstr "%d + ? = %d"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "%d - %d = ?"
+msgstr "%d - %d = ?"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "? - %d = %d"
+msgstr "? - %d = %d"
+
+#: src/mathcards.c:2590
+#, c-format
+msgid "%d - ? = %d"
+msgstr "%d - ? = %d"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d x %d = ?"
+msgstr "%d x %d = ?"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "? x %d = %d"
+msgstr "? x %d = %d"
+
+#: src/mathcards.c:2591
+#, c-format
+msgid "%d x ? = %d"
+msgstr "%d x ? = %d"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d ÷ %d = ?"
+msgstr "%d ÷ %d = ?"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "? ÷ %d = %d"
+msgstr "? ÷ %d = %d"
+
+#: src/mathcards.c:2592
+#, c-format
+msgid "%d ÷ ? = %d"
+msgstr "%d ÷ ? = %d"
+
+#: src/menu.c:217
+#, c-format
+msgid ""
+"TuxMath version %s is free and open-source!\n"
+"You can help make it better.\n"
+"Suggestions, artwork, and code are all welcome!\n"
+"Discuss TuxMath at tuxmath-devel@list.sourceforge.net"
+msgstr ""
+"A versión %s de TuxMath é libre e de código aberto!\n"
+"Podes axudar a melloralo.\n"
+"Son benvidas suxestións, ilustracións e código!\n"
+"Debate sobre TuxMath en tuxmath-devel@list.sourceforge.net"
+
+#: src/menu.c:352
+msgid ""
+"Edit 'options' file in you home directory to create customized game!\n"
+"Press a key or click your mouse to start game.\n"
+"See README.txt for more information.\n"
+msgstr ""
+"Edita o ficheiro \"opcións\" no teu directorio de inicio para crear un xogo "
+"personalizado.\n"
+"Preme unha tecla ou fai clic co rato para comezar o xogo.\n"
+"Consulte README.txt para obter máis información.\n"
+
+#: src/menu.c:379
+msgid "How many kids are playing?"
+msgstr "Cantos nenos xogan?"
+
+#: src/menu.c:380
+msgid "(Between 2 and 4 players)"
+msgstr "(Entre 2 e 4 xogadores)"
+
+#: src/menu.c:445
+msgid "The server is already running"
+msgstr "O servidor xa está en execución"
+
+#: src/menu.c:456
+msgid ""
+"The port is in use by another program on this computer, most likely another "
+"Tux Math server"
+msgstr ""
+"O porto está en uso por outro programa neste ordenador, probablemente outro "
+"servidor de TuxMath"
+
+#: src/menu.c:460
+msgid "Enter Server Name:"
+msgstr "Insire o nome do servidor:"
+
+#: src/menu.c:460
+msgid "(limit 50 characters)"
+msgstr "(límite 50 caracteres)"
+
+#: src/menu.c:474
+msgid "Click or press key to select server lesson file"
+msgstr ""
+"Fai clic ou prema a tecla para escoller o ficheiro de lección do servidor"
+
+#: src/menu.c:501
+#, c-format
+msgid ""
+"Server Name:\n"
+"%s\n"
+"Selected Lesson:\n"
+"%s"
+msgstr ""
+"Nome do servidor:\n"
+"%s\n"
+"Lección escollida:\n"
+"%s"
+
+#: src/menu.c:524
+msgid ""
+"\n"
+"Sorry, this version built without network support."
+msgstr ""
+"\n"
+"Sentímolo, esta versión construíuse sen soporte de rede."
+
+#: src/menu.c:525 src/menu.c:603
+#, c-format
+msgid "Sorry, this version built without network support.\n"
+msgstr "Sentímolo, esta versión construíuse sen soporte de rede.\n"
+
+#: src/menu.c:535
+msgid "The server is not running."
+msgstr "O servidor non está en execución."
+
+#: src/menu.c:541
+msgid "Cannot stop server until current game finishes."
+msgstr "Non se pode deter o servidor ata que remate a partida actual."
+
+#: src/menu.c:545
+msgid "The server has been stopped."
+msgstr "O servidor foi detido."
+
+#: src/menu.c:562
+msgid "Sorry, could not connect to server."
+msgstr "Sentímolo, non se puido conectar ao servidor."
+
+#: src/menu.c:563
+msgid "Sorry, could not connect to server.\n"
+msgstr "Sentímolo, non se puido conectar ao servidor. \n"
+
+#: src/menu.c:583
+msgid "Sorry, game already in progress"
+msgstr "Perdoanza, o xogo xa está en progreso"
+
+#: src/menu.c:589
+msgid "Connection with server was lost"
+msgstr "Perdeuse a conexión co servidor"
+
+#: src/menu.c:602
+msgid "Sorry, this version built without network support"
+msgstr "Sentímolo, esta versión construíuse sen soporte de rede"
+
+#: src/multiplayer.c:130
+msgid "Go!"
+msgstr "Imos aló!"
+
+#: src/multiplayer.c:229
+#, c-format
+msgid "Then %s\n"
+msgstr "Entón %s\n"
+
+#: src/multiplayer.c:304
+msgid "Who is playing first?"
+msgstr "Quen xoga primeiro?"
+
+#: src/multiplayer.c:304 src/multiplayer.c:306
+msgid "Enter your name:"
+msgstr "Insire o teu nome:"
+
+#: src/multiplayer.c:306
+msgid "Who is playing next?"
+msgstr "Quen xoga despois?"
+
+#: src/multiplayer.c:320
+msgid "How many rounds will you play?"
+msgstr "Cantas quendas xogarás?"
+
+#: src/multiplayer.c:320
+msgid "Enter a number"
+msgstr "Insire un número"
+
+#: src/server.c:494
+msgid "Await player name"
+msgstr "Agardando polo nome do xogador"
+
+#: src/titlescreen.c:521
+msgid ""
+"Work In Progress!\n"
+"This feature is not ready yet\n"
+"Discuss the future of TuxMath at\n"
+"tuxmath-devel@lists.sourceforge.net"
+msgstr ""
+"¡Traballo en progreso!\n"
+"Esta función non está lista aínda.\n"
+"Debate sobre o futuro de TuxMath en\n"
+"tuxmath-devel@lists.sourceforge.net"
+
+#: data/missions/lessons/descr_lessons:1 data/missions/lessons/descr_lessons:2
+#: data/missions/lessons/descr_lessons:3
+msgid "Number Typing"
+msgstr "Escritura de números"
+
+#: data/missions/lessons/descr_lessons:4 data/missions/lessons/descr_lessons:5
+msgid "Addition: 1 to 3"
+msgstr "Suma: 1 a 3"
+
+#: data/missions/lessons/descr_lessons:6 data/missions/lessons/descr_lessons:7
+msgid "Addition: 0 to 5"
+msgstr "Suma: 0 a 5"
+
+#: data/missions/lessons/descr_lessons:8 data/missions/lessons/descr_lessons:9
+msgid "Addition: Sums to 10"
+msgstr "Suma: sumas ata 10"
+
+#: data/missions/lessons/descr_lessons:10
+#: data/missions/lessons/descr_lessons:11
+msgid "Addition: Sums to 15"
+msgstr "Suma: sumas ata 15"
+
+#: data/missions/lessons/descr_lessons:12
+#: data/missions/lessons/descr_lessons:13
+msgid "Addition: Sums to 20"
+msgstr "Suma: sumas ata 20"
+
+#: data/missions/lessons/descr_lessons:14
+#: data/missions/lessons/descr_lessons:15
+msgid "Addition: Two Digit Numbers"
+msgstr "Suma: números de dous díxitos"
+
+#: data/missions/lessons/descr_lessons:16
+#: data/missions/lessons/descr_lessons:17
+msgid "Addition: Missing Numbers"
+msgstr "Suma: números que faltan"
+
+#: data/missions/lessons/descr_lessons:18
+#: data/missions/lessons/descr_lessons:19
+msgid "Subtraction: 0 to 10"
+msgstr "Resta: de 0 a 10"
+
+#: data/missions/lessons/descr_lessons:20
+#: data/missions/lessons/descr_lessons:21
+msgid "Subtraction: 0 to 20"
+msgstr "Resta: de 0 a 20"
+
+#: data/missions/lessons/descr_lessons:22
+#: data/missions/lessons/descr_lessons:23
+msgid "Subtraction: Two Digit Numbers"
+msgstr "Resta: números de dous díxitos"
+
+#: data/missions/lessons/descr_lessons:24
+#: data/missions/lessons/descr_lessons:25
+msgid "Addition and Subtraction Review"
+msgstr "Revisión de suma e resta"
+
+#: data/missions/lessons/descr_lessons:26
+#: data/missions/lessons/descr_lessons:27
+msgid "Multiplication: 0 to 3"
+msgstr "Multiplicación: 0 a 3"
+
+#: data/missions/lessons/descr_lessons:28
+#: data/missions/lessons/descr_lessons:29
+msgid "Multiples of 2"
+msgstr "Múltiplos de 2"
+
+#: data/missions/lessons/descr_lessons:30
+#: data/missions/lessons/descr_lessons:31
+msgid "Multiples of 3"
+msgstr "Múltiplos de 3"
+
+#: data/missions/lessons/descr_lessons:32
+#: data/missions/lessons/descr_lessons:33
+msgid "Multiples of 4"
+msgstr "Múltiplos de 4"
+
+#: data/missions/lessons/descr_lessons:34
+#: data/missions/lessons/descr_lessons:35
+msgid "Multiples of 5"
+msgstr "Múltiplos de 5"
+
+#: data/missions/lessons/descr_lessons:36
+#: data/missions/lessons/descr_lessons:37
+msgid "Multiplication: 0 to 5"
+msgstr "Multiplicación: 0 a 5"
+
+#: data/missions/lessons/descr_lessons:38
+#: data/missions/lessons/descr_lessons:39
+msgid "Multiples of 6"
+msgstr "Múltiplos de 6"
+
+#: data/missions/lessons/descr_lessons:40
+#: data/missions/lessons/descr_lessons:41
+msgid "Multiples of 7"
+msgstr "Múltiplos de 7"
+
+#: data/missions/lessons/descr_lessons:42
+#: data/missions/lessons/descr_lessons:43
+msgid "Multiplication: 0 to 7"
+msgstr "Multiplicación: 0 a 7"
+
+#: data/missions/lessons/descr_lessons:44
+#: data/missions/lessons/descr_lessons:45
+msgid "Multiples of 8"
+msgstr "Múltiplos de 8"
+
+#: data/missions/lessons/descr_lessons:46
+#: data/missions/lessons/descr_lessons:47
+msgid "Multiples of 9"
+msgstr "Múltiplos de 9"
+
+#: data/missions/lessons/descr_lessons:48
+#: data/missions/lessons/descr_lessons:49
+msgid "Multiples of 10"
+msgstr "Múltiplos de 10"
+
+#: data/missions/lessons/descr_lessons:50
+#: data/missions/lessons/descr_lessons:51
+msgid "Multiplication: 0 to 10"
+msgstr "Multiplicación: 0 a 10"
+
+#: data/missions/lessons/descr_lessons:52
+#: data/missions/lessons/descr_lessons:53
+msgid "Multiples of 11 and 12"
+msgstr "Múltiplos de 11 e 12"
+
+#: data/missions/lessons/descr_lessons:54
+#: data/missions/lessons/descr_lessons:55
+msgid "Multiplication: 0 to 12"
+msgstr "Multiplicación: 0 a 12"
+
+#: data/missions/lessons/descr_lessons:56
+#: data/missions/lessons/descr_lessons:57
+msgid "Multiples of 13, 14, and 15"
+msgstr "Múltiplos de 13, 14 e 15"
+
+#: data/missions/lessons/descr_lessons:58
+#: data/missions/lessons/descr_lessons:59
+msgid "Multiplication: 0 to 15"
+msgstr "Multiplicación: 0 a 15"
+
+#: data/missions/lessons/descr_lessons:60
+#: data/missions/lessons/descr_lessons:61
+msgid "Multiplication: Missing Numbers"
+msgstr "Multiplicación: números que faltan"
+
+#: data/missions/lessons/descr_lessons:62
+#: data/missions/lessons/descr_lessons:63
+#: data/missions/lessons/descr_lessons:64
+msgid "Division by 2"
+msgstr "División de 2"
+
+#: data/missions/lessons/descr_lessons:65
+#: data/missions/lessons/descr_lessons:66
+#: data/missions/lessons/descr_lessons:67
+msgid "Division by 3"
+msgstr "División de 3"
+
+#: data/missions/lessons/descr_lessons:68
+#: data/missions/lessons/descr_lessons:69
+#: data/missions/lessons/descr_lessons:70
+msgid "Division by 4"
+msgstr "División de 4"
+
+#: data/missions/lessons/descr_lessons:71
+#: data/missions/lessons/descr_lessons:72
+#: data/missions/lessons/descr_lessons:73
+msgid "Division by 5"
+msgstr "División de 5"
+
+#: data/missions/lessons/descr_lessons:74
+#: data/missions/lessons/descr_lessons:75
+#: data/missions/lessons/descr_lessons:76
+msgid "Division: 1 to 5"
+msgstr "División: de 1 a 5"
+
+#: data/missions/lessons/descr_lessons:77
+#: data/missions/lessons/descr_lessons:78
+#: data/missions/lessons/descr_lessons:79
+msgid "Division by 6"
+msgstr "División de 6"
+
+#: data/missions/lessons/descr_lessons:80
+#: data/missions/lessons/descr_lessons:81
+#: data/missions/lessons/descr_lessons:82
+msgid "Division by 7"
+msgstr "División de 7"
+
+#: data/missions/lessons/descr_lessons:83
+#: data/missions/lessons/descr_lessons:84
+#: data/missions/lessons/descr_lessons:85
+msgid "Division by 8"
+msgstr "División de 8"
+
+#: data/missions/lessons/descr_lessons:86
+#: data/missions/lessons/descr_lessons:87
+#: data/missions/lessons/descr_lessons:88
+msgid "Division by 9"
+msgstr "División de 9"
+
+#: data/missions/lessons/descr_lessons:89
+#: data/missions/lessons/descr_lessons:90
+#: data/missions/lessons/descr_lessons:91
+msgid "Division by 10"
+msgstr "División de 10"
+
+#: data/missions/lessons/descr_lessons:92
+#: data/missions/lessons/descr_lessons:93
+#: data/missions/lessons/descr_lessons:94
+msgid "Division: 1 to 10"
+msgstr "División: de 1 a 10"
+
+#: data/missions/lessons/descr_lessons:95
+#: data/missions/lessons/descr_lessons:96
+#: data/missions/lessons/descr_lessons:97
+msgid "Division by 11 and 12"
+msgstr "División de 11 e 12"
+
+#: data/missions/lessons/descr_lessons:98
+#: data/missions/lessons/descr_lessons:99
+#: data/missions/lessons/descr_lessons:100
+msgid "Division: 1 to 12"
+msgstr "División: de 1 a 12"
+
+#: data/missions/lessons/descr_lessons:101
+#: data/missions/lessons/descr_lessons:102
+msgid "Division by 13, 14, and 15"
+msgstr "División de 13,14 e 15"
+
+#: data/missions/lessons/descr_lessons:103
+#: data/missions/lessons/descr_lessons:104
+msgid "Division: 1 to 15"
+msgstr "División: de 1 a 15"
+
+#: data/missions/lessons/descr_lessons:105
+#: data/missions/lessons/descr_lessons:106
+#: data/missions/lessons/descr_lessons:107
+msgid "Multiplication and Division Review"
+msgstr "Revisión de multiplicación e división"
+
+#: data/missions/lessons/descr_lessons:108
+#: data/missions/lessons/descr_lessons:109
+#: data/missions/lessons/descr_lessons:110
+msgid "Typing Negative Numbers"
+msgstr "Escribindo números negativos"
+
+#: data/missions/lessons/descr_lessons:111
+#: data/missions/lessons/descr_lessons:112
+#: data/missions/lessons/descr_lessons:113
+msgid "Subtraction: Negative Answers"
+msgstr "Resta: Respostas negativas"
+
+#: data/missions/lessons/descr_lessons:114
+#: data/missions/lessons/descr_lessons:115
+#: data/missions/lessons/descr_lessons:116
+msgid "Adding Negatives to Positives"
+msgstr "Sumando negativos a positivos"
+
+#: data/missions/lessons/descr_lessons:117
+#: data/missions/lessons/descr_lessons:118
+#: data/missions/lessons/descr_lessons:119
+msgid "Adding Positives to Negatives"
+msgstr "Sumando Positivos con Negativos"
+
+#: data/missions/lessons/descr_lessons:120
+#: data/missions/lessons/descr_lessons:121
+#: data/missions/lessons/descr_lessons:122
+msgid "Subtracting Negatives From Positives"
+msgstr "Restando negativos de positivos"
+
+#: data/missions/lessons/descr_lessons:123
+#: data/missions/lessons/descr_lessons:124
+msgid "Subtracting Positives From Negatives"
+msgstr "Restando Positivos de Negativos"
+
+#: data/missions/lessons/descr_lessons:125
+#: data/missions/lessons/descr_lessons:126
+msgid "Adding Negatives to Negatives"
+msgstr "Sumando negativos a negativos"
+
+#: data/missions/lessons/descr_lessons:127
+#: data/missions/lessons/descr_lessons:128
+msgid "Subtracting Negatives From Negatives"
+msgstr "Restando números negativos de negativos"
+
+#: data/missions/lessons/descr_lessons:129
+#: data/missions/lessons/descr_lessons:130
+msgid "Negative and Positive Numbers Review"
+msgstr "Revisión de números negativos e positivos"
+
+#: data/missions/lessons/descr_lessons:131
+#: data/missions/lessons/descr_lessons:132
+msgid "Multiplication and Division of Negatives"
+msgstr "Multiplicación e División de Negativos"
+
+#: data/missions/lessons/descr_lessons:133
+#: data/missions/lessons/descr_lessons:134
+msgid "Multiplication of Positives and Negatives"
+msgstr "Multiplicación de positivos e negativos"
+
+#: data/missions/lessons/descr_lessons:135
+#: data/missions/lessons/descr_lessons:136
+msgid "Division of Positives and Negatives"
+msgstr "División de positivos e negativos"
+
+#: data/menus/menu_strings:3
+msgid "Credits"
+msgstr "Créditos"
+
+#: data/menus/menu_strings:4
+msgid "Demo"
+msgstr "Demo"
+
+#: data/menus/menu_strings:5
+msgid "Elimination"
+msgstr "Eliminación"
+
+#: data/menus/menu_strings:6
+msgid "Factoroids"
+msgstr "Factoriais"
+
+#: data/menus/menu_strings:8
+msgid "Help"
+msgstr "Axuda"
+
+#: data/menus/menu_strings:9
+msgid "Join Game"
+msgstr "Únete ao xogo"
+
+#: data/menus/menu_strings:10
+msgid "Main Menu"
+msgstr "Menú principal"
+
+#: data/menus/menu_strings:11
+msgid "Math Command Fleet Missions"
+msgstr "Misións da Frota de Comando Matemático"
+
+#: data/menus/menu_strings:12
+msgid "Math Command Training Academy"
+msgstr "Academia de adestramento do Comando Matemático"
+
+#: data/menus/menu_strings:13
+msgid "More Options"
+msgstr "Máis opcións"
+
+#: data/menus/menu_strings:14
+msgid "Network Game"
+msgstr "Xogo en rede"
+
+#: data/menus/menu_strings:15
+msgid "Play Alone"
+msgstr "Xoga só"
+
+#: data/menus/menu_strings:16
+msgid "Play Arcade Game"
+msgstr "Xoga o xogo Arcade"
+
+#: data/menus/menu_strings:17
+msgid "Play Custom Game"
+msgstr "Xoga un xogo personalizado"
+
+#: data/menus/menu_strings:18
+msgid "Play With Friends"
+msgstr "Xoga cos amigos"
+
+#: data/menus/menu_strings:19
+msgid "Project Info"
+msgstr "Información do proxecto"
+
+#: data/menus/menu_strings:20
+msgid "Quit"
+msgstr "Saír"
+
+#: data/menus/menu_strings:22
+msgid "Run Server"
+msgstr "Executar servidor"
+
+#: data/menus/menu_strings:23
+msgid "Score Sweep"
+msgstr "Limpar puntuación"
+
+#: data/menus/menu_strings:26
+msgid "Stop Server"
+msgstr "Detén o servidor"
+
+#: data/menus/menu_strings:27
+msgid "Additional options"
+msgstr "Opcións adicionais"
+
+#: data/menus/menu_strings:28
+msgid "Complete missions for the Math Command Fleet"
+msgstr "Completa misións para a Frota de Comando Matemático"
+
+#: data/menus/menu_strings:29
+msgid "Customize the game you play"
+msgstr "Personaliza o xogo ao teu gusto"
+
+#: data/menus/menu_strings:30
+msgid "Earn Gold Stars as you build your math skills with each mission"
+msgstr ""
+"Gaña Estrelas de Ouro mentres melloras as túas habilidades matemáticas en "
+"cada misión"
+
+#: data/menus/menu_strings:31
+msgid "Easier"
+msgstr "Super doado"
+
+#: data/menus/menu_strings:32
+msgid "Easiest"
+msgstr "Moi doado"
+
+#: data/menus/menu_strings:33
+msgid "Easy"
+msgstr "Doado"
+
+#: data/menus/menu_strings:34
+msgid "Exit to your desktop"
+msgstr "Sae ao teu escritorio"
+
+#: data/menus/menu_strings:35
+msgid "Factorize numbers with your laser beam!"
+msgstr "Factoriza números co teu raio láser!"
+
+#: data/menus/menu_strings:36
+msgid "Hard"
+msgstr "Difícil"
+
+#: data/menus/menu_strings:37
+msgid "Hardest"
+msgstr "Moi difícil"
+
+#: data/menus/menu_strings:38
+msgid "High Scores"
+msgstr "Máximas puntuacións"
+
+#: data/menus/menu_strings:39
+msgid "Join a game on a server running on your network"
+msgstr "Únete a un xogo nun servidor que está a funcionar na túa rede"
+
+#: data/menus/menu_strings:40
+msgid "Make the Hall of Fame by beating the highest score"
+msgstr "Chega ao Salón da Fama superando a puntuación máis alta"
+
+#: data/menus/menu_strings:41
+msgid "Moderate"
+msgstr "Moderación"
+
+#: data/menus/menu_strings:42
+msgid "Play a game with your friends on a local network"
+msgstr "Xoga cos teus amigos nunha rede local"
+
+#: data/menus/menu_strings:43
+msgid "Play and learn on your own"
+msgstr "Xoga e aprende por ti mesmo"
+
+#: data/menus/menu_strings:44
+msgid "Players with the lowest scores are eliminated every round"
+msgstr ""
+"Os xogadores coas puntuacións máis baixas son eliminados en cada quenda"
+
+#: data/menus/menu_strings:45
+msgid "Return to the main menu"
+msgstr "Tornar ao menú principal"
+
+#: data/menus/menu_strings:46
+msgid "Run a demo of the game"
+msgstr "Executa unha demo do xogo"
+
+#: data/menus/menu_strings:47
+msgid "See how to play the game"
+msgstr "Olla como xogar ao xogo"
+
+#: data/menus/menu_strings:48
+msgid "See the credits for the game"
+msgstr "Olla os créditos do xogo"
+
+#: data/menus/menu_strings:49
+msgid "See the project info"
+msgstr "Consulta a información do proxecto"
+
+#: data/menus/menu_strings:50
+msgid "Start a server for a network game"
+msgstr "Comeza un servidor para un xogo en rede"
+
+#: data/menus/menu_strings:51
+msgid "Stop a server running on your machine"
+msgstr "Detén un servidor que está a funcionar na túa máquina"
+
+#: data/menus/menu_strings:52
+msgid "Take turns in a game with your friends on a single computer"
+msgstr "Xoga por quendas cos teus amigos nun só ordenador"
+
+#: data/menus/menu_strings:53
+msgid "The person with the highest score wins"
+msgstr "A persoa ca puntuación máis alta gaña"
