@@ -105,6 +105,7 @@ typedef struct game_option_type {
     int w_width;
     int w_height;
     int custom_res;
+    char current_theme_name[64]; // Added for theme selection
 } game_option_type;
 
 
@@ -168,6 +169,7 @@ void Opts_SetCityExplHandicap(float val);
 void Opts_SetFPSLimit(int val);
 void Opts_SetWindowWidth(int val);
 void Opts_SetWindowHeight(int val);
+void Opts_SetCurrentThemeName(const char* name); // Added for theme selection
 
 
 /* whether sound system is successfully initialized and sound files loaded: */
@@ -211,6 +213,7 @@ int Opts_FPSLimit(void);
 int Opts_WindowWidth(void);
 int Opts_WindowHeight(void);
 int Opts_CustomRes(void);
+const char* Opts_GetCurrentThemeName(void); // Added for theme selection
 
 /* whether sound system is successfully initialized and sound files loaded: */
 /* this flag is set by the program, not the user, and is not in the config file. */

@@ -176,6 +176,10 @@ int Opts_Initialize(void)
     game_options->w_width = DEFAULT_WINDOW_WIDTH;
     game_options->w_height = DEFAULT_WINDOW_HEIGHT;
     game_options->custom_res = DEFAULT_CUSTOM_RES;
+    // Temporarily default to "egyptian" for testing the new theme
+    strncpy(game_options->current_theme_name, "egyptian", sizeof(game_options->current_theme_name) - 1);
+    game_options->current_theme_name[sizeof(game_options->current_theme_name) - 1] = '\0';
+
 
     DEBUGCODE(debug_options)
         print_game_options(stdout, 0);
@@ -659,6 +663,19 @@ void Opts_SetWindowHeight(int val)
     }
 }
 
+void Opts_SetCurrentThemeName(const char* name)
+{
+    if (!game_options) {
+        fprintf(stderr, "Opts_SetCurrentThemeName(): game_options not initialized!\n");
+        return;
+    }
+    if (name) {
+        strncpy(game_options->current_theme_name, name, sizeof(game_options->current_theme_name) - 1);
+        game_options->current_theme_name[sizeof(game_options->current_theme_name) - 1] = '\0';
+        DEBUGMSG(debug_options, "Set current theme to: %s\n", game_options->current_theme_name);
+    }
+}
+
 
 /* "Get" functions for tuxmath options struct: */
 //int Opts_PerUserConfig(void)
@@ -1103,6 +1120,15 @@ int Opts_WindowHeight(void)
 int Opts_CustomRes(void)
 {
     return game_options->custom_res;
+}
+
+const char* Opts_GetCurrentThemeName(void)
+{
+    if (!game_options) {
+        fprintf(stderr, "\nOpts_GetCurrentThemeName(): game_options not valid!\n");
+        return "default"; // Fallback
+    }
+    return (const char*) game_options->current_theme_name;
 }
 
 /********************************************************************/

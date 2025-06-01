@@ -106,6 +106,13 @@ enum FF_STATUS
 
 /********* Structures *********/
 
+// Structure for tracking incorrectly answered questions in Factoroids
+typedef struct FactoroidsIncorrectQuestion {
+    int question_number; // The number on the asteroid
+    int incorrect_factor_attempted; // The factor the player shot
+    struct FactoroidsIncorrectQuestion* next;
+} FactoroidsIncorrectQuestion;
+
 typedef struct colorRGBA_type {
     Uint8 r;
     Uint8 g;
@@ -193,6 +200,9 @@ static FF_laser_type laser[MAX_LASER];
 static int NUM_ASTEROIDS;
 static int roto_speed;
 
+// Global list for Factoroids' incorrect questions
+static FactoroidsIncorrectQuestion* factoroids_wrong_questions_list = NULL;
+
 /*************** The Factor and Fraction Activity Game Functions ***************/
 
 /* Local function prototypes: */
@@ -224,10 +234,13 @@ static void game_handle_user_events(void);
 static int game_mouse_event(SDL_Event event);
 static int game_mouseroto(SDL_Event event) {return event.motion.xrel;}
 static void _tb_PowerBomb(int n);
+static void factoroids_show_incorrect_answers_review(void); // Forward declaration
 
 /************** factors(): The factor main function ********************/
 void factors(void)
 {
+// Label for restarting the game
+factors_restart_game_label:;
     static int previous_fps = -1;
     quit = 0;
 
@@ -307,10 +320,12 @@ void factors(void)
 /************** fractions(): The fractions main function ********************/
 void fractions(void)
 {
+// Label for restarting the game
+fractions_restart_game_label:;
     quit = 0;
     tux_img = IMG_TUX_CONSOLE1;
 
-    DEBUGMSG(debug_factoroids, "Entering factors():\n");
+    DEBUGMSG(debug_factoroids, "Entering fractions():\n"); // Corrected log message
     /*****Initalizing the Factor activiy *****/
     FF_game = FRACTIONS_GAME;
 
@@ -365,7 +380,203 @@ void fractions(void)
 
         FC_frame_end();
     }
-    FF_over(game_status);
+    int game_outcome = FF_over(game_status);
+
+    if (game_outcome == FF_IN_PROGRESS) { // Our special signal to restart
+        // FF_init() is called at the beginning of factors_restart_game_label,
+        // which will clear the factoroids_wrong_questions_list for a fresh game.
+        DEBUGMSG(debug_factoroids, "Restarting Factoroids game.\n");
+        goto factors_restart_game_label;
+    }
+    // For other outcomes (0 for title, 1 for quit), factors() will exit.
+}
+
+
+static int FF_over(int game_status)
+{
+    SDL_Rect dest_message;
+    SDL_Event event;
+
+
+    /* TODO: need better "victory" screen with animation, special music, etc., */
+    /* as well as options to review missed questions, play again using missed  */
+    /* questions as question list, etc.                                        */
+    /* TODO: also, some of these cases just redraw the background on every     */
+    /* frame with nothing else - just copy-and-pasted code without much        */
+    /* further attention.                                                      */
+
+    /* Turn mouse cursor back on before we go back to menus: */
+    SDL_ShowCursor(1);
+    SDL_WM_GrabInput(SDL_GRAB_OFF);
+
+
+    switch (game_status)
+    {
+        case FF_OVER_WON:
+            {
+                int looping = 1;
+
+                DEBUGMSG(debug_factoroids, "Loop exited with GAME_OVER_WON\n");
+
+                /* set up victory message: */
+                dest_message.x = (screen->w - images[IMG_GAMEOVER_WON]->w) / 2;
+                dest_message.y = (screen->h - images[IMG_GAMEOVER_WON]->h) / 2;
+                dest_message.w = images[IMG_GAMEOVER_WON]->w;
+                dest_message.h = images[IMG_GAMEOVER_WON]->h;
+
+                SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
+                SDL_Flip(screen);
+
+                wait_for_input();
+                break;
+            }
+
+        case FF_OVER_ERROR:
+            {
+                DEBUGMSG(debug_factoroids, "Loop exited with  FF_OVER_ERROR\n");
+            }
+        case FF_OVER_LOST:
+        case FF_OVER_OTHER:
+            {
+                DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_LOST or FF_OVER_OTHER\n");
+
+                /* set up GAMEOVER message: */
+                dest_message.x = (screen->w - images[IMG_GAMEOVER]->w) / 2;
+                dest_message.y = (screen->h - images[IMG_GAMEOVER]->h) / 2;
+                dest_message.w = images[IMG_GAMEOVER]->w;
+                dest_message.h = images[IMG_GAMEOVER]->h;
+
+                SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
+                SDL_Flip(screen);
+
+                wait_for_input();
+                break;
+            }
+
+        case FF_OVER_ESCAPE:
+            {
+                DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_ESCAPE\n");
+                // Don't show review screen if user escaped early
+                FF_exit_free();
+                Opts_SetLastScore(score); // Save score even on escape
+                return 0; // Return to title
+            }
+
+        case FF_OVER_SDL_QUIT:
+            {
+                DEBUGMSG(debug_factoroids, "Loop exited with FF_OVER_SDL_QUIT\n");
+                // Don't show review screen if user quit SDL
+                FF_exit_free();
+                Opts_SetLastScore(score); // Save score even on quit
+                return 1; // Propagate SDL_QUIT
+            }
+
+        default:
+            {
+                DEBUGMSG(debug_factoroids, "Loop exited with unrecognized status value: %dn", game_status);
+            }
+    }
+
+    // Show the review screen for incorrect answers if game ended normally (won/lost/other)
+    factoroids_show_incorrect_answers_review();
+
+    // Show the review screen for incorrect answers if game ended normally (won/lost/other)
+    int play_again_choice = 0;
+    if (game_status != FF_OVER_ESCAPE && game_status != FF_OVER_SDL_QUIT) {
+      play_again_choice = factoroids_show_incorrect_answers_review();
+    }
+    // NOTE: FF_exit_free() is NOT called here if play_again_choice is 1,
+    // because factors()/fractions() will loop and FF_init() will clear the list.
+    // If not playing again, FF_exit_free() is called below.
+
+    /* Save score in case needed for high score table: */
+    Opts_SetLastScore(score);
+
+    if (play_again_choice == 1) {
+        // Signal to factors() or fractions() to restart a normal game.
+        // The wrong_questions_list will be cleared by FF_init() in the new game.
+        return FF_IN_PROGRESS;
+    }
+
+    // If not playing again, free resources now.
+    FF_exit_free();
+
+    /* Return the chosen command for exiting to title screen or quitting SDL */
+    if (FF_OVER_SDL_QUIT == game_status)
+    {
+        /* program exits: */
+        return 1;
+    }
+    else
+    {
+        /* return to title() screen: */
+        return 0; // Indicates normal exit to title screen
+    }
+}
+
+// Modified to return player's choice
+static int factoroids_show_incorrect_answers_review(void)
+{
+    if (!factoroids_wrong_questions_list) {
+        DEBUGMSG(debug_factoroids, "No incorrect Factoroid answers to review.\n");
+        // Show a message if desired, then return 0 (no replay)
+        char* no_items[] = {(char*)_("No incorrect answers to review!")};
+        // Call with show_play_again_option = 0 as there are no items for a replay.
+        T4K_DisplayReviewList_WithOption(_("Review Incorrect Factorizations"), no_items, 1, NULL, 0);
+        return 0;
+    }
+
+    int num_wrong = 0;
+    FactoroidsIncorrectQuestion* temp_node = factoroids_wrong_questions_list;
+    while (temp_node) {
+        num_wrong++;
+        temp_node = temp_node->next;
+    }
+
+    if (num_wrong == 0) {
+        return;
+    }
+
+    int display_limit = 20; // Max items to display
+    int items_to_display = (num_wrong > display_limit) ? display_limit : num_wrong;
+
+    char** items = (char**)malloc(items_to_display * sizeof(char*));
+    if (!items) {
+        fprintf(stderr, "Failed to allocate memory for Factoroids review items.\n");
+        return;
+    }
+    // Initialize pointers to NULL for safe freeing later
+    for(int k=0; k < items_to_display; ++k) items[k] = NULL;
+
+    temp_node = factoroids_wrong_questions_list;
+    int i = 0;
+    char buffer[100];
+
+    while (temp_node && i < items_to_display) {
+        // Use gettext_noop for strings that might be translated later, or just plain strings
+        snprintf(buffer, sizeof(buffer), "Asteroid: %d, Your attempt: %d",
+                 temp_node->question_number, temp_node->incorrect_factor_attempted);
+        items[i] = strdup(buffer);
+        if (!items[i]) {
+            fprintf(stderr, "Failed to allocate memory for review item string (Factoroids).\n");
+            for (int j = 0; j < i; ++j) free(items[j]); // Free previously allocated strings
+            free(items);
+            return;
+        }
+        temp_node = temp_node->next;
+        i++;
+    }
+
+    // Factoroids doesn't have a concept of current_bkgd() like comets.c
+    // Pass NULL to use the default background in T4K_DisplayReviewList.
+    // Pass 1 for show_play_again_option, as we have items and want to ask.
+    int choice = T4K_DisplayReviewList_WithOption(_("Review Incorrect Factorizations"), items, items_to_display, NULL, 1);
+
+    for (i = 0; i < items_to_display; ++i) {
+        if (items[i]) free(items[i]);
+    }
+    free(items);
+    return choice;
 }
 
 
@@ -445,6 +656,8 @@ static int FF_init(void)
         laser[i].alive = 0;
 
     wait_for_input();
+
+    factoroids_wrong_questions_list = NULL; // Initialize the list
 
     return 1;
 }
@@ -941,6 +1154,16 @@ static int FF_over(int game_status)
 
 static void FF_exit_free()
 {
+    // Free the list of incorrect Factoroids questions
+    FactoroidsIncorrectQuestion* current = factoroids_wrong_questions_list;
+    FactoroidsIncorrectQuestion* next_node;
+    while (current != NULL) {
+        next_node = current->next;
+        free(current);
+        current = next_node;
+    }
+    factoroids_wrong_questions_list = NULL;
+
     free(asteroid);
     factoroids_cleanup_graphics();
 
@@ -1130,13 +1353,13 @@ int FF_add_laser(void)
                     thresh = thresh*thresh*inside_factor;
                     if (d2 < thresh)
                     {
-                        // The laser intersects the asteroid. Check to see if
-                        // the answer works
-
+                        // The laser intersects the asteroid. Check to see if the answer works
+                        int correct_hit = 0;
                         if( (FF_game==FACTOROIDS_GAME && (asteroid[k].isprime && ((num==asteroid[k].fact_number)||(num==0)))) ||
                                 (FF_game==FRACTIONS_GAME && (asteroid[k].isprime && num==0))
                           )
                         {
+                            correct_hit = 1;
                             // It's valid, check to see if it's closest
                             if (s < smin)
                             {
@@ -1149,6 +1372,7 @@ int FF_add_laser(void)
                         else if((FF_game==FACTOROIDS_GAME && num > 1 && ((asteroid[k].fact_number%num)==0) && (num!=asteroid[k].fact_number)) ||
                                 (FF_game==FRACTIONS_GAME && num > 1 && ((asteroid[k].a%num)==0) && ((asteroid[k].b%num)==0) && (num!=asteroid[k].fact_number)))
                         {
+                            correct_hit = 1;
                             // It's valid, check to see if it's closest
                             if (s < smin)
                             {
@@ -1156,6 +1380,20 @@ int FF_add_laser(void)
                                 smin = s;
                                 zapIndex = k;
                                 zapScore = 1;
+                            }
+                        }
+
+                        if (!correct_hit && FF_game==FACTOROIDS_GAME && num > 0) // num > 0 to avoid logging "0" from powerbomb
+                        {
+                            // Log incorrect attempt for Factoroids
+                            FactoroidsIncorrectQuestion* wrong_q = (FactoroidsIncorrectQuestion*)malloc(sizeof(FactoroidsIncorrectQuestion));
+                            if (wrong_q)
+                            {
+                                wrong_q->question_number = asteroid[k].fact_number;
+                                wrong_q->incorrect_factor_attempted = num;
+                                wrong_q->next = factoroids_wrong_questions_list;
+                                factoroids_wrong_questions_list = wrong_q;
+                                DEBUGMSG(debug_factoroids, "Logged incorrect Factoroids attempt: %d for %d\n", num, asteroid[k].fact_number);
                             }
                         }
                     }

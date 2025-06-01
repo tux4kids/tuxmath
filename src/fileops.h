@@ -264,4 +264,10 @@ int load_image_data();
 int load_sound_data();
 #endif
 
+// Function to unload all cached images, declared for use in other files like setup.c
+void Fileops_UnloadAllCachedImages(void);
+
+// Function to get a themed path for an image, caller must free the result.
+char* Fileops_GetThemedPath(const char* relative_filename);
+
 #endif

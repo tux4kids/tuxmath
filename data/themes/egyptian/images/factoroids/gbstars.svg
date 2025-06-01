@@ -1,0 +1,9 @@
+<svg width="640" height="480" xmlns="http://www.w3.org/2000/svg">
+  <rect width="640" height="480" style="fill:rgb(50,0,0);" />
+  <circle cx="100" cy="100" r="3" fill="yellow" />
+  <circle cx="200" cy="150" r="2" fill="yellow" />
+  <circle cx="300" cy="80" r="3" fill="yellow" />
+  <circle cx="400" cy="200" r="2" fill="yellow" />
+  <circle cx="500" cy="120" r="3" fill="yellow" />
+  <text x="10" y="470" font-family="Arial" font-size="12" fill="white">Egyptian Night Sky</text>
+</svg>

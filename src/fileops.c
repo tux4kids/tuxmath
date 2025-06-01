@@ -55,6 +55,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <ctype.h>
 #include <time.h>
 
+// Forward declaration for functions in options.c, used by Fileops_GetThemedPath and read_config_file
+const char* Opts_GetCurrentThemeName(void);
+void Opts_SetCurrentThemeName(const char* name);
+
 
 /* Used by both write_pregame_summary() and */
 /* write_postgame_summary() so defined with */
@@ -1146,8 +1150,12 @@ int read_config_file(MC_MathGame* game, FILE *fp, int file_type)
 
         /* Now ready to handle each name/value pair! */
 
+        if (0 == strcasecmp(parameter, "CURRENT_THEME"))
+        {
+            Opts_SetCurrentThemeName(value); // value is already the string, Opts_SetCurrentThemeName is now declared
+        }
         /* Set general game_options struct (see tuxmath.h): */ 
-        //    if(0 == strcasecmp(parameter, "per_user_config"))
+        //    else if(0 == strcasecmp(parameter, "per_user_config"))
         //    {
         //      /* Only let administrator change this setting */
         //      if (file_type == GLOBAL_CONFIG_FILE) 
@@ -2436,8 +2444,63 @@ static int str_to_bool(const char* val)
 }
 
 
+// Function to get a themed path for a given image filename.
+// Caller must free the returned string.
+char* Fileops_GetThemedPath(const char* relative_filename) {
+    char path_buffer[PATH_MAX];
+    FILE* fp_check = NULL;
+    const char* current_theme = Opts_GetCurrentThemeName(); // Now declared
+    const char* default_theme = "default";
+
+    if (!relative_filename) return NULL;
+
+    // 1. Try current theme
+    if (current_theme && strlen(current_theme) > 0) { // Ensure current_theme is not empty
+        snprintf(path_buffer, sizeof(path_buffer), "%s/themes/%s/images/%s", DATA_PREFIX, current_theme, relative_filename);
+        fp_check = fopen(path_buffer, "r");
+        if (fp_check) {
+            fclose(fp_check);
+            DEBUGMSG(debug_fileops, "Theme found: %s in theme %s\n", relative_filename, current_theme);
+            return strdup(path_buffer);
+        }
+    }
+
+    // 2. Try default theme (if current theme is not already default)
+    if (current_theme && strcmp(current_theme, default_theme) != 0) {
+        snprintf(path_buffer, sizeof(path_buffer), "%s/themes/%s/images/%s", DATA_PREFIX, default_theme, relative_filename);
+        fp_check = fopen(path_buffer, "r");
+        if (fp_check) {
+            fclose(fp_check);
+            DEBUGMSG(debug_fileops, "Theme found: %s in theme %s (fallback)\n", relative_filename, default_theme);
+            return strdup(path_buffer);
+        }
+    } else if (!current_theme || strlen(current_theme) == 0) {
+        // If current_theme was empty, try default theme explicitly as it wasn't tried in step 1.
+        snprintf(path_buffer, sizeof(path_buffer), "%s/themes/%s/images/%s", DATA_PREFIX, default_theme, relative_filename);
+        fp_check = fopen(path_buffer, "r");
+        if (fp_check) {
+            fclose(fp_check);
+            DEBUGMSG(debug_fileops, "Theme found: %s in theme %s (current theme was empty)\n", relative_filename, default_theme);
+            return strdup(path_buffer);
+        }
+    }
 
 
+    // 3. Try legacy path (DATA_PREFIX/images/relative_filename)
+    snprintf(path_buffer, sizeof(path_buffer), "%s/images/%s", DATA_PREFIX, relative_filename);
+    fp_check = fopen(path_buffer, "r");
+    if (fp_check) {
+        fclose(fp_check);
+        DEBUGMSG(debug_fileops, "Theme found: %s in legacy path\n", relative_filename);
+        return strdup(path_buffer);
+    }
 
-
-
+    DEBUGMSG(debug_fileops, "Theme NOT found for: %s in any known theme location or legacy path.\n", relative_filename);
+    // Fallback: construct the legacy path and return it, the caller (IMG_Load/TuxMath_LoadSVG) will then fail if it truly doesn't exist.
+    // This ensures that if a file is missing from themes but present in the original location, it might still load if the logic previously depended on DATA_PREFIX/images.
+    // However, the ideal is for Fileops_GetThemedPath to return NULL if no themed version (including default theme) is found,
+    // and let the caller decide on further fallbacks. For now, returning what it would have tried last.
+    snprintf(path_buffer, sizeof(path_buffer), "%s/images/%s", DATA_PREFIX, relative_filename);
+    DEBUGMSG(debug_fileops, "Returning legacy path as last resort for %s: %s\n", relative_filename, path_buffer);
+    return strdup(path_buffer); // Caller must still handle if this path is invalid.
+}

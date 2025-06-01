@@ -35,7 +35,10 @@ EXTRA_DIST = t4k_common.mk \
 	buildw32/cross-make.sh \
 	buildw32/setup_mingw-cross-env.sh \
 	buildw32/tmwin.sh \
-	buildw32/t4k_common.mk
+	buildw32/t4k_common.mk \
+	data/themes/egyptian/images/status/tux4kids.svg \
+	data/themes/egyptian/images/comets/mini_comet1.svg \
+	data/themes/egyptian/images/factoroids/gbstars.svg
 
 ##datadir = @datadir@
 ##localedir = $(datadir)/locale
