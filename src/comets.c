@@ -402,10 +402,98 @@ int comets_game(MC_MathGame* mgame)
     }
     else
     {
+        // Show review screen and get player choice
+        int play_again_choice = comets_show_incorrect_answers_review(curr_game);
+
+        if (play_again_choice == 1) { // Player chose 'Y'
+            DEBUGMSG(debug_game, "Player chose to replay with wrong questions.\n");
+            // MC_StartGameUsingWrongs will use curr_game->wrong_quests
+            // and then clear wrong_quests for the new session.
+            if (MC_StartGameUsingWrongs(curr_game)) {
+                // Reset necessary game state for a new round
+                wave = 1; // Or maintain wave? For now, reset.
+                score = 0;
+                // Other state resets similar to comets_initialize or a subset of it
+                reset_level(); // Resets background, speed, comets count for wave 1
+
+                // Reset counters and statuses that comets_initialize would set
+                gameover_counter = -1;
+                user_quit_received = 0;
+                game_over_won = 0;
+                game_over_other = 0;
+                network_error = 0;
+                comets_halted_by_server = 0;
+                paused = 0;
+                doing_answer = 0;
+                tux_pressing = 0;
+                tux_img = IMG_TUX_RELAX1;
+                tux_anim = -1;
+                tux_anim_frame = 0;
+                level_start_wait = LEVEL_START_WAIT_START; // Show "Wave X" message
+                comets_clear_messages(); // Clear any old messages
+                start_message_chosen = 0; // Allow new start messages if any
+
+                // Effectively jump to the start of the game loop logic
+                goto restart_comets_game_loop_label;
+            } else {
+                DEBUGMSG(debug_game, "MC_StartGameUsingWrongs failed or no wrong questions, proceeding to title.\n");
+            }
+        }
+
         /* return to title() screen: */
         DEBUGMSG(debug_game, "Leaving game() normally\n");
         return comets_status;
     }
+}
+
+// Modified to return player's choice
+static int comets_show_incorrect_answers_review(MC_MathGame* game_data)
+{
+    if (!game_data) { // No game data, no review
+        return 0;
+    }
+    // Check if wrong_quests list exists and is not empty
+    if (!game_data->wrong_quests || MC_WrongListLength(game_data) == 0) {
+        // Optionally, show a message like "No incorrect answers to review!"
+        // For now, just return 0, indicating no desire/ability to play again with wrongs.
+        // T4K_DisplayReviewList_WithOption could be called with num_items = 0 and show_play_again_option = 0
+        // to show such a message if desired, but current T4K_DisplayReviewList_WithOption handles num_items=0 by not showing Y/N.
+        DEBUGMSG(debug_game, "No incorrect Comets answers to review.\n");
+        // We can still show a simple message screen if desired
+        char* no_items[] = {(char*)_("No incorrect answers to review!")};
+        T4K_DisplayReviewList_WithOption(_("Review Incorrect Answers (Comets)"), no_items, 1, current_bkgd(), 0);
+        return 0;
+    }
+
+    int num_wrong = MC_WrongListLength(game_data);
+    // Limit displayed questions to avoid overwhelming screen, e.g., max 20
+    int display_limit = 20;
+    int items_to_display = (num_wrong > display_limit) ? display_limit : num_wrong;
+
+    char** items = (char**)malloc(items_to_display * sizeof(char*));
+    if (!items) {
+        fprintf(stderr, "Failed to allocate memory for review items.\n");
+        return 0; // Return 0 indicating no replay
+    }
+
+    MC_MathQuestion* current_wrong = game_data->wrong_quests;
+    int i = 0;
+    while (current_wrong && i < items_to_display) {
+        if (current_wrong->card.formula_string) {
+            items[i] = (char*)current_wrong->card.formula_string;
+        } else {
+            items[i] = "(Error: Missing question text)";
+        }
+        current_wrong = current_wrong->next;
+        i++;
+    }
+
+    SDL_Surface* bg = current_bkgd();
+    // Pass 1 for show_play_again_option
+    int choice = T4K_DisplayReviewList_WithOption(_("Review Incorrect Answers (Comets)"), items, items_to_display, bg, 1);
+
+    free(items);
+    return choice;
 }
 
 
@@ -2688,7 +2776,7 @@ int add_comet(void)
 
     int com_found = -1;
 
-    y_spacing = (images[IMG_NUMS]->h) * 1.5;
+    y_spacing = (images[IMG_NUMS]->h) * 1.0; // Reduced multiplier from 1.5 to 1.0
 
     /* Return if any previous comet too high up to create another one yet: */
     for (i = 0; i < MAX_MAX_COMETS; i++)

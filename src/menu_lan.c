@@ -59,7 +59,7 @@ int ConnectToServer(void)
 
     /* Draw background: */
     if (current_bkg())
-        SDL_BlitSurface(current_bkg(), NULL, screen, NULL);
+        T4K_BlitSurfaceToScreen(current_bkg(), NULL, NULL);
 
     /* Red "Stop" circle in upper right corner to go back to main menu: */
     if (images[IMG_STOP])
@@ -68,7 +68,7 @@ int ConnectToServer(void)
         stopRect.h = images[IMG_STOP]->h;
         stopRect.x = screen->w - images[IMG_STOP]->w;
         stopRect.y = 0;
-        SDL_BlitSurface(images[IMG_STOP], NULL, screen, &stopRect);
+        T4K_BlitSurfaceToScreen(images[IMG_STOP], NULL, &stopRect);
     }
 
 
@@ -79,7 +79,7 @@ int ConnectToServer(void)
         {
             loc.x = (screen->w/2) - (s->w/2);
             loc.y = 110;
-            SDL_BlitSurface(s, NULL, screen, &loc);
+            T4K_BlitSurfaceToScreen(s, NULL, &loc);
             SDL_FreeSurface(s);
         }
 
@@ -89,7 +89,7 @@ int ConnectToServer(void)
         {
             loc.x = (screen->w/2) - (s->w/2);
             loc.y = 140;
-            SDL_BlitSurface(s, NULL, screen, &loc);
+            T4K_BlitSurfaceToScreen(s, NULL, &loc);
             SDL_FreeSurface(s);
         }
         s = NULL;
@@ -273,12 +273,12 @@ int Pregame(void)
         //Draw -------------------------------
         DrawTitleScreen();
         HandleTitleScreenAnimations();
-        SDL_BlitSurface(stop_button, NULL, screen, &stop_rect);
+        T4K_BlitSurfaceToScreen(stop_button, NULL, &stop_rect);
         //Draw "play" or "pause" button:
         if(ready)
-            SDL_BlitSurface(pause_surf, NULL, screen, &ready_rect);
+            T4K_BlitSurfaceToScreen(pause_surf, NULL, &ready_rect);
         else
-            SDL_BlitSurface(play_surf, NULL, screen, &ready_rect);
+            T4K_BlitSurfaceToScreen(play_surf, NULL, &ready_rect);
         //Draw shaded background for headings:
         title_rect.x = screen->w/2 - widest/2;
         title_rect.y = 0;
@@ -292,7 +292,7 @@ int Pregame(void)
             s = notready_title;
         title_rect.x = screen->w/2 - s->w/2;
         title_rect.y = screen->h * 0.05;
-        SDL_BlitSurface(s, NULL, screen, &title_rect);
+        T4K_BlitSurfaceToScreen(s, NULL, &title_rect);
 
         if(ready)
             s = ready_subtitle;
@@ -300,7 +300,7 @@ int Pregame(void)
             s = notready_subtitle;
         title_rect.x = screen->w/2 - s->w/2;
         title_rect.y = screen->h * 0.3;
-        SDL_BlitSurface(s, NULL, screen, &title_rect);
+        T4K_BlitSurfaceToScreen(s, NULL, &title_rect);
         //Draw status of other players:
         draw_player_table();
 
@@ -460,7 +460,7 @@ void draw_player_table(void)
     {
         loc.x = name_x;
         loc.y = screen->h * 0.45;
-        SDL_BlitSurface(surf, NULL, screen, &loc);
+        T4K_BlitSurfaceToScreen(surf, NULL, &loc);
         SDL_FreeSurface(surf);
         surf = NULL;
     }
@@ -475,7 +475,7 @@ void draw_player_table(void)
     {
         loc.x = name_x;
         loc.y += surf->h;
-        SDL_BlitSurface(surf, NULL, screen, &loc);
+        T4K_BlitSurfaceToScreen(surf, NULL, &loc);
         SDL_FreeSurface(surf);
         surf = NULL;
     }
@@ -497,7 +497,7 @@ void draw_player_table(void)
             {
                 loc.x = name_x;
                 loc.y += surf->h;
-                SDL_BlitSurface(surf, NULL, screen, &loc);
+                T4K_BlitSurfaceToScreen(surf, NULL, &loc);
                 SDL_FreeSurface(surf);
                 surf = NULL;
             }
@@ -515,7 +515,7 @@ void draw_player_table(void)
             if(surf)
             {
                 loc.x = ready_x;
-                SDL_BlitSurface(surf, NULL, screen, &loc);
+                T4K_BlitSurfaceToScreen(surf, NULL, &loc);
                 SDL_FreeSurface(surf);
                 surf = NULL;
             }

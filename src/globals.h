@@ -66,18 +66,18 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 //extern int debug_status;
 
 /* bitmasks for debugging options (declared in options.c) */
-extern const int debug_setup;
-extern const int debug_fileops;
-extern const int debug_titlescreen;
-extern const int debug_game;
-extern const int debug_factoroids;
-extern const int debug_lan;
-extern const int debug_mathcards;
-extern const int debug_lessons;
-extern const int debug_highscore;
-extern const int debug_options;
-extern const int debug_text_and_intl;
-extern const int debug_multiplayer;
+/* extern const int debug_setup; // Now in t4k_common */
+/* extern const int debug_fileops; // Now in t4k_common */
+/* extern const int debug_titlescreen; // Now in t4k_common */
+/* extern const int debug_game; // Now in t4k_common */
+/* extern const int debug_factoroids; // Now in t4k_common */
+/* extern const int debug_lan; // Now in t4k_common */
+/* extern const int debug_mathcards; // Now in t4k_common */
+/* extern const int debug_lessons; // Now in t4k_common */
+/* extern const int debug_highscore; // Now in t4k_common */
+/* extern const int debug_options; // Now in t4k_common */
+/* extern const int debug_text_and_intl; // Now in t4k_common */
+/* extern const int debug_multiplayer; // Now in t4k_common */
 
 /* debug macros (now in libt4k_comon) */
 //#define DEBUGCODE(mask) if((mask) & debug_status)
@@ -176,7 +176,7 @@ enum {
 
 
 //Declared in t4k_global.h
-extern int text_to_speech_status;
+//extern int text_to_speech_status; // Now in t4k_common (t4k_global.h)
 
 #define NAME_BUF_SIZE 200
 

@@ -47,7 +47,7 @@ void comets_draw_background(SDL_Surface *bkgd, int wave)
     {
         dest.x = (screen->w - bkgd->w) / 2;
         dest.y = (screen->h - bkgd->h) / 2;
-        SDL_BlitSurface(bkgd, NULL, screen, &dest);
+        T4K_BlitSurfaceToScreen(bkgd, NULL, &dest);
     }
 }
 
@@ -92,7 +92,7 @@ void comets_draw_comets(const comet_type *comets)
             dest.y = comets[i].y - img->h;
             dest.w = img->w;
             dest.h = img->h;
-            SDL_BlitSurface(img, NULL, screen, &dest);
+            T4K_BlitSurfaceToScreen(img, NULL, &dest);
 
             if (num_draw)
             {
@@ -130,7 +130,7 @@ void comets_draw_comets(const comet_type *comets)
             dest.y = comets[i].y - img->h;
             dest.w = img->w;
             dest.h = img->h;
-            SDL_BlitSurface(img, NULL, screen, &dest);
+            T4K_BlitSurfaceToScreen(img, NULL, &dest);
             if (num_draw)
                 comets_draw_comet_nums(&comets[i], answered, &white);
         }

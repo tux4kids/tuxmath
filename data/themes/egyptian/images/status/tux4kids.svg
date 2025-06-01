@@ -1,0 +1,5 @@
+<svg width="128" height="64" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="64" style="fill:rgb(200,180,100);" />
+  <text x="10" y="40" font-family="Arial" font-size="20" fill="black">Tux4Kids</text>
+  <text x="15" y="55" font-family="Arial" font-size="10" fill="black">(Egyptian Theme)</text>
+</svg>

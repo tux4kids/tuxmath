@@ -108,8 +108,20 @@ EXTRA_DIST = 	\
 	testclient.h	\
 	transtruct.h	\
         CMakeLists.txt  \
-	mysetenv.h
+	mysetenv.h	\
+	nanosvg.h	\
+	nanosvgrast.h
         
+
+
+# Add math library for NanoSVG
+tuxmath_LDADD = $(SDL_LIBS) $(SDL_IMAGE_LIBS) $(SDL_MIXER_LIBS) $(SDL_NET_LIBS) $(SDL_TTF_LIBS) $(SDL_PANGO_LIBS) $(SDL_GFX_LIBS) -lm
+tuxmathserver_LDADD = $(SDL_NET_LIBS) -lm
+tuxmathtestclient_LDADD = $(SDL_NET_LIBS) -lm
+# generate_lesson might also need -lm if mathcards uses math functions directly or indirectly via nanosvg (unlikely here)
+generate_lesson_LDADD = -lm
+# TuxMath for Windows would also need it
+TuxMath_LDADD = $(SDL_LIBS) $(SDL_IMAGE_LIBS) $(SDL_MIXER_LIBS) $(SDL_NET_LIBS) $(SDL_TTF_LIBS) $(SDL_PANGO_LIBS) $(SDL_GFX_LIBS) -lm
 
 
 WINDRES=@WINDRES@

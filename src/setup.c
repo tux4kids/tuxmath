@@ -960,6 +960,9 @@ void cleanup_memory(void)
         lan_game_settings = NULL;
     }
 
+    /* Unload all cached images */
+    Fileops_UnloadAllCachedImages();
+
     /* Cleanup SDL+friends and anything else used by t4k_common: */
     CleanupT4KCommon();
 }
