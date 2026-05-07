@@ -27,6 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "titlescreen.h"
 
 Mix_Music *music;
+SDL_Thread *tts_announcer_thread;
 
 void playsound(int snd)
 {
