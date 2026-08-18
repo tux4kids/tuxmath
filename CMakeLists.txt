@@ -110,15 +110,11 @@ else (ENABLE_NLS)
 endif (ENABLE_NLS)
 message("ENABLE_NLS ${ENABLE_NLS}")
 set(HAVE_GETTEXT ENABLE_NLS)
-# Check to see if we have SDL_Pango support for the right-to-left languages
-if (ENABLE_NLS)
-  find_package(SDL_Pango)
-  set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
-endif (ENABLE_NLS)
 
-
-## Don't think we need SDL_gfx anymore:
-##FIND_PACKAGE(SDL_gfx REQUIRED)
+find_package(SDL3 REQUIRED CONFIG)
+find_package(SDL3_image REQUIRED CONFIG)
+find_package(SDL3_mixer REQUIRED CONFIG)
+find_package(SDL3_net CONFIG)
 
 # Check for libRSVG for SVG support
 

@@ -65,48 +65,38 @@ dnl ---------------------------------------------------------------------------
 
 
 
-dnl Check for SDL
+dnl Check for SDL3
 PKG_CHECK_MODULES([SDL],
-	[sdl >= 1.2.0],
+	[sdl3 >= 3.0.0],
 	[],
-	[SDL_VERSION=1.2.0
-	 AM_PATH_SDL($SDL_VERSION, :,
-		AC_MSG_ERROR([SDL version $SDL_VERSION not found! http://www.libsdl.org]))])
+	[AC_MSG_ERROR([SDL3 not found! http://www.libsdl.org])])
 
-CFLAGS="$CFLAGS $SDL_CFLAGS" 
+CFLAGS="$CFLAGS $SDL_CFLAGS"
 LIBS="$LIBS $SDL_LIBS"
 
 
 
-dnl Check for SDL_image: ------------------------------------------------------
+dnl Check for SDL3_image: ------------------------------------------------------
 
 PKG_CHECK_MODULES([SDL_IMAGE],
-	[SDL_image],
+	[sdl3-image],
 	[],
-	[AC_MSG_NOTICE([SDL_image not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_image],
-		[IMG_Load],
-		[],
-		[AC_MSG_ERROR([SDL_image not found! http://www.libsdl.org/projects/SDL_image])])])
+	[AC_MSG_ERROR([SDL3_image not found! http://www.libsdl.org/projects/SDL_image])])
 
-AC_DEFINE([HAVE_LIBSDL_IMAGE],[1],[Define to 1 if you have the 'SDL_image' library])
-CFLAGS="$CFLAGS $SDL_IMAGE"
+AC_DEFINE([HAVE_LIBSDL_IMAGE],[1],[Define to 1 if you have the 'SDL3_image' library])
+CFLAGS="$CFLAGS $SDL_IMAGE_CFLAGS"
 LIBS="$LIBS $SDL_IMAGE_LIBS"
 
 
 
-dnl Check for SDL_mixer: --------------------------------------------------------
+dnl Check for SDL3_mixer: --------------------------------------------------------
 
 PKG_CHECK_MODULES([SDL_MIXER],
-	[SDL_mixer],
+	[sdl3-mixer],
 	[],
-	[AC_MSG_NOTICE([SDL_mixer not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_mixer],
-		[Mix_OpenAudio],
-		[],
-		[AC_MSG_ERROR([SDL_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])])
+	[AC_MSG_ERROR([SDL3_mixer not found! http://www.libsdl.org/projects/SDL_mixer])])
 
-AC_DEFINE([HAVE_LIBSDL_MIXER],[1],[Define to 1 if you have the 'SDL_mixer' library])
+AC_DEFINE([HAVE_LIBSDL_MIXER],[1],[Define to 1 if you have the 'SDL3_mixer' library])
 CFLAGS="$CFLAGS $SDL_MIXER_CFLAGS"
 LIBS="$LIBS $SDL_MIXER_LIBS"
 
@@ -170,15 +160,11 @@ AC_CHECK_LIB([ws2_32],
 
 
 PKG_CHECK_MODULES([SDL_NET],
-	[SDL_net],
+	[sdl3-net],
 	[],
-	[AC_MSG_NOTICE([SDL_net not located by pkg-config, checking with AC CHECK LIB:])
-	 AC_CHECK_LIB([SDL_net],
-		[SDLNet_Init],
-		[],
-		[AC_MSG_FAILURE([SDL_net test failed (--without-sdlnet to disable)])])])
+	[AC_MSG_FAILURE([SDL3_net test failed (--without-sdlnet to disable)])])
 
-AC_DEFINE([HAVE_LIBSDL_NET],[1],[Define to 1 if you have the 'SDL_net' library])
+AC_DEFINE([HAVE_LIBSDL_NET],[1],[Define to 1 if you have the 'SDL3_net' library])
 CFLAGS="$CFLAGS $SDL_NET_CFLAGS"
 LIBS="$LIBS $SDL_NET_LIBS"
 fi
