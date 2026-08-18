@@ -668,11 +668,6 @@ void initialize_SDL(void)
 {
     //NOTE - SDL_Init() and friends now in InitT4KCommon()
 
-    // Audio parameters
-    int frequency, channels;
-    SDL_AudioFormat format;
-    SDL_AudioSpec desired_spec;
-
     /* Init common library */
     if(!InitT4KCommon(debug_status))
     {
@@ -690,27 +685,19 @@ void initialize_SDL(void)
 #ifndef NOSOUND
     if (Opts_GetGlobalOpt(USE_SOUND))
     {
-        SDL_zero(desired_spec);
-        desired_spec.freq = MIX_DEFAULT_FREQUENCY;
-        desired_spec.format = SDL_AUDIO_S16;
-        desired_spec.channels = 2;
-        if (!Mix_OpenAudio(0, &desired_spec))
+        if (!T4K_AudioOpen(44100, 2))
         {
             fprintf(stderr,
                     "\nWarning: I could not set up audio for 44100 Hz "
                     "16-bit stereo.\n"
                     "The Simple DirectMedia error that occured was:\n"
                     "%s\n\n", SDL_GetError());
-
         }
-        if (Mix_QuerySpec(&frequency,&format,&channels))
-            Opts_SetSoundHWAvailable(1);
         else
-            frequency = format = channels = 0; //more helpful than garbage
-        DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
-                "format = %x, "
-                "channels = %d\n",
-                frequency,format,channels);
+        {
+            Opts_SetSoundHWAvailable(1);
+        }
+        DEBUGMSG(debug_setup, "Sound mixer available: %d\n", Opts_SoundHWAvailable());
     }
 #endif
     /* If couldn't set up sound, deselect sound options: */
@@ -894,14 +881,14 @@ void cleanup_memory(void)
     for (i = 0; i < NUM_SOUNDS; i++)
     {
         if (sounds[i])
-            Mix_FreeChunk(sounds[i]);
+            MIX_DestroyAudio(sounds[i]);
         sounds[i] = NULL;
     }
 
     for (i = 0; i < NUM_MUSICS; i++)
     {
         if (musics[i])
-            Mix_FreeMusic(musics[i]);
+            MIX_DestroyAudio(musics[i]);
         musics[i] = NULL;
     }
 

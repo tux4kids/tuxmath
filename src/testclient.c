@@ -51,7 +51,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <unistd.h>
 #include <fcntl.h> 
 
-//#include "SDL_net.h"
+//#include <SDL3_net/SDL_net.h>
 
 /* Local (to testclient.c) "globals": */
 

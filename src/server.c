@@ -167,7 +167,7 @@ char local_argv_storage[MAX_ARGS][256];
 
 int RunServer(int argc, char* argv[])
 { 
-    Uint32 timer = 0;
+    Uint64 timer = 0;
     ignore_stdin = 0;
     int frame = 0;
 
@@ -409,7 +409,7 @@ void StopSrvrGame(int thread_id_no)
 // setup_server() - all the things needed to get server running:
 int setup_server(int thread_id_no)
 {
-    Uint32 timer = 0;
+    Uint64 timer = 0;
 
     slave_thread[thread_id_no].num_clients=0; // To ensure no garbage value is used. 
 

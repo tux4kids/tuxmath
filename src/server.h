@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_LIBSDL_NET
 
-#include "SDL_net.h"
+#include <SDL3_net/SDL_net.h>
 
 #define NAME_SIZE 50
 #define DEFAULT_SERVER_NAME "TuxMath LAN Server"

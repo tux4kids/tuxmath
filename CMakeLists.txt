@@ -11,6 +11,9 @@
 # programs, and functions.  The Autotools build is the basis
 # for official releases and is more consistently maintained.
 
+## Setting up CMake itself
+cmake_minimum_required(VERSION 3.10)
+
 project(TuxMath)
 
 
@@ -18,8 +21,6 @@ set(TUXMATH_VERSION "2.0.4")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
-## Setting up CMake itself
-cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH "${TuxMath_SOURCE_DIR}/cmake-modules")
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -130,6 +131,13 @@ if(PKG_CONFIG_FOUND)
     endif(CAIRO_FOUND)
   endif(RSVG_FOUND)
 endif(PKG_CONFIG_FOUND)
+
+# Locate libt4k_common
+find_path(T4KCOMMON_INCLUDE_DIR t4k_common.h)
+find_library(T4KCOMMON_LIBRARY NAMES t4k_common)
+if (T4KCOMMON_INCLUDE_DIR AND T4KCOMMON_LIBRARY)
+  set(T4KCOMMON_FOUND 1)
+endif ()
 
 
 ## Run configure checks

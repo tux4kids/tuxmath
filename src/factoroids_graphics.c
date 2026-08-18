@@ -101,7 +101,7 @@ extern int FF_game;
 
 SDL_Surface* current_bkgd(void)
 {
-    return screen->flags & SDL_FULLSCREEN ? scaled_bkgd : bkgd;
+    return T4K_IsFullscreen() ? scaled_bkgd : bkgd;
 }
 
 
@@ -179,50 +179,50 @@ void factoroids_cleanup_graphics(void)
     {
         if (IMG_tuxship[i])
         {
-            SDL_FreeSurface(IMG_tuxship[i]);
+            SDL_DestroySurface(IMG_tuxship[i]);
             IMG_tuxship[i] = NULL;
         }
         if (IMG_tuxship_thrust[i])
         {
-            SDL_FreeSurface(IMG_tuxship_thrust[i]);
+            SDL_DestroySurface(IMG_tuxship_thrust[i]);
             IMG_tuxship_thrust[i] = NULL;
         }
         if (IMG_tuxship_cloaked[i])
         {
-            SDL_FreeSurface(IMG_tuxship_cloaked[i]);
+            SDL_DestroySurface(IMG_tuxship_cloaked[i]);
             IMG_tuxship_cloaked[i] = NULL;
         }
         if (IMG_tuxship_thrust_cloaked[i])
         {
-            SDL_FreeSurface(IMG_tuxship_thrust_cloaked[i]);
+            SDL_DestroySurface(IMG_tuxship_thrust_cloaked[i]);
             IMG_tuxship_thrust_cloaked[i] = NULL;
         }
         if (IMG_asteroids1[i])
         {
-            SDL_FreeSurface(IMG_asteroids1[i]);
+            SDL_DestroySurface(IMG_asteroids1[i]);
             IMG_asteroids1[i] = NULL;
         }
         if (IMG_asteroids2[i])
         {
-            SDL_FreeSurface(IMG_asteroids2[i]);
+            SDL_DestroySurface(IMG_asteroids2[i]);
             IMG_asteroids2[i] = NULL;
         }
     }
 
     if (IMG_lives_ship)
     {
-        SDL_FreeSurface(IMG_lives_ship);
+        SDL_DestroySurface(IMG_lives_ship);
         IMG_lives_ship = NULL;
     }
 
     if (bkgd)
     {
-        SDL_FreeSurface(bkgd);
+        SDL_DestroySurface(bkgd);
         bkgd = NULL;
     }
     if (scaled_bkgd)
     {
-        SDL_FreeSurface(scaled_bkgd);
+        SDL_DestroySurface(scaled_bkgd);
         scaled_bkgd = NULL;
     }
 }
@@ -265,8 +265,8 @@ void factoroids_intro(void)
                     "to split it.  Destroy fractions that can not be further simplified in a single shot!"));
     }
 
-    SDL_FreeSurface(IMG_factors);
-    SDL_FreeSurface(IMG_fractions);
+    SDL_DestroySurface(IMG_factors);
+    SDL_DestroySurface(IMG_fractions);
 }
 
 
@@ -281,7 +281,7 @@ void factoroids_draw(asteroid_type *asteroid, tuxship_type *tuxship, FF_laser_ty
     SDL_Surface* surf;
     SDL_Rect dest;
 
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+    SDL_FillSurfaceRect(screen, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0, 0, 0));
 
     /************ Draw Background ***************/
 
@@ -645,9 +645,9 @@ void factoroids_show_message(char* str)
         loc.x = screen->w/2 - s1->w/2;
         loc.y = screen->h/4;
         SDL_BlitSurface(s1, NULL, screen, &loc);
-        SDL_FreeSurface(s1);
+        SDL_DestroySurface(s1);
     }
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    T4K_UpdateRect(screen, NULL);
 }
 
 
@@ -682,10 +682,10 @@ void factoroids_level_objs_hints(char *label, char *contents, int x, int y )
         SDL_BlitSurface(s2, NULL, screen, &loc);
     }
 
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    T4K_UpdateRect(screen, NULL);
 
-    SDL_FreeSurface(s1);
-    SDL_FreeSurface(s2);
+    SDL_DestroySurface(s1);
+    SDL_DestroySurface(s2);
 }
 
 
@@ -723,7 +723,7 @@ void factoroids_level_message(int wave)
     if(bgsurf)
     {
         SDL_BlitSurface(bgsurf, NULL, screen, &rect );
-        SDL_FreeSurface(bgsurf);
+        SDL_DestroySurface(bgsurf);
     }
 
     nwave = (wave > PRIME_MAX_LIMIT) ? PRIME_MAX_LIMIT : wave;
@@ -731,7 +731,7 @@ void factoroids_level_message(int wave)
     factoroids_level_objs_hints(_("Objectives:"), _(objs_str[nwave-1]), rect.x+LVL_OBJ_X_OFFSET, rect.y+LVL_OBJ_Y_OFFSET);
     factoroids_level_objs_hints(_("Hints:"), _(hints_str[nwave-1]), rect.x+LVL_HINT_X_OFFSET, rect.y+LVL_HINT_Y_OFFSET-10);
 
-    SDL_Flip(screen);
+    T4K_UpdateRect(screen, NULL);
 
     wait_for_input();
 }

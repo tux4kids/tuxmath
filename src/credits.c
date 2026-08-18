@@ -30,7 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #include "tuxmath.h"
 #include "options.h"
@@ -405,7 +405,7 @@ int credits(void)
 
     /* Clear window: */
 
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+    SDL_FillSurfaceRect(screen, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0, 0, 0));
 
 
     /* Draw title: */
@@ -455,7 +455,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
         if(s)
         {           
             line_height = s->h;
-            SDL_FreeSurface(s);
+            SDL_DestroySurface(s);
         }
     }
 
@@ -465,21 +465,21 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
         /* Handle any incoming events: */
         while (SDL_PollEvent(&event) > 0)
         {
-            if (event.type == SDL_QUIT)
+            if (event.type == SDL_EVENT_QUIT)
             {
                 /* Window close event - quit! */
                 quit = 1;
                 done = 1;
             }
-            else if (event.type == SDL_KEYDOWN)
+            else if (event.type == SDL_EVENT_KEY_DOWN)
             {
-                if (event.key.keysym.sym == SDLK_ESCAPE)
+                if (event.key.key == SDLK_ESCAPE)
                 {
                     /* Escape key - quit! */
                     done = 1;
                 }
             }
-            else if (event.type == SDL_MOUSEBUTTONDOWN)
+            else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN)
             {
                 done = 1;
             }
@@ -496,7 +496,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
         dest.w = subscreen.w;
         dest.h = speed;
 
-        SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 0, 0));
+        SDL_FillSurfaceRect(screen, &dest, SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0, 0, 0));
 
         ++scroll;
 
@@ -527,7 +527,7 @@ int scroll_text(char text[MAX_LINES][MAX_LINEWIDTH], SDL_Rect subscreen, int spe
             }
         }
 
-        SDL_Flip(screen);
+        T4K_UpdateRect(screen, NULL);
 
         /* Pause (keep frame-rate event) */
         now_time = SDL_GetTicks();
@@ -608,8 +608,8 @@ void draw_text(char * str, int offset)
                         dest.w = 3;
                         dest.h = 3;
 
-                        SDL_FillRect(screen, &dest,
-                                SDL_MapRGB(screen->format, r, g, b));
+                        SDL_FillSurfaceRect(screen, &dest,
+                                SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, r, g, b));
                     }
                 }
             }
@@ -656,7 +656,7 @@ void draw_text(char* str, SDL_Rect dest)
 
     dest.x -= surf->w / 2; //center text
     SDL_BlitSurface(surf, NULL, screen, &dest);
-    SDL_FreeSurface(surf);
+    SDL_DestroySurface(surf);
     DEBUGMSG(debug_titlescreen, "done\n");
 }
 #endif

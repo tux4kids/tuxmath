@@ -78,7 +78,7 @@ int LAN_DetectServers(void)
     int attempts = 0;
     int num_servers = 0;
     int i = 0;
-    Uint32 timer = 0;
+    Uint64 timer = 0;
     //zero out old server list
     for(i = 0; i < MAX_SERVERS; i++)
         servers[i].ip.host = 0;

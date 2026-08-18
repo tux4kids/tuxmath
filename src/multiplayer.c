@@ -30,6 +30,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 
 
 #include "tuxmath.h"
+#include "comets.h"
 #include "multiplayer.h"
 #include "game.h"
 #include "options.h"
@@ -252,22 +253,22 @@ void showWinners(int* winners, int num)
         box.w += boxspeed * 2;
 
         //reveal text specifying the winner
-        SDL_FillRect(screen, &box, 0);
+        SDL_FillSurfaceRect(screen, &box, 0);
         draw_text(text, center);
-        SDL_UpdateRect(screen, box.x, box.y, box.w, box.h);
+        T4K_UpdateRect(screen, NULL);
 
         while (SDL_PollEvent(&evt) )
-            if (evt.type == SDL_KEYDOWN && evt.key.keysym.sym == SDLK_ESCAPE)
+            if (evt.type == SDL_EVENT_KEY_DOWN && evt.key.key == SDLK_ESCAPE)
                 skip = 1;
         if (skip)
             break;
         SDL_Delay(50);
     }
     //in case we've skipped, cover the whole screen
-    SDL_FillRect(screen, NULL, 0);
+    SDL_FillSurfaceRect(screen, NULL, 0);
     draw_text(text, center);
-    SDL_Flip(screen);
-    T4K_WaitForEvent(SDL_KEYDOWNMASK | SDL_MOUSEBUTTONDOWNMASK);
+    T4K_UpdateRect(screen, NULL);
+    T4K_WaitForEvent((Uint32[]){SDL_EVENT_KEY_DOWN, SDL_EVENT_MOUSE_BUTTON_DOWN}, 2);
 }
 
 int initMP()

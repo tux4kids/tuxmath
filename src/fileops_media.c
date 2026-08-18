@@ -227,9 +227,9 @@ int load_image_data()
 
 #ifdef REPLACE_WAVESCORE
     /* Replace the "WAVE" and "SCORE" with translate-able versions */
-    SDL_FreeSurface(images[IMG_WAVE]);
+    SDL_DestroySurface(images[IMG_WAVE]);
     images[IMG_WAVE] = T4K_SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
-    SDL_FreeSurface(images[IMG_SCORE]);
+    SDL_DestroySurface(images[IMG_SCORE]);
     images[IMG_SCORE] = T4K_SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
     glyph_offset++;
 #endif
@@ -268,7 +268,7 @@ int load_sound_data(void)
     {
         for (i = 0; i < NUM_SOUNDS; i++)
         {
-            sounds[i] = Mix_LoadWAV(sound_filenames[i]);
+            sounds[i] = MIX_LoadAudio(T4K_GetMixer(), sound_filenames[i], true);
 
             if (sounds[i] == NULL)
             {

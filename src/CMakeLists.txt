@@ -2,26 +2,22 @@
 #cmake_minimum_required(VERSION 2.4.7 FATAL_ERROR)
 
 ## Libraries
-find_package(SDL REQUIRED)
-find_package(SDL_image REQUIRED)
-find_package(SDL_mixer REQUIRED)
-find_package(SDL_gfx)
-find_package(SDL_net)
-find_package(Tux4Kids-common)
+find_package(SDL3 REQUIRED CONFIG)
+find_package(SDL3_image REQUIRED CONFIG)
+find_package(SDL3_mixer REQUIRED CONFIG)
+find_package(SDL3_net CONFIG)
 
-if (NOT SDLGFX_FOUND)
-  message("Adding rotozoom")
-  set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
-endif (NOT SDLGFX_FOUND)
+# SDL_gfx has no SDL3 port, so the vendored SDL_rotozoom.c is always used now.
+set(TUXMATH_EXTRA_SRC ${TUXMATH_EXTRA_SRC} SDL_rotozoom.c)
 
 if (T4KCOMMON_FOUND)
   set(HAVE_LIBT4K_COMMON 1)
 endif(T4KCOMMON_FOUND)
 
-if (SDLNET_FOUND)
+if (SDL3_net_FOUND)
   set(HAVE_LIBSDL_NET 1)
   list(APPEND TUXMATH_EXTRA_SRC server.c network.c)
-endif (SDLNET_FOUND)
+endif (SDL3_net_FOUND)
 
 ## Define the source files used for each executable
 # tuxmath
@@ -58,12 +54,6 @@ set(SOURCES_TUXMATHADMIN
   tuxmathadmin.c
   )
 
-if (NOT SDL_FOUND)
-  # Workaround for REQUIRED flag not working with cmake < 2.4.7.
-  # Should put other libraries in, too.
-  message(FATAL_ERROR "SDL not found!")
-endif (NOT SDL_FOUND)
-
 ## Include files
 if (NOT BUILD_INTL)
   # Generate the config.h file
@@ -72,19 +62,12 @@ endif (NOT BUILD_INTL)
 check_include_file(${CMAKE_CURRENT_BINARY_DIR}/config.h HAVE_CONFIG_H)
 
 include_directories(
-  ${CMAKE_CURRENT_BINARY_DIR} 
-  ${SDL_INCLUDE_DIR} 
-  ${SDLIMAGE_INCLUDE_DIR} 
-  ${SDLMIXER_INCLUDE_DIR} 
-  ${SDLNET_INCLUDE_DIR} 
+  ${CMAKE_CURRENT_BINARY_DIR}
   ${T4KCOMMON_INCLUDE_DIR}
-  ${TUXMATH_EXTRA_INCLUDES} 
+  ${TUXMATH_EXTRA_INCLUDES}
   ${INTL_BINARY_DIR}
   ${CMAKE_SOURCE_DIR}/src
   )
-if (SDLGFX_FOUND)  
-  include_directories(${SDLGFX_INCLUDE_DIR})
-endif(SDLGFX_FOUND)
 
 if (TUXMATH_BUILD_INTL)
   link_directories(${INTL_BINARY_DIR})
@@ -133,17 +116,14 @@ set_target_properties (
   )
 
 target_link_libraries (tuxmath
-  ${SDL_LIBRARY}
-  ${SDLIMAGE_LIBRARY}
-  ${SDLMIXER_LIBRARY}
-  ${SDLNET_LIBRARY}
+  SDL3::SDL3
+  SDL3_image::SDL3_image
+  SDL3_mixer::SDL3_mixer
   )
 
-if (SDLGFX_FOUND)
-   target_link_libraries (tuxmath
-   ${SDLGFX_LIBRARY}
-   )
-endif (SDLGFX_FOUND)
+if (SDL3_net_FOUND)
+   target_link_libraries (tuxmath SDL3_net::SDL3_net)
+endif (SDL3_net_FOUND)
 
 if (T4KCOMMON_FOUND)
   target_link_libraries(tuxmath ${T4KCOMMON_LIBRARY})
