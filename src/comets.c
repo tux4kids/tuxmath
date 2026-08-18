@@ -4152,8 +4152,9 @@ int tts_announcer(void *unused)
 	end:
 	return 0;
 }
+SDL_Thread *tts_announcer_thread = NULL;
+
 void start_tts_announcer_thread(){
-	extern SDL_Thread *tts_announcer_thread;
 	tts_announcer_thread = SDL_CreateThread(tts_announcer,"tts_announcer",NULL);
 }
 
