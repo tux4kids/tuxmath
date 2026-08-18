@@ -4,6 +4,7 @@
 #include "fileops.h"
 #include "frame_counter.h"
 #include "globals.h"
+#include "network.h"
 #include "options.h"
 #include "multiplayer.h"
 #include "tuxmath.h"

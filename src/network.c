@@ -38,7 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <string.h>
 #include <sys/types.h>
 #include <unistd.h>
-#include <fcntl.h> 
+#include <fcntl.h>
 
 #include "mathcards.h"
 #include "transtruct.h"
@@ -46,9 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "server.h"
 
 
-TCPsocket sd;           /* Server socket descriptor */
-SDLNet_SocketSet set;
-IPaddress serv_ip;
+NET_StreamSocket* sd = NULL;    /* Server socket descriptor */
 ServerEntry servers[MAX_SERVERS];
 static int connected_server = -1;
 static int my_index = -1;
@@ -59,7 +57,7 @@ lan_player_type lan_player_info[MAX_CLIENTS];
 /* Local function prototypes: */
 int say_to_server(char *statement);
 int evaluate(char *statement);
-int add_to_server_list(UDPpacket* pkt);
+int add_to_server_list(NET_Datagram* dgram);
 void intercept(char* buf);
 int socket_index_recvd(char* buf);
 int connected_players_recvd(char* buf);
@@ -68,11 +66,9 @@ int lan_player_left_recvd(char* buf);
 
 int LAN_DetectServers(void)
 {
-    UDPsocket udpsock = NULL;  
-    UDPpacket* out;
-    UDPpacket* out_local;
-    UDPpacket* in;
-    IPaddress bcast_ip;
+    NET_DatagramSocket* udpsock = NULL;
+    NET_Datagram* dgram = NULL;
+    SDL_PropertiesID props;
     int sent = 0;
     int done = 0;
     int attempts = 0;
@@ -81,7 +77,11 @@ int LAN_DetectServers(void)
     Uint64 timer = 0;
     //zero out old server list
     for(i = 0; i < MAX_SERVERS; i++)
-        servers[i].ip.host = 0;
+    {
+        if (servers[i].addr)
+            NET_UnrefAddress(servers[i].addr);
+        servers[i].addr = NULL;
+    }
 
     /* Init player info array for peer clients: */
     for(i = 0; i < MAX_CLIENTS; i++)
@@ -93,74 +93,60 @@ int LAN_DetectServers(void)
         lan_player_info[i].ready = 0;
     }
 
-    /* Docs say we are supposed to call SDL_Init() before SDLNet_Init(): */
-    if(SDL_Init(0) == -1)
+    /* Docs say we are supposed to call SDL_Init() before NET_Init(): */
+    if(!SDL_Init(0))
     {
         DEBUGMSG(debug_lan, "SDL_Init: %s\n", SDL_GetError());
         return 0;;
     }
 
     /* Initialize SDL_net */
-    if (SDLNet_Init() < 0)
+    if (!NET_Init())
     {
-        DEBUGMSG(debug_lan, "SDLNet_Init: %s\n", SDLNet_GetError());
+        DEBUGMSG(debug_lan, "NET_Init: %s\n", SDL_GetError());
         exit(EXIT_FAILURE);
     }
 
     //NOTE we can't open a UDP socket on the same port if both client
     //and server are running on the same machine, so for now we let
-    //it be auto-assigned:
-    udpsock = SDLNet_UDP_Open(0);
+    //it be auto-assigned. We need broadcast permission since we're
+    //asking "is anybody out there?" without knowing any server address yet.
+    props = SDL_CreateProperties();
+    SDL_SetBooleanProperty(props, NET_PROP_DATAGRAM_SOCKET_ALLOW_BROADCAST_BOOLEAN, true);
+    udpsock = NET_CreateDatagramSocket(NULL, 0, props);
+    SDL_DestroyProperties(props);
     if(!udpsock)
     {
-        DEBUGMSG(debug_lan, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+        DEBUGMSG(debug_lan, "NET_CreateDatagramSocket: %s\n", SDL_GetError());
         return 0;
     }
 
-    out = SDLNet_AllocPacket(NET_BUF_LEN);
-    out_local = SDLNet_AllocPacket(NET_BUF_LEN);
-    in = SDLNet_AllocPacket(NET_BUF_LEN);
-
-    //Prepare packets for broadcast and (for testing) for localhost:
-    SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
-    out->address.host = bcast_ip.host;
-    sprintf(out->data, "TUXMATH_CLIENT");
-    out->address.port = bcast_ip.port;
-    out->len = strlen("TUXMATH_CLIENT") + 1;
-
-    SDLNet_ResolveHost(&bcast_ip, "255.255.255.255", DEFAULT_PORT);
-    out_local->address.host = bcast_ip.host;
-    sprintf(out_local->data, "TUXMATH_CLIENT");
-    out_local->address.port = bcast_ip.port;
-    out_local->len = strlen("TUXMATH_CLIENT") + 1;
-
-
     //Here we will need to send every few seconds until we hear back from server
-    //and get its ip address:  IPaddress bcast_ip;
+    //and get its address:
     DEBUGMSG(debug_lan, "\nAutodetecting TuxMath servers:\n");
-    DEBUGMSG(debug_lan, "out->address.host = %d\tout->address.port = %d\n", out->address.host, out->address.port);
-
 
     while(!done)
     {
-        DEBUGMSG(debug_lan, "Sending message: %s\n", (char*)out->data);
+        DEBUGMSG(debug_lan, "Sending message: %s\n", "TUXMATH_CLIENT");
 
-        sent = SDLNet_UDP_Send(udpsock, -1, out);
+        //A NULL address means "broadcast to the LAN":
+        sent = NET_SendDatagram(udpsock, NULL, DEFAULT_PORT, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT") + 1);
         if(!sent)
         {
-            DEBUGMSG(debug_lan, "broadcast failed - network inaccessible.\nTrying localhost (for testing)\n");
-            sent = SDLNet_UDP_Send(udpsock, -1, out_local);
+            DEBUGMSG(debug_lan, "broadcast failed: %s\n", SDL_GetError());
         }
         SDL_Delay(50);  //give server chance to answer
 
-        while(SDLNet_UDP_Recv(udpsock, in))
+        while(NET_ReceiveDatagram(udpsock, &dgram) && dgram)
         {
-            if(strncmp((char*)in->data, "TUXMATH_SERVER", strlen("TUXMATH_SERVER")) == 0)
+            if(strncmp((char*)dgram->buf, "TUXMATH_SERVER", strlen("TUXMATH_SERVER")) == 0)
             {
                 done = 1;
                 //add to list, checking for duplicates
-                num_servers = add_to_server_list(in);
+                num_servers = add_to_server_list(dgram);
             }
+            NET_DestroyDatagram(dgram);
+            dgram = NULL;
         }
 
         DEBUGCODE(debug_lan) print_server_list();
@@ -176,10 +162,7 @@ int LAN_DetectServers(void)
 
     DEBUGMSG(debug_lan, "done\n\n");
 
-    SDLNet_FreePacket(out); 
-    SDLNet_FreePacket(out_local); 
-    SDLNet_FreePacket(in); 
-    SDLNet_UDP_Close(udpsock); 
+    NET_DestroyDatagramSocket(udpsock);
     return num_servers;
 }
 
@@ -188,10 +171,10 @@ char* LAN_ServerName(int i)
 {
     if(i < 0 || i > MAX_SERVERS)
         return NULL;
-    if(servers[i].ip.host != 0)
+    if(servers[i].addr != NULL)
         return servers[i].name;
     else
-        return NULL; 
+        return NULL;
 }
 
 char* LAN_ConnectedServerName(void)
@@ -206,35 +189,32 @@ char* LAN_ConnectedServerLesson(void)
 }
 
 
-//For the simple case where a single server is found, i is 
+//For the simple case where a single server is found, i is
 //always 0. Otherwise the player has to review the choices
-//via LAN_ServerName(i) to get the index 
+//via LAN_ServerName(i) to get the index
 int LAN_AutoSetup(int i)
 {
+    NET_Status status;
+
     if(i < 0 || i > MAX_SERVERS)
         return 0;
 
     /* Open a connection based on autodetection routine: */
-    if (!(sd = SDLNet_TCP_Open(&servers[i].ip)))
+    sd = NET_CreateClient(servers[i].addr, servers[i].port, 0);
+    if (!sd)
     {
-        DEBUGMSG(debug_lan, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
+        DEBUGMSG(debug_lan, "NET_CreateClient: %s\n", SDL_GetError());
         return 0;
     }
 
-    /* We create a socket set so we can check for activity: */
-    set = SDLNet_AllocSocketSet(1);
-    if(!set)
+    status = NET_WaitUntilConnected(sd, 5000);
+    if (status != NET_SUCCESS)
     {
-        DEBUGMSG(debug_lan, "SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+        DEBUGMSG(debug_lan, "NET_WaitUntilConnected: %s\n", SDL_GetError());
+        NET_DestroyStreamSocket(sd);
+        sd = NULL;
         return 0;
     }
-
-    if(SDLNet_TCP_AddSocket(set, sd) == -1)
-    {
-        DEBUGMSG(debug_lan, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
-        // perhaps you need to restart the set and make it bigger...
-    }
-
 
     // Success - record the index for future reference:
     connected_server = i;
@@ -243,7 +223,7 @@ int LAN_AutoSetup(int i)
 
 
 
-/* NOTE - now we call SDLNet_Quit() in cleanup for overall program
+/* NOTE - now we call NET_Quit() in cleanup for overall program
  * so we don't clobber the server if it is still running in a thread
  * when a LAN game finishes.
  */
@@ -256,14 +236,8 @@ void LAN_Cleanup(void)
 
     if(sd)
     {
-        SDLNet_TCP_Close(sd);
+        NET_DestroyStreamSocket(sd);
         sd = NULL;
-    }
-
-    if(set)
-    {
-        SDLNet_FreeSocketSet(set);
-        set = NULL;
     }
 
     DEBUGMSG(debug_lan|debug_game, "Leave LAN_cleanup():\n");
@@ -288,8 +262,8 @@ int LAN_SetName(char* name)
 /* the network.c system instead of being passed to the rest of the   */
 /* program.                                                          */
 int LAN_NextMsg(char* buf)
-{ 
-    int numready = 0;
+{
+    int received = 0;
 
     DEBUGMSG(debug_lan, "Enter LAN_NextMsg():\n");
 
@@ -303,56 +277,35 @@ int LAN_NextMsg(char* buf)
     else  //Make sure we start off with "empty" buffer
         buf[0] = '\0';
 
-    //Check to see if there is socket activity:
-    numready = SDLNet_CheckSockets(set, 0);
-    if(numready == -1)
+    if (!sd)
     {
-        DEBUGMSG(debug_lan, "In LAN_NextMsg(), SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("In LAN_NextMsg(), SDLNet_CheckSockets");
+        DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
+        return -1;
+    }
+
+    //NET_ReadFromStreamSocket() never blocks - returns 0 immediately if
+    //nothing is available yet, or -1 on an unrecoverable connection failure:
+    received = NET_ReadFromStreamSocket(sd, buf, NET_BUF_LEN);
+    if(received > 0)
+    {
+        //Success - message is now in buffer
+        //We take care of some housekeeping messages internally
+        //(e.g. player info) to hide complexity from rest of program;
+        //In this case, buf gets replaced with "LAN_INTERCEPTED"
+        intercept(buf);
+        DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
+        return 1;
+    }
+    else if(received < 0)
+    {
+        DEBUGMSG(debug_lan, "In LAN_NextMsg(), NET_ReadFromStreamSocket: %s\n", SDL_GetError());
+        NET_DestroyStreamSocket(sd);
+        sd = NULL;
         strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
         DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
         return -1;
     }
-    else if(numready > 0)
-    {
-        // check with SDLNet_SocketReady():
-        if(SDLNet_SocketReady(sd))
-        {
-            if(SDLNet_TCP_Recv(sd, buf, NET_BUF_LEN) > 0)
-            {
-                //Success - message is now in buffer
-                //We take care of some housekeeping messages internally
-                //(e.g. player info) to hide complexity from rest of program;
-                //In this case, buf gets replaced with "LAN_INTERCEPTED"
-                intercept(buf);
-                DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
-                return 1;
-            }
-            else
-            {
-                DEBUGMSG(debug_lan, "In get_next_msg(), SDLNet_TCP_Recv() failed!\n");
-                SDLNet_TCP_DelSocket(set, sd);
-                if(sd != NULL)
-                    SDLNet_TCP_Close(sd);
-                sd = NULL;
-                strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
-                DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
-                return -1;
-            }
-        }
-        else
-        {
-            DEBUGMSG(debug_lan, "In get_next_msg(), socket set reported active but no activity found\n");
-            SDLNet_TCP_DelSocket(set, sd);
-            if(sd != NULL)
-                SDLNet_TCP_Close(sd);
-            sd = NULL;
-            strncpy(buf, "NETWORK_ERROR", NET_BUF_LEN);
-            DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
-            return -1;
-        }
-    }
+
     // No socket activity - just return 0:
     DEBUGMSG(debug_lan, "Leave LAN_NextMsg():\n");
     return 0;
@@ -422,7 +375,7 @@ char* LAN_PlayerName(int i)
     {
         fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerName()\n", i);
         return NULL;
-    }  
+    }
 
     return lan_player_info[i].name;
 }
@@ -433,7 +386,7 @@ bool LAN_PlayerMine(int i)
     {
         fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerMine()\n", i);
         return false;
-    }  
+    }
     return lan_player_info[i].mine;
 }
 
@@ -443,7 +396,7 @@ bool LAN_PlayerReady(int i)
     {
         fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerReady()\n", i);
         return false;
-    }  
+    }
     return lan_player_info[i].ready;
 }
 
@@ -453,7 +406,7 @@ bool LAN_PlayerConnected(int i)
     {
         fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerConnected()\n", i);
         return false;
-    }  
+    }
     return lan_player_info[i].connected;
 }
 
@@ -463,7 +416,7 @@ int LAN_PlayerScore(int i)
     {
         fprintf(stderr, "Warning - invalid index %d passed to LAN_PlayerScore()\n", i);
         return -1;
-    }  
+    }
     return lan_player_info[i].score;
 }
 
@@ -481,13 +434,13 @@ int say_to_server(char* statement)
 {
     char buffer[NET_BUF_LEN];
 
-    if(!statement)
+    if(!statement || !sd)
         return 0;
 
     snprintf(buffer, NET_BUF_LEN, "%s", statement);
-    if (SDLNet_TCP_Send(sd, (void *)buffer, NET_BUF_LEN) < NET_BUF_LEN)
+    if (!NET_WriteToStreamSocket(sd, buffer, NET_BUF_LEN))
     {
-        DEBUGMSG(debug_lan, "SDLNet_TCP_Send: %s\n", SDLNet_GetError());
+        DEBUGMSG(debug_lan, "NET_WriteToStreamSocket: %s\n", SDL_GetError());
         return 0;
     }
 
@@ -495,20 +448,20 @@ int say_to_server(char* statement)
 }
 
 //add name to list, checking for duplicates:
-int add_to_server_list(UDPpacket* pkt)
+int add_to_server_list(NET_Datagram* dgram)
 {
     int i = 0;
     int already_in = 0;
     char* p = NULL;
 
-    if(!pkt)
+    if(!dgram)
         return 0;
 
     //first see if it is already in list:
     while((i < MAX_SERVERS)
-            && (servers[i].ip.host != 0))
+            && (servers[i].addr != NULL))
     {
-        if(pkt->address.host == servers[i].ip.host)
+        if(NET_CompareAddresses(dgram->addr, servers[i].addr) == 0)
             already_in = 1;
         i++;
     }
@@ -516,10 +469,10 @@ int add_to_server_list(UDPpacket* pkt)
     //Copy it in unless it's already there, or we are out of room:
     if(!already_in && i < MAX_SERVERS)
     {
-        servers[i].ip.host = pkt->address.host;
-        servers[i].ip.port = pkt->address.port;
+        servers[i].addr = NET_RefAddress(dgram->addr);
+        servers[i].port = dgram->port;
         // not using sscanf() because server_name could contain whitespace:
-        p = strchr((const char*)pkt->data, '\t');
+        p = strchr((const char*)dgram->buf, '\t');
         p++;
         if(p)
             strncpy(servers[i].name, p, NAME_SIZE);
@@ -534,7 +487,7 @@ int add_to_server_list(UDPpacket* pkt)
             *p = '\0';
         // now we go to the second '\t' (note the use of "strrchr()"
         // rather than "strchr()") to get the lesson name:
-        p = strrchr((const char*)pkt->data, '\t');
+        p = strrchr((const char*)dgram->buf, '\t');
         p++;
         if(p)
             strncpy(servers[i].lesson, p, LESSON_TITLE_LENGTH);
@@ -549,7 +502,7 @@ void print_server_list(void)
 {
     int i = 0;
     fprintf(stderr, "Detected servers:\n");
-    while(i < MAX_SERVERS && servers[i].ip.host != 0)
+    while(i < MAX_SERVERS && servers[i].addr != NULL)
     {
         fprintf(stderr, "SERVER NUMBER %d: %s\n", i, servers[i].name);
         i++;
@@ -616,8 +569,8 @@ int socket_index_recvd(char* buf)
             lan_player_info[i].mine = 1;
         else
             lan_player_info[i].mine = 0;
-    }     
-    return index; 
+    }
+    return index;
 }
 
 
@@ -664,7 +617,7 @@ int parse_player_info_msg(char* buf)
         lan_player_info[i].score = atoi(p);
 
     DEBUGMSG(debug_lan, "update_score_recvd() - buf is: %s\n", buf);
-    DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n", 
+    DEBUGMSG(debug_lan, "i is: %d\tname is: %s\tscore is: %d\n",
             i, lan_player_info[i].name, lan_player_info[i].score);
 
     return 1;

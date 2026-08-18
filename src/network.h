@@ -42,7 +42,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 typedef struct {
-    IPaddress ip;            /* 32-bit IPv4 host address */
+    NET_Address* addr;       /* NULL if this slot is empty */
+    Uint16 port;
     char name[NAME_SIZE];
     char lesson[LESSON_TITLE_LENGTH];
 }ServerEntry;

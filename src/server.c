@@ -109,8 +109,6 @@ int add_question(int thread_id_no, MC_FlashCard* fc);
 int remove_question(int thread_id_no, int quest_id, int answered_by);
 int send_counter_updates(int thread_id_no);
 int send_player_updates(int thread_id_no);
-//int SendQuestion(MC_FlashCard flash, TCPsocket client_sock);
-int SendMessage(int message, int ques_id, char* name, TCPsocket client_sock);
 int player_msg(int thread_id_no, int i, char* msg);
 void broadcast_msg(int thread_id_no, char* msg);
 int transmit(int thread_id_no, int i, char* msg);
@@ -136,13 +134,11 @@ static int quit = 0;
 static int ignore_stdin = 0;    //TODO not needed as all work is done in threads
 
 /* used for keeping record of every instance of a thread running within a server */
-struct threadID   
+struct threadID
 {
-    UDPsocket udpsock ;              /* Used to listen for client's server autodetection           */
-    TCPsocket server_sock;    /* Socket descriptor for server to accept client TCP sockets. */
-    IPaddress ip;
-    SDLNet_SocketSet client_set;
-    struct client_type client[MAX_CLIENTS];  //TODO Deepak removed static from it as they can't be declared inside it. might result problem in future 
+    NET_DatagramSocket* udpsock;     /* Used to listen for client's server autodetection            */
+    NET_Server* server_sock;  /* Listens for and accepts incoming client connections.       */
+    struct client_type client[MAX_CLIENTS];  //TODO Deepak removed static from it as they can't be declared inside it. might result problem in future
     int num_clients;
     struct srv_game_type srv_game;
 };
@@ -336,28 +332,21 @@ int OurServerRunning(void)
  * server name and desired lesson, only to have the server startup fail - DSB */
 int PortAvailable(Uint16 port)
 {
-    IPaddress tmp_ip;
-    TCPsocket tmp_sock = NULL;
+    NET_Server* tmp_server = NULL;
     int available = 0;
 
-    if (SDLNet_ResolveHost(&tmp_ip, NULL, port) < 0)
-    {
-        fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-        return 0;
-    }
-
-    /* Try to open a socket on our machine with desired port,
-     * record whether we succeed, and close the socket again
-     * so we can connect for real.
+    /* Try to open a listening socket on our machine with desired port,
+     * record whether we succeed, and close it again so we can listen
+     * for real.
      */
-    tmp_sock = SDLNet_TCP_Open(&tmp_ip);
+    tmp_server = NET_CreateServer(NULL, port, 0);
 
-    if (!tmp_sock)
+    if (!tmp_server)
         available = 0;
     else
     {
         available = 1;
-        SDLNet_TCP_Close(tmp_sock);
+        NET_DestroyServer(tmp_server);
     }
 
     return available;
@@ -411,26 +400,12 @@ int setup_server(int thread_id_no)
 {
     Uint64 timer = 0;
 
-    slave_thread[thread_id_no].num_clients=0; // To ensure no garbage value is used. 
+    slave_thread[thread_id_no].num_clients=0; // To ensure no garbage value is used.
 
-    /* Resolving the host using NULL make network interface to listen */
-    if (SDLNet_ResolveHost(&(slave_thread[thread_id_no].ip), NULL, DEFAULT_PORT) < 0)
+    /* Listen on all local addresses on the desired port: */
+    if (!(slave_thread[thread_id_no].server_sock = NET_CreateServer(NULL, DEFAULT_PORT, 0)))
     {
-        fprintf(stderr, "SDLNet_ResolveHost: %s\n", SDLNet_GetError());
-        return 0;
-    }
-
-    /* Open a connection with the IP provided (listen on the host's port) */
-    if (!(slave_thread[thread_id_no].server_sock = SDLNet_TCP_Open(&(slave_thread[thread_id_no].ip)) ) )
-    {
-        fprintf(stderr, "SDLNet_TCP_Open: %s\n", SDLNet_GetError());
-        return 0;
-    }
-
-    slave_thread[thread_id_no].client_set = SDLNet_AllocSocketSet(MAX_CLIENTS);
-    if(!(slave_thread[thread_id_no].client_set) )
-    { 
-        fprintf(stderr, "SDLNet_AllocSocketSet: %s\n", SDLNet_GetError());
+        fprintf(stderr, "NET_CreateServer: %s\n", SDL_GetError());
         return 0;
     }
 
@@ -499,10 +474,10 @@ int setup_server(int thread_id_no)
 
 
     //Now open a UDP socket to listen for clients broadcasting to find the server:
-    slave_thread[thread_id_no].udpsock = SDLNet_UDP_Open(DEFAULT_PORT);
+    slave_thread[thread_id_no].udpsock = NET_CreateDatagramSocket(NULL, DEFAULT_PORT, 0);
     if(!slave_thread[thread_id_no].udpsock)
     {
-        fprintf(stderr, "SDLNet_UDP_Open: %s\n", SDLNet_GetError());
+        fprintf(stderr, "NET_CreateDatagramSocket: %s\n", SDL_GetError());
         return 0;
     }
 
@@ -522,26 +497,20 @@ void cleanup_server(int thread_id_no)
     {
         if(slave_thread[thread_id_no].client[i].sock != NULL)
         {
-            SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);    //close all the client sockets one by one
+            NET_DestroyStreamSocket(slave_thread[thread_id_no].client[i].sock);    //close all the client sockets one by one
             slave_thread[thread_id_no].client[i].sock = NULL;               // So we don't segfault in case cleanup()
         }                                      // somehow gets called more than once.
-    } 
-
-    if (slave_thread[thread_id_no].client_set != NULL)
-    {
-        SDLNet_FreeSocketSet(slave_thread[thread_id_no].client_set);    //releasing the memory of the client socket set
-        slave_thread[thread_id_no].client_set = NULL;                   //this helps us remember that this set is not allocated
-    } 
+    }
 
     if(slave_thread[thread_id_no].server_sock != NULL)
     {
-        SDLNet_TCP_Close(slave_thread[thread_id_no].server_sock);
+        NET_DestroyServer(slave_thread[thread_id_no].server_sock);
         slave_thread[thread_id_no].server_sock = NULL;
     }
 
     if(slave_thread[thread_id_no].udpsock != NULL)
     {
-        SDLNet_UDP_Close(slave_thread[thread_id_no].udpsock);
+        NET_DestroyDatagramSocket(slave_thread[thread_id_no].udpsock);
         slave_thread[thread_id_no].udpsock = NULL;
     }
 }
@@ -614,8 +583,7 @@ void server_handle_command_args(int argc, char* argv[])
 //which will be picked up in update_clients() below.
 void check_UDP(int thread_id_no)
 {
-    int recvd = 0;
-    UDPpacket* in = NULL;
+    NET_Datagram* in = NULL;
 
     if(slave_thread[thread_id_no].udpsock == NULL)
     {
@@ -623,34 +591,31 @@ void check_UDP(int thread_id_no)
         return;
     }
 
-    in = SDLNet_AllocPacket(NET_BUF_LEN);
-    recvd = SDLNet_UDP_Recv(slave_thread[thread_id_no].udpsock, in);
+    if (!NET_ReceiveDatagram(slave_thread[thread_id_no].udpsock, &in))
+    {
+        fprintf(stderr, "NET_ReceiveDatagram: %s\n", SDL_GetError());
+        return;
+    }
+    if (!in)
+        return;
 
-    if(recvd > 0)
-    {   
-        DEBUGMSG(debug_lan, "check_UDP() received packet: %s\n", (char*)in->data);  
-        // See if packet contains identifying string:
-        if(strncmp((char*)in->data, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
-        {
-            UDPpacket* out;
-            int sent = 0;
-            char buf[NET_BUF_LEN];
-            // Send "I am here" reply so client knows where to connect socket,
-            // with configurable identifying string so user can distinguish 
-            // between multiple servers on same network (e.g. "Mrs. Adams' Class");
-            out = SDLNet_AllocPacket(NET_BUF_LEN); 
-            snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
-                    "TUXMATH_SERVER", server_name, Opts_LessonTitle());
-            snprintf(out->data, NET_BUF_LEN, "%s", buf);
-            out->len = strlen(buf) + 1;
-            out->address.host = in->address.host;
-            out->address.port = in->address.port;
-            sent = SDLNet_UDP_Send(slave_thread[thread_id_no].udpsock, -1, out);
-            SDLNet_FreePacket(out);
-        }
+    DEBUGMSG(debug_lan, "check_UDP() received packet: %s\n", (char*)in->buf);
+    // See if packet contains identifying string:
+    if(strncmp((char*)in->buf, "TUXMATH_CLIENT", strlen("TUXMATH_CLIENT")) == 0)
+    {
+        int sent = 0;
+        char buf[NET_BUF_LEN];
+        // Send "I am here" reply so client knows where to connect socket,
+        // with configurable identifying string so user can distinguish
+        // between multiple servers on same network (e.g. "Mrs. Adams' Class");
+        snprintf(buf, NET_BUF_LEN, "%s\t%s\t%s",
+                "TUXMATH_SERVER", server_name, Opts_LessonTitle());
+        sent = NET_SendDatagram(slave_thread[thread_id_no].udpsock, in->addr, in->port, buf, strlen(buf) + 1);
+        if (!sent)
+            fprintf(stderr, "NET_SendDatagram: %s\n", SDL_GetError());
     }
 
-    SDLNet_FreePacket(in);
+    NET_DestroyDatagram(in);
 }
 
 
@@ -661,13 +626,16 @@ void check_UDP(int thread_id_no)
 //client set accurately reflects the current state.
 void update_clients(int thread_id_no)
 {
-    TCPsocket temp_sock = NULL;        /* Just used when client can't be accepted */
+    NET_StreamSocket* temp_sock = NULL;        /* Just used when client can't be accepted */
     int slot = 0;
-    int sockets_used = 0;
     char buffer[NET_BUF_LEN];
 
     /* See if we have a pending connection: */
-    temp_sock = SDLNet_TCP_Accept(slave_thread[thread_id_no].server_sock);
+    if (!NET_AcceptClient(slave_thread[thread_id_no].server_sock, &temp_sock))
+    {
+        fprintf(stderr, "NET_AcceptClient: %s\n", SDL_GetError());
+        return;
+    }
     if (!temp_sock)  /* No one waiting to join - do nothing */
     {
         return;   // Leave num_clients unchanged
@@ -677,13 +645,13 @@ void update_clients(int thread_id_no)
     slot = find_vacant_client(thread_id_no);
     if (slot == -1) /* No vacancies: */
     {
-        snprintf(buffer, NET_BUF_LEN, 
+        snprintf(buffer, NET_BUF_LEN,
                 "%s\t%s",
                 "PLAYER_MSG",
                 "Sorry, already have maximum number of clients connected");
-        SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
+        NET_WriteToStreamSocket(temp_sock, buffer, NET_BUF_LEN);
         //hang up:
-        SDLNet_TCP_Close(temp_sock);
+        NET_DestroyStreamSocket(temp_sock);
         temp_sock = NULL;
 
         DEBUGMSG(debug_lan, "update_clients() - no vacant slot found\n");
@@ -692,17 +660,17 @@ void update_clients(int thread_id_no)
     }
 
     //If everyone is disconnected, game no longer in progress:
-    check_game_clients(thread_id_no); 
+    check_game_clients(thread_id_no);
 
     // If game already started, send our regrets:
     if(game_in_progress)
     {
-        snprintf(buffer, NET_BUF_LEN, 
+        snprintf(buffer, NET_BUF_LEN,
                 "%s",
                 "GAME_IN_PROGRESS");
-        SDLNet_TCP_Send(temp_sock, buffer, NET_BUF_LEN);
+        NET_WriteToStreamSocket(temp_sock, buffer, NET_BUF_LEN);
         //hang up:
-        SDLNet_TCP_Close(temp_sock);
+        NET_DestroyStreamSocket(temp_sock);
         temp_sock = NULL;
 
         DEBUGMSG(debug_lan, "update_clients() - game already started\n");
@@ -716,17 +684,14 @@ void update_clients(int thread_id_no)
 
     slave_thread[thread_id_no].client[slot].sock = temp_sock;
 
-    /* Add client socket to set: */
-    sockets_used = SDLNet_TCP_AddSocket(slave_thread[thread_id_no].client_set, slave_thread[thread_id_no].client[slot].sock);
-    if(sockets_used == -1) //No way this should happen
-    {
-        fprintf(stderr, "SDLNet_AddSocket: %s\n", SDLNet_GetError());
-        cleanup_server(0);                            //FIXME Deepak its hard coded.
-        exit(EXIT_FAILURE);
-    }
-
     /* At this point num_clients can be updated: */
-    slave_thread[thread_id_no].num_clients = sockets_used;
+    {
+        int i, count = 0;
+        for(i = 0; i < MAX_CLIENTS; i++)
+            if(slave_thread[thread_id_no].client[i].sock != NULL)
+                count++;
+        slave_thread[thread_id_no].num_clients = count;
+    }
 
     /* Now we can communicate with the client using slave_thread[thread_id_no].client[i].sock socket */
     /* serv_sock will remain opened waiting other connections.            */
@@ -738,20 +703,16 @@ void update_clients(int thread_id_no)
     /* Get the remote address */
     DEBUGCODE(debug_lan)
     {
-        IPaddress* client_ip = NULL;
-        client_ip = SDLNet_TCP_GetPeerAddress(slave_thread[thread_id_no].client[slot].sock);
+        NET_Address* client_addr = NET_GetStreamSocketAddress(slave_thread[thread_id_no].client[slot].sock);
 
         fprintf(stderr, "num_clients = %d\n", slave_thread[thread_id_no].num_clients);
-        if (client_ip != NULL)
-            /* Print the address, converting in the host format */
+        if (client_addr != NULL)
         {
             fprintf(stderr, "Client connected\n>\n");
-            fprintf(stderr, "Client: IP = %x, Port = %d\n",
-                    SDLNet_Read32(&client_ip->host),
-                    SDLNet_Read16(&client_ip->port));
+            fprintf(stderr, "Client: address = %s\n", NET_GetAddressString(client_addr));
         }
         else
-            fprintf(stderr, "SDLNet_TCP_GetPeerAddress: %s\n", SDLNet_GetError());
+            fprintf(stderr, "NET_GetStreamSocketAddress: %s\n", SDL_GetError());
     }
 
     return;
@@ -766,74 +727,46 @@ void update_clients(int thread_id_no)
 
 int server_check_messages(int thread_id_no)
 {
-    int actives = 0, i = 0;
-    int ready_found = 0;
+    int i = 0;
     char buffer[NET_BUF_LEN];
 
-    /* Check the client socket set for activity: */
-    actives = SDLNet_CheckSockets(slave_thread[thread_id_no].client_set, 0);
-    //  fprintf(stderr, "in check_messages(), actives = %d\n", actives);
-    if(actives == -1)
+    // NET_ReadFromStreamSocket() never blocks, so we can just poll every
+    // connected client directly instead of checking a socket set first.
+    // NOTE this will only pick up the first message for each socket each time
+    // check_messages() called - probably OK if we just get it next time through.
+    for(i = 0; i < MAX_CLIENTS; i++)
     {
-        fprintf(stderr, "In server_check_messages(), SDLNet_CheckSockets: %s\n", SDLNet_GetError());
-        //most of the time this is a system error, where perror might help you.
-        perror("In server_check_messages(), SDLNet_CheckSockets");
-    }
+        int received;
 
-    else if(actives) 
-    {
-        DEBUGMSG(debug_lan, "There are %d sockets with activity\n", actives);
+        if(slave_thread[thread_id_no].client[i].sock == NULL)
+            continue;
 
-        // check all sockets with SDLNet_SocketReady and handle the active ones.
-        // NOTE we have to check all the slots in the set because
-        // the set will become discontinuous if someone disconnects
-        // NOTE this will only pick up the first message for each socket each time
-        // check_messages() called - probably OK if we just get it next time through.
-        for(i = 0; i < MAX_CLIENTS; i++)
+        received = NET_ReadFromStreamSocket(slave_thread[thread_id_no].client[i].sock, buffer, NET_BUF_LEN);
+
+        if(received > 0)
         {
-            if((slave_thread[thread_id_no].client[i].sock != NULL)
-                    && (SDLNet_SocketReady(slave_thread[thread_id_no].client[i].sock))) 
-            { 
-                ready_found++;
+            DEBUGMSG(debug_lan, "buffer received from client %d is: %s\n", i, buffer);
 
-                DEBUGMSG(debug_lan, "client socket %d is ready\n", i);
-
-                if (SDLNet_TCP_Recv(slave_thread[thread_id_no].client[i].sock, buffer, NET_BUF_LEN) > 0)
-                {
-                    DEBUGMSG(debug_lan, "buffer received from client %d is: %s\n", i, buffer);
-
-                    /* Here we pass the client number and the message buffer */
-                    /* to a suitable function for further action:                */
-                    if(game_in_progress)
-                    {
-                        handle_client_game_msg(thread_id_no, i, buffer);
-                    }
-                    else
-                    {
-                        handle_client_nongame_msg(thread_id_no, i, buffer);
-                    }
-                    // See if game is ended because everyone has left:
-                    check_game_clients(thread_id_no); 
-                }
-                else  // Socket activity but cannot receive - client invalid
-                {
-                    fprintf(stderr, "Client %d active but receive failed - apparently disconnected\n>\n", i);
-                    remove_client(thread_id_no,i);
-                }
+            /* Here we pass the client number and the message buffer */
+            /* to a suitable function for further action:                */
+            if(game_in_progress)
+            {
+                handle_client_game_msg(thread_id_no, i, buffer);
             }
-        }  // end of for() loop - all client sockets checked
-        check_game_clients(thread_id_no); //APPARENTLY checking one more time "just in case"???
-        // Make sure all the active sockets reported by SDLNet_CheckSockets()
-        // are accounted for:
-
-        if(actives > ready_found)
-        {
-            fprintf(stderr, "Warning: SDLNet_CheckSockets() reported %d active sockets,\n"
-                    "but only %d detected by SDLNet_SocketReady()\n", actives, ready_found);
-            //Presently, this just runs ping_client() on all the sockets:
-            //test_connections();
+            else
+            {
+                handle_client_nongame_msg(thread_id_no, i, buffer);
+            }
+            // See if game is ended because everyone has left:
+            check_game_clients(thread_id_no);
         }
-    } 
+        else if(received < 0)  // Connection failed - client invalid
+        {
+            fprintf(stderr, "Client %d active but receive failed - apparently disconnected\n>\n", i);
+            remove_client(thread_id_no,i);
+        }
+    }  // end of for() loop - all client sockets checked
+    check_game_clients(thread_id_no); //APPARENTLY checking one more time "just in case"???
     return 1;
 }
 
@@ -893,14 +826,12 @@ void remove_client(int thread_id_no, int i)
 
     for(j=0; j<MAX_CLIENTS; j++) {
         if(j != i && slave_thread[thread_id_no].client[j].sock) {
-            SDLNet_TCP_Send(slave_thread[thread_id_no].client[j].sock, buf, strlen(buf) + 1);
+            NET_WriteToStreamSocket(slave_thread[thread_id_no].client[j].sock, buf, strlen(buf) + 1);
         }
     }
 
-    SDLNet_TCP_DelSocket(slave_thread[thread_id_no].client_set, slave_thread[thread_id_no].client[i].sock);
-
     if(slave_thread[thread_id_no].client[i].sock != NULL)
-        SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
+        NET_DestroyStreamSocket(slave_thread[thread_id_no].client[i].sock);
 
     slave_thread[thread_id_no].client[i].sock = NULL;  
     slave_thread[thread_id_no].client[i].game_ready = 0;
@@ -945,7 +876,7 @@ void check_game_clients(int thread_id_no)
             /* Now make sure all clients are closed: */ 
             for(i = 0; i < MAX_CLIENTS; i++)
             {
-                SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
+                NET_DestroyStreamSocket(slave_thread[thread_id_no].client[i].sock);
                 slave_thread[thread_id_no].client[i].sock = NULL;
                 slave_thread[thread_id_no].client[i].game_ready = 0;
             }
@@ -1075,7 +1006,7 @@ int msg_set_name(int thread_id_no,int i, char* buf)
 void msg_socket_index(int thread_id_no, int i, char* buf)
 {  
     snprintf(buf, NET_BUF_LEN, "%s\t%d", "SOCKET_INDEX", i);
-    SDLNet_TCP_Send(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN);
+    NET_WriteToStreamSocket(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN);
 }
 
 
@@ -1267,7 +1198,7 @@ void start_game(int thread_id_no)
         if((slave_thread[thread_id_no].client[j].game_ready == 1)
                 && (slave_thread[thread_id_no].client[j].sock != NULL))
         {
-            if(SDLNet_TCP_Send(slave_thread[thread_id_no].client[j].sock, buf, NET_BUF_LEN) == NET_BUF_LEN)
+            if(NET_WriteToStreamSocket(slave_thread[thread_id_no].client[j].sock, buf, NET_BUF_LEN))
                 slave_thread[thread_id_no].num_clients++;
             else
             {
@@ -1426,7 +1357,7 @@ void end_game(int thread_id_no)
     /* Now make sure all clients are closed: */ 
     for(i = 0; i < MAX_CLIENTS; i++)
     {
-        SDLNet_TCP_Close(slave_thread[thread_id_no].client[i].sock);
+        NET_DestroyStreamSocket(slave_thread[thread_id_no].client[i].sock);
         slave_thread[thread_id_no].client[i].sock = NULL;
         slave_thread[thread_id_no].client[i].game_ready = 0;
     }
@@ -1586,10 +1517,10 @@ int transmit(int thread_id_no, int i, char* msg)
         return 0;
     }
 
-    //NOTE SDLNet's Send() keeps sending until the requested length is
-    //sent, so it really is an error if we send less thatn NET_BUF_LEN
+    //NOTE NET_WriteToStreamSocket() queues the write and returns success/
+    //failure of the queuing itself, not confirmation of full transmission.
     snprintf(buf, NET_BUF_LEN, "%s", msg);
-    if(SDLNet_TCP_Send(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN) < NET_BUF_LEN)
+    if(!NET_WriteToStreamSocket(slave_thread[thread_id_no].client[i].sock, buf, NET_BUF_LEN))
     {
         fprintf(stderr, "The client %s is disconnected\n", slave_thread[thread_id_no].client[i].name);
         remove_client(thread_id_no, i);

@@ -57,21 +57,21 @@ int main(int argc, char** argv)
         exit(1);
     }
     //Initialize SDL and SDL_net:
-    if(SDL_Init(0) == -1)
+    if(!SDL_Init(0))
     {
         fprintf(stderr, "SDL_Init: %s\n", SDL_GetError());
         return 0;;
     }
-    if (SDLNet_Init() < 0)
+    if (!NET_Init())
     {
-        fprintf(stderr, "SDLNet_Init: %s\n", SDLNet_GetError());
+        fprintf(stderr, "NET_Init: %s\n", SDL_GetError());
         return 0;
     }
 
     /* Run actual program: */
     ret = RunServer(argc, argv);
     /* cleanup */
-    SDLNet_Quit();
+    NET_Quit();
     SDL_Quit();
     if (lan_game_settings)
     {

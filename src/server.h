@@ -48,7 +48,7 @@ typedef struct client_type {
     int game_ready;   //game_ready = 1 means client has said OK to start
     char name[NAME_SIZE];
     int score;
-    TCPsocket sock;
+    NET_StreamSocket* sock;
 }client_type;
 
 

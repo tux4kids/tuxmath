@@ -38,6 +38,7 @@ set(SOURCES_TUXMATH
   highscore.c
   lessons.c
   mathcards.c
+  mysetenv.c
   options.c
   setup.c
   titlescreen.c
