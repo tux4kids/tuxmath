@@ -22,9 +22,12 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+#include <string.h>
+
 #include "tuxmath.h"
 #include "fileops.h"
 #include "options.h"
+#include "draw_utils.h"
 
 int glyph_offset;
 
@@ -225,11 +228,91 @@ int load_image_data()
 
     glyph_offset = 0;
 
+    /* The status-bar HUD (wave/score labels, stop button, digit
+     * glyphs) is loaded from fixed-size art, unlike comet formulas
+     * and menu text which are scaled up for the actual screen size
+     * via get_scale(). On a large/HiDPI fullscreen display this left
+     * the HUD looking tiny relative to everything else. Rescale it
+     * to match. */
+    {
+        float ui_scale = get_scale();
+        if (ui_scale > 1.0f)
+        {
+            int hud_images[] = {IMG_WAVE, IMG_SCORE, IMG_STOP, IMG_NUMBERS};
+            unsigned int k;
+            for (k = 0; k < sizeof(hud_images) / sizeof(hud_images[0]); k++)
+            {
+                int idx = hud_images[k];
+                SDL_Surface* scaled = T4K_LoadScaledImage(image_filenames[idx], IMG_ALPHA,
+                        (int)(images[idx]->w * ui_scale), (int)(images[idx]->h * ui_scale));
+                if (scaled)
+                {
+                    SDL_DestroySurface(images[idx]);
+                    images[idx] = scaled;
+                }
+            }
+
+            /* Same story for the cities/igloos/penguins at the bottom
+             * of the screen: fixed-size art, positioned dynamically
+             * off of each image's own loaded ->w/->h (see
+             * comets_draw_cities() in comets_graphics.c), so scaling
+             * the source images here is all that's needed - nothing
+             * else has to change to keep them positioned correctly.
+             *
+             * NOTE: deliberately NOT scaling "tux/" here. Those images
+             * (the console/terminal graphic plus Tux's poses at it)
+             * are drawn dead-center at the bottom via
+             * draw_console_image(), in the same tight horizontal band
+             * as the cities/penguins. City/penguin *positions* don't
+             * get any more spread out just because their sprites got
+             * bigger (that spacing is purely screen->w / NUM_CITIES),
+             * so scaling the console too made it collide with the
+             * innermost penguins. */
+            {
+                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/", "comets/"};
+                unsigned int p;
+                for (i = 0; i < NUM_IMAGES; i++)
+                {
+                    for (p = 0; p < sizeof(scaled_prefixes) / sizeof(scaled_prefixes[0]); p++)
+                    {
+                        if (strncmp(image_filenames[i], scaled_prefixes[p], strlen(scaled_prefixes[p])) == 0)
+                        {
+                            SDL_Surface* scaled = T4K_LoadScaledImage(image_filenames[i], IMG_ALPHA,
+                                    (int)(images[i]->w * ui_scale), (int)(images[i]->h * ui_scale));
+                            if (scaled)
+                            {
+                                SDL_DestroySurface(images[i]);
+                                images[i] = scaled;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+
+            /* Animated sprites (falling comets, powerups, Tux at the
+             * console) are the last remaining fixed-size art -
+             * comets_draw_comets() also positions off of each frame's
+             * own ->w/->h, so rescale these the same way. */
+            for (i = 0; i < NUM_SPRITES; i++)
+            {
+                sprite* scaled = T4K_LoadScaledSprite(sprite_filenames[i], IMG_ALPHA,
+                        (int)(sprites[i]->default_img->w * ui_scale),
+                        (int)(sprites[i]->default_img->h * ui_scale));
+                if (scaled)
+                {
+                    T4K_FreeSprite(sprites[i]);
+                    sprites[i] = scaled;
+                }
+            }
+        }
+    }
+
 #ifdef REPLACE_WAVESCORE
     /* Replace the "WAVE" and "SCORE" with translate-able versions */
-    SDL_FreeSurface(images[IMG_WAVE]);
+    SDL_DestroySurface(images[IMG_WAVE]);
     images[IMG_WAVE] = T4K_SimpleTextWithOffset(_("WAVE"), 28, &white, &glyph_offset);
-    SDL_FreeSurface(images[IMG_SCORE]);
+    SDL_DestroySurface(images[IMG_SCORE]);
     images[IMG_SCORE] = T4K_SimpleTextWithOffset(_("SCORE"), 28, &white, &glyph_offset);
     glyph_offset++;
 #endif
@@ -268,7 +351,7 @@ int load_sound_data(void)
     {
         for (i = 0; i < NUM_SOUNDS; i++)
         {
-            sounds[i] = Mix_LoadWAV(sound_filenames[i]);
+            sounds[i] = MIX_LoadAudio(T4K_GetMixer(), sound_filenames[i], true);
 
             if (sounds[i] == NULL)
             {

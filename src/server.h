@@ -37,7 +37,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef HAVE_LIBSDL_NET
 
-#include "SDL_net.h"
+#include <SDL3_net/SDL_net.h>
 
 #define NAME_SIZE 50
 #define DEFAULT_SERVER_NAME "TuxMath LAN Server"
@@ -48,7 +48,7 @@ typedef struct client_type {
     int game_ready;   //game_ready = 1 means client has said OK to start
     char name[NAME_SIZE];
     int score;
-    TCPsocket sock;
+    NET_StreamSocket* sock;
 }client_type;
 
 

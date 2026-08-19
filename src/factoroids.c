@@ -35,11 +35,11 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include <stdlib.h>
 #include <string.h>
 
-#include "SDL.h"
+#include <SDL3/SDL.h>
 #ifndef NOSOUND
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 #endif
-#include "SDL_image.h"
+#include <SDL3_image/SDL_image.h>
 #include "SDL_rotozoom.h"
 
 #include "factoroids.h"
@@ -71,8 +71,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 //the prime set keeps increasing till its size reaches this value
 #define PRIME_MAX_LIMIT 6
 
-#define CTRL_NEXT SDLK_f
-#define CTRL_PREV SDLK_d
+#define CTRL_NEXT SDLK_F
+#define CTRL_PREV SDLK_D
 
 
 //a value (float) indicating the sensitivity of the mouse
@@ -270,7 +270,7 @@ void factors(void)
         tux_img = cockpit_tux_image(num);
 
         factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
-        SDL_Flip(screen);
+        T4K_UpdateRect(screen, NULL);
 
         game_status = check_exit_conditions();
 
@@ -286,7 +286,7 @@ void factors(void)
         {
             //...when the music's over, turn out the lights!
             //...oops, wrong song! Actually, we just pick next music at random:
-            if (!Mix_PlayingMusic())
+            if (!T4K_IsPlayingMusic())
             {
                 T4K_AudioMusicLoad(game_music_filenames[(rand() % NUM_MUSICS)], T4K_AUDIO_PLAY_ONCE);
             }
@@ -342,7 +342,7 @@ void fractions(void)
         FF_handle_asteroids();
         FF_handle_answer();
         factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
-        SDL_Flip(screen);
+        T4K_UpdateRect(screen, NULL);
 
         game_status = check_exit_conditions();
 
@@ -356,7 +356,7 @@ void fractions(void)
 #ifndef NOSOUND
         if (Opts_UsingSound())
         {
-            if (!Mix_PlayingMusic())
+            if (!T4K_IsPlayingMusic())
             {
                 T4K_AudioMusicLoad(game_music_filenames[(rand() % 3)], T4K_AUDIO_PLAY_ONCE);
             }
@@ -375,15 +375,15 @@ static int FF_init(void)
     int i;
     mouse_reset = 0;
 
-    SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
-    SDL_Flip(screen);
-    SDL_ShowCursor(0);
+    SDL_FillSurfaceRect(screen, NULL, SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0, 0, 0));
+    T4K_UpdateRect(screen, NULL);
+    SDL_HideCursor();
 
     /* Settings to let us track mouse movement even beyond edge of screen
      * for control of ship rotation.  Note that SDL reportedly supports
      * this only on "Windows and Unix-alikes", i.e. maybe not OS-X
      */
-    SDL_WM_GrabInput(SDL_GRAB_ON);
+    SDL_SetWindowMouseGrab(T4K_GetWindow(), true);
 
     //Initialize frame counter
     FC_init();
@@ -823,7 +823,7 @@ static void FF_add_level(void)
             rect.y=(screen->h/2)-(images[IMG_GOOD]->h/2);
             factoroids_draw(asteroid, &tuxship, laser, bonus, bonus_time, digits, wave, score, num, tux_img, button_pressed);
             SDL_BlitSurface(images[IMG_GOOD],NULL,screen,&rect);
-            SDL_Flip(screen);
+            T4K_UpdateRect(screen, NULL);
 
             FC_frame_end();
         }
@@ -854,8 +854,8 @@ static int FF_over(int game_status)
     /* further attention.                                                      */
 
     /* Turn mouse cursor back on before we go back to menus: */
-    SDL_ShowCursor(1);
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    SDL_ShowCursor();
+    SDL_SetWindowMouseGrab(T4K_GetWindow(), false);
 
 
     switch (game_status)
@@ -873,7 +873,7 @@ static int FF_over(int game_status)
                 dest_message.h = images[IMG_GAMEOVER_WON]->h;
 
                 SDL_BlitSurface(images[IMG_GAMEOVER_WON], NULL, screen, &dest_message);
-                SDL_Flip(screen);
+                T4K_UpdateRect(screen, NULL);
 
                 wait_for_input();
                 break;
@@ -895,7 +895,7 @@ static int FF_over(int game_status)
                 dest_message.h = images[IMG_GAMEOVER]->h;
 
                 SDL_BlitSurface(images[IMG_GAMEOVER], NULL, screen, &dest_message);
-                SDL_Flip(screen);
+                T4K_UpdateRect(screen, NULL);
 
                 wait_for_input();
                 break;
@@ -946,8 +946,8 @@ static void FF_exit_free()
 
     /* Resume "normal" settings when we leave:
     */
-    SDL_ShowCursor(1);
-    SDL_WM_GrabInput(SDL_GRAB_OFF);
+    SDL_ShowCursor();
+    SDL_SetWindowMouseGrab(T4K_GetWindow(), false);
 }
 
 /******************* Math Funcs ***********************/
@@ -1358,28 +1358,35 @@ int FF_destroy_asteroid(int i, float xspeed, float yspeed)
 void game_handle_user_events(void)
 {
     SDL_Event event;
-    SDLKey key;
+    SDL_Keycode key;
     int roto = 0; //rotation flag
 
     while (SDL_PollEvent(&event) > 0)
     {
         T4K_HandleStdEvents(&event);
-        if (event.type == SDL_QUIT)
+        if (event.type == SDL_EVENT_QUIT)
         {
             SDL_quit_received = 1;
             quit = 1;
         }
-        if (event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP)
+        if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN || event.type == SDL_EVENT_MOUSE_BUTTON_UP)
         {
             key = game_mouse_event(event);
             //the code transforms a mouse event into a keyboard event,
             //so the same modification should be made with the event structure
             // -- aviraldg 14/12/10
-            int state = event.button.state;
-            event.key.keysym.sym = key;
-            event.type = state == SDL_PRESSED ? SDL_KEYDOWN : SDL_KEYUP;
+            bool down = event.button.down;
+            event.key.key = key;
+            event.type = down ? SDL_EVENT_KEY_DOWN : SDL_EVENT_KEY_UP;
         }
-        if(event.type == SDL_MOUSEMOTION) {
+        if (event.type == SDL_EVENT_MOUSE_WHEEL)
+        {
+            /* Mouse wheel is its own event type in SDL3, not a button;
+               synthesize the key event the rest of this loop expects. */
+            event.key.key = (event.wheel.y > 0) ? CTRL_NEXT : CTRL_PREV;
+            event.type = SDL_EVENT_KEY_DOWN;
+        }
+        if(event.type == SDL_EVENT_MOUSE_MOTION) {
             //NOTE: in SDL 1.2 this repositioning is only needed for
             //OS-X.  Not sure if it will be needed at all in SDL 1.3
 
@@ -1390,7 +1397,7 @@ void game_handle_user_events(void)
                     || event.motion.y >= (screen->h - 10))
             {
                 mouse_reset = 1;
-                SDL_WarpMouse(screen->w/2, screen->h/2);
+                SDL_WarpMouseInWindow(T4K_GetWindow(), screen->w/2, screen->h/2);
                 continue;
             }
             //If this was an event generated by our reset-to-center,
@@ -1404,12 +1411,12 @@ void game_handle_user_events(void)
             roto = 1;
             mouseroto = game_mouseroto(event) / MOUSE_SENSITIVITY;
         }
-        if (event.type == SDL_KEYDOWN ||
-                event.type == SDL_KEYUP)
+        if (event.type == SDL_EVENT_KEY_DOWN ||
+                event.type == SDL_EVENT_KEY_UP)
         {
-            key = event.key.keysym.sym;
+            key = event.key.key;
 
-            if (event.type == SDL_KEYDOWN)
+            if (event.type == SDL_EVENT_KEY_DOWN)
             {
                 if (key == SDLK_ESCAPE)
                 {
@@ -1447,7 +1454,7 @@ void game_handle_user_events(void)
                     shift_pressed = 1;
                 }
 
-                if (key == SDLK_TAB || key == SDLK_p)
+                if (key == SDLK_TAB || key == SDLK_P)
                 {
                     /* [TAB] or [P]: Pause! (if settings allow) */
                     if (Opts_AllowPause())
@@ -1494,8 +1501,8 @@ void game_handle_user_events(void)
                     tux_pressing = 1;
                     exec_digits = 1;
                     playsound(SND_SHIELDSDOWN);
-                } else if (key >= SDLK_KP0 && key <= SDLK_KP9) {
-                    digit = key - SDLK_KP0;
+                } else if (key >= SDLK_KP_0 && key <= SDLK_KP_9) {
+                    digit = key - SDLK_KP_0;
                     tux_pressing = 1;
                     exec_digits = 1;
                     playsound(SND_SHIELDSDOWN);
@@ -1561,7 +1568,7 @@ void game_handle_user_events(void)
 
 
             }
-            else if (event.type == SDL_KEYUP)
+            else if (event.type == SDL_EVENT_KEY_UP)
             {
                 // Key release...
 
@@ -1591,7 +1598,7 @@ void game_handle_user_events(void)
         }
 
 #ifdef JOY_YES
-        else if (event.type == SDL_JOYBUTTONDOWN &&
+        else if (event.type == SDL_EVENT_JOYSTICK_BUTTON_DOWN &&
                 player_alive)
         {
             if (event.jbutton.button == JOY_B)
@@ -1622,7 +1629,7 @@ void game_handle_user_events(void)
                 shift_pressed = 0;
             }
         }
-        else if (event.type == SDL_JOYAXISMOTION)
+        else if (event.type == SDL_EVENT_JOYSTICK_AXIS_MOTION)
         {
             if (event.jaxis.axis == JOY_X)
             {
@@ -1655,8 +1662,6 @@ static int game_mouse_event(SDL_Event event)
     if(event.button.button == SDL_BUTTON_LEFT) return  SDLK_RETURN;
     else if(event.button.button == SDL_BUTTON_MIDDLE) return SDLK_LSHIFT;
     else if(event.button.button == SDL_BUTTON_RIGHT) return SDLK_UP;
-    else if(event.button.button == SDL_BUTTON_WHEELUP) return CTRL_NEXT;
-    else if(event.button.button == SDL_BUTTON_WHEELDOWN) return CTRL_PREV;
     else return SDLK_UNKNOWN;
 }
 
@@ -1688,35 +1693,35 @@ static int check_exit_conditions(void)
 
 void wait_for_input(void)
 {
-    SDL_Event event = {SDL_NOEVENT};
+    SDL_Event event = {0};
 
     while(1)
     {
         if(!SDL_PollEvent(&event))
         {
-            SDL_EventState(SDL_MOUSEMOTION, SDL_IGNORE);
-            SDL_EventState(SDL_JOYAXISMOTION, SDL_IGNORE);
+            SDL_SetEventEnabled(SDL_EVENT_MOUSE_MOTION, false);
+            SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_AXIS_MOTION, false);
 
             SDL_WaitEvent(&event);
 
-            SDL_EventState(SDL_MOUSEMOTION, SDL_ENABLE);
-            SDL_EventState(SDL_JOYAXISMOTION, SDL_ENABLE);
+            SDL_SetEventEnabled(SDL_EVENT_MOUSE_MOTION, true);
+            SDL_SetEventEnabled(SDL_EVENT_JOYSTICK_AXIS_MOTION, true);
         }
 
-        if (event.type == SDL_QUIT)
+        if (event.type == SDL_EVENT_QUIT)
         {
             SDL_quit_received = 1;
             quit = 1;
             break;
         }
-        else if (event.type == SDL_MOUSEBUTTONDOWN ||
-                event.type == SDL_JOYBUTTONDOWN)
+        else if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN ||
+                event.type == SDL_EVENT_JOYSTICK_BUTTON_DOWN)
         {
             break;
         }
-        else if (event.type == SDL_KEYDOWN)
+        else if (event.type == SDL_EVENT_KEY_DOWN)
         {
-            if (event.key.keysym.sym == SDLK_ESCAPE)
+            if (event.key.key == SDLK_ESCAPE)
                 escape_received = 1;
             break;
         }

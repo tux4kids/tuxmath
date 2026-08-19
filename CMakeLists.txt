@@ -11,6 +11,9 @@
 # programs, and functions.  The Autotools build is the basis
 # for official releases and is more consistently maintained.
 
+## Setting up CMake itself
+cmake_minimum_required(VERSION 3.10)
+
 project(TuxMath)
 
 
@@ -18,8 +21,6 @@ set(TUXMATH_VERSION "2.0.4")
 set(TUXMATHADMIN_VERSION "0.1.1")
 message("Building TuxMath version ${TUXMATH_VERSION}")
 
-## Setting up CMake itself
-cmake_minimum_required(VERSION 2.6)
 set(CMAKE_MODULE_PATH "${TuxMath_SOURCE_DIR}/cmake-modules")
 set(CMAKE_ALLOW_LOOSE_LOOP_CONSTRUCTS true)
 
@@ -110,15 +111,11 @@ else (ENABLE_NLS)
 endif (ENABLE_NLS)
 message("ENABLE_NLS ${ENABLE_NLS}")
 set(HAVE_GETTEXT ENABLE_NLS)
-# Check to see if we have SDL_Pango support for the right-to-left languages
-if (ENABLE_NLS)
-  find_package(SDL_Pango)
-  set(SDL_Pango ${SDLPANGO_FOUND})  # For the config.h file
-endif (ENABLE_NLS)
 
-
-## Don't think we need SDL_gfx anymore:
-##FIND_PACKAGE(SDL_gfx REQUIRED)
+find_package(SDL3 REQUIRED CONFIG)
+find_package(SDL3_image REQUIRED CONFIG)
+find_package(SDL3_mixer REQUIRED CONFIG)
+find_package(SDL3_net CONFIG)
 
 # Check for libRSVG for SVG support
 
@@ -134,6 +131,13 @@ if(PKG_CONFIG_FOUND)
     endif(CAIRO_FOUND)
   endif(RSVG_FOUND)
 endif(PKG_CONFIG_FOUND)
+
+# Locate libt4k_common
+find_path(T4KCOMMON_INCLUDE_DIR t4k_common.h)
+find_library(T4KCOMMON_LIBRARY NAMES t4k_common)
+if (T4KCOMMON_INCLUDE_DIR AND T4KCOMMON_LIBRARY)
+  set(T4KCOMMON_FOUND 1)
+endif ()
 
 
 ## Run configure checks

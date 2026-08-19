@@ -1,8 +1,10 @@
 #include "comets_graphics.h"
 
+#include "draw_utils.h"
 #include "fileops.h"
 #include "frame_counter.h"
 #include "globals.h"
+#include "network.h"
 #include "options.h"
 #include "multiplayer.h"
 #include "tuxmath.h"
@@ -15,12 +17,12 @@ void comets_draw_background(SDL_Surface *bkgd, int wave)
     SDL_Rect dest;
 
     if (fgcolor == 0)
-        fgcolor = SDL_MapRGB(screen->format, 64, 96, 64);
+        fgcolor = SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 64, 96, 64);
     if (old_wave != wave)
     {
         DEBUGMSG(debug_game,"Wave %d\n", wave);
         old_wave = wave;
-        bgcolor = SDL_MapRGB(screen->format,
+        bgcolor = SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL,
                 64,
                 64 + ((wave * 32) % 192),
                 128 - ((wave * 16) % 128) );
@@ -34,13 +36,13 @@ void comets_draw_background(SDL_Surface *bkgd, int wave)
         dest.w = screen->w;
         dest.h = ((screen->h) / 4) * 3;
 
-        SDL_FillRect(screen, &dest, bgcolor);
+        SDL_FillSurfaceRect(screen, &dest, bgcolor);
 
 
         dest.y = ((screen->h) / 4) * 3;
         dest.h = (screen->h) / 4;
 
-        SDL_FillRect(screen, &dest, fgcolor);
+        SDL_FillSurfaceRect(screen, &dest, fgcolor);
     }
 
     if (bkgd)
@@ -316,7 +318,7 @@ void comets_draw_misc(MC_MathGame *curr_game, int wave,
         dest.h = images[IMG_EXTRA_LIFE]->h/2;
         dest.w = ((Opts_BonusCometInterval() + 1 - bonus_comet_counter)
                 * images[IMG_EXTRA_LIFE]->w) / Opts_BonusCometInterval();
-        SDL_FillRect(screen, &dest, SDL_MapRGB(screen->format, 0, 255, 0));
+        SDL_FillSurfaceRect(screen, &dest, SDL_MapRGB(SDL_GetPixelFormatDetails(screen->format), NULL, 0, 255, 0));
     }
 
     /* Draw wave: */
@@ -380,7 +382,7 @@ void comets_draw_misc(MC_MathGame *curr_game, int wave,
                 loc.h = score_surf->h;
 
                 SDL_BlitSurface(score_surf, NULL, screen, &loc);
-                SDL_FreeSurface(score_surf);
+                SDL_DestroySurface(score_surf);
                 score_surf = NULL;
             }
         }
@@ -413,7 +415,7 @@ void comets_draw_misc(MC_MathGame *curr_game, int wave,
                     loc.y = score_surf->h * (entries + 2);
                     SDL_BlitSurface(score_surf, NULL, screen, &loc);
                     entries++;
-                    SDL_FreeSurface(score_surf);
+                    SDL_DestroySurface(score_surf);
                     score_surf = NULL;
                 }
             }
@@ -645,7 +647,7 @@ void comets_draw_smartbomb(int smartbomb_alive)
     {
         rect.y += rect.h;
         SDL_BlitSurface(img, NULL, screen, &rect);
-        SDL_FreeSurface(img);
+        SDL_DestroySurface(img);
     }
 }
 

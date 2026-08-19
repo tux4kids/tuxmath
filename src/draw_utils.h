@@ -3,10 +3,10 @@
 
 #define SCALE_EXPONENT 0.7
 
-#include <SDL_video.h>
+#include <SDL3/SDL_video.h>
 
 
-float get_scale();
+float get_scale(void);
 
 void putpixel(SDL_Surface* surface, int x, int y, Uint32 pixel);
 

@@ -124,7 +124,7 @@ accessed using the pointer (ie, a mouse, trackball, touch-screen monitor,
 touchpad, etc.).  (See "README.txt" or the game's "--usage" display).
 
 
-Required Libraries ------------------ 
+Required Libraries ------------------
 
 (NEW) - For some time, Tux Math and Tux Typing have informally shared a lot of
 code.  As of Tux Math 1.9.0, the common code has been factored out into a real
@@ -134,107 +134,94 @@ install") or Autotools ("./configure; make; sudo make install") - see the
 documentation for tk4_common for further information. In the near future,
 t4k_common should be provided by your distribution's package manager.
 
-Tux Math uses the Simple DirectMedia Layer library (libSDL) to display
-graphics, receive keyboard and mouse input, and play sounds.  (It was designed
-around libSDL version 1.2.5, but later 1.2.x versions should work.  libSDL 1.3
-will require source code adaptations in future versions of TuxMath when it is
-finally released).
+(SDL3) - As of the SDL3 migration, TuxMath uses the Simple DirectMedia Layer 3
+(SDL3) library to display graphics, receive keyboard and mouse input, and play
+sounds. SDL 1.2/2.x are no longer supported.
 
-It uses the SDL helper library "SDL_image" to load the game's graphics data, as
+It uses the SDL helper library "SDL3_image" to load the game's graphics data, as
 they are in PNG (Portable Network Graphic) format.
 
-Also, by default, it uses "SDL_mixer" to load and play the game's sound and
+Also, by default, it uses "SDL3_mixer" to load and play the game's sound and
 music.  This library is optional, but without it, the program will be
 completely silent.
 
-As of v1.5.8 (Linux), v1.6.0 (Windows), and v1.6.1(MacOSX),
-internationalization is supported using Gnu gettext and libiconv.
+Internationalization is supported using Gnu gettext and libiconv.
 
-TuxMath can use either SDL_Pango or SDL_ttf to display text. SDL_Pango is more
-capable and is required for right-to-left display (e.g. Arabic, Hebrew) and
-proper rendering of Indic and many other non-Western languages.  Also,
-SDL_Pango takes care of font selection, so it eliminates the need for any
-bundled fonts. For these reasons, SDL_Pango is the default when available
-(Linux and the MacPorts build for MacOSX). If SDL_Pango is available, SDL_ttf
-is not needed (as of v1.7.2).
+TuxMath uses SDL3_ttf to display text. There is no SDL3 port of SDL_Pango, so
+SDL_Pango is no longer used or supported - SDL3_ttf is now required, not
+optional, for any language.
 
-As of v1.8.0, the Windows build finally provides SDL_Pango functionality.
+TuxMath also uses librsvg2 to support Scalable Vector Graphics (SVG) images,
+mostly used in the menus. This requires the librsvg2-dev package on
+Debian/Ubuntu.
 
-SDL_Pango is not yet in the CMake MacOSX build (the ones available for download
-from www.tux4kids.com), so the program still supports SDL_ttf.  For testing
-purposes, TuxMath can be built without SDL_Pango by "./configure
---without-sdlpango".
+TuxMath also requires SDL3_net if the LAN multiplayer mode is desired.  There
+are configure-time options to build without SVG (--without-rsvg) or network
+(--without-sdlnet) support if these features are not desired or if the
+required libraries are unavailable.
 
-Also, starting with v1.8.0, TuxMath uses librsvg2 to support Scalable Vector
-Graphics (SVG) images, mostly used so far in the menus. This require the
-librsvg2-dev package on Debian/Ubuntu.
+TuxMath can optionally use espeak-ng (or plain espeak/speech-dispatcher as a
+fallback) for text-to-speech accessibility.
 
-TuxMath v1.8.0 also requires SDL_net if the new LAN multiplayer mode is
-desired.  As with SDL_Pango, there are configure-time options to build without
-SVG (--without-rsvg) or network (--without-sdlnet) support if these features
-are not desired or if the required libraries are unavailable.
+The *tar.gz source packages require the "*-dev" versions of SDL3, SDL3_image,
+SDL3_mixer, SDL3_ttf (and, optionally, SDL3_net and librsvg2) for building and
+installation. SDL3_mixer and SDL3_net are not yet packaged by most Linux
+distributions as of this writing and will likely need to be built from source
+- see "Getting SDL" below. SDL3 and SDL3_image are commonly packaged already.
+For Debian and its derivatives (including Ubuntu) type "apt-cache search sdl3"
+to find the exact package names, and install them with "sudo apt install".
+For Fedora and Red Hat derivatives, "dnf"/"yum" work similarly.
 
-The executable Windows installer contains all needed libraries and the Andika
-font - nothing else should be needed that is not part of Windows.  The *tar.gz
-source packages require the "*-dev" versions of SDL, SDL_image, SDL_mixer,
-SDL_ttf (and, optionally, SDL_Pango, SDL_net, and librsvg2) for building and
-installation.  These are easily installed in most any GNU-Linux distribution.
-For Debian and its derivatives (including Ubuntu) type "aptitude search SDL" to
-find the exact package names, and install them with "sudo aptitude install".
-For Fedora and Red Hat derivatives, the "yum" tool works very similarly.
-
-The Andika font is also included in the "tuxmath_w_fonts-*" packages.  You will
-definitely want this if building for a platform without SDL_Pango. If you have
-SDL_Pango, both the packages with and without fonts should work fine - the
-fonts will just take up a bit of space on your hard drive.
-    
-Note: libSDL, SDL_image, SDL_ttf, SDL_mixer, SDL_Pango, and libiconv are all
-Free, Open Source libraries, released under the GNU Lesser General Public
-License (LGPL).
+Note: SDL3, SDL3_image, SDL3_ttf, SDL3_mixer, SDL3_net, and libiconv are all
+Free, Open Source libraries, released under the zlib (SDL3 and friends) or
+LGPL (libiconv) licenses.
 
 Getting SDL
 -----------
 
 On Linux, the easy way to get the required SDL packages is from your
-distribution's package manager (e.g. apt-get, yum, yast). See below, "Using SDL
-Packages".
+distribution's package manager (e.g. apt-get, dnf). See below, "Using SDL
+Packages". SDL3_mixer and SDL3_net, however, are frequently not packaged yet
+and will need to be built from source (see below).
 
-Alternatively (and by necessity on other platforms), you can download "libSDL,"
-"SDL_image," "SDL_ttf", and "SDL_mixer" from the SDL website and build these
-libs from source:
+Specifically, the source repositories for each are here:
 
-http://www.libsdl.org/
+	SDL3:       https://github.com/libsdl-org/SDL
+	SDL3_image: https://github.com/libsdl-org/SDL_image
+	SDL3_mixer: https://github.com/libsdl-org/SDL_mixer
+	SDL3_ttf:   https://github.com/libsdl-org/SDL_ttf
+	SDL3_net:   https://github.com/libsdl-org/SDL_net
 
-Specifically, the download pages for each are here:
+When building SDL3_mixer or SDL3_net from source, check out a stable
+"release-3.x.y" tag rather than the "main" branch - "main" can be ahead of
+the latest release with API changes not yet reflected in a stable release.
+For example:
 
-	libSDL:     http://www.libsdl.org/download-1.2.html
-	SDL_image:  http://www.libsdl.org/projects/SDL_image/
-	SDL_mixer:  http://www.libsdl.org/projects/SDL_mixer/
-	SDL_ttf:    http://www.libsdl.org/projects/SDL_ttf/
-	SDL_Pango:  http://sourceforge.net/projects/sdlpango/
+	git clone --depth 1 -b release-3.2.4 https://github.com/libsdl-org/SDL_mixer.git
+	git clone --depth 1 -b release-3.2.0 https://github.com/libsdl-org/SDL_net.git
+
+then build each with CMake ("cmake -B build && cmake --build build && sudo
+cmake --install build") and make sure the install prefix is on
+pkg-config's/CMake's search path (or pass -DCMAKE_PREFIX_PATH when
+configuring t4k_common/tuxmath).
 
 
 Using SDL Packages
 ------------------
 
-When building "TuxMath" from source, if you decide to install the SDL libraries
-using packages (RedHat RPMs or DEBs), you'll need to install not only each
+When building "TuxMath" from source, if you decide to install the SDL
+libraries using packages (RPMs or DEBs), you'll need to install not only each
 library's 'binary' package, but ALSO each library's 'development' package.
 
 These contain the text "-devel" or "-dev" in the package name.
 
-Also note: Make sure you download the packages for the appropriate operating
-system and architecture (eg, an RPM for Linux/i386 for RedHat Linux on
-Intel-compatible computers).
+For example, on Debian/Ubuntu, you could say:
 
-For example, on (K)Ubuntu Hardy, you could say:
+sudo apt install libsdl3-dev libsdl3-image-dev libsdl3-ttf-dev librsvg2-dev
 
-sudo apt-get install libsdl1.2debian-all libsdl1.2-dev libsdl-ttf2.0-0
-libsdl-ttf2.0-dev libsdl-pango1 libsdl-pango-dev libsdl-mixer1.2
-libsdl-mixer1.2-dev libsdl-image1.2 libsdl-image1.2-dev libsdl-net1.2-dev
-librsvg2-dev
-
-This should work for nearly any Debian variant.
+and separately build and install SDL3_mixer and SDL3_net from source as
+described above, since libsdl3-mixer-dev/libsdl3-net-dev are not yet
+available on most distributions as of this writing.
 
 
 
@@ -245,6 +232,12 @@ Note: there are now two ways to build tuxmath from source.  The first
 (and main method) is using autotools ("./configure && make && make
 install").  The second is to use CMake, which was developed to
 better-support Mac OS X.
+
+Note on the SDL3 migration: both build systems' SDL3 package names were
+updated (see configure.ac / CMakeLists.txt), but the CMake path is the one
+actually built and run end-to-end as part of the migration to SDL3.  The
+autotools path has not been verified since; if you hit issues with
+"./configure" against SDL3, try the CMake build below first.
 
 
 Linux/Unix
@@ -277,7 +270,7 @@ If you are using a source tar.gz package (e.g., tuxmath_w_fonts-2.0.0-tar.gz),
 all you need to do is unpack the archive in a convient location and do a
 typical configure, make, and install.  In other words, the tarball contains a
 complete "GNU Build System".  Note, however, that you will need the "-dev"
-files for SDL, SDL_image, SDL_mixer, SDL_ttf/SDL_Pango, and SDL_net & librsvg2,
+files for SDL3, SDL3_image, SDL3_mixer, SDL3_ttf, and SDL3_net & librsvg2,
 if desired.
 
 Note that you must install t4k_common before trying to build tuxmath.  t4k_common
@@ -297,10 +290,9 @@ cd tuxmath_w_fonts-2.0.0
 make
 make install.  (you might need "su" or "sudo" for this)
  
-Note: the build now uses SDL_Pango by default - the "enable-sdlpango" switch is
-no longer needed.  We now have a "--without-sdlpango" option for testing
-purposes.  If your build environment lacks SDL_Pango, TuxMath will be built
-using SDL_ttf instead.
+Note: SDL_Pango is no longer used (there is no SDL3 port); text is always
+rendered via SDL3_ttf now, so the old "--without-sdlpango" configure switch no
+longer exists.
 
 If you use a Git clone, you will need to generate the configure script.
 Tuxmath uses the Gnu Autoconf/Automake tools for development. You will Autoconf
@@ -351,18 +343,24 @@ From the top-level tuxmath directory, do the following:
 	make
 	make install
 
-By default, the CMake build includes support for SDL_Pango, if the
-library & its header can be found.
+This requires SDL3, SDL3_image, and SDL3_mixer to be discoverable via CMake's
+find_package(... CONFIG) (i.e. on CMAKE_PREFIX_PATH if installed to a
+non-standard location); SDL3_net is optional and enables LAN multiplayer
+support if found. See the top-level t4kcommon repo's SKILL/reference docs
+(.claude/skills/sdl1-to-sdl3-migration/) for exact commands to build
+SDL3_mixer/SDL3_net from source if your distribution doesn't package them yet.
 
-(NOTE: as of this writing, the CMake build is not quite as "smart" as the
-automake build.  It doesn't directly test for pthreads, and may drag in some
-dependencies that aren't really needed.  If it works for you, fine, but
-remember that the autotools build is the officially recommended approach.
-Fixing the minor issues with the CMake build is left as an exercise to the
-reader, who is then encouraged to submit said patch ;-)
+SDL_Pango is no longer used (no SDL3 port exists); text rendering always goes
+through SDL3_ttf.
 
-Windows 
+Windows
 -------
+
+NOTE: the SDL3 migration only targeted the Linux/CMake build path described
+above. The mingw cross-build instructions below predate that migration,
+still reference SDL 1.2/2.x-era tooling (mingw-cross-env, t4k_common.mk), and
+have NOT been updated or tested against SDL3. Expect to need real work here
+before a Windows cross-build succeeds again.
 
 Tuxmath can be cross-compiled for Windows under Linux.  I have done this on my
 Debian system. Once the crossbuild environment is set up, the process is simple
@@ -432,6 +430,12 @@ Mac OS X:
 (NOTE - The CMake build has NOT been tested on OS-X recently.  It almost
 certainly will require some modifications.  Hopefully I will get time to work
 on this sometime soon - DSB).
+
+(NOTE on the SDL3 migration - like the rest of this section, MacPorts/OS X
+build instructions were not touched or tested as part of the SDL3 migration,
+which only targeted Linux. The MacPorts "tuxmath" port in particular would
+need updating for SDL3 upstream before "port install tuxmath" reflects any of
+these changes.)
 
 There are several options for compiling on OS X.  If you just want to do a
 local build, using macports (http://www.macports.org/) is perhaps the easiest

@@ -1,7 +1,7 @@
 #ifndef FACTOROIDS_GRAPHICS_H
 #define FACTOROIDS_GRAPHICS_H
 
-#include <SDL_video.h>
+#include <SDL3/SDL_video.h>
 
 #include "factoroids.h"
 

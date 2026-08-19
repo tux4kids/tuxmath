@@ -38,11 +38,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifdef HAVE_LIBSDL_NET
 
 #include "transtruct.h"
-#include "SDL_net.h"
+#include <SDL3_net/SDL_net.h>
 
 
 typedef struct {
-    IPaddress ip;            /* 32-bit IPv4 host address */
+    NET_Address* addr;       /* NULL if this slot is empty */
+    Uint16 port;
     char name[NAME_SIZE];
     char lesson[LESSON_TITLE_LENGTH];
 }ServerEntry;

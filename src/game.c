@@ -1,4 +1,4 @@
-#include <SDL.h>
+#include <SDL3/SDL.h>
 
 #include "game.h"
 #include "tuxmath.h"
@@ -33,20 +33,20 @@ int pause_game(void)
 
     T4K_DarkenScreen(1);  // cut all channels by half
     SDL_BlitSurface(images[IMG_PAUSED], NULL, screen, &dest);
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    T4K_UpdateRect(screen, NULL);
 
 #ifndef NOSOUND
     if(Opts_GetGlobalOpt(USE_SOUND))
-        Mix_PauseMusic();
+        T4K_AudioMusicPause();
 #endif
 
     do
     {
         while (SDL_PollEvent(&event))
         {
-            if (event.type == SDL_KEYDOWN)
+            if (event.type == SDL_EVENT_KEY_DOWN)
                 pause_done = 1;
-            else if (event.type == SDL_QUIT)
+            else if (event.type == SDL_EVENT_QUIT)
             {
                 user_quit_received = GAME_OVER_WINDOW_CLOSE;
                 pause_quit = 1;
@@ -59,7 +59,7 @@ int pause_game(void)
 
 #ifndef NOSOUND
     if(Opts_GetGlobalOpt(USE_SOUND))
-        Mix_ResumeMusic();
+        T4K_AudioMusicResume();
 #endif
 
     return (pause_quit);

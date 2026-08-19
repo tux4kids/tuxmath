@@ -25,7 +25,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "SDL_timer.h"
+#include <SDL3/SDL_timer.h>
 
 #include "options.h"
 

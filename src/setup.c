@@ -40,16 +40,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
 /* SDL includes: -----------------*/
-#include "SDL.h"
+#include <SDL3/SDL.h>
 
 #ifndef NOSOUND
-#include "SDL_mixer.h"
+#include <SDL3_mixer/SDL_mixer.h>
 #endif
 
-#include "SDL_image.h"
+#include <SDL3_image/SDL_image.h>
 
 #ifdef HAVE_LIBSDL_NET
-#include "SDL_net.h"
+#include <SDL3_net/SDL_net.h>
 #endif
 
 /* C library includes: -----------------*/
@@ -668,10 +668,6 @@ void initialize_SDL(void)
 {
     //NOTE - SDL_Init() and friends now in InitT4KCommon()
 
-    // Audio parameters
-    int frequency, channels, n_timesopened;
-    Uint16 format;
-
     /* Init common library */
     if(!InitT4KCommon(debug_status))
     {
@@ -689,25 +685,19 @@ void initialize_SDL(void)
 #ifndef NOSOUND
     if (Opts_GetGlobalOpt(USE_SOUND))
     {
-        if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, 2, 2048) < 0)
+        if (!T4K_AudioOpen(44100, 2))
         {
             fprintf(stderr,
                     "\nWarning: I could not set up audio for 44100 Hz "
                     "16-bit stereo.\n"
                     "The Simple DirectMedia error that occured was:\n"
                     "%s\n\n", SDL_GetError());
-
         }
-        n_timesopened = Mix_QuerySpec(&frequency,&format,&channels);
-        if (n_timesopened > 0)
-            Opts_SetSoundHWAvailable(1);
         else
-            frequency = format = channels = 0; //more helpful than garbage
-        DEBUGMSG(debug_setup, "Sound mixer: frequency = %d, "
-                "format = %x, "
-                "channels = %d, "
-                "n_timesopened = %d\n",
-                frequency,format,channels,n_timesopened);
+        {
+            Opts_SetSoundHWAvailable(1);
+        }
+        DEBUGMSG(debug_setup, "Sound mixer available: %d\n", Opts_SoundHWAvailable());
     }
 #endif
     /* If couldn't set up sound, deselect sound options: */
@@ -722,35 +712,28 @@ void initialize_SDL(void)
 
 
     {
-        const SDL_VideoInfo *videoInfo;
-        Uint32 surfaceMode;
-        videoInfo = SDL_GetVideoInfo();
-        if (videoInfo->hw_available)
-        {
-            surfaceMode = SDL_HWSURFACE;
-            DEBUGMSG(debug_setup, "HW mode\n");
-        }
-        else
-        {
-            surfaceMode = SDL_SWSURFACE;
-            DEBUGMSG(debug_setup, "SW mode\n");
-        }
+        SDL_DisplayID display_id;
+        const SDL_DisplayMode *mode;
+
+        display_id = SDL_GetPrimaryDisplay();
+        mode = display_id ? SDL_GetDesktopDisplayMode(display_id) : NULL;
 
         // Determine the current resolution: this will be used as the
         // fullscreen resolution, if the user wants fullscreen.
-        DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n",videoInfo->current_w,videoInfo->current_h);
+        if (mode)
+            DEBUGMSG(debug_setup, "Current resolution: w %d, h %d.\n", mode->w, mode->h);
         if (Opts_GetGlobalOpt(FULLSCREEN) && Opts_CustomRes()) {
           fs_res_x = Opts_WindowWidth();
           fs_res_y = Opts_WindowHeight();
           DEBUGMSG(debug_setup, "Full screen mode custom resolution: w %d, h %d.\n",fs_res_x,fs_res_y);
-        } else {
-          fs_res_x = videoInfo->current_w;
-          fs_res_y = videoInfo->current_h;
+        } else if (mode) {
+          fs_res_x = mode->w;
+          fs_res_y = mode->h;
         }
 
         if (Opts_GetGlobalOpt(FULLSCREEN))
         {
-            screen = SDL_SetVideoMode(fs_res_x, fs_res_y, PIXEL_BITS, SDL_FULLSCREEN | surfaceMode);
+            screen = T4K_SetScreenMode(fs_res_x, fs_res_y, 1);
             if (screen == NULL)
             {
                 fprintf(stderr,
@@ -763,7 +746,7 @@ void initialize_SDL(void)
 
         if (!Opts_GetGlobalOpt(FULLSCREEN))
         {
-            screen = SDL_SetVideoMode(Opts_WindowWidth(), Opts_WindowHeight(), PIXEL_BITS, surfaceMode);
+            screen = T4K_SetScreenMode(Opts_WindowWidth(), Opts_WindowHeight(), 0);
         }
 
         if (screen == NULL)
@@ -778,7 +761,7 @@ void initialize_SDL(void)
 
         seticon();
 
-        SDL_WM_SetCaption("Tux, of Math Command", "TuxMath");
+        SDL_SetWindowTitle(T4K_GetWindow(), "Tux, of Math Command");
 
 
     }
@@ -884,7 +867,7 @@ void cleanup_memory(void)
     for (i = 0; i < NUM_IMAGES; i++)
     {
         if (images[i])
-            SDL_FreeSurface(images[i]);
+            SDL_DestroySurface(images[i]);
         images[i] = NULL;
     }
 
@@ -898,14 +881,14 @@ void cleanup_memory(void)
     for (i = 0; i < NUM_SOUNDS; i++)
     {
         if (sounds[i])
-            Mix_FreeChunk(sounds[i]);
+            MIX_DestroyAudio(sounds[i]);
         sounds[i] = NULL;
     }
 
     for (i = 0; i < NUM_MUSICS; i++)
     {
         if (musics[i])
-            Mix_FreeMusic(musics[i]);
+            MIX_DestroyAudio(musics[i]);
         musics[i] = NULL;
     }
 
@@ -970,10 +953,7 @@ void cleanup_memory(void)
 
 void seticon(void)
 {
-    int masklen;
-    Uint8* mask;
     SDL_Surface* icon;
-
 
     /* Load icon into a surface: */
     icon = IMG_Load(DATA_PREFIX "/images/icons/icon.png");
@@ -986,17 +966,11 @@ void seticon(void)
         return;
     }
 
-    /* Create mask: */
-    masklen = (((icon -> w) + 7) / 8) * (icon -> h);
-    mask = malloc(masklen * sizeof(Uint8));
-    memset(mask, 0xFF, masklen);
-
     /* Set icon: */
-    SDL_WM_SetIcon(icon, mask);
+    SDL_SetWindowIcon(T4K_GetWindow(), icon);
 
-    /* Free icon surface & mask: */
-    free(mask);
-    SDL_FreeSurface(icon);
+    /* Free icon surface: */
+    SDL_DestroySurface(icon);
 }
 
 
