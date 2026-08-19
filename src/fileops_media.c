@@ -22,6 +22,8 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+#include <string.h>
+
 #include "tuxmath.h"
 #include "fileops.h"
 #include "options.h"
@@ -247,6 +249,34 @@ int load_image_data()
                 {
                     SDL_DestroySurface(images[idx]);
                     images[idx] = scaled;
+                }
+            }
+
+            /* Same story for the cities/igloos/penguins at the bottom
+             * of the screen: fixed-size art, positioned dynamically
+             * off of each image's own loaded ->w/->h (see
+             * comets_draw_cities() in comets_graphics.c), so scaling
+             * the source images here is all that's needed - nothing
+             * else has to change to keep them positioned correctly. */
+            {
+                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/"};
+                unsigned int p;
+                for (i = 0; i < NUM_IMAGES; i++)
+                {
+                    for (p = 0; p < sizeof(scaled_prefixes) / sizeof(scaled_prefixes[0]); p++)
+                    {
+                        if (strncmp(image_filenames[i], scaled_prefixes[p], strlen(scaled_prefixes[p])) == 0)
+                        {
+                            SDL_Surface* scaled = T4K_LoadScaledImage(image_filenames[i], IMG_ALPHA,
+                                    (int)(images[i]->w * ui_scale), (int)(images[i]->h * ui_scale));
+                            if (scaled)
+                            {
+                                SDL_DestroySurface(images[i]);
+                                images[i] = scaled;
+                            }
+                            break;
+                        }
+                    }
                 }
             }
         }
