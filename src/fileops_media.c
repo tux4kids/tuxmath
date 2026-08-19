@@ -25,6 +25,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
 #include "tuxmath.h"
 #include "fileops.h"
 #include "options.h"
+#include "draw_utils.h"
 
 int glyph_offset;
 
@@ -224,6 +225,32 @@ int load_image_data()
     }
 
     glyph_offset = 0;
+
+    /* The status-bar HUD (wave/score labels, stop button, digit
+     * glyphs) is loaded from fixed-size art, unlike comet formulas
+     * and menu text which are scaled up for the actual screen size
+     * via get_scale(). On a large/HiDPI fullscreen display this left
+     * the HUD looking tiny relative to everything else. Rescale it
+     * to match. */
+    {
+        float ui_scale = get_scale();
+        if (ui_scale > 1.0f)
+        {
+            int hud_images[] = {IMG_WAVE, IMG_SCORE, IMG_STOP, IMG_NUMBERS};
+            unsigned int k;
+            for (k = 0; k < sizeof(hud_images) / sizeof(hud_images[0]); k++)
+            {
+                int idx = hud_images[k];
+                SDL_Surface* scaled = T4K_LoadScaledImage(image_filenames[idx], IMG_ALPHA,
+                        (int)(images[idx]->w * ui_scale), (int)(images[idx]->h * ui_scale));
+                if (scaled)
+                {
+                    SDL_DestroySurface(images[idx]);
+                    images[idx] = scaled;
+                }
+            }
+        }
+    }
 
 #ifdef REPLACE_WAVESCORE
     /* Replace the "WAVE" and "SCORE" with translate-able versions */
