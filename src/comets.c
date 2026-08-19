@@ -4032,8 +4032,8 @@ int tts_announcer(void *unused)
 	
 	int order[15],iter;
 	float y_axis;
-	
-	
+	int sort_limit, announce_count;
+
 	int pitch;
 	int rate;
 	tts_announcer_switch = 1;
@@ -4114,8 +4114,14 @@ int tts_announcer(void *unused)
 			 * comets other wise it causes segfault */
 			if (iter != 0)
 			{
-				for (i = 0; i < 3; i++){
-					for(j = 0; j < 3; j++){
+				/* order[] only has `iter` valid entries filled in
+				 * above - bound the sort to those, otherwise the
+				 * comparisons below index comets[] with whatever
+				 * uninitialized garbage happens to be left in the
+				 * unused slots of order[]. */
+				sort_limit = iter - 1;
+				for (i = 0; i < sort_limit; i++){
+					for(j = 0; j < sort_limit - i; j++){
 						if (comets[order[j]].y < comets[order[j+1]].y){
 							y_axis = order[j+1];
 							order[j+1] = order[j];
@@ -4123,10 +4129,11 @@ int tts_announcer(void *unused)
 						}
 					}
 				}
-				
-				/* Announces only last three comets 
+
+				/* Announces only last three comets
 				 * to avoid confusion for a listener*/
-				for (i = 0; i < 3 ; i++)
+				announce_count = iter < 3 ? iter : 3;
+				for (i = 0; i < announce_count ; i++)
 				{
 					if (tts_announcer_switch == 0)
 						goto end;
