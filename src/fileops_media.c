@@ -259,7 +259,7 @@ int load_image_data()
              * the source images here is all that's needed - nothing
              * else has to change to keep them positioned correctly. */
             {
-                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/"};
+                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/", "comets/", "tux/"};
                 unsigned int p;
                 for (i = 0; i < NUM_IMAGES; i++)
                 {
@@ -277,6 +277,22 @@ int load_image_data()
                             break;
                         }
                     }
+                }
+            }
+
+            /* Animated sprites (falling comets, powerups, Tux at the
+             * console) are the last remaining fixed-size art -
+             * comets_draw_comets() also positions off of each frame's
+             * own ->w/->h, so rescale these the same way. */
+            for (i = 0; i < NUM_SPRITES; i++)
+            {
+                sprite* scaled = T4K_LoadScaledSprite(sprite_filenames[i], IMG_ALPHA,
+                        (int)(sprites[i]->default_img->w * ui_scale),
+                        (int)(sprites[i]->default_img->h * ui_scale));
+                if (scaled)
+                {
+                    T4K_FreeSprite(sprites[i]);
+                    sprites[i] = scaled;
                 }
             }
         }
