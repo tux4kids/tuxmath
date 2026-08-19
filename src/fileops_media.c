@@ -257,9 +257,19 @@ int load_image_data()
              * off of each image's own loaded ->w/->h (see
              * comets_draw_cities() in comets_graphics.c), so scaling
              * the source images here is all that's needed - nothing
-             * else has to change to keep them positioned correctly. */
+             * else has to change to keep them positioned correctly.
+             *
+             * NOTE: deliberately NOT scaling "tux/" here. Those images
+             * (the console/terminal graphic plus Tux's poses at it)
+             * are drawn dead-center at the bottom via
+             * draw_console_image(), in the same tight horizontal band
+             * as the cities/penguins. City/penguin *positions* don't
+             * get any more spread out just because their sprites got
+             * bigger (that spacing is purely screen->w / NUM_CITIES),
+             * so scaling the console too made it collide with the
+             * innermost penguins. */
             {
-                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/", "comets/", "tux/"};
+                static const char* scaled_prefixes[] = {"cities/", "igloos/", "penguins/", "comets/"};
                 unsigned int p;
                 for (i = 0; i < NUM_IMAGES; i++)
                 {
